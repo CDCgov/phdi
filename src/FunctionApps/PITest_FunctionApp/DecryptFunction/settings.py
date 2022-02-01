@@ -4,6 +4,6 @@ import os
 
 @dataclass
 class Settings:
-    private_key_password = os.environ["PRIVATE_KEY_PASSWORD"]
-    private_key = os.environ["PRIVATE_KEY"]
-    azure_storage_connection_string = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
+    private_key_password = os.getenv("PRIVATE_KEY_PASSWORD")
+    private_key = os.getenv("PRIVATE_KEY")
+    azure_storage_connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
