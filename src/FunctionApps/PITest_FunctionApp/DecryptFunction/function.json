@@ -12,7 +12,7 @@
             "type": "blob",
             "dataType": "binary",
             "path": "decrypted/{name}",
-            "connection": "MyStorageConnectionAppSetting",
+            "connection": "pitestdatastorage_STORAGE",
             "direction": "out"
         }
     ]
