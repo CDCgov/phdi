@@ -1,14 +1,14 @@
 {
     "scriptFile": "__init__.py",
     "bindings": [{
-            "name": "input_blob",
+            "name": "inputblob",
             "type": "blobTrigger",
             "direction": "in",
             "path": "raw/{name}",
             "connection": "pitestdatastorage_STORAGE"
         },
         {
-            "name": "output_blob",
+            "name": "outputblob",
             "type": "blob",
             "dataType": "binary",
             "path": "decrypted/{name}",
