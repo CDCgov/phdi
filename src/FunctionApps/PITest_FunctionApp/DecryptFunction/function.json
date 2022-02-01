@@ -4,14 +4,14 @@
             "name": "inputblob",
             "type": "blobTrigger",
             "direction": "in",
-            "path": "raw/{name}",
+            "path": "bronze/raw/{name}",
             "connection": "pitestdatastorage_STORAGE"
         },
         {
             "name": "outputblob",
             "type": "blob",
             "dataType": "binary",
-            "path": "decrypted/{name}",
+            "path": "bronze/decrypted/{name}",
             "connection": "pitestdatastorage_STORAGE",
             "direction": "out"
         }
