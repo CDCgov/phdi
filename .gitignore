@@ -1,2 +1,4 @@
 .venv
 local.settings.json
+*/.vscode/*
+data/
