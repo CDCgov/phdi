@@ -1,0 +1,10 @@
+{
+    "scriptFile": "__init__.py",
+    "bindings": [{
+        "name": "myblob",
+        "type": "blobTrigger",
+        "direction": "in",
+        "path": "raw/{name}",
+        "connection": "pitestdatastorage_STORAGE"
+    }]
+}
