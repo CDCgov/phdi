@@ -1,10 +1,19 @@
 {
     "scriptFile": "__init__.py",
     "bindings": [{
-        "name": "myblob",
-        "type": "blobTrigger",
-        "direction": "in",
-        "path": "raw/{name}",
-        "connection": "pitestdatastorage_STORAGE"
-    }]
+            "name": "input_blob",
+            "type": "blobTrigger",
+            "direction": "in",
+            "path": "raw/{name}",
+            "connection": "pitestdatastorage_STORAGE"
+        },
+        {
+            "name": "output_blob",
+            "type": "blob",
+            "dataType": "binary",
+            "path": "decrypted/{name}",
+            "connection": "MyStorageConnectionAppSetting",
+            "direction": "out"
+        }
+    ]
 }
