@@ -1,0 +1,4 @@
+.venv
+.vscode
+tests
+local.settings.json
