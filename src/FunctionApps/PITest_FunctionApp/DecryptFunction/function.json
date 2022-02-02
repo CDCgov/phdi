@@ -1,0 +1,19 @@
+{
+    "scriptFile": "__init__.py",
+    "bindings": [{
+            "name": "inputblob",
+            "type": "blobTrigger",
+            "direction": "in",
+            "path": "bronze/raw/{name}",
+            "connection": "pitestdatastorage_STORAGE"
+        },
+        {
+            "name": "outputblob",
+            "type": "blob",
+            "dataType": "binary",
+            "path": "bronze/decrypted/{name}",
+            "connection": "pitestdatastorage_STORAGE",
+            "direction": "out"
+        }
+    ]
+}

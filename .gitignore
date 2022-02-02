@@ -1,3 +1,5 @@
 .venv
 local.settings.json
+__azurite*
+__blobstorage__
 data/
