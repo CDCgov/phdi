@@ -22,9 +22,10 @@ The Azure FHIR API does not accept transaction based bundles, which is what synt
     - If you have cloned the repo `./run_synthea -m covid-19 -p 1000` will generate 1000 patients with the covid module, providing some covid based information.
     - You can also run synthea via the jar file `java -jar synthea-with-dependencies.jar -m covid-19 -p 1000` more detailed synthea run instructions can be found at their [wiki](https://github.com/synthetichealth/synthea/wiki/Basic-Setup-and-Running)
 - Run FhirLoader with the fake data generated:
-    - Example: ```
-    dotnet run -- --client-secret "XXXX" --client-id "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" --input-folder ..\synthea\output\fhir\ --authority "https://login.microsoftonline.com/{tenant-id}" --fhir-server-url "https://{myfhirserver}.azurehealthcareapis.com" --max-degree-of-parallelism 14
-    ```
+    - Example: 
+    
+  ```  dotnet run -- --client-secret "XXXX" --client-id "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" --input-folder ..\synthea\output\fhir\ --authority "https://login.microsoftonline.com/{tenant-id}" --fhir-server-url "https://{myfhirserver}.azurehealthcareapis.com" --max-degree-of-parallelism 14```
+    
 
     This command can be ran by cloning the repo onto your machine and running it from the FhirLoader directory.
 
