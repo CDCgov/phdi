@@ -1,0 +1,3 @@
+flowchart LR
+    SFTP["VDH SFTP"] --"IngestFunction"--> raw["bronze/raw"]
+    raw --"DecryptFunction"--> decrypted["bronze/decrypted"]
