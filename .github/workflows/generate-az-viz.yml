@@ -1,41 +1,28 @@
 name: Generate Azure Visualization
 
-on:
-  push:
-    branches:
-      - josiahsiegel/az-viz
-
-# Replace on push with manual workflow when ready to merge into main 
-# on: 
-#   workflow_dispatch:
-#     inputs:
-#       resource-group:
-#         description: Comma-seperated resource group list
-#         required: true
-#         default: prime-ingestion-test
-#       out-file:
-#         description: Graph export path
-#         required: true
-#         default: output/viz.svg
-#       depth:
-#         description: Level of Azure Resource Sub-category to be included in vizualization (1 or 2)
-#         required: true
-#         default: '2'
-#       verbosity:
-#         description: Level of information to included in vizualization (1 or 2)
-#         required: true
-#         default: '2'
-#       exclude-types:
-#         description: Exclude resources via string search
-#         required: true
-#         default: '*excludethisthing1,excludethisthing2*'
-
-env:
-  RESOURCE_GROUP: prime-ingestion-test
-  OUT_FILE: output/viz.svg
-  DEPTH: 2
-  VERBOSITY: 2
-  EXCLUDE_TYPES: '*privateDnsZones*,*microsoft.insights*,*sites/snapshots*,*workspaces/savedSearches*,*Microsoft.Portal*,*sites/deployments*,*routeTables*'
+on: 
+  workflow_dispatch:
+    inputs:
+      resource-group:
+        description: Comma-seperated resource group list
+        required: true
+        default: prime-ingestion-test
+      out-file:
+        description: Graph export path
+        required: true
+        default: output/viz.svg
+      depth:
+        description: Level of Azure Resource Sub-category to be included in vizualization (1 or 2)
+        required: true
+        default: 2
+      verbosity:
+        description: Level of information to included in vizualization (1 or 2)
+        required: true
+        default: 2
+      exclude-types:
+        description: Exclude resources via string search
+        required: true
+        default: '*privateDnsZones*,*microsoft.insights*,*sites/snapshots*,*workspaces/savedSearches*,*Microsoft.Portal*,*sites/deployments*,*routeTables*'
 
 jobs:
   Generate-Azure-Visualization:
@@ -49,12 +36,12 @@ jobs:
           enable-AzPSSession: true
       - uses: JosiahSiegel/AzViz-action@v1.0.4
         with:
-          resource-group: ${{ env.RESOURCE_GROUP }} #${{ github.event.inputs.resource-group }}
-          out-file: ${{ env.OUT_FILE }} #${{ github.event.inputs.out-file }}
+          resource-group: ${{ github.event.inputs.resource-group }}
+          out-file: ${{ github.event.inputs.out-file }}
           sub-name: OCIO-DMZ-C1
-          depth: ${{ env.DEPTH }} #${{ github.event.inputs.depth }}
-          verbosity: ${{ env.VERBOSITY }} #${{ github.event.inputs.verbosity }}
-          exclude-types: ${{ env.EXCLUDE_TYPES }} #${{ github.event.inputs.exclude-types }}
+          depth: ${{ github.event.inputs.depth }}
+          verbosity: ${{ github.event.inputs.verbosity }}
+          exclude-types: ${{ github.event.inputs.exclude-types }}
       - uses: actions/upload-artifact@v2
         with:
           name: viz
