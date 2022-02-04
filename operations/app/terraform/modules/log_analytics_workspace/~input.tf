@@ -8,6 +8,11 @@ variable "resource_group_name" {
   description = "Resource Group Name"
 }
 
+variable "resource_prefix" {
+  type        = string
+  description = "Resource Prefix"
+}
+
 variable "function_app_id" {
   type        = string
   description = "Function app resource id"
@@ -28,7 +33,12 @@ variable "cdc_managed_vnet_id" {
   description = "CDC Vnet resource id"
 }
 
-variable "sa_datastorage_id" {
+variable "sa_data_id" {
   type        = string
   description = "Data storage account id"
+}
+
+variable "adf_id" {
+  type        = string
+  description = "Data Factory resource id"
 }

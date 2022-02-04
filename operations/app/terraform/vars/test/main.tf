@@ -46,6 +46,8 @@ module "key_vault" {
   terraform_caller_ip_address = var.terraform_caller_ip_address
   terraform_object_id         = var.terraform_object_id
   use_cdc_managed_vnet        = var.use_cdc_managed_vnet
+  adf_uuid                    = module.data_factory.adf_uuid
+  sa_data_adf_sas             = module.storage.sa_data_adf_sas
 }
 
 module "storage" {
@@ -78,32 +80,35 @@ module "app_service_plan" {
   app_size            = var.app_size
 }
 
-module "application_insights" {
-  source                     = "../../modules/application_insights"
-  environment                = var.environment
-  resource_group_name        = var.resource_group_name
-  resource_prefix            = var.resource_prefix
-  location                   = var.location
-  service_plan_id            = module.app_service_plan.service_plan_id
-  log_analytics_workspace_id = module.log_analytics_workspace.log_analytics_workspace_id
+module "function_app" {
+  source                      = "../../modules/function_app"
+  environment                 = var.environment
+  resource_group_name         = var.resource_group_name
+  resource_prefix             = var.resource_prefix
+  location                    = var.location
+  ai_instrumentation_key      = module.application_insights.ai_instrumentation_key
+  ai_connection_string        = module.application_insights.ai_connection_string
+  app_service_plan            = module.app_service_plan.service_plan_id
+  application_key_vault_id    = module.key_vault.application_key_vault_id
+  cdc_app_subnet_id           = module.network.cdc_app_subnet_id
+  sa_data_access_key          = module.storage.sa_data_access_key
+  sa_data_connection_string   = module.storage.sa_data_connection_string
+  sa_data_name                = module.storage.sa_data_name
+  terraform_caller_ip_address = var.terraform_caller_ip_address
+  use_cdc_managed_vnet        = var.use_cdc_managed_vnet
 }
 
-module "function_app" {
-  source                           = "../../modules/function_app"
-  environment                      = var.environment
-  resource_group_name              = var.resource_group_name
-  resource_prefix                  = var.resource_prefix
-  location                         = var.location
-  ai_instrumentation_key           = module.application_insights.instrumentation_key
-  ai_connection_string             = module.application_insights.connection_string
-  app_service_plan                 = module.app_service_plan.service_plan_id
-  application_key_vault_id         = module.key_vault.application_key_vault_id
-  cdc_app_subnet_id                = module.network.cdc_app_subnet_id
-  sa_datastorage_access_key        = module.storage.sa_datastorage_access_key
-  sa_datastorage_connection_string = module.storage.sa_datastorage_connection_string
-  sa_datastorage_name              = module.storage.sa_datastorage_name
-  terraform_caller_ip_address      = var.terraform_caller_ip_address
-  use_cdc_managed_vnet             = var.use_cdc_managed_vnet
+module "data_factory" {
+  source                   = "../../modules/data_factory"
+  environment              = var.environment
+  resource_group_name      = var.resource_group_name
+  resource_prefix          = var.resource_prefix
+  location                 = var.location
+  application_key_vault_id = module.key_vault.application_key_vault_id
+  sa_data_id               = module.storage.sa_data_id
+  adf_sa_sas_name          = module.key_vault.adf_sa_sas_name
+  adf_sa_sas_id            = module.key_vault.adf_sa_sas_id
+  vdhsftp_pass             = module.key_vault.vdhsftp_pass
 }
 
 ##########
@@ -114,9 +119,21 @@ module "log_analytics_workspace" {
   source                         = "../../modules/log_analytics_workspace"
   resource_group_name            = var.resource_group_name
   location                       = var.location
+  resource_prefix                = var.resource_prefix
   function_app_id                = module.function_app.function_app_id
   function_infrastructure_app_id = module.function_app.function_infrastructure_app_id
   app_service_plan_id            = module.app_service_plan.service_plan_id
   cdc_managed_vnet_id            = module.network.cdc_managed_vnet_id
-  sa_datastorage_id              = module.storage.sa_datastorage_id
+  sa_data_id                     = module.storage.sa_data_id
+  adf_id                         = module.data_factory.adf_id
+}
+
+module "application_insights" {
+  source                     = "../../modules/application_insights"
+  environment                = var.environment
+  resource_group_name        = var.resource_group_name
+  resource_prefix            = var.resource_prefix
+  location                   = var.location
+  service_plan_id            = module.app_service_plan.service_plan_id
+  log_analytics_workspace_id = module.log_analytics_workspace.log_analytics_workspace_id
 }
