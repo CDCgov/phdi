@@ -14,20 +14,20 @@ class ParseHL7 {
         @BlobTrigger(
             name = "file",
             dataType = "binary",
-            path = "received-files/{name}",
+            path = "bronze/decrypted/{name}",
             connection="AzureWebJobsStorage"
         ) content: ByteArray,
         @BindingName("name") filename: String,
         @BlobOutput(
             name="validTarget",
             dataType = "string",
-            path="valid-messages/{name}-processed",
+            path="bronze/validation/{name}.valid",
             connection="AzureWebJobsStorage"
         ) validContent: OutputBinding<String>,
         @BlobOutput(
             name="invalidTarget",
             dataType = "string",
-            path="invalid-messages/{name}-processed",
+            path="bronze/validation/{name}.invalid",
             connection="AzureWebJobsStorage"
         ) invalidContent: OutputBinding<String>,
         context: ExecutionContext
