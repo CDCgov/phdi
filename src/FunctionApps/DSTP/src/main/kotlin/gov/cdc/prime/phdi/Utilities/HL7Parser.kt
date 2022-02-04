@@ -33,12 +33,19 @@ public class HL7Parser() {
         return processedMessages
     }
 
+    /* This method was adopted from PRIME ReportStream, which can be found here: 
+       https://github.com/CDCgov/prime-reportstream/blob/194396582be02fcc51295089f20b0c2b90e7c830/prime-router/src/main/kotlin/serializers/Hl7Serializer.kt#L121
+    */
     public fun convertBatchMessagesToList(
         content: String,
         delimiter: String = "\n"
     ): MutableList<String> {
         var reg = "[\r\n]".toRegex()
         var cleanedMessage: String = reg.replace(content, delimiter)
+        /* These are unicode for vertical tab and file separator, respectively
+           \u000b appears before every MSH segment, and \u001c appears at the
+           end of the message.
+        */
         reg = "[\\u000b\\u001c]".toRegex()
         cleanedMessage = reg.replace(cleanedMessage, "").trim()
         val messageLines = cleanedMessage.split(delimiter)
