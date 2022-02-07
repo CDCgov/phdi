@@ -4,7 +4,7 @@ Date: 2022-02-07
 
 ## Status
 
-Proposed
+Approved
 
 ## Context and Problem Statement
 
@@ -17,7 +17,7 @@ We need to record the architectural and technical decisions made on this project
 ## Decision Drivers
 
 - Serve as a reminder of past decisions and our reasons behind them
-- Make it easier to change decisions later by documeting the state of the world that held when we wrote them down
+- Make it easier to change decisions later by documenting the state of the world that held when we wrote them down
 - Documenting these decisions for the future benefit of ourselves and future teammates.
 
 ## Considered Options
