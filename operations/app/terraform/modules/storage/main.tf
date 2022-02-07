@@ -2,7 +2,7 @@ data "azurerm_client_config" "current" {}
 
 # Also, the convention "{prefix}storage" was already taken, which is why this was
 # changed to "{prefix}datastorage"
-resource "azurerm_storage_account" "storage_account" {
+resource "azurerm_storage_account" "pdi_data" {
   resource_group_name       = var.resource_group_name
   name                      = "${var.resource_prefix}datastorage"
   location                  = var.location
@@ -60,19 +60,19 @@ resource "azurerm_storage_account" "storage_account" {
 # See: https://github.com/hashicorp/terraform-provider-azurerm/issues/2977
 # resource "azurerm_storage_container" "data_bronze" {
 #   name                  = "bronze"
-#   storage_account_name  = azurerm_storage_account.storage_account.name
+#   storage_account_name  = azurerm_storage_account.pdi_data.name
 #   container_access_type = "private"
 # }
 # 
 # resource "azurerm_storage_container" "data_silver" {
 #   name                  = "silver"
-#   storage_account_name  = azurerm_storage_account.storage_account.name
+#   storage_account_name  = azurerm_storage_account.pdi_data.name
 #   container_access_type = "private"
 # }
 # 
 # resource "azurerm_storage_container" "data_gold" {
 #   name                  = "gold"
-#   storage_account_name  = azurerm_storage_account.storage_account.name
+#   storage_account_name  = azurerm_storage_account.pdi_data.name
 #   container_access_type = "private"
 # }
 
@@ -81,7 +81,7 @@ module "storageaccount_private_endpoint" {
   for_each = toset(["blob", "file", "queue"])
   source   = "../common/private_sa_endpoint"
   primary = {
-    name                = "${azurerm_storage_account.storage_account.name}-${each.key}-privateendpoint"
+    name                = "${azurerm_storage_account.pdi_data.name}-${each.key}-privateendpoint"
     type                = "storage_account_${each.key}"
     location            = "eastus"
     resource_group_name = var.resource_group_name
@@ -90,7 +90,7 @@ module "storageaccount_private_endpoint" {
   endpoint_subnet_ids = [var.cdc_service_subnet_id]
 
   private_dns_zone_group = {
-    id                   = "${var.resource_group_id}/providers/Microsoft.Network/privateEndpoints/${azurerm_storage_account.storage_account.name}-${each.key}-privateendpoint/privateDnsZoneGroups/default"
+    id                   = "${var.resource_group_id}/providers/Microsoft.Network/privateEndpoints/${azurerm_storage_account.pdi_data.name}-${each.key}-privateendpoint/privateDnsZoneGroups/default"
     name                 = "default"
     private_dns_zone_ids = "${var.resource_group_id}/providers/Microsoft.Network/privateDnsZones/privatelink.${each.key}.core.windows.net"
   }
@@ -98,11 +98,11 @@ module "storageaccount_private_endpoint" {
   private_service_connection = {
     is_manual_connection           = false
     name                           = "pitestdatastorage-${each.key}-privateendpoint"
-    private_connection_resource_id = azurerm_storage_account.storage_account.id
+    private_connection_resource_id = azurerm_storage_account.pdi_data.id
     subresource_names              = "${each.key}"
   }
 
-  depends_on = [azurerm_storage_account.storage_account]
+  depends_on = [azurerm_storage_account.pdi_data]
 }
 
 # Point-in-time restore, soft delete, versioning, and change feed were
@@ -116,7 +116,7 @@ module "storageaccount_private_endpoint" {
 resource "azurerm_key_vault_access_policy" "storage_policy" {
   key_vault_id = var.application_key_vault_id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_storage_account.storage_account.identity.0.principal_id
+  object_id    = azurerm_storage_account.pdi_data.identity.0.principal_id
 
   key_permissions = ["get", "unwrapkey", "wrapkey"]
 }
@@ -126,7 +126,7 @@ resource "azurerm_storage_account_customer_managed_key" "storage_key" {
   key_name           = var.rsa_key_4096
   key_vault_id       = var.application_key_vault_id
   key_version        = null // Null allows automatic key rotation
-  storage_account_id = azurerm_storage_account.storage_account.id
+  storage_account_id = azurerm_storage_account.pdi_data.id
 
   depends_on = [azurerm_key_vault_access_policy.storage_policy]
 }

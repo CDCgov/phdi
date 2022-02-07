@@ -21,9 +21,7 @@ resource "azurerm_key_vault" "application" {
     bypass         = "AzureServices"
     default_action = "Deny"
 
-    ip_rules = sensitive(concat(
-      [var.terraform_caller_ip_address],
-    ))
+    ip_rules = var.terraform_caller_ip_address
 
     virtual_network_subnet_ids = toset([var.cdc_app_subnet_id])
   }
@@ -35,6 +33,17 @@ resource "azurerm_key_vault" "application" {
   tags = {
     "environment" = var.environment
   }
+}
+
+resource "azurerm_key_vault_access_policy" "adf_access_policy" {
+  key_vault_id = azurerm_key_vault.application.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = var.adf_uuid
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
 }
 
 resource "azurerm_key_vault_access_policy" "dev_access_policy" {
@@ -81,6 +90,13 @@ resource "azurerm_key_vault_access_policy" "dev_access_policy" {
     "SetIssuers",
     "DeleteIssuers",
   ]
+}
+
+// Store SAS token for Data Factory access to storage account in Key Vault
+resource "azurerm_key_vault_secret" "adf_sa_access" {
+  name         = "${var.resource_prefix}datastorageaccess"
+  value        = var.sa_data_adf_sas
+  key_vault_id = azurerm_key_vault.application.id
 }
 
 # resource "azurerm_key_vault_access_policy" "frontdoor_access_policy" {
