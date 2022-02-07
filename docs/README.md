@@ -6,6 +6,7 @@
     - [Target Users](#target-users)
   - [Technical](#technical)
     - [Getting Started](#getting-started)
+    - [Decision Records](#decision-records)
   - [Standard Notices](#standard-notices)
     - [Public Domain Standard Notice](#public-domain-standard-notice)
     - [License Standard Notice](#license-standard-notice)
@@ -52,6 +53,10 @@ Eventual target users of this system include:
 ### Getting Started
 
 To start development against this project, please consult the [Getting Started](getting_started.md) doc for more details on setting up local development environments, deployments, and more.
+
+### Decision Records
+
+See A record of all decisions that have been made on the project and propose your own by going to the [decisions](decisions) directory and following instructions there.
 
 ## Standard Notices
 
