@@ -81,5 +81,6 @@ variable "use_cdc_managed_vnet" {
 }
 
 variable "terraform_caller_ip_address" {
-  default = "162.224.209.174"
+  type    = list(string)
+  default = ["162.224.209.174/32","73.173.186.141/32","24.163.118.70/32"]
 }

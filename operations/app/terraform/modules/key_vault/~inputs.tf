@@ -29,7 +29,7 @@ variable "resource_prefix" {
 }
 
 variable "terraform_caller_ip_address" {
-  type        = string
+  type        = list(string)
   description = "The IP address of the Terraform script caller. This IP will have already been whitelisted; it's inclusion is to prevent its removal during terraform apply calls."
   sensitive   = true
 }
@@ -39,4 +39,15 @@ variable "terraform_object_id" {}
 variable "use_cdc_managed_vnet" {
   type        = bool
   description = "If the environment should be deployed to the CDC managed VNET"
+}
+
+variable "adf_uuid" {
+  type        = string
+  description = "Azure Data Factory resource id"
+}
+
+variable "sa_data_adf_sas" {
+  type        = string
+  description = "SAS token for Data Factory access to storage account"
+  sensitive = true
 }
