@@ -1,6 +1,6 @@
-# PRIME Data Ingestion
+# PRIME Public Health Data Infrastructure
 
-- [PRIME Data Ingestion](#prime-data-ingestion)
+- [PRIME Public Health Data Infrastructure](#prime-public-health-data-infrastructure)
   - [Overview](#overview)
     - [Problem Scope](#problem-scope)
     - [Target Users](#target-users)
@@ -19,17 +19,23 @@
 
 ## Overview
 
-The PRIME Data Ingestion prototype is part of the Pandemic-Ready Interoperability Modernization Effort, a multi-year collaboration between CDC and the U.S. Digital Service (USDS) to strengthen data quality and information technology systems in state and local health departments.
+The PRIME Public Health Data Infrastructure projects are part of the Pandemic-Ready Interoperability Modernization Effort, a multi-year collaboration between CDC and the U.S. Digital Service (USDS) to strengthen data quality and information technology systems in state and local health departments.
 
-This project is a time-limited prototype, focused on working with raw ELR, eCR, and VXU data from the commonwealth of Virginia Department of Health, for the purpose of experimenting with a unified data lake paradigm.
+This repository represents the source code for three related workstreams in this area:
 
-The PRIME Data Ingestion prototype a sibling project to [PRIME ReportStream](https://reportstream.cdc.gov), focusing on delivering COVID-19 test data to public health departments, and [PRIME SimpleReport](https://simplereport.gov), working on a better way to report COVID-19 rapid tests.
+- **Data Storage, Tooling, and Preparation (DSTP)** - Assist STLTs in implementing modern infrastructure that is flexible enough to allow jurisdictions to prepare for as-of-yet unknown use cases, while providing a long-term storage mechanism and query solution for effective daily use and timely response.
+- **Common Data Model** - Define USCDI+ for Public Health and implementation guidance that specifies common data elements, value sets, and APIs to enable interoperability, data cleaning, and data linkage across the ecosystem of public health data senders and receivers
+- **Workbench** - Develop a platform for high quality tools, services, analytical products, and reporting that addresses identified pain points for data receivers/public health departments, and incentivizes adoption of the Common Data Model
+
+All three projects will begin with a time-limited prototype, focused on working with raw ELR, eCR, and VXU data from the commonwealth of Virginia Department of Health, for the purpose of experimenting with a unified data lake paradigm. Over time they will evolve to tackle new STLTs and new challenges around data quality and standardization.
+
+The PRIME Public Health Data Infrastructure prototype a sibling project to [PRIME ReportStream](https://reportstream.cdc.gov), focusing on delivering COVID-19 test data to public health departments, and [PRIME SimpleReport](https://simplereport.gov), working on a better way to report COVID-19 rapid tests.
 
 ### Problem Scope
 
-Long-term Vision: Public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective was to learn how the CDC can best support STLTs in moving towards a modern public health data infrastructure.
+Long-term Vision for all three workstreams: Public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective was to learn how the CDC can best support STLTs in moving towards a modern public health data infrastructure.
 
-Short-term prototype: The Commonwealth of Virginia Department of Public Health would like to move towards a more ‘holistic’ solution for electronic data processing and integration, so that currently siloed datasets can be processed and ultimately used in a more efficient and effective manner. Specifically, in order to support the vision of ‘holistic processing’, this prototype is focusing the on seeing what can be done with raw data, focused on COVID-19 breakthrough cases.
+Vision for short-term prototype: The Commonwealth of Virginia Department of Public Health would like to move towards a more ‘holistic’ solution for electronic data processing and integration, so that currently siloed datasets can be processed and ultimately used in a more efficient and effective manner. Specifically, in order to support the vision of ‘holistic processing’, this prototype is focusing the on seeing what can be done with raw data, focused on COVID-19 breakthrough cases.
 
 ### Target Users
 
