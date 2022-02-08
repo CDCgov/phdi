@@ -83,3 +83,106 @@ resource "azurerm_data_factory_linked_service_sftp" "vdh" {
   skip_host_key_validation = true
   integration_runtime_name = azurerm_data_factory_integration_runtime_azure.pdi.name
 }
+
+resource "azurerm_data_factory_dataset_binary" "pdi_datasa" {
+  name                = "SFTPBinarySink"
+  resource_group_name = var.resource_group_name
+  data_factory_id     = azurerm_data_factory.pdi.id
+  linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa.name
+
+  azure_blob_storage_location {
+      container                = "bronze"
+      dynamic_filename_enabled = false
+      dynamic_path_enabled     = false
+      path                     = "raw"
+  }
+
+  compression {
+      level = "Fastest"
+      type  = "ZipDeflate"
+  }
+}
+
+resource "azurerm_data_factory_dataset_binary" "vdh" {
+  name                = "SFTPBinarySource"
+  resource_group_name = var.resource_group_name
+  data_factory_id     = azurerm_data_factory.pdi.id
+  linked_service_name = azurerm_data_factory_linked_service_sftp.vdh.name
+
+  sftp_server_location {
+    path     = "/test_dir"
+    filename = "*"
+  }
+}
+
+resource "azurerm_data_factory_pipeline" "transfer_files" {
+  name                = "transfer-files"
+  resource_group_name = var.resource_group_name
+  data_factory_id     = azurerm_data_factory.pdi.id
+  annotations         = []
+  concurrency         = 1
+  parameters          = {}
+  variables           = {}
+
+  activities_json     = jsonencode(
+      [
+          {
+              dependsOn      = []
+              inputs         = [
+                  {
+                      parameters    = {}
+                      referenceName = "SFTPBinarySource"
+                      type          = "DatasetReference"
+                  },
+              ]
+              name           = "SFTP to Blob"
+              outputs        = [
+                  {
+                      parameters    = {}
+                      referenceName = "SFTPBinarySink"
+                      type          = "DatasetReference"
+                  },
+              ]
+              policy         = {
+                  retry                  = 0
+                  retryIntervalInSeconds = 30
+                  secureInput            = false
+                  secureOutput           = false
+                  timeout                = "7.00:00:00"
+              }
+              type           = "Copy"
+              typeProperties = {
+                  enableStaging = false
+                  sink          = {
+                      storeSettings = {
+                          type = "AzureBlobStorageWriteSettings"
+                      }
+                      type          = "BinarySink"
+                  }
+                  source        = {
+                      formatSettings = {
+                          compressionProperties = null
+                          type                  = "BinaryReadSettings"
+                      }
+                      storeSettings  = {
+                          disableChunking = false
+                          recursive       = true
+                          type            = "SftpReadSettings"
+                      }
+                      type           = "BinarySource"
+                  }
+              }
+              userProperties = [
+                  {
+                      name  = "Source"
+                      value = "/test_dir/*"
+                  },
+                  {
+                      name  = "Destination"
+                      value = "bronze/raw/"
+                  },
+              ]
+          },
+      ]
+  )
+}
