@@ -3,6 +3,7 @@ from importlib.resources import files
 
 
 import azure.functions as func
+import pgpy.errors
 import pytest
 
 from .. import DecryptFunction as dcf
@@ -20,7 +21,9 @@ def local_settings() -> DecryptSettings:
     Returns:
         DecryptSettings: settings object describing relevant subset of settings for this function
     """
-    local_settings_path = files("DecryptFunction").parent / "local.settings.json"
+    local_settings_path = (
+        files("DecryptFunction").parent / "tests" / "assets" / "test.settings.json"
+    )
     local_json_config = json.loads(local_settings_path.read_text())
     local_settings_vals = local_json_config.get("Values")
     settings = DecryptSettings()
@@ -32,7 +35,7 @@ def local_settings() -> DecryptSettings:
     return settings
 
 
-def test_decrypt_message(local_settings):
+def test_decrypt_message_success(local_settings):
     """Tests decrypting a message using a specified private key in base64 encoded format.
 
     Args:
@@ -50,3 +53,27 @@ def test_decrypt_message(local_settings):
     )
     assert result == b"TESTING EICR ENCRYPTION"
 
+
+def test_decrypt_message_failure_wrong_receiver(local_settings):
+    """Attempt to decrypt a message that was not intended for us.
+
+    Args:
+        local_settings ([type]): passed automatically via above fixture
+    """
+    test_file_path = (
+        files("DecryptFunction").parent
+        / "tests"
+        / "assets"
+        / "encrypted_to_someone_else.txt"
+    )
+    blob_data = test_file_path.read_bytes()
+    input_stream = func.blob.InputStream(data=blob_data, name="input test")
+
+    with pytest.raises(pgpy.errors.PGPError) as exc_info:
+        dcf.decrypt_message(
+            input_stream.read(),
+            local_settings.private_key,
+            local_settings.private_key_password,
+        )
+
+    assert "Cannot decrypt the provided message with this key" in str(exc_info.value)
