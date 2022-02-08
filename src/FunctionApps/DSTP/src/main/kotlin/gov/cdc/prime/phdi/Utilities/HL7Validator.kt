@@ -16,6 +16,13 @@ public class HL7Validator() {
         context.setValidationContext(ValidationContextFactory.defaultValidation() as ValidationContext);
         val parser = context.getPipeParser()
 
+        /*
+            For now, we don't track or log why a message fails
+            to get parsed by HL7. We simply return true if HAPI
+            is able to successfully parse the message, and false
+            if it can't, based on the validation context that's
+            set above.
+        */
         try {
             parser.parse(message)
             return true

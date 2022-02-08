@@ -34,16 +34,17 @@ class ParseHL7 {
 	) {
         context.logger.info("Name: ${filename} Size: ${content.size} bytes.")
 
-        // we don't actually do any processing of the HL7 messages here
-        // We read in files from blob storage, extract individual messages from that
-        // file, and then check that each message is valid. If it is, it goes to one
-        // bucket, and if it's not it goes to another.
-
+        /* 
+            We don't actually do any processing of the HL7 messages here
+            We read in files from blob storage, extract individual messages from that
+            file, and then check that each message is valid. If it is, it goes to one
+            bucket, and if it's not it goes to another.
+        */
         val reader = HL7Reader()
         val parser = HL7Parser()
         val validator = HL7Validator()
-        val cleanedMessages: String = reader.readHL7MessagesFromByteArray(content)
-        val processedMessages: List<String> =  parser.convertBatchMessagesToList(cleanedMessages)
+        val rawMessages: String = reader.readHL7MessagesFromByteArray(content)
+        val processedMessages: List<String> =  parser.convertBatchMessagesToList(rawMessages)
         val validMessages = StringBuilder()
         val invalidMessages = StringBuilder()
 
