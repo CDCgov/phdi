@@ -32,7 +32,8 @@ class ParseHL7 {
         ) invalidContent: OutputBinding<String>,
         context: ExecutionContext
 	) {
-        context.logger.info("Name: ${filename} Size: ${content.size} bytes.")
+        // no logging until we can confirm that filename is never sensitive
+        //context.logger.info("Name: ${filename} Size: ${content.size} bytes.")
 
         /* 
             We don't actually do any processing of the HL7 messages here
