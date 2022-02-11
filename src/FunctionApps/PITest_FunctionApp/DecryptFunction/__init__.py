@@ -30,7 +30,9 @@ def decrypt_message(message: bytes, private_key_string: str, password: str) -> b
     return decrypted
 
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
+def main(
+    req: func.HttpRequest, settings_overload: DecryptSettings
+) -> func.HttpResponse:
     """Get the message from the request and decrypt it.
 
     Args:
@@ -42,7 +44,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     encrypted_message = req.get_body()
     message_size = sys.getsizeof(encrypted_message)
-    settings = DecryptSettings()
+
+    settings = settings_overload or DecryptSettings()
     logging.info(f"Decryption function fired. \n" f"Byte Size: {message_size} bytes")
 
     if not settings.private_key or not settings.private_key_password:
