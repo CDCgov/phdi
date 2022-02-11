@@ -1,6 +1,7 @@
 import json
+import os
 from importlib.resources import files
-
+from pathlib import Path
 
 import azure.functions as func
 import pgpy.errors
@@ -10,7 +11,7 @@ from .. import DecryptFunction as dcf
 from ..DecryptFunction.settings import DecryptSettings
 
 
-# This fixture runs before all tests and can be passed as arguments to individual tests to enable accessing the variables they define. 
+# This fixture runs before all tests and can be passed as arguments to individual tests to enable accessing the variables they define.
 # More info: https://docs.pytest.org/en/latest/fixture.html#fixtures-scope-sharing-and-autouse-autouse-fixtures
 @pytest.fixture(scope="session", autouse=True)
 def local_settings() -> DecryptSettings:
@@ -21,15 +22,15 @@ def local_settings() -> DecryptSettings:
     Returns:
         DecryptSettings: settings object describing relevant subset of settings for this function
     """
+
     local_settings_path = (
-        files("DecryptFunction").parent / "tests" / "assets" / "test.settings.json"
+        Path("DecryptFunction").parent / "tests" / "assets" / "test.settings.json"
     )
     local_json_config = json.loads(local_settings_path.read_text())
     local_settings_vals = local_json_config.get("Values")
     settings = DecryptSettings()
-    settings.private_key = local_settings_vals.get("PRIVATE_KEY")
-    settings.private_key_password = local_settings_vals.get("PRIVATE_KEY_PASSWORD")
-
+    settings.private_key = local_settings_vals.get("PrivateKey")
+    settings.private_key_password = local_settings_vals.get("PrivateKeyPassword")
     # Uses dummy Azurite connection string, from here: https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio#http-connection-strings
     settings.azure_storage_connection_string = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;"
     return settings
@@ -77,3 +78,74 @@ def test_decrypt_message_failure_wrong_receiver(local_settings):
         )
 
     assert "Cannot decrypt the provided message with this key" in str(exc_info.value)
+
+
+def test_trigger_success(local_settings):
+    """Test function trigger conditions
+
+    Args:
+        local_settings ([type]): passed automatically via above fixture
+    """
+    test_file_path = (
+        files("DecryptFunction").parent / "tests" / "assets" / "encrypted.txt"
+    )
+    blob_data = test_file_path.read_bytes()
+    input_stream = func.blob.InputStream(data=blob_data, name="input test")
+
+    req_success = func.HttpRequest(
+        method="POST",
+        body=input_stream.read(),
+        headers={"Content-Type": "application/octet-stream"},
+        url="/",
+    )
+    resp = dcf.main(req_success, local_settings)
+    assert resp.status_code == 200
+    assert resp.get_body() == b"TESTING EICR ENCRYPTION"
+
+
+def test_trigger_missing_body(local_settings):
+    """Test trigger with missing body
+
+    Args:
+        local_settings ([type]): passed automatically via above fixture
+    """
+    req_success = func.HttpRequest(
+        method="POST",
+        body="",
+        headers={"Content-Type": "application/octet-stream"},
+        url="/",
+    )
+    resp = dcf.main(req_success, local_settings)
+    assert resp.status_code == 400
+
+
+def test_trigger_malformed(local_settings):
+    """Test trigger with malformed bytes
+
+    Args:
+        local_settings ([type]): passed automatically via above fixture
+    """
+    req_success = func.HttpRequest(
+        method="POST",
+        body=b"bad data",
+        headers={"Content-Type": "application/octet-stream"},
+        url="/",
+    )
+    resp = dcf.main(req_success, local_settings)
+    assert resp.status_code == 500
+
+
+def test_trigger_missing_settings(local_settings):
+    """Test missing settings (could happen if we can't connect to keyvault)
+
+    Args:
+        local_settings ([type]): passed automatically via above fixture
+    """
+    req_success = func.HttpRequest(
+        method="POST",
+        body=b"bad data",
+        headers={"Content-Type": "application/octet-stream"},
+        url="/",
+    )
+    resp = dcf.main(req_success, {})
+    assert resp.status_code == 500
