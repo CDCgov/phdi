@@ -49,5 +49,5 @@ variable "adf_uuid" {
 variable "sa_data_adf_sas" {
   type        = string
   description = "SAS token for Data Factory access to storage account"
-  sensitive = true
+  sensitive   = true
 }

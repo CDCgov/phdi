@@ -15,13 +15,13 @@ output "cdc_service_subnet_id" {
 # }
 
 output "private_nsg_id" {
-    value = azurerm_network_security_group.vnet_nsg_private.id
+  value = azurerm_network_security_group.vnet_nsg_private.id
 }
 
 output "app_subnet_ids" {
   value = toset([
     azurerm_subnet.cdc_app_subnet.id,
-#    azurerm_subnet.dev_app_subnet.id,
+    #    azurerm_subnet.dev_app_subnet.id,
   ])
 }
 
@@ -42,7 +42,7 @@ output "cdc_subnet_ids" {
 output "service_subnet_ids" {
   value = toset([
     azurerm_subnet.cdc_service_subnet.id,
-#    azurerm_subnet.dev_service_subnet.id,
+    #    azurerm_subnet.dev_service_subnet.id,
   ])
 }
 

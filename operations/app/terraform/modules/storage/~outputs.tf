@@ -15,6 +15,6 @@ output "sa_data_id" {
 }
 
 output "sa_data_adf_sas" {
-  value = data.azurerm_storage_account_sas.adf_sa_access.sas
+  value     = data.azurerm_storage_account_sas.adf_sa_access.sas
   sensitive = true
 }
