@@ -5,7 +5,7 @@ variable "tf_secrets_vault" {
 
 ## Set basic variables
 variable "terraform_object_id" {
-  type = string
+  type        = string
   description = "Object id of user running TF"
   # NOTE: set to object ID of CT-DMZ-PRIME-INGESTION-TST-AZ-Contributor
   default = "9ff42a69-beb8-4b4a-9406-e7fbcbf847ee"
@@ -25,7 +25,7 @@ variable "environment" {
 
 variable "https_cert_names" {
   default = []
-}         
+}
 
 variable "location" {
   default = "eastus"
@@ -40,8 +40,8 @@ variable "resource_prefix" {
 }
 
 variable "rsa_key_2048" {
-  default = null 
-}              
+  default = null
+}
 
 variable "rsa_key_4096" {
   default = null
@@ -58,7 +58,7 @@ variable "route_table_name" {
 variable "aad_object_keyvault_admin" {
   # NOTE: set to object ID of CT-DMZ-PRIME-INGESTION-TST-AZ-Contributor
   default = "9ff42a69-beb8-4b4a-9406-e7fbcbf847ee"
-}  # Group or individual user id
+} # Group or individual user id
 
 ##################
 ## App Service Plan Vars
@@ -82,5 +82,5 @@ variable "use_cdc_managed_vnet" {
 
 variable "terraform_caller_ip_address" {
   type    = list(string)
-  default = ["162.224.209.174/32","73.173.186.141/32","24.163.118.70/32"]
+  default = ["162.224.209.174/32", "73.173.186.141/32", "24.163.118.70/32"]
 }

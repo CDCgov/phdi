@@ -91,15 +91,15 @@ resource "azurerm_data_factory_dataset_binary" "pdi_datasa" {
   linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa.name
 
   azure_blob_storage_location {
-      container                = "bronze"
-      dynamic_filename_enabled = false
-      dynamic_path_enabled     = false
-      path                     = "raw"
+    container                = "bronze"
+    dynamic_filename_enabled = false
+    dynamic_path_enabled     = false
+    path                     = "raw"
   }
 
   compression {
-      level = "Fastest"
-      type  = "ZipDeflate"
+    level = "Fastest"
+    type  = "ZipDeflate"
   }
 }
 
@@ -124,65 +124,65 @@ resource "azurerm_data_factory_pipeline" "transfer_files" {
   parameters          = {}
   variables           = {}
 
-  activities_json     = jsonencode(
-      [
+  activities_json = jsonencode(
+    [
+      {
+        dependsOn = []
+        inputs = [
           {
-              dependsOn      = []
-              inputs         = [
-                  {
-                      parameters    = {}
-                      referenceName = "SFTPBinarySource"
-                      type          = "DatasetReference"
-                  },
-              ]
-              name           = "SFTP to Blob"
-              outputs        = [
-                  {
-                      parameters    = {}
-                      referenceName = "SFTPBinarySink"
-                      type          = "DatasetReference"
-                  },
-              ]
-              policy         = {
-                  retry                  = 0
-                  retryIntervalInSeconds = 30
-                  secureInput            = false
-                  secureOutput           = false
-                  timeout                = "7.00:00:00"
-              }
-              type           = "Copy"
-              typeProperties = {
-                  enableStaging = false
-                  sink          = {
-                      storeSettings = {
-                          type = "AzureBlobStorageWriteSettings"
-                      }
-                      type          = "BinarySink"
-                  }
-                  source        = {
-                      formatSettings = {
-                          compressionProperties = null
-                          type                  = "BinaryReadSettings"
-                      }
-                      storeSettings  = {
-                          disableChunking = false
-                          recursive       = true
-                          type            = "SftpReadSettings"
-                      }
-                      type           = "BinarySource"
-                  }
-              }
-              userProperties = [
-                  {
-                      name  = "Source"
-                      value = "/test_dir/*"
-                  },
-                  {
-                      name  = "Destination"
-                      value = "bronze/raw/"
-                  },
-              ]
+            parameters    = {}
+            referenceName = "SFTPBinarySource"
+            type          = "DatasetReference"
           },
-      ]
+        ]
+        name = "SFTP to Blob"
+        outputs = [
+          {
+            parameters    = {}
+            referenceName = "SFTPBinarySink"
+            type          = "DatasetReference"
+          },
+        ]
+        policy = {
+          retry                  = 0
+          retryIntervalInSeconds = 30
+          secureInput            = false
+          secureOutput           = false
+          timeout                = "7.00:00:00"
+        }
+        type = "Copy"
+        typeProperties = {
+          enableStaging = false
+          sink = {
+            storeSettings = {
+              type = "AzureBlobStorageWriteSettings"
+            }
+            type = "BinarySink"
+          }
+          source = {
+            formatSettings = {
+              compressionProperties = null
+              type                  = "BinaryReadSettings"
+            }
+            storeSettings = {
+              disableChunking = false
+              recursive       = true
+              type            = "SftpReadSettings"
+            }
+            type = "BinarySource"
+          }
+        }
+        userProperties = [
+          {
+            name  = "Source"
+            value = "/test_dir/*"
+          },
+          {
+            name  = "Destination"
+            value = "bronze/raw/"
+          },
+        ]
+      },
+    ]
   )
 }

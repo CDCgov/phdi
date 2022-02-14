@@ -43,7 +43,7 @@ locals {
 }
 
 resource "azurerm_private_endpoint" "endpoint" {
-  count               = length(var.endpoint_subnet_ids)
+  count = length(var.endpoint_subnet_ids)
 
   name                = "${var.name}-${var.type}-${substr(sha1(var.endpoint_subnet_ids[count.index]), 0, 9)}"
   location            = var.location
