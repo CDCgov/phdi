@@ -48,13 +48,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             password=os.environ.get("REDIS_PASSWORD", ""),
             ssl=os.environ.get("REDIS_TLS", "0") == "1",
         )
-    except:
+    except Exception:
         logging.exception("failed to connect to redis")
 
     try:
         address = req.params.get("address")
         result = geocode(address, cache)
         return func.HttpResponse(json.dumps(result), mimetype="application/json")
-    except:
+    except Exception:
         logging.exception("error geocoding address")
         return func.HttpResponse("error", status_code=500)

@@ -2,7 +2,6 @@ import json
 
 import azure.functions as func
 import pytest
-import requests
 from unittest import mock
 
 from Geocode import main
@@ -89,7 +88,7 @@ def test_geocode_failure(mock_get):
     mock_get.return_value = mock.Mock(status_code=500)
 
     with pytest.raises(Exception):
-        resp = geocode("123 Fake St", cache)
+        geocode("123 Fake St", cache)
 
     cache.get.assert_called()
     cache.setex.assert_not_called()
@@ -107,7 +106,7 @@ def test_geocode_empty(mock_get):
     mock_get.return_value = mresp
 
     with pytest.raises(Exception):
-        resp = geocode("123 Fake St", cache)
+        geocode("123 Fake St", cache)
 
     cache.get.assert_called()
     cache.setex.assert_not_called()
