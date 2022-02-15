@@ -1,0 +1,110 @@
+name: Test
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - "**"
+
+env:
+  TEST_RUNNER_JAVA_VERSION: 8
+  TEST_RUNNER_NODE_VERSION: 14
+  TEST_RUNNER_PYTHON_VERSION: 3.9
+  TEST_RUNNER_TERRAFORM_VERSION: 1.1.5
+
+jobs:
+  unit-test-python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        function-to-test:
+          - PHDISmartyStreetsTest
+          - PITest_FunctionApp
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
+        working-directory: ./src/FunctionApps/${{matrix.function-to-test}}
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Run unit tests
+        working-directory: ./src/FunctionApps/${{matrix.function-to-test}}
+        run: |
+          python -m pytest
+
+  unit-test-java:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        function-to-test:
+          - DSTP
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup java ${{env.TEST_RUNNER_JAVA_VERSION}}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{env.TEST_RUNNER_JAVA_VERSION}}
+          distribution: adopt
+      - name: Setup node ${{env.TEST_RUNNER_NODE_VERSION}}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{env.TEST_RUNNER_NODE_VERSION}}
+      - name: Install Azure functions core tools
+        run: |
+          npm install --global azure-functions-core-tools
+      - name: Setup maven cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{runner.os}}-maven-${{hashFiles('**/pom.xml')}}
+          restore-keys: |
+            ${{runner.os}}-maven-
+      - name: Verify
+        working-directory: ./src/FunctionApps/${{matrix.function-to-test}}
+        run: |
+          mvn --batch-mode verify
+
+  code-check-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install black[jupyter] flake8
+      - name: Check format (black)
+        run: |
+          black --check --verbose .
+      - name: Check style (flake8)
+        run: |
+          flake8
+
+  code-check-terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./operations
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{env.TEST_RUNNER_TERRAFORM_VERSION}}
+      - name: Check format
+        run: terraform fmt -check -recursive
