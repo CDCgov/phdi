@@ -2,4 +2,9 @@
 local.settings.json
 __azurite*
 __blobstorage__
+__pycache__/
+.pytest_cache/
 data/
+
+# Jetbrains IDE settings
+/.idea
