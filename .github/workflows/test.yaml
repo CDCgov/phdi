@@ -19,6 +19,7 @@ jobs:
         function-to-test:
           - PHDISmartyStreetsTest
           - PITest_FunctionApp
+          - CachedGeocode
 
     steps:
       - name: Checkout
