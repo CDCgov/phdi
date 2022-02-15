@@ -1,0 +1,7 @@
+[flake8]
+exclude =
+    .git,
+    .pytest_cache,
+    __pycache__,
+    docs
+max-line-length = 88
