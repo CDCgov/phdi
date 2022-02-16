@@ -1,10 +1,10 @@
 variable "cdc_vnet_name" {
-  type = string
+  type        = string
   description = "Name of CDC vnet"
 }
 
 variable "app_subnet_name" {
-  type = string
+  type        = string
   description = "Name of app subnet within CDC vnet"
 }
 
@@ -29,11 +29,11 @@ variable "resource_prefix" {
 }
 
 variable "service_subnet_name" {
-  type = string
+  type        = string
   description = "Name of service subnet within CDC vnet"
 }
 
 variable "route_table_id" {
-  type = string
+  type        = string
   description = "Route Table resource id"
 }

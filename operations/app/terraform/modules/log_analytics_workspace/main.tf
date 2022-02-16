@@ -17,10 +17,10 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostics" {
     content {
       category = log.value
 
-        retention_policy {
+      retention_policy {
         enabled = true
         days    = 60
-        }
+      }
     }
   }
 
@@ -29,10 +29,10 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostics" {
     content {
       category = metric.value
 
-        retention_policy {
+      retention_policy {
         enabled = true
         days    = 60
-        }
+      }
     }
   }
 

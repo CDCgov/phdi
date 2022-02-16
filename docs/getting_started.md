@@ -207,7 +207,52 @@ This dependency will be stored in `~/<username>/.m2/com/microsoft/azure/function
 
 ##### Testing Java/Kotlin
 
-TODO: Complete this section.
+Testing in Java and Kotlin is done using `Junit`. Assuming that you're building functionality in a package that you've named `gov.cdc.prime.<insert some name>`, the folder structure for your source files will look sort of like the following.
+
+```
+root
+|__ src
+    |__ main
+        |__ java/kotlin (depending on the language you're using)
+            |__ gov
+               |__ cdc
+                   |__ prime
+                       |__ <insert some name>
+                           |__ YourApp.(java|kt)     
+    |__ test
+        |__ java/kotlin (depending on the language you're using)
+            |__ gov
+               |__ cdc
+                   |__ prime
+                       |__ <insert some name>
+                           |__ YourAppTest.(java|kt) 
+```
+
+Within the test folder is where all of your test files will go, and there should be a test file that corresponds to each file you in have `src/main`. The following shows the contents of an example test file for a class that handles reading in HL7 data written in Kotlin.
+
+```kotlin
+package gov.cdc.prime.phdi
+
+import kotlin.test.assertSame
+import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+
+class HL7ReaderTest {
+    @Test
+    fun testReadHL7MessagesFromByteArray() {
+        val multipleMessages: ByteArray = javaClass.getResource("/multipleMessages.hl7").readBytes()
+        val reader = HL7Reader()
+        val content = reader.readHL7MessagesFromByteArray(multipleMessages)
+
+        // assert that the reader is able to read the bytes and return a string
+        assertSame(String::class.java, content::class.java)
+    }
+} 
+```
+
+Walking through this example line by line, we start at the top where you can see that we still need to include the package name within the test file. Below that are the imports necessary to implement the testing logic. Note that there's no need to import the functionality you wrote in `src/main`. The class itself is named the same as the file that you're writing the tests in, and there's no need for an `init` function inside of the test, but you can certainly write one if your tests warrant it. Each test is written as a function that does not take any input parameters, is annotated with `@Test`, and should be named using the standard convent of `test` followed by a brief description of the function you're testing written in CamelCase. 
+
+If you're writing tests for Java functionality and have the Java Runner extension installed, VS Code will green arrows next to your tests so that you can simply click those to run your tests. However, if you're working with Maven, the Kotlin extension has no such functionality and you will be required to run the tests manually. If you're working with Maven, you can do this by opening a terminal, navigating to the directory where the `pom.xml` file for your functionality lives, and running `mvn test`. 
 
 #### Pushing to Github
 ##### A Note on Files
