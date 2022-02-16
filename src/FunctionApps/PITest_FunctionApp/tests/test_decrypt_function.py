@@ -10,8 +10,9 @@ from .. import DecryptFunction as dcf
 from ..DecryptFunction.settings import DecryptSettings
 
 
-# This fixture runs before all tests and can be passed as arguments to individual tests to enable accessing the variables they define. 
-# More info: https://docs.pytest.org/en/latest/fixture.html#fixtures-scope-sharing-and-autouse-autouse-fixtures
+# This fixture runs before all tests and can be passed as arguments to individual
+# tests to enable accessing the variables they define.
+# More info: https://docs.pytest.org/en/latest/fixture.html#fixtures-scope-sharing-and-autouse-autouse-fixtures  # noqa: E501
 @pytest.fixture(scope="session", autouse=True)
 def local_settings() -> DecryptSettings:
     """Local settings relevant for running these tests.
@@ -20,7 +21,7 @@ def local_settings() -> DecryptSettings:
 
     Returns:
         DecryptSettings: settings object describing relevant subset of settings for this function
-    """
+    """  # noqa: E501
     local_settings_path = (
         files("DecryptFunction").parent / "tests" / "assets" / "test.settings.json"
     )
@@ -30,8 +31,9 @@ def local_settings() -> DecryptSettings:
     settings.private_key = local_settings_vals.get("PRIVATE_KEY")
     settings.private_key_password = local_settings_vals.get("PRIVATE_KEY_PASSWORD")
 
-    # Uses dummy Azurite connection string, from here: https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio#http-connection-strings
-    settings.azure_storage_connection_string = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;"
+    # Uses dummy Azurite connection string, from here:
+    # https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio#http-connection-strings  # noqa: E501
+    settings.azure_storage_connection_string = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;"  # noqa: E501
     return settings
 
 
