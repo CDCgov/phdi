@@ -3,7 +3,7 @@ import logging
 import os
 import re
 
-import redis
+import pymongo
 import requests
 import azure.functions as func
 
@@ -12,12 +12,12 @@ CENSUS_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress
 CACHE_EXPIRATION = 60 * 60 * 24 * 7  # seconds * minutes * hours * days = 1 week
 
 
-def geocode(address: str, cache: redis.StrictRedis) -> dict[str, str]:
+def geocode(address: str, cache: pymongo.collection.Collection) -> dict[str, str]:
     # Normalize the address to a cache key
-    key = "geocode::" + re.sub("[^A-Z0-9]", "", address.upper())
-    cached = cache.get(key)
+    key = re.sub("[^A-Z0-9]", "", address.upper())
+    cached = cache.find_one({"key": key})
     if cached:
-        return json.loads(cached)
+        return cached
 
     # Grab the result from the census api
     resp = requests.get(
@@ -32,9 +32,9 @@ def geocode(address: str, cache: redis.StrictRedis) -> dict[str, str]:
         raise Exception("census request failed")
 
     coords = resp.json().get("result", {}).get("addressMatches")[0].get("coordinates")
-    retval = {"lng": coords.get("x"), "lat": coords.get("y")}
-    cache.setex(key, CACHE_EXPIRATION, json.dumps(retval))
-    return retval
+    doc = {"key": key, "lng": coords.get("x"), "lat": coords.get("y")}
+    cache.insert_one(doc)
+    return doc
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -42,19 +42,23 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("address parameter is required", status_code=400)
 
     try:
-        cache = redis.StrictRedis(
-            host=os.environ.get("REDIS_HOST", "localhost"),
-            port=int(os.environ.get("REDIS_PORT", "6379")),
-            password=os.environ.get("REDIS_PASSWORD", ""),
-            ssl=os.environ.get("REDIS_TLS", "0") == "1",
-        )
+        conn = pymongo.MongoClient(os.environ.get("COSMOSDB_CONN_STRING"))
+
+        # connect to the cache 'db' and the geocode 'collection'
+        cache = conn.cache.geocode
+
+        # we should only need to do this once per collection
+        cache.create_index("_ts", expireAfterSeconds=CACHE_EXPIRATION)
     except Exception:
-        logging.exception("failed to connect to redis")
+        logging.exception("failed to connect to cosmos db")
 
     try:
         address = req.params.get("address")
         result = geocode(address, cache)
-        return func.HttpResponse(json.dumps(result), mimetype="application/json")
+        return func.HttpResponse(
+            json.dumps({"lat": result.get("lat"), "lng": result.get("lng")}),
+            mimetype="application/json",
+        )
     except Exception:
         logging.exception("error geocoding address")
         return func.HttpResponse("error", status_code=500)
