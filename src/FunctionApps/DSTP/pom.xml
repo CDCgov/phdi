@@ -99,6 +99,13 @@
             <version>2.3</version>
         </dependency>
 
+        <!-- Jackson -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20211205</version>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
