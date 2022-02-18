@@ -42,15 +42,23 @@ class ConvertECRToFHIR {
         */
 
         val rawMessage: String = readHL7MessagesFromByteArray(content)
-
+        /* TODO: 
+            Figure out if an access token is even necessary. If it is
+            then figure out a way to get the expiration time from the
+            environment variables and only grab a new token if necessary.
+        */    
+        val accessToken: String? = getAccessToken()
         // Because of the issues enumerated in HelperFunctions.kt, we don't currently
         // check if it's a valid CCDA message. Instead we try to convert it, and if it
         // fails we send it to invalid.
-        try {
-            val json = convertMessageToFHIR(rawMessage, "ccda", "ccd")
-            validContent.setValue(json)
-        } catch(e: Exception) {
-            invalidContent.setValue(rawMessage)
+        if (!accessToken.isNullOrEmpty()) {
+            try {
+                val json = convertMessageToFHIR(rawMessage, "ccda", "ccd", accessToken)
+                validContent.setValue(json)
+            } catch(e: Exception) {
+                invalidContent.setValue(rawMessage)
+            }
         }
+        
     }
 }

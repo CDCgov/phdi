@@ -181,15 +181,45 @@ public fun convertBatchMessagesToList(
 }
 
 /* 
-   ********************** 
-    CONVERTING FUNCTIONS
-   **********************
+   ***********************
+    FHIR SERVER FUNCTIONS
+   ***********************
 */
+// Connect to the FHIR server and get a bearer token
+public fun getAccessToken(): String? {
+    val tenantId: String = System.getenv("tenant_id")
+    val url: String = "https://login.microsoftonline.com/${tenantId}/oauth2/token"
+
+    val requestBody = StringBuilder("grant_type=client_credentials")
+    val parameters: MutableMap<String, String> = HashMap()
+    //parameters.put("grant_type", "client_credentials")
+    parameters.put("client_id", System.getenv("client_id"))
+    parameters.put("client_secret", System.getenv("client_secret"))
+    parameters.put("resource", System.getenv("fhir_url"))
+    parameters.forEach { (key, value) -> requestBody.append("&${key}=${value}") }
+
+
+    val client: HttpClient = HttpClient.newHttpClient()
+    val request: HttpRequest = HttpRequest.newBuilder()
+        .uri(URI.create(url))
+        .headers("Content-Type", "application/x-www-form-urlencoded")
+        .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+        .build()
+
+    val response: HttpResponse<String> = client.send(
+        request,
+        HttpResponse.BodyHandlers.ofString()
+    )
+    val json: JSONObject = JSONObject(response.body())
+    val accessToken:String? = json.get("access_token")?.toString()
+    return accessToken
+}
 
 public fun convertMessageToFHIR(
     message: String,
     messageFormat: String,
-    messageType: String
+    messageType: String,
+    accessToken: String
 ): String {
     val inputDataType = when (messageFormat.lowercase()) {
         "hl7v2" -> "Hl7v2"
@@ -228,34 +258,7 @@ public fun convertMessageToFHIR(
         else -> "microsofthealth/hl7v2templates:default"
     }
 
-    // Connect to the FHIR server and get a bearer token
-    val tenantId: String = System.getenv("tenant_id")
-    val authUrl: String = "https://login.microsoftonline.com/${tenantId}/oauth2/token"
-
-    val requestBody = StringBuilder("grant_type=client_credentials")
-    val parameters: MutableMap<String, String> = HashMap()
-    //parameters.put("grant_type", "client_credentials")
-    parameters.put("client_id", System.getenv("client_id"))
-    parameters.put("client_secret", System.getenv("client_secret"))
-    parameters.put("resource", System.getenv("fhir_url"))
-    parameters.forEach { (key, value) -> requestBody.append("&${key}=${value}") }
-
-
-    val client: HttpClient = HttpClient.newHttpClient()
-    val authRequest: HttpRequest = HttpRequest.newBuilder()
-        .uri(URI.create(authUrl))
-        .headers("Content-Type", "application/x-www-form-urlencoded")
-        .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
-        .build()
-
-    val rawAuthResponse: HttpResponse<String> = client.send(
-        authRequest,
-        HttpResponse.BodyHandlers.ofString()
-    )
-    val jsonResponse: JSONObject = JSONObject(rawAuthResponse.body())
-    val accessToken:String? = jsonResponse.get("access_token")?.toString()
-
-    // connect to the FHIR #convert-data endpoint using the bearer token
+    // connect to the FHIR #convert-data endpoint using the access token
     val fhirUrl: String = "${System.getenv("fhir_url")}/\$convert-data"
     val fhirRequestBody: JSONObject = JSONObject()
     fhirRequestBody.put("resourceType", "Parameters")
@@ -267,6 +270,7 @@ public fun convertMessageToFHIR(
     ))
     val json: String = fhirRequestBody.toString()
     
+    val client: HttpClient = HttpClient.newHttpClient()
     val convertDataRequest: HttpRequest = HttpRequest.newBuilder()
         .uri(URI.create(fhirUrl))
         .headers("Content-Type", "application/json", "Authorization", "Bearer ${accessToken}")
