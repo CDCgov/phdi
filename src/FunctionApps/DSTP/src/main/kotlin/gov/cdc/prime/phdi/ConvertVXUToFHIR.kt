@@ -12,7 +12,7 @@ class ConvertVXUToFHIR {
         @BlobTrigger(
             name = "file",
             dataType = "binary",
-            path = "bronze/vxu/{name}",
+            path = "bronze/decrypted/vxu/{name}",
             connection="AzureWebJobsStorage"
         ) content: ByteArray,
         // @BindingName("name") filename: String,
