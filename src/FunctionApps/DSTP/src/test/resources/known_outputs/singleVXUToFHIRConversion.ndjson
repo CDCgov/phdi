@@ -1,0 +1,463 @@
+{
+  "resourceType": "Bundle",
+  "type": "batch",
+  "timestamp": "2020-05-14",
+  "identifier": {
+    "value": "2020051412382900"
+  },
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:c72457e8-dec5-4c34-f1c8-9ed89d24b3e9",
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "c72457e8-dec5-4c34-f1c8-9ed89d24b3e9",
+        "source": {
+          "name": "WIR11.3.2",
+          "_endpoint": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+              }
+            ]
+          }
+        },
+        "destination": [
+          {
+            "_endpoint": {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                  "valueCode": "unknown"
+                }
+              ]
+            },
+            "receiver": {
+              "reference": "Organization/f51a22ef-628f-d014-5a33-da96b68ae53d"
+            }
+          }
+        ],
+        "meta": {
+          "tag": [
+            {
+              "code": "P",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0103"
+            }
+          ]
+        },
+        "eventCoding": {
+          "code": "V04",
+          "system": "http://terminology.hl7.org/CodeSystem/v2-0003",
+          "display": "VXU^V04^VXU_V04"
+        },
+        "sender": {
+          "reference": "Organization/b727354b-9ca6-74fd-6b6b-ae0851c7998a"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "MessageHeader/c72457e8-dec5-4c34-f1c8-9ed89d24b3e9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:19fe6718-d012-e51f-602e-2f196a86af21",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "19fe6718-d012-e51f-602e-2f196a86af21",
+        "identifier": [
+          {
+            "value": "3064985",
+            "type": {
+              "coding": [
+                {
+                  "code": "SR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "State registry ID"
+                }
+              ]
+            }
+          },
+          {
+            "value": "ML288",
+            "type": {
+              "coding": [
+                {
+                  "code": "PI",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Patient internal identifier"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "CHILD",
+            "given": [
+              "BABEE"
+            ]
+          }
+        ],
+        "birthDate": "2018-09-11",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "22 YOUNGER LAND"
+            ],
+            "city": "JUNEAU",
+            "state": "WI",
+            "postalCode": "53039"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone"
+          }
+        ],
+        "active": "true",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2106-3",
+                  "display": "White",
+                  "system": "urn:oid:2.16.840.1.113883.6.238"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "White"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2186-5",
+                  "display": "2186-5"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "2186-5"
+              }
+            ]
+          }
+        ],
+        "contact": [
+          {
+            "name": {
+              "family": "CHILD",
+              "given": [
+                "MARY"
+              ]
+            },
+            "address": {
+              "line": [
+                "22 YOUNGER LAND"
+              ],
+              "city": "JUNEAU",
+              "state": "WI",
+              "postalCode": "53039"
+            },
+            "telecom": [
+              {
+                "use": "home",
+                "system": "phone"
+              }
+            ]
+          },
+          {
+            "name": {
+              "family": "CHILD",
+              "given": [
+                "BABEE"
+              ]
+            },
+            "address": {
+              "line": [
+                "22 YOUNGER LAND"
+              ],
+              "city": "JUNEAU",
+              "state": "WI",
+              "postalCode": "53039"
+            },
+            "telecom": [
+              {
+                "use": "home",
+                "system": "phone"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/19fe6718-d012-e51f-602e-2f196a86af21"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "Practitioner"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "Location"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Location/"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:535992d7-04b1-56ca-d693-bc36b05a9993",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "535992d7-04b1-56ca-d693-bc36b05a9993",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><span>Resource bundle generated on 2022-02-18T19:24:05.972Z using Microsoft FHIR Converter.</span><span>Template Version: TEMPLATE_VERSION_PLACEHOLDER.</span><span>Template URL: https://github.com/microsoft/FHIR-Converter/releases/download/vTEMPLATE_VERSION_PLACEHOLDER/Hl7v2DefaultTemplates.tar.gz.</span><span>Root template: VXU_V04.</span></p></div>"
+        },
+        "occurredDateTime": "2020-05-14",
+        "recorded": "2020-05-14",
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "author",
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type"
+                }
+              ]
+            },
+            "who": {
+              "reference": "Organization/b727354b-9ca6-74fd-6b6b-ae0851c7998a"
+            }
+          }
+        ],
+        "activity": {
+          "coding": [
+            {
+              "display": "VXU^V04^VXU_V04"
+            }
+          ]
+        },
+        "target": [
+          {
+            "reference": "Bundle/"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Provenance/535992d7-04b1-56ca-d693-bc36b05a9993"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b5e2f36f-62ea-603b-0c79-1165a8bfa330",
+      "resource": {
+        "resourceType": "Account",
+        "id": "b5e2f36f-62ea-603b-0c79-1165a8bfa330",
+        "status": "active",
+        "subject": [
+          {
+            "reference": "Patient/19fe6718-d012-e51f-602e-2f196a86af21"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Account/b5e2f36f-62ea-603b-0c79-1165a8bfa330"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c0244847-b18a-d2b1-52f6-fab8300d5a3d",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "c0244847-b18a-d2b1-52f6-fab8300d5a3d",
+        "class": {
+          "code": "REPAT",
+          "display": "recurring patient",
+          "system": "http://examplecodes.org/CodeSystem/additional-EncounterClassCodes"
+        },
+        "status": "in-progress",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><span>Visit Description: </span></p></div>"
+        },
+        "subject": {
+          "reference": "Patient/19fe6718-d012-e51f-602e-2f196a86af21"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/c0244847-b18a-d2b1-52f6-fab8300d5a3d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "Organization"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:911f1f94-9e45-e2c3-8f82-f8a4536732f9",
+      "resource": {
+        "resourceType": "RelatedPerson",
+        "id": "911f1f94-9e45-e2c3-8f82-f8a4536732f9",
+        "relationship": [
+          {
+            "coding": [
+              {
+                "code": "PRN",
+                "display": "parent",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode"
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "22 YOUNGER LAND"
+            ],
+            "city": "JUNEAU",
+            "state": "WI",
+            "postalCode": "53039"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone"
+          }
+        ],
+        "name": [
+          {
+            "family": "CHILD",
+            "given": [
+              "MARY"
+            ]
+          }
+        ],
+        "patient": {
+          "reference": "Patient/19fe6718-d012-e51f-602e-2f196a86af21"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "RelatedPerson/911f1f94-9e45-e2c3-8f82-f8a4536732f9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:656e2620-6a19-a26f-146c-7acac5134ed3",
+      "resource": {
+        "resourceType": "RelatedPerson",
+        "id": "656e2620-6a19-a26f-146c-7acac5134ed3",
+        "relationship": [
+          {
+            "coding": [
+              {
+                "code": "ONESELF",
+                "display": "self",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode"
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "22 YOUNGER LAND"
+            ],
+            "city": "JUNEAU",
+            "state": "WI",
+            "postalCode": "53039"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone"
+          }
+        ],
+        "name": [
+          {
+            "family": "CHILD",
+            "given": [
+              "BABEE"
+            ]
+          }
+        ],
+        "patient": {
+          "reference": "Patient/19fe6718-d012-e51f-602e-2f196a86af21"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "RelatedPerson/656e2620-6a19-a26f-146c-7acac5134ed3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c2efcbff-be5a-a496-3b75-6a1d89e6c993",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "c2efcbff-be5a-a496-3b75-6a1d89e6c993",
+        "identifier": [
+          {
+            "value": "0",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "patient": {
+          "reference": "Patient/19fe6718-d012-e51f-602e-2f196a86af21"
+        },
+        "occurrenceDateTime": "2019-05-03",
+        "vaccineCode": {
+          "coding": [
+            {
+              "code": "110",
+              "display": "DTAP/Polio/Hep B",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/CVX"
+            },
+            {
+              "code": "Pediarix",
+              "display": "Pediarix",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/WVTN"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/c2efcbff-be5a-a496-3b75-6a1d89e6c993"
+      }
+    }
+  ]
+}
