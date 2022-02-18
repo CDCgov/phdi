@@ -44,15 +44,24 @@ class ConvertELRToFHIR {
         val processedMessages: List<String> =  convertBatchMessagesToList(rawMessages)
         val validMessages = StringBuilder()
         val invalidMessages = StringBuilder()
+        /* TODO: 
+            Figure out if an access token is even necessary. If it is
+            then figure out a way to get the expiration time from the
+            environment variables and only grab a new token if necessary.
+        */    
+        val accessToken: String? = getAccessToken()
 
-        processedMessages.forEach {
-            if (isValidHL7Message(it)) {
-                val json = convertMessageToFHIR(it, "hl7v2", "ORU_R01")
-                validMessages.append("$json\n")
-            } else {
-                invalidMessages.append("$it\n")
+        if (!accessToken.isNullOrEmpty()) {
+            processedMessages.forEach {
+                if (isValidHL7Message(it)) {
+                    val json = convertMessageToFHIR(it, "hl7v2", "ORU_R01", accessToken)
+                    validMessages.append("$json\n")
+                } else {
+                    invalidMessages.append("$it\n")
+                }
             }
         }
+        
 
         if (validMessages.isNotBlank()) {
             validContent.setValue(validMessages.toString().trim())
