@@ -90,7 +90,16 @@ class HelperFunctonTest {
         cleanedMessage = reg.replace(cleanedMessage, "")
         return cleanedMessage
     }
+
+    // TEST CONVERTING FUNCTIONALITY
+    @Test
+    fun testConvertMessageToFHIR() {
+        // for this test, we'll actually want to Mock hitting the FHIR server
+        // so I'll need help getting this set up
+        assertEquals(true, true)
+    }
     
+    // TEST VALIDATING FUNCTIONALITY
     @Test
     fun testIsValidHL7Message() {
         // test that it correctly validates a single valid message
