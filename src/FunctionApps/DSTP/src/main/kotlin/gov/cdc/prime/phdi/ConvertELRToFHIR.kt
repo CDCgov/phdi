@@ -4,30 +4,32 @@ import java.util.*
 import com.microsoft.azure.functions.*
 import com.microsoft.azure.functions.annotation.*
 
-import gov.cdc.prime.phdi.Utilities.HL7Reader
-import gov.cdc.prime.phdi.Utilities.HL7Parser
-import gov.cdc.prime.phdi.Utilities.HL7Validator
+import ca.uhn.hl7v2.util.Terser
 
-class ParseHL7 {
-    @FunctionName("parsehl7")
+import gov.cdc.prime.phdi.utilities.*
+import gov.cdc.prime.phdi.utilities.*
+import gov.cdc.prime.phdi.utilities.*
+
+class ConvertELRToFHIR {
+    @FunctionName("convertElrToFhir")
     fun run(
         @BlobTrigger(
             name = "file",
             dataType = "binary",
-            path = "bronze/decrypted/{name}",
+            path = "bronze/elr/{name}",
             connection="AzureWebJobsStorage"
         ) content: ByteArray,
-        @BindingName("name") filename: String,
+        // @BindingName("name") filename: String,
         @BlobOutput(
             name="validTarget",
             dataType = "string",
-            path="bronze/validation/{name}.valid",
+            path="bronze/valid-messages/{name}.fhir",
             connection="AzureWebJobsStorage"
         ) validContent: OutputBinding<String>,
         @BlobOutput(
             name="invalidTarget",
             dataType = "string",
-            path="bronze/validation/{name}.invalid",
+            path="bronze/invalid-messages/{name}.txt",
             connection="AzureWebJobsStorage"
         ) invalidContent: OutputBinding<String>,
         context: ExecutionContext
@@ -36,24 +38,23 @@ class ParseHL7 {
         //context.logger.info("Name: ${filename} Size: ${content.size} bytes.")
 
         /* 
-            We don't actually do any processing of the HL7 messages here
-            We read in files from blob storage, extract individual messages from that
-            file, and then check that each message is valid. If it is, it goes to one
-            bucket, and if it's not it goes to another.
+            Every time a new blob is moved to bronze/received-elr-data, this function
+            triggers, reads in the data, confirms that it's valid, converts the data
+            to FHIR format, and then stores it in the bronze/valid-messages container. 
+            If the data is invalid, the FHIR conversion is skipped and the data is 
+            stored in bronze/invalid-messages in its original format.
         */
-        val reader = HL7Reader()
-        val parser = HL7Parser()
-        val validator = HL7Validator()
-        val rawMessages: String = reader.readHL7MessagesFromByteArray(content)
-        val processedMessages: List<String> =  parser.convertBatchMessagesToList(rawMessages)
+        val rawMessages: String = readHL7MessagesFromByteArray(content)
+        val processedMessages: List<String> =  convertBatchMessagesToList(rawMessages)
         val validMessages = StringBuilder()
         val invalidMessages = StringBuilder()
 
         processedMessages.forEach {
-            if (validator.isValidHL7Message(it)) {
-                validMessages.append("$it\r")
+            if (isValidHL7Message(it)) {
+                val json = convertMessageToFHIR(it, "hl7v2", "ORU_R01")
+                validMessages.append("$json\n")
             } else {
-                invalidMessages.append("$it\r")
+                invalidMessages.append("$it\n")
             }
         }
 
