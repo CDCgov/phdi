@@ -34,7 +34,7 @@ class ConvertVXUToFHIR {
         //context.logger.info("Name: ${filename} Size: ${content.size} bytes.")
 
         /* 
-            Every time a new blob is moved to bronze/received-vxu-data, this function
+            Every time a new blob is moved to bronze/decrypted/vxu, this function
             triggers, reads in the data, confirms that it's valid, converts the data
             to FHIR format, and then stores it in the bronze/valid-messages container. 
             If the data is invalid, the FHIR conversion is skipped and the data is 
