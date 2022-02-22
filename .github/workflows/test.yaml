@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - "**"
+  push:
+    branches:
+      - main
 
 env:
   TEST_RUNNER_JAVA_VERSION: 8
@@ -88,7 +91,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install black[jupyter] flake8
+          pip install black flake8
       - name: Check format (black)
         run: |
           black --check --verbose .
