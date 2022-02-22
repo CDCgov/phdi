@@ -24,6 +24,25 @@ import java.net.http.HttpResponse
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 
+/*
+   ******************* 
+    CLEANING FUNCTIONS
+   *******************
+*/
+public fun cleanMessage(message: String, delimiter: String = "\n"): String {
+    var reg = "[\r\n]+".toRegex()
+    var cleanedMessage = reg.replace(message, delimiter)
+    /* 
+        These are unicode for vertical tab and file separator, respectively
+        \u000b appears before every MSH segment, and \u001c appears at the
+        end of the message in some of the data we've been receiving, so 
+        we're explicitly removing them here.
+    */
+    reg = "[\\u000b\\u001c]".toRegex()
+    cleanedMessage = reg.replace(cleanedMessage, "").trim()
+    return cleanedMessage
+}
+
 /* 
    ******************* 
     READING FUNCTIONS
@@ -62,12 +81,7 @@ fun readHL7MessagesFromByteArray(
     content: ByteArray
 ): String {
     val rawMessage: String = String(content, StandardCharsets.UTF_8)
-    var reg = "[\r\n]+".toRegex()
-    var cleanedMessage = reg.replace(rawMessage, "\n")
-    reg = "[\\u000b\\u001c]".toRegex()
-    cleanedMessage = reg.replace(cleanedMessage, "")
-    
-    return cleanedMessage
+    return cleanMessage(rawMessage)
 }
 
 /* 
@@ -108,16 +122,7 @@ public fun convertBatchMessagesToList(
     content: String,
     delimiter: String = "\n"
 ): MutableList<String> {
-    var reg = "[\r\n]".toRegex()
-    var cleanedMessage: String = reg.replace(content, delimiter)
-    /* 
-        These are unicode for vertical tab and file separator, respectively
-        \u000b appears before every MSH segment, and \u001c appears at the
-        end of the message in some of the data we've been receiving, so 
-        we're explicitly removing them here.
-    */
-    reg = "[\\u000b\\u001c]".toRegex()
-    cleanedMessage = reg.replace(cleanedMessage, "").trim()
+    val cleanedMessage = cleanMessage(content)
     val messageLines = cleanedMessage.split(delimiter)
     val nextMessage = StringBuilder()
     val output = mutableListOf<String>()
@@ -191,8 +196,8 @@ public fun getAccessToken(): String? {
     val url: String = "https://login.microsoftonline.com/${tenantId}/oauth2/token"
 
     val requestBody = StringBuilder("grant_type=client_credentials")
+    // use a HashMap instead of JSONObject for easier iteration through key,value pairs
     val parameters: MutableMap<String, String> = HashMap()
-    //parameters.put("grant_type", "client_credentials")
     parameters.put("client_id", System.getenv("client_id"))
     parameters.put("client_secret", System.getenv("client_secret"))
     parameters.put("resource", System.getenv("fhir_url"))
@@ -211,8 +216,7 @@ public fun getAccessToken(): String? {
         HttpResponse.BodyHandlers.ofString()
     )
     val json: JSONObject = JSONObject(response.body())
-    val accessToken:String? = json.get("access_token")?.toString()
-    return accessToken
+    return json.get("access_token")?.toString()
 }
 
 public fun convertMessageToFHIR(
@@ -258,30 +262,31 @@ public fun convertMessageToFHIR(
         else -> "microsofthealth/hl7v2templates:default"
     }
 
-    // connect to the FHIR #convert-data endpoint using the access token
-    val fhirUrl: String = "${System.getenv("fhir_url")}/\$convert-data"
-    val fhirRequestBody: JSONObject = JSONObject()
-    fhirRequestBody.put("resourceType", "Parameters")
-    fhirRequestBody.put("parameter", listOf(
+    // connect to the FHIR $convert-data endpoint using the access token
+    val url: String = "${System.getenv("fhir_url")}/\$convert-data"
+    // use JSONObject instead of HashMap for seamless conversion to JSON-compliant strings
+    val requestBody: JSONObject = JSONObject()
+    requestBody.put("resourceType", "Parameters")
+    requestBody.put("parameter", listOf(
         mapOf("name" to "inputData", "valueString" to "${message}"),
         mapOf("name" to "inputDataType", "valueString" to "${inputDataType}"),
         mapOf("name" to "templateCollectionReference", "valueString" to "${templateCollection}"),
         mapOf("name" to "rootTemplate", "valueString" to "${rootTemplate}")
     ))
-    val json: String = fhirRequestBody.toString()
+    val json: String = requestBody.toString()
     
     val client: HttpClient = HttpClient.newHttpClient()
-    val convertDataRequest: HttpRequest = HttpRequest.newBuilder()
-        .uri(URI.create(fhirUrl))
+    val request: HttpRequest = HttpRequest.newBuilder()
+        .uri(URI.create(url))
         .headers("Content-Type", "application/json", "Authorization", "Bearer ${accessToken}")
         .POST(HttpRequest.BodyPublishers.ofString(json))
         .build()
-    val rawConvertDataResponse: HttpResponse<String> = client.send(
-        convertDataRequest,
+    val response: HttpResponse<String> = client.send(
+        request,
         HttpResponse.BodyHandlers.ofString()
     )
     
-    return rawConvertDataResponse.body()
+    return response.body()
 }
 
 /* 
@@ -295,7 +300,12 @@ private fun isValidMessage(message: String, format: String): Boolean {
     // We will likely replace this with a more custom validation class in the future
     context.setValidationContext(ValidationContextFactory.defaultValidation() as ValidationContext)
 
-    val parser = if (format === "xml") context.getXMLParser() else context.getPipeParser()
+    val parser = when (format.lowercase()) {
+        "xml" -> context.getXMLParser()
+        "hl7" -> context.getPipeParser()
+        else -> context.getGenericParser()
+    }
+
     /*
         For now, we don't track or log why a message fails
         to get parsed by HL7. We simply return true if HAPI
@@ -313,18 +323,7 @@ private fun isValidMessage(message: String, format: String): Boolean {
 }
 
 public fun isValidHL7Message(message: String): Boolean {
-    val context = DefaultHapiContext()
-    // We will likely replace this with a more custom validation class in the future
-    context.setValidationContext(ValidationContextFactory.defaultValidation() as ValidationContext)
-
-    val parser = context.getPipeParser()
-    try {
-        parser.parse(message)
-        return true
-    } catch (e: HL7Exception) {
-        e.printStackTrace()
-        return false
-    }
+    return isValidMessage(message, "hl7")
 }
 
 @Throws(NotImplementedError::class)
