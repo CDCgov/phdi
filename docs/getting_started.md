@@ -273,6 +273,45 @@ func settings decrypt
 
 You can then further customize this file.
 
+##### Pre-commit (optional)
+
+`pre-commit` is a framework that facilitates running git hooks and is used in this repository to perform checks locally that will be run as part of a github workflow once a pull request is created.
+
+A configuration file for `pre-commit` is in the root of the repository in the file `.pre-commit-config.yaml`.
+
+###### Installation
+
+Install `pre-commit` on a Mac with:
+
+```bash
+brew install pre-commit
+```
+
+Once it is installed, set up the hooks by:
+
+```bash
+cd /path/to/repo
+pre-commit install
+```
+
+###### Usage
+
+Normally, nothing needs to be done during usage.  The hooks will be run and success or error messages will be shown.  Typically the error messages will clearly report what should be done to resolve whatever issue caused the hook to fail.
+
+Sometimes, though, it may be necessary or desirable to skip the hooks when you make a commit.  To do this, just use git's `--no-verify` flag to skip the hooks:
+
+```bash
+git commit --no-verify [...]
+```
+
+
+To remove the hooks that `pre-commit` has added so they will not be run locally, use:
+
+```bash
+cd /path/to/repo
+pre-commit uninstall
+```
+
 ## Docker Container Development
 
 We hope to move toward using Docker for local development shortly. At the moment we are using the folder-based package layout as described above.
