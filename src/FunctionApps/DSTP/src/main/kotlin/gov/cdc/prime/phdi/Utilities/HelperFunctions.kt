@@ -224,15 +224,13 @@ public fun convertMessageToFHIR(
     messageFormat: String,
     messageType: String,
     accessToken: String
-): String {
+): String? {
     val inputDataType = when (messageFormat.lowercase()) {
         "hl7v2" -> "Hl7v2"
         "ccda" -> "Ccda"
         "json" -> "Json"
         else -> "UNKNOWN"
     }
-
-    //TODO: Implement handling of inputDataType when it's not valid
 
     // valid values come from https://docs.microsoft.com/en-us/azure/healthcare-apis/fhir/convert-data
     val rootTemplate: String = when (messageType.lowercase()) {
@@ -260,6 +258,10 @@ public fun convertMessageToFHIR(
         "Ccda" -> "microsofthealth/ccdatemplates:default"
         "Json" -> "microsofthealth/jsontemplates:default"
         else -> "microsofthealth/hl7v2templates:default"
+    }
+
+    if (inputDataType === "UNKNOWN" || rootTemplate === "UNKNOWN") {
+        return null
     }
 
     // connect to the FHIR $convert-data endpoint using the access token

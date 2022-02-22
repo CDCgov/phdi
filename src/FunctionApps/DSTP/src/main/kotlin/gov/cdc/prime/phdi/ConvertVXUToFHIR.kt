@@ -55,7 +55,11 @@ class ConvertVXUToFHIR {
             processedMessages.forEach {
                 if (isValidHL7Message(it)) {
                     val json = convertMessageToFHIR(it, "hl7v2", "VXU_V04", accessToken)
-                    validMessages.append("$json\n")
+                    if (!json.isNullOrEmpty()) {
+                        validMessages.append("$json\n")
+                    } else {
+                        context.logger.info("Conversion to FHIR failed due to an unknown specification for messageType or messageFormat.")
+                    }
                 } else {
                     invalidMessages.append("$it\n")
                 }
