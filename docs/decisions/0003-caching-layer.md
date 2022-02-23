@@ -56,4 +56,4 @@ Several data augmentations may end up being somewhat to very repetitive, and a c
 
 ## Decision Outcome
 
-Put this ADR up for review and see what people think. It largely depends on the actual implementation of whatever we'd like to cache and how we're using it for which phase.
+Let's use Cosmos DB. There's an example in the repo (see CachedGeocode under src/FunctionApps for an example). Ultimately, the decision came down to a coin toss between Redis and Cosmos, with the LRU cache maybe coming into play if we can guarantee that a workload is going to be batch processed every time (and we want to update all entries from the data source during the run).
