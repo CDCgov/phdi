@@ -21,6 +21,10 @@ class HelperFunctonTest {
     val batchFileMultipleMessages: String = javaClass.getResource("/batchFileMultipleMessages.hl7").readText()
     val batchFileNoMessage: String = javaClass.getResource("/batchFileNoMessage.hl7").readText()
     val singleInvalidMessage: String = javaClass.getResource("/singleInvalidMessage.hl7").readText()
+    val elrToFhirMessage: String = javaClass.getResource("/known_outputs/singleELRToFHIRMessage.txt").readText()
+    val ecrToFhirMessage: String = javaClass.getResource("/known_outputs/singleECRToFHIRMessage.txt").readText()
+    val vxuToFhirMessage: String = javaClass.getResource("/known_outputs/singleVXUToFHIRMessage.txt").readText()
+    val invalidFhirMessage: String = javaClass.getResource("/known_outputs/invalidFHIRMessage.txt").readText()
     val loremIpsum: String = javaClass.getResource("/loremIpsum.txt").readText()
 
     // TEST READING FUNCTIONALITY
@@ -114,5 +118,16 @@ class HelperFunctonTest {
         // test that it correctly invalidates text that is not HL7
         val cleanedLoremIpsum = cleanMessage(loremIpsum)
         assertEquals(false, isValidHL7Message(cleanedLoremIpsum))
+    }
+
+    @Test
+    fun testIsValidFHIRMessage() {
+       assertEquals(true, isValidFHIRMessage(elrToFhirMessage)) 
+       assertEquals(true, isValidFHIRMessage(ecrToFhirMessage)) 
+       assertEquals(true, isValidFHIRMessage(vxuToFhirMessage)) 
+       assertEquals(false, isValidFHIRMessage(invalidFhirMessage))
+       assertEquals(false, isValidFHIRMessage(null))
+       assertEquals(false, isValidFHIRMessage(""))
+       assertEquals(false, isValidFHIRMessage(loremIpsum))
     }
 }

@@ -351,7 +351,7 @@ public fun isValidFHIRMessage(message: String?): Boolean {
     try {
         val json: JSONObject = JSONObject(message)
         // resourceType: Operation Outcome is what happens when a message fails to convert
-        if (json.has("resourceType") && json.get("resourceType") == "Operation Outcome") {
+        if (json.has("resourceType") && json.get("resourceType") == "OperationOutcome") {
             return false
         }
     // if the message can't be parsed to JSON, then it's not valid
