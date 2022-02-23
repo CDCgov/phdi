@@ -22,6 +22,7 @@ import java.net.http.HttpResponse
 
 // Working with different string representations
 import org.json.JSONObject
+import org.json.JSONException
 import java.nio.charset.StandardCharsets
 
 /*
@@ -203,7 +204,6 @@ public fun getAccessToken(): String? {
     parameters.put("resource", System.getenv("fhir_url"))
     parameters.forEach { (key, value) -> requestBody.append("&${key}=${value}") }
 
-
     val client: HttpClient = HttpClient.newHttpClient()
     val request: HttpRequest = HttpRequest.newBuilder()
         .uri(URI.create(url))
@@ -319,7 +319,6 @@ private fun isValidMessage(message: String, format: String): Boolean {
         parser.parse(message)
         return true
     } catch (e: HL7Exception) {
-        e.printStackTrace()
         return false
     }
 }
@@ -341,4 +340,24 @@ public fun isValidXMLMessage(message: String): Boolean {
         xmlParser.parseDocument(doc)
     */
     throw NotImplementedError("This method is not currently implemented.")
+}
+
+public fun isValidFHIRMessage(message: String?): Boolean {
+    // if the message doesn't have any content, then it's not a valid message
+    if (message.isNullOrEmpty()) {
+        return false
+    }
+
+    try {
+        val json: JSONObject = JSONObject(message)
+        // resourceType: Operation Outcome is what happens when a message fails to convert
+        if (json.has("resourceType") && json.get("resourceType") == "Operation Outcome") {
+            return false
+        }
+    // if the message can't be parsed to JSON, then it's not valid
+    } catch (e: JSONException) {
+        return false
+    }
+
+    return true
 }

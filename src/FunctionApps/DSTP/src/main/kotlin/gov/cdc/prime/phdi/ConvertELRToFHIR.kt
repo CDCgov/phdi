@@ -55,15 +55,19 @@ class ConvertELRToFHIR {
             processedMessages.forEach {
                 if (isValidHL7Message(it)) {
                     val json = convertMessageToFHIR(it, "hl7v2", "ORU_R01", accessToken)
-                    if (!json.isNullOrEmpty()) {
+                    if (isValidFHIRMessage(json)) {
                         validMessages.append("$json\n")
                     } else {
-                        context.logger.info("Conversion to FHIR failed due to an unknown specification for messageType or messageFormat.")
+                        context.logger.info("An invalid FHIR message was returned during the conversion process.")
+                        invalidMessages.append("$it\n")
                     }
                 } else {
+                    context.logger.info("Failed to convert a message to FHIR.")
                     invalidMessages.append("$it\n")
                 }
             }
+        } else {
+            context.logger.info("Failed to retrieve a valid access token.")
         }
         
 
