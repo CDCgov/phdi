@@ -54,14 +54,18 @@ class ConvertECRToFHIR {
             // fails we send it to invalid.
             try {
                 val json = convertMessageToFHIR(rawMessage, "ccda", "ccd", accessToken)
-                if (!json.isNullOrEmpty()) {
+                if (isValidFHIRMessage(json)) {
                     validContent.setValue(json)
                 } else {
-                    context.logger.info("Conversion to FHIR failed due to an unknown specification for messageType or messageFormat.")
+                    context.logger.info("An invalid FHIR message was returned during the conversion process.")
+                    invalidContent.setValue(rawMessage)
                 }
             } catch(e: Exception) {
+                context.logger.info("Failed to convert a message to FHIR.")
                 invalidContent.setValue(rawMessage)
             }
+        } else {
+            context.logger.info("Failed to retrieve a valid access token.")
         }
         
     }

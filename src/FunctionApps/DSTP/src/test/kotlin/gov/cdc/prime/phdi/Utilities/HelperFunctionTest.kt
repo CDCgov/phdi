@@ -2,7 +2,16 @@ package gov.cdc.prime.phdi.utilities
 
 import kotlin.test.assertEquals
 import kotlin.test.assertSame
+import kotlin.io.path.Path
 import org.junit.jupiter.api.Test
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
+
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 
 class HelperFunctonTest {
     val singleMessage: String = javaClass.getResource("/singleMessage.hl7").readText()
@@ -82,15 +91,6 @@ class HelperFunctonTest {
         assertEquals(1, processedText.invalid_messages.size)
     }
 
-    // need to clean the text to ensure it's working the way it would in production
-    fun cleanText(content: String): String {
-        var reg = "[\r\n]".toRegex()
-        var cleanedMessage: String = reg.replace(content, "\r")
-        reg = "[\\u000b\\u001c]".toRegex()
-        cleanedMessage = reg.replace(cleanedMessage, "")
-        return cleanedMessage
-    }
-
     // TEST CONVERTING FUNCTIONALITY
     @Test
     fun testConvertMessageToFHIR() {
@@ -100,18 +100,19 @@ class HelperFunctonTest {
     }
     
     // TEST VALIDATING FUNCTIONALITY
+    // need to clean the texts to ensure the function is working the way it would in production
     @Test
     fun testIsValidHL7Message() {
         // test that it correctly validates a single valid message
-        val cleanedSingleMessage = cleanText(singleMessage)
+        val cleanedSingleMessage = cleanMessage(singleMessage)
         assertEquals(true, isValidHL7Message(cleanedSingleMessage))
 
         // test that it correctly invalidates a single invalid message
-        val cleanedSingleInvalidMessage = cleanText(singleInvalidMessage)
+        val cleanedSingleInvalidMessage = cleanMessage(singleInvalidMessage)
         assertEquals(false, isValidHL7Message(cleanedSingleInvalidMessage))
 
         // test that it correctly invalidates text that is not HL7
-        val cleanedLoremIpsum = cleanText(loremIpsum)
+        val cleanedLoremIpsum = cleanMessage(loremIpsum)
         assertEquals(false, isValidHL7Message(cleanedLoremIpsum))
     }
 }
