@@ -1,11 +1,17 @@
 import logging
 import os
+import time
 
 import requests
 import azure.functions as func
 
 
-def get_access_token():
+# The time between polling requests in seconds
+POLLING_FREQUENCY = 2.5
+POLLING_RETRIES = 120  # 500ms * 120 retries == 5 min
+
+
+def get_access_token() -> str:
     """Get the access token based on creds in the environment"""
     tenant_id = os.environ.get("TENANT_ID")
     url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/token"
@@ -28,6 +34,27 @@ def get_access_token():
     raise Exception("access token request failed")
 
 
+def poll(url: str, token: str) -> requests.Response:
+    """Poll the given status url until it response with something other than a 202"""
+    retries = 0
+    while retries < POLLING_RETRIES:
+        resp = requests.get(url, headers={"Authorization": f"Bearer {token}"})
+
+        # Return out if we've got a valid response *or* it errored out
+        # otherwise keep polling
+        if not resp.ok:
+            logging.error(f"polling failure status={resp.status_code} text={resp.text}")
+            raise Exception("polling failure")
+
+        if resp.ok and resp.status_code != 202:
+            return resp
+
+        retries += 1
+        time.sleep(POLLING_FREQUENCY)
+
+    raise Exception("number of retries exceeded")
+
+
 def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         token = get_access_token()
@@ -45,7 +72,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     )
 
     if resp.ok:
-        return func.HttpResponse("export started", status_code=resp.status_code)
+        status_url = resp.headers.get("Content-Location")
+        try:
+            sresp = poll(status_url, token)
+            return func.HttpResponse(
+                sresp.text,
+                mimetype="application/json",
+                status_code=sresp.status_code,
+            )
+        except Exception:
+            return func.HttpResponse("export failed", status_code=500)
 
     logging.error(
         f"error starting export status_code={resp.status_code} message={resp.text}"
