@@ -1,6 +1,5 @@
 import json
-from importlib.resources import files
-
+import pathlib
 
 import azure.functions as func
 import pgpy.errors
@@ -23,7 +22,7 @@ def local_settings() -> DecryptSettings:
         DecryptSettings: settings object describing relevant subset of settings for this function
     """  # noqa: E501
     local_settings_path = (
-        files("DecryptFunction").parent / "tests" / "assets" / "test.settings.json"
+        pathlib.PosixPath(__file__).parent / "assets" / "test.settings.json"
     )
     local_json_config = json.loads(local_settings_path.read_text())
     local_settings_vals = local_json_config.get("Values")
@@ -43,9 +42,7 @@ def test_decrypt_message_success(local_settings):
     Args:
         local_settings ([type]): passed automatically via above fixture
     """
-    test_file_path = (
-        files("DecryptFunction").parent / "tests" / "assets" / "encrypted.txt"
-    )
+    test_file_path = pathlib.PosixPath(__file__).parent / "assets" / "encrypted.txt"
     blob_data = test_file_path.read_bytes()
     input_stream = func.blob.InputStream(data=blob_data, name="input test")
     result = dcf.decrypt_message(
@@ -63,10 +60,7 @@ def test_decrypt_message_failure_wrong_receiver(local_settings):
         local_settings ([type]): passed automatically via above fixture
     """
     test_file_path = (
-        files("DecryptFunction").parent
-        / "tests"
-        / "assets"
-        / "encrypted_to_someone_else.txt"
+        pathlib.PosixPath(__file__).parent / "assets" / "encrypted_to_someone_else.txt"
     )
     blob_data = test_file_path.read_bytes()
     input_stream = func.blob.InputStream(data=blob_data, name="input test")
