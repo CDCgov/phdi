@@ -8,7 +8,7 @@ import azure.functions as func
 
 # The time between polling requests in seconds
 POLLING_FREQUENCY = 2.5
-POLLING_RETRIES = 120  # 500ms * 120 retries == 5 min
+POLLING_RETRIES = 120  # 2.5s * 120 retries == 5 min
 
 
 def get_access_token() -> str:
@@ -35,7 +35,7 @@ def get_access_token() -> str:
 
 
 def poll(url: str, token: str) -> requests.Response:
-    """Poll the given status url until it response with something other than a 202"""
+    """Poll the given status url until it responds with something other than a 202"""
     retries = 0
     while retries < POLLING_RETRIES:
         resp = requests.get(url, headers={"Authorization": f"Bearer {token}"})

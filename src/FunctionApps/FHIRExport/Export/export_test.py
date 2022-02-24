@@ -60,7 +60,11 @@ def test_poll_success(mock_get):
 
 @mock.patch("requests.get")
 def test_poll_failure(mock_get):
-    """Status endpoint fails the first time"""
+    """
+    The first time we check status requests.get will return a 500, at which
+    point we'd assume the export errored out (so we should too)
+    """
+
     mock_get.return_value = mock.Mock(ok=False, status_code=500, text="kablamo")
     with pytest.raises(Exception):
         poll("some-endpoint", "some-token")
@@ -86,6 +90,11 @@ def test_poll_eventual_success(mock_sleep, mock_get):
 @mock.patch("requests.get")
 @mock.patch("time.sleep")
 def test_poll_timeout(mock_sleep, mock_get):
+    """
+    every time requests.get is called, it'll return a
+    202 ('Accepted' or in progress) until we're out of remaining retries
+    """
+
     mock_get.return_value = mock.Mock(status_code=202)
     with pytest.raises(Exception):
         poll("some-endpoint", "some-token")
