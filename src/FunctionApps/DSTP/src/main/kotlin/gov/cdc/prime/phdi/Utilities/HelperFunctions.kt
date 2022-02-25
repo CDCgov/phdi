@@ -191,7 +191,7 @@ public fun convertBatchMessagesToList(
     FHIR SERVER FUNCTIONS
    ***********************
 */
-// Connect to the FHIR server and get a bearer token
+// Connect to Azure's login service and get a bearer token
 public fun getAccessToken(): String? {
     val tenantId: String = System.getenv("tenant_id")
     val url: String = "https://login.microsoftonline.com/${tenantId}/oauth2/token"
