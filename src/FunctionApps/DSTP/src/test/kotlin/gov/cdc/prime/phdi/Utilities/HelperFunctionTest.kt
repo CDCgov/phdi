@@ -77,33 +77,7 @@ class HelperFunctionsTest {
         val text = convertBatchMessagesToList(loremIpsum)
         assertEquals(1, text.size)
     }
-
-    @Test
-    fun testParse() {
-        val processedMessages = parse(mixedMessages)
-        val processedText = parse(loremIpsum)
-
-        // test that the method is returning the type we expect
-        assertSame(ProcessedMessages::class.java, processedMessages::class.java)
-        assertSame(ProcessedMessages::class.java, processedText::class.java)
-
-        // test that it returns the correct number of valid messages
-        assertEquals(2, processedMessages.valid_messages.size)
-        assertEquals(0, processedText.valid_messages.size)
-
-        // test that it returns the correct number of invalid messages
-        assertEquals(1, processedMessages.invalid_messages.size)
-        assertEquals(1, processedText.invalid_messages.size)
-    }
-
-    // TEST CONVERTING FUNCTIONALITY
-    @Test
-    fun testConvertMessageToFHIR() {
-        // for this test, we'll actually want to Mock hitting the FHIR server
-        // so I'll need help getting this set up
-        assertEquals(true, true)
-    }
-    
+   
     // TEST VALIDATING FUNCTIONALITY
     // need to clean the texts to ensure the function is working the way it would in production
     @Test
