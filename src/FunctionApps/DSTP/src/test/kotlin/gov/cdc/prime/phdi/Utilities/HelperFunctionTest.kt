@@ -13,7 +13,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-class HelperFunctonTest {
+class HelperFunctionsTest {
     val singleMessage: String = javaClass.getResource("/singleMessage.hl7").readText()
     val multipleMessages: String = javaClass.getResource("/multipleMessages.hl7").readText()
     val mixedMessages: String = javaClass.getResource("/mixedMessages.hl7").readText()
@@ -30,7 +30,8 @@ class HelperFunctonTest {
     // TEST READING FUNCTIONALITY
     @Test
     fun testReadHL7MessagesFromByteArray() {
-        val multipleMessages: ByteArray = javaClass.getResource("/multipleMessages.hl7").readBytes()
+        val multipleMessages: ByteArray = 
+            javaClass.getResource("/multipleMessages.hl7").readBytes()
         val content = readHL7MessagesFromByteArray(multipleMessages)
 
         // assert that the reader is able to read the bytes and return a string

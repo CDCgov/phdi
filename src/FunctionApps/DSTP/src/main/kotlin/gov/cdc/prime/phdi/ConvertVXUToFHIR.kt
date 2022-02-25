@@ -54,11 +54,16 @@ class ConvertVXUToFHIR {
         if (!accessToken.isNullOrEmpty()) {
             processedMessages.forEach {
                 if (isValidHL7Message(it)) {
-                    val json = convertMessageToFHIR(it, "hl7v2", "VXU_V04", accessToken)
-                    if (isValidFHIRMessage(json)) {
-                        validMessages.append("$json\n")
-                    } else {
-                        context.logger.info("An invalid FHIR message was returned during the conversion process.")
+                    try{
+                        val json = convertMessageToFHIR(it, "hl7v2", "VXU_V04", accessToken)
+                        if (isValidFHIRMessage(json)) {
+                            validMessages.append("$json\n")
+                        } else {
+                            context.logger.info("An invalid FHIR message was returned during the conversion process.")
+                            invalidMessages.append("$it\n")
+                        }
+                    } catch (e: Exception) {
+                        context.logger.info("Failed to convert a message to FHIR. Error: ${e.stackTraceToString()}")
                         invalidMessages.append("$it\n")
                     }
                 } else {

@@ -61,7 +61,7 @@ class ConvertECRToFHIR {
                     invalidContent.setValue(rawMessage)
                 }
             } catch(e: Exception) {
-                context.logger.info("Failed to convert a message to FHIR.")
+                context.logger.info("Failed to convert a message to FHIR. Error: ${e.stackTraceToString()}")
                 invalidContent.setValue(rawMessage)
             }
         } else {
