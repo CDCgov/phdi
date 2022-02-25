@@ -4,10 +4,6 @@ import java.util.*
 import com.microsoft.azure.functions.*
 import com.microsoft.azure.functions.annotation.*
 
-import ca.uhn.hl7v2.util.Terser
-
-import gov.cdc.prime.phdi.utilities.*
-import gov.cdc.prime.phdi.utilities.*
 import gov.cdc.prime.phdi.utilities.*
 
 class ConvertToFHIR {

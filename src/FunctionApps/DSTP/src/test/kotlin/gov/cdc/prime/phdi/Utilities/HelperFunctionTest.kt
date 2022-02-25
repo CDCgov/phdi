@@ -4,9 +4,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertSame
 import kotlin.io.path.Path
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
 import java.net.URI
 import java.net.http.HttpClient
