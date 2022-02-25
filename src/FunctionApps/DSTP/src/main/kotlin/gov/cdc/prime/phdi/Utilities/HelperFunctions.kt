@@ -50,30 +50,6 @@ public fun cleanMessage(message: String, delimiter: String = "\n"): String {
    *******************
 */
 
-/* 
-    this method is used when you want to read in a file that is stored locally
-    on your machine. As noted, it's specifically for HL7 v2 data.
-*/
-@Throws(NotImplementedError::class)
-fun readHL7MessagesFromFile(
-    filepath: String
-): String {
-    throw NotImplementedError("This method is not currently implemented.")
-}
-
-/* 
-    this method is used when you want to directly connect to a blob storage container
-    and read the data from there. As noted, it's specifically for HL7 v2 data.
-*/
-@Throws(NotImplementedError::class)
-fun readHL7MessagesFromBlobStorage(
-    client: String,
-    bucketName: String,
-    filepath: String 
-): String {
-    throw NotImplementedError("This method is not currently implemented.")
-}
-
 /*
     this method is used inside of an Azure Function (or AWS/GCP equivalent) and is
     used to read in the data based on a blob trigger.
@@ -94,27 +70,6 @@ data class ProcessedMessages(
     val valid_messages: List<Message>,
     val invalid_messages: List<String>
 )
-
-public fun parse(content: String): ProcessedMessages {
-    val rawMessages = convertBatchMessagesToList(content)
-    val valid_messages = mutableListOf<Message>()
-    val invalid_messages = mutableListOf<String>()
-
-    val context = DefaultHapiContext()
-    // We will likely replace this with a more custom validation class in the future
-    context.setValidationContext(ValidationContextFactory.defaultValidation() as ValidationContext);
-    val parser = context.getPipeParser()
-
-    rawMessages.forEach {
-        try {
-            val parsedMessage = parser.parse(it)
-            valid_messages.add(parsedMessage)
-        } catch (e: HL7Exception) {
-            invalid_messages.add(it)
-        }
-    }
-    return ProcessedMessages(valid_messages, invalid_messages)
-}
 
 /* This method was adopted from PRIME ReportStream, which can be found here: 
     https://github.com/CDCgov/prime-reportstream/blob/194396582be02fcc51295089f20b0c2b90e7c830/prime-router/src/main/kotlin/serializers/Hl7Serializer.kt#L121
@@ -351,7 +306,7 @@ public fun isValidFHIRMessage(message: String?): Boolean {
     try {
         val json: JSONObject = JSONObject(message)
         // resourceType: Operation Outcome is what happens when a message fails to convert
-        if (json.has("resourceType") && json.get("resourceType") == "OperationOutcome") {
+        if (json.has("resourceType") && json.get("resourceType").equals("OperationOutcome")) {
             return false
         }
     // if the message can't be parsed to JSON, then it's not valid
