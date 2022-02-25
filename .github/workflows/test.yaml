@@ -20,6 +20,7 @@ jobs:
           - PHDISmartyStreetsTest
           - PITest_FunctionApp
           - CachedGeocode
+          - FHIRExport
 
     steps:
       - name: Checkout
