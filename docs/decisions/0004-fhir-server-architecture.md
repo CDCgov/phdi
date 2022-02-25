@@ -92,7 +92,7 @@ We are working on a time-limited prototype and need quick results, and this is o
          2. It provides out of the box storage and a managed database
          3. It provides ready-made functions that we can use without needing to re-implement or re-host in the short-term:
             1. `$convert-data` - HL7 -> FHIR
-            2. `$validate` - apple FHIR profile to data
+            2. `$validate` - apply FHIR profile to data
             3. `$export` - export data
             4. `$match` - annotate linked records
             5. Through [FHIR Proxy](https://github.com/microsoft/fhir-proxy), Bulk Insertion and pre/post-processeing. We would need to add this on separately
