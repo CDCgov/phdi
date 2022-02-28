@@ -33,6 +33,4 @@ If you would like to contribute, please submit a pull request. In order for us
 to merge a pull request, it must:
    * Be at least seven days old. Pull requests may be held longer if necessary
      to give people the opportunity to assess it.
-   * Receive a +1 from at least two other team members associated with the request.
-     If there is significant dissent between the team, a meeting will be held to
-     discuss a plan of action for the pull request.
+   * Receive a +1 from at least one other team members associated with the request. If the PR is particularly complicated, it is up to the requester to seek additional review. If there is significant dissent between the team, a meeting will be held to discuss a plan of action for the pull request.
