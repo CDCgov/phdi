@@ -97,7 +97,7 @@ We are working on a time-limited prototype and need quick results, and this is o
             4. `$match` - annotate linked records
             5. Through [FHIR Proxy](https://github.com/microsoft/fhir-proxy), Bulk Insertion and pre/post-processeing. We would need to add this on separately
       2. **Consistency** - this lets us work with FHIR data right from the start of our pipeline and then treat it as flat files going forward
-      3. **Composability** - having this functionality encapsulated in specific endpoints could let us pel these off if needbe
+      3. **Composability** - having this functionality encapsulated in specific endpoints could let us peel these off if need be
    2. Cons:
       1. **Extensibility** - up front, at least, this ties us into the Microsoft ecosystem. We should be careful to cordon off specific functionality with dedicated microservices to enable working around this.
       2. **Simplicity** - We do technically still go from unstructured->structured->unstructured->structured , though there are benefits to this
