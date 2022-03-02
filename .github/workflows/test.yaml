@@ -4,9 +4,12 @@ on:
   pull_request:
     branches:
       - "**"
+  push:
+    branches:
+      - main
 
 env:
-  TEST_RUNNER_JAVA_VERSION: 8
+  TEST_RUNNER_JAVA_VERSION: 11
   TEST_RUNNER_NODE_VERSION: 14
   TEST_RUNNER_PYTHON_VERSION: 3.9
   TEST_RUNNER_TERRAFORM_VERSION: 1.1.5
@@ -20,6 +23,7 @@ jobs:
           - PHDISmartyStreetsTest
           - PITest_FunctionApp
           - CachedGeocode
+          - FHIRExport
 
     steps:
       - name: Checkout
@@ -88,7 +92,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install black[jupyter] flake8
+          pip install black flake8
       - name: Check format (black)
         run: |
           black --check --verbose .
