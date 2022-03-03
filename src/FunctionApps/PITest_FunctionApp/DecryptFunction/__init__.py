@@ -66,9 +66,9 @@ def main(
             encrypted_message, settings.private_key, settings.private_key_password
         )
         return func.HttpResponse(decrypted_message, mimetype="text/plain")
-    except:
+    except ValueError:
         tb = traceback.format_exc()
-        logging.error(f"Error 500: Decryption failed. Traceback: {tb}")
+        logging.error(f"Decryption failed. Traceback: {tb}")
         return func.HttpResponse(
             "Decryption failed",
             status_code=500,
