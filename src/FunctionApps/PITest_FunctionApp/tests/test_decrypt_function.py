@@ -29,10 +29,6 @@ def local_settings() -> DecryptSettings:
     settings = DecryptSettings()
     settings.private_key = local_settings_vals.get("PRIVATE_KEY")
     settings.private_key_password = local_settings_vals.get("PRIVATE_KEY_PASSWORD")
-
-    # Uses dummy Azurite connection string, from here:
-    # https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio#http-connection-strings  # noqa: E501
-    settings.azure_storage_connection_string = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;"  # noqa: E501
     return settings
 
 
