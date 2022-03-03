@@ -14,6 +14,6 @@ class DecryptSettings:
     the KeyVault.
     """
 
-    private_key_password = os.getenv("PrivateKeyPassword")
-    private_key = os.getenv("PrivateKey")
+    private_key_password = os.getenv("PRIVATE_KEY_PASSWORD")
+    private_key = os.getenv("PRIVATE_KEY")
     azure_storage_connection_string = os.getenv("AzureStorageConnectionString")
