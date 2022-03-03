@@ -36,7 +36,8 @@ def main(
     """Get the message from the request and decrypt it.
 
     Args:
-        req (func.HttpRequest): the request object. Pass the encrypted text in the body of the request.
+        req (func.HttpRequest): the request object.
+        Pass the encrypted text in the body of the request.
 
     Returns:
         func.HttpResponse: the decrypted message
@@ -56,7 +57,7 @@ def main(
         )
 
     if not encrypted_message:
-        logging.error(f"Error 400: No message provided in request body")
+        logging.error("Error 400: No message provided in request body")
         return func.HttpResponse(
             "Please pass the encrypted message in the request body",
             status_code=400,

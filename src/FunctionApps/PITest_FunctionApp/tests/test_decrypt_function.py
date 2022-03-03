@@ -1,6 +1,4 @@
 import json
-import os
-from importlib.resources import files
 from pathlib import Path
 
 import azure.functions as func
