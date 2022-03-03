@@ -43,7 +43,7 @@ def test_decrypt_message_success(local_settings):
         local_settings ([type]): passed automatically via above fixture
     """
     test_file_path = (
-        files("DecryptFunction").parent / "tests" / "assets" / "encrypted.txt"
+        Path("DecryptFunction").parent / "tests" / "assets" / "encrypted.txt"
     )
     blob_data = test_file_path.read_bytes()
     input_stream = func.blob.InputStream(data=blob_data, name="input test")
@@ -62,7 +62,7 @@ def test_decrypt_message_failure_wrong_receiver(local_settings):
         local_settings ([type]): passed automatically via above fixture
     """
     test_file_path = (
-        files("DecryptFunction").parent
+        Path("DecryptFunction").parent
         / "tests"
         / "assets"
         / "encrypted_to_someone_else.txt"
@@ -87,14 +87,12 @@ def test_trigger_success(local_settings):
         local_settings ([type]): passed automatically via above fixture
     """
     test_file_path = (
-        files("DecryptFunction").parent / "tests" / "assets" / "encrypted.txt"
+        Path("DecryptFunction").parent / "tests" / "assets" / "encrypted.txt"
     )
     blob_data = test_file_path.read_bytes()
-    input_stream = func.blob.InputStream(data=blob_data, name="input test")
-
     req_success = func.HttpRequest(
         method="POST",
-        body=input_stream.read(),
+        body=blob_data,
         headers={"Content-Type": "application/octet-stream"},
         url="/",
     )
@@ -116,7 +114,10 @@ def test_trigger_missing_body(local_settings):
         url="/",
     )
     resp = dcf.main(req_success, local_settings)
-    assert resp.status_code == 400
+    assert (
+        resp.status_code == 400
+        and "Please pass the encrypted message in the request body" in resp.get_body()
+    )
 
 
 def test_trigger_malformed(local_settings):
@@ -132,7 +133,9 @@ def test_trigger_malformed(local_settings):
         url="/",
     )
     resp = dcf.main(req_success, local_settings)
-    assert resp.status_code == 500
+    assert (
+        resp.status_code == 500 and "Error 500: Decryption failed." in resp.get_body()
+    )
 
 
 def test_trigger_missing_settings(local_settings):
@@ -148,4 +151,6 @@ def test_trigger_missing_settings(local_settings):
         url="/",
     )
     resp = dcf.main(req_success, {})
-    assert resp.status_code == 500
+    assert (
+        resp.status_code == 500 and "Error 500: Decryption failed." in resp.get_body()
+    )
