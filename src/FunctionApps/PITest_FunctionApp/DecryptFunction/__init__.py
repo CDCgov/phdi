@@ -1,5 +1,8 @@
 import base64
 import logging
+import sys
+import traceback
+from typing import Optional
 
 import azure.functions as func
 import pgpy
@@ -28,23 +31,60 @@ def decrypt_message(message: bytes, private_key_string: str, password: str) -> b
     return decrypted
 
 
-def main(inputblob: func.InputStream, outputblob: func.Out[bytes]):
-    """Decrypt a message at the specified input path and place it in the specified output path
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    """Get the message from the request and decrypt it.
 
     Args:
-        inputblob (func.InputStream): the input blob (path matches pattern in function.json) - passed automatically by Azure
-        outputblob (func.Out[bytes]): the output blob (path matches pattern in function.json) - file deposited here on completion
-    """  # noqa: E501
+        req (func.HttpRequest): the request object.
+        Pass the encrypted text in the body of the request.
 
-    settings = DecryptSettings()
-    logging.info(
-        f"Python blob trigger function processed blob \n"
-        f"Name: {inputblob.name}\n"
-        f"Blob Size: {inputblob.length} bytes"
-    )
+    Returns:
+        func.HttpResponse: the decrypted message
+    """
+    return main_with_overload(req, None)
 
-    logging.info(f"Decrypting {inputblob.name}")
-    decrypted_message = decrypt_message(
-        inputblob.read(), settings.private_key, settings.private_key_password
-    )
-    outputblob.set(decrypted_message)
+
+def main_with_overload(
+    req: func.HttpRequest, settings_overload: Optional[DecryptSettings]
+) -> func.HttpResponse:
+    """Get the message from the request and decrypt it.
+
+    Args:
+        req (func.HttpRequest): the request object.
+        Pass the encrypted text in the body of the request.
+
+    Returns:
+        func.HttpResponse: the decrypted message
+    """
+
+    encrypted_message = req.get_body()
+    message_size = sys.getsizeof(encrypted_message)
+
+    settings = settings_overload or DecryptSettings()
+    logging.info(f"Decryption function fired. \n" f"Byte Size: {message_size} bytes")
+
+    if not settings.private_key or not settings.private_key_password:
+        logging.error("Error 500: No private key or password provided")
+        return func.HttpResponse(
+            "Server missing required settings",
+            status_code=500,
+        )
+
+    if not encrypted_message:
+        logging.error("Error 400: No message provided in request body")
+        return func.HttpResponse(
+            "Please pass the encrypted message in the request body",
+            status_code=400,
+        )
+    try:
+        decrypted_message = decrypt_message(
+            encrypted_message, settings.private_key, settings.private_key_password
+        )
+        return func.HttpResponse(decrypted_message, mimetype="text/plain")
+    except ValueError:
+        tb = traceback.format_exc()
+        logging.error(f"Decryption failed. Traceback: {tb}")
+        return func.HttpResponse(
+            "Decryption failed",
+            status_code=500,
+        )
