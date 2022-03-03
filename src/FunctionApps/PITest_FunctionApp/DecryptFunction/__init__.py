@@ -2,6 +2,7 @@ import base64
 import logging
 import sys
 import traceback
+from typing import Optional
 
 import azure.functions as func
 import pgpy
@@ -30,8 +31,21 @@ def decrypt_message(message: bytes, private_key_string: str, password: str) -> b
     return decrypted
 
 
-def main(
-    req: func.HttpRequest, settings_overload: DecryptSettings
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    """Get the message from the request and decrypt it.
+
+    Args:
+        req (func.HttpRequest): the request object.
+        Pass the encrypted text in the body of the request.
+
+    Returns:
+        func.HttpResponse: the decrypted message
+    """
+    return main_with_overload(req, None)
+
+
+def main_with_overload(
+    req: func.HttpRequest, settings_overload: Optional[DecryptSettings]
 ) -> func.HttpResponse:
     """Get the message from the request and decrypt it.
 
