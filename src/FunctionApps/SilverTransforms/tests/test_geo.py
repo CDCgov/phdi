@@ -5,7 +5,7 @@ from smartystreets_python_sdk.us_street.lookup import Lookup
 from smartystreets_python_sdk.us_street.metadata import Metadata
 from smartystreets_python_sdk.us_street.components import Components
 
-from Transform.geo import geocode
+from Transform.geo import geocode, cached_geocode
 
 
 def test_geocode():
@@ -32,6 +32,7 @@ def test_geocode():
     client.send_lookup.side_effect = fill_in_result
 
     assert {
+        "key": "123 Fake St, New York, NY 10001",
         "address": "123 FAKE ST NEW YORK, NY 10001",
         "lat": 45.123,
         "lng": -70.234,
@@ -45,3 +46,31 @@ def test_geocode():
 def test_failed_geocode():
     """If it doesn't fill in results, return None"""
     assert None == geocode(mock.Mock(), "123 Nowhere St, Atlantis GA")
+
+
+@mock.patch("Transform.geo.geocode")
+def test_cached_geocode(patched_geocode):
+    """On a miss, we should geocode and then store it"""
+    patched_geocode.return_value = {"hello": "world"}
+
+    mock_collection = mock.Mock()
+    mock_collection.find_one.return_value = None
+
+    resp = cached_geocode(mock_collection, mock.Mock(), "123 Fake St")
+    assert resp == {"hello": "world"}  # whatever the mock returns
+
+    # Make sure we updated the cache
+    mock_collection.find_one.assert_called_with("123FAKEST")
+    mock_collection.insert_one.assert_called()
+
+
+@mock.patch("Transform.geo.geocode")
+def test_cached_geocode_hit(patched_geocode):
+    """On a hit, we shouldn't geocode at all"""
+    mock_collection = mock.Mock()
+    mock_collection.find_one.return_value = {"key": "some-key"}
+
+    resp = cached_geocode(mock_collection, mock.Mock(), "123 Fake St")
+    patched_geocode.assert_not_called()
+
+    assert resp == {"key": "some-key"}

@@ -3,3 +3,4 @@
 azure-functions
 azure-storage-blob
 smartystreets_python_sdk
+pymongo
