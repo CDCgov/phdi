@@ -161,11 +161,8 @@ Importing the data into the FHIR Server right at the beginning of the pipeline m
 ## Open Questions
 
 - Is Microsoft's server the best option here? We've seen indications that there might be limitations at scale, though all of these servers have this limitation: ([ref](https://vneilley.medium.com/most-fhir-servers-are-unusable-in-production-8833cb1480b1))
+- Further investigation is necessary to determine where and how to incorporate the various constituent operations that the FHIR server provides. We leave this up to a further decision record or records as we discover more through research.
 
 ## Appendix
 
 - [Azure API For FHIR](https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/overview)
-
-## Open Questions
-
-Further investigation is necessary to determine where and how to incorporate the various constituent operations that the FHIR server provides. We leave this up to a further decision record or records as we discover more through research.
