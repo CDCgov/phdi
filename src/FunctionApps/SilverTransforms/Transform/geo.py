@@ -1,11 +1,18 @@
+import re
+
 from typing import TypedDict
 
+from pymongo.collection import Collection
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
 
 
+CACHE_EXPIRATION = 60 * 60 * 24 * 7  # seconds * minutes * hours * days = 1 week
+
+
 class GeocodeResult(TypedDict):
+    key: str
     address: str
     zipcode: str
     fips: str
@@ -13,7 +20,22 @@ class GeocodeResult(TypedDict):
     lng: float
 
 
+def cached_geocode(
+    cache: Collection, client: us_street.Client, address: str
+) -> GeocodeResult:
+
+    ckey = re.sub("[^A-Z0-9]", "", address.upper())
+    cached = cache.find_one(ckey)
+    if cached:
+        return cached
+
+    resp = geocode(client, address)
+    cache.insert_one(resp)
+    return resp
+
+
 def geocode(client: us_street.Client, address: str) -> GeocodeResult:
+
     lookup = Lookup(street=address)
     client.send_lookup(lookup)
 
@@ -28,6 +50,7 @@ def geocode(client: us_street.Client, address: str) -> GeocodeResult:
         )
 
         return {
+            "key": address,
             "address": addr,
             "zipcode": res.components.zipcode,
             "fips": res.metadata.county_fips,
