@@ -96,7 +96,7 @@ def test_trigger_success(local_settings):
         headers={"Content-Type": "application/octet-stream"},
         url="/",
     )
-    resp = dcf.main(req_success, local_settings)
+    resp = dcf.main_with_overload(req_success, local_settings)
     assert resp.status_code == 200
     assert resp.get_body() == b"TESTING EICR ENCRYPTION"
 
@@ -113,7 +113,7 @@ def test_trigger_missing_body(local_settings):
         headers={"Content-Type": "application/octet-stream"},
         url="/",
     )
-    resp = dcf.main(req_success, local_settings)
+    resp = dcf.main_with_overload(req_success, local_settings)
     assert (
         resp.status_code == 400
         and b"Please pass the encrypted message in the request body" in resp.get_body()
@@ -132,7 +132,7 @@ def test_trigger_malformed(local_settings):
         headers={"Content-Type": "application/octet-stream"},
         url="/",
     )
-    resp = dcf.main(req_success, local_settings)
+    resp = dcf.main_with_overload(req_success, local_settings)
     assert resp.status_code == 500 and b"Decryption failed" in resp.get_body()
 
 
@@ -148,7 +148,7 @@ def test_trigger_missing_settings(local_settings):
         headers={"Content-Type": "application/octet-stream"},
         url="/",
     )
-    resp = dcf.main(req_success, {})
+    resp = dcf.main_with_overload(req_success, {})
     assert (
         resp.status_code == 500
         and b"Server missing required settings" in resp.get_body()
