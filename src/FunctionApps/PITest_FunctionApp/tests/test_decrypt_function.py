@@ -116,7 +116,7 @@ def test_trigger_missing_body(local_settings):
     resp = dcf.main(req_success, local_settings)
     assert (
         resp.status_code == 400
-        and "Please pass the encrypted message in the request body" in resp.get_body()
+        and b"Please pass the encrypted message in the request body" in resp.get_body()
     )
 
 
@@ -133,9 +133,7 @@ def test_trigger_malformed(local_settings):
         url="/",
     )
     resp = dcf.main(req_success, local_settings)
-    assert (
-        resp.status_code == 500 and "Error 500: Decryption failed." in resp.get_body()
-    )
+    assert resp.status_code == 500 and b"Decryption failed" in resp.get_body()
 
 
 def test_trigger_missing_settings(local_settings):
@@ -152,5 +150,6 @@ def test_trigger_missing_settings(local_settings):
     )
     resp = dcf.main(req_success, {})
     assert (
-        resp.status_code == 500 and "Error 500: Decryption failed." in resp.get_body()
+        resp.status_code == 500
+        and b"Server missing required settings" in resp.get_body()
     )
