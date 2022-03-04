@@ -17,12 +17,13 @@ def test_geocode():
     # SmartyStreets fills in a request object inline, so let's fake that
     candidate = Candidate({})
     candidate.delivery_line_1 = "123 FAKE ST"
-    candidate.last_line = "NEW YORK, NY 10001"
     candidate.metadata = Metadata(
         {"latitude": 45.123, "longitude": -70.234, "county_fips": "36061"}
     )
 
-    candidate.components = Components({"zipcode": "10001"})
+    candidate.components = Components(
+        {"zipcode": "10001", "city_name": "New York", "state_abbreviation": "NY"}
+    )
 
     # Provide a function that adds results to the existing object
     def fill_in_result(*args, **kwargs):
@@ -32,8 +33,9 @@ def test_geocode():
     client.send_lookup.side_effect = fill_in_result
 
     assert {
-        "key": "123 Fake St, New York, NY 10001",
-        "address": "123 FAKE ST NEW YORK, NY 10001",
+        "address": ["123 FAKE ST"],
+        "city": "New York",
+        "state": "NY",
         "lat": 45.123,
         "lng": -70.234,
         "fips": "36061",
@@ -60,7 +62,7 @@ def test_cached_geocode(patched_geocode):
     assert resp == {"hello": "world"}  # whatever the mock returns
 
     # Make sure we updated the cache
-    mock_collection.find_one.assert_called_with("123FAKEST")
+    mock_collection.find_one.assert_called_with({"key": "123FAKEST"})
     mock_collection.insert_one.assert_called()
 
 
@@ -68,9 +70,12 @@ def test_cached_geocode(patched_geocode):
 def test_cached_geocode_hit(patched_geocode):
     """On a hit, we shouldn't geocode at all"""
     mock_collection = mock.Mock()
-    mock_collection.find_one.return_value = {"key": "some-key"}
+    mock_collection.find_one.return_value = {
+        "x": "some-key",
+        "key": "should-remove-this",
+    }
 
     resp = cached_geocode(mock_collection, mock.Mock(), "123 Fake St")
     patched_geocode.assert_not_called()
 
-    assert resp == {"key": "some-key"}
+    assert resp == {"x": "some-key"}
