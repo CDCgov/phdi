@@ -1,7 +1,6 @@
 from unittest import mock
 
 from smartystreets_python_sdk.us_street.candidate import Candidate
-from smartystreets_python_sdk.us_street.lookup import Lookup
 from smartystreets_python_sdk.us_street.metadata import Metadata
 from smartystreets_python_sdk.us_street.components import Components
 
@@ -47,7 +46,7 @@ def test_geocode():
 
 def test_failed_geocode():
     """If it doesn't fill in results, return None"""
-    assert None == geocode(mock.Mock(), "123 Nowhere St, Atlantis GA")
+    assert geocode(mock.Mock(), "123 Nowhere St, Atlantis GA") is None
 
 
 @mock.patch("Transform.geo.geocode")
