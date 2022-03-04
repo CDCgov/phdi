@@ -1,7 +1,6 @@
 import pymongo
 import smartystreets_python_sdk.us_street
 
-from Transform.fhir import get_patient_records
 from Transform.geo import cached_geocode
 
 
@@ -44,7 +43,10 @@ def transform_record(
     for i, address in enumerate(patient.get("address", [])):
         # Generate a one-line address to pass to the geocoder
         one_line = " ".join(address.get("line"))
-        one_line += f" {address.get('city')}, {address.get('state')} {address.get('postalCode')}"
+        one_line += f" {address.get('city')}, {address.get('state')}"
+        if "postalCode" in address and address["postalCode"]:
+            one_line += f" {address['postalCode']}"
+
         geocoded = cached_geocode(cache, client, one_line)
         if geocoded:
             patient["address"][i] = {
