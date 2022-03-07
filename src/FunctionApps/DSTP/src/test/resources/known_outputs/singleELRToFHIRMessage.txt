@@ -1,0 +1,2199 @@
+{
+  "resourceType": "Bundle",
+  "type": "batch",
+  "timestamp": "2028-08-02T23:27:03Z",
+  "identifier": {
+    "value": "MT_COCHR_ORU_HRPHELR.1.7873313"
+  },
+  "id": "7fc6c32c-f6a4-612e-b237-d853b7262366",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:d81e37e2-7ded-f3d1-b20a-b415c8a0dfdd",
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "d81e37e2-7ded-f3d1-b20a-b415c8a0dfdd",
+        "source": {
+          "name": "MEDITECH MIC",
+          "endpoint": "urn:oid:1.3.6.1.4.1.24310",
+          "version": "5.67",
+          "software": "Laboratory Applicati"
+        },
+        "destination": [
+          {
+            "name": "VDHELR",
+            "endpoint": "urn:oid:2.16.840.1.113883.3.3556.6.1",
+            "receiver": {
+              "reference": "Organization/fd9b3ed0-1ee6-49b7-85a1-33c65b2b1c55"
+            }
+          }
+        ],
+        "meta": {
+          "tag": [
+            {
+              "code": "P",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0103"
+            }
+          ]
+        },
+        "eventCoding": {
+          "code": "R01",
+          "system": "http://terminology.hl7.org/CodeSystem/v2-0003",
+          "display": "ORU^R01^ORU_R01"
+        },
+        "sender": {
+          "reference": "Organization/96d57bc6-13bb-f5c7-958a-3dcf67dfa88c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "MessageHeader/d81e37e2-7ded-f3d1-b20a-b415c8a0dfdd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:39ea1b82-5b87-1ea9-fc07-cdaf24463894",
+      "resource": {
+        "resourceType": "Provenance",
+        "id": "39ea1b82-5b87-1ea9-fc07-cdaf24463894",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><span>Resource bundle generated on 2022-02-18T19:23:00.02Z using Microsoft FHIR Converter.</span><span>Template Version: TEMPLATE_VERSION_PLACEHOLDER.</span><span>Template URL: https://github.com/microsoft/FHIR-Converter/releases/download/vTEMPLATE_VERSION_PLACEHOLDER/Hl7v2DefaultTemplates.tar.gz.</span><span>Root template: ORU_R01.</span></p></div>"
+        },
+        "occurredDateTime": "2028-08-02T23:27:03Z",
+        "recorded": "2028-08-02T23:27:03Z",
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "author",
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type"
+                }
+              ]
+            },
+            "who": {
+              "reference": "Organization/96d57bc6-13bb-f5c7-958a-3dcf67dfa88c"
+            }
+          }
+        ],
+        "activity": {
+          "coding": [
+            {
+              "display": "ORU^R01^ORU_R01"
+            }
+          ]
+        },
+        "target": [
+          {
+            "reference": "Bundle/7fc6c32c-f6a4-612e-b237-d853b7262366"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Provenance/39ea1b82-5b87-1ea9-fc07-cdaf24463894"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:96d57bc6-13bb-f5c7-958a-3dcf67dfa88c",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "96d57bc6-13bb-f5c7-958a-3dcf67dfa88c",
+        "identifier": [
+          {
+            "value": "Henrico Doctor's Hos",
+            "system": "http://example.com/v2-to-fhir-converter/assigning-authority-local-system-Henrico-Doctor's-Hos"
+          },
+          {
+            "value": "urn:oid:49D0227598",
+            "system": "urn:ietf:rfc:3986",
+            "type": {
+              "coding": [
+                {
+                  "code": "CLIA",
+                  "display": "Clinical Laboratory Improvement Amendments. Allows for the ability to designate organization identifier as a “CLIA” assigned number (for labs)",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0301"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/96d57bc6-13bb-f5c7-958a-3dcf67dfa88c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:fd9b3ed0-1ee6-49b7-85a1-33c65b2b1c55",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "fd9b3ed0-1ee6-49b7-85a1-33c65b2b1c55",
+        "identifier": [
+          {
+            "value": "VDH",
+            "system": "http://example.com/v2-to-fhir-converter/assigning-authority-local-system-VDH"
+          },
+          {
+            "value": "urn:oid:2.16.840.1.113883.3.3556",
+            "system": "urn:ietf:rfc:3986",
+            "type": {
+              "coding": [
+                {
+                  "code": "ISO",
+                  "display": "An International Standards Organization Object Identifier (OID), in accordance with ISO/IEC 8824. Formatted as decimal digits separated by periods; recommended limit of 64 characters",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0301"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/fd9b3ed0-1ee6-49b7-85a1-33c65b2b1c55"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8f74c5d7-9138-9100-3efd-8493f56baf21",
+      "resource": {
+        "resourceType": "Device",
+        "id": "8f74c5d7-9138-9100-3efd-8493f56baf21",
+        "deviceName": [
+          {
+            "name": "Laboratory Applicati",
+            "type": "manufacturer-name"
+          }
+        ],
+        "version": [
+          {
+            "value": "5.67"
+          }
+        ],
+        "modelNumber": "20210804"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/8f74c5d7-9138-9100-3efd-8493f56baf21"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:76e47584-79e1-6db1-2239-49eb1595e6fd",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "76e47584-79e1-6db1-2239-49eb1595e6fd",
+        "identifier": [
+          {
+            "value": "100001",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            },
+            "system": "urn:oid:1.3.6.1.4.1.24310"
+          },
+          {
+            "value": "Y150478",
+            "type": {
+              "coding": [
+                {
+                  "code": "PI",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Patient internal identifier"
+                }
+              ]
+            },
+            "system": "urn:oid:1.3.6.1.4.1.24310"
+          },
+          {
+            "value": "H44845010674",
+            "type": {
+              "coding": [
+                {
+                  "code": "AN",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Account number"
+                }
+              ]
+            },
+            "system": "urn:oid:1.3.6.1.4.1.24310"
+          }
+        ],
+        "name": [
+          {
+            "family": "NAME",
+            "given": [
+              "ELOIS",
+              "VOLDEMORT"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "1936-01-14",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "5980 DI LUSSO Q130"
+            ],
+            "city": "HONOLULU",
+            "state": "HI",
+            "postalCode": "22408",
+            "country": "USA",
+            "use": "home"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone"
+          }
+        ],
+        "maritalStatus": {
+          "coding": [
+            {
+              "code": "W",
+              "display": "Widowed",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+            }
+          ]
+        },
+        "deceasedBoolean": false,
+        "meta": {
+          "lastUpdated": "2021-08-04T19:01:00Z"
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2106-3",
+                  "display": "White",
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "version": "2.5.1"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "White"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/patient-religion",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "NOE",
+                  "display": "Nonreligious",
+                  "system": "http://example.com/v2-to-fhir-converter/CodeSystem/HL70006"
+                }
+              ]
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2186-5",
+                  "display": "Non Hispanic or Latino",
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "version": "2.5.1"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Non Hispanic or Latino"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/patient-animal",
+            "extension": [
+              {
+                "url": "species",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "337915000",
+                      "display": "Homo sapiens (organism)",
+                      "system": "http://snomed.info/sct",
+                      "version": "1"
+                    }
+                  ],
+                  "text": "Homo sapiens (organism)"
+                }
+              }
+            ]
+          }
+        ],
+        "contact": [
+          {
+            "name": {
+              "family": "BRUSSEL",
+              "given": [
+                "MCKINLEY"
+              ],
+              "use": "official"
+            },
+            "address": {
+              "line": [
+                "1504 GOLD COUNTRY B"
+              ],
+              "city": "LUMMI ISLAND",
+              "state": "WA",
+              "postalCode": "22551",
+              "country": "USA",
+              "use": "home"
+            },
+            "telecom": [
+              {
+                "use": "home",
+                "system": "phone"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d1151579-0e19-3330-6f06-3da749ed0fb7",
+      "resource": {
+        "resourceType": "RelatedPerson",
+        "id": "d1151579-0e19-3330-6f06-3da749ed0fb7",
+        "relationship": [
+          {
+            "coding": [
+              {
+                "code": "CHILD",
+                "display": "child",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "version": "2.5.1"
+              },
+              {
+                "code": "DA",
+                "display": "DAUGHTER",
+                "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+                "version": "5.67"
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "1504 GOLD COUNTRY B"
+            ],
+            "city": "LUMMI ISLAND",
+            "state": "WA",
+            "postalCode": "22551",
+            "country": "USA",
+            "use": "home"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone"
+          }
+        ],
+        "name": [
+          {
+            "family": "BRUSSEL",
+            "given": [
+              "MCKINLEY"
+            ],
+            "use": "official"
+          }
+        ],
+        "patient": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "RelatedPerson/d1151579-0e19-3330-6f06-3da749ed0fb7"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a24f4384-a109-fcd5-8097-31957ddea583",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "a24f4384-a109-fcd5-8097-31957ddea583",
+        "name": "HENRICO DOCTORS' HOSPITAL",
+        "identifier": [
+          {
+            "value": "49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "XX",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "1602 SKIPWITH ROAD"
+            ],
+            "city": "RICHMOND",
+            "state": "VA",
+            "postalCode": "23229",
+            "country": "USA",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/a24f4384-a109-fcd5-8097-31957ddea583"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cc036f0b-f5f9-446a-4e0e-956aa3e7fa52",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "cc036f0b-f5f9-446a-4e0e-956aa3e7fa52",
+        "status": "corrected",
+        "code": {
+          "coding": [
+            {
+              "code": "632-0",
+              "display": "Bacteria identified in Wound by Aerobe culture",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "WNDCUL",
+              "display": "WOUND CULTURE",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "712663006",
+              "display": "Vancomycin resistant Enterococcus faecalis",
+              "system": "http://snomed.info/sct",
+              "version": "07/31/2012"
+            },
+            {
+              "code": "ENTFAESVRE",
+              "display": "VRE, ENTEROCOCCUS FAECALIS",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ],
+          "text": "VRE, ENTEROCOCCUS FAECALIS"
+        },
+        "effectiveDateTime": "2028-07-24T19:02:01Z",
+        "performer": [
+          {
+            "reference": "Organization/a24f4384-a109-fcd5-8097-31957ddea583"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "extension": [
+          {
+            "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "C",
+                  "display": "Correction",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0085"
+                }
+              ],
+              "text": "Correction"
+            }
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/96322d36-f90b-ebe2-15c9-ec0f725c6d70"
+          }
+        ],
+        "note": [
+          {
+            "text": "TESTING PERFORMED AT CHIPPENHAM MEDICAL CENTER"
+          },
+          {
+            "text": "                     7101 JAHNKE ROAD"
+          },
+          {
+            "text": "                     RICHMOND, VA 23225"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/cc036f0b-f5f9-446a-4e0e-956aa3e7fa52"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:fc0a6d69-7b06-ab54-b15f-97b40ca0d839",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "fc0a6d69-7b06-ab54-b15f-97b40ca0d839",
+        "identifier": [
+          {
+            "value": "CHIPPENHAM/JOHNSTON-",
+            "system": "http://example.com/v2-to-fhir-converter/assigning-authority-local-system-CHIPPENHAM/JOHNSTON-"
+          },
+          {
+            "value": "urn:oid:2.16.840.1.113883.3.3556",
+            "system": "urn:ietf:rfc:3986",
+            "type": {
+              "coding": [
+                {
+                  "code": "ISO",
+                  "display": "An International Standards Organization Object Identifier (OID), in accordance with ISO/IEC 8824. Formatted as decimal digits separated by periods; recommended limit of 64 characters",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0301"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/fc0a6d69-7b06-ab54-b15f-97b40ca0d839"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:77ea5ce6-f9a8-475c-29ba-19547e5b9f18",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "77ea5ce6-f9a8-475c-29ba-19547e5b9f18",
+        "identifier": [
+          {
+            "value": "1063497733",
+            "system": "urn:oid:2.16.840.1.113883.3.3556",
+            "assigner": {
+              "reference": "Organization/fc0a6d69-7b06-ab54-b15f-97b40ca0d839"
+            },
+            "type": {
+              "coding": [
+                {
+                  "code": "NPI",
+                  "display": "National provider identifier",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Rizk",
+            "given": [
+              "Philip",
+              "H"
+            ],
+            "suffix": [
+              "MD"
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/77ea5ce6-f9a8-475c-29ba-19547e5b9f18"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4a46ee19-3f56-ef66-6dcf-d48ab97def65",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "4a46ee19-3f56-ef66-6dcf-d48ab97def65",
+        "identifier": [
+          {
+            "value": ".SELF",
+            "system": "urn:oid:2.16.840.1.113883.3.3556",
+            "assigner": {
+              "reference": "Organization/fc0a6d69-7b06-ab54-b15f-97b40ca0d839"
+            },
+            "type": {
+              "coding": [
+                {
+                  "code": "XX",
+                  "display": "Organization identifier",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "REFERRED",
+            "given": [
+              "SELF"
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/4a46ee19-3f56-ef66-6dcf-d48ab97def65"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:edafc8ae-682e-e8ba-2db0-69c121f2c885",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "edafc8ae-682e-e8ba-2db0-69c121f2c885",
+        "identifier": [
+          {
+            "value": "1003867433",
+            "system": "urn:oid:2.16.840.1.113883.3.3556",
+            "assigner": {
+              "reference": "Organization/fc0a6d69-7b06-ab54-b15f-97b40ca0d839"
+            },
+            "type": {
+              "coding": [
+                {
+                  "code": "NPI",
+                  "display": "National provider identifier",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Abou Assi",
+            "given": [
+              "Walid",
+              "G"
+            ],
+            "suffix": [
+              "MD"
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/edafc8ae-682e-e8ba-2db0-69c121f2c885"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7d0aad63-0f85-d77a-325f-ce2924d6f9d1",
+      "resource": {
+        "resourceType": "Location",
+        "id": "7d0aad63-0f85-d77a-325f-ce2924d6f9d1",
+        "name": "HP.2W",
+        "mode": "instance",
+        "description": "HP.2W--H.P213--A",
+        "physicalType": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+              "code": "lvl"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Location/7d0aad63-0f85-d77a-325f-ce2924d6f9d1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:baad3b51-ff28-2df5-2140-3aee6a841dde",
+      "resource": {
+        "resourceType": "Location",
+        "id": "baad3b51-ff28-2df5-2140-3aee6a841dde",
+        "partOf": {
+          "reference": "Location/7d0aad63-0f85-d77a-325f-ce2924d6f9d1"
+        },
+        "name": "H.P213",
+        "mode": "instance",
+        "description": "HP.2W--H.P213--A",
+        "physicalType": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+              "code": "ro"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Location/baad3b51-ff28-2df5-2140-3aee6a841dde"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1983dbc2-2b24-0a45-65ab-9756118e9afd",
+      "resource": {
+        "resourceType": "Location",
+        "id": "1983dbc2-2b24-0a45-65ab-9756118e9afd",
+        "partOf": {
+          "reference": "Location/baad3b51-ff28-2df5-2140-3aee6a841dde"
+        },
+        "name": "A",
+        "mode": "instance",
+        "description": "HP.2W--H.P213--A",
+        "physicalType": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+              "code": "bd"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Location/1983dbc2-2b24-0a45-65ab-9756118e9afd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:40dde464-bb6f-37ee-6a95-c764486710a2",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "40dde464-bb6f-37ee-6a95-c764486710a2",
+        "class": {
+          "code": "IMP",
+          "display": "inpatient encounter",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+        },
+        "status": "finished",
+        "location": [
+          {
+            "status": "active",
+            "location": {
+              "reference": "Location/7d0aad63-0f85-d77a-325f-ce2924d6f9d1"
+            }
+          }
+        ],
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "E",
+                "display": "Emergency",
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0007"
+              }
+            ]
+          }
+        ],
+        "hospitalization": {
+          "admitSource": {
+            "coding": [
+              {
+                "code": "HCF"
+              }
+            ]
+          },
+          "dischargeDisposition": {
+            "coding": [
+              {
+                "code": "SNF-BGHR"
+              }
+            ]
+          }
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "code": "ATND",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "display": "attender"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/77ea5ce6-f9a8-475c-29ba-19547e5b9f18"
+            }
+          },
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "code": "REF",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                  }
+                ],
+                "text": "referrer"
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/4a46ee19-3f56-ef66-6dcf-d48ab97def65"
+            }
+          },
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "code": "CON",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                  }
+                ],
+                "text": "consultant"
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/edafc8ae-682e-e8ba-2db0-69c121f2c885"
+            }
+          },
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "code": "ADM",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                  }
+                ],
+                "text": "admitter"
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/77ea5ce6-f9a8-475c-29ba-19547e5b9f18"
+            }
+          }
+        ],
+        "serviceType": {
+          "coding": [
+            {
+              "code": "PCUP"
+            }
+          ]
+        },
+        "period": {
+          "start": "2028-07-24T14:21:00",
+          "end": "2021-08-04T14:56:00"
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><span>Visit Description: </span></p></div>"
+        },
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/40dde464-bb6f-37ee-6a95-c764486710a2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:96322d36-f90b-ebe2-15c9-ec0f725c6d70",
+      "resource": {
+        "resourceType": "ServiceRequest",
+        "id": "96322d36-f90b-ebe2-15c9-ec0f725c6d70",
+        "status": "active",
+        "intent": "filler-order",
+        "identifier": [
+          {
+            "value": "12249720",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PLAC",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.2",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PGN",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "21:HR:B0012076Rm16410773",
+            "authorString": "Placer Field 1"
+          },
+          {
+            "text": "12249720",
+            "authorString": "Placer Field 2"
+          },
+          {
+            "text": "PARHAM DOCTORS' HOSPITAL",
+            "authorString": "Filler Field 2"
+          },
+          {
+            "text": "DESCRIP COMMENT: right heel decubitus"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "632-0",
+              "display": "Bacteria identified in Wound by Aerobe culture",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "WNDCUL",
+              "display": "WOUND CULTURE",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "code": "G93.41",
+                "display": "METABOLIC ENCEPHALOPATHY",
+                "system": "http://hl7.org/fhir/sid/icd-10",
+                "version": "38"
+              },
+              {
+                "version": "38"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "code": "A41.9",
+                "display": "SEPSIS, UNSPECIFIED ORGANISM",
+                "system": "http://hl7.org/fhir/sid/icd-10",
+                "version": "38"
+              },
+              {
+                "version": "38"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "requester": {
+          "reference": "PractitionerRole/b22c9cfa-be64-f2a0-4872-eb5c1f6fa56e"
+        },
+        "specimen": [
+          {
+            "reference": "Specimen/67c73ca4-375b-e944-905b-a6703896088f"
+          }
+        ],
+        "occurrenceDateTime": "2021-07-26T12:00:00"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "ServiceRequest/96322d36-f90b-ebe2-15c9-ec0f725c6d70"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e154fa67-5ae0-4e84-d4b4-2804949e41a2",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "e154fa67-5ae0-4e84-d4b4-2804949e41a2",
+        "identifier": [
+          {
+            "value": "NPI",
+            "system": "http://example.com/v2-to-fhir-converter/assigning-authority-local-system-NPI"
+          },
+          {
+            "value": "Henrico Doctor's Hos",
+            "system": "http://example.com/v2-to-fhir-converter/assigning-authority-universal-system-2.16.840.1.113883.3.1110.3.1.448",
+            "type": {
+              "coding": [
+                {
+                  "code": "2.16.840.1.113883.3.1110.3.1.448",
+                  "display": "2.16.840.1.113883.3.1110.3.1.448",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0301"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/e154fa67-5ae0-4e84-d4b4-2804949e41a2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7c121f64-b787-2582-6861-ae62358e7cfc",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "7c121f64-b787-2582-6861-ae62358e7cfc",
+        "address": [
+          {
+            "line": [
+              "7700 PARHAM ROAD",
+              "Southeastern Intensivist Svcs"
+            ],
+            "city": "Tamarac",
+            "state": "FL",
+            "postalCode": "33321",
+            "country": "USA",
+            "use": "work"
+          }
+        ],
+        "identifier": [
+          {
+            "value": "1669894895",
+            "system": "http://example.com/v2-to-fhir-converter/assigning-authority-universal-system-2.16.840.1.113883.3.1110.3.1.448",
+            "assigner": {
+              "reference": "Organization/e154fa67-5ae0-4e84-d4b4-2804949e41a2"
+            },
+            "type": {
+              "coding": [
+                {
+                  "code": "NPI",
+                  "display": "National provider identifier",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Klein",
+            "given": [
+              "Noli",
+              "M"
+            ],
+            "suffix": [
+              "NP"
+            ],
+            "use": "official"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/7c121f64-b787-2582-6861-ae62358e7cfc"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b22c9cfa-be64-f2a0-4872-eb5c1f6fa56e",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "b22c9cfa-be64-f2a0-4872-eb5c1f6fa56e",
+        "practitioner": {
+          "reference": "Practitioner/7c121f64-b787-2582-6861-ae62358e7cfc"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "PractitionerRole/b22c9cfa-be64-f2a0-4872-eb5c1f6fa56e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e56b3208-380d-433f-f6da-55b1b39df8eb",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "e56b3208-380d-433f-f6da-55b1b39df8eb",
+        "identifier": [
+          {
+            "value": "12249720",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PLAC",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.2",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PGN",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "632-0",
+              "display": "Bacteria identified in Wound by Aerobe culture",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "WNDCUL",
+              "display": "WOUND CULTURE",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2028-07-24T19:02:01Z",
+          "end": "2028-07-24T19:02:01Z"
+        },
+        "issued": "2021-08-04T20:24:00Z",
+        "status": "corrected",
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "encounter": {
+          "reference": "Encounter/40dde464-bb6f-37ee-6a95-c764486710a2"
+        },
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/96322d36-f90b-ebe2-15c9-ec0f725c6d70"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "Specimen/67c73ca4-375b-e944-905b-a6703896088f"
+          }
+        ],
+        "result": [
+          {
+            "reference": "Observation/cc036f0b-f5f9-446a-4e0e-956aa3e7fa52"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/e56b3208-380d-433f-f6da-55b1b39df8eb"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:67c73ca4-375b-e944-905b-a6703896088f",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "67c73ca4-375b-e944-905b-a6703896088f",
+        "collection": {
+          "collectedPeriod": {
+            "start": "2028-07-24T19:02:01Z",
+            "end": "2028-07-24T19:02:01Z"
+          }
+        },
+        "identifier": [
+          {
+            "value": "12249720",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PLAC",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.2",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Specimen/67c73ca4-375b-e944-905b-a6703896088f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e4d07dca-389d-c83e-e0c6-24278f133225",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "e4d07dca-389d-c83e-e0c6-24278f133225",
+        "collection": {
+          "collectedPeriod": {
+            "start": "2028-07-24T19:02:01Z",
+            "end": "2028-07-24T19:02:01Z"
+          }
+        },
+        "receivedTime": "2021-07-26T18:16:00Z",
+        "identifier": [
+          {
+            "value": "12249720",
+            "type": {
+              "coding": [
+                {
+                  "code": "PGN",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "M16410773",
+            "type": {
+              "coding": [
+                {
+                  "code": "FGN",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "code": "119369008",
+              "display": "Specimen from ulcer",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
+              "version": "01/31/2011"
+            },
+            {
+              "code": "UL",
+              "display": "ULCER",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
+              "version": "5.67"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Specimen/e4d07dca-389d-c83e-e0c6-24278f133225"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f8f2f7d6-4c52-d864-bd5b-5b916b1efc3c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f8f2f7d6-4c52-d864-bd5b-5b916b1efc3c",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "28-1",
+              "display": "Ampicillin [Susceptibility] by Minimum inhibitory concentration (MIC)",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "VAM",
+              "display": "AMPICILLIN",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "comparator": "<=",
+          "value": 2,
+          "code": "ug/mL",
+          "unit": "MicroGrams Per MilliLiter [Mass Concentration Units]",
+          "system": "http://unitsofmeasure.org"
+        },
+        "effectiveDateTime": "2028-07-28T17:52:01Z",
+        "performer": [
+          {
+            "reference": "Organization/a24f4384-a109-fcd5-8097-31957ddea583"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "S",
+                "display": "Susceptible",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "2.5.1"
+              },
+              {
+                "code": "S",
+                "display": "Susceptible",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "5.67"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "specimen": {
+          "reference": "Specimen/e4d07dca-389d-c83e-e0c6-24278f133225"
+        },
+        "extension": [
+          {
+            "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "F",
+                  "display": "Final",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0085"
+                }
+              ],
+              "text": "Final"
+            }
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/ed794f40-8bf3-453a-4b35-c6344b8fdf87"
+          }
+        ],
+        "note": [
+          {
+            "text": "TESTING PERFORMED AT CHIPPENHAM MEDICAL CENTER"
+          },
+          {
+            "text": "                     7101 JAHNKE ROAD"
+          },
+          {
+            "text": "                     RICHMOND, VA 23225"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/f8f2f7d6-4c52-d864-bd5b-5b916b1efc3c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4f28324e-42f8-6cfa-bc65-4604e10c6325",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4f28324e-42f8-6cfa-bc65-4604e10c6325",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "7018-5",
+              "display": "Gentamicin.high potency [Susceptibility] by Minimum inhibitory concentration (MIC)",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "VGMS",
+              "display": "GENTAMICIN SYNERGY SCREEN",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "R",
+              "display": "R",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ],
+          "text": "R"
+        },
+        "effectiveDateTime": "2028-07-28T17:52:01Z",
+        "performer": [
+          {
+            "reference": "Organization/a24f4384-a109-fcd5-8097-31957ddea583"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "R",
+                "display": "Resistant",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "2.5.1"
+              },
+              {
+                "code": "R",
+                "display": "Resistant",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "5.67"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "specimen": {
+          "reference": "Specimen/e4d07dca-389d-c83e-e0c6-24278f133225"
+        },
+        "extension": [
+          {
+            "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "F",
+                  "display": "Final",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0085"
+                }
+              ],
+              "text": "Final"
+            }
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/ed794f40-8bf3-453a-4b35-c6344b8fdf87"
+          }
+        ],
+        "note": [
+          {
+            "text": "TESTING PERFORMED AT CHIPPENHAM MEDICAL CENTER"
+          },
+          {
+            "text": "                     7101 JAHNKE ROAD"
+          },
+          {
+            "text": "                     RICHMOND, VA 23225"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/4f28324e-42f8-6cfa-bc65-4604e10c6325"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:afa443c4-ce8c-6020-a637-8d1c8cf425d7",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "afa443c4-ce8c-6020-a637-8d1c8cf425d7",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "6933-6",
+              "display": "Streptomycin.high potency [Susceptibility] by Minimum inhibitory concentration (MIC)",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "VSTS",
+              "display": "STREPTOMYCIN SYNERGY SCREEN",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "S",
+              "display": "S",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ],
+          "text": "S"
+        },
+        "effectiveDateTime": "2028-07-28T17:52:01Z",
+        "performer": [
+          {
+            "reference": "Organization/a24f4384-a109-fcd5-8097-31957ddea583"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "S",
+                "display": "Susceptible",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "2.5.1"
+              },
+              {
+                "code": "S",
+                "display": "Susceptible",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "5.67"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "specimen": {
+          "reference": "Specimen/e4d07dca-389d-c83e-e0c6-24278f133225"
+        },
+        "extension": [
+          {
+            "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "F",
+                  "display": "Final",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0085"
+                }
+              ],
+              "text": "Final"
+            }
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/ed794f40-8bf3-453a-4b35-c6344b8fdf87"
+          }
+        ],
+        "note": [
+          {
+            "text": "TESTING PERFORMED AT CHIPPENHAM MEDICAL CENTER"
+          },
+          {
+            "text": "                     7101 JAHNKE ROAD"
+          },
+          {
+            "text": "                     RICHMOND, VA 23225"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/afa443c4-ce8c-6020-a637-8d1c8cf425d7"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:48764a5d-3a3c-21cc-19b1-ed4d5ab7b282",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "48764a5d-3a3c-21cc-19b1-ed4d5ab7b282",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "524-9",
+              "display": "Vancomycin [Susceptibility] by Minimum inhibitory concentration (MIC)",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "VVA",
+              "display": "VANCOMYCIN",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "comparator": ">=",
+          "value": 32,
+          "code": "ug/mL",
+          "unit": "MicroGrams Per MilliLiter [Mass Concentration Units]",
+          "system": "http://unitsofmeasure.org"
+        },
+        "effectiveDateTime": "2028-07-28T17:52:01Z",
+        "performer": [
+          {
+            "reference": "Organization/a24f4384-a109-fcd5-8097-31957ddea583"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "R",
+                "display": "Resistant",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "2.5.1"
+              },
+              {
+                "code": "R",
+                "display": "Resistant",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "5.67"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "specimen": {
+          "reference": "Specimen/e4d07dca-389d-c83e-e0c6-24278f133225"
+        },
+        "extension": [
+          {
+            "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "F",
+                  "display": "Final",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0085"
+                }
+              ],
+              "text": "Final"
+            }
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/ed794f40-8bf3-453a-4b35-c6344b8fdf87"
+          }
+        ],
+        "note": [
+          {
+            "text": "TESTING PERFORMED AT CHIPPENHAM MEDICAL CENTER"
+          },
+          {
+            "text": "                     7101 JAHNKE ROAD"
+          },
+          {
+            "text": "                     RICHMOND, VA 23225"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/48764a5d-3a3c-21cc-19b1-ed4d5ab7b282"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ed794f40-8bf3-453a-4b35-c6344b8fdf87",
+      "resource": {
+        "resourceType": "ServiceRequest",
+        "id": "ed794f40-8bf3-453a-4b35-c6344b8fdf87",
+        "status": "active",
+        "intent": "filler-order",
+        "identifier": [
+          {
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PLAC",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.4",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PGN",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.5",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "basedOn": [
+          {
+            "type": "ServiceRequest",
+            "identifier": {
+              "value": "12249720",
+              "type": {
+                "coding": [
+                  {
+                    "code": "PLAC",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "21:HR:B0012076Rm16410773",
+            "authorString": "Placer Field 1"
+          },
+          {
+            "text": "12249720",
+            "authorString": "Placer Field 2"
+          },
+          {
+            "text": "HENRICO DOCTORS' HOSPITAL",
+            "authorString": "Filler Field 2"
+          },
+          {
+            "text": "TESTING PERFORMED AT CHIPPENHAM MEDICAL CENTER"
+          },
+          {
+            "text": "                     7101 JAHNKE ROAD"
+          },
+          {
+            "text": "                     RICHMOND, VA 23225"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "50545-3",
+              "display": "Bacterial susceptibility panel by Minimum inhibitory concentration (MIC)",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "ASTGP67",
+              "display": "VITEK AST-GP67",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            },
+            {
+              "code": "49589-5",
+              "display": "Bacterial susceptibility panel by Gradient strip",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "ETESTGPC",
+              "display": "ETEST GRAM POSITIVE COCCI",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "code": "G93.41",
+                "display": "METABOLIC ENCEPHALOPATHY",
+                "system": "http://hl7.org/fhir/sid/icd-10",
+                "version": "38"
+              },
+              {
+                "version": "38"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "code": "A41.9",
+                "display": "SEPSIS, UNSPECIFIED ORGANISM",
+                "system": "http://hl7.org/fhir/sid/icd-10",
+                "version": "38"
+              },
+              {
+                "version": "38"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "requester": {
+          "reference": "PractitionerRole/b22c9cfa-be64-f2a0-4872-eb5c1f6fa56e"
+        },
+        "specimen": [
+          {
+            "reference": "Specimen/985e3d0f-b8c3-55f8-bd2a-84bdc1c38335"
+          },
+          {
+            "reference": "Specimen/3eb4d348-b673-4609-4f00-d0014363df09"
+          }
+        ],
+        "occurrenceDateTime": "2021-07-26T12:00:00"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "ServiceRequest/ed794f40-8bf3-453a-4b35-c6344b8fdf87"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:45187a13-0157-fbe6-37f1-e2534aa507d8",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "45187a13-0157-fbe6-37f1-e2534aa507d8",
+        "identifier": [
+          {
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PLAC",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.4",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PGN",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.5",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "50545-3",
+              "display": "Bacterial susceptibility panel by Minimum inhibitory concentration (MIC)",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "ASTGP67",
+              "display": "VITEK AST-GP67",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            },
+            {
+              "code": "49589-5",
+              "display": "Bacterial susceptibility panel by Gradient strip",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "ETESTGPC",
+              "display": "ETEST GRAM POSITIVE COCCI",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2028-07-29T15:08:01Z",
+          "end": "2028-07-29T15:08:01Z"
+        },
+        "issued": "2021-08-04T20:24:00Z",
+        "status": "final",
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "encounter": {
+          "reference": "Encounter/40dde464-bb6f-37ee-6a95-c764486710a2"
+        },
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/ed794f40-8bf3-453a-4b35-c6344b8fdf87"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "Specimen/985e3d0f-b8c3-55f8-bd2a-84bdc1c38335"
+          },
+          {
+            "reference": "Specimen/3eb4d348-b673-4609-4f00-d0014363df09"
+          }
+        ],
+        "result": [
+          {
+            "reference": "Observation/f8f2f7d6-4c52-d864-bd5b-5b916b1efc3c"
+          },
+          {
+            "reference": "Observation/4f28324e-42f8-6cfa-bc65-4604e10c6325"
+          },
+          {
+            "reference": "Observation/afa443c4-ce8c-6020-a637-8d1c8cf425d7"
+          },
+          {
+            "reference": "Observation/48764a5d-3a3c-21cc-19b1-ed4d5ab7b282"
+          },
+          {
+            "reference": "Observation/15243dde-454c-5a64-4639-bfef143225ca"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/45187a13-0157-fbe6-37f1-e2534aa507d8"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:985e3d0f-b8c3-55f8-bd2a-84bdc1c38335",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "985e3d0f-b8c3-55f8-bd2a-84bdc1c38335",
+        "collection": {
+          "collectedPeriod": {
+            "start": "2028-07-28T17:52:01Z",
+            "end": "2028-07-28T17:52:01Z"
+          }
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PLAC",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.4",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Specimen/985e3d0f-b8c3-55f8-bd2a-84bdc1c38335"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:15243dde-454c-5a64-4639-bfef143225ca",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "15243dde-454c-5a64-4639-bfef143225ca",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "35788-9",
+              "display": "DAPTOmycin [Susceptibility] by Minimum inhibitory concentration (MIC)",
+              "system": "http://loinc.org",
+              "version": "2.40"
+            },
+            {
+              "code": "VDAP",
+              "display": "DAPTOMYCIN",
+              "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+              "version": "5.67"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "comparator": "=",
+          "value": 2,
+          "code": "ug/mL",
+          "unit": "MicroGrams Per MilliLiter [Mass Concentration Units]",
+          "system": "http://unitsofmeasure.org"
+        },
+        "effectiveDateTime": "2028-07-29T15:08:01Z",
+        "performer": [
+          {
+            "reference": "Organization/a24f4384-a109-fcd5-8097-31957ddea583"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "S",
+                "display": "Susceptible",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "2.5.1"
+              },
+              {
+                "code": "S",
+                "display": "Susceptible",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "version": "5.67"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/76e47584-79e1-6db1-2239-49eb1595e6fd"
+        },
+        "specimen": {
+          "reference": "Specimen/e4d07dca-389d-c83e-e0c6-24278f133225"
+        },
+        "extension": [
+          {
+            "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "F",
+                  "display": "Final",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0085"
+                }
+              ],
+              "text": "Final"
+            }
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "ServiceRequest/ed794f40-8bf3-453a-4b35-c6344b8fdf87"
+          }
+        ],
+        "note": [
+          {
+            "text": "TESTING PERFORMED AT CHIPPENHAM MEDICAL CENTER"
+          },
+          {
+            "text": "                     7101 JAHNKE ROAD"
+          },
+          {
+            "text": "                     RICHMOND, VA 23225"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/15243dde-454c-5a64-4639-bfef143225ca"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3eb4d348-b673-4609-4f00-d0014363df09",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "3eb4d348-b673-4609-4f00-d0014363df09",
+        "collection": {
+          "collectedPeriod": {
+            "start": "2028-07-29T15:08:01Z",
+            "end": "2028-07-29T15:08:01Z"
+          }
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "PLAC",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          },
+          {
+            "value": "21:HR:B0012076R.5",
+            "system": "urn:oid:49D0227598",
+            "type": {
+              "coding": [
+                {
+                  "code": "FILL",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Specimen/3eb4d348-b673-4609-4f00-d0014363df09"
+      }
+    }
+  ]
+}
