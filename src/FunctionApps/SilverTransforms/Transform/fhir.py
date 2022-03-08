@@ -8,7 +8,7 @@ from azure.storage.blob import ContainerClient
 
 def get_patient_records(conn_str: str, container_name: str) -> Iterable[dict]:
     """
-    Given an bucket connection string and a container name,
+    Given a bucket connection string and a container name,
     yield all of the patient records in the container
     """
     client = ContainerClient.from_connection_string(
