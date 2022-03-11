@@ -1,6 +1,6 @@
 # TODO: not currently used
 variable "tf_secrets_vault" {
-  default = "pitest-tf-secrets"
+  default = "pidev-tf-secrets"
 }
 
 ## Set basic variables
@@ -16,11 +16,11 @@ variable "app_subnet_name" {
 }
 
 variable "cdc_vnet_name" {
-  default = "prime-ingestion-test-VNET"
+  default = "prime-ingestion-dev-VNET"
 }
 
 variable "environment" {
-  default = "test"
+  default = "dev"
 }
 
 variable "https_cert_names" {
@@ -32,11 +32,11 @@ variable "location" {
 }
 
 variable "resource_group_name" {
-  default = "prime-ingestion-test"
+  default = "prime-ingestion-dev"
 }
 
 variable "resource_prefix" {
-  default = "pitest"
+  default = "pidev"
 }
 
 variable "rsa_key_2048" {
@@ -65,11 +65,11 @@ variable "aad_object_keyvault_admin" {
 } # Group or individual user id
 
 variable "service_subnet_ip" {
-  default = "172.17.9.80/28"
+  default = "172.17.9.128/28"
 }
 
 variable "app_subnet_ip" {
-  default = "172.17.9.64/28"
+  default = "172.17.9.144/28"
 }
 
 /* Variables to generate multiple dns records for private endpoint via for_each */
@@ -77,17 +77,17 @@ variable "dns_vars" {
   default = {
     "blob" = {
       type   = "blob"
-      record = "172.17.9.84"
+      record = "172.17.9.134"
       guid   = "81980b71-8fc6-4e39-a291-1b42d5f4fe3b"
     },
     "file" = {
       type   = "file"
-      record = "172.17.9.86"
+      record = "172.17.9.132"
       guid   = "e68a9884-1f0d-497b-b52c-90bffc665851"
     },
     "queue" = {
       type   = "queue"
-      record = "172.17.9.85"
+      record = "172.17.9.133"
       guid   = "68f761fe-1e84-4f55-82dc-39e7e50b54cc"
     }
   }

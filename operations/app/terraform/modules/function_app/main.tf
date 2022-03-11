@@ -25,9 +25,10 @@ resource "azurerm_function_app" "pdi" {
     # "DOCKER_CONTENT_TRUST" = 1
 
     # App Insights
-    "PrivateKey"                            = "@Microsoft.KeyVault(SecretUri=https://pitest-app-kv.vault.azure.net/secrets/PrivateKey/b6a52c1a0c5e4bd183b6c22fccf75306)"
-    "PrivateKeyPassword"                    = "@Microsoft.KeyVault(SecretUri=https://pitest-app-kv.vault.azure.net/secrets/PrivateKeyPassword/c7f2b255b4b84cbdb244dc11ee013622)"
-    "pitestdatastorage_STORAGE"             = "@Microsoft.KeyVault(SecretUri=https://pitest-app-kv.vault.azure.net/secrets/pitestdatastorageaccess/98983dbb27ec4b048311e7e4c5267c61)"
+    "PRIVATE_KEY"                           = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/PrivateKey)"
+    "PRIVATE_KEY_PASSWORD"                  = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/PrivateKeyPassword)"
+    "DATA_STORAGE"                          = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/datasaaccess)"
+    "AZURE_STORAGE_CONTAINER_NAME"          = "bronze"
     "AZURE_STORAGE_CONNECTION_STRING"       = var.sa_data_connection_string
     "APPINSIGHTS_INSTRUMENTATIONKEY"        = var.ai_instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = var.ai_connection_string
@@ -36,7 +37,7 @@ resource "azurerm_function_app" "pdi" {
     "FUNCTIONS_WORKER_RUNTIME"              = "python"
     "SCM_DO_BUILD_DURING_DEPLOYMENT"        = 1
     "VDHSFTPHostname"                       = "vdhsftp.vdh.virginia.gov"
-    "VDHSFTPPassword"                       = "@Microsoft.KeyVault(SecretUri=https://pitest-app-kv.vault.azure.net/secrets/VDHSFTPPassword/f05c2e51f2b147699b7979d3eb79fe7e)"
+    "VDHSFTPPassword"                       = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/VDHSFTPPassword)"
     "VDHSFTPUsername"                       = "USDS_CDC"
     "XDG_CACHE_HOME"                        = "/tmp/.cache"
   }
@@ -72,12 +73,14 @@ resource "azurerm_function_app" "pdi" {
 
   tags = {
     environment = var.environment
+    managed-by  = "terraform"
   }
 
   lifecycle {
     ignore_changes = [
       # Allows Docker versioning via GitHub Actions
       site_config[0].linux_fx_version,
+      tags
     ]
   }
 }
@@ -106,6 +109,12 @@ resource "azurerm_function_app" "pdi_infrastructure" {
     "XDG_CACHE_HOME"                        = "/tmp/.cache"
   }
 
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+
   identity {
     type = "SystemAssigned"
   }
@@ -117,6 +126,7 @@ resource "azurerm_function_app" "pdi_infrastructure" {
 
   tags = {
     environment = var.environment
+    managed-by  = "terraform"
   }
 }
 

@@ -4,6 +4,7 @@ variable "primary" {
     type                = string
     location            = string
     resource_group_name = string
+    environment         = string
   })
 }
 

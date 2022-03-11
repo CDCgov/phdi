@@ -29,6 +29,11 @@ locals {
       id    = var.adf_id
       name  = "adf"
       diags = data.azurerm_monitor_diagnostic_categories.adf
+    },
+    "fhir" = {
+      id    = var.healthcare_service_id
+      name  = "fhir"
+      diags = data.azurerm_monitor_diagnostic_categories.fhir
     }
   }
 }
@@ -55,4 +60,8 @@ data "azurerm_monitor_diagnostic_categories" "sa_data" {
 
 data "azurerm_monitor_diagnostic_categories" "adf" {
   resource_id = var.adf_id
+}
+
+data "azurerm_monitor_diagnostic_categories" "fhir" {
+  resource_id = var.healthcare_service_id
 }

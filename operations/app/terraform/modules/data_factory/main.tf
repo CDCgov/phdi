@@ -5,8 +5,19 @@ resource "azurerm_data_factory" "pdi" {
   public_network_enabled          = false
   managed_virtual_network_enabled = true
 
+  identity {
+    type = "SystemAssigned"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+
   tags = {
-    "environment" = "test"
+    environment = var.environment
+    managed-by  = "terraform"
   }
 }
 
@@ -35,7 +46,7 @@ resource "azurerm_data_factory_managed_private_endpoint" "pdi_appkv" {
 }
 
 resource "azurerm_data_factory_managed_private_endpoint" "pdi_datasa" {
-  name               = replace("${var.resource_prefix}datastorage-privateendpoint", "-", "_")
+  name               = replace("${var.resource_prefix}datasa-privateendpoint", "-", "_")
   data_factory_id    = azurerm_data_factory.pdi.id
   target_resource_id = var.sa_data_id
   subresource_name   = "blob"
@@ -62,7 +73,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "pdi_datasa" {
   data_factory_id          = azurerm_data_factory.pdi.id
   integration_runtime_name = azurerm_data_factory_integration_runtime_azure.pdi.name
 
-  sas_uri = "https://${var.resource_prefix}datastorage.blob.core.windows.net"
+  sas_uri = "https://${var.resource_prefix}datasa.blob.core.windows.net"
   key_vault_sas_token {
     linked_service_name = azurerm_data_factory_linked_service_key_vault.pdi_appkv.name
     secret_name         = var.adf_sa_sas_name
@@ -101,6 +112,27 @@ resource "azurerm_data_factory_dataset_binary" "pdi_datasa" {
     level = "Fastest"
     type  = "ZipDeflate"
   }
+
+  depends_on = [
+    azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa
+  ]
+}
+
+resource "azurerm_data_factory_dataset_binary" "pdi_datasa_mzn" {
+  name                = "DestinationDataset_mzn"
+  resource_group_name = var.resource_group_name
+  data_factory_id     = azurerm_data_factory.pdi.id
+  linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa.name
+
+  azure_blob_storage_location {
+    container                = "bronze"
+    dynamic_filename_enabled = false
+    dynamic_path_enabled     = false
+  }
+
+  depends_on = [
+    azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa
+  ]
 }
 
 resource "azurerm_data_factory_dataset_binary" "vdh" {
@@ -123,6 +155,11 @@ resource "azurerm_data_factory_pipeline" "transfer_files" {
   concurrency         = 1
   parameters          = {}
   variables           = {}
+
+  depends_on = [
+    azurerm_data_factory_dataset_binary.vdh,
+    azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa
+  ]
 
   activities_json = jsonencode(
     [
@@ -165,9 +202,13 @@ resource "azurerm_data_factory_pipeline" "transfer_files" {
               type                  = "BinaryReadSettings"
             }
             storeSettings = {
-              disableChunking = false
-              recursive       = true
-              type            = "SftpReadSettings"
+              deleteFilesAfterCompletion = false
+              maxConcurrentConnections   = 1
+              wildcardFileName           = "*"
+              wildcardFolderPath         = "OtherFiles"
+              disableChunking            = false
+              recursive                  = true
+              type                       = "SftpReadSettings"
             }
             type = "BinarySource"
           }
@@ -175,11 +216,11 @@ resource "azurerm_data_factory_pipeline" "transfer_files" {
         userProperties = [
           {
             name  = "Source"
-            value = "/test_dir/*"
+            value = "/OtherFiles/"
           },
           {
             name  = "Destination"
-            value = "bronze/raw/"
+            value = "bronze/raw/VIIS"
           },
         ]
       },

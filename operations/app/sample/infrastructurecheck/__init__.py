@@ -30,7 +30,7 @@ SECRET_NAME = "test-secret"
 SECRET_VALUE_EXPECTED = "BurritoTown"
 STORAGE_ACCOUNT_CONNECTION = os.environ.get("APPSETTING_AzureWebJobsStorage")
 STORAGE_FILENAME = "_test.txt"
-STORAGE_HOST = "pitestdatastorage.privatelink.blob.core.windows.net"
+STORAGE_HOST = "pitestdatasa.privatelink.blob.core.windows.net"
 URL_IP_CHECK = "https://api.ipify.org/?format=json"
 
 Check = collections.namedtuple("Check", ["name", "status", "message"])
