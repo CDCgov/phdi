@@ -95,6 +95,14 @@ resource "azurerm_monitor_autoscale_setting" "app_autoscale" {
     }
   }
 
+  tags = {
+    environment = var.environment
+    managed-by  = "terraform"
+    // hard code automated tags where "ignore-tags" is not supported
+    created-at = "2022-03-08T21:46+00:00"
+    created-by = "TEY1-SU@cdc.gov"
+  }
+
   # notification {
   #   webhook {
   #     service_uri = var.pagerduty_url

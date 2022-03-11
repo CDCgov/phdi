@@ -1,11 +1,10 @@
-variable "resource_prefix" {
-  type        = string
-  description = "Resource Prefix"
-}
-
-variable "resource_group_name" {
-  type        = string
-  description = "Resource Group Name"
+variable "primary" {
+  type = object({
+    name                = string
+    resource_group_name = string
+    environment         = string
+    resource_prefix     = string
+  })
 }
 
 variable "dns_zone_names" {

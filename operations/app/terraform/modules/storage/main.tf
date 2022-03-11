@@ -1,10 +1,8 @@
 data "azurerm_client_config" "current" {}
 
-# Also, the convention "{prefix}storage" was already taken, which is why this was
-# changed to "{prefix}datastorage"
 resource "azurerm_storage_account" "pdi_data" {
   resource_group_name       = var.resource_group_name
-  name                      = "${var.resource_prefix}datastorage"
+  name                      = "${var.resource_prefix}datasa"
   location                  = var.location
   account_kind              = "StorageV2"
   account_tier              = "Standard"
@@ -12,11 +10,20 @@ resource "azurerm_storage_account" "pdi_data" {
   min_tls_version           = "TLS1_2"
   allow_blob_public_access  = false
   enable_https_traffic_only = true
+  is_hns_enabled            = true
 
   network_rules {
     default_action = "Deny"
     bypass         = ["AzureServices"]
-
+    ip_rules = [
+      "100.6.165.133",
+      "136.226.6.186",
+      "136.36.137.172",
+      "158.111.21.225",
+      "158.111.236.95",
+      "24.163.118.70",
+      "73.173.186.141",
+    ]
     # ip_rules = sensitive(concat(
     #   split(",", data.azurerm_key_vault_secret.cyberark_ip_ingress.value),
     #   [split("/", var.terraform_caller_ip_address)[0]], # Storage accounts only allow CIDR-notation for /[0-30]
@@ -28,16 +35,8 @@ resource "azurerm_storage_account" "pdi_data" {
   }
 
   blob_properties {
-    change_feed_enabled = true
-    versioning_enabled  = true
-
-    container_delete_retention_policy {
-      days = 7
-    }
-
-    delete_retention_policy {
-      days = 7
-    }
+    change_feed_enabled = false
+    versioning_enabled  = false
   }
 
   # Required for customer-managed encryption
@@ -47,10 +46,14 @@ resource "azurerm_storage_account" "pdi_data" {
 
   lifecycle {
     prevent_destroy = true
+    ignore_changes = [
+      tags
+    ]
   }
 
   tags = {
     environment = var.environment
+    managed-by  = "terraform"
   }
 }
 
@@ -85,6 +88,7 @@ module "storageaccount_private_endpoint" {
     type                = "storage_account_${each.key}"
     location            = "eastus"
     resource_group_name = var.resource_group_name
+    environment         = var.environment
   }
 
   endpoint_subnet_ids = [var.cdc_service_subnet_id]
@@ -97,7 +101,7 @@ module "storageaccount_private_endpoint" {
 
   private_service_connection = {
     is_manual_connection           = false
-    name                           = "pitestdatastorage-${each.key}-privateendpoint"
+    name                           = "${azurerm_storage_account.pdi_data.name}-${each.key}-privateendpoint"
     private_connection_resource_id = azurerm_storage_account.pdi_data.id
     subresource_names              = "${each.key}"
   }
@@ -118,7 +122,7 @@ resource "azurerm_key_vault_access_policy" "storage_policy" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = azurerm_storage_account.pdi_data.identity.0.principal_id
 
-  key_permissions = ["get", "unwrapkey", "wrapkey"]
+  key_permissions = ["Get", "UnwrapKey", "WrapKey"]
 }
 
 resource "azurerm_storage_account_customer_managed_key" "storage_key" {

@@ -7,5 +7,9 @@ resource "azurerm_application_insights" "pdi" {
 
   tags = {
     environment = var.environment
+    managed-by  = "terraform"
+    // hard code automated tags where "ignore-tags" is not supported
+    created-at = "2022-03-08T21:32+00:00"
+    created-by = "TEY1-SU@cdc.gov"
   }
 }

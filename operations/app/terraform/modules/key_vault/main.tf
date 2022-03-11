@@ -28,10 +28,14 @@ resource "azurerm_key_vault" "application" {
 
   lifecycle {
     prevent_destroy = false
+    ignore_changes = [
+      tags
+    ]
   }
 
   tags = {
     "environment" = var.environment
+    managed-by    = "terraform"
   }
 }
 
@@ -94,9 +98,13 @@ resource "azurerm_key_vault_access_policy" "dev_access_policy" {
 
 // Store SAS token for Data Factory access to storage account in Key Vault
 resource "azurerm_key_vault_secret" "adf_sa_access" {
-  name         = "${var.resource_prefix}datastorageaccess"
+  name         = "datasaaccess"
   value        = var.sa_data_adf_sas
   key_vault_id = azurerm_key_vault.application.id
+
+  depends_on = [
+    azurerm_key_vault_access_policy.dev_access_policy
+  ]
 }
 
 # resource "azurerm_key_vault_access_policy" "frontdoor_access_policy" {

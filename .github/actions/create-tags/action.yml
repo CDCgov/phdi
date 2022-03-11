@@ -1,0 +1,24 @@
+# action.yml
+name: 'Populated created-by and created-at tags'
+description: 'Query action log history to determine and attach created-by and created-at tags to every resource in a resource group'
+inputs:
+  resource-group:
+    required: true
+  offset-days:
+    required: true
+    default: 90
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Install jq JSON processor
+      shell: bash
+      run: sudo apt-get install jq -y
+
+    - name: Find tag values and add if not already exists
+      shell: bash
+      run: |
+        path=./.github/actions/create-tags/script.sh
+        chmod +x $path
+        $path ${{ inputs.resource-group }} ${{ inputs.offset-days }}
