@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, List
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
@@ -11,7 +11,7 @@ class GeocodeResult(TypedDict):
     """
 
     key: str
-    address: str
+    address: List[str]
     zipcode: str
     fips: str
     lat: float
