@@ -1,0 +1,4 @@
+Sphinx
+black
+flake8
+pytest
