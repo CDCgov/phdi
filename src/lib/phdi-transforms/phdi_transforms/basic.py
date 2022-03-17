@@ -1,5 +1,5 @@
 def transform_name(raw: str) -> str:
-    """trim spaces, capitalize, etc
+    """trim spaces and force uppercase
 
     >>> transform_name(" JohN Doe ")
     'JOHN DOE'

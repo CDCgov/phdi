@@ -17,7 +17,13 @@ def test_geocode():
     candidate = Candidate({})
     candidate.delivery_line_1 = "123 FAKE ST"
     candidate.metadata = Metadata(
-        {"latitude": 45.123, "longitude": -70.234, "county_fips": "36061"}
+        {
+            "latitude": 45.123,
+            "longitude": -70.234,
+            "county_fips": "36061",
+            "county_name": "New York",
+            "precision": "Zip9",
+        }
     )
 
     candidate.components = Components(
@@ -37,8 +43,10 @@ def test_geocode():
         "state": "NY",
         "lat": 45.123,
         "lng": -70.234,
-        "fips": "36061",
+        "county_fips": "36061",
+        "county_name": "New York",
         "zipcode": "10001",
+        "precision": "Zip9",
     } == geocode(client, "123 Fake St, New York, NY 10001")
 
     client.send_lookup.assert_called()
