@@ -83,16 +83,15 @@ jobs:
         with:
           python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
           cache: pip
-      - name: Install poetry
-        run: |
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-          echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
       - name: Install dependencies
         working-directory: ./src/lib/phdi-transforms
-        run: poetry install
+        run: |
+            pip install -U pip
+            pip install -r requirements.txt
+            pip install -r requirements_dev.txt
       - name: Run pytest
         working-directory: ./src/lib/phdi-transforms
-        run: poetry run pytest
+        run: pytest
 
   unit-test-java:
     needs: function-app-scan
