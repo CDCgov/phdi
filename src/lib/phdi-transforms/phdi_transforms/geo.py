@@ -1,21 +1,25 @@
-from typing import TypedDict, List
+from typing import List
+from pydantic import BaseModel
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
 
 
-class GeocodeResult(TypedDict):
+class GeocodeResult(BaseModel):
     """
     A class representing a successful geocoding response
     """
 
-    key: str
     address: List[str]
+    city: str
+    state: str
     zipcode: str
-    fips: str
+    county_fips: str
+    county_name: str
     lat: float
     lng: float
+    precision: str
 
 
 def geocode(client: us_street.Client, address: str) -> GeocodeResult:
@@ -28,20 +32,21 @@ def geocode(client: us_street.Client, address: str) -> GeocodeResult:
 
     if lookup.result:
         res = lookup.result[0]
-
         addr = [res.delivery_line_1]
         if res.delivery_line_2:
             addr.append(res.delivery_line_2)
 
-        return {
-            "address": addr,
-            "city": res.components.city_name,
-            "state": res.components.state_abbreviation,
-            "zipcode": res.components.zipcode,
-            "fips": res.metadata.county_fips,
-            "lat": res.metadata.latitude,
-            "lng": res.metadata.longitude,
-        }
+        return GeocodeResult(
+            address=addr,
+            city=res.components.city_name,
+            state=res.components.state_abbreviation,
+            zipcode=res.components.zipcode,
+            county_fips=res.metadata.county_fips,
+            county_name=res.metadata.county_name,
+            lat=res.metadata.latitude,
+            lng=res.metadata.longitude,
+            precision=res.metadata.precision,
+        )
 
 
 def get_smartystreets_client(auth_id: str, auth_token: str) -> us_street.Client:
