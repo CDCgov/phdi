@@ -73,6 +73,26 @@ jobs:
         run: |
           python -m pytest
 
+  unit-test-transform-lib:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
+        working-directory: ./src/lib/phdi-transforms
+        run: |
+            pip install -U pip
+            pip install -r requirements.txt
+            pip install -r requirements_dev.txt
+      - name: Run pytest
+        working-directory: ./src/lib/phdi-transforms
+        run: pytest
+
   unit-test-java:
     needs: function-app-scan
     runs-on: ubuntu-latest
