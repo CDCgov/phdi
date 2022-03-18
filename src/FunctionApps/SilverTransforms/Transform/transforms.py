@@ -3,23 +3,7 @@ import smartystreets_python_sdk.us_street
 
 from Transform.geo import cached_geocode
 
-
-def transform_name(raw: str) -> str:
-    """trim spaces, capitalize, etc"""
-    raw = [x for x in raw if not x.isnumeric()]
-    raw = "".join(raw)
-    raw = raw.upper()
-    raw = raw.strip()
-    return raw
-
-
-def transform_phone(raw: str) -> str:
-    """Make sure it's 10 digits, remove everything else"""
-    raw = [x for x in raw if x.isnumeric()]
-    raw = "".join(raw)
-    if len(raw) != 10:
-        raw = None
-    return raw
+from phdi_transforms.basic import transform_name, transform_phone
 
 
 def transform_record(
