@@ -1,8 +1,0 @@
-certifi==2021.10.8
-charset-normalizer==2.0.12
-idna==3.3
-pydantic==1.9.0
-requests==2.27.1
-smartystreets-python-sdk==4.10.6
-typing-extensions==4.1.1
-urllib3==1.26.9
