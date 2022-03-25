@@ -55,7 +55,8 @@ POLLING_RETRIES = 120  # 2.5s * 120 retries == 5 min
 #     raise Exception("number of retries exceeded")
 
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
+def main():
+    print("IT WORKS")
     # try:
     #     token = get_access_token()
     # except Exception:
@@ -87,9 +88,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #     f"error starting export status_code={resp.status_code} message={resp.text}"
     # )
     # return func.HttpResponse("export failed", status_code=resp.status_code)
-    read_file('./ExplanationOfBenefit-1.ndjson')
+    read_file("./ExplanationOfBenefit-1.ndjson")
 
-def read_file(file)
+def read_file(file):
     with open(file) as fp:
-    for line in fp:
-        print line
+        for line in fp:
+            print(line)
+
+main()
