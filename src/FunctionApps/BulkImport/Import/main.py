@@ -1,20 +1,31 @@
 import logging
 import os
 import time
+import zipfile
 
 import requests
+import multiprocessing
 import azure.functions as func
 import json
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
-def main():
+
+unzipped_directory = "./FhirResources"
+
+def main(zip_file):
     try:
         token = get_access_token()
     except Exception:
         return func.HttpResponse("error getting access token", status_code=401)
-    
-    read_file("./ExplanationOfBenefit-1.ndjson",token)
+    unzip_input_file(zip_file)
+    # read_file("./ExplanationOfBenefit-1.ndjson",token)
+
+def unzip_input_file(zip_file):
+    with zipfile.ZipFile(zip_file,"r") as zip_ref:
+        zip_ref.extractall(unzipped_directory)
+
+# def process_ndjson_files
 
 def read_file(file,token):
     with open(file) as fp:
@@ -45,7 +56,7 @@ def post_to_fhir(line,resource_type,resource_id,token):
             },
             data=line
         )
-        print(f"status={resp.status_code} message={resp.text}")
+        print(f"status={resp.status_code} message={resource_id}")
     except Exception:
             return func.HttpResponse("ndjson to fhir import failed", status_code=500)
             logging.error(
@@ -74,7 +85,7 @@ def get_access_token() -> str:
     )
     raise Exception("access token request failed")
 
-main()
+main("../../../../Archive.zip")
 
 
 
