@@ -4,6 +4,7 @@ import time
 
 import requests
 import azure.functions as func
+import json
 
 
 # The time between polling requests in seconds
@@ -56,7 +57,7 @@ POLLING_RETRIES = 120  # 2.5s * 120 retries == 5 min
 
 
 def main():
-    print("IT WORKS")
+
     # try:
     #     token = get_access_token()
     # except Exception:
@@ -93,6 +94,7 @@ def main():
 def read_file(file):
     with open(file) as fp:
         for line in fp:
-            print(line)
+            json_line = json.loads(line)
+            print(json_line["resourceType"])
 
 main()
