@@ -5,6 +5,8 @@ import time
 import requests
 import azure.functions as func
 import json
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 def main():
     try:
@@ -17,17 +19,22 @@ def main():
 def read_file(file,token):
     with open(file) as fp:
         for line in fp:
-            print("IN READ FILE")
             json_line = json.loads(line)
             resource_type = json_line["resourceType"]
             resource_id   = json_line["id"]
             post_to_fhir(line,resource_type,resource_id,token)
 
 def post_to_fhir(line,resource_type,resource_id,token):
-    print("IN POST TO FHIR")
+    retry_strategy = Retry(
+    total=3,
+    status_forcelist=[429, 500, 502, 503, 504],
+    allowed_methods=["HEAD", "POST", "OPTIONS"]
+    )
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+    http = requests.Session()
+    http.mount("https://", adapter)
+    http.mount("http://", adapter)
     url = os.environ.get("FHIR_URL", "")
-    print(url)
-    # url = "https://phdi-pilot.azurehealthcareapis.com"
     try:
         resp = requests.post(
             f"{url}/{resource_type}",
@@ -38,12 +45,12 @@ def post_to_fhir(line,resource_type,resource_id,token):
             },
             data=line
         )
-        print(resp)
+        print(f"status={resp.status_code} message={resp.text}")
     except Exception:
             return func.HttpResponse("ndjson to fhir import failed", status_code=500)
-    logging.error(
-        f"Failed to import ndjson to FHIR server failed status={resp.status_code} message={resp.text}"
-    )
+            logging.error(
+                f"Failed to import ndjson to FHIR server failed status={resp.status_code} message={resp.text}"
+            )
 
 def get_access_token() -> str:
     """Get the access token based on creds in the environment"""
@@ -68,3 +75,8 @@ def get_access_token() -> str:
     raise Exception("access token request failed")
 
 main()
+
+
+
+
+
