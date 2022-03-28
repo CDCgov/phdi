@@ -25,6 +25,10 @@ import org.json.JSONObject
 import org.json.JSONException
 import java.nio.charset.StandardCharsets
 
+// Working with Azure for authentication
+import com.azure.identity.DefaultAzureCredentialBuilder
+import com.azure.core.credential.TokenRequestContext
+
 /*
    ******************* 
     CLEANING FUNCTIONS
@@ -146,32 +150,13 @@ public fun convertBatchMessagesToList(
     FHIR SERVER FUNCTIONS
    ***********************
 */
-// Connect to Azure's login service and get a bearer token
+// Use Default Azure Credential to get a bearer token
 public fun getAccessToken(): String? {
-    val tenantId: String = System.getenv("tenant_id")
-    val url: String = "https://login.microsoftonline.com/${tenantId}/oauth2/token"
-
-    val requestBody = StringBuilder("grant_type=client_credentials")
-    // use a HashMap instead of JSONObject for easier iteration through key,value pairs
-    val parameters: MutableMap<String, String> = HashMap()
-    parameters.put("client_id", System.getenv("client_id"))
-    parameters.put("client_secret", System.getenv("client_secret"))
-    parameters.put("resource", System.getenv("fhir_url"))
-    parameters.forEach { (key, value) -> requestBody.append("&${key}=${value}") }
-
-    val client: HttpClient = HttpClient.newHttpClient()
-    val request: HttpRequest = HttpRequest.newBuilder()
-        .uri(URI.create(url))
-        .headers("Content-Type", "application/x-www-form-urlencoded")
-        .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
-        .build()
-
-    val response: HttpResponse<String> = client.send(
-        request,
-        HttpResponse.BodyHandlers.ofString()
-    )
-    val json: JSONObject = JSONObject(response.body())
-    return json.get("access_token")?.toString()
+    val creds = DefaultAzureCredentialBuilder().build()
+    val scope = StringBuilder()
+    scope.append(System.getenv("fhir_url")).append("/.default")
+    val token = creds.getToken(TokenRequestContext().addScopes(scope.toString())).block()
+    return token.getToken()
 }
 
 public fun convertMessageToFHIR(
