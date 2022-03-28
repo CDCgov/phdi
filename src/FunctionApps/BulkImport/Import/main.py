@@ -22,7 +22,7 @@ def unzip_input_file(zip_file):
         zip_ref.extractall(unzipped_directory)
 
 def process_ndjson_files(dir):
-    with multiprocessing.Pool(processes = 2) as p:
+    with multiprocessing.Pool(processes = multiprocessing.cpu_count()-1) as p:
         directory = os.fsencode(dir)
         for file in os.listdir(directory):
             filename = os.fsdecode(file)
