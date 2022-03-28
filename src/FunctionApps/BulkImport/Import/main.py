@@ -14,28 +14,40 @@ from requests.packages.urllib3.util.retry import Retry
 unzipped_directory = "./FhirResources"
 
 def main(zip_file):
-    try:
-        token = get_access_token()
-    except Exception:
-        return func.HttpResponse("error getting access token", status_code=401)
     unzip_input_file(zip_file)
-    # read_file("./ExplanationOfBenefit-1.ndjson",token)
+    process_ndjson_files(unzipped_directory)
 
 def unzip_input_file(zip_file):
     with zipfile.ZipFile(zip_file,"r") as zip_ref:
         zip_ref.extractall(unzipped_directory)
 
-# def process_ndjson_files
+def process_ndjson_files(dir):
+    with multiprocessing.Pool(processes = 2) as p:
+        directory = os.fsencode(dir)
+        for file in os.listdir(directory):
+            filename = os.fsdecode(file)
+            if filename.endswith(".ndjson"):
+                file_path = (os.path.join(dir, filename))
+                p.apply_async(read_file, (file_path,))
+            else:
+                logging.error(f"File must be ndjson, file given: {filename}")
+        p.close()
+        p.join()
 
-def read_file(file,token):
+def read_file(file):
+    print(file)
     with open(file) as fp:
         for line in fp:
             json_line = json.loads(line)
             resource_type = json_line["resourceType"]
             resource_id   = json_line["id"]
-            post_to_fhir(line,resource_type,resource_id,token)
+            post_to_fhir(line,resource_type,resource_id)
 
-def post_to_fhir(line,resource_type,resource_id,token):
+def post_to_fhir(line,resource_type,resource_id):
+    try:
+        token = get_access_token()
+    except Exception:
+        return func.HttpResponse("error getting access token", status_code=401) 
     retry_strategy = Retry(
     total=3,
     status_forcelist=[429, 500, 502, 503, 504],
@@ -85,7 +97,9 @@ def get_access_token() -> str:
     )
     raise Exception("access token request failed")
 
-main("../../../../Archive.zip")
+
+if __name__ == '__main__':
+    main("../../../../Archive.zip")
 
 
 
