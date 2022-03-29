@@ -1,6 +1,6 @@
-# 0003 Working with FHIR Data
+# 4. Working with FHIR Data
 
-Date: Feb 22, 2022
+Date: 2022-02-22
 
 ## Status
 
