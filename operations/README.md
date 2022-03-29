@@ -13,6 +13,7 @@ consistency between environments.
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [Azure Terraform provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 - [Azure Terraform backend](https://www.terraform.io/language/settings/backends/azurerm)
+- [Security: Data-Access](https://github.com/CDCgov/prime-public-health-data-infrastructure/blob/master/docs/security/data-access.md)
 
 **Note**
 

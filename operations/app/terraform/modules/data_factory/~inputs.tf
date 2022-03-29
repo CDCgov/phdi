@@ -28,16 +28,6 @@ variable "sa_data_id" {
   description = "Data storage account id"
 }
 
-variable "adf_sa_sas_name" {
-  type        = string
-  description = "SAS token used by Data Factory to access Storage Account"
-}
-
-variable "adf_sa_sas_id" {
-  type        = string
-  description = "Resource id of SAS token used by Data Factory to access Storage Account"
-}
-
 variable "vdhsftp_pass" {
   type        = string
   description = "Password for VDH SFTP"

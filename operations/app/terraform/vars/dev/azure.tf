@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 1.0.5, < 1.2.0" # This version must also be changed in other environments
+  required_version = ">= 1.0.5" # This version must also be changed in other environments
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.61.0" # This version must also be changed in other environments
+      version = "= 2.99.0" # 3.0 contains breaking changes!
     }
   }
 
@@ -20,4 +20,5 @@ provider "azurerm" {
   features {}
   skip_provider_registration = true
   subscription_id            = "7d1e3999-6577-4cd5-b296-f518e5c8e677"
+  storage_use_azuread        = true
 }
