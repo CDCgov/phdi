@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "PHDISmartyStreetsTest"
+    },
+    {
+      "path": "SilverTransforms"
+    },
+    {
+      "path": "PITest_FunctionApp"
+    },
+    {
+      "path": "DevOps"
+    }
+  ],
+  "settings": {
+    "debug.internalConsoleOptions": "neverOpen"
+  }
+}

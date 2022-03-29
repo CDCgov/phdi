@@ -29,16 +29,6 @@ variable "location" {
   description = "Function App Location"
 }
 
-variable "sa_data_access_key" {
-  type        = string
-  description = "Data storage account access key"
-}
-
-variable "sa_data_connection_string" {
-  type        = string
-  description = "Data storage account connection string"
-}
-
 variable "sa_data_name" {
   type        = string
   description = "Data storage account name"
@@ -64,3 +54,5 @@ variable "use_cdc_managed_vnet" {
   type        = bool
   description = "If the environment should be deployed to the CDC managed VNET"
 }
+
+variable "sa_functionapps" {}

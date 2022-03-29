@@ -1,93 +1,82 @@
 # data "azurerm_client_config" "current" {}
 
-# // Network
+data "azuread_group" "owners" {
+  display_name = var.data_access_group
+}
 
-# data "azurerm_subnet" "public" {
-#   name                 = "public"
-#   virtual_network_name = "${var.resource_prefix}-vnet"
-#   resource_group_name  = var.resource_group
-# }
+data "azuread_service_principal" "pitest" {
+  display_name = var.data_access_sp
+}
 
-# data "azurerm_subnet" "container" {
-#   name                 = "container"
-#   virtual_network_name = "${var.resource_prefix}-vnet"
-#   resource_group_name  = var.resource_group
-# }
+# storage account data containers and permissions
+# see docs/security/data-access.md for additional notes
+locals {
+  data_containers = ["bronze", "silver", "gold"]
+  data_ace_access = [
+    { permissions = "---", id = null, type = "other", scope = "access" },
+    { permissions = "---", id = null, type = "other", scope = "default" },
+    { permissions = "r-x", id = null, type = "group", scope = "access" },
+    { permissions = "r-x", id = null, type = "group", scope = "default" },
+    { permissions = "rwx", id = null, type = "user", scope = "access" },
+    { permissions = "rwx", id = null, type = "user", scope = "default" },
+    { permissions = "rwx", id = null, type = "mask", scope = "access" },
+    { permissions = "rwx", id = null, type = "mask", scope = "default" },
+    { permissions = "rwx", id = var.adf_uuid, type = "user", scope = "access" },
+    { permissions = "rwx", id = var.adf_uuid, type = "user", scope = "default" },
+    { permissions = "rwx", id = var.pdi_function_app_uuid, type = "user", scope = "access" },
+    { permissions = "rwx", id = var.pdi_function_app_uuid, type = "user", scope = "default" },
+    { permissions = "r-x", id = var.infrastructure_function_app_uuid, type = "user", scope = "access" }
+  ]
+}
 
-# data "azurerm_subnet" "endpoint" {
-#   name                 = "endpoint"
-#   virtual_network_name = "${var.resource_prefix}-vnet"
-#   resource_group_name  = var.resource_group
-# }
-
-# data "azurerm_subnet" "public_subnet" {
-#   name                 = "public"
-#   virtual_network_name = "${var.resource_prefix}-East-vnet"
-#   resource_group_name  = var.resource_group
-# }
-
-# data "azurerm_subnet" "container_subnet" {
-#   name                 = "container"
-#   virtual_network_name = "${var.resource_prefix}-East-vnet"
-#   resource_group_name  = var.resource_group
-# }
-
-# data "azurerm_subnet" "endpoint_subnet" {
-#   name                 = "endpoint"
-#   virtual_network_name = "${var.resource_prefix}-East-vnet"
-#   resource_group_name  = var.resource_group
-# }
-
-
-# // Key Vault
-
-# data "azurerm_key_vault" "application" {
-#   name                = "${var.resource_prefix}-keyvault"
-#   resource_group_name = var.resource_group
-# }
-
-# data "azurerm_key_vault_secret" "hhsprotect_ip_ingress" {
-#   name         = "hhsprotect-ip-ingress"
-#   key_vault_id = data.azurerm_key_vault.application.id
-# }
-
-# data "azurerm_key_vault_secret" "cyberark_ip_ingress" {
-#   name         = "cyberark-ip-ingress"
-#   key_vault_id = data.azurerm_key_vault.application.id
-# }
-
-// Generate SAS token for Data Factory access to storage account
-data "azurerm_storage_account_sas" "adf_sa_access" {
-  connection_string = azurerm_storage_account.pdi_data.primary_connection_string
-  https_only        = true
-  signed_version    = "2020-08-04"
-
-  resource_types {
-    service   = true
-    container = true
-    object    = true
-  }
-
-  services {
-    blob  = true
-    queue = true
-    table = true
-    file  = true
-  }
-
-  start  = "2022-02-04T15:43:06Z"
-  expiry = "2026-02-04T23:43:06Z"
-
-  permissions {
-    read    = true
-    write   = true
-    delete  = true
-    list    = true
-    add     = true
-    create  = true
-    update  = true
-    process = true
-  }
-
-  depends_on = [azurerm_storage_account.pdi_data]
+# storage account data directories
+locals {
+  bronze_root_dirs = [
+    "decrypted",
+    "raw"
+  ]
+  bronze_sub_dirs = [
+    "",
+    "/eICR",
+    "/ELR",
+    "/OtherFiles",
+    "/VEDSS",
+    "/VIIS",
+    "/VXU"
+  ]
+  # Nested loop over both lists, and flatten the result.
+  bronze_mapping = distinct(flatten([
+    for bronze_root_dir in local.bronze_root_dirs : [
+      for bronze_sub_dir in local.bronze_sub_dirs : {
+        bronze_sub_dir  = bronze_sub_dir
+        bronze_root_dir = bronze_root_dir
+      }
+    ]
+  ]))
+  silver_root_dirs = ["temp"]
+  silver_sub_dirs = [
+    ""
+  ]
+  # Nested loop over both lists, and flatten the result.
+  silver_mapping = distinct(flatten([
+    for silver_root_dir in local.silver_root_dirs : [
+      for silver_sub_dir in local.silver_sub_dirs : {
+        silver_sub_dir  = silver_sub_dir
+        silver_root_dir = silver_root_dir
+      }
+    ]
+  ]))
+  gold_root_dirs = ["temp"]
+  gold_sub_dirs = [
+    ""
+  ]
+  # Nested loop over both lists, and flatten the result.
+  gold_mapping = distinct(flatten([
+    for gold_root_dir in local.gold_root_dirs : [
+      for gold_sub_dir in local.gold_sub_dirs : {
+        gold_sub_dir  = gold_sub_dir
+        gold_root_dir = gold_root_dir
+      }
+    ]
+  ]))
 }

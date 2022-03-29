@@ -95,39 +95,3 @@ resource "azurerm_key_vault_access_policy" "dev_access_policy" {
     "DeleteIssuers",
   ]
 }
-
-// Store SAS token for Data Factory access to storage account in Key Vault
-resource "azurerm_key_vault_secret" "adf_sa_access" {
-  name         = "datasaaccess"
-  value        = var.sa_data_adf_sas
-  key_vault_id = azurerm_key_vault.application.id
-
-  depends_on = [
-    azurerm_key_vault_access_policy.dev_access_policy
-  ]
-}
-
-# resource "azurerm_key_vault_access_policy" "frontdoor_access_policy" {
-#   key_vault_id = azurerm_key_vault.application.id
-#   tenant_id    = data.azurerm_client_config.current.tenant_id
-#   object_id    = local.frontdoor_object_id
-
-#   secret_permissions = [
-#     "Get",
-#   ]
-#   certificate_permissions = [
-#     "Get",
-#   ]
-# }
-
-# module "application_private_endpoint" {
-#   source         = "../common/private_endpoint"
-#   resource_id    = azurerm_key_vault.application.id
-#   name           = azurerm_key_vault.application.name
-#   type           = "key_vault"
-#   resource_group = var.resource_group
-#   location       = var.location
-# 
-#   endpoint_subnet_ids = var.endpoint_subnet_ids
-#   endpoint_subnet_id_for_dns = var.endpoint_subnet_ids[0]
-# }

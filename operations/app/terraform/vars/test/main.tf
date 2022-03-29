@@ -53,23 +53,28 @@ module "key_vault" {
   terraform_object_id         = var.terraform_object_id
   use_cdc_managed_vnet        = var.use_cdc_managed_vnet
   adf_uuid                    = module.data_factory.adf_uuid
-  sa_data_adf_sas             = module.storage.sa_data_adf_sas
+  #sa_data_adf_sas             = module.storage.sa_data_adf_sas
 }
 
 module "storage" {
-  source                      = "../../modules/storage"
-  environment                 = var.environment
-  location                    = var.location
-  resource_group_name         = var.resource_group_name
-  resource_prefix             = var.resource_prefix
-  application_key_vault_id    = module.key_vault.application_key_vault_id
-  cdc_service_subnet_id       = module.network.cdc_service_subnet_id
-  cdc_subnet_ids              = module.network.cdc_subnet_ids
-  rsa_key_4096                = var.rsa_key_4096
-  terraform_caller_ip_address = var.terraform_caller_ip_address
-  use_cdc_managed_vnet        = var.use_cdc_managed_vnet
-  app_subnet_ids              = module.network.app_subnet_ids
-  resource_group_id           = module.resource_group.cdc_managed_resource_group_id
+  source                           = "../../modules/storage"
+  environment                      = var.environment
+  location                         = var.location
+  resource_group_name              = var.resource_group_name
+  resource_prefix                  = var.resource_prefix
+  application_key_vault_id         = module.key_vault.application_key_vault_id
+  cdc_service_subnet_id            = module.network.cdc_service_subnet_id
+  cdc_subnet_ids                   = module.network.cdc_subnet_ids
+  rsa_key_4096                     = var.rsa_key_4096
+  terraform_caller_ip_address      = var.terraform_caller_ip_address
+  use_cdc_managed_vnet             = var.use_cdc_managed_vnet
+  app_subnet_ids                   = module.network.app_subnet_ids
+  resource_group_id                = module.resource_group.cdc_managed_resource_group_id
+  data_access_group                = var.data_access_group
+  data_access_sp                   = var.data_access_sp
+  pdi_function_app_uuid            = module.function_app.pdi_function_app_uuid
+  infrastructure_function_app_uuid = module.function_app.infrastructure_function_app_uuid
+  adf_uuid                         = module.data_factory.adf_uuid
 }
 
 module "databricks" {
@@ -105,11 +110,10 @@ module "function_app" {
   app_service_plan            = module.app_service_plan.service_plan_id
   application_key_vault_id    = module.key_vault.application_key_vault_id
   cdc_app_subnet_id           = module.network.cdc_app_subnet_id
-  sa_data_access_key          = module.storage.sa_data_access_key
-  sa_data_connection_string   = module.storage.sa_data_connection_string
   sa_data_name                = module.storage.sa_data_name
   terraform_caller_ip_address = var.terraform_caller_ip_address
   use_cdc_managed_vnet        = var.use_cdc_managed_vnet
+  sa_functionapps             = module.storage.sa_functionapps
 }
 
 module "data_factory" {
@@ -120,9 +124,9 @@ module "data_factory" {
   location                 = var.location
   application_key_vault_id = module.key_vault.application_key_vault_id
   sa_data_id               = module.storage.sa_data_id
-  adf_sa_sas_name          = module.key_vault.adf_sa_sas_name
-  adf_sa_sas_id            = module.key_vault.adf_sa_sas_id
-  vdhsftp_pass             = module.key_vault.vdhsftp_pass
+  #adf_sa_sas_name          = module.key_vault.adf_sa_sas_name
+  #adf_sa_sas_id            = module.key_vault.adf_sa_sas_id
+  vdhsftp_pass = module.key_vault.vdhsftp_pass
 }
 
 module "fhir" {
@@ -142,8 +146,8 @@ module "log_analytics_workspace" {
   resource_group_name            = var.resource_group_name
   location                       = var.location
   resource_prefix                = var.resource_prefix
-  function_app_id                = module.function_app.function_app_id
-  function_infrastructure_app_id = module.function_app.function_infrastructure_app_id
+  pdi_function_app_id            = module.function_app.pdi_function_app.id
+  infrastructure_function_app_id = module.function_app.infrastructure_function_app.id
   app_service_plan_id            = module.app_service_plan.service_plan_id
   cdc_managed_vnet_id            = module.network.cdc_managed_vnet_id
   sa_data_id                     = module.storage.sa_data_id
