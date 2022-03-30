@@ -98,8 +98,3 @@ def get_access_token() -> str:
 
 if __name__ == '__main__':
     main("../../../../Archive.zip")
-
-
-
-
-
