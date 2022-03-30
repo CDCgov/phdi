@@ -46,7 +46,4 @@ def test_file_unzip():
     assert os.path.isfile("./FhirResources/test_files/Organization-1.ndjson")
 
 
-def test_read_file():
-    read_file("./FhirResources/test_files/Claim-1.ndjson")
-
 

@@ -34,7 +34,6 @@ def process_ndjson_files(dir):
         p.join()
 
 def read_file(file):
-    print(file)
     with open(file) as fp:
         for line in fp:
             json_line = json.loads(line)
