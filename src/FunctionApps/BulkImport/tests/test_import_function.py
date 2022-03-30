@@ -44,6 +44,3 @@ def test_file_unzip():
     unzip_input_file("./assets/test_files.zip")
     assert os.path.isfile("./FhirResources/test_files/Claim-1.ndjson")
     assert os.path.isfile("./FhirResources/test_files/Organization-1.ndjson")
-
-
-
