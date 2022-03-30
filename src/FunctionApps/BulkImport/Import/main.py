@@ -1,11 +1,9 @@
 import logging
 import os
-import time
 import zipfile
 
 import requests
 import multiprocessing
-import azure.functions as func
 import json
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
