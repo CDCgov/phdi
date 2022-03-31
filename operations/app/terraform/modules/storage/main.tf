@@ -74,6 +74,8 @@ module "storageaccount_private_endpoint" {
   depends_on = [azurerm_storage_account.pdi_data]
 }
 
+# Function apps store their required configuration files in a dedicated storage account.
+# Grant function apps full access to this storage account, while limiting their access to others.
 resource "azurerm_storage_account" "function_apps" {
   resource_group_name       = var.resource_group_name
   name                      = "${var.resource_prefix}functionapps"

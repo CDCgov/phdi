@@ -23,6 +23,16 @@ variable "infrastructure_function_app_id" {
   description = "Infrastructure function app resource id"
 }
 
+variable "java_function_app_id" {
+  type        = string
+  description = "Java function app resource id"
+}
+
+variable "python_function_app_id" {
+  type        = string
+  description = "Python function app resource id"
+}
+
 variable "app_service_plan_id" {
   type        = string
   description = "App Service Plan resource id"

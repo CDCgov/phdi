@@ -10,6 +10,16 @@ locals {
       name  = "pdi_function_app"
       diags = data.azurerm_monitor_diagnostic_categories.pdi_function_app
     },
+    "java_function_app" = {
+      id    = var.java_function_app_id
+      name  = "java_function_app"
+      diags = data.azurerm_monitor_diagnostic_categories.java_function_app
+    },
+    "python_function_app" = {
+      id    = var.python_function_app_id
+      name  = "python_function_app"
+      diags = data.azurerm_monitor_diagnostic_categories.python_function_app
+    },
     "app_service_plan" = {
       id    = var.app_service_plan_id
       name  = "app_service_plan"
@@ -44,6 +54,14 @@ data "azurerm_monitor_diagnostic_categories" "infrastructure_function_app" {
 
 data "azurerm_monitor_diagnostic_categories" "pdi_function_app" {
   resource_id = var.pdi_function_app_id
+}
+
+data "azurerm_monitor_diagnostic_categories" "java_function_app" {
+  resource_id = var.java_function_app_id
+}
+
+data "azurerm_monitor_diagnostic_categories" "python_function_app" {
+  resource_id = var.python_function_app_id
 }
 
 data "azurerm_monitor_diagnostic_categories" "app_service_plan" {
