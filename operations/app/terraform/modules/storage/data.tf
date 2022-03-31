@@ -1,5 +1,3 @@
-# data "azurerm_client_config" "current" {}
-
 data "azuread_group" "owners" {
   display_name = var.data_access_group
 }
@@ -25,6 +23,10 @@ locals {
     { permissions = "rwx", id = var.adf_uuid, type = "user", scope = "default" },
     { permissions = "rwx", id = var.pdi_function_app_uuid, type = "user", scope = "access" },
     { permissions = "rwx", id = var.pdi_function_app_uuid, type = "user", scope = "default" },
+    { permissions = "rwx", id = var.java_function_app_uuid, type = "user", scope = "access" },
+    { permissions = "rwx", id = var.java_function_app_uuid, type = "user", scope = "default" },
+    { permissions = "rwx", id = var.python_function_app_uuid, type = "user", scope = "access" },
+    { permissions = "rwx", id = var.python_function_app_uuid, type = "user", scope = "default" },
     { permissions = "r-x", id = var.infrastructure_function_app_uuid, type = "user", scope = "access" }
   ]
 }

@@ -98,11 +98,11 @@ variable "dns_vars" {
 ##################
 
 variable "app_tier" {
-  default = "PremiumV2"
+  default = "PremiumV3"
 }
 
 variable "app_size" {
-  default = "P3v2"
+  default = "P1v3"
 }
 
 ##################

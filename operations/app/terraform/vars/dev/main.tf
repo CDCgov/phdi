@@ -53,7 +53,6 @@ module "key_vault" {
   terraform_object_id         = var.terraform_object_id
   use_cdc_managed_vnet        = var.use_cdc_managed_vnet
   adf_uuid                    = module.data_factory.adf_uuid
-  # sa_data_adf_sas             = module.storage.sa_data_adf_sas
 }
 
 module "storage" {
@@ -75,6 +74,8 @@ module "storage" {
   pdi_function_app_uuid            = module.function_app.pdi_function_app_uuid
   infrastructure_function_app_uuid = module.function_app.infrastructure_function_app_uuid
   adf_uuid                         = module.data_factory.adf_uuid
+  java_function_app_uuid           = module.function_app.java_function_app_uuid
+  python_function_app_uuid         = module.function_app.python_function_app_uuid
 }
 
 module "databricks" {
@@ -124,9 +125,7 @@ module "data_factory" {
   location                 = var.location
   application_key_vault_id = module.key_vault.application_key_vault_id
   sa_data_id               = module.storage.sa_data_id
-  # adf_sa_sas_name          = module.key_vault.adf_sa_sas_name
-  # adf_sa_sas_id            = module.key_vault.adf_sa_sas_id
-  vdhsftp_pass = module.key_vault.vdhsftp_pass
+  vdhsftp_pass             = module.key_vault.vdhsftp_pass
 }
 
 module "fhir" {
@@ -146,8 +145,10 @@ module "log_analytics_workspace" {
   resource_group_name            = var.resource_group_name
   location                       = var.location
   resource_prefix                = var.resource_prefix
-  pdi_function_app_id            = module.function_app.pdi_function_app.id
-  infrastructure_function_app_id = module.function_app.infrastructure_function_app.id
+  pdi_function_app_id            = module.function_app.pdi_function_app_id
+  infrastructure_function_app_id = module.function_app.infrastructure_function_app_id
+  java_function_app_id           = module.function_app.java_function_app_id
+  python_function_app_id         = module.function_app.python_function_app_id
   app_service_plan_id            = module.app_service_plan.service_plan_id
   cdc_managed_vnet_id            = module.network.cdc_managed_vnet_id
   sa_data_id                     = module.storage.sa_data_id
