@@ -20,6 +20,7 @@ TEST_ENV = {
     "FHIR_URL": "https://some-fhir-server",
 }
 
+
 @mock.patch("requests.post")
 @mock.patch.dict("os.environ", TEST_ENV)
 def test_get_access_token(mock_post):
