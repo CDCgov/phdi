@@ -1,5 +1,6 @@
 import os
 from unittest import mock
+from pathlib import Path
 
 from Import.main import unzip_input_file
 from Import.main import get_access_token
@@ -33,6 +34,7 @@ def test_get_access_token(mock_post):
 
 
 def test_file_unzip():
-    unzip_input_file("./assets/test_files.zip")
+    test_file_path = Path("BulkImport").parent / "tests" / "assets" / "test_files.zip"
+    unzip_input_file(test_file_path)
     assert os.path.isfile("./FhirResources/test_files/Claim-1.ndjson")
     assert os.path.isfile("./FhirResources/test_files/Organization-1.ndjson")
