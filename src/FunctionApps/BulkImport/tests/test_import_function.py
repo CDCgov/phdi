@@ -1,17 +1,8 @@
 import os
-import pytest
 from unittest import mock
 
 from Import.main import unzip_input_file
-from Import.main import process_ndjson_files
-from Import.main import read_file
 from Import.main import get_access_token
-
-
-# This fixture runs before all tests and can be passed as arguments to individual
-# tests to enable accessing the variables they define.
-# More info: https://docs.pytest.org/en/latest/fixture.html#fixtures-scope-sharing-and-autouse-autouse-fixtures  # noqa: E501
-# @pytest.fixture(scope="session", autouse=True)
 
 TEST_ENV = {
     "TENANT_ID": "a-tenant-id",
