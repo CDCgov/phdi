@@ -74,7 +74,7 @@ def post_to_fhir(line, resource_type, resource_id):
     except Exception:
         return func.HttpResponse("ndjson to fhir import failed", status_code=500)
         logging.error(
-            f"Failed to import ndjson to FHIR server failed status={resp.status_code} message={resp.text}"  # noqa
+            f"Failed to import ndjson to FHIR server failed status={resp.status_code} message={resp.text}" #noqa
         )
 
 
