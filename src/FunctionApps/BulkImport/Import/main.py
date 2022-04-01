@@ -1,6 +1,7 @@
 import logging
 import os
 import zipfile
+import azure.functions as func
 
 import requests
 import multiprocessing
