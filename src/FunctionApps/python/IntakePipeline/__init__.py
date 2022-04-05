@@ -7,15 +7,22 @@ from IntakePipeline.linkage import add_patient_identifier
 from IntakePipeline.fhir import read_fhir_bundles, upload_bundle_to_fhir_server
 from IntakePipeline.utils import get_required_config
 
+from phdi_transforms.geo import get_smartystreets_client
+
 
 def run_pipeline():
-    salt_str = get_required_config("HASH_SALT")
+    salt = get_required_config("HASH_SALT")
+    geocoder = get_smartystreets_client(
+        get_required_config("SMARTYSTREETS_AUTH_ID"),
+        get_required_config("SMARTYSTREETS_AUTH_TOKEN"),
+    )
+
     for bundle in read_fhir_bundles(
         get_required_config("INTAKE_CONTAINER_URL"),
         get_required_config("INTAKE_CONTAINER_PREFIX"),
     ):
-        transform_bundle(bundle)
-        add_patient_identifier(salt_str, bundle)
+        transform_bundle(geocoder, bundle)
+        add_patient_identifier(salt, bundle)
         upload_bundle_to_fhir_server(bundle)
 
 
