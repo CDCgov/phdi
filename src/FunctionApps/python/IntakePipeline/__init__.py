@@ -5,12 +5,14 @@ import azure.functions as func
 from IntakePipeline.transform import transform_bundle
 from IntakePipeline.linkage import add_patient_identifier
 from IntakePipeline.fhir import read_fhir_bundles, upload_bundle_to_fhir_server
+from IntakePipeline.utils import get_required_config
 
 
 def run_pipeline():
+    salt_str = get_required_config("HASH_SALT")
     for bundle in read_fhir_bundles():
         transform_bundle(bundle)
-        add_patient_identifier(bundle)
+        add_patient_identifier(salt_str, bundle)
         upload_bundle_to_fhir_server(bundle)
 
 
