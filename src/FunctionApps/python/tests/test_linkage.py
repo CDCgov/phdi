@@ -1,34 +1,25 @@
 from unittest import mock
 from IntakePipeline.linkage import generate_hash_str
 from IntakePipeline.linkage import add_patient_identifier
-from IntakePipeline.utils import get_required_config
-
-TEST_ENV = {"HASH_SALT": "super-secret-definitely-legit-passphrase"}
 
 
-@mock.patch.dict("os.environ", TEST_ENV)
 def test_generate_hash():
 
-    salt_str = get_required_config("HASH_SALT")
-
+    salt_str = "super-legit-salt"
     patient_1 = "John-Shepard-2153/11/07-1234 Silversun Strip Zakera Ward Citadel 99999"
     patient_2 = "Tali-Zora-Vas-Normandy-2160/05/14-PO Box 1 Rock Rannoch"
-    patient_3 = "John-Shepard-2183/11/07-1234 Silversun Strip Zakera Ward Citadel 99998"
 
-    hash_1 = generate_hash_str(salt_str, patient_1)
-    hash_2 = generate_hash_str(salt_str, patient_2)
-    hash_3 = generate_hash_str(salt_str, patient_3)
+    hash_1 = generate_hash_str(patient_1, salt_str)
+    hash_2 = generate_hash_str(patient_2, salt_str)
 
-    assert hash_1 != hash_2
-    assert hash_2 != hash_3
-    assert hash_1 != hash_3
+    assert hash_1 == "0aa5aa1f6183a24670b2e1848864514e119ae6ca63bb35246ef215e7a0746a35"
+    assert hash_2 == "102818c623290c24069beb721c6eb465d281b3b67ecfb6aef924d14affa117b9"
 
 
 @mock.patch("IntakePipeline.linkage.generate_hash_str")
-@mock.patch.dict("os.environ", TEST_ENV)
 def test_add_patient_identifier(patched_hash_str):
 
-    salt_str = get_required_config("HASH_SALT")
+    salt_str = salt_str = "super-legit-salt"
     patched_hash_str.return_value = "1234567890abcdef"
 
     incoming_bundle = {
