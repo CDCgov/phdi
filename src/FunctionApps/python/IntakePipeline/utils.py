@@ -5,3 +5,4 @@ def get_required_config(varname: str) -> str:
     if varname not in os.environ:
         raise Exception(f"Config value {varname} not found in the environment")
     return os.environ[varname]
+    
