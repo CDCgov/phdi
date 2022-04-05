@@ -2,15 +2,15 @@ import pytest
 
 from unittest import mock
 
-from IntakePipeline import run_pipeline, get_required_config
+from IntakePipeline import run_pipeline
+from IntakePipeline.utils import get_required_config
 
 
 TEST_ENV = {
     "INTAKE_CONTAINER_URL": "some-url",
     "INTAKE_CONTAINER_PREFIX": "some-prefix",
+    "HASH_SALT": "super-secret-definitely-legit-passphrase",
 }
-
-TEST_ENV = {"HASH_SALT": "super-secret-definitely-legit-passphrase"}
 
 
 @mock.patch("IntakePipeline.read_fhir_bundles")
