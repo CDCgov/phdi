@@ -88,18 +88,20 @@ class ConvertToFHIR {
             if (messageCategory.equals("ecr") || isValidHL7Message(it)) {
                 try {
                     val json = convertMessageToFHIR(
-                        it, 
-                        messageFormat, 
+                        it,
+                        messageFormat,
                         messageType,
                         accessToken
                     )
                     if (isValidFHIRMessage(json)) {
-                        validMessages.append("$json\n")
+                        val json_single_line = json!!.replace("[\n\r]".toRegex(), "")
+                        validMessages.append("$json_single_line\n")
                     } else {
                         context.logger.info(
                             "The FHIR Server failed to convert a $messageCategory message."
                         )
-                        invalidMessages.append("$it\n")
+                        val it_single_line = it.replace("[\n\r]".toRegex(), "")
+                        invalidMessages.append("$it_single_line\n")
                     }
                 } catch (e: Exception) {
                     val msg: String = """
@@ -112,7 +114,8 @@ class ConvertToFHIR {
                     //TODO: implement logic to handle retries
                 }
             } else {
-                invalidMessages.append("$it\n")
+                val it_single_line = it.replace("[\n\r]".toRegex(), "")
+                invalidMessages.append("$it_single_line\n")
             }
         }
 
