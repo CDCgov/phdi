@@ -2,12 +2,14 @@ import pytest
 
 from unittest import mock
 
-from IntakePipeline import run_pipeline, get_required_config
+from IntakePipeline import run_pipeline
+from IntakePipeline.utils import get_required_config
 
 
 TEST_ENV = {
     "INTAKE_CONTAINER_URL": "some-url",
     "INTAKE_CONTAINER_PREFIX": "some-prefix",
+    "HASH_SALT": "super-secret-definitely-legit-passphrase",
 }
 
 
@@ -25,7 +27,7 @@ def test_basic_pipeline(
 
     patched_fhir_read.assert_called_with("some-url", "some-prefix")
     patched_transform.assert_called_with({"hello": "world"})
-    patched_patient_id.assert_called_with({"hello": "world"})
+    patched_patient_id.assert_called_with(TEST_ENV["HASH_SALT"], {"hello": "world"})
     patched_upload.assert_called_with({"hello": "world"})
 
 
