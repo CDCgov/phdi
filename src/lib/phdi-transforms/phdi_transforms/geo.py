@@ -30,7 +30,7 @@ def geocode(client: us_street.Client, address: str) -> GeocodeResult:
     lookup = Lookup(street=address)
     client.send_lookup(lookup)
 
-    if lookup.result:
+    if lookup.result and lookup.result[0].metadata.latitude:
         res = lookup.result[0]
         addr = [res.delivery_line_1]
         if res.delivery_line_2:

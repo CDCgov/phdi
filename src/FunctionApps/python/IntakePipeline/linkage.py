@@ -22,21 +22,29 @@ def add_patient_identifier(salt_str: str, bundle: dict) -> None:
                 (name for name in patient["name"] if name.get("use") == "official"),
                 patient["name"][0],
             )
-            name_str = "-".join(recent_name["given"]) + "-" + recent_name["family"]
+
+            name_parts = recent_name.get("given", []) + [recent_name.get("family")]
+            name_str = "-".join([n for n in name_parts if n])
 
             # Compile one-line address string
-            address = next(
-                (addr for addr in patient["address"] if addr.get("use") == "home"),
-                patient["address"][0],
-            )
-            address_line = " ".join(address.get("line"))
-            address_line += f" {address.get('city')}, {address.get('state')}"
-            if "postalCode" in address and address["postalCode"]:
-                address_line += f" {address['postalCode']}"
+            address_line = ""
+            if "address" in patient:
+                address = next(
+                    (addr for addr in patient["address"] if addr.get("use") == "home"),
+                    patient["address"][0],
+                )
+                address_line = " ".join(address.get("line", []))
+                address_line += f" {address.get('city')}, {address.get('state')}"
+                if "postalCode" in address and address["postalCode"]:
+                    address_line += f" {address['postalCode']}"
 
             # Generate and store unique hash code
             link_str = name_str + "-" + patient["birthDate"] + "-" + address_line
             hashcode = generate_hash_str(link_str, salt_str)
+
+            if "identifier" not in patient:
+                patient["identifier"] = []
+
             patient["identifier"].append(
                 {
                     "value": hashcode,
