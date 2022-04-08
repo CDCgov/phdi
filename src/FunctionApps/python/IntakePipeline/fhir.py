@@ -20,6 +20,7 @@ def get_blobs(container_url: str, container_prefix: str) -> Iterator[IO]:
     """Grabs blob files from the container as a readable file-like iterator"""
     client = get_blob_client(container_url)
     for props in client.list_blobs(name_starts_with=container_prefix):
+        logging.info(f"reading blob {props.name}")
         if props.size > 0:
             # If it's an actual file, download it and yield out the individual records
             blob_client = client.get_blob_client(props)
