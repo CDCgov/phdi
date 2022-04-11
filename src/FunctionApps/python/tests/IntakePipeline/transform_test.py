@@ -4,7 +4,11 @@ import pytest
 
 from unittest import mock
 
-from IntakePipeline.transform import find_patient_resources, transform_bundle
+from IntakePipeline.transform import (
+    find_patient_resources,
+    transform_bundle,
+    process_name,
+)
 
 from phdi_transforms.geo import GeocodeResult
 
@@ -20,6 +24,16 @@ def test_find_patient_record(combined_bundle):
     patients = find_patient_resources(combined_bundle)
     assert len(patients) == 1
     assert patients[0].get("resource").get("id") == "some-uuid"
+
+
+@mock.patch("IntakePipeline.transform.geocode")
+def test_transform_missing_line(patched_geocode, combined_bundle):
+    combined_bundle["entry"][1]["resource"]["address"] = [
+        {"state": "VA", "use": "home"}
+    ]
+
+    transform_bundle(mock.Mock(), combined_bundle)
+    patched_geocode.assert_called()
 
 
 @mock.patch("IntakePipeline.transform.geocode")
@@ -75,3 +89,15 @@ def test_transform_bundle(patched_geocode, combined_bundle):
     transform_bundle(mock.Mock(), combined_bundle)
     assert combined_bundle.get("entry")[1].get("resource") == expected
     patched_geocode.assert_called()
+
+
+def test_process_name():
+    """Name may or may not contain the 'given' key"""
+    n1 = {"family": "Doe", "given": ["John"], "use": "official"}
+    n2 = {"family": "Donut", "use": "breakfast"}
+
+    process_name(n1)
+    process_name(n2)
+
+    assert n1 == {"family": "DOE", "given": ["JOHN"], "use": "official"}
+    assert n2 == {"family": "DONUT", "use": "breakfast"}

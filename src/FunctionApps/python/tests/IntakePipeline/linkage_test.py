@@ -1,4 +1,3 @@
-from unittest import mock
 from IntakePipeline.linkage import generate_hash_str
 from IntakePipeline.linkage import add_patient_identifier
 
@@ -16,11 +15,27 @@ def test_generate_hash():
     assert hash_2 == "102818c623290c24069beb721c6eb465d281b3b67ecfb6aef924d14affa117b9"
 
 
-@mock.patch("IntakePipeline.linkage.generate_hash_str")
-def test_add_patient_identifier(patched_hash_str):
+def test_missing_address():
+    bundle = {
+        "entry": [
+            {
+                "resource": {
+                    "resourceType": "Patient",
+                    "name": [{"family": "doe"}],
+                    "birthDate": "19900101",
+                }
+            }
+        ]
+    }
 
-    salt_str = salt_str = "super-legit-salt"
-    patched_hash_str.return_value = "1234567890abcdef"
+    add_patient_identifier("some-salt", bundle)
+    expected = generate_hash_str("doe-19900101-", "some-salt")
+    actual = bundle["entry"][0]["resource"]["identifier"][0]["value"]
+    assert actual == expected
+
+
+def test_add_patient_identifier():
+    salt_str = "super-legit-salt"
 
     incoming_bundle = {
         "resourceType": "Bundle",
@@ -84,14 +99,18 @@ def test_add_patient_identifier(patched_hash_str):
         ],
     }
 
+    plaintext = (
+        "John-Tiberius-Shepard-2053-11-07-"
+        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+    )
+
     expected_new_identifier = {
-        "value": patched_hash_str.return_value,
+        "value": generate_hash_str(plaintext, salt_str),
         "system": "urn:ietf:rfc:3986",
         "use": "temp",
     }
 
     add_patient_identifier(salt_str, incoming_bundle)
-    patched_hash_str.assert_called_once()
     assert len(incoming_bundle["entry"]) == 3
     for resource in incoming_bundle["entry"]:
         if resource["resource"]["resourceType"] == "Patient":

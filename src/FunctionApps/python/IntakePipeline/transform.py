@@ -13,6 +13,14 @@ def find_patient_resources(bundle: dict) -> dict:
     ]
 
 
+def process_name(name: dict) -> None:
+    if "family" in name:
+        name["family"] = transform_name(name["family"])
+
+    if "given" in name:
+        name["given"] = [transform_name(g) for g in name["given"]]
+
+
 def transform_bundle(client: us_street.Client, bundle: dict) -> None:
     """Standardize name and phone, geocode the address"""
 
@@ -21,10 +29,7 @@ def transform_bundle(client: us_street.Client, bundle: dict) -> None:
 
         # Transform names
         for name in patient.get("name", []):
-            if "family" in name:
-                name["family"] = transform_name(name["family"])
-
-            name["given"] = [transform_name(g) for g in name["given"]]
+            process_name(name)
 
         # Transform phone numbers
         for telecom in patient.get("telecom", []):
@@ -33,7 +38,7 @@ def transform_bundle(client: us_street.Client, bundle: dict) -> None:
 
         for address in patient.get("address", []):
             # Generate a one-line address to pass to the geocoder
-            one_line = " ".join(address.get("line"))
+            one_line = " ".join(address.get("line", []))
             one_line += f" {address.get('city')}, {address.get('state')}"
             if "postalCode" in address and address["postalCode"]:
                 one_line += f" {address['postalCode']}"
