@@ -11,3 +11,4 @@ items in `local.settings.json` under `Values`.
 * `SMARTYSTREETS_AUTH_ID`: an auth id used in geocoding
 * `SMARTYSTREETS_AUTH_TOKEN`: the corresponding auth token
 * `HASH_SALT`: a salt to use when hashing the patient identifier
+* `FHIR_URL`: the base url for the FHIR server used to persist FHIR objects
