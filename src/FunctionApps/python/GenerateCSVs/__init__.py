@@ -15,6 +15,8 @@ from GenerateCSVs.vxu import VXU_COLUMNS, vxu_to_csv
 from GenerateCSVs.elr import ELR_COLUMNS, elr_to_csv
 from GenerateCSVs.ecr import ECR_COLUMNS, ecr_to_csv
 
+from config import get_required_config
+
 
 RECORD_TYPES = {
     RECORD_TYPE_VXU: (VXU_COLUMNS, vxu_to_csv),
@@ -43,5 +45,10 @@ def generate_csvs() -> dict[str, io.StringIO]:
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    write_csvs(generate_csvs())
+    write_csvs(
+        get_required_config("CONTAINER_URL"),
+        get_required_config("CSV_OUTPUT_PREFIX"),
+        generate_csvs(),
+    )
+
     return func.HttpResponse("ok")
