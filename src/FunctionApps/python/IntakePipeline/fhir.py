@@ -17,7 +17,7 @@ from azure.storage.blob import ContainerClient
 
 def get_blob_client(container_url: str) -> ContainerClient:
     """Use whatever creds Azure can find to authenticate with the storage container"""
-    creds = DefaultAzureCredential().get_token()
+    creds = DefaultAzureCredential()
     return ContainerClient.from_container_url(container_url, credential=creds)
 
 
