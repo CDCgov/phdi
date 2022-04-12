@@ -1,9 +1,6 @@
-import pytest
-
 from unittest import mock
 
 from IntakePipeline import run_pipeline
-from IntakePipeline.utils import get_required_config
 
 
 TEST_ENV = {
@@ -44,11 +41,3 @@ def test_basic_pipeline(
     patched_patient_id.assert_called_with(TEST_ENV["HASH_SALT"], {"hello": "world"})
     patched_upload.assert_called_with({"hello": "world"})
     patched_store.assert_called_with("some-url", "output/path", {"hello": "world"})
-
-
-@mock.patch.dict("os.environ", TEST_ENV)
-def test_get_required_config():
-    assert get_required_config("INTAKE_CONTAINER_PREFIX") == "some-prefix"
-    with pytest.raises(Exception):
-        # Make sure we raise an exception if some config is missing
-        assert get_required_config("INTAKE_CONTAINER_SUFFIX")
