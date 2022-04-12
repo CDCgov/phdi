@@ -9,7 +9,8 @@ from IntakePipeline.fhir import (
     upload_bundle_to_fhir_server,
     store_bundle,
 )
-from IntakePipeline.utils import get_required_config
+
+from config import get_required_config
 
 from phdi_transforms.geo import get_smartystreets_client
 
