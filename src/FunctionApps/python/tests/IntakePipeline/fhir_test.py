@@ -22,15 +22,15 @@ def test_get_blobs(mock_get_client):
     mock_client = mock.Mock()
 
     folderblob = BlobProperties()
-    folderblob.name = "afolder"
+    folderblob.name = "some-prefix"
     folderblob.size = 0
 
     jsonblob = BlobProperties()
-    jsonblob.name = "afolder/afile.json"
+    jsonblob.name = "some-prefix/ELR/afile.json"
     jsonblob.size = 1000
 
     otherblob = BlobProperties()
-    otherblob.name = "afolder/bfile.json"
+    otherblob.name = "some-prefix/VXU/bfile.json"
     otherblob.size = 512
 
     # Actually returns an azure.core.paging.ItemPaged, which is basically an iterator
@@ -45,14 +45,19 @@ def test_get_blobs(mock_get_client):
     mock_blob_client.download_blob.return_value = mock_blob
     mock_client.get_blob_client.return_value = mock_blob_client
 
-    files = list(get_blobs("some-url", "some-prefix"))
+    files = list(get_blobs("some-url", "some-prefix/"))
 
     assert len(files) == 2
-    assert json.load(files[0]).get("record") == "a"
-    assert json.load(files[1]).get("record") == "b"
+    # first blob values
+    assert files[0][0] == "ELR"
+    assert json.load(files[0][1]).get("record") == "a"
+
+    # second blob values
+    assert files[1][0] == "VXU"
+    assert json.load(files[1][1]).get("record") == "b"
 
     mock_get_client.assert_called_with("some-url")
-    mock_client.list_blobs.assert_called_with(name_starts_with="some-prefix")
+    mock_client.list_blobs.assert_called_with(name_starts_with="some-prefix/")
 
 
 @mock.patch("IntakePipeline.fhir.get_blob_client")
@@ -67,10 +72,10 @@ def test_store_bundle(mock_uuid, mock_get_client):
 
     mock_get_client.return_value = mock_client
 
-    store_bundle("some-url", "output/path", {"hello": "world"})
+    store_bundle("some-url", "output/path", {"hello": "world"}, "some-datatype")
 
     mock_client.get_blob_client.assert_called_with(
-        os.path.normpath("output/path/some-uuid.fhir")
+        os.path.normpath("output/path/some-datatype/some-uuid.fhir")
     )
     mock_blob.upload_blob.assert_called()
 
@@ -80,14 +85,16 @@ def test_read_fhir_bundles(mock_get_blobs):
     # Make sure we correctly deal with garbage too
     mock_get_blobs.return_value = iter(
         [
-            io.BytesIO(b'{"id": "first"}'),
-            io.BytesIO(b"MSH|WHO|PUT|HL7|IN^HERE^^^||||||"),
-            io.BytesIO(b'{"id": "second"}'),
+            ("ELR", io.BytesIO(b'{"id": "first"}')),
+            ("HL7", io.BytesIO(b"MSH|WHO|PUT|HL7|IN^HERE^^^||||||")),
+            ("VXU", io.BytesIO(b'{"id": "second"}')),
         ]
     )
 
-    bundles = read_fhir_bundles("some-url", "some-prefix")
-    assert {"first", "second"} == {r.get("id") for r in bundles}
+    bundles = read_fhir_bundles("some-url", "some-prefix/")
+    assert {("ELR", "first"), ("VXU", "second")} == {
+        (datatype, r.get("id")) for datatype, r in bundles
+    }
 
 
 @mock.patch("requests.post")

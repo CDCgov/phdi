@@ -25,7 +25,7 @@ RECORD_TYPES = {
 }
 
 
-def generate_csvs() -> dict[str, io.StringIO]:
+def generate_csvs(container_url: str, container_prefix: str) -> dict[str, io.StringIO]:
     """Generate a csv for each record type"""
 
     # Initialize the output, then a set of csv writers
@@ -37,7 +37,9 @@ def generate_csvs() -> dict[str, io.StringIO]:
         writers[k].writerow(spec[0])
 
     # For each record, run the associated function and write the appropriate csv
-    for rtype, bundle in read_bundles_by_type():
+    for rtype, bundle in read_bundles_by_type(
+        container_url, container_prefix, RECORD_TYPES.keys()
+    ):
         cols, fn = RECORD_TYPES[rtype]
         writers[rtype].writerow(fn(bundle))
 
@@ -48,7 +50,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     write_csvs(
         get_required_config("CONTAINER_URL"),
         get_required_config("CSV_OUTPUT_PREFIX"),
-        generate_csvs(),
+        generate_csvs(
+            get_required_config("CONTAINER_URL"),
+            get_required_config("CSV_INPUT_PREFIX"),
+        ),
     )
 
     return func.HttpResponse("ok")

@@ -38,7 +38,7 @@ def test_basic_pipeline(
     patched_fhirserver_cred_manager = mock.Mock()
     patched_get_fhirserver_cred_manager.return_value = patched_fhirserver_cred_manager
 
-    patched_fhir_read.return_value = [{"hello": "world"}]
+    patched_fhir_read.return_value = [("VXU", {"hello": "world"})]
     run_pipeline()
 
     patched_get_geocoder.assert_called_with("smarty-auth-id", "smarty-auth-token")
@@ -48,4 +48,6 @@ def test_basic_pipeline(
     patched_upload.assert_called_with(
         patched_fhirserver_cred_manager, {"hello": "world"}
     )
-    patched_store.assert_called_with("some-url", "output/path", {"hello": "world"})
+    patched_store.assert_called_with(
+        "some-url", "output/path", {"hello": "world"}, "VXU"
+    )
