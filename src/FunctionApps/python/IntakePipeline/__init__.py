@@ -30,10 +30,10 @@ def run_pipeline():
     container_prefix = get_required_config("INTAKE_CONTAINER_PREFIX")
     output_path = get_required_config("OUTPUT_CONTAINER_PATH")
 
-    for bundle in read_fhir_bundles(container_url, container_prefix):
+    for datatype, bundle in read_fhir_bundles(container_url, container_prefix):
         transform_bundle(geocoder, bundle)
         add_patient_identifier(salt, bundle)
-        store_bundle(container_url, output_path, bundle)
+        store_bundle(container_url, output_path, bundle, datatype)
         upload_bundle_to_fhir_server(fhirserver_cred_manager, bundle)
 
 
