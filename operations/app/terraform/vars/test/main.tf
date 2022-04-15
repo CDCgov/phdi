@@ -115,6 +115,8 @@ module "function_app" {
   terraform_caller_ip_address = var.terraform_caller_ip_address
   use_cdc_managed_vnet        = var.use_cdc_managed_vnet
   sa_functionapps             = module.storage.sa_functionapps
+  healthcare_service_name     = module.fhir.healthcare_service_name
+  publish_functions           = var.publish_functions
 }
 
 module "data_factory" {
