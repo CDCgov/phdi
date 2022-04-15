@@ -56,7 +56,6 @@ def main_with_overload(
     Returns:
         func.HttpResponse: the decrypted message
     """
-
     encrypted_message = req.get_body()
     message_size = sys.getsizeof(encrypted_message)
 

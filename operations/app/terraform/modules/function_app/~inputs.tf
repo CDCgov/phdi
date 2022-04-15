@@ -56,3 +56,11 @@ variable "use_cdc_managed_vnet" {
 }
 
 variable "sa_functionapps" {}
+
+variable "healthcare_service_name" {
+  type = string
+}
+
+variable "publish_functions" {
+  type = bool
+}

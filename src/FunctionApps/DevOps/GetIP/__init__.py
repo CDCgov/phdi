@@ -8,4 +8,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     s.connect(("8.8.8.8", 80))
     print(s.getsockname()[0])
 
-    return func.HttpResponse(f"IP4 address: {s.getsockname()[0]}")
+    return func.HttpResponse(f'{{"ip_address":"{s.getsockname()[0]}"}}')

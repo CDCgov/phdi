@@ -1,12 +1,3 @@
-locals {
-  function_apps = {
-    default : { runtime = "python" },
-    python : { runtime = "python" },
-    java : { runtime = "java" },
-    infra : { runtime = "python" },
-  }
-}
-
 module "pdi_function_app" {
   for_each = local.function_apps
   source   = "../common/function_app"
@@ -21,6 +12,8 @@ module "pdi_function_app" {
     environment                = var.environment
     subnet_id                  = var.cdc_app_subnet_id
     application_key_vault_id   = var.application_key_vault_id
+    version                    = each.value.version
+    always_on                  = each.value.always_on
   }
 
   app_settings = {
@@ -34,12 +27,18 @@ module "pdi_function_app" {
     APPLICATIONINSIGHTS_CONNECTION_STRING = var.ai_connection_string
     BUILD_FLAGS                           = "UseExpressBuild"
     FUNCTIONS_WORKER_RUNTIME              = each.value.runtime
-    SCM_DO_BUILD_DURING_DEPLOYMENT        = true
+    SCM_DO_BUILD_DURING_DEPLOYMENT        = each.value.SCM_DO_BUILD_DURING_DEPLOYMENT
     VDHSFTPHostname                       = "vdhsftp.vdh.virginia.gov"
     VDHSFTPPassword                       = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/VDHSFTPPassword)"
     VDHSFTPUsername                       = "USDS_CDC"
     XDG_CACHE_HOME                        = "/tmp/.cache"
-    WEBSITE_RUN_FROM_PACKAGE              = 1
+    WEBSITE_RUN_FROM_PACKAGE              = each.value.WEBSITE_RUN_FROM_PACKAGE
     DATA_STORAGE_ACCOUNT                  = var.sa_data_name
+    ENABLE_ORYX_BUILD                     = each.value.ENABLE_ORYX_BUILD
+    "${each.value.mi_blobServiceName}"    = each.value.mi_blobServiceUri
+    "${each.value.mi_queueServiceName}"   = each.value.mi_queueServiceUri
+    "${each.value.mi_accountName}"        = each.value.mi_accountValue
+    fhir_url                              = each.value.fhir_url
+    "AzureWebJobs.convertToFhir.Disabled" = each.value.AzureWebJobs_convertToFhir_Disabled
   }
 }

@@ -11,9 +11,16 @@
     },
     {
       "path": "DevOps"
+    },
+    {
+      "path": "DSTP"
+    },
+    {
+      "path": "TestDSTP"
     }
   ],
   "settings": {
-    "debug.internalConsoleOptions": "neverOpen"
+    "debug.internalConsoleOptions": "neverOpen",
+    "java.configuration.updateBuildConfiguration": "automatic"
   }
 }

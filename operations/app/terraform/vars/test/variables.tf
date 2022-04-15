@@ -59,6 +59,11 @@ variable "route_table_resource_group_name" {
   default = "prime-ingestion-test"
 }
 
+variable "publish_functions" {
+  type    = bool
+  default = false
+}
+
 variable "aad_object_keyvault_admin" {
   # NOTE: set to object ID of CT-DMZ-PRIME-INGESTION-TST-AZ-Contributor
   default = "9ff42a69-beb8-4b4a-9406-e7fbcbf847ee"
