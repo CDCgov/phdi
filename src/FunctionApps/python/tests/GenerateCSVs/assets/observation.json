@@ -1,0 +1,51 @@
+{
+    "resourceType": "Observation",
+    "id": "321asdf-5555-4995-d8e5-3sd8fv1j86a",
+    "status": "final",
+    "code": {
+        "coding": [
+            {
+                "code": "94500-6",
+                "display": "SARS-CoV-2 RNA Resp Ql NAA+probe",
+                "system": "http://loinc.org"
+            }
+        ]
+    },
+    "valueCodeableConcept": {
+        "coding": [
+            {
+                "code": "10828004",
+                "display": "Positive",
+                "system": "http://terminology.hl7.org/CodeSystem/snm"
+            }
+        ],
+        "text": "Positive"
+    },
+    "effectiveDateTime": "2022-01-01T01:01:00",
+    "method": {
+        "coding": [
+            {
+                "code": "XPERT XPRESS SARS-COV-2 TEST_CEPHEID_EUA",
+                "system": "http://example.com/v2-to-fhir-converter/CodeSystem/99ELR"
+            }
+        ]
+    },
+    "subject": {
+        "reference": "Patient/8s5f4j6s-be04-1234-9876-5j813d9e31q8"
+    },
+    "extension": [
+        {
+            "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "code": "F",
+                        "display": "Final",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0085"
+                    }
+                ],
+                "text": "Final"
+            }
+        }
+    ]
+}

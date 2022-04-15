@@ -41,7 +41,7 @@ def generate_csvs(container_url: str, container_prefix: str) -> dict[str, io.Str
         container_url, container_prefix, RECORD_TYPES.keys()
     ):
         cols, fn = RECORD_TYPES[rtype]
-        writers[rtype].writerow(fn(bundle))
+        writers[rtype].writerows(fn(bundle))
 
     return results
 

@@ -28,9 +28,9 @@ def test_generate_csvs(mock_bundle_reader):
     ]
 
     mock_types_def = {
-        RECORD_TYPE_VXU: (["vxucol"], mock.Mock(return_value=["vxurec"])),
-        RECORD_TYPE_ELR: (["elrcol"], mock.Mock(return_value=["elrrec"])),
-        RECORD_TYPE_ECR: (["ecrcol"], mock.Mock(return_value=["ecrrec"])),
+        RECORD_TYPE_VXU: (["vxucol"], mock.Mock(return_value=[["vxurec"]])),
+        RECORD_TYPE_ELR: (["elrcol"], mock.Mock(return_value=[["elrrec"]])),
+        RECORD_TYPE_ECR: (["ecrcol"], mock.Mock(return_value=[["ecrrec"]])),
     }
 
     with mock.patch("GenerateCSVs.RECORD_TYPES", mock_types_def):

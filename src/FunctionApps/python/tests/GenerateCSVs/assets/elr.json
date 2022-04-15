@@ -1,0 +1,128 @@
+{
+    "resourceType": "Bundle",
+    "identifier": {
+        "value": "a very contrived FHIR bundle"
+    },
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Organization",
+                "id": "some-org-we-dont-care-about"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "some-uuid",
+                "identifier": [
+                    {
+                        "value": "123456",
+                        "type": {
+                            "coding": [
+                                {
+                                    "code": "MR",
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                                    "display": "Medical record number"
+                                }
+                            ]
+                        },
+                        "system": "urn...no idea"
+                    }
+                ],
+                "name": [
+                    {
+                        "family": "Shepard",
+                        "given": [
+                            "John"
+                        ],
+                        "use": "official"
+                    }
+                ],
+                "birthDate": "2153-11-07",
+                "gender": "Male",
+                "address": [
+                    {
+                        "line": [
+                            "1234 Silversun Strip"
+                        ],
+                        "city": "Zakera Ward",
+                        "state": "Citadel",
+                        "postalCode": "99999",
+                        "country": "Canada",
+                        "use": "home"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "use": "home",
+                        "system": "phone"
+                    },
+                    {
+                        "value": "johndanger@doe.net",
+                        "system": "email"
+                    }
+                ],
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                        "extension": [
+                            {
+                                "valueCoding": {
+                                    "code": "White"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "another-id",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "94500-6",
+                            "display": "SARS-CoV-2 RNA Resp Ql NAA+probe",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "10828004",
+                            "display": "Positive",
+                            "system": "http://terminology.hl7.org/CodeSystem/snm"
+                        }
+                    ],
+                    "text": "Positive"
+                },
+                "effectiveDateTime": "2022-01-01T01:01:00",
+                "subject": {
+                    "reference": "Patient/some-uuid"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "yet-another-id",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "fake-code",
+                            "display": "i do not exist",
+                            "system": "lolwut"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2022-01-01T01:01:00",
+                "subject": {
+                    "reference": "Patient/some-uuid"
+                }
+            }
+        }
+    ]
+}
