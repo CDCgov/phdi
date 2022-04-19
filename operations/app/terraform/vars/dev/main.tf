@@ -74,7 +74,6 @@ module "storage" {
   pdi_function_app_uuid            = module.function_app.pdi_function_app_uuid
   infrastructure_function_app_uuid = module.function_app.infrastructure_function_app_uuid
   adf_uuid                         = module.data_factory.adf_uuid
-  java_function_app_uuid           = module.function_app.java_function_app_uuid
   python_function_app_uuid         = module.function_app.python_function_app_uuid
 }
 
@@ -149,7 +148,6 @@ module "log_analytics_workspace" {
   resource_prefix                = var.resource_prefix
   pdi_function_app_id            = module.function_app.pdi_function_app_id
   infrastructure_function_app_id = module.function_app.infrastructure_function_app_id
-  java_function_app_id           = module.function_app.java_function_app_id
   python_function_app_id         = module.function_app.python_function_app_id
   app_service_plan_id            = module.app_service_plan.service_plan_id
   cdc_managed_vnet_id            = module.network.cdc_managed_vnet_id
