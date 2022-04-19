@@ -40,5 +40,15 @@ module "pdi_function_app" {
     "${each.value.mi_accountName}"        = each.value.mi_accountValue
     fhir_url                              = each.value.fhir_url
     "AzureWebJobs.convertToFhir.Disabled" = each.value.AzureWebJobs_convertToFhir_Disabled
+    SMARTYSTREETS_AUTH_ID                 = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthID)"
+    SMARTYSTREETS_AUTH_TOKEN              = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthToken)"
+    CONTAINER_URL                         = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
+    INTAKE_CONTAINER_URL                  = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
+    INTAKE_CONTAINER_PREFIX               = "decrypted/valid-messages/"
+    OUTPUT_CONTAINER_PATH                 = "processed"
+    CSV_INPUT_PREFIX                      = "processed"
+    CSV_OUTPUT_PREFIX                     = "csvs"
+    HASH_SALT                             = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/salt)"
+    FHIR_URL                              = "https://${var.resource_prefix}-fhir.azurehealthcareapis.com"
   }
 }
