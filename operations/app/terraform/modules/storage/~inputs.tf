@@ -78,11 +78,6 @@ variable "adf_uuid" {
   description = "Azure Data Factory resource uuid"
 }
 
-variable "java_function_app_uuid" {
-  type        = string
-  description = "Java function app resource uuid"
-}
-
 variable "python_function_app_uuid" {
   type        = string
   description = "Python function app resource uuid"

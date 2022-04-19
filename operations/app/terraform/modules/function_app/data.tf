@@ -32,22 +32,6 @@ locals {
       always_on                           = true,
       WEBSITE_RUN_FROM_PACKAGE            = null
     },
-    java : {
-      runtime                             = "java",
-      version                             = "~4",
-      mi_blobServiceName                  = "IdConn__blobServiceUri",
-      mi_blobServiceUri                   = "https://${var.resource_prefix}datasa.blob.core.windows.net",
-      mi_queueServiceName                 = "IdConn__queueServiceUri",
-      mi_queueServiceUri                  = "https://${var.resource_prefix}datasa.queue.core.windows.net",
-      mi_accountName                      = "AzureWebJobsStorage__accountName",
-      mi_accountValue                     = "${var.resource_prefix}datasa",
-      SCM_DO_BUILD_DURING_DEPLOYMENT      = false,
-      ENABLE_ORYX_BUILD                   = true,
-      fhir_url                            = "https://${var.healthcare_service_name}.azurehealthcareapis.com",
-      AzureWebJobs_convertToFhir_Disabled = 0,
-      always_on                           = true,
-      WEBSITE_RUN_FROM_PACKAGE            = 1
-    },
     infra : {
       runtime                             = "python",
       version                             = "~4",
