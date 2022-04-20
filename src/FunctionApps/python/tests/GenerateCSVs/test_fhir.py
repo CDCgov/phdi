@@ -1,4 +1,5 @@
 import io
+import os
 
 from unittest import mock
 
@@ -21,7 +22,7 @@ def test_write_csvs(mock_get_container):
     )
 
     mock_get_container.assert_called_with("some-url")
-    container.get_blob_client.assert_called_with("some-prefix/vxu.csv")
+    container.get_blob_client.assert_called_with(os.path.join("some-prefix", "vxu.csv"))
     blob.upload_blob.assert_called_with(b"hello,world")
 
 

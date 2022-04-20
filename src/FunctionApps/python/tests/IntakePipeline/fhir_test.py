@@ -1,70 +1,19 @@
 from datetime import datetime, timezone
-import io
-import json
 import os
 
 from unittest import mock
 
 from IntakePipeline.fhir import (
-    read_fhir_bundles,
-    get_blobs,
-    store_bundle,
+    store_data,
     get_fhirserver_cred_manager,
     upload_bundle_to_fhir_server,
 )
 
 from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobProperties
 
 
 @mock.patch("IntakePipeline.fhir.get_blob_client")
-def test_get_blobs(mock_get_client):
-    mock_client = mock.Mock()
-
-    folderblob = BlobProperties()
-    folderblob.name = "some-prefix"
-    folderblob.size = 0
-
-    jsonblob = BlobProperties()
-    jsonblob.name = "some-prefix/ELR/afile.json"
-    jsonblob.size = 1000
-
-    otherblob = BlobProperties()
-    otherblob.name = "some-prefix/VXU/bfile.json"
-    otherblob.size = 512
-
-    # Actually returns an azure.core.paging.ItemPaged, which is basically an iterator
-    mock_client.list_blobs.return_value = [folderblob, jsonblob, otherblob]
-    mock_get_client.return_value = mock_client
-
-    # return the first, then the second record on their resp calls
-    mock_blob = mock.Mock()
-    mock_blob.content_as_bytes.side_effect = [b'{"record": "a"}', b'{"record": "b"}']
-
-    mock_blob_client = mock.Mock()
-    mock_blob_client.download_blob.return_value = mock_blob
-    mock_client.get_blob_client.return_value = mock_blob_client
-
-    files = list(get_blobs("some-url", "some-prefix/"))
-
-    assert len(files) == 2
-    # first blob values
-    assert files[0][0] == "ELR"
-    assert json.load(files[0][1]).get("record") == "a"
-
-    # second blob values
-    assert files[1][0] == "VXU"
-    assert json.load(files[1][1]).get("record") == "b"
-
-    mock_get_client.assert_called_with("some-url")
-    mock_client.list_blobs.assert_called_with(name_starts_with="some-prefix/")
-
-
-@mock.patch("IntakePipeline.fhir.get_blob_client")
-@mock.patch("IntakePipeline.fhir.uuid")
-def test_store_bundle(mock_uuid, mock_get_client):
-    mock_uuid.uuid4.return_value = "some-uuid"
-
+def test_store_bundle(mock_get_client):
     mock_blob = mock.Mock()
 
     mock_client = mock.Mock()
@@ -72,29 +21,18 @@ def test_store_bundle(mock_uuid, mock_get_client):
 
     mock_get_client.return_value = mock_client
 
-    store_bundle("some-url", "output/path", {"hello": "world"}, "some-datatype")
+    store_data(
+        "some-url",
+        "output/path",
+        "some-filename-1.fhir",
+        "some-bundle-type",
+        {"hello": "world"},
+    )
 
     mock_client.get_blob_client.assert_called_with(
-        os.path.normpath("output/path/some-datatype/some-uuid.fhir")
+        os.path.normpath("output/path/some-bundle-type/some-filename-1.fhir")
     )
     mock_blob.upload_blob.assert_called()
-
-
-@mock.patch("IntakePipeline.fhir.get_blobs")
-def test_read_fhir_bundles(mock_get_blobs):
-    # Make sure we correctly deal with garbage too
-    mock_get_blobs.return_value = iter(
-        [
-            ("ELR", io.BytesIO(b'{"id": "first"}')),
-            ("HL7", io.BytesIO(b"MSH|WHO|PUT|HL7|IN^HERE^^^||||||")),
-            ("VXU", io.BytesIO(b'{"id": "second"}')),
-        ]
-    )
-
-    bundles = read_fhir_bundles("some-url", "some-prefix/")
-    assert {("ELR", "first"), ("VXU", "second")} == {
-        (datatype, r.get("id")) for datatype, r in bundles
-    }
 
 
 @mock.patch("requests.post")
@@ -151,7 +89,7 @@ def test_get_access_token_reuse(mock_get_token):
     # Use the default token reuse tolerance, which is less than
     # the mock token's time to live of 2399
     fhirserver_cred_manager.get_access_token()
-    mock_get_token.assert_called_once_with("https://fhir-url")
+    mock_get_token.assert_called_once_with("https://fhir-url/.default")
     assert token1.token == "my-token"
 
 
@@ -171,6 +109,6 @@ def test_get_access_token_refresh(mock_get_token):
     # force another refresh for the new call
     fhirserver_cred_manager.get_access_token(2500)
     mock_get_token.assert_has_calls(
-        [mock.call("https://fhir-url"), mock.call("https://fhir-url")]
+        [mock.call("https://fhir-url/.default"), mock.call("https://fhir-url/.default")]
     )
     assert token1.token == "my-token"
