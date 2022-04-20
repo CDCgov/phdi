@@ -315,6 +315,131 @@
             }
         },
         {
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "immunization-resource-id3",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.198.2.7.2.768076",
+                        "value": "16803245"
+                    }
+                ],
+                "occurrenceDateTime": "2015-11-17",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "code": "49281-623-78",
+                            "system": "urn:oid:2.16.840.1.113883.6.69"
+                        }
+                    ]
+                },
+                "status": "completed",
+                "route": {
+                    "coding": [
+                        {
+                            "code": "C28161",
+                            "system": "urn:oid:2.16.840.1.113883.3.26.1.1"
+                        }
+                    ]
+                },
+                "patient": {
+                    "reference": "Patient/patient-resource-id"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Immunization/immunization-resource-id3"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "immunization-resource-id4",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.198.2.7.2.768076",
+                        "value": "17446192"
+                    }
+                ],
+                "occurrenceDateTime": "2009-10-22",
+                "status": "completed",
+                "patient": {
+                    "reference": "Patient/patient-resource-id"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Immunization/immunization-resource-id4"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "immunization-resource-id5",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.198.2.7.2.768076",
+                        "value": "17446193"
+                    }
+                ],
+                "occurrenceDateTime": "2013-08-16",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "code": "115",
+                            "display": "Tdap",
+                            "system": "http://hl7.org/fhir/sid/cvx"
+                        }
+                    ]
+                },
+                "status": "completed",
+                "patient": {
+                    "reference": "Patient/patient-resource-id"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Immunization/immunization-resource-id5"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "immunization-resource-id6",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.198.2.7.2.768076",
+                        "value": "21335533"
+                    }
+                ],
+                "occurrenceDateTime": "2020-02-21",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "code": "49281-589-58",
+                            "system": "urn:oid:2.16.840.1.113883.6.69"
+                        }
+                    ]
+                },
+                "status": "completed",
+                "route": {
+                    "coding": [
+                        {
+                            "code": "C28161",
+                            "system": "urn:oid:2.16.840.1.113883.3.26.1.1"
+                        }
+                    ]
+                },
+                "patient": {
+                    "reference": "Patient/patient-resource-id"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Immunization/immunization-resource-id6"
+            }
+        },
+        {
             "fullUrl": "urn:uuid:",
             "resource": {
                 "resourceType": "Organization"

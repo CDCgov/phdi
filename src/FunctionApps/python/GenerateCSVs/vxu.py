@@ -2,11 +2,13 @@ from typing import List
 from GenerateCSVs.patient import PATIENT_COLUMNS
 from GenerateCSVs.patient import parse_patient_resource
 
-VXU_COLUMNS = PATIENT_COLUMNS + [
+VXU_SPECIFIC_COLUMNS = [
     "vaccineCode",
     "vaccineDescription",
     "occurrenceDateTime",
 ]
+
+VXU_COLUMNS = PATIENT_COLUMNS + VXU_SPECIFIC_COLUMNS
 
 
 def vxu_to_csv(bundle: dict) -> List[List[str]]:
@@ -48,9 +50,11 @@ def vxu_to_csv(bundle: dict) -> List[List[str]]:
         # Make sure patient reference exists, and is found in patient_resources
         # If so, build a row in the CSV.
         if pat_ref and patient_resources.get(pat_ref):
-            return_rows.append(
-                patient_resources.get(pat_ref) + parse_immunization_resource(imm_rsc)
-            )
+            imm_resource = parse_immunization_resource(imm_rsc)
+
+            # Require vaccine code or decription to build a row
+            if imm_resource[0:2] != ["", ""]:
+                return_rows.append(patient_resources.get(pat_ref) + imm_resource)
 
     return return_rows
 
@@ -66,17 +70,18 @@ def get_vax_code_desc(imm_rsc) -> List[str]:
         imm_rsc.get("vaccineCode") is None
         or imm_rsc.get("vaccineCode").get("coding") is None
     ):
-        return [""]
+        return ["", ""]
 
-    for code in imm_rsc.get("vaccineCode").get("coding"):
-        if code.get("code") is not None and code.get("system") is not None:
+    for coding in imm_rsc.get("vaccineCode").get("coding"):
+        if coding.get("code") is not None and coding.get("system") is not None:
             # This is maybe a little more permissive than it should be.
             # Technically `system` should be http://hl7.org/fhir/sid/cvx
             # But our data has the following
             # http://example.com/v2-to-fhir-converter/CodeSystem/CVX
             # If this is fixed in upstream translation, we could make this stricter.
-            if code.get("system").lower().endswith("cvx"):
-                return [code.get("code", ""), code.get("display", "")]
+            if coding.get("system").lower().endswith("cvx"):
+                return [coding.get("code", ""), coding.get("display", "")]
+    return ["", ""]
 
 
 def get_vax_datetime(imm_rsc) -> List[str]:
