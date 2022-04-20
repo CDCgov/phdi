@@ -1,8 +1,9 @@
 from typing import List
 from GenerateCSVs.patient import PATIENT_COLUMNS, parse_patient_resource
 
+ELR_SPECIFIC_COLUMNS = ["loincCode", "result", "effectiveDateTime"]
 
-ELR_COLUMNS = PATIENT_COLUMNS + ["loincCode", "result", "effectiveDateTime"]
+ELR_COLUMNS = PATIENT_COLUMNS + ELR_SPECIFIC_COLUMNS
 
 
 def extract_loinc_lab(observation: dict) -> List[str]:
