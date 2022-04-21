@@ -134,12 +134,18 @@ def get_race_ethnicity(pt_rsc: dict) -> List[str]:
                 extension["url"]
                 == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
             ):
-                race = extension["extension"][0]["valueCoding"]["code"]
+                try:
+                    race = extension["extension"][0]["valueCoding"]["code"]
+                except KeyError:
+                    race = ""
             elif (
                 extension["url"]
                 == "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
             ):
-                ethnicity = extension["extension"][0]["valueCoding"]["code"]
+                try:
+                    ethnicity = extension["extension"][0]["valueCoding"]["code"]
+                except KeyError:
+                    ethnicity = ""
 
     return [race, ethnicity]
 
