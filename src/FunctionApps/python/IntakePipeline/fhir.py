@@ -95,9 +95,7 @@ def get_fhirserver_cred_manager(fhir_url: str):
     return AzureFhirserverCredentialManager(fhir_url)
 
 
-def upload_bundle_to_fhir_server(
-    fhirserver_cred_manager: AzureFhirserverCredentialManager, fhir_json: dict
-):
+def upload_bundle_to_fhir_server(bundle: dict, access_token: str, fhir_url: str):
     """Import a FHIR resource to the FHIR server.
     The submissions may be Bundles or individual FHIR resources.
 
@@ -105,14 +103,6 @@ def upload_bundle_to_fhir_server(
     :param dict fhir_json: FHIR resource in json format.
     :param str method: HTTP method to use (currently PUT or POST supported)
     """
-    try:
-        token = fhirserver_cred_manager.get_access_token()
-    except Exception:
-        logging.exception("Failed to get access token")
-        raise requests.exceptions.HTTPError(
-            "Authorization error occurred while processing information into \
-            FHIR server."
-        )
     retry_strategy = Retry(
         total=3,
         status_forcelist=[429, 500, 502, 503, 504],
@@ -121,17 +111,16 @@ def upload_bundle_to_fhir_server(
     adapter = HTTPAdapter(max_retries=retry_strategy)
     http = requests.Session()
     http.mount("https://", adapter)
-    fhir_url = fhirserver_cred_manager.fhir_url
     try:
         requests.post(
             fhir_url,
             headers={
-                "Authorization": f"Bearer {token.token}",
+                "Authorization": f"Bearer {access_token}",
                 "Accept": "application/fhir+json",
                 "Content-Type": "application/fhir+json",
             },
-            data=json.dumps(fhir_json),
+            data=json.dumps(bundle),
         )
     except Exception:
-        logging.exception("Request to post Bundle failed for json: " + str(fhir_json))
+        logging.exception("Request to post Bundle failed for json: " + str(bundle))
         return

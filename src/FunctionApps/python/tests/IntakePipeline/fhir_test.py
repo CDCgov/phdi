@@ -37,18 +37,7 @@ def test_store_bundle(mock_get_client):
 
 @mock.patch("requests.post")
 def test_upload_bundle_to_fhir_server(mock_fhir_post):
-
-    mock_fhirserver_cred_manager = mock.Mock()
-    mock_fhirserver_cred_manager.fhir_url = "https://fhir-url"
-
-    # Create a mock token
-    mock_access_token = mock.Mock()
-    mock_access_token.token = "my-token"
-    mock_access_token.expires_on = datetime.now(timezone.utc).timestamp() + 2399
-    mock_fhirserver_cred_manager.get_access_token.return_value = mock_access_token
-
     upload_bundle_to_fhir_server(
-        mock_fhirserver_cred_manager,
         {
             "resourceType": "Bundle",
             "id": "some-id",
@@ -59,12 +48,14 @@ def test_upload_bundle_to_fhir_server(mock_fhir_post):
                 }
             ],
         },
+        "some-token",
+        "https://some-fhir-url",
     )
 
     mock_fhir_post.assert_called_with(
-        "https://fhir-url",
+        "https://some-fhir-url",
         headers={
-            "Authorization": "Bearer my-token",
+            "Authorization": "Bearer some-token",
             "Accept": "application/fhir+json",
             "Content-Type": "application/fhir+json",
         },
