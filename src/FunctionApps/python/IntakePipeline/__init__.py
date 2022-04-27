@@ -1,5 +1,7 @@
-import logging
 import azure.functions as func
+import logging
+
+from azure.core.exceptions import ResourceExistsError
 from typing import Dict
 
 from IntakePipeline.transform import transform_bundle
@@ -45,6 +47,7 @@ def run_pipeline(
 
     bundle = convert_message_to_fhir(
         message=message,
+        filename=message_mappings["filename"],
         input_data_type=message_mappings["input_data_type"],
         root_template=message_mappings["root_template"],
         template_collection=message_mappings["template_collection"],
@@ -55,26 +58,39 @@ def run_pipeline(
     if bundle:
         transform_bundle(geocoder, bundle)
         add_patient_identifier(salt, bundle)
-        store_data(
-            container_url,
-            valid_output_path,
-            f"{message_mappings['filename']}.fhir",
-            message_mappings["bundle_type"],
-            bundle=bundle,
-        )
+        try:
+            store_data(
+                container_url,
+                valid_output_path,
+                f"{message_mappings['filename']}.fhir",
+                message_mappings["bundle_type"],
+                bundle=bundle,
+            )
+        except ResourceExistsError:
+            logging.warning(
+                "Attempted to store preexisting resource: "
+                + f"{message_mappings['filename']}.fhir"
+            )
+
         upload_bundle_to_fhir_server(bundle, access_token, fhir_url)
     else:
-        store_data(
-            container_url,
-            invalid_output_path,
-            f"{message_mappings['filename']}.hl7",
-            message_mappings["bundle_type"],
-            message=message,
-        )
+        try:
+            store_data(
+                container_url,
+                invalid_output_path,
+                f"{message_mappings['filename']}.{message_mappings['file_suffix']}",
+                message_mappings["bundle_type"],
+                message=message,
+            )
+        except ResourceExistsError:
+            logging.warning(
+                "Attempted to store preexisting resource: "
+                + f"{message_mappings['filename']}.{message_mappings['file_suffix']}"
+            )
 
 
-def main(blob: func.InputStream) -> func.HttpResponse:
-    logging.info("Triggering intake pipeline")
+def main(blob: func.InputStream) -> None:
+    logging.debug("Entering intake pipeline ")
 
     fhir_url = get_required_config("FHIR_URL")
     cred_manager = get_fhirserver_cred_manager(fhir_url)
@@ -92,9 +108,4 @@ def main(blob: func.InputStream) -> func.HttpResponse:
             message_mappings["filename"] = generate_filename(blob.name, i)
             run_pipeline(message, message_mappings, fhir_url, access_token.token)
     except Exception:
-        logging.exception("exception caught while running the intake pipeline")
-        return func.HttpResponse(
-            "error while running the intake pipeline", status_code=500
-        )
-
-    return func.HttpResponse("pipeline run successfully")
+        logging.exception("Exception occurred during IntakePipeline processing.")

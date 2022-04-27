@@ -31,9 +31,10 @@ hs_err_pid*
 
 # Python
 .venv
+.python-version
 
 # Azure Functions
-local.settings.json
+*local.settings.json
 bin/
 obj/
 extensions.csproj

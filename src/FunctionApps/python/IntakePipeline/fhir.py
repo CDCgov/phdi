@@ -38,9 +38,9 @@ def store_data(
     client = get_blob_client(container_url)
     blob = client.get_blob_client(str(pathlib.Path(prefix) / bundle_type / filename))
     if bundle is not None:
-        blob.upload_blob(json.dumps(bundle).encode("utf-8"))
+        blob.upload_blob(json.dumps(bundle).encode("utf-8"), overwrite=True)
     elif message is not None:
-        blob.upload_blob(bytes(message, "utf-8"))
+        blob.upload_blob(bytes(message, "utf-8"), overwrite=True)
 
 
 class AzureFhirserverCredentialManager:

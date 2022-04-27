@@ -1,3 +1,4 @@
+import logging
 import re
 import requests
 from typing import List, Dict
@@ -77,7 +78,8 @@ def convert_batch_messages_to_list(content: str, delimiter: str = "\n") -> List[
 
 
 def get_file_type_mappings(blob_name: str) -> Dict[str, str]:
-    if blob_name[-3:].lower() not in ("hl7", "xml"):
+    file_suffix = blob_name[-3:].lower()
+    if file_suffix not in ("hl7", "xml"):
         raise Exception(f"invalid file extension for {blob_name}")
 
     filetype = blob_name.split("/")[-2].lower()
@@ -101,6 +103,7 @@ def get_file_type_mappings(blob_name: str) -> Dict[str, str]:
         raise Exception(f"Found an unidentified message_format: {filetype}")
 
     return {
+        "file_suffix": file_suffix,
         "bundle_type": bundle_type,
         "root_template": root_template,
         "input_data_type": input_data_type,
@@ -110,6 +113,7 @@ def get_file_type_mappings(blob_name: str) -> Dict[str, str]:
 
 def convert_message_to_fhir(
     message: str,
+    filename: str,
     input_data_type: str,
     root_template: str,
     template_collection: str,
@@ -152,6 +156,44 @@ def convert_message_to_fhir(
     )
 
     if response.status_code != 200:
+
+        error_info = ""
+
+        # Try to parse the non-success response as OperationOutcome FHIR JSON
+        try:
+            response_json = response.json()
+
+            logging.info("non-200 response from fhir converter: " + str(response_json))
+
+            # If it's FHIR, unpack the response
+            if response_json["resourceType"] == "OperationOutcome":
+                for issue in response_json["issue"]:
+                    issue_severity = issue.get("severity")
+                    issue_code = issue.get("code")
+                    issue_diagnostics = issue.get("diagnostics")
+                    single_error_info = (
+                        f"Error processing: {filename}  "
+                        + f"HTTP Code: {response.status_code}  "
+                        + f"FHIR Severity: {issue_severity}  "
+                        + f"Code: {issue_code}  "
+                        + f"Diagnostics: {issue_diagnostics}"
+                    )
+                    if error_info == "":
+                        error_info = single_error_info
+                    else:
+                        error_info += "\n\t" + single_error_info
+
+        except Exception:
+            # ; If an exception occurs while parsing FHIR JSON,
+            # Log the full response content
+            decoded_response = response.content.decode("utf-8")
+            error_info = (
+                f"HTTP Code: {response.status_code}, "
+                + f"Response Content {decoded_response}"
+            )
+
+        logging.error(f"Error during $convert-data -- {error_info}")
+
         return {}
 
     return response.json()
