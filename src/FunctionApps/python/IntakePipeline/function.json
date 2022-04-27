@@ -7,11 +7,6 @@
       "direction": "in",
       "path": "bronze/decrypted/{name}",
       "connection": "AzureWebJobsStorage"
-    },
-    {
-      "type": "http",
-      "direction": "out",
-      "name": "$return"
     }
   ]
 }
