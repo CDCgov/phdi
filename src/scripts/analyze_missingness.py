@@ -2,6 +2,7 @@ from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobClient
 from io import StringIO
 import pandas as pd
+import pathlib
 from tabulate import tabulate
 
 
@@ -118,24 +119,34 @@ if __name__ == "__main__":
     pre_linkage = pd.read_csv(
         get_blob_data(STORAGE_ACCOUNT_URL, CONTAINER_NAME, CSV_FULL_NAME)
     )
-    pre_linkage.drop(
+
+    # Use known COVID LOINC codes to filter out all rows corresponding to observation
+    # resources reporting anything other than covid test results (e.g. observations
+    # corresponding to AOEs)
+    covid_loincs = pd.read_csv(
+        pathlib.Path(__file__).parent / "assets" / "covid_loinc_reference.csv"
+    )
+
+    pre_linkage_covid = pre_linkage.merge(covid_loincs, on="loincCode", how="inner")
+
+    pre_linkage_covid.drop(
         columns=[
             c
-            for c in pre_linkage.columns
+            for c in pre_linkage_covid.columns
             if c not in list(equity_fields.keys()) + ["patientHash"]
         ],
         inplace=True,
     )
-    pre_linkage = filter_for_valid_values(pre_linkage, equity_fields)
-    data_by_hash = pre_linkage.groupby("patientHash")
-    post_linkage = data_by_hash.agg(record_combination_func).reset_index()
+    pre_linkage_covid = filter_for_valid_values(pre_linkage_covid, equity_fields)
+    data_by_hash = pre_linkage_covid.groupby("patientHash")
+    post_linkage_covid = data_by_hash.agg(record_combination_func).reset_index()
     print("Data loaded and linked.")
 
     # Compute results and print.
     print("Computing results...")
-    patients = count_patients(pre_linkage, post_linkage)
+    patients = count_patients(pre_linkage_covid, post_linkage_covid)
     missing_equity_data = count_records_missing_data(
-        pre_linkage, post_linkage, equity_fields
+        pre_linkage_covid, post_linkage_covid, equity_fields
     )
     print("Results computed.")
     print("\nNumber of patient records as a function of linkage:")
