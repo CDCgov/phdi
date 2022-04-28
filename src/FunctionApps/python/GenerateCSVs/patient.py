@@ -14,22 +14,61 @@ PATIENT_COLUMNS = [
     "longitude",
     "race",
     "ethnicity",
+    "standardizedFirstName",
+    "standardizedLastName",
+    "standardizedPhone",
+    "standardizedAddress",
 ]
 
 
 def parse_patient_resource(pt_rsc: dict) -> List[str]:
-    """Given a FHIR patient resource return a list of the form:
+    """
+    Given a FHIR patient resource, return a list whose form depends on whether or
+    not we care about tracking metrics around standardization. If no, the form is:
     [<patientHash>,<givenName>,<familyName>,<birthDate>,<gender>,<street>,<city>,
-    <state>,<postalCode>,<latitude>,<longitude>,<race>,<ethnicity>]"""
+    <state>,<postalCode>,<latitude>,<longitude>,<race>,<ethnicity>].
 
-    return (
+    If yes, then the form is as above, but with the following appended to the
+    back of the list:
+    [<firstNameWasStandardized>, <lastNameWasStandardized>,
+    <phoneNumberWasStandardized>, <addressWasStandardized>]
+    """
+    patient_resource = (
         get_id(pt_rsc)
         + get_name(pt_rsc)
         + [pt_rsc["resource"].get("birthDate", "")]
         + [pt_rsc["resource"].get("gender", "")]
         + get_address(pt_rsc)
         + get_race_ethnicity(pt_rsc)
+        + get_std_extensions(pt_rsc)
     )
+    return patient_resource
+
+
+def get_std_extensions(pt_rsc: dict) -> List[str]:
+    """
+    Given a patient resource, extract the information that identifies
+    whether the fields that we run transformed on were "improved" in
+    quality via standardization.
+    """
+    standardized_fields = {
+        "first": "",
+        "last": "",
+        "phone": "",
+        "address": "",
+    }
+    if "extension" in pt_rsc:
+        for entry in pt_rsc["extension"]:
+            entry_type = entry["url"].split("/")[-1]
+            if entry_type == "family-name-was-standardized":
+                standardized_fields["last"] = entry.get("valueBoolean")
+            elif entry_type == "given-name-was-standardized":
+                standardized_fields["first"] = entry.get("valueBoolean")
+            elif entry_type == "phone-was-standardized":
+                standardized_fields["phone"] = entry.get("valueBoolean")
+            elif entry_type == "address-was-standardized":
+                standardized_fields["address"] = entry.get("valueBoolean")
+    return list(standardized_fields.values())
 
 
 def get_id(pt_rsc: dict) -> List[str]:
