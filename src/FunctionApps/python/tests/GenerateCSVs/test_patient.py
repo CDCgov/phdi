@@ -27,5 +27,9 @@ def test_parse_patient_resource():
         "2.71828",
         "2054-5",
         "2186-5",
+        "",
+        "",
+        "",
+        "",
     ]
-    assert parse_patient_resource(patient_empty) == [""] * 13
+    assert parse_patient_resource(patient_empty) == [""] * 17
