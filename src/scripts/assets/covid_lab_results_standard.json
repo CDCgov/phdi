@@ -1,0 +1,18 @@
+{
+    "POSITIVE": [
+        "POSITIVE",
+        "DETECTED",
+        "REACTIVE"
+    ],
+    "NEGATIVE": [
+        "NEGATIVE",
+        "NOT DETECTED",
+        "NON-REACTIVE",
+        "(NOTE) NOT DETECTED"
+    ],
+    "INCONCLUSIVE": [
+        "INCONCLUSIVE",
+        "INVALID",
+        "INVALID RESULT"
+    ]
+}

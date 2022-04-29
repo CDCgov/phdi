@@ -1,41 +1,7 @@
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobClient
-from io import StringIO
 import pandas as pd
 import pathlib
 from tabulate import tabulate
-
-
-def get_blob_data(url: str, container: str, file: str) -> StringIO:
-    """
-    Use whatever credentials Azure can find to create a blob client and download the
-    blob's content as text. In the case where the blob is a CSV the output may be passed
-    directly to pandas.read_csv().
-    """
-    creds = DefaultAzureCredential()
-    blob_client = BlobClient(
-        account_url=url, container_name=container, blob_name=file, credential=creds
-    )
-    return StringIO(blob_client.download_blob().content_as_text())
-
-
-def record_combination_func(x: pd.Series) -> str:
-    """
-    Aggregation function applied behind the scenes when performing
-    de-duplicating linkage. Automatically filters for blank, null,
-    and NaN values to facilitate squashing duplicates down into one
-    consolidated record, such that, for any column X:
-      - if records 1, ..., n-1 are empty in X and record n is not,
-        then n(X) is used as a single value
-      - if some number of records 1, ..., j <= n have the same value
-        in X and all other records are blank in X, then the value
-        of the matching columns 1, ..., j is used as a singleton
-      - if some number of non-empty in X records 1, ..., j <= n have
-        different values in X, then all values 1(X), ..., j(X) are
-        concatenated into a list of values delimited by commas
-    """
-    non_nans = set([x for x in x.astype(str).to_list() if x != ""])
-    return ",".join(non_nans)
+from utils import read_blob, record_combination_func
 
 
 def filter_for_valid_values(df: pd.DataFrame, values_by_column: dict[str, set[str]]):
@@ -117,7 +83,7 @@ if __name__ == "__main__":
     # Load data and link patient records.
     print("Loading data...")
     pre_linkage = pd.read_csv(
-        get_blob_data(STORAGE_ACCOUNT_URL, CONTAINER_NAME, CSV_FULL_NAME)
+        read_blob(STORAGE_ACCOUNT_URL, CONTAINER_NAME, CSV_FULL_NAME)
     )
 
     # Use known COVID LOINC codes to filter out all rows corresponding to observation
