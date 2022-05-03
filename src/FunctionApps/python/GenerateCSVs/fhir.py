@@ -59,7 +59,7 @@ def read_bundles_by_type(
 
 def get_container_client(url: str):
     """Use whatever creds Azure can find to authenticate with the storage container"""
-    creds = DefaultAzureCredential()
+    creds = DefaultAzureCredential(exclude_shared_token_cache_credential=True)
     return ContainerClient.from_container_url(url, credential=creds)
 
 

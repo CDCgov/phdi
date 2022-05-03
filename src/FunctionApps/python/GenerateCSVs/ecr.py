@@ -48,7 +48,7 @@ def ecr_to_csv(bundle: dict) -> List[List[str]]:
     for entry in entries:
         resource = entry["resource"]
         resource_type = resource["resourceType"]
-        resource_id = resource["id"]
+        resource_id = resource.get("id")
         # Pull out patient reference from immunization record
         pat_ref = ""
         if (
