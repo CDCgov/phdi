@@ -156,44 +156,16 @@ def convert_message_to_fhir(
     )
 
     if response.status_code != 200:
+        logging.error(
+            f"HTTP {str(response.status_code)} code encountered on"
+            + f" $convert-data for {filename}"
+        )
 
-        error_info = ""
+        error_info = {
+            "http_status_code": response.status_code,
+            "response_content": response.text,
+        }
 
-        # Try to parse the non-success response as OperationOutcome FHIR JSON
-        try:
-            response_json = response.json()
-
-            logging.info("non-200 response from fhir converter: " + str(response_json))
-
-            # If it's FHIR, unpack the response
-            if response_json["resourceType"] == "OperationOutcome":
-                for issue in response_json["issue"]:
-                    issue_severity = issue.get("severity")
-                    issue_code = issue.get("code")
-                    issue_diagnostics = issue.get("diagnostics")
-                    single_error_info = (
-                        f"Error processing: {filename}  "
-                        + f"HTTP Code: {response.status_code}  "
-                        + f"FHIR Severity: {issue_severity}  "
-                        + f"Code: {issue_code}  "
-                        + f"Diagnostics: {issue_diagnostics}"
-                    )
-                    if error_info == "":
-                        error_info = single_error_info
-                    else:
-                        error_info += "\n\t" + single_error_info
-
-        except Exception:
-            # ; If an exception occurs while parsing FHIR JSON,
-            # Log the full response content
-            decoded_response = response.content.decode("utf-8")
-            error_info = (
-                f"HTTP Code: {response.status_code}, "
-                + f"Response Content {decoded_response}"
-            )
-
-        logging.error(f"Error during $convert-data -- {error_info}")
-
-        return {}
+        return error_info
 
     return response.json()

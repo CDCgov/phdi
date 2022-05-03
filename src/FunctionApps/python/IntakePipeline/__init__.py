@@ -45,7 +45,7 @@ def run_pipeline(
     valid_output_path = get_required_config("VALID_OUTPUT_CONTAINER_PATH")
     invalid_output_path = get_required_config("INVALID_OUTPUT_CONTAINER_PATH")
 
-    bundle = convert_message_to_fhir(
+    response = convert_message_to_fhir(
         message=message,
         filename=message_mappings["filename"],
         input_data_type=message_mappings["input_data_type"],
@@ -55,7 +55,8 @@ def run_pipeline(
         fhir_url=fhir_url,
     )
 
-    if bundle:
+    if response and response.get("resourceType") == "Bundle":
+        bundle = response
         transform_bundle(geocoder, bundle)
         add_patient_identifier(salt, bundle)
         try:
@@ -64,7 +65,7 @@ def run_pipeline(
                 valid_output_path,
                 f"{message_mappings['filename']}.fhir",
                 message_mappings["bundle_type"],
-                bundle=bundle,
+                message_json=bundle,
             )
         except ResourceExistsError:
             logging.warning(
@@ -75,6 +76,7 @@ def run_pipeline(
         upload_bundle_to_fhir_server(bundle, access_token, fhir_url)
     else:
         try:
+            # Store invalid message
             store_data(
                 container_url,
                 invalid_output_path,
@@ -86,6 +88,22 @@ def run_pipeline(
             logging.warning(
                 "Attempted to store preexisting resource: "
                 + f"{message_mappings['filename']}.{message_mappings['file_suffix']}"
+            )
+        try:
+            # Store response information
+            store_data(
+                container_url,
+                invalid_output_path,
+                f"{message_mappings['filename']}.{message_mappings['file_suffix']}"
+                + ".convert-resp",
+                message_mappings["bundle_type"],
+                message_json=response,
+            )
+        except ResourceExistsError:
+            logging.warning(
+                "Attempted to store preexisting resource: "
+                + f"{message_mappings['filename']}.{message_mappings['file_suffix']}"
+                + ".convert-resp"
             )
 
 

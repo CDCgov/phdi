@@ -67,7 +67,7 @@ def transform_bundle(client: us_street.Client, bundle: dict) -> None:
                 raw_phones.append(telecom["value"])
                 std_phones.append(transformed_phone)
                 telecom["value"] = transformed_phone
-        any_diffs = any(
+        any_diffs = len(raw_phones) != len(std_phones) or any(
             [raw_phones[i] != std_phones[i] for i in range(len(raw_phones))]
         )
         patient["extension"].append(
@@ -109,7 +109,7 @@ def transform_bundle(client: us_street.Client, bundle: dict) -> None:
                         ],
                     }
                 )
-        any_dffs = any(
+        any_dffs = (len(raw_addresses) != len(std_addresses)) or any(
             [raw_addresses[i] != std_addresses[i] for i in range(len(raw_addresses))]
         )
         patient["extension"].append(

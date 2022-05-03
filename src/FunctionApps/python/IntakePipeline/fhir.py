@@ -28,7 +28,7 @@ def store_data(
     prefix: str,
     filename: str,
     bundle_type: str,
-    bundle: dict = None,
+    message_json: dict = None,
     message: str = None,
 ) -> None:
     """
@@ -37,8 +37,8 @@ def store_data(
     """
     client = get_blob_client(container_url)
     blob = client.get_blob_client(str(pathlib.Path(prefix) / bundle_type / filename))
-    if bundle is not None:
-        blob.upload_blob(json.dumps(bundle).encode("utf-8"), overwrite=True)
+    if message_json is not None:
+        blob.upload_blob(json.dumps(message_json).encode("utf-8"), overwrite=True)
     elif message is not None:
         blob.upload_blob(bytes(message, "utf-8"), overwrite=True)
 
