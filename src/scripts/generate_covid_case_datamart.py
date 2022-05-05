@@ -3,6 +3,7 @@ import pathlib
 import json
 from typing import List, Callable
 from utils import read_blob, record_combination_func, write_blob
+from tqdm import tqdm
 
 
 def standardize_lab_result(result: str, standard: dict) -> str:
@@ -12,7 +13,10 @@ def standardize_lab_result(result: str, standard: dict) -> str:
     non-standard results that map to the associated standard result then return a
     standardized result. Return null if no standard result could not be found.
     """
-    result = result.upper()
+    try:
+        result = result.strip().upper()
+    except AttributeError:
+        return ""
     for standard_result, non_standard_results in standard.items():
         if result in non_standard_results:
             return standard_result
@@ -83,7 +87,7 @@ def identify_covid_cases(
         positive_labs = positive_labs.loc[
             positive_labs.effectiveDateTime.map(lambda x: (x - collection_date).days)
             > 90
-        ].reset_index()
+        ].reset_index(drop=True)
         remaining_labs = len(positive_labs)
     return case_list
 
@@ -93,16 +97,18 @@ if __name__ == "__main__":
     # Set values that specify a blob to load.
     STORAGE_ACCOUNT_URL = "https://pitestdatasa.blob.core.windows.net"
     CONTAINER_NAME = "bronze"
-    ELR_FILE_NAME = "csv-test/elr.csv"
-    COVID_CASE_DATAMART_FILENAME = "datamart-test/covid_case_datamart.csv"
+    ELR_FILE_NAME = "CSVS/elr.csv"
+    COVID_CASE_DATAMART_FILENAME = "CSVS/datamarts/covid_case_datamart.csv"
 
     # Load data.
+    print("Loading data...")
     labs = pd.read_csv(read_blob(STORAGE_ACCOUNT_URL, CONTAINER_NAME, ELR_FILE_NAME))
     covid_loincs = pd.read_csv(
         pathlib.Path(__file__).parent / "assets" / "covid_loinc_reference.csv"
     )
 
     # Clean and standardize data.
+    print("Data loaded. Cleaning and standardizing...")
     covid_labs = pd.merge(labs, covid_loincs, how="inner", on="loincCode")
     covid_labs = covid_labs.loc[covid_labs.type.isin(["pcr", "ag"])]
     covid_labs.drop(columns=["loincCode", "notes"], inplace=True)
@@ -117,18 +123,25 @@ if __name__ == "__main__":
     covid_labs.effectiveDateTime = pd.to_datetime(covid_labs.effectiveDateTime)
 
     # Find COVID cases and generate datamart.
+    print("Data cleaned. Reviewing lab records by patient...")
     case_list = []
-    for hash in covid_labs.patientHash:
+    for hash in tqdm(covid_labs.patientHash.unique()):
         patient_labs = covid_labs.loc[covid_labs.patientHash == hash]
         cases = identify_covid_cases(patient_labs, record_combination_func)
         case_list.extend(cases)
 
     covid_case_datamart = pd.concat(case_list, axis=1).T
     covid_case_datamart.drop(columns=["result", "type"], inplace=True)
-    breakpoint()
+
+    # Write datamart to blob storage.
+    print("COVID case datamart generated. Writing to blob storage...")
     write_blob(
         covid_case_datamart.to_csv(encoding="utf-8", index=False),
         STORAGE_ACCOUNT_URL,
         CONTAINER_NAME,
         COVID_CASE_DATAMART_FILENAME,
     )
+    full_path = (
+        STORAGE_ACCOUNT_URL + "/" + CONTAINER_NAME + "/" + COVID_CASE_DATAMART_FILENAME
+    )
+    print(f"Datamart saved to: {full_path}")
