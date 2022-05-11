@@ -28,13 +28,11 @@ def run_pipeline(
     access_token: str,
 ) -> None:
     """
-    This function takes in a single message and runs it through the Data
-    Transformation section of the PHDI VA Pilot Architecture diagram. If
-    the message is successfully converted to FHIR, then it is processed
-    through the remaining transformations (standardization & geocoding),
-    and stored in both a storage container and the FHIR server. If it is
-    not valid, it is routed to a storage container marked as invalid, and
-    no further processing is done.
+    This function takes in a single message and attempts to convert, transform, and
+    store the output to blob storage and the FHIR server.
+
+    If the incoming message cannot be converted, it is stored to the configured
+    invalid blob container and no further processing is done.
     """
     salt = get_required_config("HASH_SALT")
     geocoder = get_smartystreets_client(
@@ -108,6 +106,12 @@ def run_pipeline(
 
 
 def main(blob: func.InputStream) -> None:
+    """
+    This is the main entry point for the IntakePipeline Azure function.
+    It is responsible for splitting an incoming batch file (or individual message)
+    into a list of individual messages.  Each individual message is passed to the
+    processing pipeline.
+    """
     logging.debug("Entering intake pipeline ")
 
     fhir_url = get_required_config("FHIR_URL")

@@ -18,6 +18,7 @@ def get_blob_client(container_url: str) -> ContainerClient:
 
 
 def generate_filename(blob_name: str, message_index: int) -> str:
+    """Strip the file type suffix from the blob name, and append message index."""
     fname = blob_name.split("/")[-1]
     fname, _ = fname.rsplit(".", 1)
     return f"{fname}-{message_index}"
