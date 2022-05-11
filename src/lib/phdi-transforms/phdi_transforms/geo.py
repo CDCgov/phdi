@@ -52,7 +52,6 @@ def geocode(client: us_street.Client, address: str) -> GeocodeResult:
 def get_smartystreets_client(auth_id: str, auth_token: str) -> us_street.Client:
     """
     Build a smartystreets api client from an auth id and token
-
     """
 
     creds = StaticCredentials(auth_id, auth_token)
