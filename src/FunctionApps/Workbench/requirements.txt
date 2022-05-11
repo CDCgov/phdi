@@ -1,8 +1,0 @@
-# Do not include azure-functions-worker as it may conflict with the Azure Functions platform
-
-azure-functions
-nest_asyncio
-fastapi
-
-# Pull the package in from this repo, note that we should explicitly version this
-phdi_transforms @ git+https://github.com/CDCgov/prime-public-health-data-infrastructure@main#subdirectory=src/lib/phdi-transforms
