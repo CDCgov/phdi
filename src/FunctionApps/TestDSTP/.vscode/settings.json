@@ -1,7 +1,0 @@
-{
-  "azureFunctions.javaBuildTool": "maven",
-  "azureFunctions.deploySubpath": "target/azure-functions/TestDSTP-1649768236828",
-  "azureFunctions.projectLanguage": "Java",
-  "azureFunctions.projectRuntime": "~4",
-  "azureFunctions.preDeployTask": "package (functions)"
-}
