@@ -16,14 +16,13 @@ env:
 
 jobs:
   function-app-scan:
-    # Find directories that contain function apps in python or java
+    # Find directories that contain function apps in python
     #
     # Look for a files in function app directories to determine the language used
     # and output a list of directory names for functions of each language.  Language
     # is determined based on the existence of a file inside the top-level function
     # app directory, currently:
     #     python: `requirements.txt`
-    #     java: `pom.xml`
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,17 +35,11 @@ jobs:
         # use jq to produce json output and filter out the empty item caused by final newline
         run: |
           echo "::set-output name=pydirs::$(find src/FunctionApps/ -mindepth 2 -maxdepth 2 -type f -name requirements.txt -printf "%P\n" |cut -d/ -f1 |jq --raw-input --slurp 'split("\n")' |jq --compact-output .[0:-1])"
-      - id: find-java-apps
-        name: Scan for java function apps
-        run: |
-          echo "::set-output name=javadirs::$(find src/FunctionApps/ -mindepth 2 -maxdepth 2 -type f -name pom.xml -printf "%P\n" |cut -d/ -f1 |jq --raw-input --slurp 'split("\n")' |jq --compact-output .[0:-1])"
       - name: Summary of detected apps
         run: |
           echo "Python (requirements.txt): ${{steps.find-python-apps.outputs.pydirs}}"
-          echo "Java (pom.xml): ${{steps.find-java-apps.outputs.javadirs}}"
     outputs:
       python-function-app-dirs: ${{steps.find-python-apps.outputs.pydirs}}
-      java-function-app-dirs: ${{steps.find-java-apps.outputs.javadirs}}
 
   unit-test-python:
     needs: function-app-scan
@@ -93,39 +86,6 @@ jobs:
       - name: Run pytest
         working-directory: ./src/lib/phdi-transforms
         run: poetry run pytest
-
-  unit-test-java:
-    needs: function-app-scan
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        function-to-test: ${{fromJson(needs.function-app-scan.outputs.java-function-app-dirs)}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup java ${{env.TEST_RUNNER_JAVA_VERSION}}
-        uses: actions/setup-java@v2
-        with:
-          java-version: ${{env.TEST_RUNNER_JAVA_VERSION}}
-          distribution: adopt
-      - name: Setup node ${{env.TEST_RUNNER_NODE_VERSION}}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{env.TEST_RUNNER_NODE_VERSION}}
-      - name: Install Azure functions core tools
-        run: |
-          npm install --global azure-functions-core-tools
-      - name: Setup maven cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{runner.os}}-maven-${{hashFiles('**/pom.xml')}}
-          restore-keys: |
-            ${{runner.os}}-maven-
-      - name: Verify
-        working-directory: ./src/FunctionApps/${{matrix.function-to-test}}
-        run: |
-          mvn --batch-mode verify
 
   code-check-python:
     runs-on: ubuntu-latest
