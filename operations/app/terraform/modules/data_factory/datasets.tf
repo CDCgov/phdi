@@ -5,7 +5,7 @@ resource "azurerm_data_factory_dataset_binary" "pdi_datasa" {
   linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa.name
 
   azure_blob_storage_location {
-    container                = "bronze"
+    container                = "bronze/additional-records"
     dynamic_filename_enabled = true
     dynamic_path_enabled     = true
     path                     = "@dataset().base_path"

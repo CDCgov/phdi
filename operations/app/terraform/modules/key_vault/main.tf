@@ -29,7 +29,8 @@ resource "azurerm_key_vault" "application" {
   lifecycle {
     prevent_destroy = false
     ignore_changes = [
-      tags
+      tags,
+      network_acls[0].ip_rules
     ]
   }
 

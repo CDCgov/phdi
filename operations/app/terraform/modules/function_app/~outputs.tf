@@ -1,11 +1,3 @@
-output "pdi_function_app_id" {
-  value = module.pdi_function_app["default"].submodule_function_app.id
-}
-
-output "pdi_function_app_uuid" {
-  value = module.pdi_function_app["default"].submodule_function_app.identity[0].principal_id
-}
-
 output "infrastructure_function_app_id" {
   value = module.pdi_function_app["infra"].submodule_function_app.id
 }
