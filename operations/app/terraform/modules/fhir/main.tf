@@ -3,7 +3,7 @@ resource "azurerm_healthcare_service" "pdi" {
   location            = var.location
   resource_group_name = var.resource_group_name
   kind                = "fhir-R4"
-  cosmosdb_throughput = 400
+  cosmosdb_throughput = 1400
 
   access_policy_object_ids = []
 

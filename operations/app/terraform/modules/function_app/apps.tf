@@ -20,35 +20,43 @@ module "pdi_function_app" {
     WEBSITE_DNS_SERVER = "168.63.129.16"
 
     # App Insights
-    PRIVATE_KEY                           = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/PrivateKey)"
-    PRIVATE_KEY_PASSWORD                  = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/PrivateKeyPassword)"
-    AZURE_STORAGE_CONTAINER_NAME          = "bronze"
-    APPINSIGHTS_INSTRUMENTATIONKEY        = var.ai_instrumentation_key
-    APPLICATIONINSIGHTS_CONNECTION_STRING = var.ai_connection_string
-    BUILD_FLAGS                           = "UseExpressBuild"
-    FUNCTIONS_WORKER_RUNTIME              = each.value.runtime
-    SCM_DO_BUILD_DURING_DEPLOYMENT        = each.value.SCM_DO_BUILD_DURING_DEPLOYMENT
-    VDHSFTPHostname                       = "vdhsftp.vdh.virginia.gov"
-    VDHSFTPPassword                       = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/VDHSFTPPassword)"
-    VDHSFTPUsername                       = "USDS_CDC"
-    XDG_CACHE_HOME                        = "/tmp/.cache"
-    WEBSITE_RUN_FROM_PACKAGE              = each.value.WEBSITE_RUN_FROM_PACKAGE
-    DATA_STORAGE_ACCOUNT                  = var.sa_data_name
-    ENABLE_ORYX_BUILD                     = each.value.ENABLE_ORYX_BUILD
-    "${each.value.mi_blobServiceName}"    = each.value.mi_blobServiceUri
-    "${each.value.mi_queueServiceName}"   = each.value.mi_queueServiceUri
-    "${each.value.mi_accountName}"        = each.value.mi_accountValue
-    fhir_url                              = each.value.fhir_url
-    "AzureWebJobs.convertToFhir.Disabled" = each.value.AzureWebJobs_convertToFhir_Disabled
-    SMARTYSTREETS_AUTH_ID                 = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthID)"
-    SMARTYSTREETS_AUTH_TOKEN              = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthToken)"
-    CONTAINER_URL                         = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
-    INTAKE_CONTAINER_URL                  = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
-    INTAKE_CONTAINER_PREFIX               = "decrypted/valid-messages/"
-    OUTPUT_CONTAINER_PATH                 = "processed"
-    CSV_INPUT_PREFIX                      = "processed"
-    CSV_OUTPUT_PREFIX                     = "csvs"
-    HASH_SALT                             = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/salt)"
-    FHIR_URL                              = "https://${var.resource_prefix}-fhir.azurehealthcareapis.com"
+    PRIVATE_KEY                            = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/PrivateKey)"
+    PRIVATE_KEY_PASSWORD                   = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/PrivateKeyPassword)"
+    AZURE_STORAGE_CONTAINER_NAME           = "bronze"
+    APPINSIGHTS_INSTRUMENTATIONKEY         = var.ai_instrumentation_key
+    APPLICATIONINSIGHTS_CONNECTION_STRING  = var.ai_connection_string
+    BUILD_FLAGS                            = "UseExpressBuild"
+    FUNCTIONS_WORKER_RUNTIME               = each.value.runtime
+    SCM_DO_BUILD_DURING_DEPLOYMENT         = each.value.SCM_DO_BUILD_DURING_DEPLOYMENT
+    VDHSFTPHostname                        = "vdhsftp.vdh.virginia.gov"
+    VDHSFTPPassword                        = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/VDHSFTPPassword)"
+    VDHSFTPUsername                        = "USDS_CDC"
+    XDG_CACHE_HOME                         = "/tmp/.cache"
+    WEBSITE_RUN_FROM_PACKAGE               = each.value.WEBSITE_RUN_FROM_PACKAGE
+    DATA_STORAGE_ACCOUNT                   = var.sa_data_name
+    ENABLE_ORYX_BUILD                      = each.value.ENABLE_ORYX_BUILD
+    "${each.value.mi_blobServiceName}"     = each.value.mi_blobServiceUri
+    "${each.value.mi_queueServiceName}"    = each.value.mi_queueServiceUri
+    "${each.value.mi_accountName}"         = each.value.mi_accountValue
+    fhir_url                               = each.value.fhir_url
+    "AzureWebJobs.convertToFhir.Disabled"  = each.value.AzureWebJobs_convertToFhir_Disabled
+    SMARTYSTREETS_AUTH_ID                  = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthID)"
+    SMARTYSTREETS_AUTH_TOKEN               = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthToken)"
+    CONTAINER_URL                          = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
+    INTAKE_CONTAINER_URL                   = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
+    INTAKE_CONTAINER_PREFIX                = "decrypted/valid-messages/"
+    OUTPUT_CONTAINER_PATH                  = "processed"
+    CSV_INPUT_PREFIX                       = each.value.CSV_INPUT_PREFIX
+    CSV_OUTPUT_PREFIX                      = each.value.CSV_OUTPUT_PREFIX
+    HASH_SALT                              = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/salt)"
+    FHIR_URL                               = "https://${var.resource_prefix}-fhir.azurehealthcareapis.com"
+    "AzureWebJobs.IntakePipeline.Disabled" = each.value.AzureWebJobs_IntakePipeline_Disabled
+    AzureWebJobsStorage__accountName       = each.value.AzureWebJobsStorage__accountName
+    AzureWebJobsStorage__blobServiceUri    = each.value.AzureWebJobsStorage__blobServiceUri
+    AzureWebJobsStorage__queueServiceUri   = each.value.AzureWebJobsStorage__queueServiceUri
+    AzureWebJobsStorage__tableServiceUri   = each.value.AzureWebJobsStorage__tableServiceUri
+    INVALID_OUTPUT_CONTAINER_PATH          = each.value.INVALID_OUTPUT_CONTAINER_PATH
+    VALID_OUTPUT_CONTAINER_PATH            = each.value.VALID_OUTPUT_CONTAINER_PATH
+
   }
 }
