@@ -1,4 +1,4 @@
-from phdi_transforms import __version__
+from phdi_building_blocks import __version__
 
 
 def test_version():

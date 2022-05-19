@@ -1,5 +1,4 @@
-from IntakePipeline.linkage import generate_hash_str
-from IntakePipeline.linkage import add_patient_identifier
+from phdi_building_blocks.linkage import generate_hash_str, add_patient_identifier
 
 
 def test_generate_hash():
@@ -28,7 +27,7 @@ def test_missing_address():
         ]
     }
 
-    add_patient_identifier("some-salt", bundle)
+    add_patient_identifier(bundle, "some-salt")
     expected = generate_hash_str("doe-19900101-", "some-salt")
     actual = bundle["entry"][0]["resource"]["identifier"][0]["value"]
     assert actual == expected
@@ -110,7 +109,7 @@ def test_add_patient_identifier():
         "use": "temp",
     }
 
-    add_patient_identifier(salt_str, incoming_bundle)
+    add_patient_identifier(incoming_bundle, salt_str)
     assert len(incoming_bundle["entry"]) == 3
     for resource in incoming_bundle["entry"]:
         if resource["resource"]["resourceType"] == "Patient":

@@ -1,24 +1,30 @@
-import azure.functions as func
 import logging
-
-from azure.core.exceptions import ResourceExistsError
 from typing import Dict
 
-from IntakePipeline.transform import transform_bundle
-from IntakePipeline.linkage import add_patient_identifier
-from IntakePipeline.fhir import (
+import azure.functions as func
+from azure.core.exceptions import ResourceExistsError
+
+from config import get_required_config
+
+from phdi_building_blocks.azure_blob import store_data
+
+from phdi_building_blocks.fhir import (
     upload_bundle_to_fhir_server,
-    store_data,
     generate_filename,
     get_fhirserver_cred_manager,
 )
-from IntakePipeline.conversion import (
+from phdi_building_blocks.conversion import (
     convert_batch_messages_to_list,
     convert_message_to_fhir,
     get_file_type_mappings,
 )
-from config import get_required_config
-from phdi_transforms.geo import get_smartystreets_client
+
+from phdi_building_blocks.geo import get_smartystreets_client, geocode_patient_address
+from phdi_building_blocks.standardize import (
+    standardize_patient_name,
+    standardize_patient_phone,
+)
+from phdi_building_blocks.linkage import add_patient_identifier
 
 
 def run_pipeline(
@@ -55,8 +61,11 @@ def run_pipeline(
 
     if response and response.get("resourceType") == "Bundle":
         bundle = response
-        transform_bundle(geocoder, bundle)
-        add_patient_identifier(salt, bundle)
+        standardize_patient_name(bundle)
+        standardize_patient_phone(bundle)
+        geocode_patient_address(bundle, geocoder)
+
+        add_patient_identifier(bundle, salt)
         try:
             store_data(
                 container_url,
