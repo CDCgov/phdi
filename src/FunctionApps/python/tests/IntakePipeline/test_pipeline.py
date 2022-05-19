@@ -1,8 +1,8 @@
 import pathlib
 import pytest
-
 from unittest import mock
-from IntakePipeline.conversion import convert_batch_messages_to_list
+
+from phdi_building_blocks.conversion import convert_batch_messages_to_list
 
 from IntakePipeline import run_pipeline
 
@@ -35,7 +35,9 @@ MESSAGE_MAPPINGS = {
 }
 
 
-@mock.patch("IntakePipeline.transform_bundle")
+@mock.patch("IntakePipeline.standardize_patient_name")
+@mock.patch("IntakePipeline.standardize_patient_phone")
+@mock.patch("IntakePipeline.geocode_patient_address")
 @mock.patch("IntakePipeline.add_patient_identifier")
 @mock.patch("IntakePipeline.upload_bundle_to_fhir_server")
 @mock.patch("IntakePipeline.store_data")
@@ -48,7 +50,9 @@ def test_pipeline_valid_message(
     patched_store,
     patched_upload,
     patched_patient_id,
-    patched_transform,
+    patched_address_standardization,
+    patched_phone_standardization,
+    patched_name_standardization,
 ):
     patched_converter.return_value = {
         "resourceType": "Bundle",
@@ -70,11 +74,19 @@ def test_pipeline_valid_message(
         access_token="some-token",
         fhir_url="some-fhir-url",
     )
-    patched_transform.assert_called_with(
-        patched_geocoder, {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
+
+    patched_name_standardization.assert_called_with(
+        {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
     )
+    patched_phone_standardization.assert_called_with(
+        {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
+    )
+    patched_address_standardization.assert_called_with(
+        {"resourceType": "Bundle", "entry": [{"hello": "world"}]}, patched_geocoder
+    )
+
     patched_patient_id.assert_called_with(
-        TEST_ENV["HASH_SALT"], {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
+        {"resourceType": "Bundle", "entry": [{"hello": "world"}]}, TEST_ENV["HASH_SALT"]
     )
     patched_upload.assert_called_with(
         {"resourceType": "Bundle", "entry": [{"hello": "world"}]},
@@ -90,7 +102,9 @@ def test_pipeline_valid_message(
     )
 
 
-@mock.patch("IntakePipeline.transform_bundle")
+@mock.patch("IntakePipeline.standardize_patient_name")
+@mock.patch("IntakePipeline.standardize_patient_phone")
+@mock.patch("IntakePipeline.geocode_patient_address")
 @mock.patch("IntakePipeline.add_patient_identifier")
 @mock.patch("IntakePipeline.upload_bundle_to_fhir_server")
 @mock.patch("IntakePipeline.store_data")
@@ -103,7 +117,9 @@ def test_pipeline_invalid_message(
     patched_store,
     patched_upload,
     patched_patient_id,
-    patched_transform,
+    patched_address_standardization,
+    patched_phone_standardization,
+    patched_name_standardization,
 ):
     patched_converter.return_value = {
         "http_status_code": 400,
@@ -125,7 +141,9 @@ def test_pipeline_invalid_message(
         access_token="some-token",
         fhir_url="some-fhir-url",
     )
-    patched_transform.assert_not_called()
+    patched_address_standardization.assert_not_called()
+    patched_phone_standardization.assert_not_called()
+    patched_name_standardization.assert_not_called()
     patched_patient_id.assert_not_called()
     patched_upload.assert_not_called()
     patched_store.assert_has_calls(
@@ -151,7 +169,9 @@ def test_pipeline_invalid_message(
     )
 
 
-@mock.patch("IntakePipeline.transform_bundle")
+@mock.patch("IntakePipeline.standardize_patient_name")
+@mock.patch("IntakePipeline.standardize_patient_phone")
+@mock.patch("IntakePipeline.geocode_patient_address")
 @mock.patch("IntakePipeline.add_patient_identifier")
 @mock.patch("IntakePipeline.upload_bundle_to_fhir_server")
 @mock.patch("IntakePipeline.store_data")
@@ -164,7 +184,9 @@ def test_pipeline_partial_invalid_message(
     patched_store,
     patched_upload,
     patched_patient_id,
-    patched_transform,
+    patched_address_standardization,
+    patched_phone_standardization,
+    patched_name_standardization,
     partial_failure_message,
 ):
     patched_converter.side_effect = [
@@ -260,8 +282,9 @@ def test_pipeline_partial_invalid_message(
             ),
         ]
     )
-
-    patched_transform.call_count = 4
+    patched_address_standardization.call_count = 4
+    patched_phone_standardization.call_count = 4
+    patched_name_standardization.call_count = 4
     patched_patient_id.call_count = 4
     patched_upload.call_count = 4
     patched_store.assert_has_calls(

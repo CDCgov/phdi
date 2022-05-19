@@ -1,7 +1,7 @@
 import hashlib
 
 
-def add_patient_identifier(salt_str: str, bundle: dict) -> None:
+def add_patient_identifier(bundle: dict, salt_str: str) -> dict:
     """
     Given a FHIR resource bundle (defined as a dictionary of resources
     containing at least one patient resource):
@@ -13,6 +13,7 @@ def add_patient_identifier(salt_str: str, bundle: dict) -> None:
     This function assumes data has been standardized already by the
     silver transforms.
     """
+
     for resource in bundle["entry"]:
         if resource["resource"]["resourceType"] == "Patient":
             patient = resource["resource"]
