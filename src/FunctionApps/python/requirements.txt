@@ -4,7 +4,7 @@ azure-functions
 azure-identity
 azure-storage-blob
 hl7
-phdi_building_blocks @ git+https://github.com/CDCgov/prime-public-health-data-infrastructure@dan/TEMP-phdi-building-blocks#subdirectory=src/lib/phdi-building-blocks
+phdi_building_blocks @ git+https://github.com/CDCgov/prime-public-health-data-infrastructure@main#subdirectory=src/lib/phdi-building-blocks
 requests
 smartystreets_python_sdk
 urllib3
