@@ -259,6 +259,17 @@ def test_compose_export_url():
         + "&_type=Patient,Observation"
     )
     assert (
+        _compose_export_url(
+            fhir_url,
+            "Patient",
+            "2022-01-01T00:00:00Z",
+            "Patient,Observation",
+            "some-container",
+        )
+        == f"{fhir_url}/Patient/$export?_since=2022-01-01T00:00:00Z"
+        + "&_type=Patient,Observation&_container=some-container"
+    )
+    assert (
         _compose_export_url(fhir_url, "Patient", None, "Patient,Observation")
         == f"{fhir_url}/Patient/$export?_type=Patient,Observation"
     )

@@ -26,7 +26,9 @@ def test_main(mock_get_access_token, mock_export, mock_download):
         "type": "",
     }
 
-    mock_get_access_token.return_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = "some-token"
+    mock_get_access_token.return_value = mock_access_token
 
     export_return_value = {
         "output": [
@@ -65,6 +67,7 @@ def test_main(mock_get_access_token, mock_export, mock_download):
         export_scope="",
         since="",
         resource_type="",
+        container="",
         poll_step=0.1,
         poll_timeout=1.0,
     )
