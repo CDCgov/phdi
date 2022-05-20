@@ -3,3 +3,6 @@
 azure-functions
 azure-storage-blob
 azure-identity
+azure.keyvault.secrets
+psycopg2-binary
+ping3

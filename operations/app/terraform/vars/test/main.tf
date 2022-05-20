@@ -56,24 +56,23 @@ module "key_vault" {
 }
 
 module "storage" {
-  source                           = "../../modules/storage"
-  environment                      = var.environment
-  location                         = var.location
-  resource_group_name              = var.resource_group_name
-  resource_prefix                  = var.resource_prefix
-  application_key_vault_id         = module.key_vault.application_key_vault_id
-  cdc_service_subnet_id            = module.network.cdc_service_subnet_id
-  cdc_subnet_ids                   = module.network.cdc_subnet_ids
-  rsa_key_4096                     = var.rsa_key_4096
-  terraform_caller_ip_address      = var.terraform_caller_ip_address
-  use_cdc_managed_vnet             = var.use_cdc_managed_vnet
-  app_subnet_ids                   = module.network.app_subnet_ids
-  resource_group_id                = module.resource_group.cdc_managed_resource_group_id
-  data_access_group                = var.data_access_group
-  data_access_sp                   = var.data_access_sp
-  infrastructure_function_app_uuid = module.function_app.infrastructure_function_app_uuid
-  adf_uuid                         = module.data_factory.adf_uuid
-  python_function_app_uuid         = module.function_app.python_function_app_uuid
+  source                      = "../../modules/storage"
+  environment                 = var.environment
+  location                    = var.location
+  resource_group_name         = var.resource_group_name
+  resource_prefix             = var.resource_prefix
+  application_key_vault_id    = module.key_vault.application_key_vault_id
+  cdc_service_subnet_id       = module.network.cdc_service_subnet_id
+  cdc_subnet_ids              = module.network.cdc_subnet_ids
+  rsa_key_4096                = var.rsa_key_4096
+  terraform_caller_ip_address = var.terraform_caller_ip_address
+  use_cdc_managed_vnet        = var.use_cdc_managed_vnet
+  app_subnet_ids              = module.network.app_subnet_ids
+  resource_group_id           = module.resource_group.cdc_managed_resource_group_id
+  data_access_group           = var.data_access_group
+  data_access_sp              = var.data_access_sp
+  adf_uuid                    = module.data_factory.adf_uuid
+  python_function_app_uuid    = module.function_app.python_function_app_uuid
 }
 
 module "databricks" {
@@ -141,19 +140,18 @@ module "fhir" {
 ##########
 
 module "log_analytics_workspace" {
-  source                         = "../../modules/log_analytics_workspace"
-  resource_group_name            = var.resource_group_name
-  location                       = var.location
-  resource_prefix                = var.resource_prefix
-  infrastructure_function_app_id = module.function_app.infrastructure_function_app_id
-  python_function_app_id         = module.function_app.python_function_app_id
-  app_service_plan_id            = module.app_service_plan.service_plan_id
-  cdc_managed_vnet_id            = module.network.cdc_managed_vnet_id
-  sa_data_id                     = module.storage.sa_data_id
-  adf_id                         = module.data_factory.adf_id
-  healthcare_service_id          = module.fhir.healthcare_service_id
-  databricks_workspace_id        = module.databricks.databricks_workspace_id
-  environment                    = var.environment
+  source                  = "../../modules/log_analytics_workspace"
+  resource_group_name     = var.resource_group_name
+  location                = var.location
+  resource_prefix         = var.resource_prefix
+  python_function_app_id  = module.function_app.python_function_app_id
+  app_service_plan_id     = module.app_service_plan.service_plan_id
+  cdc_managed_vnet_id     = module.network.cdc_managed_vnet_id
+  sa_data_id              = module.storage.sa_data_id
+  adf_id                  = module.data_factory.adf_id
+  healthcare_service_id   = module.fhir.healthcare_service_id
+  databricks_workspace_id = module.databricks.databricks_workspace_id
+  environment             = var.environment
 }
 
 module "application_insights" {
