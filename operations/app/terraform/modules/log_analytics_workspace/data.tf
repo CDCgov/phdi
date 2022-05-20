@@ -1,10 +1,5 @@
 locals {
   default = {
-    "infrastructure_function_app" = {
-      id    = var.infrastructure_function_app_id
-      name  = "infrastructure_function_app"
-      diags = data.azurerm_monitor_diagnostic_categories.infrastructure_function_app
-    },
     "python_function_app" = {
       id    = var.python_function_app_id
       name  = "python_function_app"
@@ -36,10 +31,6 @@ locals {
       diags = data.azurerm_monitor_diagnostic_categories.fhir
     }
   }
-}
-
-data "azurerm_monitor_diagnostic_categories" "infrastructure_function_app" {
-  resource_id = var.infrastructure_function_app_id
 }
 
 data "azurerm_monitor_diagnostic_categories" "python_function_app" {

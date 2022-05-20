@@ -13,11 +13,6 @@ variable "resource_prefix" {
   description = "Resource Prefix"
 }
 
-variable "infrastructure_function_app_id" {
-  type        = string
-  description = "Infrastructure function app resource id"
-}
-
 variable "python_function_app_id" {
   type        = string
   description = "Python function app resource id"

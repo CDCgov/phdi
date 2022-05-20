@@ -24,31 +24,6 @@ locals {
       VALID_OUTPUT_CONTAINER_PATH          = "blob-trigger-out/valid-messages",
       CSV_INPUT_PREFIX                     = "blob-trigger-out/valid-messages/",
       CSV_OUTPUT_PREFIX                    = "csvs"
-    },
-    infra : {
-      runtime                              = "python",
-      version                              = "~4",
-      mi_blobServiceName                   = "",
-      mi_blobServiceUri                    = null,
-      mi_queueServiceName                  = "",
-      mi_queueServiceUri                   = null,
-      mi_accountName                       = "",
-      mi_accountValue                      = null,
-      SCM_DO_BUILD_DURING_DEPLOYMENT       = 1,
-      ENABLE_ORYX_BUILD                    = null,
-      fhir_url                             = null,
-      AzureWebJobs_convertToFhir_Disabled  = 0,
-      always_on                            = false,
-      WEBSITE_RUN_FROM_PACKAGE             = null,
-      AzureWebJobs_IntakePipeline_Disabled = null,
-      AzureWebJobsStorage__accountName     = null,
-      AzureWebJobsStorage__blobServiceUri  = null,
-      AzureWebJobsStorage__queueServiceUri = null,
-      AzureWebJobsStorage__tableServiceUri = null,
-      INVALID_OUTPUT_CONTAINER_PATH        = null,
-      VALID_OUTPUT_CONTAINER_PATH          = null,
-      CSV_INPUT_PREFIX                     = null,
-      CSV_OUTPUT_PREFIX                    = null
-    },
+    }
   }
 }

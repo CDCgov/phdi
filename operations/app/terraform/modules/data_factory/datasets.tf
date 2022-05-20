@@ -22,23 +22,6 @@ resource "azurerm_data_factory_dataset_binary" "pdi_datasa" {
   ]
 }
 
-resource "azurerm_data_factory_dataset_binary" "pdi_datasa_mzn" {
-  name                = "DestinationDataset_mzn"
-  resource_group_name = var.resource_group_name
-  data_factory_id     = azurerm_data_factory.pdi.id
-  linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa.name
-
-  azure_blob_storage_location {
-    container                = "bronze"
-    dynamic_filename_enabled = false
-    dynamic_path_enabled     = false
-  }
-
-  depends_on = [
-    azurerm_data_factory_linked_service_azure_blob_storage.pdi_datasa
-  ]
-}
-
 resource "azurerm_data_factory_dataset_binary" "vdh" {
   name                = "SFTPBinarySource"
   resource_group_name = var.resource_group_name
