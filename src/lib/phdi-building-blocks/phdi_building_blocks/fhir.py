@@ -110,6 +110,7 @@ def export_from_fhir_server(
     export_scope: str = "",
     since: str = "",
     resource_type: str = "",
+    container: str = "",
     poll_step: float = 30,
     poll_timeout: float = 300,
 ) -> dict:
@@ -122,7 +123,8 @@ def export_from_fhir_server(
     :param since: A FHIR instant (https://build.fhir.org/datatypes.html#instant)
     instructing the export to include only resources created or modified after the
     specified instant.
-    :param resource_type: A comma-delimited list of resource types to include.  All
+    :param resource_type: A comma-delimited list of resource types to include.
+    :param container: The name of the container used to store exported files.
     :param poll_step: the number of seconds to wait between poll requests, waiting
     for export files to be generated.
     :param poll_timeout: the maximum number of seconds to wait for export files to
@@ -134,6 +136,7 @@ def export_from_fhir_server(
         export_scope=export_scope,
         since=since,
         resource_type=resource_type,
+        container=container,
     )
     logging.debug(f"Composed export URL: {export_url}")
     response = requests.get(
@@ -160,11 +163,15 @@ def export_from_fhir_server(
             return poll_response.json()
         else:
             logging.exception("Unexpected response code during export download.")
-            raise requests.HTTPError(response=response)
+            raise requests.HTTPError(response=poll_response)
 
 
 def _compose_export_url(
-    fhir_url: str, export_scope: str = "", since: str = "", resource_type: str = ""
+    fhir_url: str,
+    export_scope: str = "",
+    since: str = "",
+    resource_type: str = "",
+    container: str = "",
 ) -> str:
     """Generate a query string for the export request.  Details in the FHIR spec:
     https://hl7.org/fhir/uv/bulkdata/export/index.html#query-parameters"""
@@ -187,6 +194,10 @@ def _compose_export_url(
         export_url += f"{separator}_type={resource_type}"
         separator = "&"
 
+    if container:
+        export_url += f"{separator}_container={container}"
+        separator = "&"
+
     return export_url
 
 
@@ -198,6 +209,7 @@ def __export_from_fhir_server_poll_call(
     the export files are ready, and we return the HTTP response.  Any other status
     either indicates an error or unexpected condition.  In this case raise an error.
     """
+    logging.debug(f"Polling endpoint {poll_url}")
     response = requests.get(
         poll_url,
         headers={

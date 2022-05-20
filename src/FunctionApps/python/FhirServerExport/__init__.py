@@ -2,6 +2,7 @@ import azure.functions as func
 import config
 import json
 import logging
+import requests
 
 from phdi_building_blocks import fhir
 
@@ -18,15 +19,21 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         export_response = fhir.export_from_fhir_server(
-            access_token=access_token,
+            access_token=access_token.token,
             fhir_url=fhir_url,
             export_scope=req.params.get("export_scope", ""),
             since=req.params.get("since", ""),
             resource_type=req.params.get("type", ""),
+            container=req.params.get("container", ""),
             poll_step=poll_step,
             poll_timeout=poll_timeout,
         )
         logging.debug(f"Export response received: {json.dumps(export_response)}")
+    except requests.HTTPError as exception:
+        logging.exception(
+            f"Error occurred while making reqeust to {exception.request.url}, "
+            + f"status code: {exception.response.status_code}"
+        )
     except Exception as exception:
         # Log and re-raise so it bubbles up as an execution failure
         logging.exception("Error occurred while performing export operation.")
