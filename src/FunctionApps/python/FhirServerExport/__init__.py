@@ -13,6 +13,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     poll_step = float(config.get_required_config("FHIR_EXPORT_POLL_INTERVAL", 30))
     poll_timeout = float(config.get_required_config("FHIR_EXPORT_POLL_TIMEOUT", 300))
 
+    container = config.get_required_config("FHIR_EXPORT_CONTAINER", "fhir-exports")
+    if container == "<none>":
+        container = ""
+
     cred_manager = fhir.AzureFhirserverCredentialManager(fhir_url=fhir_url)
 
     access_token = cred_manager.get_access_token()
@@ -24,7 +28,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             export_scope=req.params.get("export_scope", ""),
             since=req.params.get("since", ""),
             resource_type=req.params.get("type", ""),
-            container=req.params.get("container", ""),
+            container=container,
             poll_step=poll_step,
             poll_timeout=poll_timeout,
         )

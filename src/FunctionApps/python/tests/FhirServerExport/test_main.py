@@ -67,7 +67,7 @@ def test_main(mock_get_access_token, mock_export, mock_download):
         export_scope="",
         since="",
         resource_type="",
-        container="",
+        container="fhir-exports",
         poll_step=0.1,
         poll_timeout=1.0,
     )

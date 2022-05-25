@@ -12,6 +12,7 @@ The configuration values required to be set for the IntakePipeline function are 
 * `FHIR_URL`: the base url for the FHIR server used to persist FHIR objects
 * `FHIR_EXPORT_POLL_INTERVAL`: (default = 30) the number of seconds to wait between checks for the completion of an export.  This setting supports a decimal value.
 * `FHIR_EXPORT_POLL_TIMEOUT`: (default = 300) the number of seconds to wait for the completion of an export.  If the time extends beyond this interval, the function will return a timeout error.
+* `FHIR_EXPORT_CONTAINER`: (default = "fhir-exports") the name of the container that holds export runs (the service account is configured in the FHIR Server).  In order to create a new container for each export run, enter a value of `<none>`.  
 
 # Description
 This function provides a simplified client to the Azure implementation of the [HL7 Bulk Data Export](https://hl7.org/fhir/uv/bulkdata/export/index.html) specification.  The [Azure implementation](https://docs.microsoft.com/en-us/azure/healthcare-apis/fhir/export-data) follows the general guidance outlined by the spec, but is tied to Azure in that it stores exported files to Blob storage.  
