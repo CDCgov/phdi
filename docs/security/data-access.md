@@ -10,7 +10,7 @@ Storage account containers and directories are managed by Terraform with ACL per
 `operations/app/terraform/modules/storage/data.tf`:
 ```sh
 locals {
-  data_containers = ["bronze", "silver", "gold"]
+  data_containers = ["bronze", "bronze-additional-records", "fhir-exports", "silver", "gold"]
   data_ace_access = [
     { permissions = "---", id = null, type = "other", scope = "access" },
     { permissions = "---", id = null, type = "other", scope = "default" },
