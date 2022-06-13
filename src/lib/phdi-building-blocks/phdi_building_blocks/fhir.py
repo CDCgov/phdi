@@ -21,9 +21,12 @@ def generate_filename(blob_name: str, message_index: int) -> str:
     return f"{fname}-{message_index}"
 
 
-class AzureFhirserverCredentialManager:
-    """Manager for handling Azure credentials for access to the FHIR server"""
+"""Manager for handling Azure credentials for access to the FHIR server"""
 
+
+class AzureFhirserverCredentialManager:
+
+    # TODO: Generalize this class to decouple from Azure
     def __init__(self, fhir_url):
         """Credential manager constructor"""
         self.access_token = None
@@ -54,8 +57,8 @@ class AzureFhirserverCredentialManager:
         return DefaultAzureCredential()
 
     def _need_new_token(self, token_reuse_tolerance: float = 10.0) -> bool:
-        """Determine whether the token already stored for this object can be reused, or if it
-        needs to be re-requested.
+        """Determine whether the token already stored for this object can be reused, or
+        if it needs to be requested again.
         :param str token_reuse_tolerance: Number of seconds before expiration
         it is OK to reuse the currently assigned token"""
         try:
@@ -295,3 +298,47 @@ def _download_export_blob(blob_url: str, encoding: str = "utf-8") -> TextIO:
     text_buffer = io.TextIOWrapper(buffer=bytes_buffer, encoding=encoding, newline="\n")
     text_buffer.seek(0)
     return text_buffer
+
+
+def fhir_server_get(url: str, access_token: str) -> requests.models.Response:
+    """
+    Submit a GET request to a FHIR server given a url and access token for
+    authentication.
+
+    :param url: URL specifying a GET request on a FHIR server.
+    :param access_token: A bearer token to authenticate with the FHIR server.
+    """
+
+    header = {"Authorization": f"Bearer {access_token}"}
+    response = requests.get(url=url, headers=header)
+    log_fhir_server_error(response.status_code)
+
+    return response
+
+
+def log_fhir_server_error(status_code: int) -> None:
+    """Given an HTTP status code from a FHIR server's response, log the specified error.
+
+    :param status_code: Status code returned by a FHIR server
+    """
+    if status_code == 401:
+        logging.error("FHIR SERVER ERROR - Status Code 401: Failed to authenticate.")
+
+    elif status_code == 403:
+        logging.error(
+            "FHIR SERVER ERROR - Status Code 403: User does not have permission to make that request."  # noqa
+        )
+
+    elif status_code == 404:
+        logging.error(
+            "FHIR SERVER ERROR - Status Code 404: Server or requested data not found."
+        )
+
+    elif status_code == 410:
+        logging.error(
+            "FHIR SERVER ERROR - Status Code 410: Server has deleted this cached data."
+        )
+
+    elif str(status_code).startswith(("4", "5")):
+        error_message = f"FHIR SERVER ERROR - Status code {status_code}"
+        logging.error(error_message)

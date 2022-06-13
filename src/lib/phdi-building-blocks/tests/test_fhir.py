@@ -14,6 +14,8 @@ from phdi_building_blocks.fhir import (
     export_from_fhir_server,
     _compose_export_url,
     download_from_export_response,
+    log_fhir_server_error,
+    fhir_server_get,
 )
 
 
@@ -329,3 +331,39 @@ def test_download_from_export_response(mock_download_export_blob):
             mock.call(blob_url="https://export-download-url/_Observation"),
         ]
     )
+
+
+@mock.patch("phdi_building_blocks.fhir.logging")
+def test_log_fhir_server_error(patched_logger):
+
+    log_fhir_server_error(200)
+    assert ~patched_logger.error.called
+
+    error_status_codes = {
+        401: "FHIR SERVER ERROR - Status Code 401: Failed to authenticate.",
+        403: "FHIR SERVER ERROR - Status Code 403: User does not have permission to make that request.",  # noqa
+        404: "FHIR SERVER ERROR - Status Code 404: Server or requested data not found.",
+        410: "FHIR SERVER ERROR - Status Code 410: Server has deleted this cached data.",  # noqa
+        499: "FHIR SERVER ERROR - Status code 499",
+        599: "FHIR SERVER ERROR - Status code 599",
+    }
+
+    for status_code, error_message in error_status_codes.items():
+        log_fhir_server_error(status_code)
+        patched_logger.error.assert_called_with(error_message)
+
+
+@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
+@mock.patch("phdi_building_blocks.fhir.requests")
+def test_fhir_server_get(patched_requests, patched_logger):
+
+    url = "url_for_FHIR_server_get_request"
+    access_token = "some_access_token_for_authentication"
+
+    fhir_server_get(url, access_token)
+
+    header = {"Authorization": f"Bearer {access_token}"}
+    patched_requests.get.assert_called_with(url=url, headers=header)
+
+    response = patched_requests.get(url=url, headers=header)
+    patched_logger.assert_called_with(response.status_code)
