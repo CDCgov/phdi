@@ -1,0 +1,36 @@
+name: Deploy Dev
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy_dev:
+    name: Deploy to prime-ingestion-dev
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./operations/app/terraform/vars/dev
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v2
+
+      - name: Login to Azure and Terraform
+        uses: ./.github/actions/az-tf
+        with:
+          sp-creds: ${{ secrets.SERVICE_PRINCIPAL_CREDS }}
+
+      - name: Allow GitHub runner access
+        run: |
+          RUNNER_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)/32"
+          az keyvault network-rule add -n pidev-app-kv --ip-address "$RUNNER_IP" >/dev/null
+          echo "runner_ip=$RUNNER_IP" >> $GITHUB_ENV
+
+      - name: Deploy
+        run: |
+          terraform init
+          terraform apply -auto-approve -lock-timeout=30m
+
+      - name: Remove GitHub runner access
+        if: ${{ always() }}
+        run: az keyvault network-rule remove -n pidev-app-kv --ip-address "${{ env.runner_ip }}" >/dev/null
