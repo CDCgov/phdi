@@ -6,17 +6,21 @@ Below is a guide for getting started on development of the PRIME PHDI Data Inges
   - [Architecture](#architecture)
   - [Local Development Environment](#local-development-environment)
     - [Hardware](#hardware)
-    - [VSCode](#vscode)
-    - [Testing](#testing)
-      - [Pre-requisites](#pre-requisites)
-      - [A note on files](#a-note-on-files)
-      - [Sensitive information](#sensitive-information)
+    - [Software](#software)
+      - [Overview](#overview)
+      - [Installation](#installation)
+    - [Developing Azure Locally](#developing-azure-locally)
+      - [Extensions](#extensions)
+      - [Testing](#testing)
       - [Python](#python)
-        - [Development dependencies](#development-dependencies)
-        - [What is the VSCode Azure integration actually doing?/](#what-is-the-vscode-azure-integration-actually-doing)
+        - [Development Dependencies](#development-dependencies)
+        - [What is the VSCode Azure Integration Actually Doing?](#what-is-the-vscode-azure-integration-actually-doing)
         - [Dependencies](#dependencies)
         - [Testing Python](#testing-python)
-  - [Docker container development](#docker-container-development)
+      - [Pushing to Github](#pushing-to-github)
+        - [A Note on Files](#a-note-on-files)
+        - [Sensitive Information](#sensitive-information)
+  - [Docker Container Development](#docker-container-development)
 
 ## Architecture
 
@@ -36,7 +40,10 @@ The below instructions cover how to setup a development environment for local de
 
 ### Hardware
 
-Until we have properly containerized our apps, we will need to rely on informal consensus around hardware. The most common setup on the team is VSCode running on a Mac. It's worth nothing, though, that M1 macs are unable to run the `azure-functions-core-tools` package directly (and even have difficulty running it through Rosetta). Windows-based machines that are running Windows 10/11 Home or higher are viable options as well. However, as the work moves towards containerization, Windows Pro will be necessary in order to run Docker. Each setup will have its own pros and cons, so choose the setup that works best for you, while keeping in mind the tech stack needs, which are defined below.
+Until we have properly containerized our apps, we will need to rely on informal consensus around hardware. Here is a list of machines that are compatible with development:
+- Intel Macs
+- Apple-Silicon Macs
+- Windows-based machines with Windows 10/11 Home or higher. However, as the work moves towards containerization, Windows Pro will be necessary in order to run Docker.
 
 ### Software
 
@@ -52,6 +59,8 @@ Lastly, there are some dependencies that the team makes use of in order to test 
 4. Install [Python 3.9.x](https://www.python.org/downloads/).  As of this writing, this is the highest Python version supported by Azure Funcation Apps.
 5. Install [Azure CLI Tools](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).  These tools are essential to work with various aspects of the Azure cloud. 
 In the next section, "Developing Azure Locally", we'll go over which Extensions you need to install, including the Azurite Extension, in order to begin developing Azure functionality.
+6. Install [pip](https://pip.pypa.io/en/stable/installation/). This is the dependency manager for the Azure Functions
+7. Install [poetry](https://python-poetry.org/docs/). This is the dependency manager for the internal library. 
 
 ### Developing Azure Locally
 
@@ -97,7 +106,8 @@ Microsoft maintains a pretty good guide [here](https://docs.microsoft.com/en-us/
 
 ##### Development Dependencies
 
-We've added a handful of development-only dependencies at `requirements_dev.txt`. Install these with `source .venv/bin/activate; pip install -r requirements_dev.txt`.
+In your terminal, navigate to the `src/lib/phdi_building_blocks` directory and run `poetry install`
+In your terminal, navigate to the `src/lib/FunctionApps` directory and run `pip install -r requirements_dev.txt`
 
 These include:
 
@@ -131,6 +141,9 @@ To run tests, go to the `Test` tab and ensure tests can be located. From there y
 Tests that exercise storage blob-related funcitonality should use [Azurite](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio) , those testing SFTP should use SFTP mocks.
 
 #### Pushing to Github
+
+To get access to push to Github, ask to get maintainer access to the repo for your Github account.
+
 ##### A Note on Files
 
 Using the direct VSCode integration generates a number of files, the details of which are outlined in the above link. All files within the `.vscode` folder should be checked in. Double check that these do not contain environment variables or paths that are specific to your machine. Also, very importantly, **DO NOT** check in `local.settings.json` , this will contain sensitive information.
