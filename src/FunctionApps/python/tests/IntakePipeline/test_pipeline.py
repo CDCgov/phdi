@@ -35,9 +35,9 @@ MESSAGE_MAPPINGS = {
 }
 
 
-@mock.patch("IntakePipeline.standardize_patient_name")
-@mock.patch("IntakePipeline.standardize_patient_phone")
-@mock.patch("IntakePipeline.geocode_patient_address")
+@mock.patch("IntakePipeline.standardize_patient_names")
+@mock.patch("IntakePipeline.standardize_all_phones")
+@mock.patch("IntakePipeline.geocode_patients")
 @mock.patch("IntakePipeline.add_patient_identifier")
 @mock.patch("IntakePipeline.upload_bundle_to_fhir_server")
 @mock.patch("IntakePipeline.store_data")
@@ -62,6 +62,15 @@ def test_pipeline_valid_message(
     patched_geocoder = mock.Mock()
     patched_get_geocoder.return_value = patched_geocoder
 
+    patched_standardized_name_data = mock.Mock()
+    patched_name_standardization.return_value = patched_standardized_name_data
+    patched_standardized_phone_data = mock.Mock()
+    patched_phone_standardization.return_value = patched_standardized_phone_data
+    patched_standardized_address_data = mock.Mock()
+    patched_address_standardization.return_value = patched_standardized_address_data
+    patched_linked_id_data = mock.Mock()
+    patched_patient_id.return_value = patched_linked_id_data
+
     run_pipeline("MSH|Hello World", MESSAGE_MAPPINGS, "some-fhir-url", "some-token")
 
     patched_get_geocoder.assert_called_with("smarty-auth-id", "smarty-auth-token")
@@ -78,18 +87,16 @@ def test_pipeline_valid_message(
     patched_name_standardization.assert_called_with(
         {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
     )
-    patched_phone_standardization.assert_called_with(
-        {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
-    )
+    patched_phone_standardization.assert_called_with(patched_standardized_name_data)
     patched_address_standardization.assert_called_with(
-        {"resourceType": "Bundle", "entry": [{"hello": "world"}]}, patched_geocoder
+        patched_standardized_phone_data, patched_geocoder
     )
 
     patched_patient_id.assert_called_with(
-        {"resourceType": "Bundle", "entry": [{"hello": "world"}]}, TEST_ENV["HASH_SALT"]
+        patched_standardized_address_data, TEST_ENV["HASH_SALT"]
     )
     patched_upload.assert_called_with(
-        {"resourceType": "Bundle", "entry": [{"hello": "world"}]},
+        patched_linked_id_data,
         "some-token",
         "some-fhir-url",
     )
@@ -98,13 +105,13 @@ def test_pipeline_valid_message(
         "output/valid/path",
         f"{MESSAGE_MAPPINGS['filename']}.fhir",
         MESSAGE_MAPPINGS["bundle_type"],
-        message_json={"resourceType": "Bundle", "entry": [{"hello": "world"}]},
+        message_json=patched_linked_id_data,
     )
 
 
-@mock.patch("IntakePipeline.standardize_patient_name")
-@mock.patch("IntakePipeline.standardize_patient_phone")
-@mock.patch("IntakePipeline.geocode_patient_address")
+@mock.patch("IntakePipeline.standardize_patient_names")
+@mock.patch("IntakePipeline.standardize_all_phones")
+@mock.patch("IntakePipeline.geocode_patients")
 @mock.patch("IntakePipeline.add_patient_identifier")
 @mock.patch("IntakePipeline.upload_bundle_to_fhir_server")
 @mock.patch("IntakePipeline.store_data")
@@ -169,9 +176,9 @@ def test_pipeline_invalid_message(
     )
 
 
-@mock.patch("IntakePipeline.standardize_patient_name")
-@mock.patch("IntakePipeline.standardize_patient_phone")
-@mock.patch("IntakePipeline.geocode_patient_address")
+@mock.patch("IntakePipeline.standardize_patient_names")
+@mock.patch("IntakePipeline.standardize_all_phones")
+@mock.patch("IntakePipeline.geocode_patients")
 @mock.patch("IntakePipeline.add_patient_identifier")
 @mock.patch("IntakePipeline.upload_bundle_to_fhir_server")
 @mock.patch("IntakePipeline.store_data")
@@ -200,8 +207,16 @@ def test_pipeline_partial_invalid_message(
     patched_geocoder = mock.Mock()
     patched_get_geocoder.return_value = patched_geocoder
 
-    messages = convert_batch_messages_to_list(partial_failure_message)
+    patched_standardized_name_data = mock.Mock()
+    patched_name_standardization.return_value = patched_standardized_name_data
+    patched_standardized_phone_data = mock.Mock()
+    patched_phone_standardization.return_value = patched_standardized_phone_data
+    patched_standardized_address_data = mock.Mock()
+    patched_address_standardization.return_value = patched_standardized_address_data
+    patched_linked_id_data = mock.Mock()
+    patched_patient_id.return_value = patched_linked_id_data
 
+    messages = convert_batch_messages_to_list(partial_failure_message)
     message_mappings = {
         "file_suffix": "hl7",
         "bundle_type": "VXU",
@@ -282,11 +297,13 @@ def test_pipeline_partial_invalid_message(
             ),
         ]
     )
+
     patched_address_standardization.call_count = 4
     patched_phone_standardization.call_count = 4
     patched_name_standardization.call_count = 4
     patched_patient_id.call_count = 4
     patched_upload.call_count = 4
+
     patched_store.assert_has_calls(
         [
             mock.call(
@@ -294,14 +311,14 @@ def test_pipeline_partial_invalid_message(
                 "output/valid/path",
                 "some-filename-0.fhir",
                 "VXU",
-                message_json={"resourceType": "Bundle", "entry": [{"hello": "world"}]},
+                message_json=patched_linked_id_data,
             ),
             mock.call(
                 "some-url",
                 "output/valid/path",
                 "some-filename-1.fhir",
                 "VXU",
-                message_json={"resourceType": "Bundle", "entry": [{"hello": "world"}]},
+                message_json=patched_linked_id_data,
             ),
             mock.call(
                 "some-url",
@@ -325,14 +342,14 @@ def test_pipeline_partial_invalid_message(
                 "output/valid/path",
                 "some-filename-3.fhir",
                 "VXU",
-                message_json={"resourceType": "Bundle", "entry": [{"hello": "world"}]},
+                message_json=patched_linked_id_data,
             ),
             mock.call(
                 "some-url",
                 "output/valid/path",
                 "some-filename-4.fhir",
                 "VXU",
-                message_json={"resourceType": "Bundle", "entry": [{"hello": "world"}]},
+                message_json=patched_linked_id_data,
             ),
         ]
     )

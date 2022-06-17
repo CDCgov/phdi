@@ -8,13 +8,13 @@ from smartystreets_python_sdk.us_street.metadata import Metadata
 from smartystreets_python_sdk.us_street.components import Components
 
 from phdi_building_blocks.geo import (
-    geocode,
-    geocode_patient_address,
-    GeocodeResult,
+    get_geocoder_result,
+    geocode_patients,
 )
+from phdi_building_blocks.geo import GeocodeResult
 
 
-def test_geocode():
+def test_get_geocoder_result_success():
     """
     Make sure to return the correct dict attribs from the SmartyStreets
     response object on a successful call
@@ -54,18 +54,18 @@ def test_geocode():
         "county_name": "New York",
         "zipcode": "10001",
         "precision": "Zip9",
-    } == geocode(client, "123 Fake St, New York, NY 10001")
+    } == get_geocoder_result("123 Fake St, New York, NY 10001", client)
 
     client.send_lookup.assert_called()
 
 
-def test_failed_geocode():
+def test_get_geocoder_result_failure():
     """If it doesn't fill in results, return None"""
-    assert geocode(mock.Mock(), "123 Nowhere St, Atlantis GA") is None
+    assert get_geocoder_result("123 Nowhere St, Atlantis GA", mock.Mock()) is None
 
 
-@mock.patch("phdi_building_blocks.geo.geocode")
-def test_geocode_patient_address(patched_geocoder):
+@mock.patch("phdi_building_blocks.geo.get_geocoder_result")
+def test_geocode_patients(patched_geocoder):
     raw_bundle = json.load(
         open(pathlib.Path(__file__).parent / "assets" / "patient_bundle.json")
     )
@@ -99,13 +99,6 @@ def test_geocode_patient_address(patched_geocoder):
         }
     )
 
-    patient["extension"] = []
-    patient["extension"].append(
-        {
-            "url": "http://usds.gov/fhir/phdi/StructureDefinition/address-was-standardized",  # noqa
-            "valueBoolean": True,
-        }
-    )
     patched_geocoder.return_value = geocoded_response
 
-    assert geocode_patient_address(raw_bundle, mock.Mock()) == standardized_bundle
+    assert geocode_patients(raw_bundle, mock.Mock()) == standardized_bundle

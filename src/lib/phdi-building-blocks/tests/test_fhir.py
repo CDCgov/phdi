@@ -8,8 +8,8 @@ from unittest import mock
 
 from azure.identity import DefaultAzureCredential
 
+from phdi_building_blocks.azure import AzureFhirServerCredentialManager
 from phdi_building_blocks.fhir import (
-    get_fhirserver_cred_manager,
     upload_bundle_to_fhir_server,
     export_from_fhir_server,
     _compose_export_url,
@@ -58,7 +58,7 @@ def test_get_access_token_reuse(mock_get_token):
 
     mock_get_token.return_value = mock_access_token
 
-    fhirserver_cred_manager = get_fhirserver_cred_manager("https://fhir-url")
+    fhirserver_cred_manager = AzureFhirServerCredentialManager("https://fhir-url")
     token1 = fhirserver_cred_manager.get_access_token()
 
     # Use the default token reuse tolerance, which is less than
@@ -77,7 +77,7 @@ def test_get_access_token_refresh(mock_get_token):
 
     mock_get_token.return_value = mock_access_token
 
-    fhirserver_cred_manager = get_fhirserver_cred_manager("https://fhir-url")
+    fhirserver_cred_manager = AzureFhirServerCredentialManager("https://fhir-url")
     token1 = fhirserver_cred_manager.get_access_token()
 
     # This time, use a very high token reuse tolerance to

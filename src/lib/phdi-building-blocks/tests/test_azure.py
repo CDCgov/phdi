@@ -1,10 +1,10 @@
 import os
 from unittest import mock
 
-from phdi_building_blocks.azure_blob import store_data
+from phdi_building_blocks.azure import store_data
 
 
-@mock.patch("phdi_building_blocks.azure_blob.get_blob_client")
+@mock.patch("phdi_building_blocks.azure.get_blob_client")
 def test_store_data(mock_get_client):
     mock_blob = mock.Mock()
 
