@@ -47,6 +47,8 @@ jobs:
     strategy:
       matrix:
         function-to-test: ${{fromJson(needs.function-app-scan.outputs.python-function-app-dirs)}}
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -58,7 +60,7 @@ jobs:
       - name: Install dependencies
         working-directory: ./src/FunctionApps/${{matrix.function-to-test}}
         run: |
-          sed -i "\|prime-public-health-data-infrastructure@|s|main|${{ github.head_ref }}|" requirements.txt
+          sed -i "\|prime-public-health-data-infrastructure@|s|main|$BRANCH_NAME|" requirements.txt
           pip install -r requirements.txt
           pip install pytest
       - name: Run unit tests
