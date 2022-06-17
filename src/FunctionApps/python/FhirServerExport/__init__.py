@@ -5,22 +5,31 @@ import logging
 import requests
 
 from phdi_building_blocks import fhir
+from phdi_building_blocks.azure import AzureFhirServerCredentialManager
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    fhir_url = config.get_required_config("FHIR_URL")
+    """
+    Main function that activates the FHIR export function app utility.
+    An HTTP request is used to kick off the procedure. For more information,
+    see the README file accompanying the FhirServerExport function app.
 
+    :param req: The request initiating a FHIR export.
+    :return: The response from the FHIR server
+    """
+
+    # Load configurations and environment variables
+    fhir_url = config.get_required_config("FHIR_URL")
     poll_step = float(config.get_required_config("FHIR_EXPORT_POLL_INTERVAL", 30))
     poll_timeout = float(config.get_required_config("FHIR_EXPORT_POLL_TIMEOUT", 300))
-
     container = config.get_required_config("FHIR_EXPORT_CONTAINER", "fhir-exports")
     if container == "<none>":
         container = ""
 
-    cred_manager = fhir.AzureFhirserverCredentialManager(fhir_url=fhir_url)
-
+    cred_manager = AzureFhirServerCredentialManager(fhir_url=fhir_url)
     access_token = cred_manager.get_access_token()
 
+    # Properly configured, kickoff the export procedure
     try:
         export_response = fhir.export_from_fhir_server(
             access_token=access_token.token,
@@ -33,11 +42,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             poll_timeout=poll_timeout,
         )
         logging.debug(f"Export response received: {json.dumps(export_response)}")
+
     except requests.HTTPError as exception:
         logging.exception(
             f"Error occurred while making reqeust to {exception.request.url}, "
             + f"status code: {exception.response.status_code}"
         )
+
     except Exception as exception:
         # Log and re-raise so it bubbles up as an execution failure
         logging.exception("Error occurred while performing export operation.")

@@ -18,7 +18,8 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
-project = "PHDI Transforms"
+# TODO Figure out if these attributions are correct. May need to change to USDS or CDC
+project = "PHDI Building Blocks"
 copyright = "2022, PHDI Team"
 author = "PHDI Team"
 
@@ -46,12 +47,14 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "alabaster"
+html_theme = "classic"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+html_static_path = []
 
 
 # -- Extension configuration -------------------------------------------------
+
+autodoc_typehints = "description"

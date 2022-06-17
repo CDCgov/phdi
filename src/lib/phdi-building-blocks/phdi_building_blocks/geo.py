@@ -1,16 +1,19 @@
-from typing import List
-from pydantic import BaseModel
-
-from phdi_building_blocks.utils import find_patient_resources
+from phdi_building_blocks.utils import find_resource_by_type, get_one_line_address
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
 
+from typing import List, Union
+from pydantic import BaseModel
+import copy
+
 
 class GeocodeResult(BaseModel):
     """
-    A class representing a successful geocoding response
+    A basic abstract class representing a successful geocoding response.
+    SmartyStreets asks us to implement a custom result to wrap their
+    base model in for ease of working with.
     """
 
     address: List[str]
@@ -24,40 +27,54 @@ class GeocodeResult(BaseModel):
     precision: str
 
 
-def geocode(client: us_street.Client, address: str) -> GeocodeResult:
+def get_geocoder_result(
+    address: str, client: us_street.Client
+) -> Union[GeocodeResult, None]:
     """
     Given an API client and an address, attempt to call the smartystreets API
+    and use our wrapper class to return a succinctly encapsulated result. If
+    a valid result is found, it will be returned. Otherwise, the function
+    returns None.
+
+    :param address: The address to perform a geocoding lookup for
+    :param client: the SmartyStreets API Client suitable for use with street addresses
+    in the US
     """
 
     lookup = Lookup(street=address)
     client.send_lookup(lookup)
 
+    # Valid responses have results with lat/long
     if lookup.result and lookup.result[0].metadata.latitude:
-        res = lookup.result[0]
-        addr = [res.delivery_line_1]
-        if res.delivery_line_2:
-            addr.append(res.delivery_line_2)
+        smartystreets_result = lookup.result[0]
+        street_address = [smartystreets_result.delivery_line_1]
+        if smartystreets_result.delivery_line_2:
+            street_address.append(smartystreets_result.delivery_line_2)
 
         return GeocodeResult(
-            address=addr,
-            city=res.components.city_name,
-            state=res.components.state_abbreviation,
-            zipcode=res.components.zipcode,
-            county_fips=res.metadata.county_fips,
-            county_name=res.metadata.county_name,
-            lat=res.metadata.latitude,
-            lng=res.metadata.longitude,
-            precision=res.metadata.precision,
+            address=street_address,
+            city=smartystreets_result.components.city_name,
+            state=smartystreets_result.components.state_abbreviation,
+            zipcode=smartystreets_result.components.zipcode,
+            county_fips=smartystreets_result.metadata.county_fips,
+            county_name=smartystreets_result.metadata.county_name,
+            lat=smartystreets_result.metadata.latitude,
+            lng=smartystreets_result.metadata.longitude,
+            precision=smartystreets_result.metadata.precision,
         )
+
+    return
 
 
 def get_smartystreets_client(auth_id: str, auth_token: str) -> us_street.Client:
     """
-    Build a smartystreets api client from an auth id and token
+    Build a smartystreets api client from an auth id and token.
+
+    :param auth_id: Authentication ID to build the client with
+    :param auth_token: The token that allows us to access the client
     """
 
     creds = StaticCredentials(auth_id, auth_token)
-
     return (
         ClientBuilder(creds)
         .with_licenses(["us-standard-cloud"])
@@ -65,55 +82,92 @@ def get_smartystreets_client(auth_id: str, auth_token: str) -> us_street.Client:
     )
 
 
-def geocode_patient_address(bundle: dict, client: us_street.Client) -> dict:
-    """Given a FHIR bundle and a SmartyStreets client, geocode all patient addresses
-    in all patient resources in the bundle."""
+# TODO Find a way to generalize this such that it's applicable to all resource types
+def geocode_patients(
+    bundle: dict,
+    client: us_street.Client,
+    overwrite: bool = True,
+) -> dict:
+    """
+    Given a FHIR bundle and a SmartyStreets client, geocode all patient addresses
+    across all patient resources in the bundle. If the overwrite parameter is
+    false, the function makes a deep copy of the data before operating so that
+    the source data is unchanged and the new standardized bundle may be passed
+    by value to other building blocks.
 
-    for resource in find_patient_resources(bundle):
+    :param dict bundle: A FHIR resource bundle
+    :param us_street.Client client: The smartystreets API client to geocode
+        with
+    :param overwrite: Whether to write the new standardizations directly
+        into the given bundle, changing the original data (True is yes)
+    """
+    # Copy the data if we don't want to alter the original
+    if not overwrite:
+        bundle = copy.deepcopy(bundle)
+
+    # Standardize each patient in turn
+    for resource in find_resource_by_type(bundle, "Patient"):
         patient = resource.get("resource")
-        if "extension" not in patient:
-            patient["extension"] = []
-
-        raw_addresses = []
-        std_addresses = []
-        for address in patient.get("address", []):
-            # Generate a one-line address to pass to the geocoder
-            one_line = " ".join(address.get("line", []))
-            one_line += f" {address.get('city')}, {address.get('state')}"
-            if "postalCode" in address and address["postalCode"]:
-                one_line += f" {address['postalCode']}"
-            raw_addresses.append(one_line)
-
-            geocoded = geocode(client, one_line)
-            std_one_line = ""
-            if geocoded:
-                address["line"] = geocoded.address
-                address["city"] = geocoded.city
-                address["state"] = geocoded.state
-                address["postalCode"] = geocoded.zipcode
-                std_one_line = f"{geocoded.address} {geocoded.city}, {geocoded.state} {geocoded.zipcode}"  # noqa
-                std_addresses.append(std_one_line)
-
-                if "extension" not in address:
-                    address["extension"] = []
-
-                address["extension"].append(
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
-                        "extension": [
-                            {"url": "latitude", "valueDecimal": geocoded.lat},
-                            {"url": "longitude", "valueDecimal": geocoded.lng},
-                        ],
-                    }
-                )
-        any_dffs = (len(raw_addresses) != len(std_addresses)) or any(
-            [raw_addresses[i] != std_addresses[i] for i in range(len(raw_addresses))]
-        )
-        patient["extension"].append(
-            {
-                "url": "http://usds.gov/fhir/phdi/StructureDefinition/address-was-standardized",  # noqa
-                "valueBoolean": any_dffs,
-            }
-        )
+        geocode_and_parse_addresses_for_patient(patient, client)
 
     return bundle
+
+
+def _geocode_and_parse_address(
+    address: dict, client: us_street.Client
+) -> GeocodeResult:
+    """
+    Helper function to perform geocoding on a single address from a patient
+    resource. Here, the address is expressed in dictionary form, as it comes
+    straight out of a FHIR bundle.
+
+    :param address: A patient's address in FHIR / JSON
+    :param client: The API client to geocode with
+    """
+
+    raw_one_line = get_one_line_address(address)
+    geocoded_result = get_geocoder_result(raw_one_line, client)
+
+    return geocoded_result
+
+
+# TODO: Find a way to generalize this such that it's applicable to all resource types
+def geocode_and_parse_addresses_for_patient(
+    patient: dict, client: us_street.Client
+) -> None:
+    """
+    Helper function to handle the parsing, standardizing, and geocoding of all addresses
+    belonging to a single patient in a FHIR resource bundle.
+
+    :param patient: A Patient resource FHIR profile
+    :param client: The API client to geocode with
+    """
+
+    for address in patient.get("address", []):
+        standardized_address = _geocode_and_parse_address(address, client)
+
+        # Update fields with new, standardized information
+        if standardized_address:
+            address["line"] = standardized_address.address
+            address["city"] = standardized_address.city
+            address["state"] = standardized_address.state
+            address["postalCode"] = standardized_address.zipcode
+
+            # Need an extension to track lat/long
+            if "extension" not in address:
+                address["extension"] = []
+            address["extension"].append(
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
+                    "extension": [
+                        {
+                            "url": "latitude",
+                            "valueDecimal": standardized_address.lat,
+                        },
+                        {
+                            "url": "longitude",
+                            "valueDecimal": standardized_address.lng,
+                        },
+                    ],
+                }
+            )

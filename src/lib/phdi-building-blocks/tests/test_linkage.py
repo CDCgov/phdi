@@ -1,4 +1,9 @@
-from phdi_building_blocks.linkage import generate_hash_str, add_patient_identifier
+from phdi_building_blocks.linkage import (
+    generate_hash_str,
+    add_patient_identifier,
+)
+import json
+import pathlib
 
 
 def test_generate_hash():
@@ -36,67 +41,13 @@ def test_missing_address():
 def test_add_patient_identifier():
     salt_str = "super-legit-salt"
 
-    incoming_bundle = {
-        "resourceType": "Bundle",
-        "type": "batch",
-        "timestamp": "2022-01-01T00:00:30",
-        "identifier": {"value": "a-totally-legit-id"},
-        "id": "45bdc851-2fe5-cf8a-2fd7-dd24b23409e4",
-        "entry": [
-            {
-                "fullUrl": "asdfasdfu2189u812",
-                "resource": {
-                    "resourceType": "MessageHeader",
-                    "resourceBody": "some-FHIR-stuff",
-                },
-            },
-            {
-                "fullUrl": "ajshdfo8ashf8191hf",
-                "resource": {
-                    "resourceType": "Patient",
-                    "id": "65489-asdf5-6d8w2-zz5g8",
-                    "identifier": [
-                        {
-                            "value": "99999",
-                            "type": {
-                                "coding": [
-                                    {
-                                        "code": "real-code",
-                                        "system": "a-real-url",
-                                    }
-                                ]
-                            },
-                            "system": "urn:oid:1.2.840.114350.1.13.163.3.7.2.696570",
-                        }
-                    ],
-                    "name": [
-                        {
-                            "family": "Shepard",
-                            "given": ["John", "Tiberius"],
-                            "use": "official",
-                        }
-                    ],
-                    "birthDate": "2053-11-07",
-                    "gender": "male",
-                    "address": [
-                        {
-                            "line": ["1234 Silversun Strip"],
-                            "city": "Zakera Ward",
-                            "state": "Citadel",
-                            "postalCode": "99999",
-                        }
-                    ],
-                },
-            },
-            {
-                "fullUrl": "64a6s87df98a46e8a52d",
-                "resource": {
-                    "resourceType": "Provenance",
-                    "resourceBody": "moar-FHIR-stuff",
-                },
-            },
-        ],
-    }
+    incoming_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent
+            / "assets"
+            / "patient_with_linking_id_bundle.json"
+        )
+    )
 
     plaintext = (
         "John-Tiberius-Shepard-2053-11-07-"

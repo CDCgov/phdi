@@ -4,18 +4,13 @@ import copy
 
 
 from phdi_building_blocks.standardize import (
-    standardize_name,
-    standardize_patient_name,
-    standardize_phone,
-    country_extractor,
+    standardize_patient_names,
+    standardize_all_phones,
+    extract_countries_from_resource,
     standardize_country,
-    standardize_patient_phone,
 )
 
-
-def test_standardize_name():
-    assert "JOHN DOE" == standardize_name(" JOHN DOE ")
-    assert "JOHN DOE" == standardize_name(" John Doe3 ")
+# TODO: Implement missing unit test for standardize.standardize_phone()
 
 
 def test_standardize_patient_name():
@@ -26,44 +21,28 @@ def test_standardize_patient_name():
     patient = standardized_bundle["entry"][1]["resource"]
     patient["name"][0]["family"] = "DOE"
     patient["name"][0]["given"] = ["JOHN", "DANGER"]
-    patient["extension"] = []
-    patient["extension"].append(
-        {
-            "url": "http://usds.gov/fhir/phdi/StructureDefinition/family-name-was-standardized",  # noqa
-            "valueBoolean": True,
-        }
-    )
-    patient["extension"].append(
-        {
-            "url": "http://usds.gov/fhir/phdi/StructureDefinition/given-name-was-standardized",  # noqa
-            "valueBoolean": True,
-        }
-    )
-    assert standardize_patient_name(raw_bundle) == standardized_bundle
+    assert standardize_patient_names(raw_bundle) == standardized_bundle
 
 
-def test_standardize_phone():
+def test_extract_countries_from_resource():
     raw_bundle = json.load(
         open(pathlib.Path(__file__).parent / "assets" / "patient_bundle.json")
     )
-    patient = raw_bundle["entry"][1]
-    countries = country_extractor(patient)
-
-    assert standardize_phone("+11234567890") == "+11234567890"
-    assert standardize_phone("(123)-456-7890", countries) == "+11234567890"
-    assert standardize_phone("123 456.7890") == "+11234567890"
-
-
-def test_country_extractor():
-    raw_bundle = json.load(
-        open(pathlib.Path(__file__).parent / "assets" / "patient_bundle.json")
-    )
-    patient = raw_bundle["entry"][1]
-    patient["resource"]["address"].append(patient["resource"]["address"][0])
-    patient["resource"]["address"].append(patient["resource"]["address"][0])
-    assert [country for country in country_extractor(patient)] == ["US"] * 3
-    assert [country for country in country_extractor(patient, "alpha_3")] == ["USA"] * 3
-    assert [country for country in country_extractor(patient, "numeric")] == ["840"] * 3
+    patient = raw_bundle["entry"][1].get("resource")
+    patient["address"].append(patient["address"][0])
+    patient["address"].append(patient["address"][0])
+    patient_resource = raw_bundle["entry"][1]
+    assert [
+        country for country in extract_countries_from_resource(patient_resource)
+    ] == ["US"] * 3
+    assert [
+        country
+        for country in extract_countries_from_resource(patient_resource, "alpha_3")
+    ] == ["USA"] * 3
+    assert [
+        country
+        for country in extract_countries_from_resource(patient_resource, "numeric")
+    ] == ["840"] * 3
 
 
 def test_standardize_country():
@@ -82,11 +61,4 @@ def test_standardize_patient_phone():
     standardized_bundle = copy.deepcopy(raw_bundle.copy())
     patient = standardized_bundle["entry"][1]["resource"]
     patient["telecom"][0]["value"] = "+11234567890"
-    patient["extension"] = []
-    patient["extension"].append(
-        {
-            "url": "http://usds.gov/fhir/phdi/StructureDefinition/phone-was-standardized",  # noqa
-            "valueBoolean": True,
-        }
-    )
-    assert standardize_patient_phone(raw_bundle) == standardized_bundle
+    assert standardize_all_phones(raw_bundle) == standardized_bundle
