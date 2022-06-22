@@ -1,3 +1,4 @@
+import csv
 import pathlib
 import os
 import yaml
@@ -203,6 +204,15 @@ def write_schema_table(
         writer.write_table(table=table)
         return writer
 
+    if file_format == "csv":
+        keys = data[0].keys()
+        new_file = False if os.path.isfile(output_file_name) else True
+        with open(output_file_name, "a", newline="") as output_file:
+            dict_writer = csv.DictWriter(output_file, keys)
+            if new_file:
+                dict_writer.writeheader()
+            dict_writer.writerows(data)
+
 
 def print_schema_summary(
     schema_directory: pathlib.Path,
@@ -216,7 +226,6 @@ def print_schema_summary(
     :param display_head: Print the head of each table when true. Note depending on the
     file format this may require reading large amounts of data into memory.
     """
-
     for (directory_path, _, file_names) in os.walk(schema_directory):
         for file_name in file_names:
             if file_name.endswith("parquet"):
@@ -230,3 +239,8 @@ def print_schema_summary(
                     df = parquet_table.to_pandas()
                     print(df.head())
                     print(df.info())
+            if file_name.endswith("csv"):
+                with open(file_name, "r") as csv_file:
+                    reader = csv.reader(csv_file, dialect="excel")
+                    print(next(reader))
+                    return "hi"
