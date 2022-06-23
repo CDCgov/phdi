@@ -19,8 +19,16 @@ from phdi_building_blocks.fhir import (
 )
 
 
-@mock.patch("requests.post")
-def test_upload_bundle_to_fhir_server(mock_fhir_post):
+@mock.patch("requests.Session")
+def test_upload_bundle_to_fhir_server(mock_requests_session):
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
+
     upload_bundle_to_fhir_server(
         {
             "resourceType": "Bundle",
@@ -32,20 +40,27 @@ def test_upload_bundle_to_fhir_server(mock_fhir_post):
                 }
             ],
         },
-        "some-token",
+        mock_cred_manager,
         "https://some-fhir-url",
     )
 
-    mock_fhir_post.assert_called_with(
-        "https://some-fhir-url",
+    mock_requests_session_instance.post.assert_called_with(
+        url="https://some-fhir-url",
         headers={
-            "Authorization": "Bearer some-token",
+            "Authorization": f"Bearer {mock_access_token_value}",
             "Accept": "application/fhir+json",
             "Content-Type": "application/fhir+json",
         },
-        data='{"resourceType": "Bundle", "id": "some-id", "entry": [{"resource": '
-        '{"resourceType": "Patient", "id": "pat-id"}, "request": '
-        '{"method": "PUT", "url": "Patient/pat-id"}}]}',
+        json={
+            "resourceType": "Bundle",
+            "id": "some-id",
+            "entry": [
+                {
+                    "resource": {"resourceType": "Patient", "id": "pat-id"},
+                    "request": {"method": "PUT", "url": "Patient/pat-id"},
+                }
+            ],
+        },
     )
 
 
@@ -89,9 +104,16 @@ def test_get_access_token_refresh(mock_get_token):
     assert token1.token == "my-token"
 
 
-@mock.patch("requests.get")
-def test_export_from_fhir_server(mock_get):
-    access_token = "my-token"
+@mock.patch("requests.Session")
+def test_export_from_fhir_server(mock_requests_session):
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
+
     fhir_url = "https://fhir-url"
 
     poll_step = 0.1
@@ -114,7 +136,7 @@ def test_export_from_fhir_server(mock_get):
         ]
     }
 
-    mock_get.side_effect = [
+    mock_requests_session_instance.get.side_effect = [
         mock_export_response,
         mock_export_download_response_accepted,
         mock_export_download_response_accepted,
@@ -123,58 +145,65 @@ def test_export_from_fhir_server(mock_get):
     ]
 
     export_from_fhir_server(
-        access_token=access_token,
+        cred_manager=mock_cred_manager,
         fhir_url=fhir_url,
         poll_step=poll_step,
         poll_timeout=poll_timeout,
     )
 
-    mock_get.assert_has_calls(
+    mock_requests_session_instance.get.assert_has_calls(
         [
             mock.call(
-                f"{fhir_url}/$export",
+                url=f"{fhir_url}/$export",
                 headers={
-                    "Authorization": f"Bearer {access_token}",
+                    "Authorization": f"Bearer {mock_access_token_value}",
                     "Accept": "application/fhir+json",
                     "Prefer": "respond-async",
                 },
             ),
             mock.call(
-                "https://export-download-url",
+                url="https://export-download-url",
                 headers={
-                    "Authorization": f"Bearer {access_token}",
+                    "Authorization": f"Bearer {mock_access_token_value}",
                     "Accept": "application/fhir+ndjson",
                 },
             ),
             mock.call(
-                "https://export-download-url",
+                url="https://export-download-url",
                 headers={
-                    "Authorization": f"Bearer {access_token}",
+                    "Authorization": f"Bearer {mock_access_token_value}",
                     "Accept": "application/fhir+ndjson",
                 },
             ),
             mock.call(
-                "https://export-download-url",
+                url="https://export-download-url",
                 headers={
-                    "Authorization": f"Bearer {access_token}",
+                    "Authorization": f"Bearer {mock_access_token_value}",
                     "Accept": "application/fhir+ndjson",
                 },
             ),
             mock.call(
-                "https://export-download-url",
+                url="https://export-download-url",
                 headers={
-                    "Authorization": f"Bearer {access_token}",
+                    "Authorization": f"Bearer {mock_access_token_value}",
                     "Accept": "application/fhir+ndjson",
                 },
             ),
         ]
     )
-    assert mock_get.call_count == 5
+    assert mock_requests_session_instance.get.call_count == 5
 
 
-@mock.patch("requests.get")
-def test_export_from_fhir_server_timeout(mock_get):
-    access_token = "my-token"
+@mock.patch("requests.Session")
+def test_export_from_fhir_server_timeout(mock_requests_session):
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
+
     fhir_url = "https://fhir-url"
 
     poll_step = 0.1
@@ -188,7 +217,7 @@ def test_export_from_fhir_server_timeout(mock_get):
     mock_export_download_response_accepted = mock.Mock()
     mock_export_download_response_accepted.status_code = 202
 
-    mock_get.side_effect = [
+    mock_requests_session_instance.get.side_effect = [
         mock_export_response,
         mock_export_download_response_accepted,
         mock_export_download_response_accepted,
@@ -200,18 +229,25 @@ def test_export_from_fhir_server_timeout(mock_get):
 
     with pytest.raises(polling.TimeoutException):
         export_from_fhir_server(
-            access_token=access_token,
+            cred_manager=mock_cred_manager,
             fhir_url=fhir_url,
             poll_step=poll_step,
             poll_timeout=poll_timeout,
         )
 
-    assert mock_get.call_count == 7
+    assert mock_requests_session_instance.get.call_count == 7
 
 
-@mock.patch("requests.get")
-def test_export_from_fhir_server_error(mock_get):
-    access_token = "my-token"
+@mock.patch("requests.Session")
+def test_export_from_fhir_server_error(mock_requests_session):
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
+
     fhir_url = "https://fhir-url"
 
     poll_step = 0.1
@@ -225,20 +261,20 @@ def test_export_from_fhir_server_error(mock_get):
     mock_export_download_response_error = mock.Mock()
     mock_export_download_response_error.status_code = 500
 
-    mock_get.side_effect = [
+    mock_requests_session_instance.get.side_effect = [
         mock_export_response,
         mock_export_download_response_error,
     ]
 
     with pytest.raises(requests.HTTPError):
         export_from_fhir_server(
-            access_token=access_token,
+            cred_manager=mock_cred_manager,
             fhir_url=fhir_url,
             poll_step=poll_step,
             poll_timeout=poll_timeout,
         )
 
-    assert mock_get.call_count == 2
+    assert mock_requests_session_instance.get.call_count == 2
 
 
 def test_compose_export_url():
@@ -354,16 +390,22 @@ def test_log_fhir_server_error(patched_logger):
 
 
 @mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
-@mock.patch("phdi_building_blocks.fhir.requests")
-def test_fhir_server_get(patched_requests, patched_logger):
+@mock.patch("requests.Session")
+def test_fhir_server_get(patched_requests_session, patched_logger):
+    mock_requests_session_instance = patched_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
 
     url = "url_for_FHIR_server_get_request"
-    access_token = "some_access_token_for_authentication"
 
-    fhir_server_get(url, access_token)
+    fhir_server_get(url, mock_cred_manager)
 
-    header = {"Authorization": f"Bearer {access_token}"}
-    patched_requests.get.assert_called_with(url=url, headers=header)
+    header = {"Authorization": f"Bearer {mock_access_token_value}"}
+    mock_requests_session_instance.get.assert_called_with(url=url, headers=header)
 
-    response = patched_requests.get(url=url, headers=header)
+    response = mock_requests_session_instance.get(url=url, headers=header)
     patched_logger.assert_called_with(response.status_code)

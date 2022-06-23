@@ -1,9 +1,11 @@
 import json
 import pathlib
+
+from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient
 from datetime import datetime, timezone
-from azure.core.credentials import AccessToken
+from phdi_building_blocks.utils import http_request_with_retry
 
 
 class AzureFhirServerCredentialManager:
@@ -53,6 +55,36 @@ class AzureFhirServerCredentialManager:
         except AttributeError:
             # access_token not set
             return True
+
+
+def _http_request_with_reauth(
+    cred_manager: AzureFhirServerCredentialManager,
+    **kwargs: dict,
+):
+    """
+    First, call :func:`utils.http_request_with_retry`.  If the first call failed
+    with an authorization error (HTTP status 401), obtain a new token using the
+    `cred_manager`, and if the original request had an Authorization header, replace
+    with the new token and re-initiate :func:`utils.http_request_with_retry`.
+
+    :param cred_manager: credential manager used to obtain a new token, if necessary
+    :param kwargs: keyword arguments passed to :func:`utils.http_request_with_retry`
+    this function only supports passing keyword args, not positional args to
+    http_request_with_retry
+    """
+
+    response = http_request_with_retry(**kwargs)
+
+    # Retry with new token in case it expired since creation (or from cache)
+    if response.status_code == 401:
+        headers = kwargs.get("headers")
+        if headers.get("Authorization", "").startswith("Bearer "):
+            new_access_token = cred_manager.get_access_token().token
+            headers["Authorization"] = f"Bearer {new_access_token}"
+
+        response = http_request_with_retry(**kwargs)
+
+    return response
 
 
 def get_blob_client(container_url: str) -> ContainerClient:

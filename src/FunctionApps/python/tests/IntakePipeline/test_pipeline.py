@@ -54,6 +54,7 @@ def test_pipeline_valid_message(
     patched_phone_standardization,
     patched_name_standardization,
 ):
+
     patched_converter.return_value = {
         "resourceType": "Bundle",
         "entry": [{"hello": "world"}],
@@ -71,7 +72,14 @@ def test_pipeline_valid_message(
     patched_linked_id_data = mock.Mock()
     patched_patient_id.return_value = patched_linked_id_data
 
-    run_pipeline("MSH|Hello World", MESSAGE_MAPPINGS, "some-fhir-url", "some-token")
+    patched_access_token = mock.Mock()
+    patched_access_token.token = "some-token"
+    patched_cred_manager = mock.Mock()
+    patched_cred_manager.get_access_token.return_value = patched_access_token
+
+    run_pipeline(
+        "MSH|Hello World", MESSAGE_MAPPINGS, "some-fhir-url", patched_cred_manager
+    )
 
     patched_get_geocoder.assert_called_with("smarty-auth-id", "smarty-auth-token")
     patched_converter.assert_called_with(
@@ -80,7 +88,7 @@ def test_pipeline_valid_message(
         input_data_type=MESSAGE_MAPPINGS["input_data_type"],
         root_template=MESSAGE_MAPPINGS["root_template"],
         template_collection=MESSAGE_MAPPINGS["template_collection"],
-        access_token="some-token",
+        cred_manager=patched_cred_manager,
         fhir_url="some-fhir-url",
     )
 
@@ -97,7 +105,7 @@ def test_pipeline_valid_message(
     )
     patched_upload.assert_called_with(
         patched_linked_id_data,
-        "some-token",
+        patched_cred_manager,
         "some-fhir-url",
     )
     patched_store.assert_called_with(
@@ -136,7 +144,11 @@ def test_pipeline_invalid_message(
     patched_geocoder = mock.Mock()
     patched_get_geocoder.return_value = patched_geocoder
 
-    run_pipeline("MSH|Hello World", MESSAGE_MAPPINGS, "some-fhir-url", "some-token")
+    patched_cred_manager = mock.Mock()
+
+    run_pipeline(
+        "MSH|Hello World", MESSAGE_MAPPINGS, "some-fhir-url", patched_cred_manager
+    )
 
     patched_get_geocoder.assert_called_with("smarty-auth-id", "smarty-auth-token")
     patched_converter.assert_called_with(
@@ -145,7 +157,7 @@ def test_pipeline_invalid_message(
         input_data_type=MESSAGE_MAPPINGS["input_data_type"],
         root_template=MESSAGE_MAPPINGS["root_template"],
         template_collection=MESSAGE_MAPPINGS["template_collection"],
-        access_token="some-token",
+        cred_manager=patched_cred_manager,
         fhir_url="some-fhir-url",
     )
     patched_address_standardization.assert_not_called()
@@ -225,25 +237,27 @@ def test_pipeline_partial_invalid_message(
         "template_collection": "microsofthealth/fhirconverter:default",
     }
 
+    patched_cred_manager = mock.Mock()
+
     # Message 0
     message_mappings["filename"] = "some-filename-0"
-    run_pipeline(messages[0], message_mappings, "some-fhir-url", "some-token")
+    run_pipeline(messages[0], message_mappings, "some-fhir-url", patched_cred_manager)
 
     # Message 1
     message_mappings["filename"] = "some-filename-1"
-    run_pipeline(messages[1], message_mappings, "some-fhir-url", "some-token")
+    run_pipeline(messages[1], message_mappings, "some-fhir-url", patched_cred_manager)
 
     # Message 2
     message_mappings["filename"] = "some-filename-2"
-    run_pipeline(messages[2], message_mappings, "some-fhir-url", "some-token")
+    run_pipeline(messages[2], message_mappings, "some-fhir-url", patched_cred_manager)
 
     # Message 3
     message_mappings["filename"] = "some-filename-3"
-    run_pipeline(messages[3], message_mappings, "some-fhir-url", "some-token")
+    run_pipeline(messages[3], message_mappings, "some-fhir-url", patched_cred_manager)
 
     # Message 4
     message_mappings["filename"] = "some-filename-4"
-    run_pipeline(messages[4], message_mappings, "some-fhir-url", "some-token")
+    run_pipeline(messages[4], message_mappings, "some-fhir-url", patched_cred_manager)
 
     # Geocoder called 4 times
     patched_get_geocoder.call_count = 4
@@ -256,7 +270,7 @@ def test_pipeline_partial_invalid_message(
                 input_data_type=message_mappings["input_data_type"],
                 root_template=message_mappings["root_template"],
                 template_collection=message_mappings["template_collection"],
-                access_token="some-token",
+                cred_manager=patched_cred_manager,
                 fhir_url="some-fhir-url",
             ),
             mock.call(
@@ -265,7 +279,7 @@ def test_pipeline_partial_invalid_message(
                 input_data_type=message_mappings["input_data_type"],
                 root_template=message_mappings["root_template"],
                 template_collection=message_mappings["template_collection"],
-                access_token="some-token",
+                cred_manager=patched_cred_manager,
                 fhir_url="some-fhir-url",
             ),
             mock.call(
@@ -274,7 +288,7 @@ def test_pipeline_partial_invalid_message(
                 input_data_type=message_mappings["input_data_type"],
                 root_template=message_mappings["root_template"],
                 template_collection=message_mappings["template_collection"],
-                access_token="some-token",
+                cred_manager=patched_cred_manager,
                 fhir_url="some-fhir-url",
             ),
             mock.call(
@@ -283,7 +297,7 @@ def test_pipeline_partial_invalid_message(
                 input_data_type=message_mappings["input_data_type"],
                 root_template=message_mappings["root_template"],
                 template_collection=message_mappings["template_collection"],
-                access_token="some-token",
+                cred_manager=patched_cred_manager,
                 fhir_url="some-fhir-url",
             ),
             mock.call(
@@ -292,7 +306,7 @@ def test_pipeline_partial_invalid_message(
                 input_data_type=message_mappings["input_data_type"],
                 root_template=message_mappings["root_template"],
                 template_collection=message_mappings["template_collection"],
-                access_token="some-token",
+                cred_manager=patched_cred_manager,
                 fhir_url="some-fhir-url",
             ),
         ]

@@ -35,7 +35,7 @@ def run_pipeline(
     message: str,
     message_mappings: Dict[str, str],
     fhir_url: str,
-    access_token: str,
+    cred_manager: AzureFhirServerCredentialManager,
 ) -> None:
     """
     This function takes in a single message and attempts to convert it
@@ -68,7 +68,7 @@ def run_pipeline(
         input_data_type=message_mappings["input_data_type"],
         root_template=message_mappings["root_template"],
         template_collection=message_mappings["template_collection"],
-        access_token=access_token,
+        cred_manager=cred_manager,
         fhir_url=fhir_url,
     )
 
@@ -100,7 +100,7 @@ def run_pipeline(
             )
 
         # Don't forget to import the bundle to the FHIR server as well
-        upload_bundle_to_fhir_server(standardized_bundle, access_token, fhir_url)
+        upload_bundle_to_fhir_server(standardized_bundle, cred_manager, fhir_url)
 
     # For some reason, the HL7/CCDA message failed to convert.
     # This might be failure to communicate with the FHIR server due to
@@ -155,8 +155,6 @@ def main(blob: func.InputStream) -> None:
     cred_manager = AzureFhirServerCredentialManager(fhir_url)
 
     try:
-        access_token = cred_manager.get_access_token()
-
         # VA sends \\u000b & \\u001c in real data, ignore for now
         messages = convert_batch_messages_to_list(
             blob.read().decode("utf-8", errors="ignore")
@@ -167,7 +165,6 @@ def main(blob: func.InputStream) -> None:
         message_mappings = get_file_type_mappings(blob.name)
         for i, message in enumerate(messages):
             message_mappings["filename"] = generate_filename(blob.name, i)
-            run_pipeline(message, message_mappings, fhir_url, access_token.token)
-
+            run_pipeline(message, message_mappings, fhir_url, cred_manager)
     except Exception:
         logging.exception("Exception occurred during IntakePipeline processing.")
