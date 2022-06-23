@@ -2,7 +2,6 @@ from typing import List, Union
 from urllib3 import Retry
 import requests
 from requests.adapters import HTTPAdapter
-import json
 import logging
 
 
@@ -158,10 +157,10 @@ def http_request_with_retry(
     # Now, actually try to complete the API request
     if request_type == "POST":
         try:
-            requests.post(
-                url,
+            response = http.post(
+                url=url,
                 headers=headers,
-                data=json.dumps(data),
+                json=data,
             )
         except Exception:
             logging.exception(
@@ -170,10 +169,12 @@ def http_request_with_retry(
             return
     elif request_type == "GET":
         try:
-            response = requests.get(
-                url,
+            response = http.get(
+                url=url,
                 headers=headers,
             )
             return response
         except Exception:
             logging.exception("GET request to " + url + " failed.")
+
+    return response

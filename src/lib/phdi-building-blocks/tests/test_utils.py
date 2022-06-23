@@ -1,11 +1,12 @@
+import json
+import pathlib
+
 from phdi_building_blocks.utils import (
     find_resource_by_type,
     get_one_line_address,
     get_field,
     standardize_text,
 )
-import pathlib
-import json
 
 
 def test_find_resource_by_type():

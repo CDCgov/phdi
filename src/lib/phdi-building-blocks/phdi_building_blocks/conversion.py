@@ -1,7 +1,12 @@
 import logging
 import re
-import requests
 import hl7
+
+from phdi_building_blocks.azure import (
+    AzureFhirServerCredentialManager,
+    _http_request_with_reauth,
+)
+
 from typing import List, Dict
 
 
@@ -276,7 +281,7 @@ def convert_message_to_fhir(
     input_data_type: str,
     root_template: str,
     template_collection: str,
-    access_token: str,
+    cred_manager: AzureFhirServerCredentialManager,
     fhir_url: str,
 ) -> dict:
     """
@@ -300,10 +305,9 @@ def convert_message_to_fhir(
     :param template_collection: Further specification of which template
         to use. More information can be found here:
         https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data
-    :param access_token: A Bearer token used to authenticate with the
-        FHIR server
-    :param fhir_url: A URL that points to the location of the FHIR
-        server
+    :param cred_manager: Service used to get an access token used to make a
+        request.
+    :param fhir_url: A URL that points to the location of the FHIR server
     """
     if input_data_type == "Hl7v2":
         message = clean_message(message)
@@ -318,8 +322,17 @@ def convert_message_to_fhir(
             {"name": "rootTemplate", "valueString": root_template},
         ],
     }
-    response = requests.post(
-        url=url, json=data, headers={"Authorization": f"Bearer {access_token}"}
+    access_token = cred_manager.get_access_token().token
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    response = _http_request_with_reauth(
+        cred_manager=cred_manager,
+        url=url,
+        retry_count=3,
+        request_type="POST",
+        allowed_methods=["POST"],
+        headers=headers,
+        data=data,
     )
 
     if response.status_code != 200:
