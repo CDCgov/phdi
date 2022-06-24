@@ -1,0 +1,239 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.modal-body>input {
+    width: 100%;
+}
+
+.btn-primary,
+.btn-primary:hover {
+    background-color: #074b69;
+    color: #fff;
+    border-color: #074b69;
+}
+
+#table-name-warning {
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+    display: none;
+}
+
+.container {
+    height: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+#nav {
+    width: 100%;
+    height: 5%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 1px black solid;
+}
+
+#nav>div {
+    height: 100%;
+    font-weight: bold;
+    font-size: 2em;
+    color: black;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#main {
+    height: 94%;
+}
+
+#sidebar {
+    height: 100%;
+    background-color: #f3f3f3;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0;
+}
+
+#sidebar-header {
+    height: 3%;
+}
+
+.action-button {
+    border-radius: 5px;
+    background-color: #074b69;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+    width: 100%;
+}
+
+#table-cards {
+    height: 92%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.table-card {
+    background-color: #fff;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #c3c3c3;
+    border-style: solid;
+    height: 5%;
+    margin-top: 5px;
+}
+
+.table-header {
+    padding-left: 0;
+    text-align: right;
+}
+
+.delete-button,
+.edit-button,
+#help-button,
+#bug-button {
+    height: 1rem;
+    width: 1rem;
+    background-color: transparent;
+    color: #f3f3f3;
+    border: none;
+}
+
+.delete-icon,
+.edit-icon,
+#help-icon,
+#bug-icon {
+    height: 1rem;
+    width: 1rem;
+}
+
+.table-name {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.table-metadata {
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 0;
+}
+
+#sidebar-footer {
+    height: 3%;
+}
+
+#canvas,
+#resource-container,
+#resource-row,
+#resources,
+#fields {
+    height: 100%;
+}
+
+#resources {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.resource-list {
+    width: 100%;
+    font-weight: bold;
+    padding-left: 0;
+    padding-top: 10px;
+    word-wrap: break-word;
+}
+
+
+.resource {
+    background-color: #fff;
+    color: #555;
+    font-size: 14px;
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 1.5rem;
+    word-wrap: break-word;
+}
+
+.resource-link {
+    width: 100%;
+    text-decoration: none;
+    color: #555;
+    word-wrap: break-word;
+}
+
+.resource-link:hover {
+    text-decoration: none;
+    color: #000;
+}
+
+#fields {
+    overflow-y: auto;
+}
+
+#fields table {
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.field-header {
+    border-bottom: 1px solid #000;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.field-header>th {
+    position: sticky;
+}
+
+.field-row {
+    vertical-align: middle;
+    margin-top: 0.5rem;
+    font-size: 16px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    padding-left: 1rem;
+    text-align: left;
+}
+
+table tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+.name-override {
+    border: none;
+    border-bottom: 1px solid #000;
+    background-color: transparent;
+}
+
+.active {
+    background-color: #074b69;
+}
+
+.active a {
+    color: #fff;
+}
+
+.active a:hover {
+    color: #fff;
+}
