@@ -48,3 +48,7 @@ data/
 
 # Jetbrains IDE settings
 /.idea
+
+# Notebooks
+*.ipynb*
+!examples/*.ipynb*
