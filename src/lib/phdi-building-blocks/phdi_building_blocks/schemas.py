@@ -82,7 +82,7 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
         value = fhirpathpy.evaluate(resource, path)
 
         if len(value) == 0:
-            data[resource_schema[field]["new_name"]] = ""
+            data[resource_schema[field]["new_name"]] = None
         else:
             selection_criteria = resource_schema[field]["selection_criteria"]
             value = apply_selection_criteria(value, selection_criteria)
