@@ -100,6 +100,8 @@ later.
 All comments, messages, pull requests, and other submissions received through
 CDC including this GitHub page may be subject to applicable federal law, including but not limited to the Federal Records Act, and may be archived. Learn more at [http://www.cdc.gov/other/privacy.html](http://www.cdc.gov/other/privacy.html).
 
+See [CONTRIBUTING.md](https://github.com/CDCgov/prime-public-health-data-infrastructure/blob/main/docs/CONTRIBUTING.md) for more information.
+
 ### Records Management Standard Notice
 
 This repository is not a source of government records, but is a copy to increase
