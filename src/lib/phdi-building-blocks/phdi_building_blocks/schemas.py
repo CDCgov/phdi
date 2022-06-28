@@ -8,10 +8,11 @@ import pyarrow.parquet as pq
 import random
 import yaml
 
+from functools import cache
 from pathlib import Path
 from phdi_building_blocks.azure import AzureFhirServerCredentialManager
 from phdi_building_blocks.fhir import fhir_server_get
-from typing import Literal, List, Union
+from typing import Literal, List, Union, Callable
 
 
 def load_schema(path: str) -> dict:
@@ -63,6 +64,18 @@ def apply_selection_criteria(
     return value
 
 
+@cache
+def __get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
+    """
+    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes
+    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
+    `fhirpath_expression`
+
+    :param fhirpath_expression: The FHIRPath expression to evaluate
+    """
+    return fhirpathpy.compile(fhirpath_expression)
+
+
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
     Given a resource and a schema, return a dictionary with values of the data
@@ -79,14 +92,16 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
         return data
     for field in resource_schema.keys():
         path = resource_schema[field]["fhir_path"]
-        value = fhirpathpy.evaluate(resource, path)
+
+        parse_function = __get_fhirpathpy_parser(path)
+        value = parse_function(resource)
 
         if len(value) == 0:
-            data[resource_schema[field]["new_name"]] = None
+            data[resource_schema[field]["new_name"]] = ""
         else:
             selection_criteria = resource_schema[field]["selection_criteria"]
             value = apply_selection_criteria(value, selection_criteria)
-            data[resource_schema[field]["new_name"]] = value
+            data[resource_schema[field]["new_name"]] = str(value)
 
     return data
 
@@ -113,7 +128,8 @@ def make_table(
 
         output_file_name = output_path / f"{resource_type}.{output_format}"
 
-        query = f"/{resource_type}"
+        # TODO: make _count (and other query parameters) configurable
+        query = f"/{resource_type}?_count=1000"
         url = fhir_url + query
 
         writer = None
