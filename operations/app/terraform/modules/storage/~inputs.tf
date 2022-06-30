@@ -8,6 +8,10 @@ variable "app_subnet_ids" {
   description = "IDs of app subnets in the CDC vnet"
 }
 
+variable "databricks_subnet_ids" {
+  description = "IDs of subnets in the Databricks vnet"
+}
+
 variable "cdc_service_subnet_id" {
   description = "ID of service subnet in the CDC vnet"
 }

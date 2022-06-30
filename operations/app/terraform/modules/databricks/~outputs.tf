@@ -1,3 +1,3 @@
 output "databricks_workspace_id" {
-  value = azurerm_databricks_workspace.pdi.id
+  value = azurerm_databricks_workspace.databricks_VNET.id
 }
