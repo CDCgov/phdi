@@ -17,7 +17,7 @@ resource "azurerm_storage_account" "pdi_data" {
     default_action = "Deny"
     bypass         = ["AzureServices"]
 
-    virtual_network_subnet_ids = var.app_subnet_ids
+    virtual_network_subnet_ids = setunion(var.app_subnet_ids, var.databricks_subnet_ids)
   }
 
   blob_properties {

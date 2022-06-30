@@ -49,3 +49,8 @@ variable "app_subnet_ip" {
 }
 
 variable "dns_vars" {}
+
+variable "sa_data_id" {
+  type        = string
+  description = "Storage Account Data ID"
+}

@@ -335,3 +335,94 @@ resource "azurerm_private_dns_zone_virtual_network_link" "pdi" {
 
   depends_on = [azurerm_private_dns_zone.pdi]
 }
+
+# Virtual network for databricks service
+
+resource "azurerm_network_security_group" "databricks_vnet_nsg" {
+  name                = "${var.resource_prefix}-databricks-security-group"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  tags = {
+    environment = var.environment
+    managed-by  = "terraform"
+  }
+}
+
+resource "azurerm_virtual_network" "databricks_vnet" {
+  name                = "${var.resource_prefix}-databricks-VNET"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  address_space       = ["10.0.0.0/16"]
+
+  tags = {
+    environment = var.environment
+    managed-by  = "terraform"
+  }
+}
+
+resource "azurerm_subnet" "databricks_vnet_public_subnet" {
+  name                 = "databricks-public"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.databricks_vnet.name
+  address_prefixes     = ["10.0.1.0/24"]
+  service_endpoints    = ["Microsoft.Storage"]
+
+  delegation {
+    name = "databricks-del-public"
+
+    service_delegation {
+      name = "Microsoft.Databricks/workspaces"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/action",
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action",
+        "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action"
+      ]
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      delegation
+    ]
+  }
+}
+
+resource "azurerm_subnet" "databricks_vnet_private_subnet" {
+  name                 = "databricks-private"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.databricks_vnet.name
+  address_prefixes     = ["10.0.2.0/24"]
+  service_endpoints    = ["Microsoft.Storage"]
+
+  delegation {
+    name = "databricks-del-private"
+
+    service_delegation {
+      name = "Microsoft.Databricks/workspaces"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/action",
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action",
+        "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action"
+      ]
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      delegation
+    ]
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "databricks_vnet_public_subnet_nsg_association" {
+  subnet_id                 = azurerm_subnet.databricks_vnet_public_subnet.id
+  network_security_group_id = azurerm_network_security_group.databricks_vnet_nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "databricks_vnet_private_subnet_nsg_association" {
+  subnet_id                 = azurerm_subnet.databricks_vnet_private_subnet.id
+  network_security_group_id = azurerm_network_security_group.databricks_vnet_nsg.id
+}

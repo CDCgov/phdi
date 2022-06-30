@@ -65,3 +65,22 @@ output "service_subnet_ids" {
 output "cdc_managed_vnet_id" {
   value = data.azurerm_virtual_network.cdc_vnet.id
 }
+
+output "databricks_managed_vnet_id" {
+  value = azurerm_virtual_network.databricks_vnet.id
+}
+
+output "databricks_subnet_ids" {
+  value = toset([
+    azurerm_subnet.databricks_vnet_public_subnet.id,
+    azurerm_subnet.databricks_vnet_private_subnet.id
+  ])
+}
+
+output "databricks_public_subnet_nsg_association_id" {
+  value = azurerm_subnet_network_security_group_association.databricks_vnet_public_subnet_nsg_association.id
+}
+
+output "databricks_private_subnet_nsg_association_id" {
+  value = azurerm_subnet_network_security_group_association.databricks_vnet_private_subnet_nsg_association.id
+}
