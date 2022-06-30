@@ -1,0 +1,85 @@
+# [0010]. [FHIRPath Python Module]
+
+Date: 2022-06-27
+
+## Status
+
+Accepted 
+
+## Context and Problem Statement
+
+FHIRPath is a path based extraction language that helps traverse throguh FHIR data files much like XPath. It uses expressions to return values based on the specified path. 
+
+`Bundle.entry.resource.as(MessageHeader).id`
+
+Would be indexed by the following expression: 
+
+```
+{
+  "resourceType": "Bundle",
+  "type": "message",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "123"
+      }
+    }
+  ]
+}
+```
+
+In FHIRPath, like XPath, operations are expressed in terms of the logical content of hierarchical data models, and support traversal, selection and filtering of data.
+
+FHIRPath uses a tree model that abstracts away the actual underlying data model of the data being queried. For FHIR, this means that the contents of the resources and data types as described in the Logical views (or the UML diagrams) are used as the model, rather than the JSON and XML formats, so specific xml or json features are not visible to the FHIRPath language (such as comments and the split representation of primitives). 
+
+## Decision Drivers
+
+**Python Friendly** - The team wanted a FHIRPath python module that could be quickly implemented in our application to traverse fhir documents. 
+
+**Open Source** - The team valued an open source solution so we can assist with maintaining the project going forward. 
+
+## Considered Options 
+
+### fhirpath 
+FHIRPath is a library that supports Python and leverages their own providers to read FHIRPath expressions. 
+
+The providers are 
+- fhirpath-guillotina
+- collective.fhirpath
+
+Developers can create their own providers as well
+
+Pros: 
+- Potentially a robust implementation with a variety of applications.
+- Potentially some better optimization using tools such as Elasticsearch.
+- Open source
+
+Cons: 
+- Not primarily used for Python
+- There is a lot more set up necessary to use this library because you have to use their provider or create your own provider. 
+- Requires dependencies that use Java or Javascript
+
+### fhirpath-py
+
+fhirpath-py is a Python speicifc implementation of FHIRPath. It uses as simple `evaluate` function that uses a FHIRPath expression to locate the resource requested. 
+
+Pros:
+- Because it is specifically meant to use with Python, it is lighter weight.
+- Simple to implement with python
+- Open source 
+
+Cons:
+- There is less documentation on the module given that it mainly uses the `evaluate` function
+- Should the team decide not to use Python in the future, this module will not suit those future use cases. 
+
+## Decision Outcome
+
+`fhirpath-py `
+
+The team felt that a lighter weight and easier to use a solution would be best for the current state of our project. fhirpath-py also is friendlier with Python so if we wanted to maintain and contribute to the fhirpath-py project, it would be less of a headache. 
+
+## Appendix 
+- [HL7's FHIRPath documentation](https://www.hl7.org/fhir/fhirpath.html) 
+- [fhirpath-py github](https://github.com/beda-software/fhirpath-py)
+- [fhirpath github](https://github.com/nazrulworld/fhirpath)
