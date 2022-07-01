@@ -9,6 +9,8 @@ from phdi_building_blocks.azure import (
 
 from typing import List, Dict
 
+from requests import Response
+
 
 def clean_message(message: str) -> str:
     """
@@ -283,17 +285,18 @@ def convert_message_to_fhir(
     template_collection: str,
     cred_manager: AzureFhirServerCredentialManager,
     fhir_url: str,
-) -> dict:
+) -> Response:
     """
     Given a message in either HL7 v2 (pipe-delimited flat file) or CCDA
     (XML), attempt to convert that message into FHIR format (JSON) for
-    further processing using the FHIR server. The FHIR server will respond
-    with a status code of 400 if the message itself is invalid, such as
-    containing improperly formatted timestamps, and if that occurs then an
-    empty dictionary is returned so the pipeline knows to store the
-    original message in a separate container. Otherwise, the FHIR data is
-    returned. HL7v2 messages are cleaned (minor corrections made) via the
-    clean_message function prior to conversion.
+    further processing using the FHIR server. HL7v2 messages are cleaned
+    (minor corrections made) via the clean_message function prior to conversion.
+
+    The FHIR server will respond with a status code of 400 if the message itself
+    is invalid, such as containing improperly formatted timestamps.  Otherwise, the
+    FHIR server will respond with the converted FHIR data. In either case, a
+    `requests.Response` object will be returned.
+
 
     :param message: The raw message that needs to be converted to FHIR.
         Must be HL7v2 or CCDA
@@ -341,11 +344,4 @@ def convert_message_to_fhir(
             + f" $convert-data for {filename}"
         )
 
-        error_info = {
-            "http_status_code": response.status_code,
-            "response_content": response.text,
-        }
-
-        return error_info
-
-    return response.json()
+    return response

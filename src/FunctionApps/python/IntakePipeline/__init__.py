@@ -8,6 +8,7 @@ from config import get_required_config
 
 from phdi_building_blocks.azure import (
     store_data,
+    store_message_and_response,
     AzureFhirServerCredentialManager,
 )
 from phdi_building_blocks.fhir import (
@@ -62,7 +63,7 @@ def run_pipeline(
     invalid_output_path = get_required_config("INVALID_OUTPUT_CONTAINER_PATH")
 
     # Attempt conversion to FHIR
-    response = convert_message_to_fhir(
+    convert_response = convert_message_to_fhir(
         message=message,
         filename=message_mappings["filename"],
         input_data_type=message_mappings["input_data_type"],
@@ -77,8 +78,8 @@ def run_pipeline(
 
     # We got a valid conversion so apply desired standardizations
     # sequentially and then add the linking identifier
-    if response and response.get("resourceType") == "Bundle":
-        bundle = response
+    if convert_response and convert_response.status_code == 200:
+        bundle = convert_response.json()
         standardized_bundle = standardize_patient_names(bundle)
         standardized_bundle = standardize_all_phones(standardized_bundle)
         standardized_bundle = geocode_patients(standardized_bundle, geocoder)
@@ -100,44 +101,58 @@ def run_pipeline(
             )
 
         # Don't forget to import the bundle to the FHIR server as well
-        upload_bundle_to_fhir_server(standardized_bundle, cred_manager, fhir_url)
+        upload_response = upload_bundle_to_fhir_server(
+            standardized_bundle, cred_manager, fhir_url
+        )
+
+        if upload_response.status_code != 200:
+            # Record when the entire upload batch request fails
+            store_message_and_response(
+                container_url=container_url,
+                prefix=invalid_output_path,
+                message_filename=f"{message_mappings['filename']}"
+                + f".{message_mappings['file_suffix']}",
+                response_filename=f"{message_mappings['filename']}"
+                + f".{message_mappings['file_suffix']}.upload-resp",
+                bundle_type=message_mappings["bundle_type"],
+                message=message,
+                response=upload_response,
+            )
+        else:
+            # When individual transaction(s) fail in an upload batch,
+            # record error detail in the response
+            upload_response_json = upload_response.json()
+            upload_response_entries = upload_response_json.get("entry", [])
+
+            for entry_index, entry in enumerate(upload_response_entries):
+                # FHIR bundle.entry.response.status is string type - integer status code
+                # plus may inlude a message
+                if not entry.get("response", {}).get("status", "").startswith("200"):
+                    store_data(
+                        container_url=container_url,
+                        prefix=invalid_output_path,
+                        filename=f"{message_mappings['filename']}.entry-{entry_index}"
+                        + f".{message_mappings['file_suffix']}",
+                        bundle_type=message_mappings["bundle_type"],
+                        message_json={"entry_index": entry_index, "entry": entry},
+                    )
 
     # For some reason, the HL7/CCDA message failed to convert.
     # This might be failure to communicate with the FHIR server due to
     # access/authentication reasons, or potentially malformed timestamps
     # in the data
     else:
-        try:
-            # First attempt is storing the message directly in the
-            # invalid messages container
-            store_data(
-                container_url,
-                invalid_output_path,
-                f"{message_mappings['filename']}.{message_mappings['file_suffix']}",
-                message_mappings["bundle_type"],
-                message=message,
-            )
-        except ResourceExistsError:
-            logging.warning(
-                "Attempted to store preexisting resource: "
-                + f"{message_mappings['filename']}.{message_mappings['file_suffix']}"
-            )
-        try:
-            # Then, try to store the conversion response information
-            store_data(
-                container_url,
-                invalid_output_path,
-                f"{message_mappings['filename']}.{message_mappings['file_suffix']}"
-                + ".convert-resp",
-                message_mappings["bundle_type"],
-                message_json=response,
-            )
-        except ResourceExistsError:
-            logging.warning(
-                "Attempted to store preexisting resource: "
-                + f"{message_mappings['filename']}.{message_mappings['file_suffix']}"
-                + ".convert-resp"
-            )
+        store_message_and_response(
+            container_url=container_url,
+            prefix=invalid_output_path,
+            message_filename=f"{message_mappings['filename']}"
+            + f".{message_mappings['file_suffix']}",
+            response_filename=f"{message_mappings['filename']}"
+            + f".{message_mappings['file_suffix']}.convert-resp",
+            bundle_type=message_mappings["bundle_type"],
+            message=message,
+            response=convert_response,
+        )
 
 
 def main(blob: func.InputStream) -> None:

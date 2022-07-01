@@ -179,7 +179,8 @@ def test_convert_message_to_fhir_success(mock_requests_session):
         },
     )
 
-    assert response == {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
+    assert response.status_code == 200
+    assert response.json() == {"resourceType": "Bundle", "entry": [{"hello": "world"}]}
 
 
 @mock.patch("requests.Session")
@@ -225,11 +226,11 @@ def test_convert_message_to_fhir_failure(mock_requests_session):
         },
     )
 
-    assert response == {
-        "http_status_code": 400,
-        "response_content": '{ "resourceType": "Bundle", "entry": '
-        + '[{"hello": "world"}] }',
-    }
+    assert response.status_code == 400
+    assert (
+        response.text
+        == '{ "resourceType": "Bundle", "entry": ' + '[{"hello": "world"}] }'
+    )
 
 
 @mock.patch("requests.Session")
@@ -276,11 +277,11 @@ def test_log_fhir_operationoutcome(mock_log, mock_requests_session):
         },
     )
 
-    assert response == {
-        "http_status_code": 400,
-        "response_content": '{ "resourceType": "OperationOutcome", '
-        + '"diagnostics": "some-error" }',
-    }
+    assert response.status_code == 400
+    assert (
+        response.text
+        == '{ "resourceType": "OperationOutcome", ' + '"diagnostics": "some-error" }'
+    )
 
 
 @mock.patch("requests.Session")
@@ -372,7 +373,8 @@ def test_generic_error(mock_log, mock_requests_session):
         },
     )
 
-    assert response == {"http_status_code": 400, "response_content": "some-error"}
+    assert response.status_code == 400
+    assert response.text == "some-error"
 
 
 @mock.patch("requests.Session")
@@ -418,10 +420,8 @@ def test_error_with_special_chars(mock_log, mock_requests_session):
         },
     )
 
-    assert response == {
-        "http_status_code": 400,
-        "response_content": "some-error with \" special ' characters \n",
-    }
+    assert response.status_code == 400
+    assert response.text == "some-error with \" special ' characters \n"
 
 
 def test_get_filetype_mappings_valid_files():
