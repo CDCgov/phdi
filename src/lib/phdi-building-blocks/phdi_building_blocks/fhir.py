@@ -30,7 +30,7 @@ def generate_filename(blob_name: str, message_index: int) -> str:
 
 def upload_bundle_to_fhir_server(
     bundle: dict, cred_manager: AzureFhirServerCredentialManager, fhir_url: str
-) -> None:
+) -> requests.Response:
     """
     Import a FHIR resource to the FHIR server.
     The submissions may be Bundles or individual FHIR resources.
@@ -42,7 +42,7 @@ def upload_bundle_to_fhir_server(
 
     access_token = cred_manager.get_access_token().token
 
-    _http_request_with_reauth(
+    response = _http_request_with_reauth(
         cred_manager=cred_manager,
         url=fhir_url,
         retry_count=3,
@@ -55,6 +55,29 @@ def upload_bundle_to_fhir_server(
         },
         data=bundle,
     )
+
+    # FHIR uploads are sent as a batch.  Although the batch succeeds,
+    # individual entries within the batch may fail, so we log them here
+    if response.status_code == 200:
+        response_json = response.json()
+        entries = response_json.get("entry", [])
+        for entry_index, entry in enumerate(entries):
+            entry_response = entry.get("response", {})
+
+            # FHIR bundle.entry.response.status is string type - integer status code
+            # plus may inlude a message
+            if entry_response and not entry_response.get("status", "").startswith(
+                "200"
+            ):
+                log_fhir_server_error(
+                    status_code=int(entry_response["status"][0:3]),
+                    batch_entry_index=entry_index,
+                )
+
+    else:
+        log_fhir_server_error(response.status_code)
+
+    return response
 
 
 def export_from_fhir_server(
@@ -327,29 +350,44 @@ def fhir_server_get(
     return response
 
 
-def log_fhir_server_error(status_code: int) -> None:
+def log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> None:
     """Given an HTTP status code from a FHIR server's response, log the specified error.
 
     :param status_code: Status code returned by a FHIR server
     """
+
+    batch_decorator = ""
+    if batch_entry_index is not None:
+        batch_decorator = (
+            f"in zero-based message index {batch_entry_index} of FHIR batch "
+        )
+
     if status_code == 401:
-        logging.error("FHIR SERVER ERROR - Status Code 401: Failed to authenticate.")
+        logging.error(
+            f"FHIR SERVER ERROR {batch_decorator}- Status Code 401: Failed to "
+            + "authenticate."
+        )
 
     elif status_code == 403:
         logging.error(
-            "FHIR SERVER ERROR - Status Code 403: User does not have permission to make that request."  # noqa
+            f"FHIR SERVER ERROR {batch_decorator}- Status Code 403: User does not "
+            + "have permission to make that request."
         )
 
     elif status_code == 404:
         logging.error(
-            "FHIR SERVER ERROR - Status Code 404: Server or requested data not found."
+            f"FHIR SERVER ERROR {batch_decorator}- Status Code 404: Server or "
+            + "requested data not found."
         )
 
     elif status_code == 410:
         logging.error(
-            "FHIR SERVER ERROR - Status Code 410: Server has deleted this cached data."
+            f"FHIR SERVER ERROR {batch_decorator}- Status Code 410: Server has "
+            + "deleted this cached data."
         )
 
     elif str(status_code).startswith(("4", "5")):
-        error_message = f"FHIR SERVER ERROR - Status code {status_code}"
+        error_message = (
+            f"FHIR SERVER ERROR {batch_decorator}- Status code {status_code}"
+        )
         logging.error(error_message)

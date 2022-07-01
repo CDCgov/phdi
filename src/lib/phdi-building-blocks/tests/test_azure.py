@@ -1,7 +1,12 @@
+import json
 import os
-from unittest import mock
 
-from phdi_building_blocks.azure import _http_request_with_reauth, store_data
+from phdi_building_blocks.azure import (
+    _http_request_with_reauth,
+    store_data,
+    store_message_and_response,
+)
+from unittest import mock
 
 
 @mock.patch("phdi_building_blocks.azure.get_blob_client")
@@ -118,3 +123,44 @@ def test_auth_retry_double_fail(patched_requests_session):
         url=url, headers={"Authorization": f"Bearer {mock_access_token_value2}"}
     )
     mock_requests_session_instance.get.call_count == 2
+
+
+@mock.patch("phdi_building_blocks.azure.store_data")
+def test_store_message_and_response(patched_store):
+    container_url = "some-url"
+    output_path = "some/path"
+    message_filename = "some-filename.msg"
+    response_filename = "some-filename.msg.trantype-resp"
+    bundle_type = "some-bundle-type"
+    message = "original-message"
+    response = mock.Mock(text=json.dumps({"resourceType": "Bundle"}))
+    store_message_and_response(
+        container_url=container_url,
+        prefix=output_path,
+        message_filename=message_filename,
+        response_filename=response_filename,
+        bundle_type=bundle_type,
+        message=message,
+        response=response,
+    )
+
+    patched_store.has_calls(
+        [
+            mock.call(
+                container_url=container_url,
+                prefix=output_path,
+                message_filename=message_filename,
+                bundle_type=bundle_type,
+                message=message,
+            ),
+            mock.call(
+                container_url=container_url,
+                prefix=output_path,
+                filename=response_filename,
+                bundle_type=bundle_type,
+                message=response.text,
+            ),
+        ]
+    )
+
+    patched_store.call_count = 2

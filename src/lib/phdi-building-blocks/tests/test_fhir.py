@@ -19,8 +19,9 @@ from phdi_building_blocks.fhir import (
 )
 
 
+@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
 @mock.patch("requests.Session")
-def test_upload_bundle_to_fhir_server(mock_requests_session):
+def test_upload_bundle_to_fhir_server(mock_requests_session, mock_log_error):
     mock_requests_session_instance = mock_requests_session.return_value
 
     mock_access_token_value = "some-token"
@@ -29,7 +30,23 @@ def test_upload_bundle_to_fhir_server(mock_requests_session):
     mock_cred_manager = mock.Mock()
     mock_cred_manager.get_access_token.return_value = mock_access_token
 
-    upload_bundle_to_fhir_server(
+    mock_requests_return_value = mock.Mock(
+        status_code=200,
+        json=lambda: {
+            "resourceType": "Bundle",
+            "id": "some-id",
+            "entry": [
+                {
+                    "resource": {"resourceType": "Patient", "id": "pat-id"},
+                    "request": {"method": "PUT", "url": "Patient/pat-id"},
+                    "response": {"status": "200 OK"},
+                }
+            ],
+        },
+    )
+    mock_requests_session_instance.post.return_value = mock_requests_return_value
+
+    response = upload_bundle_to_fhir_server(
         {
             "resourceType": "Bundle",
             "id": "some-id",
@@ -62,6 +79,142 @@ def test_upload_bundle_to_fhir_server(mock_requests_session):
             ],
         },
     )
+
+    assert response == mock_requests_return_value
+    mock_log_error.assert_not_called()
+
+
+@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
+@mock.patch("requests.Session")
+def test_upload_bundle_failure(mock_requests_session, mock_log_error):
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
+
+    mock_requests_return_value = mock.Mock(
+        status_code=400,
+        json=lambda: {
+            "resourceType": "OperationOutcome",
+            "severity": "error",
+        },
+    )
+
+    mock_requests_session_instance.post.return_value = mock_requests_return_value
+
+    response = upload_bundle_to_fhir_server(
+        {
+            "resourceType": "Bundle",
+            "id": "some-id",
+            "entry": [
+                {
+                    "resource": {"resourceType": "Patient", "id": "pat-id"},
+                    "request": {"method": "PUT", "url": "Patient/pat-id"},
+                }
+            ],
+        },
+        mock_cred_manager,
+        "https://some-fhir-url",
+    )
+
+    mock_requests_session_instance.post.assert_called_with(
+        url="https://some-fhir-url",
+        headers={
+            "Authorization": f"Bearer {mock_access_token_value}",
+            "Accept": "application/fhir+json",
+            "Content-Type": "application/fhir+json",
+        },
+        json={
+            "resourceType": "Bundle",
+            "id": "some-id",
+            "entry": [
+                {
+                    "resource": {"resourceType": "Patient", "id": "pat-id"},
+                    "request": {"method": "PUT", "url": "Patient/pat-id"},
+                }
+            ],
+        },
+    )
+
+    assert response == mock_requests_return_value
+    mock_log_error.assert_called_with(400)
+    assert mock_log_error.call_count == 1
+
+
+@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
+@mock.patch("requests.Session")
+def test_upload_bundle_partial_failure(mock_requests_session, mock_log_error):
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
+
+    mock_requests_return_value = mock.Mock(
+        status_code=200,
+        json=lambda: {
+            "resourceType": "Bundle",
+            "entry": [
+                {
+                    "resource": {"resourceType": "Patient"},
+                    "response": {"status": "200 OK"},
+                },
+                {
+                    "resource": {"resourceType": "Organization"},
+                    "response": {"status": "400 Bad Request"},
+                },
+                {
+                    "resource": {"resourceType": "Vaccination"},
+                    "response": {"status": "200 OK"},
+                },
+            ],
+        },
+    )
+
+    mock_requests_session_instance.post.return_value = mock_requests_return_value
+
+    response = upload_bundle_to_fhir_server(
+        {
+            "resourceType": "Bundle",
+            "id": "some-id",
+            "entry": [
+                {
+                    "resource": {"resourceType": "Patient", "id": "pat-id"},
+                    "request": {"method": "PUT", "url": "Patient/pat-id"},
+                }
+            ],
+        },
+        mock_cred_manager,
+        "https://some-fhir-url",
+    )
+
+    mock_requests_session_instance.post.assert_called_with(
+        url="https://some-fhir-url",
+        headers={
+            "Authorization": f"Bearer {mock_access_token_value}",
+            "Accept": "application/fhir+json",
+            "Content-Type": "application/fhir+json",
+        },
+        json={
+            "resourceType": "Bundle",
+            "id": "some-id",
+            "entry": [
+                {
+                    "resource": {"resourceType": "Patient", "id": "pat-id"},
+                    "request": {"method": "PUT", "url": "Patient/pat-id"},
+                }
+            ],
+        },
+    )
+
+    assert response == mock_requests_return_value
+    mock_log_error.assert_called_with(status_code=400, batch_entry_index=1)
+    assert mock_log_error.call_count == 1
 
 
 @mock.patch.object(DefaultAzureCredential, "get_token")
@@ -386,6 +539,34 @@ def test_log_fhir_server_error(patched_logger):
 
     for status_code, error_message in error_status_codes.items():
         log_fhir_server_error(status_code)
+        patched_logger.error.assert_called_with(error_message)
+
+
+@mock.patch("phdi_building_blocks.fhir.logging")
+def test_log_fhir_server_error_batch(patched_logger):
+
+    log_fhir_server_error(200)
+    assert ~patched_logger.error.called
+
+    error_status_codes = {
+        401: "FHIR SERVER ERROR in zero-based message index 0 of FHIR batch - "
+        + "Status Code 401: Failed to authenticate.",
+        403: "FHIR SERVER ERROR in zero-based message index 1 of FHIR batch - "
+        + "Status Code 403: User does not have permission to make that request.",
+        404: "FHIR SERVER ERROR in zero-based message index 2 of FHIR batch - "
+        + "Status Code 404: Server or requested data not found.",
+        410: "FHIR SERVER ERROR in zero-based message index 3 of FHIR batch - "
+        + "Status Code 410: Server has deleted this cached data.",
+        499: "FHIR SERVER ERROR in zero-based message index 4 of FHIR batch - "
+        + "Status code 499",
+        599: "FHIR SERVER ERROR in zero-based message index 5 of FHIR batch - "
+        + "Status code 599",
+    }
+
+    for batch_index, (status_code, error_message) in enumerate(
+        error_status_codes.items()
+    ):
+        log_fhir_server_error(status_code=status_code, batch_entry_index=batch_index)
         patched_logger.error.assert_called_with(error_message)
 
 
