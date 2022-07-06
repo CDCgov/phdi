@@ -122,13 +122,3 @@ variable "terraform_caller_ip_address" {
   type    = list(string)
   default = ["162.224.209.174/32", "73.173.186.141/32", "24.163.118.70/32", "108.48.23.191/32", "173.49.171.3/32", "198.255.246.159/32", "50.237.28.214/32"]
 }
-
-variable "data_access_group" {
-  type    = string
-  default = "CT-PRIMEIngestion-AZ-Owners"
-}
-
-variable "data_access_sp" {
-  type    = string
-  default = "pitest-service-principal"
-}
