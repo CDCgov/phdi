@@ -71,8 +71,6 @@ module "storage" {
   app_subnet_ids              = module.network.app_subnet_ids
   databricks_subnet_ids       = module.network.databricks_subnet_ids
   resource_group_id           = module.resource_group.cdc_managed_resource_group_id
-  data_access_group           = var.data_access_group
-  data_access_sp              = var.data_access_sp
   adf_uuid                    = module.data_factory.adf_uuid
   python_function_app_uuid    = module.function_app.python_function_app_uuid
 }

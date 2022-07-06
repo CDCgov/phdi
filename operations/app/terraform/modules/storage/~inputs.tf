@@ -57,16 +57,6 @@ variable "resource_group_id" {
   description = "Resource Group resource id"
 }
 
-variable "data_access_group" {
-  type        = string
-  description = "AD group to grant data access"
-}
-
-variable "data_access_sp" {
-  type        = string
-  description = "Service principal to grant data access"
-}
-
 variable "adf_uuid" {
   type        = string
   description = "Azure Data Factory resource uuid"

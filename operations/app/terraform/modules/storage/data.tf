@@ -1,11 +1,3 @@
-data "azuread_group" "owners" {
-  display_name = var.data_access_group
-}
-
-data "azuread_service_principal" "pitest" {
-  display_name = var.data_access_sp
-}
-
 # storage account data containers and permissions
 # see docs/security/data-access.md for additional notes
 locals {
