@@ -2,7 +2,7 @@
 
 resource "azurerm_storage_account" "pdi_data" {
   resource_group_name       = var.resource_group_name
-  name                      = "${var.resource_prefix}datasa"
+  name                      = "${var.resource_prefix}datasa${var.environment == "skylight" ? "1" : ""}"
   location                  = var.location
   account_kind              = "StorageV2"
   account_tier              = "Standard"
