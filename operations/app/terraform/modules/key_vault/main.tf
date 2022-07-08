@@ -66,6 +66,12 @@ resource "azurerm_key_vault_access_policy" "dev_access_policy" {
     "Recover",
     "Backup",
     "Restore",
+    "Decrypt",
+    "Encrypt",
+    "UnwrapKey",
+    "WrapKey",
+    "Verify",
+    "Sign",
   ]
 
   secret_permissions = [
