@@ -8,6 +8,7 @@ from phdi_building_blocks.conversion import (
     clean_message,
     convert_batch_messages_to_list,
     convert_message_to_fhir,
+    default_hl7_value,
     get_file_type_mappings,
     normalize_hl7_datetime,
     normalize_hl7_datetime_segment,
@@ -36,15 +37,88 @@ def test_clean_message():
         pathlib.Path(__file__).parent / "assets" / "FileSingleMessageLongTZ.hl7"
     ).read()
 
-    assert clean_message(message_1).startswith(
-        "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000|"
-        + "|VXU^V04|2020051411020600|P^|2.4^^|||ER\n"
-        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|"
-        + "HEPB^DTAP^^^^^^|20180808000000|M|||||||||||||||||||||"
+    assert (
+        clean_message(message_1)
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000||VXU^V04"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|20180808000000|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+        + "NK1|1||BRO^BROTHER^HL70063^^^^^|^^NEW GLARUS^WI^^^^^^^|\n"
+        + "PV1||R||||||||||||||||||\n"
+        + "RXA|0|999|20180809|20180809|08^HepB pediatric^CVX^90744^HepB pediatric^CPT"
+        + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|\n"
     )
-    assert clean_message(message_2).startswith(
-        "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000-0400|"
-        + "|VXU^V04|2020051411020600|P^|2.4^^|||ER"
+    assert (
+        clean_message(message_2)
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000-0400||VXU^V04"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|20180808|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+        + "NK1|1||BRO^BROTHER^HL70063^^^^^|^^NEW GLARUS^WI^^^^^^^|\n"
+        + "PV1||R||||||||||||||||||\n"
+        + "RXA|0|999|20180809|20180809|08^HepB pediatric^CVX^90744^HepB pediatric^CPT"
+        + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|||||||||||NA\n"
+    )
+
+
+def test_default_hl7_value():
+    message_default_empty_field = open(
+        pathlib.Path(__file__).parent / "assets" / "FileSingleMessageSimple.hl7"
+    ).read()
+
+    message_default_missing_field = open(
+        pathlib.Path(__file__).parent / "assets" / "FileSingleMessageSimple.hl7"
+    ).read()
+
+    message_default_populated_field = open(
+        pathlib.Path(__file__).parent / "assets" / "FileSingleMessageSimple.hl7"
+    ).read()
+
+    message_default_empty_field = default_hl7_value(
+        message=message_default_empty_field,
+        segment_id="PID",
+        field_num=1,
+        default_value="some-default-value-empty",
+    )
+    message_default_missing_field = default_hl7_value(
+        message=message_default_missing_field,
+        segment_id="PID",
+        field_num=30,
+        default_value="some-default-value-missing",
+    )
+    message_default_populated_field = default_hl7_value(
+        message=message_default_populated_field,
+        segment_id="PID",
+        field_num=5,
+        default_value="some-default-value-populated",
+    )
+
+    assert (
+        message_default_empty_field
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|some-default-value-empty||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^"
+        + "|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+    )
+    assert (
+        message_default_missing_field
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M||||||||||||||||||||||some-default-value-missing\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+    )
+    assert (
+        message_default_populated_field
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
     )
 
 
