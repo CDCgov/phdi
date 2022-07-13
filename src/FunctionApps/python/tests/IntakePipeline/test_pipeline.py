@@ -5,7 +5,7 @@ from unittest import mock
 
 from phdi_building_blocks.conversion import convert_batch_messages_to_list
 
-from IntakePipeline import run_pipeline
+from IntakePipeline import run_pipeline, _default_fields
 
 
 @pytest.fixture()
@@ -188,6 +188,7 @@ def test_pipeline_invalid_message(
     )
 
 
+@mock.patch("IntakePipeline._default_fields")
 @mock.patch("IntakePipeline.standardize_patient_names")
 @mock.patch("IntakePipeline.standardize_all_phones")
 @mock.patch("IntakePipeline.geocode_patients")
@@ -208,6 +209,7 @@ def test_pipeline_partial_invalid_message(
     patched_address_standardization,
     patched_phone_standardization,
     patched_name_standardization,
+    patched_default_fields,
     partial_failure_message,
 ):
     convert_success_response = mock.Mock(
@@ -223,6 +225,7 @@ def test_pipeline_partial_invalid_message(
             }
         ),
     )
+    patched_default_fields.side_effect = lambda message, message_mappings: message
     patched_converter.side_effect = [
         convert_success_response,
         convert_success_response,
@@ -509,3 +512,19 @@ def test_pipeline_partial_failed_upload(
             ),
         ]
     )
+
+
+def test_default_fields():
+    message = (
+        "MSH|^~\\&|Hello World\n"
+        + "PID||some-id||some-name\n"
+        + "RXA|mostly-empty-segment\n"
+    )
+
+    defaulted_message = (
+        "MSH|^~\\&|Hello World\n"
+        + "PID||some-id||some-name\n"
+        + "RXA|mostly-empty-segment|||||||||||||||||||CP\n"
+    )
+
+    assert _default_fields(message, MESSAGE_MAPPINGS) == defaulted_message
