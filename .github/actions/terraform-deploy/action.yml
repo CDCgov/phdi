@@ -1,0 +1,18 @@
+name: "Terraform Deploy"
+description: "Run terraform apply"
+inputs:
+  env:
+    description: "Environment to deploy to"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: terraform init
+      run: terraform init
+      shell: bash
+      working-directory: ./operations/app/terraform/vars/${{ inputs.env }}
+    - name: terraform apply
+      run: terraform apply -auto-approve -lock-timeout=30m
+      shell: bash
+      working-directory: ./operations/app/terraform/vars/${{ inputs.env }}

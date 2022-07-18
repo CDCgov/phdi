@@ -1,0 +1,28 @@
+name: "Function App Deploy"
+description: "Deploy function apps to Azure"
+inputs:
+  env:
+    description: "Environment to deploy to"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python Environment
+      uses: actions/setup-python@v1
+      with:
+        python-version: "3.9"
+    - name: "Resolve Project Dependencies Using Pip"
+      shell: bash
+      working-directory: src/FunctionApps/python
+      run: |
+        pushd './'
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+        popd
+    - name: "Run Azure Functions Action"
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: "pi${{ inputs.env }}-python-functionapp"
+        package: src/FunctionApps/python

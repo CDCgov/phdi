@@ -312,7 +312,7 @@ resource "azurerm_private_dns_zone" "pdi" {
 
 resource "azurerm_private_dns_a_record" "pdi" {
   for_each            = var.dns_vars
-  name                = "${var.resource_prefix}datasa"
+  name                = "${var.resource_prefix}datasa${var.environment == "skylight" ? "1" : ""}"
   zone_name           = azurerm_private_dns_zone.pdi[each.key].name
   resource_group_name = var.resource_group_name
   ttl                 = 10
