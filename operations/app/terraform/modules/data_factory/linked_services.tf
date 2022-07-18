@@ -24,7 +24,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "pdi_datasa" {
   data_factory_id          = azurerm_data_factory.pdi.id
   integration_runtime_name = azurerm_data_factory_integration_runtime_azure.pdi.name
   use_managed_identity     = true
-  service_endpoint         = "https://${var.resource_prefix}datasa.blob.core.windows.net"
+  service_endpoint         = "https://${var.resource_prefix}datasa${var.environment == "skylight" ? "1" : ""}.blob.core.windows.net"
 }
 
 resource "azurerm_data_factory_linked_service_sftp" "vdh" {

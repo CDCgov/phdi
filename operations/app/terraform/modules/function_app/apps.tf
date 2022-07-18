@@ -42,8 +42,8 @@ module "pdi_function_app" {
     "AzureWebJobs.convertToFhir.Disabled"  = each.value.AzureWebJobs_convertToFhir_Disabled
     SMARTYSTREETS_AUTH_ID                  = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthID)"
     SMARTYSTREETS_AUTH_TOKEN               = "@Microsoft.KeyVault(SecretUri=https://${var.resource_prefix}-app-kv.vault.azure.net/secrets/SmartyStreetsAuthToken)"
-    CONTAINER_URL                          = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
-    INTAKE_CONTAINER_URL                   = "https://${var.resource_prefix}datasa.blob.core.windows.net/bronze"
+    CONTAINER_URL                          = "https://${var.resource_prefix}datasa${var.environment == "skylight" ? "1" : ""}.blob.core.windows.net/bronze"
+    INTAKE_CONTAINER_URL                   = "https://${var.resource_prefix}datasa${var.environment == "skylight" ? "1" : ""}.blob.core.windows.net/bronze"
     INTAKE_CONTAINER_PREFIX                = "decrypted/valid-messages/"
     OUTPUT_CONTAINER_PATH                  = "processed"
     CSV_INPUT_PREFIX                       = each.value.CSV_INPUT_PREFIX
