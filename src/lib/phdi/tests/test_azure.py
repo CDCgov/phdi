@@ -1,7 +1,7 @@
 import json
 import os
 
-from phdi_building_blocks.azure import (
+from phdi.azure import (
     _http_request_with_reauth,
     store_data,
     store_message_and_response,
@@ -9,7 +9,7 @@ from phdi_building_blocks.azure import (
 from unittest import mock
 
 
-@mock.patch("phdi_building_blocks.azure.get_blob_client")
+@mock.patch("phdi.azure.get_blob_client")
 def test_store_data(mock_get_client):
     mock_blob = mock.Mock()
 
@@ -125,7 +125,7 @@ def test_auth_retry_double_fail(patched_requests_session):
     mock_requests_session_instance.get.call_count == 2
 
 
-@mock.patch("phdi_building_blocks.azure.store_data")
+@mock.patch("phdi.azure.store_data")
 def test_store_message_and_response(patched_store):
     container_url = "some-url"
     output_path = "some/path"

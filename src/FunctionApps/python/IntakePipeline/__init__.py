@@ -6,31 +6,31 @@ from config import get_required_config
 from typing import Dict
 
 
-from phdi_building_blocks.azure import (
+from phdi.azure import (
     store_data,
     store_message_and_response,
     AzureFhirServerCredentialManager,
 )
-from phdi_building_blocks.fhir import (
+from phdi.fhir import (
     upload_bundle_to_fhir_server,
     generate_filename,
 )
-from phdi_building_blocks.conversion import (
+from phdi.conversion import (
     convert_batch_messages_to_list,
     convert_message_to_fhir,
     get_file_type_mappings,
     default_hl7_value,
 )
 
-from phdi_building_blocks.geo import (
+from phdi.geo import (
     get_smartystreets_client,
     geocode_patients,
 )
-from phdi_building_blocks.standardize import (
+from phdi.standardize import (
     standardize_patient_names,
     standardize_all_phones,
 )
-from phdi_building_blocks.linkage import add_patient_identifier
+from phdi.linkage import add_patient_identifier
 
 
 def run_pipeline(

@@ -5,7 +5,7 @@ import yaml
 import pathlib
 from unittest import mock
 
-from phdi_building_blocks.schemas import (
+from phdi.schemas import (
     load_schema,
     apply_selection_criteria,
     apply_schema_to_resource,
@@ -52,8 +52,8 @@ def test_apply_schema_to_resource():
     }
 
 
-@mock.patch("phdi_building_blocks.schemas.write_schema_table")
-@mock.patch("phdi_building_blocks.schemas.fhir_server_get")
+@mock.patch("phdi.schemas.write_schema_table")
+@mock.patch("phdi.schemas.fhir_server_get")
 def test_make_table_success(patch_query, patch_write):
 
     schema = yaml.safe_load(
@@ -136,8 +136,8 @@ def test_make_table_success(patch_query, patch_write):
     )
 
 
-@mock.patch("phdi_building_blocks.schemas.write_schema_table")
-@mock.patch("phdi_building_blocks.schemas.fhir_server_get")
+@mock.patch("phdi.schemas.write_schema_table")
+@mock.patch("phdi.schemas.fhir_server_get")
 def test_make_table_fail(patch_query, patch_write):
 
     schema = {}
@@ -170,8 +170,8 @@ def test_make_table_fail(patch_query, patch_write):
     patch_write.assert_not_called()
 
 
-@mock.patch("phdi_building_blocks.schemas.make_table")
-@mock.patch("phdi_building_blocks.schemas.load_schema")
+@mock.patch("phdi.schemas.make_table")
+@mock.patch("phdi.schemas.load_schema")
 def test_make_tables_from_schema(patched_load_schema, patched_make_table):
 
     schema_path = mock.Mock()
@@ -206,8 +206,8 @@ def test_make_tables_from_schema(patched_load_schema, patched_make_table):
     )
 
 
-@mock.patch("phdi_building_blocks.schemas.pq.ParquetWriter")
-@mock.patch("phdi_building_blocks.schemas.pa.Table")
+@mock.patch("phdi.schemas.pq.ParquetWriter")
+@mock.patch("phdi.schemas.pa.Table")
 def test_write_schema_table_no_writer(patched_pa_table, patched_writer):
 
     data = [{"some_column": "some value", "some_other_column": "some other value"}]
@@ -223,8 +223,8 @@ def test_write_schema_table_no_writer(patched_pa_table, patched_writer):
     )
 
 
-@mock.patch("phdi_building_blocks.schemas.pq.ParquetWriter")
-@mock.patch("phdi_building_blocks.schemas.pa.Table")
+@mock.patch("phdi.schemas.pq.ParquetWriter")
+@mock.patch("phdi.schemas.pa.Table")
 def test_write_schema_table_with_writer(patched_pa_table, patched_writer):
 
     data = [{"some_column": "some value", "some_other_column": "some other value"}]
@@ -276,9 +276,9 @@ def test_write_schema_table_append_csv():
     os.remove(output_file_name)
 
 
-@mock.patch("phdi_building_blocks.schemas.pq.read_table")
-@mock.patch("phdi_building_blocks.schemas.pq.ParquetFile")
-@mock.patch("phdi_building_blocks.schemas.os.walk")
+@mock.patch("phdi.schemas.pq.read_table")
+@mock.patch("phdi.schemas.pq.ParquetFile")
+@mock.patch("phdi.schemas.os.walk")
 def test_print_schema_summary_parquet(
     patched_os_walk, patched_ParquetFile, patched_reader
 ):
@@ -301,7 +301,7 @@ def test_print_schema_summary_parquet(
     patched_reader.assert_called_with(pathlib.Path("some_path") / "filename.parquet")
 
 
-@mock.patch("phdi_building_blocks.schemas.os.walk")
+@mock.patch("phdi.schemas.os.walk")
 def test_print_schema_summary_csv(patched_os_walk, capsys):
     data = [{"some_column": "some value", "some_other_column": "some other value"}]
     output_file_name = "print_schema.csv"
