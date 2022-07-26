@@ -1,4 +1,4 @@
-from geospatial import GeocodeClient, GeocodeResult
+from phdi_building_blocks.geospatial.geospatial import GeocodeClient, GeocodeResult
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
