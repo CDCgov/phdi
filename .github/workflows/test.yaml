@@ -68,7 +68,7 @@ jobs:
         run: |
           python -m pytest
 
-  unit-test-phdi-building-blocks-lib:
+  unit-test-phdi-lib:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -83,10 +83,10 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
           echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
       - name: Install dependencies
-        working-directory: ./src/lib/phdi-building-blocks
+        working-directory: ./src/lib/phdi
         run: poetry install
       - name: Run pytest
-        working-directory: ./src/lib/phdi-building-blocks
+        working-directory: ./src/lib/phdi
         run: poetry run pytest
 
   code-check-python:
