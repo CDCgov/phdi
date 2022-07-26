@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "phdi-building-blocks"
+name = "phdi"
 version = "0.1.0"
 description = ""
 authors = []
