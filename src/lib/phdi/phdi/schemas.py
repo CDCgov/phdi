@@ -10,8 +10,8 @@ import yaml
 
 from functools import cache
 from pathlib import Path
-from phdi_building_blocks.azure import AzureFhirServerCredentialManager
-from phdi_building_blocks.fhir import fhir_server_get
+from phdi.azure import AzureFhirServerCredentialManager
+from phdi.fhir import fhir_server_get
 from typing import Literal, List, Union, Callable
 
 

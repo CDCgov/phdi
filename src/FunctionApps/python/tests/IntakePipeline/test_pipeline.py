@@ -3,7 +3,7 @@ import pathlib
 import pytest
 from unittest import mock
 
-from phdi_building_blocks.conversion import convert_batch_messages_to_list
+from phdi.conversion import convert_batch_messages_to_list
 
 from IntakePipeline import run_pipeline, _default_fields
 

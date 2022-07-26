@@ -1,6 +1,6 @@
 import hashlib
 import copy
-from phdi_building_blocks.utils import (
+from phdi.utils import (
     find_resource_by_type,
     get_one_line_address,
     get_field,

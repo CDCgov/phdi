@@ -4,8 +4,8 @@ import json
 import logging
 import requests
 
-from phdi_building_blocks import fhir
-from phdi_building_blocks.azure import AzureFhirServerCredentialManager
+from phdi import fhir
+from phdi.azure import AzureFhirServerCredentialManager
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:

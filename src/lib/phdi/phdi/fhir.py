@@ -7,7 +7,7 @@ from typing import Union, Iterator, Tuple, TextIO
 
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import download_blob_from_url
-from phdi_building_blocks.azure import (
+from phdi.azure import (
     AzureFhirServerCredentialManager,
     _http_request_with_reauth,
 )

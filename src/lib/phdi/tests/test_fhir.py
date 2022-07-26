@@ -8,8 +8,8 @@ from unittest import mock
 
 from azure.identity import DefaultAzureCredential
 
-from phdi_building_blocks.azure import AzureFhirServerCredentialManager
-from phdi_building_blocks.fhir import (
+from phdi.azure import AzureFhirServerCredentialManager
+from phdi.fhir import (
     upload_bundle_to_fhir_server,
     export_from_fhir_server,
     _compose_export_url,
@@ -19,7 +19,7 @@ from phdi_building_blocks.fhir import (
 )
 
 
-@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
+@mock.patch("phdi.fhir.log_fhir_server_error")
 @mock.patch("requests.Session")
 def test_upload_bundle_to_fhir_server(mock_requests_session, mock_log_error):
     mock_requests_session_instance = mock_requests_session.return_value
@@ -84,7 +84,7 @@ def test_upload_bundle_to_fhir_server(mock_requests_session, mock_log_error):
     mock_log_error.assert_not_called()
 
 
-@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
+@mock.patch("phdi.fhir.log_fhir_server_error")
 @mock.patch("requests.Session")
 def test_upload_bundle_failure(mock_requests_session, mock_log_error):
     mock_requests_session_instance = mock_requests_session.return_value
@@ -144,7 +144,7 @@ def test_upload_bundle_failure(mock_requests_session, mock_log_error):
     assert mock_log_error.call_count == 1
 
 
-@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
+@mock.patch("phdi.fhir.log_fhir_server_error")
 @mock.patch("requests.Session")
 def test_upload_bundle_partial_failure(mock_requests_session, mock_log_error):
     mock_requests_session_instance = mock_requests_session.return_value
@@ -469,7 +469,7 @@ def test_compose_export_url():
         _compose_export_url(fhir_url, "InvalidExportScope")
 
 
-@mock.patch("phdi_building_blocks.fhir._download_export_blob")
+@mock.patch("phdi.fhir._download_export_blob")
 def test_download_from_export_response(mock_download_export_blob):
     mock_download_export_blob.side_effect = [
         io.TextIOWrapper(
@@ -522,7 +522,7 @@ def test_download_from_export_response(mock_download_export_blob):
     )
 
 
-@mock.patch("phdi_building_blocks.fhir.logging")
+@mock.patch("phdi.fhir.logging")
 def test_log_fhir_server_error(patched_logger):
 
     log_fhir_server_error(200)
@@ -542,7 +542,7 @@ def test_log_fhir_server_error(patched_logger):
         patched_logger.error.assert_called_with(error_message)
 
 
-@mock.patch("phdi_building_blocks.fhir.logging")
+@mock.patch("phdi.fhir.logging")
 def test_log_fhir_server_error_batch(patched_logger):
 
     log_fhir_server_error(200)
@@ -570,7 +570,7 @@ def test_log_fhir_server_error_batch(patched_logger):
         patched_logger.error.assert_called_with(error_message)
 
 
-@mock.patch("phdi_building_blocks.fhir.log_fhir_server_error")
+@mock.patch("phdi.fhir.log_fhir_server_error")
 @mock.patch("requests.Session")
 def test_fhir_server_get(patched_requests_session, patched_logger):
     mock_requests_session_instance = patched_requests_session.return_value

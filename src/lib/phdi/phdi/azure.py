@@ -7,7 +7,7 @@ from azure.core.exceptions import ResourceExistsError
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient
 from datetime import datetime, timezone
-from phdi_building_blocks.utils import http_request_with_retry
+from phdi.utils import http_request_with_retry
 from requests import Response
 
 
