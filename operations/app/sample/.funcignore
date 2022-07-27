@@ -1,9 +1,0 @@
-.flake8
-.git*
-.venv
-.vscode
-
-data/
-local.settings.json
-Makefile
-test
