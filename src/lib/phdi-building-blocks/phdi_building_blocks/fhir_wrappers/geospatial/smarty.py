@@ -1,4 +1,3 @@
-from phdi_building_blocks.geospatial.geospatial import GeocodeResult
 from phdi_building_blocks.geospatial.smarty import _parse_smarty_result
 from phdi_building_blocks.fhir_wrappers.geospatial.geospatial import (
     FhirGeocodeClient,
@@ -10,13 +9,14 @@ from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
 
-from typing import List, Union
+from typing import List
 from copy import copy
 
 
 class SmartyGeocodeClient(FhirGeocodeClient):
     """
-    Implementation of a geocoding client using the SmartyStreets API.
+    Implementation of a geocoding client designed to handle FHIR-
+    formatted data using the SmartyStreets API.
     Requires an authorization ID as well as an authentication token
     in order to build a street lookup client.
     """
@@ -52,7 +52,7 @@ class SmartyGeocodeClient(FhirGeocodeClient):
 
         rtype = resource.get("resourceType", "")
         if rtype == "Patient":
-            self._geocode_patient_resource(resource.get("resource", {}))
+            self._geocode_patient_resource(resource)
 
         return resource
 
@@ -69,7 +69,7 @@ class SmartyGeocodeClient(FhirGeocodeClient):
 
             # Update fields with new, standardized information
             if standardized_address:
-                address["line"] = standardized_address.address
+                address["line"] = standardized_address.street
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
                 address["postalCode"] = standardized_address.zipcode
