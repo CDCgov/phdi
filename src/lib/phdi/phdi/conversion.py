@@ -2,7 +2,7 @@ import logging
 import re
 import hl7
 
-from phdi_building_blocks.azure import (
+from phdi.azure import (
     AzureFhirServerCredentialManager,
     _http_request_with_reauth,
 )

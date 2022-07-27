@@ -106,7 +106,7 @@ Microsoft maintains a pretty good guide [here](https://docs.microsoft.com/en-us/
 
 ##### Development Dependencies
 
-In your terminal, navigate to the `src/lib/phdi_building_blocks` directory and run `poetry install`
+In your terminal, navigate to the `src/lib/phdi` directory and run `poetry install`
 In your terminal, navigate to the `src/lib/FunctionApps` directory and run `pip install -r requirements_dev.txt`
 
 These include:

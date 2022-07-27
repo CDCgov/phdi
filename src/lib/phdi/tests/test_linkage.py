@@ -1,4 +1,4 @@
-from phdi_building_blocks.linkage import (
+from phdi.linkage import (
     generate_hash_str,
     add_patient_identifier,
 )

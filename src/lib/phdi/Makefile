@@ -1,6 +1,6 @@
 .PHONY: docs
 docs:
-	sphinx-apidoc -o docs/_source phdi_building_blocks
+	sphinx-apidoc -o docs/_source phdi
 	cd docs && make singlehtml
 
 .PHONY: test
