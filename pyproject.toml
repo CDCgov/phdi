@@ -1,6 +1,0 @@
-[tool.black]
-
-extend-exclude = """
-# Ignore jupyter notebooks
-^/src/notebooks/
-"""
