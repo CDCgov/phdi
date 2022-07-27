@@ -3,7 +3,7 @@ import pathlib
 import copy
 
 
-from phdi_building_blocks.standardize import (
+from phdi.standardize import (
     standardize_patient_names,
     standardize_all_phones,
     extract_countries_from_resource,

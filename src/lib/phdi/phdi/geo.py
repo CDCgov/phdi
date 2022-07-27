@@ -1,4 +1,4 @@
-from phdi_building_blocks.utils import find_resource_by_type, get_one_line_address
+from phdi.utils import find_resource_by_type, get_one_line_address
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street

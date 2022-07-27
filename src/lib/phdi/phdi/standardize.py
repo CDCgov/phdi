@@ -1,7 +1,7 @@
 import phonenumbers
 import pycountry
 from typing import Literal, List
-from phdi_building_blocks.utils import (
+from phdi.utils import (
     find_resource_by_type,
     standardize_text,
 )

@@ -7,11 +7,11 @@ from smartystreets_python_sdk.us_street.candidate import Candidate
 from smartystreets_python_sdk.us_street.metadata import Metadata
 from smartystreets_python_sdk.us_street.components import Components
 
-from phdi_building_blocks.geo import (
+from phdi.geo import (
     get_geocoder_result,
     geocode_patients,
 )
-from phdi_building_blocks.geo import GeocodeResult
+from phdi.geo import GeocodeResult
 
 
 def test_get_geocoder_result_success():
@@ -64,7 +64,7 @@ def test_get_geocoder_result_failure():
     assert get_geocoder_result("123 Nowhere St, Atlantis GA", mock.Mock()) is None
 
 
-@mock.patch("phdi_building_blocks.geo.get_geocoder_result")
+@mock.patch("phdi.geo.get_geocoder_result")
 def test_geocode_patients(patched_geocoder):
     raw_bundle = json.load(
         open(pathlib.Path(__file__).parent / "assets" / "patient_bundle.json")

@@ -3,7 +3,7 @@ import pathlib
 import pytest
 
 from unittest import mock
-from phdi_building_blocks.conversion import (
+from phdi.conversion import (
     clean_batch,
     clean_message,
     convert_batch_messages_to_list,
