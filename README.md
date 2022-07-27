@@ -20,37 +20,28 @@
 
 The PRIME Public Health Data Infrastructure projects are part of the Pandemic-Ready Interoperability Modernization Effort, a multi-year collaboration between CDC and the U.S. Digital Service (USDS) to strengthen data quality and information technology systems in state and local health departments.
 
-This repository represents the source code for three related workstreams in this area:
+This repository contains source code for a platform to help state, tribal, local and territorial (STLT) public health departments ingest and report on public health data.  It contains the following components:
 
-- **Data Storage, Tooling, and Preparation (DSTP)** - Assist STLTs in implementing modern infrastructure that is flexible enough to allow jurisdictions to prepare for as-of-yet unknown use cases, while providing a long-term storage mechanism and query solution for effective daily use and timely response.
-- **Common Data Model** - Define USCDI+ for Public Health and implementation guidance that specifies common data elements, value sets, and APIs to enable interoperability, data cleaning, and data linkage across the ecosystem of public health data senders and receivers
-- **Workbench** - Develop a platform for high quality tools, services, analytical products, and reporting that addresses identified pain points for data receivers/public health departments, and incentivizes adoption of the Common Data Model
-
-All three projects will begin with a time-limited prototype, focused on working with raw ELR, eCR, and VXU data from the commonwealth of Virginia Department of Health, for the purpose of experimenting with a unified data lake paradigm. Over time they will evolve to tackle new STLTs and new challenges around data quality and standardization.
+- **Data Ingestion** - Data ingestion tools provide a common framework to prepare data for storage, and store the data in a common standard data model ([FHIR](https://hl7.org/FHIR/)). 
+  - __Harmonization__ - Data harmonization tools can operate on raw input data (HL7 version 2, CCDA) and convert to the common data model format (FHIR).
+  - __Geospatial__ - Geospatial tools provide a common interface for obtaining precise geographic locations based on street addresses from input data.
+  - __Linkage__ - Linkage tools assign a common identifier to patient records to link and deduplicate patients seen across data contributors.
+  - __Transport__ - Transport tools provide a mechanism to store and interact with data stored to a central repostory (FHIR server). 
+- **Reporting** - Reporting tools define a dynamic framework for building custom data models in an analysis-ready output format.
+  - __Tabluation__ - Tabulation provides tools to retrieve data dynamically-defined records and data fields from the common data platform (FHIR server), extract, convert it to a tabular representation, and store to a user-defined tabular storage file type (Parquet or CSV).
+- **Implementation Support** - Implemetnation resources support implementing STLTs to configure a PHDI-driven workflow to manage their data and analysis workflows.
+  - __Cloud-agnostic tools__ - A common PHDI programming interface supports STLTs interacting with cloud-based data storage (containers/buckets), and FHIR servers in a common way.
+  - __Examples and Tutorials__ - Example and tutorial materials help STLTs implement the PHDI solution more quickly by providing easy-to-follow examples and tutorials.
 
 The PRIME Public Health Data Infrastructure prototype a sibling project to [PRIME ReportStream](https://reportstream.cdc.gov), focusing on delivering COVID-19 test data to public health departments, and [PRIME SimpleReport](https://simplereport.gov), working on a better way to report COVID-19 rapid tests.
 
 ### Problem Scope
 
-Long-term Vision for all three workstreams: Public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective was to learn how the CDC can best support STLTs in moving towards a modern public health data infrastructure.
+Long-term Vision: Current public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective is to help the CDC best support STLTs in moving towards a modern public health data infrastructure.
 
-Vision for short-term prototype: The Commonwealth of Virginia Department of Public Health would like to move towards a more ‘holistic’ solution for electronic data processing and integration, so that currently siloed datasets can be processed and ultimately used in a more efficient and effective manner. Specifically, in order to support the vision of ‘holistic processing’, this prototype is focusing the on seeing what can be done with raw data, focused on COVID-19 breakthrough cases.
+## Getting Started
 
-### Target Users
-
-Eventual target users of this system include:
-
-- Public Health Departments
-  - Epidemiologists who rely on health data to take regular actions
-  - Senior stakeholders who make executive decisions using aggregate health data
-  - IT teams who have to support epidemiologists and external stakeholders integrating with the PHD
-  - PHDs may include state, county, city, and tribal organizations
-
-## Technical
-
-### Getting Started
-
-To start development against this project, please consult the [Getting Started](docs/getting_started.md) doc for more details on setting up local development environments, deployments, and more.
+To start development this project, please consult the [Getting Started](docs/getting_started.md) doc for more details on setting up local development environments for the SDK and more.
 
 ## Standard Notices
 
