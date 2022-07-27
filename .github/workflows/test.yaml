@@ -9,66 +9,10 @@ on:
       - main
 
 env:
-  TEST_RUNNER_JAVA_VERSION: 11
-  TEST_RUNNER_NODE_VERSION: 14
   TEST_RUNNER_PYTHON_VERSION: 3.9
-  TEST_RUNNER_TERRAFORM_VERSION: 1.1.5
 
 jobs:
-  function-app-scan:
-    # Find directories that contain function apps in python
-    #
-    # Look for a files in function app directories to determine the language used
-    # and output a list of directory names for functions of each language.  Language
-    # is determined based on the existence of a file inside the top-level function
-    # app directory, currently:
-    #     python: `requirements.txt`
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          sudo apt-get install jq
-      - id: find-python-apps
-        name: Scan for python function apps
-        # use jq to produce json output and filter out the empty item caused by final newline
-        run: |
-          echo "::set-output name=pydirs::$(find src/FunctionApps/ -mindepth 2 -maxdepth 2 -type f -name requirements.txt -printf "%P\n" |cut -d/ -f1 |jq --raw-input --slurp 'split("\n")' |jq --compact-output .[0:-1])"
-      - name: Summary of detected apps
-        run: |
-          echo "Python (requirements.txt): ${{steps.find-python-apps.outputs.pydirs}}"
-    outputs:
-      python-function-app-dirs: ${{steps.find-python-apps.outputs.pydirs}}
-
-  unit-test-python:
-    needs: function-app-scan
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        function-to-test: ${{fromJson(needs.function-app-scan.outputs.python-function-app-dirs)}}
-    env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install dependencies
-        working-directory: ./src/FunctionApps/${{matrix.function-to-test}}
-        run: |
-          sed -i "\|prime-public-health-data-infrastructure@|s|main|$BRANCH_NAME|" requirements.txt
-          pip install -r requirements.txt
-          pip install pytest
-      - name: Run unit tests
-        working-directory: ./src/FunctionApps/${{matrix.function-to-test}}
-        run: |
-          python -m pytest
-
-  unit-test-phdi-lib:
+  unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -109,19 +53,6 @@ jobs:
       - name: Check style (flake8)
         run: |
           flake8
-
-  code-check-terraform:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./operations
-    steps:
-      - uses: actions/checkout@v2
-      - uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: ${{env.TEST_RUNNER_TERRAFORM_VERSION}}
-      - name: Check format
-        run: terraform fmt -check -recursive
 
   ensure-clean-notebooks:
     runs-on: ubuntu-latest
