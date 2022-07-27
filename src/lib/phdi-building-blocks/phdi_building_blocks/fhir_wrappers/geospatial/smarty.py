@@ -93,7 +93,7 @@ class SmartyGeocodeClient(FhirGeocodeClient):
         if not overwrite:
             bundle = copy.deepcopy(bundle)
 
-        for resource in bundle.entry:
+        for resource in bundle.get("entry", []):
             _ = self.geocode_resource(resource.get("resource", {}), overwrite=True)
 
         return bundle
