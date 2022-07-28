@@ -1,5 +1,5 @@
-from phdi_building_blocks.geospatial.geospatial import GeocodeResult
-from phdi_building_blocks.geospatial.smarty import (
+from phdi.geospatial.geospatial import GeocodeResult
+from phdi.geospatial.smarty import (
     _parse_smarty_result,
     SmartyGeocodeClient,
 )

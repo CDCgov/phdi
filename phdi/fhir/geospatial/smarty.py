@@ -1,5 +1,5 @@
-from phdi_building_blocks.geospatial.smarty import _parse_smarty_result
-from phdi_building_blocks.fhir_wrappers.geospatial.geospatial import (
+from phdi.geospatial.smarty import _parse_smarty_result
+from phdi.fhir.geospatial.geospatial import (
     FhirGeocodeClient,
     _get_one_line_address,
     _store_lat_long_extension,

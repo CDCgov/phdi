@@ -1,4 +1,4 @@
-from phdi_building_blocks.fhir_wrappers.geospatial.geospatial import (
+from phdi.fhir.geospatial.geospatial import (
     _get_one_line_address,
     _store_lat_long_extension,
 )

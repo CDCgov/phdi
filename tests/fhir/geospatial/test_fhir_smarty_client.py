@@ -1,5 +1,5 @@
-from phdi_building_blocks.fhir_wrappers.geospatial.smarty import SmartyGeocodeClient
-from phdi_building_blocks.geospatial.geospatial import GeocodeResult
+from phdi.fhir.geospatial.smarty import SmartyGeocodeClient
+from phdi.geospatial.geospatial import GeocodeResult
 
 from smartystreets_python_sdk.us_street.candidate import Candidate
 from smartystreets_python_sdk.us_street.metadata import Metadata
