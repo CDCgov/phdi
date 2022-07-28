@@ -1,19 +1,13 @@
-from phdi.geospatial.smarty import _parse_smarty_result
-from phdi.fhir.geospatial.geospatial import (
-    FhirGeocodeClient,
-    _get_one_line_address,
-    _store_lat_long_extension,
-)
+from phdi.geospatial.smarty import SmartyGeocodeClient
+from phdi.fhir.geospatial import FhirGeocodeClient
 
-from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
-from smartystreets_python_sdk.us_street.lookup import Lookup
 
 from typing import List
 from copy import copy
 
 
-class SmartyGeocodeClient(FhirGeocodeClient):
+class SmartyFhirGeocodeClient(FhirGeocodeClient):
     """
     Implementation of a geocoding client designed to handle FHIR-
     formatted data using the SmartyStreets API.
@@ -22,17 +16,10 @@ class SmartyGeocodeClient(FhirGeocodeClient):
     """
 
     def __init__(self, auth_id, auth_token):
-        self.auth_id = auth_id
-        self.auth_token = auth_token
-        creds = StaticCredentials(auth_id, auth_token)
-        self.__client = (
-            ClientBuilder(creds)
-            .with_licenses(["us-standard-cloud"])
-            .build_us_street_api_client()
-        )
+        self.__client = SmartyGeocodeClient(auth_id, auth_token)
 
     @property
-    def client(self) -> us_street.Client:
+    def geocode_client(self) -> us_street.Client:
         return self.__client
 
     def geocode_resource(self, resource: dict, overwrite=True) -> dict:
@@ -46,12 +33,14 @@ class SmartyGeocodeClient(FhirGeocodeClient):
         :param overwrite: Whether to save the geocoding information over
           the raw data, or to create a copy of the given data and write
           over that instead. Defaults to True (write over given data).
+        :return: The resource (or a copy thereof) with geocoded
+          information added
         """
         if not overwrite:
             resource = copy.deepcopy(resource)
 
-        rtype = resource.get("resourceType", "")
-        if rtype == "Patient":
+        resource_type = resource.get("resourceType", "")
+        if resource_type == "Patient":
             self._geocode_patient_resource(resource)
 
         return resource
@@ -62,10 +51,8 @@ class SmartyGeocodeClient(FhirGeocodeClient):
         a given patient resource.
         """
         for address in patient.get("address", []):
-            address_str = _get_one_line_address(address)
-            lookup = Lookup(street=address_str)
-            self.__client.send_lookup(lookup)
-            standardized_address = _parse_smarty_result(lookup)
+            address_str = self._get_one_line_address(address)
+            standardized_address = self.__client.geocode_from_str(address_str)
 
             # Update fields with new, standardized information
             if standardized_address:
@@ -73,7 +60,7 @@ class SmartyGeocodeClient(FhirGeocodeClient):
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
                 address["postalCode"] = standardized_address.zipcode
-                _store_lat_long_extension(
+                self._store_lat_long_extension(
                     address, standardized_address.lat, standardized_address.lng
                 )
 
@@ -87,13 +74,15 @@ class SmartyGeocodeClient(FhirGeocodeClient):
 
         :param bundle: A bundle of fhir resources
         :param overwrite: Whether to overwrite the address data in the given
-        bundle's resources (True), or whether to create a copy of the bundle
-        and overwrite that instead (False). Defaults to True.
+          bundle's resources (True), or whether to create a copy of the bundle
+          and overwrite that instead (False). Defaults to True.
+        :return: The given FHIR bundle (or a copy thereof) where all
+          resources have updated geocoded information
         """
         if not overwrite:
             bundle = copy.deepcopy(bundle)
 
-        for resource in bundle.get("entry", []):
-            _ = self.geocode_resource(resource.get("resource", {}), overwrite=True)
+        for entry in bundle.get("entry", []):
+            _ = self.geocode_resource(entry.get("resource", {}), overwrite=True)
 
         return bundle

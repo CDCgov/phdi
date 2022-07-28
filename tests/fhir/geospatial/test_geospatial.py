@@ -1,7 +1,4 @@
-from phdi.fhir.geospatial.geospatial import (
-    _get_one_line_address,
-    _store_lat_long_extension,
-)
+from phdi.fhir.geospatial import FhirGeocodeClient
 
 import json
 import pathlib
@@ -17,7 +14,10 @@ def test_get_one_line_address():
     )
     patient = bundle["entry"][1]["resource"]
     result_address = "123 Fake St Unit #F Faketon, NY 10001-0001"
-    assert _get_one_line_address(patient.get("address", [])[0]) == result_address
+    assert (
+        FhirGeocodeClient._get_one_line_address(patient.get("address", [])[0])
+        == result_address
+    )
 
 
 def test_store_lat_long():
@@ -30,7 +30,7 @@ def test_store_lat_long():
     )
     patient = bundle["entry"][1]["resource"]
     address = patient.get("address", {})[0]
-    _store_lat_long_extension(address, 40.032, -64.987)
+    FhirGeocodeClient._store_lat_long_extension(address, 40.032, -64.987)
     assert address["extension"] is not None
 
     stored_both = False

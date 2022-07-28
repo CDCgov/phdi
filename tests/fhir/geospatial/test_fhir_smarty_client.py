@@ -1,9 +1,5 @@
-from phdi.fhir.geospatial.smarty import SmartyGeocodeClient
-from phdi.geospatial.geospatial import GeocodeResult
-
-from smartystreets_python_sdk.us_street.candidate import Candidate
-from smartystreets_python_sdk.us_street.metadata import Metadata
-from smartystreets_python_sdk.us_street.components import Components
+from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
+from phdi.geospatial import GeocodeResult
 
 from unittest import mock
 import json
@@ -14,27 +10,8 @@ import copy
 def test_geocode_resource():
     auth_id = mock.Mock()
     auth_token = mock.Mock()
-    smarty_client = SmartyGeocodeClient(auth_id, auth_token)
-    assert smarty_client.client is not None
-
-    candidate = Candidate({})
-    candidate.delivery_line_1 = "123 FAKE ST"
-    candidate.metadata = Metadata(
-        {
-            "latitude": 45.123,
-            "longitude": -70.234,
-            "county_fips": "36061",
-            "county_name": "New York",
-            "precision": "Zip9",
-        }
-    )
-    candidate.components = Components(
-        {"zipcode": "10001", "city_name": "New York", "state_abbreviation": "NY"}
-    )
-
-    # Provide a function that adds results to the existing object
-    def fill_in_result(*args, **kwargs):
-        args[0].result = [candidate]
+    smarty_client = SmartyFhirGeocodeClient(auth_id, auth_token)
+    assert smarty_client.geocode_client is not None
 
     geocoded_response = GeocodeResult(
         street=["123 FAKE ST"],
@@ -73,37 +50,17 @@ def test_geocode_resource():
         }
     )
 
-    smarty_client.client.send_lookup = mock.Mock()
-    smarty_client.client.send_lookup.side_effect = fill_in_result
-
+    smarty_client.geocode_client.geocode_from_str = mock.Mock()
+    smarty_client.geocode_client.geocode_from_str.return_value = geocoded_response
     assert standardized_patient == smarty_client.geocode_resource(patient)
-    smarty_client.client.send_lookup.assert_called()
+    smarty_client.geocode_client.geocode_from_str.assert_called()
 
 
 def test_geocode_bundle():
     auth_id = mock.Mock()
     auth_token = mock.Mock()
-    smarty_client = SmartyGeocodeClient(auth_id, auth_token)
-    assert smarty_client.client is not None
-
-    candidate = Candidate({})
-    candidate.delivery_line_1 = "123 FAKE ST"
-    candidate.metadata = Metadata(
-        {
-            "latitude": 45.123,
-            "longitude": -70.234,
-            "county_fips": "36061",
-            "county_name": "New York",
-            "precision": "Zip9",
-        }
-    )
-    candidate.components = Components(
-        {"zipcode": "10001", "city_name": "New York", "state_abbreviation": "NY"}
-    )
-
-    # Provide a function that adds results to the existing object
-    def fill_in_result(*args, **kwargs):
-        args[0].result = [candidate]
+    smarty_client = SmartyFhirGeocodeClient(auth_id, auth_token)
+    assert smarty_client.geocode_client is not None
 
     geocoded_response = GeocodeResult(
         street=["123 FAKE ST"],
@@ -142,8 +99,7 @@ def test_geocode_bundle():
         }
     )
 
-    smarty_client.client.send_lookup = mock.Mock()
-    smarty_client.client.send_lookup.side_effect = fill_in_result
-
+    smarty_client.geocode_client.geocode_from_str = mock.Mock()
+    smarty_client.geocode_client.geocode_from_str.return_value = geocoded_response
     assert standardized_bundle == smarty_client.geocode_bundle(bundle)
-    smarty_client.client.send_lookup.assert_called()
+    smarty_client.geocode_client.geocode_from_str.assert_called()

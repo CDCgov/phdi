@@ -1,10 +1,10 @@
-from phdi.geospatial.geospatial import GeocodeClient, GeocodeResult
+from phdi.geospatial import GeocodeClient, GeocodeResult
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
 
-from typing import Union
+from typing import List, Union
 
 
 class SmartyGeocodeClient(GeocodeClient):
@@ -14,14 +14,14 @@ class SmartyGeocodeClient(GeocodeClient):
     in order to build a street lookup client.
     """
 
-    def __init__(self, auth_id, auth_token):
+    def __init__(
+        self, auth_id: str, auth_token: str, licenses: List[str] = ["us-standard-cloud"]
+    ):
         self.auth_id = auth_id
         self.auth_token = auth_token
         creds = StaticCredentials(auth_id, auth_token)
         self.__client = (
-            ClientBuilder(creds)
-            .with_licenses(["us-standard-cloud"])
-            .build_us_street_api_client()
+            ClientBuilder(creds).with_licenses(licenses).build_us_street_api_client()
         )
 
     @property
@@ -36,6 +36,8 @@ class SmartyGeocodeClient(GeocodeClient):
         to precisely geocode the address, so no result is returned.
 
         :param address: The address to geocode, given as a string
+        :return: A GeocodeResult containing address information, if lookup was
+          successful. Otherwise, None.
         """
         lookup = Lookup(street=address)
         self.__client.send_lookup(lookup)
@@ -52,7 +54,9 @@ class SmartyGeocodeClient(GeocodeClient):
             apartment: apartment or suite number (if needed)
             city: city to geocode
             state: state to geocode
-            zip: the postal code to use
+            postal_code: the postal code to use
+            urbanization: urbanization code for area, sector, or regional
+              development (only used for Puerto Rican addresses)
 
         There is no minimum number of fields that must be specified to use this
         function; however, a minimum of street, city, and state are suggested
@@ -60,6 +64,8 @@ class SmartyGeocodeClient(GeocodeClient):
         GeocodeResult object and returned, otherwise the function returns None.
 
         :param address: a dictionary with fields outlined above
+        :return: A GeocodeResult containing address information, if lookup was
+          successful. Otherwise, None.
         """
 
         # Configure the lookup with whatever provided address values
@@ -70,7 +76,8 @@ class SmartyGeocodeClient(GeocodeClient):
         lookup.secondary = address.get("apartment", "")
         lookup.city = address.get("city", "")
         lookup.state = address.get("state", "")
-        lookup.zipcode = address.get("zip", "")
+        lookup.zipcode = address.get("postal_code", "")
+        lookup.urbanization = address.get("urbanization", "")
         lookup.match = "strict"
 
         # Geocode and return
@@ -84,6 +91,9 @@ def _parse_smarty_result(lookup):
     our standardized GeocodeResult class.
 
     :param lookup: The us_street.lookup client instantiated for geocoding
+    :return: A GeocodeResult containing address information, if the given
+      lookup contains a non-null result that includes latitude and
+      longitude information. Otherwise, None.
     """
     # Valid responses have results with lat/long
     if lookup.result and lookup.result[0].metadata.latitude:
