@@ -20,6 +20,16 @@ class SmartyFhirGeocodeClient(FhirGeocodeClient):
 
     @property
     def geocode_client(self) -> us_street.Client:
+        """
+        This property:
+          1. defines a private instance variable __client
+          2. makes it accessible through the use of .client()
+        This property holds an instance of the base SmartyGeocodeClient,
+        which allows the FHIR wrapper to access a SmartyStreets-
+        specific connection client without instantiating its own
+        copy. It also provides access to the respective geocode_from_str
+        and geocode_from_dict methods if they're desired.
+        """
         return self.__client
 
     def geocode_resource(self, resource: dict, overwrite=True) -> dict:
@@ -56,10 +66,10 @@ class SmartyFhirGeocodeClient(FhirGeocodeClient):
 
             # Update fields with new, standardized information
             if standardized_address:
-                address["line"] = standardized_address.street
+                address["line"] = standardized_address.line
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
-                address["postalCode"] = standardized_address.zipcode
+                address["postalCode"] = standardized_address.postal_code
                 self._store_lat_long_extension(
                     address, standardized_address.lat, standardized_address.lng
                 )

@@ -12,24 +12,6 @@ class FhirGeocodeClient(ABC):
     the underlying vendor-specific client property.
     """
 
-    @property
-    @abstractmethod
-    def geocode_client(self):
-        """
-        Since abstract base classes in python don't conventionally define
-        instance variables (because they lack constructors), this abstract
-        property does the following for implementing classes:
-          1. defines a private instance variable __geocode_client to hold
-             the base vendor-specific client; this client will be accessible
-             in implementing functions
-          2. makes it accessible through the use of .geocode_client()
-        This instance variable will hold whatever vendor-specific client
-        is instantiated by implementing classes so that they can perform
-        geocoding without referencing the underlying client that connects
-        to the vendor service.
-        """
-        pass
-
     @abstractmethod
     def geocode_resource(self, resource: dict) -> dict:
         """

@@ -26,6 +26,14 @@ class SmartyGeocodeClient(GeocodeClient):
 
     @property
     def client(self) -> us_street.Client:
+        """
+        This property:
+          1. defines a private instance variable __client
+          2. makes it accessible through the use of .client()
+        This property holds a SmartyStreets-specific connection client
+        allows a user to geocode without directly referencing the
+        underlying vendor service client.
+        """
         return self.__client
 
     def geocode_from_str(self, address: str) -> Union[GeocodeResult, None]:
@@ -41,7 +49,7 @@ class SmartyGeocodeClient(GeocodeClient):
         """
         lookup = Lookup(street=address)
         self.__client.send_lookup(lookup)
-        return _parse_smarty_result(lookup)
+        return self._parse_smarty_result(lookup)
 
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
         """
@@ -82,37 +90,37 @@ class SmartyGeocodeClient(GeocodeClient):
 
         # Geocode and return
         self.__client.send_lookup(lookup)
-        return _parse_smarty_result(lookup)
+        return self._parse_smarty_result(lookup)
 
+    @staticmethod
+    def _parse_smarty_result(lookup):
+        """
+        Private helper function to parse a returned Smarty geocoding result into
+        our standardized GeocodeResult class.
 
-def _parse_smarty_result(lookup):
-    """
-    Private helper function to parse a returned Smarty geocoding result into
-    our standardized GeocodeResult class.
+        :param lookup: The us_street.lookup client instantiated for geocoding
+        :return: A GeocodeResult containing address information, if the given
+        lookup contains a non-null result that includes latitude and
+        longitude information. Otherwise, None.
+        """
+        # Valid responses have results with lat/long
+        if lookup.result and lookup.result[0].metadata.latitude:
+            smartystreets_result = lookup.result[0]
+            street_address = [smartystreets_result.delivery_line_1]
+            if smartystreets_result.delivery_line_2:
+                street_address.append(smartystreets_result.delivery_line_2)
 
-    :param lookup: The us_street.lookup client instantiated for geocoding
-    :return: A GeocodeResult containing address information, if the given
-      lookup contains a non-null result that includes latitude and
-      longitude information. Otherwise, None.
-    """
-    # Valid responses have results with lat/long
-    if lookup.result and lookup.result[0].metadata.latitude:
-        smartystreets_result = lookup.result[0]
-        street_address = [smartystreets_result.delivery_line_1]
-        if smartystreets_result.delivery_line_2:
-            street_address.append(smartystreets_result.delivery_line_2)
+            # Format the Smarty result into our standard dataclass object
+            return GeocodeResult(
+                line=street_address,
+                city=smartystreets_result.components.city_name,
+                state=smartystreets_result.components.state_abbreviation,
+                postal_code=smartystreets_result.components.zipcode,
+                county_fips=smartystreets_result.metadata.county_fips,
+                county_name=smartystreets_result.metadata.county_name,
+                lat=smartystreets_result.metadata.latitude,
+                lng=smartystreets_result.metadata.longitude,
+                precision=smartystreets_result.metadata.precision,
+            )
 
-        # Format the Smarty result into our standard dataclass object
-        return GeocodeResult(
-            street=street_address,
-            city=smartystreets_result.components.city_name,
-            state=smartystreets_result.components.state_abbreviation,
-            zipcode=smartystreets_result.components.zipcode,
-            county_fips=smartystreets_result.metadata.county_fips,
-            county_name=smartystreets_result.metadata.county_name,
-            lat=smartystreets_result.metadata.latitude,
-            lng=smartystreets_result.metadata.longitude,
-            precision=smartystreets_result.metadata.precision,
-        )
-
-    return
+        return

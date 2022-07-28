@@ -14,14 +14,14 @@ def test_geocode_resource():
     assert smarty_client.geocode_client is not None
 
     geocoded_response = GeocodeResult(
-        street=["123 FAKE ST"],
+        line=["123 FAKE ST"],
         city="New York",
         state="NY",
         lat=45.123,
         lng=-70.234,
         county_fips="36061",
         county_name="New York",
-        zipcode="10001",
+        postal_code="10001",
         precision="Zip9",
     )
 
@@ -35,10 +35,10 @@ def test_geocode_resource():
     patient = bundle["entry"][1]["resource"]
     standardized_patient = copy.deepcopy(patient)
     address = standardized_patient["address"][0]
-    address["line"] = geocoded_response.street
+    address["line"] = geocoded_response.line
     address["city"] = geocoded_response.city
     address["state"] = geocoded_response.state
-    address["postalCode"] = geocoded_response.zipcode
+    address["postalCode"] = geocoded_response.postal_code
     address["extension"] = []
     address["extension"].append(
         {
@@ -63,14 +63,14 @@ def test_geocode_bundle():
     assert smarty_client.geocode_client is not None
 
     geocoded_response = GeocodeResult(
-        street=["123 FAKE ST"],
+        line=["123 FAKE ST"],
         city="New York",
         state="NY",
         lat=45.123,
         lng=-70.234,
         county_fips="36061",
         county_name="New York",
-        zipcode="10001",
+        postal_code="10001",
         precision="Zip9",
     )
 
@@ -84,10 +84,10 @@ def test_geocode_bundle():
     standardized_bundle = copy.deepcopy(bundle)
     patient = standardized_bundle["entry"][1]["resource"]
     address = patient["address"][0]
-    address["line"] = geocoded_response.street
+    address["line"] = geocoded_response.line
     address["city"] = geocoded_response.city
     address["state"] = geocoded_response.state
-    address["postalCode"] = geocoded_response.zipcode
+    address["postalCode"] = geocoded_response.postal_code
     address["extension"] = []
     address["extension"].append(
         {

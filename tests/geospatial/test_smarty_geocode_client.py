@@ -1,8 +1,5 @@
 from phdi.geospatial import GeocodeResult
-from phdi.geospatial.smarty import (
-    _parse_smarty_result,
-    SmartyGeocodeClient,
-)
+from phdi.geospatial.smarty import SmartyGeocodeClient
 
 from smartystreets_python_sdk.us_street.candidate import Candidate
 from smartystreets_python_sdk.us_street.metadata import Metadata
@@ -31,23 +28,23 @@ def test_parse_smarty_result_success():
 
     lookup = mock.Mock()
     lookup.result = [candidate]
-    encoded_result = _parse_smarty_result(lookup)
+    encoded_result = SmartyGeocodeClient._parse_smarty_result(lookup)
 
-    assert encoded_result.street == ["123 FAKE ST"]
+    assert encoded_result.line == ["123 FAKE ST"]
     assert encoded_result.city == "New York"
     assert encoded_result.state == "NY"
     assert encoded_result.lat == 45.123
     assert encoded_result.lng == -70.234
     assert encoded_result.county_fips == "36061"
     assert encoded_result.county_name == "New York"
-    assert encoded_result.zipcode == "10001"
+    assert encoded_result.postal_code == "10001"
     assert encoded_result.precision == "Zip9"
 
 
 def test_parse_smarty_result_failure():
     lookup = mock.Mock()
     lookup.result = None
-    assert _parse_smarty_result(lookup) is None
+    assert SmartyGeocodeClient._parse_smarty_result(lookup) is None
 
     candidate = Candidate({})
     candidate.delivery_line_1 = "123 FAKE ST"
@@ -59,7 +56,7 @@ def test_parse_smarty_result_failure():
         }
     )
     lookup.result = [candidate]
-    assert _parse_smarty_result(lookup) is None
+    assert SmartyGeocodeClient._parse_smarty_result(lookup) is None
 
 
 def test_geocode_from_str():
@@ -92,14 +89,14 @@ def test_geocode_from_str():
     smarty_client.client.send_lookup.side_effect = fill_in_result
 
     geocoded_response = GeocodeResult(
-        street=["123 FAKE ST"],
+        line=["123 FAKE ST"],
         city="New York",
         state="NY",
         lat=45.123,
         lng=-70.234,
         county_fips="36061",
         county_name="New York",
-        zipcode="10001",
+        postal_code="10001",
         precision="Zip9",
     )
 
@@ -138,14 +135,14 @@ def test_geocode_from_dict():
     smarty_client.client.send_lookup.side_effect = fill_in_result
 
     geocoded_response = GeocodeResult(
-        street=["123 FAKE ST"],
+        line=["123 FAKE ST"],
         city="New York",
         state="NY",
         lat=45.123,
         lng=-70.234,
         county_fips="36061",
         county_name="New York",
-        zipcode="10001",
+        postal_code="10001",
         precision="Zip9",
     )
 
