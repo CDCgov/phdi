@@ -70,7 +70,7 @@ def standardize_text(raw_text: str, **kwargs) -> str:
     Perform standardization on a provided text string, given a set of transformations.
 
     :param raw_text: The raw text string to standardize
-    :param \*\*kwargs: A series of transformations that should be applied to the text
+    :param ``**kwargs``: A series of transformations that should be applied to the text
         string. Only recognized transformations will be utilized; all other specified
         transformations will be ignore. The recognized transformations are as follows:
         - trim (Bool): Indicates if leading and trailing whitespace should be removed.
