@@ -38,7 +38,7 @@ def get_geocoder_result(
 
     :param address: The address to perform a geocoding lookup for
     :param client: the SmartyStreets API Client suitable for use with street addresses
-    in the US
+        in the US
     """
 
     lookup = Lookup(street=address)

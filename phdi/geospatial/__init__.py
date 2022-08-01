@@ -56,7 +56,7 @@ class GeocodeClient(ABC):
             state: state to geocode
             postal_code: the postal code to use
             urbanization: urbanization code for area, sector, or regional
-              development (only used for Puerto Rican addresses)
+            development (only used for Puerto Rican addresses)
 
         There is no minimum number of fields that must be specified to use this
         function; however, a minimum of street, city, and state are suggested

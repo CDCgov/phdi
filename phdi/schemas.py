@@ -121,7 +121,7 @@ def make_table(
     :param output_format: A string indicating the file format to be used.
     :param fhir_url: URL to a FHIR server.
     :param cred_manager: Service used to get an access token used to make a
-    request.
+        request.
     """
     output_path.mkdir(parents=True, exist_ok=True)
     for resource_type in schema:
@@ -183,11 +183,11 @@ def make_schema_tables(
 
     :param schema_path: A path to the location of a YAML schema config file.
     :param base_output_path: A path to the directory where tables of the schema should
-    be written.
+        be written.
     :param output_format: Specifies the file format of the tables to be generated.
     :param fhir_url: URL to a FHIR server.
     :param cred_manager: Service used to get an access token used to make a
-    request.
+        request.
     """
 
     schema = load_schema(schema_path)
@@ -207,13 +207,13 @@ def write_schema_table(
     Write data extracted from the FHIR Server to a file.
 
     :param data: A list of dictionaries specifying the data for each row of a table
-    where the keys of each dict correspond to the columns, and the values contain the
-    data for each entry in a row.
+        where the keys of each dict correspond to the columns, and the values contain
+        the data for each entry in a row.
     :param output_file_name: Full name for the file where the table is to be written.
     :param output_format: Specifies the file format of the table to be written.
     :param writer: A writer object that can be kept open between calls of this function
-    to support file formats that cannot be appended to after being written
-    (e.g. parquet).
+        to support file formats that cannot be appended to after being written
+        (e.g. parquet).
     """
 
     if file_format == "parquet":
@@ -243,7 +243,7 @@ def print_schema_summary(
 
     :param schema_directory: Path specifying location of schema tables.
     :param display_head: Print the head of each table when true. Note depending on the
-    file format this may require reading large amounts of data into memory.
+        file format this may require reading large amounts of data into memory.
     """
     for (directory_path, _, file_names) in os.walk(schema_directory):
         for file_name in file_names:

@@ -24,6 +24,7 @@ class SmartyFhirGeocodeClient(FhirGeocodeClient):
         This property:
           1. defines a private instance variable __client
           2. makes it accessible through the use of .client()
+
         This property holds an instance of the base SmartyGeocodeClient,
         which allows the FHIR wrapper to access a SmartyStreets-
         specific connection client without instantiating its own
