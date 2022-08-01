@@ -97,7 +97,7 @@ def export_from_fhir_server(
     before shutting down the request.
 
     :param cred_manager: Service used to get an access token used to make a
-    request.
+        request.
     :param fhir_url: FHIR Server base URL
     :param export_scope: Either `Patient` or `Group/[id]` as specified in the FHIR
         spec
@@ -177,9 +177,9 @@ def _compose_export_url(
     :param fhir_url: The url of the FHIR server to export from
     :param export_scope: The data we want back (e.g. Patients)
     :param since: We'll get all FHIR resources that have been updated
-    since this given timestamp
+        since this given timestamp
     :param resource_type: Comma-delimited list of resource types we want
-    back
+        back
     :param container: The container where we want to store the uploaded
     files
     """
@@ -259,7 +259,7 @@ def export_from_fhir_server_poll(
 
     :param poll_url: URL to poll for export information
     :param cred_manager: Service used to get an access token used to make a
-    request.
+        request.
     :param poll_step: the number of seconds to wait between poll requests, waiting
         for export files to be generated. defaults to 30
     :param poll_timeout: the maximum number of seconds to wait for export files to
@@ -332,7 +332,7 @@ def fhir_server_get(
 
     :param url: URL specifying a GET request on a FHIR server.
     :param cred_manager: Service used to get an access token used to make a
-    request.
+        request.
     """
     access_token = cred_manager.get_access_token().token
     # Open connection to the export operation and kickoff process
