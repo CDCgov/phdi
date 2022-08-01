@@ -53,23 +53,9 @@ class SmartyGeocodeClient(GeocodeClient):
 
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
         """
-        Geocodes a dictionary-formatted address using SmartyStreets. The given
-        dictionary should conform to standard nomenclature around address fields,
-        including:
-
-            street: the number and street address
-            street2: additional street level information (if needed)
-            apartment: apartment or suite number (if needed)
-            city: city to geocode
-            state: state to geocode
-            postal_code: the postal code to use
-            urbanization: urbanization code for area, sector, or regional
-              development (only used for Puerto Rican addresses)
-
-        There is no minimum number of fields that must be specified to use this
-        function; however, a minimum of street, city, and state are suggested
-        for the best matches. If a result is found, it is encoded as a
-        GeocodeResult object and returned, otherwise the function returns None.
+        Geocodes a dictionary-formatted address using SmartyStreets.
+        If a result is found, it is encoded as a GeocodeResult object and
+        returned, otherwise the function returns None.
 
         :param address: a dictionary with fields outlined above
         :return: A GeocodeResult containing address information, if lookup was

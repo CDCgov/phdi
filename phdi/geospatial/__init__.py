@@ -45,6 +45,21 @@ class GeocodeClient(ABC):
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
         """
         Function that uses the implementing client to perform geocoding
-        on the provided address, which is given as a dictionary.
+        on the provided address, which is given as a dictionary. The given
+        dictionary should conform to standard nomenclature around address
+        fields, including:
+
+            street: the number and street address
+            street2: additional street level information (if needed)
+            apartment: apartment or suite number (if needed)
+            city: city to geocode
+            state: state to geocode
+            postal_code: the postal code to use
+            urbanization: urbanization code for area, sector, or regional
+              development (only used for Puerto Rican addresses)
+
+        There is no minimum number of fields that must be specified to use this
+        function; however, a minimum of street, city, and state are suggested
+        for the best matches.
         """
         pass
