@@ -30,6 +30,7 @@ class SmartyGeocodeClient(GeocodeClient):
         This property:
           1. defines a private instance variable __client
           2. makes it accessible through the use of .client()
+
         This property holds a SmartyStreets-specific connection client
         allows a user to geocode without directly referencing the
         underlying vendor service client.

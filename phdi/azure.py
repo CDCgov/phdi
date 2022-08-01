@@ -31,7 +31,7 @@ class AzureFhirServerCredentialManager:
         Otherwise, request a new one.
 
         :param token_reuse_tolerance: Number of seconds before expiration; it
-        is okay to reuse the currently assigned token
+            is okay to reuse the currently assigned token
         """
         if not self._need_new_token(token_reuse_tolerance):
             return self.access_token
@@ -150,15 +150,15 @@ def store_message_and_response(
 
         :param container_url: The url at which to access the container
         :param prefix: The "filepath" prefix used to navigate the
-        virtual directories to the output container
+            virtual directories to the output container
         :param bundle_type: The type of data being written
         :param message_filename: The file name to use to store the message
-        in blob storage
+            in blob storage
         :param response_filename: The file name to use to store the response content
-        in blob storage
+            in blob storage
         :param message: The content of a message encoded as a string.
         :param response: HTTP response information from a transaction related to the
-        `message`.
+            `message`.
     """
     try:
         # First attempt is storing the message directly in the

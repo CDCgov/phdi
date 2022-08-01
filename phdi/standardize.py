@@ -26,7 +26,7 @@ def standardize_patient_names(
     :param: case: Specifies the casing that should be used for the name.
     :param: remove_numbers: Indicates if numbers should be removed from the name.
     :param overwrite: Indicates whether the original data should be overwritten with
-    the transformed values.
+        the transformed values.
     """
     # Copy the data if we don't want to overwrite the original
     if not overwrite:
