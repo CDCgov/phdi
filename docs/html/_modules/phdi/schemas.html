@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>phdi.schemas &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for phdi.schemas</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">fhirpathpy</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
+<span class="kn">import</span> <span class="nn">pyarrow.parquet</span> <span class="k">as</span> <span class="nn">pq</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">phdi.azure</span> <span class="kn">import</span> <span class="n">AzureFhirServerCredentialManager</span>
+<span class="kn">from</span> <span class="nn">phdi.fhir</span> <span class="kn">import</span> <span class="n">fhir_server_get</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+
+
+<div class="viewcode-block" id="load_schema"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.schemas.load_schema">[docs]</a><span class="k">def</span> <span class="nf">load_schema</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the path to local YAML files containing a user-defined schema read the file</span>
+<span class="sd">    and return the schema as a dictionary.</span>
+
+<span class="sd">    :param path: Path specifying the location of a YAML file containing a schema.</span>
+<span class="sd">    :return schema: A user-defined schema</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">schema</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="apply_selection_criteria"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.schemas.apply_selection_criteria">[docs]</a><span class="k">def</span> <span class="nf">apply_selection_criteria</span><span class="p">(</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">selection_criteria</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of values parsed from a FHIR resource, return value(s) according to the</span>
+<span class="sd">    selection criteria. In general a single value is returned, but when</span>
+<span class="sd">    selection_criteria is set to &quot;all&quot; a list containing all of the parsed values is</span>
+<span class="sd">    returned.</span>
+
+<span class="sd">    :param value: A list containing the values parsed from a FHIR resource.</span>
+<span class="sd">    :param selection_criteria: A string indicating which element(s) of a list to select.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">selection_criteria</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">selection_criteria</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">selection_criteria</span> <span class="o">==</span> <span class="s2">&quot;random&quot;</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># Temporary hack to ensure no structured data is written using pyarrow.</span>
+    <span class="c1"># Currently Pyarrow does not support mixing non-structured and structured data.</span>
+    <span class="c1"># https://github.com/awslabs/aws-data-wrangler/issues/463</span>
+    <span class="c1"># Will need to consider other methods of writing to parquet if this is an essential</span>
+    <span class="c1"># feature.</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span></div>
+
+
+<span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">__get_fhirpathpy_parser</span><span class="p">(</span><span class="n">fhirpath_expression</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes</span>
+<span class="sd">    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given</span>
+<span class="sd">    `fhirpath_expression`</span>
+
+<span class="sd">    :param fhirpath_expression: The FHIRPath expression to evaluate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">fhirpathpy</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fhirpath_expression</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="apply_schema_to_resource"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.schemas.apply_schema_to_resource">[docs]</a><span class="k">def</span> <span class="nf">apply_schema_to_resource</span><span class="p">(</span><span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a resource and a schema, return a dictionary with values of the data</span>
+<span class="sd">    specified by the schema and associated keys defined by the variable name provided</span>
+<span class="sd">    by the schema.</span>
+
+<span class="sd">    :param resource: A FHIR resource on which to apply a schema.</span>
+<span class="sd">    :param schema: A schema specifying the desired values by FHIR resource type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">resource_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resourceType&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">resource_schema</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">resource_schema</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;fhir_path&quot;</span><span class="p">]</span>
+
+        <span class="n">parse_function</span> <span class="o">=</span> <span class="n">__get_fhirpathpy_parser</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">parse_function</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;new_name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selection_criteria</span> <span class="o">=</span> <span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;selection_criteria&quot;</span><span class="p">]</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">apply_selection_criteria</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">selection_criteria</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;new_name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="make_table"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.schemas.make_table">[docs]</a><span class="k">def</span> <span class="nf">make_table</span><span class="p">(</span>
+    <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">],</span>
+    <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureFhirServerCredentialManager</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the schema for a single table, make the table.</span>
+
+<span class="sd">    :param schema: A schema specifying the desired values by FHIR resource type.</span>
+<span class="sd">    :param output_path: A path specifying where the table should be written.</span>
+<span class="sd">    :param output_format: A string indicating the file format to be used.</span>
+<span class="sd">    :param fhir_url: URL to a FHIR server.</span>
+<span class="sd">    :param cred_manager: Service used to get an access token used to make a</span>
+<span class="sd">        request.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">resource_type</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">:</span>
+
+        <span class="n">output_file_name</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">output_format</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># TODO: make _count (and other query parameters) configurable</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s2">?_count=1000&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">fhir_url</span> <span class="o">+</span> <span class="n">query</span>
+
+        <span class="n">writer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">next_page</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">next_page</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">fhir_server_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Load queried data.</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Extract values specified by schema from each resource.</span>
+            <span class="c1"># values_from_resource is a dictionary of the form:</span>
+            <span class="c1"># {field1:value1, field2:value2, ...}.</span>
+
+            <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">query_result</span><span class="p">[</span><span class="s2">&quot;entry&quot;</span><span class="p">]:</span>
+                <span class="n">values_from_resource</span> <span class="o">=</span> <span class="n">apply_schema_to_resource</span><span class="p">(</span>
+                    <span class="n">resource</span><span class="p">[</span><span class="s2">&quot;resource&quot;</span><span class="p">],</span> <span class="n">schema</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">values_from_resource</span> <span class="o">!=</span> <span class="p">{}:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values_from_resource</span><span class="p">)</span>
+
+            <span class="c1"># Write data to file.</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">write_schema_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">output_format</span><span class="p">,</span> <span class="n">writer</span><span class="p">)</span>
+
+            <span class="c1"># Check for an additional page of query results.</span>
+            <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">query_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;relation&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;next&quot;</span><span class="p">:</span>
+                    <span class="n">url</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">next_page</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">writer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="make_schema_tables"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.schemas.make_schema_tables">[docs]</a><span class="k">def</span> <span class="nf">make_schema_tables</span><span class="p">(</span>
+    <span class="n">schema_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">base_output_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">],</span>
+    <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureFhirServerCredentialManager</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the url for a FHIR server, the location of a schema file, and and output</span>
+<span class="sd">    directory generate the specified schema and store the tables in the desired</span>
+<span class="sd">    location.</span>
+
+<span class="sd">    :param schema_path: A path to the location of a YAML schema config file.</span>
+<span class="sd">    :param base_output_path: A path to the directory where tables of the schema should</span>
+<span class="sd">        be written.</span>
+<span class="sd">    :param output_format: Specifies the file format of the tables to be generated.</span>
+<span class="sd">    :param fhir_url: URL to a FHIR server.</span>
+<span class="sd">    :param cred_manager: Service used to get an access token used to make a</span>
+<span class="sd">        request.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">load_schema</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">base_output_path</span> <span class="o">/</span> <span class="n">table</span>
+        <span class="n">make_table</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="n">table</span><span class="p">],</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">output_format</span><span class="p">,</span> <span class="n">fhir_url</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_schema_table"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.schemas.write_schema_table">[docs]</a><span class="k">def</span> <span class="nf">write_schema_table</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="n">output_file_name</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">file_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">],</span>
+    <span class="n">writer</span><span class="p">:</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetWriter</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write data extracted from the FHIR Server to a file.</span>
+
+<span class="sd">    :param data: A list of dictionaries specifying the data for each row of a table</span>
+<span class="sd">        where the keys of each dict correspond to the columns, and the values contain</span>
+<span class="sd">        the data for each entry in a row.</span>
+<span class="sd">    :param output_file_name: Full name for the file where the table is to be written.</span>
+<span class="sd">    :param output_format: Specifies the file format of the table to be written.</span>
+<span class="sd">    :param writer: A writer object that can be kept open between calls of this function</span>
+<span class="sd">        to support file formats that cannot be appended to after being written</span>
+<span class="sd">        (e.g. parquet).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;parquet&quot;</span><span class="p">:</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_pylist</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">writer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetWriter</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> <span class="n">table</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">write_table</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">writer</span>
+
+    <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">new_file</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span> <span class="k">else</span> <span class="kc">True</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+            <span class="n">dict_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_file</span><span class="p">:</span>
+                <span class="n">dict_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+            <span class="n">dict_writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="print_schema_summary"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.schemas.print_schema_summary">[docs]</a><span class="k">def</span> <span class="nf">print_schema_summary</span><span class="p">(</span>
+    <span class="n">schema_directory</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">display_head</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a directory containing tables of the specified file format, print a summary of</span>
+<span class="sd">    each table.</span>
+
+<span class="sd">    :param schema_directory: Path specifying location of schema tables.</span>
+<span class="sd">    :param display_head: Print the head of each table when true. Note depending on the</span>
+<span class="sd">        file format this may require reading large amounts of data into memory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">file_names</span><span class="p">)</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">schema_directory</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;parquet&quot;</span><span class="p">):</span>
+                <span class="c1"># Read metadata from parquet file without loading the actual data.</span>
+                <span class="n">parquet_file</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetFile</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">directory_path</span><span class="p">)</span> <span class="o">/</span> <span class="n">file_name</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">parquet_file</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+
+                <span class="c1"># Read data from parquet and convert to pandas data frame.</span>
+                <span class="k">if</span> <span class="n">display_head</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">parquet_table</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">directory_path</span><span class="p">)</span> <span class="o">/</span> <span class="n">file_name</span><span class="p">)</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">parquet_table</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">file_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csv_file</span><span class="p">:</span>
+                    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">dialect</span><span class="o">=</span><span class="s2">&quot;excel&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">))</span>
+                    <span class="k">return</span> <span class="s2">&quot;hi&quot;</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Public Health Data Infrastructure (PHDI)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

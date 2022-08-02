@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>phdi.azure &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for phdi.azure</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="kn">from</span> <span class="nn">azure.core.credentials</span> <span class="kn">import</span> <span class="n">AccessToken</span>
+<span class="kn">from</span> <span class="nn">azure.core.exceptions</span> <span class="kn">import</span> <span class="n">ResourceExistsError</span>
+<span class="kn">from</span> <span class="nn">azure.identity</span> <span class="kn">import</span> <span class="n">DefaultAzureCredential</span>
+<span class="kn">from</span> <span class="nn">azure.storage.blob</span> <span class="kn">import</span> <span class="n">ContainerClient</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">phdi.utils</span> <span class="kn">import</span> <span class="n">http_request_with_retry</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">Response</span>
+
+
+<div class="viewcode-block" id="AzureFhirServerCredentialManager"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager">[docs]</a><span class="k">class</span> <span class="nc">AzureFhirServerCredentialManager</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that manages handling Azure credentials for access to the FHIR server.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fhir_url</span> <span class="o">=</span> <span class="n">fhir_url</span>
+
+<div class="viewcode-block" id="AzureFhirServerCredentialManager.get_fhir_url"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager.get_fhir_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_fhir_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fhir_url</span></div>
+
+<div class="viewcode-block" id="AzureFhirServerCredentialManager.get_access_token"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager.get_access_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_reuse_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccessToken</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtain an access token for the FHIR server the manager is pointed at.</span>
+<span class="sd">        If the token is already set for this object and is not about to expire</span>
+<span class="sd">        (within token_reuse_tolerance parameter), then return the existing token.</span>
+<span class="sd">        Otherwise, request a new one.</span>
+
+<span class="sd">        :param token_reuse_tolerance: Number of seconds before expiration; it</span>
+<span class="sd">            is okay to reuse the currently assigned token</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_need_new_token</span><span class="p">(</span><span class="n">token_reuse_tolerance</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span>
+
+        <span class="c1"># Obtain a new token if ours is going to expire soon</span>
+        <span class="n">creds</span> <span class="o">=</span> <span class="n">DefaultAzureCredential</span><span class="p">()</span>
+        <span class="n">scope</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fhir_url</span><span class="si">}</span><span class="s2">/.default&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">creds</span><span class="o">.</span><span class="n">get_token</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span></div>
+
+    <span class="k">def</span> <span class="nf">_need_new_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_reuse_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine whether the token already stored for this object can be reused,</span>
+<span class="sd">        or if it needs to be re-requested.</span>
+
+<span class="sd">        :param token_reuse_tolerance: Number of seconds before expiration</span>
+<span class="sd">        :return: Whether we need a new token (True means we do)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">current_time_utc</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="o">.</span><span class="n">expires_on</span> <span class="o">-</span> <span class="n">token_reuse_tolerance</span>
+            <span class="p">)</span> <span class="o">&lt;</span> <span class="n">current_time_utc</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c1"># access_token not set</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<span class="k">def</span> <span class="nf">_http_request_with_reauth</span><span class="p">(</span>
+    <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureFhirServerCredentialManager</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    First, call :func:`utils.http_request_with_retry`.  If the first call failed</span>
+<span class="sd">    with an authorization error (HTTP status 401), obtain a new token using the</span>
+<span class="sd">    `cred_manager`, and if the original request had an Authorization header, replace</span>
+<span class="sd">    with the new token and re-initiate :func:`utils.http_request_with_retry`.</span>
+
+<span class="sd">    :param cred_manager: credential manager used to obtain a new token, if necessary</span>
+<span class="sd">    :param kwargs: keyword arguments passed to :func:`utils.http_request_with_retry`</span>
+<span class="sd">    this function only supports passing keyword args, not positional args to</span>
+<span class="sd">    http_request_with_retry</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">http_request_with_retry</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Retry with new token in case it expired since creation (or from cache)</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;headers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Bearer &quot;</span><span class="p">):</span>
+            <span class="n">new_access_token</span> <span class="o">=</span> <span class="n">cred_manager</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">()</span><span class="o">.</span><span class="n">token</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">new_access_token</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">http_request_with_retry</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">response</span>
+
+
+<div class="viewcode-block" id="get_blob_client"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.get_blob_client">[docs]</a><span class="k">def</span> <span class="nf">get_blob_client</span><span class="p">(</span><span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContainerClient</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtains a client connected to an Azure storage container by</span>
+<span class="sd">    utilizing the first valid credentials Azure can find. For</span>
+<span class="sd">    more information on the order in which the credentials are</span>
+<span class="sd">    checked, see the Azure documentation:</span>
+<span class="sd">    https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential</span>
+
+<span class="sd">    :param container_url: The url at which to access the container</span>
+<span class="sd">    :return: An Azure container client for the given container</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">creds</span> <span class="o">=</span> <span class="n">DefaultAzureCredential</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ContainerClient</span><span class="o">.</span><span class="n">from_container_url</span><span class="p">(</span><span class="n">container_url</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="store_data"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.store_data">[docs]</a><span class="k">def</span> <span class="nf">store_data</span><span class="p">(</span>
+    <span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">bundle_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">message_json</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stores provided data, which is either a FHIR bundle or an HL7 message,</span>
+<span class="sd">    in an appropriate output container.</span>
+
+<span class="sd">    :param container_url: The url at which to access the container</span>
+<span class="sd">    :param prefix: The &quot;filepath&quot; prefix used to navigate the</span>
+<span class="sd">      virtual directories to the output container</span>
+<span class="sd">    :param filename: The name of the file to write the data to</span>
+<span class="sd">    :param bundle_type: The type of data being written (VXU, ELR, etc)</span>
+<span class="sd">    :param message_json: The content of a message encoded in json format.</span>
+<span class="sd">    :param message: The content of a message encoded as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">get_blob_client</span><span class="p">(</span><span class="n">container_url</span><span class="p">)</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_blob_client</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">/</span> <span class="n">bundle_type</span> <span class="o">/</span> <span class="n">filename</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">message_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">blob</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message_json</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">blob</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="store_message_and_response"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.store_message_and_response">[docs]</a><span class="k">def</span> <span class="nf">store_message_and_response</span><span class="p">(</span>
+    <span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">bundle_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">message_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">response_filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Store information about an incoming message as well as an http response for a</span>
+<span class="sd">    transaction related to that message.  This method can be used to</span>
+<span class="sd">    record a failed response to a transaction related to an inbound transaction for</span>
+<span class="sd">    troubleshooting purposes.</span>
+
+<span class="sd">        :param container_url: The url at which to access the container</span>
+<span class="sd">        :param prefix: The &quot;filepath&quot; prefix used to navigate the</span>
+<span class="sd">            virtual directories to the output container</span>
+<span class="sd">        :param bundle_type: The type of data being written</span>
+<span class="sd">        :param message_filename: The file name to use to store the message</span>
+<span class="sd">            in blob storage</span>
+<span class="sd">        :param response_filename: The file name to use to store the response content</span>
+<span class="sd">            in blob storage</span>
+<span class="sd">        :param message: The content of a message encoded as a string.</span>
+<span class="sd">        :param response: HTTP response information from a transaction related to the</span>
+<span class="sd">            `message`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># First attempt is storing the message directly in the</span>
+        <span class="c1"># invalid messages container</span>
+        <span class="n">store_data</span><span class="p">(</span>
+            <span class="n">container_url</span><span class="o">=</span><span class="n">container_url</span><span class="p">,</span>
+            <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">message_filename</span><span class="p">,</span>
+            <span class="n">bundle_type</span><span class="o">=</span><span class="n">bundle_type</span><span class="p">,</span>
+            <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">ResourceExistsError</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attempted to store preexisting resource: </span><span class="si">{</span><span class="n">message_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Then, try to store the response information</span>
+        <span class="n">store_data</span><span class="p">(</span>
+            <span class="n">container_url</span><span class="o">=</span><span class="n">container_url</span><span class="p">,</span>
+            <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">response_filename</span><span class="p">,</span>
+            <span class="n">bundle_type</span><span class="o">=</span><span class="n">bundle_type</span><span class="p">,</span>
+            <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">ResourceExistsError</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attempted to store preexisting resource: </span><span class="si">{</span><span class="n">response_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Public Health Data Infrastructure (PHDI)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
