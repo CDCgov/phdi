@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>phdi.standardize &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for phdi.standardize</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">phonenumbers</span>
+<span class="kn">import</span> <span class="nn">pycountry</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">phdi.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">find_resource_by_type</span><span class="p">,</span>
+    <span class="n">standardize_text</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+
+<div class="viewcode-block" id="standardize_patient_names"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_patient_names">[docs]</a><span class="k">def</span> <span class="nf">standardize_patient_names</span><span class="p">(</span>
+    <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">trim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">case</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;upper&quot;</span><span class="p">,</span>
+    <span class="n">remove_numbers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a FHIR bundle and a type of standardization to perform,</span>
+<span class="sd">    transform all names in all patients in the bundle. The default</span>
+<span class="sd">    standardization behavior is our defined non-numeric, space-trimming,</span>
+<span class="sd">    full capitalization standardization, but other modes may be specified.</span>
+
+<span class="sd">    :param bundle: The FHIR bundle to standardize patients in</span>
+<span class="sd">    :param trim: Indicates if leading and trailing whitespace should be removed.</span>
+<span class="sd">    :param: case: Specifies the casing that should be used for the name.</span>
+<span class="sd">    :param: remove_numbers: Indicates if numbers should be removed from the name.</span>
+<span class="sd">    :param overwrite: Indicates whether the original data should be overwritten with</span>
+<span class="sd">        the transformed values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Copy the data if we don&#39;t want to overwrite the original</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">bundle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
+
+    <span class="c1"># Handle all patients individually</span>
+    <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">find_resource_by_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">,</span> <span class="s2">&quot;Patient&quot;</span><span class="p">):</span>
+        <span class="n">patient</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
+        <span class="n">standardize_names_for_patient</span><span class="p">(</span>
+            <span class="n">patient</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="n">trim</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="n">case</span><span class="p">,</span> <span class="n">remove_numbers</span><span class="o">=</span><span class="n">remove_numbers</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bundle</span></div>
+
+
+<span class="c1"># TODO In some functions, like standardize_patient_names, we return a bundle, and in</span>
+<span class="c1"># other places we don&#39;t. We should standardize this across the code to make it easier</span>
+<span class="c1"># to read.</span>
+<div class="viewcode-block" id="standardize_names_for_patient"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_names_for_patient">[docs]</a><span class="k">def</span> <span class="nf">standardize_names_for_patient</span><span class="p">(</span><span class="n">patient</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper method to standardize all names associated with a single patient.</span>
+<span class="sd">    Receives a particular standardization function from the calling method</span>
+<span class="sd">    standardize_patient_names. Default behavior is to use the simple</span>
+<span class="sd">    non-numeric, space-trimming, full capitalization standardization.</span>
+
+<span class="sd">    :param patient: The Patient resource to standardize all names for</span>
+<span class="sd">    :param transform_func: The particular standardization function</span>
+<span class="sd">        to invoke for these transforms</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">patient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+
+        <span class="c1"># Handle family names</span>
+        <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">transformed_name</span> <span class="o">=</span> <span class="n">standardize_text</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">name</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_name</span>
+
+        <span class="c1"># Given names are stored in a list, as there could be multiple,</span>
+        <span class="c1"># process them all and take the overall diff for metrics</span>
+        <span class="k">if</span> <span class="s2">&quot;given&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">transformed_names</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">standardize_text</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;given&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="p">]</span>
+            <span class="n">name</span><span class="p">[</span><span class="s2">&quot;given&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_names</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="extract_countries_from_resource"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.extract_countries_from_resource">[docs]</a><span class="k">def</span> <span class="nf">extract_countries_from_resource</span><span class="p">(</span>
+    <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">code_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;alpha_2&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_3&quot;</span><span class="p">,</span> <span class="s2">&quot;numeric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alpha_2&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a FHIR resource, build a list containing all of the counries found in the</span>
+<span class="sd">    addresses associated with that resource in a standardized form sepcified by</span>
+<span class="sd">    code_type.</span>
+
+<span class="sd">    :param resource: A patient from a FHIR resource</span>
+<span class="sd">    :param code_type: A string equal to &#39;alpha_2&#39;, &#39;alpha_3&#39;, or &#39;numeric&#39; to</span>
+<span class="sd">        specify which type of standard country identifier to generate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">countries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">resource_type</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resourceType&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">resource_type</span> <span class="o">==</span> <span class="s2">&quot;Patient&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">):</span>
+            <span class="n">country</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;country&quot;</span><span class="p">)</span>
+            <span class="n">countries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">standardize_country</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">code_type</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">countries</span></div>
+
+
+<div class="viewcode-block" id="standardize_phone"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_phone">[docs]</a><span class="k">def</span> <span class="nf">standardize_phone</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">countries</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;US&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a phone number and optionally an associated FHIR resource and country</span>
+<span class="sd">    extraction function if able to parse the phone number return it in the E.164</span>
+<span class="sd">    standardard international format. If the phone number is not parseable return none.</span>
+
+<span class="sd">    Phone number parsing process:</span>
+<span class="sd">    A maximum of three attemtps are made to parse any phone number.</span>
+<span class="sd">    First, we try to parse the phone number without any additional country information.</span>
+<span class="sd">    If this succeeds then the phone number must have been provided in a standard</span>
+<span class="sd">    inernational format which is the ideal case. If the first attempt fails and a list</span>
+<span class="sd">    of country codes indicating possible countries of origin for the phone number has</span>
+<span class="sd">    been provided we attempt to parse the phone number using that additional country</span>
+<span class="sd">    information from the resource. Finally, in the case where the second attempt fails</span>
+<span class="sd">    or a list of countries has not been provided we make a final attempt to parse the</span>
+<span class="sd">    number assuming it is American.</span>
+
+<span class="sd">    :param raw: Raw phone number to be standardized.</span>
+<span class="sd">    :param countries: A list containing 2 letter ISO country codes for each country</span>
+<span class="sd">        extracted from resource of the phone number to be standardized that might</span>
+<span class="sd">        indicate it the phone numbers country of origin.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">countries</span> <span class="o">!=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;US&quot;</span><span class="p">]:</span>
+        <span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">countries</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">]</span>
+
+    <span class="n">standardized</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">standardized</span> <span class="o">=</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">country</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">except</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">phonenumberutil</span><span class="o">.</span><span class="n">NumberParseException</span><span class="p">:</span>
+            <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">standardized</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">standardized</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+            <span class="n">phonenumbers</span><span class="o">.</span><span class="n">format_number</span><span class="p">(</span>
+                <span class="n">standardized</span><span class="p">,</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">PhoneNumberFormat</span><span class="o">.</span><span class="n">E164</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">standardized</span></div>
+
+
+<div class="viewcode-block" id="standardize_country"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_country">[docs]</a><span class="k">def</span> <span class="nf">standardize_country</span><span class="p">(</span>
+    <span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;alpha_2&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_3&quot;</span><span class="p">,</span> <span class="s2">&quot;numeric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alpha_2&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a country return it in a standard form as specified by code_type.</span>
+
+<span class="sd">    :param raw: Country to be standardized.</span>
+<span class="sd">    :param code_type: A string equal to &#39;alpha_2&#39;, &#39;alpha_3&#39;, or &#39;numeric&#39; to</span>
+<span class="sd">        specify which type of standard country identifier to generate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">standard</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">standard</span> <span class="o">=</span> <span class="n">pycountry</span><span class="o">.</span><span class="n">countries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">alpha_2</span><span class="o">=</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">standard</span> <span class="o">=</span> <span class="n">pycountry</span><span class="o">.</span><span class="n">countries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">alpha_3</span><span class="o">=</span><span class="n">raw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">standard</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">standard</span> <span class="o">=</span> <span class="n">pycountry</span><span class="o">.</span><span class="n">countries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">numeric</span><span class="o">=</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">standard</span> <span class="o">=</span> <span class="n">pycountry</span><span class="o">.</span><span class="n">countries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">raw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">standard</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">standard</span> <span class="o">=</span> <span class="n">pycountry</span><span class="o">.</span><span class="n">countries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">official_name</span><span class="o">=</span><span class="n">raw</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">standard</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">code_type</span> <span class="o">==</span> <span class="s2">&quot;alpha_2&quot;</span><span class="p">:</span>
+            <span class="n">standard</span> <span class="o">=</span> <span class="n">standard</span><span class="o">.</span><span class="n">alpha_2</span>
+        <span class="k">elif</span> <span class="n">code_type</span> <span class="o">==</span> <span class="s2">&quot;alpha_3&quot;</span><span class="p">:</span>
+            <span class="n">standard</span> <span class="o">=</span> <span class="n">standard</span><span class="o">.</span><span class="n">alpha_3</span>
+        <span class="k">elif</span> <span class="n">code_type</span> <span class="o">==</span> <span class="s2">&quot;numeric&quot;</span><span class="p">:</span>
+            <span class="n">standard</span> <span class="o">=</span> <span class="n">standard</span><span class="o">.</span><span class="n">numeric</span>
+
+    <span class="k">return</span> <span class="n">standard</span></div>
+
+
+<div class="viewcode-block" id="standardize_all_phones"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_all_phones">[docs]</a><span class="k">def</span> <span class="nf">standardize_all_phones</span><span class="p">(</span>
+    <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a FHIR bundle and a type of phone number standardization,</span>
+<span class="sd">    transform all phone numberes for all patient resources in the</span>
+<span class="sd">    bundle.</span>
+
+<span class="sd">    :param bundle: The FHIR bundle to standardize patients in</span>
+<span class="sd">    :param overwrite: Whether to overwrite the original data</span>
+<span class="sd">        with the transformed values. Default is yes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">bundle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">patient</span> <span class="ow">in</span> <span class="n">find_resource_by_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">,</span> <span class="s2">&quot;Patient&quot;</span><span class="p">):</span>
+        <span class="n">standardize_phone_numbers_for_patient</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bundle</span></div>
+
+
+<div class="viewcode-block" id="standardize_phone_numbers_for_patient"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_phone_numbers_for_patient">[docs]</a><span class="k">def</span> <span class="nf">standardize_phone_numbers_for_patient</span><span class="p">(</span>
+    <span class="n">patient_resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper method to standardize all phone numbers in a single patient</span>
+<span class="sd">    resource using the caller-supplied transformation function.</span>
+
+<span class="sd">    :param patient: The patient to standardize all numbers for</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">telecom</span> <span class="ow">in</span> <span class="n">patient_resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;telecom&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="k">if</span> <span class="n">telecom</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;phone&quot;</span> <span class="ow">and</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">telecom</span><span class="p">:</span>
+            <span class="n">countries</span> <span class="o">=</span> <span class="n">extract_countries_from_resource</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">)</span>
+            <span class="n">transformed_phone</span> <span class="o">=</span> <span class="n">standardize_phone</span><span class="p">(</span><span class="n">telecom</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">countries</span><span class="p">)</span>
+            <span class="n">telecom</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_phone</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Public Health Data Infrastructure (PHDI)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>phdi.geo &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for phdi.geo</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">phdi.utils</span> <span class="kn">import</span> <span class="n">find_resource_by_type</span><span class="p">,</span> <span class="n">get_one_line_address</span>
+
+<span class="kn">from</span> <span class="nn">smartystreets_python_sdk</span> <span class="kn">import</span> <span class="n">StaticCredentials</span><span class="p">,</span> <span class="n">ClientBuilder</span>
+<span class="kn">from</span> <span class="nn">smartystreets_python_sdk</span> <span class="kn">import</span> <span class="n">us_street</span>
+<span class="kn">from</span> <span class="nn">smartystreets_python_sdk.us_street.lookup</span> <span class="kn">import</span> <span class="n">Lookup</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+
+<div class="viewcode-block" id="GeocodeResult"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.GeocodeResult">[docs]</a><span class="k">class</span> <span class="nc">GeocodeResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A basic abstract class representing a successful geocoding response.</span>
+<span class="sd">    SmartyStreets asks us to implement a custom result to wrap their</span>
+<span class="sd">    base model in for ease of working with.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">address</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">state</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">zipcode</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">county_fips</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">county_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">lat</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">lng</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">precision</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+<div class="viewcode-block" id="get_geocoder_result"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.get_geocoder_result">[docs]</a><span class="k">def</span> <span class="nf">get_geocoder_result</span><span class="p">(</span>
+    <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an API client and an address, attempt to call the smartystreets API</span>
+<span class="sd">    and use our wrapper class to return a succinctly encapsulated result. If</span>
+<span class="sd">    a valid result is found, it will be returned. Otherwise, the function</span>
+<span class="sd">    returns None.</span>
+
+<span class="sd">    :param address: The address to perform a geocoding lookup for</span>
+<span class="sd">    :param client: the SmartyStreets API Client suitable for use with street addresses</span>
+<span class="sd">        in the US</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">lookup</span> <span class="o">=</span> <span class="n">Lookup</span><span class="p">(</span><span class="n">street</span><span class="o">=</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">send_lookup</span><span class="p">(</span><span class="n">lookup</span><span class="p">)</span>
+
+    <span class="c1"># Valid responses have results with lat/long</span>
+    <span class="k">if</span> <span class="n">lookup</span><span class="o">.</span><span class="n">result</span> <span class="ow">and</span> <span class="n">lookup</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">latitude</span><span class="p">:</span>
+        <span class="n">smartystreets_result</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">street_address</span> <span class="o">=</span> <span class="p">[</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">delivery_line_1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">smartystreets_result</span><span class="o">.</span><span class="n">delivery_line_2</span><span class="p">:</span>
+            <span class="n">street_address</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">delivery_line_2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">GeocodeResult</span><span class="p">(</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">street_address</span><span class="p">,</span>
+            <span class="n">city</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">city_name</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">state_abbreviation</span><span class="p">,</span>
+            <span class="n">zipcode</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">zipcode</span><span class="p">,</span>
+            <span class="n">county_fips</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">county_fips</span><span class="p">,</span>
+            <span class="n">county_name</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">county_name</span><span class="p">,</span>
+            <span class="n">lat</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span>
+            <span class="n">lng</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span>
+            <span class="n">precision</span><span class="o">=</span><span class="n">smartystreets_result</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="get_smartystreets_client"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.get_smartystreets_client">[docs]</a><span class="k">def</span> <span class="nf">get_smartystreets_client</span><span class="p">(</span><span class="n">auth_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build a smartystreets api client from an auth id and token.</span>
+
+<span class="sd">    :param auth_id: Authentication ID to build the client with</span>
+<span class="sd">    :param auth_token: The token that allows us to access the client</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">creds</span> <span class="o">=</span> <span class="n">StaticCredentials</span><span class="p">(</span><span class="n">auth_id</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">ClientBuilder</span><span class="p">(</span><span class="n">creds</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">with_licenses</span><span class="p">([</span><span class="s2">&quot;us-standard-cloud&quot;</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">build_us_street_api_client</span><span class="p">()</span>
+    <span class="p">)</span></div>
+
+
+<span class="c1"># TODO Find a way to generalize this such that it&#39;s applicable to all resource types</span>
+<div class="viewcode-block" id="geocode_patients"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.geocode_patients">[docs]</a><span class="k">def</span> <span class="nf">geocode_patients</span><span class="p">(</span>
+    <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a FHIR bundle and a SmartyStreets client, geocode all patient addresses</span>
+<span class="sd">    across all patient resources in the bundle. If the overwrite parameter is</span>
+<span class="sd">    false, the function makes a deep copy of the data before operating so that</span>
+<span class="sd">    the source data is unchanged and the new standardized bundle may be passed</span>
+<span class="sd">    by value to other building blocks.</span>
+
+<span class="sd">    :param dict bundle: A FHIR resource bundle</span>
+<span class="sd">    :param us_street.Client client: The smartystreets API client to geocode</span>
+<span class="sd">        with</span>
+<span class="sd">    :param overwrite: Whether to write the new standardizations directly</span>
+<span class="sd">        into the given bundle, changing the original data (True is yes)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Copy the data if we don&#39;t want to alter the original</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">bundle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
+
+    <span class="c1"># Standardize each patient in turn</span>
+    <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">find_resource_by_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">,</span> <span class="s2">&quot;Patient&quot;</span><span class="p">):</span>
+        <span class="n">patient</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
+        <span class="n">geocode_and_parse_addresses_for_patient</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bundle</span></div>
+
+
+<span class="k">def</span> <span class="nf">_geocode_and_parse_address</span><span class="p">(</span>
+    <span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeocodeResult</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to perform geocoding on a single address from a patient</span>
+<span class="sd">    resource. Here, the address is expressed in dictionary form, as it comes</span>
+<span class="sd">    straight out of a FHIR bundle.</span>
+
+<span class="sd">    :param address: A patient&#39;s address in FHIR / JSON</span>
+<span class="sd">    :param client: The API client to geocode with</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">raw_one_line</span> <span class="o">=</span> <span class="n">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    <span class="n">geocoded_result</span> <span class="o">=</span> <span class="n">get_geocoder_result</span><span class="p">(</span><span class="n">raw_one_line</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">geocoded_result</span>
+
+
+<span class="c1"># TODO: Find a way to generalize this such that it&#39;s applicable to all resource types</span>
+<div class="viewcode-block" id="geocode_and_parse_addresses_for_patient"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.geocode_and_parse_addresses_for_patient">[docs]</a><span class="k">def</span> <span class="nf">geocode_and_parse_addresses_for_patient</span><span class="p">(</span>
+    <span class="n">patient</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to handle the parsing, standardizing, and geocoding of all addresses</span>
+<span class="sd">    belonging to a single patient in a FHIR resource bundle.</span>
+
+<span class="sd">    :param patient: A Patient resource FHIR profile</span>
+<span class="sd">    :param client: The API client to geocode with</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">patient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="n">standardized_address</span> <span class="o">=</span> <span class="n">_geocode_and_parse_address</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+
+        <span class="c1"># Update fields with new, standardized information</span>
+        <span class="k">if</span> <span class="n">standardized_address</span><span class="p">:</span>
+            <span class="n">address</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">standardized_address</span><span class="o">.</span><span class="n">address</span>
+            <span class="n">address</span><span class="p">[</span><span class="s2">&quot;city&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">standardized_address</span><span class="o">.</span><span class="n">city</span>
+            <span class="n">address</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">standardized_address</span><span class="o">.</span><span class="n">state</span>
+            <span class="n">address</span><span class="p">[</span><span class="s2">&quot;postalCode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">standardized_address</span><span class="o">.</span><span class="n">zipcode</span>
+
+            <span class="c1"># Need an extension to track lat/long</span>
+            <span class="k">if</span> <span class="s2">&quot;extension&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">address</span><span class="p">:</span>
+                <span class="n">address</span><span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">address</span><span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://hl7.org/fhir/StructureDefinition/geolocation&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;extension&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;valueDecimal&quot;</span><span class="p">:</span> <span class="n">standardized_address</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;valueDecimal&quot;</span><span class="p">:</span> <span class="n">standardized_address</span><span class="o">.</span><span class="n">lng</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">],</span>
+                <span class="p">}</span>
+            <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Public Health Data Infrastructure (PHDI)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
