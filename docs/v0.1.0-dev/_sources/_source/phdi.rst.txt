@@ -1,0 +1,78 @@
+phdi package
+============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   phdi.fhir
+   phdi.geospatial
+
+Submodules
+----------
+
+phdi.azure module
+-----------------
+
+.. automodule:: phdi.azure
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phdi.conversion module
+----------------------
+
+.. automodule:: phdi.conversion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phdi.geo module
+---------------
+
+.. automodule:: phdi.geo
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phdi.linkage module
+-------------------
+
+.. automodule:: phdi.linkage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phdi.schemas module
+-------------------
+
+.. automodule:: phdi.schemas
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phdi.standardize module
+-----------------------
+
+.. automodule:: phdi.standardize
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phdi.utils module
+-----------------
+
+.. automodule:: phdi.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: phdi
+   :members:
+   :undoc-members:
+   :show-inheritance:

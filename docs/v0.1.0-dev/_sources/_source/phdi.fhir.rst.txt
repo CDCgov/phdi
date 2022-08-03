@@ -1,0 +1,18 @@
+phdi.fhir package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   phdi.fhir.geospatial
+
+Module contents
+---------------
+
+.. automodule:: phdi.fhir
+   :members:
+   :undoc-members:
+   :show-inheritance:

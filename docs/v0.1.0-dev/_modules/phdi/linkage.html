@@ -40,7 +40,7 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="add_patient_identifier"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.linkage.add_patient_identifier">[docs]</a><span class="k">def</span> <span class="nf">add_patient_identifier</span><span class="p">(</span><span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="add_patient_identifier"><a class="viewcode-back" href="../../_source/phdi.html#phdi.linkage.add_patient_identifier">[docs]</a><span class="k">def</span> <span class="nf">add_patient_identifier</span><span class="p">(</span><span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a FHIR resource bundle:</span>
 
@@ -101,7 +101,7 @@
     <span class="k">return</span> <span class="n">bundle</span></div>
 
 
-<div class="viewcode-block" id="generate_hash_str"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.linkage.generate_hash_str">[docs]</a><span class="k">def</span> <span class="nf">generate_hash_str</span><span class="p">(</span><span class="n">linking_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="generate_hash_str"><a class="viewcode-back" href="../../_source/phdi.html#phdi.linkage.generate_hash_str">[docs]</a><span class="k">def</span> <span class="nf">generate_hash_str</span><span class="p">(</span><span class="n">linking_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a string made of concatenated patient information, generate</span>
 <span class="sd">    a hash for this string to serve as a &quot;unique&quot; identifier for the</span>

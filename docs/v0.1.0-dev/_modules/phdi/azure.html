@@ -44,7 +44,7 @@
 <span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">Response</span>
 
 
-<div class="viewcode-block" id="AzureFhirServerCredentialManager"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager">[docs]</a><span class="k">class</span> <span class="nc">AzureFhirServerCredentialManager</span><span class="p">:</span>
+<div class="viewcode-block" id="AzureFhirServerCredentialManager"><a class="viewcode-back" href="../../_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager">[docs]</a><span class="k">class</span> <span class="nc">AzureFhirServerCredentialManager</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class that manages handling Azure credentials for access to the FHIR server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -53,10 +53,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fhir_url</span> <span class="o">=</span> <span class="n">fhir_url</span>
 
-<div class="viewcode-block" id="AzureFhirServerCredentialManager.get_fhir_url"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager.get_fhir_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_fhir_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="AzureFhirServerCredentialManager.get_fhir_url"><a class="viewcode-back" href="../../_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager.get_fhir_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_fhir_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fhir_url</span></div>
 
-<div class="viewcode-block" id="AzureFhirServerCredentialManager.get_access_token"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager.get_access_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_reuse_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccessToken</span><span class="p">:</span>
+<div class="viewcode-block" id="AzureFhirServerCredentialManager.get_access_token"><a class="viewcode-back" href="../../_source/phdi.html#phdi.azure.AzureFhirServerCredentialManager.get_access_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_reuse_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccessToken</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Obtain an access token for the FHIR server the manager is pointed at.</span>
 <span class="sd">        If the token is already set for this object and is not about to expire</span>
@@ -123,7 +123,7 @@
     <span class="k">return</span> <span class="n">response</span>
 
 
-<div class="viewcode-block" id="get_blob_client"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.get_blob_client">[docs]</a><span class="k">def</span> <span class="nf">get_blob_client</span><span class="p">(</span><span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContainerClient</span><span class="p">:</span>
+<div class="viewcode-block" id="get_blob_client"><a class="viewcode-back" href="../../_source/phdi.html#phdi.azure.get_blob_client">[docs]</a><span class="k">def</span> <span class="nf">get_blob_client</span><span class="p">(</span><span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContainerClient</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Obtains a client connected to an Azure storage container by</span>
 <span class="sd">    utilizing the first valid credentials Azure can find. For</span>
@@ -138,7 +138,7 @@
     <span class="k">return</span> <span class="n">ContainerClient</span><span class="o">.</span><span class="n">from_container_url</span><span class="p">(</span><span class="n">container_url</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="store_data"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.store_data">[docs]</a><span class="k">def</span> <span class="nf">store_data</span><span class="p">(</span>
+<div class="viewcode-block" id="store_data"><a class="viewcode-back" href="../../_source/phdi.html#phdi.azure.store_data">[docs]</a><span class="k">def</span> <span class="nf">store_data</span><span class="p">(</span>
     <span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -166,7 +166,7 @@
         <span class="n">blob</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="store_message_and_response"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.azure.store_message_and_response">[docs]</a><span class="k">def</span> <span class="nf">store_message_and_response</span><span class="p">(</span>
+<div class="viewcode-block" id="store_message_and_response"><a class="viewcode-back" href="../../_source/phdi.html#phdi.azure.store_message_and_response">[docs]</a><span class="k">def</span> <span class="nf">store_message_and_response</span><span class="p">(</span>
     <span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">bundle_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>

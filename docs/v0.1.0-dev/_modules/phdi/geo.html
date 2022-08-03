@@ -42,7 +42,7 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 
 
-<div class="viewcode-block" id="GeocodeResult"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.GeocodeResult">[docs]</a><span class="k">class</span> <span class="nc">GeocodeResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="GeocodeResult"><a class="viewcode-back" href="../../_source/phdi.html#phdi.geo.GeocodeResult">[docs]</a><span class="k">class</span> <span class="nc">GeocodeResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A basic abstract class representing a successful geocoding response.</span>
 <span class="sd">    SmartyStreets asks us to implement a custom result to wrap their</span>
@@ -60,7 +60,7 @@
     <span class="n">precision</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
-<div class="viewcode-block" id="get_geocoder_result"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.get_geocoder_result">[docs]</a><span class="k">def</span> <span class="nf">get_geocoder_result</span><span class="p">(</span>
+<div class="viewcode-block" id="get_geocoder_result"><a class="viewcode-back" href="../../_source/phdi.html#phdi.geo.get_geocoder_result">[docs]</a><span class="k">def</span> <span class="nf">get_geocoder_result</span><span class="p">(</span>
     <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -99,7 +99,7 @@
     <span class="k">return</span></div>
 
 
-<div class="viewcode-block" id="get_smartystreets_client"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.get_smartystreets_client">[docs]</a><span class="k">def</span> <span class="nf">get_smartystreets_client</span><span class="p">(</span><span class="n">auth_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span><span class="p">:</span>
+<div class="viewcode-block" id="get_smartystreets_client"><a class="viewcode-back" href="../../_source/phdi.html#phdi.geo.get_smartystreets_client">[docs]</a><span class="k">def</span> <span class="nf">get_smartystreets_client</span><span class="p">(</span><span class="n">auth_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build a smartystreets api client from an auth id and token.</span>
 
@@ -116,7 +116,7 @@
 
 
 <span class="c1"># TODO Find a way to generalize this such that it&#39;s applicable to all resource types</span>
-<div class="viewcode-block" id="geocode_patients"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.geocode_patients">[docs]</a><span class="k">def</span> <span class="nf">geocode_patients</span><span class="p">(</span>
+<div class="viewcode-block" id="geocode_patients"><a class="viewcode-back" href="../../_source/phdi.html#phdi.geo.geocode_patients">[docs]</a><span class="k">def</span> <span class="nf">geocode_patients</span><span class="p">(</span>
     <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -165,7 +165,7 @@
 
 
 <span class="c1"># TODO: Find a way to generalize this such that it&#39;s applicable to all resource types</span>
-<div class="viewcode-block" id="geocode_and_parse_addresses_for_patient"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.geo.geocode_and_parse_addresses_for_patient">[docs]</a><span class="k">def</span> <span class="nf">geocode_and_parse_addresses_for_patient</span><span class="p">(</span>
+<div class="viewcode-block" id="geocode_and_parse_addresses_for_patient"><a class="viewcode-back" href="../../_source/phdi.html#phdi.geo.geocode_and_parse_addresses_for_patient">[docs]</a><span class="k">def</span> <span class="nf">geocode_and_parse_addresses_for_patient</span><span class="p">(</span>
     <span class="n">patient</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
