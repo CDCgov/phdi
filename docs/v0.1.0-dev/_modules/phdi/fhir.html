@@ -46,7 +46,7 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="generate_filename"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.fhir.html#phdi.fhir.generate_filename">[docs]</a><span class="k">def</span> <span class="nf">generate_filename</span><span class="p">(</span><span class="n">blob_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">message_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="generate_filename"><a class="viewcode-back" href="../../_source/phdi.fhir.html#phdi.fhir.generate_filename">[docs]</a><span class="k">def</span> <span class="nf">generate_filename</span><span class="p">(</span><span class="n">blob_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">message_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Strip the file type suffix from the blob name, and instead</span>
 <span class="sd">    append the message index.</span>
@@ -61,7 +61,7 @@
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">message_index</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 
-<div class="viewcode-block" id="upload_bundle_to_fhir_server"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.fhir.html#phdi.fhir.upload_bundle_to_fhir_server">[docs]</a><span class="k">def</span> <span class="nf">upload_bundle_to_fhir_server</span><span class="p">(</span>
+<div class="viewcode-block" id="upload_bundle_to_fhir_server"><a class="viewcode-back" href="../../_source/phdi.fhir.html#phdi.fhir.upload_bundle_to_fhir_server">[docs]</a><span class="k">def</span> <span class="nf">upload_bundle_to_fhir_server</span><span class="p">(</span>
     <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureFhirServerCredentialManager</span><span class="p">,</span> <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -113,7 +113,7 @@
     <span class="k">return</span> <span class="n">response</span></div>
 
 
-<div class="viewcode-block" id="export_from_fhir_server"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.fhir.html#phdi.fhir.export_from_fhir_server">[docs]</a><span class="k">def</span> <span class="nf">export_from_fhir_server</span><span class="p">(</span>
+<div class="viewcode-block" id="export_from_fhir_server"><a class="viewcode-back" href="../../_source/phdi.fhir.html#phdi.fhir.export_from_fhir_server">[docs]</a><span class="k">def</span> <span class="nf">export_from_fhir_server</span><span class="p">(</span>
     <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureFhirServerCredentialManager</span><span class="p">,</span>
     <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">export_scope</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -280,7 +280,7 @@
         <span class="k">raise</span> <span class="n">requests</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="export_from_fhir_server_poll"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.fhir.html#phdi.fhir.export_from_fhir_server_poll">[docs]</a><span class="k">def</span> <span class="nf">export_from_fhir_server_poll</span><span class="p">(</span>
+<div class="viewcode-block" id="export_from_fhir_server_poll"><a class="viewcode-back" href="../../_source/phdi.fhir.html#phdi.fhir.export_from_fhir_server_poll">[docs]</a><span class="k">def</span> <span class="nf">export_from_fhir_server_poll</span><span class="p">(</span>
     <span class="n">poll_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureFhirServerCredentialManager</span><span class="p">,</span>
     <span class="n">poll_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
@@ -319,7 +319,7 @@
     <span class="k">return</span> <span class="n">response</span></div>
 
 
-<div class="viewcode-block" id="download_from_export_response"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.fhir.html#phdi.fhir.download_from_export_response">[docs]</a><span class="k">def</span> <span class="nf">download_from_export_response</span><span class="p">(</span>
+<div class="viewcode-block" id="download_from_export_response"><a class="viewcode-back" href="../../_source/phdi.fhir.html#phdi.fhir.download_from_export_response">[docs]</a><span class="k">def</span> <span class="nf">download_from_export_response</span><span class="p">(</span>
     <span class="n">export_response</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -356,7 +356,7 @@
     <span class="k">return</span> <span class="n">text_buffer</span>
 
 
-<div class="viewcode-block" id="fhir_server_get"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.fhir.html#phdi.fhir.fhir_server_get">[docs]</a><span class="k">def</span> <span class="nf">fhir_server_get</span><span class="p">(</span>
+<div class="viewcode-block" id="fhir_server_get"><a class="viewcode-back" href="../../_source/phdi.fhir.html#phdi.fhir.fhir_server_get">[docs]</a><span class="k">def</span> <span class="nf">fhir_server_get</span><span class="p">(</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureFhirServerCredentialManager</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -383,7 +383,7 @@
     <span class="k">return</span> <span class="n">response</span></div>
 
 
-<div class="viewcode-block" id="log_fhir_server_error"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.fhir.html#phdi.fhir.log_fhir_server_error">[docs]</a><span class="k">def</span> <span class="nf">log_fhir_server_error</span><span class="p">(</span><span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_entry_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="log_fhir_server_error"><a class="viewcode-back" href="../../_source/phdi.fhir.html#phdi.fhir.log_fhir_server_error">[docs]</a><span class="k">def</span> <span class="nf">log_fhir_server_error</span><span class="p">(</span><span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_entry_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Given an HTTP status code from a FHIR server&#39;s response, log the specified error.</span>
 
 <span class="sd">    :param status_code: Status code returned by a FHIR server</span>

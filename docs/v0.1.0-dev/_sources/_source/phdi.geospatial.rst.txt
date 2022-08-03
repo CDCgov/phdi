@@ -1,0 +1,21 @@
+phdi.geospatial package
+=======================
+
+Submodules
+----------
+
+phdi.geospatial.smarty module
+-----------------------------
+
+.. automodule:: phdi.geospatial.smarty
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: phdi.geospatial
+   :members:
+   :undoc-members:
+   :show-inheritance:

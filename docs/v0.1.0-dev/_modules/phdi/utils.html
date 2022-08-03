@@ -38,7 +38,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 
 
-<div class="viewcode-block" id="find_resource_by_type"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.utils.find_resource_by_type">[docs]</a><span class="k">def</span> <span class="nf">find_resource_by_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="find_resource_by_type"><a class="viewcode-back" href="../../_source/phdi.html#phdi.utils.find_resource_by_type">[docs]</a><span class="k">def</span> <span class="nf">find_resource_by_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Collect all resources of a specific type in a bundle of FHIR data and</span>
 <span class="sd">    return references to them in a list.</span>
@@ -53,7 +53,7 @@
     <span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="get_one_line_address"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.utils.get_one_line_address">[docs]</a><span class="k">def</span> <span class="nf">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_one_line_address"><a class="viewcode-back" href="../../_source/phdi.html#phdi.utils.get_one_line_address">[docs]</a><span class="k">def</span> <span class="nf">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extract a one-line string representation of an address from a</span>
 <span class="sd">    JSON dictionary holding address information.</span>
@@ -67,7 +67,7 @@
     <span class="k">return</span> <span class="n">raw_one_line</span></div>
 
 
-<div class="viewcode-block" id="get_field"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.utils.get_field">[docs]</a><span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_field</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_field"><a class="viewcode-back" href="../../_source/phdi.html#phdi.utils.get_field">[docs]</a><span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_field</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    For a given field (such as name or address), find the first-occuring</span>
 <span class="sd">    instance of the field in a given patient JSON dict, such that the</span>
@@ -98,7 +98,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="standardize_text"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.utils.standardize_text">[docs]</a><span class="k">def</span> <span class="nf">standardize_text</span><span class="p">(</span><span class="n">raw_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="standardize_text"><a class="viewcode-back" href="../../_source/phdi.html#phdi.utils.standardize_text">[docs]</a><span class="k">def</span> <span class="nf">standardize_text</span><span class="p">(</span><span class="n">raw_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform standardization on a provided text string, given a set of transformations.</span>
 
@@ -152,7 +152,7 @@
     <span class="k">return</span> <span class="n">text</span></div>
 
 
-<div class="viewcode-block" id="http_request_with_retry"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.utils.http_request_with_retry">[docs]</a><span class="k">def</span> <span class="nf">http_request_with_retry</span><span class="p">(</span>
+<div class="viewcode-block" id="http_request_with_retry"><a class="viewcode-back" href="../../_source/phdi.html#phdi.utils.http_request_with_retry">[docs]</a><span class="k">def</span> <span class="nf">http_request_with_retry</span><span class="p">(</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">retry_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">request_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>

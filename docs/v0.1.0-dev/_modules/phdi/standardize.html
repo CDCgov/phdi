@@ -41,7 +41,7 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 
 
-<div class="viewcode-block" id="standardize_patient_names"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_patient_names">[docs]</a><span class="k">def</span> <span class="nf">standardize_patient_names</span><span class="p">(</span>
+<div class="viewcode-block" id="standardize_patient_names"><a class="viewcode-back" href="../../_source/phdi.html#phdi.standardize.standardize_patient_names">[docs]</a><span class="k">def</span> <span class="nf">standardize_patient_names</span><span class="p">(</span>
     <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">trim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">case</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;upper&quot;</span><span class="p">,</span>
@@ -78,7 +78,7 @@
 <span class="c1"># TODO In some functions, like standardize_patient_names, we return a bundle, and in</span>
 <span class="c1"># other places we don&#39;t. We should standardize this across the code to make it easier</span>
 <span class="c1"># to read.</span>
-<div class="viewcode-block" id="standardize_names_for_patient"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_names_for_patient">[docs]</a><span class="k">def</span> <span class="nf">standardize_names_for_patient</span><span class="p">(</span><span class="n">patient</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="standardize_names_for_patient"><a class="viewcode-back" href="../../_source/phdi.html#phdi.standardize.standardize_names_for_patient">[docs]</a><span class="k">def</span> <span class="nf">standardize_names_for_patient</span><span class="p">(</span><span class="n">patient</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper method to standardize all names associated with a single patient.</span>
 <span class="sd">    Receives a particular standardization function from the calling method</span>
@@ -108,7 +108,7 @@
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="extract_countries_from_resource"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.extract_countries_from_resource">[docs]</a><span class="k">def</span> <span class="nf">extract_countries_from_resource</span><span class="p">(</span>
+<div class="viewcode-block" id="extract_countries_from_resource"><a class="viewcode-back" href="../../_source/phdi.html#phdi.standardize.extract_countries_from_resource">[docs]</a><span class="k">def</span> <span class="nf">extract_countries_from_resource</span><span class="p">(</span>
     <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">code_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;alpha_2&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_3&quot;</span><span class="p">,</span> <span class="s2">&quot;numeric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alpha_2&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -129,7 +129,7 @@
     <span class="k">return</span> <span class="n">countries</span></div>
 
 
-<div class="viewcode-block" id="standardize_phone"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_phone">[docs]</a><span class="k">def</span> <span class="nf">standardize_phone</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">countries</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;US&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="standardize_phone"><a class="viewcode-back" href="../../_source/phdi.html#phdi.standardize.standardize_phone">[docs]</a><span class="k">def</span> <span class="nf">standardize_phone</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">countries</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;US&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a phone number and optionally an associated FHIR resource and country</span>
 <span class="sd">    extraction function if able to parse the phone number return it in the E.164</span>
@@ -171,7 +171,7 @@
     <span class="k">return</span> <span class="n">standardized</span></div>
 
 
-<div class="viewcode-block" id="standardize_country"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_country">[docs]</a><span class="k">def</span> <span class="nf">standardize_country</span><span class="p">(</span>
+<div class="viewcode-block" id="standardize_country"><a class="viewcode-back" href="../../_source/phdi.html#phdi.standardize.standardize_country">[docs]</a><span class="k">def</span> <span class="nf">standardize_country</span><span class="p">(</span>
     <span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;alpha_2&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_3&quot;</span><span class="p">,</span> <span class="s2">&quot;numeric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alpha_2&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -205,7 +205,7 @@
     <span class="k">return</span> <span class="n">standard</span></div>
 
 
-<div class="viewcode-block" id="standardize_all_phones"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_all_phones">[docs]</a><span class="k">def</span> <span class="nf">standardize_all_phones</span><span class="p">(</span>
+<div class="viewcode-block" id="standardize_all_phones"><a class="viewcode-back" href="../../_source/phdi.html#phdi.standardize.standardize_all_phones">[docs]</a><span class="k">def</span> <span class="nf">standardize_all_phones</span><span class="p">(</span>
     <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -227,7 +227,7 @@
     <span class="k">return</span> <span class="n">bundle</span></div>
 
 
-<div class="viewcode-block" id="standardize_phone_numbers_for_patient"><a class="viewcode-back" href="../../docs/sphinx/_source/phdi.html#phdi.standardize.standardize_phone_numbers_for_patient">[docs]</a><span class="k">def</span> <span class="nf">standardize_phone_numbers_for_patient</span><span class="p">(</span>
+<div class="viewcode-block" id="standardize_phone_numbers_for_patient"><a class="viewcode-back" href="../../_source/phdi.html#phdi.standardize.standardize_phone_numbers_for_patient">[docs]</a><span class="k">def</span> <span class="nf">standardize_phone_numbers_for_patient</span><span class="p">(</span>
     <span class="n">patient_resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>

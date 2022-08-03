@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>phdi.fhir.geospatial package &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="phdi-fhir-geospatial-package">
+<h1>phdi.fhir.geospatial package<a class="headerlink" href="#phdi-fhir-geospatial-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-phdi.fhir.geospatial.smarty">
+<span id="phdi-fhir-geospatial-smarty-module"></span><h2>phdi.fhir.geospatial.smarty module<a class="headerlink" href="#module-phdi.fhir.geospatial.smarty" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.fhir.geospatial.smarty.</span></span><span class="sig-name descname"><span class="pre">SmartyFhirGeocodeClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/geospatial/smarty.html#SmartyFhirGeocodeClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#phdi.fhir.geospatial.FhirGeocodeClient" title="phdi.fhir.geospatial.FhirGeocodeClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.fhir.geospatial.FhirGeocodeClient</span></code></a></p>
+<p>Implementation of a geocoding client designed to handle FHIR-
+formatted data using the SmartyStreets API.
+Requires an authorization ID as well as an authentication token
+in order to build a street lookup client.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_bundle">
+<span class="sig-name descname"><span class="pre">geocode_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/geospatial/smarty.html#SmartyFhirGeocodeClient.geocode_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_bundle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs geocoding on all resources in a given FHIR bundle whose
+resource type is among those supported by the PHDI SDK. Currently,
+this includes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Patient</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bundle</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- A bundle of fhir resources</p></li>
+<li><p><strong>overwrite</strong> -- Whether to overwrite the address data in the given
+bundle's resources (True), or whether to create a copy of the bundle
+and overwrite that instead (False). Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The given FHIR bundle (or a copy thereof) where all
+resources have updated geocoded information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>List</em>[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_client">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geocode_client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">smartystreets_python_sdk.us_street.client.Client</span></em><a class="headerlink" href="#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_client" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This property:</dt><dd><ol class="arabic simple">
+<li><p>defines a private instance variable __client</p></li>
+<li><p>makes it accessible through the use of .client()</p></li>
+</ol>
+</dd>
+</dl>
+<p>This property holds an instance of the base SmartyGeocodeClient,
+which allows the FHIR wrapper to access a SmartyStreets-
+specific connection client without instantiating its own
+copy. It also provides access to the respective geocode_from_str
+and geocode_from_dict methods if they're desired.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_resource">
+<span class="sig-name descname"><span class="pre">geocode_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/geospatial/smarty.html#SmartyFhirGeocodeClient.geocode_resource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_resource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs geocoding on one or more addresses in a given FHIR
+resource. Currently supported resource types are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Patient</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource</strong> (<em>dict</em>) -- The resource whose addresses should be geocoded</p></li>
+<li><p><strong>overwrite</strong> -- Whether to save the geocoding information over
+the raw data, or to create a copy of the given data and write
+over that instead. Defaults to True (write over given data).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The resource (or a copy thereof) with geocoded
+information added</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-phdi.fhir.geospatial">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-phdi.fhir.geospatial" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.fhir.geospatial.FhirGeocodeClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.fhir.geospatial.</span></span><span class="sig-name descname"><span class="pre">FhirGeocodeClient</span></span><a class="reference internal" href="../_modules/phdi/fhir/geospatial.html#FhirGeocodeClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.FhirGeocodeClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A basic abstract class representing a vendor-agnostic geocoder client
+designed as a wrapper to process FHIR-based data (including resources
+and bundles). Requires implementing classes to define methods to
+geocode from both bundles and resources. Callers should use the
+provided interface functions (e.g. geocode_resource) to interact with
+the underlying vendor-specific client property.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.fhir.geospatial.FhirGeocodeClient.geocode_bundle">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geocode_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/geospatial.html#FhirGeocodeClient.geocode_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.FhirGeocodeClient.geocode_bundle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that uses the implementing client to perform geocoding
+on all supported resources in the provided FHIR bundle, which
+is passed in as a list of FHIR-formatted dictionaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bundle</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.fhir.geospatial.FhirGeocodeClient.geocode_resource">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geocode_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/geospatial.html#FhirGeocodeClient.geocode_resource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.FhirGeocodeClient.geocode_resource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that uses the implementing client to perform geocoding
+on the provided resource, which is passed in as a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>resource</strong> (<em>dict</em>) -- </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Public Health Data Infrastructure (PHDI)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_source/phdi.fhir.geospatial.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
