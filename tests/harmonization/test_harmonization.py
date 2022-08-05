@@ -1,7 +1,5 @@
 import pathlib
 
-from unittest import mock
-
 from phdi.harmonization import (
     standardize_hl7_datetimes,
     convert_hl7_batch_messages_to_list,
