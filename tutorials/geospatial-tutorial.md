@@ -112,7 +112,7 @@ location = {
 }
 
 # We can still create and run the geocoder the same way
-smarty_coder = SmartyGeocoderClient(YOUR_AUTH_ID, YOUR_AUTH_TOKEN, YOUR_LICENSES)
+smarty_coder = SmartyGeocodeClient(YOUR_AUTH_ID, YOUR_AUTH_TOKEN, YOUR_LICENSES)
 geo_result = smarty_coder.geocode_from_dict(location)
 
 print(geo_result)
