@@ -1,10 +1,10 @@
 # PRIME Public Health Data Infrastructure
 
 - [PRIME Public Health Data Infrastructure](#prime-public-health-data-infrastructure)
+  - [Getting Started](#getting-started)
+    - [How to import PHDI](#how-to-import-phdi)
   - [Overview](#overview)
     - [Problem Scope](#problem-scope)
-    - [Target Users](#target-users)
-  - [Getting Started](#getting-started)
   - [Standard Notices](#standard-notices)
     - [Public Domain Standard Notice](#public-domain-standard-notice)
     - [License Standard Notice](#license-standard-notice)
@@ -15,6 +15,34 @@
     - [Additional Standard Notices](#additional-standard-notices)
 
 **General disclaimer** This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/organization/mission.htm). GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
+
+## Getting Started
+
+In order to use the PHDI Building Blocks library, you need [Python 3.9 or higher](https://www.python.org/downloads/) and [pip python package manager](https://pip.pypa.io/en/stable/installation/) (or any python package manager)
+
+
+To install using pip:
+```
+pip install phdi
+```
+
+### How to import PHDI
+
+Our project is split up into two parts. Our FHIR supporting version and our generic version.
+
+Example import for FHIR:
+```
+ from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
+```
+
+Example import for generic:
+```
+ from phdi.geospatial.smarty import SmartyGeocodeClient
+```
+
+Every building block has a FHIR counterpart that works well with FHIR bundles as inputs. The generic version is used for all other non-FHIR inputs.
+
+For further information on the tutorial: [Geospatial Tutorial](tutorials/geospatial-tutorial.md)
 
 ## Overview
 
@@ -38,10 +66,6 @@ The PRIME Public Health Data Infrastructure prototype a sibling project to [PRIM
 ### Problem Scope
 
 Long-term Vision: Current public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective is to help the CDC best support STLTs in moving towards a modern public health data infrastructure.
-
-## Getting Started
-
-To start development this project, please consult the [Getting Started](docs/getting_started.md) doc for more details on setting up local development environments for the SDK and more.
 
 ## Standard Notices
 

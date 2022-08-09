@@ -46,7 +46,83 @@ If you need to base your work on someone else's branch, talk to the branch owner
 
 ### Coding your changes
 
-As you code, please make sure you add proper comments, documentation, and unit tests. SimpleReport adheres to strict quality guidelines, regardless of whether a contributing engineer is on the team or external. Please also ensure that you thoroughly test your changes on your local machine before submitting.
+As you code, please make sure you add proper comments, documentation, and unit tests. PHDI adheres to strict quality guidelines, regardless of whether a contributing engineer is on the team or external. Please also ensure that you thoroughly test your changes on your local machine before submitting.
+
+### How to set up your local environment to contribute to our code
+
+#### Hardware
+
+Supported hardware for PHDI tools includes:
+* Linux
+* Windows 10/11
+* Mac (Intel or Apple silicone)
+#### Software
+
+##### Overview
+This document will assume that you're using VSCode as your IDE, but other options (e.g. IntelliJ, Eclipse, PyCharm, etc.) can be used as well.
+
+##### Installation
+
+1. Install [Python 3.9+](https://www.python.org/downloads/). Earlier versions are not currently supported.
+2. Install [pip](https://pip.pypa.io/en/stable/installation/). The python package installer is used to install poetry, and other packages.
+3. Install [poetry](https://python-poetry.org/docs/). This is the dependency manager and installer for the internal library. 
+
+First, in your python machine install, or virtual environment, install poetry:
+```
+pip install poetry
+```
+
+In your terminal, navigate to the root project directory and run `poetry install`
+
+##### Testing
+
+To perform unit tests on the SDK library code, navigate to the root project directory, and run:
+
+To run tests (and black, and flake8):
+```
+poetry run make test
+```
+
+If that fails, stating a file cannot be found, you can also try running `poetry run pytest` directly to run the tests.
+
+
+Foundational libraries used for testing include:
+- [pytest](https://docs.pytest.org/en/6.2.x/) - for easy unit testing
+- [Black](https://black.readthedocs.io/en/stable/) - automatic code formatter that enforces PEP best practices
+- [flake8](https://flake8.pycqa.org/en/latest/) - for code style enforcement
+
+##### Building the docs
+
+We're using [Sphinx](https://www.sphinx-doc.org) to write up external docs, but there's a Make target to help out. To build documentation using Sphinx, run:
+```
+poetry run make docs
+```
+
+This should build a single html file in `docs/_build/singlehtml/index.html`.
+
+##### Extensions
+
+The following VSCode extensions help streamline development in the IDE:
+
+**Python**
+The Python extension adds IntelliSense, linting, debugging and other useful tools.
+
+**Jupyter**
+Jupyter extension pack includes renderers and other useful tools for working with Jupyter notebooks.
+
+**autoDocstring**
+This extension is helpful to generate docstrings more easily.
+
+##### VS Code Settings
+
+The following VS Code settings help enforce team coding conventions
+```
+"autoDocstring.docstringFormat": "sphinx-notypes",
+"editor.formatOnSave": true,
+"editor.rulers": [ 88 ],
+"python.formatting.provider": "black",
+"python.linting.flake8Enabled": true,
+```
 
 ### Submitting your changes
 
