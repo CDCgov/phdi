@@ -84,7 +84,6 @@ def standardize_phone(
     if "US" not in countries:
         countries.append("US")
 
-    # Allow users to pass in either a string or list of strings
     phones_to_clean = raw_phone
     if isinstance(raw_phone, str):
         phones_to_clean = [raw_phone]
@@ -114,7 +113,6 @@ def standardize_phone(
         else:
             outputs.append("")
 
-    # Make sure we return the same type of data the user gave us
     if isinstance(raw_phone, str):
         return outputs[0]
     return outputs
@@ -149,7 +147,6 @@ def standardize_name(
       input of raw_name, holding the cleaned name(s)
 
     """
-    # Allow users to pass in either a string or list of strings
     names_to_clean = raw_name
     if isinstance(raw_name, str):
         names_to_clean = [raw_name]
@@ -170,7 +167,6 @@ def standardize_name(
             cleaned_name = cleaned_name.title()
         outputs.append(cleaned_name)
 
-    # Return same type as user input
     if isinstance(raw_name, str):
         return outputs[0]
     return outputs

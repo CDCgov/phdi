@@ -22,11 +22,9 @@ def standardize_hl7_datetimes(message: str) -> str:
     """
     parsed_message: hl7.Message = None
     try:
-        # Conversion from \n to \r EOL characters is needed for hl7
-        # module, and doesn't impact conversion ability
+        # The hl7 module requires \n characters be replaced with \r
         parsed_message = hl7.parse(message.replace("\n", "\r"))
 
-        # Normalize Dates
         # MSH-7 - Message date/time
         _normalize_hl7_datetime_segment(parsed_message, "MSH", [7])
 
@@ -35,7 +33,7 @@ def standardize_hl7_datetimes(message: str) -> str:
         # PID-33 - Last update date/time
         _normalize_hl7_datetime_segment(parsed_message, "PID", [7, 29, 33])
 
-        # PV1-44 - Admisstion Date
+        # PV1-44 - Admission Date
         # PV1-45 - Discharge Date
         _normalize_hl7_datetime_segment(parsed_message, "PV1", [44, 45])
 
@@ -69,6 +67,9 @@ def standardize_hl7_datetimes(message: str) -> str:
         # RXA-22 System entry date/time
         _normalize_hl7_datetime_segment(parsed_message, "RXA", [3, 4, 16, 22])
 
+    # @TODO: Eliminate logging, raise an exception, document the exception
+    # in the docstring, and make this fit into our new structure of allowing
+    # the caller to implement more robust error handling
     except Exception:
         logging.exception(
             "Exception occurred while cleaning message.  "
@@ -164,8 +165,7 @@ def _default_hl7_value(
 
     parsed_message: hl7.Message = None
     try:
-        # Conversion from \n to \r EOL characters is needed for hl7
-        # module, and doesn't impact conversion ability
+        # The hl7 module requires \n characters be replaced with \r
         parsed_message = hl7.parse(message.replace("\n", "\r"))
 
         segment: hl7.Segment = None
@@ -181,6 +181,9 @@ def _default_hl7_value(
         ):
             segment.assign_field(value=default_value, field_num=field_num)
 
+    # @TODO: Eliminate logging, raise an exception, document the exception
+    # in the docstring, and make this fit into our new structure of allowing
+    # the caller to implement more robust error handling
     except Exception:
         logging.exception(
             "Exception occurred while cleaning message.  "
@@ -215,6 +218,10 @@ def _normalize_hl7_datetime_segment(
                 if len(segment) > field_num and segment[field_num][0] != "":
                     cleaned_datetime = _normalize_hl7_datetime(segment[field_num][0])
                     segment[field_num][0] = cleaned_datetime
+
+    # @TODO: Eliminate logging, raise an exception, document the exception
+    # in the docstring, and make this fit into our new structure of allowing
+    # the caller to implement more robust error handling
     except KeyError:
         logging.debug(f"Segment {segment_id} not found in message.")
 
