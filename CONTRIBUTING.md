@@ -59,7 +59,7 @@ Supported hardware for PHDI tools includes:
 #### Software
 
 ##### Overview
-The core development team uses VSCode as its IDE, but other options (e.g. IntelliJ, Eclipse, PyCharm, etc.) can be viable as well. The rest of this document will assume that you're using VSCode as your IDE. The project itself is coded primarily in Python.
+This document will assume that you're using VSCode as your IDE, but other options (e.g. IntelliJ, Eclipse, PyCharm, etc.) can be used as well.
 
 ##### Installation
 
@@ -106,6 +106,23 @@ The following VSCode extensions help streamline development in the IDE:
 
 **Python**
 The Python extension adds IntelliSense, linting, debugging and other useful tools.
+
+**Jupyter**
+Jupyter extension pack includes renderers and other useful tools for working with Jupyter notebooks.
+
+**autoDocstring**
+This extension is helpful to generate docstrings more easily.
+
+##### VS Code Settings
+
+The following VS Code settings help enforce team coding conventions
+```
+"autoDocstring.docstringFormat": "sphinx-notypes",
+"editor.formatOnSave": true,
+"editor.rulers": [ 88 ],
+"python.formatting.provider": "black",
+"python.linting.flake8Enabled": true,
+```
 
 ### Submitting your changes
 

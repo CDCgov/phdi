@@ -42,7 +42,7 @@ Example import for generic:
 
 Every building block has a FHIR counterpart that works well with FHIR bundles as inputs. The generic version is used for all other non-FHIR inputs.
 
-For further information on the tutorial: [Geo Spatial Tutorial](tutorials/geospatial-tutorial.md)
+For further information on the tutorial: [Geospatial Tutorial](tutorials/geospatial-tutorial.md)
 
 ## Overview
 
