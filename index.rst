@@ -6,7 +6,7 @@
 Public Health Data Infrastructure (PHDI)
 ====================================================================
 
-Welcome the PHDI API documentation!
+Welcome to the PHDI API documentation!
 
 This project is aimed at providing public health departments with tools to improve data ingestion, facilitate inter-department collaboration, and streamline reporting.
 
