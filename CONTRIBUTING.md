@@ -48,6 +48,32 @@ If you need to base your work on someone else's branch, talk to the branch owner
 
 As you code, please make sure you add proper comments, documentation, and unit tests. PHDI adheres to strict quality guidelines, regardless of whether a contributing engineer is on the team or external. Please also ensure that you thoroughly test your changes on your local machine before submitting.
 
+#### Commenting guidelines
+Commenting is an important part of writing clear code that other people can easily understand (including your future self!). While we recognize each developer has a unique style when it comes to writing comments, we have a few guidelines that govern the project, outlined below.
+
+**Function-level comments**
+
+We use [Sphinx](https://www.sphinx-doc.org) to generate documentation for the PHDI module automatically, and rely heavily on function-level documentation. The [Sphinx Docstring](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html) documentation describes the basic format.  The following format is expected for all PHDI public functions:
+```
+"""
+Basic description of how the function operates
+
+:param myparam: Parameter descriptions for each function parameter.
+:return: A description of the return value (where applicable).
+"""
+```
+
+The `type` and `rtype` declarations are _not_ used, as they should be inferred from the method signature.
+
+The [VS Code Extensions](#extensions) section below outlines how the autoDocstring extension can be used to streamline docstring creation in the VS Code IDE.
+
+**Line-level comments**
+
+Commenting brings the need to balance terseness with verbostiy, and clarity with maintainability. Sometimes striking this balance is more of an art than a science. In general, contributors should feel empowered to strike this balance as best they can. However, in the interest of quality and consistency, we strive for a few principles when adding line-level comments:
+* *Self-documenting code is best*: Choose good module and function names, and write code that speaks for itself.
+* *Consider refactoring*: Modularizing code into helper functions, especially when the same code is used more than once, can lead to more self-documenting code.
+* *Comments should add clarity*: Good comments can add information not easily inferred from the code, summarize functionality provided by a block of code, or add context to explain non-idiomatic code. Avoid restating information that is already in function-level comments, or can be easily obtained from in the code itself.  
+
 ### How to set up your local environment to contribute to our code
 
 #### Hardware
