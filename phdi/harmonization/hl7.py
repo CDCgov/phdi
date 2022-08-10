@@ -246,7 +246,6 @@ def _normalize_hl7_datetime(hl7_datetime: str) -> str:
       format could be found
     """
 
-    # Use regex to achieve the datetime formatting described above
     hl7_datetime_match = re.match(r"(\d{8}\d*)(\.\d+)?([+-]\d+)?", hl7_datetime)
 
     if not hl7_datetime_match:

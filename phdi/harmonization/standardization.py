@@ -25,6 +25,12 @@ def standardize_country_code(
       desired identifier type to generate
     """
 
+    # @TODO: Potentially do some minor restructuring around this logic
+    # to make it shorter/clearer. A private helper was discussed, but
+    # prevailing consensus was that this logic is a guiding nice-to-have
+    # here, where it is, so we'll likely keep it. But this todo marks
+    # a revisit later around whether the logic can be restructuerd.
+
     # First, identify what country the input is referencing
     standard = None
     raw_country = raw_country.strip().upper()
