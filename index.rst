@@ -3,18 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Public Health Data Infrastructure (PHDI)'s documentation!
+Public Health Data Infrastructure (PHDI)
 ====================================================================
 
+Welcome the PHDI API documentation!
+
+This project is aimed at providing public health departments with tools to improve data ingestion, facilitate inter-department collaboration, and streamline reporting.
+
+For information to get started using or contributing to PHDI, see our `GitHub Repository <https://github.com/CDCGov/phdi>`_.
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
+   _source/modules
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
