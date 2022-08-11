@@ -59,6 +59,9 @@ We use [Sphinx](https://www.sphinx-doc.org) to automatically generate html docum
 Basic description of how the function operates
 
 :param myparam: Parameter descriptions for each function parameter.
+...
+:raises ExceptionType: Exception description for each raised exception.
+...
 :return: A description of the return value (where applicable).
 """
 ```
