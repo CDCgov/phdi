@@ -52,9 +52,8 @@ def http_request_with_retry(
                 json=data,
             )
         except Exception:
-            logging.exception(
-                "POST request to " + url + " failed for data: " + str(data)
-            )
+            # TODO: Potentially remove logging, and replace with reported errors.
+            logging.exception(f"POST request to {url} failed.")
             return
     elif request_type == "GET":
         try:
@@ -64,7 +63,8 @@ def http_request_with_retry(
             )
             return response
         except Exception:
-            logging.exception("GET request to " + url + " failed.")
+            # TODO: Potentially remove logging, and replace with reported errors.
+            logging.exception(f"GET request to {url} failed.")
     else:
         raise ValueError(f"Unexpected request_type {request_type}")
 
