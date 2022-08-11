@@ -1,4 +1,5 @@
 from .core import BaseCredentialManager
+from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 
 
@@ -37,11 +38,11 @@ class AzureCredentialManager(BaseCredentialManager):
         """
         return DefaultAzureCredential()
 
-    def get_access_token(self) -> str:
+    def get_access_token(self) -> AccessToken:
         """
         Obtain an access token from the Azure identity provider.
         """
         creds = self.get_credential_object()
 
-        self.access_token = creds.get_token(self.scope)
-        return self.access_token
+        access_token = creds.get_token(self.scope)
+        return access_token
