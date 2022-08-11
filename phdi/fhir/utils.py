@@ -18,6 +18,8 @@ def find_resource_by_type(bundle: dict, resource_type: str) -> List[dict]:
     ]
 
 
+# @TODO: Improve this function for more general use, since it's user-
+# facing (i.e. make it more robust, less fragile, etc.)
 def get_field(resource: dict, field: str, use: str, default_field: int) -> str:
     """
     For a given field (such as name or address), find the first-occuring

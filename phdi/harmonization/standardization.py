@@ -159,7 +159,7 @@ def standardize_name(
     outputs = []
 
     for name in names_to_clean:
-        # Start by removing all punctuation
+        # Remove all punctuation
         cleaned_name = "".join([ltr for ltr in name if ltr.isalnum() or ltr == " "])
         if remove_numbers:
             cleaned_name = "".join([ltr for ltr in cleaned_name if not ltr.isnumeric()])

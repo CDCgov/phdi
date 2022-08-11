@@ -215,7 +215,9 @@ def _normalize_hl7_datetime_segment(
     try:
         for segment in message.segments(segment_id):
             for field_num in field_list:
-                if len(segment) > field_num and segment[field_num][0] != "":
+                # Datetime value is always in first component
+                component_num = 0
+                if len(segment) > field_num and segment[field_num][component_num] != "":
                     cleaned_datetime = _normalize_hl7_datetime(segment[field_num][0])
                     segment[field_num][0] = cleaned_datetime
 
