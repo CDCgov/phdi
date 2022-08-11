@@ -7,7 +7,7 @@ class BaseCredentialManager(ABC):
     credentials.
     """
 
-    def __init__(self, resource_location: str, scope: str):
+    def __init__(self, resource_location: str, scope: str = None):
         """
         Create a new BaseCredentialManager object.
         This object type is not intended to be called directly, but the constructor
@@ -20,14 +20,14 @@ class BaseCredentialManager(ABC):
         self.scope = scope
 
     @abstractmethod
-    def get_credential_object(self):
+    def get_credential_object(self) -> object:
         """
         Returns a cloud-specific credential object
         """
         pass
 
     @abstractmethod
-    def get_access_token(self):
+    def get_access_token(self) -> str:
         """
         Returns an access token for the respective scope
         """

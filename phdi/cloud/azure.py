@@ -7,11 +7,9 @@ class AzureCredentialManager(BaseCredentialManager):
     This class provides an Azure-specific credential manager.
     """
 
-    def __init__(self, resource_location: str, scope: str):
+    def __init__(self, resource_location: str, scope: str = None):
         """
-        Create a new BaseCredentialManager object.
-        This object type is not intended to be called directly, but the constructor
-        may be called from base classes.
+        Create a new AzureCredentialManager object.
 
         :param resource_location: URL or other location of the requested resource.
         :param scope: A space-delimited list of scopes to limit access to resource.
@@ -19,24 +17,23 @@ class AzureCredentialManager(BaseCredentialManager):
         self.resource_location = resource_location
         self.scope = scope
 
-    def get_credential_object(self):
+        if self.scope is None:
+            self.scope = f"{self.resource_location}/.default"
+
+    def get_credential_object(self) -> object:
         """
-        Returns a cloud-specific credential object
+        Get an Azure-specific credential object.
+
+        :return: Returns an instance of one of the *Credential objects from the
+        `azure.identity` package.
         """
         return DefaultAzureCredential()
 
-    def get_access_token(self, scope=None) -> str:
+    def get_access_token(self) -> str:
         """
         Obtain an access token from the Azure identity provider.
-
-        :param scope: OAuth2 scope to request for the access token
         """
         creds = self.get_credential_object()
 
-        if scope is None:
-            # This is the value Azure expects in order to retrieve the default scope
-            # from the identity provider
-            scope = f"{self.resource_location}/.default"
-
-        self.access_token = creds.get_token(scope)
+        self.access_token = creds.get_token(self.scope)
         return self.access_token
