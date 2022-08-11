@@ -1,4 +1,4 @@
-import mock
+from unittest import mock
 
 from requests import Session
 from phdi.transport import http_request_with_retry
