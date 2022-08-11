@@ -7,18 +7,6 @@ class BaseCredentialManager(ABC):
     credentials.
     """
 
-    def __init__(self, resource_location: str, scope: str = None):
-        """
-        Create a new BaseCredentialManager object.
-        This object type is not intended to be called directly, but the constructor
-        may be called from base classes.
-
-        :param resource_location: URL or other location of the requested resource.
-        :param scope: A space-delimited list of scopes to limit access to resource.
-        """
-        self.resource_location = resource_location
-        self.scope = scope
-
     @abstractmethod
     def get_credential_object(self) -> object:
         """
