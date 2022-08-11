@@ -1,4 +1,4 @@
-from core import BaseCredentialManager
+from .core import BaseCredentialManager
 from azure.identity import DefaultAzureCredential
 
 
