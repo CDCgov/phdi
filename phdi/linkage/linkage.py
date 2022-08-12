@@ -2,7 +2,6 @@ import hashlib
 import copy
 from phdi.utils import (
     find_resource_by_type,
-    get_one_line_address,
     get_field,
 )
 
@@ -35,16 +34,15 @@ def add_patient_identifier(bundle: dict, salt_str: str, overwrite: bool = True) 
         name_parts = recent_name.get("given", []) + [recent_name.get("family", "")]
         name_str = "-".join([n for n in name_parts if n])
 
-        # Compile one-line address string
         address_line = ""
         if "address" in patient:
             address = get_field(patient, "address", "home", 0)
-            address_line = get_one_line_address(address)
+            address_line = _get_one_line_address(address)
 
         # TODO Determine if minimum quality criteria should be included, such as min
         # number of characters in last name, valid birth date, or address line
         # Generate and store unique hash code
-        link_str = name_str + "-" + patient["birthDate"] + "-" + address_line
+        link_str = f'{name_str}-{patient["birthDate"]}-{address_line}'
         hashcode = generate_hash_str(link_str, salt_str)
 
         if "identifier" not in patient:
@@ -82,3 +80,17 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     to_encode = (linking_identifier + salt_str).encode("utf-8")
     hash_obj.update(to_encode)
     return hash_obj.hexdigest()
+
+
+def _get_one_line_address(address: dict) -> str:
+    """
+    Extract a one-line string representation of an address from a
+    JSON dictionary holding address information.
+
+    :param address: The address bundle
+    """
+    raw_one_line = " ".join(address.get("line", []))
+    raw_one_line += f" {address.get('city')}, {address.get('state')}"
+    if "postalCode" in address and address["postalCode"]:
+        raw_one_line += f" {address['postalCode']}"
+    return raw_one_line
