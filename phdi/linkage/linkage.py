@@ -1,6 +1,6 @@
 import hashlib
 import copy
-from phdi.utils import (
+from phdi.fhir.utils import (
     find_resource_by_type,
     get_field,
 )
