@@ -1,6 +1,13 @@
-from .core import BaseCredentialManager
+import json
+import logging
+import pathlib
+import requests
+
+from .core import BaseCredentialManager, CloudContainerConnection
 from azure.core.credentials import AccessToken
+from azure.core.exceptions import ResourceExistsError
 from azure.identity import DefaultAzureCredential
+from azure.storage.blob import ContainerClient
 from datetime import datetime, timezone
 
 
@@ -72,3 +79,122 @@ class AzureCredentialManager(BaseCredentialManager):
         except AttributeError:
             # access_token not set
             return True
+
+
+class AzureCloudContainerConnection(CloudContainerConnection):
+    @property
+    def resource_location(self) -> str:
+        return self.__resource_location
+
+    @property
+    def scope(self) -> str:
+        return self.__scope
+
+    def __init__(self, resource_location: str, cred_manager: BaseCredentialManager):
+        """
+        Create a new AzureCloudContainerConnection object.
+
+
+        :param resource_location: URL or other location of the requested resource.
+        :param cred_manager: The Azure credential manager.
+        """
+        self.__resource_location = resource_location
+        self.__cred_manager = cred_manager
+
+    def _get_blob_client(container_url: str) -> ContainerClient:
+        """
+        Obtains a client connected to an Azure storage container by
+        utilizing the first valid credentials Azure can find. For
+        more information on the order in which the credentials are
+        checked, see the Azure documentation:
+        https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
+
+        :param container_url: The url at which to access the container
+        :return: An Azure container client for the given container
+        """
+        creds = DefaultAzureCredential()
+        return ContainerClient.from_container_url(container_url, credential=creds)
+
+    def store_data(
+        container_url: str,
+        prefix: str,
+        filename: str,
+        bundle_type: str,
+        message_json: dict = None,
+        message: str = None,
+    ) -> None:
+        """
+        Stores provided data, which is either a FHIR bundle or an HL7 message,
+        in an appropriate output container.
+
+        :param container_url: The url at which to access the container
+        :param prefix: The "filepath" prefix used to navigate the
+        virtual directories to the output container
+        :param filename: The name of the file to write the data to
+        :param bundle_type: The type of data being written (VXU, ELR, etc)
+        :param message_json: The content of a message encoded in json format.
+        :param message: The content of a message encoded as a string.
+        """
+        client = self._get_blob_client(container_url)
+        blob = client.get_blob_client(
+            str(pathlib.Path(prefix) / bundle_type / filename)
+        )
+        if message_json is not None:
+            blob.upload_blob(json.dumps(message_json).encode("utf-8"), overwrite=True)
+        elif message is not None:
+            blob.upload_blob(bytes(message, "utf-8"), overwrite=True)
+
+    def store_message_and_response(
+        container_url: str,
+        prefix: str,
+        bundle_type: str,
+        message_filename: str,
+        response_filename: str,
+        message: str,
+        response: requests.Response,
+    ):
+        """
+        Store information about an incoming message as well as an http response for a
+        transaction related to that message.  This method can be used to
+        record a failed response to a transaction related to an inbound transaction for
+        troubleshooting purposes.
+
+            :param container_url: The url at which to access the container
+            :param prefix: The "filepath" prefix used to navigate the
+                virtual directories to the output container
+            :param bundle_type: The type of data being written
+            :param message_filename: The file name to use to store the message
+                in blob storage
+            :param response_filename: The file name to use to store the response content
+                in blob storage
+            :param message: The content of a message encoded as a string.
+            :param response: HTTP response information from a transaction related to the
+                `message`.
+        """
+        try:
+            # First attempt is storing the message directly in the
+            # invalid messages container
+            self.store_data(
+                container_url=container_url,
+                prefix=prefix,
+                filename=message_filename,
+                bundle_type=bundle_type,
+                message=message,
+            )
+        except ResourceExistsError:
+            logging.warning(
+                f"Attempted to store preexisting resource: {message_filename}"
+            )
+        try:
+            # Then, try to store the response information
+            self.store_data(
+                container_url=container_url,
+                prefix=prefix,
+                filename=response_filename,
+                bundle_type=bundle_type,
+                message=response.text,
+            )
+        except ResourceExistsError:
+            logging.warning(
+                f"Attempted to store preexisting resource: {response_filename}"
+            )
