@@ -2,6 +2,7 @@ import json
 
 from .core import BaseCredentialManager, BaseCloudContainerConnection
 from azure.core.credentials import AccessToken
+from azure.core.exceptions import ResourceExistsError
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
