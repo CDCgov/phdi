@@ -15,7 +15,7 @@ class BaseCredentialManager(ABC):
         pass
 
     @abstractmethod
-    def get_access_token(self) -> object:
+    def get_access_token(self) -> str:
         """
         Returns an access token using the managed credentials
         """
