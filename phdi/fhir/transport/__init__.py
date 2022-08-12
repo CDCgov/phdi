@@ -122,7 +122,8 @@ def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> N
 
     :param status_code: Status code returned by a FHIR server
     """
-
+    # TODO: We may dedcide to remove logging, and instead report errors back to
+    # calling function as raised exceptions.
     batch_decorator = ""
     if batch_entry_index is not None:
         batch_decorator = (
