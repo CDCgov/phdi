@@ -101,7 +101,7 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         self.__resource_location = resource_location
         self.__cred_manager = cred_manager
 
-    def _get_blob_client(container_url: str) -> ContainerClient:
+    def _get_blob_client(self, container_url: str) -> ContainerClient:
         """
         Obtains a client connected to an Azure storage container by
         utilizing the first valid credentials Azure can find. For
@@ -112,14 +112,13 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         :param container_url: The url at which to access the container
         :return: An Azure container client for the given container
         """
-        creds = DefaultAzureCredential()
+        creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
 
     def store_data(
-        container_url: str,
-        prefix: str,
+        self,
+        container_name: str,
         filename: str,
-        bundle_type: str,
         message_json: dict = None,
         message: str = None,
     ) -> None:
@@ -135,19 +134,18 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         :param message_json: The content of a message encoded in json format.
         :param message: The content of a message encoded as a string.
         """
-        client = self._get_blob_client(container_url)
-        blob = client.get_blob_client(
-            str(pathlib.Path(prefix) / bundle_type / filename)
-        )
+        container_location = str(pathlib.Path(self.resource_location / container_name))
+        client = self._get_blob_client(container_location)
+        blob = client.get_blob_client(filename)
+
         if message_json is not None:
             blob.upload_blob(json.dumps(message_json).encode("utf-8"), overwrite=True)
         elif message is not None:
             blob.upload_blob(bytes(message, "utf-8"), overwrite=True)
 
     def store_message_and_response(
-        container_url: str,
-        prefix: str,
-        bundle_type: str,
+        self,
+        container_name: str,
         message_filename: str,
         response_filename: str,
         message: str,
@@ -175,10 +173,8 @@ class AzureCloudContainerConnection(CloudContainerConnection):
             # First attempt is storing the message directly in the
             # invalid messages container
             self.store_data(
-                container_url=container_url,
-                prefix=prefix,
+                container_name=container_name,
                 filename=message_filename,
-                bundle_type=bundle_type,
                 message=message,
             )
         except ResourceExistsError:
@@ -188,10 +184,8 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         try:
             # Then, try to store the response information
             self.store_data(
-                container_url=container_url,
-                prefix=prefix,
+                container_name=container_name,
                 filename=response_filename,
-                bundle_type=bundle_type,
                 message=response.text,
             )
         except ResourceExistsError:
