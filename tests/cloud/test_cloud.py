@@ -1,6 +1,9 @@
+import io
+import json
+
 from datetime import datetime, timezone
 from unittest import mock
-from phdi.cloud.azure import AzureCredentialManager
+from phdi.cloud.azure import AzureCredentialManager, AzureCloudContainerConnection
 from phdi.cloud.gcp import GcpCredentialManager
 
 
@@ -235,3 +238,117 @@ def test_gcp_credential_manager_handle_expired_credentials(
     _ = credential_manager.get_credential_object()
     _ = credential_manager.get_access_token()
     assert mock_gcp_creds.call_count == 2
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_blob_client")
+def test_upload_object(mock_get_client):
+    mock_blob_client = mock.Mock()
+
+    mock_container_client = mock.Mock()
+    mock_container_client.get_blob_client.return_value = mock_blob_client
+
+    mock_get_client.return_value = mock_container_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+    object_content = {"hello": "world"}
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    phdi_container_client.upload_object(
+        object_container,
+        object_path,
+        object_content,
+    )
+
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+
+    mock_blob_client.upload_blob.assert_called_with(
+        json.dumps(object_content).encode("utf-8"), overwrite=True
+    )
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_blob_client")
+def test_download_object(mock_get_client):
+    mock_blob_client = mock.Mock()
+
+    mock_container_client = mock.Mock()
+    mock_container_client.get_blob_client.return_value = mock_blob_client
+
+    mock_get_client.return_value = mock_container_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+    object_content = {"hello": "world"}
+
+    def __write_stream(stream):
+        stream.write(json.dumps(object_content).encode("utf-8"))
+        stream.seek(0)
+
+    mock_downloader = mock.Mock(download_to_stream=__write_stream)
+
+    mock_blob_client.download_blob.return_value = mock_downloader
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    download_content = phdi_container_client.download_object(
+        object_container,
+        object_path,
+    )
+
+    assert json.loads(download_content.read()) == object_content
+
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+
+    mock_blob_client.download_blob.assert_called_with()
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_blob_client")
+def test_download_object_pass_stream(mock_get_client):
+    mock_blob_client = mock.Mock()
+
+    mock_container_client = mock.Mock()
+    mock_container_client.get_blob_client.return_value = mock_blob_client
+
+    mock_get_client.return_value = mock_container_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+    object_content = {"hello": "world"}
+
+    def __write_stream(stream):
+        stream.write(json.dumps(object_content))
+        stream.seek(0)
+
+    mock_downloader = mock.Mock(download_to_stream=__write_stream)
+
+    mock_blob_client.download_blob.return_value = mock_downloader
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    io_stream = io.StringIO()
+    download_content = phdi_container_client.download_object(
+        object_container, object_path, io_stream
+    )
+
+    assert io_stream == download_content
+    assert json.loads(download_content.read()) == object_content
+
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+
+    mock_blob_client.download_blob.assert_called_with()

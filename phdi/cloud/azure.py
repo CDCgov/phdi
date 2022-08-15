@@ -1,6 +1,6 @@
+import io
 import json
 import logging
-import pathlib
 import requests
 
 from .core import BaseCredentialManager, CloudContainerConnection
@@ -9,6 +9,7 @@ from azure.core.exceptions import ResourceExistsError
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient
 from datetime import datetime, timezone
+from typing import IO
 
 
 class AzureCredentialManager(BaseCredentialManager):
@@ -115,7 +116,23 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
 
-    def store_data(
+    def download_object(
+        self, container_name: str, filename: str, io_stream: IO = None
+    ) -> IO:
+        container_location = f"{self.resource_location}/{container_name}"
+        container_client = self._get_blob_client(container_location)
+        blob_client = container_client.get_blob_client(filename)
+
+        downloader = blob_client.download_blob()
+
+        if io_stream is None:
+            io_stream = io.BytesIO()
+
+        downloader.download_to_stream(io_stream)
+
+        return io_stream
+
+    def upload_object(
         self,
         container_name: str,
         filename: str,
@@ -134,61 +151,68 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         :param message_json: The content of a message encoded in json format.
         :param message: The content of a message encoded as a string.
         """
-        container_location = str(pathlib.Path(self.resource_location / container_name))
-        client = self._get_blob_client(container_location)
-        blob = client.get_blob_client(filename)
+        container_location = f"{self.resource_location}/{container_name}"
+        container_client = self._get_blob_client(container_location)
+        blob_client = container_client.get_blob_client(filename)
 
         if message_json is not None:
-            blob.upload_blob(json.dumps(message_json).encode("utf-8"), overwrite=True)
+            blob_client.upload_blob(
+                json.dumps(message_json).encode("utf-8"), overwrite=True
+            )
         elif message is not None:
-            blob.upload_blob(bytes(message, "utf-8"), overwrite=True)
+            blob_client.upload_blob(bytes(message, "utf-8"), overwrite=True)
 
-    def store_message_and_response(
-        self,
-        container_name: str,
-        message_filename: str,
-        response_filename: str,
-        message: str,
-        response: requests.Response,
-    ):
-        """
-        Store information about an incoming message as well as an http response for a
-        transaction related to that message.  This method can be used to
-        record a failed response to a transaction related to an inbound transaction for
-        troubleshooting purposes.
+    def list_containers(self):
+        return super().list_containers()
 
-            :param container_url: The url at which to access the container
-            :param prefix: The "filepath" prefix used to navigate the
-                virtual directories to the output container
-            :param bundle_type: The type of data being written
-            :param message_filename: The file name to use to store the message
-                in blob storage
-            :param response_filename: The file name to use to store the response content
-                in blob storage
-            :param message: The content of a message encoded as a string.
-            :param response: HTTP response information from a transaction related to the
-                `message`.
-        """
-        try:
-            # First attempt is storing the message directly in the
-            # invalid messages container
-            self.store_data(
-                container_name=container_name,
-                filename=message_filename,
-                message=message,
-            )
-        except ResourceExistsError:
-            logging.warning(
-                f"Attempted to store preexisting resource: {message_filename}"
-            )
-        try:
-            # Then, try to store the response information
-            self.store_data(
-                container_name=container_name,
-                filename=response_filename,
-                message=response.text,
-            )
-        except ResourceExistsError:
-            logging.warning(
-                f"Attempted to store preexisting resource: {response_filename}"
-            )
+    def list_objects(self):
+        return super().list_objects()
+
+
+def store_message_and_response(
+    client: AzureCloudContainerConnection,
+    container_name: str,
+    message_filename: str,
+    response_filename: str,
+    message: str,
+    response: requests.Response,
+):
+    """
+    Store information about an incoming message as well as an http response for a
+    transaction related to that message.  This method can be used to
+    record a failed response to a transaction related to an inbound transaction for
+    troubleshooting purposes.
+
+        :param client: An instance of `AzureCloudContainerConnection` used to
+          upload the request
+        :param container_url: The url at which to access the container
+        :param prefix: The "filepath" prefix used to navigate the
+          virtual directories to the output container
+        :param bundle_type: The type of data being written
+        :param message_filename: The file name to use to store the message
+          in blob storage
+        :param response_filename: The file name to use to store the response content
+          in blob storage
+        :param message: The content of a message encoded as a string.
+        :param response: HTTP response information from a transaction related to the
+          `message`.
+    """
+    try:
+        # First attempt is storing the message directly in the
+        # invalid messages container
+        client.store_data(
+            container_name=container_name,
+            filename=message_filename,
+            message=message,
+        )
+    except ResourceExistsError:
+        logging.warning(f"Attempted to store preexisting resource: {message_filename}")
+    try:
+        # Then, try to store the response information
+        client.store_data(
+            container_name=container_name,
+            filename=response_filename,
+            message=response.text,
+        )
+    except ResourceExistsError:
+        logging.warning(f"Attempted to store preexisting resource: {response_filename}")

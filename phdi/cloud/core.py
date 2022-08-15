@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Union, IO
+from typing import IO
 
 
 class BaseCredentialManager(ABC):
@@ -38,17 +38,17 @@ class CloudContainerConnection(ABC):
 
     @abstractmethod
     def download_object(
-        self, container_name: str, filename: str, cred_manager: BaseCredentialManager
-    ) -> Any:
+        self, container_name: str, filename: str, io_stream: IO = None
+    ) -> IO:
         pass
 
     @abstractmethod
     def upload_object(
         self,
-        data: Union[str, dict, IO],
         container_name: str,
         filename: str,
-        cred_manager: BaseCredentialManager,
+        message_json: dict = None,
+        message: str = None,
     ) -> None:
         pass
 
