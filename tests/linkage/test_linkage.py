@@ -1,7 +1,4 @@
-from phdi.linkage import (
-    generate_hash_str,
-    add_patient_identifier
-)
+from phdi.linkage import generate_hash_str, add_patient_identifier
 import json
 import pathlib
 
@@ -66,4 +63,3 @@ def test_add_patient_identifier():
         if resource["resource"]["resourceType"] == "Patient":
             assert len(resource["resource"]["identifier"]) == 2
             assert resource["resource"]["identifier"][-1] == expected_new_identifier
-
