@@ -2,7 +2,6 @@ import json
 
 from .core import BaseCredentialManager, BaseCloudContainerConnection
 from azure.core.credentials import AccessToken
-from azure.core.exceptions import ResourceExistsError
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
@@ -163,14 +162,27 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def list_containers(self) -> List[str]:
         """
-        List names for this CloudContainerConnection's containers
+        Store information about an incoming message as well as an http response for a
+        transaction related to that message.  This method can be used to
+        record a failed response to a transaction related to an inbound transaction for
+        troubleshooting purposes.
 
+            :param container_url: The url at which to access the container
+            :param prefix: The "filepath" prefix used to navigate the
+                virtual directories to the output container
+            :param bundle_type: The type of data being written
+            :param message_filename: The file name to use to store the message
+                in blob storage
+            :param response_filename: The file name to use to store the response content
+                in blob storage
+            :param message: The content of a message encoded as a string.
+            :param response: HTTP response information from a transaction related to the
+                `message`.
         """
         creds = self.cred_manager.get_credential_object()
         service_client = BlobServiceClient(
             account_url=self.storage_account_url, credential=creds
         )
-
         container_properties_generator = service_client.list_containers()
 
         container_name_list = []
