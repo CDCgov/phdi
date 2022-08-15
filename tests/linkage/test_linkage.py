@@ -1,7 +1,6 @@
 from phdi.linkage import (
     generate_hash_str,
-    add_patient_identifier,
-    get_one_line_address
+    add_patient_identifier
 )
 import json
 import pathlib
@@ -68,10 +67,3 @@ def test_add_patient_identifier():
             assert len(resource["resource"]["identifier"]) == 2
             assert resource["resource"]["identifier"][-1] == expected_new_identifier
 
-def test_get_one_line_address():
-    bundle = json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
-    )
-    patient = bundle["entry"][1]["resource"]
-    result_address = "123 Fake St Unit #F Faketon, NY 10001-0001"
-    assert get_one_line_address(patient.get("address", [])[0]) == result_address
