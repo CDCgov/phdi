@@ -7,7 +7,7 @@ from .core import BaseCredentialManager, CloudContainerConnection
 from azure.core.credentials import AccessToken
 from azure.core.exceptions import ResourceExistsError
 from azure.identity import DefaultAzureCredential
-from azure.storage.blob import ContainerClient
+from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
 from typing import IO
 
@@ -163,10 +163,30 @@ class AzureCloudContainerConnection(CloudContainerConnection):
             blob_client.upload_blob(bytes(message, "utf-8"), overwrite=True)
 
     def list_containers(self):
-        return super().list_containers()
+        creds = self.cred_manager.get_credential_object()
+        service_client = BlobServiceClient.from_connection_string(
+            self.resource_location, credential=creds
+        )
 
-    def list_objects(self):
-        return super().list_objects()
+        container_properties_generator = service_client.list_containers()
+
+        container_name_list = []
+        for container_propreties in container_properties_generator:
+            container_name_list.append(container_propreties.name)
+
+        return container_name_list
+
+    def list_objects(self, container_name: str, prefix: str = ""):
+        container_location = f"{self.resource_location}/{container_name}"
+        container_client = self._get_blob_client(container_location)
+
+        blob_properties_generator = container_client.list_blobs(name_starts_with=prefix)
+
+        blob_name_list = []
+        for blob_propreties in blob_properties_generator:
+            blob_name_list.append(blob_propreties.name)
+
+        return blob_name_list
 
 
 def store_message_and_response(
