@@ -3,6 +3,7 @@ from unittest import mock
 from phdi.cloud.azure import AzureCredentialManager
 from phdi.cloud.gcp import GcpCredentialManager
 
+
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager(mock_az_creds):
 
