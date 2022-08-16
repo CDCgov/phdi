@@ -1,6 +1,7 @@
 import io
 import json
 
+from azure.storage.blob import BlobServiceClient
 from datetime import datetime, timezone
 from unittest import mock
 from phdi.cloud.azure import AzureCredentialManager, AzureCloudContainerConnection
@@ -352,3 +353,32 @@ def test_download_object_pass_stream(mock_get_client):
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
     mock_blob_client.download_blob.assert_called_with()
+
+
+@mock.patch.object(BlobServiceClient, "from_connection_string")
+def test_list_containers(mock_from_connection_string):
+
+    mock_container_list = [mock.Mock(name="container1"), mock.Mock(name="container2")]
+    mock_list_containers = mock.Mock(return_value=mock_container_list)
+
+    mock_client = mock.Mock(list_containers=mock_list_containers)
+
+    mock_from_connection_string.return_value = mock_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    container_list = phdi_container_client.list_containers()
+
+    mock_from_connection_string.assert_called_with(
+        object_storage_account, credential=mock_cred_manager.get_credential_object()
+    )
+
+    mock_client.list_containers.assert_called_with()
+
+    assert container_list == ["container1", "container2"]

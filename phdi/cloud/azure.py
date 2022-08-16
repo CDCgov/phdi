@@ -88,10 +88,10 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         return self.__resource_location
 
     @property
-    def scope(self) -> str:
-        return self.__scope
+    def cred_manager(self) -> AzureCredentialManager:
+        return self.__cred_manager
 
-    def __init__(self, resource_location: str, cred_manager: BaseCredentialManager):
+    def __init__(self, resource_location: str, cred_manager: AzureCredentialManager):
         """
         Create a new AzureCloudContainerConnection object.
 
