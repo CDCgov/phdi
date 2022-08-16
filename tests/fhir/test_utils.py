@@ -25,7 +25,7 @@ def test_get_fhir_conversion_settings():
         "template_collection": "microsofthealth/fhirconverter:default",
     }
 
-    # CCDA case (using an example message found at https://github.com/HL7/C-CDA-Examples)
+    # CCDA case (using an example found at https://github.com/HL7/C-CDA-Examples)
     message = ""
     with open(
         pathlib.Path(__file__).parent.parent / "assets" / "ccda_sample.xml"

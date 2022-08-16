@@ -88,7 +88,7 @@ def convert_to_fhir(
 
     if response.status_code != 200:
         raise Exception(
-            f"HTTP {str(response.status_code)} code encountered in $convert-data for a message"
+            f"HTTP {str(response.status_code)} code encountered in $convert-data for a message"  # noqa
         )
     return response
 
@@ -158,7 +158,7 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
                         return {
                             "root_template": "CCD",
                             "input_data_type": "Ccda",
-                            "template_collection": "microsofthealth/ccdatemplates:default",
+                            "template_collection": "microsofthealth/ccdatemplates:default",  # noqa
                         }
                     else:
                         raise KeyError(
