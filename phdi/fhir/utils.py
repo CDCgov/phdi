@@ -4,6 +4,8 @@ from typing import List
 import xml.etree.ElementTree as et
 
 from phdi.harmonization import standardize_hl7_datetimes
+from phdi.cloud.core import BaseCredentialManager
+from phdi.fhir.transport import http_request_with_reauth
 
 
 CCDA_CODES_TO_CONVERSION_RESOURCE = {
@@ -19,13 +21,9 @@ CCDA_CODES_TO_CONVERSION_RESOURCE = {
 }
 
 
-# @TODO: Update this function with proper credentials management
-# once that code is ready.
-# @TODO: Update this function with the http_request_with_reauth when
-# that function lands in the SDK
 def convert_to_fhir(
     message: str,
-    cred_manager,
+    cred_manager: BaseCredentialManager,
     fhir_url: str,
     template_mappings: dict = CCDA_CODES_TO_CONVERSION_RESOURCE,
 ):
@@ -79,7 +77,7 @@ def convert_to_fhir(
     access_token = cred_manager.get_access_token().token
     headers = {"Authorization": f"Bearer {access_token}"}
 
-    response = _http_request_with_reauth(
+    response = http_request_with_reauth(
         cred_manager=cred_manager,
         url=url,
         retry_count=3,
