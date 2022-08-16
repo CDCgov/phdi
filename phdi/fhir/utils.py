@@ -25,7 +25,7 @@ def convert_to_fhir(
     message: str,
     cred_manager: BaseCredentialManager,
     fhir_url: str,
-    template_mappings: dict = CCDA_CODES_TO_CONVERSION_RESOURCE,
+    use_default_ccda=False,
 ):
     """
     Given a message in either HL7 v2 (pipe-delimited flat file) or
@@ -46,12 +46,11 @@ def convert_to_fhir(
       make a request
     :param fhir_url: A URL that points to the location of the FHIR
       server
-    :param template_mappings: An optional dictionary specifying how
-      LOINC codes found in CCDA data inputs should map to convertible
-      FHIR resources. A default mapping is provided, but the user
-      is free to supply their own transformation if desired.
+    :param use_default_ccda: Optionally, whether to default to the
+      base "CCD" root template if a resource's LOINC code doesn't
+      map to a specific supported template. Default is No.
     """
-    conversion_settings = _get_fhir_conversion_settings(message, template_mappings)
+    conversion_settings = _get_fhir_conversion_settings(message, use_default_ccda)
     if conversion_settings.get("input_data_type") == "HL7v2":
         message = standardize_hl7_datetimes(message)
 
@@ -89,34 +88,31 @@ def convert_to_fhir(
 
     if response.status_code != 200:
         raise Exception(
-            f"HTTP {str(response.status_code)} code encountered in"
-            + f" $convert-data for a message"
+            f"HTTP {str(response.status_code)} code encountered in $convert-data for a message"
         )
     return response
 
 
-def _get_fhir_conversion_settings(
-    message: str, template_mappings: dict = CCDA_CODES_TO_CONVERSION_RESOURCE
-) -> dict:
+def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
     """
     Private helper function to determine what settings to use with the
     FHIR server to facilitate message conversion. Some data streams
     will be encoded in HL7 format, whereas others will be XML data.
     Attempts to identify which data type the input has and determine
-    the appropriate FHIR converter root template to use. Returns
-    errors if the input data type isn't supported or if the user
-    doesn't supply a dictionary mapping of LOINC codes to applicable
-    CCDA templates. More information about the required templates and
-    settings can be found here:
+    the appropriate FHIR converter root template to use. If the user
+    opts to not use the default CCDA root template in cases where an
+    input resource isn't supported, the functionwill raise an
+    exception if a message's extracted LOINC code doesn't correspond to
+    an existing CCDA template. More information about the required
+    templates and settings can be found here:
 
     https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data
 
     :param message: The incoming message (already cleaned, if
       applicable)
-    :param template_mappings: An optional dictionary specifying how
-      LOINC codes found in CCDA data inputs should map to convertible
-      FHIR resources. A default mapping is provided, but the user
-      is free to supply their own transformation if desired.
+    :param use_default_ccda: Optionally, whether to default to the
+      base "CCD" root template if a resource's LOINC code doesn't
+      map to a specific supported template. Default is No.
     :return: A dictionary holding the settings of parameters to-be
       set when converting the input to FHIR
     """
@@ -151,18 +147,25 @@ def _get_fhir_conversion_settings(
                 ccda_code = child.attrib.get("code")
 
                 try:
-                    root_template = template_mappings[ccda_code]
+                    root_template = CCDA_CODES_TO_CONVERSION_RESOURCE[ccda_code]
                     return {
                         "root_template": root_template,
                         "input_data_type": "Ccda",
                         "template_collection": "microsofthealth/ccdatemplates:default",
                     }
-                except:
-                    raise KeyError(
-                        "Resource code does not match any provided input template"
-                    )
+                except KeyError:
+                    if use_default_ccda:
+                        return {
+                            "root_template": "CCD",
+                            "input_data_type": "Ccda",
+                            "template_collection": "microsofthealth/ccdatemplates:default",
+                        }
+                    else:
+                        raise KeyError(
+                            "Resource code does not match any provided input template"
+                        )
 
-        except:
+        except et.ParseError:
             raise Exception(
                 "Input message has unrecognized data type, should be HL7v2 or XML"
             )
