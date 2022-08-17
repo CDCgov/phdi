@@ -6,6 +6,8 @@ from smartystreets_python_sdk import us_street
 from typing import List
 from copy import copy
 
+from ...utils import get_one_line_address
+
 
 class SmartyFhirGeocodeClient(FhirGeocodeClient):
     """
@@ -62,7 +64,7 @@ class SmartyFhirGeocodeClient(FhirGeocodeClient):
         a given patient resource.
         """
         for address in patient.get("address", []):
-            address_str = self._get_one_line_address(address)
+            address_str = get_one_line_address(address)
             standardized_address = self.__client.geocode_from_str(address_str)
 
             # Update fields with new, standardized information
