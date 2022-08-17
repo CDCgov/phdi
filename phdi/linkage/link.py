@@ -4,6 +4,7 @@ from phdi.fhir.utils import (
     find_resource_by_type,
     get_field,
 )
+from ..utils import get_one_line_address
 
 
 def add_patient_identifier(bundle: dict, salt_str: str, overwrite: bool = True) -> dict:
@@ -37,7 +38,7 @@ def add_patient_identifier(bundle: dict, salt_str: str, overwrite: bool = True) 
         address_line = ""
         if "address" in patient:
             address = get_field(patient, "address", "home", 0)
-            address_line = _get_one_line_address(address)
+            address_line = get_one_line_address(address)
 
         # TODO Determine if minimum quality criteria should be included, such as min
         # number of characters in last name, valid birth date, or address line
@@ -80,17 +81,3 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     to_encode = (linking_identifier + salt_str).encode("utf-8")
     hash_obj.update(to_encode)
     return hash_obj.hexdigest()
-
-
-def _get_one_line_address(address: dict) -> str:
-    """
-    Extract a one-line string representation of an address from a
-    JSON dictionary holding address information.
-
-    :param address: The address bundle
-    """
-    raw_one_line = " ".join(address.get("line", []))
-    raw_one_line += f" {address.get('city')}, {address.get('state')}"
-    if "postalCode" in address and address["postalCode"]:
-        raw_one_line += f" {address['postalCode']}"
-    return raw_one_line
