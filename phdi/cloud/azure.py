@@ -230,24 +230,16 @@ def store_message_and_response(
     :param response: HTTP response information from a transaction related to the
       `message`.
     """
-    try:
-        # First attempt is storing the message directly in the
-        # invalid messages container
-        client.upload_object(
-            container_name=container_name,
-            filename=message_filename,
-            message=message,
-        )
-    except ResourceExistsError:
-        # TODO evaluate whether we want to log errors or throw them
-        logging.warning(f"Attempted to store preexisting resource: {message_filename}")
-    try:
-        # Then, try to store the response information
-        client.upload_object(
-            container_name=container_name,
-            filename=response_filename,
-            message=response.text,
-        )
-    except ResourceExistsError:
-        # TODO evaluate whether we want to log errors or throw them
-        logging.warning(f"Attempted to store preexisting resource: {response_filename}")
+    # First attempt is storing the message directly in the
+    # invalid messages container
+    client.upload_object(
+        container_name=container_name,
+        filename=message_filename,
+        message=message,
+    )
+    # Then, try to store the response information
+    client.upload_object(
+        container_name=container_name,
+        filename=response_filename,
+        message=response.text,
+    )
