@@ -1,8 +1,12 @@
 [tool.poetry]
 name = "phdi"
-version = "0.1.0"
-description = ""
-authors = []
+version = "0.1.0.dev1"
+description = "Public health data infrastructure Building Blocks is a library to help public health departments work with their data"
+authors = ["Kenneth Chow <kenneth@skylight.digital>", "Brandon Mader <brandon@skylight.digital>", "Spencer Kathol <spencer@skylight.digital>"]
+homepage = "https://github.com/CDCgov/phdi"
+repository = "https://github.com/CDCgov/phdi"
+documentation = "https://cdcgov.github.io/phdi/v0.1.0-dev/"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -16,9 +20,9 @@ phonenumbers = "^8.12.48"
 pycountry = "^22.3.5"
 PyYAML = "^6.0"
 pyarrow = "^8.0.0"
-fhirpathpy = {git = "https://github.com/beda-software/fhirpath-py.git"}
 pandas = "^1.4.2"
 coverage = "^6.4.1"
+fhirpathpy = "0.1.0"
 google-auth = "^2.10.0"
 
 [tool.poetry.dev-dependencies]
