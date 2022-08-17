@@ -1,4 +1,5 @@
 import logging
+from typing import List, Literal
 import requests
 
 from phdi.cloud.core import BaseCredentialManager
@@ -7,7 +8,12 @@ from phdi.transport import http_request_with_retry
 
 def http_request_with_reauth(
     cred_manager: BaseCredentialManager,
-    **kwargs: dict,
+    url: str,
+    retry_count: int,
+    request_type: Literal["GET", "POST"],
+    allowed_methods: List[str],
+    headers: dict,
+    data: dict = None,
 ) -> requests.Response:
     """
     First, call :func:`utils.http_request_with_retry`.  If the first call failed
@@ -16,22 +22,43 @@ def http_request_with_reauth(
     with the new token and re-initiate :func:`utils.http_request_with_retry`.
 
     :param cred_manager: credential manager used to obtain a new token, if necessary
-    :param kwargs: keyword arguments passed to :func:`utils.http_request_with_retry`
-      this function only supports passing keyword args, not positional args to
-      http_request_with_retry
+    :param url: The url at which to make the HTTP request
+    :param retry_count: The number of times to re-try the request, if the
+      first attempt fails
+    :param request_type: The type of request to be made. Currently supports
+      GET and POST.
+    :param allowed_methods: The list of allowed HTTP request methods (i.e.
+      POST, PUT, etc.) for the specific URL and query
+    :param headers: JSON-type dictionary of headers to make the request with,
+      including Authorization and content-type
+    :param data: JSON data in the case that the request requires data to be
+      posted. Defaults to none.
     :return: A requests.Request object containing the response from the FHIR server.
     """
 
-    response = http_request_with_retry(**kwargs)
+    response = http_request_with_retry(
+        url=url,
+        retry_count=retry_count,
+        request_type=request_type,
+        allowed_methods=allowed_methods,
+        headers=headers,
+        data=data,
+    )
 
     # Retry with new token in case it expired since creation (or from cache)
     if response.status_code == 401:
-        headers = kwargs.get("headers")
         if headers.get("Authorization", "").startswith("Bearer "):
             new_access_token = cred_manager.get_access_token().token
             headers["Authorization"] = f"Bearer {new_access_token}"
 
-        response = http_request_with_retry(**kwargs)
+        response = http_request_with_retry(
+            url=url,
+            retry_count=retry_count,
+            request_type=request_type,
+            allowed_methods=allowed_methods,
+            headers=headers,
+            data=data,
+        )
 
     return response
 
