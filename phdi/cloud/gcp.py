@@ -46,7 +46,7 @@ class GcpCredentialManager(BaseCredentialManager):
             self.__scoped_credentials, self.__project_id = google.auth.default(
                 scopes=self.scope
             )
-        elif self.__scoped_credentials.expired():
+        elif self.__scoped_credentials.expired:
             self.__scoped_credentials, self.__project_id = google.auth.default(
                 scopes=self.scope
             )
@@ -74,7 +74,7 @@ class GcpCredentialManager(BaseCredentialManager):
         """
 
         creds = self.get_credential_object()
-        if not creds.valid():
+        if not creds.valid:
             request = google.auth.transport.requests.Request()
             creds.refresh(request=request)
 

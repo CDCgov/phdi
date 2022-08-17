@@ -165,8 +165,8 @@ def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
     # Make dummy GCP credentials object.
     credentials = mock.Mock()
     credentials.token = token
-    credentials.expired.return_value = False
-    credentials.valid.return_value = True
+    credentials.expired = False
+    credentials.valid = True
 
     mock_gcp_creds.return_value = credentials, project_id
 
@@ -196,8 +196,8 @@ def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_re
     # Make dummy GCP credentials object.
     credentials = mock.Mock()
     credentials.token = token
-    credentials.expired.return_value = False
-    credentials.valid.return_value = False
+    credentials.expired = False
+    credentials.valid = False
 
     mock_gcp_creds.return_value = credentials, project_id
 
@@ -223,8 +223,8 @@ def test_gcp_credential_manager_handle_expired_credentials(
     # Make dummy GCP credentials object.
     credentials = mock.Mock()
     credentials.token = token
-    credentials.expired.return_value = True
-    credentials.valid.return_value = False
+    credentials.expired = True
+    credentials.valid = False
 
     mock_gcp_creds.return_value = credentials, project_id
 

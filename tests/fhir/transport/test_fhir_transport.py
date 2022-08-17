@@ -14,22 +14,17 @@ def test_auth_retry(patched_requests_session):
     ]
 
     mock_access_token_value1 = "some-token1"
-    mock_access_token1 = mock.Mock()
-    mock_access_token1.token = mock_access_token_value1
-
     mock_access_token_value2 = "some-token2"
-    mock_access_token2 = mock.Mock()
-    mock_access_token2.token = mock_access_token_value2
 
     mock_cred_manager = mock.Mock()
     mock_cred_manager.get_access_token.side_effect = [
-        mock_access_token1,
-        mock_access_token2,
+        mock_access_token_value1,
+        mock_access_token_value2,
     ]
 
     url = "https://fhir-url"
 
-    initial_access_token = mock_cred_manager.get_access_token().token
+    initial_access_token = mock_cred_manager.get_access_token()
     response = http_request_with_reauth(
         cred_manager=mock_cred_manager,
         url=url,
@@ -60,22 +55,17 @@ def test_auth_retry_double_fail(patched_requests_session):
     ]
 
     mock_access_token_value1 = "some-token1"
-    mock_access_token1 = mock.Mock()
-    mock_access_token1.token = mock_access_token_value1
-
     mock_access_token_value2 = "some-token2"
-    mock_access_token2 = mock.Mock()
-    mock_access_token2.token = mock_access_token_value2
 
     mock_cred_manager = mock.Mock()
     mock_cred_manager.get_access_token.side_effect = [
-        mock_access_token1,
-        mock_access_token2,
+        mock_access_token_value1,
+        mock_access_token_value2,
     ]
 
     url = "https://fhir-url"
 
-    initial_access_token = mock_cred_manager.get_access_token().token
+    initial_access_token = mock_cred_manager.get_access_token()
     response = http_request_with_reauth(
         cred_manager=mock_cred_manager,
         url=url,
