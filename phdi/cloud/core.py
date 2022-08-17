@@ -23,20 +23,19 @@ class BaseCredentialManager(ABC):
         pass
 
 
-class CloudContainerConnection(ABC):
+class BaseCloudContainerConnection(ABC):
     @abstractmethod
     def download_object(
         self, container_name: str, filename: str, stream: IO = None
     ) -> IO:
         """
-        Downloads a blob from storage.
+        Downloads a blob from storage.  Returns the `stream` parameter, if supplied.
+        Otherwise a new stream object containing blob content.
 
-        :param container_name: Storage container name.
+        :param container_name: The name of the container containing object to download
         :param filename: Location of file within storage.
         :param stream: (optional) stream object that should be used to write output
           contents of blob.
-        :return: The `stream` parameter, if supplied. Otherwise a new stream object
-          containing blob content.
         """
         pass
 
@@ -52,9 +51,9 @@ class CloudContainerConnection(ABC):
         Uploads content to storage.
         Exactly one of message_json or message should be provided.
 
-        :param container_name: Storage container name.
+        :param container_name: The name of the target container for upload
         :param filename: Location of file within storage container.
-        :param message_json: The content of a message a json-formatted dict.
+        :param message_json: The content of a message in JSON format.
         :param message: The content of a message encoded as a string.
         """
         pass
@@ -64,7 +63,6 @@ class CloudContainerConnection(ABC):
         """
         List names for this CloudContainerConnection's containers
 
-        :return: A list of container names
         """
         pass
 
@@ -73,8 +71,7 @@ class CloudContainerConnection(ABC):
         """
         List names for objects within a container
 
-        :param container_name: Storage container name.
+        :param container_name: The name of the container to look for objects
         :param prefix: Only return objects whose filenames begin with this value
-        :return: A list of object names
         """
         pass

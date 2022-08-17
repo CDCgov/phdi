@@ -3,7 +3,7 @@ import json
 import logging
 import requests
 
-from .core import BaseCredentialManager, CloudContainerConnection
+from .core import BaseCredentialManager, BaseCloudContainerConnection
 from azure.core.credentials import AccessToken
 from azure.core.exceptions import ResourceExistsError
 from azure.identity import DefaultAzureCredential
@@ -14,7 +14,7 @@ from typing import IO, List
 
 class AzureCredentialManager(BaseCredentialManager):
     """
-    This class implements the PHDI credential manager interface for connecting to Azure.
+    This class defines a credential manager for connecting to Azure.
     """
 
     @property
@@ -46,19 +46,18 @@ class AzureCredentialManager(BaseCredentialManager):
     def get_credential_object(self) -> object:
         """
         Get an Azure-specific credential object.
-
-        :return: Returns an instance of one of the *Credential objects from the
+        This returns an instance of one of the *Credential objects from the
         `azure.identity` package.
         """
         return DefaultAzureCredential()
 
     def get_access_token(self, force_refresh: bool = False) -> str:
         """
-        Obtain an access token from the Azure identity provider.
+        Obtain an access token from the Azure identity provider.  The access token,
+        refreshed if necessary
 
         :param force_refresh: force token refresh even if the current token is
           still valid
-        :return: The access token, refreshed if necessary
         """
 
         if force_refresh or (self.access_token is None) or self._need_new_token():
@@ -72,7 +71,6 @@ class AzureCredentialManager(BaseCredentialManager):
         Determine whether the token already stored for this object can be reused,
         or if it needs to be re-requested.
 
-        :return: Whether we need a new token (True means we do)
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()
@@ -82,7 +80,7 @@ class AzureCredentialManager(BaseCredentialManager):
             return True
 
 
-class AzureCloudContainerConnection(CloudContainerConnection):
+class AzureCloudContainerConnection(BaseCloudContainerConnection):
     """
     This class implements the PHDI cloud storage interface for connecting to Azure.
     """
@@ -115,7 +113,6 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
 
         :param container_url: The url at which to access the container
-        :return: An Azure container client for the given container
         """
         creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
@@ -124,14 +121,13 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         self, container_name: str, filename: str, stream: IO = None
     ) -> IO:
         """
-        Downloads a blob from storage.
+        Downloads a blob from storage. The `stream` parameter, if supplied.
+        Otherwise a new io.IOBytes object.
 
-        :param container_name: Azure blob container name.
+        :param container_name: The name of the container containing object to download
         :param filename: Location of file within Azure blob storage.
         :param stream: (optional) stream object that should be used to write output
           contents of blob.
-        :return: The `stream` parameter, if supplied. Otherwise a new
-          io.IOBytes object.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -157,9 +153,9 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         Uploads content to Azure blob storage.
         Exactly one of message_json or message should be provided.
 
-        :param container_name: Azure blob container name.
+        :param container_name: The name of the target container for upload
         :param filename: Location of file within Azure blob storage.
-        :param message_json: The content of a message a json-formatted dict.
+        :param message_json: The content of a message in JSON format.
         :param message: The content of a message encoded as a string.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
@@ -175,9 +171,8 @@ class AzureCloudContainerConnection(CloudContainerConnection):
 
     def list_containers(self) -> List[str]:
         """
-        List of names for this CloudContainerConnection's containers
+        List names for this CloudContainerConnection's containers
 
-        :return: A list of container names
         """
         creds = self.cred_manager.get_credential_object()
         service_client = BlobServiceClient.from_connection_string(
@@ -196,9 +191,8 @@ class AzureCloudContainerConnection(CloudContainerConnection):
         """
         List names for objects within a container
 
-        :param container_name: Azure blob container name.
+        :param container_name: The name of the container to look for objects
         :param prefix: Only return objects whose filenames begin with this value
-        :return: A list of object names
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -228,7 +222,7 @@ def store_message_and_response(
 
     :param client: An instance of `AzureCloudContainerConnection` used to
       upload the request
-    :param container_name: Azure blob container name.
+    :param container_name: The name of the target container for upload
     :param message_filename: The file name to use to store the message in blob storage
     :param response_filename: The file name to use to store the response content
       in blob storage
