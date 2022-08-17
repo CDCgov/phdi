@@ -48,7 +48,7 @@ def http_request_with_reauth(
     # Retry with new token in case it expired since creation (or from cache)
     if response.status_code == 401:
         if headers.get("Authorization", "").startswith("Bearer "):
-            new_access_token = cred_manager.get_access_token().token
+            new_access_token = cred_manager.get_access_token()
             headers["Authorization"] = f"Bearer {new_access_token}"
 
         response = http_request_with_retry(
@@ -76,7 +76,7 @@ def upload_bundle_to_fhir_server(
     :return: A requests.Request object containing the response from the FHIR server.
     """
 
-    access_token = cred_manager.get_access_token().token
+    access_token = cred_manager.get_access_token()
 
     response = http_request_with_reauth(
         cred_manager=cred_manager,
@@ -128,7 +128,7 @@ def fhir_server_get(
         request.
     :return: A requests.Request object containing the response from the FHIR server.
     """
-    access_token = cred_manager.get_access_token().token
+    access_token = cred_manager.get_access_token()
     # Open connection to the export operation and kickoff process
     response = http_request_with_reauth(
         cred_manager=cred_manager,
