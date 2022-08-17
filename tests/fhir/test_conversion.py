@@ -1,22 +1,33 @@
 import pathlib
 from unittest import mock
 
-from phdi.fhir.conversion import (
-    convert_to_fhir,
-    _get_fhir_conversion_settings,
-)
+from phdi.fhir.conversion import convert_to_fhir
+from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
 from phdi.harmonization import standardize_hl7_datetimes
 
 
 def test_get_fhir_conversion_settings():
 
-    # HL7 case (using the demo message from the HL7 API walkthrough)
+    # HL7 case 1 (using the demo message from the HL7 API walkthrough)
     message = ""
     with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
         message = fp.read()
     settings = _get_fhir_conversion_settings(message)
     assert settings == {
         "root_template": "ORU_R01",
+        "input_data_type": "HL7v2",
+        "template_collection": "microsofthealth/fhirconverter:default",
+    }
+
+    # HL7 case 2, when MSH[3] is set
+    message = ""
+    with open(
+        pathlib.Path(__file__).parent.parent / "assets" / "hl7_with_msh_3_set.hl7"
+    ) as fp:
+        message = fp.read()
+    settings = _get_fhir_conversion_settings(message)
+    assert settings == {
+        "root_template": "ADT_A01",
         "input_data_type": "HL7v2",
         "template_collection": "microsofthealth/fhirconverter:default",
     }

@@ -135,6 +135,9 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
                     f"{extracted_code_tokenized[0]}_{extracted_code_tokenized[1]}"
                 )
 
+            if formatted_code == "":
+                raise Exception("Could not determine HL7 message structure")
+
             return {
                 "root_template": formatted_code,
                 "input_data_type": "HL7v2",
