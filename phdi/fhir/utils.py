@@ -47,3 +47,17 @@ def get_field(resource: dict, field: str, use: str, default_field: int) -> str:
         (item for item in resource[field] if item.get("use") == use),
         resource[field][default_field],
     )
+
+
+def get_one_line_address(address: dict) -> str:
+    """
+    Extract a one-line string representation of an address from a
+    JSON dictionary holding address information.
+
+    :param address: The address bundle
+    """
+    raw_one_line = " ".join(address.get("line", []))
+    raw_one_line += f" {address.get('city')}, {address.get('state')}"
+    if "postalCode" in address and address["postalCode"]:
+        raw_one_line += f" {address['postalCode']}"
+    return raw_one_line

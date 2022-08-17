@@ -30,22 +30,6 @@ class FhirGeocodeClient(ABC):
         pass
 
     @staticmethod
-    def _get_one_line_address(address: dict) -> str:
-        """
-        Extract a one-line string representation of an address from a
-        FHIR-formatted dictionary holding address information.
-
-        :param address: The dictionary containing address fields
-        :return: A string representation of the address contained in the
-        FHIR dictionary, formatted for use with string-input geocoders
-        """
-        raw_one_line = " ".join(address.get("line", []))
-        raw_one_line += f" {address.get('city')}, {address.get('state')}"
-        if "postalCode" in address and address["postalCode"]:
-            raw_one_line += f" {address['postalCode']}"
-        return raw_one_line
-
-    @staticmethod
     def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:
         """
         Given a FHIR-formatted dictionary holding address fields, add
