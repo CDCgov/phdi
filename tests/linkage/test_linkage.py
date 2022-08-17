@@ -1,4 +1,4 @@
-from phdi.linkage import generate_hash_str, add_patient_identifier
+from phdi.linkage import generate_hash_str
 import json
 import pathlib
 
@@ -16,50 +16,51 @@ def test_generate_hash():
     assert hash_2 == "102818c623290c24069beb721c6eb465d281b3b67ecfb6aef924d14affa117b9"
 
 
-def test_missing_address():
-    bundle = {
-        "entry": [
-            {
-                "resource": {
-                    "resourceType": "Patient",
-                    "name": [{"family": "doe"}],
-                    "birthDate": "19900101",
-                }
-            }
-        ]
-    }
+# TODO: move this to the fhir testing file
+# def test_missing_address():
+#     bundle = {
+#         "entry": [
+#             {
+#                 "resource": {
+#                     "resourceType": "Patient",
+#                     "name": [{"family": "doe"}],
+#                     "birthDate": "19900101",
+#                 }
+#             }
+#         ]
+#     }
 
-    add_patient_identifier(bundle, "some-salt")
-    expected = generate_hash_str("doe-19900101-", "some-salt")
-    actual = bundle["entry"][0]["resource"]["identifier"][0]["value"]
-    assert actual == expected
+#     add_patient_identifier(bundle, "some-salt")
+#     expected = generate_hash_str("doe-19900101-", "some-salt")
+#     actual = bundle["entry"][0]["resource"]["identifier"][0]["value"]
+#     assert actual == expected
 
+# TODO: move this to the fhir testing file
+# def test_add_patient_identifier():
+#     salt_str = "super-legit-salt"
 
-def test_add_patient_identifier():
-    salt_str = "super-legit-salt"
+#     incoming_bundle = json.load(
+#         open(
+#             pathlib.Path(__file__).parent.parent
+#             / "assets"
+#             / "patient_with_linking_id_bundle.json"
+#         )
+#     )
 
-    incoming_bundle = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent
-            / "assets"
-            / "patient_with_linking_id_bundle.json"
-        )
-    )
+#     plaintext = (
+#         "John-Tiberius-Shepard-2053-11-07-"
+#         + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+#     )
 
-    plaintext = (
-        "John-Tiberius-Shepard-2053-11-07-"
-        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
-    )
+#     expected_new_identifier = {
+#         "value": generate_hash_str(plaintext, salt_str),
+#         "system": "urn:ietf:rfc:3986",
+#         "use": "temp",
+#     }
 
-    expected_new_identifier = {
-        "value": generate_hash_str(plaintext, salt_str),
-        "system": "urn:ietf:rfc:3986",
-        "use": "temp",
-    }
-
-    add_patient_identifier(incoming_bundle, salt_str)
-    assert len(incoming_bundle["entry"]) == 3
-    for resource in incoming_bundle["entry"]:
-        if resource["resource"]["resourceType"] == "Patient":
-            assert len(resource["resource"]["identifier"]) == 2
-            assert resource["resource"]["identifier"][-1] == expected_new_identifier
+#     add_patient_identifier(incoming_bundle, salt_str)
+#     assert len(incoming_bundle["entry"]) == 3
+#     for resource in incoming_bundle["entry"]:
+#         if resource["resource"]["resourceType"] == "Patient":
+#             assert len(resource["resource"]["identifier"]) == 2
+#             assert resource["resource"]["identifier"][-1] == expected_new_identifier
