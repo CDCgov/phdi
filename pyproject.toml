@@ -19,6 +19,7 @@ pyarrow = "^8.0.0"
 fhirpathpy = {git = "https://github.com/beda-software/fhirpath-py.git"}
 pandas = "^1.4.2"
 coverage = "^6.4.1"
+google-auth = "^2.10.0"
 
 [tool.poetry.dev-dependencies]
 Sphinx = "^4.4.0"
