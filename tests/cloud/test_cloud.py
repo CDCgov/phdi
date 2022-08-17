@@ -15,7 +15,7 @@ from phdi.cloud.gcp import GcpCredentialManager
 def test_azure_credential_manager(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
     az_scope = "some-scope"
     az_access_token_str = "some-token"
     az_access_token_exp = datetime.now(timezone.utc).timestamp() + 1000
@@ -24,7 +24,7 @@ def test_azure_credential_manager(mock_az_creds):
     )
     mock_az_creds_instance.get_token = mock.Mock(return_value=az_access_token)
 
-    cred_manager = AzureCredentialManager(az_resource_location, az_scope)
+    cred_manager = AzureCredentialManager(az_storage_account_url, az_scope)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -39,7 +39,7 @@ def test_azure_credential_manager(mock_az_creds):
 def test_azure_credential_manager_default_scope(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
 
     az_access_token_str = "some-token"
     az_access_token_exp = datetime.now(timezone.utc).timestamp() + 1000
@@ -48,7 +48,7 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
     )
     mock_az_creds_instance.get_token = mock.Mock(return_value=az_access_token)
 
-    cred_manager = AzureCredentialManager(az_resource_location)
+    cred_manager = AzureCredentialManager(az_storage_account_url)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -56,7 +56,7 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
 
     access_token = cred_manager.get_access_token()
     mock_az_creds_instance.get_token.assert_called_with(
-        f"{az_resource_location}/.default"
+        f"{az_storage_account_url}/.default"
     )
     assert access_token == az_access_token_str
 
@@ -65,7 +65,7 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
 def test_azure_credential_manager_reuse_token(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
 
     az_access_token_str1 = "some-token1"
     az_access_token_exp1 = datetime.now(timezone.utc).timestamp() + 1000
@@ -81,7 +81,7 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
         side_effect=[az_access_token1, az_access_token2]
     )
 
-    cred_manager = AzureCredentialManager(az_resource_location)
+    cred_manager = AzureCredentialManager(az_storage_account_url)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -89,7 +89,7 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
 
     access_token = cred_manager.get_access_token()
     mock_az_creds_instance.get_token.assert_called_with(
-        f"{az_resource_location}/.default"
+        f"{az_storage_account_url}/.default"
     )
     assert access_token == az_access_token_str1
 
@@ -98,7 +98,7 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
 def test_azure_credential_manager_refresh_token(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
 
     az_access_token_str1 = "some-token1"
     az_access_token_exp1 = datetime.now(timezone.utc).timestamp() - 1000
@@ -114,7 +114,7 @@ def test_azure_credential_manager_refresh_token(mock_az_creds):
         side_effect=[az_access_token1, az_access_token2]
     )
 
-    cred_manager = AzureCredentialManager(az_resource_location)
+    cred_manager = AzureCredentialManager(az_storage_account_url)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -122,7 +122,7 @@ def test_azure_credential_manager_refresh_token(mock_az_creds):
 
     access_token = cred_manager.get_access_token()
     mock_az_creds_instance.get_token.assert_called_with(
-        f"{az_resource_location}/.default"
+        f"{az_storage_account_url}/.default"
     )
     assert access_token == az_access_token_str2
 
@@ -357,3 +357,5 @@ def test_download_object_cp1252(mock_get_client):
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
     mock_blob_client.download_blob.assert_called_with()
+<<<<<<< HEAD
+=======
