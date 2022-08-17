@@ -14,8 +14,8 @@ class AzureCredentialManager(BaseCredentialManager):
     """
 
     @property
-    def storage_account_url(self) -> str:
-        return self.__storage_account_url
+    def resource_location(self) -> str:
+        return self.__resource_location
 
     @property
     def scope(self) -> str:
@@ -25,19 +25,19 @@ class AzureCredentialManager(BaseCredentialManager):
     def access_token(self) -> AccessToken:
         return self.__access_token
 
-    def __init__(self, storage_account_url: str, scope: str = None):
+    def __init__(self, resource_location: str, scope: str = None):
         """
         Create a new AzureCredentialManager object.
 
-        :param storage_account_url: URL or other location of the requested resource.
+        :param resource_location: URL or other location of the requested resource.
         :param scope: A space-delimited list of scopes to limit access to resource.
         """
-        self.__storage_account_url = storage_account_url
+        self.__resource_location = resource_location
         self.__scope = scope
         self.__access_token = None
 
         if self.scope is None:
-            self.__scope = f"{self.storage_account_url}/.default"
+            self.__scope = f"{self.resource_location}/.default"
 
     def get_credential_object(self) -> object:
         """
