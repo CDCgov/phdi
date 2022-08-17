@@ -14,7 +14,7 @@ from typing import IO, List
 
 class AzureCredentialManager(BaseCredentialManager):
     """
-    This class implements the PHDI cloud storage interface for connecting to Azure.
+    This class implements the PHDI credential manager interface for connecting to Azure.
     """
 
     @property
@@ -245,6 +245,7 @@ def store_message_and_response(
             message=message,
         )
     except ResourceExistsError:
+        # TODO evaluate whether we want to log errors or throw them
         logging.warning(f"Attempted to store preexisting resource: {message_filename}")
     try:
         # Then, try to store the response information
@@ -254,4 +255,5 @@ def store_message_and_response(
             message=response.text,
         )
     except ResourceExistsError:
+        # TODO evaluate whether we want to log errors or throw them
         logging.warning(f"Attempted to store preexisting resource: {response_filename}")
