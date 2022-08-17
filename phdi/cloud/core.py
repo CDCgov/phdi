@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import IO
+from typing import IO, List
 
 
 class BaseCredentialManager(ABC):
@@ -24,22 +24,20 @@ class BaseCredentialManager(ABC):
 
 
 class CloudContainerConnection(ABC):
-    def __init__(self, resource_location: str, cred_manager: BaseCredentialManager):
-        """
-        Create a new BaseCredentialManager object.
-        This object type is not intended to be called directly, but the constructor
-        may be called from base classes.
-
-        :param resource_location: URL or other location of the requested resource.
-        :param scope: A space-delimited list of scopes to limit access to resource.
-        """
-        self.resource_location = resource_location
-        self.cred_manager = cred_manager
-
     @abstractmethod
     def download_object(
-        self, container_name: str, filename: str, io_stream: IO = None
+        self, container_name: str, filename: str, stream: IO = None
     ) -> IO:
+        """
+        Downloads a blob from storage.
+
+        :param container_name: Storage container name.
+        :param filename: Location of file within storage.
+        :param stream: (optional) stream object that should be used to write output
+          contents of blob.
+        :return: The `stream` parameter, if supplied. Otherwise a new stream object
+          containing blob content.
+        """
         pass
 
     @abstractmethod
@@ -50,12 +48,33 @@ class CloudContainerConnection(ABC):
         message_json: dict = None,
         message: str = None,
     ) -> None:
+        """
+        Uploads content to storage.
+        Exactly one of message_json or message should be provided.
+
+        :param container_name: Storage container name.
+        :param filename: Location of file within storage container.
+        :param message_json: The content of a message a json-formatted dict.
+        :param message: The content of a message encoded as a string.
+        """
         pass
 
     @abstractmethod
-    def list_containers(self):
+    def list_containers(self) -> List[str]:
+        """
+        List names for this CloudContainerConnection's containers
+
+        :return: A list of container names
+        """
         pass
 
     @abstractmethod
-    def list_objects(self):
+    def list_objects(self) -> List[str]:
+        """
+        List names for objects within a container
+
+        :param container_name: Storage container name.
+        :param prefix: Only return objects whose filenames begin with this value
+        :return: A list of object names
+        """
         pass

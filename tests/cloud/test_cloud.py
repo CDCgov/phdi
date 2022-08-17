@@ -4,7 +4,11 @@ import json
 from azure.storage.blob import BlobServiceClient
 from datetime import datetime, timezone
 from unittest import mock
-from phdi.cloud.azure import AzureCredentialManager, AzureCloudContainerConnection
+from phdi.cloud.azure import (
+    AzureCredentialManager,
+    AzureCloudContainerConnection,
+    store_message_and_response,
+)
 from phdi.cloud.gcp import GcpCredentialManager
 
 
@@ -12,7 +16,7 @@ from phdi.cloud.gcp import GcpCredentialManager
 def test_azure_credential_manager(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
     az_scope = "some-scope"
     az_access_token_str = "some-token"
     az_access_token_exp = datetime.now(timezone.utc).timestamp() + 1000
@@ -21,7 +25,7 @@ def test_azure_credential_manager(mock_az_creds):
     )
     mock_az_creds_instance.get_token = mock.Mock(return_value=az_access_token)
 
-    cred_manager = AzureCredentialManager(az_resource_location, az_scope)
+    cred_manager = AzureCredentialManager(az_storage_account_url, az_scope)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -36,7 +40,7 @@ def test_azure_credential_manager(mock_az_creds):
 def test_azure_credential_manager_default_scope(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
 
     az_access_token_str = "some-token"
     az_access_token_exp = datetime.now(timezone.utc).timestamp() + 1000
@@ -45,7 +49,7 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
     )
     mock_az_creds_instance.get_token = mock.Mock(return_value=az_access_token)
 
-    cred_manager = AzureCredentialManager(az_resource_location)
+    cred_manager = AzureCredentialManager(az_storage_account_url)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -53,7 +57,7 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
 
     access_token = cred_manager.get_access_token()
     mock_az_creds_instance.get_token.assert_called_with(
-        f"{az_resource_location}/.default"
+        f"{az_storage_account_url}/.default"
     )
     assert access_token == az_access_token_str
 
@@ -62,7 +66,7 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
 def test_azure_credential_manager_reuse_token(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
 
     az_access_token_str1 = "some-token1"
     az_access_token_exp1 = datetime.now(timezone.utc).timestamp() + 1000
@@ -78,7 +82,7 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
         side_effect=[az_access_token1, az_access_token2]
     )
 
-    cred_manager = AzureCredentialManager(az_resource_location)
+    cred_manager = AzureCredentialManager(az_storage_account_url)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -86,7 +90,7 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
 
     access_token = cred_manager.get_access_token()
     mock_az_creds_instance.get_token.assert_called_with(
-        f"{az_resource_location}/.default"
+        f"{az_storage_account_url}/.default"
     )
     assert access_token == az_access_token_str1
 
@@ -95,7 +99,7 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
 def test_azure_credential_manager_refresh_token(mock_az_creds):
 
     mock_az_creds_instance = mock_az_creds.return_value
-    az_resource_location = "https://some-url"
+    az_storage_account_url = "https://some-url"
 
     az_access_token_str1 = "some-token1"
     az_access_token_exp1 = datetime.now(timezone.utc).timestamp() - 1000
@@ -111,7 +115,7 @@ def test_azure_credential_manager_refresh_token(mock_az_creds):
         side_effect=[az_access_token1, az_access_token2]
     )
 
-    cred_manager = AzureCredentialManager(az_resource_location)
+    cred_manager = AzureCredentialManager(az_storage_account_url)
 
     assert cred_manager.get_credential_object() == mock_az_creds_instance
     access_token = cred_manager.get_access_token()
@@ -119,7 +123,7 @@ def test_azure_credential_manager_refresh_token(mock_az_creds):
 
     access_token = cred_manager.get_access_token()
     mock_az_creds_instance.get_token.assert_called_with(
-        f"{az_resource_location}/.default"
+        f"{az_storage_account_url}/.default"
     )
     assert access_token == az_access_token_str2
 
@@ -241,7 +245,7 @@ def test_gcp_credential_manager_handle_expired_credentials(
     assert mock_gcp_creds.call_count == 2
 
 
-@mock.patch.object(AzureCloudContainerConnection, "_get_blob_client")
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
 def test_upload_object(mock_get_client):
     mock_blob_client = mock.Mock()
 
@@ -274,7 +278,7 @@ def test_upload_object(mock_get_client):
     )
 
 
-@mock.patch.object(AzureCloudContainerConnection, "_get_blob_client")
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
 def test_download_object(mock_get_client):
     mock_blob_client = mock.Mock()
 
@@ -314,7 +318,7 @@ def test_download_object(mock_get_client):
     mock_blob_client.download_blob.assert_called_with()
 
 
-@mock.patch.object(AzureCloudContainerConnection, "_get_blob_client")
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
 def test_download_object_pass_stream(mock_get_client):
     mock_blob_client = mock.Mock()
 
@@ -342,12 +346,12 @@ def test_download_object_pass_stream(mock_get_client):
         object_storage_account, mock_cred_manager
     )
 
-    io_stream = io.StringIO()
+    stream = io.StringIO()
     download_content = phdi_container_client.download_object(
-        object_container, object_path, io_stream
+        object_container, object_path, stream
     )
 
-    assert io_stream == download_content
+    assert stream == download_content
     assert json.loads(download_content.read()) == object_content
 
     mock_container_client.get_blob_client.assert_called_with(object_path)
@@ -357,8 +361,11 @@ def test_download_object_pass_stream(mock_get_client):
 
 @mock.patch.object(BlobServiceClient, "from_connection_string")
 def test_list_containers(mock_from_connection_string):
-
-    mock_container_list = [mock.Mock(name="container1"), mock.Mock(name="container2")]
+    item1 = mock.Mock()
+    item1.name = "container1"
+    item2 = mock.Mock()
+    item2.name = "container2"
+    mock_container_list = [item1, item2]
     mock_list_containers = mock.Mock(return_value=mock_container_list)
 
     mock_client = mock.Mock(list_containers=mock_list_containers)
@@ -382,3 +389,76 @@ def test_list_containers(mock_from_connection_string):
     mock_client.list_containers.assert_called_with()
 
     assert container_list == ["container1", "container2"]
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_list_objects(mock_get_client):
+    item1 = mock.Mock()
+    item1.name = "blob1"
+    item2 = mock.Mock()
+    item2.name = "blob2"
+    mock_object_list = [item1, item2]
+
+    mock_client = mock_get_client.return_value
+
+    mock_client.list_blobs.return_value = mock_object_list
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container-name"
+    object_prefix = "some-prefix"
+
+    mock_cred_manager = mock.Mock()
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    blob_list = phdi_container_client.list_objects(object_container, object_prefix)
+
+    mock_get_client.assert_called_with(f"{object_storage_account}/{object_container}")
+
+    mock_client.list_blobs.assert_called_with(name_starts_with=object_prefix)
+
+    assert blob_list == ["blob1", "blob2"]
+
+
+@mock.patch.object(AzureCloudContainerConnection, "upload_object")
+def test_store_message_and_response(patched_upload):
+    storage_account_location = "some-resource-location"
+    container_name = "some-container-name"
+    message_filename = "some-filename.msg"
+    response_filename = "some-filename.msg.trantype-resp"
+    message = "original-message"
+    response = mock.Mock(text=json.dumps({"resourceType": "Bundle"}))
+
+    mock_cred_manager = mock.Mock()
+
+    azure_storage_client = AzureCloudContainerConnection(
+        storage_account_url=storage_account_location, cred_manager=mock_cred_manager
+    )
+
+    store_message_and_response(
+        client=azure_storage_client,
+        container_name=container_name,
+        message_filename=message_filename,
+        response_filename=response_filename,
+        message=message,
+        response=response,
+    )
+
+    patched_upload.has_calls(
+        [
+            mock.call(
+                storage_account_url=f"{storage_account_location}/{container_name}",
+                message_filename=message_filename,
+                message=message,
+            ),
+            mock.call(
+                storage_account_url=f"{storage_account_location}/{container_name}",
+                filename=response_filename,
+                message=response.text,
+            ),
+        ]
+    )
+
+    patched_upload.call_count = 2
