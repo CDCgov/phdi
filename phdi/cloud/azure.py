@@ -208,5 +208,3 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
             blob_name_list.append(blob_propreties.name)
 
         return blob_name_list
-<<<<<<< HEAD
-=======

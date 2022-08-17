@@ -357,5 +357,3 @@ def test_download_object_cp1252(mock_get_client):
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
     mock_blob_client.download_blob.assert_called_with()
-<<<<<<< HEAD
-=======
