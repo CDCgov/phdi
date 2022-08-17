@@ -1,6 +1,4 @@
 from phdi.linkage import generate_hash_str
-import json
-import pathlib
 
 
 def test_generate_hash():
