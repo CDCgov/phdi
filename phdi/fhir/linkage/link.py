@@ -4,7 +4,7 @@ from phdi.fhir.utils import (
     get_field,
     get_one_line_address,
 )
-from ...linkage.link import generate_hash_str
+from phdi.linkage.link import generate_hash_str
 
 
 def add_patient_identifier(bundle: dict, salt_str: str, overwrite: bool = True) -> dict:
