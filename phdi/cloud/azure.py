@@ -119,8 +119,8 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         self, container_name: str, filename: str, stream: IO = None
     ) -> IO:
         """
-        Downloads a blob from storage. The `stream` parameter, if supplied.
-        Otherwise a new io.IOBytes object.
+        Downloads a blob from storage. The `stream` parameter object will be populated
+        and returned, if supplied. Otherwise a new io.IOBytes object will be returned.
 
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within Azure blob storage.
@@ -205,12 +205,12 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
 
 def store_message_and_response(
+    message: str,
+    response: requests.Response,
     client: AzureCloudContainerConnection,
     container_name: str,
     message_filename: str,
     response_filename: str,
-    message: str,
-    response: requests.Response,
 ) -> None:
     """
     Store information about an incoming message as well as an http response for a
@@ -218,15 +218,15 @@ def store_message_and_response(
     record a failed response to a transaction related to an inbound transaction for
     troubleshooting purposes.
 
+    :param message: The content of a message encoded as a string.
+    :param response: HTTP response information from a transaction related to the
+      `message`.
     :param client: An instance of `AzureCloudContainerConnection` used to
       upload the request
     :param container_name: The name of the target container for upload
     :param message_filename: The file name to use to store the message in blob storage
     :param response_filename: The file name to use to store the response content
       in blob storage
-    :param message: The content of a message encoded as a string.
-    :param response: HTTP response information from a transaction related to the
-      `message`.
     """
     # First attempt is storing the message directly in the
     # invalid messages container
