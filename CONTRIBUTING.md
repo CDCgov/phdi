@@ -61,21 +61,19 @@ Basic description of how the function operates
 :param myparam: Parameter descriptions for each function parameter.
 ...
 :raises ExceptionType: Exception description for each raised exception.
-...
-:return: A description of the return value (where applicable).
 """
 ```
 
-The `type` and `rtype` declarations are _not_ used, as they are inferred by Sphinx from the method signature.
+The `type` and `rtype` declarations are _not_ used, as they are inferred by Sphinx from the method signature. The `return` declarations are not used either.  Any clarifying information about return value shouuld be placed in the basic description.
 
 The [VS Code Extensions](#extensions) section below outlines how the autoDocstring extension can be used to streamline docstring creation in the VS Code IDE.
 
 **Line-level comments**
 
 Commenting brings the need to balance terseness with verbostiy, and clarity with maintainability. Sometimes striking this balance is more of an art than a science. In general, contributors should feel empowered to strike this balance as they see best. However, in the interest of quality and consistency, we strive for a few principles when adding line-level comments:
-* *Self-documenting code is best*: Choose good module and function names, and write code that speaks for itself.
+* *Self-documenting code is best*: Use clear, descriptive, and precise names for modules, variables, and functions; write code that speaks for itself.
 * *Consider refactoring*: Modularizing and other restructuring can lead to self-documenting code. Clear, cleanly structured code is better than adding comments to explain poorly written or confusing code.
-* *Comments should add clarity*: Good comments can add information that cannot be just as easily read or inferred, summarize functionality provided by a block of code, or add context to explain non-idiomatic code. Avoid restating information that is already in function-level comments, or can be easily obtained from in the code itself.  
+* *Comments should add clarity*: Good comments can add information that cannot be easily read or inferred, summarize functionality provided by a block of code, or add context to explain non-idiomatic code. Avoid restating information that is already in function-level comments, or can be easily obtained from in the code itself.  
 
 ### How to set up your local environment to contribute to our code
 
