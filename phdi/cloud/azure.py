@@ -136,6 +136,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         if stream is None:
             stream = io.BytesIO()
 
+        stream.seek(0)
         downloader.download_to_stream(stream)
 
         return stream
@@ -173,8 +174,9 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
         """
         creds = self.cred_manager.get_credential_object()
-        service_client = BlobServiceClient.from_connection_string(
-            self.storage_account_url, credential=creds
+        print(self.storage_account_url)
+        service_client = BlobServiceClient(
+            account_url=self.storage_account_url, credential=creds
         )
 
         container_properties_generator = service_client.list_containers()
