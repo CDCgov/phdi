@@ -9,9 +9,6 @@ from pathlib import Path
 from typing import Literal, List
 
 
-# @TODO: This function should also allow a user to load a JSON file
-# containing a schema; implement that functionality once the port
-# is complete.
 def load_schema(path: str) -> dict:
     """
     Given the path to a local YAML file containing a data schema,
