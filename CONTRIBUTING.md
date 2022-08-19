@@ -138,7 +138,7 @@ The Python extension adds IntelliSense, linting, debugging and other useful tool
 Jupyter extension pack includes renderers and other useful tools for working with Jupyter notebooks.
 
 **autoDocstring**
-This extension is helpful to generate docstrings more easily.
+This extension provides code snippet templates to generate initial docstring content automatically.
 
 ##### VS Code Settings
 
