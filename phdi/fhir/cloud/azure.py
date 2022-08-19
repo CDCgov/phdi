@@ -8,6 +8,7 @@ from phdi.cloud.azure import AzureCredentialManager
 
 def download_from_fhir_export_response(
     export_response: dict,
+    cred_manager: AzureCredentialManager,
 ) -> Iterator[Tuple[str, TextIO]]:
     """
     Accepts the export response content as specified here:
@@ -25,10 +26,15 @@ def download_from_fhir_export_response(
         resource_type = export_entry.get("type")
         blob_url = export_entry.get("url")
 
-        yield (resource_type, _download_export_blob(blob_url=blob_url))
+        yield (
+            resource_type,
+            _download_export_blob(blob_url=blob_url, cred_manager=cred_manager),
+        )
 
 
-def _download_export_blob(blob_url: str, encoding: str = "utf-8") -> TextIO:
+def _download_export_blob(
+    blob_url: str, cred_manager: AzureCredentialManager, encoding: str = "utf-8"
+) -> TextIO:
     """
     Download an export file blob.
 
@@ -36,9 +42,10 @@ def _download_export_blob(blob_url: str, encoding: str = "utf-8") -> TextIO:
     :param encoding: encoding to apply to the ndjson content, defaults to "utf-8"
     """
     bytes_buffer = io.BytesIO()
-    cred_manager = AzureCredentialManager(blob_url)
-    creds = cred_manager.get_credential_object()
-    download_blob_from_url(blob_url=blob_url, output=bytes_buffer, credential=creds)
+    azure_creds = cred_manager.get_credential_object()
+    download_blob_from_url(
+        blob_url=blob_url, output=bytes_buffer, credential=azure_creds
+    )
     text_buffer = io.TextIOWrapper(buffer=bytes_buffer, encoding=encoding, newline="\n")
     text_buffer.seek(0)
 

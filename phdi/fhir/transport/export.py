@@ -41,7 +41,7 @@ def export_from_fhir_server(
 
     # Combine template variables into export endpoint
     logging.debug("Initiating export from FHIR server.")
-    access_token = cred_manager.get_access_token().token
+    access_token = cred_manager.get_access_token()
     export_url = _compose_export_url(
         fhir_url=fhir_url,
         export_scope=export_scope,
@@ -151,7 +151,7 @@ def __export_from_fhir_server_poll_call(
       FHIR server
     """
     logging.debug(f"Polling endpoint {poll_url}")
-    access_token = cred_manager.get_access_token().token
+    access_token = cred_manager.get_access_token()
     response = http_request_with_reauth(
         cred_manager=cred_manager,
         url=poll_url,
