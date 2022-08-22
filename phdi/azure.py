@@ -79,7 +79,7 @@ def _http_request_with_reauth(
     response = http_request_with_retry(**kwargs)
 
     # Retry with new token in case it expired since creation (or from cache)
-    if response.status_code == 401:
+    if response is not None and response.status_code == 401:
         headers = kwargs.get("headers")
         if headers.get("Authorization", "").startswith("Bearer "):
             new_access_token = cred_manager.get_access_token().token

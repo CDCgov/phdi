@@ -154,7 +154,8 @@ def http_request_with_retry(
     http = requests.Session()
     http.mount("https://", adapter)
 
-    # Now, actually try to complete the API request
+    # Initialize the response variable and try to complete the HTTPS request
+    response = None
     if request_type == "POST":
         try:
             response = http.post(
