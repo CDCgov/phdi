@@ -1,7 +1,9 @@
 from unittest import mock
 
+import requests
 from requests import Session
 from phdi.transport import http_request_with_retry
+from phdi.transport.http import _generate_custom_response
 
 
 @mock.patch.object(Session, "post")
@@ -66,3 +68,20 @@ def test_http_request_with_retry_get(mock_retry_strategy, mock_get):
     )
 
     assert response == return_value
+
+
+def test_generate_custom_response():
+    test_response = _generate_custom_response(
+        url="https://some_fhir_server_url",
+        status_code=400,
+        content=b'{"message": "test"}',
+    )
+
+    expected_json = {"message": "test"}
+    expected_status_code = 400
+    expected_url = "https://some_fhir_server_url"
+
+    assert test_response.url == expected_url
+    assert test_response.status_code == expected_status_code
+    assert test_response.json() == expected_json
+    assert isinstance(test_response, requests.Response)

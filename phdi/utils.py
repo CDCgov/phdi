@@ -1,8 +1,8 @@
 from typing import List, Union
 from urllib3 import Retry
-from requests.models import Response
 import requests
 from requests.adapters import HTTPAdapter
+import logging
 
 
 def find_resource_by_type(bundle: dict, resource_type: str) -> List[dict]:
@@ -119,31 +119,6 @@ def standardize_text(raw_text: str, **kwargs) -> str:
     return text
 
 
-def _generate_custom_response(
-    url: str, status_code: int, content: Union[str, bytes]
-) -> requests.Response:
-    """
-    Returns a custom requests.Response object with relevant information about the
-    request and why it failed. The primary purpose of this functionality is to mock a
-    Response object in instances where the requests.request method fails or was not
-    executed in order to provide consistency in functionality that expects a Response
-    object to be returned.
-
-    :param url: The URL of the request that failed or was never run.
-    :param status_code: The HTTP status code that should be returned to the user.
-    :param content: Relevant information about what the original request failed or
-    wasn't run. This could include the Exception, the traceback info, or a custom
-    message. It should be passed as a string, but in the form of a dictionary
-    (e.g. '{"exception": "<class 'requests.exceptions.ConnectTimeout'>})')
-    """
-    response = Response()
-    response.url = url
-    response.status_code = status_code
-    # Response._content requires the text to be bytes instead of unicode
-    response._content = content.encode() if isinstance(content, str) else content
-    return response
-
-
 def http_request_with_retry(
     url: str,
     retry_count: int,
@@ -151,7 +126,7 @@ def http_request_with_retry(
     allowed_methods: List[str],
     headers: dict,
     data: dict = None,
-) -> requests.Response:
+) -> Union[None, requests.Response]:
     """
     Carryout an HTTP Request using a specific retry strategy. Essentially
     a wrapper function around the retry strategy implementation of a
@@ -180,8 +155,6 @@ def http_request_with_retry(
     http.mount("https://", adapter)
 
     # Try to complete the HTTPS request
-    # TODO: condense this logic down such that it uses http.request() to handle all
-    # request types.
     if request_type == "POST":
         try:
             response = http.post(
@@ -189,10 +162,9 @@ def http_request_with_retry(
                 headers=headers,
                 json=data,
             )
-        except Exception as e:
-            content = f"POST request to {url} failed with the following exception: {type(e)}"  # noqa
-            response = _generate_custom_response(
-                url=url, status_code=500, content=content
+        except Exception:
+            logging.exception(
+                "POST request to " + url + " failed for data: " + str(data)
             )
     elif request_type == "GET":
         try:
@@ -200,14 +172,7 @@ def http_request_with_retry(
                 url=url,
                 headers=headers,
             )
-        except Exception as e:
-            content = f"GET request to {url} failed with the following exception: {type(e)}"  # noqa
-            response = _generate_custom_response(
-                url=url,
-                status_code=500,
-            )
-    else:
-        content = f'{{"message": "The HTTP {request_type} method is not currently supported"}}'  # noqa
-        response = _generate_custom_response(url=url, status_code=400, content=content)
+        except Exception:
+            logging.exception("GET request to " + url + " failed.")
 
     return response

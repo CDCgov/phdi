@@ -1,9 +1,34 @@
-import logging
 import requests
 
 from requests.adapters import HTTPAdapter
-from typing import List, Literal
+from requests.models import Response
+from typing import List, Literal, Union
 from urllib3 import Retry
+
+
+def _generate_custom_response(
+    url: str, status_code: int, content: Union[str, bytes]
+) -> requests.Response:
+    """
+    Returns a custom requests.Response object with relevant information about the
+    request and why it failed. The primary purpose of this functionality is to mock a
+    Response object in instances where the requests.request method fails or was not
+    executed in order to provide consistency in functionality that expects a Response
+    object to be returned.
+
+    :param url: The URL of the request that failed or was never run.
+    :param status_code: The HTTP status code that should be returned to the user.
+    :param content: Relevant information about what the original request failed or
+    wasn't run. This could include the Exception, the traceback info, or a custom
+    message. It should be passed as a string in the form of a dictionary
+    (e.g. '{"exception": "<class 'requests.exceptions.ConnectTimeout'>})')
+    """
+    response = Response()
+    response.url = url
+    response.status_code = status_code
+    # Response._content requires the text to be bytes instead of unicode
+    response._content = content.encode() if isinstance(content, str) else content
+    return response
 
 
 def http_request_with_retry(
@@ -52,21 +77,24 @@ def http_request_with_retry(
                 headers=headers,
                 json=data,
             )
-        except Exception:
-            # TODO: Potentially remove logging, and replace with reported errors.
-            logging.exception(f"POST request to {url} failed.")
-            return
+        except Exception as e:
+            content = f'{{"message": "POST request to {url} failed with the following exception: {type(e)}"}}'  # noqa
+            response = _generate_custom_response(
+                url=url, status_code=500, content=content
+            )
     elif request_type == "GET":
         try:
             response = http.get(
                 url=url,
                 headers=headers,
             )
-            return response
         except Exception:
-            # TODO: Potentially remove logging, and replace with reported errors.
-            logging.exception(f"GET request to {url} failed.")
+            content = f'{{"message": "GET request to {url} failed with the following exception: {type(e)}"}}'  # noqa
+            response = _generate_custom_response(
+                url=url, status_code=500, content=content
+            )
     else:
-        raise ValueError(f"Unexpected request_type {request_type}")
+        content = f'{{"message": "The {request_type} HTTP method is not currently supported"}}'  # noqa
+        response = _generate_custom_response(url=url, status_code=400, content=content)
 
     return response
