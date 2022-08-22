@@ -18,7 +18,7 @@ def _generate_custom_response(
 
     :param url: The URL of the request that failed or was never run.
     :param status_code: The HTTP status code that should be returned to the user.
-    :param content: Relevant information about what the original request failed or
+    :param content: Relevant information about why the original request failed or
     wasn't run. This could include the Exception, the traceback info, or a custom
     message. It should be passed as a string in the form of a dictionary
     (e.g. '{"exception": "<class 'requests.exceptions.ConnectTimeout'>})')
