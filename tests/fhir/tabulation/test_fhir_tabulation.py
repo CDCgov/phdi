@@ -38,9 +38,9 @@ def test_apply_schema_to_resource():
     }
 
 
-@mock.patch("phdi.schemas.write_table")
-@mock.patch("phdi.fhir.fhir_server_get")
-def test_make_table_success(patch_query, patch_write):
+@mock.patch("phdi.fhir.tabulation.tables.write_table")
+@mock.patch("phdi.fhir.tabulation.tables.fhir_server_get")
+def test_generate_table_success(patch_query, patch_write):
 
     schema = yaml.safe_load(
         open(pathlib.Path(__file__).parent / "assets" / "test_schema.yaml")
@@ -51,7 +51,7 @@ def test_make_table_success(patch_query, patch_write):
         lambda x, y: x
     )
     output_format = "parquet"
-    fhir_url = "some_fhir_server_url"
+    fhir_url = "https://some_fhir_server_url"
     mock_access_token_value = "some-token"
     mock_access_token = mock.Mock()
     mock_access_token.token = mock_access_token_value
@@ -122,9 +122,9 @@ def test_make_table_success(patch_query, patch_write):
     )
 
 
-@mock.patch("phdi.schemas.write_schema_table")
-@mock.patch("phdi.schemas.fhir_server_get")
-def test_make_table_fail(patch_query, patch_write):
+@mock.patch("phdi.fhir.tabulation.tables.write_table")
+@mock.patch("phdi.fhir.tabulation.tables.fhir_server_get")
+def test_generate_table_fail(patch_query, patch_write):
 
     schema = {}
 
@@ -135,7 +135,7 @@ def test_make_table_fail(patch_query, patch_write):
 
     output_format = "parquet"
 
-    fhir_url = "some_fhir_server_url"
+    fhir_url = "https://some_fhir_server_url"
     mock_access_token_value = "some-token"
     mock_access_token = mock.Mock()
     mock_access_token.token = mock_access_token_value
@@ -156,9 +156,9 @@ def test_make_table_fail(patch_query, patch_write):
     patch_write.assert_not_called()
 
 
-@mock.patch("phdi.schemas.make_table")
-@mock.patch("phdi.schemas.load_schema")
-def test_make_tables_from_schema(patched_load_schema, patched_make_table):
+@mock.patch("phdi.fhir.tabulation.tables.generate_table")
+@mock.patch("phdi.fhir.tabulation.tables.load_schema")
+def test_generate_all_tables_schema(patched_load_schema, patched_make_table):
 
     schema_path = mock.Mock()
     output_path = mock.Mock()
@@ -166,7 +166,7 @@ def test_make_tables_from_schema(patched_load_schema, patched_make_table):
         lambda x, y: x
     )
     output_format = "parquet"
-    fhir_url = "some_fhir_url"
+    fhir_url = "https://some_fhir_url"
     mock_access_token_value = "some-token"
     mock_access_token = mock.Mock()
     mock_access_token.token = mock_access_token_value
