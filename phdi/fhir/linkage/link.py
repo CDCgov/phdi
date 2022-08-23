@@ -7,7 +7,7 @@ from phdi.fhir.utils import (
 from phdi.linkage.link import generate_hash_str
 
 
-def add_patient_identifier_bundle(
+def add_patient_identifier_by_bundle(
     bundle: dict, salt_str: str, overwrite: bool = True
 ) -> dict:
     """
@@ -30,11 +30,11 @@ def add_patient_identifier_bundle(
         bundle = copy.deepcopy(bundle)
 
     for resource in find_resource_by_type(bundle, "Patient"):
-        add_patient_identifier(resource, salt_str)
+        add_patient_identifier_by_resource(resource, salt_str)
     return bundle
 
 
-def add_patient_identifier(resource, salt_str):
+def add_patient_identifier_by_resource(resource, salt_str):
     patient = resource.get("resource")
 
     # Combine given and family name

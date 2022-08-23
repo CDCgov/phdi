@@ -1,7 +1,7 @@
 import json
 import pathlib
 from phdi.linkage.link import generate_hash_str
-from phdi.fhir.linkage.link import add_patient_identifier
+from phdi.fhir.linkage.link import add_patient_identifier_by_bundle
 
 
 def test_missing_address():
@@ -17,7 +17,7 @@ def test_missing_address():
         ]
     }
 
-    add_patient_identifier(bundle, "some-salt")
+    add_patient_identifier_by_bundle(bundle, "some-salt")
     expected = generate_hash_str("doe-19900101-", "some-salt")
     actual = bundle["entry"][0]["resource"]["identifier"][0]["value"]
     assert actual == expected
@@ -45,7 +45,7 @@ def test_add_patient_identifier():
         "use": "temp",
     }
 
-    add_patient_identifier(incoming_bundle, salt_str)
+    add_patient_identifier_by_bundle(incoming_bundle, salt_str)
     assert len(incoming_bundle["entry"]) == 3
     for resource in incoming_bundle["entry"]:
         if resource["resource"]["resourceType"] == "Patient":
