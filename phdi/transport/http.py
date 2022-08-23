@@ -1,34 +1,8 @@
 import requests
 
 from requests.adapters import HTTPAdapter
-from requests.models import Response
-from typing import List, Literal, Union
+from typing import List, Literal
 from urllib3 import Retry
-
-
-def _generate_custom_response(
-    url: str, status_code: int, content: Union[str, bytes]
-) -> requests.Response:
-    """
-    Returns a custom requests.Response object with relevant information about the
-    request and why it failed. The primary purpose of this functionality is to mock a
-    Response object in instances where the requests.request method fails or was not
-    executed in order to provide consistency in functionality that expects a Response
-    object to be returned.
-
-    :param url: The URL of the request that failed or was never run.
-    :param status_code: The HTTP status code that should be returned to the user.
-    :param content: Relevant information about why the original request failed or
-    wasn't run. This could include the Exception, the traceback info, or a custom
-    message. It should be passed as a string in the form of a dictionary
-    (e.g. '{"exception": "<class 'requests.exceptions.ConnectTimeout'>})')
-    """
-    response = Response()
-    response.url = url
-    response.status_code = status_code
-    # Response._content requires the text to be bytes instead of unicode
-    response._content = content.encode() if isinstance(content, str) else content
-    return response
 
 
 def http_request_with_retry(
@@ -40,9 +14,8 @@ def http_request_with_retry(
     data: dict = None,
 ) -> requests.Response:
     """
-    Carryout an HTTP Request using a specific retry strategy. Essentially
-    a wrapper function around the retry strategy implementation of a
-    mounted HTTP request.
+    Executes an HTTP request, retrying the request if the returned HTTP status code
+    is one of a specified list of codes.
 
     :param url: The url at which to make the HTTP request
     :param retry_count: The number of times to re-try the request, if the
@@ -55,9 +28,14 @@ def http_request_with_retry(
       including Authorization and content-type
     :param data: JSON data in the case that the request requires data to be
       posted. Defaults to none.
-    :raises ValueError: An unsupported request_type is passed
-    :return: A requests.Response object with the outcome of the http request
     """
+
+    request_type = request_type.upper()
+    if request_type not in ["GET", "POST"]:
+        raise ValueError(
+            f"The HTTP '{request_type}' method is not currently supported."
+        )
+
     # Configure the settings of the 'requests' session we'll make
     # the API call with
     retry_strategy = Retry(
@@ -70,31 +48,18 @@ def http_request_with_retry(
     http.mount("https://", adapter)
 
     # Now, actually try to complete the API request
+    # TODO: Condense this down to make a single call using
+    # http.request(method=request_type, url=url, headers=headers, json=data)
     if request_type == "POST":
-        try:
-            response = http.post(
-                url=url,
-                headers=headers,
-                json=data,
-            )
-        except Exception as e:
-            content = f'{{"message": "POST request to {url} failed with the following exception: {type(e)}"}}'  # noqa
-            response = _generate_custom_response(
-                url=url, status_code=500, content=content
-            )
+        response = http.post(
+            url=url,
+            headers=headers,
+            json=data,
+        )
     elif request_type == "GET":
-        try:
-            response = http.get(
-                url=url,
-                headers=headers,
-            )
-        except Exception:
-            content = f'{{"message": "GET request to {url} failed with the following exception: {type(e)}"}}'  # noqa
-            response = _generate_custom_response(
-                url=url, status_code=500, content=content
-            )
-    else:
-        content = f'{{"message": "The {request_type} HTTP method is not currently supported"}}'  # noqa
-        response = _generate_custom_response(url=url, status_code=400, content=content)
+        response = http.get(
+            url=url,
+            headers=headers,
+        )
 
     return response
