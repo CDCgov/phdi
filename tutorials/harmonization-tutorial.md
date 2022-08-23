@@ -11,7 +11,7 @@ The harmonization modules broadly cover two main areas of functionality:
 1. cleaning, standardizing, and applying uniform formatting to fields, segments, and messages of raw HL7v2 data, and
 2. normalizing the values and formatting of raw string data (representing text such as a name or a phone number).
 
-The HL7 functioanlity of harmonization can enable pre-processing of one or more messages for storage or possbible conversion to FHIR, while the normalization functionality can operate on either raw data (text strings) or FHIR resources, as appropriate. Each of these functional areas relies on several additional operations under the hood, but the PHDI module structure enables their broad use without relying on lower-level functional details. 
+The HL7 functionality of harmonization can enable pre-processing of one or more messages for storage or possible conversion to FHIR, while the normalization functionality can operate on either raw data (text strings) or FHIR resources, as appropriate. Each of these functional areas relies on several additional operations under the hood, but the PHDI module structure enables their broad use without relying on lower-level functional details. 
 
 ## Importing
 To get started with the harmonization module, simply make the relevant import statement, depending on whether you want to work with raw data or FHIR-formatted data:
@@ -141,7 +141,7 @@ print(clean_2)
 >>> "+447986123456"
 ```
 
-If we choose not to pass in a parameter of countries, the standardization function will autmatically attempt to parse using the United States' country code. If we wish to attempt standardizing using a parsing scheme for another coutry, as in our second example using Great Britain, we must pass in a list of countries to attempt to parse with. Note that the standardization function is also robust to the use of a delimiter--functionality remains unchanged whether a `.`, `-`, or even ` ` is used. We can also standardize an entire list of phone numbers at once, as with names:
+If we choose not to pass in a parameter of countries, the standardization function will automatically attempt to parse using the United States' country code. If we wish to attempt standardizing using a parsing scheme for another country, as in our second example using Great Britain, we must pass in a list of countries to attempt to parse with. Note that the standardization function is also robust to the use of a delimiter--functionality remains unchanged whether a `.`, `-`, or even ` ` is used. We can also standardize an entire list of phone numbers at once, as with names:
 
 ```python
 from phdi.harmonization import standardiation
