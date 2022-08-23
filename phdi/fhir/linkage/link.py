@@ -7,7 +7,9 @@ from phdi.fhir.utils import (
 from phdi.linkage.link import generate_hash_str
 
 
-def add_patient_identifier(bundle: dict, salt_str: str, overwrite: bool = True) -> dict:
+def add_patient_identifier_bundle(
+    bundle: dict, salt_str: str, overwrite: bool = True
+) -> dict:
     """
     Given a FHIR resource bundle:
 
@@ -28,39 +30,43 @@ def add_patient_identifier(bundle: dict, salt_str: str, overwrite: bool = True) 
         bundle = copy.deepcopy(bundle)
 
     for resource in find_resource_by_type(bundle, "Patient"):
-        patient = resource.get("resource")
-
-        # Combine given and family name
-        recent_name = get_field(patient, "name", "official", 0)
-        name_parts = recent_name.get("given", []) + [recent_name.get("family", "")]
-        name_str = "-".join([n for n in name_parts if n])
-
-        address_line = ""
-        if "address" in patient:
-            address = get_field(patient, "address", "home", 0)
-            address_line = get_one_line_address(address)
-
-        # TODO Determine if minimum quality criteria should be included, such as min
-        # number of characters in last name, valid birth date, or address line
-        # Generate and store unique hash code
-        link_str = f'{name_str}-{patient["birthDate"]}-{address_line}'
-        hashcode = generate_hash_str(link_str, salt_str)
-
-        if "identifier" not in patient:
-            patient["identifier"] = []
-
-        # TODO Follow up on the validity and source of the comment about the system
-        # value corresponding to the FHIR specification. Need to either add a citation
-        # or correct the wording to more properly reflect what it represents.
-        patient["identifier"].append(
-            {
-                "value": hashcode,
-                # Note: this system value corresponds to the FHIR specification
-                # for a globally used / generated ID or UUID--the standard here
-                # is to make the use "temporary" even if it's not
-                "system": "urn:ietf:rfc:3986",
-                "use": "temp",
-            }
-        )
-
+        add_patient_identifier(resource, salt_str)
     return bundle
+
+
+def add_patient_identifier(resource, salt_str):
+    patient = resource.get("resource")
+
+    # Combine given and family name
+    recent_name = get_field(patient, "name", "official", 0)
+    name_parts = recent_name.get("given", []) + [recent_name.get("family", "")]
+    name_str = "-".join([n for n in name_parts if n])
+
+    address_line = ""
+    if "address" in patient:
+        address = get_field(patient, "address", "home", 0)
+        address_line = get_one_line_address(address)
+
+    # TODO Determine if minimum quality criteria should be included, such as min
+    # number of characters in last name, valid birth date, or address line
+    # Generate and store unique hash code
+    link_str = f'{name_str}-{patient["birthDate"]}-{address_line}'
+    hashcode = generate_hash_str(link_str, salt_str)
+
+    if "identifier" not in patient:
+        patient["identifier"] = []
+
+    # TODO Follow up on the validity and source of the comment about the system
+    # value corresponding to the FHIR specification. Need to either add a citation
+    # or correct the wording to more properly reflect what it represents.
+    patient["identifier"].append(
+        {
+            "value": hashcode,
+            # Note: this system value corresponds to the FHIR specification
+            # for a globally used / generated ID or UUID--the standard here
+            # is to make the use "temporary" even if it's not
+            "system": "urn:ietf:rfc:3986",
+            "use": "temp",
+        }
+    )
+    return patient
