@@ -1,9 +1,9 @@
 # Tutorials: The Harmonization Module
 
-This guide serves as a tutorial overview of the functionality available in both `harmonization/` and `fhir.harmonization`. It will cover concepts such as data type basics, imports, and common uses invocations.
+This guide serves as a tutorial overview of the functionality available in both `phdi.harmonization` and `phdi.fhir.harmonization`. It will cover concepts such as data type basics, imports, and common uses invocations.
 
 ## Module Overview: What is Harmonization?
-When we say "_harmonization_," we mean **the process of smoothing out, standardizing, and normalizing either data values or entries in a data structure**. Putting timestamps in a uniform structure, standardizing strings of text with cleaning rules, and identifying country information for ISO-formatted phone numbers are all examples that would leverage the harmonization module. Indeed, the purpose of the harmonization module as a whole is to streamline the process of cleaning data and massaging it into a user-friendly format. Importantly, harmonization does _not_ deal with the conversion of data between types or structures (for example, converting HL7v2 data into a FHIR-formatted data structure); that functionality can be found in the `fhir.conversion/` module. Let's take a look at the two broad categories of functionality available in this module and its FHIR wrapper.
+When we say "_harmonization_," we mean **the process of smoothing out, standardizing, and normalizing either data values or entries in a data structure**. Putting timestamps in a uniform structure, standardizing strings of text with cleaning rules, and identifying country information for ISO-formatted phone numbers are all examples that would leverage the harmonization module. Indeed, the purpose of the harmonization module as a whole is to streamline the process of cleaning data and massaging it into a user-friendly format. Importantly, harmonization does _not_ deal with the conversion of data between types or structures (for example, converting HL7v2 data into a FHIR-formatted data structure); that functionality can be found in the `phdi.fhir.conversion` module. Let's take a look at the two broad categories of functionality available in this module and its FHIR wrapper.
 
 ## The Basics: Sanitizing HL7 and Standardizing Inputs
 The harmonization modules broadly cover two main areas of functionality:
@@ -21,7 +21,7 @@ from phdi.harmonization import function_you_want_to_import          # used for r
 from phdi.fhir.harmonization import fhir_wrapper_of_raw_function    # used for FHIR data
 ```
 
-Below, we'll explore some of the more common functions you may want to use when harmonizing your data. It's worth noting that the functions which aren't defined in the `harmonization/` and `fhir.harmonization/` namespaces should very likely _not_ be imported (i.e. you shouldn't find yourself needing to write `from phdi.harmonization.hl7 import _clean_hl7_batch`). These "supporting files" simply contain helper functions used by the publicly-defined API functions exposed in the `__init__.py` files of each directory; the API functions you'll want to use already invoke these under the hood.
+Below, we'll explore some of the more common functions you may want to use when harmonizing your data. It's worth noting that the functions which aren't defined in the `phdi.harmonization` and `phdi.fhir.harmonization` namespaces should very likely _not_ be imported (i.e. you shouldn't find yourself needing to write `from phdi.harmonization.hl7 import _clean_hl7_batch`). These "supporting files" simply contain helper functions used by the publicly-defined API functions exposed in the `__init__.py` files of each directory; the API functions you'll want to use already invoke these under the hood.
 
 ## Common Uses
 Listed below are several example use cases for employing the harmonization module.
@@ -44,7 +44,7 @@ from phdi.harmonization import standardize_hl7_datetimes
 cleaned_msg = standardize_hl7_datetimes(msg)
 print(cleaned_msg)
 
->>> "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000||VXU^V04"|2020051411020600-0400|P^|2.4^^|||ER"
+>>> "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000||VXU^V04|2020051411020600-0400|P^|2.4^^|||ER"
 >>> "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^|20180808000000|M|||||||||||||||||||||"
 >>> ...
 ```
@@ -54,7 +54,7 @@ We see that the datetime segments have now been truncated appropriately for down
 ### Processing a batch of HL7 messages
 Suppose now that we have a file holding a batch of HL7 messages. Here, a "batch" corresponds to a batch file having the structure 
 
-```python
+```
 [FHS] (file header segment) {
     [BHS] (batch header segment) {
         [MSH (zero or more HL7 messages)
@@ -69,7 +69,7 @@ Suppose now that we have a file holding a batch of HL7 messages. Here, a "batch"
 
 In practice, such a file might look like this:
 
-```python
+```
 FHS|^~&|WIR11.3.2|WIR|||20200514||1219144.update|||
 BHS|^~&|WIR11.3.2|WIR|||20200514|||||
 MSH|^~&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514||VXU^V04|2020051411020600|P^|2.4^^|||ER
@@ -141,7 +141,7 @@ print(clean_2)
 >>> "+447986123456"
 ```
 
-If we choose not to pass in a parameter of countries, the standardization function will automatically attempt to parse using the United States' country code. If we wish to attempt standardizing using a parsing scheme for another country, as in our second example using Great Britain, we must pass in a list of countries to attempt to parse with. Note that the standardization function is also robust to the use of a delimiter--functionality remains unchanged whether a `.`, `-`, or even ` ` is used. We can also standardize an entire list of phone numbers at once, as with names:
+If we choose not to pass in a parameter of countries, the standardization function will automatically attempt to parse using the United States' country code. If we wish to attempt standardizing using a parsing scheme for another country, as in our second example using Great Britain, we must pass in a list of countries to attempt to parse with. The standardization function will always append the US to the back of this list as a fallback country to parse with. Further, if an input phone number begins with a `+` and an identifiable country code (such as `+1` for US phones), the `countries` parameter will be ignored in favor of the provided country code. Note that the standardization function is robust to the use of delimiters separating the chunks of a phone number--functionality remains unchanged whether a `.`, `-`, or even ` ` is used (i.e. passing in `123 456 7890` will parse to the same result as `123-456-7890`). We can also standardize an entire list of phone numbers at once, as with names:
 
 ```python
 from phdi.harmonization import standardiation
@@ -153,7 +153,7 @@ print(cleaned_phones)
 ```
 
 ### Standardizing all names in a patient resource
-While the harmonization modules provide diverse functionality to operate on raw text strings, they also allow us to process more complex, richly-structured FHIR resource data. The `fhir/harmonization/` package contains wrappers for all functions used in the base `harmonization/` package, so that the same standardization can be performed (with the same options) on FHIR data. Suppose we have a patient resource that looks as follows:
+While the harmonization modules provide diverse functionality to operate on raw text strings, they also allow us to process more complex, richly-structured FHIR resource data. The `phdi.fhir.harmonization` package contains wrappers for all functions used in the base `phdi.harmonization` package, so that the same standardization can be performed (with the same options) on FHIR data. Suppose we have a patient resource that looks as follows:
 
 ```python
 patient = {
