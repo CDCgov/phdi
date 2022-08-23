@@ -4,10 +4,10 @@ This guide serves as a tutorial overview of the functionality available in both 
 
 ## The Basics: How it links
 
-The linkage module adds a patient identifier to each patient record in a bundle. If two hash strings are the same, that means that the two patient records are referring to the same patient. The hash string generation is a straightforward name and address combination. 
+The linkage module adds a patient identifier to each patient record in a bundle. The patient identifier is generated from patient information (name, birth date, and address), converting it to a hash string and adding a salt value. If two patient identifiers are the same, that means that the two patient records are referring to the same patient. 
 
 ## Common Uses
-Listed below are several example use cases for employing the geospatial module.
+Listed below are several example use cases for employing the linkage module.
 
 ### Passing in a FHIR Bundle of Patient Data
 Suppose you had a FHIR bundle that had the following data
@@ -59,14 +59,16 @@ bundle = {...your bundle here...}
 salt = 'some-salt-string'
 
 add_patient_identifier(bundle, salt, True)
+print(bundle)
 ```
 
 Using the `True` tag overwrites your bundle with the new resource tag, if using `False`, save the output to a variable
 ```
 new_patient_bundle = add_patient_identifier(bundle, salt, False)
+print(new_patient_bundle)
 ```
 
-The bundle should now look like this:
+The bundle print will look like this:
 ```
 {
     "resourceType": "Bundle",
@@ -77,18 +79,11 @@ The bundle should now look like this:
             "resource": {
                 "resourceType": "Patient",
                 "id": "65489-asdf5-6d8w2-zz5g8",
-                "identifier": [
+                "identifier":[
                     {
-                        "value": "new-hash-string", 
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "real-code",
-                                    "system": "a-real-url"
-                                }
-                            ]
-                        },
-                        "system": "urn:oid:1.2.840.114350.1.13.163.3.7.2.696570"
+                        "value":"fbe6f3b7430f53eb60074c906d3052f457283d9992d8a2526b8d32590db8a0fc", //new value
+                        "system":"urn:ietf:rfc:3986",
+                        "use":"temp"
                     }
                 ],
                 "name": [
@@ -124,16 +119,9 @@ The key section that was added is the `identifier` section:
 ```
 "identifier": [
     {
-        "value": "new-hash-string", 
-        "type": {
-            "coding": [
-                {
-                    "code": "real-code",
-                    "system": "a-real-url"
-                }
-            ]
-        },
-        "system": "urn:oid:1.2.840.114350.1.13.163.3.7.2.696570"
+        "value":"fbe6f3b7430f53eb60074c906d3052f457283d9992d8a2526b8d32590db8a0fc", //new value
+        "system":"urn:ietf:rfc:3986",
+        "use":"temp"
     }
 ]
 ```
@@ -152,7 +140,8 @@ patient_combined = f'{patient_name}{patient_dob}{patient_address}'
 salt_str = 'some-salt-string
 
 patient_hash = generate_hash_str(patient_combined, salt_str)
-
+print(patient_hash)
+>>> fbe6f3b7430f53eb60074c906d3052f457283d9992d8a2526b8d32590db8a0fc //some hash string
 ```
 
 You can then save the patient_hash into your data type and compare with other hash to determine if they are equal. 
