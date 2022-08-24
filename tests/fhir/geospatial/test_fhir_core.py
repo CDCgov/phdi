@@ -1,7 +1,7 @@
-from phdi.fhir.geospatial import FhirGeocodeClient
-
 import json
 import pathlib
+
+from phdi.fhir.geospatial.core import BaseFhirGeocodeClient
 
 
 def test_store_lat_long():
@@ -14,7 +14,7 @@ def test_store_lat_long():
     )
     patient = bundle["entry"][1]["resource"]
     address = patient.get("address", {})[0]
-    FhirGeocodeClient._store_lat_long_extension(address, 40.032, -64.987)
+    BaseFhirGeocodeClient._store_lat_long_extension(address, 40.032, -64.987)
     assert address["extension"] is not None
 
     stored_both = False
