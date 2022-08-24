@@ -28,6 +28,8 @@ def http_request_with_retry(
       including Authorization and content-type
     :param data: JSON data in the case that the request requires data to be
       posted. Defaults to none.
+    :raises ValueError: An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
+    to the request_type parameter.
     """
 
     request_type = request_type.upper()
