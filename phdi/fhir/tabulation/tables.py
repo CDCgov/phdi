@@ -1,16 +1,18 @@
-import random
-import json
 import fhirpathpy
+import json
+import random
 import pathlib
+
 from functools import cache
-from typing import Union, Literal, List, Callable
-from phdi.tabulation.tables import load_schema, write_table
+from typing import Any, Callable, Literal, List, Union
+
+from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir import fhir_server_get
-from phdi.azure import AzureFhirServerCredentialManager
+from phdi.tabulation.tables import load_schema, write_table
 
 
 def apply_selection_criteria(
-    value: list,
+    value: List[Any],
     selection_criteria: Literal["first", "last", "random", "all"],
 ) -> Union[str, List[str]]:
     """
@@ -42,23 +44,14 @@ def apply_selection_criteria(
     return value
 
 
-@cache
-def __get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
-    """
-    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes
-    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
-    `fhirpath_expression`
-
-    :param fhirpath_expression: The FHIRPath expression to evaluate
-    """
-    return fhirpathpy.compile(fhirpath_expression)
-
-
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
-    Given a resource and a schema, return a dictionary with values of the data
-    specified by the schema and associated keys defined by the variable name provided
-    by the schema.
+    Creates and returns a dictionary of data based on a FHIR resource and a schema. The
+    keys of the created dict are the "new names" for the fields in the given schema, and
+    the values are the elements of the given resource that correspond to these fields.
+    Here, "new name" is a property contained in the schema that specifies what a
+    particular variable should be called. If a schema can't be found for the given
+    resource type, the raw resource is instead returned.
 
     :param resource: A FHIR resource on which to apply a schema.
     :param schema: A schema specifying the desired values by FHIR resource type.
@@ -71,7 +64,7 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     for field in resource_schema.keys():
         path = resource_schema[field]["fhir_path"]
 
-        parse_function = __get_fhirpathpy_parser(path)
+        parse_function = _get_fhirpathpy_parser(path)
         value = parse_function(resource)
 
         if len(value) == 0:
@@ -89,7 +82,7 @@ def generate_table(
     output_path: pathlib.Path,
     output_format: Literal["parquet"],
     fhir_url: str,
-    cred_manager: AzureFhirServerCredentialManager,
+    cred_manager: BaseCredentialManager,
 ):
     """
     Given the schema for a single table, make the table.
@@ -152,7 +145,7 @@ def generate_all_tables_in_schema(
     base_output_path: pathlib.Path,
     output_format: Literal["parquet"],
     fhir_url: str,
-    cred_manager: AzureFhirServerCredentialManager,
+    cred_manager: BaseCredentialManager,
 ):
     """
     Given the url for a FHIR server, the location of a schema file, and and output
@@ -175,3 +168,15 @@ def generate_all_tables_in_schema(
         generate_table(
             schema[table], output_path, output_format, fhir_url, cred_manager
         )
+
+
+@cache
+def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
+    """
+    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes
+    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
+    `fhirpath_expression`
+
+    :param fhirpath_expression: The FHIRPath expression to evaluate
+    """
+    return fhirpathpy.compile(fhirpath_expression)

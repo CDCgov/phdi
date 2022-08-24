@@ -20,13 +20,19 @@ def test_apply_selection_criteria():
 
 def test_apply_schema_to_resource():
     resource = json.load(
-        open(pathlib.Path(__file__).parent / "assets" / "patient_bundle.json")
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "patient_bundle.json"
+        )
     )
 
     resource = resource["entry"][1]["resource"]
 
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent / "assets" / "test_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+        )
     )
     schema = schema["my_table"]
 
@@ -43,7 +49,9 @@ def test_apply_schema_to_resource():
 def test_generate_table_success(patch_query, patch_write):
 
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent / "assets" / "test_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+        )
     )
 
     output_path = mock.Mock()
@@ -60,7 +68,7 @@ def test_generate_table_success(patch_query, patch_write):
 
     fhir_server_responses = json.load(
         open(
-            pathlib.Path(__file__).parent
+            pathlib.Path(__file__).parent.parent.parent
             / "assets"
             / "FHIR_server_query_response_200_example.json"
         )
@@ -174,7 +182,9 @@ def test_generate_all_tables_schema(patched_load_schema, patched_make_table):
     mock_cred_manager.get_access_token.return_value = mock_access_token
 
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent / "assets" / "test_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+        )
     )
 
     patched_load_schema.return_value = schema
