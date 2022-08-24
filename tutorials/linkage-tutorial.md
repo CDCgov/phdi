@@ -1,6 +1,6 @@
 # Tutorials: The Linkage Module
 
-This guide serves as a tutorial overview of the functionality available in both `linkage.py` and `fhir.linkage.py`. It will cover concepts such as data type basics, imports, and common uses invocations.
+This guide serves as a tutorial overview of the functionality available in both `linkage.py` and `fhir.linkage.py`. It will cover concepts such as using FHIR bundles for linkage, imports, and common use invocations.
 
 ## The Basics: How it links
 
