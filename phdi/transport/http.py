@@ -1,4 +1,3 @@
-import logging
 import requests
 
 from requests.adapters import HTTPAdapter
@@ -15,9 +14,8 @@ def http_request_with_retry(
     data: dict = None,
 ) -> requests.Response:
     """
-    Carryout an HTTP Request using a specific retry strategy. Essentially
-    a wrapper function around the retry strategy implementation of a
-    mounted HTTP request.
+    Executes an HTTP request, retrying the request if the returned HTTP status code
+    is one of a specified list of codes.
 
     :param url: The url at which to make the HTTP request
     :param retry_count: The number of times to re-try the request, if the
@@ -30,9 +28,16 @@ def http_request_with_retry(
       including Authorization and content-type
     :param data: JSON data in the case that the request requires data to be
       posted. Defaults to none.
-    :raises ValueError: An unsupported request_type is passed
-    :return: A requests.Response object with the outcome of the http request
+    :raises ValueError: An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
+    to the request_type parameter.
     """
+
+    request_type = request_type.upper()
+    if request_type not in ["GET", "POST"]:
+        raise ValueError(
+            f"The HTTP '{request_type}' method is not currently supported."
+        )
+
     # Configure the settings of the 'requests' session we'll make
     # the API call with
     retry_strategy = Retry(
@@ -45,28 +50,18 @@ def http_request_with_retry(
     http.mount("https://", adapter)
 
     # Now, actually try to complete the API request
+    # TODO: Condense this down to make a single call using
+    # http.request(method=request_type, url=url, headers=headers, json=data)
     if request_type == "POST":
-        try:
-            response = http.post(
-                url=url,
-                headers=headers,
-                json=data,
-            )
-        except Exception:
-            # TODO: Potentially remove logging, and replace with reported errors.
-            logging.exception(f"POST request to {url} failed.")
-            return
+        response = http.post(
+            url=url,
+            headers=headers,
+            json=data,
+        )
     elif request_type == "GET":
-        try:
-            response = http.get(
-                url=url,
-                headers=headers,
-            )
-            return response
-        except Exception:
-            # TODO: Potentially remove logging, and replace with reported errors.
-            logging.exception(f"GET request to {url} failed.")
-    else:
-        raise ValueError(f"Unexpected request_type {request_type}")
+        response = http.get(
+            url=url,
+            headers=headers,
+        )
 
     return response
