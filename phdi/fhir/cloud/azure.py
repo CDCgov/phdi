@@ -18,7 +18,8 @@ def download_from_fhir_export_response(
     along with TextIO wrapping ndjson content.
 
     :param export_response: JSON-type dictionary holding the response from
-      the export URL the FHIR server set up.
+      the export URL the FHIR server set up
+    :param cred_manager: Service used to get an access token used to make a request
     """
     # TODO: Handle error array that could be contained in the response content.
 
@@ -39,6 +40,7 @@ def _download_export_blob(
     Download an export file blob.
 
     :param blob_url: Blob URL location to download from blob storage
+    :param cred_manager: Service used to get an access token used to make a request
     :param encoding: encoding to apply to the ndjson content, defaults to "utf-8"
     """
     bytes_buffer = io.BytesIO()
