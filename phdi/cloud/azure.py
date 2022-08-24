@@ -1,4 +1,3 @@
-import io
 import json
 
 from .core import BaseCredentialManager, BaseCloudContainerConnection
@@ -6,7 +5,7 @@ from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
-from typing import IO, List
+from typing import List
 
 
 class AzureCredentialManager(BaseCredentialManager):
@@ -115,16 +114,14 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         return ContainerClient.from_container_url(container_url, credential=creds)
 
     def download_object(
-        self, container_name: str, filename: str, stream: IO = None
-    ) -> IO:
+        self, container_name: str, filename: str, encoding: str = "UTF-8"
+    ) -> str:
         """
-        Downloads a blob from storage. The `stream` parameter object will be populated
-        and returned, if supplied. Otherwise a new io.IOBytes object will be returned.
+        Downloads a character blob from storage and returns it as a string.
 
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within Azure blob storage.
-        :param stream: (optional) stream object that should be used to write output
-          contents of blob.
+        :param encoding: Encoding applied downloaded content.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -132,13 +129,9 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
         downloader = blob_client.download_blob()
 
-        if stream is None:
-            stream = io.BytesIO()
+        downloaded_text = downloader.content_as_text(encoding=encoding)
 
-        stream.seek(0)
-        downloader.download_to_stream(stream)
-
-        return stream
+        return downloaded_text
 
     def upload_object(
         self,

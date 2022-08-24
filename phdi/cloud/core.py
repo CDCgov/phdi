@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import IO, List
+from typing import List
 
 
 class BaseCredentialManager(ABC):
@@ -26,16 +26,15 @@ class BaseCredentialManager(ABC):
 class BaseCloudContainerConnection(ABC):
     @abstractmethod
     def download_object(
-        self, container_name: str, filename: str, stream: IO = None
-    ) -> IO:
+        self, container_name: str, filename: str, encoding: str = "utf-8"
+    ) -> str:
         """
         Downloads a blob from storage.  Returns the `stream` parameter, if supplied.
         Otherwise a new stream object containing blob content.
 
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within storage.
-        :param stream: (optional) stream object that should be used to write output
-          contents of blob.
+        :param encoding: Encoding applied downloaded content.
         """
         pass
 

@@ -1,7 +1,6 @@
-import io
 import json
 import pathlib
-import tempfile
+import pytest
 
 from datetime import datetime, timezone
 from unittest import mock
@@ -294,12 +293,9 @@ def test_download_object(mock_get_client):
     object_path = "output/path/some-bundle-type/some-filename-1.fhir"
     object_content = {"hello": "world"}
 
-    def __write_stream(stream):
-        stream.write(json.dumps(object_content).encode("utf-8"))
-        stream.seek(0)
-
-    mock_downloader = mock.Mock(download_to_stream=__write_stream)
-
+    mock_downloader = mock.Mock(
+        content_as_text=lambda encoding: json.dumps(object_content)
+    )
     mock_blob_client.download_blob.return_value = mock_downloader
 
     phdi_container_client = AzureCloudContainerConnection(
@@ -311,7 +307,7 @@ def test_download_object(mock_get_client):
         object_path,
     )
 
-    assert json.loads(download_content.read()) == object_content
+    assert json.loads(download_content) == object_content
 
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
@@ -319,7 +315,7 @@ def test_download_object(mock_get_client):
 
 
 @mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
-def test_download_object_pass_cp1251encoded(mock_get_client):
+def test_download_object_cp1252(mock_get_client):
     mock_blob_client = mock.Mock()
 
     mock_container_client = mock.Mock()
@@ -333,72 +329,30 @@ def test_download_object_pass_cp1251encoded(mock_get_client):
     object_container = "some-container"
     object_path = "output/path/some-bundle-type/some-filename-1.fhir"
 
-    def __write_stream(stream):
-        with open(
-            pathlib.Path(__file__).parent.parent / "assets" / "cp1252-sample.txt", "rb"
-        ) as cp1251file:
-            stream.write(cp1251file.read())
-            stream.seek(0)
+    with open(
+        pathlib.Path(__file__).parent.parent / "assets" / "cp1252-sample.txt", "rb"
+    ) as cp1252file:
+        object_content = cp1252file.read()
 
-    mock_downloader = mock.Mock(download_to_stream=__write_stream)
+    mock_downloader = mock.Mock(
+        content_as_text=lambda encoding: object_content.decode(encoding=encoding)
+    )
 
     mock_blob_client.download_blob.return_value = mock_downloader
 
     phdi_container_client = AzureCloudContainerConnection(
-        object_storage_account, mock_cred_manager
+        object_storage_account,
+        mock_cred_manager,
     )
 
     download_content = phdi_container_client.download_object(
-        object_container, object_path
+        object_container, object_path, "cp1252"
     )
 
-    expected_text = "Testing windows-1252 encoding\n€\nœ\nŸ\n"
-    text_wrapper = io.TextIOWrapper(buffer=download_content, encoding="cp1252")
-    assert text_wrapper.read() == expected_text
+    assert download_content == "Testing windows-1252 encoding\n€\nœ\nŸ\n"
 
-    utf_text_wrapper = io.TextIOWrapper(buffer=download_content, encoding="utf-8")
-    assert utf_text_wrapper.read() != expected_text
-
-    mock_container_client.get_blob_client.assert_called_with(object_path)
-
-    mock_blob_client.download_blob.assert_called_with()
-
-
-@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
-def test_download_object_pass_file(mock_get_client):
-    mock_blob_client = mock.Mock()
-
-    mock_container_client = mock.Mock()
-    mock_container_client.get_blob_client.return_value = mock_blob_client
-
-    mock_get_client.return_value = mock_container_client
-
-    mock_cred_manager = mock.Mock()
-
-    object_storage_account = "some-resource-location"
-    object_container = "some-container"
-    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
-    object_content = {"hello": "world"}
-
-    def __write_stream(stream):
-        stream.write(json.dumps(object_content))
-        stream.seek(0)
-
-    mock_downloader = mock.Mock(download_to_stream=__write_stream)
-
-    mock_blob_client.download_blob.return_value = mock_downloader
-
-    phdi_container_client = AzureCloudContainerConnection(
-        object_storage_account, mock_cred_manager
-    )
-
-    with tempfile.TemporaryFile("w+") as stream:
-        download_content = phdi_container_client.download_object(
-            object_container, object_path, stream
-        )
-
-        assert stream == download_content
-        assert json.loads(download_content.read()) == object_content
+    with pytest.raises(UnicodeDecodeError):
+        object_content.decode("utf-8")
 
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
