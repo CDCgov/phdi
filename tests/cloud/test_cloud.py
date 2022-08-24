@@ -1,12 +1,13 @@
 import io
 import json
+import pathlib
+import tempfile
 
 from datetime import datetime, timezone
 from unittest import mock
 from phdi.cloud.azure import (
     AzureCredentialManager,
     AzureCloudContainerConnection,
-    store_message_and_response,
 )
 from phdi.cloud.gcp import GcpCredentialManager
 
@@ -318,7 +319,53 @@ def test_download_object(mock_get_client):
 
 
 @mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
-def test_download_object_pass_stream(mock_get_client):
+def test_download_object_pass_cp1251encoded(mock_get_client):
+    mock_blob_client = mock.Mock()
+
+    mock_container_client = mock.Mock()
+    mock_container_client.get_blob_client.return_value = mock_blob_client
+
+    mock_get_client.return_value = mock_container_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+
+    def __write_stream(stream):
+        with open(
+            pathlib.Path(__file__).parent.parent / "assets" / "cp1252-sample.txt", "rb"
+        ) as cp1251file:
+            stream.write(cp1251file.read())
+            stream.seek(0)
+
+    mock_downloader = mock.Mock(download_to_stream=__write_stream)
+
+    mock_blob_client.download_blob.return_value = mock_downloader
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    download_content = phdi_container_client.download_object(
+        object_container, object_path
+    )
+
+    expected_text = "Testing windows-1252 encoding\n€\nœ\nŸ\n"
+    text_wrapper = io.TextIOWrapper(buffer=download_content, encoding="cp1252")
+    assert text_wrapper.read() == expected_text
+
+    utf_text_wrapper = io.TextIOWrapper(buffer=download_content, encoding="utf-8")
+    assert utf_text_wrapper.read() != expected_text
+
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+
+    mock_blob_client.download_blob.assert_called_with()
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_download_object_pass_file(mock_get_client):
     mock_blob_client = mock.Mock()
 
     mock_container_client = mock.Mock()
@@ -345,13 +392,13 @@ def test_download_object_pass_stream(mock_get_client):
         object_storage_account, mock_cred_manager
     )
 
-    stream = io.StringIO()
-    download_content = phdi_container_client.download_object(
-        object_container, object_path, stream
-    )
+    with tempfile.TemporaryFile("w+") as stream:
+        download_content = phdi_container_client.download_object(
+            object_container, object_path, stream
+        )
 
-    assert stream == download_content
-    assert json.loads(download_content.read()) == object_content
+        assert stream == download_content
+        assert json.loads(download_content.read()) == object_content
 
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
@@ -418,45 +465,3 @@ def test_list_objects(mock_get_client):
     mock_client.list_blobs.assert_called_with(name_starts_with=object_prefix)
 
     assert blob_list == ["blob1", "blob2"]
-
-
-@mock.patch.object(AzureCloudContainerConnection, "upload_object")
-def test_store_message_and_response(patched_upload):
-    storage_account_location = "some-resource-location"
-    container_name = "some-container-name"
-    message_filename = "some-filename.msg"
-    response_filename = "some-filename.msg.trantype-resp"
-    message = "original-message"
-    response = mock.Mock(text=json.dumps({"resourceType": "Bundle"}))
-
-    mock_cred_manager = mock.Mock()
-
-    azure_storage_client = AzureCloudContainerConnection(
-        storage_account_url=storage_account_location, cred_manager=mock_cred_manager
-    )
-
-    store_message_and_response(
-        client=azure_storage_client,
-        container_name=container_name,
-        message_filename=message_filename,
-        response_filename=response_filename,
-        message=message,
-        response=response,
-    )
-
-    patched_upload.has_calls(
-        [
-            mock.call(
-                storage_account_url=f"{storage_account_location}/{container_name}",
-                message_filename=message_filename,
-                message=message,
-            ),
-            mock.call(
-                storage_account_url=f"{storage_account_location}/{container_name}",
-                filename=response_filename,
-                message=response.text,
-            ),
-        ]
-    )
-
-    patched_upload.call_count = 2

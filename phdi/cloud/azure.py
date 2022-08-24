@@ -1,6 +1,5 @@
 import io
 import json
-import requests
 
 from .core import BaseCredentialManager, BaseCloudContainerConnection
 from azure.core.credentials import AccessToken
@@ -51,8 +50,8 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def get_access_token(self, force_refresh: bool = False) -> str:
         """
-        Obtain an access token from the Azure identity provider.  The access token,
-        refreshed if necessary
+        Obtain an access token from the Azure identity provider.  Return the
+        access token string, refreshed if expired or force_refresh is specified.
 
         :param force_refresh: force token refresh even if the current token is
           still valid
@@ -174,7 +173,6 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
         """
         creds = self.cred_manager.get_credential_object()
-        print(self.storage_account_url)
         service_client = BlobServiceClient(
             account_url=self.storage_account_url, credential=creds
         )
@@ -204,42 +202,3 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
             blob_name_list.append(blob_propreties.name)
 
         return blob_name_list
-
-
-def store_message_and_response(
-    message: str,
-    response: requests.Response,
-    client: AzureCloudContainerConnection,
-    container_name: str,
-    message_filename: str,
-    response_filename: str,
-) -> None:
-    """
-    Store information about an incoming message as well as an http response for a
-    transaction related to that message.  This method can be used to
-    record a failed response to a transaction related to an inbound transaction for
-    troubleshooting purposes.
-
-    :param message: The content of a message encoded as a string.
-    :param response: HTTP response information from a transaction related to the
-      `message`.
-    :param client: An instance of `AzureCloudContainerConnection` used to
-      upload the request
-    :param container_name: The name of the target container for upload
-    :param message_filename: The file name to use to store the message in blob storage
-    :param response_filename: The file name to use to store the response content
-      in blob storage
-    """
-    # First attempt is storing the message directly in the
-    # invalid messages container
-    client.upload_object(
-        container_name=container_name,
-        filename=message_filename,
-        message=message,
-    )
-    # Then, try to store the response information
-    client.upload_object(
-        container_name=container_name,
-        filename=response_filename,
-        message=response.text,
-    )
