@@ -55,7 +55,6 @@ class AzureCredentialManager(BaseCredentialManager):
         :param force_refresh: force token refresh even if the current token is
           still valid
         """
-
         if force_refresh or (self.access_token is None) or self._need_new_token():
             creds = self.get_credential_object()
             self.__access_token = creds.get_token(self.scope)
@@ -79,6 +78,7 @@ class AzureCredentialManager(BaseCredentialManager):
 class AzureCloudContainerConnection(BaseCloudContainerConnection):
     """
     This class implements the PHDI cloud storage interface for connecting to Azure.
+
     """
 
     @property
@@ -92,7 +92,6 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
     def __init__(self, storage_account_url: str, cred_manager: AzureCredentialManager):
         """
         Create a new AzureCloudContainerConnection object.
-
 
         :param storage_account_url: Storage account location of the requested resource
         :param cred_manager: The Azure credential manager
@@ -162,22 +161,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def list_containers(self) -> List[str]:
         """
-        Store information about an incoming message as well as an http response for a
-        transaction related to that message.  This method can be used to
-        record a failed response to a transaction related to an inbound transaction for
-        troubleshooting purposes.
-
-            :param container_url: The url at which to access the container
-            :param prefix: The "filepath" prefix used to navigate the
-                virtual directories to the output container
-            :param bundle_type: The type of data being written
-            :param message_filename: The file name to use to store the message
-                in blob storage
-            :param response_filename: The file name to use to store the response content
-                in blob storage
-            :param message: The content of a message encoded as a string.
-            :param response: HTTP response information from a transaction related to the
-                `message`.
+        List names for this CloudContainerConnection's containers.
         """
         creds = self.cred_manager.get_credential_object()
         service_client = BlobServiceClient(
@@ -193,7 +177,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
-        List names for objects within a container
+        List names for objects within a container.
 
         :param container_name: The name of the container to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
