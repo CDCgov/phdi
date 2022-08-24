@@ -33,8 +33,8 @@ class BaseCloudContainerConnection(ABC):
         Otherwise a new stream object containing blob content.
 
         :param container_name: The name of the container containing object to download
-        :param filename: Location of file within storage.
-        :param encoding: Encoding applied downloaded content.
+        :param filename: Location of file within storage
+        :param encoding: Encoding applied to the downloaded content
         """
         pass
 
@@ -51,9 +51,9 @@ class BaseCloudContainerConnection(ABC):
         Exactly one of message_json or message should be provided.
 
         :param container_name: The name of the target container for upload
-        :param filename: Location of file within storage container.
-        :param message_json: The content of a message in JSON format.
-        :param message: The content of a message encoded as a string.
+        :param filename: Location of file within storage container
+        :param message_json: The content of a message in JSON format
+        :param message: The content of a message encoded as a string
         """
         pass
 
@@ -71,6 +71,6 @@ class BaseCloudContainerConnection(ABC):
         List names for objects within a container
 
         :param container_name: The name of the container to look for objects
-        :param prefix: Only return objects whose filenames begin with this value
+        :param prefix: Filter for objects whose filenames begin with this value
         """
         pass

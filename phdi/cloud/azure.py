@@ -94,8 +94,8 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         Create a new AzureCloudContainerConnection object.
 
 
-        :param storage_account_url: Storage account location of the requested resource.
-        :param cred_manager: The Azure credential manager.
+        :param storage_account_url: Storage account location of the requested resource
+        :param cred_manager: The Azure credential manager
         """
         self.__storage_account_url = storage_account_url
         self.__cred_manager = cred_manager
@@ -120,8 +120,8 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         Downloads a character blob from storage and returns it as a string.
 
         :param container_name: The name of the container containing object to download
-        :param filename: Location of file within Azure blob storage.
-        :param encoding: Encoding applied downloaded content.
+        :param filename: Location of file within Azure blob storage
+        :param encoding: Encoding applied to the downloaded content
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -145,9 +145,9 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         Exactly one of message_json or message should be provided.
 
         :param container_name: The name of the target container for upload
-        :param filename: Location of file within Azure blob storage.
-        :param message_json: The content of a message in JSON format.
-        :param message: The content of a message encoded as a string.
+        :param filename: Location of file within Azure blob storage
+        :param message_json: The content of a message in JSON format
+        :param message: The content of a message encoded as a string
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -183,7 +183,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         List names for objects within a container
 
         :param container_name: The name of the container to look for objects
-        :param prefix: Only return objects whose filenames begin with this value
+        :param prefix: Filter for objects whose filenames begin with this value
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
