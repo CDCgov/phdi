@@ -60,9 +60,13 @@ salt = 'some-salt-string'
 
 add_patient_identifier(bundle, salt, True)
 print(bundle)
+
+# or 
+new_bundle = add_patient_identifier(bundle, salt, True)
+print(new_bundle)
 ```
 
-Using the `True` tag in the third parameter overwrites your bundle with the new resource tag. This means that in the previous example, the `bundle` variable will be directly modified by add_patient_identifier. If using `False`, save the output to a variable. 
+Using the `True` tag in the third parameter overwrites your bundle with the new resource tag. This means that in the previous example, the `bundle` variable will be directly modified by `add_patient_identifier`. You can still save the modified bundle to a variable, but it is not required. If using `False`, save the output to a variable. 
 ```
 new_patient_bundle = add_patient_identifier(bundle, salt, False)
 print(new_patient_bundle)
