@@ -1,6 +1,13 @@
+import json
+import pathlib
+import pytest
+
 from datetime import datetime, timezone
 from unittest import mock
-from phdi.cloud.azure import AzureCredentialManager
+from phdi.cloud.azure import (
+    AzureCredentialManager,
+    AzureCloudContainerConnection,
+)
 from phdi.cloud.gcp import GcpCredentialManager
 
 
@@ -235,3 +242,180 @@ def test_gcp_credential_manager_handle_expired_credentials(
     _ = credential_manager.get_credential_object()
     _ = credential_manager.get_access_token()
     assert mock_gcp_creds.call_count == 2
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_upload_object(mock_get_client):
+    mock_blob_client = mock.Mock()
+
+    mock_container_client = mock.Mock()
+    mock_container_client.get_blob_client.return_value = mock_blob_client
+
+    mock_get_client.return_value = mock_container_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+    object_content = {"hello": "world"}
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    phdi_container_client.upload_object(
+        object_container,
+        object_path,
+        object_content,
+    )
+
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+
+    mock_blob_client.upload_blob.assert_called_with(
+        json.dumps(object_content).encode("utf-8"), overwrite=True
+    )
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_download_object(mock_get_client):
+    mock_blob_client = mock.Mock()
+
+    mock_container_client = mock.Mock()
+    mock_container_client.get_blob_client.return_value = mock_blob_client
+
+    mock_get_client.return_value = mock_container_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+    object_content = {"hello": "world"}
+
+    mock_downloader = mock.Mock(
+        content_as_text=lambda encoding: json.dumps(object_content)
+    )
+    mock_blob_client.download_blob.return_value = mock_downloader
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    download_content = phdi_container_client.download_object(
+        object_container,
+        object_path,
+    )
+
+    assert json.loads(download_content) == object_content
+
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+
+    mock_blob_client.download_blob.assert_called_with()
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_download_object_cp1252(mock_get_client):
+    mock_blob_client = mock.Mock()
+
+    mock_container_client = mock.Mock()
+    mock_container_client.get_blob_client.return_value = mock_blob_client
+
+    mock_get_client.return_value = mock_container_client
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+
+    with open(
+        pathlib.Path(__file__).parent.parent / "assets" / "cp1252-sample.txt", "rb"
+    ) as cp1252file:
+        object_content = cp1252file.read()
+
+    mock_downloader = mock.Mock(
+        content_as_text=lambda encoding: object_content.decode(encoding=encoding)
+    )
+
+    mock_blob_client.download_blob.return_value = mock_downloader
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account,
+        mock_cred_manager,
+    )
+
+    download_content = phdi_container_client.download_object(
+        object_container, object_path, "cp1252"
+    )
+
+    assert download_content == "Testing windows-1252 encoding\n€\nœ\nŸ\n"
+
+    with pytest.raises(UnicodeDecodeError):
+        object_content.decode("utf-8")
+
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+
+    mock_blob_client.download_blob.assert_called_with()
+
+
+@mock.patch("phdi.cloud.azure.BlobServiceClient")
+def test_list_containers(mock_service_client):
+    mock_service_client_instance = mock_service_client.return_value
+    item1 = mock.Mock()
+    item1.name = "container1"
+    item2 = mock.Mock()
+    item2.name = "container2"
+    mock_container_list = [item1, item2]
+
+    mock_service_client_instance.list_containers.return_value = mock_container_list
+
+    mock_cred_manager = mock.Mock()
+
+    object_storage_account = "some-resource-location"
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    container_list = phdi_container_client.list_containers()
+
+    mock_service_client.assert_called_with(
+        account_url=object_storage_account,
+        credential=mock_cred_manager.get_credential_object(),
+    )
+
+    mock_service_client_instance.list_containers.assert_called_with()
+
+    assert container_list == ["container1", "container2"]
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_list_objects(mock_get_client):
+    item1 = mock.Mock()
+    item1.name = "blob1"
+    item2 = mock.Mock()
+    item2.name = "blob2"
+    mock_object_list = [item1, item2]
+
+    mock_client = mock_get_client.return_value
+
+    mock_client.list_blobs.return_value = mock_object_list
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container-name"
+    object_prefix = "some-prefix"
+
+    mock_cred_manager = mock.Mock()
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    blob_list = phdi_container_client.list_objects(object_container, object_prefix)
+
+    mock_get_client.assert_called_with(f"{object_storage_account}/{object_container}")
+
+    mock_client.list_blobs.assert_called_with(name_starts_with=object_prefix)
+
+    assert blob_list == ["blob1", "blob2"]
