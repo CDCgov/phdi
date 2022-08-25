@@ -1,13 +1,12 @@
-from phdi.geospatial import GeocodeClient, GeocodeResult
-
+from typing import List, Union
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
 
-from typing import List, Union
+from phdi.geospatial.core import BaseGeocodeClient, GeocodeResult
 
 
-class SmartyGeocodeClient(GeocodeClient):
+class SmartyGeocodeClient(BaseGeocodeClient):
     """
     Implementation of a geocoding client using the SmartyStreets API.
     Requires an authorization ID as well as an authentication token
@@ -45,8 +44,6 @@ class SmartyGeocodeClient(GeocodeClient):
         to precisely geocode the address, so no result is returned.
 
         :param address: The address to geocode, given as a string
-        :return: A GeocodeResult containing address information, if lookup was
-          successful. Otherwise, None.
         """
         lookup = Lookup(street=address)
         self.__client.send_lookup(lookup)
@@ -59,8 +56,6 @@ class SmartyGeocodeClient(GeocodeClient):
         returned, otherwise the function returns None.
 
         :param address: a dictionary with fields outlined above
-        :return: A GeocodeResult containing address information, if lookup was
-          successful. Otherwise, None.
         """
 
         # Configure the lookup with whatever provided address values
@@ -83,12 +78,11 @@ class SmartyGeocodeClient(GeocodeClient):
     def _parse_smarty_result(lookup):
         """
         Private helper function to parse a returned Smarty geocoding result into
-        our standardized GeocodeResult class.
+        our standardized GeocodeResult class. If the Smarty lookup is null or
+        doesn't include latitude and longitude information, returns None
+        instead.
 
         :param lookup: The us_street.lookup client instantiated for geocoding
-        :return: A GeocodeResult containing address information, if the given
-        lookup contains a non-null result that includes latitude and
-        longitude information. Otherwise, None.
         """
         # Valid responses have results with lat/long
         if lookup.result and lookup.result[0].metadata.latitude:

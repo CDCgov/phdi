@@ -1,10 +1,10 @@
-from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
-from phdi.geospatial import GeocodeResult
-
 from unittest import mock
 import json
 import pathlib
 import copy
+
+from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
+from phdi.geospatial.core import GeocodeResult
 
 
 def test_geocode_resource():
