@@ -1,6 +1,6 @@
 import json
 
-from .core import BaseCredentialManager, BaseCloudContainerConnection
+from phdi.cloud.core import BaseCredentialManager, BaseCloudContainerConnection
 from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
@@ -78,7 +78,6 @@ class AzureCredentialManager(BaseCredentialManager):
 class AzureCloudContainerConnection(BaseCloudContainerConnection):
     """
     This class implements the PHDI cloud storage interface for connecting to Azure.
-
     """
 
     @property

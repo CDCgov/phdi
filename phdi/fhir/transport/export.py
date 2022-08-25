@@ -1,7 +1,7 @@
 import polling
 import requests
 
-from .http import http_request_with_reauth
+from phdi.fhir.transport.http import http_request_with_reauth
 from phdi.cloud.core import BaseCredentialManager
 from typing import Union
 
@@ -82,6 +82,43 @@ def export_from_fhir_server(
             raise requests.HTTPError(response=poll_response)
 
 
+def export_from_fhir_server_poll(
+    poll_url: str,
+    cred_manager: BaseCredentialManager,
+    poll_step: float = 30,
+    poll_timeout: float = 300,
+) -> requests.Response:
+    """
+    Poll an endpoint to retrieve an export file after an export run has been initiated.
+
+    :param poll_url: URL to poll for export information
+    :param cred_manager: Service used to get an access token used to make a request
+    :param poll_step: the number of seconds to wait between poll requests, waiting
+      for export files to be generated
+    :param poll_timeout: the maximum number of seconds to wait for export files to
+      be generated
+    :raises polling.TimeoutException: If the FHIR server continually returns a 202
+      status indicating in progress until the timeout is reached
+    :raises requests.HTTPError: If an unexpected status code is returned
+    """
+    response = polling.poll(
+        target=_export_from_fhir_server_poll_call,
+        args=[poll_url, cred_manager],
+        step=poll_step,
+        timeout=poll_timeout,
+    )
+
+    # Handle error conditions
+    if response.status_code != 200:
+        raise requests.HTTPError(
+            f"Encountered status {response.status_code} when requesting status"
+            + "of export `{poll_url}`"
+        )
+
+    # If no error conditions, return response
+    return response
+
+
 def _compose_export_url(
     fhir_url: str,
     export_scope: str = "",
@@ -128,7 +165,7 @@ def _compose_export_url(
     return export_url
 
 
-def __export_from_fhir_server_poll_call(
+def _export_from_fhir_server_poll_call(
     poll_url: str, cred_manager: BaseCredentialManager
 ) -> Union[requests.Response, None]:
     """
@@ -162,40 +199,3 @@ def __export_from_fhir_server_poll_call(
         return response
     else:
         raise requests.HTTPError(response=response)
-
-
-def export_from_fhir_server_poll(
-    poll_url: str,
-    cred_manager: BaseCredentialManager,
-    poll_step: float = 30,
-    poll_timeout: float = 300,
-) -> requests.Response:
-    """
-    Poll an endpoint to retrieve an export file after an export run has been initiated.
-
-    :param poll_url: URL to poll for export information
-    :param cred_manager: Service used to get an access token used to make a request
-    :param poll_step: the number of seconds to wait between poll requests, waiting
-      for export files to be generated
-    :param poll_timeout: the maximum number of seconds to wait for export files to
-      be generated
-    :raises polling.TimeoutException: If the FHIR server continually returns a 202
-      status indicating in progress until the timeout is reached
-    :raises requests.HTTPError: If an unexpected status code is returned
-    """
-    response = polling.poll(
-        target=__export_from_fhir_server_poll_call,
-        args=[poll_url, cred_manager],
-        step=poll_step,
-        timeout=poll_timeout,
-    )
-
-    # Handle error conditions
-    if response.status_code != 200:
-        raise requests.HTTPError(
-            f"Encountered status {response.status_code} when requesting status"
-            + "of export `{poll_url}`"
-        )
-
-    # If no error conditions, return response
-    return response
