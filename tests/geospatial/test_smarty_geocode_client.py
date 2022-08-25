@@ -1,11 +1,11 @@
-from phdi.geospatial import GeocodeResult
-from phdi.geospatial.smarty import SmartyGeocodeClient
+from unittest import mock
 
 from smartystreets_python_sdk.us_street.candidate import Candidate
 from smartystreets_python_sdk.us_street.metadata import Metadata
 from smartystreets_python_sdk.us_street.components import Components
 
-from unittest import mock
+from phdi.geospatial.core import GeocodeResult
+from phdi.geospatial.smarty import SmartyGeocodeClient
 
 
 def test_parse_smarty_result_success():
