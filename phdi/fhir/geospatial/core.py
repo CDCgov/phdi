@@ -44,6 +44,10 @@ class BaseFhirGeocodeClient(ABC):
         """
         if "extension" not in address:
             address["extension"] = []
+
+        # Append with a properly resolving URL for FHIR's canonical geospatial
+        # structure definition, as all extensions are required to have this
+        # attribute; see https://www.hl7.org/fhir/extensibility.html
         address["extension"].append(
             {
                 "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
