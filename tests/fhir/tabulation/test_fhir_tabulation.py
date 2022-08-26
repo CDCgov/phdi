@@ -1,7 +1,9 @@
 import json
 import pathlib
 import yaml
+
 from unittest import mock
+
 from phdi.fhir.tabulation.tables import (
     apply_selection_criteria,
     apply_schema_to_resource,
