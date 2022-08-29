@@ -1,6 +1,6 @@
 # Tutorials: The Geospatial Module
 
-This guide serves as a tutorial overview of the functionality available in both `geospatial.py` and `fhir.geospatial.py`. It will cover concepts such as data type basics, imports, and common uses invocations.
+This guide serves as a tutorial overview of the functionality available in both `phdi.geospatial` and `phdi.fhir.geospatial`. It will cover concepts such as data type basics, imports, and common uses invocations.
 
 ## The Basics: Clients and Results
 The basic data structures used by the geospatial model are a `GeocodeClient` and a `GeocodeResult`. The former is an abstract base class (see https://docs.python.org/3/library/abc.html for more details) that provides vendor-agnostic function skeletons for use on raw data (e.g. strings and dictionaries); the latter is a dataclass (see https://docs.python.org/3/library/dataclasses.html) designed to hold address field information in a standardized fashion. The `fhir` wrapper for the geospatial module also provides a `FhirGeocodeClient`, which is an abstract class that behaves like `GeocodeClient` but which is designed to work with FHIR-formatted data. For clarity, we'll use `GeocodeClient` to refer to implementations that deal with raw data, `FhirGeocodeClient` to refer to implementations that deal with FHIR-formatted data, and "Geocode Clients" to refer the set of both types.
@@ -51,7 +51,7 @@ precision: Optional[str] = None
 All attributes which are `Optional`-typed may or may not be included in the results of a specific geocoding search, depending on whether a vendor implements returning data of that type.
 
 ## Importing
-Using the geospatial module's functionality begins with simple imports. The Geocode Client abstract classes and `GeocodeResult` likely do not need to be imported (see the common uses section below), but can be directly from the relevant package:
+Using the geospatial module's functionality begins with simple imports. The Geocode Client abstract classes and `GeocodeResult` likely do not need to be imported (see the common uses section below), but can be used directly from the relevant package:
 
 ```
 from phdi.geospatial import GeocodeClient, GeocodeResult
@@ -71,13 +71,13 @@ Listed below are several example use cases for employing the geospatial module.
 ### Geocode Address In A String
 Suppose a data element has an address field in which the entire address occurs in a string, e.g.
 
-```
+```python
 location = "1234 Mulholland Dr. NW Cincinnati OH 43897"
 ```
 
 To precisely geocode this address, using, say, the SmartyStreets geocoder, we would write:
 
-```
+```python
 from phdi.geospatial.smarty import SmartyGeocodeClient
 
 location = "1234 Mulholland Dr. NW Cincinnati OH 43897"
@@ -99,7 +99,7 @@ Here, the parameters in the `SmartyGeocodeClient` constructor correspond to auth
 ### Geocode Address From A Dictionary
 Let's take the example above and now suppose that the address we wish to work with is contained in a dictionary. Because of the standardization of our Geocode Clients and `GeocodeResult`, the code is extremely similar:
 
-```
+```python
 from phdi.geospatial.smarty import SmartyGeocodeClient
 
 # We have an address dict this time with fields distributed amongst keys
@@ -123,7 +123,7 @@ When providing input to `.geocode_from_dict()`, it is desirable to pass in as ma
 ### Geocode A Patient Resource
 Now let's suppose the data we're processing is FHIR-formatted (i.e. it is a JSON dictionary with field structure and names corresponding to FHIR labels). We want to geocode the home address of an incoming patient resource. Despite the change in input type, the resulting code doesn't change all that much, since we have a convenience wrapper around the same core functionality. 
 
-```
+```python
 from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
 
 # Our data element is a FHIR-formatted patient resource
@@ -165,7 +165,7 @@ The code above will geocode the single address present in the `patient` resource
 
 Regardless of whether we overwrite the input data or not, we can verify that the new geocoded information is present simply by checking whether latitude and longitude are now specified, since they weren't on the input `patient` resource:
 
-```
+```python
 lat_and_long_both_present = False
 
 # Access the extension property of the first address in our patient,
@@ -191,7 +191,7 @@ print(lat_and_long_both_present)
 ### Geocode a FHIR Bundle Containing Multiple Patients
 Finally, let's consider a scenario in which we want to geocode an entire bundle of resources. As has been the case, the structure of our code isn't really going to change; we'll just need to invoke a different `.geocode_from` method.
 
-```
+```python
 # Full definition omitted for brevity, but `bundle` is a list of JSON
 # objects having FHIR format; in this case, a list of patients
 bundle = [
