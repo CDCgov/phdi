@@ -1,6 +1,6 @@
 import json
 
-from .core import BaseCredentialManager, BaseCloudContainerConnection
+from phdi.cloud.core import BaseCredentialManager, BaseCloudContainerConnection
 from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
@@ -55,7 +55,6 @@ class AzureCredentialManager(BaseCredentialManager):
         :param force_refresh: force token refresh even if the current token is
           still valid
         """
-
         if force_refresh or (self.access_token is None) or self._need_new_token():
             creds = self.get_credential_object()
             self.__access_token = creds.get_token(self.scope)
@@ -92,7 +91,6 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
     def __init__(self, storage_account_url: str, cred_manager: AzureCredentialManager):
         """
         Create a new AzureCloudContainerConnection object.
-
 
         :param storage_account_url: Storage account location of the requested resource
         :param cred_manager: The Azure credential manager
@@ -162,14 +160,12 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def list_containers(self) -> List[str]:
         """
-        List names for this CloudContainerConnection's containers
-
+        List names for this CloudContainerConnection's containers.
         """
         creds = self.cred_manager.get_credential_object()
         service_client = BlobServiceClient(
             account_url=self.storage_account_url, credential=creds
         )
-
         container_properties_generator = service_client.list_containers()
 
         container_name_list = []
@@ -180,7 +176,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
-        List names for objects within a container
+        List names for objects within a container.
 
         :param container_name: The name of the container to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
