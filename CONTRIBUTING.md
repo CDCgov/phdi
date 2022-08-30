@@ -112,11 +112,21 @@ poetry run make test
 
 If that fails, stating a file cannot be found, you can also try running `poetry run pytest` directly to run the tests.
 
+If you're running the SDK library in a virtual environment (in which you've run `poetry install` to install all dependencies), you can also simply activate the environment, navigate to `phdi/tests/`, and run `pytest`.
+
 
 Foundational libraries used for testing include:
 - [pytest](https://docs.pytest.org/en/6.2.x/) - for easy unit testing
 - [Black](https://black.readthedocs.io/en/stable/) - automatic code formatter that enforces PEP best practices
 - [flake8](https://flake8.pycqa.org/en/latest/) - for code style enforcement
+
+##### Evaluating code coverage
+
+We use `coverage.py` to monitor our test suite's coverage of our code. To evaluate coverage, simply prepend `coverage run -m` before the command you typically use to run the tests (i.e. `coverage run -m pytest` if using the SDK from within a virtual environment). This generates a file `.coverage` in the `tests/` directory, which contains the results of the coverage run. To view a summary of these statistics, run `coverage report`. 
+
+You can also create an HTML-formatted and -tagged report by running `coverage html`, which creates a folder `htmlcov` inside the `tests/` directory. Opening the `index.html` file inside this directory will take you to a browser view of the coverage report and identify which (if any) code statements were not executed in the test run.
+
+More information can be found in the documentation for [coverage](https://coverage.readthedocs.io/en/6.4.4/).
 
 ##### Building the docs
 
