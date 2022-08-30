@@ -28,11 +28,11 @@ def add_patient_identifier_by_bundle(
         bundle = copy.deepcopy(bundle)
 
     for resource in find_resource_by_type(bundle, "Patient"):
-        add_patient_identifier(resource, salt_str)
+        add_patient_identifier(resource, salt_str, overwrite)
     return bundle
 
 
-def add_patient_identifier(patient_resource, salt_str):
+def add_patient_identifier(resource, salt_str, overwrite):
     """
     Given a FHIR resource:
 
@@ -44,8 +44,13 @@ def add_patient_identifier(patient_resource, salt_str):
         linking identifier
     :param salt_str: The suffix string added to prevent being
         able to reverse the hash into PII
+    :param overwrite: Whether to write the new standardizations
+        directly into the given bundle, changing the original data (True
+        is yes)
     """
-    patient = patient_resource.get("resource")
+    if not overwrite:
+        resource = copy.deepcopy(resource)
+    patient = resource.get("resource")
 
     # Combine given and family name
     recent_name = get_field(patient, "name", "official", 0)
