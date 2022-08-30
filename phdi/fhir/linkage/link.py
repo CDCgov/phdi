@@ -14,8 +14,6 @@ def add_patient_identifier_by_bundle(
     Given a FHIR resource bundle:
 
     * identify all patient resource(s) in the bundle
-    * extract name, DOB, and address information for each
-    * compute a unique hash string based on these fields
     * add the hash string to the list of identifiers held in that patient resource
 
     :param bundle: The FHIR bundle for whose patients to add a
@@ -30,12 +28,24 @@ def add_patient_identifier_by_bundle(
         bundle = copy.deepcopy(bundle)
 
     for resource in find_resource_by_type(bundle, "Patient"):
-        add_patient_identifier_by_resource(resource, salt_str)
+        add_patient_identifier(resource, salt_str)
     return bundle
 
 
-def add_patient_identifier_by_resource(resource, salt_str):
-    patient = resource.get("resource")
+def add_patient_identifier(patient_resource, salt_str):
+    """
+    Given a FHIR resource:
+
+    * extract name, DOB, and address information for each
+    * compute a unique hash string based on these fields
+    * add the hash string to resource
+
+    :param resource: The FHIR patient resource to add a
+        linking identifier
+    :param salt_str: The suffix string added to prevent being
+        able to reverse the hash into PII
+    """
+    patient = patient_resource.get("resource")
 
     # Combine given and family name
     recent_name = get_field(patient, "name", "official", 0)
