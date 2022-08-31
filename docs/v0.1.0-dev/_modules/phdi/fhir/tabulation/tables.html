@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>phdi.fhir.tabulation.tables &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for phdi.fhir.tabulation.tables</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">fhirpathpy</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">phdi.cloud.core</span> <span class="kn">import</span> <span class="n">BaseCredentialManager</span>
+<span class="kn">from</span> <span class="nn">phdi.fhir.transport</span> <span class="kn">import</span> <span class="n">fhir_server_get</span>
+<span class="kn">from</span> <span class="nn">phdi.tabulation.tables</span> <span class="kn">import</span> <span class="n">load_schema</span><span class="p">,</span> <span class="n">write_table</span>
+
+
+<div class="viewcode-block" id="apply_selection_criteria"><a class="viewcode-back" href="../../../../_source/phdi.fhir.tabulation.html#phdi.fhir.tabulation.tables.apply_selection_criteria">[docs]</a><span class="k">def</span> <span class="nf">apply_selection_criteria</span><span class="p">(</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+    <span class="n">selection_criteria</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of values parsed from a FHIR resource, return value(s) according to the</span>
+<span class="sd">    selection criteria. In general a single value is returned, but when</span>
+<span class="sd">    selection_criteria is set to &quot;all&quot; a list containing all of the parsed values is</span>
+<span class="sd">    returned.</span>
+
+<span class="sd">    :param value: A list containing the values parsed from a FHIR resource.</span>
+<span class="sd">    :param selection_criteria: A string indicating which element(s) of a list to select.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">selection_criteria</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">selection_criteria</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">selection_criteria</span> <span class="o">==</span> <span class="s2">&quot;random&quot;</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># Temporary hack to ensure no structured data is written using pyarrow.</span>
+    <span class="c1"># Currently Pyarrow does not support mixing non-structured and structured data.</span>
+    <span class="c1"># https://github.com/awslabs/aws-data-wrangler/issues/463</span>
+    <span class="c1"># Will need to consider other methods of writing to parquet if this is an essential</span>
+    <span class="c1"># feature.</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="apply_schema_to_resource"><a class="viewcode-back" href="../../../../_source/phdi.fhir.tabulation.html#phdi.fhir.tabulation.tables.apply_schema_to_resource">[docs]</a><span class="k">def</span> <span class="nf">apply_schema_to_resource</span><span class="p">(</span><span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates and returns a dictionary of data based on a FHIR resource and a schema. The</span>
+<span class="sd">    keys of the created dict are the &quot;new names&quot; for the fields in the given schema, and</span>
+<span class="sd">    the values are the elements of the given resource that correspond to these fields.</span>
+<span class="sd">    Here, &quot;new name&quot; is a property contained in the schema that specifies what a</span>
+<span class="sd">    particular variable should be called. If a schema can&#39;t be found for the given</span>
+<span class="sd">    resource type, the raw resource is instead returned.</span>
+
+<span class="sd">    :param resource: A FHIR resource on which to apply a schema.</span>
+<span class="sd">    :param schema: A schema specifying the desired values by FHIR resource type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">resource_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resourceType&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">resource_schema</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">resource_schema</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;fhir_path&quot;</span><span class="p">]</span>
+
+        <span class="n">parse_function</span> <span class="o">=</span> <span class="n">_get_fhirpathpy_parser</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">parse_function</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;new_name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selection_criteria</span> <span class="o">=</span> <span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;selection_criteria&quot;</span><span class="p">]</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">apply_selection_criteria</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">selection_criteria</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;new_name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="generate_table"><a class="viewcode-back" href="../../../../_source/phdi.fhir.tabulation.html#phdi.fhir.tabulation.tables.generate_table">[docs]</a><span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span>
+    <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">],</span>
+    <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">cred_manager</span><span class="p">:</span> <span class="n">BaseCredentialManager</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the schema for a single table, make the table.</span>
+
+<span class="sd">    :param schema: A schema specifying the desired values by FHIR resource type.</span>
+<span class="sd">    :param output_path: A path specifying where the table should be written.</span>
+<span class="sd">    :param output_format: A string indicating the file format to be used.</span>
+<span class="sd">    :param fhir_url: URL to a FHIR server.</span>
+<span class="sd">    :param cred_manager: Service used to get an access token used to make a</span>
+<span class="sd">        request.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">resource_type</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">:</span>
+
+        <span class="n">output_file_name</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">output_format</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># TODO: make _count (and other query parameters) configurable</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">resource_type</span><span class="si">}</span><span class="s2">?_count=1000&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">fhir_url</span> <span class="o">+</span> <span class="n">query</span>
+
+        <span class="n">writer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">next_page</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">next_page</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">fhir_server_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="c1"># Load queried data.</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Extract values specified by schema from each resource.</span>
+            <span class="c1"># values_from_resource is a dictionary of the form:</span>
+            <span class="c1"># {field1:value1, field2:value2, ...}.</span>
+
+            <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">query_result</span><span class="p">[</span><span class="s2">&quot;entry&quot;</span><span class="p">]:</span>
+                <span class="n">values_from_resource</span> <span class="o">=</span> <span class="n">apply_schema_to_resource</span><span class="p">(</span>
+                    <span class="n">resource</span><span class="p">[</span><span class="s2">&quot;resource&quot;</span><span class="p">],</span> <span class="n">schema</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">values_from_resource</span> <span class="o">!=</span> <span class="p">{}:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values_from_resource</span><span class="p">)</span>
+
+            <span class="c1"># Write data to file.</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">write_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">output_file_name</span><span class="p">,</span> <span class="n">output_format</span><span class="p">,</span> <span class="n">writer</span><span class="p">)</span>
+
+            <span class="c1"># Check for an additional page of query results.</span>
+            <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">query_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;relation&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;next&quot;</span><span class="p">:</span>
+                    <span class="n">url</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">next_page</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">writer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="generate_all_tables_in_schema"><a class="viewcode-back" href="../../../../_source/phdi.fhir.tabulation.html#phdi.fhir.tabulation.tables.generate_all_tables_in_schema">[docs]</a><span class="k">def</span> <span class="nf">generate_all_tables_in_schema</span><span class="p">(</span>
+    <span class="n">schema_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">base_output_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">],</span>
+    <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">cred_manager</span><span class="p">:</span> <span class="n">BaseCredentialManager</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the url for a FHIR server, the location of a schema file, and and output</span>
+<span class="sd">    directory generate the specified schema and store the tables in the desired</span>
+<span class="sd">    location.</span>
+
+<span class="sd">    :param schema_path: A path to the location of a YAML schema config file.</span>
+<span class="sd">    :param base_output_path: A path to the directory where tables of the schema should</span>
+<span class="sd">        be written.</span>
+<span class="sd">    :param output_format: Specifies the file format of the tables to be generated.</span>
+<span class="sd">    :param fhir_url: URL to a FHIR server.</span>
+<span class="sd">    :param cred_manager: Service used to get an access token used to make a</span>
+<span class="sd">        request.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">load_schema</span><span class="p">(</span><span class="n">schema_path</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">base_output_path</span> <span class="o">/</span> <span class="n">table</span>
+        <span class="n">generate_table</span><span class="p">(</span>
+            <span class="n">schema</span><span class="p">[</span><span class="n">table</span><span class="p">],</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">output_format</span><span class="p">,</span> <span class="n">fhir_url</span><span class="p">,</span> <span class="n">cred_manager</span>
+        <span class="p">)</span></div>
+
+
+<span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">_get_fhirpathpy_parser</span><span class="p">(</span><span class="n">fhirpath_expression</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes</span>
+<span class="sd">    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given</span>
+<span class="sd">    `fhirpath_expression`</span>
+
+<span class="sd">    :param fhirpath_expression: The FHIRPath expression to evaluate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">fhirpathpy</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fhirpath_expression</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../../../index.html">
+    <img class="logo" src="../../../../_static/PHDI-Logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=CDCGov&repo=phdi&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_source/modules.html">phdi</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

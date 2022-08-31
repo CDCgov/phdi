@@ -31,16 +31,16 @@
           <div class="body" role="main">
             
   <h1>Source code for phdi.fhir.geospatial.smarty</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">phdi.geospatial.smarty</span> <span class="kn">import</span> <span class="n">SmartyGeocodeClient</span>
-<span class="kn">from</span> <span class="nn">phdi.fhir.geospatial</span> <span class="kn">import</span> <span class="n">FhirGeocodeClient</span>
-
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">from</span> <span class="nn">smartystreets_python_sdk</span> <span class="kn">import</span> <span class="n">us_street</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">phdi.geospatial.smarty</span> <span class="kn">import</span> <span class="n">SmartyGeocodeClient</span>
+<span class="kn">from</span> <span class="nn">phdi.fhir.geospatial.core</span> <span class="kn">import</span> <span class="n">BaseFhirGeocodeClient</span>
+<span class="kn">from</span> <span class="nn">phdi.fhir.utils</span> <span class="kn">import</span> <span class="n">get_one_line_address</span>
 
 
-<div class="viewcode-block" id="SmartyFhirGeocodeClient"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient">[docs]</a><span class="k">class</span> <span class="nc">SmartyFhirGeocodeClient</span><span class="p">(</span><span class="n">FhirGeocodeClient</span><span class="p">):</span>
+<div class="viewcode-block" id="SmartyFhirGeocodeClient"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient">[docs]</a><span class="k">class</span> <span class="nc">SmartyFhirGeocodeClient</span><span class="p">(</span><span class="n">BaseFhirGeocodeClient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation of a geocoding client designed to handle FHIR-</span>
 <span class="sd">    formatted data using the SmartyStreets API.</span>
@@ -69,7 +69,8 @@
 <div class="viewcode-block" id="SmartyFhirGeocodeClient.geocode_resource"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_resource">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs geocoding on one or more addresses in a given FHIR</span>
-<span class="sd">        resource. Currently supported resource types are:</span>
+<span class="sd">        resource and returns either the result or a copy thereof.</span>
+<span class="sd">        Currently supported resource types are:</span>
 
 <span class="sd">            - Patient</span>
 
@@ -77,8 +78,6 @@
 <span class="sd">        :param overwrite: Whether to save the geocoding information over</span>
 <span class="sd">          the raw data, or to create a copy of the given data and write</span>
 <span class="sd">          over that instead. Defaults to True (write over given data).</span>
-<span class="sd">        :return: The resource (or a copy thereof) with geocoded</span>
-<span class="sd">          information added</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="n">resource</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
@@ -95,7 +94,7 @@
 <span class="sd">        a given patient resource.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">patient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="p">[]):</span>
-            <span class="n">address_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+            <span class="n">address_str</span> <span class="o">=</span> <span class="n">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
             <span class="n">standardized_address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client</span><span class="o">.</span><span class="n">geocode_from_str</span><span class="p">(</span><span class="n">address_str</span><span class="p">)</span>
 
             <span class="c1"># Update fields with new, standardized information</span>
@@ -120,8 +119,6 @@
 <span class="sd">        :param overwrite: Whether to overwrite the address data in the given</span>
 <span class="sd">          bundle&#39;s resources (True), or whether to create a copy of the bundle</span>
 <span class="sd">          and overwrite that instead (False). Defaults to True.</span>
-<span class="sd">        :return: The given FHIR bundle (or a copy thereof) where all</span>
-<span class="sd">          resources have updated geocoded information</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="n">bundle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
@@ -170,10 +167,6 @@
 <ul>
   <li><a href="../../../../index.html">Documentation overview</a><ul>
   <li><a href="../../../index.html">Module code</a><ul>
-  <li><a href="../../fhir.html">phdi.fhir</a><ul>
-  <li><a href="../geospatial.html">phdi.fhir.geospatial</a><ul>
-  </ul></li>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

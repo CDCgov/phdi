@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>phdi.fhir.harmonization.standardization &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for phdi.fhir.harmonization.standardization</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">phdi.harmonization</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">standardize_name</span><span class="p">,</span>
+    <span class="n">standardize_country_code</span><span class="p">,</span>
+    <span class="n">standardize_phone</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="standardize_names"><a class="viewcode-back" href="../../../../_source/phdi.fhir.harmonization.html#phdi.fhir.harmonization.standardization.standardize_names">[docs]</a><span class="k">def</span> <span class="nf">standardize_names</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">trim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">case</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;upper&quot;</span><span class="p">,</span>
+    <span class="n">remove_numbers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given either a FHIR bundle or a FHIR resource, transform all names</span>
+<span class="sd">    contained in any resource in the input.  The default standardization</span>
+<span class="sd">    behavior is our defined non-numeric, space-trimming, full</span>
+<span class="sd">    capitalization standardization, but other modes may be specified.</span>
+
+<span class="sd">    :param data: Either a FHIR bundle or a FHIR-formatted JSON dict</span>
+<span class="sd">    :param trim: Whether leading/trailing whitespace should be removed</span>
+<span class="sd">    :param: case: The type of casing that should be used</span>
+<span class="sd">    :param: remove_numbers: Whether to delete numeric characters</span>
+<span class="sd">    :param overwrite: Whether to replace the original names in the input</span>
+<span class="sd">      data with the standardized names (default is yes)</span>
+<span class="sd">    :return: The bundle or resource with names appropriately standardized</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Copy the data if we don&#39;t want to overwrite the original</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># Allow users to pass in either a resource or a bundle</span>
+    <span class="n">bundle</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">if</span> <span class="s2">&quot;entry&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">bundle</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">}]}</span>
+
+    <span class="c1"># Handle all resources individually</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entry&quot;</span><span class="p">):</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="n">_standardize_names_in_resource</span><span class="p">(</span>
+            <span class="n">resource</span><span class="p">,</span> <span class="n">trim</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">remove_numbers</span><span class="p">,</span> <span class="n">overwrite</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;entry&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entry&quot;</span><span class="p">,</span> <span class="p">[{}])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">return</span> <span class="n">bundle</span></div>
+
+
+<div class="viewcode-block" id="standardize_phones"><a class="viewcode-back" href="../../../../_source/phdi.fhir.harmonization.html#phdi.fhir.harmonization.standardization.standardize_phones">[docs]</a><span class="k">def</span> <span class="nf">standardize_phones</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a FHIR bundle or a FHIR resource, standardize all phone</span>
+<span class="sd">    numbers contained in any resources in the input data.</span>
+<span class="sd">    Standardization is done according to the underlying</span>
+<span class="sd">    standardize_phone function in phdi.harmonization, so for more</span>
+<span class="sd">    information on country-coding and parsing, see the relevant</span>
+<span class="sd">    docstring.</span>
+
+<span class="sd">    :param data: A FHIR bundle or FHIR-formatted JSON dict</span>
+<span class="sd">    :param overwrite: Whether to replace the original phone numbers</span>
+<span class="sd">      in the input data with the standardized versions (default is yes)</span>
+<span class="sd">    :return: The bundle or resource with phones appropriately</span>
+<span class="sd">      standardized</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># Allow users to pass in either a resource or a bundle</span>
+    <span class="n">bundle</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">if</span> <span class="s2">&quot;entry&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">bundle</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;resource&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">}]}</span>
+
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entry&quot;</span><span class="p">):</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="n">_standardize_phones_in_resource</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;entry&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entry&quot;</span><span class="p">,</span> <span class="p">[{}])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">return</span> <span class="n">bundle</span></div>
+
+
+<span class="k">def</span> <span class="nf">_standardize_names_in_resource</span><span class="p">(</span>
+    <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">trim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">case</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;upper&quot;</span><span class="p">,</span>
+    <span class="n">remove_numbers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper method to standardize all found names in a given resource.</span>
+<span class="sd">    The resource can be of any type currently supported by the</span>
+<span class="sd">    function&#39;s logic. At this time, those resources include:</span>
+
+<span class="sd">      - Patient</span>
+
+<span class="sd">    The parameters to this function match the standardization flags</span>
+<span class="sd">    used by the underlying &quot;standardize_name&quot; function found in</span>
+<span class="sd">    phdi.harmonization. For more information, see the docstring for</span>
+<span class="sd">    that function.</span>
+
+<span class="sd">    :param resource: A FHIR-formatted JSON dictionary</span>
+<span class="sd">    :param trim: Whether to trim trailing/leading whitespace</span>
+<span class="sd">    :param case: What case to employ for the cleaned name</span>
+<span class="sd">    :param remove_numbers: Whether to delete numeric characters from</span>
+<span class="sd">      names in the resource</span>
+<span class="sd">    :param overwrite: Whether to overwrite the input data with the</span>
+<span class="sd">      new, standardized value (default is yes)</span>
+<span class="sd">    :return: The resource (or a copy thereof) with standardized</span>
+<span class="sd">      information in place of the raw</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resourceType&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Patient&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+
+            <span class="c1"># Handle family names</span>
+            <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+                <span class="n">transformed_name</span> <span class="o">=</span> <span class="n">standardize_name</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">trim</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">remove_numbers</span>
+                <span class="p">)</span>
+                <span class="n">name</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_name</span>
+
+            <span class="c1"># Given names are stored in a list, as there could be multiple,</span>
+            <span class="c1"># process them all and take the overall diff for metrics</span>
+            <span class="k">if</span> <span class="s2">&quot;given&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+                <span class="n">transformed_names</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">standardize_name</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">trim</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">remove_numbers</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;given&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="p">]</span>
+                <span class="n">name</span><span class="p">[</span><span class="s2">&quot;given&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_names</span>
+    <span class="k">return</span> <span class="n">resource</span>
+
+
+<span class="k">def</span> <span class="nf">_standardize_phones_in_resource</span><span class="p">(</span>
+    <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resourceType&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Patient&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">telecom</span> <span class="ow">in</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;telecom&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">if</span> <span class="n">telecom</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;phone&quot;</span> <span class="ow">and</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">telecom</span><span class="p">:</span>
+                <span class="n">countries</span> <span class="o">=</span> <span class="n">_extract_countries_from_resource</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+                <span class="n">transformed_phone</span> <span class="o">=</span> <span class="n">standardize_phone</span><span class="p">(</span>
+                    <span class="n">telecom</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">countries</span>
+                <span class="p">)</span>
+                <span class="n">telecom</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_phone</span>
+    <span class="k">return</span> <span class="n">resource</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_countries_from_resource</span><span class="p">(</span>
+    <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">code_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;alpha_2&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_3&quot;</span><span class="p">,</span> <span class="s2">&quot;numeric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alpha_2&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a FHIR resource, build a list containing all of the counries</span>
+<span class="sd">    found in the addresses associated with that resource in a standardized</span>
+<span class="sd">    form sepcified by code_type. If the resource is not of a supported</span>
+<span class="sd">    type, no countries will be contained in the returned list. Currently</span>
+<span class="sd">    supported resource types are:</span>
+
+<span class="sd">    - Patient</span>
+
+<span class="sd">    :param resource: A FHIR-formatted JSON dictionary</span>
+<span class="sd">    :param code_type: A string equal to &#39;alpha_2&#39;, &#39;alpha_3&#39;, or &#39;numeric&#39;</span>
+<span class="sd">      to specify which type of standard country identifier to generate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">countries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">resource_type</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resourceType&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">resource_type</span> <span class="o">==</span> <span class="s2">&quot;Patient&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">):</span>
+            <span class="n">country</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;country&quot;</span><span class="p">)</span>
+            <span class="n">countries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">standardize_country_code</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">code_type</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">countries</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../../../index.html">
+    <img class="logo" src="../../../../_static/PHDI-Logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=CDCGov&repo=phdi&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../_source/modules.html">phdi</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
