@@ -4,6 +4,14 @@ phdi.fhir.geospatial package
 Submodules
 ----------
 
+phdi.fhir.geospatial.core module
+--------------------------------
+
+.. automodule:: phdi.fhir.geospatial.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 phdi.fhir.geospatial.smarty module
 ----------------------------------
 

@@ -4,6 +4,14 @@ phdi.geospatial package
 Submodules
 ----------
 
+phdi.geospatial.core module
+---------------------------
+
+.. automodule:: phdi.geospatial.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 phdi.geospatial.smarty module
 -----------------------------
 

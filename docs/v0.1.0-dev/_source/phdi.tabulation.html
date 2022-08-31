@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>phdi.tabulation package &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="phdi.transport package" href="phdi.transport.html" />
+    <link rel="prev" title="phdi.linkage package" href="phdi.linkage.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="phdi-tabulation-package">
+<h1>phdi.tabulation package<a class="headerlink" href="#phdi-tabulation-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-phdi.tabulation.tables">
+<span id="phdi-tabulation-tables-module"></span><h2>phdi.tabulation.tables module<a class="headerlink" href="#module-phdi.tabulation.tables" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.tabulation.tables.load_schema">
+<span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">load_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#load_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.load_schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the path to a local YAML file containing a data schema,
+load the file and return the resulting schema as a dictionary.
+If the file can't be found, raises an error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- File path to a YAML file holding a schema</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.tabulation.tables.print_schema_summary">
+<span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">print_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_head</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#print_schema_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.print_schema_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a directory containing tables in either CSV or Parquet
+format, print a summary of each table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- Path to a direct holding table files</p></li>
+<li><p><strong>display_head</strong> (<em>bool</em>) -- Print the head of each table when true.
+Note: depending on the file format, this may require
+reading large amounts of data into memory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.tabulation.tables.write_table">
+<span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">write_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#write_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.write_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given data stored as a list of dictionaries, where all dicts
+have a common set of keys, write the set of data to an output
+file of a particular type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- A list of dicts representing the table's data.
+Each dict represents one row in the resulting table. The
+keys serve as the table's columns, and the values represent
+the entry for that column in the row given by a particular
+dict.</p></li>
+<li><p><strong>output_file_name</strong> (<em>pathlib.Path</em>) -- Full name for the file where the table
+is to be written</p></li>
+<li><p><strong>output_format</strong> -- The file format of the table to be written</p></li>
+<li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- Optional; a writer object that can be maintained
+between different calls of this function to support file formats
+that cannot be appended to after being written (e.g. parquet).</p></li>
+<li><p><strong>file_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>, </em><em>'csv'</em><em>]</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-phdi.tabulation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-phdi.tabulation" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.tabulation.load_schema">
+<span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">load_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#load_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.load_schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the path to a local YAML file containing a data schema,
+load the file and return the resulting schema as a dictionary.
+If the file can't be found, raises an error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- File path to a YAML file holding a schema</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.tabulation.print_schema_summary">
+<span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">print_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_head</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#print_schema_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.print_schema_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a directory containing tables in either CSV or Parquet
+format, print a summary of each table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- Path to a direct holding table files</p></li>
+<li><p><strong>display_head</strong> (<em>bool</em>) -- Print the head of each table when true.
+Note: depending on the file format, this may require
+reading large amounts of data into memory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.tabulation.write_table">
+<span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">write_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#write_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.write_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given data stored as a list of dictionaries, where all dicts
+have a common set of keys, write the set of data to an output
+file of a particular type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- A list of dicts representing the table's data.
+Each dict represents one row in the resulting table. The
+keys serve as the table's columns, and the values represent
+the entry for that column in the row given by a particular
+dict.</p></li>
+<li><p><strong>output_file_name</strong> (<em>pathlib.Path</em>) -- Full name for the file where the table
+is to be written</p></li>
+<li><p><strong>output_format</strong> -- The file format of the table to be written</p></li>
+<li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- Optional; a writer object that can be maintained
+between different calls of this function to support file formats
+that cannot be appended to after being written (e.g. parquet).</p></li>
+<li><p><strong>file_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>, </em><em>'csv'</em><em>]</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/PHDI-Logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=CDCGov&repo=phdi&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">phdi</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="phdi.html">phdi package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="phdi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="phdi.cloud.html">phdi.cloud package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.fhir.html">phdi.fhir package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.geospatial.html">phdi.geospatial package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.harmonization.html">phdi.harmonization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.linkage.html">phdi.linkage package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">phdi.tabulation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.transport.html">phdi.transport package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="phdi.html#module-phdi">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">phdi</a><ul>
+  <li><a href="phdi.html">phdi package</a><ul>
+      <li>Previous: <a href="phdi.linkage.html" title="previous chapter">phdi.linkage package</a></li>
+      <li>Next: <a href="phdi.transport.html" title="next chapter">phdi.transport package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_source/phdi.tabulation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

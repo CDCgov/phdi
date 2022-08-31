@@ -31,16 +31,15 @@
           <div class="body" role="main">
             
   <h1>Source code for phdi.geospatial.smarty</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">phdi.geospatial</span> <span class="kn">import</span> <span class="n">GeocodeClient</span><span class="p">,</span> <span class="n">GeocodeResult</span>
-
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">smartystreets_python_sdk</span> <span class="kn">import</span> <span class="n">StaticCredentials</span><span class="p">,</span> <span class="n">ClientBuilder</span>
 <span class="kn">from</span> <span class="nn">smartystreets_python_sdk</span> <span class="kn">import</span> <span class="n">us_street</span>
 <span class="kn">from</span> <span class="nn">smartystreets_python_sdk.us_street.lookup</span> <span class="kn">import</span> <span class="n">Lookup</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">phdi.geospatial.core</span> <span class="kn">import</span> <span class="n">BaseGeocodeClient</span><span class="p">,</span> <span class="n">GeocodeResult</span>
 
 
-<div class="viewcode-block" id="SmartyGeocodeClient"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.smarty.SmartyGeocodeClient">[docs]</a><span class="k">class</span> <span class="nc">SmartyGeocodeClient</span><span class="p">(</span><span class="n">GeocodeClient</span><span class="p">):</span>
+<div class="viewcode-block" id="SmartyGeocodeClient"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.smarty.SmartyGeocodeClient">[docs]</a><span class="k">class</span> <span class="nc">SmartyGeocodeClient</span><span class="p">(</span><span class="n">BaseGeocodeClient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation of a geocoding client using the SmartyStreets API.</span>
 <span class="sd">    Requires an authorization ID as well as an authentication token</span>
@@ -78,8 +77,6 @@
 <span class="sd">        to precisely geocode the address, so no result is returned.</span>
 
 <span class="sd">        :param address: The address to geocode, given as a string</span>
-<span class="sd">        :return: A GeocodeResult containing address information, if lookup was</span>
-<span class="sd">          successful. Otherwise, None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lookup</span> <span class="o">=</span> <span class="n">Lookup</span><span class="p">(</span><span class="n">street</span><span class="o">=</span><span class="n">address</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__client</span><span class="o">.</span><span class="n">send_lookup</span><span class="p">(</span><span class="n">lookup</span><span class="p">)</span>
@@ -92,8 +89,6 @@
 <span class="sd">        returned, otherwise the function returns None.</span>
 
 <span class="sd">        :param address: a dictionary with fields outlined above</span>
-<span class="sd">        :return: A GeocodeResult containing address information, if lookup was</span>
-<span class="sd">          successful. Otherwise, None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Configure the lookup with whatever provided address values</span>
@@ -116,12 +111,11 @@
     <span class="k">def</span> <span class="nf">_parse_smarty_result</span><span class="p">(</span><span class="n">lookup</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Private helper function to parse a returned Smarty geocoding result into</span>
-<span class="sd">        our standardized GeocodeResult class.</span>
+<span class="sd">        our standardized GeocodeResult class. If the Smarty lookup is null or</span>
+<span class="sd">        doesn&#39;t include latitude and longitude information, returns None</span>
+<span class="sd">        instead.</span>
 
 <span class="sd">        :param lookup: The us_street.lookup client instantiated for geocoding</span>
-<span class="sd">        :return: A GeocodeResult containing address information, if the given</span>
-<span class="sd">        lookup contains a non-null result that includes latitude and</span>
-<span class="sd">        longitude information. Otherwise, None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Valid responses have results with lat/long</span>
         <span class="k">if</span> <span class="n">lookup</span><span class="o">.</span><span class="n">result</span> <span class="ow">and</span> <span class="n">lookup</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">latitude</span><span class="p">:</span>
@@ -184,8 +178,6 @@
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
   <li><a href="../../index.html">Module code</a><ul>
-  <li><a href="../geospatial.html">phdi.geospatial</a><ul>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

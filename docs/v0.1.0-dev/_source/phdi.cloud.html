@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+
+<html lang="English">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>phdi.cloud package &#8212; Public Health Data Infrastructure (PHDI) 0.1.0-dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="phdi.fhir package" href="phdi.fhir.html" />
+    <link rel="prev" title="phdi package" href="phdi.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="phdi-cloud-package">
+<h1>phdi.cloud package<a class="headerlink" href="#phdi-cloud-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-phdi.cloud.azure">
+<span id="phdi-cloud-azure-module"></span><h2>phdi.cloud.azure module<a class="headerlink" href="#module-phdi.cloud.azure" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.azure.</span></span><span class="sig-name descname"><span class="pre">AzureCloudContainerConnection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage_account_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCloudContainerConnection" title="phdi.cloud.core.BaseCloudContainerConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCloudContainerConnection</span></code></a></p>
+<p>This class implements the PHDI cloud storage interface for connecting to Azure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage_account_url</strong> (<em>str</em>) -- </p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="#phdi.cloud.azure.AzureCredentialManager" title="phdi.cloud.azure.AzureCredentialManager"><em>phdi.cloud.azure.AzureCredentialManager</em></a>) -- </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.cred_manager">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cred_manager</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#phdi.cloud.azure.AzureCredentialManager" title="phdi.cloud.azure.AzureCredentialManager"><span class="pre">phdi.cloud.azure.AzureCredentialManager</span></a></em><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.cred_manager" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.download_object">
+<span class="sig-name descname"><span class="pre">download_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTF-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.download_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.download_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a character blob from storage and returns it as a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container containing object to download</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within Azure blob storage</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- Encoding applied to the downloaded content</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.list_containers">
+<span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.list_containers" title="Permalink to this definition">¶</a></dt>
+<dd><p>List names for this CloudContainerConnection's containers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>List</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.list_objects">
+<span class="sig-name descname"><span class="pre">list_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.list_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.list_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>List names for objects within a container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container to look for objects</p></li>
+<li><p><strong>prefix</strong> (<em>str</em>) -- Filter for objects whose filenames begin with this value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>List</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.storage_account_url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_account_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.storage_account_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.upload_object">
+<span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.upload_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads content to Azure blob storage.
+Exactly one of message_json or message should be provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the target container for upload</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within Azure blob storage</p></li>
+<li><p><strong>message_json</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- The content of a message in JSON format</p></li>
+<li><p><strong>message</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- The content of a message encoded as a string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.azure.</span></span><span class="sig-name descname"><span class="pre">AzureCredentialManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCredentialManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCredentialManager</span></code></a></p>
+<p>This class defines a credential manager for connecting to Azure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_location</strong> (<em>str</em>) -- </p></li>
+<li><p><strong>scope</strong> (<em>str</em>) -- </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager.access_token">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">access_token</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">azure.core.credentials.AccessToken</span></em><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager.access_token" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager.get_access_token">
+<span class="sig-name descname"><span class="pre">get_access_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_refresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCredentialManager.get_access_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager.get_access_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain an access token from the Azure identity provider.  Return the
+access token string, refreshed if expired or force_refresh is specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em>) -- force token refresh even if the current token is
+still valid</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager.get_credential_object">
+<span class="sig-name descname"><span class="pre">get_credential_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCredentialManager.get_credential_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager.get_credential_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an Azure-specific credential object.
+This returns an instance of one of the <a href="#id1"><span class="problematic" id="id2">*</span></a>Credential objects from the
+<cite>azure.identity</cite> package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager.resource_location">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resource_location</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager.resource_location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager.scope">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scope</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager.scope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-phdi.cloud.core">
+<span id="phdi-cloud-core-module"></span><h2>phdi.cloud.core module<a class="headerlink" href="#module-phdi.cloud.core" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.core.</span></span><span class="sig-name descname"><span class="pre">BaseCloudContainerConnection</span></span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.download_object">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.download_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.download_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a blob from storage.  Returns the <cite>stream</cite> parameter, if supplied.
+Otherwise a new stream object containing blob content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container containing object to download</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within storage</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- Encoding applied to the downloaded content</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.list_containers">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.list_containers" title="Permalink to this definition">¶</a></dt>
+<dd><p>List names for this CloudContainerConnection's containers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>List</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.list_objects">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.list_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.list_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>List names for objects within a container</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> -- The name of the container to look for objects</p></li>
+<li><p><strong>prefix</strong> -- Filter for objects whose filenames begin with this value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>List</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.upload_object">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.upload_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads content to storage.
+Exactly one of message_json or message should be provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the target container for upload</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within storage container</p></li>
+<li><p><strong>message_json</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- The content of a message in JSON format</p></li>
+<li><p><strong>message</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- The content of a message encoded as a string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCredentialManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.core.</span></span><span class="sig-name descname"><span class="pre">BaseCredentialManager</span></span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCredentialManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCredentialManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>This class is intended to provide a common interface for managing service
+credentials.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCredentialManager.get_access_token">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_access_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCredentialManager.get_access_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCredentialManager.get_access_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an access token using the managed credentials</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCredentialManager.get_credential_object">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_credential_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCredentialManager.get_credential_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCredentialManager.get_credential_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a cloud-specific credential object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-phdi.cloud.gcp">
+<span id="phdi-cloud-gcp-module"></span><h2>phdi.cloud.gcp module<a class="headerlink" href="#module-phdi.cloud.gcp" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.gcp.</span></span><span class="sig-name descname"><span class="pre">GcpCredentialManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCredentialManager</span></code></a></p>
+<p>This class provides a GCP-specific credential manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>scope</strong> (<em>list</em>) -- </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.get_access_token">
+<span class="sig-name descname"><span class="pre">get_access_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager.get_access_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.get_access_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain an access token from GCP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The access token, refreshed if necessary.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.get_credential_object">
+<span class="sig-name descname"><span class="pre">get_credential_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager.get_credential_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.get_credential_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a GCP-specific credential object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns a scoped instance of the Credentials class from google.auth
+package, refreshed if necessary.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>google.auth.credentials.Credentials</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.get_project_id">
+<span class="sig-name descname"><span class="pre">get_project_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager.get_project_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.get_project_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the ID of the current GCP project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current GCP project ID.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.project_id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">project_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.project_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.scope">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scope</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.scope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.scoped_credentials">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scoped_credentials</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">google.auth.credentials.Credentials</span></em><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.scoped_credentials" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-phdi.cloud">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-phdi.cloud" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/PHDI-Logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=CDCGov&repo=phdi&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">phdi</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="phdi.html">phdi package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="phdi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">phdi.cloud package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.fhir.html">phdi.fhir package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.geospatial.html">phdi.geospatial package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.harmonization.html">phdi.harmonization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.linkage.html">phdi.linkage package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.tabulation.html">phdi.tabulation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phdi.transport.html">phdi.transport package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="phdi.html#module-phdi">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">phdi</a><ul>
+  <li><a href="phdi.html">phdi package</a><ul>
+      <li>Previous: <a href="phdi.html" title="previous chapter">phdi package</a></li>
+      <li>Next: <a href="phdi.fhir.html" title="next chapter">phdi.fhir package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, PHDI Team and Contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_source/phdi.cloud.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
