@@ -7,7 +7,7 @@ from functools import cache
 from typing import Any, Callable, Literal, List, Union
 
 from phdi.cloud.core import BaseCredentialManager
-from phdi.fhir import fhir_server_get
+from phdi.fhir.transport import fhir_server_get
 from phdi.tabulation.tables import load_schema, write_table
 
 

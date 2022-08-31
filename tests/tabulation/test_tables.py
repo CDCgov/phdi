@@ -19,8 +19,8 @@ def test_load_schema():
     )
 
 
-@mock.patch("phdi.schemas.pq.ParquetWriter")
-@mock.patch("phdi.schemas.pa.Table")
+@mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
+@mock.patch("phdi.tabulation.tables.pa.Table")
 def test_write_schema_table_no_writer(patched_pa_table, patched_writer):
 
     data = [{"some_column": "some value", "some_other_column": "some other value"}]
@@ -37,8 +37,8 @@ def test_write_schema_table_no_writer(patched_pa_table, patched_writer):
     )
 
 
-@mock.patch("phdi.schemas.pq.ParquetWriter")
-@mock.patch("phdi.schemas.pa.Table")
+@mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
+@mock.patch("phdi.tabulation.tables.pa.Table")
 def test_write_schema_table_with_writer(patched_pa_table, patched_writer):
 
     data = [{"some_column": "some value", "some_other_column": "some other value"}]
@@ -90,9 +90,9 @@ def test_write_schema_table_append_csv():
     os.remove(output_file_name)
 
 
-@mock.patch("phdi.schemas.pq.read_table")
-@mock.patch("phdi.schemas.pq.ParquetFile")
-@mock.patch("phdi.schemas.os.walk")
+@mock.patch("phdi.tabulation.tables.pq.read_table")
+@mock.patch("phdi.tabulation.tables.pq.ParquetFile")
+@mock.patch("phdi.tabulation.tables.os.walk")
 def test_print_schema_summary_parquet(
     patched_os_walk, patched_ParquetFile, patched_reader
 ):
@@ -115,7 +115,7 @@ def test_print_schema_summary_parquet(
     patched_reader.assert_called_with(pathlib.Path("some_path") / "filename.parquet")
 
 
-@mock.patch("phdi.schemas.os.walk")
+@mock.patch("phdi.tabulation.tables.os.walk")
 def test_print_schema_summary_csv(patched_os_walk, capsys):
     data = [{"some_column": "some value", "some_other_column": "some other value"}]
     output_file_name = "print_schema.csv"
