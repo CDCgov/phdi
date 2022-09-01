@@ -175,5 +175,6 @@ def _extract_countries_from_resource(
     if resource_type == "Patient":
         for address in resource.get("address"):
             country = address.get("country")
-            countries.append(standardize_country_code(country, code_type))
+            if country:
+                countries.append(standardize_country_code(country, code_type))
     return countries
