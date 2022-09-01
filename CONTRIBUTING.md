@@ -138,11 +138,13 @@ We recognize there's a lot of human judgment when it comes to writing test cases
 
 3. **Broadly speaking, tests should address, at a minimum, three areas: the most-likely scenarios, the most complex scenarios, and the most painful failure scenarios.** It's not practical to write tests for every permutation of inputs and results, but we can anticipate the types of use cases that are most likely to come up. Ideally, a function should have one or more tests that demonstrate success and/or failure in its most common use-case(s). Additionally, functions that have complex interactions--whether with their parameters, internal logic, dependencies, etc.--should have tests addressing the robustness of that logic in the face of multiple settings or interactions (for example, a function which accepts 6 configurable parameters might have tests of that function with 4 or even 5 permutations of parameter settings). Finally, if a piece of code could generate a particularly painful result for a user if it were to break, that code should have tests in place around how those issues are handled.
 
-4. **Specific tests should strive to cover, as much as possible, the following points:**
+The points above are our goals when it comes to testing and code coverage; they're principles we're always striving to uphold. Below, we've listed some of the more practical, actionable kinds of tests that stem from these principles. We believe that **specific tests should exist to cover, as much as possible, the following cases:**
+
 * _Sucess and failure cases:_ Functions should have one or more tests showing that the function performs its intended job successfully, as well as one or more tests showing how the function handles a failure case or a case where processing isn't possible.
 * _All input and output data types:_ Functions should have one or more tests showing, for each possible input or output data type, how the function performs when it receives or creates that data type. 
 * _Explicitly raised exceptions:_ If an exception is raised in the body code of a function, even if it's a conditional exception, one or more tests should exist showing that exception being raised.
 * _Edge cases (within reason):_ If a function might deal with edge cases in its processing (an empty list or dictionary parameter, for example), one or more tests should exist showing how the function behaves under those conditions.
+
 We recognize that overlap exists between these categories--for example, a test might validate both a failure case, an edge case, and an exception case by providing an empty dictionary as an input parameter. These points are intended as guidelines for the types of tests that should be written holistically to assess a function's robustness. How these principles are put into practical tests is up to the individual developer.
 
 ##### Building the docs
