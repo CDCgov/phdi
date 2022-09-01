@@ -42,7 +42,7 @@ class AzureCredentialManager(BaseCredentialManager):
     def get_credential_object(self) -> object:
         """
         Get an Azure-specific credential object.
-        This returns an instance of one of the *Credential objects from the
+        This returns an instance of one of the \\*Credential objects from the
         `azure.identity` package.
         """
         return DefaultAzureCredential()
