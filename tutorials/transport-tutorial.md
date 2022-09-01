@@ -45,18 +45,52 @@ print(f"The response received is: {response.json()}")
 
 
 ### FHIR Bundle Uploads
-In order to upload data Another special helper method, allows for FHIR bundle uploads
+When converting source data from HL7, CCDA or some other format to FHIR using the [conversion module](conversion-tutorial.md), the resulting FHIR resources are wrapped
+in a bundle that can be directly submitted to the FHIR server using the `upload_bundle_to_fhir_server` function.
 
 ```python
 from phdi.fhir.transport
 
-data = {"resourceType": "bundle"
+data = {
+    "resourceType": "Bundle",
+    "type": "batch",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "some-id"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Patient/some-id"
+            }
+        }
+    ]
 }
-url = "https://some_fhir_url"
+    
 cred_manager = AzureCredentialManager(url)
+url = "https://some_fhir_url"
 
 response = upload_bundle_to_fhir_server(data, cred_manager=cred_manager, fhir_url=url)
 
 print(f"The response received is: {response.json()}")
 ```
 
+### FHIR Bulk Exports
+For exporting a large amount of FHIR data, [FHIR's bulk export](http://hl7.org/fhir/uv/bulkdata/export/index.html) specification provides an efficient way to excute long-running export jobs.  A few functions are available to support FHIR bulk exports, described below.
+
+First off, you can synchronously execute a full FHIR export using the `phdi.fhir.transport` module. An example script appears below.
+
+```python
+from phdi.fhir.transport import export_from_fhir_server
+
+url = "https://some_fhir_url"
+cred_manager = AzureCredentialManager(url)
+
+export_response = export_from_fhir_server(cred_manager, url, export_scope="Patient", since="2022-01-01T00:00:00Z", resource_type="Patient,Observation")
+
+print(f"Export response: {export_response.json()}")
+```
+
+The response is, again, a `Response` object as defined by the `requests` package. The response content should match expected response content outlined in the FHIR bulk export specification linked above.
+ 
