@@ -100,6 +100,10 @@ def test_standardize_country_code():
     assert standardize_country_code("US", "alpha_3") == "USA"
     assert standardize_country_code("USA", "numeric") == "840"
 
+    # Edge case testing: nonsense code and empty string
+    assert standardize_country_code("zzz") is None
+    assert standardize_country_code("") is None
+
 
 def test_standardize_phone():
     # Working examples of "real" numbers
