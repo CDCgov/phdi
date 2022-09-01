@@ -67,10 +67,13 @@ def upload_bundle_to_fhir_server(
     bundle: dict, cred_manager: BaseCredentialManager, fhir_url: str
 ) -> requests.Response:
     """
-    Import a FHIR resource to the FHIR server.
-    The submissions may be Bundles or individual FHIR resources.
+    Import a FHIR resource bundle to the FHIR server.
 
-    :param bundle: FHIR bundle (type "batch") to post
+    :param bundle: FHIR bundle (type "batch" or "transaction") to post.  Each entry in
+      the bundle must contain a `request` element in addition to a `resource`.
+      The FHIR API provides additional details on creating
+      [FHIR-conformant batch/transaction](https://hl7.org/fhir/http.html#transaction)
+      bundles.
     :param access_token: FHIR Server access token
     :param fhir_url: The url of the FHIR server to upload to
     :return: A requests.Request object containing the response from the FHIR server.
