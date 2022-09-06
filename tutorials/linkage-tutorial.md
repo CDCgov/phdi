@@ -50,25 +50,27 @@ Suppose you had a FHIR bundle that had the following data
 }
 ```
 
-To add patient identifiers to the bundle, you can use the `add_patient_identifier_by_bundle` function in the FHIR linkage package
+To add patient identifiers to the bundle, you can use the `add_patient_identifier_in_bundle` function in the FHIR linkage package
+
+There is also a `add_patient_identifier` function that adds patient identifiers by resource. This tutorial only covers the bundle level function. 
 
 ```
-from phdi.fhir.linkage.link import add_patient_identifier_by_bundle
+from phdi.fhir.linkage.link import add_patient_identifier_in_bundle
 
 bundle = {...your bundle here...}
 salt = 'some-salt-string'
 
-add_patient_identifier_by_bundle(bundle, salt, True)
+add_patient_identifier_in_bundle(bundle, salt, True)
 print(bundle)
 
 # or 
-new_bundle = add_patient_identifier_by_bundle(bundle, salt, True)
+new_bundle = add_patient_identifier_in_bundle(bundle, salt, True)
 print(new_bundle)
 ```
 
-Using the `True` tag in the third parameter overwrites your bundle with the new resource tag. This means that in the previous example, the `bundle` variable will be directly modified by `add_patient_identifier_by_bundle`. You can still save the modified bundle to a variable, but it is not required. If using `False`, save the output to a variable. 
+Using the `True` tag in the third parameter overwrites your bundle with the new resource tag. This means that in the previous example, the `bundle` variable will be directly modified by `add_patient_identifier_in_bundle`. You can still save the modified bundle to a variable, but it is not required. If using `False`, save the output to a variable. 
 ```
-new_patient_bundle = add_patient_identifier_by_bundle(bundle, salt, False)
+new_patient_bundle = add_patient_identifier_in_bundle(bundle, salt, False)
 print(new_patient_bundle)
 ```
 

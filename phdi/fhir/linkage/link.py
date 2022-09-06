@@ -7,7 +7,7 @@ from phdi.fhir.utils import (
 from phdi.linkage.link import generate_hash_str
 
 
-def add_patient_identifier_by_bundle(
+def add_patient_identifier_in_bundle(
     bundle: dict, salt_str: str, overwrite: bool = True
 ) -> dict:
     """
@@ -27,12 +27,13 @@ def add_patient_identifier_by_bundle(
     if not overwrite:
         bundle = copy.deepcopy(bundle)
 
-    for resource in find_resource_by_type(bundle, "Patient"):
-        add_patient_identifier(resource, salt_str, overwrite)
+    for entry in find_resource_by_type(bundle, "Patient"):
+        patient = entry.get("resource")
+        add_patient_identifier(patient, salt_str, overwrite)
     return bundle
 
 
-def add_patient_identifier(resource, salt_str, overwrite):
+def add_patient_identifier(patient_resource, salt_str, overwrite):
     """
     Given a FHIR resource:
 
@@ -40,7 +41,7 @@ def add_patient_identifier(resource, salt_str, overwrite):
     * compute a unique hash string based on these fields
     * add the hash string to resource
 
-    :param resource: The FHIR patient resource to add a
+    :param patient_resource: The FHIR patient resource to add a
         linking identifier
     :param salt_str: The suffix string added to prevent being
         able to reverse the hash into PII
@@ -49,32 +50,31 @@ def add_patient_identifier(resource, salt_str, overwrite):
         is yes)
     """
     if not overwrite:
-        resource = copy.deepcopy(resource)
-    patient = resource.get("resource")
+        patient_resource = copy.deepcopy(patient_resource)
 
     # Combine given and family name
-    recent_name = get_field(patient, "name", "official", 0)
+    recent_name = get_field(patient_resource, "name", "official", 0)
     name_parts = recent_name.get("given", []) + [recent_name.get("family", "")]
     name_str = "-".join([n for n in name_parts if n])
 
     address_line = ""
-    if "address" in patient:
-        address = get_field(patient, "address", "home", 0)
+    if "address" in patient_resource:
+        address = get_field(patient_resource, "address", "home", 0)
         address_line = get_one_line_address(address)
 
     # TODO Determine if minimum quality criteria should be included, such as min
     # number of characters in last name, valid birth date, or address line
     # Generate and store unique hash code
-    link_str = f'{name_str}-{patient["birthDate"]}-{address_line}'
+    link_str = f'{name_str}-{patient_resource["birthDate"]}-{address_line}'
     hashcode = generate_hash_str(link_str, salt_str)
 
-    if "identifier" not in patient:
-        patient["identifier"] = []
+    if "identifier" not in patient_resource:
+        patient_resource["identifier"] = []
 
     # TODO Follow up on the validity and source of the comment about the system
     # value corresponding to the FHIR specification. Need to either add a citation
     # or correct the wording to more properly reflect what it represents.
-    patient["identifier"].append(
+    patient_resource["identifier"].append(
         {
             "value": hashcode,
             # Note: this system value corresponds to the FHIR specification
@@ -84,4 +84,4 @@ def add_patient_identifier(resource, salt_str, overwrite):
             "use": "temp",
         }
     )
-    return patient
+    return patient_resource
