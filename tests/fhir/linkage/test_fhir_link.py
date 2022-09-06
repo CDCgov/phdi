@@ -82,6 +82,6 @@ def test_patient_identifier():
         if entry["resource"]["resourceType"] == "Patient":
             resource = entry.get("resource")
             add_patient_identifier(resource, salt_str, True)
-            assert len(resource["resource"]["identifier"]) == 2
-            assert resource["resource"]["identifier"][-1] == expected_new_identifier
+            assert len(resource["identifier"]) == 2
+            assert resource["identifier"][-1] == expected_new_identifier
             break
