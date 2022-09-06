@@ -1,15 +1,13 @@
-from phdi.geospatial.smarty import SmartyGeocodeClient
-from phdi.fhir.geospatial import FhirGeocodeClient
-
-from smartystreets_python_sdk import us_street
-
 from typing import List
 from copy import copy
+from smartystreets_python_sdk import us_street
 
-from ...utils import get_one_line_address
+from phdi.geospatial.smarty import SmartyGeocodeClient
+from phdi.fhir.geospatial.core import BaseFhirGeocodeClient
+from phdi.fhir.utils import get_one_line_address
 
 
-class SmartyFhirGeocodeClient(FhirGeocodeClient):
+class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
     """
     Implementation of a geocoding client designed to handle FHIR-
     formatted data using the SmartyStreets API.
@@ -38,7 +36,8 @@ class SmartyFhirGeocodeClient(FhirGeocodeClient):
     def geocode_resource(self, resource: dict, overwrite=True) -> dict:
         """
         Performs geocoding on one or more addresses in a given FHIR
-        resource. Currently supported resource types are:
+        resource and returns either the result or a copy thereof.
+        Currently supported resource types are:
 
             - Patient
 
@@ -46,8 +45,6 @@ class SmartyFhirGeocodeClient(FhirGeocodeClient):
         :param overwrite: Whether to save the geocoding information over
           the raw data, or to create a copy of the given data and write
           over that instead. Defaults to True (write over given data).
-        :return: The resource (or a copy thereof) with geocoded
-          information added
         """
         if not overwrite:
             resource = copy.deepcopy(resource)
@@ -89,8 +86,6 @@ class SmartyFhirGeocodeClient(FhirGeocodeClient):
         :param overwrite: Whether to overwrite the address data in the given
           bundle's resources (True), or whether to create a copy of the bundle
           and overwrite that instead (False). Defaults to True.
-        :return: The given FHIR bundle (or a copy thereof) where all
-          resources have updated geocoded information
         """
         if not overwrite:
             bundle = copy.deepcopy(bundle)

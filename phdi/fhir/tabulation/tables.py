@@ -1,38 +1,18 @@
-import csv
 import fhirpathpy
 import json
-import os
-import pathlib
-import pyarrow as pa
-import pyarrow.parquet as pq
 import random
-import yaml
+import pathlib
 
 from functools import cache
-from pathlib import Path
-from phdi.azure import AzureFhirServerCredentialManager
-from phdi.fhir import fhir_server_get
-from typing import Literal, List, Union, Callable
+from typing import Any, Callable, Literal, List, Union
 
-
-def load_schema(path: str) -> dict:
-    """
-    Given the path to local YAML files containing a user-defined schema read the file
-    and return the schema as a dictionary.
-
-    :param path: Path specifying the location of a YAML file containing a schema.
-    :return schema: A user-defined schema
-    """
-    try:
-        with open(path, "r") as file:
-            schema = yaml.safe_load(file)
-        return schema
-    except FileNotFoundError:
-        return {}
+from phdi.cloud.core import BaseCredentialManager
+from phdi.fhir.transport import fhir_server_get
+from phdi.tabulation.tables import load_schema, write_table
 
 
 def apply_selection_criteria(
-    value: list,
+    value: List[Any],
     selection_criteria: Literal["first", "last", "random", "all"],
 ) -> Union[str, List[str]]:
     """
@@ -64,23 +44,14 @@ def apply_selection_criteria(
     return value
 
 
-@cache
-def __get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
-    """
-    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes
-    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
-    `fhirpath_expression`
-
-    :param fhirpath_expression: The FHIRPath expression to evaluate
-    """
-    return fhirpathpy.compile(fhirpath_expression)
-
-
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
-    Given a resource and a schema, return a dictionary with values of the data
-    specified by the schema and associated keys defined by the variable name provided
-    by the schema.
+    Creates and returns a dictionary of data based on a FHIR resource and a schema. The
+    keys of the created dict are the "new names" for the fields in the given schema, and
+    the values are the elements of the given resource that correspond to these fields.
+    Here, "new name" is a property contained in the schema that specifies what a
+    particular variable should be called. If a schema can't be found for the given
+    resource type, the raw resource is instead returned.
 
     :param resource: A FHIR resource on which to apply a schema.
     :param schema: A schema specifying the desired values by FHIR resource type.
@@ -93,7 +64,7 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     for field in resource_schema.keys():
         path = resource_schema[field]["fhir_path"]
 
-        parse_function = __get_fhirpathpy_parser(path)
+        parse_function = _get_fhirpathpy_parser(path)
         value = parse_function(resource)
 
         if len(value) == 0:
@@ -106,12 +77,12 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     return data
 
 
-def make_table(
+def generate_table(
     schema: dict,
     output_path: pathlib.Path,
     output_format: Literal["parquet"],
     fhir_url: str,
-    cred_manager: AzureFhirServerCredentialManager,
+    cred_manager: BaseCredentialManager,
 ):
     """
     Given the schema for a single table, make the table.
@@ -155,7 +126,7 @@ def make_table(
                     data.append(values_from_resource)
 
             # Write data to file.
-            writer = write_schema_table(data, output_file_name, output_format, writer)
+            writer = write_table(data, output_file_name, output_format, writer)
 
             # Check for an additional page of query results.
             for link in query_result.get("link"):
@@ -169,12 +140,12 @@ def make_table(
             writer.close()
 
 
-def make_schema_tables(
+def generate_all_tables_in_schema(
     schema_path: pathlib.Path,
     base_output_path: pathlib.Path,
     output_format: Literal["parquet"],
     fhir_url: str,
-    cred_manager: AzureFhirServerCredentialManager,
+    cred_manager: BaseCredentialManager,
 ):
     """
     Given the url for a FHIR server, the location of a schema file, and and output
@@ -194,72 +165,18 @@ def make_schema_tables(
 
     for table in schema.keys():
         output_path = base_output_path / table
-        make_table(schema[table], output_path, output_format, fhir_url, cred_manager)
+        generate_table(
+            schema[table], output_path, output_format, fhir_url, cred_manager
+        )
 
 
-def write_schema_table(
-    data: List[dict],
-    output_file_name: pathlib.Path,
-    file_format: Literal["parquet"],
-    writer: pq.ParquetWriter = None,
-):
+@cache
+def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Write data extracted from the FHIR Server to a file.
+    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes
+    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
+    `fhirpath_expression`
 
-    :param data: A list of dictionaries specifying the data for each row of a table
-        where the keys of each dict correspond to the columns, and the values contain
-        the data for each entry in a row.
-    :param output_file_name: Full name for the file where the table is to be written.
-    :param output_format: Specifies the file format of the table to be written.
-    :param writer: A writer object that can be kept open between calls of this function
-        to support file formats that cannot be appended to after being written
-        (e.g. parquet).
+    :param fhirpath_expression: The FHIRPath expression to evaluate
     """
-
-    if file_format == "parquet":
-        table = pa.Table.from_pylist(data)
-        if writer is None:
-            writer = pq.ParquetWriter(output_file_name, table.schema)
-        writer.write_table(table=table)
-        return writer
-
-    if file_format == "csv":
-        keys = data[0].keys()
-        new_file = False if os.path.isfile(output_file_name) else True
-        with open(output_file_name, "a", newline="") as output_file:
-            dict_writer = csv.DictWriter(output_file, keys)
-            if new_file:
-                dict_writer.writeheader()
-            dict_writer.writerows(data)
-
-
-def print_schema_summary(
-    schema_directory: pathlib.Path,
-    display_head: bool = False,
-):
-    """
-    Given a directory containing tables of the specified file format, print a summary of
-    each table.
-
-    :param schema_directory: Path specifying location of schema tables.
-    :param display_head: Print the head of each table when true. Note depending on the
-        file format this may require reading large amounts of data into memory.
-    """
-    for (directory_path, _, file_names) in os.walk(schema_directory):
-        for file_name in file_names:
-            if file_name.endswith("parquet"):
-                # Read metadata from parquet file without loading the actual data.
-                parquet_file = pq.ParquetFile(Path(directory_path) / file_name)
-                print(parquet_file.metadata)
-
-                # Read data from parquet and convert to pandas data frame.
-                if display_head is True:
-                    parquet_table = pq.read_table(Path(directory_path) / file_name)
-                    df = parquet_table.to_pandas()
-                    print(df.head())
-                    print(df.info())
-            if file_name.endswith("csv"):
-                with open(file_name, "r") as csv_file:
-                    reader = csv.reader(csv_file, dialect="excel")
-                    print(next(reader))
-                    return "hi"
+    return fhirpathpy.compile(fhirpath_expression)
