@@ -49,3 +49,11 @@ def test_standardize_phones():
     standardized_patient = copy.deepcopy(patient_resource)
     standardized_patient["telecom"][0]["value"] = "+11234567890"
     assert standardize_phones(patient_resource) == standardized_patient
+
+    # Case where the input data has no country information in the address
+    patient_resource = raw_bundle["entry"][1]["resource"]
+    patient_resource.get("address")[0].pop("country")
+    assert patient_resource.get("address")[0].get("country") is None
+    standardized_patient = copy.deepcopy(patient_resource)
+    standardized_patient["telecom"][0]["value"] = "+11234567890"
+    assert standardize_phones(patient_resource) == standardized_patient
