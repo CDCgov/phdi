@@ -1,0 +1,3 @@
+# The Tabulation Package
+
+This package contains functions to read a schema from a file. A schema, in this context, selects a set of data field location from an existing datastore (such as FHIR), and maps them into a new table structure. The intent is to export a selected set of data from a primary datastore into a tabular data structure. This effectively makes the data accessible to a myriad of tools that are designed to report and perform analytics on tabular data. 
