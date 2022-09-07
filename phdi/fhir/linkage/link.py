@@ -1,6 +1,6 @@
 import copy
 from phdi.fhir.utils import (
-    find_resource_by_type,
+    find_entry_by_resource_type,
     get_field,
     get_one_line_address,
 )
@@ -27,7 +27,7 @@ def add_patient_identifier(bundle: dict, salt_str: str, overwrite: bool = True) 
     if not overwrite:
         bundle = copy.deepcopy(bundle)
 
-    for resource in find_resource_by_type(bundle, "Patient"):
+    for resource in find_entry_by_resource_type(bundle, "Patient"):
         patient = resource.get("resource")
 
         # Combine given and family name
