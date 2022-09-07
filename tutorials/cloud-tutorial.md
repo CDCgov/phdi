@@ -2,7 +2,7 @@
 This guide serves as a tutorial overview of the functionality available in both `phdi.cloud` and `phdi.fhir.cloud` packages. It covers concepts such as credential managers, cloud storage, and FHIR export file downloads.
 
 ## The Basics: Cloud Managers and Clients
-The goal of the `phdi.cloud` and `phdi.fhir.cloud` modules is to provide a cloud platform-agnostic way to interact with common cloud services that have similar, but differing implementations across cloud providers. Doing provides a way for users other building blocks who need to leverage general cloud functionality to do so in a cloud platform-agnostic way. 
+The goal of the `phdi.cloud` and `phdi.fhir.cloud` modules is to provide a cloud platform-agnostic way to interact with common cloud services that have similar, but differing implementations across cloud providers. Doing so provides a way for users of other building blocks who need to leverage general cloud functionality to do so in a cloud platform-agnostic way. 
 
 For example, the `phdi.fhir.transport` module requires an authorized user/service to make requests to the FHIR API. Authentication may happen different ways on different platforms, but since the related FHIR transport functions make use of a common credential management interface, the functions can support connections with Azure credentials, GCP credentials, etc.
 
@@ -47,7 +47,7 @@ BaseCloudContainerConnection:
 ```
 
 ## FHIR Export Download
-Azure FHIR server places files full of FHIR resources in blob storage during [FHIR bulk data exports](http://hl7.org/fhir/uv/bulkdata/export/index.html). To simplify download of these files, you can directly use the completed export job's status. FHIR export and related poll responses are described more detail in the [transport tutorial](transport-tutorial.md).
+Azure FHIR server places files full of FHIR resources in blob storage during [FHIR bulk data exports](http://hl7.org/fhir/uv/bulkdata/export/index.html). To make it easier to download these files, you can directly use the completed export job's status. FHIR export and related poll responses are described more detail in the [transport tutorial](transport-tutorial.md).
 
 ```python
 from phdi.fhir.transport import export_from_fhir_server
