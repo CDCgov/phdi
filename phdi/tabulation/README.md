@@ -1,3 +1,3 @@
-# The Tabulation Package
+# The FHIR Data Tabulation Package
 
-This package contains functions to read a schema from a file. A schema, in this context, selects a set of data field location from an existing datastore (such as FHIR), and maps them into a new table structure. The intent is to export a selected set of data from a primary datastore into a tabular data structure. This effectively makes the data accessible to a myriad of tools that are designed to report and perform analytics on tabular data. 
+This package contains functions to use a schema (as defined in `phdi.tabulation`) to read data from a FHIR server, and write it to a tabular format. The intent is to extract FHIR resources from a FHIR server, and write into a tabular data structure defined by the schema.
