@@ -265,9 +265,9 @@ def test_upload_object(mock_get_client):
     )
 
     phdi_container_client.upload_object(
+        object_content,
         object_container,
         object_path,
-        object_content,
     )
 
     mock_container_client.get_blob_client.assert_called_with(object_path)
