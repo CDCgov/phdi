@@ -3,11 +3,11 @@
 This guide serves as a tutorial overview of the functionality available in both `phdi.geospatial` and `phdi.fhir.geospatial`. It will cover concepts such as data type basics, imports, and common uses invocations.
 
 ## The Basics: Clients and Results
-The basic data structures used by the geospatial model are a `GeocodeClient` and a `GeocodeResult`. The former is an abstract base class (see https://docs.python.org/3/library/abc.html for more details) that provides vendor-agnostic function skeletons for use on raw data (e.g. strings and dictionaries); the latter is a dataclass (see https://docs.python.org/3/library/dataclasses.html) designed to hold address field information in a standardized fashion. The `fhir` wrapper for the geospatial module also provides a `FhirGeocodeClient`, which is an abstract class that behaves like `GeocodeClient` but which is designed to work with FHIR-formatted data. For clarity, we'll use `GeocodeClient` to refer to implementations that deal with raw data, `FhirGeocodeClient` to refer to implementations that deal with FHIR-formatted data, and "Geocode Clients" to refer the set of both types.
+The basic data structures used by the geospatial model are a `BaseGeocodeClient` and a `GeocodeResult`. The former is an abstract base class (see https://docs.python.org/3/library/abc.html for more details) that provides vendor-agnostic function skeletons for use on raw data (e.g. strings and dictionaries); the latter is a dataclass (see https://docs.python.org/3/library/dataclasses.html) designed to hold address field information in a standardized fashion. The `fhir` wrapper for the geospatial module also provides a `BaseFhirGeocodeClient`, which is an abstract class that behaves like `BaseGeocodeClient` but which is designed to work with FHIR-formatted data. For clarity, we'll use `BaseGeocodeClient` to refer to implementations that deal with raw data, `BaseFhirGeocodeClient` to refer to implementations that deal with FHIR-formatted data, and "Geocode Clients" to refer the set of both types.
 
 The Geocode Clients have the following important methods:
 ```
-GeocodeClient:
+BaseGeocodeClient:
     geocode_from_str()
         '''
         Geocode an address given as a string
@@ -18,7 +18,7 @@ GeocodeClient:
         Geocode an address given as a dictionary (does not need to be FHIR-formatted)
         '''
 
-FhirGeocodeClient:
+BaseFhirGeocodeClient:
     geocode_resource()
         '''
         Geocode one or more addresses contained in a given FHIR resource
@@ -54,8 +54,8 @@ All attributes which are `Optional`-typed may or may not be included in the resu
 Using the geospatial module's functionality begins with simple imports. The Geocode Client abstract classes and `GeocodeResult` likely do not need to be imported (see the common uses section below), but can be used directly from the relevant package:
 
 ```
-from phdi.geospatial import GeocodeClient, GeocodeResult
-from phdi.fhir.geospatial import FhirGeocodeClient
+from phdi.geospatial.core import BaseGeocodeClient, GeocodeResult
+from phdi.fhir.geospatial.core import BaseFhirGeocodeClient
 ```
 
 Of more relevance are the vendor-specific implementations of the Geocode Client classes, which can be imported from the specific `.py` file of the desired vendor. For example, to import a geocoder that uses the SmartyStreets API:
