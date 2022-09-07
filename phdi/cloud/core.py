@@ -46,8 +46,8 @@ class BaseCloudContainerConnection(ABC):
         filename: str,
     ) -> None:
         """
-        Uploads content to storage.
-        Exactly one of message_json or message should be provided.
+        Uploads the content of a given message to Azure blob storage.
+        Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
           string or in a JSON format
