@@ -4,4 +4,4 @@ pyarrow
 pandas
 numpy
 pandas
-phdi @ git+https://github.com/CDCgov/phdi@main
+phdi
