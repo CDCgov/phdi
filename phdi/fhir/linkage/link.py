@@ -1,6 +1,6 @@
 import copy
 from phdi.fhir.utils import (
-    find_entry_by_resource_type,
+    find_entries_by_resource_type,
     get_field,
     get_one_line_address,
 )
@@ -27,7 +27,7 @@ def add_patient_identifier_in_bundle(
     if not overwrite:
         bundle = copy.deepcopy(bundle)
 
-    for entry in find_entry_by_resource_type(bundle, "Patient"):
+    for entry in find_entries_by_resource_type(bundle, "Patient"):
         patient = entry.get("resource")
         add_patient_identifier(patient, salt_str, overwrite)
     return bundle

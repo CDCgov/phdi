@@ -1,7 +1,7 @@
 from typing import List
 
 
-def find_entry_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
+def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
     """
     Collect all entries of a specific type in a bundle of FHIR data and
     return references to them in a list.
@@ -14,7 +14,7 @@ def find_entry_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
     return [
         entry
         for entry in bundle.get("entry")
-        if entry.get("resource").get("resourceType") == resource_type
+        if entry.get("resource", {}).get("resourceType") == resource_type
     ]
 
 
