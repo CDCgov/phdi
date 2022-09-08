@@ -18,7 +18,7 @@ class BaseFhirGeocodeClient(ABC):
         Function that uses the implementing client to perform geocoding
         on the provided resource, which is passed in as a dictionary.
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def geocode_bundle(self, bundle: List[dict]):
@@ -27,7 +27,7 @@ class BaseFhirGeocodeClient(ABC):
         on all supported resources in the provided FHIR bundle, which
         is passed in as a list of FHIR-formatted dictionaries.
         """
-        pass
+        pass  # pragma: no cover
 
     @staticmethod
     def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:

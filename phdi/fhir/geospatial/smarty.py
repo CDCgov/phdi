@@ -1,5 +1,4 @@
-from typing import List
-from copy import copy
+import copy
 from smartystreets_python_sdk import us_street
 
 from phdi.geospatial.smarty import SmartyGeocodeClient
@@ -74,7 +73,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
                     address, standardized_address.lat, standardized_address.lng
                 )
 
-    def geocode_bundle(self, bundle: List[dict], overwrite=True) -> List[dict]:
+    def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
         """
         Performs geocoding on all resources in a given FHIR bundle whose
         resource type is among those supported by the PHDI SDK. Currently,

@@ -12,6 +12,7 @@ def test_parse_smarty_result_success():
 
     candidate = Candidate({})
     candidate.delivery_line_1 = "123 FAKE ST"
+    candidate.delivery_line_2 = "UNIT 221B"
     candidate.metadata = Metadata(
         {
             "latitude": 45.123,
@@ -30,7 +31,7 @@ def test_parse_smarty_result_success():
     lookup.result = [candidate]
     encoded_result = SmartyGeocodeClient._parse_smarty_result(lookup)
 
-    assert encoded_result.line == ["123 FAKE ST"]
+    assert encoded_result.line == ["123 FAKE ST", "UNIT 221B"]
     assert encoded_result.city == "New York"
     assert encoded_result.state == "NY"
     assert encoded_result.lat == 45.123

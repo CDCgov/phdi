@@ -32,6 +32,7 @@ def test_geocode_resource():
             / "patient_bundle.json"
         )
     )
+
     patient = bundle["entry"][1]["resource"]
     standardized_patient = copy.deepcopy(patient)
     address = standardized_patient["address"][0]
@@ -52,6 +53,13 @@ def test_geocode_resource():
 
     smarty_client.geocode_client.geocode_from_str = mock.Mock()
     smarty_client.geocode_client.geocode_from_str.return_value = geocoded_response
+
+    # Case 1: Overwrite = False
+    returned_patient = smarty_client.geocode_resource(patient, overwrite=False)
+    assert standardized_patient == returned_patient
+    assert returned_patient != patient
+
+    # Case 2: Overwrite = True
     assert standardized_patient == smarty_client.geocode_resource(patient)
     smarty_client.geocode_client.geocode_from_str.assert_called()
 
@@ -101,5 +109,7 @@ def test_geocode_bundle():
 
     smarty_client.geocode_client.geocode_from_str = mock.Mock()
     smarty_client.geocode_client.geocode_from_str.return_value = geocoded_response
-    assert standardized_bundle == smarty_client.geocode_bundle(bundle)
+    returned_bundle = smarty_client.geocode_bundle(bundle, overwrite=False)
+    assert standardized_bundle == returned_bundle
+    assert bundle != standardized_bundle
     smarty_client.geocode_client.geocode_from_str.assert_called()
