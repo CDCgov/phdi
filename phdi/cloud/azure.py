@@ -5,7 +5,7 @@ from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
-from typing import List
+from typing import List, Union
 
 
 class AzureCredentialManager(BaseCredentialManager):
@@ -133,30 +133,27 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def upload_object(
         self,
+        message: Union[str, dict],
         container_name: str,
         filename: str,
-        message_json: dict = None,
-        message: str = None,
     ) -> None:
         """
-        Uploads content to Azure blob storage.
-        Exactly one of message_json or message should be provided.
+        Uploads the content of a given message to Azure blob storage.
+        Message can be passed either as a raw string or as JSON.
 
+        :param message: The contents of a message, encoded either as a
+          string or in a JSON format
         :param container_name: The name of the target container for upload
         :param filename: Location of file within Azure blob storage
-        :param message_json: The content of a message in JSON format
-        :param message: The content of a message encoded as a string
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
         blob_client = container_client.get_blob_client(filename)
 
-        if message_json is not None:
-            blob_client.upload_blob(
-                json.dumps(message_json).encode("utf-8"), overwrite=True
-            )
-        elif message is not None:
+        if isinstance(message, str):
             blob_client.upload_blob(bytes(message, "utf-8"), overwrite=True)
+        elif isinstance(message, dict):
+            blob_client.upload_blob(json.dumps(message).encode("utf-8"), overwrite=True)
 
     def list_containers(self) -> List[str]:
         """
