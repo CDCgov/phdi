@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Union
 
 
 class BaseCredentialManager(ABC):
@@ -41,19 +41,18 @@ class BaseCloudContainerConnection(ABC):
     @abstractmethod
     def upload_object(
         self,
+        message: Union[str, dict],
         container_name: str,
         filename: str,
-        message_json: dict = None,
-        message: str = None,
     ) -> None:
         """
-        Uploads content to storage.
-        Exactly one of message_json or message should be provided.
+        Uploads the content of a given message to Azure blob storage.
+        Message can be passed either as a raw string or as JSON.
 
+        :param message: The contents of a message, encoded either as a
+          string or in a JSON format
         :param container_name: The name of the target container for upload
         :param filename: Location of file within storage container
-        :param message_json: The content of a message in JSON format
-        :param message: The content of a message encoded as a string
         """
         pass
 
