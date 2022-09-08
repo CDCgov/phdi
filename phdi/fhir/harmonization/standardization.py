@@ -108,8 +108,7 @@ def _standardize_names_in_resource(
       names in the resource
     :param overwrite: Whether to overwrite the input data with the
       new, standardized value (default is yes)
-    :return: The resource (or a copy thereof) with standardized
-      information in place of the raw
+    :return: The resource with appropriately standardized names
     """
 
     if not overwrite:
@@ -159,16 +158,17 @@ def _extract_countries_from_resource(
 ) -> List[str]:
     """
     Given a FHIR resource, build a list containing all of the counries
-    found in the addresses associated with that resource in a standardized
-    form sepcified by code_type. If the resource is not of a supported
-    type, no countries will be contained in the returned list. Currently
-    supported resource types are:
+    found in the addresses associated with that resource, standardized
+    by code_type. If the resource is not of a supported type, no countries
+    will be contained in the returned list. Currently supported resource types are:
 
     - Patient
 
     :param resource: A FHIR-formatted JSON dictionary
     :param code_type: A string equal to 'alpha_2', 'alpha_3', or 'numeric'
       to specify which type of standard country identifier to generate
+    :param return: A list of all the standardized countries found in the resource's
+     addresses
     """
     countries = []
     resource_type = resource.get("resourceType")

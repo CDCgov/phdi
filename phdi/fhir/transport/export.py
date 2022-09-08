@@ -35,6 +35,7 @@ def export_from_fhir_server(
       for export files to be generated
     :param poll_timeout: The maximum number of seconds to wait for export files to
       be generated
+    :param return:
     """
 
     # Combine template variables into export endpoint
@@ -97,6 +98,7 @@ def export_from_fhir_server_poll(
       for export files to be generated
     :param poll_timeout: the maximum number of seconds to wait for export files to
       be generated
+    :param return: A response from polled endpoint
     :raises polling.TimeoutException: If the FHIR server continually returns a 202
       status indicating in progress until the timeout is reached
     :raises requests.HTTPError: If an unexpected status code is returned
@@ -138,6 +140,7 @@ def _compose_export_url(
       back
     :param container: The container where we want to store the uploaded
     files
+    :param return: An export url string
     """
     export_url = fhir_url
     if export_scope == "Patient" or export_scope.startswith("Group/"):
@@ -178,6 +181,7 @@ def _export_from_fhir_server_poll_call(
     :param poll_url: The endpoint the FHIR server gave us to query for if
       our files are ready
     :param cred_manager: Service used to get an access token used to make a request
+    :param return: An HTTP response (if 200) or None (if still in progress)
     """
     access_token = cred_manager.get_access_token()
     response = http_request_with_reauth(

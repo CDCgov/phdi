@@ -23,6 +23,8 @@ def standardize_country_code(
       put in ISO 3611 standardized form
     :param code_type: One of 'alpha_2', 'alpha_3', or 'numeric'; the
       desired identifier type to generate
+    :param return: A list of all the standardized countries found in the resource's
+     addresses
     """
 
     # @TODO: Potentially do some minor restructuring around this logic

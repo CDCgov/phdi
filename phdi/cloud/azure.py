@@ -31,6 +31,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
         :param resource_location: URL or other location of the requested resource.
         :param scope: A space-delimited list of scopes to limit access to resource.
+        :param return:
         """
         self.__resource_location = resource_location
         self.__scope = scope
@@ -54,6 +55,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
         :param force_refresh: force token refresh even if the current token is
           still valid
+        :param return: An access token from the Azure identity provider
         """
         if force_refresh or (self.access_token is None) or self._need_new_token():
             creds = self.get_credential_object()
@@ -65,7 +67,7 @@ class AzureCredentialManager(BaseCredentialManager):
         """
         Determine whether the token already stored for this object can be reused,
         or if it needs to be re-requested.
-
+        :param return: An access token from the Azure identity provider if still valid
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()

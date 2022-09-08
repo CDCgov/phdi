@@ -70,13 +70,13 @@ def upload_bundle_to_fhir_server(
     Import a FHIR resource bundle to the FHIR server.
 
     :param bundle: FHIR bundle (type "batch" or "transaction") to post.  Each entry in
-      the bundle must contain a `request` element in addition to a `resource`.
+      the bundle must contain a `request` element in addition to a `resource`
       The FHIR API provides additional details on creating
       [FHIR-conformant batch/transaction](https://hl7.org/fhir/http.html#transaction)
-      bundles.
+      bundles
     :param access_token: FHIR Server access token
     :param fhir_url: The url of the FHIR server to upload to
-    :return: A requests.Request object containing the response from the FHIR server.
+    :return: A requests.Request object containing the response from the FHIR server
     """
 
     access_token = cred_manager.get_access_token()
@@ -126,10 +126,10 @@ def fhir_server_get(
     Submit a GET request to a FHIR server given a url and access token for
     authentication.
 
-    :param url: URL specifying a GET request on a FHIR server.
+    :param url: URL specifying a GET request on a FHIR server
     :param cred_manager: Service used to get an access token used to make a
-        request.
-    :return: A requests.Request object containing the response from the FHIR server.
+        request
+    :return: A requests.Request object containing the response from the FHIR server
     """
     access_token = cred_manager.get_access_token()
     # Open connection to the export operation and kickoff process
@@ -148,9 +148,11 @@ def fhir_server_get(
 
 
 def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> None:
-    """Given an HTTP status code from a FHIR server's response, log the specified error.
+    """
+    Given an HTTP status code from a FHIR server's response, log the specified error.
 
     :param status_code: Status code returned by a FHIR server
+    :param return:
     """
     # TODO: We may dedcide to remove logging, and instead report errors back to
     # calling function as raised exceptions.

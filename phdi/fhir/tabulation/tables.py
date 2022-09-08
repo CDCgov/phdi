@@ -21,8 +21,10 @@ def apply_selection_criteria(
     selection_criteria is set to "all" a list containing all of the parsed values is
     returned.
 
-    :param value: A list containing the values parsed from a FHIR resource.
-    :param selection_criteria: A string indicating which element(s) of a list to select.
+    :param value: A list containing the values parsed from a FHIR resource
+    :param selection_criteria: A string indicating which element(s) of a list to select
+    :param return: Value(s) parsed from a FHIR resource that conform to the selection
+      criteria
     """
 
     if selection_criteria == "first":
@@ -53,8 +55,9 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     particular variable should be called. If a schema can't be found for the given
     resource type, the raw resource is instead returned.
 
-    :param resource: A FHIR resource on which to apply a schema.
-    :param schema: A schema specifying the desired values by FHIR resource type.
+    :param resource: A FHIR resource on which to apply a schema
+    :param schema: A schema specifying the desired values by FHIR resource type
+    :param return: A dictionary of data with the desired values specified in the schema
     """
 
     data = {}
@@ -93,6 +96,7 @@ def generate_table(
     :param fhir_url: URL to a FHIR server.
     :param cred_manager: Service used to get an access token used to make a
         request.
+    :param return:
     """
     output_path.mkdir(parents=True, exist_ok=True)
     for resource_type in schema:
@@ -148,7 +152,7 @@ def generate_all_tables_in_schema(
     cred_manager: BaseCredentialManager,
 ):
     """
-    Given the url for a FHIR server, the location of a schema file, and and output
+    Given the url for a FHIR server, the location of a schema file, and the output
     directory generate the specified schema and store the tables in the desired
     location.
 
@@ -159,6 +163,7 @@ def generate_all_tables_in_schema(
     :param fhir_url: URL to a FHIR server.
     :param cred_manager: Service used to get an access token used to make a
         request.
+    :param return:
     """
 
     schema = load_schema(schema_path)
@@ -178,5 +183,6 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     `fhirpath_expression`
 
     :param fhirpath_expression: The FHIRPath expression to evaluate
+    :param return:
     """
     return fhirpathpy.compile(fhirpath_expression)

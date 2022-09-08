@@ -41,6 +41,7 @@ class BaseFhirGeocodeClient(ABC):
         :param address: A FHIR formatted dictionary holding address fields
         :param lat: The latitude to add to the FHIR data as an extension
         :param long: The longitude to add to the FHIR data as an extension
+        :param return:
         """
         if "extension" not in address:
             address["extension"] = []
