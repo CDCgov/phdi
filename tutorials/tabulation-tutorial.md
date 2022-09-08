@@ -5,10 +5,7 @@ This guide serves as a tutorial overview of the functionality available in both 
 ## Module Overview
 A single data platform cannot hope to be all things for all people. Simply put, there are fundamental tradeoffs when choosing any data platform, and it is sometimes helpful to move data from one platform to another in order to accomplish a task more efficiently. The PHDI tabulation modules seek to address this problem by defining a data export schema and tools that can map data from one datastore into a tabular format. The tabularized data can then be analyzed using a variety of query and data analysis tools.
 
-## Extracting Data to a Table
-Extracting data from a central datastore to a table can be done in just a few steps. Currently, the central datastore used for extraction is expected to be a FHIR server, and uses FHIR searches to get data to extract. 
-
-### FHIR Data Tabulation Schemas
+## Working with Schemas
 Data schemas are designed around the FHIR data format, and the first step to extract data to a tabular format is to define a schema. Schemas are defined as YAML files, with the following annotated structure. The annotations are described in more detail below the schema example.
 
 ```yaml
@@ -42,8 +39,21 @@ dataset_1:
   * **random**: Choose a random element in the FHIRPath response.
 * **new_name**: This defines the name of the field in the target table.
 
-### FHIR Extraction using a Tabulation Schema
-Once you have created a schema defining the target format for your table, you can extract data from the FHIR server. Fortunately, the schema definition will do most of the work. The schema is used both to perform searches against the FHIR server, and define the target tabular format where the returned data will be written.
+### Loading a Schema from a File
+The `load_schema` function loads a schema from a file into an internal format. Several functions outlined elsewhere in the documentation expect the schema (or part of the schema) to be in this format.  This format consists of a `dict` that mirrors the file format described above.
+
+```python
+from pathlib import Path
+from phdi.tabulation import load_schema
+
+schema = load_schema(Path("example_schema.yaml"))
+```
+
+## Extracting Data to a Table
+Extracting data from a central datastore to a table can be done in just a few steps. Currently, the central datastore used for extraction is expected to be a FHIR server, and uses FHIR searches to get data to extract. 
+
+### FHIR Extraction Using a Schema
+Once you have created a schema file defining the target format for your table, you can extract data from the FHIR server. Fortunately, the schema definition will do most of the work. The schema is used both to perform searches against the FHIR server, and define the target tabular format where the returned data will be written.
 
 The following code may be used to extract FHIR data to a tablular format:
 
@@ -75,4 +85,88 @@ The command above may take a while to complete as it needs to compile all of the
 
 ```
 
+### Extracting FHIR Data for a Single Table
+The extraction function `generate_all_tables_in_schema` described above will process all data according to a schema file. It leverages a more granular function `generate_table` to generate a single dataset of tabular data. It may be useful to use this more granular function rather than generating tables for all datasets listed in the schema.
 
+```python
+from pathlib import Path
+from phdi.cloud.azure import AzureCredentialManager
+
+schema_path = Path("example_schema.yaml")  # Path to a schema config file.
+base_output_path = Path(".")               # Path to directory where tables will be written
+output_format = "parquet"                  # File format of tables (currently supports parquet or csv)
+fhir_url = "https://your_fhir_url"         # The URL for a FHIR server
+cred_manager = AzureCredentialManager(fhir_url)
+
+schema = load_schema(Path("example_schema.yaml"))
+
+generate_table(schema.get("dataset-1"), base_output_path, output_format, fhir_url, cred_manager)
+```
+
+
+### Tabulation for an Individual FHIR Resource
+Digging into yet another layer of granularity, it may be useful to tabularize a single row of data, given a single FHIR resource, and a dataset schema. This is possible by using the `apply_schema_to_resource` function.  The following example demonstrates how a FHIR resource might be transformed into a tabular form.
+
+It's important to note here that `apply_schema_to_resource` does not write to an output file like `generate_all_tables_in_schema` and `generate_table`. Instead it returns a `dict` that will be described in more detail below.
+
+```python
+from phdi.fhir.tabulation import apply_schema_to_resource
+
+patient_schema = { "Patient": {
+    "Patient ID": {
+      "fhir_path": "Patient.id",
+      "selection_criteria": "first",
+      "new_name": "patient_id"
+    },
+    "First Name": {
+      "fhir_path": "Patient.name.given",
+      "selection_criteria": "first",
+      "new_name": "first_name"
+    },
+    "Last Name": {
+      "fhir_path": "Patient.name.family",
+      "selection_criteria": "first",
+      "new_name": "last_name"
+    }
+  }
+}
+
+resource = {
+  "resourceType": "Patient",
+  "id": "patient-id",
+  "name": {
+    "given": ["Ashlee", "Ann"],
+    "family": "Smith"
+  }
+}
+
+apply_schema_to_resource(resource, patient_schema)
+```
+
+## Working with Tabular Data
+Some of the functions described in the previous section (`generate_all_tables_in_schema`, `generate_table`) will write tabular data to a file after generating it. However, `apply_schema_to_resource` formats returns tabular data as a `dict` without persisting it. Luckily, there are functions to work with tabular data, allowing for both writing and summarizing tabular file formats.
+
+### Writing Tabular Data
+Internally, tabular data is represented as a `dict` where each key is a column name, and each value is a data value for that column. These `dict`s can be compiled into a `list` to represent multiple rows of data. The `write_table` function will write a `list` of `dict`s to a file.
+
+```python
+from pathlib import Path
+from phdi.tabulation import write_table
+
+data = [{'patient_id': 'id1', 'first_name': 'Ashlee', 'last_name': 'Smith'},
+{'patient_id': 'id2', 'first_name': 'Bert', 'last_name': 'Smith'}
+]
+output_file_name = Path("output/my-parquet-file.parquet") # Path to directory where tables will be written
+
+parquet_file = write_table(data, Path(output_file_name), "parquet")
+parquet_file.close() # When working with Parquet files, the function returns a file writer that can be used multiple times.  This must be closed when writing is complete.
+```
+
+### Getting Information from Written Data
+You can also see information about the schemas stored in an output directory after the data is written.
+
+```python
+from phdi.tabulation import print_schema_summary
+
+print_schema_summary("output")
+```
