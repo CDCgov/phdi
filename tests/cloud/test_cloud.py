@@ -363,8 +363,6 @@ def test_download_object_cp1252(mock_get_client):
 
     assert download_content_buffer.readline() == "Testing windows-1252 encoding € œ Ÿ"
 
-    # assert download_content == "Testing windows-1252 encoding\n€\nœ\nŸ\n"
-
     with pytest.raises(UnicodeDecodeError):
         object_content.decode("utf-8")
 
