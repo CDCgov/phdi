@@ -256,24 +256,33 @@ def test_upload_object(mock_get_client):
     mock_cred_manager = mock.Mock()
 
     object_storage_account = "some-resource-location"
-    object_container = "some-container"
-    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
-    object_content = {"hello": "world"}
-
     phdi_container_client = AzureCloudContainerConnection(
         object_storage_account, mock_cred_manager
     )
+    object_container = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+
+    # Test both cases of input data types
+    object_content_json = {"hello": "world"}
+    object_content_str = "hello world"
 
     phdi_container_client.upload_object(
+        object_content_json,
         object_container,
         object_path,
-        object_content,
+    )
+    mock_container_client.get_blob_client.assert_called_with(object_path)
+    mock_blob_client.upload_blob.assert_called_with(
+        json.dumps(object_content_json).encode("utf-8"), overwrite=True
     )
 
-    mock_container_client.get_blob_client.assert_called_with(object_path)
-
+    phdi_container_client.upload_object(
+        object_content_str,
+        object_container,
+        object_path,
+    )
     mock_blob_client.upload_blob.assert_called_with(
-        json.dumps(object_content).encode("utf-8"), overwrite=True
+        bytes(object_content_str, "utf-8"), overwrite=True
     )
 
 
