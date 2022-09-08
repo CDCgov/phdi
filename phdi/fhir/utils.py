@@ -1,20 +1,20 @@
 from typing import List
 
 
-def find_resource_by_type(bundle: dict, resource_type: str) -> List[dict]:
+def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
     """
-    Collect all resources of a specific type in a bundle of FHIR data and
+    Collect all entries of a specific type in a bundle of FHIR data and
     return references to them in a list.
 
     :param bundle: The FHIR bundle to find patients in
     :param resource_type: The type of FHIR resource to find
-    :return: List holding all resources of the requested type that were
+    :return: List holding all entries of the requested resource type that were
       found in the input bundle
     """
     return [
-        resource
-        for resource in bundle.get("entry")
-        if resource.get("resource").get("resourceType") == resource_type
+        entry
+        for entry in bundle.get("entry")
+        if entry.get("resource", {}).get("resourceType") == resource_type
     ]
 
 
