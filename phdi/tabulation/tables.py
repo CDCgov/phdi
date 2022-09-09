@@ -73,8 +73,8 @@ def print_schema_summary(
     display_head: bool = False,
 ) -> None:
     """
-    Given a directory containing tables in either CSV or Parquet
-    format, print a summary of each table.
+    Print a summary of each CSV of Parquet formatted table in a given directory of
+    tables.
 
     :param directory: Path to a direct holding table files
     :param display_head: Print the head of each table when true.

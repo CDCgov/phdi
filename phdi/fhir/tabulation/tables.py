@@ -16,9 +16,9 @@ def apply_selection_criteria(
     selection_criteria: Literal["first", "last", "random", "all"],
 ) -> Union[str, List[str]]:
     """
-    Given a list of values parsed from a FHIR resource, return value(s) according to the
-    selection criteria. In general a single value is returned, but when
-    selection_criteria is set to "all" a list containing all of the parsed values is
+    Return value(s), according to the selection criteria, from a given list of values
+    parsed from a FHIR resource. In general a single value is returned, but when
+    selection_criteria is set to "all", a list containing all of the parsed values is
     returned.
 
     :param value: A list containing the values parsed from a FHIR resource
@@ -48,7 +48,7 @@ def apply_selection_criteria(
 
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
-    Creates and returns a dictionary of data based on a FHIR resource and a schema. The
+    Create and return a dictionary of data based on a FHIR resource and a schema. The
     keys of the created dict are the "new names" for the fields in the given schema, and
     the values are the elements of the given resource that correspond to these fields.
     Here, "new name" is a property contained in the schema that specifies what a
@@ -88,7 +88,7 @@ def generate_table(
     cred_manager: BaseCredentialManager,
 ):
     """
-    Given the schema for a single table, make the table.
+    Make a table for a single schema.
 
     :param schema: A schema specifying the desired values by FHIR resource type.
     :param output_path: A path specifying where the table should be written.
@@ -178,7 +178,7 @@ def generate_all_tables_in_schema(
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes
+    Return a fhirpathpy parser for a specific FHIRPath. This cached function minimizes
     calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
     `fhirpath_expression`
 

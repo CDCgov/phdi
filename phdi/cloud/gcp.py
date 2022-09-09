@@ -38,7 +38,7 @@ class GcpCredentialManager(BaseCredentialManager):
         """
         Get a GCP-specific credential object.
 
-        :return: Returns a scoped instance of the Credentials class from google.auth
+        :return: A scoped instance of the Credentials class from google.auth
             package, refreshed if necessary.
         """
         # Get credentials if they don't exist or are expired.

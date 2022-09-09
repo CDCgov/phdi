@@ -50,7 +50,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def get_access_token(self, force_refresh: bool = False) -> str:
         """
-        Obtain an access token from the Azure identity provider.  Return the
+        Obtain an access token from the Azure identity provider. Return the
         access token string, refreshed if expired or force_refresh is specified.
 
         :param force_refresh: force token refresh even if the current token is
@@ -102,7 +102,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def _get_container_client(self, container_url: str) -> ContainerClient:
         """
-        Obtains a client connected to an Azure storage container by
+        Obtain a client connected to an Azure storage container by
         utilizing the first valid credentials Azure can find. For
         more information on the order in which the credentials are
         checked, see the Azure documentation:
@@ -117,7 +117,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         self, container_name: str, filename: str, encoding: str = "UTF-8"
     ) -> str:
         """
-        Downloads a character blob from storage and returns it as a string.
+        Download a character blob from storage and return it as a string.
 
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within Azure blob storage
@@ -140,7 +140,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         filename: str,
     ) -> None:
         """
-        Uploads the content of a given message to Azure blob storage.
+        Upload the content of a given message to Azure blob storage.
         Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a

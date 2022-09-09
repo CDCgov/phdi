@@ -77,7 +77,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def geocode_bundle(self, bundle: List[dict], overwrite=True) -> List[dict]:
         """
-        Performs geocoding on all resources in a given FHIR bundle whose
+        Perform geocoding on all resources in a given FHIR bundle whose
         resource type is among those supported by the PHDI SDK. Currently,
         this includes:
 

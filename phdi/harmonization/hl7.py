@@ -199,8 +199,8 @@ def _normalize_hl7_datetime_segment(
     message: hl7.Message, segment_id: str, field_list: list
 ) -> None:
     """
-    Utility function used to apply datetime normalization
-    to multiple fields in a segment, overwriting the input segment.
+    Apply datetime normalization to multiple fields in a segment,
+    overwriting the input segment.
 
     :param message: The HL7 message, represented as a list
       of indexable component strings (which is how the HL7 library

@@ -16,7 +16,7 @@ def http_request_with_reauth(
     data: dict = None,
 ) -> requests.Response:
     """
-    First, call :func:`utils.http_request_with_retry`.  If the first call failed
+    First, call :func:`utils.http_request_with_retry`. If the first call failed
     with an authorization error (HTTP status 401), obtain a new token using the
     `cred_manager`, and if the original request had an Authorization header, replace
     with the new token and re-initiate :func:`utils.http_request_with_retry`.
@@ -149,7 +149,7 @@ def fhir_server_get(
 
 def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> None:
     """
-    Given an HTTP status code from a FHIR server's response, log the specified error.
+    Log the error for a given an HTTP status code from a FHIR server's response.
 
     :param status_code: Status code returned by a FHIR server
     :param return:

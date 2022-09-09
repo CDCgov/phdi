@@ -15,9 +15,8 @@ def standardize_names(
     overwrite: bool = True,
 ) -> dict:
     """
-    Given either a FHIR bundle or a FHIR resource, transform all names
-    contained in any resource in the input.  The default standardization
-    behavior is our defined non-numeric, space-trimming, full
+    Standardize all names contained in a given FHIR bundle or a FHIR resource. The
+    default standardization behavior is our defined non-numeric, space-trimming, full
     capitalization standardization, but other modes may be specified.
 
     :param data: Either a FHIR bundle or a FHIR-formatted JSON dict
@@ -51,12 +50,10 @@ def standardize_names(
 
 def standardize_phones(data: dict, overwrite=True) -> dict:
     """
-    Given a FHIR bundle or a FHIR resource, standardize all phone
-    numbers contained in any resources in the input data.
-    Standardization is done according to the underlying
-    standardize_phone function in phdi.harmonization, so for more
-    information on country-coding and parsing, see the relevant
-    docstring.
+    Standardize all phone numbers in a given FHIR bundle or a FHIR resource
+    Standardization is done according to the underlying standardize_phone function in
+    phdi.harmonization. For more information on country-coding and parsing, see the
+    relevant docstring.
 
     :param data: A FHIR bundle or FHIR-formatted JSON dict
     :param overwrite: Whether to replace the original phone numbers
@@ -157,10 +154,9 @@ def _extract_countries_from_resource(
     resource: dict, code_type: Literal["alpha_2", "alpha_3", "numeric"] = "alpha_2"
 ) -> List[str]:
     """
-    Given a FHIR resource, build a list containing all of the counries
-    found in the addresses associated with that resource, standardized
-    by code_type. If the resource is not of a supported type, no countries
-    will be contained in the returned list. Currently supported resource types are:
+    Build a list containing all of the countries, standardized by code_type, in the
+    addresses of a given FHIR resource. If the resource is not of a supported type, no
+    countries will bereturned. Currently supported resource types are:
 
     - Patient
 

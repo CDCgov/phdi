@@ -15,28 +15,27 @@ class BaseFhirGeocodeClient(ABC):
     @abstractmethod
     def geocode_resource(self, resource: dict) -> dict:
         """
-        Function that uses the implementing client to perform geocoding
-        on the provided resource, which is passed in as a dictionary.
+        Perform geocoding, using the implementing client, on the provided resource,
+        which is passed in as a dictionary.
         """
         pass
 
     @abstractmethod
     def geocode_bundle(self, bundle: List[dict]):
         """
-        Function that uses the implementing client to perform geocoding
-        on all supported resources in the provided FHIR bundle, which
-        is passed in as a list of FHIR-formatted dictionaries.
+        Perform geocoding, using the implementing client, on all supported resources in
+        the provided FHIR bundle, which is passed in as a list of FHIR-formatted
+        dictionaries.
         """
         pass
 
     @staticmethod
     def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:
         """
-        Given a FHIR-formatted dictionary holding address fields, add
-        appropriate extension data for latitude and longitude, if the fields
-        aren't already present. The extension data is added directly to the
-        input dictionary, leaving lat and long as FHIR-identified
-        geolocation elements.
+        Add appropriate extension data for latitude and longitude, if the fields
+        aren't already present, to a given FHIR-formatted dictionary holding address
+        fields. Add the extension data directly to the input dictionary, leaving lat and
+        long as FHIR-identified geolocation elements.
 
         :param address: A FHIR formatted dictionary holding address fields
         :param lat: The latitude to add to the FHIR data as an extension

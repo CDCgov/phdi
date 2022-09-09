@@ -7,12 +7,10 @@ def standardize_country_code(
     raw_country: str, code_type: Literal["alpha_2", "alpha_3", "numeric"] = "alpha_2"
 ) -> str:
     """
-    Given a string representation of a country (whether a full name
-    such as "United States", or an abbreviation such as "US" or "USA"),
-    first identify the country represented by the string, then
-    generate the ISO 3611 standardized country identifier of the
-    desired type. If the country cannot be determined, the function
-    returns None.
+    Identify the country represented and generate the desired type of the ISO
+    3611 standardized country identifier for a given string representation of a country
+    (whether a full name such as "United States", or an abbreviation such as "US"
+    or "USA"). If the country cannot be determined, return None.
 
     Example: If raw_country = "United States of America," then
       - alpha_2 would be "US"
@@ -63,12 +61,11 @@ def standardize_phone(
     raw_phone: Union[str, List[str]], countries: List = [None, "US"]
 ) -> Union[str, List[str]]:
     """
-    Given one or more phone numbers, and optionally a list of countries
-    associated with those phone numbers, parse each phone number and
-    generate its standardized ISO E.164 international format. If an
-    input phone number can't be parsed, that number will return the
-    empty string. The function attempts to parse the inputs using
-    the first successful strategy out of the following:
+    Parse phone number and generate its standardized ISO E.164 international format for
+    each given phone number and optional list of associated countries. If an input phone
+    number can't be parsed, that number will return the empty string. The function
+    attempts to parse the inputs using the first successful strategy out of the
+    following:
 
     1. parse the phone number on its own
     2. parse the phone number using the provided list of possible
@@ -133,10 +130,10 @@ def standardize_name(
     remove_numbers: bool = True,
 ) -> Union[str, List[str]]:
     """
-    Given one or more names, perform some basic standardization on each
-    of them. All given input strings have punctuation characters removed,
-    and then a variety of additional cleaning operations can be toggled
-    on or off using the relevant parameter. The options include:
+    Perform basic standardization (described below) on each given name. All given input
+    strings have punctuation characters removed, and then a variety of additional
+    cleaning operations can be toggled on or off using the relevant parameter.
+    The cleaning operations include:
 
     - trim: stripping leading and trailing whitespace
     - remove_numbers: remove all numeric characters from the input
@@ -153,7 +150,6 @@ def standardize_name(
     :remove_numbers: Whether to remove numeric characters from the inputs
     :return: Either a string or a list of strings, depending on the
       input of raw_name, holding the cleaned name(s)
-
     """
     names_to_clean = raw_name
     if isinstance(raw_name, str):

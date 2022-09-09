@@ -3,9 +3,8 @@ import hashlib
 
 def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     """
-    Given a string made of concatenated patient information, generate
-    a hash for this string to serve as a "unique" identifier for the
-    patient.
+    Generate a hash for a given string of concatenated patient information. The hash
+    will serve as a "unique" identifier for the patient.
 
     :param linking_identifier: The concatenation of a patient's name,
         address, and date of birth, delimited by dashes
