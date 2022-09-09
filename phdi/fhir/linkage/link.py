@@ -29,11 +29,13 @@ def add_patient_identifier_in_bundle(
 
     for entry in find_resource_by_type(bundle, "Patient"):
         patient = entry.get("resource")
-        add_patient_identifier(patient, salt_str, overwrite)
+        add_patient_identifier(patient, salt_str)
     return bundle
 
 
-def add_patient_identifier(patient_resource, salt_str, overwrite):
+def add_patient_identifier(
+    patient_resource: dict, salt_str: str, overwrite: bool = True
+):
     """
     Given a FHIR resource:
 
