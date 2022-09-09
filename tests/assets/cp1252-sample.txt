@@ -1,4 +1,1 @@
-Testing windows-1252 encoding
-€
-œ
-Ÿ
+Testing windows-1252 encoding € œ Ÿ
