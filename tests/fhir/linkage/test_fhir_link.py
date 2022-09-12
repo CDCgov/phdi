@@ -26,7 +26,7 @@ def test_missing_address():
     assert actual == expected
 
 
-def test_add_patient_identifier_by_bundle():
+def test_add_patient_identifier_by_bundle_overwrite():
     salt_str = "super-legit-salt"
 
     incoming_bundle = json.load(
@@ -56,7 +56,7 @@ def test_add_patient_identifier_by_bundle():
             assert resource["resource"]["identifier"][-1] == expected_new_identifier
 
 
-def test_patient_identifier():
+def test_patient_identifier_overwrite():
     salt_str = "super-legit-salt"
 
     incoming_bundle = json.load(
@@ -87,7 +87,7 @@ def test_patient_identifier():
             break
 
 
-def test_bundle_overwrite():
+def test_add_patient_identifier_by_bundle():
     salt_str = "super-legit-salt"
 
     incoming_bundle = json.load(
@@ -119,7 +119,7 @@ def test_bundle_overwrite():
             assert resource["resource"]["identifier"][-1] == expected_new_identifier
 
 
-def test_overwrite():
+def test_add_patient_identifier():
     salt_str = "super-legit-salt"
 
     incoming_bundle = json.load(
