@@ -18,6 +18,11 @@ def test_standardize_hl7_datetimes():
     message_2 = open(
         pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageLongTZ.hl7"
     ).read()
+    message_3 = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "FileSingleMessageInvalidSegments.hl7"
+    ).read()
 
     assert (
         standardize_hl7_datetimes(message_1)
@@ -42,6 +47,15 @@ def test_standardize_hl7_datetimes():
         + "PV1||R||||||||||||||||||\n"
         + "RXA|0|999|20180809|20180809|08^HepB pediatric^CVX^90744^HepB pediatric^CPT"
         + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|||||||||||NA\n"
+    )
+    # Test for malformed segments
+    assert (
+        standardize_hl7_datetimes(message_3)
+        == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
+        + "2020051411020600|P^|2.4^^|||ER\n"
+        + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "CCC|||||||||||02^^^^^|Y||||A\n"
     )
 
 
