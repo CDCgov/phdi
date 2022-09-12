@@ -16,7 +16,7 @@ def load_schema(path: str) -> dict:
     If the file can't be found, raises an error.
 
     :param path: File path to a YAML file holding a schema
-    :param return:
+    :return: A dict representing a schema read from the given path
     """
     try:
         with open(path, "r") as file:
@@ -48,7 +48,6 @@ def write_table(
     :param writer: Optional; a writer object that can be maintained
       between different calls of this function to support file formats
       that cannot be appended to after being written (e.g. parquet)
-    :param return:
     """
 
     if file_format == "parquet":
@@ -56,7 +55,6 @@ def write_table(
         if writer is None:
             writer = pq.ParquetWriter(output_file_name, table.schema)
         writer.write_table(table=table)
-        return writer
 
     if file_format == "csv":
         keys = data[0].keys()
@@ -80,7 +78,6 @@ def print_schema_summary(
     :param display_head: Print the head of each table when true.
       Note: depending on the file format, this may require
       reading large amounts of data into memory
-    :param return:
     """
     for (directory_path, _, file_names) in os.walk(directory):
         for file_name in file_names:
