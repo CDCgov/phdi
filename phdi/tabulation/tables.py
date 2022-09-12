@@ -6,7 +6,7 @@ import pyarrow.parquet as pq
 import yaml
 
 from pathlib import Path
-from typing import Literal, List
+from typing import Literal, List, Union
 
 
 def load_schema(path: str) -> dict:
@@ -31,7 +31,7 @@ def write_table(
     output_file_name: pathlib.Path,
     file_format: Literal["parquet", "csv"],
     writer: pq.ParquetWriter = None,
-) -> None:
+) -> Union[None, pq.ParquetWriter]:
     """
     Given data stored as a list of dictionaries, where all dicts
     have a common set of keys, write the set of data to an output
@@ -48,6 +48,7 @@ def write_table(
     :param writer: Optional; a writer object that can be maintained
       between different calls of this function to support file formats
       that cannot be appended to after being written (e.g. parquet)
+    :return: pq.ParquetWriter if file_format is parquet; else None
     """
 
     if file_format == "parquet":
@@ -55,6 +56,7 @@ def write_table(
         if writer is None:
             writer = pq.ParquetWriter(output_file_name, table.schema)
         writer.write_table(table=table)
+        return writer
 
     if file_format == "csv":
         keys = data[0].keys()
