@@ -36,7 +36,7 @@ def get_field(resource: dict, field: str, use: str, default_field: int) -> str:
     :param default_field: The index of the field type to treat as
       the default return type if no field with the requested use case is
       found
-    :param return: The first instance of the field value matching the desired
+    :return: The first instance of the field value matching the desired
       use, or a default field value if a match couldn't be found
     """
     # The next function returns the "next" (in our case first) item from an
@@ -54,7 +54,7 @@ def get_one_line_address(address: dict) -> str:
     JSON dictionary holding address information.
 
     :param address: The address bundle
-    :param return: A one-line string representation of an address
+    :return: A one-line string representation of an address
     """
     raw_one_line = " ".join(address.get("line", []))
     raw_one_line += f" {address.get('city')}, {address.get('state')}"

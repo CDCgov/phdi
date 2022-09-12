@@ -17,6 +17,8 @@ class BaseFhirGeocodeClient(ABC):
         """
         Perform geocoding, using the implementing client, on the provided resource,
         which is passed in as a dictionary.
+
+        :return: Geocoded resource as a dict
         """
         pass
 
@@ -26,6 +28,8 @@ class BaseFhirGeocodeClient(ABC):
         Perform geocoding, using the implementing client, on all supported resources in
         the provided FHIR bundle, which is passed in as a list of FHIR-formatted
         dictionaries.
+
+        :return: List of geocoded resources, each resource as a dict
         """
         pass
 
@@ -40,7 +44,6 @@ class BaseFhirGeocodeClient(ABC):
         :param address: A FHIR formatted dictionary holding address fields
         :param lat: The latitude to add to the FHIR data as an extension
         :param long: The longitude to add to the FHIR data as an extension
-        :param return:
         """
         if "extension" not in address:
             address["extension"] = []

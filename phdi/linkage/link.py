@@ -10,7 +10,7 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
         address, and date of birth, delimited by dashes
     :param salt_str: The salt to concatenate onto the end to prevent
         being able to reverse-engineer PII
-    :param return: Hash of the linking_identifier string
+    :return: Hash of the linking_identifier string
     """
     hash_obj = hashlib.sha256()
     to_encode = (linking_identifier + salt_str).encode("utf-8")

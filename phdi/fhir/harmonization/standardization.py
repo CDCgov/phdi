@@ -50,7 +50,7 @@ def standardize_names(
 
 def standardize_phones(data: dict, overwrite=True) -> dict:
     """
-    Standardize all phone numbers in a given FHIR bundle or a FHIR resource
+    Standardize all phone numbers in a given FHIR bundle or a FHIR resource.
     Standardization is done according to the underlying standardize_phone function in
     phdi.harmonization. For more information on country-coding and parsing, see the
     relevant docstring.
@@ -58,8 +58,7 @@ def standardize_phones(data: dict, overwrite=True) -> dict:
     :param data: A FHIR bundle or FHIR-formatted JSON dict
     :param overwrite: Whether to replace the original phone numbers
       in the input data with the standardized versions (default is yes)
-    :return: The bundle or resource with phones appropriately
-      standardized
+    :return: The bundle or resource with phones appropriately standardized
     """
 
     if not overwrite:
@@ -156,14 +155,14 @@ def _extract_countries_from_resource(
     """
     Build a list containing all of the countries, standardized by code_type, in the
     addresses of a given FHIR resource. If the resource is not of a supported type, no
-    countries will bereturned. Currently supported resource types are:
+    countries will be returned. Currently supported resource types are:
 
     - Patient
 
     :param resource: A FHIR-formatted JSON dictionary
     :param code_type: A string equal to 'alpha_2', 'alpha_3', or 'numeric'
       to specify which type of standard country identifier to generate
-    :param return: A list of all the standardized countries found in the resource's
+    :return: A list of all the standardized countries found in the resource's
      addresses
     """
     countries = []

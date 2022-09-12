@@ -210,7 +210,6 @@ def _normalize_hl7_datetime_segment(
     :param field_list: The list of fields contained in the
       indexed message component, which are themselves indices to
       data strings
-    :return:
     """
     try:
         for segment in message.segments(segment_id):

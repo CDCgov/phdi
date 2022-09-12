@@ -28,12 +28,13 @@ class BaseCloudContainerConnection(ABC):
         self, container_name: str, filename: str, encoding: str = "utf-8"
     ) -> str:
         """
-        Download a blob from storage. Return the `stream` parameter, if supplied.
-        Otherwise a new stream object containing blob content.
+        Download a blob from storage.
 
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within storage
         :param encoding: Encoding applied to the downloaded content
+        :return: The `stream` parameter, if supplied. Otherwise a new stream object
+        containing blob content.
         """
         pass
 

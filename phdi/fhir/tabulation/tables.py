@@ -23,7 +23,7 @@ def apply_selection_criteria(
 
     :param value: A list containing the values parsed from a FHIR resource
     :param selection_criteria: A string indicating which element(s) of a list to select
-    :param return: Value(s) parsed from a FHIR resource that conform to the selection
+    :return: Value(s) parsed from a FHIR resource that conform to the selection
       criteria
     """
 
@@ -57,7 +57,7 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
 
     :param resource: A FHIR resource on which to apply a schema
     :param schema: A schema specifying the desired values by FHIR resource type
-    :param return: A dictionary of data with the desired values specified in the schema
+    :return: A dictionary of data with the desired values specified in the schema
     """
 
     data = {}
@@ -96,7 +96,6 @@ def generate_table(
     :param fhir_url: URL to a FHIR server.
     :param cred_manager: Service used to get an access token used to make a
         request.
-    :param return:
     """
     output_path.mkdir(parents=True, exist_ok=True)
     for resource_type in schema:
@@ -163,7 +162,6 @@ def generate_all_tables_in_schema(
     :param fhir_url: URL to a FHIR server.
     :param cred_manager: Service used to get an access token used to make a
         request.
-    :param return:
     """
 
     schema = load_schema(schema_path)
@@ -178,11 +176,10 @@ def generate_all_tables_in_schema(
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Return a fhirpathpy parser for a specific FHIRPath. This cached function minimizes
-    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
-    `fhirpath_expression`
+    A function that accepts a resource parameter, and returns the evaluated value at
+    fhirpath_expression on that resource.
 
     :param fhirpath_expression: The FHIRPath expression to evaluate
-    :param return:
+    :return: The evaluated value at fhirpath_expression for a given resource
     """
     return fhirpathpy.compile(fhirpath_expression)

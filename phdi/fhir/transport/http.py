@@ -32,8 +32,8 @@ def http_request_with_reauth(
     :param headers: JSON-type dictionary of headers to make the request with,
       including Authorization and content-type
     :param data: JSON data in the case that the request requires data to be
-      posted. Defaults to none.
-    :return: A requests.Request object containing the response from the FHIR server.
+      posted. Defaults to none
+    :return: A requests.Request object containing the response from the FHIR server
     """
 
     response = http_request_with_retry(
@@ -152,7 +152,6 @@ def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> N
     Log the error for a given an HTTP status code from a FHIR server's response.
 
     :param status_code: Status code returned by a FHIR server
-    :param return:
     """
     # TODO: We may dedcide to remove logging, and instead report errors back to
     # calling function as raised exceptions.

@@ -31,7 +31,6 @@ class AzureCredentialManager(BaseCredentialManager):
 
         :param resource_location: URL or other location of the requested resource.
         :param scope: A space-delimited list of scopes to limit access to resource.
-        :param return:
         """
         self.__resource_location = resource_location
         self.__scope = scope
@@ -55,7 +54,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
         :param force_refresh: force token refresh even if the current token is
           still valid
-        :param return: An access token from the Azure identity provider
+        :return: True if Azure access token is valid; false otherwise
         """
         if force_refresh or (self.access_token is None) or self._need_new_token():
             creds = self.get_credential_object()
@@ -67,7 +66,7 @@ class AzureCredentialManager(BaseCredentialManager):
         """
         Determine whether the token already stored for this object can be reused,
         or if it needs to be re-requested.
-        :param return: An access token from the Azure identity provider if still valid
+        :return: True if new Azure access token is needed; False otherwise
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()
@@ -109,6 +108,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
 
         :param container_url: The url at which to access the container
+        :return: Azure ContainerClient
         """
         creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
@@ -122,6 +122,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within Azure blob storage
         :param encoding: Encoding applied to the downloaded content
+        :return: Character blob (as a string) from given container and filename
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -179,6 +180,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
         :param container_name: The name of the container to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
+        :return: List of names for objects in given container
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
