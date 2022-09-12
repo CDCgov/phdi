@@ -54,7 +54,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
         :param force_refresh: force token refresh even if the current token is
           still valid
-        :return: True if Azure access token is valid; false otherwise
+        :return: Azure access token
         """
         if force_refresh or (self.access_token is None) or self._need_new_token():
             creds = self.get_credential_object()
