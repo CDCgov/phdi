@@ -36,7 +36,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           thresholdAll: .90
           thresholdNew: .85
-          coverageFile: ./tests/coverage.xml
+          coverageFile: ./coverage.xml
 
   code-check-python:
     runs-on: ubuntu-latest
