@@ -3,6 +3,7 @@ import pathlib
 import pytest
 import io
 
+from azure.storage.blob import ContainerClient
 from datetime import datetime, timezone
 from unittest import mock
 from phdi.cloud.azure import (
@@ -161,6 +162,11 @@ def test_azure_credential_manager_force_refresh_token(mock_az_creds):
     assert access_token == az_access_token_str2
 
 
+def test_azure_need_new_token_without_token():
+    cred_manager = AzureCredentialManager("https://some-url")
+    assert cred_manager._need_new_token()
+
+
 @mock.patch("phdi.cloud.gcp.google.auth.transport.requests.Request")
 @mock.patch("phdi.cloud.gcp.google.auth.default")
 def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
@@ -199,7 +205,6 @@ def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_re
     # Set dummy project ID, access token, and scope values.
     project_id = "some-project"
     token = "some-token"
-    scope = ["some-scope"]
 
     # Make dummy GCP credentials object.
     credentials = mock.Mock()
@@ -209,11 +214,14 @@ def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_re
 
     mock_gcp_creds.return_value = credentials, project_id
 
-    credential_manager = GcpCredentialManager(scope=scope)
+    credential_manager = GcpCredentialManager()
 
     # When invalid credentials are encountered they should be refreshed by the
     # credential manager when a new token is requested.
-    _ = credential_manager.get_credential_object()
+    assert credential_manager.get_project_id() is not None
+    scoped_credentials = credential_manager.get_credential_object()
+    assert scoped_credentials == credential_manager.scoped_credentials
+    assert credential_manager.project_id is not None
     _ = credential_manager.get_access_token()
     assert mock_gcp_requests.called
 
@@ -245,7 +253,7 @@ def test_gcp_credential_manager_handle_expired_credentials(
     assert mock_gcp_creds.call_count == 2
 
 
-@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+@mock.patch.object(ContainerClient, "from_container_url")
 def test_upload_object(mock_get_client):
     mock_blob_client = mock.Mock()
 
