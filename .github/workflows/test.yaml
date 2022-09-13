@@ -12,7 +12,7 @@ env:
   TEST_RUNNER_PYTHON_VERSION: 3.9
 
 jobs:
-  unit-test-phdi-building-blocks-lib:
+  unit-test-phdi-lib:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,11 +29,7 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: Run pytest
-        run: poetry run pytest
-
-  code-check-python:
-    runs-on: ubuntu-latest
-    steps:
+        run: poetry run pytest --cov-report xml:coverage.xml
       - name: Python Test Coverage
         uses: orgoro/coverage@v2
         with:
@@ -42,7 +38,7 @@ jobs:
           thresholdNew: .85
           coverageFile: ./tests/coverage.xml
 
-  unittest-coverage-python:
+  code-check-python:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
