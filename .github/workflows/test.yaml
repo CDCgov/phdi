@@ -34,6 +34,17 @@ jobs:
   code-check-python:
     runs-on: ubuntu-latest
     steps:
+      - name: Python Test Coverage
+        uses: orgoro/coverage@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          thresholdAll: .90
+          thresholdNew: .85
+          coverageFile: ./tests/coverage.xml
+
+  unittest-coverage-python:
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
