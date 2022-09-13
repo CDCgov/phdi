@@ -22,14 +22,13 @@ def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict
 # facing (i.e. make it more robust, less fragile, etc.)
 def get_field(resource: dict, field: str, use: str, default_field: int) -> str:
     """
-    For a given field (such as name or address), find the first-occuring
-    instance of the field in a given FHIR-formatted JSON dict, such that
-    the instance is associated with a particular "use" case of the field
-    (use case here refers to the FHIR-based usage of classifying how a
-    value is used in reporting). For example, find the first name for a
-    patient that has a "use" of "official" (meaning the name is used
-    for official reports). If no instance of a field with the requested
-    use case can be found, instead return a specified default field.
+    Find the first-occuring instance of the field in a given FHIR-formatted JSON dict,
+    such that the instance is associated with a particular "use" case of a given field
+    (such as name or address). Use case here refers to the FHIR-based usage of
+    classifying how a value is used in reporting. For example, find the first name for a
+    patient that has a "use" of "official" (meaning the name is used for official
+    reports). If no instance of a field with the requested use case can be found,
+    instead return a specified default field.
 
     :param resource: Resource from a FHIR bundle
     :param field: The field to extract
@@ -55,6 +54,7 @@ def get_one_line_address(address: dict) -> str:
     JSON dictionary holding address information.
 
     :param address: The address bundle
+    :return: A one-line string representation of an address
     """
     raw_one_line = " ".join(address.get("line", []))
     raw_one_line += f" {address.get('city')}, {address.get('state')}"

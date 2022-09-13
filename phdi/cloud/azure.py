@@ -42,18 +42,20 @@ class AzureCredentialManager(BaseCredentialManager):
     def get_credential_object(self) -> object:
         """
         Get an Azure-specific credential object.
-        This returns an instance of one of the \\*Credential objects from the
+
+        :return: An instance of one of the \\*Credential objects from the
         `azure.identity` package.
         """
         return DefaultAzureCredential()
 
     def get_access_token(self, force_refresh: bool = False) -> str:
         """
-        Obtain an access token from the Azure identity provider.  Return the
+        Obtain an access token from the Azure identity provider. Return the
         access token string, refreshed if expired or force_refresh is specified.
 
         :param force_refresh: force token refresh even if the current token is
           still valid
+        :return: Azure access token
         """
         if force_refresh or (self.access_token is None) or self._need_new_token():
             creds = self.get_credential_object()
@@ -65,7 +67,7 @@ class AzureCredentialManager(BaseCredentialManager):
         """
         Determine whether the token already stored for this object can be reused,
         or if it needs to be re-requested.
-
+        :return: True if new Azure access token is needed; False otherwise
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()
@@ -100,13 +102,14 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
     def _get_container_client(self, container_url: str) -> ContainerClient:
         """
-        Obtains a client connected to an Azure storage container by
+        Obtain a client connected to an Azure storage container by
         utilizing the first valid credentials Azure can find. For
         more information on the order in which the credentials are
         checked, see the Azure documentation:
         https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
 
         :param container_url: The url at which to access the container
+        :return: Azure ContainerClient
         """
         creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
@@ -115,11 +118,12 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         self, container_name: str, filename: str, encoding: str = "UTF-8"
     ) -> str:
         """
-        Downloads a character blob from storage and returns it as a string.
+        Download a character blob from storage and return it as a string.
 
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within Azure blob storage
         :param encoding: Encoding applied to the downloaded content
+        :return: Character blob (as a string) from given container and filename
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -138,7 +142,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         filename: str,
     ) -> None:
         """
-        Uploads the content of a given message to Azure blob storage.
+        Upload the content of a given message to Azure blob storage.
         Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
@@ -158,6 +162,8 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
     def list_containers(self) -> List[str]:
         """
         List names for this CloudContainerConnection's containers.
+
+        :return: a list of container names
         """
         creds = self.cred_manager.get_credential_object()
         service_client = BlobServiceClient(
@@ -177,6 +183,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
         :param container_name: The name of the container to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
+        :return: List of names for objects in given container
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
