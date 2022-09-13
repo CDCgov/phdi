@@ -5,19 +5,19 @@ import yaml
 from unittest import mock
 
 from phdi.fhir.tabulation.tables import (
-    apply_selection_criteria,
+    _apply_selection_criteria,
     apply_schema_to_resource,
     generate_all_tables_in_schema,
     generate_table,
 )
 
 
-def test_apply_selection_criteria():
+def test__apply_selection_criteria():
     test_list = ["one", "two", "three"]
-    assert apply_selection_criteria(test_list, "first") == "one"
-    assert apply_selection_criteria(test_list, "last") == "three"
-    assert apply_selection_criteria(test_list, "random") in test_list
-    assert apply_selection_criteria(test_list, "all") == ",".join(test_list)
+    assert _apply_selection_criteria(test_list, "first") == "one"
+    assert _apply_selection_criteria(test_list, "last") == "three"
+    assert _apply_selection_criteria(test_list, "random") in test_list
+    assert _apply_selection_criteria(test_list, "all") == ",".join(test_list)
 
 
 def test_apply_schema_to_resource():
