@@ -155,3 +155,23 @@ def test_geocode_from_dict():
     }
     assert geocoded_response == smarty_client.geocode_from_dict(input_dict)
     smarty_client.client.send_lookup.assert_called()
+
+
+def test_blank_geocode_inputs():
+    auth_id = mock.Mock()
+    auth_token = mock.Mock()
+    smarty_client = SmartyGeocodeClient(auth_id, auth_token)
+    assert smarty_client.client is not None
+
+    geocode_result = None
+    try:
+        geocode_result = smarty_client.geocode_from_str("")
+    except Exception as e:
+        assert repr(e) == "Exception('Cannot geocode an empty string')"
+        assert geocode_result is None
+
+    try:
+        geocode_result = smarty_client.geocode_from_dict({})
+    except Exception as e:
+        assert repr(e) == "Exception('Must include street information at a minimum')"
+        assert geocode_result is None

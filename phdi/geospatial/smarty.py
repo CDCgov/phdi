@@ -41,10 +41,17 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         Geocodes a string-formatted address using SmartyStreets. If the result
         comes back valid, output is stored in a GeocodeResult object. If the
         result could not be latitude- or longitude-located, then Smarty failed
-        to precisely geocode the address, so no result is returned.
+        to precisely geocode the address, so no result is returned. Raises
+        an error if the provided address is empty.
 
         :param address: The address to geocode, given as a string
         """
+
+        # The smarty Lookup class will parse a BadRequestError but retry
+        # 5 times if the lookup address is blank, so catch that here
+        if address == "":
+            raise Exception("Cannot geocode an empty string")
+
         lookup = Lookup(street=address)
         self.__client.send_lookup(lookup)
         return self._parse_smarty_result(lookup)
@@ -58,6 +65,11 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         :param address: a dictionary with fields outlined above
         """
 
+        # Smarty geocode requests must include a street level
+        # field in the payload, otherwise generates BadRequestError
+        if not "street" in address:
+            raise Exception("Must include street information at a minimum")
+
         # Configure the lookup with whatever provided address values
         # were in the user-given dictionary
         lookup = Lookup()
@@ -70,7 +82,6 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         lookup.urbanization = address.get("urbanization", "")
         lookup.match = "strict"
 
-        # Geocode and return
         self.__client.send_lookup(lookup)
         return self._parse_smarty_result(lookup)
 
