@@ -26,7 +26,7 @@ def test_missing_address():
     assert actual == expected
 
 
-def test_add_patient_identifier_by_bundle():
+def test_add_patient_identifier_by_bundle_overwrite():
     salt_str = "super-legit-salt"
 
     incoming_bundle = json.load(
@@ -56,7 +56,7 @@ def test_add_patient_identifier_by_bundle():
             assert resource["resource"]["identifier"][-1] == expected_new_identifier
 
 
-def test_patient_identifier():
+def test_patient_identifier_overwrite():
     salt_str = "super-legit-salt"
 
     incoming_bundle = json.load(
@@ -84,4 +84,68 @@ def test_patient_identifier():
             add_patient_identifier(resource, salt_str, True)
             assert len(resource["identifier"]) == 2
             assert resource["identifier"][-1] == expected_new_identifier
+            break
+
+
+def test_add_patient_identifier_by_bundle():
+    salt_str = "super-legit-salt"
+
+    incoming_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "patient_with_linking_id_bundle.json"
+        )
+    )
+
+    plaintext = (
+        "John-Tiberius-Shepard-2053-11-07-"
+        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+    )
+
+    expected_new_identifier = {
+        "value": generate_hash_str(plaintext, salt_str),
+        "system": "urn:ietf:rfc:3986",
+        "use": "temp",
+    }
+
+    new_bundle = add_patient_identifier_in_bundle(incoming_bundle, salt_str, False)
+    assert new_bundle != incoming_bundle
+    assert len(new_bundle["entry"]) == 3
+
+    for resource in new_bundle["entry"]:
+        if resource["resource"]["resourceType"] == "Patient":
+            assert len(resource["resource"]["identifier"]) == 2
+            assert resource["resource"]["identifier"][-1] == expected_new_identifier
+
+
+def test_add_patient_identifier():
+    salt_str = "super-legit-salt"
+
+    incoming_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "patient_with_linking_id_bundle.json"
+        )
+    )
+
+    plaintext = (
+        "John-Tiberius-Shepard-2053-11-07-"
+        + "1234 Silversun Strip Zakera Ward, Citadel 99999"
+    )
+
+    expected_new_identifier = {
+        "value": generate_hash_str(plaintext, salt_str),
+        "system": "urn:ietf:rfc:3986",
+        "use": "temp",
+    }
+
+    for entry in incoming_bundle["entry"]:
+        if entry["resource"]["resourceType"] == "Patient":
+            resource = entry.get("resource")
+            new_resource = add_patient_identifier(resource, salt_str, False)
+            assert len(new_resource["identifier"]) == 2
+            assert new_resource["identifier"][-1] == expected_new_identifier
+            assert new_resource != resource
             break

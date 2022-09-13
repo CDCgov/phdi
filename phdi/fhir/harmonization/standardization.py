@@ -1,4 +1,4 @@
-from copy import copy
+import copy
 from typing import List, Literal, Union
 from phdi.harmonization import (
     standardize_name,
@@ -15,9 +15,8 @@ def standardize_names(
     overwrite: bool = True,
 ) -> dict:
     """
-    Given either a FHIR bundle or a FHIR resource, transform all names
-    contained in any resource in the input.  The default standardization
-    behavior is our defined non-numeric, space-trimming, full
+    Standardize all names contained in a given FHIR bundle or a FHIR resource. The
+    default standardization behavior is our defined non-numeric, space-trimming, full
     capitalization standardization, but other modes may be specified.
 
     :param data: Either a FHIR bundle or a FHIR-formatted JSON dict
@@ -51,18 +50,15 @@ def standardize_names(
 
 def standardize_phones(data: dict, overwrite=True) -> dict:
     """
-    Given a FHIR bundle or a FHIR resource, standardize all phone
-    numbers contained in any resources in the input data.
-    Standardization is done according to the underlying
-    standardize_phone function in phdi.harmonization, so for more
-    information on country-coding and parsing, see the relevant
-    docstring.
+    Standardize all phone numbers in a given FHIR bundle or a FHIR resource.
+    Standardization is done according to the underlying standardize_phone function in
+    phdi.harmonization. For more information on country-coding and parsing, see the
+    relevant docstring.
 
     :param data: A FHIR bundle or FHIR-formatted JSON dict
     :param overwrite: Whether to replace the original phone numbers
       in the input data with the standardized versions (default is yes)
-    :return: The bundle or resource with phones appropriately
-      standardized
+    :return: The bundle or resource with phones appropriately standardized
     """
 
     if not overwrite:
@@ -88,7 +84,7 @@ def _standardize_names_in_resource(
     case: Literal["upper", "lower", "title"] = "upper",
     remove_numbers: bool = True,
     overwrite: bool = True,
-) -> Union[dict, None]:
+) -> dict:
     """
     Helper method to standardize all found names in a given resource.
     The resource can be of any type currently supported by the
@@ -108,8 +104,7 @@ def _standardize_names_in_resource(
       names in the resource
     :param overwrite: Whether to overwrite the input data with the
       new, standardized value (default is yes)
-    :return: The resource (or a copy thereof) with standardized
-      information in place of the raw
+    :return: The resource with appropriately standardized names
     """
 
     if not overwrite:
@@ -158,17 +153,17 @@ def _extract_countries_from_resource(
     resource: dict, code_type: Literal["alpha_2", "alpha_3", "numeric"] = "alpha_2"
 ) -> List[str]:
     """
-    Given a FHIR resource, build a list containing all of the counries
-    found in the addresses associated with that resource in a standardized
-    form sepcified by code_type. If the resource is not of a supported
-    type, no countries will be contained in the returned list. Currently
-    supported resource types are:
+    Build a list containing all of the countries, standardized by code_type, in the
+    addresses of a given FHIR resource. If the resource is not of a supported type, no
+    countries will be returned. Currently supported resource types are:
 
     - Patient
 
     :param resource: A FHIR-formatted JSON dictionary
     :param code_type: A string equal to 'alpha_2', 'alpha_3', or 'numeric'
       to specify which type of standard country identifier to generate
+    :return: A list of all the standardized countries found in the resource's
+     addresses
     """
     countries = []
     resource_type = resource.get("resourceType")

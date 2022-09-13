@@ -6,7 +6,7 @@ import pyarrow.parquet as pq
 import yaml
 
 from pathlib import Path
-from typing import Literal, List
+from typing import Literal, List, Union
 
 
 def load_schema(path: str) -> dict:
@@ -16,6 +16,7 @@ def load_schema(path: str) -> dict:
     If the file can't be found, raises an error.
 
     :param path: File path to a YAML file holding a schema
+    :return: A dict representing a schema read from the given path
     """
     try:
         with open(path, "r") as file:
@@ -30,7 +31,7 @@ def write_table(
     output_file_name: pathlib.Path,
     file_format: Literal["parquet", "csv"],
     writer: pq.ParquetWriter = None,
-) -> None:
+) -> Union[None, pq.ParquetWriter]:
     """
     Given data stored as a list of dictionaries, where all dicts
     have a common set of keys, write the set of data to an output
@@ -46,7 +47,8 @@ def write_table(
     :param output_format: The file format of the table to be written
     :param writer: Optional; a writer object that can be maintained
       between different calls of this function to support file formats
-      that cannot be appended to after being written (e.g. parquet).
+      that cannot be appended to after being written (e.g. parquet)
+    :return: pq.ParquetWriter if file_format is parquet; else None
     """
 
     if file_format == "parquet":
@@ -71,8 +73,8 @@ def print_schema_summary(
     display_head: bool = False,
 ) -> None:
     """
-    Given a directory containing tables in either CSV or Parquet
-    format, print a summary of each table.
+    Print a summary of each CSV of Parquet formatted table in a given directory of
+    tables.
 
     :param directory: Path to a direct holding table files
     :param display_head: Print the head of each table when true.
