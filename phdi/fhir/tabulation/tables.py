@@ -4,7 +4,7 @@ import random
 import pathlib
 
 from functools import cache
-from typing import Any, Callable, Literal, List, Union
+from typing import Any, Callable, Literal, List
 
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import fhir_server_get
@@ -13,16 +13,17 @@ from phdi.tabulation.tables import load_schema, write_table
 
 def _apply_selection_criteria(
     value: List[Any],
-    selection_criteria: Literal["first", "last", "random", "all"],
-) -> Union[str, List[str]]:
+    selection_criteria: Literal["first", "last", "random"],
+) -> str:
     """
-    Given a list of values parsed from a FHIR resource, return value(s) according to the
-    selection criteria. In general a single value is returned, but when
-    selection_criteria is set to "all" a list containing all of the parsed values is
-    returned.
+    Return value(s), according to the selection criteria, from a given list of values
+    parsed from a FHIR resource. A single string value is returned - if the selected
+    value is a complex structure (list or dict), it is converted to a string.
 
-    :param value: A list containing the values parsed from a FHIR resource.
-    :param selection_criteria: A string indicating which element(s) of a list to select.
+    :param value: A list containing the values parsed from a FHIR resource
+    :param selection_criteria: A string indicating which element(s) of a list to select
+    :return: Value(s) parsed from a FHIR resource that conform to the selection
+      criteria
     """
 
     if selection_criteria == "first":
@@ -46,15 +47,16 @@ def _apply_selection_criteria(
 
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
-    Creates and returns a dictionary of data based on a FHIR resource and a schema. The
+    Create and return a dictionary of data based on a FHIR resource and a schema. The
     keys of the created dict are the "new names" for the fields in the given schema, and
     the values are the elements of the given resource that correspond to these fields.
     Here, "new name" is a property contained in the schema that specifies what a
     particular variable should be called. If a schema can't be found for the given
     resource type, the raw resource is instead returned.
 
-    :param resource: A FHIR resource on which to apply a schema.
-    :param schema: A schema specifying the desired values by FHIR resource type.
+    :param resource: A FHIR resource on which to apply a schema
+    :param schema: A schema specifying the desired values by FHIR resource type
+    :return: A dictionary of data with the desired values specified in the schema
     """
 
     data = {}
@@ -83,9 +85,9 @@ def generate_table(
     output_format: Literal["parquet"],
     fhir_url: str,
     cred_manager: BaseCredentialManager,
-):
+) -> None:
     """
-    Given the schema for a single table, make the table.
+    Make a table for a single schema.
 
     :param schema: A schema specifying the desired values by FHIR resource type.
     :param output_path: A path specifying where the table should be written.
@@ -146,9 +148,9 @@ def generate_all_tables_in_schema(
     output_format: Literal["parquet"],
     fhir_url: str,
     cred_manager: BaseCredentialManager,
-):
+) -> None:
     """
-    Given the url for a FHIR server, the location of a schema file, and and output
+    Given the url for a FHIR server, the location of a schema file, and the output
     directory generate the specified schema and store the tables in the desired
     location.
 
@@ -173,10 +175,11 @@ def generate_all_tables_in_schema(
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes
-    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given
-    `fhirpath_expression`
+    A function that accepts a resource parameter, and returns the evaluated value at
+    fhirpath_expression on that resource.
 
     :param fhirpath_expression: The FHIRPath expression to evaluate
+    :return: A function that, when called passing in a FHIR resource, will return value
+      at fhirpath_expression
     """
     return fhirpathpy.compile(fhirpath_expression)

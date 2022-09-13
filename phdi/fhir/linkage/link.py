@@ -23,6 +23,7 @@ def add_patient_identifier_in_bundle(
     :param overwrite: Whether to write the new standardizations
         directly into the given bundle, changing the original data (True
         is yes)
+    :return: The bundle, resources updated with additional patient identifier
     """
     if not overwrite:
         bundle = copy.deepcopy(bundle)
@@ -48,6 +49,7 @@ def add_patient_identifier(patient_resource, salt_str, overwrite):
     :param overwrite: Whether to write the new standardizations
         directly into the given bundle, changing the original data (True
         is yes)
+    :return: The resource updated with additional patient identifier
     """
     if not overwrite:
         patient_resource = copy.deepcopy(patient_resource)
