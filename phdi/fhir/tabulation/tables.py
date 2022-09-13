@@ -11,7 +11,7 @@ from phdi.fhir.transport import fhir_server_get
 from phdi.tabulation.tables import load_schema, write_table
 
 
-def apply_selection_criteria(
+def _apply_selection_criteria(
     value: List[Any],
     selection_criteria: Literal["first", "last", "random"],
 ) -> str:
@@ -73,7 +73,7 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
             data[resource_schema[field]["new_name"]] = ""
         else:
             selection_criteria = resource_schema[field]["selection_criteria"]
-            value = apply_selection_criteria(value, selection_criteria)
+            value = _apply_selection_criteria(value, selection_criteria)
             data[resource_schema[field]["new_name"]] = str(value)
 
     return data
