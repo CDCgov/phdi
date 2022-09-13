@@ -10,17 +10,22 @@ from phdi.harmonization import (
 
 
 def test_standardize_hl7_datetimes():
-    message_1 = open(
+    message_long_date = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
         / "FileSingleMessageLongDate.hl7"
     ).read()
-    message_2 = open(
+    massage_timezone = open(
         pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageLongTZ.hl7"
+    ).read()
+    massage_invalid_segments = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "FileSingleMessageInvalidSegments.hl7"
     ).read()
 
     assert (
-        standardize_hl7_datetimes(message_1)
+        standardize_hl7_datetimes(message_long_date)
         == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000||VXU^V04"
         + "|2020051411020600|P^|2.4^^|||ER\n"
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
@@ -32,7 +37,7 @@ def test_standardize_hl7_datetimes():
         + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|\n"
     )
     assert (
-        standardize_hl7_datetimes(message_2)
+        standardize_hl7_datetimes(massage_timezone)
         == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000-0400||VXU^V04"
         + "|2020051411020600|P^|2.4^^|||ER\n"
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
@@ -42,6 +47,15 @@ def test_standardize_hl7_datetimes():
         + "PV1||R||||||||||||||||||\n"
         + "RXA|0|999|20180809|20180809|08^HepB pediatric^CVX^90744^HepB pediatric^CPT"
         + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|||||||||||NA\n"
+    )
+    # Test for invalid segments
+    assert (
+        standardize_hl7_datetimes(massage_invalid_segments)
+        == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
+        + "2020051411020600|P^|2.4^^|||ER\n"
+        + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "CCC|||||||||||02^^^^^|Y||||A\n"
     )
 
 
