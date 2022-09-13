@@ -21,7 +21,7 @@ def test_standardize_hl7_datetimes():
     massage_invalid_segments = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
-        / "FileSingleMessageinvalidSegments.hl7"
+        / "FileSingleMessageInvalidSegments.hl7"
     ).read()
 
     assert (
