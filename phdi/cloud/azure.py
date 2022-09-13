@@ -42,7 +42,8 @@ class AzureCredentialManager(BaseCredentialManager):
     def get_credential_object(self) -> object:
         """
         Get an Azure-specific credential object.
-        This returns an instance of one of the \\*Credential objects from the
+
+        :return: An instance of one of the \\*Credential objects from the
         `azure.identity` package.
         """
         return DefaultAzureCredential()
@@ -161,6 +162,8 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
     def list_containers(self) -> List[str]:
         """
         List names for this CloudContainerConnection's containers.
+
+        :return: a list of container names
         """
         creds = self.cred_manager.get_credential_object()
         service_client = BlobServiceClient(

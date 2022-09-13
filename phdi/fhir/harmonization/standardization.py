@@ -84,7 +84,7 @@ def _standardize_names_in_resource(
     case: Literal["upper", "lower", "title"] = "upper",
     remove_numbers: bool = True,
     overwrite: bool = True,
-) -> Union[dict, None]:
+) -> dict:
     """
     Helper method to standardize all found names in a given resource.
     The resource can be of any type currently supported by the

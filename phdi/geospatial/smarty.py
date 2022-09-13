@@ -44,7 +44,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         to precisely geocode the address, so no result is returned.
 
         :param address: The address to geocode, given as a string
-        :return: A GeocodeResult object (if valid result) or None (if invalid
+        :return: A GeocodeResult object (if valid result) or None (if no valid
           result)
         """
         lookup = Lookup(street=address)
@@ -58,7 +58,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         return, otherwise the return None.
 
         :param address: a dictionary with fields outlined above
-        :return: A GeocodeResult object (if valid result) or None (if invalid
+        :return: A GeocodeResult object (if valid result) or None (if no valid
           result)
         """
 
@@ -79,7 +79,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         return self._parse_smarty_result(lookup)
 
     @staticmethod
-    def _parse_smarty_result(lookup):
+    def _parse_smarty_result(lookup) -> Union[GeocodeResult, None]:
         """
         Private helper function to parse a returned Smarty geocoding result into
         our standardized GeocodeResult class. If the Smarty lookup is null or
@@ -88,7 +88,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
         :param lookup: The us_street.lookup client instantiated for geocoding
         :return: A parsed GeocodeResult object (if valid result) or None (if
-          invalid result)
+          no valid result)
         """
         # Valid responses have results with lat/long
         if lookup.result and lookup.result[0].metadata.latitude:

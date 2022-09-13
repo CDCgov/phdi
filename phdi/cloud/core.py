@@ -10,7 +10,9 @@ class BaseCredentialManager(ABC):
     @abstractmethod
     def get_credential_object(self) -> object:
         """
-        Return a cloud-specific credential object.
+        Get a cloud-specific credential object.
+
+        :return: A credential object
         """
         pass
 
@@ -18,6 +20,8 @@ class BaseCredentialManager(ABC):
     def get_access_token(self) -> str:
         """
         Return an access token using the managed credentials.
+
+        :return: An access token
         """
         pass
 
@@ -60,6 +64,8 @@ class BaseCloudContainerConnection(ABC):
     def list_containers(self) -> List[str]:
         """
         List names for this CloudContainerConnection's containers.
+
+        :return: A list of container names
         """
         pass
 
@@ -70,5 +76,6 @@ class BaseCloudContainerConnection(ABC):
 
         :param container_name: The name of the container to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
+        :return: A list of objects within a container
         """
         pass

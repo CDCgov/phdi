@@ -75,10 +75,8 @@ def standardize_phone(
     :param countries: An optional list containing 2 letter ISO codes
       associated with the phone numbers, signifying to which countries
       the phone numbers might belong
-    :return: Either a string representing the cleaned phone numbers,
-      or a list of strings of cleaned numbers; if one phone number in
-      the input list couldn't be standardized, the index in the returned
-      list for that phone number will be the empty string
+    :return: Either a string or a list of strings, depending on the
+      input of raw_phone, holding the standardized phone number(s)
     """
 
     # Base cases: we always want to try the phone # on its own first;

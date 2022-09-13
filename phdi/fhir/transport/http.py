@@ -119,9 +119,7 @@ def upload_bundle_to_fhir_server(
     return response
 
 
-def fhir_server_get(
-    url: str, cred_manager: BaseCredentialManager
-) -> requests.models.Response:
+def fhir_server_get(url: str, cred_manager: BaseCredentialManager) -> requests.Response:
     """
     Submit a GET request to a FHIR server given a url and access token for
     authentication.
