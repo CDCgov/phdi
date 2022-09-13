@@ -10,22 +10,22 @@ from phdi.harmonization import (
 
 
 def test_standardize_hl7_datetimes():
-    message_1 = open(
+    massage_long_date = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
         / "FileSingleMessageLongDate.hl7"
     ).read()
-    message_2 = open(
+    massage_timezone = open(
         pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageLongTZ.hl7"
     ).read()
-    message_3 = open(
+    massage_invalid_segments = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
-        / "FileSingleMessageInvalidSegments.hl7"
+        / "FileSingleMessageinvalidSegments.hl7"
     ).read()
 
     assert (
-        standardize_hl7_datetimes(message_1)
+        standardize_hl7_datetimes(massage_long_date)
         == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000||VXU^V04"
         + "|2020051411020600|P^|2.4^^|||ER\n"
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
@@ -37,7 +37,7 @@ def test_standardize_hl7_datetimes():
         + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|\n"
     )
     assert (
-        standardize_hl7_datetimes(message_2)
+        standardize_hl7_datetimes(massage_timezone)
         == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000-0400||VXU^V04"
         + "|2020051411020600|P^|2.4^^|||ER\n"
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
@@ -50,7 +50,7 @@ def test_standardize_hl7_datetimes():
     )
     # Test for invalid segments
     assert (
-        standardize_hl7_datetimes(message_3)
+        standardize_hl7_datetimes(massage_invalid_segments)
         == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
         + "2020051411020600|P^|2.4^^|||ER\n"
         + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
