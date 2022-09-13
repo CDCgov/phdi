@@ -20,6 +20,9 @@ def download_from_fhir_export_response(
     :param export_response: JSON-type dictionary holding the response from
       the export URL the FHIR server set up
     :param cred_manager: Service used to get an access token used to make a request
+    :return: An iterator of tuples. Each tuple is comprised of:
+      - FHIR resource type (str)
+      - Export file content (io.TextIO)
     """
     # TODO: Handle error array that could be contained in the response content.
 
@@ -42,6 +45,7 @@ def _download_export_blob(
     :param blob_url: Blob URL location to download from blob storage
     :param cred_manager: Service used to get an access token used to make a request
     :param encoding: encoding to apply to the ndjson content, defaults to "utf-8"
+    :return: Content of export file located at `blob_url`
     """
     bytes_buffer = io.BytesIO()
     azure_creds = cred_manager.get_credential_object()
