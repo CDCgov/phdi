@@ -22,7 +22,7 @@ def load_schema(path: str) -> dict:
         with open(path, "r") as file:
             schema = yaml.safe_load(file)
         return schema
-    except FileNotFoundError:
+    except FileNotFoundError:  # pragma: no cover
         raise Exception("Could not find path to given file")
 
 
