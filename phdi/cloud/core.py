@@ -14,7 +14,7 @@ class BaseCredentialManager(ABC):
 
         :return: A credential object
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def get_access_token(self) -> str:
@@ -23,7 +23,7 @@ class BaseCredentialManager(ABC):
 
         :return: An access token
         """
-        pass
+        pass  # pragma: no cover
 
 
 class BaseCloudContainerConnection(ABC):
@@ -40,7 +40,7 @@ class BaseCloudContainerConnection(ABC):
         :return: The `stream` parameter, if supplied. Otherwise a new stream object
         containing blob content.
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def upload_object(
@@ -58,7 +58,7 @@ class BaseCloudContainerConnection(ABC):
         :param container_name: The name of the target container for upload
         :param filename: Location of file within storage container
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def list_containers(self) -> List[str]:
@@ -67,7 +67,7 @@ class BaseCloudContainerConnection(ABC):
 
         :return: A list of container names
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def list_objects(self) -> List[str]:
@@ -78,4 +78,4 @@ class BaseCloudContainerConnection(ABC):
         :param prefix: Filter for objects whose filenames begin with this value
         :return: A list of objects within a container
         """
-        pass
+        pass  # pragma: no cover
