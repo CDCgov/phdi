@@ -10,7 +10,7 @@ from phdi.harmonization import (
 
 
 def test_standardize_hl7_datetimes():
-    massage_long_date = open(
+    message_long_date = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
         / "FileSingleMessageLongDate.hl7"
@@ -25,7 +25,7 @@ def test_standardize_hl7_datetimes():
     ).read()
 
     assert (
-        standardize_hl7_datetimes(massage_long_date)
+        standardize_hl7_datetimes(message_long_date)
         == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|20200514010000||VXU^V04"
         + "|2020051411020600|P^|2.4^^|||ER\n"
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"

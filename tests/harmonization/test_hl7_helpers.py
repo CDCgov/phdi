@@ -22,7 +22,9 @@ def test_default_hl7_value():
         pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
     ).read()
     message_default_invalid_field = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "massage_invalid_segments.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "FileSingleMessageInvalidSegments.hl7"
     ).read()
 
     message_default_empty_field = _default_hl7_value(
@@ -86,17 +88,21 @@ def test_default_hl7_value():
 
 
 def test_normalize_hl7_datetime_segment():
-    massage_long_date = (
-        open(pathlib.Path(__file__).parent.parent / "assets" / "massage_long_date.hl7")
+    message_long_date = (
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "FileSingleMessageLongDate.hl7"
+        )
         .read()
         .replace("\n", "\r")
     )
 
-    massage_long_date_parsed = hl7.parse(massage_long_date)
+    message_long_date_parsed = hl7.parse(message_long_date)
 
-    _normalize_hl7_datetime_segment(massage_long_date_parsed, "PID", [7])
+    _normalize_hl7_datetime_segment(message_long_date_parsed, "PID", [7])
 
-    assert str(massage_long_date_parsed).startswith(
+    assert str(message_long_date_parsed).startswith(
         "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|202005140100001234567890|"
         + "|VXU^V04|2020051411020600|P^|2.4^^|||ER\r"
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|"
