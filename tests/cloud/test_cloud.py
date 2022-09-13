@@ -220,7 +220,7 @@ def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_re
     # credential manager when a new token is requested.
     assert credential_manager.get_project_id() is not None
     scoped_credentials = credential_manager.get_credential_object()
-    scoped_credentials == credential_manager.scoped_credentials
+    assert scoped_credentials == credential_manager.scoped_credentials
     assert credential_manager.project_id is not None
     _ = credential_manager.get_access_token()
     assert mock_gcp_requests.called
