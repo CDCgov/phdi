@@ -48,7 +48,7 @@ def test_standardize_hl7_datetimes():
         + "RXA|0|999|20180809|20180809|08^HepB pediatric^CVX^90744^HepB pediatric^CPT"
         + "|1.0|||01^^^^^~38193939^WIR immunization id^IMM_ID^^^|||||||||||NA\n"
     )
-    # Test for malformed segments
+    # Test for invalid segments
     assert (
         standardize_hl7_datetimes(message_3)
         == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"

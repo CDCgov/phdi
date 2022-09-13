@@ -21,6 +21,11 @@ def test_default_hl7_value():
     message_default_populated_field = open(
         pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
     ).read()
+    message_default_invalid_field = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "FileSingleMessageInvalidSegments.hl7"
+    ).read()
 
     message_default_empty_field = _default_hl7_value(
         message=message_default_empty_field,
@@ -36,6 +41,12 @@ def test_default_hl7_value():
     )
     message_default_populated_field = _default_hl7_value(
         message=message_default_populated_field,
+        segment_id="PID",
+        field_num=5,
+        default_value="some-default-value-populated",
+    )
+    message_default_invalid_field = _default_hl7_value(
+        message=message_default_invalid_field,
         segment_id="PID",
         field_num=5,
         default_value="some-default-value-populated",
@@ -65,6 +76,14 @@ def test_default_hl7_value():
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
         + "|2018080800000000000|M|||||||||||||||||||||\n"
         + "PD1|||||||||||02^^^^^|Y||||A\n"
+    )
+    assert (
+        message_default_invalid_field
+        == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
+        + "2020051411020600|P^|2.4^^|||ER\n"
+        + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "CCC|||||||||||02^^^^^|Y||||A\n"
     )
 
 
