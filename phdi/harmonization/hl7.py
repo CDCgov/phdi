@@ -106,8 +106,8 @@ def convert_hl7_batch_messages_to_list(
     }
     [FTS] (file trailer segment)
 
-    We ignore lines that start with these since we don't want to include
-    them in a message.
+    We ignore lines that start with these header/tail segments since we don't want to
+    include them in a message.
 
     :param content: the batch content to turn into a list
     :param delimiter: the character delimiting messages in the batch
@@ -199,8 +199,8 @@ def _normalize_hl7_datetime_segment(
     message: hl7.Message, segment_id: str, field_list: list
 ) -> None:
     """
-    Utility function used to apply datetime normalization
-    to multiple fields in a segment.
+    Apply datetime normalization to multiple fields in a segment,
+    overwriting the input segment.
 
     :param message: The HL7 message, represented as a list
       of indexable component strings (which is how the HL7 library
@@ -210,7 +210,6 @@ def _normalize_hl7_datetime_segment(
     :param field_list: The list of fields contained in the
       indexed message component, which are themselves indices to
       data strings
-    :return: None (overwrites the input segment)
     """
     try:
         for segment in message.segments(segment_id):

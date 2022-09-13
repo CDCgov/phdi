@@ -1,6 +1,7 @@
 import json
 import pathlib
 import pytest
+import io
 
 from datetime import datetime, timezone
 from unittest import mock
@@ -358,7 +359,9 @@ def test_download_object_cp1252(mock_get_client):
         object_container, object_path, "cp1252"
     )
 
-    assert download_content == "Testing windows-1252 encoding\n€\nœ\nŸ\n"
+    download_content_buffer = io.StringIO(download_content)
+
+    assert download_content_buffer.readline() == "Testing windows-1252 encoding € œ Ÿ"
 
     with pytest.raises(UnicodeDecodeError):
         object_content.decode("utf-8")
