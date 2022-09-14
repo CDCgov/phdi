@@ -34,6 +34,8 @@ hs_err_pid*
 .python-version
 _source
 _build
+.coverage
+coverage.xml
 
 # Azure Functions
 *local.settings.json

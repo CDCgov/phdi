@@ -12,7 +12,7 @@ env:
   TEST_RUNNER_PYTHON_VERSION: 3.9
 
 jobs:
-  unit-test-phdi-lib:
+  unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,8 +34,7 @@ jobs:
         uses: orgoro/coverage@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          thresholdAll: .90
-          thresholdNew: .85
+          thresholdAll: .85
           coverageFile: ./coverage.xml
 
   code-check-python:
