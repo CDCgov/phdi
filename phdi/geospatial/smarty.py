@@ -71,7 +71,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
         # Smarty geocode requests must include a street level
         # field in the payload, otherwise generates BadRequestError
-        if not "street" in address:
+        if address.get("street", "") == "":
             raise Exception("Must include street information at a minimum")
 
         # Configure the lookup with whatever provided address values
