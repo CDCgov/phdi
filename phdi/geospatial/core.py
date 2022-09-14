@@ -39,7 +39,7 @@ class BaseGeocodeClient(ABC):
         Function that uses the implementing client to perform geocoding
         on the provided address, which is formatted as a string.
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
@@ -62,4 +62,4 @@ class BaseGeocodeClient(ABC):
         function; however, a minimum of street, city, and state are suggested
         for the best matches.
         """
-        pass
+        pass  # pragma: no cover

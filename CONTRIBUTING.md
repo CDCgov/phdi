@@ -128,6 +128,12 @@ You can also create an HTML-formatted and -tagged report by running `coverage ht
 
 More information can be found in the documentation for [coverage](https://coverage.readthedocs.io/en/6.4.4/).
 
+##### Note on coverage of Abstract Classes
+
+In several places in the `phdi` library, we use Python's `AbstractBaseClass` to define a broad concept that will have other, more specific (i.e. vendor-specific, as with the `SmartyGeocodeClient`) implementations elsewhere. While some methods within an `AbstractBaseClass` will have implementations and/or docstrings, others will not, with the implementation being left to an inheriting class. In these cases, abstract methods and properties should be tagged with the inline decorator `# pragma: no cover` so that non-implemented functions do not count as "missed" lines in the trace evaluation for coverage statistics (since they can't be instantiated and run on their own). 
+
+See the [coverage.py docs](https://coverage.readthedocs.io/en/coverage-5.2.1/excluding.html) for more information.
+
 ##### Code coverage guidelines
 
 We recognize there's a lot of human judgment when it comes to writing test cases. It's impossible to plan for every scenario in which a function might be used, or think of every error that an input data type might cause. To ensure the repository is as robust as reasonably possible, we've developed the following principles around writing tests and code coverage.
