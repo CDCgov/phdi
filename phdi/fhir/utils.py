@@ -54,7 +54,7 @@ def get_field(resource: dict, field: str, use: str, default_field: int = 0) -> s
             (item for item in resource.get(field, []) if item.get("use") == use),
             resource.get(field)[default_field],
         )
-    except:
+    except Exception:
         raise IndexError(
             "Index of provided field default is beyond length of field array"
         )

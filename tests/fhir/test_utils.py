@@ -71,7 +71,7 @@ def test_get_field():
     except Exception as e:
         assert (
             repr(e)
-            == "IndexError('Index of provided field default is beyond length of field array')"
+            == "IndexError('Index of provided field default is beyond length of field array')"  # noqa
         )
 
 
