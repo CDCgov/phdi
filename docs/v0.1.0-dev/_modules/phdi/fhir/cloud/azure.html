@@ -53,6 +53,9 @@
 <span class="sd">    :param export_response: JSON-type dictionary holding the response from</span>
 <span class="sd">      the export URL the FHIR server set up</span>
 <span class="sd">    :param cred_manager: Service used to get an access token used to make a request</span>
+<span class="sd">    :return: An iterator of tuples. Each tuple is comprised of:</span>
+<span class="sd">      - FHIR resource type (str)</span>
+<span class="sd">      - Export file content (io.TextIO)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: Handle error array that could be contained in the response content.</span>
 
@@ -75,6 +78,7 @@
 <span class="sd">    :param blob_url: Blob URL location to download from blob storage</span>
 <span class="sd">    :param cred_manager: Service used to get an access token used to make a request</span>
 <span class="sd">    :param encoding: encoding to apply to the ndjson content, defaults to &quot;utf-8&quot;</span>
+<span class="sd">    :return: Content of export file located at `blob_url`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bytes_buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
     <span class="n">azure_creds</span> <span class="o">=</span> <span class="n">cred_manager</span><span class="o">.</span><span class="n">get_credential_object</span><span class="p">()</span>

@@ -42,7 +42,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.transport.http.http_request_with_retry">
 <span class="sig-prename descclassname"><span class="pre">phdi.transport.http.</span></span><span class="sig-name descname"><span class="pre">http_request_with_retry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/transport/http.html#http_request_with_retry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.transport.http.http_request_with_retry" title="Permalink to this definition">¶</a></dt>
-<dd><p>Executes an HTTP request, retrying the request if the returned HTTP status code
+<dd><p>Execute an HTTP request, retrying the request if the returned HTTP status code
 is one of a specified list of codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -51,23 +51,26 @@ is one of a specified list of codes.</p>
 <li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
 first attempt fails</p></li>
 <li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made. Currently supports
-GET and POST.</p></li>
+GET and POST</p></li>
 <li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
 POST, PUT, etc.) for the specific URL and query</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
 including Authorization and content-type</p></li>
 <li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none.</p></li>
+posted. Defaults to none</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> -- An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed</p>
+<dd class="field-even"><p><strong>ValueError</strong> -- An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
+to the request_type parameter</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>requests.models.Response</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A HTTP request response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>requests.models.Response</p>
 </dd>
 </dl>
-<p>to the request_type parameter.</p>
 </dd></dl>
 
 </section>
@@ -76,7 +79,7 @@ posted. Defaults to none.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.transport.http_request_with_retry">
 <span class="sig-prename descclassname"><span class="pre">phdi.transport.</span></span><span class="sig-name descname"><span class="pre">http_request_with_retry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/transport/http.html#http_request_with_retry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.transport.http_request_with_retry" title="Permalink to this definition">¶</a></dt>
-<dd><p>Executes an HTTP request, retrying the request if the returned HTTP status code
+<dd><p>Execute an HTTP request, retrying the request if the returned HTTP status code
 is one of a specified list of codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -85,23 +88,26 @@ is one of a specified list of codes.</p>
 <li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
 first attempt fails</p></li>
 <li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made. Currently supports
-GET and POST.</p></li>
+GET and POST</p></li>
 <li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
 POST, PUT, etc.) for the specific URL and query</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
 including Authorization and content-type</p></li>
 <li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none.</p></li>
+posted. Defaults to none</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> -- An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed</p>
+<dd class="field-even"><p><strong>ValueError</strong> -- An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
+to the request_type parameter</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>requests.models.Response</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A HTTP request response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>requests.models.Response</p>
 </dd>
 </dl>
-<p>to the request_type parameter.</p>
 </dd></dl>
 
 </section>

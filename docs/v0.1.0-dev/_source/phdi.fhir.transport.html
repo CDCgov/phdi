@@ -65,8 +65,11 @@ for export files to be generated</p></li>
 be generated</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The JSON-formatted HTTP response of a completed export operation as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -86,15 +89,18 @@ for export files to be generated</p></li>
 be generated</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A response from polled endpoint</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>polling.TimeoutException</strong> -- If the FHIR server continually returns a 202
 status indicating in progress until the timeout is reached</p></li>
 <li><p><strong>requests.HTTPError</strong> -- If an unexpected status code is returned</p></li>
 </ul>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>requests.models.Response</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>requests.models.Response</p>
 </dd>
 </dl>
 </dd></dl>
@@ -110,13 +116,13 @@ authentication.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) -- URL specifying a GET request on a FHIR server.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- URL specifying a GET request on a FHIR server</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request.</p></li>
+request</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server.</p>
+<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -127,7 +133,7 @@ request.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.http.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
-<dd><p>First, call <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>.  If the first call failed
+<dd><p>First, call <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>. If the first call failed
 with an authorization error (HTTP status 401), obtain a new token using the
 <cite>cred_manager</cite>, and if the original request had an Authorization header, replace
 with the new token and re-initiate <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>.</p>
@@ -145,11 +151,11 @@ POST, PUT, etc.) for the specific URL and query</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
 including Authorization and content-type</p></li>
 <li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none.</p></li>
+posted. Defaults to none</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server.</p>
+<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -160,19 +166,22 @@ posted. Defaults to none.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http.upload_bundle_to_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.http.</span></span><span class="sig-name descname"><span class="pre">upload_bundle_to_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#upload_bundle_to_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http.upload_bundle_to_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Import a FHIR resource to the FHIR server.
-The submissions may be Bundles or individual FHIR resources.</p>
+<dd><p>Import a FHIR resource bundle to the FHIR server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- FHIR bundle (type &quot;batch&quot;) to post</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in
+the bundle must contain a <cite>request</cite> element in addition to a <cite>resource</cite>
+The FHIR API provides additional details on creating
+[FHIR-conformant batch/transaction](<a class="reference external" href="https://hl7.org/fhir/http.html#transaction">https://hl7.org/fhir/http.html#transaction</a>)
+bundles</p></li>
 <li><p><strong>access_token</strong> -- FHIR Server access token</p></li>
 <li><p><strong>fhir_url</strong> (<em>str</em>) -- The url of the FHIR server to upload to</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server.</p>
+<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -208,8 +217,11 @@ for export files to be generated</p></li>
 be generated</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The JSON-formatted HTTP response of a completed export operation as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -222,13 +234,13 @@ authentication.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) -- URL specifying a GET request on a FHIR server.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- URL specifying a GET request on a FHIR server</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request.</p></li>
+request</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server.</p>
+<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -239,7 +251,7 @@ request.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
-<dd><p>First, call <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>.  If the first call failed
+<dd><p>First, call <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>. If the first call failed
 with an authorization error (HTTP status 401), obtain a new token using the
 <cite>cred_manager</cite>, and if the original request had an Authorization header, replace
 with the new token and re-initiate <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>.</p>
@@ -257,11 +269,11 @@ POST, PUT, etc.) for the specific URL and query</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
 including Authorization and content-type</p></li>
 <li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none.</p></li>
+posted. Defaults to none</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server.</p>
+<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -272,19 +284,22 @@ posted. Defaults to none.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.upload_bundle_to_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">upload_bundle_to_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#upload_bundle_to_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.upload_bundle_to_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Import a FHIR resource to the FHIR server.
-The submissions may be Bundles or individual FHIR resources.</p>
+<dd><p>Import a FHIR resource bundle to the FHIR server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- FHIR bundle (type &quot;batch&quot;) to post</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in
+the bundle must contain a <cite>request</cite> element in addition to a <cite>resource</cite>
+The FHIR API provides additional details on creating
+[FHIR-conformant batch/transaction](<a class="reference external" href="https://hl7.org/fhir/http.html#transaction">https://hl7.org/fhir/http.html#transaction</a>)
+bundles</p></li>
 <li><p><strong>access_token</strong> -- FHIR Server access token</p></li>
 <li><p><strong>fhir_url</strong> (<em>str</em>) -- The url of the FHIR server to upload to</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server.</p>
+<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>

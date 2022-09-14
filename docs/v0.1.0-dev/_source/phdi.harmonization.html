@@ -66,8 +66,8 @@ on the following header/tail segments:</p>
 [BTS] (batch trailer segment)
 }
 [FTS] (file trailer segment)</p>
-<p>We ignore lines that start with these since we don't want to include
-them in a message.</p>
+<p>We ignore lines that start with these header/tail segments since we don't want to
+include them in a message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -116,12 +116,10 @@ if it was possible. If not, the original message.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardization.standardize_country_code">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_country_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'alpha_2'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_country_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardization.standardize_country_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a string representation of a country (whether a full name
-such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot; or &quot;USA&quot;),
-first identify the country represented by the string, then
-generate the ISO 3611 standardized country identifier of the
-desired type. If the country cannot be determined, the function
-returns None.</p>
+<dd><p>Identify the country represented and generate the desired type of the ISO
+3611 standardized country identifier for a given string representation of a country
+(whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;
+or &quot;USA&quot;). If the country cannot be determined, return None.</p>
 <dl class="simple">
 <dt>Example: If raw_country = &quot;United States of America,&quot; then</dt><dd><ul class="simple">
 <li><p>alpha_2 would be &quot;US&quot;</p></li>
@@ -139,8 +137,11 @@ put in ISO 3611 standardized form</p></li>
 desired identifier type to generate</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The standardized country identifier found in the resource's addresses</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -148,10 +149,10 @@ desired identifier type to generate</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardization.standardize_name">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardization.standardize_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given one or more names, perform some basic standardization on each
-of them. All given input strings have punctuation characters removed,
-and then a variety of additional cleaning operations can be toggled
-on or off using the relevant parameter. The options include:</p>
+<dd><p>Perform basic standardization (described below) on each given name. All given input
+strings have punctuation characters removed, and then a variety of additional
+cleaning operations can be toggled on or off using the relevant parameter.
+The cleaning operations include:</p>
 <ul class="simple">
 <li><p>trim: stripping leading and trailing whitespace</p></li>
 <li><p>remove_numbers: remove all numeric characters from the input</p></li>
@@ -186,12 +187,11 @@ input of raw_name, holding the cleaned name(s)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardization.standardize_phone">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_phone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_phone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">countries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[None,</span> <span class="pre">'US']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_phone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardization.standardize_phone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given one or more phone numbers, and optionally a list of countries
-associated with those phone numbers, parse each phone number and
-generate its standardized ISO E.164 international format. If an
-input phone number can't be parsed, that number will return the
-empty string. The function attempts to parse the inputs using
-the first successful strategy out of the following:</p>
+<dd><p>Parse phone number and generate its standardized ISO E.164 international format for
+each given phone number and optional list of associated countries. If an input phone
+number can't be parsed, that number will return the empty string. The function
+attempts to parse the inputs using the first successful strategy out of the
+following:</p>
 <ol class="arabic simple">
 <li><p>parse the phone number on its own</p></li>
 <li><p>parse the phone number using the provided list of possible
@@ -208,10 +208,8 @@ the phone numbers might belong</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Either a string representing the cleaned phone numbers,
-or a list of strings of cleaned numbers; if one phone number in
-the input list couldn't be standardized, the index in the returned
-list for that phone number will be the empty string</p>
+<dd class="field-even"><p>Either a string or a list of strings, depending on the
+input of raw_phone, holding the standardized phone number(s)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Union</em>[str, <em>List</em>[str]]</p>
@@ -248,8 +246,8 @@ on the following header/tail segments:</p>
 [BTS] (batch trailer segment)
 }
 [FTS] (file trailer segment)</p>
-<p>We ignore lines that start with these since we don't want to include
-them in a message.</p>
+<p>We ignore lines that start with these header/tail segments since we don't want to
+include them in a message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -269,12 +267,10 @@ them in a message.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardize_country_code">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_country_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'alpha_2'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_country_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardize_country_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a string representation of a country (whether a full name
-such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot; or &quot;USA&quot;),
-first identify the country represented by the string, then
-generate the ISO 3611 standardized country identifier of the
-desired type. If the country cannot be determined, the function
-returns None.</p>
+<dd><p>Identify the country represented and generate the desired type of the ISO
+3611 standardized country identifier for a given string representation of a country
+(whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;
+or &quot;USA&quot;). If the country cannot be determined, return None.</p>
 <dl class="simple">
 <dt>Example: If raw_country = &quot;United States of America,&quot; then</dt><dd><ul class="simple">
 <li><p>alpha_2 would be &quot;US&quot;</p></li>
@@ -292,8 +288,11 @@ put in ISO 3611 standardized form</p></li>
 desired identifier type to generate</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The standardized country identifier found in the resource's addresses</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -327,10 +326,10 @@ if it was possible. If not, the original message.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardize_name">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardize_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given one or more names, perform some basic standardization on each
-of them. All given input strings have punctuation characters removed,
-and then a variety of additional cleaning operations can be toggled
-on or off using the relevant parameter. The options include:</p>
+<dd><p>Perform basic standardization (described below) on each given name. All given input
+strings have punctuation characters removed, and then a variety of additional
+cleaning operations can be toggled on or off using the relevant parameter.
+The cleaning operations include:</p>
 <ul class="simple">
 <li><p>trim: stripping leading and trailing whitespace</p></li>
 <li><p>remove_numbers: remove all numeric characters from the input</p></li>
@@ -365,12 +364,11 @@ input of raw_name, holding the cleaned name(s)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardize_phone">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_phone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_phone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">countries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[None,</span> <span class="pre">'US']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_phone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardize_phone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given one or more phone numbers, and optionally a list of countries
-associated with those phone numbers, parse each phone number and
-generate its standardized ISO E.164 international format. If an
-input phone number can't be parsed, that number will return the
-empty string. The function attempts to parse the inputs using
-the first successful strategy out of the following:</p>
+<dd><p>Parse phone number and generate its standardized ISO E.164 international format for
+each given phone number and optional list of associated countries. If an input phone
+number can't be parsed, that number will return the empty string. The function
+attempts to parse the inputs using the first successful strategy out of the
+following:</p>
 <ol class="arabic simple">
 <li><p>parse the phone number on its own</p></li>
 <li><p>parse the phone number using the provided list of possible
@@ -387,10 +385,8 @@ the phone numbers might belong</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Either a string representing the cleaned phone numbers,
-or a list of strings of cleaned numbers; if one phone number in
-the input list couldn't be standardized, the index in the returned
-list for that phone number will be the empty string</p>
+<dd class="field-even"><p>Either a string or a list of strings, depending on the
+input of raw_phone, holding the standardized phone number(s)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Union</em>[str, <em>List</em>[str]]</p>

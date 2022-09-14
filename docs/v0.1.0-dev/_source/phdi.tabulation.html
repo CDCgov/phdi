@@ -50,8 +50,11 @@ If the file can't be found, raises an error.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- File path to a YAML file holding a schema</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict representing a schema read from the given path</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -59,8 +62,8 @@ If the file can't be found, raises an error.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.tabulation.tables.print_schema_summary">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">print_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_head</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#print_schema_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.print_schema_summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a directory containing tables in either CSV or Parquet
-format, print a summary of each table.</p>
+<dd><p>Print a summary of each CSV of Parquet formatted table in a given directory of
+tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -95,12 +98,15 @@ is to be written</p></li>
 <li><p><strong>output_format</strong> -- The file format of the table to be written</p></li>
 <li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- Optional; a writer object that can be maintained
 between different calls of this function to support file formats
-that cannot be appended to after being written (e.g. parquet).</p></li>
+that cannot be appended to after being written (e.g. parquet)</p></li>
 <li><p><strong>file_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>, </em><em>'csv'</em><em>]</em>) -- </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pq.ParquetWriter if file_format is parquet; else None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>Union</em>[None, pyarrow.parquet.ParquetWriter]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -118,8 +124,11 @@ If the file can't be found, raises an error.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- File path to a YAML file holding a schema</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict representing a schema read from the given path</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -127,8 +136,8 @@ If the file can't be found, raises an error.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.tabulation.print_schema_summary">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">print_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_head</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#print_schema_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.print_schema_summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a directory containing tables in either CSV or Parquet
-format, print a summary of each table.</p>
+<dd><p>Print a summary of each CSV of Parquet formatted table in a given directory of
+tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -163,12 +172,15 @@ is to be written</p></li>
 <li><p><strong>output_format</strong> -- The file format of the table to be written</p></li>
 <li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- Optional; a writer object that can be maintained
 between different calls of this function to support file formats
-that cannot be appended to after being written (e.g. parquet).</p></li>
+that cannot be appended to after being written (e.g. parquet)</p></li>
 <li><p><strong>file_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>, </em><em>'csv'</em><em>]</em>) -- </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pq.ParquetWriter if file_format is parquet; else None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>Union</em>[None, pyarrow.parquet.ParquetWriter]</p>
 </dd>
 </dl>
 </dd></dl>

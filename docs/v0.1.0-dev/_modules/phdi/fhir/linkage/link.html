@@ -33,20 +33,20 @@
   <h1>Source code for phdi.fhir.linkage.link</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">phdi.fhir.utils</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">find_resource_by_type</span><span class="p">,</span>
+    <span class="n">find_entries_by_resource_type</span><span class="p">,</span>
     <span class="n">get_field</span><span class="p">,</span>
     <span class="n">get_one_line_address</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">phdi.linkage.link</span> <span class="kn">import</span> <span class="n">generate_hash_str</span>
 
 
-<div class="viewcode-block" id="add_patient_identifier"><a class="viewcode-back" href="../../../../_source/phdi.fhir.linkage.html#phdi.fhir.linkage.link.add_patient_identifier">[docs]</a><span class="k">def</span> <span class="nf">add_patient_identifier</span><span class="p">(</span><span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="add_patient_identifier_in_bundle"><a class="viewcode-back" href="../../../../_source/phdi.fhir.linkage.html#phdi.fhir.linkage.link.add_patient_identifier_in_bundle">[docs]</a><span class="k">def</span> <span class="nf">add_patient_identifier_in_bundle</span><span class="p">(</span>
+    <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a FHIR resource bundle:</span>
 
 <span class="sd">    * identify all patient resource(s) in the bundle</span>
-<span class="sd">    * extract name, DOB, and address information for each</span>
-<span class="sd">    * compute a unique hash string based on these fields</span>
 <span class="sd">    * add the hash string to the list of identifiers held in that patient resource</span>
 
 <span class="sd">    :param bundle: The FHIR bundle for whose patients to add a</span>
@@ -56,47 +56,72 @@
 <span class="sd">    :param overwrite: Whether to write the new standardizations</span>
 <span class="sd">        directly into the given bundle, changing the original data (True</span>
 <span class="sd">        is yes)</span>
+<span class="sd">    :return: The bundle, resources updated with additional patient identifier</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
         <span class="n">bundle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">find_resource_by_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">,</span> <span class="s2">&quot;Patient&quot;</span><span class="p">):</span>
-        <span class="n">patient</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Combine given and family name</span>
-        <span class="n">recent_name</span> <span class="o">=</span> <span class="n">get_field</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;official&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">name_parts</span> <span class="o">=</span> <span class="n">recent_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;given&quot;</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="p">[</span><span class="n">recent_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
-        <span class="n">name_str</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">name_parts</span> <span class="k">if</span> <span class="n">n</span><span class="p">])</span>
-
-        <span class="n">address_line</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;address&quot;</span> <span class="ow">in</span> <span class="n">patient</span><span class="p">:</span>
-            <span class="n">address</span> <span class="o">=</span> <span class="n">get_field</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">address_line</span> <span class="o">=</span> <span class="n">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
-
-        <span class="c1"># TODO Determine if minimum quality criteria should be included, such as min</span>
-        <span class="c1"># number of characters in last name, valid birth date, or address line</span>
-        <span class="c1"># Generate and store unique hash code</span>
-        <span class="n">link_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name_str</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">patient</span><span class="p">[</span><span class="s2">&quot;birthDate&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">address_line</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="n">hashcode</span> <span class="o">=</span> <span class="n">generate_hash_str</span><span class="p">(</span><span class="n">link_str</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="s2">&quot;identifier&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">patient</span><span class="p">:</span>
-            <span class="n">patient</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="c1"># TODO Follow up on the validity and source of the comment about the system</span>
-        <span class="c1"># value corresponding to the FHIR specification. Need to either add a citation</span>
-        <span class="c1"># or correct the wording to more properly reflect what it represents.</span>
-        <span class="n">patient</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">hashcode</span><span class="p">,</span>
-                <span class="c1"># Note: this system value corresponds to the FHIR specification</span>
-                <span class="c1"># for a globally used / generated ID or UUID--the standard here</span>
-                <span class="c1"># is to make the use &quot;temporary&quot; even if it&#39;s not</span>
-                <span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;urn:ietf:rfc:3986&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;use&quot;</span><span class="p">:</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
-
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">find_entries_by_resource_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">,</span> <span class="s2">&quot;Patient&quot;</span><span class="p">):</span>
+        <span class="n">patient</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
+        <span class="n">add_patient_identifier</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bundle</span></div>
+
+
+<div class="viewcode-block" id="add_patient_identifier"><a class="viewcode-back" href="../../../../_source/phdi.fhir.linkage.html#phdi.fhir.linkage.link.add_patient_identifier">[docs]</a><span class="k">def</span> <span class="nf">add_patient_identifier</span><span class="p">(</span>
+    <span class="n">patient_resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a FHIR resource:</span>
+
+<span class="sd">    * extract name, DOB, and address information for each</span>
+<span class="sd">    * compute a unique hash string based on these fields</span>
+<span class="sd">    * add the hash string to resource</span>
+
+<span class="sd">    :param patient_resource: The FHIR patient resource to add a</span>
+<span class="sd">        linking identifier</span>
+<span class="sd">    :param salt_str: The suffix string added to prevent being</span>
+<span class="sd">        able to reverse the hash into PII</span>
+<span class="sd">    :param overwrite: Whether to write the new standardizations</span>
+<span class="sd">        directly into the given bundle, changing the original data (True</span>
+<span class="sd">        is yes)</span>
+<span class="sd">    :return: The resource updated with additional patient identifier</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">patient_resource</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">)</span>
+
+    <span class="c1"># Combine given and family name</span>
+    <span class="n">recent_name</span> <span class="o">=</span> <span class="n">get_field</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;official&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">name_parts</span> <span class="o">=</span> <span class="n">recent_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;given&quot;</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="p">[</span><span class="n">recent_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
+    <span class="n">name_str</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">name_parts</span> <span class="k">if</span> <span class="n">n</span><span class="p">])</span>
+
+    <span class="n">address_line</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;address&quot;</span> <span class="ow">in</span> <span class="n">patient_resource</span><span class="p">:</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">get_field</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">address_line</span> <span class="o">=</span> <span class="n">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+    <span class="c1"># TODO Determine if minimum quality criteria should be included, such as min</span>
+    <span class="c1"># number of characters in last name, valid birth date, or address line</span>
+    <span class="c1"># Generate and store unique hash code</span>
+    <span class="n">link_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name_str</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">patient_resource</span><span class="p">[</span><span class="s2">&quot;birthDate&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">address_line</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">hashcode</span> <span class="o">=</span> <span class="n">generate_hash_str</span><span class="p">(</span><span class="n">link_str</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;identifier&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">patient_resource</span><span class="p">:</span>
+        <span class="n">patient_resource</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># TODO Follow up on the validity and source of the comment about the system</span>
+    <span class="c1"># value corresponding to the FHIR specification. Need to either add a citation</span>
+    <span class="c1"># or correct the wording to more properly reflect what it represents.</span>
+    <span class="n">patient_resource</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">hashcode</span><span class="p">,</span>
+            <span class="c1"># Note: this system value corresponds to the FHIR specification</span>
+            <span class="c1"># for a globally used / generated ID or UUID--the standard here</span>
+            <span class="c1"># is to make the use &quot;temporary&quot; even if it&#39;s not</span>
+            <span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;urn:ietf:rfc:3986&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;use&quot;</span><span class="p">:</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">patient_resource</span></div>
 </pre></div>
 
           </div>

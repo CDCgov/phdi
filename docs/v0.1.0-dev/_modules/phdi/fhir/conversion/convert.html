@@ -60,14 +60,13 @@
     <span class="n">use_default_ccda</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a message in either HL7 v2 (pipe-delimited flat file) or</span>
-<span class="sd">    CCDA (XML), attempt to convert that message into FHIR format</span>
-<span class="sd">    (JSON) for further processing using the FHIR server. HL7v2</span>
-<span class="sd">    messages have their datetimes standardized before conversion.</span>
+<span class="sd">    Convert a given message from either HL7 v2 (pipe-delimited flat file) or CCDA (XML)</span>
+<span class="sd">    into FHIR format (JSON) for further processing using the FHIR server. Standardize</span>
+<span class="sd">    datetimes in HL7v2 messages before conversion.</span>
 
 <span class="sd">    The FHIR server will respond with a status code of 400 if the</span>
 <span class="sd">    message itself is invalid, such as containing improperly</span>
-<span class="sd">    formatted timestamps.  Otherwise, the FHIR server will respond</span>
+<span class="sd">    formatted timestamps. Otherwise, the FHIR server will respond</span>
 <span class="sd">    with the converted FHIR data. In either case, a</span>
 <span class="sd">    `requests.Response` object will be returned.</span>
 
@@ -78,9 +77,11 @@
 <span class="sd">      make a request</span>
 <span class="sd">    :param fhir_url: A URL that points to the location of the FHIR</span>
 <span class="sd">      server</span>
-<span class="sd">    :param use_default_ccda: Optionally, whether to default to the</span>
+<span class="sd">    :param use_default_ccda: Whether to default to the</span>
 <span class="sd">      base &quot;CCD&quot; root template if a resource&#39;s LOINC code doesn&#39;t</span>
-<span class="sd">      map to a specific supported template. Default is No.</span>
+<span class="sd">      map to a specific supported template (Optional, default is No)</span>
+<span class="sd">    :return: A requests.Response object</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">conversion_settings</span> <span class="o">=</span> <span class="n">_get_fhir_conversion_settings</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">use_default_ccda</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">conversion_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_data_type&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;HL7v2&quot;</span><span class="p">:</span>
@@ -128,15 +129,13 @@
 <span class="k">def</span> <span class="nf">_get_fhir_conversion_settings</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use_default_ccda</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Private helper function to determine what settings to use with the</span>
-<span class="sd">    FHIR server to facilitate message conversion. Some data streams</span>
-<span class="sd">    will be encoded in HL7 format, whereas others will be XML data.</span>
-<span class="sd">    Attempts to identify which data type the input has and determine</span>
-<span class="sd">    the appropriate FHIR converter root template to use. If the user</span>
-<span class="sd">    opts to not use the default CCDA root template in cases where an</span>
-<span class="sd">    input resource isn&#39;t supported, the functionwill raise an</span>
-<span class="sd">    exception if a message&#39;s extracted LOINC code doesn&#39;t correspond to</span>
-<span class="sd">    an existing CCDA template. More information about the required</span>
-<span class="sd">    templates and settings can be found here:</span>
+<span class="sd">    FHIR server to facilitate message conversion. Attempt to identify which data type</span>
+<span class="sd">    the input has (HL7 or XML) and determine the appropriate FHIR converter root</span>
+<span class="sd">    template to use. Raise an exception if the user opts to not use the default CCDA</span>
+<span class="sd">    root template for an unsupported input resouece and a message&#39;s extracted</span>
+<span class="sd">    LOINC code doesn&#39;t correspond to an existing CCDA template.</span>
+
+<span class="sd">    More information about the required templates and settings can be found here:</span>
 
 <span class="sd">    https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data</span>
 

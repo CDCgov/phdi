@@ -68,6 +68,7 @@
 <span class="sd">      for export files to be generated</span>
 <span class="sd">    :param poll_timeout: The maximum number of seconds to wait for export files to</span>
 <span class="sd">      be generated</span>
+<span class="sd">    :return: The JSON-formatted HTTP response of a completed export operation as a dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Combine template variables into export endpoint</span>
@@ -130,6 +131,7 @@
 <span class="sd">      for export files to be generated</span>
 <span class="sd">    :param poll_timeout: the maximum number of seconds to wait for export files to</span>
 <span class="sd">      be generated</span>
+<span class="sd">    :return: A response from polled endpoint</span>
 <span class="sd">    :raises polling.TimeoutException: If the FHIR server continually returns a 202</span>
 <span class="sd">      status indicating in progress until the timeout is reached</span>
 <span class="sd">    :raises requests.HTTPError: If an unexpected status code is returned</span>
@@ -171,6 +173,7 @@
 <span class="sd">      back</span>
 <span class="sd">    :param container: The container where we want to store the uploaded</span>
 <span class="sd">    files</span>
+<span class="sd">    :return: An export url string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">export_url</span> <span class="o">=</span> <span class="n">fhir_url</span>
     <span class="k">if</span> <span class="n">export_scope</span> <span class="o">==</span> <span class="s2">&quot;Patient&quot;</span> <span class="ow">or</span> <span class="n">export_scope</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Group/&quot;</span><span class="p">):</span>
@@ -211,6 +214,7 @@
 <span class="sd">    :param poll_url: The endpoint the FHIR server gave us to query for if</span>
 <span class="sd">      our files are ready</span>
 <span class="sd">    :param cred_manager: Service used to get an access token used to make a request</span>
+<span class="sd">    :return: An HTTP response (if 200) or None (if still in progress)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">access_token</span> <span class="o">=</span> <span class="n">cred_manager</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">()</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">http_request_with_reauth</span><span class="p">(</span>

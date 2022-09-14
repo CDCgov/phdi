@@ -43,9 +43,8 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.harmonization.standardization.standardize_names">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/harmonization/standardization.html#standardize_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.harmonization.standardization.standardize_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given either a FHIR bundle or a FHIR resource, transform all names
-contained in any resource in the input.  The default standardization
-behavior is our defined non-numeric, space-trimming, full
+<dd><p>Standardize all names contained in a given FHIR bundle or a FHIR resource. The
+default standardization behavior is our defined non-numeric, space-trimming, full
 capitalization standardization, but other modes may be specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -76,12 +75,10 @@ data with the standardized names (default is yes)</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.harmonization.standardization.standardize_phones">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_phones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/harmonization/standardization.html#standardize_phones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.harmonization.standardization.standardize_phones" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a FHIR bundle or a FHIR resource, standardize all phone
-numbers contained in any resources in the input data.
-Standardization is done according to the underlying
-standardize_phone function in phdi.harmonization, so for more
-information on country-coding and parsing, see the relevant
-docstring.</p>
+<dd><p>Standardize all phone numbers in a given FHIR bundle or a FHIR resource.
+Standardization is done according to the underlying standardize_phone function in
+phdi.harmonization. For more information on country-coding and parsing, see the
+relevant docstring.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -91,8 +88,7 @@ in the input data with the standardized versions (default is yes)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle or resource with phones appropriately
-standardized</p>
+<dd class="field-even"><p>The bundle or resource with phones appropriately standardized</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -106,9 +102,8 @@ standardized</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.harmonization.standardize_names">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/harmonization/standardization.html#standardize_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.harmonization.standardize_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given either a FHIR bundle or a FHIR resource, transform all names
-contained in any resource in the input.  The default standardization
-behavior is our defined non-numeric, space-trimming, full
+<dd><p>Standardize all names contained in a given FHIR bundle or a FHIR resource. The
+default standardization behavior is our defined non-numeric, space-trimming, full
 capitalization standardization, but other modes may be specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -139,12 +134,10 @@ data with the standardized names (default is yes)</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.harmonization.standardize_phones">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_phones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/harmonization/standardization.html#standardize_phones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.harmonization.standardize_phones" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a FHIR bundle or a FHIR resource, standardize all phone
-numbers contained in any resources in the input data.
-Standardization is done according to the underlying
-standardize_phone function in phdi.harmonization, so for more
-information on country-coding and parsing, see the relevant
-docstring.</p>
+<dd><p>Standardize all phone numbers in a given FHIR bundle or a FHIR resource.
+Standardization is done according to the underlying standardize_phone function in
+phdi.harmonization. For more information on country-coding and parsing, see the
+relevant docstring.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -154,8 +147,7 @@ in the input data with the standardized versions (default is yes)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle or resource with phones appropriately
-standardized</p>
+<dd class="field-even"><p>The bundle or resource with phones appropriately standardized</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
