@@ -52,6 +52,7 @@ For technical support, please **create tickets in the phdi Github repo** using t
 # Feedback 
 
 **Survey** 
+
 Feedback is critical to the success of PHDI. We strive to use user-centered design as a way to prioritize product development. After using our geospatial module, we will send over a survey to gather feedback, including but not limited to the following topics:
 
 - Data quality 
@@ -61,5 +62,6 @@ Feedback is critical to the success of PHDI. We strive to use user-centered desi
 - Subsidized Smarty License
 
 **Follow-up Call**
+
 We’ll then schedule a 30 minute feedback call to dive deeper into topics highlighted in the survey.
 
