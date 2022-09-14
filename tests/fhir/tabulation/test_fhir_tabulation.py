@@ -5,19 +5,19 @@ import yaml
 from unittest import mock
 
 from phdi.fhir.tabulation.tables import (
-    apply_selection_criteria,
+    _apply_selection_criteria,
     apply_schema_to_resource,
     generate_all_tables_in_schema,
     generate_table,
 )
 
 
-def test_apply_selection_criteria():
+def test__apply_selection_criteria():
     test_list = ["one", "two", "three"]
-    assert apply_selection_criteria(test_list, "first") == "one"
-    assert apply_selection_criteria(test_list, "last") == "three"
-    assert apply_selection_criteria(test_list, "random") in test_list
-    assert apply_selection_criteria(test_list, "all") == ",".join(test_list)
+    assert _apply_selection_criteria(test_list, "first") == "one"
+    assert _apply_selection_criteria(test_list, "last") == "three"
+    assert _apply_selection_criteria(test_list, "random") in test_list
+    assert _apply_selection_criteria(test_list, "all") == ",".join(test_list)
 
 
 def test_apply_schema_to_resource():
@@ -136,7 +136,11 @@ def test_generate_table_success(patch_query, patch_write):
 @mock.patch("phdi.fhir.tabulation.tables.fhir_server_get")
 def test_generate_table_fail(patch_query, patch_write):
 
-    schema = {}
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+        )
+    )
 
     output_path = mock.Mock()
     output_path.__truediv__ = (  # Redefine division operator to prevent failure.
@@ -152,8 +156,7 @@ def test_generate_table_fail(patch_query, patch_write):
     mock_cred_manager = mock.Mock()
     mock_cred_manager.get_access_token.return_value = mock_access_token
 
-    response = mock.Mock()
-    response.status_code = 400
+    response = mock.Mock(status_code=400)
     patch_query.return_value = response
 
     generate_table(
@@ -163,6 +166,8 @@ def test_generate_table_fail(patch_query, patch_write):
         fhir_url,
         mock_cred_manager,
     )
+
+    patch_query.assert_called()
     patch_write.assert_not_called()
 
 
