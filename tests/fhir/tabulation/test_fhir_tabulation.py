@@ -50,6 +50,17 @@ def test_apply_schema_to_resource():
         "phone_number": "123-456-7890",
     }
 
+    # Test for resource_schema is None
+    resource = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+    resource = resource["entry"][0]["resource"]
+    assert apply_schema_to_resource(resource, schema) == {}
+
 
 @mock.patch("phdi.fhir.tabulation.tables.write_table")
 @mock.patch("phdi.fhir.tabulation.tables.fhir_server_get")
