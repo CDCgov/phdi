@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: Run pytest
-        run: poetry run pytest --cov-report xml:coverage.xml
+        run: poetry run pytest --cov-report xml --cov=phdi tests/
       - name: Python Test Coverage
         uses: orgoro/coverage@v2
         with:
