@@ -1,12 +1,17 @@
 import polling
 import pytest
+import re
 import requests
 
 from phdi.fhir.transport import http_request_with_reauth, export_from_fhir_server
 from phdi.fhir.transport.export import _compose_export_url
 from unittest import mock
 
-from phdi.fhir.transport.http import fhir_server_get, upload_bundle_to_fhir_server
+from phdi.fhir.transport.http import (
+    fhir_server_get,
+    upload_bundle_to_fhir_server,
+    _log_fhir_server_error,
+)
 
 
 @mock.patch("requests.Session")
@@ -177,7 +182,7 @@ def test_upload_bundle_to_fhir_server_embedded_failure(
     assert response.status_code == 200
     assert response.json() == mock_response
 
-    assert patch_log_error.called_with(400)
+    patch_log_error.assert_called_with(status_code=400, batch_entry_index=0)
 
 
 @mock.patch("phdi.fhir.transport.http.http_request_with_reauth")
@@ -197,6 +202,41 @@ def test_fhir_server_get(patch_http_request):
 
     assert response.status_code == 200
     assert response.json() == mock_response
+
+
+@mock.patch("logging.error")
+def test_log_fhir_server_error(patch_log_error):
+    _log_fhir_server_error(200)
+    patch_log_error.assert_not_called()
+
+    _log_fhir_server_error(400)
+    assert re.fullmatch("^FHIR SERVER ERROR -.*400$", patch_log_error.call_args.args[0])
+
+    _log_fhir_server_error(401)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*401:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(403)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*403:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(404)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*404:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(410)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*410:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(410, 0)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR in zero-based message index 0 of FHIR batch -.*410:.*$",
+        patch_log_error.call_args.args[0],
+    )
 
 
 @mock.patch("requests.Session")
