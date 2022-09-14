@@ -38,7 +38,7 @@
 <span class="kn">from</span> <span class="nn">azure.identity</span> <span class="kn">import</span> <span class="n">DefaultAzureCredential</span>
 <span class="kn">from</span> <span class="nn">azure.storage.blob</span> <span class="kn">import</span> <span class="n">ContainerClient</span><span class="p">,</span> <span class="n">BlobServiceClient</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 
 <div class="viewcode-block" id="AzureCredentialManager"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager">[docs]</a><span class="k">class</span> <span class="nc">AzureCredentialManager</span><span class="p">(</span><span class="n">BaseCredentialManager</span><span class="p">):</span>
@@ -75,18 +75,20 @@
 <div class="viewcode-block" id="AzureCredentialManager.get_credential_object"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager.get_credential_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_credential_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an Azure-specific credential object.</span>
-<span class="sd">        This returns an instance of one of the *Credential objects from the</span>
+
+<span class="sd">        :return: An instance of one of the \\*Credential objects from the</span>
 <span class="sd">        `azure.identity` package.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">DefaultAzureCredential</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="AzureCredentialManager.get_access_token"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager.get_access_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Obtain an access token from the Azure identity provider.  Return the</span>
+<span class="sd">        Obtain an access token from the Azure identity provider. Return the</span>
 <span class="sd">        access token string, refreshed if expired or force_refresh is specified.</span>
 
 <span class="sd">        :param force_refresh: force token refresh even if the current token is</span>
 <span class="sd">          still valid</span>
+<span class="sd">        :return: Azure access token</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">force_refresh</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_need_new_token</span><span class="p">():</span>
             <span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_credential_object</span><span class="p">()</span>
@@ -98,7 +100,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine whether the token already stored for this object can be reused,</span>
 <span class="sd">        or if it needs to be re-requested.</span>
-
+<span class="sd">        :return: True if new Azure access token is needed; False otherwise</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">current_time_utc</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
@@ -133,13 +135,14 @@
 
     <span class="k">def</span> <span class="nf">_get_container_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContainerClient</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Obtains a client connected to an Azure storage container by</span>
+<span class="sd">        Obtain a client connected to an Azure storage container by</span>
 <span class="sd">        utilizing the first valid credentials Azure can find. For</span>
 <span class="sd">        more information on the order in which the credentials are</span>
 <span class="sd">        checked, see the Azure documentation:</span>
 <span class="sd">        https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential</span>
 
 <span class="sd">        :param container_url: The url at which to access the container</span>
+<span class="sd">        :return: Azure ContainerClient</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cred_manager</span><span class="o">.</span><span class="n">get_credential_object</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ContainerClient</span><span class="o">.</span><span class="n">from_container_url</span><span class="p">(</span><span class="n">container_url</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
@@ -148,11 +151,12 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;UTF-8&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Downloads a character blob from storage and returns it as a string.</span>
+<span class="sd">        Download a character blob from storage and return it as a string.</span>
 
 <span class="sd">        :param container_name: The name of the container containing object to download</span>
 <span class="sd">        :param filename: Location of file within Azure blob storage</span>
 <span class="sd">        :param encoding: Encoding applied to the downloaded content</span>
+<span class="sd">        :return: Character blob (as a string) from given container and filename</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container_location</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_account_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_container_client</span><span class="p">(</span><span class="n">container_location</span><span class="p">)</span>
@@ -166,34 +170,33 @@
 
 <div class="viewcode-block" id="AzureCloudContainerConnection.upload_object"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.upload_object">[docs]</a>    <span class="k">def</span> <span class="nf">upload_object</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span>
         <span class="n">container_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">message_json</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Uploads content to Azure blob storage.</span>
-<span class="sd">        Exactly one of message_json or message should be provided.</span>
+<span class="sd">        Upload the content of a given message to Azure blob storage.</span>
+<span class="sd">        Message can be passed either as a raw string or as JSON.</span>
 
+<span class="sd">        :param message: The contents of a message, encoded either as a</span>
+<span class="sd">          string or in a JSON format</span>
 <span class="sd">        :param container_name: The name of the target container for upload</span>
 <span class="sd">        :param filename: Location of file within Azure blob storage</span>
-<span class="sd">        :param message_json: The content of a message in JSON format</span>
-<span class="sd">        :param message: The content of a message encoded as a string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container_location</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_account_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_container_client</span><span class="p">(</span><span class="n">container_location</span><span class="p">)</span>
         <span class="n">blob_client</span> <span class="o">=</span> <span class="n">container_client</span><span class="o">.</span><span class="n">get_blob_client</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">message_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">blob_client</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message_json</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">blob_client</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">blob_client</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">blob_client</span><span class="o">.</span><span class="n">upload_blob</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AzureCloudContainerConnection.list_containers"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.list_containers">[docs]</a>    <span class="k">def</span> <span class="nf">list_containers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List names for this CloudContainerConnection&#39;s containers.</span>
+
+<span class="sd">        :return: a list of container names</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cred_manager</span><span class="o">.</span><span class="n">get_credential_object</span><span class="p">()</span>
         <span class="n">service_client</span> <span class="o">=</span> <span class="n">BlobServiceClient</span><span class="p">(</span>
@@ -213,6 +216,7 @@
 
 <span class="sd">        :param container_name: The name of the container to look for objects</span>
 <span class="sd">        :param prefix: Filter for objects whose filenames begin with this value</span>
+<span class="sd">        :return: List of names for objects in given container</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container_location</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_account_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_container_client</span><span class="p">(</span><span class="n">container_location</span><span class="p">)</span>

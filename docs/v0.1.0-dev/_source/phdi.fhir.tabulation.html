@@ -43,7 +43,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.tables.apply_schema_to_resource">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">apply_schema_to_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#apply_schema_to_resource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.tables.apply_schema_to_resource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates and returns a dictionary of data based on a FHIR resource and a schema. The
+<dd><p>Create and return a dictionary of data based on a FHIR resource and a schema. The
 keys of the created dict are the &quot;new names&quot; for the fields in the given schema, and
 the values are the elements of the given resource that correspond to these fields.
 Here, &quot;new name&quot; is a property contained in the schema that specifies what a
@@ -52,32 +52,15 @@ resource type, the raw resource is instead returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema.</p></li>
-<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type.</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema</p></li>
+<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of data with the desired values specified in the schema</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="phdi.fhir.tabulation.tables.apply_selection_criteria">
-<span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">apply_selection_criteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_criteria</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#apply_selection_criteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.tables.apply_selection_criteria" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a list of values parsed from a FHIR resource, return value(s) according to the
-selection criteria. In general a single value is returned, but when
-selection_criteria is set to &quot;all&quot; a list containing all of the parsed values is
-returned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) -- A list containing the values parsed from a FHIR resource.</p></li>
-<li><p><strong>selection_criteria</strong> (<em>Literal</em><em>[</em><em>'first'</em><em>, </em><em>'last'</em><em>, </em><em>'random'</em><em>, </em><em>'all'</em><em>]</em>) -- A string indicating which element(s) of a list to select.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><em>Union</em>[str, <em>List</em>[str]]</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -85,7 +68,7 @@ returned.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.tables.generate_all_tables_in_schema">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">generate_all_tables_in_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#generate_all_tables_in_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.tables.generate_all_tables_in_schema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the url for a FHIR server, the location of a schema file, and and output
+<dd><p>Given the url for a FHIR server, the location of a schema file, and the output
 directory generate the specified schema and store the tables in the desired
 location.</p>
 <dl class="field-list simple">
@@ -100,13 +83,16 @@ be written.</p></li>
 request.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.tables.generate_table">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">generate_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#generate_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.tables.generate_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the schema for a single table, make the table.</p>
+<dd><p>Make a table for a single schema.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -117,6 +103,9 @@ request.</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
 request.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -127,7 +116,7 @@ request.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.apply_schema_to_resource">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.</span></span><span class="sig-name descname"><span class="pre">apply_schema_to_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#apply_schema_to_resource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.apply_schema_to_resource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates and returns a dictionary of data based on a FHIR resource and a schema. The
+<dd><p>Create and return a dictionary of data based on a FHIR resource and a schema. The
 keys of the created dict are the &quot;new names&quot; for the fields in the given schema, and
 the values are the elements of the given resource that correspond to these fields.
 Here, &quot;new name&quot; is a property contained in the schema that specifies what a
@@ -136,12 +125,15 @@ resource type, the raw resource is instead returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema.</p></li>
-<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type.</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema</p></li>
+<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary of data with the desired values specified in the schema</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -149,7 +141,7 @@ resource type, the raw resource is instead returned.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.generate_all_tables_in_schema">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.</span></span><span class="sig-name descname"><span class="pre">generate_all_tables_in_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#generate_all_tables_in_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.generate_all_tables_in_schema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the url for a FHIR server, the location of a schema file, and and output
+<dd><p>Given the url for a FHIR server, the location of a schema file, and the output
 directory generate the specified schema and store the tables in the desired
 location.</p>
 <dl class="field-list simple">
@@ -164,13 +156,16 @@ be written.</p></li>
 request.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.generate_table">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.</span></span><span class="sig-name descname"><span class="pre">generate_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#generate_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.generate_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the schema for a single table, make the table.</p>
+<dd><p>Make a table for a single schema.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -181,6 +176,9 @@ request.</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
 request.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>

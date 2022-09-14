@@ -139,8 +139,8 @@
 <span class="sd">    }</span>
 <span class="sd">    [FTS] (file trailer segment)</span>
 
-<span class="sd">    We ignore lines that start with these since we don&#39;t want to include</span>
-<span class="sd">    them in a message.</span>
+<span class="sd">    We ignore lines that start with these header/tail segments since we don&#39;t want to</span>
+<span class="sd">    include them in a message.</span>
 
 <span class="sd">    :param content: the batch content to turn into a list</span>
 <span class="sd">    :param delimiter: the character delimiting messages in the batch</span>
@@ -232,8 +232,8 @@
     <span class="n">message</span><span class="p">:</span> <span class="n">hl7</span><span class="o">.</span><span class="n">Message</span><span class="p">,</span> <span class="n">segment_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_list</span><span class="p">:</span> <span class="nb">list</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Utility function used to apply datetime normalization</span>
-<span class="sd">    to multiple fields in a segment.</span>
+<span class="sd">    Apply datetime normalization to multiple fields in a segment,</span>
+<span class="sd">    overwriting the input segment.</span>
 
 <span class="sd">    :param message: The HL7 message, represented as a list</span>
 <span class="sd">      of indexable component strings (which is how the HL7 library</span>
@@ -243,7 +243,6 @@
 <span class="sd">    :param field_list: The list of fields contained in the</span>
 <span class="sd">      indexed message component, which are themselves indices to</span>
 <span class="sd">      data strings</span>
-<span class="sd">    :return: None (overwrites the input segment)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">segment</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">segments</span><span class="p">(</span><span class="n">segment_id</span><span class="p">):</span>

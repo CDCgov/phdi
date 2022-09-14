@@ -39,7 +39,7 @@
 <span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 
 <div class="viewcode-block" id="load_schema"><a class="viewcode-back" href="../../../_source/phdi.tabulation.html#phdi.tabulation.tables.load_schema">[docs]</a><span class="k">def</span> <span class="nf">load_schema</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -49,6 +49,7 @@
 <span class="sd">    If the file can&#39;t be found, raises an error.</span>
 
 <span class="sd">    :param path: File path to a YAML file holding a schema</span>
+<span class="sd">    :return: A dict representing a schema read from the given path</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
@@ -63,7 +64,7 @@
     <span class="n">output_file_name</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
     <span class="n">file_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;csv&quot;</span><span class="p">],</span>
     <span class="n">writer</span><span class="p">:</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetWriter</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetWriter</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given data stored as a list of dictionaries, where all dicts</span>
 <span class="sd">    have a common set of keys, write the set of data to an output</span>
@@ -79,7 +80,8 @@
 <span class="sd">    :param output_format: The file format of the table to be written</span>
 <span class="sd">    :param writer: Optional; a writer object that can be maintained</span>
 <span class="sd">      between different calls of this function to support file formats</span>
-<span class="sd">      that cannot be appended to after being written (e.g. parquet).</span>
+<span class="sd">      that cannot be appended to after being written (e.g. parquet)</span>
+<span class="sd">    :return: pq.ParquetWriter if file_format is parquet; else None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;parquet&quot;</span><span class="p">:</span>
@@ -104,8 +106,8 @@
     <span class="n">display_head</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a directory containing tables in either CSV or Parquet</span>
-<span class="sd">    format, print a summary of each table.</span>
+<span class="sd">    Print a summary of each CSV of Parquet formatted table in a given directory of</span>
+<span class="sd">    tables.</span>
 
 <span class="sd">    :param directory: Path to a direct holding table files</span>
 <span class="sd">    :param display_head: Print the head of each table when true.</span>

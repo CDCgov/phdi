@@ -217,15 +217,19 @@ underlying vendor service client.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_dict">
 <span class="sig-name descname"><span class="pre">geocode_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/smarty.html#SmartyGeocodeClient.geocode_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Geocodes a dictionary-formatted address using SmartyStreets.
-If a result is found, it is encoded as a GeocodeResult object and
-returned, otherwise the function returns None.</p>
+<dd><p>Geocode a dictionary-formatted address using SmartyStreets.
+If a result is found, encode as a GeocodeResult object and
+return, otherwise the return None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- a dictionary with fields outlined above</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A GeocodeResult object (if valid result) or None (if no valid
+result)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -233,16 +237,21 @@ returned, otherwise the function returns None.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_str">
 <span class="sig-name descname"><span class="pre">geocode_from_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/smarty.html#SmartyGeocodeClient.geocode_from_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_str" title="Permalink to this definition">¶</a></dt>
-<dd><p>Geocodes a string-formatted address using SmartyStreets. If the result
+<dd><p>Geocode a string-formatted address using SmartyStreets. If the result
 comes back valid, output is stored in a GeocodeResult object. If the
 result could not be latitude- or longitude-located, then Smarty failed
-to precisely geocode the address, so no result is returned.</p>
+to precisely geocode the address, so no result is returned. Raises
+an error if the provided address is empty.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>address</strong> (<em>str</em>) -- The address to geocode, given as a string</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A GeocodeResult object (if valid result) or None (if no valid
+result)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -426,15 +435,19 @@ underlying vendor service client.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.geospatial.SmartyGeocodeClient.geocode_from_dict">
 <span class="sig-name descname"><span class="pre">geocode_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/smarty.html#SmartyGeocodeClient.geocode_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.SmartyGeocodeClient.geocode_from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Geocodes a dictionary-formatted address using SmartyStreets.
-If a result is found, it is encoded as a GeocodeResult object and
-returned, otherwise the function returns None.</p>
+<dd><p>Geocode a dictionary-formatted address using SmartyStreets.
+If a result is found, encode as a GeocodeResult object and
+return, otherwise the return None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- a dictionary with fields outlined above</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A GeocodeResult object (if valid result) or None (if no valid
+result)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -442,16 +455,21 @@ returned, otherwise the function returns None.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.geospatial.SmartyGeocodeClient.geocode_from_str">
 <span class="sig-name descname"><span class="pre">geocode_from_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/smarty.html#SmartyGeocodeClient.geocode_from_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.SmartyGeocodeClient.geocode_from_str" title="Permalink to this definition">¶</a></dt>
-<dd><p>Geocodes a string-formatted address using SmartyStreets. If the result
+<dd><p>Geocode a string-formatted address using SmartyStreets. If the result
 comes back valid, output is stored in a GeocodeResult object. If the
 result could not be latitude- or longitude-located, then Smarty failed
-to precisely geocode the address, so no result is returned.</p>
+to precisely geocode the address, so no result is returned. Raises
+an error if the provided address is empty.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>address</strong> (<em>str</em>) -- The address to geocode, given as a string</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A GeocodeResult object (if valid result) or None (if no valid
+result)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
 </dd>
 </dl>
 </dd></dl>

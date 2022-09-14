@@ -92,9 +92,9 @@
 <section id="module-phdi.fhir.utils">
 <span id="phdi-fhir-utils-module"></span><h2>phdi.fhir.utils module<a class="headerlink" href="#module-phdi.fhir.utils" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="phdi.fhir.utils.find_resource_by_type">
-<span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">find_resource_by_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#find_resource_by_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.find_resource_by_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect all resources of a specific type in a bundle of FHIR data and
+<dt class="sig sig-object py" id="phdi.fhir.utils.find_entries_by_resource_type">
+<span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">find_entries_by_resource_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#find_entries_by_resource_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.find_entries_by_resource_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect all entries of a specific type in a bundle of FHIR data and
 return references to them in a list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -104,7 +104,7 @@ return references to them in a list.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List holding all resources of the requested type that were
+<dd class="field-even"><p>List holding all entries of the requested resource type that were
 found in the input bundle</p>
 </dd>
 <dt class="field-odd">Return type</dt>
@@ -116,14 +116,13 @@ found in the input bundle</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.utils.get_field">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.get_field" title="Permalink to this definition">¶</a></dt>
-<dd><p>For a given field (such as name or address), find the first-occuring
-instance of the field in a given FHIR-formatted JSON dict, such that
-the instance is associated with a particular &quot;use&quot; case of the field
-(use case here refers to the FHIR-based usage of classifying how a
-value is used in reporting). For example, find the first name for a
-patient that has a &quot;use&quot; of &quot;official&quot; (meaning the name is used
-for official reports). If no instance of a field with the requested
-use case can be found, instead return a specified default field.</p>
+<dd><p>Find the first-occuring instance of the field in a given FHIR-formatted JSON dict,
+such that the instance is associated with a particular &quot;use&quot; case of a given field
+(such as name or address). Use case here refers to the FHIR-based usage of
+classifying how a value is used in reporting. For example, find the first name for a
+patient that has a &quot;use&quot; of &quot;official&quot; (meaning the name is used for official
+reports). If no instance of a field with the requested use case can be found,
+instead return a specified default field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -154,8 +153,11 @@ JSON dictionary holding address information.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- The address bundle</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A one-line string representation of an address</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

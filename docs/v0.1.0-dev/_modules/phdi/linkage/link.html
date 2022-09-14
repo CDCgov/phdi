@@ -36,14 +36,14 @@
 
 <div class="viewcode-block" id="generate_hash_str"><a class="viewcode-back" href="../../../_source/phdi.linkage.html#phdi.linkage.link.generate_hash_str">[docs]</a><span class="k">def</span> <span class="nf">generate_hash_str</span><span class="p">(</span><span class="n">linking_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a string made of concatenated patient information, generate</span>
-<span class="sd">    a hash for this string to serve as a &quot;unique&quot; identifier for the</span>
-<span class="sd">    patient.</span>
+<span class="sd">    Generate a hash for a given string of concatenated patient information. The hash</span>
+<span class="sd">    will serve as a &quot;unique&quot; identifier for the patient.</span>
 
 <span class="sd">    :param linking_identifier: The concatenation of a patient&#39;s name,</span>
 <span class="sd">        address, and date of birth, delimited by dashes</span>
 <span class="sd">    :param salt_str: The salt to concatenate onto the end to prevent</span>
 <span class="sd">        being able to reverse-engineer PII</span>
+<span class="sd">    :return: Hash of the linking_identifier string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">hash_obj</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
     <span class="n">to_encode</span> <span class="o">=</span> <span class="p">(</span><span class="n">linking_identifier</span> <span class="o">+</span> <span class="n">salt_str</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>

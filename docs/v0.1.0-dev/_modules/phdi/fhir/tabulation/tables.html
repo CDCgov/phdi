@@ -37,25 +37,26 @@
 <span class="kn">import</span> <span class="nn">pathlib</span>
 
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">from</span> <span class="nn">phdi.cloud.core</span> <span class="kn">import</span> <span class="n">BaseCredentialManager</span>
 <span class="kn">from</span> <span class="nn">phdi.fhir.transport</span> <span class="kn">import</span> <span class="n">fhir_server_get</span>
 <span class="kn">from</span> <span class="nn">phdi.tabulation.tables</span> <span class="kn">import</span> <span class="n">load_schema</span><span class="p">,</span> <span class="n">write_table</span>
 
 
-<div class="viewcode-block" id="apply_selection_criteria"><a class="viewcode-back" href="../../../../_source/phdi.fhir.tabulation.html#phdi.fhir.tabulation.tables.apply_selection_criteria">[docs]</a><span class="k">def</span> <span class="nf">apply_selection_criteria</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">_apply_selection_criteria</span><span class="p">(</span>
     <span class="n">value</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
-    <span class="n">selection_criteria</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="n">selection_criteria</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a list of values parsed from a FHIR resource, return value(s) according to the</span>
-<span class="sd">    selection criteria. In general a single value is returned, but when</span>
-<span class="sd">    selection_criteria is set to &quot;all&quot; a list containing all of the parsed values is</span>
-<span class="sd">    returned.</span>
+<span class="sd">    Return value(s), according to the selection criteria, from a given list of values</span>
+<span class="sd">    parsed from a FHIR resource. A single string value is returned - if the selected</span>
+<span class="sd">    value is a complex structure (list or dict), it is converted to a string.</span>
 
-<span class="sd">    :param value: A list containing the values parsed from a FHIR resource.</span>
-<span class="sd">    :param selection_criteria: A string indicating which element(s) of a list to select.</span>
+<span class="sd">    :param value: A list containing the values parsed from a FHIR resource</span>
+<span class="sd">    :param selection_criteria: A string indicating which element(s) of a list to select</span>
+<span class="sd">    :return: Value(s) parsed from a FHIR resource that conform to the selection</span>
+<span class="sd">      criteria</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">selection_criteria</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span><span class="p">:</span>
@@ -74,20 +75,21 @@
         <span class="n">value</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">value</span></div>
+    <span class="k">return</span> <span class="n">value</span>
 
 
 <div class="viewcode-block" id="apply_schema_to_resource"><a class="viewcode-back" href="../../../../_source/phdi.fhir.tabulation.html#phdi.fhir.tabulation.tables.apply_schema_to_resource">[docs]</a><span class="k">def</span> <span class="nf">apply_schema_to_resource</span><span class="p">(</span><span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates and returns a dictionary of data based on a FHIR resource and a schema. The</span>
+<span class="sd">    Create and return a dictionary of data based on a FHIR resource and a schema. The</span>
 <span class="sd">    keys of the created dict are the &quot;new names&quot; for the fields in the given schema, and</span>
 <span class="sd">    the values are the elements of the given resource that correspond to these fields.</span>
 <span class="sd">    Here, &quot;new name&quot; is a property contained in the schema that specifies what a</span>
 <span class="sd">    particular variable should be called. If a schema can&#39;t be found for the given</span>
 <span class="sd">    resource type, the raw resource is instead returned.</span>
 
-<span class="sd">    :param resource: A FHIR resource on which to apply a schema.</span>
-<span class="sd">    :param schema: A schema specifying the desired values by FHIR resource type.</span>
+<span class="sd">    :param resource: A FHIR resource on which to apply a schema</span>
+<span class="sd">    :param schema: A schema specifying the desired values by FHIR resource type</span>
+<span class="sd">    :return: A dictionary of data with the desired values specified in the schema</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
@@ -104,7 +106,7 @@
             <span class="n">data</span><span class="p">[</span><span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;new_name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">selection_criteria</span> <span class="o">=</span> <span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;selection_criteria&quot;</span><span class="p">]</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="n">apply_selection_criteria</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">selection_criteria</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">_apply_selection_criteria</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">selection_criteria</span><span class="p">)</span>
             <span class="n">data</span><span class="p">[</span><span class="n">resource_schema</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="s2">&quot;new_name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">data</span></div>
@@ -116,9 +118,9 @@
     <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">],</span>
     <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">cred_manager</span><span class="p">:</span> <span class="n">BaseCredentialManager</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given the schema for a single table, make the table.</span>
+<span class="sd">    Make a table for a single schema.</span>
 
 <span class="sd">    :param schema: A schema specifying the desired values by FHIR resource type.</span>
 <span class="sd">    :param output_path: A path specifying where the table should be written.</span>
@@ -179,9 +181,9 @@
     <span class="n">output_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;parquet&quot;</span><span class="p">],</span>
     <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">cred_manager</span><span class="p">:</span> <span class="n">BaseCredentialManager</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given the url for a FHIR server, the location of a schema file, and and output</span>
+<span class="sd">    Given the url for a FHIR server, the location of a schema file, and the output</span>
 <span class="sd">    directory generate the specified schema and store the tables in the desired</span>
 <span class="sd">    location.</span>
 
@@ -206,11 +208,12 @@
 <span class="nd">@cache</span>
 <span class="k">def</span> <span class="nf">_get_fhirpathpy_parser</span><span class="p">(</span><span class="n">fhirpath_expression</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a fhirpathpy parser for a specific FHIRPath.  This cached function minimizes</span>
-<span class="sd">    calls to the relatively expensive :func:`fhirpathpy.compile` function for any given</span>
-<span class="sd">    `fhirpath_expression`</span>
+<span class="sd">    A function that accepts a resource parameter, and returns the evaluated value at</span>
+<span class="sd">    fhirpath_expression on that resource.</span>
 
 <span class="sd">    :param fhirpath_expression: The FHIRPath expression to evaluate</span>
+<span class="sd">    :return: A function that, when called passing in a FHIR resource, will return value</span>
+<span class="sd">      at fhirpath_expression</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">fhirpathpy</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fhirpath_expression</span><span class="p">)</span>
 </pre></div>
