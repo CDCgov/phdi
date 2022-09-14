@@ -4,21 +4,24 @@ from typing import List, Union
 
 class BaseCredentialManager(ABC):
     """
-    This class is intended to provide a common interface for managing service
-    credentials.
+    This class provides a common interface for managing service credentials.
     """
 
     @abstractmethod
     def get_credential_object(self) -> object:
         """
-        Returns a cloud-specific credential object
+        Get a cloud-specific credential object.
+
+        :return: A credential object
         """
         pass  # pragma: no cover
 
     @abstractmethod
     def get_access_token(self) -> str:
         """
-        Returns an access token using the managed credentials
+        Return an access token using the managed credentials.
+
+        :return: An access token
         """
         pass  # pragma: no cover
 
@@ -29,12 +32,13 @@ class BaseCloudContainerConnection(ABC):
         self, container_name: str, filename: str, encoding: str = "utf-8"
     ) -> str:
         """
-        Downloads a blob from storage.  Returns the `stream` parameter, if supplied.
-        Otherwise a new stream object containing blob content.
+        Download a blob from storage.
 
         :param container_name: The name of the container containing object to download
         :param filename: Location of file within storage
         :param encoding: Encoding applied to the downloaded content
+        :return: The `stream` parameter, if supplied. Otherwise a new stream object
+        containing blob content.
         """
         pass  # pragma: no cover
 
@@ -46,7 +50,7 @@ class BaseCloudContainerConnection(ABC):
         filename: str,
     ) -> None:
         """
-        Uploads the content of a given message to Azure blob storage.
+        Upload the content of a given message to Azure blob storage.
         Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
@@ -59,17 +63,19 @@ class BaseCloudContainerConnection(ABC):
     @abstractmethod
     def list_containers(self) -> List[str]:
         """
-        List names for this CloudContainerConnection's containers
+        List names for this CloudContainerConnection's containers.
 
+        :return: A list of container names
         """
         pass  # pragma: no cover
 
     @abstractmethod
     def list_objects(self) -> List[str]:
         """
-        List names for objects within a container
+        List names for objects within a container.
 
         :param container_name: The name of the container to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
+        :return: A list of objects within a container
         """
         pass  # pragma: no cover

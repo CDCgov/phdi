@@ -44,6 +44,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
         :param overwrite: Whether to save the geocoding information over
           the raw data, or to create a copy of the given data and write
           over that instead. Defaults to True (write over given data).
+        :return: Geocoded resource as a dict
         """
         if not overwrite:
             resource = copy.deepcopy(resource)
@@ -75,7 +76,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
         """
-        Performs geocoding on all resources in a given FHIR bundle whose
+        Perform geocoding on all resources in a given FHIR bundle whose
         resource type is among those supported by the PHDI SDK. Currently,
         this includes:
 
@@ -84,7 +85,8 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
         :param bundle: A bundle of fhir resources
         :param overwrite: Whether to overwrite the address data in the given
           bundle's resources (True), or whether to create a copy of the bundle
-          and overwrite that instead (False). Defaults to True.
+          and overwrite that instead (False). Defaults to True
+        :return: A FHIR bundle with geocoded address(es)
         """
         if not overwrite:
             bundle = copy.deepcopy(bundle)

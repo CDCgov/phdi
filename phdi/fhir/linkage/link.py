@@ -1,6 +1,6 @@
 import copy
 from phdi.fhir.utils import (
-    find_resource_by_type,
+    find_entries_by_resource_type,
     get_field,
     get_one_line_address,
 )
@@ -23,17 +23,20 @@ def add_patient_identifier_in_bundle(
     :param overwrite: Whether to write the new standardizations
         directly into the given bundle, changing the original data (True
         is yes)
+    :return: The bundle, resources updated with additional patient identifier
     """
     if not overwrite:
         bundle = copy.deepcopy(bundle)
 
-    for entry in find_resource_by_type(bundle, "Patient"):
+    for entry in find_entries_by_resource_type(bundle, "Patient"):
         patient = entry.get("resource")
-        add_patient_identifier(patient, salt_str, overwrite)
+        add_patient_identifier(patient, salt_str)
     return bundle
 
 
-def add_patient_identifier(patient_resource, salt_str, overwrite):
+def add_patient_identifier(
+    patient_resource: dict, salt_str: str, overwrite: bool = True
+):
     """
     Given a FHIR resource:
 
@@ -48,6 +51,7 @@ def add_patient_identifier(patient_resource, salt_str, overwrite):
     :param overwrite: Whether to write the new standardizations
         directly into the given bundle, changing the original data (True
         is yes)
+    :return: The resource updated with additional patient identifier
     """
     if not overwrite:
         patient_resource = copy.deepcopy(patient_resource)

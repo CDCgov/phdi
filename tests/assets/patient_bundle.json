@@ -66,6 +66,12 @@
                     }
                 ]
             }
+        },
+        {
+            "request": {
+                "method": "GET",
+                "url": "testing for entry with no resource"
+            }
         }
     ]
 }

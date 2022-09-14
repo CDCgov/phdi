@@ -21,6 +21,11 @@ def test_default_hl7_value():
     message_default_populated_field = open(
         pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
     ).read()
+    message_default_invalid_field = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "FileSingleMessageInvalidSegments.hl7"
+    ).read()
 
     message_default_empty_field = _default_hl7_value(
         message=message_default_empty_field,
@@ -36,6 +41,12 @@ def test_default_hl7_value():
     )
     message_default_populated_field = _default_hl7_value(
         message=message_default_populated_field,
+        segment_id="PID",
+        field_num=5,
+        default_value="some-default-value-populated",
+    )
+    message_default_invalid_field = _default_hl7_value(
+        message=message_default_invalid_field,
         segment_id="PID",
         field_num=5,
         default_value="some-default-value-populated",
@@ -66,10 +77,18 @@ def test_default_hl7_value():
         + "|2018080800000000000|M|||||||||||||||||||||\n"
         + "PD1|||||||||||02^^^^^|Y||||A\n"
     )
+    assert (
+        message_default_invalid_field
+        == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
+        + "2020051411020600|P^|2.4^^|||ER\n"
+        + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "CCC|||||||||||02^^^^^|Y||||A\n"
+    )
 
 
 def test_normalize_hl7_datetime_segment():
-    message_1 = (
+    message_long_date = (
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
@@ -79,11 +98,11 @@ def test_normalize_hl7_datetime_segment():
         .replace("\n", "\r")
     )
 
-    message_1_parsed = hl7.parse(message_1)
+    message_long_date_parsed = hl7.parse(message_long_date)
 
-    _normalize_hl7_datetime_segment(message_1_parsed, "PID", [7])
+    _normalize_hl7_datetime_segment(message_long_date_parsed, "PID", [7])
 
-    assert str(message_1_parsed).startswith(
+    assert str(message_long_date_parsed).startswith(
         "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|202005140100001234567890|"
         + "|VXU^V04|2020051411020600|P^|2.4^^|||ER\r"
         + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|"

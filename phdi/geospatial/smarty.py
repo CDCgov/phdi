@@ -38,13 +38,15 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_str(self, address: str) -> Union[GeocodeResult, None]:
         """
-        Geocodes a string-formatted address using SmartyStreets. If the result
+        Geocode a string-formatted address using SmartyStreets. If the result
         comes back valid, output is stored in a GeocodeResult object. If the
         result could not be latitude- or longitude-located, then Smarty failed
         to precisely geocode the address, so no result is returned. Raises
         an error if the provided address is empty.
 
         :param address: The address to geocode, given as a string
+        :return: A GeocodeResult object (if valid result) or None (if no valid
+          result)
         """
 
         # The smarty Lookup class will parse a BadRequestError but retry
@@ -58,11 +60,13 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
         """
-        Geocodes a dictionary-formatted address using SmartyStreets.
-        If a result is found, it is encoded as a GeocodeResult object and
-        returned, otherwise the function returns None.
+        Geocode a dictionary-formatted address using SmartyStreets.
+        If a result is found, encode as a GeocodeResult object and
+        return, otherwise the return None.
 
         :param address: a dictionary with fields outlined above
+        :return: A GeocodeResult object (if valid result) or None (if no valid
+          result)
         """
 
         # Smarty geocode requests must include a street level
@@ -86,7 +90,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         return self._parse_smarty_result(lookup)
 
     @staticmethod
-    def _parse_smarty_result(lookup):
+    def _parse_smarty_result(lookup) -> Union[GeocodeResult, None]:
         """
         Private helper function to parse a returned Smarty geocoding result into
         our standardized GeocodeResult class. If the Smarty lookup is null or
@@ -94,6 +98,8 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         instead.
 
         :param lookup: The us_street.lookup client instantiated for geocoding
+        :return: A parsed GeocodeResult object (if valid result) or None (if
+          no valid result)
         """
         # Valid responses have results with lat/long
         if lookup.result and lookup.result[0].metadata.latitude:
