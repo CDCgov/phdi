@@ -442,24 +442,62 @@ def test_list_objects(mock_get_client):
 
 
 @mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
-def test_gcp_list_objects(mock_get_client):
-    item1 = mock.Mock()
-    item1.name = "blob1"
-    item2 = mock.Mock()
-    item2.name = "blob2"
-    mock_object_list = [item1, item2]
+def test_gcp_upload_object(mock_get_client):
+    mock_blob = mock.Mock()
+    mock_bucket = mock.Mock()
 
-    mock_client = mock_get_client.return_value
+    mock_storage_client = mock.Mock()
+    mock_storage_client.bucket.return_value = mock_bucket
+    mock_bucket.blob.return_value = mock_blob
 
-    mock_client.list_blobs.return_value = mock_object_list
-
-    bucket_name = "some-bucket-name"
-    prefix = "some-prefix"
+    mock_get_client.return_value = mock_storage_client
 
     phdi_container_client = GcpCloudStorageConnection()
 
-    blob_list = phdi_container_client.list_objects(bucket_name, prefix)
+    object_bucket = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
 
-    mock_client.list_blobs.assert_called_with(bucket_name, prefix=prefix)
+    # Test both cases of input data types
+    object_content_json = {"hello": "world"}
+    object_content_str = "hello world"
 
-    assert blob_list == ["blob1", "blob2"]
+    phdi_container_client.upload_object(
+        object_content_str,
+        object_bucket,
+        object_path,
+    )
+    mock_storage_client.bucket.assert_called_with(object_bucket)
+    mock_blob.upload_from_string.assert_called_with(
+        data=object_content_str,
+        content_type="application/json",
+    )
+
+
+@mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
+def test_gcp_download_object(mock_get_client):
+    mock_blob = mock.Mock()
+    mock_bucket = mock.Mock()
+
+    mock_storage_client = mock.Mock()
+    mock_storage_client.bucket.return_value = mock_bucket
+    mock_bucket.blob.return_value = mock_blob
+
+    mock_get_client.return_value = mock_storage_client
+
+    object_bucket = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+    object_content = {"hello": "world"}
+
+    mock_blob.download_as_text.return_value = json.dumps(object_content)
+
+    phdi_container_client = GcpCloudStorageConnection()
+    download_content = phdi_container_client.download_object(
+        object_bucket,
+        object_path,
+    )
+
+    assert json.loads(download_content) == object_content
+
+    mock_storage_client.bucket.assert_called_with(object_bucket)
+
+    mock_blob.download_as_text.assert_called_with(encoding="utf-8")
