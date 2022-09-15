@@ -26,11 +26,9 @@ class BaseCredentialManager(ABC):
         pass  # pragma: no cover
 
 
-class BaseCloudContainerConnection(ABC):
+class BaseCloudStorageConnection(ABC):
     @abstractmethod
-    def download_object(
-        self, container_name: str, filename: str, encoding: str = "utf-8"
-    ) -> str:
+    def download_object(self, filename: str, encoding: str = "utf-8") -> str:
         """
         Download a blob from storage.
 
@@ -46,7 +44,6 @@ class BaseCloudContainerConnection(ABC):
     def upload_object(
         self,
         message: Union[str, dict],
-        container_name: str,
         filename: str,
     ) -> None:
         """
@@ -60,14 +57,14 @@ class BaseCloudContainerConnection(ABC):
         """
         pass  # pragma: no cover
 
-    @abstractmethod
-    def list_containers(self) -> List[str]:
-        """
-        List names for this CloudContainerConnection's containers.
+    # @abstractmethod
+    # def list_containers(self) -> List[str]:
+    #     """
+    #     List names for this CloudContainerConnection's containers.
 
-        :return: A list of container names
-        """
-        pass  # pragma: no cover
+    #     :return: A list of container names
+    #     """
+    #     pass  # pragma: no cover
 
     @abstractmethod
     def list_objects(self) -> List[str]:

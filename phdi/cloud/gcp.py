@@ -1,7 +1,8 @@
-from .core import BaseCredentialManager
+from .core import BaseCredentialManager, BaseCloudStorageConnection
 import google.auth
 import google.auth.transport.requests
 from google.auth.credentials import Credentials
+from google.cloud import storage
 
 
 class GcpCredentialManager(BaseCredentialManager):
@@ -81,3 +82,99 @@ class GcpCredentialManager(BaseCredentialManager):
         access_token = creds.token
 
         return access_token
+
+
+class GcpCloudContainerConnection(BaseCloudStorageConnection):
+    """
+    This class implements the PHDI cloud storage interface for connecting to Azure.
+    """
+
+    @property
+    def storage_account_url(self) -> str:
+        return self.__storage_account_url
+
+    @property
+    def cred_manager(self) -> GcpCredentialManager:
+        return self.__cred_manager
+
+    def __init__(self, storage_account_url: str, cred_manager: GcpCredentialManager):
+        """
+        Create a new AzureCloudContainerConnection object.
+
+        :param storage_account_url: Storage account location of the requested resource
+        :param cred_manager: The Azure credential manager
+        """
+        self.__storage_account_url = storage_account_url
+        self.__cred_manager = cred_manager
+
+    def _get_container_client(self, container_url: str) -> storage.Client:
+        """
+        Obtain a client connected to an Azure storage container by
+        utilizing the first valid credentials Azure can find. For
+        more information on the order in which the credentials are
+        checked, see the Azure documentation:
+        https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
+
+        :param container_url: The url at which to access the container
+        :return: Azure ContainerClient
+        """
+        creds = self.cred_manager.get_credential_object()
+        return storage.Client.from_service_account_json(container_url, credential=creds)
+
+    def download_object(
+        self, bucket_name: str, filename: str, encoding: str = "UTF-8"
+    ) -> str:
+        """
+        Download a character blob from storage and return it as a string.
+
+        :param container_name: The name of the container containing object to download
+        :param filename: Location of file within Azure blob storage
+        :param encoding: Encoding applied to the downloaded content
+        :return: Character blob (as a string) from given container and filename
+        """
+        storage_client = self._get_container_client()
+        blob = storage_client.bucket(bucket_name).blob
+        return blob.download_as_string(filename)
+
+    def upload_object(
+        self,
+        message: str,
+        bucket_name: str,
+        filename: str,
+        content_type="application/json",
+    ) -> None:
+        """
+        Upload the content of a given message to Azure blob storage.
+        Message can be passed either as a raw string or as JSON.
+
+        :param message: The contents of a message, encoded either as a
+          string or in a JSON format
+        :param container_name: The name of the target container for upload
+        :param filename: Location of file within Azure blob storage
+        """
+
+        storage_client = self._get_container_client()
+        bucket = storage_client.bucket(bucket_name)
+        destination_blob_name = filename
+
+        blob = bucket.blob(destination_blob_name)
+        blob.upload_from_string(data=message, content_type=content_type)
+
+    def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
+        """
+        List names for objects within a container.
+
+        :param container_name: The name of the container to look for objects
+        :param prefix: Filter for objects whose filenames begin with this value
+        :return: List of names for objects in given container
+        """
+        container_location = f"{self.storage_account_url}/{container_name}"
+        container_client = self._get_container_client(container_location)
+
+        blob_properties_generator = container_client.list_blobs(name_starts_with=prefix)
+
+        blob_name_list = []
+        for blob_propreties in blob_properties_generator:
+            blob_name_list.append(blob_propreties.name)
+
+        return blob_name_list

@@ -1,6 +1,6 @@
 import json
 
-from phdi.cloud.core import BaseCredentialManager, BaseCloudContainerConnection
+from phdi.cloud.core import BaseCredentialManager, BaseCloudStorageConnection
 from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
@@ -77,7 +77,7 @@ class AzureCredentialManager(BaseCredentialManager):
             return True
 
 
-class AzureCloudContainerConnection(BaseCloudContainerConnection):
+class AzureCloudContainerConnection(BaseCloudStorageConnection):
     """
     This class implements the PHDI cloud storage interface for connecting to Azure.
     """
@@ -177,7 +177,7 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
 
         return container_name_list
 
-    def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
+    def list_objects(self, bucket_name: str, prefix: str = "") -> List[str]:
         """
         List names for objects within a container.
 
@@ -185,13 +185,8 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
         :param prefix: Filter for objects whose filenames begin with this value
         :return: List of names for objects in given container
         """
-        container_location = f"{self.storage_account_url}/{container_name}"
-        container_client = self._get_container_client(container_location)
-
-        blob_properties_generator = container_client.list_blobs(name_starts_with=prefix)
-
+        client = self._get_container_client()
         blob_name_list = []
-        for blob_propreties in blob_properties_generator:
-            blob_name_list.append(blob_propreties.name)
-
+        for blob in client.list_blobs(bucket_name, prefix=prefix):
+            blob_name_list.append(blob.name)
         return blob_name_list
