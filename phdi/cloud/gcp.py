@@ -84,7 +84,7 @@ class GcpCredentialManager(BaseCredentialManager):
         return access_token
 
 
-class GcpCloudContainerConnection(BaseCloudStorageConnection):
+class GcpCloudStorageConnection(BaseCloudStorageConnection):
     """
     This class implements the PHDI cloud storage interface for connecting to Azure.
     """
