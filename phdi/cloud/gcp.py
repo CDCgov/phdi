@@ -162,7 +162,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         storage_client = self._get_storage_client()
 
         blob_properties_generator = storage_client.list_blobs(
-            bucket_name, name_starts_with=prefix
+            bucket_name, prefix=prefix
         )
 
         blob_name_list = []
