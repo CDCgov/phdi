@@ -56,7 +56,7 @@ def get_field(resource: dict, field: str, use: str, default_field: int = 0) -> s
         )
     except Exception:
         raise IndexError(
-            "Index of provided field default is beyond length of field array"
+            "Index of provided field default is out of range for field array"
         )
 
 
