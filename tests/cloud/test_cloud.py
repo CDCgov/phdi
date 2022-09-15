@@ -10,7 +10,7 @@ from phdi.cloud.azure import (
     AzureCredentialManager,
     AzureCloudContainerConnection,
 )
-from phdi.cloud.gcp import GcpCredentialManager
+from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
@@ -437,5 +437,29 @@ def test_list_objects(mock_get_client):
     mock_get_client.assert_called_with(f"{object_storage_account}/{object_container}")
 
     mock_client.list_blobs.assert_called_with(name_starts_with=object_prefix)
+
+    assert blob_list == ["blob1", "blob2"]
+
+
+@mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
+def test_gcp_list_objects(mock_get_client):
+    item1 = mock.Mock()
+    item1.name = "blob1"
+    item2 = mock.Mock()
+    item2.name = "blob2"
+    mock_object_list = [item1, item2]
+
+    mock_client = mock_get_client.return_value
+
+    mock_client.list_blobs.return_value = mock_object_list
+
+    bucket_name = "some-bucket-name"
+    prefix = "some-prefix"
+
+    phdi_container_client = GcpCloudStorageConnection()
+
+    blob_list = phdi_container_client.list_objects(bucket_name, prefix)
+
+    mock_client.list_blobs.assert_called_with(bucket_name, prefix=prefix)
 
     assert blob_list == ["blob1", "blob2"]
