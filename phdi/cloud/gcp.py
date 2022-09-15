@@ -1,3 +1,4 @@
+from typing import List
 from .core import BaseCredentialManager, BaseCloudStorageConnection
 import google.auth
 import google.auth.transport.requests
@@ -97,17 +98,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
     def cred_manager(self) -> GcpCredentialManager:
         return self.__cred_manager
 
-    def __init__(self, storage_account_url: str, cred_manager: GcpCredentialManager):
-        """
-        Create a new AzureCloudContainerConnection object.
-
-        :param storage_account_url: Storage account location of the requested resource
-        :param cred_manager: The Azure credential manager
-        """
-        self.__storage_account_url = storage_account_url
-        self.__cred_manager = cred_manager
-
-    def _get_container_client(self, container_url: str) -> storage.Client:
+    def _get_storage_client(self) -> storage.Client:
         """
         Obtain a client connected to an Azure storage container by
         utilizing the first valid credentials Azure can find. For
@@ -118,8 +109,8 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         :param container_url: The url at which to access the container
         :return: Azure ContainerClient
         """
-        creds = self.cred_manager.get_credential_object()
-        return storage.Client.from_service_account_json(container_url, credential=creds)
+
+        return storage.Client()
 
     def download_object(
         self, bucket_name: str, filename: str, encoding: str = "UTF-8"
@@ -132,7 +123,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         :param encoding: Encoding applied to the downloaded content
         :return: Character blob (as a string) from given container and filename
         """
-        storage_client = self._get_container_client()
+        storage_client = self._get_storage_client()
         blob = storage_client.bucket(bucket_name).blob
         return blob.download_as_string(filename)
 
@@ -153,14 +144,14 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         :param filename: Location of file within Azure blob storage
         """
 
-        storage_client = self._get_container_client()
+        storage_client = self._get_storage_client()
         bucket = storage_client.bucket(bucket_name)
         destination_blob_name = filename
 
         blob = bucket.blob(destination_blob_name)
         blob.upload_from_string(data=message, content_type=content_type)
 
-    def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
+    def list_objects(self, bucket_name: str, prefix: str = "") -> List[str]:
         """
         List names for objects within a container.
 
@@ -168,10 +159,11 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         :param prefix: Filter for objects whose filenames begin with this value
         :return: List of names for objects in given container
         """
-        container_location = f"{self.storage_account_url}/{container_name}"
-        container_client = self._get_container_client(container_location)
+        storage_client = self._get_storage_client()
 
-        blob_properties_generator = container_client.list_blobs(name_starts_with=prefix)
+        blob_properties_generator = storage_client.list_blobs(
+            bucket_name, name_starts_with=prefix
+        )
 
         blob_name_list = []
         for blob_propreties in blob_properties_generator:
