@@ -113,7 +113,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         return storage.Client()
 
     def download_object(
-        self, bucket_name: str, filename: str, encoding: str = "UTF-8"
+        self, bucket_name: str, filename: str, encoding: str = "utf-8"
     ) -> str:
         """
         Download a character blob from storage and return it as a string.
@@ -124,8 +124,8 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         :return: Character blob (as a string) from given container and filename
         """
         storage_client = self._get_storage_client()
-        blob = storage_client.bucket(bucket_name).blob
-        return blob.download_as_string(filename)
+        blob = storage_client.bucket(bucket_name).blob(filename)
+        return blob.download_as_text(encoding)
 
     def upload_object(
         self,
@@ -146,9 +146,8 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
         storage_client = self._get_storage_client()
         bucket = storage_client.bucket(bucket_name)
-        destination_blob_name = filename
 
-        blob = bucket.blob(destination_blob_name)
+        blob = bucket.blob(filename)
         blob.upload_from_string(data=message, content_type=content_type)
 
     def list_objects(self, bucket_name: str, prefix: str = "") -> List[str]:
