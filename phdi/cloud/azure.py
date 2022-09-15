@@ -192,4 +192,5 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         blob_name_list = []
         for blob_propreties in blob_properties_generator:
             blob_name_list.append(blob_propreties.name)
+
         return blob_name_list
