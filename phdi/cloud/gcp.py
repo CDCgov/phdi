@@ -125,7 +125,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         """
         storage_client = self._get_storage_client()
         blob = storage_client.bucket(bucket_name).blob(filename)
-        return blob.download_as_text(encoding)
+        return blob.download_as_text(encoding=encoding)
 
     def upload_object(
         self,
