@@ -87,8 +87,12 @@ class GcpCredentialManager(BaseCredentialManager):
 
 class GcpCloudStorageConnection(BaseCloudStorageConnection):
     """
-    This class implements the PHDI cloud storage interface for connecting to Azure.
+    This class implements the PHDI cloud storage interface for connecting to GCP.
     """
+
+    @property
+    def storage_client(self) -> storage.Client:
+        return self.__storage_client
 
     @property
     def storage_account_url(self) -> str:
@@ -100,17 +104,17 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
     def _get_storage_client(self) -> storage.Client:
         """
-        Obtain a client connected to an Azure storage container by
-        utilizing the first valid credentials Azure can find. For
-        more information on the order in which the credentials are
-        checked, see the Azure documentation:
-        https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
+        Obtain a client connected to an GCP storage container by
+        utilizing the first valid credentials GCP can find. Credential validation
+        is handeled by GCP
 
-        :param container_url: The url at which to access the container
-        :return: Azure ContainerClient
+        :return: GCP storage client
         """
 
-        return storage.Client()
+        if self.__storage_client is None:
+            self.__storage_client = storage.Client()
+
+        return self.__storage_client
 
     def download_object(
         self, bucket_name: str, filename: str, encoding: str = "utf-8"
@@ -118,15 +122,13 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         """
         Download a character blob from storage and return it as a string.
 
-        :param container_name: The name of the container containing object to download
-        :param filename: Location of file within Azure blob storage
+        :param bucket_name: The name of the bucket containing object to download
+        :param filename: Location of file within GCP blob storage
         :param encoding: Encoding applied to the downloaded content
-        :return: Character blob (as a string) from given container and filename
+        :return: Character blob (as a string) from given bucket and filename
         """
         storage_client = self._get_storage_client()
         blob = storage_client.bucket(bucket_name).blob(filename)
-        print("hello")
-        print(blob.download_as_text(encoding=encoding))
         return blob.download_as_text(encoding=encoding)
 
     def upload_object(
@@ -137,13 +139,13 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         content_type="application/json",
     ) -> None:
         """
-        Upload the content of a given message to Azure blob storage.
+        Upload the content of a given message to GCP blob storage.
         Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
           string or in a JSON format
-        :param container_name: The name of the target container for upload
-        :param filename: Location of file within Azure blob storage
+        :param bucket_name: The name of the target bucket for upload
+        :param filename: Location of file within GCP blob storage
         """
 
         storage_client = self._get_storage_client()
@@ -154,11 +156,11 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
     def list_objects(self, bucket_name: str, prefix: str = "") -> List[str]:
         """
-        List names for objects within a container.
+        List names for objects within a bucket.
 
-        :param container_name: The name of the container to look for objects
+        :param bucket_name: The name of the bucket to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
-        :return: List of names for objects in given container
+        :return: List of names for objects in given bucket
         """
         storage_client = self._get_storage_client()
 
