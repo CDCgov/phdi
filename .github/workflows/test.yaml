@@ -77,7 +77,9 @@ jobs:
       - name: Get version of project
         run: |
           $pypi_version="$(toml get --toml-path pyproject.toml tool.poetry.version)"
-          $semantic_version="$($pypi_version.Substring(0,5))-$($pypi_version.Substring(6,3))"
+      - name: Rework for semantic version
+        run: |
+          $semantic_version="v$($pypi_version.Substring(0,5))-$($pypi_version.Substring(6,3))"
       - name: Rename html folder to semantic version
         run: |
           Rename-Item -Path ".\docs\html" -NewName $semantic_version
