@@ -79,7 +79,7 @@ jobs:
           $pypi_version="$(toml get --toml-path pyproject.toml tool.poetry.version)"
       - name: Rework for semantic version
         run: |
-          $semantic_version="v$($pypi_version.Substring(0,5))-$($pypi_version.Substring(6,3))"
+          $semantic_version="v$($pypi_version.Substring(0,5))-$($pypi_version.split(".")[-1] -replace '[^a-zA-Z-]','')"
       - name: Rename html folder to semantic version
         run: |
           Rename-Item -Path ".\docs\html" -NewName $semantic_version
