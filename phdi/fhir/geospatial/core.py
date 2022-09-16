@@ -23,7 +23,7 @@ class BaseFhirGeocodeClient(ABC):
           and overwrite that instead (False). Defaults to True
         :return: Geocoded resource as a dict
         """
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
@@ -37,7 +37,7 @@ class BaseFhirGeocodeClient(ABC):
           and overwrite that instead (False). Defaults to True
         :return: Geocoded bundle as a dict
         """
-        pass
+        pass  # pragma: no cover
 
     @staticmethod
     def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:
