@@ -457,8 +457,6 @@ def test_gcp_upload_object(mock_get_client):
     object_bucket = "some-container"
     object_path = "output/path/some-bundle-type/some-filename-1.fhir"
 
-    # Test both cases of input data types
-    object_content_json = {"hello": "world"}
     object_content_str = "hello world"
 
     phdi_container_client.upload_object(
