@@ -1,9 +1,10 @@
 import pathlib
-from unittest import mock
+import pytest
 
 from phdi.fhir.conversion import convert_to_fhir
 from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
 from phdi.harmonization import standardize_hl7_datetimes
+from unittest import mock
 
 
 def test_get_fhir_conversion_settings():
@@ -43,6 +44,23 @@ def test_get_fhir_conversion_settings():
         "root_template": "ProcedureNote",
         "input_data_type": "Ccda",
         "template_collection": "microsofthealth/ccdatemplates:default",
+    }
+
+    # CCDA case (using an adpated example found at
+    # https://github.com/HL7/C-CDA-Examples)
+    message = ""
+    with open(
+        pathlib.Path(__file__).parent.parent / "assets" / "ccda_sample_unknowntype.xml"
+    ) as fp:
+        message = fp.read()
+    with pytest.raises(KeyError):
+        _get_fhir_conversion_settings(message)
+
+    settings = _get_fhir_conversion_settings(message=message, use_default_ccda=True)
+    assert settings == {
+        "root_template": "CCD",
+        "input_data_type": "Ccda",
+        "template_collection": "microsofthealth/ccdatemplates:default",  # noqa
     }
 
 
@@ -96,6 +114,48 @@ def test_convert_to_fhir_success(mock_requests_session):
 
 
 @mock.patch("requests.Session")
+def test_convert_to_fhir_unrecognized_data(mock_requests_session):
+
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_requests_session_instance.post.return_value = mock.Mock(
+        status_code=200,
+        json=lambda: {"resourceType": "Bundle", "entry": [{"hello": "world"}]},
+    )
+
+    mock_access_token_value = "some-token"
+    mock_access_token = mock.Mock()
+    mock_access_token.token = mock_access_token_value
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token
+
+    message = ""
+    with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
+        message = fp.read()
+
+    message_without_types_parts = message.split("|")
+    message_without_types_parts[8] = ""
+
+    message_without_type = "|".join(message_without_types_parts)
+    print(message_without_type)
+
+    response = None
+    with pytest.raises(Exception):
+        response = convert_to_fhir(
+            message_without_type,
+            mock_cred_manager,
+            "some-fhir-url",
+        )
+    assert response is None
+
+    message_bad = "BAD Message Data"
+
+    with pytest.raises(Exception):
+        response = convert_to_fhir(message_bad, mock_cred_manager, "some-fhir-url")
+    assert response is None
+
+
+@mock.patch("requests.Session")
 def test_convert_to_fhir_failure(mock_requests_session):
 
     mock_requests_session_instance = mock_requests_session.return_value
@@ -117,15 +177,12 @@ def test_convert_to_fhir_failure(mock_requests_session):
     # since we're not using a unittest class structure and the exception is
     # _not_ merely a unittest.mock.side_effect of the session instance
     response = None
-    try:
+    with pytest.raises(
+        Exception, match="^HTTP 400 code encountered in \\$convert-data for a message$"
+    ):
         response = convert_to_fhir(
             message,
             mock_cred_manager,
             "some-fhir-url",
         )
-    except Exception as e:
-        assert (
-            repr(e)
-            == "Exception('HTTP 400 code encountered in $convert-data for a message')"
-        )
-        assert response is None
+    assert response is None
