@@ -3,6 +3,7 @@ import os
 import yaml
 import pathlib
 from unittest import mock
+import pytest
 
 from phdi.tabulation import (
     load_schema,
@@ -17,6 +18,10 @@ def test_load_schema():
     ) == yaml.safe_load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
     )
+
+    # Test invalid schema file path
+    with pytest.raises(Exception):
+        load_schema("invalidPath")
 
 
 @mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
