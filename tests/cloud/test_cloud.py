@@ -499,3 +499,28 @@ def test_gcp_download_object(mock_get_client):
     mock_storage_client.bucket.assert_called_with(object_bucket)
 
     mock_blob.download_as_text.assert_called_with(encoding="utf-8")
+
+
+@mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
+def test_gcp_list_objects(mock_get_client):
+    item1 = mock.Mock()
+    item1.name = "blob1"
+    item2 = mock.Mock()
+    item2.name = "blob2"
+    mock_object_list = [item1, item2]
+
+    mock_storage_client = mock.Mock()
+
+    mock_get_client.return_value = mock_storage_client
+
+    mock_storage_client.list_blobs.return_value = mock_object_list
+
+    object_bucket = "some-container"
+
+    phdi_container_client = GcpCloudStorageConnection()
+
+    blob_list = phdi_container_client.list_objects(object_bucket)
+
+    mock_storage_client.list_blobs.assert_called_with(object_bucket, prefix="")
+
+    assert blob_list == ["blob1", "blob2"]
