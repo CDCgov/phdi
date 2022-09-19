@@ -38,7 +38,7 @@ def _apply_selection_criteria(
     # https://github.com/awslabs/aws-data-wrangler/issues/463
     # Will need to consider other methods of writing to parquet if this is an essential
     # feature.
-    if type(value) == dict:
+    if type(value) == dict:  # pragma: no cover
         value = json.dumps(value)
     elif type(value) == list:
         value = ",".join(value)
@@ -70,7 +70,7 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
         value = parse_function(resource)
 
         if len(value) == 0:
-            data[resource_schema[field]["new_name"]] = ""
+            data[resource_schema[field]["new_name"]] = ""  # pragma: no cover
         else:
             selection_criteria = resource_schema[field]["selection_criteria"]
             value = _apply_selection_criteria(value, selection_criteria)
