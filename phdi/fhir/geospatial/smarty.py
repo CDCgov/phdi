@@ -1,4 +1,4 @@
-from copy import copy
+import copy
 from smartystreets_python_sdk import us_street
 
 from phdi.geospatial.smarty import SmartyGeocodeClient
