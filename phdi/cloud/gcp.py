@@ -94,14 +94,6 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
     def storage_client(self) -> storage.Client:
         return self.__storage_client
 
-    @property
-    def storage_account_url(self) -> str:
-        return self.__storage_account_url
-
-    @property
-    def cred_manager(self) -> GcpCredentialManager:
-        return self.__cred_manager
-
     def _get_storage_client(self) -> storage.Client:
         """
         Obtain a client connected to an GCP storage container by
