@@ -12,12 +12,17 @@ from phdi.fhir.tabulation.tables import (
 )
 
 
-def test__apply_selection_criteria():
-    test_list = ["one", "two", "three"]
-    assert _apply_selection_criteria(test_list, "first") == "one"
-    assert _apply_selection_criteria(test_list, "last") == "three"
-    assert _apply_selection_criteria(test_list, "random") in test_list
-    assert _apply_selection_criteria(test_list, "all") == ",".join(test_list)
+def test_apply_selection_criteria():
+    selection_criteria_test_list = ["one", "two", "three"]
+    assert _apply_selection_criteria(selection_criteria_test_list, "first") == "one"
+    assert _apply_selection_criteria(selection_criteria_test_list, "last") == "three"
+    assert (
+        _apply_selection_criteria(selection_criteria_test_list, "random")
+        in selection_criteria_test_list
+    )
+    assert _apply_selection_criteria(selection_criteria_test_list, "all") == ",".join(
+        selection_criteria_test_list
+    )
 
 
 def test_apply_schema_to_resource():
@@ -44,6 +49,17 @@ def test_apply_schema_to_resource():
         "last_name": "doe",
         "phone_number": "123-456-7890",
     }
+
+    # Test for resource_schema is None
+    resource = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+    resource = resource["entry"][0]["resource"]
+    assert apply_schema_to_resource(resource, schema) == {}
 
 
 @mock.patch("phdi.fhir.tabulation.tables.write_table")
