@@ -116,34 +116,29 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
     """
     # Some streams (e.g. ELR, VXU) are HL7v2 encoded
     if message[:3] == "MSH":
-        try:
-            parsed_msg = hl7.parse(message)
-            extracted_code = str(parsed_msg.segment("MSH")[9])
+        parsed_msg = hl7.parse(message)
+        extracted_code = str(parsed_msg.segment("MSH")[9])
 
-            # HL7 MSH segment 9 has three components: message code, trigger
-            # event, and message structure. We can extract based on number of
-            # present separators and recombine to create a robust formatted code
-            extracted_code_tokenized = extracted_code.split(parsed_msg.separators[3])
-            formatted_code = ""
-            if (len(extracted_code_tokenized) >= 3) and (
-                extracted_code_tokenized[2] != ""
-            ):
-                formatted_code = extracted_code_tokenized[2]
-            elif len(extracted_code_tokenized) == 2:
-                formatted_code = (
-                    f"{extracted_code_tokenized[0]}_{extracted_code_tokenized[1]}"
-                )
+        # HL7 MSH segment 9 has three components: message code, trigger
+        # event, and message structure. We can extract based on number of
+        # present separators and recombine to create a robust formatted code
+        extracted_code_tokenized = extracted_code.split(parsed_msg.separators[3])
+        formatted_code = ""
+        if (len(extracted_code_tokenized) >= 3) and (extracted_code_tokenized[2] != ""):
+            formatted_code = extracted_code_tokenized[2]
+        elif len(extracted_code_tokenized) == 2:
+            formatted_code = (
+                f"{extracted_code_tokenized[0]}_{extracted_code_tokenized[1]}"
+            )
 
-            if formatted_code == "":
-                raise Exception("Could not determine HL7 message structure")
+        if formatted_code == "":
+            raise Exception("Could not determine HL7 message structure")
 
-            return {
-                "root_template": formatted_code,
-                "input_data_type": "HL7v2",
-                "template_collection": "microsofthealth/fhirconverter:default",
-            }
-        except hl7.exceptions.ParseException:
-            raise hl7.exceptions.ParseException("Input HL7 message could not be parsed")
+        return {
+            "root_template": formatted_code,
+            "input_data_type": "HL7v2",
+            "template_collection": "microsofthealth/fhirconverter:default",
+        }
 
     # Others conform to C-CDA standards (e.g. ECR)
     else:
