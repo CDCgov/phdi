@@ -31,6 +31,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
         :param resource_location: The URL or other location of the requested resource.
         :param scope: A space-delimited list of scopes to limit access to resource.
+          Default: `None`
         """
         self.__resource_location = resource_location
         self.__scope = scope
@@ -44,7 +45,7 @@ class AzureCredentialManager(BaseCredentialManager):
         Get an Azure-specific credential object.
 
         :return: An instance of one of the \\*Credential objects from the
-        `azure.identity` package.
+          `azure.identity` package.
         """
         return DefaultAzureCredential()
 
@@ -113,7 +114,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
 
         :param container_url: The url at which to access the container.
-        :return: The Azure ContainerClient
+        :return: The Azure `ContainerClient`.
         """
         creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
@@ -126,7 +127,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
         :param container_name: The name of the container containing object to download.
         :param filename: The location of the file within Azure blob storage.
-        :param encoding: The encoding applied to the downloaded content.
+        :param encoding: The encoding applied to the downloaded content. Default: UTF-8
         :return: A character blob as a string from the given container and filename.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
@@ -152,7 +153,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         :param message: The contents of a message, encoded either as a
           string or a JSON-formatted dictionary.
         :param container_name: The name of the target container for upload.
-        :param filename: The location of file to uploade within Azure blob storage.
+        :param filename: The location of file to upload within Azure blob storage.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)

@@ -173,8 +173,8 @@ def generate_all_tables_in_schema(
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Accepts a FHIRPath expression, and returns a callable function which returns the
-    evaluated value at fhirpath_expression on a specified FHIR resource.
+    Accept a FHIRPath expression, and return a callable function which returns the
+    evaluated value at fhirpath_expression for a specified FHIR resource.
 
     :param fhirpath_expression: The FHIRPath expression to evaluate.
     :return: A function that, when called passing in a FHIR resource, will return value

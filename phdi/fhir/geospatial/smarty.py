@@ -23,8 +23,8 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
         An instance of the underlying Smarty client. This
         allows the FHIR wrapper to access a SmartyStreets-
         specific connection client without instantiating its own
-        copy. It also provides access to the respective geocode_from_str
-        and geocode_from_dict methods if they're desired.
+        copy. It also provides access to the respective `geocode_from_str`
+        and `geocode_from_dict` methods if they're desired.
         """
         return self.__client
 
@@ -53,7 +53,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def _geocode_patient_resource(self, patient: dict) -> None:
         """
-        Handles geocoding of all addresses in a given patient resource.\
+        Geocode all addresses in a patient resource.
 
         :param patient: A FHIR Patient resource.
         """
@@ -73,11 +73,11 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
         """
-        Perform geocoding on all resources in a given FHIR bundle whose
+        Geocode on all resources in a given FHIR bundle whose
         resource type is among those supported by the PHDI SDK. Currently,
         this includes:
 
-            - Patient
+        * Patient
 
         :param bundle: A bundle of FHIR resources.
         :param overwrite: Whether to save the geocoding information over

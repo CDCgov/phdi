@@ -36,8 +36,8 @@ def convert_to_fhir(
     formatted data. Otherwise, the FHIR server will respond
     with a status code of 200 along with the converted FHIR data.
 
-    :param message: The raw message that needs to be converted to
-      FHIR. Must be HL7v2 or CCDA.
+    :param message: The raw message that needs to be converted to FHIR.
+      Must be HL7v2 or CCDA.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param fhir_url: A URL that points to the location of the FHIR server.
     :param use_default_ccda: Whether to default to the
@@ -92,12 +92,12 @@ def convert_to_fhir(
 
 def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
     """
-    Private helper function to determine what settings to use with the
-    FHIR server to facilitate message conversion. Attempt to identify which data type
-    the input has (HL7 or XML) and determine the appropriate FHIR converter root
-    template to use. Raise an exception if the user opts to not use the default CCDA
-    root template for an unsupported input resouece and a message's extracted
-    LOINC code doesn't correspond to an existing CCDA template.
+    Determine which settings to use with the FHIR server to facilitate message
+    conversion. Attempt to identify which data type the input has (HL7 or XML)
+    and determine the appropriate FHIR converter root template to use. Raise
+    an exception if the user opts to not use the default CCDA root template for
+    an unsupported input resouece and a message's extracted LOINC code doesn't
+    correspond to an existing CCDA template.
 
     More information about the required templates and settings can be found here:
 

@@ -16,10 +16,11 @@ def http_request_with_reauth(
     data: dict = None,
 ) -> requests.Response:
     """
-    First, call :func:`utils.http_request_with_retry`. If the first call failed
-    with an authorization error (HTTP status 401), obtain a new token using the
+    First, call :func:`phdi.transport.http.http_request_with_retry`. If the first call
+    failed with an authorization error (HTTP status 401), obtain a new token using the
     `cred_manager`, and if the original request had an Authorization header, replace
-    with the new token and re-initiate :func:`utils.http_request_with_retry`.
+    with the new token and re-initiate
+    :func:`phdi.transport.http.http_request_with_retry`.
 
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param url: The url at which to make the HTTP request.

@@ -17,7 +17,7 @@ def download_from_fhir_export_response(
     Loops through the "output" array and yields the resource_type (e.g. Patient)
     along with TextIO wrapping ndjson content.
 
-    :param export_response: A dictionary holding the final expor response.
+    :param export_response: A dictionary holding the final export response.
     :param cred_manager: The credential manager used to authenticate to the
       storage account.
     :return: An iterator of tuples. Each tuple is comprised of:
@@ -43,9 +43,11 @@ def _download_export_blob(
     """
     Download an export file blob.
 
-    :param blob_url: Blob URL location to download from blob storage
-    :param cred_manager: Service used to get an access token used to make a request
-    :param encoding: encoding to apply to the ndjson content, defaults to "utf-8"
+    :param blob_url: The blob URL location to download from blob storage.
+    :param cred_manager: The credential manager used to authenticate to the
+      storage account.
+    :param encoding: The character encoding to apply to the downloaded content.
+      Default: utf-8
     :return: Content of export file located at `blob_url`
     """
     bytes_buffer = io.BytesIO()
