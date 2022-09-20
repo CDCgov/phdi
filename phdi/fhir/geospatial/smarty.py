@@ -38,9 +38,9 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
         :param resource: The resource whose addresses should be geocoded.
         :param overwrite: Whether to save the geocoding information over
-          the raw data, or to create a copy of the given data and write
-          over that instead. Default: `True`
-        :return: A geocoded resource as a dict
+          the raw data (`True`), or to create a copy of the given data and write
+          over that instead (`False`). Default: `True`
+        :return: The geocoded resource as a dict.
         """
         if not overwrite:
             resource = copy.deepcopy(resource)
@@ -79,11 +79,11 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
         * Patient
 
-        :param bundle: A bundle of fhir resources.
+        :param bundle: A bundle of FHIR resources.
         :param overwrite: Whether to save the geocoding information over
-          the raw data, or to create a copy of the given data and write
-          over that instead. Default: `True`
-        :return: A FHIR bundle with geocoded address(es).
+          the raw data (`True`), or to create a copy of the given data and write
+          over that instead (`False`). Default: `True`
+        :return: The FHIR bundle with geocoded address(es).
         """
         if not overwrite:
             bundle = copy.deepcopy(bundle)
