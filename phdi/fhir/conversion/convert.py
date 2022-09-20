@@ -44,7 +44,7 @@ def convert_to_fhir(
       base "CCD" root template if a resource's LOINC code doesn't
       map to a specific supported template. Default: `False`
     :return: A `requests.Response` object containing the response from
-      the FHIR converter
+      the FHIR converter.
 
     """
     conversion_settings = _get_fhir_conversion_settings(message, use_default_ccda)

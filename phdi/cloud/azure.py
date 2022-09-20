@@ -54,8 +54,8 @@ class AzureCredentialManager(BaseCredentialManager):
         Obtains an access token from the Azure identity provider. Returns the
         access token string, refreshed if expired or force_refresh is specified.
 
-        :param force_refresh: `True` if a new token should be requested, regardless
-          of expiration timestamp. `False` otherwise. Default: `False`
+        :param force_refresh: Whether to force token refresh even if the
+          current token is still valid. Default: `False`
         :return: An Azure access token.
         """
         if force_refresh or (self.access_token is None) or self._need_new_token():
@@ -66,11 +66,11 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def _need_new_token(self) -> bool:
         """
-        Determines whether the token already stored for this object can be reused,
+        Determine whether the token already stored for this object can be reused,
         or if it needs to be re-requested. A new token is needed if a token has not
         yet been created, or if the current token has expired.
 
-        :return: True if a new Azure access token is needed; false otherwise.
+        :return: Whether a new Azure access token is needed.
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()
@@ -114,7 +114,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
 
         :param container_url: The url at which to access the container.
-        :return: The Azure `ContainerClient`.
+        :return: The Azure ContainerClient
         """
         creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
@@ -127,7 +127,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
         :param container_name: The name of the container containing object to download.
         :param filename: The location of the file within Azure blob storage.
-        :param encoding: The encoding applied to the downloaded content. Default: UTF-8
+        :param encoding: The encoding applied to the downloaded content.
         :return: A character blob as a string from the given container and filename.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
@@ -147,13 +147,13 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         filename: str,
     ) -> None:
         """
-        Uploads the content of a given message to Azure blob storage.
+        Upload the content of a given message to Azure blob storage.
         The message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
           string or a JSON-formatted dictionary.
         :param container_name: The name of the target container for upload.
-        :param filename: The location of file to upload within Azure blob storage.
+        :param filename: The location of file to uploade within Azure blob storage.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -184,7 +184,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
-        Lists names for objects within a container.
+        List names for objects within a container.
 
         :param container_name: The name of the container to look for objects.
         :param prefix: Filter the objects returned to filenames beginning
