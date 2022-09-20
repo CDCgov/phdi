@@ -94,7 +94,8 @@ def generate_table(
     :param output_path: A path specifying where the table should be written.
     :param output_format: A string indicating the file format to be used.
     :param fhir_url: A URL to a FHIR server.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :param cred_manager: The credential manager which should be used to authenticate
+      to the FHIR server.
     """
     output_path.mkdir(parents=True, exist_ok=True)
     for resource_type in schema:
@@ -150,7 +151,7 @@ def generate_all_tables_in_schema(
     cred_manager: BaseCredentialManager,
 ) -> None:
     """
-    Queries a FHIR server for information, and generates and stores the tables in the
+    Query a FHIR server for information, and generate and store the tables in the
     desired location, according to the supplied schema.
 
     :param schema_path: A path to the location of a YAML schema config file.
@@ -158,7 +159,8 @@ def generate_all_tables_in_schema(
       be written.
     :param output_format: The file format of the tables to be generated.
     :param fhir_url: The URL to a FHIR server.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :param cred_manager: The credential manager which should be used to authenticate
+      to the FHIR server.
     """
 
     schema = load_schema(schema_path)
@@ -174,7 +176,7 @@ def generate_all_tables_in_schema(
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
     Accepts a FHIRPath expression, and returns a callable function which returns the
-    evaluated value at fhirpath_expression for a specified FHIR resource.
+    evaluated value at fhirpath_expression on a specified FHIR resource.
 
     :param fhirpath_expression: The FHIRPath expression to evaluate.
     :return: A function that, when called passing in a FHIR resource, will return value

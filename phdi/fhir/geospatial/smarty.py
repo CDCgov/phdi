@@ -20,8 +20,8 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
     @property
     def geocode_client(self) -> us_street.Client:
         """
-        An instance of the underlying Smarty client.
-        Allows the FHIR wrapper to access a SmartyStreets-
+        An instance of the underlying Smarty client. This
+        allows the FHIR wrapper to access a SmartyStreets-
         specific connection client without instantiating its own
         copy. Provides access to the respective `geocode_from_str`
         and `geocode_from_dict` methods if they're desired.
@@ -37,9 +37,10 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
         * Patient
 
         :param resource: The resource whose addresses should be geocoded.
-        :param overwrite: If true, `resource` is modified in-place;
-          if false, a copy of `resource` modified and returned.  Default: `True`
-        :return: The geocoded resource as a dict.
+        :param overwrite: Whether to save the geocoding information over
+          the raw data, or to create a copy of the given data and write
+          over that instead. Default: `True`
+        :return: A geocoded resource as a dict
         """
         if not overwrite:
             resource = copy.deepcopy(resource)
@@ -52,7 +53,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def _geocode_patient_resource(self, patient: dict) -> None:
         """
-        Geocodes all addresses in a patient resource.
+        Handles geocoding of all addresses in a given patient resource.\
 
         :param patient: A FHIR Patient resource.
         """
@@ -78,10 +79,11 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
         * Patient
 
-        :param bundle: A bundle of FHIR resources.
-        :param overwrite: If true, `bundle` is modified in-place;
-          if false, a copy of `bundle` modified and returned.  Default: `True`
-        :return: The FHIR bundle with geocoded address(es).
+        :param bundle: A bundle of fhir resources.
+        :param overwrite: Whether to save the geocoding information over
+          the raw data, or to create a copy of the given data and write
+          over that instead. Default: `True`
+        :return: A FHIR bundle with geocoded address(es).
         """
         if not overwrite:
             bundle = copy.deepcopy(bundle)

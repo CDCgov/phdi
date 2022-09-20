@@ -16,10 +16,11 @@ class BaseFhirGeocodeClient(ABC):
         Performs geocoding, using the implementing client, on the provided resource,
         which is passed in as a dictionary.
 
-        :param resource: A FHIR resource to be geocoded.
-        :param overwrite: If true, `resource` is modified in-place;
-          if false, a copy of `resource` modified and returned.  Default: `True`
-        :return: The geocoded resource as a dict.
+        :param bundle: A bundle of fhir resources.
+        :param overwrite: Whether to overwrite the address data in the given
+          bundle's resources (True), or whether to create a copy of the bundle
+          and overwrite that instead (False). Default: `True`
+        :return: A geocoded resource as a dict.
         """
         pass  # pragma: no cover
 
@@ -29,19 +30,20 @@ class BaseFhirGeocodeClient(ABC):
         Performs geocoding, using the implementing client, on all supported resources in
         the provided FHIR bundle which is passed in as a dictionary.
 
-        :param bundle: A bundle of FHIR resources.
-        :param overwrite: If true, `bundle` is modified in-place;
-          if false, a copy of `bundle` modified and returned.  Default: `True`
-        :return: The geocoded FHIR bundle as a dict.
+        :param bundle: A bundle of fhir resources.
+        :param overwrite: Whether to overwrite the address data in the given
+          bundle's resources (True), or whether to create a copy of the bundle
+          and overwrite that instead (False). Default: `True`
+        :return: A geocoded bundle as a dict.
         """
         pass  # pragma: no cover
 
     @staticmethod
     def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:
         """
-        Adds extension data for latitude and longitude, if the fields aren't already
-        present, to a given FHIR-formatted dictionary holding address fields.
-        The latitude and longitude data is added directly to the input dictionary.
+        Add extension data for latitude and longitude, if the fields
+        aren't already present, to a given FHIR-formatted dictionary holding address
+        fields. The lat and long data is added directly to the input dictionary.
 
         :param address: A FHIR formatted dictionary holding address fields.
         :param lat: The latitude to add to the FHIR data as an extension.

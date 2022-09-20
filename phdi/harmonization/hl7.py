@@ -7,14 +7,14 @@ from typing import List
 
 def standardize_hl7_datetimes(message: str) -> str:
     """
-    Prepares an HL7 message for conversion by normalizing / sanitizing
+    Prepare an HL7 message for conversion by normalizing / sanitizing
     fields that are known to contain datetime data in problematic formats. This
     function helps messages conform to expectations.
 
     This function accepts either segments terminated by `\\r` or `\\n`, but always
     returns data with `\\n` as the segment terminator.
 
-    :param message: The raw HL7 message to sanitize.
+    :param message: The raw HL7 message to sanitize
     :return: The HL7 message with potential problem formats resolved. If the function
       is unable to parse a date, the original value is retained.
     """
@@ -153,7 +153,7 @@ def default_hl7_value(
     This function accepts either segments terminated by `\\r` or `\\n`, but always
     returns data with `\\n` as the segment terminator.
 
-    :param message: A string representing the HL7 message used to modify
+    :param message: A string representing the HL7 message use to modify
       a value.
     :param segment_id: The segment type (MSH, PID, etc) of the field to replace.
     :param field_num: The field number to replace in the segment named by `segment_id`.
@@ -200,7 +200,7 @@ def normalize_hl7_datetime_segment(
     message: hl7.Message, segment_id: str, field_list: list
 ) -> None:
     """
-    Applies datetime normalization to multiple fields in a segment,
+    Apply datetime normalization to multiple fields in a segment,
     overwriting values in the input segment as necessary.
 
     :param message: The HL7 message, represented as a list
@@ -243,7 +243,7 @@ def normalize_hl7_datetime(hl7_datetime: str) -> str:
     cloud providers that have particular requirements for dates.
 
     :param hl7_datetime: The raw datetime string to clean.
-    :return: The datetime string with normalizing substitutions
+    :return: The datetime string with normalizing substitions
       performed, or the original HL7 datetime if no matching
       format could be found.
     """
