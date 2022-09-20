@@ -17,8 +17,8 @@ def export_from_fhir_server(
     poll_timeout: float = 300,
 ) -> dict:
     """
-    Initiates a FHIR $export operation, polls until it completes, and returns the
-    successful result.
+    Initiate a FHIR $export operation, and poll until it completes. Return successful
+    poll results.
 
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param fhir_url: The FHIR server base URL.
@@ -165,15 +165,15 @@ def _export_from_fhir_server_poll_call(
     poll_url: str, cred_manager: BaseCredentialManager
 ) -> Union[requests.Response, None]:
     """
-    Called by `export_from_fhir_server_poll` to see if the export files are ready
-    based on received status code. If an export is still in progress, then returns
-    `None` so polling continues. If the response is 200, then the export files are
-    ready, and returns the HTTP response. Any other status either indicates an error
-    or unexpected condition, and an error is raised.
+    Callback for use with `polling` module to see if the export files are ready
+    based on received status code. If export is still in progress, then we should
+    return None so polling continues. If the response is 200, then the export files are
+    ready, and we return the HTTP response. Any other status either indicates an error
+    or unexpected condition. In this case raise an error.
 
     :param poll_url: The endpoint the FHIR server gave us to query for if
       our files are ready.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :param cred_manager: The service used to get an access token used to make a request.
     :return: An HTTP response (if 200) or None (if still in progress).
     """
     access_token = cred_manager.get_access_token()

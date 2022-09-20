@@ -8,7 +8,7 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
 
     :param linking_identifier: The value to be hashed.  For example, the concatenation
       of a patient's name, address, and date of birth, delimited by dashes.
-    :param salt_str: The salt to use with the hash. This is intended to prevent
+    :param salt_str: The salt to use with the hash. This is intended to prevent reverse
       reverse engineering of the PII used to create the hash.
     :return: The hash of the linking_identifier string.
     """

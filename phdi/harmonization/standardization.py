@@ -9,14 +9,10 @@ def standardize_country_code(
     """
     Identifies the country represented and generates the desired type of the ISO
     3611 standardized country identifier for a given string representation of a country
-    (whether a full name such as "United States," or an abbreviation such as "US"
-    or "USA"). If the country identifier cannot be determined, returns None.
+    (whether a full name such as "United States", or an abbreviation such as "US"
+    or "USA"). If the country identifier could not be determined, return None.
 
     Example: If raw_country = "United States of America," then
-
-    * alpha_2 would be "US"
-    * alpha_3 would be "USA"
-    * numeric would be "840"
 
     :param raw_country: The string representation of the country to be
       put in ISO 3611 standardized form.
@@ -127,26 +123,24 @@ def standardize_name(
     remove_numbers: bool = True,
 ) -> Union[str, List[str]]:
     """
-    Performs basic standardization (described below) on each given name. Removes
-    punctuation characters and performs a variety of additional cleaning operations.
-    Other options can be toggled on or off using the relevant parameter.
+    Perform basic standardization (described below) on each given name. All given input
+    strings have punctuation characters removed. A variety of additional
+    cleaning operations can be toggled on or off using the relevant parameter.
 
     All options specified will be applied uniformly to each input name,
     i.e., specifying case = "lower" will make all given names lower case.
 
     :param raw_name: Either a single string name or a list of strings,
       each representing a name.
-    :param trim: If true, strips leading/trailing whitespace;
-      if false, retains whitespace. Default: `True`
+    :param trim: Whether to strip leading/trailing whitespace. Default: `False`
     :param case: What case to enforce on each name.
 
-      * `upper`: All upper case
-      * `lower`: All lower case
-      * `title`: Title case
+    * `upper`: All upper case
+    * `lower`: All lower case
+    * `title`: Title case
 
-      Default: `upper`
-    :remove_numbers: If true, removes numeric characters from inputs;
-      if false, retains numeric characters. Default `True`
+    Default: `upper`
+    :remove_numbers: Whether to remove numeric characters from inputs
     :return: Either a string or a list of strings, depending on the
       input of raw_name, holding the cleaned name(s).
     """

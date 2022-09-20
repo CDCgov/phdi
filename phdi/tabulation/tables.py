@@ -38,10 +38,11 @@ def write_table(
     have a common set of keys, writes the set of data to an output
     file of a particular type.
 
-    :param data: A list of dictionaries representing the table's data.
-      Each dictionary represents one row in the resulting table. The
-      keys serve as the table's columns, and the values represent the
-      entry for that column in the row given by a particular dict.
+    :param data: A list of dicts representing the table's data.
+      Each dict represents one row in the resulting table. The
+      keys serve as the table's columns, and the values represent
+      the entry for that column in the row given by a particular
+      dict.
     :param output_file_name: The full name for the file where the table
       is to be written.
     :param output_format: The file format of the table to be written.
@@ -78,9 +79,8 @@ def print_schema_summary(
     tables.
 
     :param directory: The path to a direct holding table files.
-    :param display_head: If true, print the first few rows of each table;
-      if false, only print table metadata. Default: `False`
-
+    :param display_head: Whether to print the first few rows of each table.  When true,
+      print the first few rows, otherwise, only print table metadata.
       Note: depending on the file format, this may require
       reading large amounts of data into memory.
     """
