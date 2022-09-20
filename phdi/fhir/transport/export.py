@@ -17,8 +17,8 @@ def export_from_fhir_server(
     poll_timeout: float = 300,
 ) -> dict:
     """
-    Initiate a FHIR $export operation, and poll until it completes. Return successful
-    poll results.
+    Initiate a FHIR $export operation, and poll until it completes and return the
+    successful result.
 
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param fhir_url: The FHIR server base URL
@@ -173,7 +173,7 @@ def _export_from_fhir_server_poll_call(
 
     :param poll_url: The endpoint the FHIR server gave us to query for if
       our files are ready.
-    :param cred_manager: The service used to get an access token used to make a request.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :return: An HTTP response (if 200) or None (if still in progress).
     """
     access_token = cred_manager.get_access_token()

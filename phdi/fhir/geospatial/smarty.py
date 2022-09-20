@@ -53,7 +53,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def _geocode_patient_resource(self, patient: dict) -> None:
         """
-        Handles geocoding of all addresses in a given patient resource.\
+        Geocode all addresses in a patient resource.
 
         :param patient: A FHIR Patient resource.
         """
