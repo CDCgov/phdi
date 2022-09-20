@@ -41,9 +41,9 @@ class BaseFhirGeocodeClient(ABC):
     @staticmethod
     def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:
         """
-        Add extension data for latitude and longitude, if the fields
-        aren't already present, to a given FHIR-formatted dictionary holding address
-        fields. The lat and long data is added directly to the input dictionary.
+        Add extension data for latitude and longitude, if the fields aren't already
+        present, to a given FHIR-formatted dictionary holding address fields.
+        The latitude and longitude data is added directly to the input dictionary.
 
         :param address: A FHIR formatted dictionary holding address fields.
         :param lat: The latitude to add to the FHIR data as an extension.
