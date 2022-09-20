@@ -14,10 +14,6 @@ def standardize_country_code(
 
     Example: If raw_country = "United States of America," then
 
-    * alpha_2 would be "US"
-    * alpha_3 would be "USA"
-    * numeric would be "840"
-
     :param raw_country: The string representation of the country to be
       put in ISO 3611 standardized form.
     :param code_type: One of 'alpha_2', 'alpha_3', or 'numeric'; the
@@ -139,12 +135,12 @@ def standardize_name(
     :param trim: Whether to strip leading/trailing whitespace. Default: `False`
     :param case: What case to enforce on each name.
 
-      * `upper`: All upper case
-      * `lower`: All lower case
-      * `title`: Title case
+    * `upper`: All upper case
+    * `lower`: All lower case
+    * `title`: Title case
 
-      Default: `upper`
-    :remove_numbers: Whether to remove numeric characters from inputs. Default `True`
+    Default: `upper`
+    :remove_numbers: Whether to remove numeric characters from inputs
     :return: Either a string or a list of strings, depending on the
       input of raw_name, holding the cleaned name(s).
     """
