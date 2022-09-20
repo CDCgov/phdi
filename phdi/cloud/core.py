@@ -35,8 +35,8 @@ class BaseCloudStorageConnection(ABC):
         Downloads a blob from storage.
 
         :param container_name: The name of the container containing object to download.
-        :param filename: The location of file within storage.
-        :param encoding: The character encoding applied to the downloaded content.
+        :param filename: Location of file within storage.
+        :param encoding: Encoding applied to the downloaded content.
         :return: The `stream` parameter, if supplied. Otherwise a new stream object
           containing blob content.
         """
@@ -56,16 +56,16 @@ class BaseCloudStorageConnection(ABC):
         :param message: The contents of a message, encoded either as a
           string or in a JSON format.
         :param container_name: The name of the target container for upload.
-        :param filename: The location of file within storage container.
+        :param filename: Location of file within storage container.
         """
         pass  # pragma: no cover
 
     @abstractmethod
     def list_containers(self) -> List[str]:
         """
-        Lists names for this CloudContainerConnection's containers.
+        List names for this CloudStorageConnection's containers.
 
-        :return: A list of container names.
+        :return: A list of container names
         """
         pass  # pragma: no cover
 
@@ -75,8 +75,7 @@ class BaseCloudStorageConnection(ABC):
         Lists names for objects within a container.
 
         :param container_name: The name of the container to look for objects.
-        :param prefix: Filter the objects returned to filenames beginning
-          with this value.
+        :param prefix: Filter for objects whose filenames begin with this value.
         :return: A list of objects within a container.
         """
         pass  # pragma: no cover
