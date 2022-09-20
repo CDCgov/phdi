@@ -38,16 +38,16 @@ def add_patient_identifier(
     """
     Given a FHIR Patient resource:
 
-    * Extract name, DOB, and address information
-    * Compute a unique hash string based on these fields
-    * Add the hash string to resource
+    * extract name, DOB, and address information
+    * compute a unique hash string based on these fields
+    * add the hash string to resource
 
     :param patient_resource: The FHIR patient resource to add a linking identifier.
     :param salt_str: The salt to use with the hash. This is intended to prevent reverse
       reverse engineering of the PII used to create the hash.
     :param overwrite: Whether to write the new standardizations
       directly into the given bundle, changing the original data. Default: `True`
-    :return: The resource updated with additional patient identifier.
+    :return: The resource updated with additional patient identifier
     """
     if not overwrite:
         patient_resource = copy.deepcopy(patient_resource)

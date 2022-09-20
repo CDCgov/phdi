@@ -102,7 +102,7 @@ def _standardize_names_in_resource(
     :param remove_numbers: Whether to delete numeric characters. Default: `True`
     :param overwrite: Whether to replace the original names in the input
       data with the standardized names. Default: `True`
-    :return: The resource with appropriately standardized names.
+    :return: The resource with appropriately standardized names
     """
 
     if not overwrite:
@@ -163,7 +163,7 @@ def _extract_countries_from_resource(
       to specify which type of standard country identifier to generate.
       Default: `alpha_2`
     :return: A list of all the standardized countries found in the resource's
-      addresses.
+     addresses.
     """
     countries = []
     resource_type = resource.get("resourceType")
