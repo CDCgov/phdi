@@ -144,7 +144,7 @@ def standardize_name(
     * `title`: Title case
 
     Default: `upper`
-    :remove_numbers: Whether to remove numeric characters from inputs
+    :remove_numbers: Whether to remove numeric characters from inputs. Default `True`
     :return: Either a string or a list of strings, depending on the
       input of raw_name, holding the cleaned name(s).
     """
