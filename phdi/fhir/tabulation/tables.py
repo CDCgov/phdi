@@ -94,8 +94,7 @@ def generate_table(
     :param output_path: A path specifying where the table should be written.
     :param output_format: A string indicating the file format to be used.
     :param fhir_url: A URL to a FHIR server.
-    :param cred_manager: The credential manager which should be used to authenticate
-      to the FHIR server.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
     """
     output_path.mkdir(parents=True, exist_ok=True)
     for resource_type in schema:
@@ -159,8 +158,7 @@ def generate_all_tables_in_schema(
       be written.
     :param output_format: The file format of the tables to be generated.
     :param fhir_url: The URL to a FHIR server.
-    :param cred_manager: The credential manager which should be used to authenticate
-      to the FHIR server.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
     """
 
     schema = load_schema(schema_path)

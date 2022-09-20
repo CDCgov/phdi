@@ -34,9 +34,9 @@ class BaseCloudStorageConnection(ABC):
         """
         Download a blob from storage.
 
-        :param container_name: The name of the container containing object to download
-        :param filename: Location of file within storage
-        :param encoding: Encoding applied to the downloaded content
+        :param container_name: The name of the container containing object to download.
+        :param filename: Location of file within storage.
+        :param encoding: Encoding applied to the downloaded content.
         :return: The `stream` parameter, if supplied. Otherwise a new stream object
         containing blob content.
         """
@@ -54,17 +54,18 @@ class BaseCloudStorageConnection(ABC):
         Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
-          string or in a JSON format
-        :param container_name: The name of the target container for upload
-        :param filename: Location of file within storage container
+          string or in a JSON format.
+        :param container_name: The name of the target container for upload.
+        :param filename: Location of file within storage container.
         """
         pass  # pragma: no cover
 
     @abstractmethod
     def list_containers(self) -> List[str]:
         """
-        List names for this CloudStorageConnection's containers.
-        :return: A list of container names
+        List names for this CloudContainerConnection's containers.
+
+        :return: A list of container names.
         """
         pass  # pragma: no cover
 
@@ -73,8 +74,8 @@ class BaseCloudStorageConnection(ABC):
         """
         List names for objects within a container.
 
-        :param container_name: The name of the container to look for objects
-        :param prefix: Filter for objects whose filenames begin with this value
-        :return: A list of objects within a container
+        :param container_name: The name of the container to look for objects.
+        :param prefix: Filter for objects whose filenames begin with this value.
+        :return: A list of objects within a container.
         """
         pass  # pragma: no cover

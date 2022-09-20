@@ -29,7 +29,7 @@ class AzureCredentialManager(BaseCredentialManager):
         """
         Create a new AzureCredentialManager object.
 
-        :param resource_location: URL or other location of the requested resource.
+        :param resource_location: The URL or other location of the requested resource.
         :param scope: A space-delimited list of scopes to limit access to resource.
         """
         self.__resource_location = resource_location
@@ -53,9 +53,9 @@ class AzureCredentialManager(BaseCredentialManager):
         Obtain an access token from the Azure identity provider. Return the
         access token string, refreshed if expired or force_refresh is specified.
 
-        :param force_refresh: force token refresh even if the current token is
-          still valid
-        :return: Azure access token
+        :param force_refresh: Whether to force token refresh even if the
+          current token is still valid. Default: `False`
+        :return: An Azure access token.
         """
         if force_refresh or (self.access_token is None) or self._need_new_token():
             creds = self.get_credential_object()
@@ -66,8 +66,10 @@ class AzureCredentialManager(BaseCredentialManager):
     def _need_new_token(self) -> bool:
         """
         Determine whether the token already stored for this object can be reused,
-        or if it needs to be re-requested.
-        :return: True if new Azure access token is needed; False otherwise
+        or if it needs to be re-requested. A new token is needed if a token has not
+        yet been created, or if the current token has expired.
+
+        :return: Whether a new Azure access token is needed.
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()
@@ -94,8 +96,10 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         """
         Create a new AzureCloudContainerConnection object.
 
-        :param storage_account_url: Storage account location of the requested resource
-        :param cred_manager: The Azure credential manager
+        :param storage_account_url: The storage account location of the requested
+          resource.
+        :param cred_manager: The credential manager used to authenticate to the
+          FHIR server.
         """
         self.__storage_account_url = storage_account_url
         self.__cred_manager = cred_manager
@@ -108,8 +112,8 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         checked, see the Azure documentation:
         https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential
 
-        :param container_url: The url at which to access the container
-        :return: Azure ContainerClient
+        :param container_url: The url at which to access the container.
+        :return: The Azure ContainerClient
         """
         creds = self.cred_manager.get_credential_object()
         return ContainerClient.from_container_url(container_url, credential=creds)
@@ -120,10 +124,10 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         """
         Download a character blob from storage and return it as a string.
 
-        :param container_name: The name of the container containing object to download
-        :param filename: Location of file within Azure blob storage
-        :param encoding: Encoding applied to the downloaded content
-        :return: Character blob (as a string) from given container and filename
+        :param container_name: The name of the container containing object to download.
+        :param filename: The location of the file within Azure blob storage.
+        :param encoding: The encoding applied to the downloaded content.
+        :return: A character blob as a string from the given container and filename.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -143,12 +147,12 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
     ) -> None:
         """
         Upload the content of a given message to Azure blob storage.
-        Message can be passed either as a raw string or as JSON.
+        The message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
-          string or in a JSON format
-        :param container_name: The name of the target container for upload
-        :param filename: Location of file within Azure blob storage
+          string or a JSON-formatted dictionary.
+        :param container_name: The name of the target container for upload.
+        :param filename: The location of file to uploade within Azure blob storage.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
@@ -163,7 +167,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         """
         List names for this CloudContainerConnection's containers.
 
-        :return: a list of container names
+        :return: A list of container names.
         """
         creds = self.cred_manager.get_credential_object()
         service_client = BlobServiceClient(
@@ -180,9 +184,11 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
         List names for objects within a container.
-        :param container_name: The name of the container to look for objects
-        :param prefix: Filter for objects whose filenames begin with this value
-        :return: List of names for objects in given container
+
+        :param container_name: The name of the container to look for objects.
+        :param prefix: Filter the objects returned to filenames beginning
+          with this value.
+        :return: A list of names for objects in given container.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)

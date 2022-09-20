@@ -44,7 +44,7 @@ def convert_to_fhir(
       base "CCD" root template if a resource's LOINC code doesn't
       map to a specific supported template. Default: `False`
     :return: A `requests.Response` object containing the response from
-      the FHIR converter
+      the FHIR converter.
 
     """
     conversion_settings = _get_fhir_conversion_settings(message, use_default_ccda)
@@ -103,13 +103,12 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
 
     https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data
 
-    :param message: The incoming message (already cleaned, if
-      applicable)
-    :param use_default_ccda: Optionally, whether to default to the
+    :param message: The incoming message.
+    :param use_default_ccda: Whether to default to the
       base "CCD" root template if a resource's LOINC code doesn't
-      map to a specific supported template. Default is No.
+      map to a specific supported template. Default: `False`
     :return: A dictionary holding the settings of parameters to-be
-      set when converting the input to FHIR
+      set when converting the input to FHIR.
     """
     # Some streams (e.g. ELR, VXU) are HL7v2 encoded
     if message[:3] == "MSH":

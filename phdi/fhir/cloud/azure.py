@@ -17,12 +17,13 @@ def download_from_fhir_export_response(
     Loops through the "output" array and yields the resource_type (e.g. Patient)
     along with TextIO wrapping ndjson content.
 
-    :param export_response: JSON-type dictionary holding the response from
-      the export URL the FHIR server set up
-    :param cred_manager: Service used to get an access token used to make a request
+    :param export_response: A dictionary holding the final expor response.
+    :param cred_manager: The credential manager used to authenticate to the
+      storage account.
     :return: An iterator of tuples. Each tuple is comprised of:
-      - FHIR resource type (str)
-      - Export file content (io.TextIO)
+
+      * FHIR resource type (str)
+      * Export file content (io.TextIO)
     """
     # TODO: Handle error array that could be contained in the response content.
 

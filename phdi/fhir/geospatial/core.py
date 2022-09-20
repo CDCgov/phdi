@@ -17,11 +17,11 @@ class BaseFhirGeocodeClient(ABC):
         Perform geocoding, using the implementing client, on the provided resource,
         which is passed in as a dictionary.
 
-        :param bundle: A bundle of fhir resources.
+        :param resource: A FHIR resource to be geocoded.
         :param overwrite: Whether to overwrite the address data in the given
-          bundle's resources (True), or whether to create a copy of the bundle
-          and overwrite that instead (False). Default: `True`
-        :return: A geocoded resource as a dict.
+          bundle's resources (`True`), or create a copy of the bundle
+          and overwrite that instead (`False`). Default: `True`
+        :return: The geocoded resource as a dict.
         """
         pass  # pragma: no cover
 
@@ -31,11 +31,11 @@ class BaseFhirGeocodeClient(ABC):
         Perform geocoding, using the implementing client, on all supported resources in
         the provided FHIR bundle which is passed in as a dictionary.
 
-        :param bundle: A bundle of fhir resources.
+        :param bundle: A bundle of FHIR resources.
         :param overwrite: Whether to overwrite the address data in the given
           bundle's resources (True), or whether to create a copy of the bundle
           and overwrite that instead (False). Default: `True`
-        :return: A geocoded bundle as a dict.
+        :return: The geocoded FHIR bundle as a dict.
         """
         pass  # pragma: no cover
 
