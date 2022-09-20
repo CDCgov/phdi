@@ -20,10 +20,10 @@ def _apply_selection_criteria(
     parsed from a FHIR resource. A single string value is returned - if the selected
     value is a complex structure (list or dict), it is converted to a string.
 
-    :param value: A list containing the values parsed from a FHIR resource
-    :param selection_criteria: A string indicating which element(s) of a list to select
+    :param value: A list containing the values parsed from a FHIR resource.
+    :param selection_criteria: A string indicating which element(s) of a list to select.
     :return: Value(s) parsed from a FHIR resource that conform to the selection
-      criteria
+      criteria.
     """
 
     if selection_criteria == "first":
@@ -54,9 +54,10 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     particular variable should be called. If a schema can't be found for the given
     resource type, the raw resource is instead returned.
 
-    :param resource: A FHIR resource on which to apply a schema
-    :param schema: A schema specifying the desired values by FHIR resource type
-    :return: A dictionary of data with the desired values specified in the schema
+    :param resource: A FHIR resource on which to apply a schema.
+    :param schema: A schema specifying the desired values to extract,
+      by FHIR resource type.
+    :return: A dictionary of data with the desired values, as specified by the schema.
     """
 
     data = {}
@@ -89,12 +90,12 @@ def generate_table(
     """
     Make a table for a single schema.
 
-    :param schema: A schema specifying the desired values by FHIR resource type.
+    :param schema: A schema specifying the desired values, by FHIR resource type.
     :param output_path: A path specifying where the table should be written.
     :param output_format: A string indicating the file format to be used.
-    :param fhir_url: URL to a FHIR server.
-    :param cred_manager: Service used to get an access token used to make a
-        request.
+    :param fhir_url: A URL to a FHIR server.
+    :param cred_manager: The credential manager which should be used to authenticate
+      to the FHIR server.
     """
     output_path.mkdir(parents=True, exist_ok=True)
     for resource_type in schema:
@@ -150,17 +151,16 @@ def generate_all_tables_in_schema(
     cred_manager: BaseCredentialManager,
 ) -> None:
     """
-    Given the url for a FHIR server, the location of a schema file, and the output
-    directory generate the specified schema and store the tables in the desired
-    location.
+    Query a FHIR server for information, and generate and store the tables in the
+    desired location, according to the supplied schema.
 
     :param schema_path: A path to the location of a YAML schema config file.
     :param base_output_path: A path to the directory where tables of the schema should
-        be written.
-    :param output_format: Specifies the file format of the tables to be generated.
-    :param fhir_url: URL to a FHIR server.
-    :param cred_manager: Service used to get an access token used to make a
-        request.
+      be written.
+    :param output_format: The file format of the tables to be generated.
+    :param fhir_url: The URL to a FHIR server.
+    :param cred_manager: The credential manager which should be used to authenticate
+      to the FHIR server.
     """
 
     schema = load_schema(schema_path)
@@ -175,11 +175,11 @@ def generate_all_tables_in_schema(
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    A function that accepts a resource parameter, and returns the evaluated value at
-    fhirpath_expression on that resource.
+    Accepts a FHIRPath expression, and returns a callable function which returns the
+    evaluated value at fhirpath_expression on a specified FHIR resource.
 
-    :param fhirpath_expression: The FHIRPath expression to evaluate
+    :param fhirpath_expression: The FHIRPath expression to evaluate.
     :return: A function that, when called passing in a FHIR resource, will return value
-      at fhirpath_expression
+      at `fhirpath_expression`.
     """
     return fhirpathpy.compile(fhirpath_expression)

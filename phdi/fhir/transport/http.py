@@ -21,19 +21,18 @@ def http_request_with_reauth(
     `cred_manager`, and if the original request had an Authorization header, replace
     with the new token and re-initiate :func:`utils.http_request_with_retry`.
 
-    :param cred_manager: credential manager used to obtain a new token, if necessary
-    :param url: The url at which to make the HTTP request
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :param url: The url at which to make the HTTP request.
     :param retry_count: The number of times to re-try the request, if the
-      first attempt fails
-    :param request_type: The type of request to be made. Currently supports
-      GET and POST.
+      first attempt fails.
+    :param request_type: The type of request to be made.
     :param allowed_methods: The list of allowed HTTP request methods (i.e.
-      POST, PUT, etc.) for the specific URL and query
+      POST, PUT, etc.) for the specific URL and query.
     :param headers: JSON-type dictionary of headers to make the request with,
-      including Authorization and content-type
+      including Authorization and content-type.
     :param data: JSON data in the case that the request requires data to be
-      posted. Defaults to none
-    :return: A requests.Request object containing the response from the FHIR server
+      posted. Default: `None`
+    :return: A `requests.Request` object containing the response from the FHIR server.
     """
 
     response = http_request_with_retry(
@@ -69,14 +68,14 @@ def upload_bundle_to_fhir_server(
     """
     Import a FHIR resource bundle to the FHIR server.
 
-    :param bundle: FHIR bundle (type "batch" or "transaction") to post.  Each entry in
-      the bundle must contain a `request` element in addition to a `resource`
+    :param bundle: A FHIR bundle (type "batch" or "transaction") to post.  Each entry in
+      the bundle must contain a `request` element in addition to a `resource`.
       The FHIR API provides additional details on creating
       [FHIR-conformant batch/transaction](https://hl7.org/fhir/http.html#transaction)
-      bundles
-    :param access_token: FHIR Server access token
-    :param fhir_url: The url of the FHIR server to upload to
-    :return: A requests.Request object containing the response from the FHIR server
+      bundles.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :param fhir_url: The url of the FHIR server to upload to.
+    :return: A `requests.Request` object containing the response from the FHIR server.
     """
 
     access_token = cred_manager.get_access_token()
@@ -124,10 +123,9 @@ def fhir_server_get(url: str, cred_manager: BaseCredentialManager) -> requests.R
     Submit a GET request to a FHIR server given a url and access token for
     authentication.
 
-    :param url: URL specifying a GET request on a FHIR server
-    :param cred_manager: Service used to get an access token used to make a
-        request
-    :return: A requests.Request object containing the response from the FHIR server
+    :param url: A URL specifying a GET request on a FHIR server.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: A `requests.Request` object containing the response from the FHIR server.
     """
     access_token = cred_manager.get_access_token()
     # Open connection to the export operation and kickoff process
@@ -149,7 +147,7 @@ def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> N
     """
     Log the error for a given an HTTP status code from a FHIR server's response.
 
-    :param status_code: Status code returned by a FHIR server
+    :param status_code: The status code returned by a FHIR server.
     """
     # TODO: We may dedcide to remove logging, and instead report errors back to
     # calling function as raised exceptions.

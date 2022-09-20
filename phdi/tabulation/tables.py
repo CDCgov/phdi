@@ -15,8 +15,9 @@ def load_schema(path: str) -> dict:
     load the file and return the resulting schema as a dictionary.
     If the file can't be found, raises an error.
 
-    :param path: File path to a YAML file holding a schema
-    :return: A dict representing a schema read from the given path
+    :param path: The file path to a YAML file holding a schema.
+    :raises Exception: If the file to be loaded could not be found.
+    :return: A dict representing a schema read from the given path.
     """
     try:
         with open(path, "r") as file:
@@ -42,13 +43,14 @@ def write_table(
       keys serve as the table's columns, and the values represent
       the entry for that column in the row given by a particular
       dict.
-    :param output_file_name: Full name for the file where the table
-      is to be written
-    :param output_format: The file format of the table to be written
-    :param writer: Optional; a writer object that can be maintained
+    :param output_file_name: The full name for the file where the table
+      is to be written.
+    :param output_format: The file format of the table to be written.
+    :param writer: A writer object that can be maintained
       between different calls of this function to support file formats
-      that cannot be appended to after being written (e.g. parquet)
-    :return: pq.ParquetWriter if file_format is parquet; else None
+      that cannot be appended to after being written (e.g. parquet). Default: `None`
+    :return: An instance of `pq.ParquetWriter` if file_format is parquet,
+      otherwise `None`
     """
 
     if file_format == "parquet":
@@ -76,10 +78,11 @@ def print_schema_summary(
     Print a summary of each CSV of Parquet formatted table in a given directory of
     tables.
 
-    :param directory: Path to a direct holding table files
-    :param display_head: Print the head of each table when true.
+    :param directory: The path to a direct holding table files.
+    :param display_head: Whether to print the first few rows of each table.  When true,
+      print the first few rows, otherwise, only print table metadata.
       Note: depending on the file format, this may require
-      reading large amounts of data into memory
+      reading large amounts of data into memory.
     """
     for (directory_path, _, file_names) in os.walk(directory):
         for file_name in file_names:

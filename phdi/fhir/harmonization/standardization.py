@@ -19,13 +19,13 @@ def standardize_names(
     default standardization behavior is our defined non-numeric, space-trimming, full
     capitalization standardization, but other modes may be specified.
 
-    :param data: Either a FHIR bundle or a FHIR-formatted JSON dict
-    :param trim: Whether leading/trailing whitespace should be removed
-    :param: case: The type of casing that should be used
-    :param: remove_numbers: Whether to delete numeric characters
+    :param data: A FHIR-formatted JSON dict.
+    :param trim: Whether leading/trailing whitespace should be removed. Default: `True`
+    :param case: The type of casing that should be used. Default: `upper`
+    :param remove_numbers: Whether to delete numeric characters. Default: `True`
     :param overwrite: Whether to replace the original names in the input
-      data with the standardized names (default is yes)
-    :return: The bundle or resource with names appropriately standardized
+      data with the standardized names. Default: `True`
+    :return: The bundle or resource with names appropriately standardized.
     """
     # Copy the data if we don't want to overwrite the original
     if not overwrite:
@@ -51,14 +51,13 @@ def standardize_names(
 def standardize_phones(data: dict, overwrite=True) -> dict:
     """
     Standardize all phone numbers in a given FHIR bundle or a FHIR resource.
-    Standardization is done according to the underlying standardize_phone function in
-    phdi.harmonization. For more information on country-coding and parsing, see the
-    relevant docstring.
+    Standardization is done according to the underlying `standardize_phone` function in
+    `phdi.harmonization`.
 
-    :param data: A FHIR bundle or FHIR-formatted JSON dict
-    :param overwrite: Whether to replace the original phone numbers
-      in the input data with the standardized versions (default is yes)
-    :return: The bundle or resource with phones appropriately standardized
+    :param data: A FHIR bundle or FHIR-formatted JSON dict.
+    :param overwrite: Whether to replace the original names in the input
+      data with the standardized names. Default: `True`
+    :return: The bundle or resource with phones appropriately standardized.
     """
 
     if not overwrite:
@@ -86,24 +85,23 @@ def _standardize_names_in_resource(
     overwrite: bool = True,
 ) -> dict:
     """
-    Helper method to standardize all found names in a given resource.
+    Standardize all found names in a given resource.
     The resource can be of any type currently supported by the
     function's logic. At this time, those resources include:
 
-      - Patient
+    * Patient
 
     The parameters to this function match the standardization flags
     used by the underlying "standardize_name" function found in
     phdi.harmonization. For more information, see the docstring for
     that function.
 
-    :param resource: A FHIR-formatted JSON dictionary
-    :param trim: Whether to trim trailing/leading whitespace
-    :param case: What case to employ for the cleaned name
-    :param remove_numbers: Whether to delete numeric characters from
-      names in the resource
-    :param overwrite: Whether to overwrite the input data with the
-      new, standardized value (default is yes)
+    :param resource: A FHIR-formatted JSON dictionary.
+    :param trim: Whether leading/trailing whitespace should be removed. Default: `True`
+    :param case: The type of casing that should be used. Default: `upper`
+    :param remove_numbers: Whether to delete numeric characters. Default: `True`
+    :param overwrite: Whether to replace the original names in the input
+      data with the standardized names. Default: `True`
     :return: The resource with appropriately standardized names
     """
 
@@ -154,16 +152,18 @@ def _extract_countries_from_resource(
 ) -> List[str]:
     """
     Build a list containing all of the countries, standardized by code_type, in the
-    addresses of a given FHIR resource. If the resource is not of a supported type, no
+    addresses of a given FHIR resource as interpreted by the ISO 3611: standardized
+    country identifier. If the resource is not of a supported type, no
     countries will be returned. Currently supported resource types are:
 
-    - Patient
+    * Patient
 
-    :param resource: A FHIR-formatted JSON dictionary
+    :param resource: A FHIR-formatted JSON dictionary.
     :param code_type: A string equal to 'alpha_2', 'alpha_3', or 'numeric'
-      to specify which type of standard country identifier to generate
+      to specify which type of standard country identifier to generate.
+      Default: `alpha_2`
     :return: A list of all the standardized countries found in the resource's
-     addresses
+     addresses.
     """
     countries = []
     resource_type = resource.get("resourceType")

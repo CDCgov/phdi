@@ -1,7 +1,11 @@
+import hl7
 import pathlib
 
 from phdi.harmonization import (
     standardize_hl7_datetimes,
+    normalize_hl7_datetime_segment,
+    normalize_hl7_datetime,
+    default_hl7_value,
     convert_hl7_batch_messages_to_list,
     standardize_country_code,
     standardize_phone,
@@ -51,6 +55,129 @@ def test_standardize_hl7_datetimes():
     # Test for invalid segments
     assert (
         standardize_hl7_datetimes(massage_invalid_segments)
+        == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
+        + "2020051411020600|P^|2.4^^|||ER\n"
+        + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "CCC|||||||||||02^^^^^|Y||||A\n"
+    )
+
+
+def test_normalize_hl7_datetime_segment():
+    message_long_date = (
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "FileSingleMessageLongDate.hl7"
+        )
+        .read()
+        .replace("\n", "\r")
+    )
+
+    message_long_date_parsed = hl7.parse(message_long_date)
+
+    normalize_hl7_datetime_segment(message_long_date_parsed, "PID", [7])
+
+    assert str(message_long_date_parsed).startswith(
+        "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|202005140100001234567890|"
+        + "|VXU^V04|2020051411020600|P^|2.4^^|||ER\r"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|"
+        + "HEPB^DTAP^^^^^^|20180808000000|M|||||||||||||||||||||"
+    )
+
+
+def test_normalize_hl7_datetime():
+    datetime_0 = ""
+    datetime_1 = "20200514010000"
+    datetime_2 = "202005140100005555"
+    datetime_3 = "20200514"
+    datetime_4 = "20200514.123456"
+    datetime_5 = "20200514+0400000"
+    datetime_6 = "20200514.123456-070000"
+    datetime_7 = "20200514010000.1234-0700"
+    datetime_8 = "not-a-date"
+
+    assert normalize_hl7_datetime(datetime_0) == ""
+    assert normalize_hl7_datetime(datetime_1) == "20200514010000"
+    assert normalize_hl7_datetime(datetime_2) == "20200514010000"
+    assert normalize_hl7_datetime(datetime_3) == "20200514"
+    assert normalize_hl7_datetime(datetime_4) == "20200514.1234"
+    assert normalize_hl7_datetime(datetime_5) == "20200514+0400"
+    assert normalize_hl7_datetime(datetime_6) == "20200514.1234-0700"
+    assert normalize_hl7_datetime(datetime_7) == "20200514010000.1234-0700"
+    assert normalize_hl7_datetime(datetime_8) == "not-a-date"
+
+
+def test_default_hl7_value():
+    message_default_empty_field = open(
+        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+    ).read()
+
+    message_default_missing_field = open(
+        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+    ).read()
+
+    message_default_populated_field = open(
+        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+    ).read()
+    message_default_invalid_field = open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "FileSingleMessageInvalidSegments.hl7"
+    ).read()
+
+    message_default_empty_field = default_hl7_value(
+        message=message_default_empty_field,
+        segment_id="PID",
+        field_num=1,
+        default_value="some-default-value-empty",
+    )
+    message_default_missing_field = default_hl7_value(
+        message=message_default_missing_field,
+        segment_id="PID",
+        field_num=30,
+        default_value="some-default-value-missing",
+    )
+    message_default_populated_field = default_hl7_value(
+        message=message_default_populated_field,
+        segment_id="PID",
+        field_num=5,
+        default_value="some-default-value-populated",
+    )
+    message_default_invalid_field = default_hl7_value(
+        message=message_default_invalid_field,
+        segment_id="PID",
+        field_num=5,
+        default_value="some-default-value-populated",
+    )
+
+    assert (
+        message_default_empty_field
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|some-default-value-empty||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^"
+        + "|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+    )
+    assert (
+        message_default_missing_field
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M||||||||||||||||||||||some-default-value-missing\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+    )
+    assert (
+        message_default_populated_field
+        == "MSH|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31"
+        + "|2020051411020600|P^|2.4^^|||ER\n"
+        + "PID|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"
+        + "|2018080800000000000|M|||||||||||||||||||||\n"
+        + "PD1|||||||||||02^^^^^|Y||||A\n"
+    )
+    assert (
+        message_default_invalid_field
         == "AAA|^~\\&|WIR11.3.2^^|WIR^^||WIRPH^^|2020051401000000||ADT^A31|"
         + "2020051411020600|P^|2.4^^|||ER\n"
         + "BBB|||3054790^^^^SR^~^^^^PI^||ZTEST^PEDIARIX^^^^^^|HEPB^DTAP^^^^^^"

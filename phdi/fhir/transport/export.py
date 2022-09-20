@@ -17,10 +17,8 @@ def export_from_fhir_server(
     poll_timeout: float = 300,
 ) -> dict:
     """
-    Initiate a FHIR $export operation, and poll until it completes.
-    If the export operation is in progress at the end of poll_timeout,
-    use the default polling behavior to do the last function check
-    before shutting down the request.
+    Initiate a FHIR $export operation, and poll until it completes. Return successful
+    poll results.
 
     :param cred_manager: Service used to get an access token used to make a request
     :param fhir_url: FHIR Server base URL
@@ -28,15 +26,21 @@ def export_from_fhir_server(
       (https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request)
     :param since: A FHIR instant (https://build.fhir.org/datatypes.html#instant)
       instructing the export to include only resources created or modified after the
-      specified instant
+      specified instant.
     :param resource_type: A comma-delimited list of FHIR resource types to include
-    :param container: The name of the Azure blob container used to store exported files
+      in exported files.
+    :param container: The name of the storage container used to store exported files.
     :param poll_step: The number of seconds to wait between poll requests, waiting
-      for export files to be generated
+      for export files to be generated.
     :param poll_timeout: The maximum number of seconds to wait for export files to
-      be generated
-    :return: The JSON-formatted HTTP response of a completed export operation as a dict
+      be generated.
+    :raises polling.TimeoutException: If the FHIR server continually returns a 202
+      status indicating in progress until the timeout is reached.
+    :return: The JSON-formatted HTTP response of a completed export operation
+      as a dictionary.
     """
+    # TODO consider putting implementation-specific parameters (e.g. container) in a
+    # flexible dictionary rather than listing as explicit parameters.
 
     # Combine template variables into export endpoint
     access_token = cred_manager.get_access_token()
@@ -62,6 +66,7 @@ def export_from_fhir_server(
         },
     )
 
+    # TODO handle export failure conditions and timeouts.
     if response.status_code == 202:
 
         # Repeatedly poll the endpoint the FHIR server creates for us
@@ -88,16 +93,16 @@ def export_from_fhir_server_poll(
     """
     Poll an endpoint to retrieve an export file after an export run has been initiated.
 
-    :param poll_url: URL to poll for export information
-    :param cred_manager: Service used to get an access token used to make a request
-    :param poll_step: the number of seconds to wait between poll requests, waiting
-      for export files to be generated
-    :param poll_timeout: the maximum number of seconds to wait for export files to
-      be generated
-    :return: A response from polled endpoint
+    :param poll_url: The URL to poll for export information.
+    :param cred_manager: The service used to get an access token used to make a request.
+    :param poll_step: The number of seconds to wait between poll requests, waiting
+      for export files to be generated.
+    :param poll_timeout: The maximum number of seconds to wait for export files to
+      be generated.
     :raises polling.TimeoutException: If the FHIR server continually returns a 202
-      status indicating in progress until the timeout is reached
-    :raises requests.HTTPError: If an unexpected status code is returned
+      status indicating in progress until the timeout is reached.
+    :raises requests.HTTPError: If an unexpected status code is returned.
+    :return: A response from polled endpoint.
     """
     response = polling.poll(
         target=_export_from_fhir_server_poll_call,
@@ -121,15 +126,13 @@ def _compose_export_url(
     Generate a query string for the export request.  Details in the FHIR spec:
     https://hl7.org/fhir/uv/bulkdata/export/index.html#query-parameters
 
-    :param fhir_url: The url of the FHIR server to export from
-    :param export_scope: The data we want back (e.g. Patients)
+    :param fhir_url: The url of the FHIR server to export from.
+    :param export_scope: The data we want back (e.g. Patients).
     :param since: We'll get all FHIR resources that have been updated
-      since this given timestamp
-    :param resource_type: Comma-delimited list of resource types we want
-      back
-    :param container: The container where we want to store the uploaded
-    files
-    :return: An export url string
+      since this given timestamp.
+    :param resource_type: A comma-delimited list of resource types we want back.
+    :param container: The container where we want to store the uploaded files.
+    :return: An export url string.
     """
     export_url = fhir_url
     if export_scope == "Patient" or export_scope.startswith("Group/"):
@@ -161,16 +164,16 @@ def _export_from_fhir_server_poll_call(
     poll_url: str, cred_manager: BaseCredentialManager
 ) -> Union[requests.Response, None]:
     """
-    Helper method for use with `polling` module to see if the export files are ready
+    Callback for use with `polling` module to see if the export files are ready
     based on received status code. If export is still in progress, then we should
     return None so polling continues. If the response is 200, then the export files are
     ready, and we return the HTTP response. Any other status either indicates an error
     or unexpected condition. In this case raise an error.
 
     :param poll_url: The endpoint the FHIR server gave us to query for if
-      our files are ready
-    :param cred_manager: Service used to get an access token used to make a request
-    :return: An HTTP response (if 200) or None (if still in progress)
+      our files are ready.
+    :param cred_manager: The service used to get an access token used to make a request.
+    :return: An HTTP response (if 200) or None (if still in progress).
     """
     access_token = cred_manager.get_access_token()
     response = http_request_with_reauth(

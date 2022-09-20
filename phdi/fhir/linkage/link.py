@@ -13,17 +13,15 @@ def add_patient_identifier_in_bundle(
     """
     Given a FHIR resource bundle:
 
-    * identify all patient resource(s) in the bundle
-    * add the hash string to the list of identifiers held in that patient resource
+    * Identify all patient resource(s) in the bundle
+    * Add the hash string to the list of identifiers held in that patient resource
 
-    :param bundle: The FHIR bundle for whose patients to add a
-        linking identifier
-    :param salt_str: The suffix string added to prevent being
-        able to reverse the hash into PII
+    :param bundle: The FHIR bundle for whose patients to add a linking identifier.
+    :param salt_str: The salt to use with the hash. This is intended to prevent reverse
+      reverse engineering of the PII used to create the hash.
     :param overwrite: Whether to write the new standardizations
-        directly into the given bundle, changing the original data (True
-        is yes)
-    :return: The bundle, resources updated with additional patient identifier
+      directly into the given bundle, changing the original data. Default: `True`
+    :return: The bundle, resources updated with additional patient identifier.
     """
     if not overwrite:
         bundle = copy.deepcopy(bundle)
@@ -38,19 +36,17 @@ def add_patient_identifier(
     patient_resource: dict, salt_str: str, overwrite: bool = True
 ):
     """
-    Given a FHIR resource:
+    Given a FHIR Patient resource:
 
-    * extract name, DOB, and address information for each
+    * extract name, DOB, and address information
     * compute a unique hash string based on these fields
     * add the hash string to resource
 
-    :param patient_resource: The FHIR patient resource to add a
-        linking identifier
-    :param salt_str: The suffix string added to prevent being
-        able to reverse the hash into PII
+    :param patient_resource: The FHIR patient resource to add a linking identifier.
+    :param salt_str: The salt to use with the hash. This is intended to prevent reverse
+      reverse engineering of the PII used to create the hash.
     :param overwrite: Whether to write the new standardizations
-        directly into the given bundle, changing the original data (True
-        is yes)
+      directly into the given bundle, changing the original data. Default: `True`
     :return: The resource updated with additional patient identifier
     """
     if not overwrite:

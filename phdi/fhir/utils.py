@@ -6,10 +6,10 @@ def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict
     Collect all entries of a specific type in a bundle of FHIR data and
     return references to them in a list.
 
-    :param bundle: The FHIR bundle to find patients in
-    :param resource_type: The type of FHIR resource to find
-    :return: List holding all entries of the requested resource type that were
-      found in the input bundle
+    :param bundle: The FHIR bundle to search for entries.
+    :param resource_type: The type of FHIR resource to find.
+    :return: A list holding all entries of the requested resource type that were
+      found in the input bundle.
     """
     return [
         entry
@@ -44,8 +44,10 @@ def get_field(
       that use, the nth element as indicated by the index parameter will be returned.
       This parameter is ignored if no use is specified. Default: True.
     :return: The first instance of the field value matching the desired
-      use, or a default field value if a match couldn't be found
+      use, or a default field value if a match couldn't be found.
     """
+    # TODO revisit the `default_field` logic, and confirm this is the best way to handle
+    # choosing a default
     if field == "":
         raise ValueError("The field parameter must be a defined, non-empty string.")
     if use == "":
@@ -75,8 +77,8 @@ def get_one_line_address(address: dict) -> str:
     Extract a one-line string representation of an address from a
     JSON dictionary holding address information.
 
-    :param address: The address bundle.
-    :return: A one-line string representation of an address
+    :param address: The FHIR-formatted address.
+    :return: A one-line string representation of an address.
     """
     if len(address) == 0:
         return ""
