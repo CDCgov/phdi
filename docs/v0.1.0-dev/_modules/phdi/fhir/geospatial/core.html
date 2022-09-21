@@ -50,11 +50,11 @@
 <span class="sd">        Perform geocoding, using the implementing client, on the provided resource,</span>
 <span class="sd">        which is passed in as a dictionary.</span>
 
-<span class="sd">        :param bundle: A bundle of fhir resources</span>
+<span class="sd">        :param resource: A FHIR resource to be geocoded.</span>
 <span class="sd">        :param overwrite: Whether to overwrite the address data in the given</span>
-<span class="sd">          bundle&#39;s resources (True), or whether to create a copy of the bundle</span>
-<span class="sd">          and overwrite that instead (False). Defaults to True</span>
-<span class="sd">        :return: Geocoded resource as a dict</span>
+<span class="sd">          bundle&#39;s resources (`True`), or create a copy of the bundle</span>
+<span class="sd">          and overwrite that instead (`False`). Default: `True`</span>
+<span class="sd">        :return: The geocoded resource as a dict.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
 
@@ -64,25 +64,24 @@
 <span class="sd">        Perform geocoding, using the implementing client, on all supported resources in</span>
 <span class="sd">        the provided FHIR bundle which is passed in as a dictionary.</span>
 
-<span class="sd">        :param bundle: A bundle of fhir resources</span>
+<span class="sd">        :param bundle: A bundle of FHIR resources.</span>
 <span class="sd">        :param overwrite: Whether to overwrite the address data in the given</span>
 <span class="sd">          bundle&#39;s resources (True), or whether to create a copy of the bundle</span>
-<span class="sd">          and overwrite that instead (False). Defaults to True</span>
-<span class="sd">        :return: Geocoded bundle as a dict</span>
+<span class="sd">          and overwrite that instead (False). Default: `True`</span>
+<span class="sd">        :return: The geocoded FHIR bundle as a dict.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_store_lat_long_extension</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">lat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">long</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add appropriate extension data for latitude and longitude, if the fields</span>
-<span class="sd">        aren&#39;t already present, to a given FHIR-formatted dictionary holding address</span>
-<span class="sd">        fields. Add the extension data directly to the input dictionary, leaving lat and</span>
-<span class="sd">        long as FHIR-identified geolocation elements.</span>
+<span class="sd">        Add extension data for latitude and longitude, if the fields aren&#39;t already</span>
+<span class="sd">        present, to a given FHIR-formatted dictionary holding address fields.</span>
+<span class="sd">        The latitude and longitude data is added directly to the input dictionary.</span>
 
-<span class="sd">        :param address: A FHIR formatted dictionary holding address fields</span>
-<span class="sd">        :param lat: The latitude to add to the FHIR data as an extension</span>
-<span class="sd">        :param long: The longitude to add to the FHIR data as an extension</span>
+<span class="sd">        :param address: A FHIR formatted dictionary holding address fields.</span>
+<span class="sd">        :param lat: The latitude to add to the FHIR data as an extension.</span>
+<span class="sd">        :param long: The longitude to add to the FHIR data as an extension.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;extension&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">address</span><span class="p">:</span>
             <span class="n">address</span><span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>

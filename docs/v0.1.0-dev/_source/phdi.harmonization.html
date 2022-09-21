@@ -71,12 +71,12 @@ include them in a message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>content</strong> (<em>str</em>) -- the batch content to turn into a list</p></li>
-<li><p><strong>delimiter</strong> (<em>str</em>) -- the character delimiting messages in the batch</p></li>
+<li><p><strong>content</strong> (<em>str</em>) -- The batch content to turn into a list.</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em>) -- The character delimiting messages in the batch.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of separated, cleaned HL7 messages</p>
+<dd class="field-even"><p>A list of separated, cleaned HL7 messages.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>List</em>[str]</p>
@@ -85,24 +85,95 @@ include them in a message.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="phdi.harmonization.hl7.default_hl7_value">
+<span class="sig-prename descclassname"><span class="pre">phdi.harmonization.hl7.</span></span><span class="sig-name descname"><span class="pre">default_hl7_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#default_hl7_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.hl7.default_hl7_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default a field value in an HL7 message.</p>
+<p>This function accepts either segments terminated by <cite>r</cite> or <cite>n</cite>, but always
+returns data with <cite>n</cite> as the segment terminator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) -- A string representing the HL7 message use to modify
+a value.</p></li>
+<li><p><strong>segment_id</strong> (<em>str</em>) -- The segment type (MSH, PID, etc) of the field to replace.</p></li>
+<li><p><strong>field_num</strong> (<em>int</em>) -- The field number to replace in the segment named by <cite>segment_id</cite>.</p></li>
+<li><p><strong>default_value</strong> (<em>str</em>) -- If the selected field is blank, set the
+field's value to this value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The HL7 message with default value inserted at the
+specified segment location, if possible. If not, then the
+original message.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.harmonization.hl7.normalize_hl7_datetime">
+<span class="sig-prename descclassname"><span class="pre">phdi.harmonization.hl7.</span></span><span class="sig-name descname"><span class="pre">normalize_hl7_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hl7_datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#normalize_hl7_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.hl7.normalize_hl7_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split HL7 datetime-formatted fields into the following parts:
+&lt;integer 8+ digits&gt;[.&lt;integer 1+ digits&gt;][+/-&lt;integer 4+ digits&gt;]</p>
+<p>Each group of integers is truncated to conform to the HL7
+specification:
+- first integer group: max 14 digits
+- following decimal point: max 4 digits
+- following +/- (timezone): 4 digits</p>
+<p>This normalization facilitates downstream processing using
+cloud providers that have particular requirements for dates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hl7_datetime</strong> (<em>str</em>) -- The raw datetime string to clean.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The datetime string with normalizing substitions
+performed, or the original HL7 datetime if no matching
+format could be found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.harmonization.hl7.normalize_hl7_datetime_segment">
+<span class="sig-prename descclassname"><span class="pre">phdi.harmonization.hl7.</span></span><span class="sig-name descname"><span class="pre">normalize_hl7_datetime_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#normalize_hl7_datetime_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.hl7.normalize_hl7_datetime_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply datetime normalization to multiple fields in a segment,
+overwriting values in the input segment as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>hl7.containers.Message</em>) -- The HL7 message, represented as a list
+of indexable component strings (which is how the HL7 library
+processes and returns messages).</p></li>
+<li><p><strong>segment_id</strong> (<em>str</em>) -- The segment type (MSH, PID, etc) of the field to replace.</p></li>
+<li><p><strong>field_num</strong> -- The field number to replace in the segment named by <cite>segment_id</cite>.</p></li>
+<li><p><strong>field_list</strong> (<em>list</em>) -- The list of field numbers to replace in the segment named
+by <cite>segement_id</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.hl7.standardize_hl7_datetimes">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.hl7.</span></span><span class="sig-name descname"><span class="pre">standardize_hl7_datetimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#standardize_hl7_datetimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.hl7.standardize_hl7_datetimes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare an HL7 message for conversion by normalizing / sanitizing
-fields that are known to contain data in problematic formats. This
-function helps to-be-converted messages conform to expectations.
-Cleaning operations include:</p>
-<ul class="simple">
-<li><p>Convert segment terminators from <code class="docutils literal notranslate"><span class="pre">\n</span></code> to <code class="docutils literal notranslate"><span class="pre">\r</span></code></p></li>
-<li><p>Normalize datetime fields</p></li>
-<li><p>Convert segment terminators back from <code class="docutils literal notranslate"><span class="pre">\r</span></code> to <code class="docutils literal notranslate"><span class="pre">\n</span></code></p></li>
-</ul>
+fields that are known to contain datetime data in problematic formats. This
+function helps messages conform to expectations.</p>
+<p>This function accepts either segments terminated by <cite>r</cite> or <cite>n</cite>, but always
+returns data with <cite>n</cite> as the segment terminator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>message</strong> (<em>str</em>) -- The raw HL7 message to sanitize</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The HL7 message with potential problem formats resolved,
-if it was possible. If not, the original message.</p>
+<dd class="field-even"><p>The HL7 message with potential problem formats resolved. If the function
+is unable to parse a date, the original value is retained.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -119,26 +190,24 @@ if it was possible. If not, the original message.</p>
 <dd><p>Identify the country represented and generate the desired type of the ISO
 3611 standardized country identifier for a given string representation of a country
 (whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;
-or &quot;USA&quot;). If the country cannot be determined, return None.</p>
-<dl class="simple">
-<dt>Example: If raw_country = &quot;United States of America,&quot; then</dt><dd><ul class="simple">
+or &quot;USA&quot;). If the country identifier could not be determined, return None.</p>
+<p>Example: If raw_country = &quot;United States of America,&quot; then</p>
+<ul class="simple">
 <li><p>alpha_2 would be &quot;US&quot;</p></li>
 <li><p>alpha_3 would be &quot;USA&quot;</p></li>
 <li><p>numeric would be &quot;840&quot;</p></li>
 </ul>
-</dd>
-</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>raw_country</strong> (<em>str</em>) -- String representation of the country to be
-put in ISO 3611 standardized form</p></li>
+<li><p><strong>raw_country</strong> (<em>str</em>) -- The string representation of the country to be
+put in ISO 3611 standardized form.</p></li>
 <li><p><strong>code_type</strong> (<em>Literal</em><em>[</em><em>'alpha_2'</em><em>, </em><em>'alpha_3'</em><em>, </em><em>'numeric'</em><em>]</em>) -- One of 'alpha_2', 'alpha_3', or 'numeric'; the
-desired identifier type to generate</p></li>
+desired identifier type to generate.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The standardized country identifier found in the resource's addresses</p>
+<dd class="field-even"><p>The standardized country identifier found in the resource's addresses.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -150,33 +219,33 @@ desired identifier type to generate</p></li>
 <dt class="sig sig-object py" id="phdi.harmonization.standardization.standardize_name">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardization.standardize_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform basic standardization (described below) on each given name. All given input
-strings have punctuation characters removed, and then a variety of additional
-cleaning operations can be toggled on or off using the relevant parameter.
-The cleaning operations include:</p>
-<ul class="simple">
-<li><p>trim: stripping leading and trailing whitespace</p></li>
-<li><p>remove_numbers: remove all numeric characters from the input</p></li>
-<li><p>case: enforce the name to follow a specific casing convention</p></li>
-</ul>
+strings have punctuation characters removed. A variety of additional
+cleaning operations can be toggled on or off using the relevant parameter.</p>
 <p>All options specified will be applied uniformly to each input name,
 i.e. specifying case = &quot;lower&quot; will make all given names lower case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>raw_name</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) -- Either a single string name or a list of strings,
-each representing a name</p></li>
-<li><p><strong>trim</strong> (<em>bool</em>) -- Whether to strip leading/trailing whitespace</p></li>
-<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- What case to enforce on each name; the default is to
-convert all inputs to upper case</p></li>
+each representing a name.</p></li>
+<li><p><strong>trim</strong> (<em>bool</em>) -- Whether to strip leading/trailing whitespace. Default: <cite>False</cite></p></li>
+<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- <p>What case to enforce on each name.</p>
+<ul>
+<li><p><cite>upper</cite>: All upper case</p></li>
+<li><p><cite>lower</cite>: All lower case</p></li>
+<li><p><cite>title</cite>: Title case</p></li>
+</ul>
+<p>Default: <cite>upper</cite></p>
+</p></li>
 <li><p><strong>remove_numbers</strong> (<em>bool</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Remove_numbers</dt>
-<dd class="field-even"><p>Whether to remove numeric characters from the inputs</p>
+<dd class="field-even"><p>Whether to remove numeric characters from inputs. Default <cite>True</cite></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Either a string or a list of strings, depending on the
-input of raw_name, holding the cleaned name(s)</p>
+input of raw_name, holding the cleaned name(s).</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><em>Union</em>[str, <em>List</em>[str]]</p>
@@ -201,15 +270,15 @@ associated countries</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>raw_phone</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) -- One or more raw phone number(s) to standardize</p></li>
+<li><p><strong>raw_phone</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) -- One or more raw phone number(s) to standardize.</p></li>
 <li><p><strong>countries</strong> (<em>List</em>) -- An optional list containing 2 letter ISO codes
 associated with the phone numbers, signifying to which countries
-the phone numbers might belong</p></li>
+the phone numbers might belong.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Either a string or a list of strings, depending on the
-input of raw_phone, holding the standardized phone number(s)</p>
+input of raw_phone, holding the standardized phone number(s).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Union</em>[str, <em>List</em>[str]]</p>
@@ -251,15 +320,90 @@ include them in a message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>content</strong> (<em>str</em>) -- the batch content to turn into a list</p></li>
-<li><p><strong>delimiter</strong> (<em>str</em>) -- the character delimiting messages in the batch</p></li>
+<li><p><strong>content</strong> (<em>str</em>) -- The batch content to turn into a list.</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em>) -- The character delimiting messages in the batch.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of separated, cleaned HL7 messages</p>
+<dd class="field-even"><p>A list of separated, cleaned HL7 messages.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>List</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.harmonization.default_hl7_value">
+<span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">default_hl7_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#default_hl7_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.default_hl7_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default a field value in an HL7 message.</p>
+<p>This function accepts either segments terminated by <cite>r</cite> or <cite>n</cite>, but always
+returns data with <cite>n</cite> as the segment terminator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) -- A string representing the HL7 message use to modify
+a value.</p></li>
+<li><p><strong>segment_id</strong> (<em>str</em>) -- The segment type (MSH, PID, etc) of the field to replace.</p></li>
+<li><p><strong>field_num</strong> (<em>int</em>) -- The field number to replace in the segment named by <cite>segment_id</cite>.</p></li>
+<li><p><strong>default_value</strong> (<em>str</em>) -- If the selected field is blank, set the
+field's value to this value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The HL7 message with default value inserted at the
+specified segment location, if possible. If not, then the
+original message.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.harmonization.normalize_hl7_datetime">
+<span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">normalize_hl7_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hl7_datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#normalize_hl7_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.normalize_hl7_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split HL7 datetime-formatted fields into the following parts:
+&lt;integer 8+ digits&gt;[.&lt;integer 1+ digits&gt;][+/-&lt;integer 4+ digits&gt;]</p>
+<p>Each group of integers is truncated to conform to the HL7
+specification:
+- first integer group: max 14 digits
+- following decimal point: max 4 digits
+- following +/- (timezone): 4 digits</p>
+<p>This normalization facilitates downstream processing using
+cloud providers that have particular requirements for dates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hl7_datetime</strong> (<em>str</em>) -- The raw datetime string to clean.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The datetime string with normalizing substitions
+performed, or the original HL7 datetime if no matching
+format could be found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="phdi.harmonization.normalize_hl7_datetime_segment">
+<span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">normalize_hl7_datetime_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#normalize_hl7_datetime_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.normalize_hl7_datetime_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply datetime normalization to multiple fields in a segment,
+overwriting values in the input segment as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>hl7.containers.Message</em>) -- The HL7 message, represented as a list
+of indexable component strings (which is how the HL7 library
+processes and returns messages).</p></li>
+<li><p><strong>segment_id</strong> (<em>str</em>) -- The segment type (MSH, PID, etc) of the field to replace.</p></li>
+<li><p><strong>field_num</strong> -- The field number to replace in the segment named by <cite>segment_id</cite>.</p></li>
+<li><p><strong>field_list</strong> (<em>list</em>) -- The list of field numbers to replace in the segment named
+by <cite>segement_id</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -270,26 +414,24 @@ include them in a message.</p>
 <dd><p>Identify the country represented and generate the desired type of the ISO
 3611 standardized country identifier for a given string representation of a country
 (whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;
-or &quot;USA&quot;). If the country cannot be determined, return None.</p>
-<dl class="simple">
-<dt>Example: If raw_country = &quot;United States of America,&quot; then</dt><dd><ul class="simple">
+or &quot;USA&quot;). If the country identifier could not be determined, return None.</p>
+<p>Example: If raw_country = &quot;United States of America,&quot; then</p>
+<ul class="simple">
 <li><p>alpha_2 would be &quot;US&quot;</p></li>
 <li><p>alpha_3 would be &quot;USA&quot;</p></li>
 <li><p>numeric would be &quot;840&quot;</p></li>
 </ul>
-</dd>
-</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>raw_country</strong> (<em>str</em>) -- String representation of the country to be
-put in ISO 3611 standardized form</p></li>
+<li><p><strong>raw_country</strong> (<em>str</em>) -- The string representation of the country to be
+put in ISO 3611 standardized form.</p></li>
 <li><p><strong>code_type</strong> (<em>Literal</em><em>[</em><em>'alpha_2'</em><em>, </em><em>'alpha_3'</em><em>, </em><em>'numeric'</em><em>]</em>) -- One of 'alpha_2', 'alpha_3', or 'numeric'; the
-desired identifier type to generate</p></li>
+desired identifier type to generate.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The standardized country identifier found in the resource's addresses</p>
+<dd class="field-even"><p>The standardized country identifier found in the resource's addresses.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -301,21 +443,17 @@ desired identifier type to generate</p></li>
 <dt class="sig sig-object py" id="phdi.harmonization.standardize_hl7_datetimes">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_hl7_datetimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/hl7.html#standardize_hl7_datetimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardize_hl7_datetimes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare an HL7 message for conversion by normalizing / sanitizing
-fields that are known to contain data in problematic formats. This
-function helps to-be-converted messages conform to expectations.
-Cleaning operations include:</p>
-<ul class="simple">
-<li><p>Convert segment terminators from <code class="docutils literal notranslate"><span class="pre">\n</span></code> to <code class="docutils literal notranslate"><span class="pre">\r</span></code></p></li>
-<li><p>Normalize datetime fields</p></li>
-<li><p>Convert segment terminators back from <code class="docutils literal notranslate"><span class="pre">\r</span></code> to <code class="docutils literal notranslate"><span class="pre">\n</span></code></p></li>
-</ul>
+fields that are known to contain datetime data in problematic formats. This
+function helps messages conform to expectations.</p>
+<p>This function accepts either segments terminated by <cite>r</cite> or <cite>n</cite>, but always
+returns data with <cite>n</cite> as the segment terminator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>message</strong> (<em>str</em>) -- The raw HL7 message to sanitize</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The HL7 message with potential problem formats resolved,
-if it was possible. If not, the original message.</p>
+<dd class="field-even"><p>The HL7 message with potential problem formats resolved. If the function
+is unable to parse a date, the original value is retained.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -327,33 +465,33 @@ if it was possible. If not, the original message.</p>
 <dt class="sig sig-object py" id="phdi.harmonization.standardize_name">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upper'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardize_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform basic standardization (described below) on each given name. All given input
-strings have punctuation characters removed, and then a variety of additional
-cleaning operations can be toggled on or off using the relevant parameter.
-The cleaning operations include:</p>
-<ul class="simple">
-<li><p>trim: stripping leading and trailing whitespace</p></li>
-<li><p>remove_numbers: remove all numeric characters from the input</p></li>
-<li><p>case: enforce the name to follow a specific casing convention</p></li>
-</ul>
+strings have punctuation characters removed. A variety of additional
+cleaning operations can be toggled on or off using the relevant parameter.</p>
 <p>All options specified will be applied uniformly to each input name,
 i.e. specifying case = &quot;lower&quot; will make all given names lower case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>raw_name</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) -- Either a single string name or a list of strings,
-each representing a name</p></li>
-<li><p><strong>trim</strong> (<em>bool</em>) -- Whether to strip leading/trailing whitespace</p></li>
-<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- What case to enforce on each name; the default is to
-convert all inputs to upper case</p></li>
+each representing a name.</p></li>
+<li><p><strong>trim</strong> (<em>bool</em>) -- Whether to strip leading/trailing whitespace. Default: <cite>False</cite></p></li>
+<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- <p>What case to enforce on each name.</p>
+<ul>
+<li><p><cite>upper</cite>: All upper case</p></li>
+<li><p><cite>lower</cite>: All lower case</p></li>
+<li><p><cite>title</cite>: Title case</p></li>
+</ul>
+<p>Default: <cite>upper</cite></p>
+</p></li>
 <li><p><strong>remove_numbers</strong> (<em>bool</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Remove_numbers</dt>
-<dd class="field-even"><p>Whether to remove numeric characters from the inputs</p>
+<dd class="field-even"><p>Whether to remove numeric characters from inputs. Default <cite>True</cite></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Either a string or a list of strings, depending on the
-input of raw_name, holding the cleaned name(s)</p>
+input of raw_name, holding the cleaned name(s).</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><em>Union</em>[str, <em>List</em>[str]]</p>
@@ -378,15 +516,15 @@ associated countries</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>raw_phone</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) -- One or more raw phone number(s) to standardize</p></li>
+<li><p><strong>raw_phone</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) -- One or more raw phone number(s) to standardize.</p></li>
 <li><p><strong>countries</strong> (<em>List</em>) -- An optional list containing 2 letter ISO codes
 associated with the phone numbers, signifying to which countries
-the phone numbers might belong</p></li>
+the phone numbers might belong.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Either a string or a list of strings, depending on the
-input of raw_phone, holding the standardized phone number(s)</p>
+input of raw_phone, holding the standardized phone number(s).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Union</em>[str, <em>List</em>[str]]</p>

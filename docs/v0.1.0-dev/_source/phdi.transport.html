@@ -47,25 +47,25 @@ is one of a specified list of codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request</p></li>
-<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
-first attempt fails</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request.</p></li>
+<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to retry the request, if the
+first attempt fails.</p></li>
 <li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made. Currently supports
-GET and POST</p></li>
+GET and POST.</p></li>
 <li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
-POST, PUT, etc.) for the specific URL and query</p></li>
+POST, PUT, etc.) for the specific URL and query.</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
-including Authorization and content-type</p></li>
-<li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none</p></li>
+including Authorization and content-type.</p></li>
+<li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- The data as a JSON-formatted dictionary, used when the request
+requires data to be posted. Default: <cite>None</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>ValueError</strong> -- An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
-to the request_type parameter</p>
+to the request_type parameter.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A HTTP request response</p>
+<dd class="field-odd"><p>A HTTP request response.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>requests.models.Response</p>
@@ -84,25 +84,25 @@ is one of a specified list of codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request</p></li>
-<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
-first attempt fails</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request.</p></li>
+<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to retry the request, if the
+first attempt fails.</p></li>
 <li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made. Currently supports
-GET and POST</p></li>
+GET and POST.</p></li>
 <li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
-POST, PUT, etc.) for the specific URL and query</p></li>
+POST, PUT, etc.) for the specific URL and query.</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
-including Authorization and content-type</p></li>
-<li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none</p></li>
+including Authorization and content-type.</p></li>
+<li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- The data as a JSON-formatted dictionary, used when the request
+requires data to be posted. Default: <cite>None</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>ValueError</strong> -- An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
-to the request_type parameter</p>
+to the request_type parameter.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A HTTP request response</p>
+<dd class="field-odd"><p>A HTTP request response.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>requests.models.Response</p>

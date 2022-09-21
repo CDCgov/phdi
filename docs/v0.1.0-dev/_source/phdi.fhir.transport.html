@@ -43,33 +43,37 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.export.export_from_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.export.</span></span><span class="sig-name descname"><span class="pre">export_from_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/export.html#export_from_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.export.export_from_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initiate a FHIR $export operation, and poll until it completes.
-If the export operation is in progress at the end of poll_timeout,
-use the default polling behavior to do the last function check
-before shutting down the request.</p>
+<dd><p>Initiate a FHIR $export operation, and poll until it completes and return the
+successful result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a request</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- FHIR Server base URL</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The FHIR server base URL</p></li>
 <li><p><strong>export_scope</strong> (<em>str</em>) -- Either <cite>Patient</cite> or <cite>Group/[id]</cite> as specified in the FHIR spec
 (<a class="reference external" href="https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request">https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request</a>)</p></li>
 <li><p><strong>since</strong> (<em>str</em>) -- A FHIR instant (<a class="reference external" href="https://build.fhir.org/datatypes.html#instant">https://build.fhir.org/datatypes.html#instant</a>)
 instructing the export to include only resources created or modified after the
-specified instant</p></li>
-<li><p><strong>resource_type</strong> (<em>str</em>) -- A comma-delimited list of FHIR resource types to include</p></li>
-<li><p><strong>container</strong> (<em>str</em>) -- The name of the Azure blob container used to store exported files</p></li>
+specified instant.</p></li>
+<li><p><strong>resource_type</strong> (<em>str</em>) -- A comma-delimited list of FHIR resource types to include
+in exported files.</p></li>
+<li><p><strong>container</strong> (<em>str</em>) -- The name of the storage container used to store exported files.</p></li>
 <li><p><strong>poll_step</strong> (<em>float</em>) -- The number of seconds to wait between poll requests, waiting
-for export files to be generated</p></li>
+for export files to be generated.</p></li>
 <li><p><strong>poll_timeout</strong> (<em>float</em>) -- The maximum number of seconds to wait for export files to
-be generated</p></li>
+be generated.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The JSON-formatted HTTP response of a completed export operation as a dict</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>polling.TimeoutException</strong> -- If the FHIR server continually returns a 202
+status indicating in progress until the timeout is reached.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The JSON-formatted HTTP response of a completed export operation
+as a dictionary.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -81,23 +85,23 @@ be generated</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>poll_url</strong> (<em>str</em>) -- URL to poll for export information</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a request</p></li>
-<li><p><strong>poll_step</strong> (<em>float</em>) -- the number of seconds to wait between poll requests, waiting
-for export files to be generated</p></li>
-<li><p><strong>poll_timeout</strong> (<em>float</em>) -- the maximum number of seconds to wait for export files to
-be generated</p></li>
+<li><p><strong>poll_url</strong> (<em>str</em>) -- The URL to poll for export information.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The service used to get an access token used to make a request.</p></li>
+<li><p><strong>poll_step</strong> (<em>float</em>) -- The number of seconds to wait between poll requests, waiting
+for export files to be generated.</p></li>
+<li><p><strong>poll_timeout</strong> (<em>float</em>) -- The maximum number of seconds to wait for export files to
+be generated.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A response from polled endpoint</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>polling.TimeoutException</strong> -- If the FHIR server continually returns a 202
-status indicating in progress until the timeout is reached</p></li>
-<li><p><strong>requests.HTTPError</strong> -- If an unexpected status code is returned</p></li>
+status indicating in progress until the timeout is reached.</p></li>
+<li><p><strong>requests.HTTPError</strong> -- If an unexpected status code is returned.</p></li>
 </ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A response from polled endpoint.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>requests.models.Response</p>
@@ -116,13 +120,12 @@ authentication.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) -- URL specifying a GET request on a FHIR server</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- A URL specifying a GET request on a FHIR server.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
+<dd class="field-even"><p>A <cite>requests.Request</cite> object containing the response from the FHIR server.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -133,29 +136,29 @@ request</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.http.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
-<dd><p>First, call <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>. If the first call failed
-with an authorization error (HTTP status 401), obtain a new token using the
+<dd><p>First, call <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
+failed with an authorization error (HTTP status 401), obtain a new token using the
 <cite>cred_manager</cite>, and if the original request had an Authorization header, replace
-with the new token and re-initiate <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>.</p>
+with the new token and re-initiate
+<a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- credential manager used to obtain a new token, if necessary</p></li>
-<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request.</p></li>
 <li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
-first attempt fails</p></li>
-<li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made. Currently supports
-GET and POST.</p></li>
+first attempt fails.</p></li>
+<li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made.</p></li>
 <li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
-POST, PUT, etc.) for the specific URL and query</p></li>
+POST, PUT, etc.) for the specific URL and query.</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
-including Authorization and content-type</p></li>
+including Authorization and content-type.</p></li>
 <li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none</p></li>
+posted. Default: <cite>None</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
+<dd class="field-even"><p>A <cite>requests.Request</cite> object containing the response from the FHIR server.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -170,18 +173,17 @@ posted. Defaults to none</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in
-the bundle must contain a <cite>request</cite> element in addition to a <cite>resource</cite>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- A FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in
+the bundle must contain a <cite>request</cite> element in addition to a <cite>resource</cite>.
 The FHIR API provides additional details on creating
 [FHIR-conformant batch/transaction](<a class="reference external" href="https://hl7.org/fhir/http.html#transaction">https://hl7.org/fhir/http.html#transaction</a>)
-bundles</p></li>
-<li><p><strong>access_token</strong> -- FHIR Server access token</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- The url of the FHIR server to upload to</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- </p></li>
+bundles.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The url of the FHIR server to upload to.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
+<dd class="field-even"><p>A <cite>requests.Request</cite> object containing the response from the FHIR server.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -195,33 +197,37 @@ bundles</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.export_from_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">export_from_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/export.html#export_from_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.export_from_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initiate a FHIR $export operation, and poll until it completes.
-If the export operation is in progress at the end of poll_timeout,
-use the default polling behavior to do the last function check
-before shutting down the request.</p>
+<dd><p>Initiate a FHIR $export operation, and poll until it completes and return the
+successful result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a request</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- FHIR Server base URL</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The FHIR server base URL</p></li>
 <li><p><strong>export_scope</strong> (<em>str</em>) -- Either <cite>Patient</cite> or <cite>Group/[id]</cite> as specified in the FHIR spec
 (<a class="reference external" href="https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request">https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request</a>)</p></li>
 <li><p><strong>since</strong> (<em>str</em>) -- A FHIR instant (<a class="reference external" href="https://build.fhir.org/datatypes.html#instant">https://build.fhir.org/datatypes.html#instant</a>)
 instructing the export to include only resources created or modified after the
-specified instant</p></li>
-<li><p><strong>resource_type</strong> (<em>str</em>) -- A comma-delimited list of FHIR resource types to include</p></li>
-<li><p><strong>container</strong> (<em>str</em>) -- The name of the Azure blob container used to store exported files</p></li>
+specified instant.</p></li>
+<li><p><strong>resource_type</strong> (<em>str</em>) -- A comma-delimited list of FHIR resource types to include
+in exported files.</p></li>
+<li><p><strong>container</strong> (<em>str</em>) -- The name of the storage container used to store exported files.</p></li>
 <li><p><strong>poll_step</strong> (<em>float</em>) -- The number of seconds to wait between poll requests, waiting
-for export files to be generated</p></li>
+for export files to be generated.</p></li>
 <li><p><strong>poll_timeout</strong> (<em>float</em>) -- The maximum number of seconds to wait for export files to
-be generated</p></li>
+be generated.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The JSON-formatted HTTP response of a completed export operation as a dict</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>polling.TimeoutException</strong> -- If the FHIR server continually returns a 202
+status indicating in progress until the timeout is reached.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The JSON-formatted HTTP response of a completed export operation
+as a dictionary.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -234,13 +240,12 @@ authentication.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) -- URL specifying a GET request on a FHIR server</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- A URL specifying a GET request on a FHIR server.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
+<dd class="field-even"><p>A <cite>requests.Request</cite> object containing the response from the FHIR server.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -251,29 +256,29 @@ request</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
-<dd><p>First, call <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>. If the first call failed
-with an authorization error (HTTP status 401), obtain a new token using the
+<dd><p>First, call <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
+failed with an authorization error (HTTP status 401), obtain a new token using the
 <cite>cred_manager</cite>, and if the original request had an Authorization header, replace
-with the new token and re-initiate <code class="xref py py-func docutils literal notranslate"><span class="pre">utils.http_request_with_retry()</span></code>.</p>
+with the new token and re-initiate
+<a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- credential manager used to obtain a new token, if necessary</p></li>
-<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request.</p></li>
 <li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
-first attempt fails</p></li>
-<li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made. Currently supports
-GET and POST.</p></li>
+first attempt fails.</p></li>
+<li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made.</p></li>
 <li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
-POST, PUT, etc.) for the specific URL and query</p></li>
+POST, PUT, etc.) for the specific URL and query.</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
-including Authorization and content-type</p></li>
+including Authorization and content-type.</p></li>
 <li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em>) -- JSON data in the case that the request requires data to be
-posted. Defaults to none</p></li>
+posted. Default: <cite>None</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
+<dd class="field-even"><p>A <cite>requests.Request</cite> object containing the response from the FHIR server.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>
@@ -288,18 +293,17 @@ posted. Defaults to none</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in
-the bundle must contain a <cite>request</cite> element in addition to a <cite>resource</cite>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- A FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in
+the bundle must contain a <cite>request</cite> element in addition to a <cite>resource</cite>.
 The FHIR API provides additional details on creating
 [FHIR-conformant batch/transaction](<a class="reference external" href="https://hl7.org/fhir/http.html#transaction">https://hl7.org/fhir/http.html#transaction</a>)
-bundles</p></li>
-<li><p><strong>access_token</strong> -- FHIR Server access token</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- The url of the FHIR server to upload to</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- </p></li>
+bundles.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The url of the FHIR server to upload to.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A requests.Request object containing the response from the FHIR server</p>
+<dd class="field-even"><p>A <cite>requests.Request</cite> object containing the response from the FHIR server.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>requests.models.Response</p>

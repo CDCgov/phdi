@@ -49,22 +49,16 @@ capitalization standardization, but other modes may be specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em>) -- Either a FHIR bundle or a FHIR-formatted JSON dict</p></li>
-<li><p><strong>trim</strong> (<em>bool</em>) -- Whether leading/trailing whitespace should be removed</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) -- A FHIR-formatted JSON dict.</p></li>
+<li><p><strong>trim</strong> (<em>bool</em>) -- Whether leading/trailing whitespace should be removed. Default: <cite>True</cite></p></li>
+<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- The type of casing that should be used. Default: <cite>upper</cite></p></li>
+<li><p><strong>remove_numbers</strong> (<em>bool</em>) -- Whether to delete numeric characters. Default: <cite>True</cite></p></li>
 <li><p><strong>overwrite</strong> (<em>bool</em>) -- Whether to replace the original names in the input
-data with the standardized names (default is yes)</p></li>
-<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- </p></li>
-<li><p><strong>remove_numbers</strong> (<em>bool</em>) -- </p></li>
+data with the standardized names. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Param</dt>
-<dd class="field-even"><p>case: The type of casing that should be used</p>
-</dd>
-<dt class="field-odd">Param</dt>
-<dd class="field-odd"><p>remove_numbers: Whether to delete numeric characters</p>
-</dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle or resource with names appropriately standardized</p>
+<dd class="field-even"><p>The bundle or resource with names appropriately standardized.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -76,19 +70,18 @@ data with the standardized names (default is yes)</p></li>
 <dt class="sig sig-object py" id="phdi.fhir.harmonization.standardization.standardize_phones">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_phones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/harmonization/standardization.html#standardize_phones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.harmonization.standardization.standardize_phones" title="Permalink to this definition">¶</a></dt>
 <dd><p>Standardize all phone numbers in a given FHIR bundle or a FHIR resource.
-Standardization is done according to the underlying standardize_phone function in
-phdi.harmonization. For more information on country-coding and parsing, see the
-relevant docstring.</p>
+Standardization is done according to the underlying <cite>standardize_phone</cite> function in
+<cite>phdi.harmonization</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em>) -- A FHIR bundle or FHIR-formatted JSON dict</p></li>
-<li><p><strong>overwrite</strong> -- Whether to replace the original phone numbers
-in the input data with the standardized versions (default is yes)</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) -- A FHIR bundle or FHIR-formatted JSON dict.</p></li>
+<li><p><strong>overwrite</strong> -- Whether to replace the original names in the input
+data with the standardized names. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle or resource with phones appropriately standardized</p>
+<dd class="field-even"><p>The bundle or resource with phones appropriately standardized.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -108,22 +101,16 @@ capitalization standardization, but other modes may be specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em>) -- Either a FHIR bundle or a FHIR-formatted JSON dict</p></li>
-<li><p><strong>trim</strong> (<em>bool</em>) -- Whether leading/trailing whitespace should be removed</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) -- A FHIR-formatted JSON dict.</p></li>
+<li><p><strong>trim</strong> (<em>bool</em>) -- Whether leading/trailing whitespace should be removed. Default: <cite>True</cite></p></li>
+<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- The type of casing that should be used. Default: <cite>upper</cite></p></li>
+<li><p><strong>remove_numbers</strong> (<em>bool</em>) -- Whether to delete numeric characters. Default: <cite>True</cite></p></li>
 <li><p><strong>overwrite</strong> (<em>bool</em>) -- Whether to replace the original names in the input
-data with the standardized names (default is yes)</p></li>
-<li><p><strong>case</strong> (<em>Literal</em><em>[</em><em>'upper'</em><em>, </em><em>'lower'</em><em>, </em><em>'title'</em><em>]</em>) -- </p></li>
-<li><p><strong>remove_numbers</strong> (<em>bool</em>) -- </p></li>
+data with the standardized names. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Param</dt>
-<dd class="field-even"><p>case: The type of casing that should be used</p>
-</dd>
-<dt class="field-odd">Param</dt>
-<dd class="field-odd"><p>remove_numbers: Whether to delete numeric characters</p>
-</dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle or resource with names appropriately standardized</p>
+<dd class="field-even"><p>The bundle or resource with names appropriately standardized.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -135,19 +122,18 @@ data with the standardized names (default is yes)</p></li>
 <dt class="sig sig-object py" id="phdi.fhir.harmonization.standardize_phones">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_phones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/harmonization/standardization.html#standardize_phones"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.harmonization.standardize_phones" title="Permalink to this definition">¶</a></dt>
 <dd><p>Standardize all phone numbers in a given FHIR bundle or a FHIR resource.
-Standardization is done according to the underlying standardize_phone function in
-phdi.harmonization. For more information on country-coding and parsing, see the
-relevant docstring.</p>
+Standardization is done according to the underlying <cite>standardize_phone</cite> function in
+<cite>phdi.harmonization</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em>) -- A FHIR bundle or FHIR-formatted JSON dict</p></li>
-<li><p><strong>overwrite</strong> -- Whether to replace the original phone numbers
-in the input data with the standardized versions (default is yes)</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) -- A FHIR bundle or FHIR-formatted JSON dict.</p></li>
+<li><p><strong>overwrite</strong> -- Whether to replace the original names in the input
+data with the standardized names. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle or resource with phones appropriately standardized</p>
+<dd class="field-even"><p>The bundle or resource with phones appropriately standardized.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>

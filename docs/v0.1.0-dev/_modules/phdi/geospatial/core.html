@@ -69,31 +69,36 @@
 <div class="viewcode-block" id="BaseGeocodeClient.geocode_from_str"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.core.BaseGeocodeClient.geocode_from_str">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geocode_from_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Function that uses the implementing client to perform geocoding</span>
-<span class="sd">        on the provided address, which is formatted as a string.</span>
+<span class="sd">        Geocode the provided address, which is formatted as a string.</span>
+
+<span class="sd">        :param address: The address to geocode, given as a string.</span>
+<span class="sd">        :return: A geocoded address (if valid result) or None (if no valid result).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
 
 <div class="viewcode-block" id="BaseGeocodeClient.geocode_from_dict"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.core.BaseGeocodeClient.geocode_from_dict">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geocode_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Function that uses the implementing client to perform geocoding</span>
-<span class="sd">        on the provided address, which is given as a dictionary. The given</span>
-<span class="sd">        dictionary should conform to standard nomenclature around address</span>
+<span class="sd">        Geocode the provided address, which is formatted as a dictionary.</span>
+
+<span class="sd">        The given dictionary should conform to standard nomenclature around address</span>
 <span class="sd">        fields, including:</span>
 
-<span class="sd">            street: the number and street address</span>
-<span class="sd">            street2: additional street level information (if needed)</span>
-<span class="sd">            apartment: apartment or suite number (if needed)</span>
-<span class="sd">            city: city to geocode</span>
-<span class="sd">            state: state to geocode</span>
-<span class="sd">            postal_code: the postal code to use</span>
-<span class="sd">            urbanization: urbanization code for area, sector, or regional</span>
-<span class="sd">            development (only used for Puerto Rican addresses)</span>
+<span class="sd">        * `street`: the number and street address</span>
+<span class="sd">        * `street2`: additional street level information (if needed)</span>
+<span class="sd">        * `apartment`: apartment or suite number (if needed)</span>
+<span class="sd">        * `city`: city to geocode</span>
+<span class="sd">        * `state`: state to geocode</span>
+<span class="sd">        * `postal_code`: the postal code to use</span>
+<span class="sd">        * `urbanization`: urbanization code for area, sector, or regional</span>
+<span class="sd">        * `development`: (only used for Puerto Rican addresses)</span>
 
 <span class="sd">        There is no minimum number of fields that must be specified to use this</span>
 <span class="sd">        function; however, a minimum of street, city, and state are suggested</span>
 <span class="sd">        for the best matches.</span>
+
+<span class="sd">        :param address: A dictionary with fields outlined above.</span>
+<span class="sd">        :return: A geocoded address (if valid result) or None (if no valid result).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div></div>
 </pre></div>

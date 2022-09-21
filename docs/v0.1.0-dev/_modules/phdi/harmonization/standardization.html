@@ -43,18 +43,19 @@
 <span class="sd">    Identify the country represented and generate the desired type of the ISO</span>
 <span class="sd">    3611 standardized country identifier for a given string representation of a country</span>
 <span class="sd">    (whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;</span>
-<span class="sd">    or &quot;USA&quot;). If the country cannot be determined, return None.</span>
+<span class="sd">    or &quot;USA&quot;). If the country identifier could not be determined, return None.</span>
 
 <span class="sd">    Example: If raw_country = &quot;United States of America,&quot; then</span>
-<span class="sd">      - alpha_2 would be &quot;US&quot;</span>
-<span class="sd">      - alpha_3 would be &quot;USA&quot;</span>
-<span class="sd">      - numeric would be &quot;840&quot;</span>
 
-<span class="sd">    :param raw_country: String representation of the country to be</span>
-<span class="sd">      put in ISO 3611 standardized form</span>
+<span class="sd">    * alpha_2 would be &quot;US&quot;</span>
+<span class="sd">    * alpha_3 would be &quot;USA&quot;</span>
+<span class="sd">    * numeric would be &quot;840&quot;</span>
+
+<span class="sd">    :param raw_country: The string representation of the country to be</span>
+<span class="sd">      put in ISO 3611 standardized form.</span>
 <span class="sd">    :param code_type: One of &#39;alpha_2&#39;, &#39;alpha_3&#39;, or &#39;numeric&#39;; the</span>
-<span class="sd">      desired identifier type to generate</span>
-<span class="sd">    :return: The standardized country identifier found in the resource&#39;s addresses</span>
+<span class="sd">      desired identifier type to generate.</span>
+<span class="sd">    :return: The standardized country identifier found in the resource&#39;s addresses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># @TODO: Potentially do some minor restructuring around this logic</span>
@@ -104,12 +105,12 @@
 <span class="sd">       associated countries</span>
 <span class="sd">    3. parse the phone number using the US as country</span>
 
-<span class="sd">    :param raw_phone: One or more raw phone number(s) to standardize</span>
+<span class="sd">    :param raw_phone: One or more raw phone number(s) to standardize.</span>
 <span class="sd">    :param countries: An optional list containing 2 letter ISO codes</span>
 <span class="sd">      associated with the phone numbers, signifying to which countries</span>
-<span class="sd">      the phone numbers might belong</span>
+<span class="sd">      the phone numbers might belong.</span>
 <span class="sd">    :return: Either a string or a list of strings, depending on the</span>
-<span class="sd">      input of raw_phone, holding the standardized phone number(s)</span>
+<span class="sd">      input of raw_phone, holding the standardized phone number(s).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Base cases: we always want to try the phone # on its own first;</span>
@@ -161,25 +162,25 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform basic standardization (described below) on each given name. All given input</span>
-<span class="sd">    strings have punctuation characters removed, and then a variety of additional</span>
+<span class="sd">    strings have punctuation characters removed. A variety of additional</span>
 <span class="sd">    cleaning operations can be toggled on or off using the relevant parameter.</span>
-<span class="sd">    The cleaning operations include:</span>
-
-<span class="sd">    - trim: stripping leading and trailing whitespace</span>
-<span class="sd">    - remove_numbers: remove all numeric characters from the input</span>
-<span class="sd">    - case: enforce the name to follow a specific casing convention</span>
 
 <span class="sd">    All options specified will be applied uniformly to each input name,</span>
 <span class="sd">    i.e. specifying case = &quot;lower&quot; will make all given names lower case.</span>
 
 <span class="sd">    :param raw_name: Either a single string name or a list of strings,</span>
-<span class="sd">      each representing a name</span>
-<span class="sd">    :param trim: Whether to strip leading/trailing whitespace</span>
-<span class="sd">    :param case: What case to enforce on each name; the default is to</span>
-<span class="sd">      convert all inputs to upper case</span>
-<span class="sd">    :remove_numbers: Whether to remove numeric characters from the inputs</span>
+<span class="sd">      each representing a name.</span>
+<span class="sd">    :param trim: Whether to strip leading/trailing whitespace. Default: `False`</span>
+<span class="sd">    :param case: What case to enforce on each name.</span>
+
+<span class="sd">      * `upper`: All upper case</span>
+<span class="sd">      * `lower`: All lower case</span>
+<span class="sd">      * `title`: Title case</span>
+
+<span class="sd">      Default: `upper`</span>
+<span class="sd">    :remove_numbers: Whether to remove numeric characters from inputs. Default `True`</span>
 <span class="sd">    :return: Either a string or a list of strings, depending on the</span>
-<span class="sd">      input of raw_name, holding the cleaned name(s)</span>
+<span class="sd">      input of raw_name, holding the cleaned name(s).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">names_to_clean</span> <span class="o">=</span> <span class="n">raw_name</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>

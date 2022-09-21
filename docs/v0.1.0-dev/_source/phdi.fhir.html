@@ -99,13 +99,13 @@ return references to them in a list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- The FHIR bundle to find patients in</p></li>
-<li><p><strong>resource_type</strong> (<em>str</em>) -- The type of FHIR resource to find</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- The FHIR bundle to search for entries.</p></li>
+<li><p><strong>resource_type</strong> (<em>str</em>) -- The type of FHIR resource to find.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List holding all entries of the requested resource type that were
-found in the input bundle</p>
+<dd class="field-even"><p>A list holding all entries of the requested resource type that were
+found in the input bundle.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>List</em>[dict]</p>
@@ -115,28 +115,30 @@ found in the input bundle</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.utils.get_field">
-<span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.get_field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find the first-occuring instance of the field in a given FHIR-formatted JSON dict,
-such that the instance is associated with a particular &quot;use&quot; case of a given field
-(such as name or address). Use case here refers to the FHIR-based usage of
-classifying how a value is used in reporting. For example, find the first name for a
-patient that has a &quot;use&quot; of &quot;official&quot; (meaning the name is used for official
-reports). If no instance of a field with the requested use case can be found,
-instead return a specified default field.</p>
+<span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.get_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the first-occuring instance of the field in a given FHIR-
+formatted JSON dict, such that the instance is associated with
+a particular &quot;<cite>use</cite>&quot; of a given field (such as name or address).
+<cite>Use</cite> here refers to the FHIR-based usage of classifying how
+a value is used in reporting. For example, find the first name
+for a patient that has a &quot;<cite>use</cite>&quot; of &quot;<cite>official</cite>&quot; (meaning the name
+is used for official reports). If no instance of a field with
+the requested use case can be found, instead return the specified
+default value for the field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource</strong> (<em>dict</em>) -- Resource from a FHIR bundle</p></li>
-<li><p><strong>field</strong> (<em>str</em>) -- The field to extract</p></li>
-<li><p><strong>use</strong> (<em>str</em>) -- The use the field must have to qualify</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR-formatted resource.</p></li>
+<li><p><strong>field</strong> (<em>str</em>) -- The field to extract.</p></li>
+<li><p><strong>use</strong> (<em>str</em>) -- The <cite>use</cite> the field must have to qualify.</p></li>
 <li><p><strong>default_field</strong> (<em>int</em>) -- The index of the field type to treat as
 the default return type if no field with the requested use case is
-found</p></li>
+found. Default: first data available, regardless of <cite>use</cite>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The first instance of the field value matching the desired
-use, or a default field value if a match couldn't be found</p>
+use, or a default field value if a match couldn't be found.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -151,10 +153,10 @@ use, or a default field value if a match couldn't be found</p>
 JSON dictionary holding address information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- The address bundle</p>
+<dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- The FHIR-formatted address bundle.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A one-line string representation of an address</p>
+<dd class="field-even"><p>A one-line string representation of an address.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>

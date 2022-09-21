@@ -58,14 +58,14 @@ the provided FHIR bundle which is passed in as a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of fhir resources</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of FHIR resources.</p></li>
 <li><p><strong>overwrite</strong> -- Whether to overwrite the address data in the given
 bundle's resources (True), or whether to create a copy of the bundle
-and overwrite that instead (False). Defaults to True</p></li>
+and overwrite that instead (False). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Geocoded bundle as a dict</p>
+<dd class="field-even"><p>The geocoded FHIR bundle as a dict.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -81,15 +81,14 @@ which is passed in as a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> -- A bundle of fhir resources</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource to be geocoded.</p></li>
 <li><p><strong>overwrite</strong> -- Whether to overwrite the address data in the given
-bundle's resources (True), or whether to create a copy of the bundle
-and overwrite that instead (False). Defaults to True</p></li>
-<li><p><strong>resource</strong> (<em>dict</em>) -- </p></li>
+bundle's resources (<cite>True</cite>), or create a copy of the bundle
+and overwrite that instead (<cite>False</cite>). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Geocoded resource as a dict</p>
+<dd class="field-even"><p>The geocoded resource as a dict.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -113,25 +112,23 @@ in order to build a street lookup client.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_bundle">
 <span class="sig-name descname"><span class="pre">geocode_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/geospatial/smarty.html#SmartyFhirGeocodeClient.geocode_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_bundle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform geocoding on all resources in a given FHIR bundle whose
+<dd><p>Geocode on all resources in a given FHIR bundle whose
 resource type is among those supported by the PHDI SDK. Currently,
 this includes:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>Patient</p></li>
 </ul>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of fhir resources</p></li>
-<li><p><strong>overwrite</strong> -- Whether to overwrite the address data in the given
-bundle's resources (True), or whether to create a copy of the bundle
-and overwrite that instead (False). Defaults to True</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of FHIR resources.</p></li>
+<li><p><strong>overwrite</strong> -- Whether to save the geocoding information over
+the raw data (<cite>True</cite>), or to create a copy of the given data and write
+over that instead (<cite>False</cite>). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A FHIR bundle with geocoded address(es)</p>
+<dd class="field-even"><p>The FHIR bundle with geocoded address(es).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -142,18 +139,11 @@ and overwrite that instead (False). Defaults to True</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_client">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geocode_client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">smartystreets_python_sdk.us_street.client.Client</span></em><a class="headerlink" href="#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_client" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>This property:</dt><dd><ol class="arabic simple">
-<li><p>defines a private instance variable __client</p></li>
-<li><p>makes it accessible through the use of .client()</p></li>
-</ol>
-</dd>
-</dl>
-<p>This property holds an instance of the base SmartyGeocodeClient,
-which allows the FHIR wrapper to access a SmartyStreets-
+<dd><p>An instance of the underlying Smarty client. This
+allows the FHIR wrapper to access a SmartyStreets-
 specific connection client without instantiating its own
-copy. It also provides access to the respective geocode_from_str
-and geocode_from_dict methods if they're desired.</p>
+copy. It also provides access to the respective <cite>geocode_from_str</cite>
+and <cite>geocode_from_dict</cite> methods if they're desired.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -162,22 +152,20 @@ and geocode_from_dict methods if they're desired.</p>
 <dd><p>Performs geocoding on one or more addresses in a given FHIR
 resource and returns either the result or a copy thereof.
 Currently supported resource types are:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>Patient</p></li>
 </ul>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource</strong> (<em>dict</em>) -- The resource whose addresses should be geocoded</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- The resource whose addresses should be geocoded.</p></li>
 <li><p><strong>overwrite</strong> -- Whether to save the geocoding information over
-the raw data, or to create a copy of the given data and write
-over that instead. Defaults to True (write over given data).</p></li>
+the raw data (<cite>True</cite>), or to create a copy of the given data and write
+over that instead (<cite>False</cite>). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Geocoded resource as a dict</p>
+<dd class="field-even"><p>The geocoded resource as a dict.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -208,14 +196,14 @@ the provided FHIR bundle which is passed in as a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of fhir resources</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of FHIR resources.</p></li>
 <li><p><strong>overwrite</strong> -- Whether to overwrite the address data in the given
 bundle's resources (True), or whether to create a copy of the bundle
-and overwrite that instead (False). Defaults to True</p></li>
+and overwrite that instead (False). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Geocoded bundle as a dict</p>
+<dd class="field-even"><p>The geocoded FHIR bundle as a dict.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -231,15 +219,14 @@ which is passed in as a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> -- A bundle of fhir resources</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource to be geocoded.</p></li>
 <li><p><strong>overwrite</strong> -- Whether to overwrite the address data in the given
-bundle's resources (True), or whether to create a copy of the bundle
-and overwrite that instead (False). Defaults to True</p></li>
-<li><p><strong>resource</strong> (<em>dict</em>) -- </p></li>
+bundle's resources (<cite>True</cite>), or create a copy of the bundle
+and overwrite that instead (<cite>False</cite>). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Geocoded resource as a dict</p>
+<dd class="field-even"><p>The geocoded resource as a dict.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -260,25 +247,23 @@ in order to build a street lookup client.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.SmartyFhirGeocodeClient.geocode_bundle">
 <span class="sig-name descname"><span class="pre">geocode_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/geospatial/smarty.html#SmartyFhirGeocodeClient.geocode_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.geospatial.SmartyFhirGeocodeClient.geocode_bundle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform geocoding on all resources in a given FHIR bundle whose
+<dd><p>Geocode on all resources in a given FHIR bundle whose
 resource type is among those supported by the PHDI SDK. Currently,
 this includes:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>Patient</p></li>
 </ul>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of fhir resources</p></li>
-<li><p><strong>overwrite</strong> -- Whether to overwrite the address data in the given
-bundle's resources (True), or whether to create a copy of the bundle
-and overwrite that instead (False). Defaults to True</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- A bundle of FHIR resources.</p></li>
+<li><p><strong>overwrite</strong> -- Whether to save the geocoding information over
+the raw data (<cite>True</cite>), or to create a copy of the given data and write
+over that instead (<cite>False</cite>). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A FHIR bundle with geocoded address(es)</p>
+<dd class="field-even"><p>The FHIR bundle with geocoded address(es).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -289,18 +274,11 @@ and overwrite that instead (False). Defaults to True</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.SmartyFhirGeocodeClient.geocode_client">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geocode_client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">smartystreets_python_sdk.us_street.client.Client</span></em><a class="headerlink" href="#phdi.fhir.geospatial.SmartyFhirGeocodeClient.geocode_client" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>This property:</dt><dd><ol class="arabic simple">
-<li><p>defines a private instance variable __client</p></li>
-<li><p>makes it accessible through the use of .client()</p></li>
-</ol>
-</dd>
-</dl>
-<p>This property holds an instance of the base SmartyGeocodeClient,
-which allows the FHIR wrapper to access a SmartyStreets-
+<dd><p>An instance of the underlying Smarty client. This
+allows the FHIR wrapper to access a SmartyStreets-
 specific connection client without instantiating its own
-copy. It also provides access to the respective geocode_from_str
-and geocode_from_dict methods if they're desired.</p>
+copy. It also provides access to the respective <cite>geocode_from_str</cite>
+and <cite>geocode_from_dict</cite> methods if they're desired.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -309,22 +287,20 @@ and geocode_from_dict methods if they're desired.</p>
 <dd><p>Performs geocoding on one or more addresses in a given FHIR
 resource and returns either the result or a copy thereof.
 Currently supported resource types are:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>Patient</p></li>
 </ul>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource</strong> (<em>dict</em>) -- The resource whose addresses should be geocoded</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- The resource whose addresses should be geocoded.</p></li>
 <li><p><strong>overwrite</strong> -- Whether to save the geocoding information over
-the raw data, or to create a copy of the given data and write
-over that instead. Defaults to True (write over given data).</p></li>
+the raw data (<cite>True</cite>), or to create a copy of the given data and write
+over that instead (<cite>False</cite>). Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Geocoded resource as a dict</p>
+<dd class="field-even"><p>The geocoded resource as a dict.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>

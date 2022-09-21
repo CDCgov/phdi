@@ -50,15 +50,18 @@ along with TextIO wrapping ndjson content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>export_response</strong> (<em>dict</em>) -- JSON-type dictionary holding the response from
-the export URL the FHIR server set up</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager" title="phdi.cloud.azure.AzureCredentialManager"><em>phdi.cloud.azure.AzureCredentialManager</em></a>) -- Service used to get an access token used to make a request</p></li>
+<li><p><strong>export_response</strong> (<em>dict</em>) -- A dictionary holding the final export response.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager" title="phdi.cloud.azure.AzureCredentialManager"><em>phdi.cloud.azure.AzureCredentialManager</em></a>) -- The credential manager used to authenticate to the
+storage account.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An iterator of tuples. Each tuple is comprised of:
-- FHIR resource type (str)
-- Export file content (io.TextIO)</p>
+<dd class="field-even"><p><p>An iterator of tuples. Each tuple is comprised of:</p>
+<ul class="simple">
+<li><p>FHIR resource type (str)</p></li>
+<li><p>Export file content (io.TextIO)</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Iterator</em>[<em>Tuple</em>[str, <em>TextIO</em>]]</p>
@@ -79,15 +82,18 @@ along with TextIO wrapping ndjson content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>export_response</strong> (<em>dict</em>) -- JSON-type dictionary holding the response from
-the export URL the FHIR server set up</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager" title="phdi.cloud.azure.AzureCredentialManager"><em>phdi.cloud.azure.AzureCredentialManager</em></a>) -- Service used to get an access token used to make a request</p></li>
+<li><p><strong>export_response</strong> (<em>dict</em>) -- A dictionary holding the final export response.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager" title="phdi.cloud.azure.AzureCredentialManager"><em>phdi.cloud.azure.AzureCredentialManager</em></a>) -- The credential manager used to authenticate to the
+storage account.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>An iterator of tuples. Each tuple is comprised of:
-- FHIR resource type (str)
-- Export file content (io.TextIO)</p>
+<dd class="field-even"><p><p>An iterator of tuples. Each tuple is comprised of:</p>
+<ul class="simple">
+<li><p>FHIR resource type (str)</p></li>
+<li><p>Export file content (io.TextIO)</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Iterator</em>[<em>Tuple</em>[str, <em>TextIO</em>]]</p>

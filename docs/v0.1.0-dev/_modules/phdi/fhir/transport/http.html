@@ -49,24 +49,24 @@
     <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    First, call :func:`utils.http_request_with_retry`. If the first call failed</span>
-<span class="sd">    with an authorization error (HTTP status 401), obtain a new token using the</span>
+<span class="sd">    First, call :func:`phdi.transport.http.http_request_with_retry`. If the first call</span>
+<span class="sd">    failed with an authorization error (HTTP status 401), obtain a new token using the</span>
 <span class="sd">    `cred_manager`, and if the original request had an Authorization header, replace</span>
-<span class="sd">    with the new token and re-initiate :func:`utils.http_request_with_retry`.</span>
+<span class="sd">    with the new token and re-initiate</span>
+<span class="sd">    :func:`phdi.transport.http.http_request_with_retry`.</span>
 
-<span class="sd">    :param cred_manager: credential manager used to obtain a new token, if necessary</span>
-<span class="sd">    :param url: The url at which to make the HTTP request</span>
+<span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
+<span class="sd">    :param url: The url at which to make the HTTP request.</span>
 <span class="sd">    :param retry_count: The number of times to re-try the request, if the</span>
-<span class="sd">      first attempt fails</span>
-<span class="sd">    :param request_type: The type of request to be made. Currently supports</span>
-<span class="sd">      GET and POST.</span>
+<span class="sd">      first attempt fails.</span>
+<span class="sd">    :param request_type: The type of request to be made.</span>
 <span class="sd">    :param allowed_methods: The list of allowed HTTP request methods (i.e.</span>
-<span class="sd">      POST, PUT, etc.) for the specific URL and query</span>
+<span class="sd">      POST, PUT, etc.) for the specific URL and query.</span>
 <span class="sd">    :param headers: JSON-type dictionary of headers to make the request with,</span>
-<span class="sd">      including Authorization and content-type</span>
+<span class="sd">      including Authorization and content-type.</span>
 <span class="sd">    :param data: JSON data in the case that the request requires data to be</span>
-<span class="sd">      posted. Defaults to none</span>
-<span class="sd">    :return: A requests.Request object containing the response from the FHIR server</span>
+<span class="sd">      posted. Default: `None`</span>
+<span class="sd">    :return: A `requests.Request` object containing the response from the FHIR server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">response</span> <span class="o">=</span> <span class="n">http_request_with_retry</span><span class="p">(</span>
@@ -102,14 +102,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import a FHIR resource bundle to the FHIR server.</span>
 
-<span class="sd">    :param bundle: FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in</span>
-<span class="sd">      the bundle must contain a `request` element in addition to a `resource`</span>
+<span class="sd">    :param bundle: A FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in</span>
+<span class="sd">      the bundle must contain a `request` element in addition to a `resource`.</span>
 <span class="sd">      The FHIR API provides additional details on creating</span>
 <span class="sd">      [FHIR-conformant batch/transaction](https://hl7.org/fhir/http.html#transaction)</span>
-<span class="sd">      bundles</span>
-<span class="sd">    :param access_token: FHIR Server access token</span>
-<span class="sd">    :param fhir_url: The url of the FHIR server to upload to</span>
-<span class="sd">    :return: A requests.Request object containing the response from the FHIR server</span>
+<span class="sd">      bundles.</span>
+<span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
+<span class="sd">    :param fhir_url: The url of the FHIR server to upload to.</span>
+<span class="sd">    :return: A `requests.Request` object containing the response from the FHIR server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">access_token</span> <span class="o">=</span> <span class="n">cred_manager</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">()</span>
@@ -157,10 +157,9 @@
 <span class="sd">    Submit a GET request to a FHIR server given a url and access token for</span>
 <span class="sd">    authentication.</span>
 
-<span class="sd">    :param url: URL specifying a GET request on a FHIR server</span>
-<span class="sd">    :param cred_manager: Service used to get an access token used to make a</span>
-<span class="sd">        request</span>
-<span class="sd">    :return: A requests.Request object containing the response from the FHIR server</span>
+<span class="sd">    :param url: A URL specifying a GET request on a FHIR server.</span>
+<span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
+<span class="sd">    :return: A `requests.Request` object containing the response from the FHIR server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">access_token</span> <span class="o">=</span> <span class="n">cred_manager</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">()</span>
     <span class="c1"># Open connection to the export operation and kickoff process</span>
@@ -182,7 +181,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Log the error for a given an HTTP status code from a FHIR server&#39;s response.</span>
 
-<span class="sd">    :param status_code: Status code returned by a FHIR server</span>
+<span class="sd">    :param status_code: The status code returned by a FHIR server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: We may dedcide to remove logging, and instead report errors back to</span>
     <span class="c1"># calling function as raised exceptions.</span>

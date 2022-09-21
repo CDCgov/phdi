@@ -39,11 +39,11 @@
 <span class="sd">    Generate a hash for a given string of concatenated patient information. The hash</span>
 <span class="sd">    will serve as a &quot;unique&quot; identifier for the patient.</span>
 
-<span class="sd">    :param linking_identifier: The concatenation of a patient&#39;s name,</span>
-<span class="sd">        address, and date of birth, delimited by dashes</span>
-<span class="sd">    :param salt_str: The salt to concatenate onto the end to prevent</span>
-<span class="sd">        being able to reverse-engineer PII</span>
-<span class="sd">    :return: Hash of the linking_identifier string</span>
+<span class="sd">    :param linking_identifier: The value to be hashed.  For example, the concatenation</span>
+<span class="sd">      of a patient&#39;s name, address, and date of birth, delimited by dashes.</span>
+<span class="sd">    :param salt_str: The salt to use with the hash. This is intended to prevent reverse</span>
+<span class="sd">      reverse engineering of the PII used to create the hash.</span>
+<span class="sd">    :return: The hash of the linking_identifier string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">hash_obj</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
     <span class="n">to_encode</span> <span class="o">=</span> <span class="p">(</span><span class="n">linking_identifier</span> <span class="o">+</span> <span class="n">salt_str</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>

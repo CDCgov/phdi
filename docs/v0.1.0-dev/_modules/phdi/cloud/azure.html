@@ -62,8 +62,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new AzureCredentialManager object.</span>
 
-<span class="sd">        :param resource_location: URL or other location of the requested resource.</span>
+<span class="sd">        :param resource_location: The URL or other location of the requested resource.</span>
 <span class="sd">        :param scope: A space-delimited list of scopes to limit access to resource.</span>
+<span class="sd">          Default: `None`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__resource_location</span> <span class="o">=</span> <span class="n">resource_location</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__scope</span> <span class="o">=</span> <span class="n">scope</span>
@@ -77,7 +78,7 @@
 <span class="sd">        Get an Azure-specific credential object.</span>
 
 <span class="sd">        :return: An instance of one of the \\*Credential objects from the</span>
-<span class="sd">        `azure.identity` package.</span>
+<span class="sd">          `azure.identity` package.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">DefaultAzureCredential</span><span class="p">()</span></div>
 
@@ -86,9 +87,9 @@
 <span class="sd">        Obtain an access token from the Azure identity provider. Return the</span>
 <span class="sd">        access token string, refreshed if expired or force_refresh is specified.</span>
 
-<span class="sd">        :param force_refresh: force token refresh even if the current token is</span>
-<span class="sd">          still valid</span>
-<span class="sd">        :return: Azure access token</span>
+<span class="sd">        :param force_refresh: Whether to force token refresh even if the</span>
+<span class="sd">          current token is still valid. Default: `False`</span>
+<span class="sd">        :return: An Azure access token.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">force_refresh</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_need_new_token</span><span class="p">():</span>
             <span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_credential_object</span><span class="p">()</span>
@@ -99,8 +100,10 @@
     <span class="k">def</span> <span class="nf">_need_new_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine whether the token already stored for this object can be reused,</span>
-<span class="sd">        or if it needs to be re-requested.</span>
-<span class="sd">        :return: True if new Azure access token is needed; False otherwise</span>
+<span class="sd">        or if it needs to be re-requested. A new token is needed if a token has not</span>
+<span class="sd">        yet been created, or if the current token has expired.</span>
+
+<span class="sd">        :return: Whether a new Azure access token is needed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">current_time_utc</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
@@ -127,8 +130,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new AzureCloudContainerConnection object.</span>
 
-<span class="sd">        :param storage_account_url: Storage account location of the requested resource</span>
-<span class="sd">        :param cred_manager: The Azure credential manager</span>
+<span class="sd">        :param storage_account_url: The storage account location of the requested</span>
+<span class="sd">          resource.</span>
+<span class="sd">        :param cred_manager: The credential manager used to authenticate to the</span>
+<span class="sd">          FHIR server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__storage_account_url</span> <span class="o">=</span> <span class="n">storage_account_url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__cred_manager</span> <span class="o">=</span> <span class="n">cred_manager</span>
@@ -141,8 +146,8 @@
 <span class="sd">        checked, see the Azure documentation:</span>
 <span class="sd">        https://docs.microsoft.com/en-us/azure/developer/python/sdk/authentication-overview#sequence-of-authentication-methods-when-using-defaultazurecredential</span>
 
-<span class="sd">        :param container_url: The url at which to access the container</span>
-<span class="sd">        :return: Azure ContainerClient</span>
+<span class="sd">        :param container_url: The url at which to access the container.</span>
+<span class="sd">        :return: The Azure `ContainerClient`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cred_manager</span><span class="o">.</span><span class="n">get_credential_object</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ContainerClient</span><span class="o">.</span><span class="n">from_container_url</span><span class="p">(</span><span class="n">container_url</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
@@ -153,10 +158,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download a character blob from storage and return it as a string.</span>
 
-<span class="sd">        :param container_name: The name of the container containing object to download</span>
-<span class="sd">        :param filename: Location of file within Azure blob storage</span>
-<span class="sd">        :param encoding: Encoding applied to the downloaded content</span>
-<span class="sd">        :return: Character blob (as a string) from given container and filename</span>
+<span class="sd">        :param container_name: The name of the container containing object to download.</span>
+<span class="sd">        :param filename: The location of the file within Azure blob storage.</span>
+<span class="sd">        :param encoding: The encoding applied to the downloaded content. Default: UTF-8</span>
+<span class="sd">        :return: A character blob as a string from the given container and filename.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container_location</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_account_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_container_client</span><span class="p">(</span><span class="n">container_location</span><span class="p">)</span>
@@ -176,12 +181,12 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload the content of a given message to Azure blob storage.</span>
-<span class="sd">        Message can be passed either as a raw string or as JSON.</span>
+<span class="sd">        The message can be passed either as a raw string or as JSON.</span>
 
 <span class="sd">        :param message: The contents of a message, encoded either as a</span>
-<span class="sd">          string or in a JSON format</span>
-<span class="sd">        :param container_name: The name of the target container for upload</span>
-<span class="sd">        :param filename: Location of file within Azure blob storage</span>
+<span class="sd">          string or a JSON-formatted dictionary.</span>
+<span class="sd">        :param container_name: The name of the target container for upload.</span>
+<span class="sd">        :param filename: The location of file to upload within Azure blob storage.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container_location</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_account_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_container_client</span><span class="p">(</span><span class="n">container_location</span><span class="p">)</span>
@@ -196,7 +201,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List names for this CloudContainerConnection&#39;s containers.</span>
 
-<span class="sd">        :return: a list of container names</span>
+<span class="sd">        :return: A list of container names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cred_manager</span><span class="o">.</span><span class="n">get_credential_object</span><span class="p">()</span>
         <span class="n">service_client</span> <span class="o">=</span> <span class="n">BlobServiceClient</span><span class="p">(</span>
@@ -214,9 +219,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List names for objects within a container.</span>
 
-<span class="sd">        :param container_name: The name of the container to look for objects</span>
-<span class="sd">        :param prefix: Filter for objects whose filenames begin with this value</span>
-<span class="sd">        :return: List of names for objects in given container</span>
+<span class="sd">        :param container_name: The name of the container to look for objects.</span>
+<span class="sd">        :param prefix: Filter the objects returned to filenames beginning</span>
+<span class="sd">          with this value.</span>
+<span class="sd">        :return: A list of names for objects in given container.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container_location</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_account_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">container_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">container_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_container_client</span><span class="p">(</span><span class="n">container_location</span><span class="p">)</span>
