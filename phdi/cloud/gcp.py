@@ -146,6 +146,19 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         blob = bucket.blob(filename)
         blob.upload_from_string(data=message, content_type=content_type)
 
+    def list_containers(self) -> List[str]:
+        """
+        List bucket names in storage.
+
+        :return: List of bucket names in storage
+        """
+        storage_client = self._get_storage_client()
+
+        bucket_name_list = []
+        for bucket in storage_client.list_buckets():
+            bucket_name_list.append(bucket)
+        return bucket_name_list
+
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
         List names for objects within a bucket.

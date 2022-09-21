@@ -61,6 +61,14 @@ class BaseCloudStorageConnection(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
+    def list_containers(self) -> List[str]:
+        """
+        List names for this CloudStorageConnection's containers.
+        :return: A list of container names
+        """
+        pass  # pragma: no cover
+
+    @abstractmethod
     def list_objects(self, container_name: str, prefix: str) -> List[str]:
         """
         List names for objects within a container.
