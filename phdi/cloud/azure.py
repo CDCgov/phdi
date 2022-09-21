@@ -1,6 +1,6 @@
 import json
 
-from phdi.cloud.core import BaseCredentialManager, BaseCloudContainerConnection
+from phdi.cloud.core import BaseCredentialManager, BaseCloudStorageConnection
 from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
@@ -77,7 +77,7 @@ class AzureCredentialManager(BaseCredentialManager):
             return True
 
 
-class AzureCloudContainerConnection(BaseCloudContainerConnection):
+class AzureCloudContainerConnection(BaseCloudStorageConnection):
     """
     This class implements the PHDI cloud storage interface for connecting to Azure.
     """
@@ -180,7 +180,6 @@ class AzureCloudContainerConnection(BaseCloudContainerConnection):
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
         List names for objects within a container.
-
         :param container_name: The name of the container to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
         :return: List of names for objects in given container
