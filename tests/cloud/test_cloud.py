@@ -10,7 +10,7 @@ from phdi.cloud.azure import (
     AzureCredentialManager,
     AzureCloudContainerConnection,
 )
-from phdi.cloud.gcp import GcpCredentialManager
+from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
@@ -439,3 +439,101 @@ def test_list_objects(mock_get_client):
     mock_client.list_blobs.assert_called_with(name_starts_with=object_prefix)
 
     assert blob_list == ["blob1", "blob2"]
+
+
+@mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
+def test_gcp_upload_object(mock_get_client):
+    mock_blob = mock.Mock()
+    mock_bucket = mock.Mock()
+
+    mock_storage_client = mock.Mock()
+    mock_storage_client.bucket.return_value = mock_bucket
+    mock_bucket.blob.return_value = mock_blob
+
+    mock_get_client.return_value = mock_storage_client
+
+    phdi_container_client = GcpCloudStorageConnection()
+
+    object_bucket = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+
+    object_content_str = "hello world"
+
+    phdi_container_client.upload_object(
+        object_content_str,
+        object_bucket,
+        object_path,
+    )
+    mock_storage_client.bucket.assert_called_with(object_bucket)
+    mock_blob.upload_from_string.assert_called_with(
+        data=object_content_str,
+        content_type="application/json",
+    )
+
+
+@mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
+def test_gcp_download_object(mock_get_client):
+    mock_blob = mock.Mock()
+    mock_bucket = mock.Mock()
+
+    mock_storage_client = mock.Mock()
+    mock_storage_client.bucket.return_value = mock_bucket
+    mock_bucket.blob.return_value = mock_blob
+
+    mock_get_client.return_value = mock_storage_client
+
+    object_bucket = "some-container"
+    object_path = "output/path/some-bundle-type/some-filename-1.fhir"
+    object_content = {"hello": "world"}
+
+    mock_blob.download_as_text.return_value = json.dumps(object_content)
+
+    phdi_container_client = GcpCloudStorageConnection()
+    download_content = phdi_container_client.download_object(
+        object_bucket,
+        object_path,
+    )
+
+    assert json.loads(download_content) == object_content
+
+    mock_storage_client.bucket.assert_called_with(object_bucket)
+
+    mock_blob.download_as_text.assert_called_with(encoding="utf-8")
+
+
+@mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
+def test_gcp_list_objects(mock_get_client):
+    item1 = mock.Mock()
+    item1.name = "blob1"
+    item2 = mock.Mock()
+    item2.name = "blob2"
+    mock_object_list = [item1, item2]
+
+    mock_storage_client = mock.Mock()
+    mock_get_client.return_value = mock_storage_client
+    mock_storage_client.list_blobs.return_value = mock_object_list
+
+    object_bucket = "some-container"
+    phdi_storage_client = GcpCloudStorageConnection()
+    blob_list = phdi_storage_client.list_objects(object_bucket)
+
+    mock_storage_client.list_blobs.assert_called_with(object_bucket, prefix="")
+    assert blob_list == ["blob1", "blob2"]
+
+
+@mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
+def test_gcp_list_containers(mock_get_client):
+    item1 = "blob1"
+    item2 = "blob2"
+    mock_bucket_list = [item1, item2]
+
+    mock_storage_client = mock.Mock()
+    mock_get_client.return_value = mock_storage_client
+    mock_storage_client.list_buckets.return_value = mock_bucket_list
+
+    phdi_storage_client = GcpCloudStorageConnection()
+    bucket_list = phdi_storage_client.list_containers()
+
+    mock_storage_client.list_buckets.assert_called_with()
+
+    assert bucket_list == ["blob1", "blob2"]
