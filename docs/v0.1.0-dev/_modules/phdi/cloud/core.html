@@ -67,11 +67,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download a blob from storage.</span>
 
-<span class="sd">        :param container_name: The name of the container containing object to download</span>
-<span class="sd">        :param filename: Location of file within storage</span>
-<span class="sd">        :param encoding: Encoding applied to the downloaded content</span>
+<span class="sd">        :param container_name: The name of the container containing object to download.</span>
+<span class="sd">        :param filename: The location of file within storage.</span>
+<span class="sd">        :param encoding: The character encoding applied to the downloaded content.</span>
 <span class="sd">        :return: The `stream` parameter, if supplied. Otherwise a new stream object</span>
-<span class="sd">        containing blob content.</span>
+<span class="sd">          containing blob content.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
 
@@ -87,9 +87,9 @@
 <span class="sd">        Message can be passed either as a raw string or as JSON.</span>
 
 <span class="sd">        :param message: The contents of a message, encoded either as a</span>
-<span class="sd">          string or in a JSON format</span>
-<span class="sd">        :param container_name: The name of the target container for upload</span>
-<span class="sd">        :param filename: Location of file within storage container</span>
+<span class="sd">          string or in a JSON format.</span>
+<span class="sd">        :param container_name: The name of the target container for upload.</span>
+<span class="sd">        :param filename: The location of file within storage container.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
 
@@ -98,7 +98,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List names for this CloudContainerConnection&#39;s containers.</span>
 
-<span class="sd">        :return: A list of container names</span>
+<span class="sd">        :return: A list of container names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
 
@@ -107,9 +107,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List names for objects within a container.</span>
 
-<span class="sd">        :param container_name: The name of the container to look for objects</span>
-<span class="sd">        :param prefix: Filter for objects whose filenames begin with this value</span>
-<span class="sd">        :return: A list of objects within a container</span>
+<span class="sd">        :param container_name: The name of the container to look for objects.</span>
+<span class="sd">        :param prefix: Filter the objects returned to filenames beginning</span>
+<span class="sd">          with this value.</span>
+<span class="sd">        :return: A list of objects within a container.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div></div>
 </pre></div>

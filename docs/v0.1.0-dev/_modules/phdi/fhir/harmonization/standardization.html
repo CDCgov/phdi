@@ -52,13 +52,13 @@
 <span class="sd">    default standardization behavior is our defined non-numeric, space-trimming, full</span>
 <span class="sd">    capitalization standardization, but other modes may be specified.</span>
 
-<span class="sd">    :param data: Either a FHIR bundle or a FHIR-formatted JSON dict</span>
-<span class="sd">    :param trim: Whether leading/trailing whitespace should be removed</span>
-<span class="sd">    :param: case: The type of casing that should be used</span>
-<span class="sd">    :param: remove_numbers: Whether to delete numeric characters</span>
+<span class="sd">    :param data: A FHIR-formatted JSON dict.</span>
+<span class="sd">    :param trim: Whether leading/trailing whitespace should be removed. Default: `True`</span>
+<span class="sd">    :param case: The type of casing that should be used. Default: `upper`</span>
+<span class="sd">    :param remove_numbers: Whether to delete numeric characters. Default: `True`</span>
 <span class="sd">    :param overwrite: Whether to replace the original names in the input</span>
-<span class="sd">      data with the standardized names (default is yes)</span>
-<span class="sd">    :return: The bundle or resource with names appropriately standardized</span>
+<span class="sd">      data with the standardized names. Default: `True`</span>
+<span class="sd">    :return: The bundle or resource with names appropriately standardized.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Copy the data if we don&#39;t want to overwrite the original</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
@@ -84,14 +84,13 @@
 <div class="viewcode-block" id="standardize_phones"><a class="viewcode-back" href="../../../../_source/phdi.fhir.harmonization.html#phdi.fhir.harmonization.standardization.standardize_phones">[docs]</a><span class="k">def</span> <span class="nf">standardize_phones</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Standardize all phone numbers in a given FHIR bundle or a FHIR resource.</span>
-<span class="sd">    Standardization is done according to the underlying standardize_phone function in</span>
-<span class="sd">    phdi.harmonization. For more information on country-coding and parsing, see the</span>
-<span class="sd">    relevant docstring.</span>
+<span class="sd">    Standardization is done according to the underlying `standardize_phone` function in</span>
+<span class="sd">    `phdi.harmonization`.</span>
 
-<span class="sd">    :param data: A FHIR bundle or FHIR-formatted JSON dict</span>
-<span class="sd">    :param overwrite: Whether to replace the original phone numbers</span>
-<span class="sd">      in the input data with the standardized versions (default is yes)</span>
-<span class="sd">    :return: The bundle or resource with phones appropriately standardized</span>
+<span class="sd">    :param data: A FHIR bundle or FHIR-formatted JSON dict.</span>
+<span class="sd">    :param overwrite: Whether to replace the original names in the input</span>
+<span class="sd">      data with the standardized names. Default: `True`</span>
+<span class="sd">    :return: The bundle or resource with phones appropriately standardized.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
@@ -119,25 +118,24 @@
     <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper method to standardize all found names in a given resource.</span>
+<span class="sd">    Standardize all found names in a given resource.</span>
 <span class="sd">    The resource can be of any type currently supported by the</span>
 <span class="sd">    function&#39;s logic. At this time, those resources include:</span>
 
-<span class="sd">      - Patient</span>
+<span class="sd">    * Patient</span>
 
 <span class="sd">    The parameters to this function match the standardization flags</span>
 <span class="sd">    used by the underlying &quot;standardize_name&quot; function found in</span>
 <span class="sd">    phdi.harmonization. For more information, see the docstring for</span>
 <span class="sd">    that function.</span>
 
-<span class="sd">    :param resource: A FHIR-formatted JSON dictionary</span>
-<span class="sd">    :param trim: Whether to trim trailing/leading whitespace</span>
-<span class="sd">    :param case: What case to employ for the cleaned name</span>
-<span class="sd">    :param remove_numbers: Whether to delete numeric characters from</span>
-<span class="sd">      names in the resource</span>
-<span class="sd">    :param overwrite: Whether to overwrite the input data with the</span>
-<span class="sd">      new, standardized value (default is yes)</span>
-<span class="sd">    :return: The resource with appropriately standardized names</span>
+<span class="sd">    :param resource: A FHIR-formatted JSON dictionary.</span>
+<span class="sd">    :param trim: Whether leading/trailing whitespace should be removed. Default: `True`</span>
+<span class="sd">    :param case: The type of casing that should be used. Default: `upper`</span>
+<span class="sd">    :param remove_numbers: Whether to delete numeric characters. Default: `True`</span>
+<span class="sd">    :param overwrite: Whether to replace the original names in the input</span>
+<span class="sd">      data with the standardized names. Default: `True`</span>
+<span class="sd">    :return: The resource with appropriately standardized names.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
@@ -187,16 +185,18 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build a list containing all of the countries, standardized by code_type, in the</span>
-<span class="sd">    addresses of a given FHIR resource. If the resource is not of a supported type, no</span>
+<span class="sd">    addresses of a given FHIR resource as interpreted by the ISO 3611: standardized</span>
+<span class="sd">    country identifier. If the resource is not of a supported type, no</span>
 <span class="sd">    countries will be returned. Currently supported resource types are:</span>
 
-<span class="sd">    - Patient</span>
+<span class="sd">    * Patient</span>
 
-<span class="sd">    :param resource: A FHIR-formatted JSON dictionary</span>
+<span class="sd">    :param resource: A FHIR-formatted JSON dictionary.</span>
 <span class="sd">    :param code_type: A string equal to &#39;alpha_2&#39;, &#39;alpha_3&#39;, or &#39;numeric&#39;</span>
-<span class="sd">      to specify which type of standard country identifier to generate</span>
+<span class="sd">      to specify which type of standard country identifier to generate.</span>
+<span class="sd">      Default: `alpha_2`</span>
 <span class="sd">    :return: A list of all the standardized countries found in the resource&#39;s</span>
-<span class="sd">     addresses</span>
+<span class="sd">      addresses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">countries</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">resource_type</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resourceType&quot;</span><span class="p">)</span>

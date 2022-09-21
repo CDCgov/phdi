@@ -50,20 +50,20 @@
 <span class="sd">    Execute an HTTP request, retrying the request if the returned HTTP status code</span>
 <span class="sd">    is one of a specified list of codes.</span>
 
-<span class="sd">    :param url: The url at which to make the HTTP request</span>
-<span class="sd">    :param retry_count: The number of times to re-try the request, if the</span>
-<span class="sd">      first attempt fails</span>
+<span class="sd">    :param url: The url at which to make the HTTP request.</span>
+<span class="sd">    :param retry_count: The number of times to retry the request, if the</span>
+<span class="sd">      first attempt fails.</span>
 <span class="sd">    :param request_type: The type of request to be made. Currently supports</span>
-<span class="sd">      GET and POST</span>
+<span class="sd">      GET and POST.</span>
 <span class="sd">    :param allowed_methods: The list of allowed HTTP request methods (i.e.</span>
-<span class="sd">      POST, PUT, etc.) for the specific URL and query</span>
+<span class="sd">      POST, PUT, etc.) for the specific URL and query.</span>
 <span class="sd">    :param headers: JSON-type dictionary of headers to make the request with,</span>
-<span class="sd">      including Authorization and content-type</span>
-<span class="sd">    :param data: JSON data in the case that the request requires data to be</span>
-<span class="sd">      posted. Defaults to none</span>
+<span class="sd">      including Authorization and content-type.</span>
+<span class="sd">    :param data: The data as a JSON-formatted dictionary, used when the request</span>
+<span class="sd">      requires data to be posted. Default: `None`</span>
 <span class="sd">    :raises ValueError: An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed</span>
-<span class="sd">      to the request_type parameter</span>
-<span class="sd">    :return: A HTTP request response</span>
+<span class="sd">      to the request_type parameter.</span>
+<span class="sd">    :return: A HTTP request response.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">request_type</span> <span class="o">=</span> <span class="n">request_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>

@@ -71,15 +71,14 @@
 
 <div class="viewcode-block" id="SmartyGeocodeClient.geocode_from_str"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_str">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_from_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Geocode a string-formatted address using SmartyStreets. If the result</span>
-<span class="sd">        comes back valid, output is stored in a GeocodeResult object. If the</span>
+<span class="sd">        Geocode the provided address, which is formatted as a string. If the</span>
 <span class="sd">        result could not be latitude- or longitude-located, then Smarty failed</span>
 <span class="sd">        to precisely geocode the address, so no result is returned. Raises</span>
 <span class="sd">        an error if the provided address is empty.</span>
 
-<span class="sd">        :param address: The address to geocode, given as a string</span>
-<span class="sd">        :return: A GeocodeResult object (if valid result) or None (if no valid</span>
-<span class="sd">          result)</span>
+<span class="sd">        :param address: The address to geocode, given as a string.</span>
+<span class="sd">        :raises Exception: When the address is an empty string.</span>
+<span class="sd">        :return: A geocoded address (if valid result) or None (if no valid result).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># The smarty Lookup class will parse a BadRequestError but retry</span>
@@ -93,13 +92,26 @@
 
 <div class="viewcode-block" id="SmartyGeocodeClient.geocode_from_dict"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_dict">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Geocode a dictionary-formatted address using SmartyStreets.</span>
-<span class="sd">        If a result is found, encode as a GeocodeResult object and</span>
-<span class="sd">        return, otherwise the return None.</span>
+<span class="sd">        Geocode the provided address, which is formatted as a dictionary.</span>
 
-<span class="sd">        :param address: a dictionary with fields outlined above</span>
-<span class="sd">        :return: A GeocodeResult object (if valid result) or None (if no valid</span>
-<span class="sd">          result)</span>
+<span class="sd">        The given dictionary should conform to standard nomenclature around address</span>
+<span class="sd">        fields, including:</span>
+
+<span class="sd">        * `street`: the number and street address</span>
+<span class="sd">        * `street2`: additional street level information (if needed)</span>
+<span class="sd">        * `apartment`: apartment or suite number (if needed)</span>
+<span class="sd">        * `city`: city to geocode</span>
+<span class="sd">        * `state`: state to geocode</span>
+<span class="sd">        * `postal_code`: the postal code to use</span>
+<span class="sd">        * `urbanization`: urbanization code for area, sector, or regional</span>
+<span class="sd">        * `development`: (only used for Puerto Rican addresses)</span>
+
+<span class="sd">        There is no minimum number of fields that must be specified to use this</span>
+<span class="sd">        function; however, a minimum of street, city, and state are suggested</span>
+<span class="sd">        for the best matches.</span>
+
+<span class="sd">        :param address: A dictionary with fields outlined above.</span>
+<span class="sd">        :return: A geocoded address (if valid result) or None (if no valid result).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Smarty geocode requests must include a street level</span>
@@ -127,12 +139,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Private helper function to parse a returned Smarty geocoding result into</span>
 <span class="sd">        our standardized GeocodeResult class. If the Smarty lookup is null or</span>
-<span class="sd">        doesn&#39;t include latitude and longitude information, returns None</span>
-<span class="sd">        instead.</span>
+<span class="sd">        doesn&#39;t include latitude and longitude information, returns None instead.</span>
 
 <span class="sd">        :param lookup: The us_street.lookup client instantiated for geocoding</span>
-<span class="sd">        :return: A parsed GeocodeResult object (if valid result) or None (if</span>
-<span class="sd">          no valid result)</span>
+<span class="sd">        :return: The geocoded address (if valid result) or None (if no valid result)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Valid responses have results with lat/long</span>
         <span class="k">if</span> <span class="n">lookup</span><span class="o">.</span><span class="n">result</span> <span class="ow">and</span> <span class="n">lookup</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">latitude</span><span class="p">:</span>

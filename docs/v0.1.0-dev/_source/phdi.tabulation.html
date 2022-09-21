@@ -48,13 +48,16 @@ load the file and return the resulting schema as a dictionary.
 If the file can't be found, raises an error.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- File path to a YAML file holding a schema</p>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- The file path to a YAML file holding a schema.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dict representing a schema read from the given path</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If the file to be loaded could not be found.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dict representing a schema read from the given path.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -67,10 +70,12 @@ tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- Path to a direct holding table files</p></li>
-<li><p><strong>display_head</strong> (<em>bool</em>) -- Print the head of each table when true.
-Note: depending on the file format, this may require
-reading large amounts of data into memory</p></li>
+<li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- The path to a direct holding table files.</p></li>
+<li><p><strong>display_head</strong> (<em>bool</em>) -- <p>Whether to print the first few rows of each table. When true,
+print the first few rows, otherwise, only print table metadata.</p>
+<p>Note: depending on the file format, this may require
+reading large amounts of data into memory.</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -82,28 +87,28 @@ reading large amounts of data into memory</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.tabulation.tables.write_table">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">write_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#write_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.write_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given data stored as a list of dictionaries, where all dicts
+<dd><p>Given data stored as a list of dictionaries, where all dictionaries
 have a common set of keys, write the set of data to an output
 file of a particular type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- A list of dicts representing the table's data.
-Each dict represents one row in the resulting table. The
-keys serve as the table's columns, and the values represent
-the entry for that column in the row given by a particular
-dict.</p></li>
-<li><p><strong>output_file_name</strong> (<em>pathlib.Path</em>) -- Full name for the file where the table
-is to be written</p></li>
-<li><p><strong>output_format</strong> -- The file format of the table to be written</p></li>
-<li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- Optional; a writer object that can be maintained
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- A list of dictionaries representing the table's data.
+Each dictictionary represents one row in the resulting table. The
+keys serve as the table's columns, and the values represent the
+entry for that column in the row given by a particular dict.</p></li>
+<li><p><strong>output_file_name</strong> (<em>pathlib.Path</em>) -- The full name for the file where the table
+is to be written.</p></li>
+<li><p><strong>output_format</strong> -- The file format of the table to be written.</p></li>
+<li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- A writer object that can be maintained
 between different calls of this function to support file formats
-that cannot be appended to after being written (e.g. parquet)</p></li>
+that cannot be appended to after being written (e.g. parquet). Default: <cite>None</cite></p></li>
 <li><p><strong>file_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>, </em><em>'csv'</em><em>]</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>pq.ParquetWriter if file_format is parquet; else None</p>
+<dd class="field-even"><p>An instance of <cite>pq.ParquetWriter</cite> if file_format is parquet,
+otherwise <cite>None</cite></p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Union</em>[None, pyarrow.parquet.ParquetWriter]</p>
@@ -122,13 +127,16 @@ load the file and return the resulting schema as a dictionary.
 If the file can't be found, raises an error.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- File path to a YAML file holding a schema</p>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) -- The file path to a YAML file holding a schema.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dict representing a schema read from the given path</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If the file to be loaded could not be found.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dict representing a schema read from the given path.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -141,10 +149,12 @@ tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- Path to a direct holding table files</p></li>
-<li><p><strong>display_head</strong> (<em>bool</em>) -- Print the head of each table when true.
-Note: depending on the file format, this may require
-reading large amounts of data into memory</p></li>
+<li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- The path to a direct holding table files.</p></li>
+<li><p><strong>display_head</strong> (<em>bool</em>) -- <p>Whether to print the first few rows of each table. When true,
+print the first few rows, otherwise, only print table metadata.</p>
+<p>Note: depending on the file format, this may require
+reading large amounts of data into memory.</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -156,28 +166,28 @@ reading large amounts of data into memory</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.tabulation.write_table">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">write_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#write_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.write_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given data stored as a list of dictionaries, where all dicts
+<dd><p>Given data stored as a list of dictionaries, where all dictionaries
 have a common set of keys, write the set of data to an output
 file of a particular type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- A list of dicts representing the table's data.
-Each dict represents one row in the resulting table. The
-keys serve as the table's columns, and the values represent
-the entry for that column in the row given by a particular
-dict.</p></li>
-<li><p><strong>output_file_name</strong> (<em>pathlib.Path</em>) -- Full name for the file where the table
-is to be written</p></li>
-<li><p><strong>output_format</strong> -- The file format of the table to be written</p></li>
-<li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- Optional; a writer object that can be maintained
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) -- A list of dictionaries representing the table's data.
+Each dictictionary represents one row in the resulting table. The
+keys serve as the table's columns, and the values represent the
+entry for that column in the row given by a particular dict.</p></li>
+<li><p><strong>output_file_name</strong> (<em>pathlib.Path</em>) -- The full name for the file where the table
+is to be written.</p></li>
+<li><p><strong>output_format</strong> -- The file format of the table to be written.</p></li>
+<li><p><strong>writer</strong> (<em>Optional</em><em>[</em><em>pyarrow.parquet.ParquetWriter</em><em>]</em>) -- A writer object that can be maintained
 between different calls of this function to support file formats
-that cannot be appended to after being written (e.g. parquet)</p></li>
+that cannot be appended to after being written (e.g. parquet). Default: <cite>None</cite></p></li>
 <li><p><strong>file_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>, </em><em>'csv'</em><em>]</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>pq.ParquetWriter if file_format is parquet; else None</p>
+<dd class="field-even"><p>An instance of <cite>pq.ParquetWriter</cite> if file_format is parquet,
+otherwise <cite>None</cite></p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>Union</em>[None, pyarrow.parquet.ParquetWriter]</p>

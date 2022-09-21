@@ -53,15 +53,11 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geocode_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This property:</span>
-<span class="sd">          1. defines a private instance variable __client</span>
-<span class="sd">          2. makes it accessible through the use of .client()</span>
-
-<span class="sd">        This property holds an instance of the base SmartyGeocodeClient,</span>
-<span class="sd">        which allows the FHIR wrapper to access a SmartyStreets-</span>
+<span class="sd">        An instance of the underlying Smarty client. This</span>
+<span class="sd">        allows the FHIR wrapper to access a SmartyStreets-</span>
 <span class="sd">        specific connection client without instantiating its own</span>
-<span class="sd">        copy. It also provides access to the respective geocode_from_str</span>
-<span class="sd">        and geocode_from_dict methods if they&#39;re desired.</span>
+<span class="sd">        copy. It also provides access to the respective `geocode_from_str`</span>
+<span class="sd">        and `geocode_from_dict` methods if they&#39;re desired.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client</span>
 
@@ -71,13 +67,13 @@
 <span class="sd">        resource and returns either the result or a copy thereof.</span>
 <span class="sd">        Currently supported resource types are:</span>
 
-<span class="sd">            - Patient</span>
+<span class="sd">        * Patient</span>
 
-<span class="sd">        :param resource: The resource whose addresses should be geocoded</span>
+<span class="sd">        :param resource: The resource whose addresses should be geocoded.</span>
 <span class="sd">        :param overwrite: Whether to save the geocoding information over</span>
-<span class="sd">          the raw data, or to create a copy of the given data and write</span>
-<span class="sd">          over that instead. Defaults to True (write over given data).</span>
-<span class="sd">        :return: Geocoded resource as a dict</span>
+<span class="sd">          the raw data (`True`), or to create a copy of the given data and write</span>
+<span class="sd">          over that instead (`False`). Default: `True`</span>
+<span class="sd">        :return: The geocoded resource as a dict.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="n">resource</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
@@ -90,8 +86,9 @@
 
     <span class="k">def</span> <span class="nf">_geocode_patient_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Private helper function to handle geocoding of all addresses in</span>
-<span class="sd">        a given patient resource.</span>
+<span class="sd">        Geocode all addresses in a patient resource.</span>
+
+<span class="sd">        :param patient: A FHIR Patient resource.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">patient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="p">[]):</span>
             <span class="n">address_str</span> <span class="o">=</span> <span class="n">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
@@ -109,17 +106,17 @@
 
 <div class="viewcode-block" id="SmartyFhirGeocodeClient.geocode_bundle"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_bundle">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_bundle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Perform geocoding on all resources in a given FHIR bundle whose</span>
+<span class="sd">        Geocode on all resources in a given FHIR bundle whose</span>
 <span class="sd">        resource type is among those supported by the PHDI SDK. Currently,</span>
 <span class="sd">        this includes:</span>
 
-<span class="sd">            - Patient</span>
+<span class="sd">        * Patient</span>
 
-<span class="sd">        :param bundle: A bundle of fhir resources</span>
-<span class="sd">        :param overwrite: Whether to overwrite the address data in the given</span>
-<span class="sd">          bundle&#39;s resources (True), or whether to create a copy of the bundle</span>
-<span class="sd">          and overwrite that instead (False). Defaults to True</span>
-<span class="sd">        :return: A FHIR bundle with geocoded address(es)</span>
+<span class="sd">        :param bundle: A bundle of FHIR resources.</span>
+<span class="sd">        :param overwrite: Whether to save the geocoding information over</span>
+<span class="sd">          the raw data (`True`), or to create a copy of the given data and write</span>
+<span class="sd">          over that instead (`False`). Default: `True`</span>
+<span class="sd">        :return: The FHIR bundle with geocoded address(es).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
             <span class="n">bundle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>

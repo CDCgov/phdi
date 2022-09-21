@@ -60,27 +60,24 @@
     <span class="n">use_default_ccda</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a given message from either HL7 v2 (pipe-delimited flat file) or CCDA (XML)</span>
+<span class="sd">    Convert a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)</span>
 <span class="sd">    into FHIR format (JSON) for further processing using the FHIR server. Standardize</span>
 <span class="sd">    datetimes in HL7v2 messages before conversion.</span>
 
-<span class="sd">    The FHIR server will respond with a status code of 400 if the</span>
+<span class="sd">    The FHIR server may respond with a status code of 400 if the</span>
 <span class="sd">    message itself is invalid, such as containing improperly</span>
-<span class="sd">    formatted timestamps. Otherwise, the FHIR server will respond</span>
-<span class="sd">    with the converted FHIR data. In either case, a</span>
-<span class="sd">    `requests.Response` object will be returned.</span>
+<span class="sd">    formatted data. Otherwise, the FHIR server will respond</span>
+<span class="sd">    with a status code of 200 along with the converted FHIR data.</span>
 
-
-<span class="sd">    :param message: The raw message that needs to be converted to</span>
-<span class="sd">      FHIR. Must be HL7v2 or CCDA</span>
-<span class="sd">    :param cred_manager: Service used to get an access token used to</span>
-<span class="sd">      make a request</span>
-<span class="sd">    :param fhir_url: A URL that points to the location of the FHIR</span>
-<span class="sd">      server</span>
+<span class="sd">    :param message: The raw message that needs to be converted to FHIR.</span>
+<span class="sd">      Must be HL7v2 or CCDA.</span>
+<span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
+<span class="sd">    :param fhir_url: A URL that points to the location of the FHIR server.</span>
 <span class="sd">    :param use_default_ccda: Whether to default to the</span>
 <span class="sd">      base &quot;CCD&quot; root template if a resource&#39;s LOINC code doesn&#39;t</span>
-<span class="sd">      map to a specific supported template (Optional, default is No)</span>
-<span class="sd">    :return: A requests.Response object</span>
+<span class="sd">      map to a specific supported template. Default: `False`</span>
+<span class="sd">    :return: A `requests.Response` object containing the response from</span>
+<span class="sd">      the FHIR converter.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">conversion_settings</span> <span class="o">=</span> <span class="n">_get_fhir_conversion_settings</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">use_default_ccda</span><span class="p">)</span>
@@ -128,55 +125,49 @@
 
 <span class="k">def</span> <span class="nf">_get_fhir_conversion_settings</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use_default_ccda</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Private helper function to determine what settings to use with the</span>
-<span class="sd">    FHIR server to facilitate message conversion. Attempt to identify which data type</span>
-<span class="sd">    the input has (HL7 or XML) and determine the appropriate FHIR converter root</span>
-<span class="sd">    template to use. Raise an exception if the user opts to not use the default CCDA</span>
-<span class="sd">    root template for an unsupported input resouece and a message&#39;s extracted</span>
-<span class="sd">    LOINC code doesn&#39;t correspond to an existing CCDA template.</span>
+<span class="sd">    Determine which settings to use with the FHIR server to facilitate message</span>
+<span class="sd">    conversion. Attempt to identify which data type the input has (HL7 or XML)</span>
+<span class="sd">    and determine the appropriate FHIR converter root template to use. Raise</span>
+<span class="sd">    an exception if the user opts to not use the default CCDA root template for</span>
+<span class="sd">    an unsupported input resouece and a message&#39;s extracted LOINC code doesn&#39;t</span>
+<span class="sd">    correspond to an existing CCDA template.</span>
 
 <span class="sd">    More information about the required templates and settings can be found here:</span>
 
 <span class="sd">    https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data</span>
 
-<span class="sd">    :param message: The incoming message (already cleaned, if</span>
-<span class="sd">      applicable)</span>
-<span class="sd">    :param use_default_ccda: Optionally, whether to default to the</span>
+<span class="sd">    :param message: The incoming message.</span>
+<span class="sd">    :param use_default_ccda: Whether to default to the</span>
 <span class="sd">      base &quot;CCD&quot; root template if a resource&#39;s LOINC code doesn&#39;t</span>
-<span class="sd">      map to a specific supported template. Default is No.</span>
+<span class="sd">      map to a specific supported template. Default: `False`</span>
 <span class="sd">    :return: A dictionary holding the settings of parameters to-be</span>
-<span class="sd">      set when converting the input to FHIR</span>
+<span class="sd">      set when converting the input to FHIR.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Some streams (e.g. ELR, VXU) are HL7v2 encoded</span>
     <span class="k">if</span> <span class="n">message</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MSH&quot;</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">parsed_msg</span> <span class="o">=</span> <span class="n">hl7</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-            <span class="n">extracted_code</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">parsed_msg</span><span class="o">.</span><span class="n">segment</span><span class="p">(</span><span class="s2">&quot;MSH&quot;</span><span class="p">)[</span><span class="mi">9</span><span class="p">])</span>
+        <span class="n">parsed_msg</span> <span class="o">=</span> <span class="n">hl7</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">extracted_code</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">parsed_msg</span><span class="o">.</span><span class="n">segment</span><span class="p">(</span><span class="s2">&quot;MSH&quot;</span><span class="p">)[</span><span class="mi">9</span><span class="p">])</span>
 
-            <span class="c1"># HL7 MSH segment 9 has three components: message code, trigger</span>
-            <span class="c1"># event, and message structure. We can extract based on number of</span>
-            <span class="c1"># present separators and recombine to create a robust formatted code</span>
-            <span class="n">extracted_code_tokenized</span> <span class="o">=</span> <span class="n">extracted_code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">parsed_msg</span><span class="o">.</span><span class="n">separators</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-            <span class="n">formatted_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extracted_code_tokenized</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
-                <span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
-            <span class="p">):</span>
-                <span class="n">formatted_code</span> <span class="o">=</span> <span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">extracted_code_tokenized</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">formatted_code</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
+        <span class="c1"># HL7 MSH segment 9 has three components: message code, trigger</span>
+        <span class="c1"># event, and message structure. We can extract based on number of</span>
+        <span class="c1"># present separators and recombine to create a robust formatted code</span>
+        <span class="n">extracted_code_tokenized</span> <span class="o">=</span> <span class="n">extracted_code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">parsed_msg</span><span class="o">.</span><span class="n">separators</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">formatted_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extracted_code_tokenized</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="n">formatted_code</span> <span class="o">=</span> <span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">extracted_code_tokenized</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">formatted_code</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">extracted_code_tokenized</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">formatted_code</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Could not determine HL7 message structure&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">formatted_code</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Could not determine HL7 message structure&quot;</span><span class="p">)</span>
 
-            <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">&quot;root_template&quot;</span><span class="p">:</span> <span class="n">formatted_code</span><span class="p">,</span>
-                <span class="s2">&quot;input_data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;HL7v2&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;template_collection&quot;</span><span class="p">:</span> <span class="s2">&quot;microsofthealth/fhirconverter:default&quot;</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="k">except</span> <span class="n">hl7</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ParseException</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">hl7</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ParseException</span><span class="p">(</span><span class="s2">&quot;Input HL7 message could not be parsed&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;root_template&quot;</span><span class="p">:</span> <span class="n">formatted_code</span><span class="p">,</span>
+            <span class="s2">&quot;input_data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;HL7v2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;template_collection&quot;</span><span class="p">:</span> <span class="s2">&quot;microsofthealth/fhirconverter:default&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
 
     <span class="c1"># Others conform to C-CDA standards (e.g. ECR)</span>
     <span class="k">else</span><span class="p">:</span>

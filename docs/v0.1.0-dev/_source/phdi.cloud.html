@@ -65,13 +65,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container containing object to download</p></li>
-<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within Azure blob storage</p></li>
-<li><p><strong>encoding</strong> (<em>str</em>) -- Encoding applied to the downloaded content</p></li>
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container containing object to download.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- The location of the file within Azure blob storage.</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- The encoding applied to the downloaded content. Default: UTF-8</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Character blob (as a string) from given container and filename</p>
+<dd class="field-even"><p>A character blob as a string from the given container and filename.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -85,7 +85,7 @@
 <dd><p>List names for this CloudContainerConnection's containers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of container names</p>
+<dd class="field-odd"><p>A list of container names.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><em>List</em>[str]</p>
@@ -100,12 +100,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container to look for objects</p></li>
-<li><p><strong>prefix</strong> (<em>str</em>) -- Filter for objects whose filenames begin with this value</p></li>
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container to look for objects.</p></li>
+<li><p><strong>prefix</strong> (<em>str</em>) -- Filter the objects returned to filenames beginning
+with this value.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of names for objects in given container</p>
+<dd class="field-even"><p>A list of names for objects in given container.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>List</em>[str]</p>
@@ -122,14 +123,14 @@
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.upload_object">
 <span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.upload_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload the content of a given message to Azure blob storage.
-Message can be passed either as a raw string or as JSON.</p>
+The message can be passed either as a raw string or as JSON.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>message</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>dict</em><em>]</em>) -- The contents of a message, encoded either as a
-string or in a JSON format</p></li>
-<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the target container for upload</p></li>
-<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within Azure blob storage</p></li>
+string or a JSON-formatted dictionary.</p></li>
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the target container for upload.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- The location of file to upload within Azure blob storage.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -165,11 +166,11 @@ string or in a JSON format</p></li>
 access token string, refreshed if expired or force_refresh is specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em>) -- force token refresh even if the current token is
-still valid</p>
+<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em>) -- Whether to force token refresh even if the
+current token is still valid. Default: <cite>False</cite></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Azure access token</p>
+<dd class="field-even"><p>An Azure access token.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -183,13 +184,13 @@ still valid</p>
 <dd><p>Get an Azure-specific credential object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An instance of one of the *Credential objects from the</p>
+<dd class="field-odd"><p>An instance of one of the *Credential objects from the
+<cite>azure.identity</cite> package.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>object</p>
 </dd>
 </dl>
-<p><cite>azure.identity</cite> package.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -218,19 +219,19 @@ still valid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container containing object to download</p></li>
-<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within storage</p></li>
-<li><p><strong>encoding</strong> (<em>str</em>) -- Encoding applied to the downloaded content</p></li>
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container containing object to download.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- The location of file within storage.</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- The character encoding applied to the downloaded content.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The <cite>stream</cite> parameter, if supplied. Otherwise a new stream object</p>
+<dd class="field-even"><p>The <cite>stream</cite> parameter, if supplied. Otherwise a new stream object
+containing blob content.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<p>containing blob content.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -239,7 +240,7 @@ still valid</p>
 <dd><p>List names for this CloudContainerConnection's containers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A list of container names</p>
+<dd class="field-odd"><p>A list of container names.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><em>List</em>[str]</p>
@@ -254,12 +255,13 @@ still valid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>container_name</strong> -- The name of the container to look for objects</p></li>
-<li><p><strong>prefix</strong> -- Filter for objects whose filenames begin with this value</p></li>
+<li><p><strong>container_name</strong> -- The name of the container to look for objects.</p></li>
+<li><p><strong>prefix</strong> -- Filter the objects returned to filenames beginning
+with this value.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of objects within a container</p>
+<dd class="field-even"><p>A list of objects within a container.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><em>List</em>[str]</p>
@@ -276,9 +278,9 @@ Message can be passed either as a raw string or as JSON.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>message</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>dict</em><em>]</em>) -- The contents of a message, encoded either as a
-string or in a JSON format</p></li>
-<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the target container for upload</p></li>
-<li><p><strong>filename</strong> (<em>str</em>) -- Location of file within storage container</p></li>
+string or in a JSON format.</p></li>
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the target container for upload.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- The location of file within storage container.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

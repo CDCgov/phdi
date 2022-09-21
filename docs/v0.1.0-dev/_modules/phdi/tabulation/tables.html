@@ -48,8 +48,9 @@
 <span class="sd">    load the file and return the resulting schema as a dictionary.</span>
 <span class="sd">    If the file can&#39;t be found, raises an error.</span>
 
-<span class="sd">    :param path: File path to a YAML file holding a schema</span>
-<span class="sd">    :return: A dict representing a schema read from the given path</span>
+<span class="sd">    :param path: The file path to a YAML file holding a schema.</span>
+<span class="sd">    :raises Exception: If the file to be loaded could not be found.</span>
+<span class="sd">    :return: A dict representing a schema read from the given path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
@@ -66,22 +67,22 @@
     <span class="n">writer</span><span class="p">:</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetWriter</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetWriter</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given data stored as a list of dictionaries, where all dicts</span>
+<span class="sd">    Given data stored as a list of dictionaries, where all dictionaries</span>
 <span class="sd">    have a common set of keys, write the set of data to an output</span>
 <span class="sd">    file of a particular type.</span>
 
-<span class="sd">    :param data: A list of dicts representing the table&#39;s data.</span>
-<span class="sd">      Each dict represents one row in the resulting table. The</span>
-<span class="sd">      keys serve as the table&#39;s columns, and the values represent</span>
-<span class="sd">      the entry for that column in the row given by a particular</span>
-<span class="sd">      dict.</span>
-<span class="sd">    :param output_file_name: Full name for the file where the table</span>
-<span class="sd">      is to be written</span>
-<span class="sd">    :param output_format: The file format of the table to be written</span>
-<span class="sd">    :param writer: Optional; a writer object that can be maintained</span>
+<span class="sd">    :param data: A list of dictionaries representing the table&#39;s data.</span>
+<span class="sd">      Each dictictionary represents one row in the resulting table. The</span>
+<span class="sd">      keys serve as the table&#39;s columns, and the values represent the</span>
+<span class="sd">      entry for that column in the row given by a particular dict.</span>
+<span class="sd">    :param output_file_name: The full name for the file where the table</span>
+<span class="sd">      is to be written.</span>
+<span class="sd">    :param output_format: The file format of the table to be written.</span>
+<span class="sd">    :param writer: A writer object that can be maintained</span>
 <span class="sd">      between different calls of this function to support file formats</span>
-<span class="sd">      that cannot be appended to after being written (e.g. parquet)</span>
-<span class="sd">    :return: pq.ParquetWriter if file_format is parquet; else None</span>
+<span class="sd">      that cannot be appended to after being written (e.g. parquet). Default: `None`</span>
+<span class="sd">    :return: An instance of `pq.ParquetWriter` if file_format is parquet,</span>
+<span class="sd">      otherwise `None`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s2">&quot;parquet&quot;</span><span class="p">:</span>
@@ -109,10 +110,12 @@
 <span class="sd">    Print a summary of each CSV of Parquet formatted table in a given directory of</span>
 <span class="sd">    tables.</span>
 
-<span class="sd">    :param directory: Path to a direct holding table files</span>
-<span class="sd">    :param display_head: Print the head of each table when true.</span>
+<span class="sd">    :param directory: The path to a direct holding table files.</span>
+<span class="sd">    :param display_head: Whether to print the first few rows of each table. When true,</span>
+<span class="sd">      print the first few rows, otherwise, only print table metadata.</span>
+
 <span class="sd">      Note: depending on the file format, this may require</span>
-<span class="sd">      reading large amounts of data into memory</span>
+<span class="sd">      reading large amounts of data into memory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">file_names</span><span class="p">)</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>

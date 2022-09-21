@@ -46,17 +46,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a FHIR resource bundle:</span>
 
-<span class="sd">    * identify all patient resource(s) in the bundle</span>
-<span class="sd">    * add the hash string to the list of identifiers held in that patient resource</span>
+<span class="sd">    * Identify all patient resource(s) in the bundle</span>
+<span class="sd">    * Add the hash string to the list of identifiers held in that patient resource</span>
 
-<span class="sd">    :param bundle: The FHIR bundle for whose patients to add a</span>
-<span class="sd">        linking identifier</span>
-<span class="sd">    :param salt_str: The suffix string added to prevent being</span>
-<span class="sd">        able to reverse the hash into PII</span>
+<span class="sd">    :param bundle: The FHIR bundle for whose patients to add a linking identifier.</span>
+<span class="sd">    :param salt_str: The salt to use with the hash. This is intended to prevent reverse</span>
+<span class="sd">      reverse engineering of the PII used to create the hash.</span>
 <span class="sd">    :param overwrite: Whether to write the new standardizations</span>
-<span class="sd">        directly into the given bundle, changing the original data (True</span>
-<span class="sd">        is yes)</span>
-<span class="sd">    :return: The bundle, resources updated with additional patient identifier</span>
+<span class="sd">      directly into the given bundle, changing the original data. Default: `True`</span>
+<span class="sd">    :return: The bundle, resources updated with additional patient identifier.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
         <span class="n">bundle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
@@ -71,20 +69,18 @@
     <span class="n">patient_resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">salt_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a FHIR resource:</span>
+<span class="sd">    Given a FHIR Patient resource:</span>
 
-<span class="sd">    * extract name, DOB, and address information for each</span>
-<span class="sd">    * compute a unique hash string based on these fields</span>
-<span class="sd">    * add the hash string to resource</span>
+<span class="sd">    * Extract name, DOB, and address information</span>
+<span class="sd">    * Compute a unique hash string based on these fields</span>
+<span class="sd">    * Add the hash string to resource</span>
 
-<span class="sd">    :param patient_resource: The FHIR patient resource to add a</span>
-<span class="sd">        linking identifier</span>
-<span class="sd">    :param salt_str: The suffix string added to prevent being</span>
-<span class="sd">        able to reverse the hash into PII</span>
+<span class="sd">    :param patient_resource: The FHIR patient resource to add a linking identifier.</span>
+<span class="sd">    :param salt_str: The salt to use with the hash. This is intended to prevent reverse</span>
+<span class="sd">      reverse engineering of the PII used to create the hash.</span>
 <span class="sd">    :param overwrite: Whether to write the new standardizations</span>
-<span class="sd">        directly into the given bundle, changing the original data (True</span>
-<span class="sd">        is yes)</span>
-<span class="sd">    :return: The resource updated with additional patient identifier</span>
+<span class="sd">      directly into the given bundle, changing the original data. Default: `True`</span>
+<span class="sd">    :return: The resource updated with additional patient identifier.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
         <span class="n">patient_resource</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">)</span>

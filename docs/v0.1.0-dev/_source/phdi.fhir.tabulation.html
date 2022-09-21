@@ -52,12 +52,13 @@ resource type, the raw resource is instead returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema</p></li>
-<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema.</p></li>
+<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values to extract,
+by FHIR resource type.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dictionary of data with the desired values specified in the schema</p>
+<dd class="field-even"><p>A dictionary of data with the desired values, as specified by the schema.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -68,19 +69,17 @@ resource type, the raw resource is instead returned.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.tables.generate_all_tables_in_schema">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">generate_all_tables_in_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#generate_all_tables_in_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.tables.generate_all_tables_in_schema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the url for a FHIR server, the location of a schema file, and the output
-directory generate the specified schema and store the tables in the desired
-location.</p>
+<dd><p>Query a FHIR server for information, and generate and store the tables in the
+desired location, according to the supplied schema.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>schema_path</strong> (<em>pathlib.Path</em>) -- A path to the location of a YAML schema config file.</p></li>
 <li><p><strong>base_output_path</strong> (<em>pathlib.Path</em>) -- A path to the directory where tables of the schema should
 be written.</p></li>
-<li><p><strong>output_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>]</em>) -- Specifies the file format of the tables to be generated.</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- URL to a FHIR server.</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request.</p></li>
+<li><p><strong>output_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>]</em>) -- The file format of the tables to be generated.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The URL to a FHIR server.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -96,12 +95,11 @@ request.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type.</p></li>
+<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values, by FHIR resource type.</p></li>
 <li><p><strong>output_path</strong> (<em>pathlib.Path</em>) -- A path specifying where the table should be written.</p></li>
 <li><p><strong>output_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>]</em>) -- A string indicating the file format to be used.</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- URL to a FHIR server.</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- A URL to a FHIR server.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -125,12 +123,13 @@ resource type, the raw resource is instead returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema</p></li>
-<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type</p></li>
+<li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR resource on which to apply a schema.</p></li>
+<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values to extract,
+by FHIR resource type.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dictionary of data with the desired values specified in the schema</p>
+<dd class="field-even"><p>A dictionary of data with the desired values, as specified by the schema.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -141,19 +140,17 @@ resource type, the raw resource is instead returned.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.tabulation.generate_all_tables_in_schema">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.tabulation.</span></span><span class="sig-name descname"><span class="pre">generate_all_tables_in_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/tabulation/tables.html#generate_all_tables_in_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.tabulation.generate_all_tables_in_schema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given the url for a FHIR server, the location of a schema file, and the output
-directory generate the specified schema and store the tables in the desired
-location.</p>
+<dd><p>Query a FHIR server for information, and generate and store the tables in the
+desired location, according to the supplied schema.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>schema_path</strong> (<em>pathlib.Path</em>) -- A path to the location of a YAML schema config file.</p></li>
 <li><p><strong>base_output_path</strong> (<em>pathlib.Path</em>) -- A path to the directory where tables of the schema should
 be written.</p></li>
-<li><p><strong>output_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>]</em>) -- Specifies the file format of the tables to be generated.</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- URL to a FHIR server.</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request.</p></li>
+<li><p><strong>output_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>]</em>) -- The file format of the tables to be generated.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The URL to a FHIR server.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -169,12 +166,11 @@ request.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values by FHIR resource type.</p></li>
+<li><p><strong>schema</strong> (<em>dict</em>) -- A schema specifying the desired values, by FHIR resource type.</p></li>
 <li><p><strong>output_path</strong> (<em>pathlib.Path</em>) -- A path specifying where the table should be written.</p></li>
 <li><p><strong>output_format</strong> (<em>Literal</em><em>[</em><em>'parquet'</em><em>]</em>) -- A string indicating the file format to be used.</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- URL to a FHIR server.</p></li>
-<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- Service used to get an access token used to make a
-request.</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- A URL to a FHIR server.</p></li>
+<li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

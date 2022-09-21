@@ -43,26 +43,24 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.linkage.link.add_patient_identifier">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.linkage.link.</span></span><span class="sig-name descname"><span class="pre">add_patient_identifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/linkage/link.html#add_patient_identifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.linkage.link.add_patient_identifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a FHIR resource:</p>
+<dd><p>Given a FHIR Patient resource:</p>
 <ul class="simple">
-<li><p>extract name, DOB, and address information for each</p></li>
-<li><p>compute a unique hash string based on these fields</p></li>
-<li><p>add the hash string to resource</p></li>
+<li><p>Extract name, DOB, and address information</p></li>
+<li><p>Compute a unique hash string based on these fields</p></li>
+<li><p>Add the hash string to resource</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>patient_resource</strong> (<em>dict</em>) -- The FHIR patient resource to add a
-linking identifier</p></li>
-<li><p><strong>salt_str</strong> (<em>str</em>) -- The suffix string added to prevent being
-able to reverse the hash into PII</p></li>
+<li><p><strong>patient_resource</strong> (<em>dict</em>) -- The FHIR patient resource to add a linking identifier.</p></li>
+<li><p><strong>salt_str</strong> (<em>str</em>) -- The salt to use with the hash. This is intended to prevent reverse
+reverse engineering of the PII used to create the hash.</p></li>
 <li><p><strong>overwrite</strong> (<em>bool</em>) -- Whether to write the new standardizations
-directly into the given bundle, changing the original data (True
-is yes)</p></li>
+directly into the given bundle, changing the original data. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The resource updated with additional patient identifier</p>
+<dd class="field-even"><p>The resource updated with additional patient identifier.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -72,23 +70,21 @@ is yes)</p></li>
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.linkage.link.</span></span><span class="sig-name descname"><span class="pre">add_patient_identifier_in_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/linkage/link.html#add_patient_identifier_in_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.linkage.link.add_patient_identifier_in_bundle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a FHIR resource bundle:</p>
 <ul class="simple">
-<li><p>identify all patient resource(s) in the bundle</p></li>
-<li><p>add the hash string to the list of identifiers held in that patient resource</p></li>
+<li><p>Identify all patient resource(s) in the bundle</p></li>
+<li><p>Add the hash string to the list of identifiers held in that patient resource</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- The FHIR bundle for whose patients to add a
-linking identifier</p></li>
-<li><p><strong>salt_str</strong> (<em>str</em>) -- The suffix string added to prevent being
-able to reverse the hash into PII</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- The FHIR bundle for whose patients to add a linking identifier.</p></li>
+<li><p><strong>salt_str</strong> (<em>str</em>) -- The salt to use with the hash. This is intended to prevent reverse
+reverse engineering of the PII used to create the hash.</p></li>
 <li><p><strong>overwrite</strong> (<em>bool</em>) -- Whether to write the new standardizations
-directly into the given bundle, changing the original data (True
-is yes)</p></li>
+directly into the given bundle, changing the original data. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle, resources updated with additional patient identifier</p>
+<dd class="field-even"><p>The bundle, resources updated with additional patient identifier.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -102,26 +98,24 @@ is yes)</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.linkage.add_patient_identifier">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.linkage.</span></span><span class="sig-name descname"><span class="pre">add_patient_identifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/linkage/link.html#add_patient_identifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.linkage.add_patient_identifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a FHIR resource:</p>
+<dd><p>Given a FHIR Patient resource:</p>
 <ul class="simple">
-<li><p>extract name, DOB, and address information for each</p></li>
-<li><p>compute a unique hash string based on these fields</p></li>
-<li><p>add the hash string to resource</p></li>
+<li><p>Extract name, DOB, and address information</p></li>
+<li><p>Compute a unique hash string based on these fields</p></li>
+<li><p>Add the hash string to resource</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>patient_resource</strong> (<em>dict</em>) -- The FHIR patient resource to add a
-linking identifier</p></li>
-<li><p><strong>salt_str</strong> (<em>str</em>) -- The suffix string added to prevent being
-able to reverse the hash into PII</p></li>
+<li><p><strong>patient_resource</strong> (<em>dict</em>) -- The FHIR patient resource to add a linking identifier.</p></li>
+<li><p><strong>salt_str</strong> (<em>str</em>) -- The salt to use with the hash. This is intended to prevent reverse
+reverse engineering of the PII used to create the hash.</p></li>
 <li><p><strong>overwrite</strong> (<em>bool</em>) -- Whether to write the new standardizations
-directly into the given bundle, changing the original data (True
-is yes)</p></li>
+directly into the given bundle, changing the original data. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The resource updated with additional patient identifier</p>
+<dd class="field-even"><p>The resource updated with additional patient identifier.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -131,23 +125,21 @@ is yes)</p></li>
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.linkage.</span></span><span class="sig-name descname"><span class="pre">add_patient_identifier_in_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">salt_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/linkage/link.html#add_patient_identifier_in_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.linkage.add_patient_identifier_in_bundle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a FHIR resource bundle:</p>
 <ul class="simple">
-<li><p>identify all patient resource(s) in the bundle</p></li>
-<li><p>add the hash string to the list of identifiers held in that patient resource</p></li>
+<li><p>Identify all patient resource(s) in the bundle</p></li>
+<li><p>Add the hash string to the list of identifiers held in that patient resource</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle</strong> (<em>dict</em>) -- The FHIR bundle for whose patients to add a
-linking identifier</p></li>
-<li><p><strong>salt_str</strong> (<em>str</em>) -- The suffix string added to prevent being
-able to reverse the hash into PII</p></li>
+<li><p><strong>bundle</strong> (<em>dict</em>) -- The FHIR bundle for whose patients to add a linking identifier.</p></li>
+<li><p><strong>salt_str</strong> (<em>str</em>) -- The salt to use with the hash. This is intended to prevent reverse
+reverse engineering of the PII used to create the hash.</p></li>
 <li><p><strong>overwrite</strong> (<em>bool</em>) -- Whether to write the new standardizations
-directly into the given bundle, changing the original data (True
-is yes)</p></li>
+directly into the given bundle, changing the original data. Default: <cite>True</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bundle, resources updated with additional patient identifier</p>
+<dd class="field-even"><p>The bundle, resources updated with additional patient identifier.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
