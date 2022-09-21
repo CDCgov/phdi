@@ -38,7 +38,7 @@ class BaseCloudStorageConnection(ABC):
         :param filename: The location of file within storage.
         :param encoding: The character encoding applied to the downloaded content.
         :return: The `stream` parameter, if supplied. Otherwise a new stream object
-        containing blob content.
+          containing blob content.
         """
         pass  # pragma: no cover
 
