@@ -32,6 +32,8 @@ jobs:
         run: poetry run pytest --cov-report xml --cov=phdi tests/
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          flags: unit-tests
 
 
   code-check-python:
