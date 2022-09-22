@@ -5,7 +5,7 @@ import json
 import pathlib
 
 
-def test_parse_smarty_result_success():
+def test_parse_census_result_success():
     censusResponseFullAddress = json.load(
         open(
             pathlib.Path(__file__).parent.parent
@@ -24,99 +24,114 @@ def test_parse_smarty_result_success():
     assert encoded_result.county_fips == "36061"
     assert encoded_result.county_name == "New York"
     assert encoded_result.postal_code == "10003"
-    assert encoded_result.precision == "zip5"
 
 
-# def test_parse_smarty_result_failure():
-#     lookup = None
-#     assert CensusGeocodeClient._parse_census_result(lookup) is None
+def test_parse_census_result_failure():
+    censusResponseFullAddress = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "censusResponseFullAddress.json"
+        )
+    )
+
+    # Test when addressMatches is an empty list
+    censusResponseFullAddress_noAddressMatch = censusResponseFullAddress
+    censusResponseFullAddress_noAddressMatch["addressMatches"] = []
+    assert (
+        CensusGeocodeClient._parse_census_result(
+            censusResponseFullAddress_noAddressMatch
+        )
+        is None
+    )
 
 
-# def test_geocode_from_str(): # Come back to this
-#     census_client = CensusGeocodeClient()
-#     address = "659 Centre St, Boston, MA 02130"
+def test_geocode_from_str():
+    census_client = CensusGeocodeClient()
+    address = "659 Centre St, Boston, MA 02130"
 
-#     geocoded_response = GeocodeResult(
-#         line=["659 CENTRE ST", "BOSTON", "MA", "02130"],
-#         city="BOSTON",
-#         state="MA",
-#         lat=45.123,
-#         lng=-70.234,
-#         county_fips="36061",
-#         county_name="Suffolk",
-#         postal_code="02130",
-#         precision="Zip5",
-#     )
+    geocoded_response = GeocodeResult(
+        line=["659 CENTRE ST", "BOSTON", "MA", "02130"],
+        city="BOSTON",
+        state="MA",
+        postal_code="02130",
+        county_fips="25025",
+        lat=42.31304390969022,
+        lng=-71.11410863903707,
+        district=None,
+        country=None,
+        county_name="Suffolk",
+        precision=None,
+        geoid="250251201031000",
+        census_tract="1201.03",
+        census_block="1000",
+    )
+    assert geocoded_response == census_client.geocode_from_str(address)
 
-#     assert geocoded_response == census_client.geocode_from_str(address)
-#     # smarty_client.client.send_lookup.assert_called()
+    # Test ambiguous address/address with multiple matches
+    address = "659 Centre St"
+    assert census_client.geocode_from_str(address) is None
 
-
-# def test_geocode_from_dict():
-#     auth_id = mock.Mock()
-#     auth_token = mock.Mock()
-#     smarty_client = SmartyGeocodeClient(auth_id, auth_token)
-#     assert smarty_client.client is not None
-
-#     candidate = Candidate({})
-#     candidate.delivery_line_1 = "123 FAKE ST"
-#     candidate.metadata = Metadata(
-#         {
-#             "latitude": 45.123,
-#             "longitude": -70.234,
-#             "county_fips": "36061",
-#             "county_name": "New York",
-#             "precision": "Zip9",
-#         }
-#     )
-#     candidate.components = Components(
-#         {"zipcode": "10001", "city_name": "New York", "state_abbreviation": "NY"}
-#     )
-
-#     # Provide a function that adds results to the existing object
-#     def fill_in_result(*args, **kwargs):
-#         args[0].result = [candidate]
-
-#     smarty_client.client.send_lookup = mock.Mock()
-#     smarty_client.client.send_lookup.side_effect = fill_in_result
-
-#     geocoded_response = GeocodeResult(
-#         line=["123 FAKE ST"],
-#         city="New York",
-#         state="NY",
-#         lat=45.123,
-#         lng=-70.234,
-#         county_fips="36061",
-#         county_name="New York",
-#         postal_code="10001",
-#         precision="Zip9",
-#     )
-
-#     input_dict = {
-#         "street": "123 FAKE ST",
-#         "city": "New York",
-#         "state": "NY",
-#         "zip": "10001",
-#     }
-#     assert geocoded_response == smarty_client.geocode_from_dict(input_dict)
-#     smarty_client.client.send_lookup.assert_called()
+    # Test empty string address
+    address = ""
+    try:
+        geocode_result = census_client.geocode_from_str(address)
+    except Exception as e:
+        assert (
+            repr(e) == "Exception('Must include street number and name at a minimum')"
+        )
 
 
-# def test_blank_geocode_inputs():
-#     auth_id = mock.Mock()
-#     auth_token = mock.Mock()
-#     smarty_client = SmartyGeocodeClient(auth_id, auth_token)
-#     assert smarty_client.client is not None
+def test_geocode_from_dict():
+    census_client = CensusGeocodeClient()
+    # Test address with full, complete information
+    full_address_dict = {
+        "street": "239 Greene Street",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10003",
+    }
 
-#     geocode_result = None
-#     try:
-#         geocode_result = smarty_client.geocode_from_str("")
-#     except Exception as e:
-#         assert repr(e) == "Exception('Cannot geocode an empty string')"
-#         assert geocode_result is None
+    geocoded_response = GeocodeResult(
+        line=["239 GREENE ST", "NEW YORK", "NY", "10003"],
+        city="NEW YORK",
+        state="NY",
+        postal_code="10003",
+        county_fips="36061",
+        lat=40.72962831414409,
+        lng=-73.9954428687588,
+        district=None,
+        country=None,
+        county_name="New York",
+        precision=None,
+        geoid="360610059003005",
+        census_tract="59",
+        census_block="3005",
+    )
+    assert geocoded_response == census_client.geocode_from_dict(full_address_dict)
 
-#     try:
-#         geocode_result = smarty_client.geocode_from_dict({})
-#     except Exception as e:
-#         assert repr(e) == "Exception('Must include street information at a minimum')"
-#         assert geocode_result is None
+    # Test address with missing street num and name
+    missing_street_dict = {
+        "city": "New York",
+        "state": "NY",
+        "zip": "10003",
+    }
+    try:
+        geocoded_response == census_client.geocode_from_dict(missing_street_dict)
+    except Exception as e:
+        assert (
+            repr(e) == "Exception('Must include street number and name at a minimum')"
+        )
+
+    # Test ambiguous address
+    ambiguous_address_dict = {"street": "123 Main Street"}
+    assert census_client.geocode_from_dict(ambiguous_address_dict) is None
+
+    # Test malformed input input (e.g., zipcode == ABC)
+    malformed_input_dict = {
+        "street": "239",
+        "city": "1234",
+        "state": "ABC",
+        "zip": "00000",
+    }
+    assert census_client.geocode_from_dict(malformed_input_dict) is None
