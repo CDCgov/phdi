@@ -1,7 +1,6 @@
 from typing import Union
 import requests
 
-
 from phdi.geospatial.core import BaseGeocodeClient, GeocodeResult
 
 
@@ -15,8 +14,8 @@ class CensusGeocodeClient(BaseGeocodeClient):
     def __init__(self):
         self.__client = ()
 
-    # @property
-    # def client(self) -> us_street.Client:
+    # # @property
+    # def client(self):
     #     """
     #     This property:
     #       1. defines a private instance variable __client
@@ -30,70 +29,87 @@ class CensusGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_str(self, address: str) -> Union[GeocodeResult, None]:
         """
-        Geocode a string-formatted address using Census API. If the result
-        comes back valid, output is stored in a GeocodeResult object.
+        Geocode a string-formatted address using Census API with searchtype =
+        "onelineaddress". If a result is found, encode as a GeocodeResult object and
+        return, otherwise the return None.
 
         :param address: The address to geocode, given as a string
         :param searchtype: onelineaddress OR address # doesn't yet support coordinates
         :return: A GeocodeResult object (if valid result) or None (if no valid
           result)
         """
+        # Check for street num and name at minimum
+        if address == "":
+            raise Exception("Must include street number and name at a minimum")
+
         formatted_address = self._format_address(address, searchtype="onelineaddress")
         url = self._get_url(formatted_address)
         response = self._call_census_api(url)
-        parsed_response = self._parse_census_result(response)
-        return parsed_response["matchedAddress"]
 
-    # def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
-    #     """
-    #     Geocode a dictionary-formatted address using SmartyStreets.
-    #     If a result is found, encode as a GeocodeResult object and
-    #     return, otherwise the return None.
+        return self._parse_census_result(response)
 
-    #     :param address: a dictionary with fields outlined above
-    #     :return: A GeocodeResult object (if valid result) or None (if no valid
-    #       result)
-    #     """
+    def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
+        """
+        Geocode a dictionary-formatted address using the Census API with searchtype =
+        "address". If a result is found, encode as a GeocodeResult object and return,
+        otherwise the return None.
 
-    #     # Smarty geocode requests must include a street level
-    #     # field in the payload, otherwise generates BadRequestError
-    #     if address.get("street", "") == "":
-    #         raise Exception("Must include street information at a minimum")
+        :param address: a dictionary with fields outlined above
+        :return: A GeocodeResult object (if valid result) or None (if no valid
+          result)
+        """
 
-    #     # Configure the lookup with whatever provided address values
-    #     # were in the user-given dictionary
-    #     lookup = Lookup()
-    #     lookup.street = address.get("street", "")
-    #     lookup.street2 = address.get("street2", "")
-    #     lookup.secondary = address.get("apartment", "")
-    #     lookup.city = address.get("city", "")
-    #     lookup.state = address.get("state", "")
-    #     lookup.zipcode = address.get("postal_code", "")
-    #     lookup.urbanization = address.get("urbanization", "")
-    #     lookup.match = "strict"
+        # Check for street num and name at minimum
+        if address.get("street", "") == "":
+            raise Exception("Must include street number and name at a minimum")
 
-    #     self.__client.send_lookup(lookup)
-    #     return self._parse_smarty_result(lookup)
+        # Configure the lookup with whatever provided address values
+        # were in the user-given dictionary
+        formatted_address = self._format_address(address, searchtype="address")
+        url = self._get_url(formatted_address)
+        response = self._call_census_api(url)
+
+        return self._parse_census_result(response)
 
     @staticmethod
     def _format_address(address: Union[str, dict], searchtype: str):
         """
         Format address for Census API call according to address type.
         :param address: The address to geocode, given as a string
-        :param searchtype: onelineaddress OR address OR coordinates; default is
-            onelineaddress # Future consideration
+        :param searchtype: onelineaddress OR address
         :return: A properly formatted address for the Census API call, given as a
             string
         """
         # Check that the address contains structure number and street name # Finish
-        if address == "":
-            raise Exception("Cannot geocode without street number and name")
         if searchtype == "onelineaddress":
             address = address.replace(" ", "+").replace(",", "%2C")
             return f"onelineaddress?address={address}"
         elif searchtype == "address" and type(address) == dict:
-            return f"address?{address}"  # do we have an example of what the dict would
-            # look like for an address given as a dict?
+            street = address.get("street", "").replace(" ", "+").replace(",", "%2C")
+            city = address.get("city", "").replace(" ", "+").replace(",", "%2C")
+            state = address.get("state", "").replace(" ", "+").replace(",", "%2C")
+            zip = address.get("zip", "").replace(" ", "+").replace(",", "%2C")
+
+            # If only "street" is present, format address with
+            # searchtype = "onelineaddress"
+            if any(element != "" for element in [city, state, zip]):
+                # Add non-empty elements
+                formatted_address = f"address?street={street}"
+                for element in [city, state, zip]:
+                    if element == "":
+                        continue
+                    else:
+                        if element == city:
+                            formatted_address += f"&city={city}"
+                        elif element == state:
+                            formatted_address += f"&state={state}"
+                        elif element == zip:
+                            formatted_address += f"&zip={zip}"
+                return formatted_address
+
+            else:
+                return f"onelineaddress?address={street}"
+
         else:
             raise Exception("Cannot geocode given address")
 
@@ -153,16 +169,22 @@ class CensusGeocodeClient(BaseGeocodeClient):
         :return: A parsed GeocodeResult object (if valid result) or None (if
           no valid result)
         """
-        if lookup is not None and lookup["addressMatches"] is not None:
-            addressComponents = lookup["addressMatches"][0]["addressComponents"]
-            blockComponents = lookup["addressMatches"][0]["geographies"][
-                "Census Blocks"
-            ][0]
-            tractComponents = lookup["addressMatches"][0]["geographies"][
-                "Census Tracts"
-            ][0]
-            countyComponents = lookup["addressMatches"][0]["geographies"]["Counties"][0]
-            coordinateComponents = lookup["addressMatches"][0]["coordinates"]
+        if lookup is not None and lookup.get("addressMatches"):
+            addressComponents = lookup.get("addressMatches")[0].get("addressComponents")
+            blockComponents = (
+                lookup.get("addressMatches")[0]
+                .get("geographies")
+                .get("Census Blocks")[0]
+            )
+            tractComponents = (
+                lookup.get("addressMatches")[0]
+                .get("geographies")
+                .get("Census Tracts")[0]
+            )
+            countyComponents = (
+                lookup.get("addressMatches")[0].get("geographies").get("Counties")[0]
+            )
+            coordinateComponents = lookup.get("addressMatches")[0].get("coordinates")
 
             # Format the Census result into our standard dataclass object
             return GeocodeResult(
@@ -170,22 +192,15 @@ class CensusGeocodeClient(BaseGeocodeClient):
                     item.strip()
                     for item in lookup["addressMatches"][0]["matchedAddress"].split(",")
                 ],
-                city=addressComponents["city"],
-                state=addressComponents["state"],
-                postal_code=addressComponents["zip"],
-                county_fips=blockComponents["STATE"] + blockComponents["COUNTY"],
-                county_name=countyComponents["BASENAME"],
-                lat=coordinateComponents["y"],
-                lng=coordinateComponents["x"],
-                precision="zip5",  # I believe this will always be zip5 with layer 10
-                geoid=blockComponents["GEOID"],
-                census_tract=tractComponents["BASENAME"],
-                census_block=blockComponents["BASENAME"],
+                city=addressComponents.get("city", ""),
+                state=addressComponents.get("state", ""),
+                postal_code=addressComponents.get("zip", ""),
+                county_fips=blockComponents.get("STATE", "")
+                + blockComponents.get("COUNTY", ""),
+                county_name=countyComponents.get("BASENAME", ""),
+                lat=coordinateComponents.get("y", None),
+                lng=coordinateComponents.get("x", None),
+                geoid=blockComponents.get("GEOID", ""),
+                census_tract=tractComponents.get("BASENAME", ""),
+                census_block=blockComponents.get("BASENAME", ""),
             )
-
-
-# # # ## SCRATCH
-# address = "239 Greene Street, New York, NY, 10003"
-# formatted_address = _format_address(address)
-# url = _get_url(formatted_address)
-# lookup = _call_census_api(url)
