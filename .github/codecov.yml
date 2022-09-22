@@ -1,5 +1,5 @@
 comment:
-  layout: "reach, diff, flags, files"
+  layout: "diff, flags, files"
   behavior: default
 coverage:
   range: 85...100
@@ -13,7 +13,7 @@ coverage:
     patch:
       default:
         target: 95%
-        threshold: 15%
+        threshold: 10%
         flags:
           - unit-tests
         
