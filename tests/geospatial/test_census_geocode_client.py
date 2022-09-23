@@ -74,12 +74,14 @@ def test_geocode_from_str():
 
     # Test empty string address
     address = ""
+    geocode_result = None
     try:
         geocode_result = census_client.geocode_from_str(address)
     except Exception as e:
         assert (
             repr(e) == "Exception('Must include street number and name at a minimum')"
         )
+        assert geocode_result is None
 
 
 def test_geocode_from_dict():
