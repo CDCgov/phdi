@@ -121,7 +121,7 @@ class CensusGeocodeClient(BaseGeocodeClient):
         :param benchmark: A numerical ID or name that references what version of the
             locator should be searched. # Future consideration
         :param vintage: A numerical ID or name that references what vintage of geography
-            is desired for the geoLookup (only needed when returntype = geographies).
+            is desired for the geoLookup (only needed when returntype = geographies)
             # Future consideration
         :param format: The format to be used for returning the standardized output
             (json, html) # Future consideration
