@@ -28,8 +28,13 @@ jobs:
           echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: poetry install
-      - name: Run pytest
-        run: poetry run pytest
+      - name: Run pytest with code coverage output
+        run: poetry run pytest --cov-report xml --cov=phdi tests/
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unit-tests
+
 
   code-check-python:
     runs-on: ubuntu-latest
