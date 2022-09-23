@@ -29,11 +29,18 @@ hs_err_pid*
 # macOS
 .DS_Store
 
-# Python
+# Python-Virtual Environments
 .venv
 .python-version
-_source
+
+# Python-Sphinx
+/_source
 _build
+doctrees
+
+# Python-Coverage
+.coverage
+coverage.xml
 
 # Azure Functions
 *local.settings.json
