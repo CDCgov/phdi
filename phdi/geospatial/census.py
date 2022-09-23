@@ -12,19 +12,6 @@ class CensusGeocodeClient(BaseGeocodeClient):
     def __init__(self):
         self.__client = ()
 
-    # # @property
-    # def client(self):
-    #     """
-    #     This property:
-    #       1. defines a private instance variable __client
-    #       2. makes it accessible through the use of .client()
-
-    #     This property holds a SmartyStreets-specific connection client
-    #     allows a user to geocode without directly referencing the
-    #     underlying vendor service client.
-    #     """
-    #     return self.__client
-
     def geocode_from_str(self, address: str) -> Union[GeocodeResult, None]:
         """
         Geocode a string-formatted address using Census API with searchtype =
@@ -38,7 +25,7 @@ class CensusGeocodeClient(BaseGeocodeClient):
         """
         # Check for street num and name at minimum
         if address == "":
-            raise Exception("Must include street number and name at a minimum")
+            raise ValueError("Address must include street number and name at a minimum")
 
         formatted_address = self._format_address(address, searchtype="onelineaddress")
         url = self._get_url(formatted_address)
@@ -59,7 +46,7 @@ class CensusGeocodeClient(BaseGeocodeClient):
 
         # Check for street num and name at minimum
         if address.get("street", "") == "":
-            raise Exception("Must include street number and name at a minimum")
+            raise ValueError("Address must include street number and name at a minimum")
 
         # Configure the lookup with whatever provided address values
         # were in the user-given dictionary
@@ -109,7 +96,9 @@ class CensusGeocodeClient(BaseGeocodeClient):
                 return f"onelineaddress?address={street}"
 
         else:
-            raise Exception("Cannot geocode given address")
+            raise ValueError(
+                "Cannot geocode given address. Provide city, state, and/or zip code"
+            )
 
     @staticmethod
     def _get_url(address: str):
@@ -168,21 +157,27 @@ class CensusGeocodeClient(BaseGeocodeClient):
           no valid result)
         """
         if lookup is not None and lookup.get("addressMatches"):
-            addressComponents = lookup.get("addressMatches")[0].get("addressComponents")
+            addressComponents = lookup.get("addressMatches", [{}])[0].get(
+                "addressComponents", {}
+            )
             blockComponents = (
-                lookup.get("addressMatches")[0]
-                .get("geographies")
-                .get("Census Blocks")[0]
+                lookup.get("addressMatches", [{}])[0]
+                .get("geographies", {})
+                .get("Census Blocks", [None])[0]
             )
             tractComponents = (
-                lookup.get("addressMatches")[0]
-                .get("geographies")
-                .get("Census Tracts")[0]
+                lookup.get("addressMatches", [{}])[0]
+                .get("geographies", {})
+                .get("Census Tracts", [None])[0]
             )
             countyComponents = (
-                lookup.get("addressMatches")[0].get("geographies").get("Counties")[0]
+                lookup.get("addressMatches", [{}])[0]
+                .get("geographies", {})
+                .get("Counties", [None])[0]
             )
-            coordinateComponents = lookup.get("addressMatches")[0].get("coordinates")
+            coordinateComponents = lookup.get("addressMatches", [{}])[0].get(
+                "coordinates", {}
+            )
 
             # Format the Census result into our standard dataclass object
             return GeocodeResult(

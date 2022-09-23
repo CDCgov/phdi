@@ -167,7 +167,10 @@ def test_blank_geocode_inputs():
     try:
         geocode_result = smarty_client.geocode_from_str("")
     except Exception as e:
-        assert repr(e) == "Exception('Cannot geocode an empty string')"
+        assert (
+            repr(e)
+            == "ValueError('Address must include street number and name at a minimum')"
+        )
         assert geocode_result is None
 
     try:

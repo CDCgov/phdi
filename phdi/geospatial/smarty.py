@@ -52,7 +52,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         # The smarty Lookup class will parse a BadRequestError but retry
         # 5 times if the lookup address is blank, so catch that here
         if address == "":
-            raise Exception("Cannot geocode an empty string")
+            raise ValueError("Address must include street number and name at a minimum")
 
         lookup = Lookup(street=address)
         self.__client.send_lookup(lookup)
@@ -72,7 +72,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         # Smarty geocode requests must include a street level
         # field in the payload, otherwise generates BadRequestError
         if address.get("street", "") == "":
-            raise Exception("Must include street information at a minimum")
+            raise ValueError("Address must include street number and name at a minimum")
 
         # Configure the lookup with whatever provided address values
         # were in the user-given dictionary

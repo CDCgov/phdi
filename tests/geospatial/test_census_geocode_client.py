@@ -3,6 +3,7 @@ from phdi.geospatial.core import GeocodeResult
 from phdi.geospatial.census import CensusGeocodeClient
 import json
 import pathlib
+import pytest
 
 
 def test_parse_census_result_success():
@@ -27,7 +28,7 @@ def test_parse_census_result_success():
 
 
 def test_parse_census_result_failure():
-    censusResponseFullAddress = json.load(
+    censusResponseFullAddress_noAddressMatch = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
@@ -36,7 +37,6 @@ def test_parse_census_result_failure():
     )
 
     # Test when addressMatches is an empty list
-    censusResponseFullAddress_noAddressMatch = censusResponseFullAddress
     censusResponseFullAddress_noAddressMatch["addressMatches"] = []
     assert (
         CensusGeocodeClient._parse_census_result(
@@ -74,14 +74,11 @@ def test_geocode_from_str():
 
     # Test empty string address
     address = ""
-    geocode_result = None
-    try:
-        geocode_result = census_client.geocode_from_str(address)
-    except Exception as e:
-        assert (
-            repr(e) == "Exception('Must include street number and name at a minimum')"
-        )
-        assert geocode_result is None
+    geocoded_response = None
+    with pytest.raises(ValueError) as e:
+        geocoded_response = census_client.geocode_from_str(address)
+    assert "Must include street number and name at a minimum" in str(e.value)
+    assert geocoded_response is None
 
 
 def test_geocode_from_dict():
@@ -118,12 +115,11 @@ def test_geocode_from_dict():
         "state": "NY",
         "zip": "10003",
     }
-    try:
-        geocoded_response == census_client.geocode_from_dict(missing_street_dict)
-    except Exception as e:
-        assert (
-            repr(e) == "Exception('Must include street number and name at a minimum')"
-        )
+    geocoded_response = None
+    with pytest.raises(ValueError) as e:
+        geocoded_response = census_client.geocode_from_dict(missing_street_dict)
+    assert "Must include street number and name at a minimum" in str(e.value)
+    assert geocoded_response is None
 
     # Test ambiguous address
     ambiguous_address_dict = {"street": "123 Main Street"}
