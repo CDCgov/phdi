@@ -109,24 +109,24 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         return self.__storage_client
 
     def download_object(
-        self, bucket_name: str, filename: str, encoding: str = "utf-8"
+        self, container_name: str, filename: str, encoding: str = "utf-8"
     ) -> str:
         """
         Download a character blob from storage and return it as a string.
 
-        :param bucket_name: The name of the bucket containing object to download
+        :param container_name: The name of the bucket containing object to download
         :param filename: Location of file within GCP blob storage
         :param encoding: Encoding applied to the downloaded content
         :return: Character blob (as a string) from given bucket and filename
         """
         storage_client = self._get_storage_client()
-        blob = storage_client.bucket(bucket_name).blob(filename)
+        blob = storage_client.bucket(container_name).blob(filename)
         return blob.download_as_text(encoding=encoding)
 
     def upload_object(
         self,
         message: str,
-        bucket_name: str,
+        container_name: str,
         filename: str,
         content_type="application/json",
     ) -> None:
@@ -136,28 +136,41 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
         :param message: The contents of a message, encoded either as a
           string or in a JSON format
-        :param bucket_name: The name of the target bucket for upload
+        :param container_name: The name of the target bucket for upload
         :param filename: Location of file within GCP blob storage
         """
 
         storage_client = self._get_storage_client()
-        bucket = storage_client.bucket(bucket_name)
+        bucket = storage_client.bucket(container_name)
 
         blob = bucket.blob(filename)
         blob.upload_from_string(data=message, content_type=content_type)
 
-    def list_objects(self, bucket_name: str, prefix: str = "") -> List[str]:
+    def list_containers(self) -> List[str]:
+        """
+        List bucket names in storage.
+
+        :return: List of bucket names in storage
+        """
+        storage_client = self._get_storage_client()
+
+        bucket_name_list = []
+        for bucket in storage_client.list_buckets():
+            bucket_name_list.append(bucket)
+        return bucket_name_list
+
+    def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
         List names for objects within a bucket.
 
-        :param bucket_name: The name of the bucket to look for objects
+        :param container_name: The name of the bucket to look for objects
         :param prefix: Filter for objects whose filenames begin with this value
         :return: List of names for objects in given bucket
         """
         storage_client = self._get_storage_client()
 
         blob_properties_generator = storage_client.list_blobs(
-            bucket_name, prefix=prefix
+            container_name, prefix=prefix
         )
 
         blob_name_list = []

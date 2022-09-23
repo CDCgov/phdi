@@ -7,8 +7,6 @@ from phdi.geospatial.core import BaseGeocodeClient, GeocodeResult
 class CensusGeocodeClient(BaseGeocodeClient):
     """
     Implementation of a geocoding client using the Census API.
-    Requires an authorization ID as well as an authentication token
-    in order to build a street lookup client.
     """
 
     def __init__(self):
