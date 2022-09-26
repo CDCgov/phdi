@@ -1,7 +1,7 @@
 from typing import Union
-import requests
 
 from phdi.geospatial.core import BaseGeocodeClient, GeocodeResult
+from phdi.transport import http_request_with_retry
 
 
 class CensusGeocodeClient(BaseGeocodeClient):
@@ -133,17 +133,27 @@ class CensusGeocodeClient(BaseGeocodeClient):
     @staticmethod
     def _call_census_api(url):
         """
-        Call the Census endpoint with a given URL.
+        Call the Census endpoint with a given URL using the http_request_with_retry
+        method.
 
         :param url: A URL for the Census API request, as a string
         :return: A response from queried endpoint
         :raises requests.HTTPError: If an unexpected status code is returned
         """
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json()["result"]
-        else:
-            raise requests.HTTPError(response=response)
+        http_url = url
+        http_action = "GET"
+        http_header = {"some-header": "some-header-value"}
+        http_retry_count = 5
+
+        response = http_request_with_retry(
+            http_url,
+            http_retry_count,
+            http_action,
+            [http_action],
+            http_header,
+        )
+
+        return response
 
     @staticmethod
     def _parse_census_result(lookup) -> Union[GeocodeResult, None]:
@@ -156,6 +166,8 @@ class CensusGeocodeClient(BaseGeocodeClient):
         :return: A parsed GeocodeResult object (if valid result) or None (if
           no valid result)
         """
+        lookup = lookup.json()["result"]
+
         if lookup is not None and lookup.get("addressMatches"):
             addressComponents = lookup.get("addressMatches", [{}])[0].get(
                 "addressComponents", {}
