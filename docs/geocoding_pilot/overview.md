@@ -1,4 +1,4 @@
-# Public Health Data Infrastructure (PHDI) Geocoding Pilot Partnership 2022 
+# Public Health Data Infrastructure (PHDI) Geocoding Beta Program 2022 
 
 # Overview
 ## What are PHDI’s Building Blocks, and why do they matter?
@@ -14,21 +14,21 @@ As a part of that initiative, the CDC and Office of the National Coordinator for
 **The Geocoding Building Block** creates tools for mapping geospatial data to its canonical representation for purposes of standardization, validation, cleaning, and/or enrichment. This Building Block is available as a module in the phdi [Python SDK](https://github.com/CDCgov/phdi). This SDK creates a standardized library where users can geocode an individual address or multiple addresses within a FHIR bundle. The current functionality supports standardizing addresses in a variety of input formats (both validation and cleaning) and enriching data with latitude and longitude. 
 Read through the [Geospatial Tutorial](https://github.com/CDCgov/phdi/blob/main/tutorials/geospatial-tutorial.md) for more detail about using the geospatial module. 
 
-## What are the objectives of the pilot? 
+## What are the objectives of the Beta? 
 1. Understand how jurisdictions are using geocoding
 2. Understand the data workflow, processes, and burden of jurisdictions reporting to a CDC program
 3. Understand what else should be included in a Geocoding Building Block to make it useful for jurisdictions who might use it
 ## What is the level of commitment?
-- Pilot partners submit a “[Become a Geocoding Pilot Partner](https://github.com/CDCgov/phdi/issues/new/choose)” issue on Github. 
-    - Pilot partner schedules a 15 minute call to share API authentication credentials for a subsidized Smarty license current geocoding workflow
-- Pilot partners use Geocoding Building Block at least once 
+- Beta partners submit a “[Become a Geocoding Beta Partner](https://github.com/CDCgov/phdi/issues/new/choose)” issue on Github. 
+    - Beta partner schedules a 15 minute call to share API authentication credentials for a subsidized Smarty license current geocoding workflow
+- Beta partners use Geocoding Building Block at least once 
     - Partner installs the SDK 
     - Partner uses the geospatial module to geocode healthcare data, for ongoing geocoding needs or for a single batch process. This can be locally on an individual device or integration in a cloud-hosted pipeline. 
-- Pilot partners complete a follow up survey. The information in this survey will be used as feedback for prioritizing development on the PHDI team and will only be shared internally among PHDI employees.
-- Pilot partners participate in 30 minute follow-up call for deep-dive on topics surfaced in the survey related to usage of the geospatial module 
+- Beta partners complete a follow up survey. The information in this survey will be used as feedback for prioritizing development on the PHDI team and will only be shared internally among PHDI employees.
+- Beta partners participate in 30 minute follow-up call for deep-dive on topics surfaced in the survey related to usage of the geospatial module 
 ## How can I get involved?
-- File a “[Become a Geocoding Pilot Partner](https://github.com/CDCgov/phdi/issues/new/choose)” ticket in the phdi repo.  
-# Pilot Onboarding and Support
+- File a “[Become a Geocoding Beta Partner](https://github.com/CDCgov/phdi/issues/new/choose)” ticket in the phdi repo.  
+# Beta Onboarding and Support
 ## What is the onboarding process?
 
 **Installing the SDK** 
@@ -38,7 +38,7 @@ Read through the [Geospatial Tutorial](https://github.com/CDCgov/phdi/blob/main/
 
 **Receiving a CDC subsidized Smarty license (API key)**
 
-- Create a [ticket in the phdi repo](https://github.com/CDCgov/phdi/issues/new/choose) to request to become a Geocoding Pilot partner. Creating this ticket will kick-off the process to retrieve a CDC-subsidized Smarty license.  
+- Create a [ticket in the phdi repo](https://github.com/CDCgov/phdi/issues/new/choose) to request to become a Geocoding Beta partner. Creating this ticket will kick-off the process to retrieve a CDC-subsidized Smarty license.  
 - A PHDI team member will respond on the ticket to set up an unrecorded call to screenshare API authentication credentials for your STLT. 
 - Record those credentials in a secure place!
 - Use those credentials to authenticate in the phdi SDK.
