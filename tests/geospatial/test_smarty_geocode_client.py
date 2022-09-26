@@ -176,5 +176,8 @@ def test_blank_geocode_inputs():
     try:
         geocode_result = smarty_client.geocode_from_dict({})
     except Exception as e:
-        assert repr(e) == "Exception('Must include street information at a minimum')"
+        assert (
+            repr(e)
+            == "ValueError('Address must include street number and name at a minimum')"
+        )
         assert geocode_result is None

@@ -77,7 +77,7 @@ def test_geocode_from_str():
     geocoded_response = None
     with pytest.raises(ValueError) as e:
         geocoded_response = census_client.geocode_from_str(address)
-    assert "Must include street number and name at a minimum" in str(e.value)
+    assert "Address must include street number and name at a minimum" in str(e.value)
     assert geocoded_response is None
 
 
@@ -118,7 +118,7 @@ def test_geocode_from_dict():
     geocoded_response = None
     with pytest.raises(ValueError) as e:
         geocoded_response = census_client.geocode_from_dict(missing_street_dict)
-    assert "Must include street number and name at a minimum" in str(e.value)
+    assert "Address must include street number and name at a minimum" in str(e.value)
     assert geocoded_response is None
 
     # Test ambiguous address
