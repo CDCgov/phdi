@@ -36,9 +36,25 @@ class CensusGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
         """
-        Geocode a dictionary-formatted address using the Census API with searchtype =
-        "address". If a result is found, encode as a GeocodeResult object and return,
+         Geocode the provided address, which is formatted as a dictionary.
+        using the Census API with searchtype = "address". If a result is found, encode
+        as a GeocodeResult object and return,
         otherwise the return None.
+
+        The given dictionary should conform to standard nomenclature around address
+        fields, including:
+
+        * `street`: the number and street address
+        * `street2`: additional street level information (if needed)
+        * `apartment`: apartment or suite number (if needed)
+        * `city`: city to geocode
+        * `state`: state to geocode
+        * `postal_code`: the postal code to use
+        * `urbanization`: urbanization code for area, sector, or regional
+        * `development`: (only used for Puerto Rican addresses)
+
+        Street must be included to use this function; however, a minimum of street,
+        city, and state are suggested for the best matches.
 
         :param address: a dictionary with fields outlined above
         :return: A GeocodeResult object (if valid result) or None (if no valid
