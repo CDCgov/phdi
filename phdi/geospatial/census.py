@@ -2,6 +2,7 @@ from typing import Union
 
 from phdi.geospatial.core import BaseGeocodeClient, GeocodeResult
 from phdi.transport import http_request_with_retry
+import requests
 
 
 class CensusGeocodeClient(BaseGeocodeClient):
@@ -153,7 +154,10 @@ class CensusGeocodeClient(BaseGeocodeClient):
             http_header,
         )
 
-        return response
+        if response.status_code < 400:
+            return response.json()["result"]
+        else:
+            raise requests.HTTPError(response=response)
 
     @staticmethod
     def _parse_census_result(lookup) -> Union[GeocodeResult, None]:
@@ -166,7 +170,6 @@ class CensusGeocodeClient(BaseGeocodeClient):
         :return: A parsed GeocodeResult object (if valid result) or None (if
           no valid result)
         """
-        lookup = lookup.json()["result"]
 
         if lookup is not None and lookup.get("addressMatches"):
             addressComponents = lookup.get("addressMatches", [{}])[0].get(
