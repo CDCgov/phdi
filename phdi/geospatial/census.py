@@ -90,7 +90,7 @@ class CensusGeocodeClient(BaseGeocodeClient):
         :return: A properly formatted address for the Census API call, given as a
             string.
         """
-        # Check that the address contains structure number and street name # Finish
+        # Check that the address contains structure number and street name
         if searchtype == "onelineaddress":
             address = address.replace(" ", "+").replace(",", "%2C")
             return f"onelineaddress?address={address}"
@@ -119,11 +119,6 @@ class CensusGeocodeClient(BaseGeocodeClient):
 
             else:
                 return f"onelineaddress?address={street}"
-
-        else:
-            raise ValueError(
-                "Cannot geocode given address. Provide city, state, and/or zip code"
-            )
 
     @staticmethod
     def _get_url(address: str):
