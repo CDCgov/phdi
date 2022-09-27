@@ -1,7 +1,7 @@
 ---
 
-name: 'Register for the Geocoding Beta Program'
-about: 'Subsidized Geocoding Services for State, Territorial, Local and Tribal Health departments.' 
+name: Register for the Geocoding Beta Program
+about: Subsidized Geocoding Services for State, Territorial, Local and Tribal Health departments.
 title: '[Affiliated Jurisdiction] Geocoding Beta Program'
 labels: 'geocoding-beta'
 assignees: '@millzpaugh,@NagelaNukuna'
