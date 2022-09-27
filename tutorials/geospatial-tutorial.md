@@ -46,9 +46,12 @@ district: Optional[str] = None
 country: Optional[str] = None
 county_name: Optional[str] = None
 precision: Optional[str] = None
+geoid: Optional[str] = None
+census_tract: Optional[str] = None
+census_block: Optional[str] = None
 ```
 
-All attributes which are `Optional`-typed may or may not be included in the results of a specific geocoding search, depending on whether a vendor implements returning data of that type.
+All attributes which are `Optional`-typed may or may not be included in the results of a specific geocoding search, depending on whether a vendor implements returning data of that type. `district`, `country`, and `precision` are available only through the Smarty API; `geoid`, `census_tract`, and `census_block` are only available through the Census API.
 
 ## Importing
 Using the geospatial module's functionality begins with simple imports. The Geocode Client abstract classes and `GeocodeResult` likely do not need to be imported (see the common uses section below), but can be used directly from the relevant package:
