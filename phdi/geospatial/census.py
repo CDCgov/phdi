@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Literal
 
 from phdi.geospatial.core import BaseGeocodeClient, GeocodeResult
 from phdi.transport import http_request_with_retry
@@ -15,14 +15,15 @@ class CensusGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_str(self, address: str) -> Union[GeocodeResult, None]:
         """
-        Geocode a string-formatted address using Census API with searchtype =
-        "onelineaddress". If a result is found, encode as a GeocodeResult object and
+        Geocodes a string-formatted address using Census API with searchtype =
+        "onelineaddress". If a result is found, encodes as a GeocodeResult object and
         return, otherwise the return None.
 
-        :param address: The address to geocode, given as a string
-        :param searchtype: onelineaddress OR address # doesn't yet support coordinates
+        :param address: The address to geocode, given as a string.
+        :param searchtype: onelineaddress OR address # doesn't yet support coordinates.
+        :raises ValueError: If address does not include street number and name.
         :return: A GeocodeResult object (if valid result) or None (if no valid
-          result)
+          result).
         """
         # Check for street num and name at minimum
         if address == "":
@@ -36,10 +37,9 @@ class CensusGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
         """
-         Geocode the provided address, which is formatted as a dictionary.
-        using the Census API with searchtype = "address". If a result is found, encode
-        as a GeocodeResult object and return,
-        otherwise the return None.
+        Geocodes the provided address, which is formatted as a dictionary.
+        using the Census API with searchtype = "address". If a result is found, encodes
+        as a GeocodeResult object and return, otherwise returns None.
 
         The given dictionary should conform to standard nomenclature around address
         fields, including:
@@ -56,9 +56,10 @@ class CensusGeocodeClient(BaseGeocodeClient):
         Street must be included to use this function; however, a minimum of street,
         city, and state are suggested for the best matches.
 
-        :param address: a dictionary with fields outlined above
+        :param address: a dictionary with fields outlined above.
+        :raises ValueError: If address does not include street number and name.
         :return: A GeocodeResult object (if valid result) or None (if no valid
-          result)
+          result).
         """
 
         # Check for street num and name at minimum
@@ -74,13 +75,20 @@ class CensusGeocodeClient(BaseGeocodeClient):
         return self._parse_census_result(response)
 
     @staticmethod
-    def _format_address(address: Union[str, dict], searchtype: str):
+    def _format_address(
+        address: Union[str, dict], searchtype: Literal["onelineaddress", "address"]
+    ):
         """
-        Format address for Census API call according to address type.
-        :param address: The address to geocode, given as a string
-        :param searchtype: onelineaddress OR address
+        Formats an address for Census API call according to the given address type. A
+        single line address, e.g, "100 5th Ave New York, NY" uses the "onelineaddress"
+        searchtype while a dictionary formatted address uses the "address" searchtype.
+
+        :param address: The address to geocode, given as a string.
+        :param searchtype: onelineaddress OR address.
+        :raises ValueError: If address cannot be geocoded with specificity because it
+            does not include city, state, and/or zipcode.
         :return: A properly formatted address for the Census API call, given as a
-            string
+            string.
         """
         # Check that the address contains structure number and street name # Finish
         if searchtype == "onelineaddress":
@@ -120,23 +128,23 @@ class CensusGeocodeClient(BaseGeocodeClient):
     @staticmethod
     def _get_url(address: str):
         """
-        Get URL for Census API given inputs.
-        :param address: The formatted address to geocode, given as a string
+        Gets URL for Census API given inputs.
+
+        :param address: The formatted address to geocode, given as a string.
         :param returntype: locations (to get just geocoding response) or geographies
-            (to get geocoding response as well as geoLookup) # Future consideration
+            (to get geocoding response as well as geoLookup). # Future consideration
         :param benchmark: A numerical ID or name that references what version of the
             locator should be searched. # Future consideration
         :param vintage: A numerical ID or name that references what vintage of geography
-            is desired for the geoLookup (only needed when returntype = geographies)
+            is desired for the geoLookup (only needed when returntype = geographies).
             # Future consideration
         :param format: The format to be used for returning the standardized output
-            (json, html) # Future consideration
+            (json, html). # Future consideration
         :param layers: By default, State, County, Tract, and Block layers are displayed
             when “geographies” is the chosen returntype. If additional or different
             layers are desired, they can be specified in a comma delimited list by ID
-            or name
-
-        :return: A URL for the Census API request, as a string
+            or name. # Future consideration
+        :return: A URL for the Census API request, as a string.
         """
         url = (
             f"https://geocoding.geo.census.gov/geocoder/geographies/{address}"
@@ -150,12 +158,12 @@ class CensusGeocodeClient(BaseGeocodeClient):
     @staticmethod
     def _call_census_api(url):
         """
-        Call the Census endpoint with a given URL using the http_request_with_retry
+        Calls the Census endpoint with a given URL using the http_request_with_retry
         method.
 
-        :param url: A URL for the Census API request, as a string
-        :return: A response from queried endpoint
-        :raises requests.HTTPError: If an unexpected status code is returned
+        :param url: A URL for the Census API request, as a string.
+        :raises requests.HTTPError: If an unexpected status code is returned.
+        :return: A response from queried endpoint.
         """
         http_url = url
         http_action = "GET"
@@ -178,13 +186,13 @@ class CensusGeocodeClient(BaseGeocodeClient):
     @staticmethod
     def _parse_census_result(lookup) -> Union[GeocodeResult, None]:
         """
-        Private helper function to parse a returned Census geocoding result into
-        our standardized GeocodeResult class. If the Census lookup is null or doesn't
-        include matched address information, returns None instead.
+        Parses a returned Census geocoding result into our standardized GeocodeResult
+        class. If the Census lookup is null or doesn't include matched address
+        information, returns None instead.
 
-        :param response: The Census API client instantiated for geocoding
+        :param response: The Census API client instantiated for geocoding.
         :return: A parsed GeocodeResult object (if valid result) or None (if
-          no valid result)
+          no valid result).
         """
 
         if lookup is not None and lookup.get("addressMatches"):
