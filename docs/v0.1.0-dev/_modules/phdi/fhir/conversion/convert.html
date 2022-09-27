@@ -60,7 +60,7 @@
     <span class="n">use_default_ccda</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)</span>
+<span class="sd">    Converts a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)</span>
 <span class="sd">    into FHIR format (JSON) for further processing using the FHIR server. Standardize</span>
 <span class="sd">    datetimes in HL7v2 messages before conversion.</span>
 
@@ -125,9 +125,9 @@
 
 <span class="k">def</span> <span class="nf">_get_fhir_conversion_settings</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use_default_ccda</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Determine which settings to use with the FHIR server to facilitate message</span>
-<span class="sd">    conversion. Attempt to identify which data type the input has (HL7 or XML)</span>
-<span class="sd">    and determine the appropriate FHIR converter root template to use. Raise</span>
+<span class="sd">    Determines which settings to use with the FHIR server to facilitate message</span>
+<span class="sd">    conversion by attempting to identify which data type the input has (HL7 or XML)</span>
+<span class="sd">    and determine the appropriate FHIR converter root template to use. Raises</span>
 <span class="sd">    an exception if the user opts to not use the default CCDA root template for</span>
 <span class="sd">    an unsupported input resouece and a message&#39;s extracted LOINC code doesn&#39;t</span>
 <span class="sd">    correspond to an existing CCDA template.</span>

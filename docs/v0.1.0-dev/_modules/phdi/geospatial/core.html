@@ -39,7 +39,7 @@
 <div class="viewcode-block" id="GeocodeResult"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.core.GeocodeResult">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">GeocodeResult</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A basic dataclass representing a successful geocoding response.</span>
+<span class="sd">    Represents a successful geocoding response.</span>
 <span class="sd">    Based on the field nomenclature of a FHIR address, specified at</span>
 <span class="sd">    https://www.hl7.org/fhir/datatypes.html#Address.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -59,19 +59,20 @@
 
 <div class="viewcode-block" id="BaseGeocodeClient"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.core.BaseGeocodeClient">[docs]</a><span class="k">class</span> <span class="nc">BaseGeocodeClient</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A basic abstract class representing a vendor-agnostic geocoder client.</span>
-<span class="sd">    Requires implementing classes to define methods to geocode from both</span>
-<span class="sd">    strings and dictionaries. Callers should use the provided interface</span>
-<span class="sd">    functions (e.g. geocode_from_str) to interact with the underlying</span>
-<span class="sd">    vendor-specific client property.</span>
+<span class="sd">    Represents a vendor-agnostic geocoder client. Requires implementing</span>
+<span class="sd">    classes to define methods to geocode from both strings and dictionaries.</span>
+<span class="sd">    Callers should use the provided interface functions (e.g. geocode_from_str)</span>
+<span class="sd">    to interact with the underlying vendor-specific client property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BaseGeocodeClient.geocode_from_str"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.core.BaseGeocodeClient.geocode_from_str">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geocode_from_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Geocode the provided address, which is formatted as a string.</span>
+<span class="sd">        Geocodes the provided address, which is formatted as a string.</span>
 
 <span class="sd">        :param address: The address to geocode, given as a string.</span>
+<span class="sd">        :param overwrite: If true, `resource` is modified in-place;</span>
+<span class="sd">          if false, a copy of `resource` modified and returned.  Default: `True`</span>
 <span class="sd">        :return: A geocoded address (if valid result) or None (if no valid result).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
@@ -79,7 +80,7 @@
 <div class="viewcode-block" id="BaseGeocodeClient.geocode_from_dict"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.core.BaseGeocodeClient.geocode_from_dict">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geocode_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Geocode the provided address, which is formatted as a dictionary.</span>
+<span class="sd">        Geocodes the provided address, which is formatted as a dictionary.</span>
 
 <span class="sd">        The given dictionary should conform to standard nomenclature around address</span>
 <span class="sd">        fields, including:</span>

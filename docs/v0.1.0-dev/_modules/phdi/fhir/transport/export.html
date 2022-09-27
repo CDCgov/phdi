@@ -50,13 +50,13 @@
     <span class="n">poll_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initiate a FHIR $export operation, and poll until it completes and return the</span>
+<span class="sd">    Initiates a FHIR $export operation, polls until it completes, and returns the</span>
 <span class="sd">    successful result.</span>
 
 <span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
-<span class="sd">    :param fhir_url: The FHIR server base URL</span>
+<span class="sd">    :param fhir_url: The FHIR server base URL.</span>
 <span class="sd">    :param export_scope: Either `Patient` or `Group/[id]` as specified in the FHIR spec</span>
-<span class="sd">      (https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request)</span>
+<span class="sd">      (https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request).</span>
 <span class="sd">    :param since: A FHIR instant (https://build.fhir.org/datatypes.html#instant)</span>
 <span class="sd">      instructing the export to include only resources created or modified after the</span>
 <span class="sd">      specified instant.</span>
@@ -124,7 +124,7 @@
     <span class="n">poll_timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Poll an endpoint to retrieve an export file after an export run has been initiated.</span>
+<span class="sd">    Polls an endpoint to retrieve an export file after an export run has been initiated.</span>
 
 <span class="sd">    :param poll_url: The URL to poll for export information.</span>
 <span class="sd">    :param cred_manager: The service used to get an access token used to make a request.</span>
@@ -156,7 +156,8 @@
     <span class="n">container</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generate a query string for the export request.  Details in the FHIR spec:</span>
+<span class="sd">    Generates a query string for the export request.  Details can be found</span>
+<span class="sd">    in the FHIR spec:</span>
 <span class="sd">    https://hl7.org/fhir/uv/bulkdata/export/index.html#query-parameters</span>
 
 <span class="sd">    :param fhir_url: The url of the FHIR server to export from.</span>
@@ -197,11 +198,11 @@
     <span class="n">poll_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">:</span> <span class="n">BaseCredentialManager</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Callback for use with `polling` module to see if the export files are ready</span>
-<span class="sd">    based on received status code. If export is still in progress, then we should</span>
-<span class="sd">    return None so polling continues. If the response is 200, then the export files are</span>
-<span class="sd">    ready, and we return the HTTP response. Any other status either indicates an error</span>
-<span class="sd">    or unexpected condition. In this case raise an error.</span>
+<span class="sd">    Called by `export_from_fhir_server_poll` to see if the export files are ready</span>
+<span class="sd">    based on received status code. If an export is still in progress, then returns</span>
+<span class="sd">    `None` so polling continues. If the response is 200, then the export files are</span>
+<span class="sd">    ready, and returns the HTTP response. Any other status either indicates an error</span>
+<span class="sd">    or unexpected condition, and an error is raised.</span>
 
 <span class="sd">    :param poll_url: The endpoint the FHIR server gave us to query for if</span>
 <span class="sd">      our files are ready.</span>

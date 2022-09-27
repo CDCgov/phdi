@@ -36,9 +36,8 @@
 
 <div class="viewcode-block" id="BaseFhirGeocodeClient"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.core.BaseFhirGeocodeClient">[docs]</a><span class="k">class</span> <span class="nc">BaseFhirGeocodeClient</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A basic abstract class representing a vendor-agnostic geocoder client</span>
-<span class="sd">    designed as a wrapper to process FHIR-based data (including resources</span>
-<span class="sd">    and bundles). Requires implementing classes to define methods to</span>
+<span class="sd">    Represents a vendor-agnostic geocoder client designed to process</span>
+<span class="sd">    FHIR-based data. Implementing classes should define methods to</span>
 <span class="sd">    geocode from both bundles and resources. Callers should use the</span>
 <span class="sd">    provided interface functions (e.g. geocode_resource) to interact with</span>
 <span class="sd">    the underlying vendor-specific client property.</span>
@@ -47,13 +46,12 @@
 <div class="viewcode-block" id="BaseFhirGeocodeClient.geocode_resource"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.core.BaseFhirGeocodeClient.geocode_resource">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geocode_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Perform geocoding, using the implementing client, on the provided resource,</span>
+<span class="sd">        Performs geocoding, using the implementing client, on the provided resource,</span>
 <span class="sd">        which is passed in as a dictionary.</span>
 
 <span class="sd">        :param resource: A FHIR resource to be geocoded.</span>
-<span class="sd">        :param overwrite: Whether to overwrite the address data in the given</span>
-<span class="sd">          bundle&#39;s resources (`True`), or create a copy of the bundle</span>
-<span class="sd">          and overwrite that instead (`False`). Default: `True`</span>
+<span class="sd">        :param overwrite: If true, `resource` is modified in-place;</span>
+<span class="sd">          if false, a copy of `resource` modified and returned.  Default: `True`</span>
 <span class="sd">        :return: The geocoded resource as a dict.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
@@ -61,13 +59,12 @@
 <div class="viewcode-block" id="BaseFhirGeocodeClient.geocode_bundle"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.core.BaseFhirGeocodeClient.geocode_bundle">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">geocode_bundle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Perform geocoding, using the implementing client, on all supported resources in</span>
+<span class="sd">        Performs geocoding, using the implementing client, on all supported resources in</span>
 <span class="sd">        the provided FHIR bundle which is passed in as a dictionary.</span>
 
 <span class="sd">        :param bundle: A bundle of FHIR resources.</span>
-<span class="sd">        :param overwrite: Whether to overwrite the address data in the given</span>
-<span class="sd">          bundle&#39;s resources (True), or whether to create a copy of the bundle</span>
-<span class="sd">          and overwrite that instead (False). Default: `True`</span>
+<span class="sd">        :param overwrite: If true, `bundle` is modified in-place;</span>
+<span class="sd">          if false, a copy of `bundle` modified and returned.  Default: `True`</span>
 <span class="sd">        :return: The geocoded FHIR bundle as a dict.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
@@ -75,7 +72,7 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_store_lat_long_extension</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">lat</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">long</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add extension data for latitude and longitude, if the fields aren&#39;t already</span>
+<span class="sd">        Adds extension data for latitude and longitude, if the fields aren&#39;t already</span>
 <span class="sd">        present, to a given FHIR-formatted dictionary holding address fields.</span>
 <span class="sd">        The latitude and longitude data is added directly to the input dictionary.</span>
 

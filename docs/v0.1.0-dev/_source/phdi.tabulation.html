@@ -44,7 +44,7 @@
 <dt class="sig sig-object py" id="phdi.tabulation.tables.load_schema">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">load_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#load_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.load_schema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given the path to a local YAML file containing a data schema,
-load the file and return the resulting schema as a dictionary.
+loads the file and return the resulting schema as a dictionary.
 If the file can't be found, raises an error.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -65,14 +65,14 @@ If the file can't be found, raises an error.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.tabulation.tables.print_schema_summary">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">print_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_head</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#print_schema_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.print_schema_summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print a summary of each CSV of Parquet formatted table in a given directory of
+<dd><p>Prints a summary of each CSV of Parquet formatted table in a given directory of
 tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- The path to a direct holding table files.</p></li>
-<li><p><strong>display_head</strong> (<em>bool</em>) -- <p>Whether to print the first few rows of each table. When true,
-print the first few rows, otherwise, only print table metadata.</p>
+<li><p><strong>display_head</strong> (<em>bool</em>) -- <p>If true, print the first few rows of each table;
+if false, only print table metadata. Default: <cite>False</cite></p>
 <p>Note: depending on the file format, this may require
 reading large amounts of data into memory.</p>
 </p></li>
@@ -88,7 +88,7 @@ reading large amounts of data into memory.</p>
 <dt class="sig sig-object py" id="phdi.tabulation.tables.write_table">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.tables.</span></span><span class="sig-name descname"><span class="pre">write_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#write_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.tables.write_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given data stored as a list of dictionaries, where all dictionaries
-have a common set of keys, write the set of data to an output
+have a common set of keys, writes the set of data to an output
 file of a particular type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -123,7 +123,7 @@ otherwise <cite>None</cite></p>
 <dt class="sig sig-object py" id="phdi.tabulation.load_schema">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">load_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#load_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.load_schema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given the path to a local YAML file containing a data schema,
-load the file and return the resulting schema as a dictionary.
+loads the file and return the resulting schema as a dictionary.
 If the file can't be found, raises an error.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -144,14 +144,14 @@ If the file can't be found, raises an error.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.tabulation.print_schema_summary">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">print_schema_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_head</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#print_schema_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.print_schema_summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print a summary of each CSV of Parquet formatted table in a given directory of
+<dd><p>Prints a summary of each CSV of Parquet formatted table in a given directory of
 tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> (<em>pathlib.Path</em>) -- The path to a direct holding table files.</p></li>
-<li><p><strong>display_head</strong> (<em>bool</em>) -- <p>Whether to print the first few rows of each table. When true,
-print the first few rows, otherwise, only print table metadata.</p>
+<li><p><strong>display_head</strong> (<em>bool</em>) -- <p>If true, print the first few rows of each table;
+if false, only print table metadata. Default: <cite>False</cite></p>
 <p>Note: depending on the file format, this may require
 reading large amounts of data into memory.</p>
 </p></li>
@@ -167,7 +167,7 @@ reading large amounts of data into memory.</p>
 <dt class="sig sig-object py" id="phdi.tabulation.write_table">
 <span class="sig-prename descclassname"><span class="pre">phdi.tabulation.</span></span><span class="sig-name descname"><span class="pre">write_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/tabulation/tables.html#write_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.tabulation.write_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given data stored as a list of dictionaries, where all dictionaries
-have a common set of keys, write the set of data to an output
+have a common set of keys, writes the set of data to an output
 file of a particular type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

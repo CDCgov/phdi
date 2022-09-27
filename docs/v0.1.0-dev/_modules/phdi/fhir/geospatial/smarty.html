@@ -70,9 +70,8 @@
 <span class="sd">        * Patient</span>
 
 <span class="sd">        :param resource: The resource whose addresses should be geocoded.</span>
-<span class="sd">        :param overwrite: Whether to save the geocoding information over</span>
-<span class="sd">          the raw data (`True`), or to create a copy of the given data and write</span>
-<span class="sd">          over that instead (`False`). Default: `True`</span>
+<span class="sd">        :param overwrite: If true, `resource` is modified in-place;</span>
+<span class="sd">          if false, a copy of `resource` modified and returned.  Default: `True`</span>
 <span class="sd">        :return: The geocoded resource as a dict.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
@@ -86,7 +85,7 @@
 
     <span class="k">def</span> <span class="nf">_geocode_patient_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Geocode all addresses in a patient resource.</span>
+<span class="sd">        Geocodes all addresses in a patient resource.</span>
 
 <span class="sd">        :param patient: A FHIR Patient resource.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -106,16 +105,15 @@
 
 <div class="viewcode-block" id="SmartyFhirGeocodeClient.geocode_bundle"><a class="viewcode-back" href="../../../../_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_bundle">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_bundle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Geocode on all resources in a given FHIR bundle whose</span>
+<span class="sd">        Geocodes on all resources in a given FHIR bundle whose</span>
 <span class="sd">        resource type is among those supported by the PHDI SDK. Currently,</span>
 <span class="sd">        this includes:</span>
 
 <span class="sd">        * Patient</span>
 
 <span class="sd">        :param bundle: A bundle of FHIR resources.</span>
-<span class="sd">        :param overwrite: Whether to save the geocoding information over</span>
-<span class="sd">          the raw data (`True`), or to create a copy of the given data and write</span>
-<span class="sd">          over that instead (`False`). Default: `True`</span>
+<span class="sd">        :param overwrite: If true, `bundle` is modified in-place;</span>
+<span class="sd">          if false, a copy of `bundle` modified and returned.  Default: `True`</span>
 <span class="sd">        :return: The FHIR bundle with geocoded address(es).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>

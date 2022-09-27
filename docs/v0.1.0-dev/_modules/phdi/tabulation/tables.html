@@ -45,7 +45,7 @@
 <div class="viewcode-block" id="load_schema"><a class="viewcode-back" href="../../../_source/phdi.tabulation.html#phdi.tabulation.tables.load_schema">[docs]</a><span class="k">def</span> <span class="nf">load_schema</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given the path to a local YAML file containing a data schema,</span>
-<span class="sd">    load the file and return the resulting schema as a dictionary.</span>
+<span class="sd">    loads the file and return the resulting schema as a dictionary.</span>
 <span class="sd">    If the file can&#39;t be found, raises an error.</span>
 
 <span class="sd">    :param path: The file path to a YAML file holding a schema.</span>
@@ -68,7 +68,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">pq</span><span class="o">.</span><span class="n">ParquetWriter</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given data stored as a list of dictionaries, where all dictionaries</span>
-<span class="sd">    have a common set of keys, write the set of data to an output</span>
+<span class="sd">    have a common set of keys, writes the set of data to an output</span>
 <span class="sd">    file of a particular type.</span>
 
 <span class="sd">    :param data: A list of dictionaries representing the table&#39;s data.</span>
@@ -107,12 +107,12 @@
     <span class="n">display_head</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Print a summary of each CSV of Parquet formatted table in a given directory of</span>
+<span class="sd">    Prints a summary of each CSV of Parquet formatted table in a given directory of</span>
 <span class="sd">    tables.</span>
 
 <span class="sd">    :param directory: The path to a direct holding table files.</span>
-<span class="sd">    :param display_head: Whether to print the first few rows of each table. When true,</span>
-<span class="sd">      print the first few rows, otherwise, only print table metadata.</span>
+<span class="sd">    :param display_head: If true, print the first few rows of each table;</span>
+<span class="sd">      if false, only print table metadata. Default: `False`</span>
 
 <span class="sd">      Note: depending on the file format, this may require</span>
 <span class="sd">      reading large amounts of data into memory.</span>

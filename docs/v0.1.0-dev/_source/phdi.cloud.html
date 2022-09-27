@@ -43,8 +43,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.azure.</span></span><span class="sig-name descname"><span class="pre">AzureCloudContainerConnection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage_account_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCloudContainerConnection" title="phdi.cloud.core.BaseCloudContainerConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCloudContainerConnection</span></code></a></p>
-<p>This class implements the PHDI cloud storage interface for connecting to Azure.</p>
+<dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCloudStorageConnection" title="phdi.cloud.core.BaseCloudStorageConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCloudStorageConnection</span></code></a></p>
+<p>Defines a connection used for interacting with cloud storage in Azure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -61,7 +61,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.download_object">
 <span class="sig-name descname"><span class="pre">download_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTF-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.download_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.download_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download a character blob from storage and return it as a string.</p>
+<dd><p>Downloads a character blob from storage and returns it as a string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -82,7 +82,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.list_containers">
 <span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.list_containers" title="Permalink to this definition">¶</a></dt>
-<dd><p>List names for this CloudContainerConnection's containers.</p>
+<dd><p>Lists names for this CloudContainerConnection's containers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of container names.</p>
@@ -96,7 +96,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.list_objects">
 <span class="sig-name descname"><span class="pre">list_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.list_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.list_objects" title="Permalink to this definition">¶</a></dt>
-<dd><p>List names for objects within a container.</p>
+<dd><p>Lists names for objects within a container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -122,7 +122,7 @@ with this value.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCloudContainerConnection.upload_object">
 <span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCloudContainerConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCloudContainerConnection.upload_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Upload the content of a given message to Azure blob storage.
+<dd><p>Uploads the content of a given message to Azure blob storage.
 The message can be passed either as a raw string or as JSON.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -145,7 +145,7 @@ string or a JSON-formatted dictionary.</p></li>
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.azure.</span></span><span class="sig-name descname"><span class="pre">AzureCredentialManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCredentialManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCredentialManager</span></code></a></p>
-<p>This class defines a credential manager for connecting to Azure.</p>
+<p>Defines a credential manager used for connecting to Azure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -162,7 +162,7 @@ string or a JSON-formatted dictionary.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager.get_access_token">
 <span class="sig-name descname"><span class="pre">get_access_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_refresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCredentialManager.get_access_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager.get_access_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain an access token from the Azure identity provider. Return the
+<dd><p>Obtains an access token from the Azure identity provider. Returns the
 access token string, refreshed if expired or force_refresh is specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -181,7 +181,7 @@ current token is still valid. Default: <cite>False</cite></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.azure.AzureCredentialManager.get_credential_object">
 <span class="sig-name descname"><span class="pre">get_credential_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/azure.html#AzureCredentialManager.get_credential_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.azure.AzureCredentialManager.get_credential_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an Azure-specific credential object.</p>
+<dd><p>Gets an Azure-specific credential object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>An instance of one of the *Credential objects from the
@@ -209,13 +209,13 @@ current token is still valid. Default: <cite>False</cite></p>
 <section id="module-phdi.cloud.core">
 <span id="phdi-cloud-core-module"></span><h2>phdi.cloud.core module<a class="headerlink" href="#module-phdi.cloud.core" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.core.</span></span><span class="sig-name descname"><span class="pre">BaseCloudContainerConnection</span></span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudStorageConnection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.core.</span></span><span class="sig-name descname"><span class="pre">BaseCloudStorageConnection</span></span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudStorageConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudStorageConnection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.download_object">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.download_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.download_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download a blob from storage.</p>
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudStorageConnection.download_object">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudStorageConnection.download_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudStorageConnection.download_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a blob from storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -235,9 +235,9 @@ containing blob content.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.list_containers">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.list_containers" title="Permalink to this definition">¶</a></dt>
-<dd><p>List names for this CloudContainerConnection's containers.</p>
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudStorageConnection.list_containers">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudStorageConnection.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudStorageConnection.list_containers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists names for this CloudContainerConnection's containers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of container names.</p>
@@ -249,14 +249,14 @@ containing blob content.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.list_objects">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.list_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.list_objects" title="Permalink to this definition">¶</a></dt>
-<dd><p>List names for objects within a container.</p>
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudStorageConnection.list_objects">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudStorageConnection.list_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudStorageConnection.list_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists names for objects within a container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>container_name</strong> -- The name of the container to look for objects.</p></li>
-<li><p><strong>prefix</strong> -- Filter the objects returned to filenames beginning
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the container to look for objects.</p></li>
+<li><p><strong>prefix</strong> (<em>str</em>) -- Filter the objects returned to filenames beginning
 with this value.</p></li>
 </ul>
 </dd>
@@ -270,9 +270,9 @@ with this value.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudContainerConnection.upload_object">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudContainerConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudContainerConnection.upload_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Upload the content of a given message to Azure blob storage.
+<dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudStorageConnection.upload_object">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudStorageConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudStorageConnection.upload_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads the content of a given message to blob storage.
 Message can be passed either as a raw string or as JSON.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -295,14 +295,14 @@ string or in a JSON format.</p></li>
 <dt class="sig sig-object py" id="phdi.cloud.core.BaseCredentialManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.core.</span></span><span class="sig-name descname"><span class="pre">BaseCredentialManager</span></span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCredentialManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCredentialManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>This class provides a common interface for managing service credentials.</p>
+<p>Provides a common interface for managing service credentials.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.core.BaseCredentialManager.get_access_token">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_access_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCredentialManager.get_access_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCredentialManager.get_access_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an access token using the managed credentials.</p>
+<dd><p>Gets an access token using the managed credentials.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An access token</p>
+<dd class="field-odd"><p>An access token.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>str</p>
@@ -313,10 +313,10 @@ string or in a JSON format.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.core.BaseCredentialManager.get_credential_object">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_credential_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCredentialManager.get_credential_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCredentialManager.get_credential_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a cloud-specific credential object.</p>
+<dd><p>Gets a cloud-specific credential object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A credential object</p>
+<dd class="field-odd"><p>A credential object.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>object</p>
@@ -330,10 +330,98 @@ string or in a JSON format.</p></li>
 <section id="module-phdi.cloud.gcp">
 <span id="phdi-cloud-gcp-module"></span><h2>phdi.cloud.gcp module<a class="headerlink" href="#module-phdi.cloud.gcp" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCloudStorageConnection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.gcp.</span></span><span class="sig-name descname"><span class="pre">GcpCloudStorageConnection</span></span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCloudStorageConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCloudStorageConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCloudStorageConnection" title="phdi.cloud.core.BaseCloudStorageConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCloudStorageConnection</span></code></a></p>
+<p>Defines a connection used for interacting with cloud storage in GCP.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCloudStorageConnection.download_object">
+<span class="sig-name descname"><span class="pre">download_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCloudStorageConnection.download_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCloudStorageConnection.download_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a character blob from storage and return it as a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the bucket containing object to download.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- The location of file within GCP blob storage.</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) -- The encoding applied to the downloaded content.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A character blob (as a string) from given bucket and filename.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCloudStorageConnection.list_containers">
+<span class="sig-name descname"><span class="pre">list_containers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCloudStorageConnection.list_containers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCloudStorageConnection.list_containers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists bucket names in storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of bucket names in storage.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>List</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCloudStorageConnection.list_objects">
+<span class="sig-name descname"><span class="pre">list_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCloudStorageConnection.list_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCloudStorageConnection.list_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists names for objects within a bucket.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the bucket to look for objects.</p></li>
+<li><p><strong>prefix</strong> (<em>str</em>) -- Filter the objects returned to filenames beginning
+with this value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of names for objects in given bucket.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>List</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCloudStorageConnection.storage_client">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">google.cloud.storage.client.Client</span></em><a class="headerlink" href="#phdi.cloud.gcp.GcpCloudStorageConnection.storage_client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCloudStorageConnection.upload_object">
+<span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'application/json'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCloudStorageConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCloudStorageConnection.upload_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads the content of a given message to GCP blob storage.
+The message can be passed either as a raw string or as JSON.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) -- The contents of a message, encoded either as a
+string or in a JSON format.</p></li>
+<li><p><strong>container_name</strong> (<em>str</em>) -- The name of the target bucket for upload.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) -- The location of file within GCP blob storage.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.cloud.gcp.</span></span><span class="sig-name descname"><span class="pre">GcpCredentialManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.cloud.core.BaseCredentialManager</span></code></a></p>
-<p>This class provides a GCP-specific credential manager.</p>
+<p>Provides a GCP-specific credential manager.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>scope</strong> (<em>list</em>) -- </p>
@@ -342,7 +430,7 @@ string or in a JSON format.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.get_access_token">
 <span class="sig-name descname"><span class="pre">get_access_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager.get_access_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.get_access_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain an access token from GCP.</p>
+<dd><p>Obtains an access token from GCP.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The access token, refreshed if necessary.</p>
@@ -356,7 +444,7 @@ string or in a JSON format.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.get_credential_object">
 <span class="sig-name descname"><span class="pre">get_credential_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager.get_credential_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.get_credential_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a GCP-specific credential object.</p>
+<dd><p>Gets a GCP-specific credential object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A scoped instance of the Credentials class from google.auth
@@ -371,7 +459,7 @@ package, refreshed if necessary.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCredentialManager.get_project_id">
 <span class="sig-name descname"><span class="pre">get_project_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCredentialManager.get_project_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCredentialManager.get_project_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the ID of the current GCP project.</p>
+<dd><p>Gets the ID of the current GCP project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The current GCP project ID.</p>

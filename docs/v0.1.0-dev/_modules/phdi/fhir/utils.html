@@ -53,14 +53,14 @@
 
 <div class="viewcode-block" id="get_field"><a class="viewcode-back" href="../../../_source/phdi.fhir.html#phdi.fhir.utils.get_field">[docs]</a><span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_field</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Find the first-occuring instance of the field in a given FHIR-</span>
+<span class="sd">    Finds the first-occuring instance of the field in a given FHIR-</span>
 <span class="sd">    formatted JSON dict, such that the instance is associated with</span>
 <span class="sd">    a particular &quot;`use`&quot; of a given field (such as name or address).</span>
 <span class="sd">    `Use` here refers to the FHIR-based usage of classifying how</span>
-<span class="sd">    a value is used in reporting. For example, find the first name</span>
+<span class="sd">    a value is used in reporting. For example, finds the first name</span>
 <span class="sd">    for a patient that has a &quot;`use`&quot; of &quot;`official`&quot; (meaning the name</span>
 <span class="sd">    is used for official reports). If no instance of a field with</span>
-<span class="sd">    the requested use case can be found, instead return the specified</span>
+<span class="sd">    the requested use case can be found, it instead returns the specified</span>
 <span class="sd">    default value for the field.</span>
 
 <span class="sd">    :param resource: A FHIR-formatted resource.</span>
@@ -97,7 +97,7 @@
 
 <div class="viewcode-block" id="get_one_line_address"><a class="viewcode-back" href="../../../_source/phdi.fhir.html#phdi.fhir.utils.get_one_line_address">[docs]</a><span class="k">def</span> <span class="nf">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extract a one-line string representation of an address from a</span>
+<span class="sd">    Extracts a one-line string representation of an address from a</span>
 <span class="sd">    JSON dictionary holding address information.</span>
 
 <span class="sd">    :param address: The FHIR-formatted address bundle.</span>

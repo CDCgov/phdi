@@ -33,7 +33,7 @@
   <h1>Source code for phdi.cloud.azure</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">json</span>
 
-<span class="kn">from</span> <span class="nn">phdi.cloud.core</span> <span class="kn">import</span> <span class="n">BaseCredentialManager</span><span class="p">,</span> <span class="n">BaseCloudContainerConnection</span>
+<span class="kn">from</span> <span class="nn">phdi.cloud.core</span> <span class="kn">import</span> <span class="n">BaseCredentialManager</span><span class="p">,</span> <span class="n">BaseCloudStorageConnection</span>
 <span class="kn">from</span> <span class="nn">azure.core.credentials</span> <span class="kn">import</span> <span class="n">AccessToken</span>
 <span class="kn">from</span> <span class="nn">azure.identity</span> <span class="kn">import</span> <span class="n">DefaultAzureCredential</span>
 <span class="kn">from</span> <span class="nn">azure.storage.blob</span> <span class="kn">import</span> <span class="n">ContainerClient</span><span class="p">,</span> <span class="n">BlobServiceClient</span>
@@ -43,7 +43,7 @@
 
 <div class="viewcode-block" id="AzureCredentialManager"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager">[docs]</a><span class="k">class</span> <span class="nc">AzureCredentialManager</span><span class="p">(</span><span class="n">BaseCredentialManager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class defines a credential manager for connecting to Azure.</span>
+<span class="sd">    Defines a credential manager used for connecting to Azure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -60,7 +60,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a new AzureCredentialManager object.</span>
+<span class="sd">        Creates a new AzureCredentialManager object.</span>
 
 <span class="sd">        :param resource_location: The URL or other location of the requested resource.</span>
 <span class="sd">        :param scope: A space-delimited list of scopes to limit access to resource.</span>
@@ -75,7 +75,7 @@
 
 <div class="viewcode-block" id="AzureCredentialManager.get_credential_object"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager.get_credential_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_credential_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get an Azure-specific credential object.</span>
+<span class="sd">        Gets an Azure-specific credential object.</span>
 
 <span class="sd">        :return: An instance of one of the \\*Credential objects from the</span>
 <span class="sd">          `azure.identity` package.</span>
@@ -84,7 +84,7 @@
 
 <div class="viewcode-block" id="AzureCredentialManager.get_access_token"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCredentialManager.get_access_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Obtain an access token from the Azure identity provider. Return the</span>
+<span class="sd">        Obtains an access token from the Azure identity provider. Returns the</span>
 <span class="sd">        access token string, refreshed if expired or force_refresh is specified.</span>
 
 <span class="sd">        :param force_refresh: Whether to force token refresh even if the</span>
@@ -99,11 +99,11 @@
 
     <span class="k">def</span> <span class="nf">_need_new_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Determine whether the token already stored for this object can be reused,</span>
+<span class="sd">        Determines whether the token already stored for this object can be reused,</span>
 <span class="sd">        or if it needs to be re-requested. A new token is needed if a token has not</span>
 <span class="sd">        yet been created, or if the current token has expired.</span>
 
-<span class="sd">        :return: Whether a new Azure access token is needed.</span>
+<span class="sd">        :return: True if a new Azure access token is needed; false otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">current_time_utc</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
@@ -113,9 +113,9 @@
             <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="AzureCloudContainerConnection"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection">[docs]</a><span class="k">class</span> <span class="nc">AzureCloudContainerConnection</span><span class="p">(</span><span class="n">BaseCloudContainerConnection</span><span class="p">):</span>
+<div class="viewcode-block" id="AzureCloudContainerConnection"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection">[docs]</a><span class="k">class</span> <span class="nc">AzureCloudContainerConnection</span><span class="p">(</span><span class="n">BaseCloudStorageConnection</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class implements the PHDI cloud storage interface for connecting to Azure.</span>
+<span class="sd">    Defines a connection used for interacting with cloud storage in Azure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -128,7 +128,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_account_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">:</span> <span class="n">AzureCredentialManager</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a new AzureCloudContainerConnection object.</span>
+<span class="sd">        Creates a new AzureCloudContainerConnection object.</span>
 
 <span class="sd">        :param storage_account_url: The storage account location of the requested</span>
 <span class="sd">          resource.</span>
@@ -140,7 +140,7 @@
 
     <span class="k">def</span> <span class="nf">_get_container_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContainerClient</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Obtain a client connected to an Azure storage container by</span>
+<span class="sd">        Obtains a client connected to an Azure storage container by</span>
 <span class="sd">        utilizing the first valid credentials Azure can find. For</span>
 <span class="sd">        more information on the order in which the credentials are</span>
 <span class="sd">        checked, see the Azure documentation:</span>
@@ -156,7 +156,7 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;UTF-8&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Download a character blob from storage and return it as a string.</span>
+<span class="sd">        Downloads a character blob from storage and returns it as a string.</span>
 
 <span class="sd">        :param container_name: The name of the container containing object to download.</span>
 <span class="sd">        :param filename: The location of the file within Azure blob storage.</span>
@@ -180,7 +180,7 @@
         <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Upload the content of a given message to Azure blob storage.</span>
+<span class="sd">        Uploads the content of a given message to Azure blob storage.</span>
 <span class="sd">        The message can be passed either as a raw string or as JSON.</span>
 
 <span class="sd">        :param message: The contents of a message, encoded either as a</span>
@@ -199,7 +199,7 @@
 
 <div class="viewcode-block" id="AzureCloudContainerConnection.list_containers"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.list_containers">[docs]</a>    <span class="k">def</span> <span class="nf">list_containers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        List names for this CloudContainerConnection&#39;s containers.</span>
+<span class="sd">        Lists names for this CloudContainerConnection&#39;s containers.</span>
 
 <span class="sd">        :return: A list of container names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -217,7 +217,7 @@
 
 <div class="viewcode-block" id="AzureCloudContainerConnection.list_objects"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.list_objects">[docs]</a>    <span class="k">def</span> <span class="nf">list_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        List names for objects within a container.</span>
+<span class="sd">        Lists names for objects within a container.</span>
 
 <span class="sd">        :param container_name: The name of the container to look for objects.</span>
 <span class="sd">        :param prefix: Filter the objects returned to filenames beginning</span>
