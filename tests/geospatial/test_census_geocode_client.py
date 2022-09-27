@@ -109,6 +109,14 @@ def test_geocode_from_dict():
     )
     assert geocoded_response == census_client.geocode_from_dict(full_address_dict)
 
+    # Test address with missing zip code
+    missing_zip_dict = {
+        "street": "239 Greene Street",
+        "city": "New York",
+        "state": "NY",
+    }
+    assert geocoded_response == census_client.geocode_from_dict(missing_zip_dict)
+
     # Test address with missing street num and name
     missing_street_dict = {
         "city": "New York",
