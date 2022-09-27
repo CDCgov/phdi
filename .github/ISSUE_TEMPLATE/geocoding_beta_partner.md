@@ -7,7 +7,7 @@ labels: 'geocoding-beta'
 assignees: '@millzpaugh,@NagelaNukuna'
 
 ---
-Thank you for your interest in PHDI’s Geocoding Beta Partnership! See full details about the beta [here](https://github.com/CDCgov/phdi/blob/main/docs/geocoding_pilot/overview.md){:target="_blank"}. Please add your jurisdiction to the title placeholder `[Affiliated Jurisdiction]` and fill in the information below. We will be in touch shortly with next steps. 
+Thank you for your interest in PHDI’s Geocoding Beta Partnership! See full details about the beta [here](https://github.com/CDCgov/phdi/blob/main/docs/geocoding_pilot/overview.md). Please add your jurisdiction to the title placeholder `[Affiliated Jurisdiction]` and fill in the information below. We will be in touch shortly with next steps. 
 
 
 ## Provide partnership information
@@ -22,7 +22,7 @@ Now, **create your ticket!** Once the ticket has been created, schedule time to 
 
 ## Schedule a time to connect with PHDI and receive your subsidized Smarty API key
 
-Schedule a meeting here via [Calendly](https://calendly.com/ann-299/geocoding-beta-partner){:target="_blank"}.
+Schedule a meeting here via [Calendly](https://calendly.com/ann-299/geocoding-beta-partner).
 
 - [ ]  I scheduled time to receive my subsidized Smarty license.
 
