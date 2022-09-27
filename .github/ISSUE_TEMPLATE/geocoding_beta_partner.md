@@ -22,7 +22,7 @@ Now, **create your ticket!** Once the ticket has been created, schedule time to 
 
 ## Schedule a time to connect with PHDI and receive your subsidized Smarty API key
 
-Schedule a meeting here via [Calendly](https://calendly.com/ann-299/geocoding-pilot-partner){:target="_blank"}.
+Schedule a meeting here via [Calendly](https://calendly.com/ann-299/geocoding-beta-partner){:target="_blank"}.
 
 - [ ]  I scheduled time to receive my subsidized Smarty license.
 
