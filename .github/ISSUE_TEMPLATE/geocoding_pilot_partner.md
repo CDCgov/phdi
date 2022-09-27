@@ -18,9 +18,9 @@ Please provide your:
 - Role
 - Affiliated Public Health Department (link url if possible)
 
-Now, **create your ticket!** Once the ticket has been created, schedule time to connect with a PHDI team member using the link listed below. 
+Now, **create your ticket!** Once the ticket has been created, schedule time to connect with a PHDI team member using the Calendly link listed below. 
 
-## Schedule a time to receive your subsidized Smarty API key
+## Schedule a time to connect with PHDI and receive your subsidized Smarty API key
 
 Schedule a meeting here via [Calendly](https://calendly.com/ann-299/geocoding-pilot-partner){:target="_blank"}.
 
