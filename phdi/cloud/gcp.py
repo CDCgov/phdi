@@ -112,7 +112,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         self, container_name: str, filename: str, encoding: str = "utf-8"
     ) -> str:
         """
-        Downloads a character blob from storage and returns it as a string.
+        Downloads a character blob from storage and return it as a string.
 
         :param container_name: The name of the bucket containing object to download.
         :param filename: The location of file within GCP blob storage.

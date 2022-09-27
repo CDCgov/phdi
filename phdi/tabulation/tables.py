@@ -35,7 +35,7 @@ def write_table(
 ) -> Union[None, pq.ParquetWriter]:
     """
     Given data stored as a list of dictionaries, where all dictionaries
-    have a common set of keys, write the set of data to an output
+    have a common set of keys, writes the set of data to an output
     file of a particular type.
 
     :param data: A list of dictionaries representing the table's data.
@@ -78,8 +78,8 @@ def print_schema_summary(
     tables.
 
     :param directory: The path to a direct holding table files.
-    :param display_head: Whether to print the first few rows of each table. When true,
-      print the first few rows, otherwise, only print table metadata.
+    :param display_head: If true, print the first few rows of each table;
+      if false, only print table metadata. Default: `False`
 
       Note: depending on the file format, this may require
       reading large amounts of data into memory.

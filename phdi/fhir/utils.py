@@ -26,14 +26,14 @@ def get_field(
     require_use: bool = True,
 ) -> Any:
     """
-    Find the first-occuring instance of the field in a given FHIR-
+    Finds the first-occuring instance of the field in a given FHIR-
     formatted JSON dict, such that the instance is associated with
     a particular "`use`" of a given field (such as name or address).
     `Use` here refers to the FHIR-based usage of classifying how
-    a value is used in reporting. For example, find the first name
+    a value is used in reporting. For example, finds the first name
     for a patient that has a "`use`" of "`official`" (meaning the name
     is used for official reports). If no instance of a field with
-    the requested use case can be found, instead return the specified
+    the requested use case can be found, it instead returns the specified
     default value for the field.
 
     :param resource: A FHIR-formatted resource.

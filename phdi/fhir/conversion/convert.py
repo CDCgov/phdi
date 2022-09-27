@@ -27,7 +27,7 @@ def convert_to_fhir(
     use_default_ccda=False,
 ):
     """
-    Convert a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)
+    Converts a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)
     into FHIR format (JSON) for further processing using the FHIR server. Standardize
     datetimes in HL7v2 messages before conversion.
 
@@ -92,9 +92,9 @@ def convert_to_fhir(
 
 def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
     """
-    Determine which settings to use with the FHIR server to facilitate message
-    conversion. Attempt to identify which data type the input has (HL7 or XML)
-    and determine the appropriate FHIR converter root template to use. Raise
+    Determines which settings to use with the FHIR server to facilitate message
+    conversion by attempting to identify which data type the input has (HL7 or XML)
+    and determine the appropriate FHIR converter root template to use. Raises
     an exception if the user opts to not use the default CCDA root template for
     an unsupported input resouece and a message's extracted LOINC code doesn't
     correspond to an existing CCDA template.

@@ -7,14 +7,14 @@ from typing import List
 
 def standardize_hl7_datetimes(message: str) -> str:
     """
-    Prepare an HL7 message for conversion by normalizing / sanitizing
+    Prepares an HL7 message for conversion by normalizing / sanitizing
     fields that are known to contain datetime data in problematic formats. This
     function helps messages conform to expectations.
 
     This function accepts either segments terminated by `\\r` or `\\n`, but always
     returns data with `\\n` as the segment terminator.
 
-    :param message: The raw HL7 message to sanitize
+    :param message: The raw HL7 message to sanitize.
     :return: The HL7 message with potential problem formats resolved. If the function
       is unable to parse a date, the original value is retained.
     """
@@ -200,7 +200,7 @@ def normalize_hl7_datetime_segment(
     message: hl7.Message, segment_id: str, field_list: list
 ) -> None:
     """
-    Apply datetime normalization to multiple fields in a segment,
+    Applies datetime normalization to multiple fields in a segment,
     overwriting values in the input segment as necessary.
 
     :param message: The HL7 message, represented as a list
