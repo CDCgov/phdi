@@ -1,13 +1,13 @@
 ---
 
-name: Become a Geocoding Beta Program
+name: Register for the Geocoding Beta Program
 about: Subsidized Geocoding Services for State, Territorial, Local and Tribal Health departments. 
 title: [Affiliated Jurisdiction] Geocoding Beta Program
 labels: 'geocoding-beta'
 assignees: @millzpaugh,@NagelaNukuna
 
 ---
-Thank you for your interest in PHDI’s Geocoding Beta Partnership! See full details about the beta [here](https://github.com/CDCgov/phdi/blob/main/docs/geocoding_pilot/overview.md){:target="_blank"}. Please fill in the information below and we will be in touch shortly with next steps.
+Thank you for your interest in PHDI’s Geocoding Beta Partnership! See full details about the beta [here](https://github.com/CDCgov/phdi/blob/main/docs/geocoding_pilot/overview.md){:target="_blank"}. Please add your jurisdiction to the title placeholder `[Affiliated Jurisdiction]` and fill in the information below. We will be in touch shortly with next steps. 
 
 
 ## Provide partnership information
