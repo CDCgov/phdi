@@ -131,19 +131,6 @@ class CensusGeocodeClient(BaseGeocodeClient):
         Gets URL for Census API given inputs.
 
         :param address: The formatted address to geocode, given as a string.
-        :param returntype: locations (to get just geocoding response) or geographies
-            (to get geocoding response as well as geoLookup). # Future consideration
-        :param benchmark: A numerical ID or name that references what version of the
-            locator should be searched. # Future consideration
-        :param vintage: A numerical ID or name that references what vintage of geography
-            is desired for the geoLookup (only needed when returntype = geographies).
-            # Future consideration
-        :param format: The format to be used for returning the standardized output
-            (json, html). # Future consideration
-        :param layers: By default, State, County, Tract, and Block layers are displayed
-            when “geographies” is the chosen returntype. If additional or different
-            layers are desired, they can be specified in a comma delimited list by ID
-            or name. # Future consideration
         :return: A URL for the Census API request, as a string.
         """
         url = (
