@@ -75,7 +75,7 @@ Listed below are several example use cases for employing the geospatial module.
 Suppose a data element has an address field in which the entire address occurs in a string, e.g.
 
 ```python
-location = "1234 Mulholland Dr. NW Cincinnati OH 43897"
+location = "5905 Wilshire Blvd Los Angeles CA 90036"
 ```
 
 To precisely geocode this address, using, say, the SmartyStreets geocoder, we would write:
@@ -83,21 +83,42 @@ To precisely geocode this address, using, say, the SmartyStreets geocoder, we wo
 ```python
 from phdi.geospatial.smarty import SmartyGeocodeClient
 
-location = "1234 Mulholland Dr. NW Cincinnati OH 43897"
+location = "5905 Wilshire Blvd Los Angeles CA 90036"
 smarty_coder = SmartyGeocoderClient(YOUR_AUTH_ID, YOUR_AUTH_TOKEN, YOUR_LICENSES)
 geo_result = smarty_coder.geocode_from_str(location)
 
 print(geo_result)
     >>> GeocodeResult(
-    >>>    line=["1234 Mulholland Drive], 
-    >>>    city="Cincinnati",
-    >>>    state="Ohio"
-    >>>    postal_code="43897"
+    >>>    line=["5905 Wilshire Blvd"], 
+    >>>    city="Los Angeles",
+    >>>    state="CA"
+    >>>    postal_code="90036"
     >>>    ...
     >>> )
 ```
 
 Here, the parameters in the `SmartyGeocodeClient` constructor correspond to authentication and authorization variables related to your SmartyStreets subscription. So, `YOUR_AUTH_ID` is your authorization ID to use the service and `YOUR_AUTH_TOKEN` is an access token generated to communicate with the API. The `licenses` parameter does not need to be modified if you wish to perform a search with the default license agreement (e.g. `"us-standard-cloud"`) but can be changed to a list of other license types if you wish to customize the search.
+
+To precisely geocode this address, using, say, the Census geocoder, we would write:
+
+```python
+from phdi.geospatial.census import CensusGeocodeClient
+
+location = "5905 Wilshire Blvd Los Angeles CA 90036"
+geo_result = census_coder.geocode_from_str(location)
+
+print(geo_result)
+    >>> GeocodeResult(
+    >>>    line=["5905 Wilshire Blvd"], 
+    >>>    city="Los Angeles",
+    >>>    state="CA"
+    >>>    postal_code="90036"
+    >>>    geoid="060372151011004"
+    >>>    census_tract="2151.01"
+    >>>    census_block="1004"
+    >>>    ...
+    >>> )
+```
 
 ### Geocode Address From A Dictionary
 Let's take the example above and now suppose that the address we wish to work with is contained in a dictionary. Because of the standardization of our Geocode Clients and `GeocodeResult`, the code is extremely similar:
