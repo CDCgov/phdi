@@ -14,7 +14,7 @@ def http_request_with_retry(
     data: dict = None,
 ) -> requests.Response:
     """
-    Execute an HTTP request, retrying the request if the returned HTTP status code
+    Executes an HTTP request, retrying the request if the returned HTTP status code
     is one of a specified list of codes.
 
     :param url: The url at which to make the HTTP request.

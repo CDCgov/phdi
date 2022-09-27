@@ -13,14 +13,14 @@ def add_patient_identifier_in_bundle(
     """
     Given a FHIR resource bundle:
 
-    * Identify all patient resource(s) in the bundle
-    * Add the hash string to the list of identifiers held in that patient resource
+    * Identifies all patient resource(s) in the bundle
+    * Adds the hash string to the list of identifiers held in that patient resource
 
     :param bundle: The FHIR bundle for whose patients to add a linking identifier.
     :param salt_str: The salt to use with the hash. This is intended to prevent reverse
       reverse engineering of the PII used to create the hash.
-    :param overwrite: Whether to write the new standardizations
-      directly into the given bundle, changing the original data. Default: `True`
+    :param overwrite: If true, `bundle` is modified in-place;
+      if false, a copy of `bundle` modified and returned.  Default: `True`
     :return: The bundle, resources updated with additional patient identifier.
     """
     if not overwrite:
@@ -38,15 +38,15 @@ def add_patient_identifier(
     """
     Given a FHIR Patient resource:
 
-    * Extract name, DOB, and address information
-    * Compute a unique hash string based on these fields
-    * Add the hash string to resource
+    * Extracts name, DOB, and address information
+    * Computes a unique hash string based on these fields
+    * Adds the hash string to resource
 
     :param patient_resource: The FHIR patient resource to add a linking identifier.
     :param salt_str: The salt to use with the hash. This is intended to prevent reverse
       reverse engineering of the PII used to create the hash.
-    :param overwrite: Whether to write the new standardizations
-      directly into the given bundle, changing the original data. Default: `True`
+    :param overwrite: If true, `patient_resource` is modified in-place;
+      if false, a copy of `patient_resource` modified and returned.  Default: `True`
     :return: The resource updated with additional patient identifier.
     """
     if not overwrite:

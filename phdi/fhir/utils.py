@@ -74,7 +74,7 @@ def get_field(
 
 def get_one_line_address(address: dict) -> str:
     """
-    Extract a one-line string representation of an address from a
+    Extracts a one-line string representation of an address from a
     JSON dictionary holding address information.
 
     :param address: The FHIR-formatted address.

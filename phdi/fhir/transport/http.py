@@ -16,10 +16,10 @@ def http_request_with_reauth(
     data: dict = None,
 ) -> requests.Response:
     """
-    First, call :func:`phdi.transport.http.http_request_with_retry`. If the first call
-    failed with an authorization error (HTTP status 401), obtain a new token using the
-    `cred_manager`, and if the original request had an Authorization header, replace
-    with the new token and re-initiate
+    First, calls :func:`phdi.transport.http.http_request_with_retry`. If the first call
+    failed with an authorization error (HTTP status 401), obtains a new token using the
+    `cred_manager`. If the original request had an Authorization header, replaces
+    it with the new token and re-initiates
     :func:`phdi.transport.http.http_request_with_retry`.
 
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
@@ -67,7 +67,7 @@ def upload_bundle_to_fhir_server(
     bundle: dict, cred_manager: BaseCredentialManager, fhir_url: str
 ) -> requests.Response:
     """
-    Import a FHIR resource bundle to the FHIR server.
+    Uploads a FHIR resource bundle to the FHIR server.
 
     :param bundle: A FHIR bundle (type "batch" or "transaction") to post.  Each entry in
       the bundle must contain a `request` element in addition to a `resource`.
@@ -121,7 +121,7 @@ def upload_bundle_to_fhir_server(
 
 def fhir_server_get(url: str, cred_manager: BaseCredentialManager) -> requests.Response:
     """
-    Submit a GET request to a FHIR server given a url and access token for
+    Submits a GET request to a FHIR server given a url and access token for
     authentication.
 
     :param url: A URL specifying a GET request on a FHIR server.
@@ -146,7 +146,7 @@ def fhir_server_get(url: str, cred_manager: BaseCredentialManager) -> requests.R
 
 def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> None:
     """
-    Log the error for a given an HTTP status code from a FHIR server's response.
+    Logs the error for a given an HTTP status code from a FHIR server's response.
 
     :param status_code: The status code returned by a FHIR server.
     """

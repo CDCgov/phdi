@@ -8,7 +8,7 @@ from google.cloud import storage
 
 class GcpCredentialManager(BaseCredentialManager):
     """
-    This class provides a GCP-specific credential manager.
+    Provides a GCP-specific credential manager.
     """
 
     @property
@@ -25,7 +25,7 @@ class GcpCredentialManager(BaseCredentialManager):
 
     def __init__(self, scope: list = None):
         """
-        Create a new GcpCredentialManager object.
+        Creates a new GcpCredentialManager object.
 
         :param scope: A list of scopes to limit access to resource.
         """
@@ -38,7 +38,7 @@ class GcpCredentialManager(BaseCredentialManager):
 
     def get_credential_object(self) -> Credentials:
         """
-        Get a GCP-specific credential object.
+        Gets a GCP-specific credential object.
 
         :return: A scoped instance of the Credentials class from google.auth
             package, refreshed if necessary.
@@ -57,7 +57,7 @@ class GcpCredentialManager(BaseCredentialManager):
 
     def get_project_id(self) -> str:
         """
-        Get the ID of the current GCP project.
+        Gets the ID of the current GCP project.
 
         :return: The current GCP project ID.
         """
@@ -70,7 +70,7 @@ class GcpCredentialManager(BaseCredentialManager):
 
     def get_access_token(self) -> str:
         """
-        Obtain an access token from GCP.
+        Obtains an access token from GCP.
 
         :return: The access token, refreshed if necessary.
         """
@@ -87,7 +87,7 @@ class GcpCredentialManager(BaseCredentialManager):
 
 class GcpCloudStorageConnection(BaseCloudStorageConnection):
     """
-    This class implements the PHDI cloud storage interface for connecting to GCP.
+    Defines a connection used for interacting with cloud storage in GCP.
     """
 
     @property
@@ -96,11 +96,11 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
     def _get_storage_client(self) -> storage.Client:
         """
-        Obtain a client connected to an GCP storage container by
+        Obtains a client connected to an GCP storage container by
         utilizing the first valid credentials GCP can find. Credential validation
-        is handeled by GCP
+        is handeled by GCP.
 
-        :return: GCP storage client
+        :return: The GCP storage client.
         """
 
         if self.__storage_client is None:
@@ -112,12 +112,12 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         self, container_name: str, filename: str, encoding: str = "utf-8"
     ) -> str:
         """
-        Download a character blob from storage and return it as a string.
+        Downloads a character blob from storage and return it as a string.
 
-        :param container_name: The name of the bucket containing object to download
-        :param filename: Location of file within GCP blob storage
-        :param encoding: Encoding applied to the downloaded content
-        :return: Character blob (as a string) from given bucket and filename
+        :param container_name: The name of the bucket containing object to download.
+        :param filename: The location of file within GCP blob storage.
+        :param encoding: The encoding applied to the downloaded content.
+        :return: A character blob (as a string) from given bucket and filename.
         """
         storage_client = self._get_storage_client()
         blob = storage_client.bucket(container_name).blob(filename)
@@ -131,13 +131,13 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         content_type="application/json",
     ) -> None:
         """
-        Upload the content of a given message to GCP blob storage.
-        Message can be passed either as a raw string or as JSON.
+        Uploads the content of a given message to GCP blob storage.
+        The message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
-          string or in a JSON format
-        :param container_name: The name of the target bucket for upload
-        :param filename: Location of file within GCP blob storage
+          string or in a JSON format.
+        :param container_name: The name of the target bucket for upload.
+        :param filename: The location of file within GCP blob storage.
         """
 
         storage_client = self._get_storage_client()
@@ -148,9 +148,9 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
     def list_containers(self) -> List[str]:
         """
-        List bucket names in storage.
+        Lists bucket names in storage.
 
-        :return: List of bucket names in storage
+        :return: A list of bucket names in storage.
         """
         storage_client = self._get_storage_client()
 
@@ -161,11 +161,12 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
-        List names for objects within a bucket.
+        Lists names for objects within a bucket.
 
-        :param container_name: The name of the bucket to look for objects
-        :param prefix: Filter for objects whose filenames begin with this value
-        :return: List of names for objects in given bucket
+        :param container_name: The name of the bucket to look for objects.
+        :param prefix: Filter the objects returned to filenames beginning
+          with this value.
+        :return: A list of names for objects in given bucket.
         """
         storage_client = self._get_storage_client()
 

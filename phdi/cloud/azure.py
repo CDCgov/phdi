@@ -10,7 +10,7 @@ from typing import List, Union
 
 class AzureCredentialManager(BaseCredentialManager):
     """
-    This class defines a credential manager for connecting to Azure.
+    Defines a credential manager used for connecting to Azure.
     """
 
     @property
@@ -27,7 +27,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def __init__(self, resource_location: str, scope: str = None):
         """
-        Create a new AzureCredentialManager object.
+        Creates a new AzureCredentialManager object.
 
         :param resource_location: The URL or other location of the requested resource.
         :param scope: A space-delimited list of scopes to limit access to resource.
@@ -42,7 +42,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def get_credential_object(self) -> object:
         """
-        Get an Azure-specific credential object.
+        Gets an Azure-specific credential object.
 
         :return: An instance of one of the \\*Credential objects from the
           `azure.identity` package.
@@ -51,7 +51,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def get_access_token(self, force_refresh: bool = False) -> str:
         """
-        Obtain an access token from the Azure identity provider. Return the
+        Obtains an access token from the Azure identity provider. Returns the
         access token string, refreshed if expired or force_refresh is specified.
 
         :param force_refresh: Whether to force token refresh even if the
@@ -66,11 +66,11 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def _need_new_token(self) -> bool:
         """
-        Determine whether the token already stored for this object can be reused,
+        Determines whether the token already stored for this object can be reused,
         or if it needs to be re-requested. A new token is needed if a token has not
         yet been created, or if the current token has expired.
 
-        :return: Whether a new Azure access token is needed.
+        :return: True if a new Azure access token is needed; false otherwise.
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()
@@ -82,7 +82,7 @@ class AzureCredentialManager(BaseCredentialManager):
 
 class AzureCloudContainerConnection(BaseCloudStorageConnection):
     """
-    This class implements the PHDI cloud storage interface for connecting to Azure.
+    Defines a connection used for interacting with cloud storage in Azure.
     """
 
     @property
@@ -95,7 +95,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
     def __init__(self, storage_account_url: str, cred_manager: AzureCredentialManager):
         """
-        Create a new AzureCloudContainerConnection object.
+        Creates a new AzureCloudContainerConnection object.
 
         :param storage_account_url: The storage account location of the requested
           resource.
@@ -107,7 +107,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
     def _get_container_client(self, container_url: str) -> ContainerClient:
         """
-        Obtain a client connected to an Azure storage container by
+        Obtains a client connected to an Azure storage container by
         utilizing the first valid credentials Azure can find. For
         more information on the order in which the credentials are
         checked, see the Azure documentation:
@@ -123,7 +123,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         self, container_name: str, filename: str, encoding: str = "UTF-8"
     ) -> str:
         """
-        Download a character blob from storage and return it as a string.
+        Downloads a character blob from storage and returns it as a string.
 
         :param container_name: The name of the container containing object to download.
         :param filename: The location of the file within Azure blob storage.
@@ -147,7 +147,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         filename: str,
     ) -> None:
         """
-        Upload the content of a given message to Azure blob storage.
+        Uploads the content of a given message to Azure blob storage.
         The message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
@@ -166,7 +166,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
     def list_containers(self) -> List[str]:
         """
-        List names for this CloudContainerConnection's containers.
+        Lists names for this CloudContainerConnection's containers.
 
         :return: A list of container names.
         """
@@ -184,7 +184,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
-        List names for objects within a container.
+        Lists names for objects within a container.
 
         :param container_name: The name of the container to look for objects.
         :param prefix: Filter the objects returned to filenames beginning

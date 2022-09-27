@@ -7,14 +7,14 @@ from typing import List
 
 def standardize_hl7_datetimes(message: str) -> str:
     """
-    Prepare an HL7 message for conversion by normalizing / sanitizing
+    Prepares an HL7 message for conversion by normalizing / sanitizing
     fields that are known to contain datetime data in problematic formats. This
     function helps messages conform to expectations.
 
     This function accepts either segments terminated by `\\r` or `\\n`, but always
     returns data with `\\n` as the segment terminator.
 
-    :param message: The raw HL7 message to sanitize
+    :param message: The raw HL7 message to sanitize.
     :return: The HL7 message with potential problem formats resolved. If the function
       is unable to parse a date, the original value is retained.
     """
@@ -83,7 +83,7 @@ def convert_hl7_batch_messages_to_list(
     content: str, delimiter: str = "\n"
 ) -> List[str]:
     """
-    Convert a batch file of messages into a list of strings
+    Converts a batch file of messages into a list of strings
     representing parts of the message. This function is based
     on the following header/tail segments:
 
@@ -104,7 +104,7 @@ def convert_hl7_batch_messages_to_list(
     }
     [FTS] (file trailer segment)
 
-    We ignore lines that start with these header/tail segments since we don't want to
+    Ignores lines that start with these header/tail segments since we don't want to
     include them in a message.
 
     :param content: The batch content to turn into a list.
@@ -148,7 +148,7 @@ def default_hl7_value(
     message: str, segment_id: str, field_num: int, default_value: str
 ):
     """
-    Default a field value in an HL7 message.
+    Defaults a field value in an HL7 message.
 
     This function accepts either segments terminated by `\\r` or `\\n`, but always
     returns data with `\\n` as the segment terminator.
@@ -200,7 +200,7 @@ def normalize_hl7_datetime_segment(
     message: hl7.Message, segment_id: str, field_list: list
 ) -> None:
     """
-    Apply datetime normalization to multiple fields in a segment,
+    Applies datetime normalization to multiple fields in a segment,
     overwriting values in the input segment as necessary.
 
     :param message: The HL7 message, represented as a list
@@ -229,7 +229,7 @@ def normalize_hl7_datetime_segment(
 
 def normalize_hl7_datetime(hl7_datetime: str) -> str:
     """
-    Split HL7 datetime-formatted fields into the following parts:
+    Splits HL7 datetime-formatted fields into the following parts:
     <integer 8+ digits>[.<integer 1+ digits>][+/-<integer 4+ digits>]
 
     Each group of integers is truncated to conform to the HL7
@@ -270,8 +270,8 @@ def normalize_hl7_datetime(hl7_datetime: str) -> str:
 
 def _clean_hl7_batch(batch: str, delimiter: str = "\n") -> str:
     """
-    Clean a batch file by replacing Windows (CR-LF) newlines with
-    the specified newline delimiter (LF by default). Also, strip
+    Cleans a batch file by replacing Windows (CR-LF) newlines with
+    the specified newline delimiter (LF by default). Also, strips
     vertical tab and file separator characters which can appear
     in input batch file data.
 

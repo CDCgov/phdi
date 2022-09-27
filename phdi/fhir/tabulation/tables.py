@@ -16,7 +16,7 @@ def _apply_selection_criteria(
     selection_criteria: Literal["first", "last", "random"],
 ) -> str:
     """
-    Return value(s), according to the selection criteria, from a given list of values
+    Returns value(s), according to the selection criteria, from a given list of values
     parsed from a FHIR resource. A single string value is returned - if the selected
     value is a complex structure (list or dict), it is converted to a string.
 
@@ -47,10 +47,10 @@ def _apply_selection_criteria(
 
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
-    Create and return a dictionary of data based on a FHIR resource and a schema. The
+    Creates and returns a dictionary of data based on a FHIR resource and a schema. The
     keys of the created dict are the "new names" for the fields in the given schema, and
     the values are the elements of the given resource that correspond to these fields.
-    Here, "new name" is a property contained in the schema that specifies what a
+    Here, `new_name` is a property contained in the schema that specifies what a
     particular variable should be called. If a schema can't be found for the given
     resource type, the raw resource is instead returned.
 
@@ -88,7 +88,7 @@ def generate_table(
     cred_manager: BaseCredentialManager,
 ) -> None:
     """
-    Make a table for a single schema.
+    Makes a table for a single schema.
 
     :param schema: A schema specifying the desired values, by FHIR resource type.
     :param output_path: A path specifying where the table should be written.
@@ -150,7 +150,7 @@ def generate_all_tables_in_schema(
     cred_manager: BaseCredentialManager,
 ) -> None:
     """
-    Query a FHIR server for information, and generate and store the tables in the
+    Queries a FHIR server for information, and generates and store the tables in the
     desired location, according to the supplied schema.
 
     :param schema_path: A path to the location of a YAML schema config file.
@@ -173,7 +173,7 @@ def generate_all_tables_in_schema(
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Accept a FHIRPath expression, and return a callable function which returns the
+    Accepts a FHIRPath expression, and returns a callable function which returns the
     evaluated value at fhirpath_expression for a specified FHIR resource.
 
     :param fhirpath_expression: The FHIRPath expression to evaluate.

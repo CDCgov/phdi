@@ -12,7 +12,7 @@ from typing import Literal, List, Union
 def load_schema(path: str) -> dict:
     """
     Given the path to a local YAML file containing a data schema,
-    load the file and return the resulting schema as a dictionary.
+    loads the file and return the resulting schema as a dictionary.
     If the file can't be found, raises an error.
 
     :param path: The file path to a YAML file holding a schema.
@@ -35,7 +35,7 @@ def write_table(
 ) -> Union[None, pq.ParquetWriter]:
     """
     Given data stored as a list of dictionaries, where all dictionaries
-    have a common set of keys, write the set of data to an output
+    have a common set of keys, writes the set of data to an output
     file of a particular type.
 
     :param data: A list of dictionaries representing the table's data.
@@ -74,12 +74,12 @@ def print_schema_summary(
     display_head: bool = False,
 ) -> None:
     """
-    Print a summary of each CSV of Parquet formatted table in a given directory of
+    Prints a summary of each CSV of Parquet formatted table in a given directory of
     tables.
 
     :param directory: The path to a direct holding table files.
-    :param display_head: Whether to print the first few rows of each table. When true,
-      print the first few rows, otherwise, only print table metadata.
+    :param display_head: If true, print the first few rows of each table;
+      if false, only print table metadata. Default: `False`
 
       Note: depending on the file format, this may require
       reading large amounts of data into memory.

@@ -37,9 +37,8 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
         * Patient
 
         :param resource: The resource whose addresses should be geocoded.
-        :param overwrite: Whether to save the geocoding information over
-          the raw data (`True`), or to create a copy of the given data and write
-          over that instead (`False`). Default: `True`
+        :param overwrite: If true, `resource` is modified in-place;
+          if false, a copy of `resource` modified and returned.  Default: `True`
         :return: The geocoded resource as a dict.
         """
         if not overwrite:
@@ -53,7 +52,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def _geocode_patient_resource(self, patient: dict) -> None:
         """
-        Geocode all addresses in a patient resource.
+        Geocodes all addresses in a patient resource.
 
         :param patient: A FHIR Patient resource.
         """
@@ -73,16 +72,15 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
 
     def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
         """
-        Geocode on all resources in a given FHIR bundle whose
+        Geocodes on all resources in a given FHIR bundle whose
         resource type is among those supported by the PHDI SDK. Currently,
         this includes:
 
         * Patient
 
         :param bundle: A bundle of FHIR resources.
-        :param overwrite: Whether to save the geocoding information over
-          the raw data (`True`), or to create a copy of the given data and write
-          over that instead (`False`). Default: `True`
+        :param overwrite: If true, `bundle` is modified in-place;
+          if false, a copy of `bundle` modified and returned.  Default: `True`
         :return: The FHIR bundle with geocoded address(es).
         """
         if not overwrite:

@@ -11,7 +11,7 @@ def download_from_fhir_export_response(
     cred_manager: AzureCredentialManager,
 ) -> Iterator[Tuple[str, TextIO]]:
     """
-    Accept the export response content as specified here:
+    Accepts the export response content as specified here:
     https://hl7.org/fhir/uv/bulkdata/export/index.html#response---complete-status
 
     Loops through the "output" array and yields the resource_type (e.g. Patient)
@@ -41,7 +41,7 @@ def _download_export_blob(
     blob_url: str, cred_manager: AzureCredentialManager, encoding: str = "utf-8"
 ) -> TextIO:
     """
-    Download an export file blob.
+    Downloads an export file blob.
 
     :param blob_url: The blob URL location to download from blob storage.
     :param cred_manager: The credential manager used to authenticate to the
