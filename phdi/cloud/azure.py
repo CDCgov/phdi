@@ -66,11 +66,11 @@ class AzureCredentialManager(BaseCredentialManager):
 
     def _need_new_token(self) -> bool:
         """
-        Determine whether the token already stored for this object can be reused,
+        Determines whether the token already stored for this object can be reused,
         or if it needs to be re-requested. A new token is needed if a token has not
         yet been created, or if the current token has expired.
 
-        :return: Whether a new Azure access token is needed.
+        :return: True if a new Azure access token is needed; false otherwise.
         """
         try:
             current_time_utc = datetime.now(timezone.utc).timestamp()
@@ -147,7 +147,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         filename: str,
     ) -> None:
         """
-        Upload the content of a given message to Azure blob storage.
+        Uploads the content of a given message to Azure blob storage.
         The message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
@@ -184,7 +184,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
     def list_objects(self, container_name: str, prefix: str = "") -> List[str]:
         """
-        List names for objects within a container.
+        Lists names for objects within a container.
 
         :param container_name: The name of the container to look for objects.
         :param prefix: Filter the objects returned to filenames beginning

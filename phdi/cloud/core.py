@@ -51,7 +51,7 @@ class BaseCloudStorageConnection(ABC):
     ) -> None:
         """
         Uploads the content of a given message to blob storage.
-        The message can be passed either as a raw string or as JSON.
+        Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
           string or in a JSON format.
@@ -63,7 +63,7 @@ class BaseCloudStorageConnection(ABC):
     @abstractmethod
     def list_containers(self) -> List[str]:
         """
-        List names for this CloudContainerConnection's containers.
+        Lists names for this CloudContainerConnection's containers.
 
         :return: A list of container names.
         """
