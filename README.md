@@ -1,5 +1,6 @@
 # PRIME Public Health Data Infrastructure
-
+[![Test github badge](https://github.com/CDCgov/phdi/actions/workflows/test.yaml/badge.svg)](https://github.com/CDCgov/phdi/actions/workflows/test.yaml)
+[![codecov](https://codecov.io/gh/CDCgov/phdi/branch/main/graph/badge.svg)](https://codecov.io/gh/CDCgov/phdi)
 - [PRIME Public Health Data Infrastructure](#prime-public-health-data-infrastructure)
   - [Getting Started](#getting-started)
     - [How to import PHDI](#how-to-import-phdi)

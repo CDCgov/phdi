@@ -3,6 +3,7 @@ import os
 import yaml
 import pathlib
 from unittest import mock
+import pytest
 
 from phdi.tabulation import (
     load_schema,
@@ -17,6 +18,10 @@ def test_load_schema():
     ) == yaml.safe_load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
     )
+
+    # Test invalid schema file path
+    with pytest.raises(Exception):
+        load_schema("invalidPath")
 
 
 @mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
@@ -58,7 +63,7 @@ def test_write_schema_table_new_csv():
     output_file_name = "create_new.csv"
     file_format = "csv"
 
-    if os.path.isfile(output_file_name):
+    if os.path.isfile(output_file_name):  # pragma: no cover
         os.remove(output_file_name)
 
     write_table(data, output_file_name, file_format)
@@ -75,7 +80,7 @@ def test_write_schema_table_append_csv():
     output_file_name = "append.csv"
     file_format = "csv"
 
-    if os.path.isfile(output_file_name):
+    if os.path.isfile(output_file_name):  # pragma: no cover
         os.remove(output_file_name)
 
     # do it thrice to append
@@ -124,7 +129,7 @@ def test_print_schema_summary_csv(patched_os_walk, capsys):
     patched_os_walk.return_value = [("", None, ["print_schema.csv"])]
     schema_directory = mock.Mock()
 
-    if os.path.isfile(output_file_name):
+    if os.path.isfile(output_file_name):  # pragma: no cover
         os.remove(output_file_name)
 
     write_table(data, output_file_name, file_format)

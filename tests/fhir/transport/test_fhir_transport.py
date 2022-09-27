@@ -1,10 +1,17 @@
 import polling
 import pytest
+import re
 import requests
 
 from phdi.fhir.transport import http_request_with_reauth, export_from_fhir_server
 from phdi.fhir.transport.export import _compose_export_url
 from unittest import mock
+
+from phdi.fhir.transport.http import (
+    fhir_server_get,
+    upload_bundle_to_fhir_server,
+    _log_fhir_server_error,
+)
 
 
 @mock.patch("requests.Session")
@@ -88,6 +95,148 @@ def test_auth_retry_double_fail(patched_requests_session):
         url=url, headers={"Authorization": f"Bearer {mock_access_token_value2}"}
     )
     mock_requests_session_instance.get.call_count == 2
+
+
+@mock.patch("phdi.fhir.transport.http.http_request_with_reauth")
+def test_upload_bundle_to_fhir_server(patch_http_request):
+    bundle = {
+        "resourceType": "Bundle",
+        "entry": [{"resource": {"resourceType": "Patient"}}],
+    }
+
+    mock_response = {
+        "resourceType": "Bundle",
+        "entry": [
+            {"resource": {"resourceType": "Patient"}, "response": {"status": "200"}}
+        ],
+    }
+
+    fhir_url = "https://some-fhir-url"
+
+    patch_http_request.return_value = mock.Mock(
+        status_code=200, json=(lambda: mock_response)
+    )
+
+    cred_manager = mock.Mock(get_access_token=(lambda: "some-token"))
+
+    response = upload_bundle_to_fhir_server(
+        bundle=bundle, cred_manager=cred_manager, fhir_url=fhir_url
+    )
+
+    assert response.status_code == 200
+    assert response.json() == mock_response
+
+
+@mock.patch("phdi.fhir.transport.http.http_request_with_reauth")
+@mock.patch("phdi.fhir.transport.http._log_fhir_server_error")
+def test_upload_bundle_to_fhir_server_failure(patch_log_error, patch_http_request):
+    bundle = {
+        "resourceType": "Bundle",
+        "entry": [{"resource": {"resourceType": "Patient"}}],
+    }
+
+    fhir_url = "https://some-fhir-url"
+
+    patch_http_request.return_value = mock.Mock(status_code=400)
+
+    cred_manager = mock.Mock(get_access_token=(lambda: "some-token"))
+
+    response = upload_bundle_to_fhir_server(
+        bundle=bundle, cred_manager=cred_manager, fhir_url=fhir_url
+    )
+
+    assert response.status_code == 400
+
+    assert patch_log_error.called_with(400)
+
+
+@mock.patch("phdi.fhir.transport.http.http_request_with_reauth")
+@mock.patch("phdi.fhir.transport.http._log_fhir_server_error")
+def test_upload_bundle_to_fhir_server_embedded_failure(
+    patch_log_error, patch_http_request
+):
+    bundle = {
+        "resourceType": "Bundle",
+        "entry": [{"resource": {"resourceType": "Patient"}}],
+    }
+
+    mock_response = {
+        "resourceType": "Bundle",
+        "entry": [
+            {"resource": {"resourceType": "Patient"}, "response": {"status": "400"}}
+        ],
+    }
+
+    fhir_url = "https://some-fhir-url"
+
+    patch_http_request.return_value = mock.Mock(
+        status_code=200, json=(lambda: mock_response)
+    )
+
+    cred_manager = mock.Mock(get_access_token=(lambda: "some-token"))
+
+    response = upload_bundle_to_fhir_server(
+        bundle=bundle, cred_manager=cred_manager, fhir_url=fhir_url
+    )
+
+    assert response.status_code == 200
+    assert response.json() == mock_response
+
+    patch_log_error.assert_called_with(status_code=400, batch_entry_index=0)
+
+
+@mock.patch("phdi.fhir.transport.http.http_request_with_reauth")
+def test_fhir_server_get(patch_http_request):
+    fhir_url = "https://some-fhir-url/Patient/1"
+    access_token = "some-token"
+
+    mock_response = {"resourceType": "Patient", "id": 1}
+
+    patch_http_request.return_value = mock.Mock(
+        status_code=200, json=(lambda: mock_response)
+    )
+
+    cred_manager = mock.Mock(get_access_token=(lambda: access_token))
+
+    response = fhir_server_get(url=fhir_url, cred_manager=cred_manager)
+
+    assert response.status_code == 200
+    assert response.json() == mock_response
+
+
+@mock.patch("logging.error")
+def test_log_fhir_server_error(patch_log_error):
+    _log_fhir_server_error(200)
+    patch_log_error.assert_not_called()
+
+    _log_fhir_server_error(400)
+    assert re.fullmatch("^FHIR SERVER ERROR -.*400$", patch_log_error.call_args.args[0])
+
+    _log_fhir_server_error(401)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*401:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(403)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*403:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(404)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*404:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(410)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR -.*410:.*$", patch_log_error.call_args.args[0]
+    )
+
+    _log_fhir_server_error(410, 0)
+    assert re.fullmatch(
+        "^FHIR SERVER ERROR in zero-based message index 0 of FHIR batch -.*410:.*$",
+        patch_log_error.call_args.args[0],
+    )
 
 
 @mock.patch("requests.Session")
@@ -176,6 +325,43 @@ def test_export_from_fhir_server(mock_requests_session):
         ]
     )
     assert mock_requests_session_instance.get.call_count == 5
+
+
+@mock.patch("requests.Session")
+def test_export_from_fhir_server_failure(mock_requests_session):
+    mock_requests_session_instance = mock_requests_session.return_value
+
+    mock_access_token_value = "some-token"
+    mock_cred_manager = mock.Mock()
+    mock_cred_manager.get_access_token.return_value = mock_access_token_value
+
+    fhir_url = "https://fhir-url"
+
+    poll_step = 0.1
+    poll_timeout = 0.5
+
+    mock_export_response = mock.Mock()
+    mock_export_response.status_code = 202
+
+    mock_export_response.headers = {"Content-Location": "https://export-download-url"}
+
+    mock_export_download_response_failed = mock.Mock()
+    mock_export_download_response_failed.status_code = 400
+
+    mock_requests_session_instance.get.side_effect = [
+        mock_export_response,
+        mock_export_download_response_failed,
+    ]
+
+    with pytest.raises(requests.HTTPError):
+        export_from_fhir_server(
+            cred_manager=mock_cred_manager,
+            fhir_url=fhir_url,
+            poll_step=poll_step,
+            poll_timeout=poll_timeout,
+        )
+
+    assert mock_requests_session_instance.get.call_count == 2
 
 
 @mock.patch("requests.Session")
