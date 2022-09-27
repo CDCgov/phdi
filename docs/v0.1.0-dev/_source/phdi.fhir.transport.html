@@ -43,15 +43,15 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.export.export_from_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.export.</span></span><span class="sig-name descname"><span class="pre">export_from_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/export.html#export_from_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.export.export_from_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initiate a FHIR $export operation, and poll until it completes and return the
+<dd><p>Initiates a FHIR $export operation, polls until it completes, and returns the
 successful result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- The FHIR server base URL</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The FHIR server base URL.</p></li>
 <li><p><strong>export_scope</strong> (<em>str</em>) -- Either <cite>Patient</cite> or <cite>Group/[id]</cite> as specified in the FHIR spec
-(<a class="reference external" href="https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request">https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request</a>)</p></li>
+(<a class="reference external" href="https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request">https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request</a>).</p></li>
 <li><p><strong>since</strong> (<em>str</em>) -- A FHIR instant (<a class="reference external" href="https://build.fhir.org/datatypes.html#instant">https://build.fhir.org/datatypes.html#instant</a>)
 instructing the export to include only resources created or modified after the
 specified instant.</p></li>
@@ -81,7 +81,7 @@ as a dictionary.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.export.export_from_fhir_server_poll">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.export.</span></span><span class="sig-name descname"><span class="pre">export_from_fhir_server_poll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poll_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/export.html#export_from_fhir_server_poll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.export.export_from_fhir_server_poll" title="Permalink to this definition">¶</a></dt>
-<dd><p>Poll an endpoint to retrieve an export file after an export run has been initiated.</p>
+<dd><p>Polls an endpoint to retrieve an export file after an export run has been initiated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -115,7 +115,7 @@ status indicating in progress until the timeout is reached.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http.fhir_server_get">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.http.</span></span><span class="sig-name descname"><span class="pre">fhir_server_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#fhir_server_get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http.fhir_server_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Submit a GET request to a FHIR server given a url and access token for
+<dd><p>Submits a GET request to a FHIR server given a url and access token for
 authentication.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -136,10 +136,10 @@ authentication.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.http.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
-<dd><p>First, call <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
-failed with an authorization error (HTTP status 401), obtain a new token using the
-<cite>cred_manager</cite>, and if the original request had an Authorization header, replace
-with the new token and re-initiate
+<dd><p>First, calls <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
+failed with an authorization error (HTTP status 401), obtains a new token using the
+<cite>cred_manager</cite>. If the original request had an Authorization header, replaces
+it with the new token and re-initiates
 <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -169,7 +169,7 @@ posted. Default: <cite>None</cite></p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http.upload_bundle_to_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.http.</span></span><span class="sig-name descname"><span class="pre">upload_bundle_to_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#upload_bundle_to_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http.upload_bundle_to_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Import a FHIR resource bundle to the FHIR server.</p>
+<dd><p>Uploads a FHIR resource bundle to the FHIR server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -197,15 +197,15 @@ bundles.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.export_from_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">export_from_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/export.html#export_from_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.export_from_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initiate a FHIR $export operation, and poll until it completes and return the
+<dd><p>Initiates a FHIR $export operation, polls until it completes, and returns the
 successful result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
-<li><p><strong>fhir_url</strong> (<em>str</em>) -- The FHIR server base URL</p></li>
+<li><p><strong>fhir_url</strong> (<em>str</em>) -- The FHIR server base URL.</p></li>
 <li><p><strong>export_scope</strong> (<em>str</em>) -- Either <cite>Patient</cite> or <cite>Group/[id]</cite> as specified in the FHIR spec
-(<a class="reference external" href="https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request">https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request</a>)</p></li>
+(<a class="reference external" href="https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request">https://hl7.org/fhir/uv/bulkdata/export/index.html#bulk-data-kick-off-request</a>).</p></li>
 <li><p><strong>since</strong> (<em>str</em>) -- A FHIR instant (<a class="reference external" href="https://build.fhir.org/datatypes.html#instant">https://build.fhir.org/datatypes.html#instant</a>)
 instructing the export to include only resources created or modified after the
 specified instant.</p></li>
@@ -235,7 +235,7 @@ as a dictionary.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.fhir_server_get">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">fhir_server_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#fhir_server_get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.fhir_server_get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Submit a GET request to a FHIR server given a url and access token for
+<dd><p>Submits a GET request to a FHIR server given a url and access token for
 authentication.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -256,10 +256,10 @@ authentication.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
-<dd><p>First, call <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
-failed with an authorization error (HTTP status 401), obtain a new token using the
-<cite>cred_manager</cite>, and if the original request had an Authorization header, replace
-with the new token and re-initiate
+<dd><p>First, calls <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
+failed with an authorization error (HTTP status 401), obtains a new token using the
+<cite>cred_manager</cite>. If the original request had an Authorization header, replaces
+it with the new token and re-initiates
 <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -289,7 +289,7 @@ posted. Default: <cite>None</cite></p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.transport.upload_bundle_to_fhir_server">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">upload_bundle_to_fhir_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#upload_bundle_to_fhir_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.upload_bundle_to_fhir_server" title="Permalink to this definition">¶</a></dt>
-<dd><p>Import a FHIR resource bundle to the FHIR server.</p>
+<dd><p>Uploads a FHIR resource bundle to the FHIR server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

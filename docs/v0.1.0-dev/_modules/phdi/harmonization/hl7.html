@@ -40,14 +40,14 @@
 
 <div class="viewcode-block" id="standardize_hl7_datetimes"><a class="viewcode-back" href="../../../_source/phdi.harmonization.html#phdi.harmonization.hl7.standardize_hl7_datetimes">[docs]</a><span class="k">def</span> <span class="nf">standardize_hl7_datetimes</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Prepare an HL7 message for conversion by normalizing / sanitizing</span>
+<span class="sd">    Prepares an HL7 message for conversion by normalizing / sanitizing</span>
 <span class="sd">    fields that are known to contain datetime data in problematic formats. This</span>
 <span class="sd">    function helps messages conform to expectations.</span>
 
 <span class="sd">    This function accepts either segments terminated by `\\r` or `\\n`, but always</span>
 <span class="sd">    returns data with `\\n` as the segment terminator.</span>
 
-<span class="sd">    :param message: The raw HL7 message to sanitize</span>
+<span class="sd">    :param message: The raw HL7 message to sanitize.</span>
 <span class="sd">    :return: The HL7 message with potential problem formats resolved. If the function</span>
 <span class="sd">      is unable to parse a date, the original value is retained.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -116,7 +116,7 @@
     <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a batch file of messages into a list of strings</span>
+<span class="sd">    Converts a batch file of messages into a list of strings</span>
 <span class="sd">    representing parts of the message. This function is based</span>
 <span class="sd">    on the following header/tail segments:</span>
 
@@ -137,7 +137,7 @@
 <span class="sd">    }</span>
 <span class="sd">    [FTS] (file trailer segment)</span>
 
-<span class="sd">    We ignore lines that start with these header/tail segments since we don&#39;t want to</span>
+<span class="sd">    Ignores lines that start with these header/tail segments since we don&#39;t want to</span>
 <span class="sd">    include them in a message.</span>
 
 <span class="sd">    :param content: The batch content to turn into a list.</span>
@@ -181,7 +181,7 @@
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">segment_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Default a field value in an HL7 message.</span>
+<span class="sd">    Defaults a field value in an HL7 message.</span>
 
 <span class="sd">    This function accepts either segments terminated by `\\r` or `\\n`, but always</span>
 <span class="sd">    returns data with `\\n` as the segment terminator.</span>
@@ -233,7 +233,7 @@
     <span class="n">message</span><span class="p">:</span> <span class="n">hl7</span><span class="o">.</span><span class="n">Message</span><span class="p">,</span> <span class="n">segment_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_list</span><span class="p">:</span> <span class="nb">list</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Apply datetime normalization to multiple fields in a segment,</span>
+<span class="sd">    Applies datetime normalization to multiple fields in a segment,</span>
 <span class="sd">    overwriting values in the input segment as necessary.</span>
 
 <span class="sd">    :param message: The HL7 message, represented as a list</span>
@@ -262,7 +262,7 @@
 
 <div class="viewcode-block" id="normalize_hl7_datetime"><a class="viewcode-back" href="../../../_source/phdi.harmonization.html#phdi.harmonization.hl7.normalize_hl7_datetime">[docs]</a><span class="k">def</span> <span class="nf">normalize_hl7_datetime</span><span class="p">(</span><span class="n">hl7_datetime</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Split HL7 datetime-formatted fields into the following parts:</span>
+<span class="sd">    Splits HL7 datetime-formatted fields into the following parts:</span>
 <span class="sd">    &lt;integer 8+ digits&gt;[.&lt;integer 1+ digits&gt;][+/-&lt;integer 4+ digits&gt;]</span>
 
 <span class="sd">    Each group of integers is truncated to conform to the HL7</span>
@@ -303,8 +303,8 @@
 
 <span class="k">def</span> <span class="nf">_clean_hl7_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Clean a batch file by replacing Windows (CR-LF) newlines with</span>
-<span class="sd">    the specified newline delimiter (LF by default). Also, strip</span>
+<span class="sd">    Cleans a batch file by replacing Windows (CR-LF) newlines with</span>
+<span class="sd">    the specified newline delimiter (LF by default). Also, strips</span>
 <span class="sd">    vertical tab and file separator characters which can appear</span>
 <span class="sd">    in input batch file data.</span>
 

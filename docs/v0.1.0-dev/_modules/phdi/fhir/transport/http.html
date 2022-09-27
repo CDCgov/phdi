@@ -49,10 +49,10 @@
     <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    First, call :func:`phdi.transport.http.http_request_with_retry`. If the first call</span>
-<span class="sd">    failed with an authorization error (HTTP status 401), obtain a new token using the</span>
-<span class="sd">    `cred_manager`, and if the original request had an Authorization header, replace</span>
-<span class="sd">    with the new token and re-initiate</span>
+<span class="sd">    First, calls :func:`phdi.transport.http.http_request_with_retry`. If the first call</span>
+<span class="sd">    failed with an authorization error (HTTP status 401), obtains a new token using the</span>
+<span class="sd">    `cred_manager`. If the original request had an Authorization header, replaces</span>
+<span class="sd">    it with the new token and re-initiates</span>
 <span class="sd">    :func:`phdi.transport.http.http_request_with_retry`.</span>
 
 <span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
@@ -100,7 +100,7 @@
     <span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">:</span> <span class="n">BaseCredentialManager</span><span class="p">,</span> <span class="n">fhir_url</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Import a FHIR resource bundle to the FHIR server.</span>
+<span class="sd">    Uploads a FHIR resource bundle to the FHIR server.</span>
 
 <span class="sd">    :param bundle: A FHIR bundle (type &quot;batch&quot; or &quot;transaction&quot;) to post.  Each entry in</span>
 <span class="sd">      the bundle must contain a `request` element in addition to a `resource`.</span>
@@ -154,7 +154,7 @@
 
 <div class="viewcode-block" id="fhir_server_get"><a class="viewcode-back" href="../../../../_source/phdi.fhir.transport.html#phdi.fhir.transport.http.fhir_server_get">[docs]</a><span class="k">def</span> <span class="nf">fhir_server_get</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cred_manager</span><span class="p">:</span> <span class="n">BaseCredentialManager</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Submit a GET request to a FHIR server given a url and access token for</span>
+<span class="sd">    Submits a GET request to a FHIR server given a url and access token for</span>
 <span class="sd">    authentication.</span>
 
 <span class="sd">    :param url: A URL specifying a GET request on a FHIR server.</span>
@@ -179,7 +179,7 @@
 
 <span class="k">def</span> <span class="nf">_log_fhir_server_error</span><span class="p">(</span><span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_entry_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Log the error for a given an HTTP status code from a FHIR server&#39;s response.</span>
+<span class="sd">    Logs the error for a given an HTTP status code from a FHIR server&#39;s response.</span>
 
 <span class="sd">    :param status_code: The status code returned by a FHIR server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

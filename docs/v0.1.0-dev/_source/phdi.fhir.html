@@ -116,14 +116,14 @@ found in the input bundle.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.utils.get_field">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.get_field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find the first-occuring instance of the field in a given FHIR-
+<dd><p>Finds the first-occuring instance of the field in a given FHIR-
 formatted JSON dict, such that the instance is associated with
 a particular &quot;<cite>use</cite>&quot; of a given field (such as name or address).
 <cite>Use</cite> here refers to the FHIR-based usage of classifying how
-a value is used in reporting. For example, find the first name
+a value is used in reporting. For example, finds the first name
 for a patient that has a &quot;<cite>use</cite>&quot; of &quot;<cite>official</cite>&quot; (meaning the name
 is used for official reports). If no instance of a field with
-the requested use case can be found, instead return the specified
+the requested use case can be found, it instead returns the specified
 default value for the field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -149,7 +149,7 @@ use, or a default field value if a match couldn't be found.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.utils.get_one_line_address">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">get_one_line_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#get_one_line_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.get_one_line_address" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract a one-line string representation of an address from a
+<dd><p>Extracts a one-line string representation of an address from a
 JSON dictionary holding address information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

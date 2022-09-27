@@ -31,15 +31,17 @@
           <div class="body" role="main">
             
   <h1>Source code for phdi.cloud.gcp</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">BaseCredentialManager</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">BaseCredentialManager</span><span class="p">,</span> <span class="n">BaseCloudStorageConnection</span>
 <span class="kn">import</span> <span class="nn">google.auth</span>
 <span class="kn">import</span> <span class="nn">google.auth.transport.requests</span>
 <span class="kn">from</span> <span class="nn">google.auth.credentials</span> <span class="kn">import</span> <span class="n">Credentials</span>
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">storage</span>
 
 
 <div class="viewcode-block" id="GcpCredentialManager"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCredentialManager">[docs]</a><span class="k">class</span> <span class="nc">GcpCredentialManager</span><span class="p">(</span><span class="n">BaseCredentialManager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class provides a GCP-specific credential manager.</span>
+<span class="sd">    Provides a GCP-specific credential manager.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -56,7 +58,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a new GcpCredentialManager object.</span>
+<span class="sd">        Creates a new GcpCredentialManager object.</span>
 
 <span class="sd">        :param scope: A list of scopes to limit access to resource.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -69,7 +71,7 @@
 
 <div class="viewcode-block" id="GcpCredentialManager.get_credential_object"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCredentialManager.get_credential_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_credential_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Credentials</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a GCP-specific credential object.</span>
+<span class="sd">        Gets a GCP-specific credential object.</span>
 
 <span class="sd">        :return: A scoped instance of the Credentials class from google.auth</span>
 <span class="sd">            package, refreshed if necessary.</span>
@@ -88,7 +90,7 @@
 
 <div class="viewcode-block" id="GcpCredentialManager.get_project_id"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCredentialManager.get_project_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_project_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the ID of the current GCP project.</span>
+<span class="sd">        Gets the ID of the current GCP project.</span>
 
 <span class="sd">        :return: The current GCP project ID.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -101,7 +103,7 @@
 
 <div class="viewcode-block" id="GcpCredentialManager.get_access_token"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCredentialManager.get_access_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Obtain an access token from GCP.</span>
+<span class="sd">        Obtains an access token from GCP.</span>
 
 <span class="sd">        :return: The access token, refreshed if necessary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -114,6 +116,102 @@
         <span class="n">access_token</span> <span class="o">=</span> <span class="n">creds</span><span class="o">.</span><span class="n">token</span>
 
         <span class="k">return</span> <span class="n">access_token</span></div></div>
+
+
+<div class="viewcode-block" id="GcpCloudStorageConnection"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection">[docs]</a><span class="k">class</span> <span class="nc">GcpCloudStorageConnection</span><span class="p">(</span><span class="n">BaseCloudStorageConnection</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines a connection used for interacting with cloud storage in GCP.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">storage_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__storage_client</span>
+
+    <span class="k">def</span> <span class="nf">_get_storage_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtains a client connected to an GCP storage container by</span>
+<span class="sd">        utilizing the first valid credentials GCP can find. Credential validation</span>
+<span class="sd">        is handeled by GCP.</span>
+
+<span class="sd">        :return: The GCP storage client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__storage_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__storage_client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__storage_client</span>
+
+<div class="viewcode-block" id="GcpCloudStorageConnection.download_object"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.download_object">[docs]</a>    <span class="k">def</span> <span class="nf">download_object</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Downloads a character blob from storage and return it as a string.</span>
+
+<span class="sd">        :param container_name: The name of the bucket containing object to download.</span>
+<span class="sd">        :param filename: The location of file within GCP blob storage.</span>
+<span class="sd">        :param encoding: The encoding applied to the downloaded content.</span>
+<span class="sd">        :return: A character blob (as a string) from given bucket and filename.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">storage_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_storage_client</span><span class="p">()</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="n">storage_client</span><span class="o">.</span><span class="n">bucket</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">download_as_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GcpCloudStorageConnection.upload_object"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.upload_object">[docs]</a>    <span class="k">def</span> <span class="nf">upload_object</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">container_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Uploads the content of a given message to GCP blob storage.</span>
+<span class="sd">        The message can be passed either as a raw string or as JSON.</span>
+
+<span class="sd">        :param message: The contents of a message, encoded either as a</span>
+<span class="sd">          string or in a JSON format.</span>
+<span class="sd">        :param container_name: The name of the target bucket for upload.</span>
+<span class="sd">        :param filename: The location of file within GCP blob storage.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">storage_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_storage_client</span><span class="p">()</span>
+        <span class="n">bucket</span> <span class="o">=</span> <span class="n">storage_client</span><span class="o">.</span><span class="n">bucket</span><span class="p">(</span><span class="n">container_name</span><span class="p">)</span>
+
+        <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_string</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="n">content_type</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GcpCloudStorageConnection.list_containers"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.list_containers">[docs]</a>    <span class="k">def</span> <span class="nf">list_containers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists bucket names in storage.</span>
+
+<span class="sd">        :return: A list of bucket names in storage.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">storage_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_storage_client</span><span class="p">()</span>
+
+        <span class="n">bucket_name_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="n">storage_client</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">():</span>
+            <span class="n">bucket_name_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bucket</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bucket_name_list</span></div>
+
+<div class="viewcode-block" id="GcpCloudStorageConnection.list_objects"><a class="viewcode-back" href="../../../_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.list_objects">[docs]</a>    <span class="k">def</span> <span class="nf">list_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists names for objects within a bucket.</span>
+
+<span class="sd">        :param container_name: The name of the bucket to look for objects.</span>
+<span class="sd">        :param prefix: Filter the objects returned to filenames beginning</span>
+<span class="sd">          with this value.</span>
+<span class="sd">        :return: A list of names for objects in given bucket.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">storage_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_storage_client</span><span class="p">()</span>
+
+        <span class="n">blob_properties_generator</span> <span class="o">=</span> <span class="n">storage_client</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span>
+            <span class="n">container_name</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span>
+        <span class="p">)</span>
+
+        <span class="n">blob_name_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blob_propreties</span> <span class="ow">in</span> <span class="n">blob_properties_generator</span><span class="p">:</span>
+            <span class="n">blob_name_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blob_propreties</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">blob_name_list</span></div></div>
 </pre></div>
 
           </div>

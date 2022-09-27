@@ -40,10 +40,10 @@
     <span class="n">raw_country</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">code_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;alpha_2&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_3&quot;</span><span class="p">,</span> <span class="s2">&quot;numeric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alpha_2&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Identify the country represented and generate the desired type of the ISO</span>
+<span class="sd">    Identifies the country represented and generate the desired type of the ISO</span>
 <span class="sd">    3611 standardized country identifier for a given string representation of a country</span>
 <span class="sd">    (whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;</span>
-<span class="sd">    or &quot;USA&quot;). If the country identifier could not be determined, return None.</span>
+<span class="sd">    or &quot;USA&quot;). If the country identifier could not be determined, returns None.</span>
 
 <span class="sd">    Example: If raw_country = &quot;United States of America,&quot; then</span>
 
@@ -94,11 +94,10 @@
     <span class="n">raw_phone</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">countries</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;US&quot;</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parse phone number and generate its standardized ISO E.164 international format for</span>
-<span class="sd">    each given phone number and optional list of associated countries. If an input phone</span>
-<span class="sd">    number can&#39;t be parsed, that number will return the empty string. The function</span>
-<span class="sd">    attempts to parse the inputs using the first successful strategy out of the</span>
-<span class="sd">    following:</span>
+<span class="sd">    Parses phone number and generates its standardized ISO E.164 international format</span>
+<span class="sd">    for each given phone number and optional list of associated countries. If an input</span>
+<span class="sd">    phone number can&#39;t be parsed, that number returns the empty string. Attempts</span>
+<span class="sd">    to parse the inputs using the first successful strategy out of the following:</span>
 
 <span class="sd">    1. parse the phone number on its own</span>
 <span class="sd">    2. parse the phone number using the provided list of possible</span>
@@ -161,16 +160,17 @@
     <span class="n">remove_numbers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Perform basic standardization (described below) on each given name. All given input</span>
-<span class="sd">    strings have punctuation characters removed. A variety of additional</span>
-<span class="sd">    cleaning operations can be toggled on or off using the relevant parameter.</span>
+<span class="sd">    Performs basic standardization (described below) on each given name. Removes</span>
+<span class="sd">    punctuation characters and performs a variety of additional cleaning operations.</span>
+<span class="sd">    Other options can be toggled on or off using the relevant parameter.</span>
 
 <span class="sd">    All options specified will be applied uniformly to each input name,</span>
 <span class="sd">    i.e. specifying case = &quot;lower&quot; will make all given names lower case.</span>
 
 <span class="sd">    :param raw_name: Either a single string name or a list of strings,</span>
 <span class="sd">      each representing a name.</span>
-<span class="sd">    :param trim: Whether to strip leading/trailing whitespace. Default: `False`</span>
+<span class="sd">    :param trim: If true, strips leading/trailing whitespace;</span>
+<span class="sd">      if false, retains whitespace. Default: `True`</span>
 <span class="sd">    :param case: What case to enforce on each name.</span>
 
 <span class="sd">      * `upper`: All upper case</span>
@@ -178,7 +178,8 @@
 <span class="sd">      * `title`: Title case</span>
 
 <span class="sd">      Default: `upper`</span>
-<span class="sd">    :remove_numbers: Whether to remove numeric characters from inputs. Default `True`</span>
+<span class="sd">    :remove_numbers: If true, removes numeric characters from inputs;</span>
+<span class="sd">      if false, retains numeric characters. Default `True`</span>
 <span class="sd">    :return: Either a string or a list of strings, depending on the</span>
 <span class="sd">      input of raw_name, holding the cleaned name(s).</span>
 <span class="sd">    &quot;&quot;&quot;</span>

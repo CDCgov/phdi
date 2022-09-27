@@ -87,7 +87,7 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudContainerConnection">BaseCloudContainerConnection (class in phdi.cloud.core)</a>
+      <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudStorageConnection">BaseCloudStorageConnection (class in phdi.cloud.core)</a>
 </li>
       <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCredentialManager">BaseCredentialManager (class in phdi.cloud.core)</a>
 </li>
@@ -186,7 +186,9 @@
       <li><a href="_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.download_object">download_object() (phdi.cloud.azure.AzureCloudContainerConnection method)</a>
 
       <ul>
-        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudContainerConnection.download_object">(phdi.cloud.core.BaseCloudContainerConnection method)</a>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudStorageConnection.download_object">(phdi.cloud.core.BaseCloudStorageConnection method)</a>
+</li>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.download_object">(phdi.cloud.gcp.GcpCloudStorageConnection method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -227,6 +229,8 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection">GcpCloudStorageConnection (class in phdi.cloud.gcp)</a>
+</li>
       <li><a href="_source/phdi.cloud.html#phdi.cloud.gcp.GcpCredentialManager">GcpCredentialManager (class in phdi.cloud.gcp)</a>
 </li>
       <li><a href="_source/phdi.fhir.tabulation.html#phdi.fhir.tabulation.generate_all_tables_in_schema">generate_all_tables_in_schema() (in module phdi.fhir.tabulation)</a>
@@ -273,6 +277,8 @@
         <li><a href="_source/phdi.geospatial.html#phdi.geospatial.SmartyGeocodeClient.geocode_from_dict">(phdi.geospatial.SmartyGeocodeClient method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_source/phdi.geospatial.html#phdi.geospatial.BaseGeocodeClient.geocode_from_str">geocode_from_str() (phdi.geospatial.BaseGeocodeClient method)</a>
 
       <ul>
@@ -283,8 +289,6 @@
         <li><a href="_source/phdi.geospatial.html#phdi.geospatial.SmartyGeocodeClient.geocode_from_str">(phdi.geospatial.SmartyGeocodeClient method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_source/phdi.fhir.geospatial.html#phdi.fhir.geospatial.BaseFhirGeocodeClient.geocode_resource">geocode_resource() (phdi.fhir.geospatial.BaseFhirGeocodeClient method)</a>
 
       <ul>
@@ -364,7 +368,9 @@
       <li><a href="_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.list_containers">list_containers() (phdi.cloud.azure.AzureCloudContainerConnection method)</a>
 
       <ul>
-        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudContainerConnection.list_containers">(phdi.cloud.core.BaseCloudContainerConnection method)</a>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudStorageConnection.list_containers">(phdi.cloud.core.BaseCloudStorageConnection method)</a>
+</li>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.list_containers">(phdi.cloud.gcp.GcpCloudStorageConnection method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -372,7 +378,9 @@
       <li><a href="_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.list_objects">list_objects() (phdi.cloud.azure.AzureCloudContainerConnection method)</a>
 
       <ul>
-        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudContainerConnection.list_objects">(phdi.cloud.core.BaseCloudContainerConnection method)</a>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudStorageConnection.list_objects">(phdi.cloud.core.BaseCloudStorageConnection method)</a>
+</li>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.list_objects">(phdi.cloud.gcp.GcpCloudStorageConnection method)</a>
 </li>
       </ul></li>
       <li><a href="_source/phdi.geospatial.html#phdi.geospatial.core.GeocodeResult.lng">lng (phdi.geospatial.core.GeocodeResult attribute)</a>
@@ -841,6 +849,8 @@
       </ul></li>
       <li><a href="_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.storage_account_url">storage_account_url (phdi.cloud.azure.AzureCloudContainerConnection property)</a>
 </li>
+      <li><a href="_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.storage_client">storage_client (phdi.cloud.gcp.GcpCloudStorageConnection property)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -858,7 +868,9 @@
       <li><a href="_source/phdi.cloud.html#phdi.cloud.azure.AzureCloudContainerConnection.upload_object">upload_object() (phdi.cloud.azure.AzureCloudContainerConnection method)</a>
 
       <ul>
-        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudContainerConnection.upload_object">(phdi.cloud.core.BaseCloudContainerConnection method)</a>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.core.BaseCloudStorageConnection.upload_object">(phdi.cloud.core.BaseCloudStorageConnection method)</a>
+</li>
+        <li><a href="_source/phdi.cloud.html#phdi.cloud.gcp.GcpCloudStorageConnection.upload_object">(phdi.cloud.gcp.GcpCloudStorageConnection method)</a>
 </li>
       </ul></li>
   </ul></td>
