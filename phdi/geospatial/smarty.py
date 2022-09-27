@@ -38,15 +38,16 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_str(self, address: str) -> Union[GeocodeResult, None]:
         """
-        Geocode a string-formatted address using SmartyStreets. If the result
+        Geocodes a string-formatted address using SmartyStreets. If the result
         comes back valid, output is stored in a GeocodeResult object. If the
         result could not be latitude- or longitude-located, then Smarty failed
         to precisely geocode the address, so no result is returned. Raises
         an error if the provided address is empty.
 
-        :param address: The address to geocode, given as a string
+        :param address: The address to geocode, given as a string.
+        :raises ValueError: If address does not include street number and name.
         :return: A GeocodeResult object (if valid result) or None (if no valid
-          result)
+          result).
         """
 
         # The smarty Lookup class will parse a BadRequestError but retry
@@ -60,13 +61,14 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
     def geocode_from_dict(self, address: dict) -> Union[GeocodeResult, None]:
         """
-        Geocode a dictionary-formatted address using SmartyStreets.
-        If a result is found, encode as a GeocodeResult object and
+        Geocodes a dictionary-formatted address using SmartyStreets.
+        If a result is found, encodes as a GeocodeResult object and
         return, otherwise the return None.
 
-        :param address: a dictionary with fields outlined above
+        :param address: a dictionary with fields outlined above.
+        :raises ValueError: If address does not include street number and name.
         :return: A GeocodeResult object (if valid result) or None (if no valid
-          result)
+          result).
         """
 
         # Smarty geocode requests must include a street level
