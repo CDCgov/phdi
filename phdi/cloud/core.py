@@ -28,7 +28,9 @@ class BaseCredentialManager(ABC):
 
 class BaseCloudStorageConnection(ABC):
     @abstractmethod
-    def download_object(self, filename: str, encoding: str = "utf-8") -> str:
+    def download_object(
+        self, container_name: str, filename: str, encoding: str = "utf-8"
+    ) -> str:
         """
         Download a blob from storage.
 
@@ -44,6 +46,7 @@ class BaseCloudStorageConnection(ABC):
     def upload_object(
         self,
         message: Union[str, dict],
+        container_name: str,
         filename: str,
     ) -> None:
         """
