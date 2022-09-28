@@ -46,8 +46,8 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
         :param address: The address to geocode, given as a string.
         :raises ValueError: If address does not include street number and name.
-        :return: A GeocodeResult object (if valid result) or None (if no valid
-          result).
+        :return: A standardized address enriched with lat, lon, and more. Returns None
+            if no valid result.
         """
 
         # The smarty Lookup class will parse a BadRequestError but retry
@@ -67,8 +67,8 @@ class SmartyGeocodeClient(BaseGeocodeClient):
 
         :param address: a dictionary with fields outlined above.
         :raises ValueError: If address does not include street number and name.
-        :return: A GeocodeResult object (if valid result) or None (if no valid
-          result).
+        :return: A standardized address enriched with lat, lon, and more. Returns None
+            if no valid result.
         """
 
         # Smarty geocode requests must include a street level
@@ -100,8 +100,8 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         instead.
 
         :param lookup: The us_street.lookup client instantiated for geocoding
-        :return: A parsed GeocodeResult object (if valid result) or None (if
-          no valid result)
+        :return: A parsed and standardized address enriched with lat, lon, and more.
+            Returns None if no valid result.
         """
         # Valid responses have results with lat/long
         if lookup.result and lookup.result[0].metadata.latitude:

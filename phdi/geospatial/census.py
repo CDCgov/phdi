@@ -22,8 +22,8 @@ class CensusGeocodeClient(BaseGeocodeClient):
         :param address: The address to geocode, given as a string.
         :param searchtype: onelineaddress OR address # doesn't yet support coordinates.
         :raises ValueError: If address does not include street number and name.
-        :return: A GeocodeResult object (if valid result) or None (if no valid
-          result).
+        :return: A standardized address enriched with lat, lon, census tract, and more.
+            Returns None if no valid result.
         """
         # Check for street num and name at minimum
         if address == "":
@@ -58,8 +58,8 @@ class CensusGeocodeClient(BaseGeocodeClient):
 
         :param address: a dictionary with fields outlined above.
         :raises ValueError: If address does not include street number and name.
-        :return: A GeocodeResult object (if valid result) or None (if no valid
-          result).
+        :return: A standardized address enriched with lat, lon, census tract, and more.
+            Returns None if no valid result.
         """
 
         # Check for street num and name at minimum
@@ -173,8 +173,8 @@ class CensusGeocodeClient(BaseGeocodeClient):
         information, returns None instead.
 
         :param response: The Census API client instantiated for geocoding.
-        :return: A parsed GeocodeResult object (if valid result) or None (if
-          no valid result).
+        :return: A parsed and standardized address enriched with lat, lon, census tract,
+             and more. Returns None if no valid result.
         """
 
         if lookup is not None and lookup.get("addressMatches"):
