@@ -4,7 +4,7 @@ title: "[Affiliated Jurisdiction] Geocoding Beta Program"
 labels: ["geocoding-beta"]
 assignees:
   - millzpaugh
-  - NagelaNukuna
+  - nagelanukuna
 body:
   - type: markdown
     attributes:
@@ -52,5 +52,4 @@ body:
       description: "Please provide any additional context or questions you have here."
     validations:
       required: false
-    
   
