@@ -65,7 +65,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
         If a result is found, encodes as a GeocodeResult object and
         return, otherwise the return None.
 
-        :param address: a dictionary with fields outlined above.
+        :param address: A dictionary with fields outlined above.
         :raises ValueError: If address does not include street number and name.
         :return: A standardized address enriched with lat, lon, and more. Returns None
             if no valid result.

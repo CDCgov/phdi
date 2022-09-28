@@ -43,8 +43,6 @@ Read through the [Geospatial Tutorial](https://github.com/CDCgov/phdi/blob/main/
 - Census
     - No API key needed
     - Returned information includes standardized address, latitude, longitude, Census Tract, Census Block, and Census GEOID
-- Both Smarty and Census
-    - Partner will need to obtain a Smarty license (API key); see "Receiving a CDC subsidized Smarty license (API key)" section below for details
 
 **Receiving a CDC subsidized Smarty license (API key)**
 

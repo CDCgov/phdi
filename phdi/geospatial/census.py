@@ -56,7 +56,7 @@ class CensusGeocodeClient(BaseGeocodeClient):
         Street must be included to use this function; however, a minimum of street,
         city, and state are suggested for the best matches.
 
-        :param address: a dictionary with fields outlined above.
+        :param address: A dictionary with fields outlined above.
         :raises ValueError: If address does not include street number and name.
         :return: A standardized address enriched with lat, lon, census tract, and more.
             Returns None if no valid result.
@@ -83,7 +83,7 @@ class CensusGeocodeClient(BaseGeocodeClient):
         single line address, e.g, "100 5th Ave New York, NY" uses the "onelineaddress"
         searchtype while a dictionary formatted address uses the "address" searchtype.
 
-        :param address: The address to geocode, given as a string.
+        :param address: The address to geocode, given as a string or dictionary.
         :param searchtype: onelineaddress OR address.
         :raises ValueError: If address cannot be geocoded with specificity because it
             does not include city, state, and/or zipcode.
@@ -160,10 +160,10 @@ class CensusGeocodeClient(BaseGeocodeClient):
             http_header,
         )
 
-        if response.status_code < 400:
-            return response.json()["result"]
-        else:
+        if response.status_code != 200:
             raise requests.HTTPError(response=response)
+        else:
+            return response.json()["result"]
 
     @staticmethod
     def _parse_census_result(lookup) -> Union[GeocodeResult, None]:
