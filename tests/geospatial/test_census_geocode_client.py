@@ -1,9 +1,25 @@
-# from unittest import mock
 from phdi.geospatial.core import GeocodeResult
 from phdi.geospatial.census import CensusGeocodeClient
 import json
 import pathlib
 import pytest
+import requests
+
+
+def test_call_census_api():
+    bad_url = (
+        "https://geocoding.geo.census.gov/geocoder/geographies/"
+        + "onelineaddress?address="
+        + "&benchmark=Public_AR_Census2020"
+        + "&vintage=Census2020_Census2020"
+        + "&layers=[10]"
+        + "&format=json"
+    )
+
+    with pytest.raises(requests.HTTPError) as e:
+        CensusGeocodeClient._call_census_api(bad_url)
+
+    assert str(e) == "<ExceptionInfo HTTPError() tblen=2>"
 
 
 def test_parse_census_result_success():
