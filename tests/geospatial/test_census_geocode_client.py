@@ -26,7 +26,7 @@ def test_call_census_api(mock_request):
 
     with pytest.raises(requests.exceptions.HTTPError) as e:
         CensusGeocodeClient._call_census_api(url)
-        assert str(e) == "<ExceptionInfo HTTPError() tblen=2>"
+        assert "<ExceptionInfo HTTPError() tblen=2>" in str(e.value)
 
 
 def test_parse_census_result_success():
