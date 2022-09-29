@@ -36,6 +36,14 @@ Read through the [Geospatial Tutorial](https://github.com/CDCgov/phdi/blob/main/
 - Follow the “[Getting Started](https://github.com/CDCgov/phdi#getting-started)”  instructions to install the SDK in an appropriate Python environment. 
 - Read through the [Geospatial Tutorial](https://github.com/CDCgov/phdi/blob/main/tutorials/geospatial-tutorial.md) for more detail about using the geospatial module. 
 
+**Select a geocoding service**
+- Smarty
+    - Partner will need to obtain a Smarty license (API key); see "Receiving a CDC subsidized Smarty license (API key)" section below for details
+    - Returned information includes standardized address, latitude, and longitude 
+- Census
+    - No API key needed
+    - Returned information includes standardized address, latitude, longitude, Census Tract, Census Block, and Census GEOID
+
 **Receiving a CDC subsidized Smarty license (API key)**
 
 - Create a [ticket in the phdi repo](https://github.com/CDCgov/phdi/issues/new/choose) to request to become a Geocoding Beta partner. Creating this ticket will kick-off the process to retrieve a CDC-subsidized Smarty license.  

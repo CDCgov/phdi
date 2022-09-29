@@ -1,4 +1,5 @@
 from unittest import mock
+import pytest
 
 from smartystreets_python_sdk.us_street.candidate import Candidate
 from smartystreets_python_sdk.us_street.metadata import Metadata
@@ -163,15 +164,13 @@ def test_blank_geocode_inputs():
     smarty_client = SmartyGeocodeClient(auth_id, auth_token)
     assert smarty_client.client is not None
 
-    geocode_result = None
-    try:
-        geocode_result = smarty_client.geocode_from_str("")
-    except Exception as e:
-        assert repr(e) == "Exception('Cannot geocode an empty string')"
-        assert geocode_result is None
+    geocoded_response = None
+    with pytest.raises(ValueError) as e:
+        geocoded_response = smarty_client.geocode_from_str("")
+    assert "Address must include street number and name at a minimum" in str(e.value)
+    assert geocoded_response is None
 
-    try:
-        geocode_result = smarty_client.geocode_from_dict({})
-    except Exception as e:
-        assert repr(e) == "Exception('Must include street information at a minimum')"
-        assert geocode_result is None
+    with pytest.raises(ValueError) as e:
+        geocoded_response = smarty_client.geocode_from_dict({})
+    assert "Address must include street number and name at a minimum" in str(e.value)
+    assert geocoded_response is None
