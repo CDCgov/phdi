@@ -1,25 +1,32 @@
+# from urllib.error import HTTPError
 from phdi.geospatial.core import GeocodeResult
 from phdi.geospatial.census import CensusGeocodeClient
 import json
 import pathlib
+from unittest import mock
+from unittest.mock import patch
 import pytest
 import requests
 
 
-def test_call_census_api():
-    bad_url = (
+@patch("phdi.geospatial.census.http_request_with_retry")
+def test_call_census_api(mock_request):
+    mock_response = mock.Mock()
+    mock_response.status_code = 404
+    mock_request.return_value = mock_response
+
+    url = (
         "https://geocoding.geo.census.gov/geocoder/geographies/"
-        + "onelineaddress?address="
+        + "onelineaddress?address=239+Greene+St+New+York%2C+NY"
         + "&benchmark=Public_AR_Census2020"
         + "&vintage=Census2020_Census2020"
         + "&layers=[10]"
         + "&format=json"
     )
 
-    with pytest.raises(requests.HTTPError) as e:
-        CensusGeocodeClient._call_census_api(bad_url)
-
-    assert str(e) == "<ExceptionInfo HTTPError() tblen=2>"
+    with pytest.raises(requests.exceptions.HTTPError) as e:
+        CensusGeocodeClient._call_census_api(url)
+        assert str(e) == "<ExceptionInfo HTTPError() tblen=2>"
 
 
 def test_parse_census_result_success():
