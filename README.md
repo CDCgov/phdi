@@ -33,12 +33,12 @@ Our project is split up into two parts. Our FHIR supporting version and our gene
 
 Example import for FHIR:
 ```
- from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
+ from phdi.fhir.geospatial.census import CensusFhirGeocodeClient
 ```
 
 Example import for generic:
 ```
- from phdi.geospatial.smarty import SmartyGeocodeClient
+ from phdi.geospatial.census import CensusGeocodeClient
 ```
 
 Every building block has a FHIR counterpart that works well with FHIR bundles as inputs. The generic version is used for all other non-FHIR inputs.
