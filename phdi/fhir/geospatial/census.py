@@ -12,7 +12,7 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
     """
 
     def __init__(self):
-        self.__client = self.__client = ()
+        self.__client = CensusGeocodeClient()
 
     def geocode_resource(self, resource: dict, overwrite=True) -> dict:
         """
@@ -43,8 +43,8 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
         :param patient: The patient resource whose addresses should be geocoded.
         """
         for address in patient.get("address", []):
-            address_str = get_one_line_address(address)
-            standardized_address = self.__client.geocode_from_str(address_str)
+            onelineaddress = get_one_line_address(address)
+            standardized_address = self.__client.geocode_from_str(onelineaddress)
 
             # Update fields with new, standardized information
             if standardized_address:
