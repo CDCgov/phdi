@@ -94,7 +94,7 @@ class BaseFhirGeocodeClient(ABC):
             "valueString": census_tract,
         }
         element_counter = 0
-        if address.get("_line", "") is None:
+        if address.get("_line", "") is not None:
             address["_line"] = []
         while element_counter < len(address["line"]):
             try:
