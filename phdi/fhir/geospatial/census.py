@@ -55,6 +55,9 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
                 self._store_lat_long_extension(
                     address, standardized_address.lat, standardized_address.lng
                 )
+                self._store_census_tract_extension(
+                    address, standardized_address.census_tract
+                )
 
     def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
         """
