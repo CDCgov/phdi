@@ -52,7 +52,8 @@ def test_geocode_resource_census():
         {
             "extension": [
                 {
-                    "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
+                    "url": "http://hl7.org/fhir/StructureDefinition/"
+                    + "iso21090-ADXP-censusTract",
                     "valueString": "59",
                 }
             ]
@@ -116,7 +117,8 @@ def test_geocode_bundle_census():
         {
             "extension": [
                 {
-                    "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
+                    "url": "http://hl7.org/fhir/StructureDefinition"
+                    + "/iso21090-ADXP-censusTract",
                     "valueString": "59",
                 }
             ]
