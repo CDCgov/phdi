@@ -93,10 +93,10 @@ class BaseFhirGeocodeClient(ABC):
             "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
             "valueString": census_tract,
         }
-        element_counter = 0
-        if address.get("_line", "") is not None:
+
+        if address.get("_line") is None:
             address["_line"] = []
-        while element_counter < len(address["line"]):
+        for element_counter in range(len(address["line"])):
             try:
                 if address["_line"][element_counter].get("extension", "") is not None:
                     address["_line"][element_counter].get("extension").append(
@@ -107,4 +107,3 @@ class BaseFhirGeocodeClient(ABC):
                 address["_line"][element_counter].get("extension").append(
                     census_extension
                 )
-            element_counter += 1
