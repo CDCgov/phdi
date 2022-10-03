@@ -2,7 +2,6 @@ import copy
 
 from phdi.geospatial.census import CensusGeocodeClient
 from phdi.fhir.geospatial.core import BaseFhirGeocodeClient
-from phdi.fhir.utils import get_one_line_address
 
 
 class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
@@ -17,7 +16,8 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
     def geocode_resource(self, resource: dict, overwrite=True) -> dict:
         """
         Performs geocoding on one or more addresses in a given FHIR
-        resource and returns either the result or a copy thereof.
+        resource and returns either the result or a copy thereof. If overwrite == True,
+        the address line information is not overwritten.
         Currently supported resource types are:
 
             - Patient
@@ -28,27 +28,31 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
           over that instead. Defaults to True (write over given data).
         :return: Geocoded resource as a dict.
         """
+        # TODO: research additional APIs that return Apt (and other 2nd line addresses)
+        # so that address.line can be overwritten
         if not overwrite:
             resource = copy.deepcopy(resource)
 
         resource_type = resource.get("resourceType", "")
         if resource_type == "Patient":
-            self._geocode_patient_resource(resource)
+            self._geocode_patient_resource(resource, overwrite)
 
         return resource
 
-    def _geocode_patient_resource(self, patient: dict) -> None:
+    def _geocode_patient_resource(self, patient: dict, overwrite: bool) -> None:
         """
         Handles geocoding of all addresses in a given patient resource.
         :param patient: The patient resource whose addresses should be geocoded.
         """
         for address in patient.get("address", []):
-            onelineaddress = get_one_line_address(address)
-            standardized_address = self.__client.geocode_from_str(onelineaddress)
+            address["street"] = " ".join(item for item in address["line"])
+            standardized_address = self.__client.geocode_from_dict(address)
 
+            # Only update line field if not overwriting
+            if not overwrite:
+                address["line"] = standardized_address.line
             # Update fields with new, standardized information
             if standardized_address:
-                address["line"] = standardized_address.line
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
                 address["postalCode"] = standardized_address.postal_code
@@ -58,6 +62,9 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
                 self._store_census_tract_extension(
                     address, standardized_address.census_tract
                 )
+
+                # Remove dict entry needed only for geocode_from_dict()
+                del address["street"]
 
     def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
         """
@@ -77,6 +84,6 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
             bundle = copy.deepcopy(bundle)
 
         for entry in bundle.get("entry", []):
-            _ = self.geocode_resource(entry.get("resource", {}), overwrite=True)
+            self.geocode_resource(entry.get("resource", {}), overwrite=True)
 
         return bundle
