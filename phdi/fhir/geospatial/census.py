@@ -16,8 +16,9 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
     def geocode_resource(self, resource: dict, overwrite=True) -> dict:
         """
         Performs geocoding on one or more addresses in a given FHIR
-        resource and returns either the result or a copy thereof. If overwrite == True,
-        the address line information is not overwritten.
+        resource and returns either the result or a copy thereof. The original street
+        name, number, and any secondary address line information are returned in the
+        original form.
         Currently supported resource types are:
 
             - Patient
@@ -35,7 +36,7 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
 
         resource_type = resource.get("resourceType", "")
         if resource_type == "Patient":
-            self._geocode_patient_resource(resource, overwrite)
+            self._geocode_patient_resource(resource)
 
         return resource
 
