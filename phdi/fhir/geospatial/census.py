@@ -39,7 +39,7 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
 
         return resource
 
-    def _geocode_patient_resource(self, patient: dict, overwrite: bool) -> None:
+    def _geocode_patient_resource(self, patient: dict) -> None:
         """
         Handles geocoding of all addresses in a given patient resource.
         :param patient: The patient resource whose addresses should be geocoded.
@@ -48,11 +48,9 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
             address["street"] = " ".join(item for item in address["line"])
             standardized_address = self.__client.geocode_from_dict(address)
 
-            # Only update line field if not overwriting
-            if not overwrite:
-                address["line"] = standardized_address.line
             # Update fields with new, standardized information
             if standardized_address:
+                address["line"] = standardized_address.line
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
                 address["postalCode"] = standardized_address.postal_code
