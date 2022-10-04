@@ -40,7 +40,7 @@ def test_get_fhir_conversion_settings():
     settings = _get_fhir_conversion_settings(message)
     assert settings == {
         "root_template": "ProcedureNote",
-        "input_type": "Ccda",
+        "input_type": "ccda",
     }
 
     # CCDA case (using an adpated example found at
@@ -56,7 +56,7 @@ def test_get_fhir_conversion_settings():
     settings = _get_fhir_conversion_settings(message=message, use_default_ccda=True)
     assert settings == {
         "root_template": "CCD",
-        "input_type": "Ccda",
+        "input_type": "ccda",
     }
 
 
