@@ -5,6 +5,7 @@ import xml.etree.ElementTree as et
 from phdi.harmonization import standardize_hl7_datetimes
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
+from phdi.transport.http import http_request_with_retry
 
 
 CCDA_CODES_TO_CONVERSION_RESOURCE = {
@@ -22,70 +23,77 @@ CCDA_CODES_TO_CONVERSION_RESOURCE = {
 
 def convert_to_fhir(
     message: str,
-    cred_manager: BaseCredentialManager,
-    fhir_url: str,
+    url: str,
+    cred_manager: BaseCredentialManager = None,
+    headers: dict = {},
     use_default_ccda=False,
 ):
     """
-    Converts a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)
+    Converts a given message from either HL7 v2 (pipe-delimited flat file) or CCDA (XML)
     into FHIR format (JSON) for further processing using the FHIR server. Standardizes
     datetimes in HL7v2 messages before conversion.
 
-    The FHIR server may respond with a status code of 400 if the
-    message itself is invalid, such as containing improperly
-    formatted data. Otherwise, the FHIR server will respond
-    with a status code of 200 along with the converted FHIR data.
+    This function uses a containerized version of the
+    [Azure FHIR Converter](https://github.com/microsoft/FHIR-Converter).
 
-    :param message: The raw message that needs to be converted to FHIR.
-      Must be HL7v2 or CCDA.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :param fhir_url: A URL that points to the location of the FHIR server.
-    :param use_default_ccda: If true, default to the base "CCD" template
-      if a resources's LOINC code doesn't map to a specific supported template.
-      Default: `False`
-    :return: A `requests.Response` object containing the response from
-      the FHIR converter.
+    The converter service will respond with a status code of 400 if the
+    message itself is invalid, such as containing improperly
+    formatted timestamps. Otherwise, the it will respond
+    with the converted FHIR data. In either case, a
+    `requests.Response` object will be returned.
+
+
+    :param message: The raw message that needs to be converted to
+      FHIR. Currently, only HL7v2 or CCDA are supported.
+    :param url: A URL that points to the location of the converter API.
+    :param cred_manager: Service used to get an access token used to
+      make a request.
+    :param headers: JSON-type dictionary of headers to make the request with.
+    :param use_default_ccda: Whether to default to the
+      base "CCD" root template if a resource's LOINC code doesn't
+      map to a specific supported template (Optional, default is No)
+    :return: A requests.Response object
 
     """
+    # TODO Update documentation with a link to the containerized FHIR converter, once
+    # it's been ported over to the phdi repository.
+
     conversion_settings = _get_fhir_conversion_settings(message, use_default_ccda)
-    if conversion_settings.get("input_data_type") == "HL7v2":
+    if conversion_settings.get("input_type") == "hl7v2":
         message = standardize_hl7_datetimes(message)
 
-    url = f"{fhir_url}/$convert-data"
+    url = f"{url}"
     data = {
-        "resourceType": "Parameters",
-        "parameter": [
-            {"name": "inputData", "valueString": message},
-            {
-                "name": "inputDataType",
-                "valueString": conversion_settings.get("input_data_type"),
-            },
-            {
-                "name": "templateCollectionReference",
-                "valueString": conversion_settings.get("template_collection"),
-            },
-            {
-                "name": "rootTemplate",
-                "valueString": conversion_settings.get("root_template"),
-            },
-        ],
+        "input_data": message,
+        "input_type": conversion_settings.get("input_type"),
+        "root_template": conversion_settings.get("root_template"),
     }
-    access_token = cred_manager.get_access_token().token
-    headers = {"Authorization": f"Bearer {access_token}"}
 
-    response = http_request_with_reauth(
-        cred_manager=cred_manager,
-        url=url,
-        retry_count=3,
-        request_type="POST",
-        allowed_methods=["POST"],
-        headers=headers,
-        data=data,
-    )
+    if cred_manager:
+        access_token = cred_manager.get_access_token().token
+        headers["Authorization"] = f"Bearer {access_token}"
+        response = http_request_with_reauth(
+            cred_manager=cred_manager,
+            url=url,
+            retry_count=3,
+            request_type="POST",
+            allowed_methods=["POST"],
+            headers=headers,
+            data=data,
+        )
+    else:
+        response = http_request_with_retry(
+            url=url,
+            retry_count=3,
+            request_type="POST",
+            allowed_methods=["POST"],
+            headers=headers,
+            data=data,
+        )
 
     if response.status_code != 200:
         raise Exception(
-            f"HTTP {str(response.status_code)} code encountered in $convert-data for a message"  # noqa
+            f"HTTP {str(response.status_code)} code encountered during conversion request"  # noqa
         )
     return response
 
@@ -132,8 +140,7 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
 
         return {
             "root_template": formatted_code,
-            "input_data_type": "HL7v2",
-            "template_collection": "microsofthealth/fhirconverter:default",
+            "input_type": "hl7v2",
         }
 
     # Others conform to C-CDA standards (e.g. ECR)
@@ -156,15 +163,13 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
                     root_template = CCDA_CODES_TO_CONVERSION_RESOURCE[ccda_code]
                     return {
                         "root_template": root_template,
-                        "input_data_type": "Ccda",
-                        "template_collection": "microsofthealth/ccdatemplates:default",
+                        "input_type": "ccda",
                     }
                 except KeyError:
                     if use_default_ccda:
                         return {
                             "root_template": "CCD",
-                            "input_data_type": "Ccda",
-                            "template_collection": "microsofthealth/ccdatemplates:default",  # noqa
+                            "input_type": "ccda",
                         }
                     else:
                         raise KeyError(
