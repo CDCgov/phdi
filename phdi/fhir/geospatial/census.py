@@ -51,7 +51,6 @@ class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
 
             # Update fields with new, standardized information
             if standardized_address:
-                address["line"] = standardized_address.line
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
                 address["postalCode"] = standardized_address.postal_code
