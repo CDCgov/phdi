@@ -51,13 +51,16 @@
                         "state": "NY",
                         "postalCode": "10003",
                         "country": "USA",
-                        "use": "home"
-                    },
-                    {
+                        "use": "home",
                         "_line": [
                             {
-                                "extension": "existing extension"
-                            }
+                                "extension": [
+                                    {
+                                        "existing_url": "existing_extension"
+                                    }
+                                ]
+                            },
+                            null
                         ]
                     }
                 ],
