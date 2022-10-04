@@ -1,3 +1,4 @@
+from unittest import mock
 import json
 import pathlib
 import copy
@@ -69,6 +70,8 @@ def test_geocode_resource_census():
             ]
         },
     )
+    census_client.geocode_from_str = mock.Mock()
+    census_client.geocode_from_str.return_value = geocoded_response
 
     # Case 1: Overwrite = False
     returned_patient = census_client.geocode_resource(patient, overwrite=False)
@@ -209,6 +212,9 @@ def test_geocode_bundle_census():
             ]
         },
     )
+
+    census_client.geocode_from_str = mock.Mock()
+    census_client.geocode_from_str.return_value = geocoded_response
 
     returned_bundle = census_client.geocode_bundle(bundle, overwrite=False)
     assert standardized_bundle == returned_bundle
