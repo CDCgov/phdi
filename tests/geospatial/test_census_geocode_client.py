@@ -1,4 +1,3 @@
-# from urllib.error import HTTPError
 from phdi.geospatial.core import GeocodeResult
 from phdi.geospatial.census import CensusGeocodeClient
 import json
@@ -40,7 +39,7 @@ def test_parse_census_result_success():
 
     encoded_result = CensusGeocodeClient._parse_census_result(censusResponseFullAddress)
 
-    assert encoded_result.line == ["239 GREENE ST", "NEW YORK", "NY", "10003"]
+    assert encoded_result.line == ["239 GREENE ST"]
     assert encoded_result.city == "NEW YORK"
     assert encoded_result.state == "NY"
     assert encoded_result.lat == 40.72962831414409
@@ -74,7 +73,7 @@ def test_geocode_from_str():
     address = "659 Centre St, Boston, MA 02130"
 
     geocoded_response = GeocodeResult(
-        line=["659 CENTRE ST", "BOSTON", "MA", "02130"],
+        line=["659 CENTRE ST"],
         city="BOSTON",
         state="MA",
         postal_code="02130",
@@ -115,7 +114,7 @@ def test_geocode_from_dict():
     }
 
     geocoded_response = GeocodeResult(
-        line=["239 GREENE ST", "NEW YORK", "NY", "10003"],
+        line=["239 GREENE ST"],
         city="NEW YORK",
         state="NY",
         postal_code="10003",
