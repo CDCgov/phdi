@@ -76,6 +76,6 @@ def get_one_line_address(address: dict) -> str:
     """
     raw_one_line = " ".join(address.get("line", []))
     raw_one_line += f" {address.get('city')}, {address.get('state')}"
-    if "postalCode" in address and address["postalCode"]:
+    if address.get("postalCode", ""):
         raw_one_line += f" {address['postalCode']}"
     return raw_one_line

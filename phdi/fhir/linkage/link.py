@@ -57,13 +57,19 @@ def add_patient_identifier(
         patient_resource = copy.deepcopy(patient_resource)
 
     # Combine given and family name
-    recent_name = get_field(patient_resource, "name", "official", 0)
+    recent_name = (
+        get_field(patient_resource, field="name", use="official", require_use=False)
+        or {}
+    )
     name_parts = recent_name.get("given", []) + [recent_name.get("family", "")]
     name_str = "-".join([n for n in name_parts if n])
 
     address_line = ""
     if "address" in patient_resource:
-        address = get_field(patient_resource, "address", "home", 0)
+        address = (
+            get_field(patient_resource, field="address", use="home", require_use=False)
+            or {}
+        )
         address_line = get_one_line_address(address)
 
     # TODO Determine if minimum quality criteria should be included, such as min
