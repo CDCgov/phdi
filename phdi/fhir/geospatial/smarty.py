@@ -20,10 +20,10 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
     @property
     def geocode_client(self) -> us_street.Client:
         """
-        An instance of the underlying Smarty client. This
-        allows the FHIR wrapper to access a SmartyStreets-
+        An instance of the underlying Smarty client.
+        Allows the FHIR wrapper to access a SmartyStreets-
         specific connection client without instantiating its own
-        copy. It also provides access to the respective `geocode_from_str`
+        copy. Provides access to the respective `geocode_from_str`
         and `geocode_from_dict` methods if they're desired.
         """
         return self.__client

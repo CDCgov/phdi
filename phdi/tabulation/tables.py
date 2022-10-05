@@ -39,7 +39,7 @@ def write_table(
     file of a particular type.
 
     :param data: A list of dictionaries representing the table's data.
-      Each dictictionary represents one row in the resulting table. The
+      Each dictionary represents one row in the resulting table. The
       keys serve as the table's columns, and the values represent the
       entry for that column in the row given by a particular dict.
     :param output_file_name: The full name for the file where the table

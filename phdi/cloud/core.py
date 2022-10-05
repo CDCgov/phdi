@@ -51,7 +51,7 @@ class BaseCloudStorageConnection(ABC):
     ) -> None:
         """
         Uploads the content of a given message to blob storage.
-        Message can be passed either as a raw string or as JSON.
+        The message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
           string or in a JSON format.

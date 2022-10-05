@@ -150,7 +150,7 @@ def generate_all_tables_in_schema(
     cred_manager: BaseCredentialManager,
 ) -> None:
     """
-    Queries a FHIR server for information, and generates and store the tables in the
+    Queries a FHIR server for information, and generates and stores the tables in the
     desired location, according to the supplied schema.
 
     :param schema_path: A path to the location of a YAML schema config file.

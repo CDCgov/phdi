@@ -28,7 +28,7 @@ def convert_to_fhir(
 ):
     """
     Converts a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)
-    into FHIR format (JSON) for further processing using the FHIR server. Standardize
+    into FHIR format (JSON) for further processing using the FHIR server. Standardizes
     datetimes in HL7v2 messages before conversion.
 
     The FHIR server may respond with a status code of 400 if the
@@ -40,9 +40,9 @@ def convert_to_fhir(
       Must be HL7v2 or CCDA.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param fhir_url: A URL that points to the location of the FHIR server.
-    :param use_default_ccda: Whether to default to the
-      base "CCD" root template if a resource's LOINC code doesn't
-      map to a specific supported template. Default: `False`
+    :param use_default_ccda: If true, default to the base "CCD" template
+      if a resources's LOINC code doesn't map to a specific supported template.
+      Default: `False`
     :return: A `requests.Response` object containing the response from
       the FHIR converter.
 
