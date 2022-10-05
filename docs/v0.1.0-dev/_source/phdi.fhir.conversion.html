@@ -44,7 +44,7 @@
 <dt class="sig sig-object py" id="phdi.fhir.conversion.convert.convert_to_fhir">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.conversion.convert.</span></span><span class="sig-name descname"><span class="pre">convert_to_fhir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_default_ccda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/conversion/convert.html#convert_to_fhir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.conversion.convert.convert_to_fhir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)
-into FHIR format (JSON) for further processing using the FHIR server. Standardize
+into FHIR format (JSON) for further processing using the FHIR server. Standardizes
 datetimes in HL7v2 messages before conversion.</p>
 <p>The FHIR server may respond with a status code of 400 if the
 message itself is invalid, such as containing improperly
@@ -57,9 +57,9 @@ with a status code of 200 along with the converted FHIR data.</p>
 Must be HL7v2 or CCDA.</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 <li><p><strong>fhir_url</strong> (<em>str</em>) -- A URL that points to the location of the FHIR server.</p></li>
-<li><p><strong>use_default_ccda</strong> -- Whether to default to the
-base &quot;CCD&quot; root template if a resource's LOINC code doesn't
-map to a specific supported template. Default: <cite>False</cite></p></li>
+<li><p><strong>use_default_ccda</strong> -- If true, default to the base &quot;CCD&quot; template
+if a resources's LOINC code doesn't map to a specific supported template.
+Default: <cite>False</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -76,7 +76,7 @@ the FHIR converter.</p>
 <dt class="sig sig-object py" id="phdi.fhir.conversion.convert_to_fhir">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.conversion.</span></span><span class="sig-name descname"><span class="pre">convert_to_fhir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fhir_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_default_ccda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/conversion/convert.html#convert_to_fhir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.conversion.convert_to_fhir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)
-into FHIR format (JSON) for further processing using the FHIR server. Standardize
+into FHIR format (JSON) for further processing using the FHIR server. Standardizes
 datetimes in HL7v2 messages before conversion.</p>
 <p>The FHIR server may respond with a status code of 400 if the
 message itself is invalid, such as containing improperly
@@ -89,9 +89,9 @@ with a status code of 200 along with the converted FHIR data.</p>
 Must be HL7v2 or CCDA.</p></li>
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 <li><p><strong>fhir_url</strong> (<em>str</em>) -- A URL that points to the location of the FHIR server.</p></li>
-<li><p><strong>use_default_ccda</strong> -- Whether to default to the
-base &quot;CCD&quot; root template if a resource's LOINC code doesn't
-map to a specific supported template. Default: <cite>False</cite></p></li>
+<li><p><strong>use_default_ccda</strong> -- If true, default to the base &quot;CCD&quot; template
+if a resources's LOINC code doesn't map to a specific supported template.
+Default: <cite>False</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

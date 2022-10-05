@@ -63,7 +63,7 @@
 <span class="sd">          1. defines a private instance variable __client</span>
 <span class="sd">          2. makes it accessible through the use of .client()</span>
 
-<span class="sd">        This property holds a Smarty-specific connection client</span>
+<span class="sd">        This property holds a Smarty-specific connection client that</span>
 <span class="sd">        allows a user to geocode without directly referencing the</span>
 <span class="sd">        underlying vendor service client.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -72,19 +72,19 @@
 <div class="viewcode-block" id="SmartyGeocodeClient.geocode_from_str"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_str">[docs]</a>    <span class="k">def</span> <span class="nf">geocode_from_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeocodeResult</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Geocodes the provided address, which is formatted as a string. If the</span>
-<span class="sd">        result could not be latitude- or longitude-located, then Smarty failed</span>
+<span class="sd">        result cannot be latitude- or longitude-located, then Smarty failed</span>
 <span class="sd">        to precisely geocode the address, so no result is returned. Raises</span>
 <span class="sd">        an error if the provided address is empty.</span>
 
 <span class="sd">        :param address: The address to geocode, given as a string.</span>
-<span class="sd">        :raises Exception: When the address is an empty string.</span>
+<span class="sd">        :raises ValueError: When the address does not include street number and name.</span>
 <span class="sd">        :return: A geocoded address (if valid result) or None (if no valid result).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># The smarty Lookup class will parse a BadRequestError but retry</span>
         <span class="c1"># 5 times if the lookup address is blank, so catch that here</span>
         <span class="k">if</span> <span class="n">address</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot geocode an empty string&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Address must include street number and name at a minimum&quot;</span><span class="p">)</span>
 
         <span class="n">lookup</span> <span class="o">=</span> <span class="n">Lookup</span><span class="p">(</span><span class="n">street</span><span class="o">=</span><span class="n">address</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__client</span><span class="o">.</span><span class="n">send_lookup</span><span class="p">(</span><span class="n">lookup</span><span class="p">)</span>
@@ -118,7 +118,7 @@
         <span class="c1"># Smarty geocode requests must include a street level</span>
         <span class="c1"># field in the payload, otherwise generates BadRequestError</span>
         <span class="k">if</span> <span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;street&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Must include street information at a minimum&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Address must include street number and name at a minimum&quot;</span><span class="p">)</span>
 
         <span class="c1"># Configure the lookup with whatever provided address values</span>
         <span class="c1"># were in the user-given dictionary</span>

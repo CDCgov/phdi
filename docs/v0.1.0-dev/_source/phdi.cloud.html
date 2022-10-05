@@ -166,8 +166,9 @@ string or a JSON-formatted dictionary.</p></li>
 access token string, refreshed if expired or force_refresh is specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em>) -- Whether to force token refresh even if the
-current token is still valid. Default: <cite>False</cite></p>
+<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em>) -- If true, a new token should be requested, regardless
+of expiration timestamp; if false, only refresh expired tokens.
+Default: <cite>False</cite></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>An Azure access token.</p>
@@ -273,7 +274,7 @@ with this value.</p></li>
 <dt class="sig sig-object py" id="phdi.cloud.core.BaseCloudStorageConnection.upload_object">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upload_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/core.html#BaseCloudStorageConnection.upload_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.core.BaseCloudStorageConnection.upload_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Uploads the content of a given message to blob storage.
-Message can be passed either as a raw string or as JSON.</p>
+The message can be passed either as a raw string or as JSON.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -337,7 +338,7 @@ string or in a JSON format.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.cloud.gcp.GcpCloudStorageConnection.download_object">
 <span class="sig-name descname"><span class="pre">download_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/cloud/gcp.html#GcpCloudStorageConnection.download_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.cloud.gcp.GcpCloudStorageConnection.download_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Downloads a character blob from storage and return it as a string.</p>
+<dd><p>Downloads a character blob from storage and returns it as a string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

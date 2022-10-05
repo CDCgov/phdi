@@ -47,7 +47,7 @@
 <p>Represents a vendor-agnostic geocoder client designed to process
 FHIR-based data. Implementing classes should define methods to
 geocode from both bundles and resources. Callers should use the
-provided interface functions (e.g. geocode_resource) to interact with
+provided interface functions (e.g., geocode_resource) to interact with
 the underlying vendor-specific client property.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.core.BaseFhirGeocodeClient.geocode_bundle">
@@ -135,10 +135,10 @@ if false, a copy of <cite>bundle</cite> modified and returned.  Default: <cite>T
 <dl class="py property">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_client">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geocode_client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">smartystreets_python_sdk.us_street.client.Client</span></em><a class="headerlink" href="#phdi.fhir.geospatial.smarty.SmartyFhirGeocodeClient.geocode_client" title="Permalink to this definition">¶</a></dt>
-<dd><p>An instance of the underlying Smarty client. This
-allows the FHIR wrapper to access a SmartyStreets-
+<dd><p>An instance of the underlying Smarty client.
+Allows the FHIR wrapper to access a SmartyStreets-
 specific connection client without instantiating its own
-copy. It also provides access to the respective <cite>geocode_from_str</cite>
+copy. Provides access to the respective <cite>geocode_from_str</cite>
 and <cite>geocode_from_dict</cite> methods if they're desired.</p>
 </dd></dl>
 
@@ -180,7 +180,7 @@ if false, a copy of <cite>resource</cite> modified and returned.  Default: <cite
 <p>Represents a vendor-agnostic geocoder client designed to process
 FHIR-based data. Implementing classes should define methods to
 geocode from both bundles and resources. Callers should use the
-provided interface functions (e.g. geocode_resource) to interact with
+provided interface functions (e.g., geocode_resource) to interact with
 the underlying vendor-specific client property.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.BaseFhirGeocodeClient.geocode_bundle">
@@ -265,10 +265,10 @@ if false, a copy of <cite>bundle</cite> modified and returned.  Default: <cite>T
 <dl class="py property">
 <dt class="sig sig-object py" id="phdi.fhir.geospatial.SmartyFhirGeocodeClient.geocode_client">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geocode_client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">smartystreets_python_sdk.us_street.client.Client</span></em><a class="headerlink" href="#phdi.fhir.geospatial.SmartyFhirGeocodeClient.geocode_client" title="Permalink to this definition">¶</a></dt>
-<dd><p>An instance of the underlying Smarty client. This
-allows the FHIR wrapper to access a SmartyStreets-
+<dd><p>An instance of the underlying Smarty client.
+Allows the FHIR wrapper to access a SmartyStreets-
 specific connection client without instantiating its own
-copy. It also provides access to the respective <cite>geocode_from_str</cite>
+copy. Provides access to the respective <cite>geocode_from_str</cite>
 and <cite>geocode_from_dict</cite> methods if they're desired.</p>
 </dd></dl>
 

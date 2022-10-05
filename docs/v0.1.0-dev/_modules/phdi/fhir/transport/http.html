@@ -50,17 +50,17 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    First, calls :func:`phdi.transport.http.http_request_with_retry`. If the first call</span>
-<span class="sd">    failed with an authorization error (HTTP status 401), obtains a new token using the</span>
+<span class="sd">    fails with an authorization error (HTTP status 401), obtains a new token using the</span>
 <span class="sd">    `cred_manager`. If the original request had an Authorization header, replaces</span>
 <span class="sd">    it with the new token and re-initiates</span>
 <span class="sd">    :func:`phdi.transport.http.http_request_with_retry`.</span>
 
 <span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
 <span class="sd">    :param url: The url at which to make the HTTP request.</span>
-<span class="sd">    :param retry_count: The number of times to re-try the request, if the</span>
+<span class="sd">    :param retry_count: The number of times to retry the request, if the</span>
 <span class="sd">      first attempt fails.</span>
 <span class="sd">    :param request_type: The type of request to be made.</span>
-<span class="sd">    :param allowed_methods: The list of allowed HTTP request methods (i.e.</span>
+<span class="sd">    :param allowed_methods: The list of allowed HTTP request methods (i.e.,</span>
 <span class="sd">      POST, PUT, etc.) for the specific URL and query.</span>
 <span class="sd">    :param headers: JSON-type dictionary of headers to make the request with,</span>
 <span class="sd">      including Authorization and content-type.</span>

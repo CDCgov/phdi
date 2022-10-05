@@ -4,6 +4,14 @@ phdi.geospatial package
 Submodules
 ----------
 
+phdi.geospatial.census module
+-----------------------------
+
+.. automodule:: phdi.geospatial.census
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 phdi.geospatial.core module
 ---------------------------
 

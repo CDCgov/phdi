@@ -120,11 +120,11 @@
 <span class="sd">    representing parts of the message. This function is based</span>
 <span class="sd">    on the following header/tail segments:</span>
 
-<span class="sd">    * FHS is a &quot;File Header Segment&quot;, which is used to head a file</span>
+<span class="sd">    * FHS is a &quot;File Header Segment,&quot; which is used to head a file</span>
 <span class="sd">        (group of batches)</span>
-<span class="sd">    * FTS is a &quot;File Trailer Segment&quot;, which defines the end of a file</span>
-<span class="sd">    * BHS is &quot;Batch Header Segment&quot;, which defines the start of a batch</span>
-<span class="sd">    * BTS is &quot;Batch Trailer Segment&quot;, which defines the end of a batch</span>
+<span class="sd">    * FTS is a &quot;File Trailer Segment,&quot; which defines the end of a file</span>
+<span class="sd">    * BHS is &quot;Batch Header Segment,&quot; which defines the start of a batch</span>
+<span class="sd">    * BTS is &quot;Batch Trailer Segment,&quot; which defines the end of a batch</span>
 
 <span class="sd">    The structure of an HL7 Batch looks like this:</span>
 <span class="sd">    [FHS] (file header segment) { [BHS] (batch header segment)</span>
@@ -186,7 +186,7 @@
 <span class="sd">    This function accepts either segments terminated by `\\r` or `\\n`, but always</span>
 <span class="sd">    returns data with `\\n` as the segment terminator.</span>
 
-<span class="sd">    :param message: A string representing the HL7 message use to modify</span>
+<span class="sd">    :param message: A string representing the HL7 message used to modify</span>
 <span class="sd">      a value.</span>
 <span class="sd">    :param segment_id: The segment type (MSH, PID, etc) of the field to replace.</span>
 <span class="sd">    :param field_num: The field number to replace in the segment named by `segment_id`.</span>
@@ -267,6 +267,7 @@
 
 <span class="sd">    Each group of integers is truncated to conform to the HL7</span>
 <span class="sd">    specification:</span>
+
 <span class="sd">    - first integer group: max 14 digits</span>
 <span class="sd">    - following decimal point: max 4 digits</span>
 <span class="sd">    - following +/- (timezone): 4 digits</span>
@@ -275,7 +276,7 @@
 <span class="sd">    cloud providers that have particular requirements for dates.</span>
 
 <span class="sd">    :param hl7_datetime: The raw datetime string to clean.</span>
-<span class="sd">    :return: The datetime string with normalizing substitions</span>
+<span class="sd">    :return: The datetime string with normalizing substitutions</span>
 <span class="sd">      performed, or the original HL7 datetime if no matching</span>
 <span class="sd">      format could be found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
