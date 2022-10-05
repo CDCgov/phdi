@@ -98,10 +98,9 @@ class BaseFhirGeocodeClient(ABC):
             address["_line"] = []
         for element_counter in range(len(address["line"])):
             try:
-                if address["_line"][element_counter].get("extension", "") is not None:
-                    address["_line"][element_counter].get("extension").append(
-                        census_extension
-                    )
+                address["_line"][element_counter].get("extension").append(
+                    census_extension
+                )
             except AttributeError:
                 address["_line"][element_counter] = {"extension": []}
                 address["_line"][element_counter].get("extension").append(
