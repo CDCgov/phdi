@@ -38,6 +38,79 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </section>
+<section id="module-phdi.geospatial.census">
+<span id="phdi-geospatial-census-module"></span><h2>phdi.geospatial.census module<a class="headerlink" href="#module-phdi.geospatial.census" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="phdi.geospatial.census.CensusGeocodeClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.geospatial.census.</span></span><span class="sig-name descname"><span class="pre">CensusGeocodeClient</span></span><a class="reference internal" href="../_modules/phdi/geospatial/census.html#CensusGeocodeClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.census.CensusGeocodeClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#phdi.geospatial.core.BaseGeocodeClient" title="phdi.geospatial.core.BaseGeocodeClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.geospatial.core.BaseGeocodeClient</span></code></a></p>
+<p>Implementation of a geocoding client using the Census API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.geospatial.census.CensusGeocodeClient.geocode_from_dict">
+<span class="sig-name descname"><span class="pre">geocode_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/census.html#CensusGeocodeClient.geocode_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.census.CensusGeocodeClient.geocode_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geocodes the provided address, which is formatted as a dictionary.
+using the Census API with searchtype = &quot;address&quot;. If a result is found, encodes
+as a GeocodeResult object and return, otherwise returns None.</p>
+<p>The given dictionary should conform to standard nomenclature around address
+fields, including:</p>
+<ul class="simple">
+<li><p><cite>street</cite>: the number and street address</p></li>
+<li><p><cite>street2</cite>: additional street level information (if needed)</p></li>
+<li><p><cite>apartment</cite>: apartment or suite number (if needed)</p></li>
+<li><p><cite>city</cite>: city to geocode</p></li>
+<li><p><cite>state</cite>: state to geocode</p></li>
+<li><p><cite>postal_code</cite>: the postal code to use</p></li>
+<li><p><cite>urbanization</cite>: urbanization code for area, sector, or regional</p></li>
+<li><p><cite>development</cite>: (only used for Puerto Rican addresses)</p></li>
+</ul>
+<p>Street must be included to use this function; however, a minimum of street,
+city, and state are suggested for the best matches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- A dictionary with fields outlined above.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> -- If address does not include street number and name.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A standardized address enriched with lat, lon, census tract, and more.
+Returns None if no valid result.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.geospatial.census.CensusGeocodeClient.geocode_from_str">
+<span class="sig-name descname"><span class="pre">geocode_from_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/census.html#CensusGeocodeClient.geocode_from_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.census.CensusGeocodeClient.geocode_from_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geocodes a string-formatted address using Census API with searchtype =
+&quot;onelineaddress&quot;. If a result is found, encodes as a GeocodeResult object and
+return, otherwise the return None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>address</strong> (<em>str</em>) -- The address to geocode, given as a string.</p></li>
+<li><p><strong>searchtype</strong> -- onelineaddress OR address # doesn't yet support coordinates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> -- If address does not include street number and name.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A standardized address enriched with lat, lon, census tract, and more.
+Returns None if no valid result.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-phdi.geospatial.core">
 <span id="phdi-geospatial-core-module"></span><h2>phdi.geospatial.core module<a class="headerlink" href="#module-phdi.geospatial.core" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
@@ -46,7 +119,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Represents a vendor-agnostic geocoder client. Requires implementing
 classes to define methods to geocode from both strings and dictionaries.
-Callers should use the provided interface functions (e.g. geocode_from_str)
+Callers should use the provided interface functions (e.g., geocode_from_str)
 to interact with the underlying vendor-specific client property.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.geospatial.core.BaseGeocodeClient.geocode_from_dict">
@@ -105,7 +178,7 @@ if false, a copy of <cite>resource</cite> modified and returned.  Default: <cite
 
 <dl class="py class">
 <dt class="sig sig-object py" id="phdi.geospatial.core.GeocodeResult">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.geospatial.core.</span></span><span class="sig-name descname"><span class="pre">GeocodeResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_fips</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">district</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/core.html#GeocodeResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.core.GeocodeResult" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.geospatial.core.</span></span><span class="sig-name descname"><span class="pre">GeocodeResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_fips</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">district</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">census_tract</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">census_block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/core.html#GeocodeResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.core.GeocodeResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents a successful geocoding response.
 Based on the field nomenclature of a FHIR address, specified at
@@ -124,12 +197,25 @@ Based on the field nomenclature of a FHIR address, specified at
 <li><p><strong>country</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
 <li><p><strong>county_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
 <li><p><strong>precision</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
+<li><p><strong>geoid</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
+<li><p><strong>census_tract</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
+<li><p><strong>census_block</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phdi.geospatial.core.GeocodeResult.census_block">
+<span class="sig-name descname"><span class="pre">census_block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.core.GeocodeResult.census_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phdi.geospatial.core.GeocodeResult.census_tract">
+<span class="sig-name descname"><span class="pre">census_tract</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.core.GeocodeResult.census_tract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phdi.geospatial.core.GeocodeResult.city">
 <span class="sig-name descname"><span class="pre">city</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#phdi.geospatial.core.GeocodeResult.city" title="Permalink to this definition">¶</a></dt>
@@ -153,6 +239,11 @@ Based on the field nomenclature of a FHIR address, specified at
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phdi.geospatial.core.GeocodeResult.district">
 <span class="sig-name descname"><span class="pre">district</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.core.GeocodeResult.district" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phdi.geospatial.core.GeocodeResult.geoid">
+<span class="sig-name descname"><span class="pre">geoid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.core.GeocodeResult.geoid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -216,7 +307,7 @@ in order to build a street lookup client.</p>
 </ol>
 </dd>
 </dl>
-<p>This property holds a Smarty-specific connection client
+<p>This property holds a Smarty-specific connection client that
 allows a user to geocode without directly referencing the
 underlying vendor service client.</p>
 </dd></dl>
@@ -260,7 +351,7 @@ for the best matches.</p>
 <dt class="sig sig-object py" id="phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_str">
 <span class="sig-name descname"><span class="pre">geocode_from_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/smarty.html#SmartyGeocodeClient.geocode_from_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.smarty.SmartyGeocodeClient.geocode_from_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Geocodes the provided address, which is formatted as a string. If the
-result could not be latitude- or longitude-located, then Smarty failed
+result cannot be latitude- or longitude-located, then Smarty failed
 to precisely geocode the address, so no result is returned. Raises
 an error if the provided address is empty.</p>
 <dl class="field-list simple">
@@ -268,7 +359,7 @@ an error if the provided address is empty.</p>
 <dd class="field-odd"><p><strong>address</strong> (<em>str</em>) -- The address to geocode, given as a string.</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>Exception</strong> -- When the address is an empty string.</p>
+<dd class="field-even"><p><strong>ValueError</strong> -- When the address does not include street number and name.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A geocoded address (if valid result) or None (if no valid result).</p>
@@ -290,7 +381,7 @@ an error if the provided address is empty.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Represents a vendor-agnostic geocoder client. Requires implementing
 classes to define methods to geocode from both strings and dictionaries.
-Callers should use the provided interface functions (e.g. geocode_from_str)
+Callers should use the provided interface functions (e.g., geocode_from_str)
 to interact with the underlying vendor-specific client property.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phdi.geospatial.BaseGeocodeClient.geocode_from_dict">
@@ -348,8 +439,78 @@ if false, a copy of <cite>resource</cite> modified and returned.  Default: <cite
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="phdi.geospatial.CensusGeocodeClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.geospatial.</span></span><span class="sig-name descname"><span class="pre">CensusGeocodeClient</span></span><a class="reference internal" href="../_modules/phdi/geospatial/census.html#CensusGeocodeClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.CensusGeocodeClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#phdi.geospatial.core.BaseGeocodeClient" title="phdi.geospatial.core.BaseGeocodeClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">phdi.geospatial.core.BaseGeocodeClient</span></code></a></p>
+<p>Implementation of a geocoding client using the Census API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.geospatial.CensusGeocodeClient.geocode_from_dict">
+<span class="sig-name descname"><span class="pre">geocode_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/census.html#CensusGeocodeClient.geocode_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.CensusGeocodeClient.geocode_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geocodes the provided address, which is formatted as a dictionary.
+using the Census API with searchtype = &quot;address&quot;. If a result is found, encodes
+as a GeocodeResult object and return, otherwise returns None.</p>
+<p>The given dictionary should conform to standard nomenclature around address
+fields, including:</p>
+<ul class="simple">
+<li><p><cite>street</cite>: the number and street address</p></li>
+<li><p><cite>street2</cite>: additional street level information (if needed)</p></li>
+<li><p><cite>apartment</cite>: apartment or suite number (if needed)</p></li>
+<li><p><cite>city</cite>: city to geocode</p></li>
+<li><p><cite>state</cite>: state to geocode</p></li>
+<li><p><cite>postal_code</cite>: the postal code to use</p></li>
+<li><p><cite>urbanization</cite>: urbanization code for area, sector, or regional</p></li>
+<li><p><cite>development</cite>: (only used for Puerto Rican addresses)</p></li>
+</ul>
+<p>Street must be included to use this function; however, a minimum of street,
+city, and state are suggested for the best matches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- A dictionary with fields outlined above.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> -- If address does not include street number and name.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A standardized address enriched with lat, lon, census tract, and more.
+Returns None if no valid result.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phdi.geospatial.CensusGeocodeClient.geocode_from_str">
+<span class="sig-name descname"><span class="pre">geocode_from_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/census.html#CensusGeocodeClient.geocode_from_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.CensusGeocodeClient.geocode_from_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geocodes a string-formatted address using Census API with searchtype =
+&quot;onelineaddress&quot;. If a result is found, encodes as a GeocodeResult object and
+return, otherwise the return None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>address</strong> (<em>str</em>) -- The address to geocode, given as a string.</p></li>
+<li><p><strong>searchtype</strong> -- onelineaddress OR address # doesn't yet support coordinates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> -- If address does not include street number and name.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A standardized address enriched with lat, lon, census tract, and more.
+Returns None if no valid result.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Optional</em>[<a class="reference internal" href="#phdi.geospatial.core.GeocodeResult" title="phdi.geospatial.core.GeocodeResult">phdi.geospatial.core.GeocodeResult</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="phdi.geospatial.GeocodeResult">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.geospatial.</span></span><span class="sig-name descname"><span class="pre">GeocodeResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_fips</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">district</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/core.html#GeocodeResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.GeocodeResult" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phdi.geospatial.</span></span><span class="sig-name descname"><span class="pre">GeocodeResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postal_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_fips</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lng</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">district</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">county_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">census_tract</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">census_block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/core.html#GeocodeResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.GeocodeResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents a successful geocoding response.
 Based on the field nomenclature of a FHIR address, specified at
@@ -368,12 +529,25 @@ Based on the field nomenclature of a FHIR address, specified at
 <li><p><strong>country</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
 <li><p><strong>county_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
 <li><p><strong>precision</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
+<li><p><strong>geoid</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
+<li><p><strong>census_tract</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
+<li><p><strong>census_block</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phdi.geospatial.GeocodeResult.census_block">
+<span class="sig-name descname"><span class="pre">census_block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.GeocodeResult.census_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phdi.geospatial.GeocodeResult.census_tract">
+<span class="sig-name descname"><span class="pre">census_tract</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.GeocodeResult.census_tract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phdi.geospatial.GeocodeResult.city">
 <span class="sig-name descname"><span class="pre">city</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#phdi.geospatial.GeocodeResult.city" title="Permalink to this definition">¶</a></dt>
@@ -397,6 +571,11 @@ Based on the field nomenclature of a FHIR address, specified at
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phdi.geospatial.GeocodeResult.district">
 <span class="sig-name descname"><span class="pre">district</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.GeocodeResult.district" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phdi.geospatial.GeocodeResult.geoid">
+<span class="sig-name descname"><span class="pre">geoid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#phdi.geospatial.GeocodeResult.geoid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -457,7 +636,7 @@ in order to build a street lookup client.</p>
 </ol>
 </dd>
 </dl>
-<p>This property holds a Smarty-specific connection client
+<p>This property holds a Smarty-specific connection client that
 allows a user to geocode without directly referencing the
 underlying vendor service client.</p>
 </dd></dl>
@@ -501,7 +680,7 @@ for the best matches.</p>
 <dt class="sig sig-object py" id="phdi.geospatial.SmartyGeocodeClient.geocode_from_str">
 <span class="sig-name descname"><span class="pre">geocode_from_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/geospatial/smarty.html#SmartyGeocodeClient.geocode_from_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.geospatial.SmartyGeocodeClient.geocode_from_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Geocodes the provided address, which is formatted as a string. If the
-result could not be latitude- or longitude-located, then Smarty failed
+result cannot be latitude- or longitude-located, then Smarty failed
 to precisely geocode the address, so no result is returned. Raises
 an error if the provided address is empty.</p>
 <dl class="field-list simple">
@@ -509,7 +688,7 @@ an error if the provided address is empty.</p>
 <dd class="field-odd"><p><strong>address</strong> (<em>str</em>) -- The address to geocode, given as a string.</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>Exception</strong> -- When the address is an empty string.</p>
+<dd class="field-even"><p><strong>ValueError</strong> -- When the address does not include street number and name.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A geocoded address (if valid result) or None (if no valid result).</p>

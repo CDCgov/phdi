@@ -53,10 +53,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geocode_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">us_street</span><span class="o">.</span><span class="n">Client</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        An instance of the underlying Smarty client. This</span>
-<span class="sd">        allows the FHIR wrapper to access a SmartyStreets-</span>
+<span class="sd">        An instance of the underlying Smarty client.</span>
+<span class="sd">        Allows the FHIR wrapper to access a SmartyStreets-</span>
 <span class="sd">        specific connection client without instantiating its own</span>
-<span class="sd">        copy. It also provides access to the respective `geocode_from_str`</span>
+<span class="sd">        copy. Provides access to the respective `geocode_from_str`</span>
 <span class="sd">        and `geocode_from_dict` methods if they&#39;re desired.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client</span>

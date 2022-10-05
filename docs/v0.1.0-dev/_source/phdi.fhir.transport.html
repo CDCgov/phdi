@@ -137,7 +137,7 @@ authentication.</p>
 <dt class="sig sig-object py" id="phdi.fhir.transport.http.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.http.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
 <dd><p>First, calls <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
-failed with an authorization error (HTTP status 401), obtains a new token using the
+fails with an authorization error (HTTP status 401), obtains a new token using the
 <cite>cred_manager</cite>. If the original request had an Authorization header, replaces
 it with the new token and re-initiates
 <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>.</p>
@@ -146,10 +146,10 @@ it with the new token and re-initiates
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 <li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request.</p></li>
-<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
+<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to retry the request, if the
 first attempt fails.</p></li>
 <li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made.</p></li>
-<li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
+<li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.,
 POST, PUT, etc.) for the specific URL and query.</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
 including Authorization and content-type.</p></li>
@@ -257,7 +257,7 @@ authentication.</p>
 <dt class="sig sig-object py" id="phdi.fhir.transport.http_request_with_reauth">
 <span class="sig-prename descclassname"><span class="pre">phdi.fhir.transport.</span></span><span class="sig-name descname"><span class="pre">http_request_with_reauth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cred_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/transport/http.html#http_request_with_reauth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.transport.http_request_with_reauth" title="Permalink to this definition">¶</a></dt>
 <dd><p>First, calls <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>. If the first call
-failed with an authorization error (HTTP status 401), obtains a new token using the
+fails with an authorization error (HTTP status 401), obtains a new token using the
 <cite>cred_manager</cite>. If the original request had an Authorization header, replaces
 it with the new token and re-initiates
 <a class="reference internal" href="phdi.transport.html#phdi.transport.http.http_request_with_retry" title="phdi.transport.http.http_request_with_retry"><code class="xref py py-func docutils literal notranslate"><span class="pre">phdi.transport.http.http_request_with_retry()</span></code></a>.</p>
@@ -266,10 +266,10 @@ it with the new token and re-initiates
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cred_manager</strong> (<a class="reference internal" href="phdi.cloud.html#phdi.cloud.core.BaseCredentialManager" title="phdi.cloud.core.BaseCredentialManager"><em>phdi.cloud.core.BaseCredentialManager</em></a>) -- The credential manager used to authenticate to the FHIR server.</p></li>
 <li><p><strong>url</strong> (<em>str</em>) -- The url at which to make the HTTP request.</p></li>
-<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to re-try the request, if the
+<li><p><strong>retry_count</strong> (<em>int</em>) -- The number of times to retry the request, if the
 first attempt fails.</p></li>
 <li><p><strong>request_type</strong> (<em>Literal</em><em>[</em><em>'GET'</em><em>, </em><em>'POST'</em><em>]</em>) -- The type of request to be made.</p></li>
-<li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.
+<li><p><strong>allowed_methods</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) -- The list of allowed HTTP request methods (i.e.,
 POST, PUT, etc.) for the specific URL and query.</p></li>
 <li><p><strong>headers</strong> (<em>dict</em>) -- JSON-type dictionary of headers to make the request with,
 including Authorization and content-type.</p></li>

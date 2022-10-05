@@ -61,7 +61,7 @@
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a given message from either HL7v2 (pipe-delimited flat file) or CCDA (XML)</span>
-<span class="sd">    into FHIR format (JSON) for further processing using the FHIR server. Standardize</span>
+<span class="sd">    into FHIR format (JSON) for further processing using the FHIR server. Standardizes</span>
 <span class="sd">    datetimes in HL7v2 messages before conversion.</span>
 
 <span class="sd">    The FHIR server may respond with a status code of 400 if the</span>
@@ -73,9 +73,9 @@
 <span class="sd">      Must be HL7v2 or CCDA.</span>
 <span class="sd">    :param cred_manager: The credential manager used to authenticate to the FHIR server.</span>
 <span class="sd">    :param fhir_url: A URL that points to the location of the FHIR server.</span>
-<span class="sd">    :param use_default_ccda: Whether to default to the</span>
-<span class="sd">      base &quot;CCD&quot; root template if a resource&#39;s LOINC code doesn&#39;t</span>
-<span class="sd">      map to a specific supported template. Default: `False`</span>
+<span class="sd">    :param use_default_ccda: If true, default to the base &quot;CCD&quot; template</span>
+<span class="sd">      if a resources&#39;s LOINC code doesn&#39;t map to a specific supported template.</span>
+<span class="sd">      Default: `False`</span>
 <span class="sd">    :return: A `requests.Response` object containing the response from</span>
 <span class="sd">      the FHIR converter.</span>
 

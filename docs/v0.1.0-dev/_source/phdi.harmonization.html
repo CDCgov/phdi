@@ -48,13 +48,13 @@ representing parts of the message. This function is based
 on the following header/tail segments:</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt>FHS is a &quot;File Header Segment&quot;, which is used to head a file</dt><dd><p>(group of batches)</p>
+<dt>FHS is a &quot;File Header Segment,&quot; which is used to head a file</dt><dd><p>(group of batches)</p>
 </dd>
 </dl>
 </li>
-<li><p>FTS is a &quot;File Trailer Segment&quot;, which defines the end of a file</p></li>
-<li><p>BHS is &quot;Batch Header Segment&quot;, which defines the start of a batch</p></li>
-<li><p>BTS is &quot;Batch Trailer Segment&quot;, which defines the end of a batch</p></li>
+<li><p>FTS is a &quot;File Trailer Segment,&quot; which defines the end of a file</p></li>
+<li><p>BHS is &quot;Batch Header Segment,&quot; which defines the start of a batch</p></li>
+<li><p>BTS is &quot;Batch Trailer Segment,&quot; which defines the end of a batch</p></li>
 </ul>
 <p>The structure of an HL7 Batch looks like this:
 [FHS] (file header segment) { [BHS] (batch header segment)
@@ -93,7 +93,7 @@ returns data with <cite>n</cite> as the segment terminator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<em>str</em>) -- A string representing the HL7 message use to modify
+<li><p><strong>message</strong> (<em>str</em>) -- A string representing the HL7 message used to modify
 a value.</p></li>
 <li><p><strong>segment_id</strong> (<em>str</em>) -- The segment type (MSH, PID, etc) of the field to replace.</p></li>
 <li><p><strong>field_num</strong> (<em>int</em>) -- The field number to replace in the segment named by <cite>segment_id</cite>.</p></li>
@@ -115,10 +115,12 @@ original message.</p>
 <dd><p>Splits HL7 datetime-formatted fields into the following parts:
 &lt;integer 8+ digits&gt;[.&lt;integer 1+ digits&gt;][+/-&lt;integer 4+ digits&gt;]</p>
 <p>Each group of integers is truncated to conform to the HL7
-specification:
-- first integer group: max 14 digits
-- following decimal point: max 4 digits
-- following +/- (timezone): 4 digits</p>
+specification:</p>
+<ul class="simple">
+<li><p>first integer group: max 14 digits</p></li>
+<li><p>following decimal point: max 4 digits</p></li>
+<li><p>following +/- (timezone): 4 digits</p></li>
+</ul>
 <p>This normalization facilitates downstream processing using
 cloud providers that have particular requirements for dates.</p>
 <dl class="field-list simple">
@@ -126,7 +128,7 @@ cloud providers that have particular requirements for dates.</p>
 <dd class="field-odd"><p><strong>hl7_datetime</strong> (<em>str</em>) -- The raw datetime string to clean.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The datetime string with normalizing substitions
+<dd class="field-even"><p>The datetime string with normalizing substitutions
 performed, or the original HL7 datetime if no matching
 format could be found.</p>
 </dd>
@@ -187,10 +189,10 @@ is unable to parse a date, the original value is retained.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardization.standardize_country_code">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.standardization.</span></span><span class="sig-name descname"><span class="pre">standardize_country_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'alpha_2'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_country_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardization.standardize_country_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identifies the country represented and generate the desired type of the ISO
+<dd><p>Identifies the country represented and generates the desired type of the ISO
 3611 standardized country identifier for a given string representation of a country
-(whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;
-or &quot;USA&quot;). If the country identifier could not be determined, returns None.</p>
+(whether a full name such as &quot;United States,&quot; or an abbreviation such as &quot;US&quot;
+or &quot;USA&quot;). If the country identifier cannot be determined, returns None.</p>
 <p>Example: If raw_country = &quot;United States of America,&quot; then</p>
 <ul class="simple">
 <li><p>alpha_2 would be &quot;US&quot;</p></li>
@@ -222,7 +224,7 @@ desired identifier type to generate.</p></li>
 punctuation characters and performs a variety of additional cleaning operations.
 Other options can be toggled on or off using the relevant parameter.</p>
 <p>All options specified will be applied uniformly to each input name,
-i.e. specifying case = &quot;lower&quot; will make all given names lower case.</p>
+i.e., specifying case = &quot;lower&quot; will make all given names lower case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -263,10 +265,10 @@ for each given phone number and optional list of associated countries. If an inp
 phone number can't be parsed, that number returns the empty string. Attempts
 to parse the inputs using the first successful strategy out of the following:</p>
 <ol class="arabic simple">
-<li><p>parse the phone number on its own</p></li>
-<li><p>parse the phone number using the provided list of possible
+<li><p>parses the phone number on its own</p></li>
+<li><p>parses the phone number using the provided list of possible
 associated countries</p></li>
-<li><p>parse the phone number using the US as country</p></li>
+<li><p>parses the phone number using the US as country</p></li>
 </ol>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -298,13 +300,13 @@ representing parts of the message. This function is based
 on the following header/tail segments:</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt>FHS is a &quot;File Header Segment&quot;, which is used to head a file</dt><dd><p>(group of batches)</p>
+<dt>FHS is a &quot;File Header Segment,&quot; which is used to head a file</dt><dd><p>(group of batches)</p>
 </dd>
 </dl>
 </li>
-<li><p>FTS is a &quot;File Trailer Segment&quot;, which defines the end of a file</p></li>
-<li><p>BHS is &quot;Batch Header Segment&quot;, which defines the start of a batch</p></li>
-<li><p>BTS is &quot;Batch Trailer Segment&quot;, which defines the end of a batch</p></li>
+<li><p>FTS is a &quot;File Trailer Segment,&quot; which defines the end of a file</p></li>
+<li><p>BHS is &quot;Batch Header Segment,&quot; which defines the start of a batch</p></li>
+<li><p>BTS is &quot;Batch Trailer Segment,&quot; which defines the end of a batch</p></li>
 </ul>
 <p>The structure of an HL7 Batch looks like this:
 [FHS] (file header segment) { [BHS] (batch header segment)
@@ -343,7 +345,7 @@ returns data with <cite>n</cite> as the segment terminator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<em>str</em>) -- A string representing the HL7 message use to modify
+<li><p><strong>message</strong> (<em>str</em>) -- A string representing the HL7 message used to modify
 a value.</p></li>
 <li><p><strong>segment_id</strong> (<em>str</em>) -- The segment type (MSH, PID, etc) of the field to replace.</p></li>
 <li><p><strong>field_num</strong> (<em>int</em>) -- The field number to replace in the segment named by <cite>segment_id</cite>.</p></li>
@@ -365,10 +367,12 @@ original message.</p>
 <dd><p>Splits HL7 datetime-formatted fields into the following parts:
 &lt;integer 8+ digits&gt;[.&lt;integer 1+ digits&gt;][+/-&lt;integer 4+ digits&gt;]</p>
 <p>Each group of integers is truncated to conform to the HL7
-specification:
-- first integer group: max 14 digits
-- following decimal point: max 4 digits
-- following +/- (timezone): 4 digits</p>
+specification:</p>
+<ul class="simple">
+<li><p>first integer group: max 14 digits</p></li>
+<li><p>following decimal point: max 4 digits</p></li>
+<li><p>following +/- (timezone): 4 digits</p></li>
+</ul>
 <p>This normalization facilitates downstream processing using
 cloud providers that have particular requirements for dates.</p>
 <dl class="field-list simple">
@@ -376,7 +380,7 @@ cloud providers that have particular requirements for dates.</p>
 <dd class="field-odd"><p><strong>hl7_datetime</strong> (<em>str</em>) -- The raw datetime string to clean.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The datetime string with normalizing substitions
+<dd class="field-even"><p>The datetime string with normalizing substitutions
 performed, or the original HL7 datetime if no matching
 format could be found.</p>
 </dd>
@@ -412,10 +416,10 @@ by <cite>segement_id</cite>.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.harmonization.standardize_country_code">
 <span class="sig-prename descclassname"><span class="pre">phdi.harmonization.</span></span><span class="sig-name descname"><span class="pre">standardize_country_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'alpha_2'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/harmonization/standardization.html#standardize_country_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.harmonization.standardize_country_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identifies the country represented and generate the desired type of the ISO
+<dd><p>Identifies the country represented and generates the desired type of the ISO
 3611 standardized country identifier for a given string representation of a country
-(whether a full name such as &quot;United States&quot;, or an abbreviation such as &quot;US&quot;
-or &quot;USA&quot;). If the country identifier could not be determined, returns None.</p>
+(whether a full name such as &quot;United States,&quot; or an abbreviation such as &quot;US&quot;
+or &quot;USA&quot;). If the country identifier cannot be determined, returns None.</p>
 <p>Example: If raw_country = &quot;United States of America,&quot; then</p>
 <ul class="simple">
 <li><p>alpha_2 would be &quot;US&quot;</p></li>
@@ -469,7 +473,7 @@ is unable to parse a date, the original value is retained.</p>
 punctuation characters and performs a variety of additional cleaning operations.
 Other options can be toggled on or off using the relevant parameter.</p>
 <p>All options specified will be applied uniformly to each input name,
-i.e. specifying case = &quot;lower&quot; will make all given names lower case.</p>
+i.e., specifying case = &quot;lower&quot; will make all given names lower case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -510,10 +514,10 @@ for each given phone number and optional list of associated countries. If an inp
 phone number can't be parsed, that number returns the empty string. Attempts
 to parse the inputs using the first successful strategy out of the following:</p>
 <ol class="arabic simple">
-<li><p>parse the phone number on its own</p></li>
-<li><p>parse the phone number using the provided list of possible
+<li><p>parses the phone number on its own</p></li>
+<li><p>parses the phone number using the provided list of possible
 associated countries</p></li>
-<li><p>parse the phone number using the US as country</p></li>
+<li><p>parses the phone number using the US as country</p></li>
 </ol>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

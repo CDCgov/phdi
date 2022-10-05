@@ -54,14 +54,17 @@
     <span class="n">district</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">country</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">county_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">precision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="n">precision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">geoid</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">census_tract</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">census_block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="BaseGeocodeClient"><a class="viewcode-back" href="../../../_source/phdi.geospatial.html#phdi.geospatial.core.BaseGeocodeClient">[docs]</a><span class="k">class</span> <span class="nc">BaseGeocodeClient</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a vendor-agnostic geocoder client. Requires implementing</span>
 <span class="sd">    classes to define methods to geocode from both strings and dictionaries.</span>
-<span class="sd">    Callers should use the provided interface functions (e.g. geocode_from_str)</span>
+<span class="sd">    Callers should use the provided interface functions (e.g., geocode_from_str)</span>
 <span class="sd">    to interact with the underlying vendor-specific client property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
