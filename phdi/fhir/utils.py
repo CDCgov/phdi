@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict, Union
 
 
 def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
@@ -18,34 +18,52 @@ def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict
     ]
 
 
-# @TODO: Improve this function for more general use, since it's user-
-# facing (i.e. make it more robust, less fragile, etc.)
-def get_field(resource: dict, field: str, use: str, default_field: int) -> str:
+def get_field(
+    resource: dict,
+    field: str,
+    index: int = 0,
+    use: str = None,
+    require_use: bool = True,
+) -> Union[Dict, List, str, None]:
     """
-    Find the first-occuring instance of the field in a given FHIR-formatted JSON dict,
-    such that the instance is associated with a particular "use" case of a given field
-    (such as name or address). Use case here refers to the FHIR-based usage of
-    classifying how a value is used in reporting. For example, find the first name for a
-    patient that has a "use" of "official" (meaning the name is used for official
-    reports). If no instance of a field with the requested use case can be found,
-    instead return a specified default field.
+    Find the first-occuring instance of the field in a given FHIR-
+    formatted JSON dict. Optionally, a particular "use" case of a
+    given field (such as name or address), can be provided such that
+    only instances with that use case are considered. Use case here
+    refers to the FHIR-based usage of classifying how a value is used
+    in reporting. For example, find the first name for a patient that
+    has a "use" of "official" (meaning the name is used for official
+    reports). If no instance of a field with the requested use case
+    can be found, instead return a specified default value for the field.
 
     :param resource: Resource from a FHIR bundle
     :param field: The field to extract
-    :param use: The use the field must have to qualify
-    :param default_field: The index of the field type to treat as
-      the default return type if no field with the requested use case is
-      found
+    :param index: (optional) The nth element of the field to return. Note that the index
+    starts at 0, not 1. If the index is greater than the number of elements in the
+    field, the last element will be returned. Defaults to returning the first element.
+    :param use: (optional) The 'use' the field must have to qualify for selection
+    :param require_use: (optional) Indicates if the 'use' is required. If True, then
+    if no elements of the specified field have that use, none will be returned. If
+    False, then if no elements of the specified field have that use the default index
+    will be returned. This parameter is ignored if no use is specified.
     :return: The first instance of the field value matching the desired
       use, or a default field value if a match couldn't be found
     """
-    # The next function returns the "next" (in our case first) item from an
-    # iterator that meets a given condition; if non exist, we index the
-    # field for a default value
-    return next(
-        (item for item in resource[field] if item.get("use") == use),
-        resource[field][default_field],
-    )
+    if field == "":
+        raise ValueError("Field must be a defined, non-empty string")
+    if field not in resource:
+        raise KeyError(f"This resource does not contain a field called {field}")
+
+    elements = resource.get(field, [])
+    if use is not None:
+        elements_with_use = [item for item in elements if item.get("use") == use]
+        if len(elements_with_use) == 0 and require_use:
+            return None
+        if len(elements_with_use) > 0:
+            elements = elements_with_use
+
+    index = -1 if index >= len(elements) else index
+    return elements[index] if len(elements) > 0 else None
 
 
 def get_one_line_address(address: dict) -> str:
