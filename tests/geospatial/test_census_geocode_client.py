@@ -1,4 +1,3 @@
-# from urllib.error import HTTPError
 from phdi.geospatial.core import GeocodeResult
 from phdi.geospatial.census import CensusGeocodeClient
 import json
