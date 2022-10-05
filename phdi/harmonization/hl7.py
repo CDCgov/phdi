@@ -87,11 +87,11 @@ def convert_hl7_batch_messages_to_list(
     representing parts of the message. This function is based
     on the following header/tail segments:
 
-    * FHS is a "File Header Segment", which is used to head a file
+    * FHS is a "File Header Segment," which is used to head a file
         (group of batches)
-    * FTS is a "File Trailer Segment", which defines the end of a file
-    * BHS is "Batch Header Segment", which defines the start of a batch
-    * BTS is "Batch Trailer Segment", which defines the end of a batch
+    * FTS is a "File Trailer Segment," which defines the end of a file
+    * BHS is "Batch Header Segment," which defines the start of a batch
+    * BTS is "Batch Trailer Segment," which defines the end of a batch
 
     The structure of an HL7 Batch looks like this:
     [FHS] (file header segment) { [BHS] (batch header segment)
@@ -153,7 +153,7 @@ def default_hl7_value(
     This function accepts either segments terminated by `\\r` or `\\n`, but always
     returns data with `\\n` as the segment terminator.
 
-    :param message: A string representing the HL7 message use to modify
+    :param message: A string representing the HL7 message used to modify
       a value.
     :param segment_id: The segment type (MSH, PID, etc) of the field to replace.
     :param field_num: The field number to replace in the segment named by `segment_id`.
@@ -234,6 +234,7 @@ def normalize_hl7_datetime(hl7_datetime: str) -> str:
 
     Each group of integers is truncated to conform to the HL7
     specification:
+
     - first integer group: max 14 digits
     - following decimal point: max 4 digits
     - following +/- (timezone): 4 digits
@@ -242,7 +243,7 @@ def normalize_hl7_datetime(hl7_datetime: str) -> str:
     cloud providers that have particular requirements for dates.
 
     :param hl7_datetime: The raw datetime string to clean.
-    :return: The datetime string with normalizing substitions
+    :return: The datetime string with normalizing substitutions
       performed, or the original HL7 datetime if no matching
       format could be found.
     """

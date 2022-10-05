@@ -6,7 +6,7 @@ class BaseFhirGeocodeClient(ABC):
     Represents a vendor-agnostic geocoder client designed to process
     FHIR-based data. Implementing classes should define methods to
     geocode from both bundles and resources. Callers should use the
-    provided interface functions (e.g. geocode_resource) to interact with
+    provided interface functions (e.g., geocode_resource) to interact with
     the underlying vendor-specific client property.
     """
 

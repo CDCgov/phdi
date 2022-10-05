@@ -30,7 +30,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
           1. defines a private instance variable __client
           2. makes it accessible through the use of .client()
 
-        This property holds a Smarty-specific connection client
+        This property holds a Smarty-specific connection client that
         allows a user to geocode without directly referencing the
         underlying vendor service client.
         """
@@ -39,7 +39,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
     def geocode_from_str(self, address: str) -> Union[GeocodeResult, None]:
         """
         Geocodes the provided address, which is formatted as a string. If the
-        result could not be latitude- or longitude-located, then Smarty failed
+        result cannot be latitude- or longitude-located, then Smarty failed
         to precisely geocode the address, so no result is returned. Raises
         an error if the provided address is empty.
 

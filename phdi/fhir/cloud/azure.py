@@ -14,7 +14,7 @@ def download_from_fhir_export_response(
     Accepts the export response content as specified here:
     https://hl7.org/fhir/uv/bulkdata/export/index.html#response---complete-status
 
-    Loops through the "output" array and yields the resource_type (e.g. Patient)
+    Loops through the "output" array and yields the resource_type (e.g., Patient)
     along with TextIO wrapping ndjson content.
 
     :param export_response: A dictionary holding the final export response.

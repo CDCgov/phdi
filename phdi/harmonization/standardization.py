@@ -7,10 +7,10 @@ def standardize_country_code(
     raw_country: str, code_type: Literal["alpha_2", "alpha_3", "numeric"] = "alpha_2"
 ) -> str:
     """
-    Identifies the country represented and generate the desired type of the ISO
+    Identifies the country represented and generates the desired type of the ISO
     3611 standardized country identifier for a given string representation of a country
-    (whether a full name such as "United States", or an abbreviation such as "US"
-    or "USA"). If the country identifier could not be determined, returns None.
+    (whether a full name such as "United States," or an abbreviation such as "US"
+    or "USA"). If the country identifier cannot be determined, returns None.
 
     Example: If raw_country = "United States of America," then
 
@@ -66,10 +66,10 @@ def standardize_phone(
     phone number can't be parsed, that number returns the empty string. Attempts
     to parse the inputs using the first successful strategy out of the following:
 
-    1. parse the phone number on its own
-    2. parse the phone number using the provided list of possible
+    1. parses the phone number on its own
+    2. parses the phone number using the provided list of possible
        associated countries
-    3. parse the phone number using the US as country
+    3. parses the phone number using the US as country
 
     :param raw_phone: One or more raw phone number(s) to standardize.
     :param countries: An optional list containing 2 letter ISO codes
@@ -132,7 +132,7 @@ def standardize_name(
     Other options can be toggled on or off using the relevant parameter.
 
     All options specified will be applied uniformly to each input name,
-    i.e. specifying case = "lower" will make all given names lower case.
+    i.e., specifying case = "lower" will make all given names lower case.
 
     :param raw_name: Either a single string name or a list of strings,
       each representing a name.

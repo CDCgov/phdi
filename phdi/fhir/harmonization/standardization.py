@@ -15,7 +15,7 @@ def standardize_names(
     overwrite: bool = True,
 ) -> dict:
     """
-    Standardize all names contained in a given FHIR bundle or a FHIR resource. The
+    Standardizes all names contained in a given FHIR bundle or a FHIR resource. The
     default standardization behavior is our defined non-numeric, space-trimming, full
     capitalization standardization, but other modes may be specified.
 
