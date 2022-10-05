@@ -72,3 +72,39 @@ class BaseFhirGeocodeClient(ABC):
                 ],
             }
         )
+
+    @staticmethod
+    def _store_census_tract_extension(address: dict, census_tract: str) -> None:
+        """
+        Adds appropriate extension data for census tract for each element in an address
+        line, if the field isn't already present, to a given FHIR-formatted dictionary
+        holding address fields. Add the extension data directly to the input dictionary,
+        leaving census tract as a FHIR-identified geolocation element.
+
+        :param address: A FHIR formatted dictionary holding address fields
+        :param census_tract: The census tract to add to the FHIR data as an extension
+        """
+
+        # Append with a properly resolving URL for FHIR's canonical censusTract
+        # structure definition, as all extensions are required to have this
+        # attribute; see https://www.hl7.org/fhir/extensibility.html
+
+        census_extension = {
+            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
+            "valueString": census_tract,
+        }
+
+        if address.get("_line") is None:
+            address["_line"] = []
+        for element_counter in range(len(address["line"])):
+            try:
+                address["_line"][element_counter].get("extension").append(
+                    census_extension
+                )
+            except AttributeError:
+                address["_line"][element_counter] = {"extension": []}
+                address["_line"][element_counter].get("extension").append(
+                    census_extension
+                )
+            except IndexError:
+                address["_line"].append({"extension": [census_extension]})
