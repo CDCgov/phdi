@@ -21,12 +21,14 @@ def test_get_field():
         open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
     )
     patient = bundle["entry"][1]["resource"]
-    assert get_field(patient, "telecom", "home", 0) == {
+    assert get_field(patient, field="telecom", use="home") == {
         "use": "home",
         "system": "phone",
         "value": "123-456-7890",
     }
-    assert get_field(patient, "telecom", "mobile", 1) == {
+    assert get_field(
+        patient, field="telecom", use="mobile", require_use=False, index=1
+    ) == {
         "value": "johndanger@doe.net",
         "system": "email",
     }
