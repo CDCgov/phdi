@@ -107,7 +107,4 @@ class BaseFhirGeocodeClient(ABC):
                     census_extension
                 )
             except IndexError:
-                address["_line"].append({"extension": []})
-                address["_line"][element_counter].get("extension").append(
-                    census_extension
-                )
+                address["_line"].append({"extension": [census_extension]})

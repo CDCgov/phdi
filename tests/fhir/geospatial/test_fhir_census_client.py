@@ -132,13 +132,6 @@ def test_geocode_resource_census():
 
     # Case 3: Patient already has 1 extension on _line, and it's preserved.
     returned_patient = census_client.geocode_resource(patient, overwrite=True)
-    # print()
-    # print(f"Returned_patient:{returned_patient.get('address')}")
-    # print()
-    # print(f"standardized_patient:{standardized_patient.get('address')}")
-    # print()
-    # print(f"patient:{patient.get('address')}")
-    # print()
 
     assert returned_patient == standardized_patient
     assert returned_patient.get("address")[0].get("_line")[0].get("extension")[0] == {
