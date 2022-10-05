@@ -153,7 +153,7 @@ def default_hl7_value(
     This function accepts either segments terminated by `\\r` or `\\n`, but always
     returns data with `\\n` as the segment terminator.
 
-    :param message: A string representing the HL7 message use to modify
+    :param message: A string representing the HL7 message used to modify
       a value.
     :param segment_id: The segment type (MSH, PID, etc) of the field to replace.
     :param field_num: The field number to replace in the segment named by `segment_id`.
@@ -243,7 +243,7 @@ def normalize_hl7_datetime(hl7_datetime: str) -> str:
     cloud providers that have particular requirements for dates.
 
     :param hl7_datetime: The raw datetime string to clean.
-    :return: The datetime string with normalizing substitions
+    :return: The datetime string with normalizing substitutions
       performed, or the original HL7 datetime if no matching
       format could be found.
     """

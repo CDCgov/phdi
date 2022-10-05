@@ -203,7 +203,8 @@ class CensusGeocodeClient(BaseGeocodeClient):
             # Format the Census result into our standard dataclass object
             return GeocodeResult(
                 line=[
-                    lookup["addressMatches"][0]["matchedAddress"].split(",")[0].strip()
+                    item.strip()
+                    for item in lookup["addressMatches"][0]["matchedAddress"].split(",")
                 ],
                 city=addressComponents.get("city", ""),
                 state=addressComponents.get("state", ""),

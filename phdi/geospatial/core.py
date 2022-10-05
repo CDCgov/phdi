@@ -31,7 +31,7 @@ class BaseGeocodeClient(ABC):
     """
     Represents a vendor-agnostic geocoder client. Requires implementing
     classes to define methods to geocode from both strings and dictionaries.
-    Callers should use the provided interface functions (e.g. geocode_from_str)
+    Callers should use the provided interface functions (e.g., geocode_from_str)
     to interact with the underlying vendor-specific client property.
     """
 

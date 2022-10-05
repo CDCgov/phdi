@@ -17,17 +17,17 @@ def http_request_with_reauth(
 ) -> requests.Response:
     """
     First, calls :func:`phdi.transport.http.http_request_with_retry`. If the first call
-    failed with an authorization error (HTTP status 401), obtains a new token using the
+    fails with an authorization error (HTTP status 401), obtains a new token using the
     `cred_manager`. If the original request had an Authorization header, replaces
     it with the new token and re-initiates
     :func:`phdi.transport.http.http_request_with_retry`.
 
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param url: The url at which to make the HTTP request.
-    :param retry_count: The number of times to re-try the request, if the
+    :param retry_count: The number of times to retry the request, if the
       first attempt fails.
     :param request_type: The type of request to be made.
-    :param allowed_methods: The list of allowed HTTP request methods (i.e.
+    :param allowed_methods: The list of allowed HTTP request methods (i.e.,
       POST, PUT, etc.) for the specific URL and query.
     :param headers: JSON-type dictionary of headers to make the request with,
       including Authorization and content-type.

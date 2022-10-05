@@ -7,10 +7,10 @@ def standardize_country_code(
     raw_country: str, code_type: Literal["alpha_2", "alpha_3", "numeric"] = "alpha_2"
 ) -> str:
     """
-    Identifies the country represented and generate the desired type of the ISO
+    Identifies the country represented and generates the desired type of the ISO
     3611 standardized country identifier for a given string representation of a country
-    (whether a full name such as "United States", or an abbreviation such as "US"
-    or "USA"). If the country identifier could not be determined, returns None.
+    (whether a full name such as "United States," or an abbreviation such as "US"
+    or "USA"). If the country identifier cannot be determined, returns None.
 
     Example: If raw_country = "United States of America," then
 

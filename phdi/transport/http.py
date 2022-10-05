@@ -22,13 +22,13 @@ def http_request_with_retry(
       first attempt fails.
     :param request_type: The type of request to be made. Currently supports
       GET and POST.
-    :param allowed_methods: The list of allowed HTTP request methods (i.e.
-      POST, PUT, etc.) for the specific URL and query.
+    :param allowed_methods: The list of allowed HTTP request methods (i.e.,
+      POST, PUT) for the specific URL and query.
     :param headers: JSON-type dictionary of headers to make the request with,
       including Authorization and content-type.
     :param data: The data as a JSON-formatted dictionary, used when the request
       requires data to be posted. Default: `None`
-    :raises ValueError: An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
+    :raises ValueError: An unsupported HTTP method (e.g., PATCH, DELETE) was passed
       to the request_type parameter.
     :return: A HTTP request response.
     """

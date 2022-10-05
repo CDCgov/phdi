@@ -54,8 +54,9 @@ class AzureCredentialManager(BaseCredentialManager):
         Obtains an access token from the Azure identity provider. Returns the
         access token string, refreshed if expired or force_refresh is specified.
 
-        :param force_refresh: Whether to force token refresh even if the
-          current token is still valid. Default: `False`
+        :param force_refresh: If true, a new token should be requested, regardless
+          of expiration timestamp; if false, only refresh expired tokens.
+          Default: `False`
         :return: An Azure access token.
         """
         if force_refresh or (self.access_token is None) or self._need_new_token():

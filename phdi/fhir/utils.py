@@ -26,8 +26,8 @@ def get_field(
     require_use: bool = True,
 ) -> Any:
     """
-    Finds the first-occuring instance of the field in a given FHIR-
-    formatted JSON dict, such that the instance is associated with
+    Finds the first-occurring instance of the field in a given
+    FHIR-formatted JSON dict, such that the instance is associated with
     a particular "`use`" of a given field (such as name or address).
     `Use` here refers to the FHIR-based usage of classifying how
     a value is used in reporting. For example, finds the first name
