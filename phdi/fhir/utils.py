@@ -13,8 +13,8 @@ def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict
     """
     return [
         entry
-        for entry in bundle.get("entry")
-        if entry.get("resource", {}).get("resourceType") == resource_type
+        for entry in bundle.get("entry", [])
+        if entry.get("resource", {}).get("resourceType", "") == resource_type
     ]
 
 
@@ -36,7 +36,7 @@ def get_field(
     reports). If no instance of a field with the requested use case
     can be found, instead return a specified default value for the field.
 
-    :param resource: Resource from a FHIR bundle
+    :param resource: A FHIR-formatted resource
     :param field: The field to extract
     :param index: (optional) The nth element of the field to return. Note that the index
     starts at 0, not 1. If the index is greater than the number of elements in the
@@ -74,6 +74,8 @@ def get_one_line_address(address: dict) -> str:
     :param address: The address bundle
     :return: A one-line string representation of an address
     """
+    if len(address) == 0:
+        return ""
     raw_one_line = " ".join(address.get("line", []))
     raw_one_line += f" {address.get('city')}, {address.get('state')}"
     if address.get("postalCode", ""):

@@ -26,7 +26,7 @@ class BaseCredentialManager(ABC):
         pass  # pragma: no cover
 
 
-class BaseCloudContainerConnection(ABC):
+class BaseCloudStorageConnection(ABC):
     @abstractmethod
     def download_object(
         self, container_name: str, filename: str, encoding: str = "utf-8"
@@ -50,7 +50,7 @@ class BaseCloudContainerConnection(ABC):
         filename: str,
     ) -> None:
         """
-        Upload the content of a given message to Azure blob storage.
+        Upload the content of a given message to blob storage.
         Message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
@@ -63,14 +63,13 @@ class BaseCloudContainerConnection(ABC):
     @abstractmethod
     def list_containers(self) -> List[str]:
         """
-        List names for this CloudContainerConnection's containers.
-
+        List names for this CloudStorageConnection's containers.
         :return: A list of container names
         """
         pass  # pragma: no cover
 
     @abstractmethod
-    def list_objects(self) -> List[str]:
+    def list_objects(self, container_name: str, prefix: str) -> List[str]:
         """
         List names for objects within a container.
 

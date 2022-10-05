@@ -78,10 +78,6 @@ def export_from_fhir_server(
         if poll_response.status_code == 200:
             return poll_response.json()
 
-        # Didn't complete / encountered unexpected behavior
-        else:
-            raise requests.HTTPError(response=poll_response)
-
 
 def export_from_fhir_server_poll(
     poll_url: str,
@@ -109,13 +105,6 @@ def export_from_fhir_server_poll(
         step=poll_step,
         timeout=poll_timeout,
     )
-
-    # Handle error conditions
-    if response.status_code != 200:
-        raise requests.HTTPError(
-            f"Encountered status {response.status_code} when requesting status"
-            + "of export `{poll_url}`"
-        )
 
     # If no error conditions, return response
     return response

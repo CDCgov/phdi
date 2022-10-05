@@ -1,7 +1,8 @@
-from unittest import mock
+import pytest
 
-from requests import Session
 from phdi.transport import http_request_with_retry
+from requests import Session
+from unittest import mock
 
 
 @mock.patch.object(Session, "post")
@@ -66,3 +67,16 @@ def test_http_request_with_retry_get(mock_retry_strategy, mock_get):
     )
 
     assert response == return_value
+
+
+def test_http_request_with_retry_unsupported_action():
+
+    http_url = "https://some-url"
+    http_action = "BADACTION"
+    http_header = {"some-header": "some-header-value"}
+    http_retry_count = 5
+
+    with pytest.raises(ValueError):
+        http_request_with_retry(
+            http_url, http_retry_count, http_action, [http_action], http_header
+        )

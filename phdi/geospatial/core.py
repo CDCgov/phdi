@@ -22,6 +22,9 @@ class GeocodeResult:
     country: Optional[str] = None
     county_name: Optional[str] = None
     precision: Optional[str] = None
+    geoid: Optional[str] = None
+    census_tract: Optional[str] = None
+    census_block: Optional[str] = None
 
 
 class BaseGeocodeClient(ABC):
