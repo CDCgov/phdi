@@ -166,9 +166,8 @@ string or a JSON-formatted dictionary.</p></li>
 access token string, refreshed if expired or force_refresh is specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em>) -- If true, a new token should be requested, regardless
-of expiration timestamp; if false, only refresh expired tokens.
-Default: <cite>False</cite></p>
+<dd class="field-odd"><p><strong>force_refresh</strong> (<em>bool</em>) -- <cite>True</cite> if a new token should be requested, regardless
+of expiration timestamp. <cite>False</cite> otherwise. Default: <cite>False</cite></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>An Azure access token.</p>

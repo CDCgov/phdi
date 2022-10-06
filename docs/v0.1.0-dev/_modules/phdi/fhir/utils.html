@@ -31,7 +31,7 @@
           <div class="body" role="main">
             
   <h1>Source code for phdi.fhir.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
 
 
 <div class="viewcode-block" id="find_entries_by_resource_type"><a class="viewcode-back" href="../../../_source/phdi.fhir.html#phdi.fhir.utils.find_entries_by_resource_type">[docs]</a><span class="k">def</span> <span class="nf">find_entries_by_resource_type</span><span class="p">(</span><span class="n">bundle</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">resource_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
@@ -51,48 +51,58 @@
     <span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="get_field"><a class="viewcode-back" href="../../../_source/phdi.fhir.html#phdi.fhir.utils.get_field">[docs]</a><span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_field</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_field"><a class="viewcode-back" href="../../../_source/phdi.fhir.html#phdi.fhir.utils.get_field">[docs]</a><span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span>
+    <span class="n">resource</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">use</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">require_use</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Finds the first-occurring instance of the field in a given</span>
-<span class="sd">    FHIR-formatted JSON dict, such that the instance is associated with</span>
-<span class="sd">    a particular &quot;`use`&quot; of a given field (such as name or address).</span>
-<span class="sd">    `Use` here refers to the FHIR-based usage of classifying how</span>
-<span class="sd">    a value is used in reporting. For example, finds the first name</span>
-<span class="sd">    for a patient that has a &quot;`use`&quot; of &quot;`official`&quot; (meaning the name</span>
-<span class="sd">    is used for official reports). If no instance of a field with</span>
-<span class="sd">    the requested use case can be found, it instead returns the specified</span>
-<span class="sd">    default value for the field.</span>
+<span class="sd">    Finds an instance of the specified field in a given FHIR- formatted JSON dict.</span>
+<span class="sd">    Optionally, a particular &quot;use&quot; of a field can be provided such that only instances</span>
+<span class="sd">    with that purpose are considered. For example, find the name for a patient that has</span>
+<span class="sd">    a &quot;use&quot; of &quot;official&quot;. &quot;Use&quot; here refers to the FHIR-based usage of classifying a</span>
+<span class="sd">    value&#39;s purpose. If no instance of a field with the requested use case can be found,</span>
+<span class="sd">    instead return a specified default value for the field.</span>
 
 <span class="sd">    :param resource: A FHIR-formatted resource.</span>
 <span class="sd">    :param field: The field to extract.</span>
-<span class="sd">    :param use: The `use` the field must have to qualify.</span>
-<span class="sd">    :param default_field: The index of the field type to treat as</span>
-<span class="sd">      the default return type if no field with the requested use case is</span>
-<span class="sd">      found. Default: first data available, regardless of `use`.</span>
+<span class="sd">    :param index: The nth element of the field to return. If the index is greater than</span>
+<span class="sd">      the number of elements in the field, the last element will be returned. If the</span>
+<span class="sd">      index is less than 1, the first element will be returned. Default: 1.</span>
+<span class="sd">    :param use: The &#39;use&#39; the field must have to qualify for selection. Default: None.</span>
+<span class="sd">    :param require_use: If True and no elements of the specified field have that</span>
+<span class="sd">      use, none will be returned. If False and no elements of the specified field have</span>
+<span class="sd">      that use, the nth element as indicated by the index parameter will be returned.</span>
+<span class="sd">      This parameter is ignored if no use is specified. Default: True.</span>
 <span class="sd">    :return: The first instance of the field value matching the desired</span>
 <span class="sd">      use, or a default field value if a match couldn&#39;t be found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO revisit the `default_field` logic, and confirm this is the best way to handle</span>
     <span class="c1"># choosing a default</span>
     <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Field must be a defined, non-empty string&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The field parameter must be a defined, non-empty string.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">use</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Use must be a defined, non-empty string&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resource</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Given resource does not contain a key called </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="c1"># The next function returns the &quot;next&quot; (in our case first) item from an</span>
-    <span class="c1"># iterator that meets a given condition; if non exist, we index the</span>
-    <span class="c1"># field for a default value</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="p">[])</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">use</span><span class="p">),</span>
-            <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field</span><span class="p">)[</span><span class="n">default_field</span><span class="p">],</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The use parameter should be a defined, non-empty string. If you don&#39;t want to include a use, set the parameter to None.&quot;</span>  <span class="c1"># noqa</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
-            <span class="s2">&quot;Index of provided field default is out of range for field array&quot;</span>
-        <span class="p">)</span></div>
+    <span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resource</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This resource does not contain a field called </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">if</span> <span class="n">use</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">elements_with_use</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">elements</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">use</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elements_with_use</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">require_use</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elements_with_use</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">elements</span> <span class="o">=</span> <span class="n">elements_with_use</span>
+
+    <span class="c1"># min(...) ensures index &lt;= len(elements) and the -1 shifts back to 0-index</span>
+    <span class="c1"># max(...) ensures the index is not negative</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">elements</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">elements</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="get_one_line_address"><a class="viewcode-back" href="../../../_source/phdi.fhir.html#phdi.fhir.utils.get_one_line_address">[docs]</a><span class="k">def</span> <span class="nf">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -100,14 +110,14 @@
 <span class="sd">    Extracts a one-line string representation of an address from a</span>
 <span class="sd">    JSON dictionary holding address information.</span>
 
-<span class="sd">    :param address: The FHIR-formatted address bundle.</span>
+<span class="sd">    :param address: The FHIR-formatted address.</span>
 <span class="sd">    :return: A one-line string representation of an address.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span>
     <span class="n">raw_one_line</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="p">[]))</span>
     <span class="n">raw_one_line</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">if</span> <span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;postalCode&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;postalCode&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="n">raw_one_line</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">address</span><span class="p">[</span><span class="s1">&#39;postalCode&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="k">return</span> <span class="n">raw_one_line</span></div>
 </pre></div>

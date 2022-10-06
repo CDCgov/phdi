@@ -86,13 +86,19 @@
         <span class="n">patient_resource</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">)</span>
 
     <span class="c1"># Combine given and family name</span>
-    <span class="n">recent_name</span> <span class="o">=</span> <span class="n">get_field</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;official&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">recent_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">get_field</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">use</span><span class="o">=</span><span class="s2">&quot;official&quot;</span><span class="p">,</span> <span class="n">require_use</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="p">{}</span>
+    <span class="p">)</span>
     <span class="n">name_parts</span> <span class="o">=</span> <span class="n">recent_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;given&quot;</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="p">[</span><span class="n">recent_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
     <span class="n">name_str</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">name_parts</span> <span class="k">if</span> <span class="n">n</span><span class="p">])</span>
 
     <span class="n">address_line</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;address&quot;</span> <span class="ow">in</span> <span class="n">patient_resource</span><span class="p">:</span>
-        <span class="n">address</span> <span class="o">=</span> <span class="n">get_field</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">get_field</span><span class="p">(</span><span class="n">patient_resource</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">use</span><span class="o">=</span><span class="s2">&quot;home&quot;</span><span class="p">,</span> <span class="n">require_use</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="p">{}</span>
+        <span class="p">)</span>
         <span class="n">address_line</span> <span class="o">=</span> <span class="n">get_one_line_address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
 
     <span class="c1"># TODO Determine if minimum quality criteria should be included, such as min</span>

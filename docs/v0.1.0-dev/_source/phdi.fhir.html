@@ -53,6 +53,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="phdi.fhir.geospatial.html">phdi.fhir.geospatial package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="phdi.fhir.geospatial.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phdi.fhir.geospatial.html#module-phdi.fhir.geospatial.census">phdi.fhir.geospatial.census module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="phdi.fhir.geospatial.html#module-phdi.fhir.geospatial.core">phdi.fhir.geospatial.core module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="phdi.fhir.geospatial.html#module-phdi.fhir.geospatial.smarty">phdi.fhir.geospatial.smarty module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="phdi.fhir.geospatial.html#module-phdi.fhir.geospatial">Module contents</a></li>
@@ -115,25 +116,26 @@ found in the input bundle.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="phdi.fhir.utils.get_field">
-<span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.get_field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds the first-occurring instance of the field in a given
-FHIR-formatted JSON dict, such that the instance is associated with
-a particular &quot;<cite>use</cite>&quot; of a given field (such as name or address).
-<cite>Use</cite> here refers to the FHIR-based usage of classifying how
-a value is used in reporting. For example, finds the first name
-for a patient that has a &quot;<cite>use</cite>&quot; of &quot;<cite>official</cite>&quot; (meaning the name
-is used for official reports). If no instance of a field with
-the requested use case can be found, it instead returns the specified
-default value for the field.</p>
+<span class="sig-prename descclassname"><span class="pre">phdi.fhir.utils.</span></span><span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_use</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/phdi/fhir/utils.html#get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#phdi.fhir.utils.get_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds an instance of the specified field in a given FHIR- formatted JSON dict.
+Optionally, a particular &quot;use&quot; of a field can be provided such that only instances
+with that purpose are considered. For example, find the name for a patient that has
+a &quot;use&quot; of &quot;official&quot;. &quot;Use&quot; here refers to the FHIR-based usage of classifying a
+value's purpose. If no instance of a field with the requested use case can be found,
+instead return a specified default value for the field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>resource</strong> (<em>dict</em>) -- A FHIR-formatted resource.</p></li>
 <li><p><strong>field</strong> (<em>str</em>) -- The field to extract.</p></li>
-<li><p><strong>use</strong> (<em>str</em>) -- The <cite>use</cite> the field must have to qualify.</p></li>
-<li><p><strong>default_field</strong> (<em>int</em>) -- The index of the field type to treat as
-the default return type if no field with the requested use case is
-found. Default: first data available, regardless of <cite>use</cite>.</p></li>
+<li><p><strong>index</strong> (<em>int</em>) -- The nth element of the field to return. If the index is greater than
+the number of elements in the field, the last element will be returned. If the
+index is less than 1, the first element will be returned. Default: 1.</p></li>
+<li><p><strong>use</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) -- The 'use' the field must have to qualify for selection. Default: None.</p></li>
+<li><p><strong>require_use</strong> (<em>bool</em>) -- If True and no elements of the specified field have that
+use, none will be returned. If False and no elements of the specified field have
+that use, the nth element as indicated by the index parameter will be returned.
+This parameter is ignored if no use is specified. Default: True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -141,7 +143,7 @@ found. Default: first data available, regardless of <cite>use</cite>.</p></li>
 use, or a default field value if a match couldn't be found.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p><em>Any</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -153,7 +155,7 @@ use, or a default field value if a match couldn't be found.</p>
 JSON dictionary holding address information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- The FHIR-formatted address bundle.</p>
+<dd class="field-odd"><p><strong>address</strong> (<em>dict</em>) -- The FHIR-formatted address.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A one-line string representation of an address.</p>
