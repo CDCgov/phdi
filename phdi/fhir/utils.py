@@ -21,38 +21,40 @@ def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict
 def get_field(
     resource: dict,
     field: str,
-    index: int = 0,
+    index: int = 1,
     use: str = None,
     require_use: bool = True,
 ) -> Union[Dict, List, str, None]:
     """
-    Find the first-occuring instance of the field in a given FHIR-
-    formatted JSON dict. Optionally, a particular "use" case of a
-    given field (such as name or address), can be provided such that
-    only instances with that use case are considered. Use case here
-    refers to the FHIR-based usage of classifying how a value is used
-    in reporting. For example, find the first name for a patient that
-    has a "use" of "official" (meaning the name is used for official
-    reports). If no instance of a field with the requested use case
-    can be found, instead return a specified default value for the field.
+    Finds an instance of the specified field in a given FHIR- formatted JSON dict.
+    Optionally, a particular "use" of a field can be provided such that only instances
+    with that purpose are considered. For example, find the name for a patient that has
+    a "use" of "official". "Use" here refers to the FHIR-based usage of classifying a
+    value's purpose. If no instance of a field with the requested use case can be found,
+    instead return a specified default value for the field.
 
-    :param resource: A FHIR-formatted resource
-    :param field: The field to extract
-    :param index: (optional) The nth element of the field to return. Note that the index
-    starts at 0, not 1. If the index is greater than the number of elements in the
-    field, the last element will be returned. Defaults to returning the first element.
-    :param use: (optional) The 'use' the field must have to qualify for selection
-    :param require_use: (optional) Indicates if the 'use' is required. If True, then
-    if no elements of the specified field have that use, none will be returned. If
-    False, then if no elements of the specified field have that use the default index
-    will be returned. This parameter is ignored if no use is specified.
+    :param resource: A FHIR-formatted resource.
+    :param field: The field to extract.
+    :param index: The nth element of the field to return. If the index is greater than
+    the number of elements in the field, the last element will be returned. If the index
+    is less than 1, the first element will be returned. Defaults to returning the first
+    element.
+    :param use: The 'use' the field must have to qualify for selection.
+    :param require_use: If True and no elements of the specified field have that
+    use, none will be returned. If False and no elements of the specified field
+    have that use, the nth element as indicated by the index parameter will be returned.
+    This parameter is ignored if no use is specified.
     :return: The first instance of the field value matching the desired
       use, or a default field value if a match couldn't be found
     """
     if field == "":
-        raise ValueError("Field must be a defined, non-empty string")
+        raise ValueError("The field parameter must be a defined, non-empty string.")
+    if use == "":
+        raise ValueError(
+            "The use parameter should be a defined, non-empty string. If you don't want to include a use, set the parameter to None."  # noqa
+        )
     if field not in resource:
-        raise KeyError(f"This resource does not contain a field called {field}")
+        raise KeyError(f"This resource does not contain a field called {field}.")
 
     elements = resource.get(field, [])
     if use is not None:
@@ -62,7 +64,10 @@ def get_field(
         if len(elements_with_use) > 0:
             elements = elements_with_use
 
-    index = -1 if index >= len(elements) else index
+    # min(...) ensures index <= len(elements) and the -1 shifts back to 0-index
+    # max(...) ensures the index is not negative
+    index = max(min(index, len(elements)) - 1, 0)
+
     return elements[index] if len(elements) > 0 else None
 
 
@@ -71,13 +76,13 @@ def get_one_line_address(address: dict) -> str:
     Extract a one-line string representation of an address from a
     JSON dictionary holding address information.
 
-    :param address: The address bundle
+    :param address: The address bundle.
     :return: A one-line string representation of an address
     """
     if len(address) == 0:
         return ""
     raw_one_line = " ".join(address.get("line", []))
-    raw_one_line += f" {address.get('city')}, {address.get('state')}"
+    raw_one_line += f" {address.get('city', '')}, {address.get('state', '')}"
     if address.get("postalCode", ""):
         raw_one_line += f" {address['postalCode']}"
     return raw_one_line
