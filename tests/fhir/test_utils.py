@@ -30,16 +30,18 @@ def test_find_resource_by_type():
     assert found_patients[0].get("resource").get("resourceType") == "Patient"
 
 
-def test_get_field():
+def test_get_field_valid_inputs():
     bundle = json.load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
     )
     patient = bundle["entry"][1]["resource"]
+
     assert get_field(patient, field="telecom", use="home") == {
         "use": "home",
         "system": "phone",
         "value": "123-456-7890",
     }
+
     assert get_field(
         patient, field="telecom", use="mobile", require_use=False, index=2
     ) == {
@@ -47,7 +49,15 @@ def test_get_field():
         "system": "email",
     }
 
-    # Failure cases: undefined and mismatched inputs inputs
+    assert get_field(patient, field="telecom", use="mobile", require_use=True) is None
+
+
+def test_get_field_invalid_inputs():
+    bundle = json.load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+    )
+    patient = bundle["entry"][1]["resource"]
+
     err_msg = "The field parameter must be a defined, non-empty string."
     with pytest.raises(ValueError, match=err_msg):
         get_field(patient, field="", use="home")
@@ -59,6 +69,43 @@ def test_get_field():
     err_msg = "This resource does not contain a field called telecom."
     with pytest.raises(KeyError, match=err_msg):
         get_field({}, field="telecom", use="home")
+
+
+def test_get_field_indexes():
+    bundle = json.load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+    )
+    patient = bundle["entry"][1]["resource"]
+
+    assert get_field(patient, field="telecom", index=1) == {
+        "use": "home",
+        "system": "phone",
+        "value": "123-456-7890",
+    }
+
+    assert get_field(patient, field="telecom", index=2) == {
+        "value": "johndanger@doe.net",
+        "system": "email",
+    }
+
+    # test that indexes that are too low give back the first element
+    assert get_field(patient, field="telecom", index=0) == {
+        "use": "home",
+        "system": "phone",
+        "value": "123-456-7890",
+    }
+
+    assert get_field(patient, field="telecom", index=-1) == {
+        "use": "home",
+        "system": "phone",
+        "value": "123-456-7890",
+    }
+
+    # test that indexes that are too high give back the last element
+    assert get_field(patient, field="telecom", index=10) == {
+        "value": "johndanger@doe.net",
+        "system": "email",
+    }
 
 
 def test_get_one_line_address():
