@@ -14,7 +14,7 @@ body:
     attributes:
       label: Environment
       description: "Let us know about your environment."
-      placeholder: |
+      value: |
         Operating System and Version:
         Python Version:
         Additional Environmental Information:
@@ -42,6 +42,7 @@ body:
       label: Steps to Reproduce
       description: "Provide the steps to reproduce the behavior."
       placeholder: |
+        Example:
         1. Import the geocoding functionality by running "import phdi.geospatial"
         2. Create a new variable called address and set it to "123 Main St Washington, DC"
         3. Create a new CensusGeocodeClient by running "client = CensusGeocodeClient(auth_id=..., auth_token=...)"
