@@ -21,7 +21,7 @@ body:
     id: problem
     attributes:
       label: Related Problem(s)
-      description: "Describe any problems you might be having related to this feature request.”
+      description: "Describe any problems you might be having related to this feature request."
       placeholder: "Example: Because I'm unable to do this, I'm forced to concatenate name, address, and date of birth manually, which resulted in failed matches due to inconsistent use of delimiters."
     validations:
       required: false
@@ -46,7 +46,7 @@ body:
     attributes:
       label: Additional Context
       description: |
-Add any other context about the requested feature here.
+        Add any other context about the requested feature here.
 
-Tip: You can attach images and other supported file types by selecting this text box, and dragging and dropping or pasting files into it."
+        Tip: You can attach images and other supported file types by selecting this text box, and dragging and dropping or pasting files into it."
       placeholder: "Example: It's expected that this feature will improve our ability to link patients at scale."
