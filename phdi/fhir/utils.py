@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 
 def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
