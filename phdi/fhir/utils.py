@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import Any
 
 
 def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
@@ -24,7 +24,7 @@ def get_field(
     index: int = 1,
     use: str = None,
     require_use: bool = True,
-) -> Union[Dict, List, str, None]:
+) -> Any:
     """
     Finds an instance of the specified field in a given FHIR- formatted JSON dict.
     Optionally, a particular "use" of a field can be provided such that only instances
