@@ -36,14 +36,13 @@ def get_field(
     :param resource: A FHIR-formatted resource.
     :param field: The field to extract.
     :param index: The nth element of the field to return. If the index is greater than
-    the number of elements in the field, the last element will be returned. If the index
-    is less than 1, the first element will be returned. Defaults to returning the first
-    element.
-    :param use: The 'use' the field must have to qualify for selection.
+      the number of elements in the field, the last element will be returned. If the
+      index is less than 1, the first element will be returned. Default: 1.
+    :param use: The 'use' the field must have to qualify for selection. Default: None.
     :param require_use: If True and no elements of the specified field have that
-    use, none will be returned. If False and no elements of the specified field
-    have that use, the nth element as indicated by the index parameter will be returned.
-    This parameter is ignored if no use is specified.
+      use, none will be returned. If False and no elements of the specified field have
+      that use, the nth element as indicated by the index parameter will be returned.
+      This parameter is ignored if no use is specified. Default: True.
     :return: The first instance of the field value matching the desired
       use, or a default field value if a match couldn't be found
     """
