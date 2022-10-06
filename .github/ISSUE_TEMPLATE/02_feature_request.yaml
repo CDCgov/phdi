@@ -1,49 +1,52 @@
 name: Feature Request
-description: Recommend features for PHDI to implement
+description: “Recommend features to implement in PHDI.”
 body:
   - type: markdown
     attributes:
       value: |
-        Before submitting a feature request, please search for existing requests in the issues. 
+        Before submitting a feature request, search for existing requests in the [issues](https://github.com/CDCgov/phdi/issues).
         
         ---
         
-        Thank you for taking the time to suggest how we can improve. To identify the feasibility of this feature as best as possible, we need some information.
-  - type: input
+        Thank you for taking the time to suggest how we can improve PHDI. To evaluate and prioritize this feature, we need some information.
+  - type: textarea
     id: description
     attributes:
       label: Description
-      description: "Please provide a clear and concise description of the feature you would like to see implemented."
-      placeholder: "Example: I should be able to define any number of fields that I want to use for create a Patient hash."
+      description: "Provide a clear and concise description of the feature you would like to see implemented."
+      placeholder: "Example: I should be able to supply hash key data as a list to create a Patient hash."
     validations:
       required: true
-  - type: input
+  - type: textarea
     id: problem
     attributes:
       label: Related Problem(s)
-      description: "Is this feature request related to an existing problem you're having?"
-      placeholder: "Example: Because I'm unable to do this, I am forced to use name, address, and date of birth, which provides an unreliable hash making the data unusable."
+      description: "Describe any problems you might be having related to this feature request.”
+      placeholder: "Example: Because I'm unable to do this, I'm forced to concatenate name, address, and date of birth manually, which resulted in failed matches due to inconsistent use of delimiters."
     validations:
       required: false
-  - type: input
+  - type: textarea
     id: solution
     attributes:
       label: Desired Solution
-      description: "Plese provide a clear and concise description of what you want to happen."
+      description: "Provide a clear and concise description of what you want to happen."
       placeholder: "Example: When I call generate_hash_str(), I should be able to pass a list of fields to use, instead of a concatenated string."
     validations:
       required: false
-  - type: input
+  - type: textarea
     id: alternatives
     attributes:
       label: Alternatives
-      description: "Please describe any alternative approaches you've considered."
-      placeholder: "Example: I could just concatenate the fields I want to use myself, but it would be easier to just pass them to the function."
+      description: "Describe alternative approaches you've considered."
+      placeholder: "Example: I could just concatenate the fields I want to use myself, but it would be easier to pass them to the function as a list."
     validations:
       required: false
   - type: textarea
     id: context
     attributes:
       label: Additional Context
-      description: "Please add any other context about the requested feature here."
-      placeholder: "Example: It's expected that this feature will improve our ability to link Patients at scale."
+      description: |
+Add any other context about the requested feature here.
+
+Tip: You can attach images and other supported file types by selecting this text box, and dragging and dropping or pasting files into it."
+      placeholder: "Example: It's expected that this feature will improve our ability to link patients at scale."
