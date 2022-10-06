@@ -100,7 +100,43 @@
                     <span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">}</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_store_census_tract_extension</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">census_tract</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds appropriate extension data for census tract for each element in an address</span>
+<span class="sd">        line, if the field isn&#39;t already present, to a given FHIR-formatted dictionary</span>
+<span class="sd">        holding address fields. Add the extension data directly to the input dictionary,</span>
+<span class="sd">        leaving census tract as a FHIR-identified geolocation element.</span>
+
+<span class="sd">        :param address: A FHIR formatted dictionary holding address fields</span>
+<span class="sd">        :param census_tract: The census tract to add to the FHIR data as an extension</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Append with a properly resolving URL for FHIR&#39;s canonical censusTract</span>
+        <span class="c1"># structure definition, as all extensions are required to have this</span>
+        <span class="c1"># attribute; see https://www.hl7.org/fhir/extensibility.html</span>
+
+        <span class="n">census_extension</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;valueString&quot;</span><span class="p">:</span> <span class="n">census_tract</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">address</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_line&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">address</span><span class="p">[</span><span class="s2">&quot;_line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">element_counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">])):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">address</span><span class="p">[</span><span class="s2">&quot;_line&quot;</span><span class="p">][</span><span class="n">element_counter</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;extension&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">census_extension</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">address</span><span class="p">[</span><span class="s2">&quot;_line&quot;</span><span class="p">][</span><span class="n">element_counter</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;extension&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+                <span class="n">address</span><span class="p">[</span><span class="s2">&quot;_line&quot;</span><span class="p">][</span><span class="n">element_counter</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;extension&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">census_extension</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">address</span><span class="p">[</span><span class="s2">&quot;_line&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;extension&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">census_extension</span><span class="p">]})</span></div>
 </pre></div>
 
           </div>

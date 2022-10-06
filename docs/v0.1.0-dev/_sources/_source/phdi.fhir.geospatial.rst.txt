@@ -4,6 +4,14 @@ phdi.fhir.geospatial package
 Submodules
 ----------
 
+phdi.fhir.geospatial.census module
+----------------------------------
+
+.. automodule:: phdi.fhir.geospatial.census
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 phdi.fhir.geospatial.core module
 --------------------------------
 
