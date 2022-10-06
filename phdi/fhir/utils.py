@@ -26,22 +26,23 @@ def get_field(
     require_use: bool = True,
 ) -> Any:
     """
-    Finds the first-occurring instance of the field in a given
-    FHIR-formatted JSON dict, such that the instance is associated with
-    a particular "`use`" of a given field (such as name or address).
-    `Use` here refers to the FHIR-based usage of classifying how
-    a value is used in reporting. For example, finds the first name
-    for a patient that has a "`use`" of "`official`" (meaning the name
-    is used for official reports). If no instance of a field with
-    the requested use case can be found, it instead returns the specified
-    default value for the field.
+    Finds an instance of the specified field in a given FHIR- formatted JSON dict.
+    Optionally, a particular "use" of a field can be provided such that only instances
+    with that purpose are considered. For example, find the name for a patient that has
+    a "use" of "official". "Use" here refers to the FHIR-based usage of classifying a
+    value's purpose. If no instance of a field with the requested use case can be found,
+    instead return a specified default value for the field.
 
     :param resource: A FHIR-formatted resource.
     :param field: The field to extract.
-    :param use: The `use` the field must have to qualify.
-    :param default_field: The index of the field type to treat as
-      the default return type if no field with the requested use case is
-      found. Default: first data available, regardless of `use`.
+    :param index: The nth element of the field to return. If the index is greater than
+      the number of elements in the field, the last element will be returned. If the
+      index is less than 1, the first element will be returned. Default: 1.
+    :param use: The 'use' the field must have to qualify for selection. Default: None.
+    :param require_use: If True and no elements of the specified field have that
+      use, none will be returned. If False and no elements of the specified field have
+      that use, the nth element as indicated by the index parameter will be returned.
+      This parameter is ignored if no use is specified. Default: True.
     :return: The first instance of the field value matching the desired
       use, or a default field value if a match couldn't be found.
     """
@@ -76,7 +77,7 @@ def get_one_line_address(address: dict) -> str:
     Extracts a one-line string representation of an address from a
     JSON dictionary holding address information.
 
-    :param address: The FHIR-formatted address bundle.
+    :param address: The FHIR-formatted address.
     :return: A one-line string representation of an address.
     """
     if len(address) == 0:
