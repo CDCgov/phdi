@@ -12,11 +12,12 @@ from typing import Literal, List, Union
 def load_schema(path: str) -> dict:
     """
     Given the path to a local YAML file containing a data schema,
-    load the file and return the resulting schema as a dictionary.
+    loads the file and return the resulting schema as a dictionary.
     If the file can't be found, raises an error.
 
-    :param path: File path to a YAML file holding a schema
-    :return: A dict representing a schema read from the given path
+    :param path: The file path to a YAML file holding a schema.
+    :raises Exception: If the file to be loaded could not be found.
+    :return: A dict representing a schema read from the given path.
     """
     try:
         with open(path, "r") as file:
@@ -33,22 +34,22 @@ def write_table(
     writer: pq.ParquetWriter = None,
 ) -> Union[None, pq.ParquetWriter]:
     """
-    Given data stored as a list of dictionaries, where all dicts
-    have a common set of keys, write the set of data to an output
+    Given data stored as a list of dictionaries, where all dictionaries
+    have a common set of keys, writes the set of data to an output
     file of a particular type.
 
-    :param data: A list of dicts representing the table's data.
-      Each dict represents one row in the resulting table. The
-      keys serve as the table's columns, and the values represent
-      the entry for that column in the row given by a particular
-      dict.
-    :param output_file_name: Full name for the file where the table
-      is to be written
-    :param output_format: The file format of the table to be written
-    :param writer: Optional; a writer object that can be maintained
+    :param data: A list of dictionaries representing the table's data.
+      Each dictionary represents one row in the resulting table. The
+      keys serve as the table's columns, and the values represent the
+      entry for that column in the row given by a particular dict.
+    :param output_file_name: The full name for the file where the table
+      is to be written.
+    :param output_format: The file format of the table to be written.
+    :param writer: A writer object that can be maintained
       between different calls of this function to support file formats
-      that cannot be appended to after being written (e.g. parquet)
-    :return: pq.ParquetWriter if file_format is parquet; else None
+      that cannot be appended to after being written (e.g. parquet). Default: `None`
+    :return: An instance of `pq.ParquetWriter` if file_format is parquet,
+      otherwise `None`
     """
 
     if file_format == "parquet":
@@ -73,13 +74,15 @@ def print_schema_summary(
     display_head: bool = False,
 ) -> None:
     """
-    Print a summary of each CSV of Parquet formatted table in a given directory of
+    Prints a summary of each CSV of Parquet formatted table in a given directory of
     tables.
 
-    :param directory: Path to a direct holding table files
-    :param display_head: Print the head of each table when true.
+    :param directory: The path to a direct holding table files.
+    :param display_head: If true, print the first few rows of each table;
+      if false, only print table metadata. Default: `False`
+
       Note: depending on the file format, this may require
-      reading large amounts of data into memory
+      reading large amounts of data into memory.
     """
     for (directory_path, _, file_names) in os.walk(directory):
         for file_name in file_names:

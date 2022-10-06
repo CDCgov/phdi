@@ -3,53 +3,49 @@ from abc import ABC, abstractmethod
 
 class BaseFhirGeocodeClient(ABC):
     """
-    A basic abstract class representing a vendor-agnostic geocoder client
-    designed as a wrapper to process FHIR-based data (including resources
-    and bundles). Requires implementing classes to define methods to
+    Represents a vendor-agnostic geocoder client designed to process
+    FHIR-based data. Implementing classes should define methods to
     geocode from both bundles and resources. Callers should use the
-    provided interface functions (e.g. geocode_resource) to interact with
+    provided interface functions (e.g., geocode_resource) to interact with
     the underlying vendor-specific client property.
     """
 
     @abstractmethod
     def geocode_resource(self, resource: dict, overwrite=True) -> dict:
         """
-        Perform geocoding, using the implementing client, on the provided resource,
+        Performs geocoding, using the implementing client, on the provided resource,
         which is passed in as a dictionary.
 
-        :param bundle: A bundle of fhir resources
-        :param overwrite: Whether to overwrite the address data in the given
-          bundle's resources (True), or whether to create a copy of the bundle
-          and overwrite that instead (False). Defaults to True
-        :return: Geocoded resource as a dict
+        :param resource: A FHIR resource to be geocoded.
+        :param overwrite: If true, `resource` is modified in-place;
+          if false, a copy of `resource` modified and returned.  Default: `True`
+        :return: The geocoded resource as a dict.
         """
         pass  # pragma: no cover
 
     @abstractmethod
     def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
         """
-        Perform geocoding, using the implementing client, on all supported resources in
+        Performs geocoding, using the implementing client, on all supported resources in
         the provided FHIR bundle which is passed in as a dictionary.
 
-        :param bundle: A bundle of fhir resources
-        :param overwrite: Whether to overwrite the address data in the given
-          bundle's resources (True), or whether to create a copy of the bundle
-          and overwrite that instead (False). Defaults to True
-        :return: Geocoded bundle as a dict
+        :param bundle: A bundle of FHIR resources.
+        :param overwrite: If true, `bundle` is modified in-place;
+          if false, a copy of `bundle` modified and returned.  Default: `True`
+        :return: The geocoded FHIR bundle as a dict.
         """
         pass  # pragma: no cover
 
     @staticmethod
     def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:
         """
-        Add appropriate extension data for latitude and longitude, if the fields
-        aren't already present, to a given FHIR-formatted dictionary holding address
-        fields. Add the extension data directly to the input dictionary, leaving lat and
-        long as FHIR-identified geolocation elements.
+        Adds extension data for latitude and longitude, if the fields aren't already
+        present, to a given FHIR-formatted dictionary holding address fields.
+        The latitude and longitude data is added directly to the input dictionary.
 
-        :param address: A FHIR formatted dictionary holding address fields
-        :param lat: The latitude to add to the FHIR data as an extension
-        :param long: The longitude to add to the FHIR data as an extension
+        :param address: A FHIR formatted dictionary holding address fields.
+        :param lat: The latitude to add to the FHIR data as an extension.
+        :param long: The longitude to add to the FHIR data as an extension.
         """
         if "extension" not in address:
             address["extension"] = []

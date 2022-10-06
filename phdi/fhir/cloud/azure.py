@@ -11,18 +11,19 @@ def download_from_fhir_export_response(
     cred_manager: AzureCredentialManager,
 ) -> Iterator[Tuple[str, TextIO]]:
     """
-    Accept the export response content as specified here:
+    Accepts the export response content as specified here:
     https://hl7.org/fhir/uv/bulkdata/export/index.html#response---complete-status
 
-    Loops through the "output" array and yields the resource_type (e.g. Patient)
+    Loops through the "output" array and yields the resource_type (e.g., Patient)
     along with TextIO wrapping ndjson content.
 
-    :param export_response: JSON-type dictionary holding the response from
-      the export URL the FHIR server set up
-    :param cred_manager: Service used to get an access token used to make a request
+    :param export_response: A dictionary holding the final export response.
+    :param cred_manager: The credential manager used to authenticate to the
+      storage account.
     :return: An iterator of tuples. Each tuple is comprised of:
-      - FHIR resource type (str)
-      - Export file content (io.TextIO)
+
+      * FHIR resource type (str)
+      * Export file content (io.TextIO)
     """
     # TODO: Handle error array that could be contained in the response content.
 
@@ -40,11 +41,13 @@ def _download_export_blob(
     blob_url: str, cred_manager: AzureCredentialManager, encoding: str = "utf-8"
 ) -> TextIO:
     """
-    Download an export file blob.
+    Downloads an export file blob.
 
-    :param blob_url: Blob URL location to download from blob storage
-    :param cred_manager: Service used to get an access token used to make a request
-    :param encoding: encoding to apply to the ndjson content, defaults to "utf-8"
+    :param blob_url: The blob URL location to download from blob storage.
+    :param cred_manager: The credential manager used to authenticate to the
+      storage account.
+    :param encoding: The character encoding to apply to the downloaded content.
+      Default: utf-8
     :return: Content of export file located at `blob_url`
     """
     bytes_buffer = io.BytesIO()

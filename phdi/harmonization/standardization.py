@@ -7,21 +7,22 @@ def standardize_country_code(
     raw_country: str, code_type: Literal["alpha_2", "alpha_3", "numeric"] = "alpha_2"
 ) -> str:
     """
-    Identify the country represented and generate the desired type of the ISO
+    Identifies the country represented and generates the desired type of the ISO
     3611 standardized country identifier for a given string representation of a country
-    (whether a full name such as "United States", or an abbreviation such as "US"
-    or "USA"). If the country cannot be determined, return None.
+    (whether a full name such as "United States," or an abbreviation such as "US"
+    or "USA"). If the country identifier cannot be determined, returns None.
 
     Example: If raw_country = "United States of America," then
-      - alpha_2 would be "US"
-      - alpha_3 would be "USA"
-      - numeric would be "840"
 
-    :param raw_country: String representation of the country to be
-      put in ISO 3611 standardized form
+    * alpha_2 would be "US"
+    * alpha_3 would be "USA"
+    * numeric would be "840"
+
+    :param raw_country: The string representation of the country to be
+      put in ISO 3611 standardized form.
     :param code_type: One of 'alpha_2', 'alpha_3', or 'numeric'; the
-      desired identifier type to generate
-    :return: The standardized country identifier found in the resource's addresses
+      desired identifier type to generate.
+    :return: The standardized country identifier found in the resource's addresses.
     """
 
     # @TODO: Potentially do some minor restructuring around this logic
@@ -60,23 +61,22 @@ def standardize_phone(
     raw_phone: Union[str, List[str]], countries: List = [None, "US"]
 ) -> Union[str, List[str]]:
     """
-    Parse phone number and generate its standardized ISO E.164 international format for
-    each given phone number and optional list of associated countries. If an input phone
-    number can't be parsed, that number will return the empty string. The function
-    attempts to parse the inputs using the first successful strategy out of the
-    following:
+    Parses phone number and generates its standardized ISO E.164 international format
+    for each given phone number and optional list of associated countries. If an input
+    phone number can't be parsed, that number returns the empty string. Attempts
+    to parse the inputs using the first successful strategy out of the following:
 
-    1. parse the phone number on its own
-    2. parse the phone number using the provided list of possible
+    1. parses the phone number on its own
+    2. parses the phone number using the provided list of possible
        associated countries
-    3. parse the phone number using the US as country
+    3. parses the phone number using the US as country
 
-    :param raw_phone: One or more raw phone number(s) to standardize
+    :param raw_phone: One or more raw phone number(s) to standardize.
     :param countries: An optional list containing 2 letter ISO codes
       associated with the phone numbers, signifying to which countries
-      the phone numbers might belong
+      the phone numbers might belong.
     :return: Either a string or a list of strings, depending on the
-      input of raw_phone, holding the standardized phone number(s)
+      input of raw_phone, holding the standardized phone number(s).
     """
 
     # Base cases: we always want to try the phone # on its own first;
@@ -127,26 +127,28 @@ def standardize_name(
     remove_numbers: bool = True,
 ) -> Union[str, List[str]]:
     """
-    Perform basic standardization (described below) on each given name. All given input
-    strings have punctuation characters removed, and then a variety of additional
-    cleaning operations can be toggled on or off using the relevant parameter.
-    The cleaning operations include:
-
-    - trim: stripping leading and trailing whitespace
-    - remove_numbers: remove all numeric characters from the input
-    - case: enforce the name to follow a specific casing convention
+    Performs basic standardization (described below) on each given name. Removes
+    punctuation characters and performs a variety of additional cleaning operations.
+    Other options can be toggled on or off using the relevant parameter.
 
     All options specified will be applied uniformly to each input name,
-    i.e. specifying case = "lower" will make all given names lower case.
+    i.e., specifying case = "lower" will make all given names lower case.
 
     :param raw_name: Either a single string name or a list of strings,
-      each representing a name
-    :param trim: Whether to strip leading/trailing whitespace
-    :param case: What case to enforce on each name; the default is to
-      convert all inputs to upper case
-    :remove_numbers: Whether to remove numeric characters from the inputs
+      each representing a name.
+    :param trim: If true, strips leading/trailing whitespace;
+      if false, retains whitespace. Default: `True`
+    :param case: What case to enforce on each name.
+
+      * `upper`: All upper case
+      * `lower`: All lower case
+      * `title`: Title case
+
+      Default: `upper`
+    :remove_numbers: If true, removes numeric characters from inputs;
+      if false, retains numeric characters. Default `True`
     :return: Either a string or a list of strings, depending on the
-      input of raw_name, holding the cleaned name(s)
+      input of raw_name, holding the cleaned name(s).
     """
     names_to_clean = raw_name
     if isinstance(raw_name, str):
