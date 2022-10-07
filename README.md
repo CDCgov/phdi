@@ -57,7 +57,7 @@ This repository contains source code for a platform to help state, tribal, local
   - __Linkage__ - Linkage tools assign a common identifier to patient records to link and deduplicate patients seen across data contributors.
   - __Transport__ - Transport tools provide a mechanism to store and interact with data stored to a central repostory (FHIR server). 
 - **Reporting** - Reporting tools define a dynamic framework for building custom data models in an analysis-ready output format.
-  - __Tabluation__ - Tabulation provides tools to retrieve data dynamically-defined records and data fields from the common data platform (FHIR server), extract, convert it to a tabular representation, and store to a user-defined tabular storage file type (Parquet or CSV).
+  - __Tabulation__ - Tabulation provides tools to retrieve data dynamically-defined records and data fields from the common data platform (FHIR server), extract, convert it to a tabular representation, and store to a user-defined tabular storage file type (Parquet or CSV).
 - **Implementation Support** - Implemetnation resources support implementing STLTs to configure a PHDI-driven workflow to manage their data and analysis workflows.
   - __Cloud-agnostic tools__ - A common PHDI programming interface supports STLTs interacting with cloud-based data storage (containers/buckets), and FHIR servers in a common way.
   - __Examples and Tutorials__ - Example and tutorial materials help STLTs implement the PHDI solution more quickly by providing easy-to-follow examples and tutorials.
