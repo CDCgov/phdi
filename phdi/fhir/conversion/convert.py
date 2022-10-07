@@ -1,4 +1,5 @@
 import hl7
+import requests
 
 import xml.etree.ElementTree as et
 
@@ -36,12 +37,10 @@ def convert_to_fhir(
     This function uses a containerized version of the
     [Azure FHIR Converter](https://github.com/microsoft/FHIR-Converter).
 
-    The converter service will respond with a status code of 400 if the
-    message itself is invalid, such as containing improperly
-    formatted timestamps. Otherwise, the it will respond
-    with the converted FHIR data. In either case, a
-    `requests.Response` object will be returned.
-
+    If conversion succeeds, a `requests.Response` object will be returned with the
+    conversion response. Otherwise, a `ConversionError` is raised, with the
+    `requests.Response` available as a property for troubleshooting and reporting
+    purposes.
 
     :param message: The raw message that needs to be converted to
       FHIR. Currently, only HL7v2 or CCDA are supported.
@@ -52,6 +51,8 @@ def convert_to_fhir(
     :param use_default_ccda: Whether to default to the
       base "CCD" root template if a resource's LOINC code doesn't
       map to a specific supported template (Optional, default is No)
+    :raises requests.HttpError: If the HTTP request was unsuccessful.
+    :raises ConversionError: If the message could not be converted.
     :return: A requests.Response object
 
     """
@@ -92,31 +93,35 @@ def convert_to_fhir(
         )
 
     if response.status_code != 200:
-        raise Exception(
-            f"HTTP {str(response.status_code)} code encountered during conversion request"  # noqa
-        )
+        raise ConversionError(response)
+
     return response
 
 
 def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
     """
-    Determines which settings to use with the FHIR server to facilitate message
-    conversion by attempting to identify which data type the input has (HL7 or XML)
-    and determine the appropriate FHIR converter root template to use. Raises
-    an exception if the user opts to not use the default CCDA root template for
-    an unsupported input resouece and a message's extracted LOINC code doesn't
-    correspond to an existing CCDA template.
+        Determines which settings to use with the FHIR server to facilitate message
+        conversion by attempting to identify which data type the input has (HL7 or XML)
+        and determine the appropriate FHIR converter root template to use. Raises
+        an exception if the user opts to not use the default CCDA root template for
+        an unsupported input resouece and a message's extracted LOINC code doesn't
+        correspond to an existing CCDA template.
 
-    More information about the required templates and settings can be found here:
+        More information about the required templates and settings can be found here:
 
-    https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data
+        https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data
 
-    :param message: The incoming message.
-    :param use_default_ccda: Whether to default to the
-      base "CCD" root template if a resource's LOINC code doesn't
-      map to a specific supported template. Default: `False`
-    :return: A dictionary holding the settings of parameters to-be
-      set when converting the input to FHIR.
+        :param message: The incoming message.
+        :param use_default_ccda: Whether to default to the
+          base "CCD" root template if a resource's LOINC code doesn't
+    <<<<<<< HEAD
+          map to a specific supported template. Default: `False`
+    =======
+          map to a specific supported template. Default is No.
+        :raises ConversionError: If conversion settings cannot be derived.
+    >>>>>>> 4922a52 (Create ConversionError)
+        :return: A dictionary holding the settings of parameters to-be
+          set when converting the input to FHIR.
     """
     # Some streams (e.g. ELR, VXU) are HL7v2 encoded
     if message[:3] == "MSH":
@@ -136,7 +141,7 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
             )
 
         if formatted_code == "":
-            raise Exception("Could not determine HL7 message structure")
+            raise ConversionError(message="Could not determine HL7 message structure")
 
         return {
             "root_template": formatted_code,
@@ -176,7 +181,39 @@ def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
                             "Resource code does not match any provided input template"
                         )
 
-        except et.ParseError:
-            raise Exception(
-                "Input message has unrecognized data type, should be HL7v2 or XML"
+        except et.ParseError as ex:
+            raise ConversionError(
+                message=(
+                    "Input message has unrecognized data type, "
+                    + "should be HL7v2 or XML."
+                )
+            ) from ex
+
+
+class ConversionError(Exception):
+    """
+    Exception raised for errors that occur during conversion.
+    """
+
+    @property
+    def http_response(self):
+        return self.__http_response
+
+    def __init__(self, http_response: requests.Response = None, message: str = None):
+        """
+        Creates a new ConversionError object.
+
+        :param http_response: HTTP response returned by the converter service.
+          Default: `None`
+        :param message: Error message. Default: `None`
+        """
+        self.__http_response = http_response
+
+        if (message is None) and not (http_response is None):
+            message = (
+                "Conversion exception occurred with status code"
+                + f" {http_response.status_code} returned from the converter service."
             )
+        self.message = message
+
+        super().__init__(self.message)

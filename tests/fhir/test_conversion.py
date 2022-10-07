@@ -2,7 +2,7 @@ import pathlib
 import pytest
 
 from phdi.fhir.conversion import convert_to_fhir
-from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
+from phdi.fhir.conversion.convert import ConversionError, _get_fhir_conversion_settings
 from phdi.harmonization import standardize_hl7_datetimes
 from unittest import mock
 
@@ -164,7 +164,9 @@ def test_convert_to_fhir_unrecognized_data(mock_requests_session):
     print(message_without_type)
 
     response = None
-    with pytest.raises(Exception):
+    with pytest.raises(
+        ConversionError, match="Could not determine HL7 message structure"
+    ):
         response = convert_to_fhir(
             message_without_type,
             mock_cred_manager,
@@ -174,7 +176,10 @@ def test_convert_to_fhir_unrecognized_data(mock_requests_session):
 
     message_bad = "BAD Message Data"
 
-    with pytest.raises(Exception):
+    with pytest.raises(
+        ConversionError,
+        match="Input message has unrecognized data type, should be HL7v2 or XML.",
+    ):
         response = convert_to_fhir(
             message_bad,
             "some-converter-url",
@@ -206,7 +211,9 @@ def test_convert_to_fhir_failure(mock_requests_session):
     # _not_ merely a unittest.mock.side_effect of the session instance
     response = None
     with pytest.raises(
-        Exception, match="^HTTP 400 code encountered during conversion request$"
+        ConversionError,
+        match="^Conversion exception occurred with status code"
+        + " 400 returned from the converter service.$",
     ):
         response = convert_to_fhir(
             message,
@@ -214,3 +221,17 @@ def test_convert_to_fhir_failure(mock_requests_session):
             mock_cred_manager,
         )
     assert response is None
+
+
+def test_conversion_error():
+    mock_response = mock.Mock(status_code=400)
+
+    with pytest.raises(
+        ConversionError,
+        match="^Conversion exception occurred with "
+        + "status code 400 returned from the converter service.$",
+    ):
+        raise ConversionError(mock_response)
+
+    with pytest.raises(ConversionError, match="^some other message$"):
+        raise ConversionError(mock_response, message="some other message")
