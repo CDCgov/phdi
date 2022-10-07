@@ -100,28 +100,24 @@ def convert_to_fhir(
 
 def _get_fhir_conversion_settings(message: str, use_default_ccda=False) -> dict:
     """
-        Determines which settings to use with the FHIR server to facilitate message
-        conversion by attempting to identify which data type the input has (HL7 or XML)
-        and determine the appropriate FHIR converter root template to use. Raises
-        an exception if the user opts to not use the default CCDA root template for
-        an unsupported input resouece and a message's extracted LOINC code doesn't
-        correspond to an existing CCDA template.
+    Determines which settings to use with the FHIR server to facilitate message
+    conversion by attempting to identify which data type the input has (HL7 or XML)
+    and determine the appropriate FHIR converter root template to use. Raises
+    an exception if the user opts to not use the default CCDA root template for
+    an unsupported input resouece and a message's extracted LOINC code doesn't
+    correspond to an existing CCDA template.
 
-        More information about the required templates and settings can be found here:
+    More information about the required templates and settings can be found here:
 
-        https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data
+    https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/convert-data
 
-        :param message: The incoming message.
-        :param use_default_ccda: Whether to default to the
-          base "CCD" root template if a resource's LOINC code doesn't
-    <<<<<<< HEAD
-          map to a specific supported template. Default: `False`
-    =======
-          map to a specific supported template. Default is No.
-        :raises ConversionError: If conversion settings cannot be derived.
-    >>>>>>> 4922a52 (Create ConversionError)
-        :return: A dictionary holding the settings of parameters to-be
-          set when converting the input to FHIR.
+    :param message: The incoming message.
+    :param use_default_ccda: Whether to default to the
+      base "CCD" root template if a resource's LOINC code doesn't
+      map to a specific supported template. Default: `False`
+    :raises ConversionError: If conversion settings cannot be derived.
+    :return: A dictionary holding the settings of parameters to-be
+      set when converting the input to FHIR.
     """
     # Some streams (e.g. ELR, VXU) are HL7v2 encoded
     if message[:3] == "MSH":
