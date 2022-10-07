@@ -136,7 +136,7 @@ def convert_to_fhir(
 
     # Setup path variables
     converter_project_path = (
-        "/build/FHIR-Converter/src/Microsoft.Health.Fhir.Liquid.Converter.Tool"
+        "/build/FHIR-Converter/output/Microsoft.Health.Fhir.Liquid.Converter.Tool.dll"
     )
     if input_type == "hl7v2":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Hl7v2"
@@ -154,8 +154,7 @@ def convert_to_fhir(
 
     # Formulate command for the FHIR Converter.
     fhir_conversion_command = [
-        "dotnet run ",
-        f"--project {converter_project_path} ",
+        f"dotnet {converter_project_path} ",
         "convert -- ",
         f"--TemplateDirectory {template_directory_path} ",
         f"--RootTemplate {root_template} ",
