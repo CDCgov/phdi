@@ -14,23 +14,23 @@ def http_request_with_retry(
     data: dict = None,
 ) -> requests.Response:
     """
-    Execute an HTTP request, retrying the request if the returned HTTP status code
+    Executes an HTTP request, retrying the request if the returned HTTP status code
     is one of a specified list of codes.
 
-    :param url: The url at which to make the HTTP request
-    :param retry_count: The number of times to re-try the request, if the
-      first attempt fails
+    :param url: The url at which to make the HTTP request.
+    :param retry_count: The number of times to retry the request, if the
+      first attempt fails.
     :param request_type: The type of request to be made. Currently supports
-      GET and POST
-    :param allowed_methods: The list of allowed HTTP request methods (i.e.
-      POST, PUT, etc.) for the specific URL and query
+      GET and POST.
+    :param allowed_methods: The list of allowed HTTP request methods (i.e.,
+      POST, PUT) for the specific URL and query.
     :param headers: JSON-type dictionary of headers to make the request with,
-      including Authorization and content-type
-    :param data: JSON data in the case that the request requires data to be
-      posted. Defaults to none
-    :raises ValueError: An unsupported HTTP method (e.g. PATCH, DELETE, etc) was passed
-      to the request_type parameter
-    :return: A HTTP request response
+      including Authorization and content-type.
+    :param data: The data as a JSON-formatted dictionary, used when the request
+      requires data to be posted. Default: `None`
+    :raises ValueError: An unsupported HTTP method (e.g., PATCH, DELETE) was passed
+      to the request_type parameter.
+    :return: A HTTP request response.
     """
 
     request_type = request_type.upper()
@@ -48,6 +48,7 @@ def http_request_with_retry(
     )
     adapter = HTTPAdapter(max_retries=retry_strategy)
     http = requests.Session()
+    http.mount("http://", adapter)
     http.mount("https://", adapter)
 
     # Now, actually try to complete the API request

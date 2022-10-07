@@ -13,17 +13,15 @@ def add_patient_identifier_in_bundle(
     """
     Given a FHIR resource bundle:
 
-    * identify all patient resource(s) in the bundle
-    * add the hash string to the list of identifiers held in that patient resource
+    * Identifies all patient resource(s) in the bundle
+    * Adds the hash string to the list of identifiers held in that patient resource
 
-    :param bundle: The FHIR bundle for whose patients to add a
-        linking identifier
-    :param salt_str: The suffix string added to prevent being
-        able to reverse the hash into PII
-    :param overwrite: Whether to write the new standardizations
-        directly into the given bundle, changing the original data (True
-        is yes)
-    :return: The bundle, resources updated with additional patient identifier
+    :param bundle: The FHIR bundle for whose patients to add a linking identifier.
+    :param salt_str: The salt to use with the hash. This is intended to prevent
+      reverse engineering of the PII used to create the hash.
+    :param overwrite: If true, `bundle` is modified in-place;
+      if false, a copy of `bundle` modified and returned.  Default: `True`
+    :return: The bundle, resources updated with additional patient identifier.
     """
     if not overwrite:
         bundle = copy.deepcopy(bundle)
@@ -38,32 +36,36 @@ def add_patient_identifier(
     patient_resource: dict, salt_str: str, overwrite: bool = True
 ):
     """
-    Given a FHIR resource:
+    Given a FHIR Patient resource:
 
-    * extract name, DOB, and address information for each
-    * compute a unique hash string based on these fields
-    * add the hash string to resource
+    * Extracts name, DOB, and address information
+    * Computes a unique hash string based on these fields
+    * Adds the hash string to resource
 
-    :param patient_resource: The FHIR patient resource to add a
-        linking identifier
-    :param salt_str: The suffix string added to prevent being
-        able to reverse the hash into PII
-    :param overwrite: Whether to write the new standardizations
-        directly into the given bundle, changing the original data (True
-        is yes)
-    :return: The resource updated with additional patient identifier
+    :param patient_resource: The FHIR patient resource to add a linking identifier.
+    :param salt_str: The salt to use with the hash. This is intended to prevent
+      reverse engineering of the PII used to create the hash.
+    :param overwrite: If true, `patient_resource` is modified in-place;
+      if false, a copy of `patient_resource` modified and returned.  Default: `True`
+    :return: The resource updated with additional patient identifier.
     """
     if not overwrite:
         patient_resource = copy.deepcopy(patient_resource)
 
     # Combine given and family name
-    recent_name = get_field(patient_resource, "name", "official", 0)
+    recent_name = (
+        get_field(patient_resource, field="name", use="official", require_use=False)
+        or {}
+    )
     name_parts = recent_name.get("given", []) + [recent_name.get("family", "")]
     name_str = "-".join([n for n in name_parts if n])
 
     address_line = ""
     if "address" in patient_resource:
-        address = get_field(patient_resource, "address", "home", 0)
+        address = (
+            get_field(patient_resource, field="address", use="home", require_use=False)
+            or {}
+        )
         address_line = get_one_line_address(address)
 
     # TODO Determine if minimum quality criteria should be included, such as min
