@@ -71,10 +71,8 @@ def test_convert_to_fhir_success_cred_manager(mock_requests_session):
     )
 
     mock_access_token_value = "some-token"
-    mock_access_token = mock.Mock()
-    mock_access_token.token = mock_access_token_value
     mock_cred_manager = mock.Mock()
-    mock_cred_manager.get_access_token.return_value = mock_access_token
+    mock_cred_manager.get_access_token.return_value = mock_access_token_value
 
     message = ""
     with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
