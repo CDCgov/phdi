@@ -71,7 +71,7 @@ def convert_to_fhir(
     }
 
     if cred_manager:
-        access_token = cred_manager.get_access_token().token
+        access_token = cred_manager.get_access_token()
         headers["Authorization"] = f"Bearer {access_token}"
         response = http_request_with_reauth(
             cred_manager=cred_manager,
