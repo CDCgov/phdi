@@ -48,6 +48,7 @@ def http_request_with_retry(
     )
     adapter = HTTPAdapter(max_retries=retry_strategy)
     http = requests.Session()
+    http.mount("http://", adapter)
     http.mount("https://", adapter)
 
     # Now, actually try to complete the API request
