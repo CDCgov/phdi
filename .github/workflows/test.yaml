@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v2
         with:
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v2
         with:
@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Check notebook cleanliness
         uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
 
@@ -72,7 +72,7 @@ jobs:
         working-directory: ./containers
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install dependencies
         run: |
           sudo apt-get install jq
@@ -92,7 +92,7 @@ jobs:
         container-to-test: ${{fromJson(needs.list-containers.outputs.container-dirs)}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
         uses: actions/setup-python@v2
         with:
