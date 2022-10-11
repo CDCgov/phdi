@@ -4,7 +4,7 @@ This document provides a guide for installing the [Microsoft FHIR Converter](htt
 ## Running via Docker
 To run the FHIR Converter in a Docker container, follow these steps:  
   
-  1. From the `cloud-run/fhir-converter` directory, run:  
+  1. From the `containers/fhir-converter` directory, run:  
   `docker build -t fhir-converter .`
   1. Start a container by running:  
   `docker run -p 8080:8080 fhir-converter`
