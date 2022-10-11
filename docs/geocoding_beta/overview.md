@@ -55,6 +55,7 @@ Although the Smarty and Census geocoding services operate very similarly in the 
     - For an example address, e.g., 123 Main St Apt B, the returns will look like:
         - Smarty: 123 Main Street Apt B
         - Census: 123 Main Street
+    - To prevent a loss of information when using the Census geocoding service with FHIR resources, the FHIR implementation of the Census geocoding tool does not allow for the address (line) to be overwritten.
 
 
 **Receiving a CDC subsidized Smarty license (API key)**
