@@ -1,5 +1,5 @@
 name: Support and Maintenance
-description: “Ask questions and make requests related to support and maintenance.”
+description: "Ask questions and make requests related to support and maintenance."
 body:
   - type: textarea
     id: description

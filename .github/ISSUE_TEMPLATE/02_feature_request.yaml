@@ -1,5 +1,5 @@
 name: Feature Request
-description: “Recommend features to implement in PHDI.”
+description: "Recommend features to implement in PHDI."
 body:
   - type: markdown
     attributes:
