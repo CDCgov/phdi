@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - nick/fhir-converter-container
 
 jobs:
   list-containers:
