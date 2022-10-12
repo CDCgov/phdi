@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "containers/**"
+      - ".github/workflows/buildContainers.yaml"
 
 jobs:
   list-containers:
