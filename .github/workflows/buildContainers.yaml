@@ -62,7 +62,7 @@ jobs:
         with:
           context: ./containers/${{matrix.container-to-build}}
           push: true
-          tags: ghcr.io/${{ github.repository }}/${{matrix.container-to-build}}:latest
+          tags: ghcr.io/cdcgov/phdi/${{matrix.container-to-build}}:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
