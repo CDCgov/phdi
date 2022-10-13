@@ -44,6 +44,23 @@ Read through the [Geospatial Tutorial](https://github.com/CDCgov/phdi/blob/main/
     - No API key needed
     - Returned information includes standardized address, latitude, longitude, Census Tract, Census Block, and Census GEOID
 
+**Which geocoding service should I use?**
+
+Although the Smarty and Census geocoding services operate very similarly in the SDK, there are some differences that may impact which service you use. Below are the key differences between the services. 
+- Returned items:
+    - Both: line (street number and name), city, state, postal code, county FIPS code, county name, latitude, longitude
+    - Smarty-only: precision (zip5 or zip9; Census defaults to zip5)
+    - Census-only: Geoid, census tract, census block
+- Address-specificity: 
+    - The Census API only returns street number and name, and does not include any secondary address information (e.g., apt number, floor, etc.). 
+    - For an example address, e.g., 123 Main St Apt B, the returns will look like:
+        - Smarty: 123 Main Street Apt B
+        - Census: 123 Main Street
+    - Note that when using the Census geocoding service with FHIR resources, the address (line) cannot be overwritten. To prevent a loss of output information, please use the geocoding service that best suits your needs.
+
+For example use cases and additional guidance on the geocoding services, please see the [Common Uses](https://github.com/CDCgov/phdi/blob/main/tutorials/geospatial-tutorial.md#common-uses) documentation.
+
+
 **Receiving a CDC subsidized Smarty license (API key)**
 
 - Create a [ticket in the phdi repo](https://github.com/CDCgov/phdi/issues/new/choose) to request to become a Geocoding Beta partner. Creating this ticket will kick-off the process to retrieve a CDC-subsidized Smarty license.  
