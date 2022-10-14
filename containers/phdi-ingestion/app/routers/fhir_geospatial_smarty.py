@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-#from phdi.geo import get_smartystreets_client, geocode_patients
+
+# from phdi.geo import get_smartystreets_client, geocode_patients
 
 router = APIRouter(
     prefix="/fhir/geospatial/smarty",
