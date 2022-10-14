@@ -1,6 +1,8 @@
 import fhirpathpy
 import json
+import numpy as np
 import random
+import pandas as pd
 import pathlib
 
 from functools import cache
@@ -47,12 +49,14 @@ def _apply_selection_criteria(
 
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
-    Creates and returns a dictionary of data based on a FHIR resource and a schema. The
-    keys of the created dict are the "new names" for the fields in the given schema, and
-    the values are the elements of the given resource that correspond to these fields.
-    Here, `new_name` is a property contained in the schema that specifies what a
-    particular variable should be called. If a schema can't be found for the given
-    resource type, the raw resource is instead returned.
+    Creates and returns a dictionary of data based on a FHIR resource
+    and a schema. The keys of the created dict are the "new names"
+    for the fields in the given schema, and the values are the
+    elements of the given resource that correspond to these fields.
+    Here, `new_name` is a property contained in the schema that
+    specifies what a particular variable should be called. If a
+    schema can't be found for the given resource type, the raw
+    resource is instead returned.
 
     :param resource: A FHIR resource on which to apply a schema.
     :param schema: A schema specifying the desired values to extract,
@@ -64,6 +68,7 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     resource_schema = schema.get(resource.get("resourceType", ""))
     if resource_schema is None:
         return data
+
     for field in resource_schema.keys():
         path = resource_schema[field]["fhir_path"]
 
@@ -77,6 +82,37 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
             value = _apply_selection_criteria(value, selection_criteria)
             data[resource_schema[field]["new_name"]] = str(value)
 
+    return data
+
+
+def tabulate_data(extracted_data: dict, schema: dict) -> pd.DataFrame:
+    """
+    Turns data extracted from a FHIR server into a tabular format for
+    downstream processing. Accepts a schema to apply to the extracted
+    data, and when converting to a tabular format, replaces empty strings
+    with nan for easy filtering.
+
+    :param extracted_data: The content response from the FHIR server
+      holding retrieved data to tabulate.
+    :param schema: The schema of columns and values to apply to the
+      extracted data.
+    :return: A pandas DataFrame of the extracted data conforming to a
+      table using the desired schema.
+    """
+
+    data = []
+    for resource in extracted_data.get("entry", []):
+        values_from_resource = apply_schema_to_resource(
+            resource.get("resource", {}), schema
+        )
+        if values_from_resource != {}:
+            data.append(values_from_resource)
+
+    # Could use DataFrame.from_records, but .json_normalize accounts for
+    # any nested dicts if they happen to be returned and automatically
+    # uses key/column indexing
+    data = pd.json_normalize(data)
+    data = data.replace(r"^\s*$", np.nan, regex=True)
     return data
 
 

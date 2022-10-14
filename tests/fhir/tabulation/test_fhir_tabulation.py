@@ -1,4 +1,5 @@
 import json
+import pandas as pd
 import pathlib
 import yaml
 
@@ -9,6 +10,7 @@ from phdi.fhir.tabulation.tables import (
     apply_schema_to_resource,
     generate_all_tables_in_schema,
     generate_table,
+    tabulate_data,
 )
 
 
@@ -50,6 +52,15 @@ def test_apply_schema_to_resource():
         "phone_number": "123-456-7890",
     }
 
+    # Test for inserting empty string if field not found
+    del resource["name"][0]["family"]
+    assert apply_schema_to_resource(resource, schema) == {
+        "patient_id": "some-uuid",
+        "first_name": "John ",
+        "last_name": "",
+        "phone_number": "123-456-7890",
+    }
+
     # Test for resource_schema is None
     resource = json.load(
         open(
@@ -60,6 +71,38 @@ def test_apply_schema_to_resource():
     )
     resource = resource["entry"][0]["resource"]
     assert apply_schema_to_resource(resource, schema) == {}
+
+
+def test_tabulate_data():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+        )
+    )
+    schema = schema["my_table"]
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+
+    tabulated_data = tabulate_data(extracted_data, schema)
+
+    # Check all columns froms chema present
+    assert len(tabulated_data.columns) == 4
+    assert "patient_id" in tabulated_data.columns
+    assert "first_name" in tabulated_data.columns
+    assert "last_name" in tabulated_data.columns
+    assert "phone_number" in tabulated_data.columns
+
+    # Check all records in data bundle present
+    assert len(extracted_data["entry"]) == len(tabulated_data.index)
+
+    # Check that expected blank string is now a nan
+    assert pd.isna(tabulated_data.at[2, "last_name"])
+    assert pd.isna(tabulated_data.at[1, "phone_number"])
 
 
 @mock.patch("phdi.fhir.tabulation.tables.write_table")
