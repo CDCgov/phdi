@@ -1,5 +1,6 @@
 import json
 import pathlib
+import pytest
 import urllib.parse
 import yaml
 
@@ -334,3 +335,17 @@ def test_generate_search_urls(patch_generate_search_urls):
             + "2000-01-01T00:00:00||1000||None",
         },
     }
+
+
+def test_generate_search_urls_invalid():
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "invalid_schema.yaml"
+        )
+    )
+
+    with pytest.raises(ValueError):
+        _generate_search_urls(schema)
