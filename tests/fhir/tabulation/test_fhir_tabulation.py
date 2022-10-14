@@ -231,7 +231,7 @@ def test_generate_search_url():
     base_fhir_url = "https://fhir-host/r4"
 
     test_search_url_1 = urllib.parse.quote(
-        "Patient?birtdate=2000-01-01T00:00:00", safe="/?="
+        "Patient?birtdate=2000-01-01T00:00:00", safe="?="
     )
     assert (
         _generate_search_url(f"{base_fhir_url}/{test_search_url_1}")
@@ -276,4 +276,31 @@ def test_generate_search_url():
         )
         == f"{test_search_url_2}"
         + f"{urllib.parse.quote('?_count=10&_since=2022-01-01T00:00:00', safe='?&=')}"
+    )
+
+    test_search_url_3 = urllib.parse.quote(
+        "Observation?"
+        + "category=http://hl7.org/fhir/ValueSet/observation-category|laboratory",
+        safe="?=",
+    )
+    assert (
+        _generate_search_url(f"{base_fhir_url}/{test_search_url_3}")
+        == f"{base_fhir_url}/{test_search_url_3}"
+    )
+    assert _generate_search_url(f"/{test_search_url_3}") == f"/{test_search_url_3}"
+    assert _generate_search_url(f"{test_search_url_3}") == f"{test_search_url_3}"
+    assert (
+        _generate_search_url(f"{test_search_url_3}", default_count=5)
+        == f"{test_search_url_3}&_count=5"
+    )
+    assert (
+        _generate_search_url(f"{test_search_url_3}&_count=10", default_count=5)
+        == f"{test_search_url_3}&_count=10"
+    )
+    assert (
+        _generate_search_url(
+            f"{test_search_url_3}&_count=10", default_since="2022-01-01T00:00:00"
+        )
+        == f"{test_search_url_3}"
+        + f"{urllib.parse.quote('&_count=10&_since=2022-01-01T00:00:00', safe='?&=')}"
     )
