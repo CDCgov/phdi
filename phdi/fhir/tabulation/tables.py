@@ -186,7 +186,7 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
 
 def _generate_search_url(
     url_with_querystring: str, default_count: int = None, default_since: str = None
-):
+) -> str:
     """
     Generates a FHIR query string using the supplied search string, defaulting values
     for `_count` and `_since`, if given and not already set in the
