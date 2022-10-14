@@ -219,3 +219,37 @@ def _generate_search_url(
         return search_url_prefix
 
     return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
+
+
+def _generate_search_urls(schema: dict) -> dict:
+    since = None
+    count = None
+
+    url_dict = {}
+
+    metadata = schema.get("metadata", {})
+    if metadata is not None:
+        since = metadata.get("since")
+        count = metadata.get("count")
+
+    for dataset_name, dataset in enumerate(schema.get("datasets", {})):
+        dataset_metadata = dataset.get("metadata", {})
+        since = dataset_metadata.get("metadata", since)
+        count = dataset_metadata.get("metadata", count)
+
+        for table_name, table in enumerate(dataset.get("tables", {})):
+            table_metadata = table.get("metadata", {})
+            search_string = table_metadata.get("search_string")
+
+            if not search_string:
+                raise ValueError(
+                    "Each table must specify search_string. "
+                    + f"search_string not found in table {table_name} "
+                    + f"of dataset {dataset_name}."
+                )
+
+            url_dict[dataset_name][table_name] = _generate_search_url(
+                search_string, count, since
+            )
+
+    return url_dict
