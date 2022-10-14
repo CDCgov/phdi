@@ -11,6 +11,7 @@ from phdi.fhir.tabulation.tables import (
     generate_all_tables_in_schema,
     generate_table,
     _generate_search_url,
+    _generate_search_urls,
 )
 
 
@@ -304,3 +305,32 @@ def test_generate_search_url():
         == f"{test_search_url_3}"
         + f"{urllib.parse.quote('&_count=10&_since=2022-01-01T00:00:00', safe='?&=')}"
     )
+
+
+@mock.patch("phdi.fhir.tabulation.tables._generate_search_url")
+def test_generate_search_urls(patch_generate_search_urls):
+    patch_generate_search_urls.side_effect = (
+        lambda search, count, since: f"{search}||{count}||{since}"
+    )
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+        )
+    )
+
+    search_urls = _generate_search_urls(schema)
+
+    assert search_urls == {
+        "dataset A": {
+            "table 1A": "Patient||1000||2020-01-01T00:00:00",
+            "table 2A": "Observation/category="
+            + "http://hl7.org/fhir/ValueSet/observation-category|laboratory"
+            + "||1000||2020-01-01T00:00:00",
+        },
+        "dataset B": {
+            "table 1B": "Patient?birthdate=2000-01-01T00:00:00||1000||None",
+            "table 2B": "DiagnosticReport?subject:Patient.birthdate="
+            + "2000-01-01T00:00:00||1000||None",
+        },
+    }

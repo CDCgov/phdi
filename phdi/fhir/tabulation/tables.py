@@ -245,16 +245,16 @@ def _generate_search_urls(schema: dict) -> dict:
     url_dict = {}
 
     metadata = schema.get("metadata", {})
-    if metadata is not None:
-        since = metadata.get("since")
-        count = metadata.get("count")
+    since_top = metadata.get("since")
+    count_top = metadata.get("count")
 
-    for dataset_name, dataset in enumerate(schema.get("datasets", {})):
+    for dataset_name, dataset in schema.get("datasets", {}).items():
         dataset_metadata = dataset.get("metadata", {})
-        since = dataset_metadata.get("metadata", since)
-        count = dataset_metadata.get("metadata", count)
 
-        for table_name, table in enumerate(dataset.get("tables", {})):
+        since = dataset_metadata.get("since", since_top)
+        count = dataset_metadata.get("count", count_top)
+
+        for table_name, table in dataset.get("tables", {}).items():
             table_metadata = table.get("metadata", {})
             search_string = table_metadata.get("search_string")
 
@@ -264,6 +264,9 @@ def _generate_search_urls(schema: dict) -> dict:
                     + f"search_string not found in table {table_name} "
                     + f"of dataset {dataset_name}."
                 )
+
+            if url_dict.get(dataset_name) is None:
+                url_dict[dataset_name] = {}
 
             url_dict[dataset_name][table_name] = _generate_search_url(
                 search_string, count, since
