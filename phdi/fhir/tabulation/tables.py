@@ -5,6 +5,7 @@ import pathlib
 
 from functools import cache
 from typing import Any, Callable, Literal, List
+from urllib.parse import parse_qs, urlencode
 
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import fhir_server_get
@@ -181,3 +182,40 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
       at `fhirpath_expression`.
     """
     return fhirpathpy.compile(fhirpath_expression)
+
+
+def _generate_search_url(
+    url_with_querystring: str, default_count: int = None, default_since: str = None
+) -> str:
+    """
+    Generates a FHIR query string using the supplied search string, defaulting values
+    for `_count` and `_since`, if given and not already set in the
+    `url_with_querystring`.
+
+    :param url_with_querystring: The search URL with querystring. The search URL
+      may contain the base URL, or may start with the resource name.
+    :param default_count: If set, and querystring does not specify `_count`, the
+      `_count` parameter is added to the query string with this value. Default: `None`
+    :param default_since: If set, and querystring does not specify `_since`, the
+      `_since` parameter is added to the query string with this value. Default: `None`
+    :return: The `url_with_querystring` including any defaulted values.
+    """
+    if "?" in url_with_querystring:
+        search_url_prefix, search_query_string = url_with_querystring.split("?", 1)
+    else:
+        # Split will generate a ValueError if the delimiter is not found
+        # in the string, so handle this as an edge case.
+        search_url_prefix, search_query_string = (url_with_querystring, "")
+
+    query_string_dict = parse_qs(search_query_string)
+    if default_count is not None and query_string_dict.get("_count") is None:
+        query_string_dict["_count"] = [default_count]
+
+    if default_since is not None and query_string_dict.get("_since") is None:
+        query_string_dict["_since"] = [default_since]
+
+    updated_query_string = urlencode(query_string_dict, doseq=True)
+    if not updated_query_string:
+        return search_url_prefix
+
+    return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
