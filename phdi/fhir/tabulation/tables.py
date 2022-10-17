@@ -112,7 +112,7 @@ def tabulate_data(extracted_data: dict, schema: dict) -> List[List]:
 
         # apply_schema_to_resource ensures that all desired table fields
         # exist in the first element
-        if headers == None:
+        if headers is None:
             headers = sorted(list(values_from_resource.keys()))
             data.append(headers)
 
