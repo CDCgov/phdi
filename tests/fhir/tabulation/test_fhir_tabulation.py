@@ -7,6 +7,7 @@ from unittest import mock
 from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
     apply_schema_to_resource,
+    drop_null,
     generate_all_tables_in_schema,
     generate_table,
 )
@@ -222,4 +223,67 @@ def test_generate_all_tables_schema(patched_load_schema, patched_make_table):
         output_format,
         fhir_url,
         mock_cred_manager,
+    )
+
+
+def test_drop_null():
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+        )
+    )
+
+fhir_server_responses_no_nulls = [
+    [col1,col2],
+    [value1, value2],
+    [value1, value2]
+]
+
+    fhir_server_responses_no_nulls = [
+        {
+            "patient_id": "some-uuid",
+            "first_name": "John ",
+            "last_name": "Doe",
+            "phone_number": "123-456-7890",
+        },
+        {
+            "patient_id": "some-uuid2",
+            "first_name": "First",
+            "last_name": "Last",
+            "phone_number": "123-456-7890",
+        },
+    ]
+
+    # Keeps all resources because include_nulls all False
+    responses_no_nulls = drop_null(
+        fhir_server_responses_no_nulls, schema["my_table"]["Patient"]
+    )
+    assert len(responses_no_nulls) == 2
+    assert responses_no_nulls[1].get("phone_number") == fhir_server_responses_no_nulls[
+        1
+    ].get("phone_number")
+
+    # Drop null resource
+    fhir_server_responses_1_null = [
+        {
+            "patient_id": "some-uuid",
+            "first_name": "John ",
+            "last_name": "Doe",
+            "phone_number": "123-456-7890",
+        },
+        {
+            "patient_id": "some-uuid2",
+            "first_name": "First",
+            "last_name": "Last",
+            "phone_number": None,
+        },
+    ]
+
+    responses_1_null = drop_null(
+        fhir_server_responses_1_null, schema["my_table"]["Patient"]
+    )
+    assert len(responses_1_null) == 1
+    assert responses_1_null[0].get("patient_id") == fhir_server_responses_1_null[0].get(
+        "patient_id"
     )
