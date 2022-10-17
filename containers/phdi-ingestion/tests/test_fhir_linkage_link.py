@@ -101,7 +101,7 @@ def test_add_patient_identifier_in_bundle_salt_from_env_missing(patched_environ)
 
     expected_response = {
         "status_code": 500,
-        "message": "Environment variable 'SALT_STR' not set. The environment variable must be set.", #noqa
+        "message": "Environment variable 'SALT_STR' not set. The environment variable must be set.",  # noqa
     }
     actual_response = client.post(
         "/fhir/linkage/link/add_patient_identifier_in_bundle", json=test_request
