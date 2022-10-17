@@ -170,6 +170,35 @@ def generate_all_tables_in_schema(
         )
 
 
+def drop_null(response: list, schema: dict):
+    """
+    Removes resources from FHIR response if the resource contains a null value for
+    fields where include_nulls is False, as specified in the schema.
+
+    :param response: List of resources returned from FHIR API.
+    :param return: List of resources with removed nulls.
+    """
+
+    # Identify fields to drop nulls
+    nulls_to_drop = [
+        schema[key]["new_name"]
+        for key in schema.keys()
+        if not schema[key]["include_nulls"]
+    ]
+
+    # Check if resource contains nulls to be dropped
+    for resource in response:
+        # Check if any of the fields are none
+        if all(resource.values()):
+            continue
+        else:
+            for null_column in nulls_to_drop:
+                if not resource[null_column]:
+                    response.remove(resource)
+
+    return response
+
+
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
