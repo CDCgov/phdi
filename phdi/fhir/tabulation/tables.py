@@ -176,6 +176,7 @@ def drop_null(response: list, schema: dict):
     fields where include_nulls is False, as specified in the schema.
 
     :param response: List of resources returned from FHIR API.
+    :raises ValueError: If field  does not include street number and name.
     :param return: List of resources with removed nulls.
     """
 
@@ -186,14 +187,22 @@ def drop_null(response: list, schema: dict):
         if not schema[key]["include_nulls"]
     ]
 
+    # Identify indices in List of Lists to check for nulls
+    indices_of_nulls = []
+    for field in nulls_to_drop:
+        if field in response[0]:
+            indices_of_nulls.append(response[0].index(field))
+        else:
+            raise ValueError("Field not in FHIR response.")
+
     # Check if resource contains nulls to be dropped
-    for resource in response:
+    for resource in response[1:]:
         # Check if any of the fields are none
-        if all(resource.values()):
+        if None not in resource:
             continue
         else:
-            for null_column in nulls_to_drop:
-                if not resource[null_column]:
+            for i in indices_of_nulls:
+                if not resource[i]:
                     response.remove(resource)
 
     return response
