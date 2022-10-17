@@ -1,27 +1,17 @@
 from fastapi import APIRouter
-
 from pydantic import BaseModel, validator
 from typing import Literal, Optional
 
+from app.utils import check_for_fhir
+
 from phdi.fhir.harmonization.standardization import standardize_names
 from phdi.fhir.harmonization.standardization import standardize_phones
+
 
 router = APIRouter(
     prefix="/fhir/harmonization/standardization",
     tags=["fhir/harmonization"],
 )
-
-
-def check_for_fhir(value: dict) -> dict:
-    """
-    Check to see if the value provided for 'data' is a FHIR resource or bundle.
-    """
-
-    assert value.get("resourceType") not in [
-        None,
-        "",
-    ], "Must provide a FHIR resource or bundle"
-    return value
 
 
 class StandardizeNamesInput(BaseModel):
