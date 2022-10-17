@@ -234,56 +234,28 @@ def test_drop_null():
         )
     )
 
-fhir_server_responses_no_nulls = [
-    [col1,col2],
-    [value1, value2],
-    [value1, value2]
-]
-
     fhir_server_responses_no_nulls = [
-        {
-            "patient_id": "some-uuid",
-            "first_name": "John ",
-            "last_name": "Doe",
-            "phone_number": "123-456-7890",
-        },
-        {
-            "patient_id": "some-uuid2",
-            "first_name": "First",
-            "last_name": "Last",
-            "phone_number": "123-456-7890",
-        },
+        ["patient_id", "first_name", "last_name", "phone_number"],
+        ["some-uuid", "John", "Doe", "123-456-7890"],
+        ["some-uuid2", "First", "Last", "123-456-7890"],
     ]
 
     # Keeps all resources because include_nulls all False
     responses_no_nulls = drop_null(
         fhir_server_responses_no_nulls, schema["my_table"]["Patient"]
     )
-    assert len(responses_no_nulls) == 2
-    assert responses_no_nulls[1].get("phone_number") == fhir_server_responses_no_nulls[
-        1
-    ].get("phone_number")
+    assert len(responses_no_nulls) == 3
+    assert responses_no_nulls[1][3] == fhir_server_responses_no_nulls[1][3]
 
     # Drop null resource
     fhir_server_responses_1_null = [
-        {
-            "patient_id": "some-uuid",
-            "first_name": "John ",
-            "last_name": "Doe",
-            "phone_number": "123-456-7890",
-        },
-        {
-            "patient_id": "some-uuid2",
-            "first_name": "First",
-            "last_name": "Last",
-            "phone_number": None,
-        },
+        ["patient_id", "first_name", "last_name", "phone_number"],
+        ["some-uuid", "John", "Doe", "123-456-7890"],
+        ["some-uuid2", "Marcelle", "Goggins", None],
     ]
 
     responses_1_null = drop_null(
         fhir_server_responses_1_null, schema["my_table"]["Patient"]
     )
-    assert len(responses_1_null) == 1
-    assert responses_1_null[0].get("patient_id") == fhir_server_responses_1_null[0].get(
-        "patient_id"
-    )
+    assert len(responses_1_null) == 2
+    assert responses_1_null[1][0] == fhir_server_responses_1_null[1][0]
