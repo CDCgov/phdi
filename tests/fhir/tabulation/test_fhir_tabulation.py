@@ -92,19 +92,28 @@ def test_tabulate_data():
 
     tabulated_data = tabulate_data(extracted_data, schema)
 
-    # Check all columns froms chema present
-    assert len(tabulated_data.columns) == 4
-    assert "patient_id" in tabulated_data.columns
-    assert "first_name" in tabulated_data.columns
-    assert "last_name" in tabulated_data.columns
-    assert "phone_number" in tabulated_data.columns
+    # Check all columns from schema present
+    assert tabulated_data[0] == [
+        "first_name",
+        "last_name",
+        "patient_id",
+        "phone_number",
+    ]
 
     # Check all records in data bundle present
-    assert len(extracted_data["entry"]) == len(tabulated_data.index)
+    assert len(extracted_data["entry"]) + 1 == len(tabulated_data)
 
-    # Check that expected blank string is now a nan
-    assert pd.isna(tabulated_data.at[2, "last_name"])
-    assert pd.isna(tabulated_data.at[1, "phone_number"])
+    # Check for expected blank strings
+    assert tabulated_data[3][1] == ""
+    assert tabulated_data[2][3] == ""
+
+    # Verify full row is correctly tabulated
+    assert tabulated_data[1] == [
+        "Kimberley248",
+        "Price929",
+        "907844f6-7c99-eabc-f68e-d92189729a55",
+        "555-690-3898",
+    ]
 
 
 @mock.patch("phdi.fhir.tabulation.tables.write_table")

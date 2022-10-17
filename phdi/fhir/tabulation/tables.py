@@ -1,8 +1,6 @@
 import fhirpathpy
 import json
-import numpy as np
 import random
-import pandas as pd
 import pathlib
 
 from functools import cache
@@ -86,34 +84,43 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     return data
 
 
-def tabulate_data(extracted_data: dict, schema: dict) -> pd.DataFrame:
+def tabulate_data(extracted_data: dict, schema: dict) -> List[List]:
     """
     Turns data extracted from a FHIR server into a tabular format for
     downstream processing. Accepts a schema to apply to the extracted
-    data, and when converting to a tabular format, replaces empty strings
-    with nan for easy filtering.
+    data, which is transformed into a list of lists. The first entry
+    in the returned list is a list of headers for the new table, and
+    subsequent lists are each an extracted data element represented
+    in a tabular format.
 
     :param extracted_data: The content response from the FHIR server
       holding retrieved data to tabulate.
     :param schema: The schema of columns and values to apply to the
       extracted data.
-    :return: A pandas DataFrame of the extracted data conforming to a
-      table using the desired schema.
+    :return: A list of lists of the extracted data representing a
+      table. The first list in the return value is a list of headers
+      serving as the columns, and all subsequent lists are rows in
+      the table.
     """
 
     data = []
+    headers = None
     for resource in extracted_data.get("entry", []):
         values_from_resource = apply_schema_to_resource(
             resource.get("resource", {}), schema
         )
-        if values_from_resource != {}:
-            data.append(values_from_resource)
 
-    # Could use DataFrame.from_records, but .json_normalize accounts for
-    # any nested dicts if they happen to be returned and automatically
-    # uses key/column indexing
-    data = pd.json_normalize(data)
-    data = data.replace(r"^\s*$", np.nan, regex=True)
+        # apply_schema_to_resource ensures that all desired table fields
+        # exist in the first element
+        if headers == None:
+            headers = sorted(list(values_from_resource.keys()))
+            data.append(headers)
+
+        # use extracted headers to tabulate each row in the same order
+        if values_from_resource != {}:
+            tabulated_values = [values_from_resource[h] for h in headers]
+            data.append(tabulated_values)
+
     return data
 
 
