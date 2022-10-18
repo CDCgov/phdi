@@ -1,8 +1,8 @@
 incremental_query_count: 1000
 tables:
   table 1A:
-    earliest_update_datetime: "2020-01-01T00:00:00"
     resource_type: Patient
+    earliest_update_datetime: "2020-01-01T00:00:00"
     columns:
       Patient ID:
         fhir_path: Patient.id
