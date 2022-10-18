@@ -5,7 +5,7 @@ import os
 
 from phdi.fhir.linkage.link import add_patient_identifier_in_bundle
 
-from app.utils import check_for_environment_variables, check_for_fhir_bundle
+from app.utils import check_for_fhir_bundle, search_for_required_values
 
 
 router = APIRouter(
@@ -19,7 +19,9 @@ class AddPatientIdentifierInBundleInput(BaseModel):
     salt_str: Optional[str] = ""
     overwrite: Optional[bool] = True
 
-    _check_for_fhir = validator("bundle", allow_reuse=True)(check_for_fhir_bundle)
+    _check_for_fhir_bundle = validator("bundle", allow_reuse=True)(
+        check_for_fhir_bundle
+    )
 
 
 @router.post("/add_patient_identifier_in_bundle", status_code=200)
@@ -38,13 +40,10 @@ async def add_patient_identifier_in_bundle_endpoint(
     """
 
     input = dict(input)
-
-    if input.get("salt_str") in [None, ""]:
-        check_result = check_for_environment_variables(["SALT_STR"])
-        if check_result["status_code"] == 500:
-            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-            return check_result
-        else:
-            input["salt_str"] = os.environ.get("SALT_STR")
+    required_values = ["salt_str"]
+    search_result = search_for_required_values(input, required_values)
+    if search_result != "All values were found.":
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return search_result
 
     return add_patient_identifier_in_bundle(**input)

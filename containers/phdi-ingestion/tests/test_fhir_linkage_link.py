@@ -1,10 +1,12 @@
 import pathlib
+import os
 import json
 import copy
 from fastapi.testclient import TestClient
 from unittest import mock
 
 from app.main import app
+from app.config import get_settings
 
 client = TestClient(app)
 
@@ -72,9 +74,9 @@ def test_add_patient_identifier_in_bundle_bad_parameter_types():
     assert actual_response.json() == expected_response
 
 
-@mock.patch("app.routers.fhir_linkage_link.os.environ")
-def test_add_patient_identifier_in_bundle_salt_from_env(patched_environ):
-    patched_environ.get.return_value = "test_hash"
+def test_add_patient_identifier_in_bundle_salt_from_env():
+    os.environ.pop("CREDENTIAL_MANAGER", None)
+    os.environ["SALT_STR"] = "test_hash"
 
     test_request = {"bundle": test_bundle}
 
@@ -86,23 +88,26 @@ def test_add_patient_identifier_in_bundle_salt_from_env(patched_environ):
             "value": "699d8585efcf84d1a03eb58e84cd1c157bf7b718d9257d7436e2ff0bd14b2834",
         }
     ]
-
+    get_settings.cache_clear()
     actual_response = client.post(
         "/fhir/linkage/link/add_patient_identifier_in_bundle", json=test_request
     )
     assert actual_response.json() == expected_response
 
 
-@mock.patch("app.routers.fhir_linkage_link.os.environ")
-def test_add_patient_identifier_in_bundle_salt_from_env_missing(patched_environ):
-    patched_environ.get.return_value = None
+def test_add_patient_identifier_in_bundle_salt_from_env_missing():
+    os.environ.pop("CREDENTIAL_MANAGER", None)
+    os.environ.pop("SALT_STR", None)
 
     test_request = {"bundle": test_bundle}
 
-    expected_response = {
-        "status_code": 500,
-        "message": "Environment variable 'SALT_STR' not set. The environment variable must be set.",  # noqa
-    }
+    expected_response = (
+        "The following values are required, but were not included in "
+        "the request and could not be read from the environment. Please resubmit the "
+        "request including these values or add them as environment variables to this "
+        "service. missing values: salt_str."
+    )
+    get_settings.cache_clear()
     actual_response = client.post(
         "/fhir/linkage/link/add_patient_identifier_in_bundle", json=test_request
     )
