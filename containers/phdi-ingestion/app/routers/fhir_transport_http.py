@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
 from typing import Literal, Optional
-import os
 
 from app.utils import check_for_fhir_bundle, search_for_required_values
 

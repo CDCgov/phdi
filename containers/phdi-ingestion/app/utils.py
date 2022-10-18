@@ -1,5 +1,3 @@
-import os
-from typing import Tuple
 from app.config import get_settings
 
 

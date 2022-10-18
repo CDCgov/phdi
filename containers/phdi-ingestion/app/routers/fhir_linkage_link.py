@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
 from typing import Optional
-import os
 
 from phdi.fhir.linkage.link import add_patient_identifier_in_bundle
 

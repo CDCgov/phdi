@@ -1,4 +1,3 @@
-from operator import ge
 from fastapi import FastAPI
 from app.routers import (
     fhir_harmonization_standardization,

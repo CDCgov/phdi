@@ -1,5 +1,4 @@
 import os
-from unittest import mock
 import pytest
 from app.utils import (
     check_for_fhir,
