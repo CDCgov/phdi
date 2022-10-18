@@ -251,7 +251,7 @@ def test_drop_null():
     fhir_server_responses_1_null = [
         ["patient_id", "first_name", "last_name", "phone_number"],
         ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "Marcelle", "Goggins", None],
+        ["some-uuid2", "Marcelle", "Goggins", ""],
     ]
 
     responses_1_null = drop_null(
