@@ -1,0 +1,12 @@
+incremental_query_count: 1000
+tables:
+  table 1A:
+    # Missing resource_type
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+        new_name: patient_id
+
