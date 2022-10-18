@@ -211,5 +211,5 @@ def drop_null(response: list, schema: dict):
             for i in indices_of_nulls:
                 if resource[i] == "":
                     response.remove(resource)
-
+                    break
     return response
