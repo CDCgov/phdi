@@ -225,14 +225,8 @@ def _generate_search_urls(schema: dict) -> dict:
     """
     Parses a schema, and populates a dictionary containing generated search strings
     for each table, in the following structure:
-    * dataset_A
-      * table_1A: search_string_1A
-      * table_2A: search_string_2A
-      * ...
-    * dataset_B
-      * table_1B: search_string_1B
-      * table_2B: search_string_2B
-      * ...
+    * table_1: search_string_1
+    * table_2: search_string_2
     * ...
 
     :param schema: The schema to parse and create search_strings.
