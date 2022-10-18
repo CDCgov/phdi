@@ -183,28 +183,6 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     return fhirpathpy.compile(fhirpath_expression)
 
 
-import json
-import yaml
-
-file = open("C://Repos/phdi/tests/assets/FHIR_server_query_response_200_example.json")
-response = json.load(file)
-query_result = response["content_1"]
-
-schema = yaml.safe_load(open("C://Repos/phdi/tests/assets/test_schema.yaml"))
-schema = schema["my_table"]["Patient"]
-# data = []
-# for resource in query_result["entry"]:
-#     values_from_resource = apply_schema_to_resource(resource["resource"], schema)
-#     if values_from_resource != {}:
-#         data.append(values_from_resource)
-
-response = [
-    ["patient_id", "first_name", "last_name", "phone_number"],
-    ["some-uuid", "John", "Doe", "123-456-7890"],
-    ["some-uuid2", "Marcelle", "Goggins", ""],
-]
-
-
 def drop_null(response: list, schema: dict):
     """
     Removes resources from FHIR response if the resource contains a null value for
