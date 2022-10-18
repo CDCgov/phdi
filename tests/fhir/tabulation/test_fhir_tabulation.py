@@ -323,17 +323,12 @@ def test_generate_search_urls(patch_generate_search_url):
     search_urls = _generate_search_urls(schema)
 
     assert search_urls == {
-        "dataset A": {
-            "table 1A": "Patient||1000||2020-01-01T00:00:00",
-            "table 2A": "Observation?category="
-            + "http://hl7.org/fhir/ValueSet/observation-category|laboratory"
-            + "||1000||2020-01-01T00:00:00",
-        },
-        "dataset B": {
-            "table 1B": "Patient?birthdate=2000-01-01T00:00:00||1000||None",
-            "table 2B": "DiagnosticReport?subject:Patient.birthdate="
-            + "2000-01-01T00:00:00||1000||None",
-        },
+        "table 1A": "Patient||1000||2020-01-01T00:00:00",
+        "table 2A": "Observation?category="
+        + urllib.parse.quote(
+            "http://hl7.org/fhir/ValueSet/observation-category|laboratory", safe=""
+        )
+        + urllib.parse.quote("||1000||None", safe="|"),
     }
 
 

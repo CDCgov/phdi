@@ -244,32 +244,26 @@ def _generate_search_urls(schema: dict) -> dict:
 
     url_dict = {}
 
-    metadata = schema.get("metadata", {})
-    since_top = metadata.get("since")
-    count_top = metadata.get("count")
+    count_top = schema.get("incremental_query_count")
+    since_top = schema.get("earliest_update_datetime")
 
-    for dataset_name, dataset in schema.get("datasets", {}).items():
-        dataset_metadata = dataset.get("metadata", {})
+    for table_name, table in schema.get("tables", {}).items():
+        resource_type = table.get("resource_type")
 
-        since = dataset_metadata.get("since", since_top)
-        count = dataset_metadata.get("count", count_top)
-
-        for table_name, table in dataset.get("tables", {}).items():
-            table_metadata = table.get("metadata", {})
-            search_string = table_metadata.get("search_string")
-
-            if not search_string:
-                raise ValueError(
-                    "Each table must specify search_string. "
-                    + f"search_string not found in table {table_name} "
-                    + f"of dataset {dataset_name}."
-                )
-
-            if url_dict.get(dataset_name) is None:
-                url_dict[dataset_name] = {}
-
-            url_dict[dataset_name][table_name] = _generate_search_url(
-                search_string, count, since
+        if not resource_type:
+            raise ValueError(
+                "Each table must specify resource_type. "
+                + f"resource_type not found in table {table_name}."
             )
+
+        query_params = table.get("query_params")
+        search_string = resource_type
+        if query_params is not None and len(query_params) > 0:
+            search_string += f"?{urlencode(query_params)}"
+
+        count = table.get("incremental_query_count", count_top)
+        since = table.get("earliest_update_datetime", since_top)
+
+        url_dict[table_name] = _generate_search_url(search_string, count, since)
 
     return url_dict

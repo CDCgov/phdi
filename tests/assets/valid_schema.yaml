@@ -1,123 +1,51 @@
-metadata:
-  count: 1000
-datasets:
-  dataset A:
-    metadata:
-      since: "2020-01-01T00:00:00"
-    tables:
-      table 1A:
-        metadata:
-          search_string: Patient
-        columns:
-          Patient ID:
-            fhir_path: Patient.id
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: patient_id
-          First Name:
-            fhir_path: Patient.name.given
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: first_name
-            pandas_datatype: object
-          Last Name:
-            fhir_path: Patient.name.family
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: last_name
-            pandas_datatype: object
-          Phone Number:
-            fhir_path: Patient.telecom.where(system = 'phone').value
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: phone_number
-            pandas_datatype: object
-      table 2A:
-        metadata:
-          search_string: Observation?category=http://hl7.org/fhir/ValueSet/observation-category|laboratory
-        columns:
-          Observation ID:
-            fhir_path: Observation.id
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: patient_id
-            pandas_datatype: object
-          First Name:
-            fhir_path: Patient.name.given
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: first_name
-            pandas_datatype: object
-          Last Name:
-            fhir_path: Patient.name.family
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: last_name
-            pandas_datatype: object
-          Phone Number:
-            fhir_path: Patient.telecom.where(system = 'phone').value
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: phone_number
-            pandas_datatype: object
-  dataset B:
-    tables:
-      table 1B:
-        metadata:
-          search_string: "Patient?birthdate=2000-01-01T00:00:00"
-        columns:
-          Patient ID:
-            fhir_path: Patient.id
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: patient_id
-            pandas_datatype: object
-          First Name:
-            fhir_path: Patient.name.given
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: first_name
-            pandas_datatype: object
-          Last Name:
-            fhir_path: Patient.name.family
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: last_name
-            pandas_datatype: object
-          Phone Number:
-            fhir_path: Patient.telecom.where(system = 'phone').value
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: phone_numbe
-            pandas_datatype: object
-      table 2B:
-        metadata:
-          search_string: "DiagnosticReport?subject:Patient.birthdate=2000-01-01T00:00:00"
-        columns:
-          Report ID:
-            fhir_path: DiagnosticReport.id
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: report_id
-            pandas_datatype: object
-          Report Conclusion:
-            fhir_path: DiagnosticReport.conclusion
-            include_nulls: false
-            include_unknowns: false
-            selection_criteria: first
-            new_name: report_conclusion
-            pandas_datatype: object
-            
+incremental_query_count: 1000
+tables:
+  table 1A:
+    earliest_update_datetime: "2020-01-01T00:00:00"
+    resource_type: Patient
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      First Name:
+        fhir_path: Patient.name.given
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Last Name:
+        fhir_path: Patient.name.family
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Phone Number:
+        fhir_path: Patient.telecom.where(system = 'phone').value
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+  table 2A:
+    resource_type: Observation
+    query_params:
+      category: http://hl7.org/fhir/ValueSet/observation-category|laboratory
+    columns:
+      Observation ID:
+        fhir_path: Observation.id
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      First Name:
+        fhir_path: Patient.name.given
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Last Name:
+        fhir_path: Patient.name.family
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Phone Number:
+        fhir_path: Patient.telecom.where(system = 'phone').value
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
