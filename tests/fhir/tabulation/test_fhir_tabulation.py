@@ -1,5 +1,6 @@
 import json
 import pathlib
+import urllib.parse
 import yaml
 
 from unittest import mock
@@ -10,6 +11,7 @@ from phdi.fhir.tabulation.tables import (
     drop_null,
     generate_all_tables_in_schema,
     generate_table,
+    _generate_search_url,
 )
 
 
@@ -223,6 +225,58 @@ def test_generate_all_tables_schema(patched_load_schema, patched_make_table):
         output_format,
         fhir_url,
         mock_cred_manager,
+    )
+
+
+def test_generate_search_url():
+    base_fhir_url = "https://fhir-host/r4"
+
+    test_search_url_1 = urllib.parse.quote(
+        "Patient?birtdate=2000-01-01T00:00:00", safe="/?="
+    )
+    assert (
+        _generate_search_url(f"{base_fhir_url}/{test_search_url_1}")
+        == f"{base_fhir_url}/{test_search_url_1}"
+    )
+    assert _generate_search_url(f"/{test_search_url_1}") == f"/{test_search_url_1}"
+    assert _generate_search_url(f"{test_search_url_1}") == f"{test_search_url_1}"
+    assert (
+        _generate_search_url(f"{test_search_url_1}", default_count=5)
+        == f"{test_search_url_1}&_count=5"
+    )
+    assert (
+        _generate_search_url(f"{test_search_url_1}&_count=10", default_count=5)
+        == f"{test_search_url_1}&_count=10"
+    )
+    assert (
+        _generate_search_url(
+            f"{test_search_url_1}&_count=10", default_since="2022-01-01T00:00:00"
+        )
+        == f"{test_search_url_1}"
+        + f"{urllib.parse.quote('&_count=10&_since=2022-01-01T00:00:00', safe='&=')}"
+    )
+
+    test_search_url_2 = "Patient"
+    assert (
+        _generate_search_url(f"{base_fhir_url}/{test_search_url_2}")
+        == f"{base_fhir_url}/{test_search_url_2}"
+    )
+    assert _generate_search_url(f"/{test_search_url_2}") == f"/{test_search_url_2}"
+    assert _generate_search_url(f"{test_search_url_2}") == f"{test_search_url_2}"
+    assert (
+        _generate_search_url(f"{test_search_url_2}", default_count=5)
+        == f"{test_search_url_2}?_count=5"
+    )
+    assert (
+        _generate_search_url(f"{test_search_url_2}?_count=10", default_count=5)
+        == f"{test_search_url_2}?_count=10"
+    )
+    assert (
+        _generate_search_url(
+            f"{test_search_url_2}?_count=10", default_since="2022-01-01T00:00:00"
+        )
+        == f"{test_search_url_2}"
+        + f"{urllib.parse.quote('?_count=10&_since=2022-01-01T00:00:00', safe='?&=')}"
     )
 
 
