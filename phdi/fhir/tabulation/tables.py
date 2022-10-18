@@ -170,6 +170,41 @@ def generate_all_tables_in_schema(
         )
 
 
+@cache
+def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
+    """
+    Accepts a FHIRPath expression, and returns a callable function which returns the
+    evaluated value at fhirpath_expression for a specified FHIR resource.
+
+    :param fhirpath_expression: The FHIRPath expression to evaluate.
+    :return: A function that, when called passing in a FHIR resource, will return value
+      at `fhirpath_expression`.
+    """
+    return fhirpathpy.compile(fhirpath_expression)
+
+
+import json
+import yaml
+
+file = open("C://Repos/phdi/tests/assets/FHIR_server_query_response_200_example.json")
+response = json.load(file)
+query_result = response["content_1"]
+
+schema = yaml.safe_load(open("C://Repos/phdi/tests/assets/test_schema.yaml"))
+schema = schema["my_table"]["Patient"]
+# data = []
+# for resource in query_result["entry"]:
+#     values_from_resource = apply_schema_to_resource(resource["resource"], schema)
+#     if values_from_resource != {}:
+#         data.append(values_from_resource)
+
+response = [
+    ["patient_id", "first_name", "last_name", "phone_number"],
+    ["some-uuid", "John", "Doe", "123-456-7890"],
+    ["some-uuid2", "Marcelle", "Goggins", ""],
+]
+
+
 def drop_null(response: list, schema: dict):
     """
     Removes resources from FHIR response if the resource contains a null value for
@@ -192,24 +227,11 @@ def drop_null(response: list, schema: dict):
     # Check if resource contains nulls to be dropped
     for resource in response[1:]:
         # Check if any of the fields are none
-        if None not in resource:
+        if "" not in resource:
             continue
         else:
             for i in indices_of_nulls:
-                if not resource[i]:
+                if resource[i] == "":
                     response.remove(resource)
 
     return response
-
-
-@cache
-def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
-    """
-    Accepts a FHIRPath expression, and returns a callable function which returns the
-    evaluated value at fhirpath_expression for a specified FHIR resource.
-
-    :param fhirpath_expression: The FHIRPath expression to evaluate.
-    :return: A function that, when called passing in a FHIR resource, will return value
-      at `fhirpath_expression`.
-    """
-    return fhirpathpy.compile(fhirpath_expression)
