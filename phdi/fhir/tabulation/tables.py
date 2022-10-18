@@ -242,7 +242,7 @@ def drop_unknown(response: list, schema: dict):
     # Check if resource contains unknowns to be dropped
     for resource in response[1:]:
         # Check if any of the fields are None
-        if None not in set(resource):
+        if None not in resource:
             continue
         else:
             for i in indices_of_unknowns:
