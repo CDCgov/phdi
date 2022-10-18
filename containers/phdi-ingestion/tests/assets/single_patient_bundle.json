@@ -1,0 +1,47 @@
+{
+    "resourceType": "Bundle",
+    "id": "bundle-transaction",
+    "meta": {
+        "lastUpdated": "2018-03-11T11:22:16Z"
+    },
+    "type": "transaction",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "name": [
+                    {
+                        "family": "Smith",
+                        "given": [
+                            "DeeDee"
+                        ],
+                        "use": "official"
+                    }
+                ],
+                "gender": "female",
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "8015557777"
+                    }
+                ],
+                "address": [
+                    {
+                        "line": [
+                            "123 Main St."
+                        ],
+                        "city": "Anycity",
+                        "state": "CA",
+                        "postalCode": "12345",
+                        "country": "USA"
+                    }
+                ],
+                "birthDate": "1955-11-05"
+            },
+            "request": {
+                "method": "POST",
+                "url": "Patient"
+            }
+        }
+    ]
+}
