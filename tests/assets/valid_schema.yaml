@@ -38,7 +38,7 @@ datasets:
             pandas_datatype: object
       table 2A:
         metadata:
-          search_string: Observation/category=http://hl7.org/fhir/ValueSet/observation-category|laboratory
+          search_string: Observation?category=http://hl7.org/fhir/ValueSet/observation-category|laboratory
         columns:
           Observation ID:
             fhir_path: Observation.id

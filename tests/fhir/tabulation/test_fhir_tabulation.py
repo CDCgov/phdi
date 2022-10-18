@@ -325,7 +325,7 @@ def test_generate_search_urls(patch_generate_search_url):
     assert search_urls == {
         "dataset A": {
             "table 1A": "Patient||1000||2020-01-01T00:00:00",
-            "table 2A": "Observation/category="
+            "table 2A": "Observation?category="
             + "http://hl7.org/fhir/ValueSet/observation-category|laboratory"
             + "||1000||2020-01-01T00:00:00",
         },
