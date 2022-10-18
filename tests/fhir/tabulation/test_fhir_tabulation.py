@@ -309,8 +309,8 @@ def test_generate_search_url():
 
 
 @mock.patch("phdi.fhir.tabulation.tables._generate_search_url")
-def test_generate_search_urls(patch_generate_search_urls):
-    patch_generate_search_urls.side_effect = (
+def test_generate_search_urls(patch_generate_search_url):
+    patch_generate_search_url.side_effect = (
         lambda search, count, since: f"{search}||{count}||{since}"
     )
 
