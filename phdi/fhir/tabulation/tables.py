@@ -235,13 +235,10 @@ def _generate_search_urls(schema: dict) -> dict:
       * ...
     * ...
 
-    :param schema: The schema to parse and create search_strings
-    :raises ValueError: If any table does not contain a `search_string` entry
+    :param schema: The schema to parse and create search_strings.
+    :raises ValueError: If any table does not contain a `search_string` entry.
     :return: A dictionary containing search URLs.
     """
-    since = None
-    count = None
-
     url_dict = {}
 
     count_top = schema.get("incremental_query_count")
