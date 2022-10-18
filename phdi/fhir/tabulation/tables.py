@@ -187,9 +187,7 @@ def drop_null(response: list, schema: dict):
     ]
 
     # Identify indices in List of Lists to check for nulls
-    indices_of_nulls = []
-    for field in nulls_to_drop:
-        indices_of_nulls.append(response[0].index(field))
+    indices_of_nulls = [response[0].index(field) for field in nulls_to_drop]
 
     # Check if resource contains nulls to be dropped
     for resource in response[1:]:
