@@ -120,10 +120,4 @@ datasets:
             selection_criteria: first
             new_name: report_conclusion
             pandas_datatype: object
-
-
-
-    
-
-
-
+            
