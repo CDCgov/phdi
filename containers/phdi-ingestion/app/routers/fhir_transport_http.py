@@ -27,7 +27,7 @@ class UploadBundleToFhirServerInput(BaseModel):
     )
 
 
-@router.post("/upload_bundle", status_code=200)
+@router.post("/upload_bundle_to_fhir_server", status_code=200)
 def upload_bundle_to_fhir_server_endpoint(
     input: UploadBundleToFhirServerInput, response: Response
 ) -> dict:
@@ -36,10 +36,9 @@ def upload_bundle_to_fhir_server_endpoint(
 
     :param input: A JSON formated request body with schema specified by the
         UploadBundleToFhirServerInput model.
-    :return: A dictionary containing the status code and body of the response received 
+    :return: A dictionary containing the status code and body of the response received
         from the FHIR server.
     """
-
     input = dict(input)
     required_values = ["credential_manager", "fhir_url"]
     search_result = search_for_required_values(input, required_values)

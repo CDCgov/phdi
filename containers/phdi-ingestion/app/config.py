@@ -6,6 +6,7 @@ from typing import Optional, Literal
 class Settings(BaseSettings):
     credential_manager: Optional[Literal["azure", "gcp"]]
     salt_str: Optional[str]
+    fhir_url: Optional[str]
 
 
 @lru_cache()
