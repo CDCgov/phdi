@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:3.1 as build
 # Download FHIR-Converter
 RUN git clone https://github.com/microsoft/FHIR-Converter.git --branch v5.0.4 --single-branch /build/FHIR-Converter
 WORKDIR /build/FHIR-Converter
-RUN mv ./src/Microsoft.Health.Fhir.TemplateManagement.UnitTests/TestData/DecompressedFiles/.wh.VXU_V04.liquid ./src/Microsoft.Health.Fhir.TemplateManagement.UnitTests/TestData/DecompressedFiles/VXU_V04.liquid
+RUN echo test > src/Microsoft.Health.Fhir.TemplateManagement.UnitTests/TestData/DecompressedFiles/VXU_V04.liquid
 RUN mkdir bin && \
     wget https://github.com/deislabs/oras/releases/download/v0.12.0/oras_0.12.0_windows_amd64.tar.gz -O ./bin/oras.tar.gz && \
     tar -xvf ./bin/oras.tar.gz -C ./bin
