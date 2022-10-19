@@ -49,37 +49,48 @@ def _apply_selection_criteria(
 def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     """
     Creates and returns a dictionary of data based on a FHIR resource
-    and a schema. The keys of the created dict are the "new names"
-    for the fields in the given schema, and the values are the
-    elements of the given resource that correspond to these fields.
-    Here, `new_name` is a property contained in the schema that
-    specifies what a particular variable should be called. If a
-    schema can't be found for the given resource type, the raw
-    resource is instead returned.
+    and a schema. The given schema should define a table for each
+    resource type to-be-processed, and each such table must have a
+    list of columns to be included in the table as well as a FHIR-path
+    like object to access the value from the FHIR resource. The keys
+    of the returned dictionary are the lower-cased, underscore-replaced
+    names of the columns entered in the schema.
 
     :param resource: A FHIR resource on which to apply a schema.
     :param schema: A schema specifying the desired values to extract,
       by FHIR resource type.
-    :return: A dictionary of data with the desired values, as specified by the schema.
+    :return: A dictionary of data with the desired values, as
+      specified by the schema.
     """
 
     data = {}
-    resource_schema = schema.get(resource.get("resourceType", ""))
-    if resource_schema is None:
-        return data
+    for table_name, table in schema.get("tables", {}).items():
+        resource_type = table.get("resource_type")
 
-    for field in resource_schema.keys():
-        path = resource_schema[field]["fhir_path"]
+        if not resource_type:
+            raise ValueError(
+                "Each table must specify resource_type. "
+                + f"resource_type not found in table {table_name}."
+            )
 
-        parse_function = _get_fhirpathpy_parser(path)
-        value = parse_function(resource)
+        # We only care about the schema that matches the resource
+        if resource.get("resourceType", "") == resource_type:
+            for field in table.get("columns", []).keys():
+                col_in_table = field.lower().strip().replace(" ", "_")
 
-        if len(value) == 0:
-            data[resource_schema[field]["new_name"]] = ""  # pragma: no cover
-        else:
-            selection_criteria = resource_schema[field]["selection_criteria"]
-            value = _apply_selection_criteria(value, selection_criteria)
-            data[resource_schema[field]["new_name"]] = str(value)
+                # Use FHIR-path to identify desired value
+                path = table["columns"][field]["fhir_path"]
+                parse_function = _get_fhirpathpy_parser(path)
+                value = parse_function(resource)
+
+                if len(value) == 0:
+                    data[col_in_table] = ""
+
+                else:
+                    selection_criteria = table["columns"][field]["selection_criteria"]
+                    value = _apply_selection_criteria(value, selection_criteria)
+                    data[col_in_table] = str(value)
+            break
 
     return data
 
@@ -141,8 +152,8 @@ def generate_table(
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     """
     output_path.mkdir(parents=True, exist_ok=True)
-    for resource_type in schema:
-
+    for _, table in schema.get("tables", {}).items():
+        resource_type = table.get("resource_type")
         output_file_name = output_path / f"{resource_type}.{output_format}"
 
         # TODO: make _count (and other query parameters) configurable
@@ -207,11 +218,9 @@ def generate_all_tables_in_schema(
 
     schema = load_schema(schema_path)
 
-    for table in schema.keys():
-        output_path = base_output_path / table
-        generate_table(
-            schema[table], output_path, output_format, fhir_url, cred_manager
-        )
+    for _, table in schema.get("tables", {}).items():
+        output_path = base_output_path / table.get("resourceType")
+        generate_table(schema, output_path, output_format, fhir_url, cred_manager)
 
 
 @cache
@@ -305,12 +314,13 @@ def _generate_search_urls(schema: dict) -> dict:
 
 def drop_null(response: list, schema_columns: dict):
     """
-    Removes resources from FHIR response if the resource contains a null value for
-    fields where include_nulls is False, as specified in the schema.
+    Removes resources from a FHIR response if the resource contains a
+    null value for fields where include_nulls is False, as specified
+    in the schema.
 
     :param response: List of resources returned from FHIR API.
-    :param schema_columns: Dictionary of columns to include in tabulation that specifies
-      which columns should include_nulls.
+    :param schema_columns: Dictionary of columns to include in tabulation
+      that specifies which columns should include_nulls.
     :param return: List of resources with removed nulls.
     """
 

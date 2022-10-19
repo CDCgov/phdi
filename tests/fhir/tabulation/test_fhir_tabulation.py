@@ -45,10 +45,9 @@ def test_apply_schema_to_resource():
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
         )
     )
-    schema = schema["my_table"]
 
     assert apply_schema_to_resource(resource, schema) == {
         "patient_id": "some-uuid",
@@ -66,7 +65,8 @@ def test_apply_schema_to_resource():
         "phone_number": "123-456-7890",
     }
 
-    # Test for resource_schema is None
+    # Test for no schema in yaml file that matches incoming
+    # resource type
     resource = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
@@ -81,10 +81,9 @@ def test_apply_schema_to_resource():
 def test_tabulate_data():
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
         )
     )
-    schema = schema["my_table"]
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
@@ -125,9 +124,12 @@ def test_generate_table_success(patch_query, patch_write):
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
         )
     )
+
+    # This test only uses patient resources
+    del schema.get("tables")["table 2A"]
 
     output_path = mock.Mock()
     output_path.__truediv__ = (  # Redefine division operator to prevent failure.
@@ -160,7 +162,7 @@ def test_generate_table_success(patch_query, patch_write):
     patch_query.side_effect = [query_response_1, query_response_2]
 
     generate_table(
-        schema["my_table"],
+        schema,
         output_path,
         output_format,
         fhir_url,
@@ -173,7 +175,7 @@ def test_generate_table_success(patch_query, patch_write):
         [
             apply_schema_to_resource(
                 fhir_server_responses["content_1"]["entry"][0]["resource"],
-                schema["my_table"],
+                schema,
             )
         ],
         output_path,
@@ -184,7 +186,7 @@ def test_generate_table_success(patch_query, patch_write):
         [
             apply_schema_to_resource(
                 fhir_server_responses["content_2"]["entry"][0]["resource"],
-                schema["my_table"],
+                schema,
             )
         ],
         output_path,
@@ -194,7 +196,7 @@ def test_generate_table_success(patch_query, patch_write):
                 [
                     apply_schema_to_resource(
                         fhir_server_responses["content_1"]["entry"][0]["resource"],
-                        schema["my_table"],
+                        schema,
                     )
                 ],
                 output_path,
@@ -211,9 +213,12 @@ def test_generate_table_fail(patch_query, patch_write):
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
         )
     )
+
+    # This test only uses patient resources
+    del schema.get("tables")["table 2A"]
 
     output_path = mock.Mock()
     output_path.__truediv__ = (  # Redefine division operator to prevent failure.
@@ -263,9 +268,12 @@ def test_generate_all_tables_schema(patched_load_schema, patched_make_table):
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
         )
     )
+
+    # This test only uses patient resources
+    del schema.get("tables")["table 2A"]
 
     patched_load_schema.return_value = schema
 
@@ -274,7 +282,7 @@ def test_generate_all_tables_schema(patched_load_schema, patched_make_table):
     )
 
     patched_make_table.assert_called_with(
-        schema["my_table"],
+        schema,
         output_path,
         output_format,
         fhir_url,
