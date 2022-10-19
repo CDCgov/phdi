@@ -10,7 +10,7 @@ from urllib.parse import parse_qs, urlencode
 from requests import Response
 
 from phdi.cloud.core import BaseCredentialManager
-from phdi.fhir.transport import fhir_server_get
+from phdi.fhir.transport import fhir_server_get, http_request_with_reauth
 from phdi.tabulation.tables import load_schema, write_table
 
 
@@ -189,17 +189,37 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
 def extract_data_from_fhir_search_incremental(
     fhir_url: str, search_url: str, cred_manager: BaseCredentialManager = None
 ) -> Tuple[Response, str]:
-    full_url = "?".join(fhir_url, search_url)
-    response = fhir_server_get(url=full_url, cred_manager=cred_manager)
+    """
+    Performs a FHIR search for a single page of data and returns a dictionary containing
+    the data and a next URL. If there is no next URL (this is the last page of data),
+    then return None as the next URL.
 
-    response_json = response.json()
+    :param fhir_url: The URL to a FHIR server.
+    :param search_url: The search criteia URL.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: Tuple containing single page of data as a dictionary and the next URL.
+    """
+    full_url = "?".join((fhir_url, search_url))
+
+    # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
+    # mandating a credential manager. Then replace the direct call to
+    # http_request_with_reauth with fhir_server_get.
+    # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
+    response = http_request_with_reauth(
+        url=full_url,
+        cred_manager=None,
+        retry_count=2,
+        request_type="GET",
+        allowed_methods=["GET"],
+        headers={"Authorization": "Bearer test_token"},
+    )
 
     next_url = None
-    for link in response_json.get("link", []):
+    for link in response.get("link", []):
         if link.get("relation") == "next":
             next_url = link.get("url")
 
-    content = [entry_json.get("resource") for entry_json in response_json.get("entry")]
+    content = [entry_json.get("resource") for entry_json in response.get("entry")]
 
     return content, next_url
 
