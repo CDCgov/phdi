@@ -106,8 +106,8 @@ def tabulate_data(extracted_data: dict, schema: dict) -> List[List]:
 
     :param extracted_data: The content response from the FHIR server
       holding retrieved data to tabulate.
-    :param schema: The schema of columns and values to apply to the
-      extracted data.
+    :param schema: A schema of columns and values to apply to the
+      extracted data, separated by resource type.
     :return: A list of lists of the extracted data representing a
       table. The first list in the return value is a list of headers
       serving as the columns, and all subsequent lists are rows in

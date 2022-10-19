@@ -8,7 +8,6 @@ from unittest import mock
 
 from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
-    _generate_search_url,
     apply_schema_to_resource,
     drop_null,
     generate_all_tables_in_schema,
