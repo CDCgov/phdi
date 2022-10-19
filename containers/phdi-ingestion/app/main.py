@@ -5,7 +5,12 @@ from app.routers import (
     fhir_linkage_link,
     fhir_transport_http,
 )
+from app.config import get_settings
 
+# Read settings immediately to fail fast in case there are invalid values.
+get_settings()
+
+# Start the API
 app = FastAPI()
 
 app.include_router(fhir_harmonization_standardization.router)
