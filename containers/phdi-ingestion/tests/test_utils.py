@@ -1,37 +1,42 @@
-from unittest import mock
+import os
 import pytest
 from app.utils import (
-    check_for_environment_variables,
     check_for_fhir,
     check_for_fhir_bundle,
+    search_for_required_values,
 )
+from app.config import get_settings
 
 
-@mock.patch("app.utils.os.environ")
-def test_check_for_environment_variables_success(patched_environ):
-    environment_variables = ["SOME-ENV-VAR"]
-    patched_environ.get.return_value = "some-value"
-    actual_response = check_for_environment_variables(environment_variables)
-    expected_response = {
-        "status_code": 200,
-        "message": "All environment variables were found.",
-    }
-    assert actual_response == expected_response
+def test_search_for_required_values_success():
+    input = {"salt_str": "request-value"}
+    required_values = ["credential_manager"]
+    os.environ["CREDENTIAL_MANAGER"] = "azure"
+    os.environ["SALT_STR"] = "environment-value"
+
+    get_settings.cache_clear()
+    message = search_for_required_values(input, required_values)
+
+    assert input == {"salt_str": "request-value", "credential_manager": "azure"}
+    assert message == "All values were found."
 
 
-@mock.patch("app.utils.os.environ")
-def test_check_for_environment_variables_failure(patched_environ):
-    environment_variables = ["SOME-ENV-VAR"]
-    patched_environ.get.return_value = None
-    actual_response = check_for_environment_variables(environment_variables)
-    expected_response = {
-        "status_code": 500,
-        "message": (
-            "Environment variable 'SOME-ENV-VAR' not set. "
-            "The environment variable must be set."
-        ),
-    }
-    assert actual_response == expected_response
+def test_search_for_required_values_failure():
+    input = {"salt_str": "request-value"}
+    required_values = ["credential_manager"]
+    os.environ.pop("CREDENTIAL_MANAGER", None)
+    os.environ["SALT_STR"] = "environment-value"
+
+    get_settings.cache_clear()
+    message = search_for_required_values(input, required_values)
+
+    assert input == {"salt_str": "request-value"}
+    assert message == (
+        "The following values are required, but were not included in the request and "
+        "could not be read from the environment. Please resubmit the request including "
+        "these values or add them as environment variables to this service. missing "
+        "values: credential_manager."
+    )
 
 
 def test_check_for_fhir():
