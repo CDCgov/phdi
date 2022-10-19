@@ -4,8 +4,10 @@ import random
 import pathlib
 
 from functools import cache
-from typing import Any, Callable, Literal, List
+from typing import Any, Callable, Literal, List, Tuple
 from urllib.parse import parse_qs, urlencode
+
+from requests import Response
 
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import fhir_server_get
@@ -182,6 +184,24 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
       at `fhirpath_expression`.
     """
     return fhirpathpy.compile(fhirpath_expression)
+
+
+def extract_data_from_fhir_search_incremental(
+    fhir_url: str, search_url: str, cred_manager: BaseCredentialManager = None
+) -> Tuple[Response, str]:
+    full_url = "?".join(fhir_url, search_url)
+    response = fhir_server_get(url=full_url, cred_manager=cred_manager)
+
+    response_json = response.json()
+
+    next_url = None
+    for link in response_json.get("link", []):
+        if link.get("relation") == "next":
+            next_url = link.get("url")
+
+    content = [entry_json.get("resource") for entry_json in response_json.get("entry")]
+
+    return content, next_url
 
 
 def _generate_search_url(
