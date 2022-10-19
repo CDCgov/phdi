@@ -1,5 +1,6 @@
 import json
 import pathlib
+import pytest
 import urllib.parse
 import yaml
 
@@ -9,9 +10,12 @@ from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
     _generate_search_url,
     apply_schema_to_resource,
+    drop_null,
     generate_all_tables_in_schema,
     generate_table,
     tabulate_data,
+    _generate_search_url,
+    _generate_search_urls,
 )
 
 
@@ -282,7 +286,7 @@ def test_generate_search_url():
     base_fhir_url = "https://fhir-host/r4"
 
     test_search_url_1 = urllib.parse.quote(
-        "Patient?birtdate=2000-01-01T00:00:00", safe="/?="
+        "Patient?birtdate=2000-01-01T00:00:00", safe="?="
     )
     assert (
         _generate_search_url(f"{base_fhir_url}/{test_search_url_1}")
@@ -328,3 +332,103 @@ def test_generate_search_url():
         == f"{test_search_url_2}"
         + f"{urllib.parse.quote('?_count=10&_since=2022-01-01T00:00:00', safe='?&=')}"
     )
+
+    test_search_url_3 = urllib.parse.quote(
+        "Observation?"
+        + "category=http://hl7.org/fhir/ValueSet/observation-category|laboratory",
+        safe="?=",
+    )
+    assert (
+        _generate_search_url(f"{base_fhir_url}/{test_search_url_3}")
+        == f"{base_fhir_url}/{test_search_url_3}"
+    )
+    assert _generate_search_url(f"/{test_search_url_3}") == f"/{test_search_url_3}"
+    assert _generate_search_url(f"{test_search_url_3}") == f"{test_search_url_3}"
+    assert (
+        _generate_search_url(f"{test_search_url_3}", default_count=5)
+        == f"{test_search_url_3}&_count=5"
+    )
+    assert (
+        _generate_search_url(f"{test_search_url_3}&_count=10", default_count=5)
+        == f"{test_search_url_3}&_count=10"
+    )
+    assert (
+        _generate_search_url(
+            f"{test_search_url_3}&_count=10", default_since="2022-01-01T00:00:00"
+        )
+        == f"{test_search_url_3}"
+        + f"{urllib.parse.quote('&_count=10&_since=2022-01-01T00:00:00', safe='?&=')}"
+    )
+
+
+@mock.patch("phdi.fhir.tabulation.tables._generate_search_url")
+def test_generate_search_urls(patch_generate_search_url):
+    patch_generate_search_url.side_effect = (
+        lambda search, count, since: f"{search}||{count}||{since}"
+    )
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+        )
+    )
+
+    search_urls = _generate_search_urls(schema)
+
+    assert search_urls == {
+        "table 1A": "Patient||1000||2020-01-01T00:00:00",
+        "table 2A": "Observation?category="
+        + urllib.parse.quote(
+            "http://hl7.org/fhir/ValueSet/observation-category|laboratory", safe=""
+        )
+        + urllib.parse.quote("||1000||None", safe="|"),
+    }
+
+
+def test_generate_search_urls_invalid():
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "invalid_schema.yaml"
+        )
+    )
+
+    with pytest.raises(ValueError):
+        _generate_search_urls(schema)
+
+
+def test_drop_null():
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+        )
+    )
+
+    fhir_server_responses_no_nulls = [
+        ["patient_id", "first_name", "last_name", "phone_number"],
+        ["some-uuid", "John", "Doe", "123-456-7890"],
+        ["some-uuid2", "First", "Last", "123-456-7890"],
+    ]
+
+    # Keeps all resources because include_nulls all False
+    responses_no_nulls = drop_null(
+        fhir_server_responses_no_nulls, schema["my_table"]["Patient"]
+    )
+    assert len(responses_no_nulls) == 3
+    assert responses_no_nulls[1][3] == fhir_server_responses_no_nulls[1][3]
+
+    # Drop null resource
+    fhir_server_responses_1_null = [
+        ["patient_id", "first_name", "last_name", "phone_number"],
+        ["some-uuid", "John", "Doe", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", ""],
+    ]
+
+    responses_1_null = drop_null(
+        fhir_server_responses_1_null, schema["my_table"]["Patient"]
+    )
+    assert len(responses_1_null) == 2
+    assert responses_1_null[1][0] == fhir_server_responses_1_null[1][0]
