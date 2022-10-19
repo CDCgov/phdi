@@ -11,6 +11,7 @@ from phdi.fhir.tabulation.tables import (
     generate_all_tables_in_schema,
     generate_table,
     _generate_search_url,
+    extract_data_from_fhir_search_incremental,
 )
 
 
@@ -277,3 +278,45 @@ def test_generate_search_url():
         == f"{test_search_url_2}"
         + f"{urllib.parse.quote('?_count=10&_since=2022-01-01T00:00:00', safe='?&=')}"
     )
+
+
+@mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
+def test_extract_data_from_fhir_search_incremental(patch_query):
+
+    fhir_server_responses = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_query_response_200_example.json"
+        )
+    )
+
+    fhir_url = "http://some-fhir-url"
+    search_url = "some-query-url"
+    cred_manager = None
+
+    # Test that Next URL exists
+    patch_query.return_value = fhir_server_responses.get("content_1")
+
+    content, next_url = extract_data_from_fhir_search_incremental(
+        fhir_url, search_url, cred_manager
+    )
+
+    assert next_url == fhir_server_responses.get("content_1").get("link")[0].get("url")
+    assert content == [
+        entry_json.get("resource")
+        for entry_json in fhir_server_responses.get("content_1").get("entry")
+    ]
+
+    # Test that Next URL is None
+    patch_query.return_value = fhir_server_responses["content_2"]
+
+    content, next_url = extract_data_from_fhir_search_incremental(
+        fhir_url, search_url, cred_manager
+    )
+
+    assert next_url is None
+    assert content == [
+        entry_json.get("resource")
+        for entry_json in fhir_server_responses.get("content_2").get("entry")
+    ]
