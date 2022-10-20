@@ -1,5 +1,4 @@
 import os
-
 from pydantic import ValidationError
 import pytest
 from app.config import get_settings
@@ -19,18 +18,15 @@ def test_get_settings_success():
         "auth_id": "test_id",
         "auth_token": "test_token"
     }
-    os.environ.pop("CREDENTIAL_MANAGER",None)
-
+    os.environ.pop("CREDENTIAL_MANAGER", None)
 
 
 def test_get_settings_failure():
     os.environ["CREDENTIAL_MANAGER"] = "some-unknown-cred-manager"
-
-    get_settings.cache_clear()
     with pytest.raises(ValidationError):
         get_settings()
-    os.environ.pop("CREDENTIAL_MANAGER",None)
-    os.environ.pop("AUTH_ID",None)
-    os.environ.pop("AUTH_TOKEN",None)
-    os.environ.pop("FHIR_URL",None)
-    os.environ.pop("SALT_STR",None)
+    os.environ.pop("CREDENTIAL_MANAGER", None)
+    os.environ.pop("AUTH_ID", None)
+    os.environ.pop("AUTH_TOKEN", None)
+    os.environ.pop("FHIR_URL", None)
+    os.environ.pop("SALT_STR", None)
