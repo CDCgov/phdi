@@ -1,8 +1,10 @@
+import json
 import os
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
+from typing import Optional, Literal
 from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
-from app.utils import check_for_environment_variables, check_for_fhir_bundle
+from app.utils import search_for_required_values, check_for_fhir_bundle
 
 
 router = APIRouter(
@@ -13,7 +15,7 @@ router = APIRouter(
 
 class GeocodeAddressInBundleInput(BaseModel):
     bundle: dict
-    geocode_method: str = ""
+    geocode_method: Literal["smarty", "census", "all"]
     auth_id: Optional[str] = ""
     auth_token: Optional[str] = ""
     overwrite: Optional[bool] = True
@@ -28,7 +30,7 @@ async def geocode_bundle_endpoint(input: GeocodeAddressInBundleInput, response: 
     subsequent credentials (ie.. SmartyStreets auth id and auth token),
     geocode all patient addresses across all patient resources in the bundle.
 
-    If the geocode method is smarty then the auth_id and auth_token parameter
+    If the geocode method is smarty or all, then the auth_id and auth_token parameter
     values will be used.  If they are not provided in the request then the values
     will be obtained via environment variables.  In the case where smarty is the geocode 
     method and auth_id and auth_token are not supplied an HTTP 500 status code will
@@ -39,39 +41,33 @@ async def geocode_bundle_endpoint(input: GeocodeAddressInBundleInput, response: 
     """
 
     input = dict(input)
+    required_values = ["geocode_method"]
+    search_result = search_for_required_values(input, required_values)
+    
+    if search_result != "All values were found.":
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return search_result
 
-    if input.get("geocode_method") in [None, ""]:
-        check_result = check_for_environment_variables(["geocode_method"])
-        if check_result["status_code"] == 500:
-            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-            return check_result
-        else:
-            input["geocode_method"] = os.environ.get("geocode_method")
-
-    if input.get("geocode_method") == "smarty":
-        if input.get("auth_id") in [None,""]:
-            check_result = check_for_environment_variables(["auth_id"])
-            if check_result["status_code"] == 500:
-                response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-                return check_result
-            else:
-                input["auth_id"] = os.environ.get("auth_id")
-        if input.get("auth_token") in [None,""]:
-            check_result = check_for_environment_variables(["auth_token"])
-            if check_result["status_code"] == 500:
-                response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-                return check_result
-            else:
-                input["auth_token"] = os.environ.get("auth_token")
+    if input.get("geocode_method") in ["smarty","all"]:
+        required_values = ["auth_id", "auth_token"]
+        search_result = search_for_required_values(input, required_values)
+        if search_result != "All values were found.":
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return search_result
         geocode_client = SmartyFhirGeocodeClient(auth_id=input.get("auth_id"),auth_token=input.get("auth_token"))
-    elif input.get("geocode_method") == "census":
+    
+    if input.get("geocode_method") in ["census","all"]:
         geocode_client = CensusFhirGeocodeClient()
-    else:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+
+    if input.get("geocode_method") not in ["smarty","census","all"]:
+        response.status_code = status.HTTP_400_BAD_REQUEST
         response.message = "Invalid Geocode Method selected!"
         return response
 
+    # Here we need to remove the parameters that are used here
+    #   but are not required in the PHDI function in the SDK
+    del input['geocode_method']
+    del input['auth_id']
+    del input['auth_token']
 
     return geocode_client.geocode_bundle(**input)
-
-
