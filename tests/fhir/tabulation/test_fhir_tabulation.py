@@ -284,32 +284,34 @@ def test_drop_unknown():
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
         )
     )
 
     fhir_server_responses_no_unknowns = [
-        ["patient_id", "first_name", "last_name", "phone_number"],
+        ["Patient ID", "First Name", "Last Name", "Phone Number"],
         ["some-uuid", "John", "Doe", "123-456-7890"],
         ["some-uuid2", "First", "Last", "123-456-7890"],
     ]
 
     # Keeps all resources because include_nulls all False
     responses_no_nulls = drop_unknown(
-        fhir_server_responses_no_unknowns, schema["my_table"]["Patient"]
+        fhir_server_responses_no_unknowns,
+        schema.get("tables").get("table 1A").get("columns"),
     )
     assert len(responses_no_nulls) == 3
     assert responses_no_nulls[1][3] == fhir_server_responses_no_unknowns[1][3]
 
     # Drop null resource
     fhir_server_responses_1_null = [
-        ["patient_id", "first_name", "last_name", "phone_number"],
+        ["Patient ID", "First Name", "Last Name", "Phone Number"],
         ["some-uuid", "John", "Doe", "123-456-7890"],
         ["some-uuid2", "Firstname", "Lastname", None],
     ]
 
     responses_1_null = drop_unknown(
-        fhir_server_responses_1_null, schema["my_table"]["Patient"]
+        fhir_server_responses_1_null,
+        schema.get("tables").get("table 1A").get("columns"),
     )
     assert len(responses_1_null) == 2
     assert responses_1_null[1][0] == fhir_server_responses_1_null[1][0]

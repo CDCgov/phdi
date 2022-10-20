@@ -233,7 +233,7 @@ def drop_unknown(response: list, schema_columns: dict):
 
     # Identify fields to drop unknowns
     unknowns_to_drop = [
-        schema_columns[column]["new_name"]
+        column
         for column in schema_columns.keys()
         if not schema_columns[column]["include_unknowns"]
     ]
