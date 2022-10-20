@@ -1,22 +1,23 @@
 # PHDI Release Documentation
 
 ## Release Methodology: Semantic Versioning
-This document describes how the PHDI library, tools and related documentation are released to users. PHDI publishes releases to the Python Package Index (PyPI), and publishes API Sphinx documenation as well to GitHub pages. PHDI uses [Semantic Versioning 2.0.0](https://semver.org/) to set releases, following a versioning pattern of MAJOR.MINOR.PATCH which follows these core tenets:
+API documentation is published automatically with Sphinx and hosted via GitHub pages. PHDI updates are released to the Python Package Index (PyPI) according to the guidelines set out in [Semantic Versioning 2.0.0](https://semver.org/) with each release's version following the pattern of MAJOR.MINOR.PATCH. The following core tenets describe when each element of a release's version would be updated.
+
 * **MAJOR** versions introduce breaking changes.
 
-  A breaking change breaks backwards-compatibility with previous released versions. In other words, a breaking change is something may cause a client implementation to stop working when upgrading from a previous version. Common examples of breaking changes include:
+  A breaking change breaks backwards-compatibility with previous released versions. In other words, a breaking change is something that may cause a client's implementation to stop working when upgrading from a previous version. Common examples of breaking changes include:
   * Deleting a package or public functions/methods
   * Deleting public function parameters
-  * Removing public functionality
   * Changing a function name
   * Changing the name or order of required parameters
   * Adding new required parameters
+  * Removing, restricting or changing functionality offered by a public function
 
   Major version releases _may_ also include non-breaking enhancements and fixes.
   
-* **MINOR** versions introduce new non-breaking functionality.
+* **MINOR** versions introduce new, non-breaking functionality.
   
-  Releases with enhancements that that do not break backwards compatibility require a minor version update. Common examples of non-breaking changes include:
+  Releases with enhancements that do not break backwards compatibility require a minor version update. Common examples of non-breaking changes include:
   * Adding a package, module, or method
   * Adding optional parameters
 
@@ -42,17 +43,7 @@ The values identified will be referenced in the sections below.
 ### Major Version Release Process
 In order to support patching old major version releases without forcing users to upgrade, new major versions involve creating a release branch. The following steps should be followed when a breaking change is merged into `main`, requiring a new major version.
 
-First, in GitHub, create a new branch representing the **old/existing major version**. The new branch should be based on the commit prior to the breaking change that triggers a new version. The naming convention for the new branch is:
-
-```
-vMAJOR
-```
-
-Where `MAJOR` is the current major version, prior to introducing the breaking change. The following commands may be used to create the new branch:
-
-```bash
-git branch vMAJOR COMMIT-HASH
-```
+First, in GitHub, create a new branch representing the **old/existing major version**. The new branch should be based on the commit prior to the breaking change that triggers a new version. The naming convention for the new branch is `vMAJOR` where `MAJOR` is the current major version, prior to introducing the breaking change. 
 
 * `MAJOR` is the major version number of the **old/existing major version**
 * `COMMIT-HASH` is the commit hash of the commit prior to the breaking merge commit (if the breaking commit has not been merged to `main` and can just specify `main`)
@@ -60,10 +51,10 @@ git branch vMAJOR COMMIT-HASH
 
 ### PyPI Release
 #### Authenticating with PyPI
-PHDI recommends that users authenticate with PyPI using an API token. To download a token, log in to PyPI, and access [project settings](https://pypi.org/manage/project/phdi/settings/). Select "Create a token for phdi" and create a phdi-specific token. Save a phdi-specific token to a file named `.pypitoken` in your project directory. When publishing to PyPI as described later in this section, this API token will be used to authenticate.
+PHDI recommends that users authenticate with PyPI using an API token. To download a token, log in to PyPI and access [project settings](https://pypi.org/manage/project/phdi/settings/). Select "Create a token for phdi" and create a phdi-specific token. Save the token you just created to a file named `.pypitoken` in your project directory. When publishing to PyPI as described later in this section, this API token will be used to authenticate.
 
 #### Prepare to Publish
-The steps below depend on defining a full version number using semantic versioning. See the release methodology section above for help assigning a version to your project.Release Methodology: Semantic Versioning
+The steps below depend on defining a full version number using semantic versioning. See the release methodology section above for help assigning a version to your project.
 
 The correct release version should be set both in `pyproject.toml` and `phdi/__init__.py`. When you are ready to release, set the version, commit, and merge the change to the `main` branch.
 
