@@ -242,10 +242,11 @@ def drop_unknown(response: list, schema_columns: dict):
     indices_of_unknowns = [response[0].index(field) for field in unknowns_to_drop]
 
     # Check if resource contains unknowns to be dropped
-    for resource in response[1:]:
-        for i in indices_of_unknowns:
-            if not resource[i]:
-                response.remove(resource)
-                break
+    if len(indices_of_unknowns) > 0:
+        for resource in response[1:]:
+            for i in indices_of_unknowns:
+                if resource[i] is None:
+                    response.remove(resource)
+                    break
 
     return response
