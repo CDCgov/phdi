@@ -80,7 +80,7 @@ def test_apply_schema_to_resource():
     del schema["tables"]["table 1A"]["resource_type"]
     with pytest.raises(
         ValueError,
-        match="Each table must specify resource_type. resource_type not found in table table 1A.",
+        match="Each table must specify resource_type. resource_type not found in table table 1A.",  # noqa
     ):
         apply_schema_to_resource(resource, schema)
 
