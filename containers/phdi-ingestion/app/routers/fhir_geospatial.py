@@ -23,8 +23,7 @@ class GeocodeAddressInBundleInput(BaseModel):
 
 @router.post("/geocode_bundle", status_code=200)
 async def geocode_bundle_endpoint(
-    input: GeocodeAddressInBundleInput,
-    response: Response
+    input: GeocodeAddressInBundleInput, response: Response
 ) -> dict:
     """
     Given a FHIR bundle and a specified geocode method, with any required
@@ -51,8 +50,7 @@ async def geocode_bundle_endpoint(
             response.status_code = status.HTTP_400_BAD_REQUEST
             return search_result
         geocode_client = SmartyFhirGeocodeClient(
-            auth_id=input.get("auth_id"),
-            auth_token=input.get("auth_token")
+            auth_id=input.get("auth_id"), auth_token=input.get("auth_token")
         )
 
     if input.get("geocode_method") in ["census", "all"]:
@@ -65,8 +63,8 @@ async def geocode_bundle_endpoint(
 
     # Here we need to remove the parameters that are used here
     #   but are not required in the PHDI function in the SDK
-    del input['geocode_method']
-    del input['auth_id']
-    del input['auth_token']
+    del input["geocode_method"]
+    del input["auth_id"]
+    del input["auth_token"]
 
     return geocode_client.geocode_bundle(**input)

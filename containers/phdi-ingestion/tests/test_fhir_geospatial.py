@@ -22,12 +22,10 @@ def test_geocode_bundle_bad_smarty_creds():
         "bundle": test_bundle,
         "geocode_method": "smarty",
         "auth_id": "test_id",
-        "auth_token": "test_token"
+        "auth_token": "test_token",
     }
     with pytest.raises(Exception):
-        client.post(
-            "/fhir/geospatial/geocode/geocode_bundle", json=test_request
-        )
+        client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
 
 
 def test_geocode_bundle_success_census():
@@ -63,7 +61,7 @@ def test_geocode_bundle_smarty_no_auth_id():
         "bundle": test_bundle,
         "geocode_method": "smarty",
         "auth_id": None,
-        "auth_token": "test_token"
+        "auth_token": "test_token",
     }
     expected_response = (
         "The following values are required, but "
@@ -82,10 +80,9 @@ def test_geocode_bundle_smarty_no_auth_id():
 def test_geocode_bundle_smarty_no_auth_token():
     test_request = {
         "bundle": test_bundle,
-        "geocode_method":
-        "smarty",
+        "geocode_method": "smarty",
         "auth_id": "test_id",
-        "auth_token": None
+        "auth_token": None,
     }
     expected_response = (
         "The following values are required, but were not included "
@@ -98,7 +95,7 @@ def test_geocode_bundle_smarty_no_auth_token():
 
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
-        )
+    )
     assert actual_response.json() == expected_response
 
 
@@ -107,14 +104,12 @@ def test_geocode_bundle_bad_smarty_creds_env():
         "bundle": test_bundle,
         "geocode_method": "smarty",
         "auth_id": "",
-        "auth_token": ""
+        "auth_token": "",
     }
     os.environ["AUTH_ID"] = "test_id"
     os.environ["AUTH_TOKEN"] = "test_token"
     get_settings.cache_clear()
     with pytest.raises(Exception):
-        client.post(
-            "/fhir/geospatial/geocode/geocode_bundle", json=test_request
-        )
+        client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
     os.environ.pop("AUTH_ID", None)
     os.environ.pop("AUTH_TOKEN", None)

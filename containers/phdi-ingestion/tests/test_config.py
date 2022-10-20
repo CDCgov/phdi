@@ -16,7 +16,7 @@ def test_get_settings_success():
         "fhir_url": "some-FHIR-server-URL",
         "salt_str": "my-salt",
         "auth_id": "test_id",
-        "auth_token": "test_token"
+        "auth_token": "test_token",
     }
     os.environ.pop("CREDENTIAL_MANAGER", None)
 
