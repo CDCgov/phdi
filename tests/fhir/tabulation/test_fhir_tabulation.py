@@ -294,24 +294,26 @@ def test_drop_unknown():
         ["some-uuid2", "First", "Last", "123-456-7890"],
     ]
 
-    # Keeps all resources because include_nulls all False
-    responses_no_nulls = drop_unknown(
+    # Keeps all resources because include_unknowns all False
+    responses_no_unknowns = drop_unknown(
         fhir_server_responses_no_unknowns,
         schema.get("tables").get("table 1A").get("columns"),
     )
-    assert len(responses_no_nulls) == 3
-    assert responses_no_nulls[1][3] == fhir_server_responses_no_unknowns[1][3]
+    assert len(responses_no_unknowns) == 3
+    assert responses_no_unknowns[1][3] == fhir_server_responses_no_unknowns[1][3]
 
     # Drop null resource
-    fhir_server_responses_1_null = [
+    fhir_server_responses_1_unknown = [
         ["Patient ID", "First Name", "Last Name", "Phone Number"],
         ["some-uuid", "John", "Doe", "123-456-7890"],
         ["some-uuid2", "Firstname", "Lastname", None],
     ]
 
-    responses_1_null = drop_unknown(
-        fhir_server_responses_1_null,
+    responses_1_unknown = drop_unknown(
+        fhir_server_responses_1_unknown,
         schema.get("tables").get("table 1A").get("columns"),
     )
-    assert len(responses_1_null) == 2
-    assert responses_1_null[1][0] == fhir_server_responses_1_null[1][0]
+    assert len(responses_1_unknown) == 2
+    assert responses_1_unknown[1][0] == fhir_server_responses_1_unknown[1][0]
+
+    #
