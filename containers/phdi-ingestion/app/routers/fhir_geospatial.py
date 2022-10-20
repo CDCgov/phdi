@@ -41,13 +41,7 @@ async def geocode_bundle_endpoint(input: GeocodeAddressInBundleInput, response: 
     """
 
     input = dict(input)
-    required_values = ["geocode_method"]
-    search_result = search_for_required_values(input, required_values)
     
-    if search_result != "All values were found.":
-        response.status_code = status.HTTP_400_BAD_REQUEST
-        return search_result
-
     if input.get("geocode_method") in ["smarty","all"]:
         required_values = ["auth_id", "auth_token"]
         search_result = search_for_required_values(input, required_values)
