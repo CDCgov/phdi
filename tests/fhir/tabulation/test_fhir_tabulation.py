@@ -316,4 +316,18 @@ def test_drop_unknown():
     assert len(responses_1_unknown) == 2
     assert responses_1_unknown[1][0] == fhir_server_responses_1_unknown[1][0]
 
-    #
+    # Null (empty strings) are not dropped
+    fhir_server_responses_1_unknown_1_null = [
+        ["Patient ID", "First Name", "Last Name", "Phone Number"],
+        ["some-uuid", "John", "", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", None],
+    ]
+
+    responses_1_unknown_1_null = drop_unknown(
+        fhir_server_responses_1_unknown_1_null,
+        schema.get("tables").get("table 1A").get("columns"),
+    )
+    assert len(responses_1_unknown_1_null) == 2
+    assert (
+        responses_1_unknown_1_null[1][0] == fhir_server_responses_1_unknown_1_null[1][0]
+    )
