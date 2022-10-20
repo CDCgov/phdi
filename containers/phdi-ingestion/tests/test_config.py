@@ -23,10 +23,8 @@ def test_get_settings_success():
 
 def test_get_settings_failure():
     os.environ["CREDENTIAL_MANAGER"] = "some-unknown-cred-manager"
+    get_settings.cache_clear()
+
     with pytest.raises(ValidationError):
         get_settings()
     os.environ.pop("CREDENTIAL_MANAGER", None)
-    os.environ.pop("AUTH_ID", None)
-    os.environ.pop("AUTH_TOKEN", None)
-    os.environ.pop("FHIR_URL", None)
-    os.environ.pop("SALT_STR", None)

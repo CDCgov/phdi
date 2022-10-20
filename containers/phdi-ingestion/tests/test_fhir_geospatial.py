@@ -71,6 +71,8 @@ def test_geocode_bundle_smarty_no_auth_id():
         " Please resubmit the request including these values or add them as "
         "environment variables to this service. missing values: auth_id."
     )
+    get_settings.cache_clear()
+    os.environ.pop("AUTH_ID", None)
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
@@ -91,6 +93,9 @@ def test_geocode_bundle_smarty_no_auth_token():
         "resubmit the request including these values or add them as "
         "environment variables to this service. missing values: auth_token."
     )
+    get_settings.cache_clear()
+    os.environ.pop("AUTH_TOKEN", None)
+
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
         )
