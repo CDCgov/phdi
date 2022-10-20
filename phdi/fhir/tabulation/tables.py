@@ -187,26 +187,24 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
 
 
 def extract_data_from_fhir_search_incremental(
-    fhir_url: str, search_url: str, cred_manager: BaseCredentialManager = None
+    search_url: str, cred_manager: BaseCredentialManager = None
 ) -> Tuple[Response, str]:
     """
     Performs a FHIR search for a single page of data and returns a dictionary containing
     the data and a next URL. If there is no next URL (this is the last page of data),
     then return None as the next URL.
 
-    :param fhir_url: The URL to a FHIR server.
-    :param search_url: The search criteia URL.
+    :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :return: Tuple containing single page of data as a dictionary and the next URL.
     """
-    full_url = "?".join((fhir_url, search_url))
 
     # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
     # mandating a credential manager. Then replace the direct call to
     # http_request_with_reauth with fhir_server_get.
     # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
     response = http_request_with_reauth(
-        url=full_url,
+        url=search_url,
         cred_manager=None,
         retry_count=2,
         request_type="GET",

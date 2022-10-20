@@ -291,15 +291,14 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
         )
     )
 
-    fhir_url = "http://some-fhir-url"
-    search_url = "some-query-url"
+    search_url = "http://some-fhir-url?some-query-url"
     cred_manager = None
 
     # Test that Next URL exists
     patch_query.return_value = fhir_server_responses.get("content_1")
 
     content, next_url = extract_data_from_fhir_search_incremental(
-        fhir_url, search_url, cred_manager
+        search_url, cred_manager
     )
 
     assert next_url == fhir_server_responses.get("content_1").get("link")[0].get("url")
@@ -312,7 +311,7 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     patch_query.return_value = fhir_server_responses["content_2"]
 
     content, next_url = extract_data_from_fhir_search_incremental(
-        fhir_url, search_url, cred_manager
+        search_url, cred_manager
     )
 
     assert next_url is None
