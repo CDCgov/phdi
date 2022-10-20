@@ -76,6 +76,14 @@ def test_apply_schema_to_resource():
     resource = resource["entry"][0]["resource"]
     assert apply_schema_to_resource(resource, schema) == {}
 
+    # Test for raised exception if no resource type at all
+    del schema["tables"]["table 1A"]["resource_type"]
+    with pytest.raises(
+        ValueError,
+        match="Each table must specify resource_type. resource_type not found in table table 1A.",
+    ):
+        apply_schema_to_resource(resource, schema)
+
 
 def test_tabulate_data():
     schema = yaml.safe_load(

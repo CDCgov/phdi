@@ -65,21 +65,21 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
 
     data = {}
     for table_name, table in schema.get("tables", {}).items():
-        resource_type = table.get("resource_type")
+        resource_type = table.get("resource_type", "")
 
-        if not resource_type:
+        if resource_type == "":
             raise ValueError(
                 "Each table must specify resource_type. "
                 + f"resource_type not found in table {table_name}."
             )
 
-        # We only care about the schema that matches the resource
+        # We only care about the parts of the schema that match the resource
         if resource.get("resourceType", "") == resource_type:
-            for field in table.get("columns", []).keys():
-                col_in_table = field.lower().strip().replace(" ", "_")
+            for column_name, column in table.get("columns", {}).items():
+                col_in_table = column_name.lower().strip().replace(" ", "_")
 
                 # Use FHIR-path to identify desired value
-                path = table["columns"][field]["fhir_path"]
+                path = column["fhir_path"]
                 parse_function = _get_fhirpathpy_parser(path)
                 value = parse_function(resource)
 
@@ -87,10 +87,9 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
                     data[col_in_table] = ""
 
                 else:
-                    selection_criteria = table["columns"][field]["selection_criteria"]
+                    selection_criteria = column["selection_criteria"]
                     value = _apply_selection_criteria(value, selection_criteria)
                     data[col_in_table] = str(value)
-            break
 
     return data
 
@@ -152,7 +151,7 @@ def generate_table(
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     """
     output_path.mkdir(parents=True, exist_ok=True)
-    for _, table in schema.get("tables", {}).items():
+    for table in schema.get("tables", {}).values():
         resource_type = table.get("resource_type")
         output_file_name = output_path / f"{resource_type}.{output_format}"
 
@@ -218,7 +217,7 @@ def generate_all_tables_in_schema(
 
     schema = load_schema(schema_path)
 
-    for _, table in schema.get("tables", {}).items():
+    for table in schema.get("tables", {}).values():
         output_path = base_output_path / table.get("resourceType")
         generate_table(schema, output_path, output_format, fhir_url, cred_manager)
 
