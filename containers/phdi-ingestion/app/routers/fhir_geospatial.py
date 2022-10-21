@@ -62,8 +62,10 @@ def geocode_bundle_endpoint(
     input.pop("auth_id", None)
     input.pop("auth_token", None)
     try:
-        result =  geocode_client.geocode_bundle(**input)
+        result = geocode_client.geocode_bundle(**input)
     except Exception as error:
         response.status_code = status.HTTP_400_BAD_REQUEST
-        result =  error
+        result = {
+            "error": error
+        }
     return result

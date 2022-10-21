@@ -1,10 +1,7 @@
 import pathlib
 import os
 import json
-import copy
 from unittest import mock
-from phdi.fhir.geospatial.census import CensusFhirGeocodeClient
-import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 from app.config import get_settings
@@ -26,9 +23,13 @@ def test_geocode_bundle_bad_smarty_creds():
         "auth_id": "test_id",
         "auth_token": "test_token",
     }
-    #with pytest.raises(Exception):
-    client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
-    assert 1==2
+    expected_response = 400
+    actual_response = client.post(
+        "/fhir/geospatial/geocode/geocode_bundle",
+        json=test_request
+    )
+
+    assert actual_response.status_code == expected_response
 
 
 @mock.patch("app.routers.fhir_geospatial.CensusFhirGeocodeClient")
@@ -43,6 +44,26 @@ def test_geocode_bundle_success_census(patched_client):
         bundle=test_bundle,
         overwrite=True
     )
+
+
+@mock.patch("app.routers.fhir_geospatial.SmartyFhirGeocodeClient")
+def test_geocode_bundle_success_smarty(patched_client):
+    test_request = {
+        "bundle": test_bundle,
+        "geocode_method": "smarty",
+        "auth_id": "test_id",
+        "auth_token": "test_token"
+    }
+
+    client.post(
+        "/fhir/geospatial/geocode/geocode_bundle", json=test_request
+    )
+
+    patched_client.return_value.geocode_bundle.assert_called_with(
+        bundle=test_bundle,
+        overwrite=True
+    )
+
 
 def test_geocode_bundle_no_method():
     test_request = {"bundle": test_bundle, "geocode_method": ""}
@@ -115,7 +136,12 @@ def test_geocode_bundle_bad_smarty_creds_env():
     os.environ["AUTH_ID"] = "test_id"
     os.environ["AUTH_TOKEN"] = "test_token"
     get_settings.cache_clear()
-    with pytest.raises(Exception):
-        client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
+    expected_response = 400
+    actual_response = client.post(
+        "/fhir/geospatial/geocode/geocode_bundle",
+        json=test_request
+    )
+
+    assert actual_response.status_code == expected_response
     os.environ.pop("AUTH_ID", None)
     os.environ.pop("AUTH_TOKEN", None)
