@@ -33,7 +33,7 @@ async def geocode_bundle_endpoint(
     If the geocode method is smarty then the auth_id and auth_token parameter
     values will be used.  If they are not provided in the request then the values
     will be obtained via environment variables.  In the case where smarty is the geocode
-    method and auth_id and/or auth_token are not supplied then an HTTP 400 status 
+    method and auth_id and/or auth_token are not supplied then an HTTP 400 status
     code will be returned.
     :param input: A JSON formated request body with schema specified by the
         GeocodeAddressInBundleInput model.
@@ -61,5 +61,5 @@ async def geocode_bundle_endpoint(
     input.pop("geocode_method", None)
     input.pop("auth_id", None)
     input.pop("auth_token", None)
-    
+
     return geocode_client.geocode_bundle(**input)
