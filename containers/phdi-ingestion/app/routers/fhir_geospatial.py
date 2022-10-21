@@ -13,7 +13,7 @@ router = APIRouter(
 
 class GeocodeAddressInBundleInput(BaseModel):
     bundle: dict
-    geocode_method: Literal["smarty", "census", "all"]
+    geocode_method: Literal["smarty", "census"]
     auth_id: Optional[str] = ""
     auth_token: Optional[str] = ""
     overwrite: Optional[bool] = True
@@ -30,11 +30,11 @@ async def geocode_bundle_endpoint(
     subsequent credentials (ie.. SmartyStreets auth id and auth token),
     geocode all patient addresses across all patient resources in the bundle.
 
-    If the geocode method is smarty or all, then the auth_id and auth_token parameter
+    If the geocode method is smarty then the auth_id and auth_token parameter
     values will be used.  If they are not provided in the request then the values
     will be obtained via environment variables.  In the case where smarty is the geocode
-    method and auth_id and auth_token are not supplied an HTTP 500 status code will
-    be returned.
+    method and auth_id and/or auth_token are not supplied then an HTTP 400 status 
+    code will be returned.
     :param input: A JSON formated request body with schema specified by the
         GeocodeAddressInBundleInput model.
     :return: A FHIR bundle where every patient resource address will now
@@ -43,7 +43,7 @@ async def geocode_bundle_endpoint(
 
     input = dict(input)
 
-    if input.get("geocode_method") in ["smarty", "all"]:
+    if input.get("geocode_method") == "smarty":
         required_values = ["auth_id", "auth_token"]
         search_result = search_for_required_values(input, required_values)
         if search_result != "All values were found.":
@@ -53,13 +53,13 @@ async def geocode_bundle_endpoint(
             auth_id=input.get("auth_id"), auth_token=input.get("auth_token")
         )
 
-    if input.get("geocode_method") in ["census", "all"]:
+    elif input.get("geocode_method") == "census":
         geocode_client = CensusFhirGeocodeClient()
 
     # Here we need to remove the parameters that are used here
     #   but are not required in the PHDI function in the SDK
-    del input["geocode_method"]
-    del input["auth_id"]
-    del input["auth_token"]
-
+    input.pop("geocode_method", None)
+    input.pop("auth_id", None)
+    input.pop("auth_token", None)
+    
     return geocode_client.geocode_bundle(**input)
