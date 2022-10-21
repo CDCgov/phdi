@@ -221,7 +221,7 @@ def _generate_search_url(
     return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
 
 
-def drop_unknown(response: list, schema_columns: dict):
+def drop_unknown(data: list, schema_columns: dict):
     """
     Removes resources from FHIR response if the resource contains an unknown value for
     fields where include_unknowns is False, as specified in the schema.
@@ -239,14 +239,14 @@ def drop_unknown(response: list, schema_columns: dict):
     ]
 
     # Identify indices in List of Lists to check for unknowns
-    indices_of_unknowns = [response[0].index(field) for field in unknowns_to_drop]
+    indices_of_unknowns = [data[0].index(field) for field in unknowns_to_drop]
 
     # Check if resource contains unknowns to be dropped
     if len(indices_of_unknowns) > 0:
-        for resource in response[1:]:
+        for resource in data[1:]:
             for i in indices_of_unknowns:
                 if resource[i] is None:
-                    response.remove(resource)
+                    data.remove(resource)
                     break
 
-    return response
+    return data
