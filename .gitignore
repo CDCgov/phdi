@@ -42,6 +42,9 @@ doctrees
 .coverage
 coverage.xml
 
+# PyPI
+.pypitoken
+
 # Azure Functions
 *local.settings.json
 bin/

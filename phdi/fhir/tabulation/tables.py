@@ -221,6 +221,76 @@ def _generate_search_url(
     return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
 
 
+def _generate_search_urls(schema: dict) -> dict:
+    """
+    Parses a schema, and populates a dictionary containing generated search strings
+    for each table, in the following structure:
+    * table_1: search_string_1
+    * table_2: search_string_2
+    * ...
+
+    :param schema: The schema to parse and create search_strings.
+    :raises ValueError: If any table does not contain a `search_string` entry.
+    :return: A dictionary containing search URLs.
+    """
+    url_dict = {}
+
+    count_top = schema.get("incremental_query_count")
+    since_top = schema.get("earliest_update_datetime")
+
+    for table_name, table in schema.get("tables", {}).items():
+        resource_type = table.get("resource_type")
+
+        if not resource_type:
+            raise ValueError(
+                "Each table must specify resource_type. "
+                + f"resource_type not found in table {table_name}."
+            )
+
+        query_params = table.get("query_params")
+        search_string = resource_type
+        if query_params is not None and len(query_params) > 0:
+            search_string += f"?{urlencode(query_params)}"
+
+        count = table.get("incremental_query_count", count_top)
+        since = table.get("earliest_update_datetime", since_top)
+
+        url_dict[table_name] = _generate_search_url(search_string, count, since)
+
+    return url_dict
+
+
+def drop_null(response: list, schema_columns: dict):
+    """
+    Removes resources from FHIR response if the resource contains a null value for
+    fields where include_nulls is False, as specified in the schema.
+
+    :param response: List of resources returned from FHIR API.
+    :param schema_columns: Dictionary of columns to include in tabulation that specifies
+      which columns should include_nulls.
+    :param return: List of resources with removed nulls.
+    """
+
+    # Identify fields to drop nulls
+    nulls_to_drop = [
+        schema_columns[column]["new_name"]
+        for column in schema_columns.keys()
+        if not schema_columns[column]["include_nulls"]
+    ]
+
+    # Identify indices in List of Lists to check for nulls
+    indices_of_nulls = [response[0].index(field) for field in nulls_to_drop]
+
+    # Check if resource contains nulls to be dropped
+    for resource in response[1:]:
+        # Check if any of the fields are none
+        for i in indices_of_nulls:
+            if resource[i] == "":
+                response.remove(resource)
+                break
+    return response
+
+
 def drop_unknown(data: list, schema_columns: dict):
     """
     Removes resources from FHIR response if the resource contains an unknown value for
