@@ -2,6 +2,7 @@ import pathlib
 import os
 import json
 import copy
+from unittest import mock
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
@@ -28,14 +29,21 @@ def test_geocode_bundle_bad_smarty_creds():
         client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
 
 
-def test_geocode_bundle_success_census():
+@mock.patch("app.routers.fhir_geospatial.geocode_client")
+def test_geocode_bundle_success_census(patched_client):
     test_request = {"bundle": test_bundle, "geocode_method": "census"}
-    expected_response = copy.deepcopy(test_bundle)
-    expected_response["entry"][0]["resource"]["address"][0]["street"] = "123 Main St."
-    actual_response = client.post(
+    #expected_response = copy.deepcopy(test_bundle)
+    #expected_response["entry"][0]["resource"]["address"][0]["street"] = "123 Main St."
+    patched_census_client = mock.Mock()
+    patched_client.return_value = patched_census_client
+    client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
-    assert actual_response.json() == expected_response
+    patched_census_client.geocode_bundle.assert_called_with(
+        bundle=test_bundle
+    )
+    #print(actual_response)
+    #print(actual_response.json())
 
 
 def test_geocode_bundle_no_method():

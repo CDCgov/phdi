@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
 from typing import Optional, Literal
-from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
+from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient, BaseFhirGeocodeClient
 from app.utils import search_for_required_values, check_for_fhir_bundle
 
 
