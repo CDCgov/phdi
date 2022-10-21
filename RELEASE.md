@@ -37,7 +37,8 @@ API documentation is published automatically with Sphinx and hosted via GitHub p
 ### Define a Target Version
 The very first step in a release is defining the release's new version number. The previous section describes details of the release versioning scheme (`MAJOR`, `MINOR`, `PATCH`), and should be used to assign the version number for the next release. The values identified will be referenced in the sections below.
 
-### Major Version Release Process
+### GitHub Release
+#### Create a Major Version Release Branch
 In order to support patching old major version releases without forcing users to upgrade, new major versions involve creating a release branch. The following steps should be followed when a breaking change is merged into `main`, requiring a new major version.
 
 First, in GitHub, create a new branch representing the **old/existing major version**. The new branch should be based on the commit prior to the breaking change that triggers a new version. The naming convention for the new branch is `vMAJOR` where `MAJOR` is the current major version, prior to introducing the breaking change. 
@@ -45,9 +46,20 @@ First, in GitHub, create a new branch representing the **old/existing major vers
 * `MAJOR` is the major version number of the **old/existing major version**
 * `COMMIT-HASH` is the commit hash of the commit prior to the breaking merge commit (if the breaking commit has not been merged to `main` and can just specify `main`)
 
+#### Create a GitHub Release
+A GitHub release ties together a few pieces of information in the release process:
+1) A tag for the commit that comprises the release
+2) A short description/name for the release
+3) A list of changes in the release
+
+In order to create a new release in GitHub, open a [new release GitHub form](https://github.com/CDCgov/phdi/releases/new). First, select a target branch - this will either be `main` or a the previous version branch if the release is for an older version. Create (or select) a tag named `vMAJOR.MINOR.PATCH`, replacing the release parts as appropriate with the correct release version values. 
+
+Next, enter the release title to match the tag name. 
+
+Finally, compile a list of changes that describe the release. This information will become the change log for the release, and should describe the changes in the release in a way that users will understand what's in it. Major releases should list a comprehensive list of breaking changes, and minor/patch versions should list changes at an appropriate level of detail.
 
 ### PyPI Release
-#### Authenticating with PyPI
+#### Authenticate with PyPI
 PHDI recommends that users authenticate with PyPI using an API token. To download a token, log in to PyPI and access [project settings](https://pypi.org/manage/project/phdi/settings/). Select "Create a token for phdi" and create a phdi-specific token. Save the token you just created to a file named `.pypitoken` in your project directory. When publishing to PyPI as described later in this section, this API token will be used to authenticate.
 
 #### Prepare to Publish
@@ -70,7 +82,7 @@ The following values should be used:
 * Release title: `vMAJOR.MINOR.PATCH`
   * `MAJOR`, `MINOR`, and `PATCH` should be replaced with the corresponding major, minor and patch version numbers for the new release.
 
-#### Publishing to PyPI
+#### Publish to PyPI
 Once the version has been set, and the release has been defined, you are ready to publish the new version to PyPI. 
 
 To publish to PyPI, run the following command. NOTE: you will need a valid PyPI user with [authentication set up](#authenticating-with-pypi) as described above for this to work!
