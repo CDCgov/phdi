@@ -29,21 +29,21 @@ def test_geocode_bundle_bad_smarty_creds():
         client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
 
 
-@mock.patch("app.routers.fhir_geospatial.geocode_client")
+@mock.patch("app.routers.fhir_geospatial.CensusFhirGeocodeClient")
 def test_geocode_bundle_success_census(patched_client):
     test_request = {"bundle": test_bundle, "geocode_method": "census"}
-    #expected_response = copy.deepcopy(test_bundle)
-    #expected_response["entry"][0]["resource"]["address"][0]["street"] = "123 Main St."
-    patched_census_client = mock.Mock()
-    patched_client.return_value = patched_census_client
+    
+    #patched_census_client = mock.Mock()
+    #patched_client.ret = [patched_census_client]
+
     client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
-    patched_census_client.geocode_bundle.assert_called_with(
-        bundle=test_bundle
+    #breakpoint()
+    patched_client.return_value.geocode_bundle.assert_called_with(
+        bundle=test_bundle,
+        overwrite=True
     )
-    #print(actual_response)
-    #print(actual_response.json())
 
 
 def test_geocode_bundle_no_method():

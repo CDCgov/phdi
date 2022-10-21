@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
 from typing import Optional, Literal
-from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient, BaseFhirGeocodeClient
+from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
 from app.utils import search_for_required_values, check_for_fhir_bundle
 
 
@@ -22,7 +22,7 @@ class GeocodeAddressInBundleInput(BaseModel):
 
 
 @router.post("/geocode_bundle", status_code=200)
-async def geocode_bundle_endpoint(
+def geocode_bundle_endpoint(
     input: GeocodeAddressInBundleInput, response: Response
 ) -> dict:
     """
@@ -61,5 +61,5 @@ async def geocode_bundle_endpoint(
     input.pop("geocode_method", None)
     input.pop("auth_id", None)
     input.pop("auth_token", None)
-
+    
     return geocode_client.geocode_bundle(**input)
