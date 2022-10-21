@@ -205,11 +205,11 @@ def extract_data_from_fhir_search_incremental(
     # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
     response = http_request_with_reauth(
         url=search_url,
-        cred_manager=None,
+        cred_manager=cred_manager,
         retry_count=2,
         request_type="GET",
         allowed_methods=["GET"],
-        headers={"Authorization": "Bearer test_token"},
+        headers={},
     )
 
     next_url = None

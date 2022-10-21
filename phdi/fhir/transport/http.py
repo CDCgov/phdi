@@ -20,7 +20,7 @@ def http_request_with_reauth(
     fails with an authorization error (HTTP status 401), obtains a new token using the
     `cred_manager`. If the original request had an Authorization header, replaces
     it with the new token and re-initiates
-    :func:`phdi.transport.http  .http_request_with_retry`.
+    :func:`phdi.transport.http.http_request_with_retry`.
 
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param url: The url at which to make the HTTP request.
