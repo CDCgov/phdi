@@ -22,7 +22,7 @@ class GeocodeAddressInBundleInput(BaseModel):
 
 
 @router.post("/geocode_bundle", status_code=200)
-async def geocode_bundle_endpoint(
+def geocode_bundle_endpoint(
     input: GeocodeAddressInBundleInput, response: Response
 ) -> dict:
     """
