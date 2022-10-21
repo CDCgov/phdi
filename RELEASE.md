@@ -52,7 +52,7 @@ A GitHub release ties together a few pieces of information in the release proces
 2) A short description/name for the release
 3) A list of changes in the release
 
-In order to create a new release in GitHub, open a [new release GitHub form](https://github.com/CDCgov/phdi/releases/new). First, select a target branch - this will either be `main` or a the previous version branch if the release is for an older version. Create (or select) a tag named `vMAJOR.MINOR.PATCH`, replacing the release parts as appropriate with the correct release version values. 
+In order to create a new release in GitHub, open a [new release GitHub form](https://github.com/CDCgov/phdi/releases/new). First, select a target branch - this will either be `main` or the previous version branch if the release is for an older version. Create (or select) a tag named `vMAJOR.MINOR.PATCH`, replacing the release parts as appropriate with the correct release version values. 
 
 Next, enter the release title to match the tag name. 
 
