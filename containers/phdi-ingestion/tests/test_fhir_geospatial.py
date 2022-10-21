@@ -25,8 +25,7 @@ def test_geocode_bundle_bad_smarty_creds():
     }
     expected_response = 400
     actual_response = client.post(
-        "/fhir/geospatial/geocode/geocode_bundle",
-        json=test_request
+        "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
 
     assert actual_response.status_code == expected_response
@@ -36,13 +35,10 @@ def test_geocode_bundle_bad_smarty_creds():
 def test_geocode_bundle_success_census(patched_client):
     test_request = {"bundle": test_bundle, "geocode_method": "census"}
 
-    client.post(
-        "/fhir/geospatial/geocode/geocode_bundle", json=test_request
-    )
+    client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
 
     patched_client.return_value.geocode_bundle.assert_called_with(
-        bundle=test_bundle,
-        overwrite=True
+        bundle=test_bundle, overwrite=True
     )
 
 
@@ -52,16 +48,13 @@ def test_geocode_bundle_success_smarty(patched_client):
         "bundle": test_bundle,
         "geocode_method": "smarty",
         "auth_id": "test_id",
-        "auth_token": "test_token"
+        "auth_token": "test_token",
     }
 
-    client.post(
-        "/fhir/geospatial/geocode/geocode_bundle", json=test_request
-    )
+    client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
 
     patched_client.return_value.geocode_bundle.assert_called_with(
-        bundle=test_bundle,
-        overwrite=True
+        bundle=test_bundle, overwrite=True
     )
 
 
@@ -138,8 +131,7 @@ def test_geocode_bundle_bad_smarty_creds_env():
     get_settings.cache_clear()
     expected_response = 400
     actual_response = client.post(
-        "/fhir/geospatial/geocode/geocode_bundle",
-        json=test_request
+        "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
 
     assert actual_response.status_code == expected_response
