@@ -32,14 +32,10 @@ def test_geocode_bundle_bad_smarty_creds():
 @mock.patch("app.routers.fhir_geospatial.CensusFhirGeocodeClient")
 def test_geocode_bundle_success_census(patched_client):
     test_request = {"bundle": test_bundle, "geocode_method": "census"}
-    
-    #patched_census_client = mock.Mock()
-    #patched_client.ret = [patched_census_client]
 
     client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
-    #breakpoint()
     patched_client.return_value.geocode_bundle.assert_called_with(
         bundle=test_bundle,
         overwrite=True
