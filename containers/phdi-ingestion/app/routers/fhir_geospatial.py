@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
 from typing import Optional, Literal
-from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient, BaseFhirGeocodeClient
+from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
 from app.utils import search_for_required_values, check_for_fhir_bundle
 
 
@@ -61,5 +61,9 @@ async def geocode_bundle_endpoint(
     input.pop("geocode_method", None)
     input.pop("auth_id", None)
     input.pop("auth_token", None)
-
-    return geocode_client.geocode_bundle(**input)
+    try:
+        result =  geocode_client.geocode_bundle(**input)
+    except Exception as error:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        result =  error
+    return result
