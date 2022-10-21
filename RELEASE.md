@@ -14,6 +14,8 @@ API documentation is published automatically with Sphinx and hosted via GitHub p
   * Removing, restricting or changing functionality offered by a public function
 
   Major version releases _may_ also include non-breaking enhancements and fixes.
+
+  Major version releases will reset **MINOR** and **PATCH** versions to 0.
   
 * **MINOR** versions introduce new, non-breaking functionality.
   
@@ -23,6 +25,8 @@ API documentation is published automatically with Sphinx and hosted via GitHub p
 
   Minor version releases _may_ also include fixes.
 
+  Minor versions will reset **PATCH** version to 0.
+
 * **PATCH** versions introduce non-breaking bug fixes.
 
   Releases that _only_ contain fixes are released as patches.
@@ -31,12 +35,7 @@ API documentation is published automatically with Sphinx and hosted via GitHub p
 ## PHDI Release Process
 
 ### Define a Target Version
-The very first step in a release is defining a version number to release to. The previous section describes the release versioning scheme, and should be used to assign the version number for the next release. Your release will have the following parts:
-* `MAJOR`: The major version number for the release. Major versions will reset `MINOR` and `PATCH` versions to 0.
-* `MINOR`: The minor version number. Minor versions will reset `PATCH` version to 0.
-* `PATCH`: The patch version number.
-
-The values identified will be referenced in the sections below.
+The very first step in a release is defining the release's new version number. The previous section describes details of the release versioning scheme (`MAJOR`, `MINOR`, `PATCH`), and should be used to assign the version number for the next release. The values identified will be referenced in the sections below.
 
 ### Major Version Release Process
 In order to support patching old major version releases without forcing users to upgrade, new major versions involve creating a release branch. The following steps should be followed when a breaking change is merged into `main`, requiring a new major version.
