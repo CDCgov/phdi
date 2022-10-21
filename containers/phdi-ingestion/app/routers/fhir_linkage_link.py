@@ -31,7 +31,7 @@ async def add_patient_identifier_in_bundle_endpoint(
     Add a salted hash identifier to every patient resource in a FHIR bundle using. If
     a salt is not provided in the request the value of the 'SALT_STR' environment
     variable will be used. In the case where a salt is not provided and 'SALT_STR' is
-    not defined and HTTP 500 status code is returned.
+    not defined an HTTP 500 status code is returned.
 
     :param input: A JSON formated request body with schema specified by the
         AddPatientIdentifierInBundleInput model.
