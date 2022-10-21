@@ -29,8 +29,6 @@ API documentation is published automatically with Sphinx and hosted via GitHub p
 
 
 ## PHDI Release Process
-There are several steps to the release process.  
-
 
 ### Define a Target Version
 The very first step in a release is defining a version number to release to. The previous section describes the release versioning scheme, and should be used to assign the version number for the next release. Your release will have the following parts:
