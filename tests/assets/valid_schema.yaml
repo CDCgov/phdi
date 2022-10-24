@@ -6,23 +6,34 @@ tables:
     columns:
       Patient ID:
         fhir_path: Patient.id
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
         selection_criteria: first
       First Name:
         fhir_path: Patient.name.given
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
         selection_criteria: first
       Last Name:
         fhir_path: Patient.name.family
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
         selection_criteria: first
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
         selection_criteria: first
   table 2A:
     resource_type: Observation
@@ -31,21 +42,32 @@ tables:
     columns:
       Observation ID:
         fhir_path: Observation.id
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
         selection_criteria: first
       First Name:
         fhir_path: Patient.name.given
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
         selection_criteria: first
       Last Name:
         fhir_path: Patient.name.family
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
         selection_criteria: first
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
-        include_nulls: false
-        include_unknowns: false
+        include_invalid: false
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
         selection_criteria: first
