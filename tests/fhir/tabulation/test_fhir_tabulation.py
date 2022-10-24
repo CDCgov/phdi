@@ -391,15 +391,40 @@ def test_drop_invalid():
         ["some-uuid2", "Firstname", "Lastname", ""],
     ]
 
-    responses_1_null = drop_null(
-        fhir_server_responses_1_null, schema["my_table"]["Patient"]
+    responses = drop_invalid(
+        fhir_server_responses,
+        schema.get("tables").get("table 1A").get("columns"),
     )
+    assert len(responses) == 2
+    assert responses[1][0] == fhir_server_responses[1][0]
 
-    assert next_url is None
-    assert content == [
-        entry_json.get("resource")
-        for entry_json in fhir_server_responses.get("content_2").get("entry")
+    # User-specified values are dropped
+    fhir_server_responses = [
+        ["Patient ID", "First Name", "Last Name", "Phone Number"],
+        ["some-uuid", "John", "Doe", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", "DNA"],
     ]
+
+    responses = drop_invalid(
+        fhir_server_responses,
+        schema.get("tables").get("table 1A").get("columns"),
+    )
+    assert len(responses) == 2
+    assert responses[1][0] == fhir_server_responses[1][0]
+
+    # User-specified values are not dropped if include_invalid is true
+    fhir_server_responses = [
+        ["Patient ID", "First Name", "Last Name", "Phone Number"],
+        ["some-uuid", "John", "Unknown", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", "123-456-7890"],
+    ]
+
+    responses = drop_invalid(
+        fhir_server_responses,
+        schema.get("tables").get("table 1A").get("columns"),
+    )
+    assert len(responses) == 3
+    assert responses[1][0] == fhir_server_responses[1][0]
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
