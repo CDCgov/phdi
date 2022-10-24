@@ -9,8 +9,7 @@ from unittest import mock
 from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
     apply_schema_to_resource,
-    drop_null,
-    drop_unknown,
+    drop_invalid,
     generate_all_tables_in_schema,
     generate_table,
     _generate_search_url,
@@ -383,7 +382,7 @@ def test_drop_null():
     assert responses_1_null[1][0] == fhir_server_responses_1_null[1][0]
 
 
-def test_drop_unknown():
+def test_drop_invalid():
 
     schema = yaml.safe_load(
         open(
@@ -391,46 +390,72 @@ def test_drop_unknown():
         )
     )
 
-    fhir_server_responses_no_unknowns = [
+    fhir_server_responses = [
         ["Patient ID", "First Name", "Last Name", "Phone Number"],
         ["some-uuid", "John", "Doe", "123-456-7890"],
         ["some-uuid2", "First", "Last", "123-456-7890"],
     ]
 
     # Keeps all resources because include_unknowns all False
-    responses_no_unknowns = drop_unknown(
-        fhir_server_responses_no_unknowns,
+    responses = drop_invalid(
+        fhir_server_responses,
         schema.get("tables").get("table 1A").get("columns"),
     )
-    assert len(responses_no_unknowns) == 3
-    assert responses_no_unknowns[1][3] == fhir_server_responses_no_unknowns[1][3]
+    assert len(responses) == 3
+    assert responses[1][3] == fhir_server_responses[1][3]
 
     # Drop null resource
-    fhir_server_responses_1_unknown = [
+    fhir_server_responses = [
         ["Patient ID", "First Name", "Last Name", "Phone Number"],
         ["some-uuid", "John", "Doe", "123-456-7890"],
         ["some-uuid2", "Firstname", "Lastname", None],
     ]
 
-    responses_1_unknown = drop_unknown(
-        fhir_server_responses_1_unknown,
+    responses = drop_invalid(
+        fhir_server_responses,
         schema.get("tables").get("table 1A").get("columns"),
     )
-    assert len(responses_1_unknown) == 2
-    assert responses_1_unknown[1][0] == fhir_server_responses_1_unknown[1][0]
+    assert len(responses) == 2
+    assert responses[1][0] == fhir_server_responses[1][0]
 
-    # Null (empty strings) are not dropped
-    fhir_server_responses_1_unknown_1_null = [
+    # Empty strings are dropped
+    fhir_server_responses = [
         ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", None],
+        ["some-uuid", "John", "Doe", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", ""],
     ]
 
-    responses_1_unknown_1_null = drop_unknown(
-        fhir_server_responses_1_unknown_1_null,
+    responses = drop_invalid(
+        fhir_server_responses,
         schema.get("tables").get("table 1A").get("columns"),
     )
-    assert len(responses_1_unknown_1_null) == 2
-    assert (
-        responses_1_unknown_1_null[1][0] == fhir_server_responses_1_unknown_1_null[1][0]
+    assert len(responses) == 2
+    assert responses[1][0] == fhir_server_responses[1][0]
+
+    # User-specified values are dropped
+    fhir_server_responses = [
+        ["Patient ID", "First Name", "Last Name", "Phone Number"],
+        ["some-uuid", "John", "Doe", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", "DNA"],
+    ]
+
+    responses = drop_invalid(
+        fhir_server_responses,
+        schema.get("tables").get("table 1A").get("columns"),
     )
+    assert len(responses) == 2
+    assert responses[1][0] == fhir_server_responses[1][0]
+
+    # User-specified values are not dropped if include_invalid is true
+    fhir_server_responses = [
+        ["Patient ID", "First Name", "Last Name", "Phone Number"],
+        ["some-uuid", "John", "Unknown", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", "123-456-7890"],
+    ]
+
+    responses = drop_invalid(
+        fhir_server_responses,
+        schema.get("tables").get("table 1A").get("columns"),
+    )
+    assert len(responses) == 3
+    assert responses[1][0] == fhir_server_responses[1][0]

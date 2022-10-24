@@ -260,62 +260,36 @@ def _generate_search_urls(schema: dict) -> dict:
     return url_dict
 
 
-def drop_null(response: list, schema_columns: dict):
+def drop_invalid(data: list, schema_columns: dict):
     """
-    Removes resources from FHIR response if the resource contains a null value for
-    fields where include_nulls is False, as specified in the schema.
+    Removes resources from FHIR response if the resource contains an invalid value for
+    fields where include_invalid is False and the field's value is invalid, as specified
+     in the schema.
 
-    :param response: List of resources returned from FHIR API.
+    :param data: List of resources returned from FHIR API.
     :param schema_columns: Dictionary of columns to include in tabulation that specifies
-      which columns should include_nulls.
-    :param return: List of resources with removed nulls.
+      which columns should include_invalid.
+    :param return: List of resources with invalid resources.
     """
-
-    # Identify fields to drop nulls
-    nulls_to_drop = [
-        schema_columns[column]["new_name"]
-        for column in schema_columns.keys()
-        if not schema_columns[column]["include_nulls"]
-    ]
-
-    # Identify indices in List of Lists to check for nulls
-    indices_of_nulls = [response[0].index(field) for field in nulls_to_drop]
-
-    # Check if resource contains nulls to be dropped
-    for resource in response[1:]:
-        # Check if any of the fields are none
-        for i in indices_of_nulls:
-            if resource[i] == "":
-                response.remove(resource)
-                break
-    return response
-
-
-def drop_unknown(data: list, schema_columns: dict):
-    """
-    Removes resources from FHIR response if the resource contains an unknown value for
-    fields where include_unknowns is False, as specified in the schema.
-    :param response: List of resources returned from FHIR API.
-    :param schema_columns: Dictionary of columns to include in tabulation that specifies
-      which columns should include_nulls.
-    :param return: List of resources with removed unknowns.
-    """
-
-    # Identify fields to drop unknowns
-    unknowns_to_drop = [
+    # Identify columns to drop invalid values
+    invalid_columns_to_drop = [
         column
         for column in schema_columns.keys()
-        if not schema_columns[column]["include_unknowns"]
+        if not schema_columns[column]["include_invalid"]
     ]
 
-    # Identify indices in List of Lists to check for unknowns
-    indices_of_unknowns = [data[0].index(field) for field in unknowns_to_drop]
+    # Identify indices in List of Lists to check for invalid values
+    indices_of_invalids = {}
+    for column in invalid_columns_to_drop:
+        indices_of_invalids[data[0].index(column)] = schema_columns[column][
+            "invalid_values"
+        ]
 
-    # Check if resource contains unknowns to be dropped
-    if len(indices_of_unknowns) > 0:
+    # Check if resource contains invalid values to be dropped
+    if len(indices_of_invalids) > 0:
         for resource in data[1:]:
-            for i in indices_of_unknowns:
-                if resource[i] is None:
+            for i in indices_of_invalids.keys():
+                if resource[i] in indices_of_invalids[i]:
                     data.remove(resource)
                     break
 
