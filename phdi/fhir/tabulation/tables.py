@@ -293,7 +293,7 @@ def _generate_search_urls(schema: dict) -> dict:
         if query_params is not None and len(query_params) > 0:
             search_string += f"?{urlencode(query_params)}"
 
-        count = table_metadata.get("incremental_query_count", count_top)
+        count = table_metadata.get("results_per_page", count_top)
         since = table_metadata.get("earliest_update_datetime", since_top)
 
         url_dict[table_name] = _generate_search_url(search_string, count, since)
