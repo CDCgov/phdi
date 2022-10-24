@@ -347,41 +347,6 @@ def test_generate_search_urls_invalid():
         _generate_search_urls(schema)
 
 
-def test_drop_null():
-
-    schema = yaml.safe_load(
-        open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
-        )
-    )
-
-    fhir_server_responses_no_nulls = [
-        ["patient_id", "first_name", "last_name", "phone_number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "First", "Last", "123-456-7890"],
-    ]
-
-    # Keeps all resources because include_nulls all False
-    responses_no_nulls = drop_null(
-        fhir_server_responses_no_nulls, schema["my_table"]["Patient"]
-    )
-    assert len(responses_no_nulls) == 3
-    assert responses_no_nulls[1][3] == fhir_server_responses_no_nulls[1][3]
-
-    # Drop null resource
-    fhir_server_responses_1_null = [
-        ["patient_id", "first_name", "last_name", "phone_number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", ""],
-    ]
-
-    responses_1_null = drop_null(
-        fhir_server_responses_1_null, schema["my_table"]["Patient"]
-    )
-    assert len(responses_1_null) == 2
-    assert responses_1_null[1][0] == fhir_server_responses_1_null[1][0]
-
-
 def test_drop_invalid():
 
     schema = yaml.safe_load(
