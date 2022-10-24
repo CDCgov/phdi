@@ -2,18 +2,18 @@ from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
 from typing import Literal, Optional
 
-from app.utils import check_for_fhir_bundle, search_for_required_values
+from app.utils import (
+    check_for_fhir_bundle,
+    search_for_required_values,
+    get_credential_manager,
+)
 
-from phdi.cloud.azure import AzureCredentialManager
-from phdi.cloud.gcp import GcpCredentialManager
 from phdi.fhir.transport import upload_bundle_to_fhir_server
 
 router = APIRouter(
     prefix="/fhir/transport/http",
     tags=["fhir/transport"],
 )
-
-credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
 
 
 class UploadBundleToFhirServerInput(BaseModel):
@@ -45,7 +45,9 @@ def upload_bundle_to_fhir_server_endpoint(
         response.status_code = status.HTTP_400_BAD_REQUEST
         return search_result
 
-    input["credential_manager"] = credential_managers[input["credential_manager"]]
+    input["credential_manager"] = get_credential_manager(
+        credential_manager=input["credential_manager"]
+    )
 
     fhir_server_response = upload_bundle_to_fhir_server(**input)
     fhir_server_response_body = fhir_server_response.json()
