@@ -1,7 +1,11 @@
 from typing import Any
 from app.config import get_settings
-from phdi.cloud.azure import AzureCredentialManager
-from phdi.cloud.gcp import GcpCredentialManager
+from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
+from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
+
+
+cloud_providers = {"azure": AzureCloudContainerConnection, "gcp": GcpCloudStorageConnection}
+credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
 
 
 def check_for_fhir(value: dict) -> dict:
@@ -80,6 +84,17 @@ def get_credential_manager(credential_manager: str) -> Any:
     :return: Either a Google Cloud Credential Manager or an Azure Credential Manager
     depending upon the value passed in.
     """
-    credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
     result = credential_managers.get(credential_manager)
+    return result
+
+def get_cloud_provider_storage_connection(cloud_provider: str) -> Any:
+    """
+    Return a cloud provider storage connection for different cloud providers
+    depending upon which one the user requests via the parameter.
+
+    :param cloud_provider: A string identifying which cloud provider is desired.
+    :return: Either a Google Cloud Storage Connection or an Azure Storage
+    Connection depending upon the value passed in.
+    """
+    result = cloud_providers.get(cloud_provider)
     return result
