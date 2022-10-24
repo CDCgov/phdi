@@ -14,6 +14,7 @@ from phdi.fhir.tabulation.tables import (
     generate_table,
     _generate_search_url,
     _generate_search_urls,
+    extract_data_from_fhir_search_incremental,
 )
 
 
@@ -390,37 +391,53 @@ def test_drop_invalid():
         ["some-uuid2", "Firstname", "Lastname", ""],
     ]
 
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
+    responses_1_null = drop_null(
+        fhir_server_responses_1_null, schema["my_table"]["Patient"]
     )
-    assert len(responses) == 2
-    assert responses[1][0] == fhir_server_responses[1][0]
 
-    # User-specified values are dropped
-    fhir_server_responses = [
-        ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", "DNA"],
+    assert next_url is None
+    assert content == [
+        entry_json.get("resource")
+        for entry_json in fhir_server_responses.get("content_2").get("entry")
     ]
 
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
-    )
-    assert len(responses) == 2
-    assert responses[1][0] == fhir_server_responses[1][0]
 
-    # User-specified values are not dropped if include_invalid is true
-    fhir_server_responses = [
-        ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Unknown", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", "123-456-7890"],
+@mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
+def test_extract_data_from_fhir_search_incremental(patch_query):
+
+    fhir_server_responses = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_query_response_200_example.json"
+        )
+    )
+
+    search_url = "http://some-fhir-url?some-query-url"
+    cred_manager = None
+
+    # Test that Next URL exists
+    patch_query.return_value = fhir_server_responses.get("content_1")
+
+    content, next_url = extract_data_from_fhir_search_incremental(
+        search_url, cred_manager
+    )
+
+    assert next_url == fhir_server_responses.get("content_1").get("link")[0].get("url")
+    assert content == [
+        entry_json.get("resource")
+        for entry_json in fhir_server_responses.get("content_1").get("entry")
     ]
 
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
+    # Test that Next URL is None
+    patch_query.return_value = fhir_server_responses["content_2"]
+
+    content, next_url = extract_data_from_fhir_search_incremental(
+        search_url, cred_manager
     )
-    assert len(responses) == 3
-    assert responses[1][0] == fhir_server_responses[1][0]
+
+    assert next_url is None
+    assert content == [
+        entry_json.get("resource")
+        for entry_json in fhir_server_responses.get("content_2").get("entry")
+    ]

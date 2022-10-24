@@ -63,7 +63,7 @@ data/
 
 # Notebooks
 *.ipynb*
-!examples/*.ipynb*
+!examples/**/*.ipynb*
 
 # VS Code
 /.vscode/settings.json
