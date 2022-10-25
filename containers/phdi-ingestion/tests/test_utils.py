@@ -1,9 +1,12 @@
 import os
+from phdi.cloud.azure import AzureCredentialManager
+from phdi.cloud.gcp import GcpCredentialManager
 import pytest
 from app.utils import (
     check_for_fhir,
     check_for_fhir_bundle,
     search_for_required_values,
+    get_credential_manager,
 )
 from app.config import get_settings
 
@@ -55,3 +58,21 @@ def test_check_for_fhir_bundle():
     bad_fhir = {"resourceType": "Patient"}
     with pytest.raises(AssertionError):
         check_for_fhir_bundle(bad_fhir)
+
+
+def test_get_credential_manager_azure():
+    expected_result = AzureCredentialManager
+    actual_result = get_credential_manager("azure")
+    assert actual_result == expected_result
+
+
+def test_get_credential_manager_gcp():
+    expected_result = GcpCredentialManager
+    actual_result = get_credential_manager("gcp")
+    assert actual_result == expected_result
+
+
+def test_get_credential_manager_invalid():
+    expected_result = None
+    actual_result = get_credential_manager("myown")
+    assert actual_result == expected_result
