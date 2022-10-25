@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Response, status
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 from typing import Literal, Optional
 
 from app.utils import (
@@ -9,7 +9,7 @@ from app.utils import (
 
 
 router = APIRouter(
-    prefix="/cloud/storage/write",
+    prefix="/cloud/write/to/storage",
     tags=["cloud/storage"],
 )
 
