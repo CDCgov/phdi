@@ -16,6 +16,7 @@ from phdi.fhir.tabulation.tables import (
     _generate_search_urls,
     extract_data_from_fhir_search_incremental,
     extract_data_from_fhir_search,
+    extract_data_from_fhir_schema,
 )
 
 
@@ -459,3 +460,56 @@ def test_extract_data_from_fhir_search(patch_query):
     )
 
     assert content == expected_output
+
+
+@mock.patch("phdi.fhir.tabulation.tables._generate_search_urls")
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search")
+def test_extract_data_from_fhir_schema(patch_search, patch_gen_urls):
+    patch_gen_urls.return_value = {
+        "Table 1A": "table_1a_search_string",
+        "Table 2A": "table_2a_search_string",
+    }
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+        )
+    )
+
+    data = {
+        "Table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["pid1", "John", "Doe", "111-222-3333"],
+            ["pid2", "Jane", "Smith", "111-222-4444"],
+            ["pid3", "Pat", "Cranston", "111-222-5555"],
+        ],
+        "Table 2A": [
+            ["Observation ID", "Observation Subject"],
+            ["oid1", "Patient/pid1"],
+            ["oid2", "Patient/pid1"],
+            ["oid3", "Patient/pid2"],
+        ],
+    }
+
+    # Mock data returned by search
+    patch_search.side_effect = [
+        data.get("Table 1A"),
+        data.get("Table 2A"),
+    ]
+
+    fhir_url = "http://some-fhir-url?some-query-url"
+
+    search_results = extract_data_from_fhir_schema(schema=schema, fhir_url=fhir_url)
+
+    assert search_results == data
+
+    patch_search.assert_has_calls(
+        [
+            mock.call(
+                search_url=f"{fhir_url}/table_1a_search_string", cred_manager=None
+            ),
+            mock.call(
+                search_url=f"{fhir_url}/table_2a_search_string", cred_manager=None
+            ),
+        ]
+    )
