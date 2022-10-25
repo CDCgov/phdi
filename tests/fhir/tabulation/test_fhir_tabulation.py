@@ -362,7 +362,7 @@ def test_drop_invalid():
         ["some-uuid2", "First", "Last", "123-456-7890"],
     ]
 
-    # Keeps all resources because include_invalids all False
+    # Keeps all resources because drop_invalid all False
     responses = drop_invalid(
         fhir_server_responses,
         schema.get("tables").get("table 1A").get("columns"),
@@ -412,7 +412,7 @@ def test_drop_invalid():
     assert len(responses) == 2
     assert responses[1][0] == fhir_server_responses[1][0]
 
-    # User-specified values are not dropped if include_invalid is True
+    # User-specified values are not dropped if drop_invalid is False
     fhir_server_responses = [
         ["Patient ID", "First Name", "Last Name", "Phone Number"],
         ["some-uuid", "John", "Unknown", "123-456-7890"],
@@ -425,6 +425,23 @@ def test_drop_invalid():
     )
     assert len(responses) == 3
     assert responses[1][0] == fhir_server_responses[1][0]
+
+    # Test that KeyError is raised when drop_invalid is True but no invalid_values
+    # are provided
+    fhir_server_responses = [
+        ["Observation ID", "First Name", "Last Name", "Phone Number"],
+        ["some-uuid", "John", "Unknown", "123-456-7890"],
+        ["some-uuid2", "Firstname", "Lastname", "123-456-7890"],
+    ]
+    column = "Observation ID"
+    err_msg = (
+        f"Schema column {column} must define 'invalid_values'"
+        + " because 'drop_invalid' is set to True"
+    )
+    with pytest.raises(KeyError, match=err_msg):
+        drop_invalid(
+            fhir_server_responses, schema.get("tables").get("table 2A").get("columns")
+        )
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
