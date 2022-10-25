@@ -314,7 +314,7 @@ def drop_invalid(data: List[list], schema_columns: dict) -> List[list]:
     invalid_columns_to_drop = [
         column
         for column in schema_columns.keys()
-        if not schema_columns[column].get("include_invalid", True)
+        if schema_columns[column].get("drop_invalid", False)
     ]
 
     # Identify indices in List of Lists to check for invalid values
@@ -327,10 +327,10 @@ def drop_invalid(data: List[list], schema_columns: dict) -> List[list]:
         except KeyError as key_error:
             raise KeyError(
                 f"Schema column {column} must define 'invalid_values'"
-                + " because 'include_invalid' is set to False"
+                + " because 'drop_invalid' is set to True"
             ) from key_error
 
-    # Check if resource contains invalid values to be dropped
+    # Check if resource contains invalid values to be  dropped
     if len(indices_of_invalids) > 0:
         for resource in data[1:]:
             for i in indices_of_invalids.keys():
