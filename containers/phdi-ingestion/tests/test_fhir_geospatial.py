@@ -35,7 +35,7 @@ def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client)
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
-  
+
     assert actual_response.status_code == expected_response.status_code
 
 
