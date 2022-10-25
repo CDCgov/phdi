@@ -362,7 +362,7 @@ def test_drop_invalid():
         ["some-uuid2", "First", "Last", "123-456-7890"],
     ]
 
-    # Keeps all resources because include_unknowns all False
+    # Keeps all resources because include_invalids all False
     responses = drop_invalid(
         fhir_server_responses,
         schema.get("tables").get("table 1A").get("columns"),
@@ -412,7 +412,7 @@ def test_drop_invalid():
     assert len(responses) == 2
     assert responses[1][0] == fhir_server_responses[1][0]
 
-    # User-specified values are not dropped if include_invalid is true
+    # User-specified values are not dropped if include_invalid is True
     fhir_server_responses = [
         ["Patient ID", "First Name", "Last Name", "Phone Number"],
         ["some-uuid", "John", "Unknown", "123-456-7890"],
