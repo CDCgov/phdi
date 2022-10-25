@@ -181,9 +181,11 @@ def test_health_check():
 @mock.patch("main.json.load")
 @mock.patch("main.open")
 @mock.patch("main.subprocess.run")
-def test_convert_valid_request(patched_subprocess_run, patched_open, patched_json_load):
+@mock.patch("main.Path")
+def test_convert_valid_request(patched_file_path, patched_subprocess_run, patched_open, patched_json_load):
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
     patched_json_load.return_value = valid_response
+    patched_file_path = mock.Mock()
     actual_response = client.post(
         "/convert-to-fhir",
         json=valid_request,
@@ -195,11 +197,14 @@ def test_convert_valid_request(patched_subprocess_run, patched_open, patched_jso
 @mock.patch("main.json.load")
 @mock.patch("main.open")
 @mock.patch("main.subprocess.run")
+@mock.patch("main.Path")
 def test_convert_conversion_failure(
-    patched_subprocess_run, patched_open, patched_json_load
+    patched_file_path, patched_subprocess_run, patched_open, patched_json_load
 ):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     patched_json_load.return_value = valid_response
+    patched_file_path = mock.Mock()
+
     actual_response = client.post(
         "/convert-to-fhir",
         json=valid_request,
