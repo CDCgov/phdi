@@ -298,11 +298,12 @@ def _generate_search_urls(schema: dict) -> dict:
     return url_dict
 
 
-def drop_invalid(data: list, schema_columns: dict):
+def drop_invalid(data: List[list], schema_columns: dict) -> List[list]:
     """
     Removes resources from FHIR response if the resource contains an invalid value for
-    fields where include_invalid is False and the field's value is invalid, as specified
-     in the schema.
+    fields where the field's value is invalid, as specified in the invalid_values field
+    in a user-defined schema. Users may provide invalid values as a list, including
+    empty string values ("") and None/null values (null).
 
     :param data: List of resources returned from FHIR API.
     :param schema_columns: Dictionary of columns to include in tabulation that specifies
@@ -313,15 +314,21 @@ def drop_invalid(data: list, schema_columns: dict):
     invalid_columns_to_drop = [
         column
         for column in schema_columns.keys()
-        if not schema_columns[column]["include_invalid"]
+        if not schema_columns[column].get("include_invalid", True)
     ]
 
     # Identify indices in List of Lists to check for invalid values
     indices_of_invalids = {}
     for column in invalid_columns_to_drop:
-        indices_of_invalids[data[0].index(column)] = schema_columns[column][
-            "invalid_values"
-        ]
+        try:
+            indices_of_invalids[data[0].index(column)] = schema_columns[column][
+                "invalid_values"
+            ]
+        except KeyError as key_error:
+            raise KeyError(
+                f"Schema column {column} must define 'invalid_values'"
+                + " because 'include_invalid' is set to False"
+            ) from key_error
 
     # Check if resource contains invalid values to be dropped
     if len(indices_of_invalids) > 0:
