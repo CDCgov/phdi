@@ -182,7 +182,9 @@ def test_health_check():
 @mock.patch("main.open")
 @mock.patch("main.subprocess.run")
 @mock.patch("main.Path")
-def test_convert_valid_request(patched_file_path, patched_subprocess_run, patched_open, patched_json_load):
+def test_convert_valid_request(
+    patched_file_path, patched_subprocess_run, patched_open, patched_json_load
+):
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
     patched_json_load.return_value = valid_response
     patched_file_path = mock.Mock()

@@ -15,6 +15,7 @@ test_bundle = json.load(
     open(pathlib.Path(__file__).parent / "assets" / "single_patient_bundle.json")
 )
 
+
 @mock.patch("app.routers.fhir_geospatial.SmartyFhirGeocodeClient")
 @mock.patch("app.routers.fhir_geospatial.geocode_bundle_endpoint")
 def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client):
@@ -34,7 +35,7 @@ def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client)
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
-    
+  
     assert actual_response.status_code == expected_response.status_code
 
 
@@ -124,6 +125,7 @@ def test_geocode_bundle_smarty_no_auth_token():
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
     assert actual_response.json() == expected_response
+
 
 @mock.patch("app.routers.fhir_geospatial.SmartyFhirGeocodeClient")
 @mock.patch("app.routers.fhir_geospatial.geocode_bundle_endpoint")
