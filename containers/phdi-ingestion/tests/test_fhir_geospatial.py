@@ -3,6 +3,7 @@ import os
 import json
 from unittest import mock
 from fastapi.testclient import TestClient
+from fastapi import Response, status
 from app.main import app
 from app.config import get_settings
 
@@ -14,8 +15,9 @@ test_bundle = json.load(
     open(pathlib.Path(__file__).parent / "assets" / "single_patient_bundle.json")
 )
 
-
-def test_geocode_bundle_bad_smarty_creds():
+@mock.patch("app.routers.fhir_geospatial.SmartyFhirGeocodeClient")
+@mock.patch("app.routers.fhir_geospatial.geocode_bundle_endpoint")
+def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client):
 
     test_request = {
         "bundle": test_bundle,
@@ -23,12 +25,17 @@ def test_geocode_bundle_bad_smarty_creds():
         "auth_id": "test_id",
         "auth_token": "test_token",
     }
-    expected_response = 400
+    error = ""
+    expected_response = Response
+    expected_response.status_code = status.HTTP_400_BAD_REQUEST
+    expected_response.json = {"error": error}
+    patched_smarty_client.return_value.geocode_bundle = expected_response
+    patched_geocode.geocode_client = patched_smarty_client
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
-
-    assert actual_response.status_code == expected_response
+    
+    assert actual_response.status_code == expected_response.status_code
 
 
 @mock.patch("app.routers.fhir_geospatial.CensusFhirGeocodeClient")
@@ -118,8 +125,9 @@ def test_geocode_bundle_smarty_no_auth_token():
     )
     assert actual_response.json() == expected_response
 
-
-def test_geocode_bundle_bad_smarty_creds_env():
+@mock.patch("app.routers.fhir_geospatial.SmartyFhirGeocodeClient")
+@mock.patch("app.routers.fhir_geospatial.geocode_bundle_endpoint")
+def test_geocode_bundle_bad_smarty_creds_env(patched_geocode, patched_smarty_client):
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
@@ -129,11 +137,16 @@ def test_geocode_bundle_bad_smarty_creds_env():
     os.environ["AUTH_ID"] = "test_id"
     os.environ["AUTH_TOKEN"] = "test_token"
     get_settings.cache_clear()
-    expected_response = 400
+    error = ""
+    expected_response = Response
+    expected_response.status_code = status.HTTP_400_BAD_REQUEST
+    expected_response.json = {"error": error}
+    patched_smarty_client.return_value.geocode_bundle = expected_response
+    patched_geocode.geocode_client = patched_smarty_client
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
 
-    assert actual_response.status_code == expected_response
+    assert actual_response.status_code == expected_response.status_code
     os.environ.pop("AUTH_ID", None)
     os.environ.pop("AUTH_TOKEN", None)
