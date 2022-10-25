@@ -1,9 +1,10 @@
 import csv
 import os
 import yaml
+import json
 import pathlib
-from unittest import mock
 import pytest
+from unittest import mock
 
 from phdi.tabulation import (
     load_schema,
@@ -19,9 +20,19 @@ def test_load_schema():
         open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
     )
 
-    # Test invalid schema file path
-    with pytest.raises(Exception):
+    # Invalid schema file path
+    with pytest.raises(FileNotFoundError):
         load_schema("invalidPath")
+
+    # Invalid JSON
+    with pytest.raises(json.decoder.JSONDecodeError):
+        load_schema(
+            pathlib.Path(__file__).parent.parent / "assets" / "invalid_json.json"
+        )
+
+    # Invalid file format
+    with pytest.raises(ValueError):
+        load_schema(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7")
 
 
 @mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
