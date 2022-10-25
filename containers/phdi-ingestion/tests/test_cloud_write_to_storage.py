@@ -13,10 +13,10 @@ test_bundle = json.load(
 )
 
 
-@mock.patch("app.routers.cloud_write_to_storage.write_blob_to_cloud_storage")
 @mock.patch("app.routers.cloud_write_to_storage.get_cloud_provider_storage_connection")
+@mock.patch("app.routers.cloud_write_to_storage.write_blob_to_cloud_storage_endpoint")
 def test_cloud_write_to_storage_params_success(
-    patched_azure_storage, patched_blob_write
+    patched_blob_write, patched_get_provider
 ):
     test_request = {
         "blob": test_bundle,
@@ -25,22 +25,28 @@ def test_cloud_write_to_storage_params_success(
         "file_name": "test_file_name",
     }
 
-    patched_azure_storage.return_value = mock.Mock()
+    patched_get_provider("azure").return_value = mock.Mock()
+    
+        #     message=input,
+        #     container_name=input["bucket_name"],
+        #     filename=input["file_name"],
+        # )
 
     cloud_response = mock.Mock()
     cloud_response.status_code = 200
     cloud_response.json.return_value = ""
     patched_blob_write.return_value = cloud_response
 
+    patched_get_provider.return_value.upload_object.return_value = mock.Mock()
+
     actual_response = client.post(
         "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
     )
 
-    patched_blob_write.assert_called_with(
-        blob=test_bundle,
-        cloud_provider=patched_azure_storage(),
-        bucket_name="test_bucket",
-        file_name="test_file_name",
+    patched_get_provider.return_value.upload_object.assert_called_with(
+        message=test_request,
+        container_name="test_bucket",
+        filename="test_file_name",
     )
     assert actual_response.status_code == 200
     assert actual_response.json() == {

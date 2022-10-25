@@ -4,12 +4,12 @@ from typing import Literal, Optional
 
 from app.utils import (
     search_for_required_values,
-    get_credential_manager,
+    get_cloud_provider_storage_connection
 )
 
 
 router = APIRouter(
-    prefix="/cloud/write/to/storage",
+    prefix="/cloud/storage/write",
     tags=["cloud/storage"],
 )
 
@@ -41,7 +41,7 @@ def write_blob_to_cloud_storage_endpoint(
         response.status_code = status.HTTP_400_BAD_REQUEST
         return search_result
 
-    cloud_provider_connection = get_credential_manager(
+    cloud_provider_connection = get_cloud_provider_storage_connection(
         credential_manager=input["cloud_provider"]
     )
 
