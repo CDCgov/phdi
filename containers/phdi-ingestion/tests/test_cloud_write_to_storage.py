@@ -86,8 +86,6 @@ def test_cloud_write_to_storage_wrong_provider():
     actual_response = client.post(
         "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
     )
-    print(actual_response.json())
-    print(actual_response)
 
     assert actual_response.json()["detail"][0]["loc"][1] == expected_detail_loc
     assert actual_response.json()["detail"][0]["msg"] == expected_detail_msg
@@ -134,8 +132,6 @@ def test_cloud_write_to_storage_missing_filename():
     actual_response = client.post(
         "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
     )
-    print(actual_response.json())
-    print(actual_response)
     assert actual_response.json() == expected_response
     assert actual_response.status_code == expected_status_code
 
