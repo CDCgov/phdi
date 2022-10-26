@@ -15,6 +15,7 @@ from phdi.fhir.tabulation.tables import (
     _generate_search_url,
     _generate_search_urls,
     extract_data_from_fhir_search_incremental,
+    extract_data_from_fhir_search,
 )
 
 
@@ -422,3 +423,39 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
         entry_json.get("resource")
         for entry_json in fhir_server_responses.get("content_2").get("entry")
     ]
+
+
+@mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
+def test_extract_data_from_fhir_search(patch_query):
+
+    fhir_server_responses = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_query_response_200_example.json"
+        )
+    )
+
+    search_url = "http://some-fhir-url?some-query-url"
+    cred_manager = None
+
+    # Test that Next URL exists
+    patch_query.side_effect = [
+        fhir_server_responses.get("content_1"),
+        fhir_server_responses.get("content_2"),
+    ]
+
+    content = extract_data_from_fhir_search(search_url, cred_manager)
+
+    expected_output = [
+        entry_json.get("resource")
+        for entry_json in fhir_server_responses.get("content_1").get("entry")
+    ]
+    expected_output.extend(
+        [
+            entry_json.get("resource")
+            for entry_json in fhir_server_responses.get("content_2").get("entry")
+        ]
+    )
+
+    assert content == expected_output

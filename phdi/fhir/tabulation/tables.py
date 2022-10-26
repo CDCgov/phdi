@@ -7,8 +7,6 @@ from functools import cache
 from typing import Any, Callable, Literal, List, Tuple
 from urllib.parse import parse_qs, urlencode
 
-from requests import Response
-
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import fhir_server_get, http_request_with_reauth
 from phdi.tabulation.tables import load_schema, write_table
@@ -173,22 +171,9 @@ def generate_all_tables_in_schema(
         )
 
 
-@cache
-def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
-    """
-    Accepts a FHIRPath expression, and returns a callable function which returns the
-    evaluated value at fhirpath_expression for a specified FHIR resource.
-
-    :param fhirpath_expression: The FHIRPath expression to evaluate.
-    :return: A function that, when called passing in a FHIR resource, will return value
-      at `fhirpath_expression`.
-    """
-    return fhirpathpy.compile(fhirpath_expression)
-
-
 def extract_data_from_fhir_search_incremental(
     search_url: str, cred_manager: BaseCredentialManager = None
-) -> Tuple[Response, str]:
+) -> Tuple[dict, str]:
     """
     Performs a FHIR search for a single page of data and returns a dictionary containing
     the data and a next URL. If there is no next URL (this is the last page of data),
@@ -220,6 +205,32 @@ def extract_data_from_fhir_search_incremental(
     content = [entry_json.get("resource") for entry_json in response.get("entry")]
 
     return content, next_url
+
+
+def extract_data_from_fhir_search(
+    search_url: str, cred_manager: BaseCredentialManager = None
+) -> List[dict]:
+    """
+    Performs a FHIR search, continuously using the "next" url to perform
+    search continuations until no additional search results are available.
+    Returns a dictionary containing the data from all search responses.
+
+    :param search_url: The URL to a FHIR server with search criteria.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: A list of FHIR resources returned from the search.
+    """
+
+    results, next = extract_data_from_fhir_search_incremental(
+        search_url=search_url, cred_manager=cred_manager
+    )
+
+    while next is not None:
+        incremental_results, next = extract_data_from_fhir_search_incremental(
+            search_url=next, cred_manager=cred_manager
+        )
+        results.extend(incremental_results)
+
+    return results
 
 
 def _generate_search_url(
@@ -257,6 +268,50 @@ def _generate_search_url(
         return search_url_prefix
 
     return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
+
+
+def drop_null(response: list, schema_columns: dict):
+    """
+    Removes resources from FHIR response if the resource contains a null value for
+    fields where include_nulls is False, as specified in the schema.
+
+    :param response: List of resources returned from FHIR API.
+    :param schema_columns: Dictionary of columns to include in tabulation that specifies
+      which columns should include_nulls.
+    :param return: List of resources with removed nulls.
+    """
+
+    # Identify fields to drop nulls
+    nulls_to_drop = [
+        schema_columns[column]["new_name"]
+        for column in schema_columns.keys()
+        if not schema_columns[column]["include_nulls"]
+    ]
+
+    # Identify indices in List of Lists to check for nulls
+    indices_of_nulls = [response[0].index(field) for field in nulls_to_drop]
+
+    # Check if resource contains nulls to be dropped
+    for resource in response[1:]:
+        # Check if any of the fields are none
+        for i in indices_of_nulls:
+            if resource[i] == "":
+                response.remove(resource)
+                break
+    return response
+
+
+@cache
+def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
+    """
+    Accepts a FHIRPath expression, and returns a callable function which returns the
+    evaluated value at fhirpath_expression for a specified FHIR resource.
+
+    :param fhirpath_expression: The FHIRPath expression to evaluate.
+    :return: A function that, when called passing in a FHIR resource, will return value
+      at `fhirpath_expression`.
+    """
+    return fhirpathpy.compile(fhirpath_expression)
 
 
 def _generate_search_urls(schema: dict) -> dict:
@@ -299,34 +354,3 @@ def _generate_search_urls(schema: dict) -> dict:
         url_dict[table_name] = _generate_search_url(search_string, count, since)
 
     return url_dict
-
-
-def drop_null(response: list, schema_columns: dict):
-    """
-    Removes resources from FHIR response if the resource contains a null value for
-    fields where include_nulls is False, as specified in the schema.
-
-    :param response: List of resources returned from FHIR API.
-    :param schema_columns: Dictionary of columns to include in tabulation that specifies
-      which columns should include_nulls.
-    :param return: List of resources with removed nulls.
-    """
-
-    # Identify fields to drop nulls
-    nulls_to_drop = [
-        schema_columns[column]["new_name"]
-        for column in schema_columns.keys()
-        if not schema_columns[column]["include_nulls"]
-    ]
-
-    # Identify indices in List of Lists to check for nulls
-    indices_of_nulls = [response[0].index(field) for field in nulls_to_drop]
-
-    # Check if resource contains nulls to be dropped
-    for resource in response[1:]:
-        # Check if any of the fields are none
-        for i in indices_of_nulls:
-            if resource[i] == "":
-                response.remove(resource)
-                break
-    return response
