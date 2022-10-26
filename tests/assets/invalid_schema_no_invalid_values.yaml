@@ -1,0 +1,36 @@
+incremental_query_count: 1000
+tables:
+  table 2A:
+    resource_type: Observation
+    query_params:
+      category: http://hl7.org/fhir/ValueSet/observation-category|laboratory
+    columns:
+      Observation ID:
+        fhir_path: Observation.id
+        drop_invalid: true
+        # Missing invalid_values
+        selection_criteria: first
+      First Name:
+        fhir_path: Patient.name.given
+        drop_invalid: true
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
+        selection_criteria: first
+      Last Name:
+        fhir_path: Patient.name.family
+        drop_invalid: true
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
+        selection_criteria: first
+      Phone Number:
+        fhir_path: Patient.telecom.where(system = 'phone').value
+        drop_invalid: true
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
+        selection_criteria: first
