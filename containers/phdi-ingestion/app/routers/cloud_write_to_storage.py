@@ -42,21 +42,14 @@ def write_blob_to_cloud_storage_endpoint(
         return search_result
 
     cloud_provider_connection = get_cloud_provider_storage_connection(
-        credential_manager=input["cloud_provider"]
+        cloud_provider=input["cloud_provider"]
     )
 
-    # for some reason if there is any kind of error when trying to store the blob
-    # respond with a 500 error and the message from the exception
-    # otherwise return a 200 and successful upload
-    try:
-        cloud_provider_connection.upload_object(
-            message=input,
-            container_name=input["bucket_name"],
-            filename=input["file_name"],
-        )
-    except Exception as error:
-        response = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return error
+    cloud_provider_connection.upload_object(
+        message=input,
+        container_name=input["bucket_name"],
+        filename=input["file_name"],
+    )
 
     response = status.HTTP_201_CREATED
     return {
