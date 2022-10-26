@@ -14,7 +14,6 @@ class Settings(BaseSettings):
     file_name: Optional[str]
 
 
-
 @lru_cache()
 def get_settings() -> dict:
     """

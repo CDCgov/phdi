@@ -4,7 +4,10 @@ from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManag
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 
 
-cloud_providers = {"azure": AzureCloudContainerConnection, "gcp": GcpCloudStorageConnection}
+cloud_providers = {
+    "azure": AzureCloudContainerConnection,
+    "gcp": GcpCloudStorageConnection,
+}
 credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
 
 
@@ -86,6 +89,7 @@ def get_credential_manager(credential_manager: str) -> Any:
     """
     result = credential_managers.get(credential_manager)
     return result
+
 
 def get_cloud_provider_storage_connection(cloud_provider: str) -> Any:
     """
