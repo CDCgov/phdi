@@ -21,10 +21,9 @@ fhir_server_response_body = json.load(
 
 
 @mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
-@mock.patch("app.routers.fhir_transport_http.credential_managers")
-@mock.patch("app.routers.fhir_transport_http.AzureCredentialManager")
+@mock.patch("app.routers.fhir_transport_http.get_credential_manager")
 def test_upload_bundle_to_fhir_server_request_params_success(
-    patched_azure_cred_manager, patched_cred_managers, patched_bundle_upload
+    patched_azure_cred_manager, patched_bundle_upload
 ):
     test_request = {
         "bundle": test_bundle,
@@ -32,9 +31,11 @@ def test_upload_bundle_to_fhir_server_request_params_success(
         "fhir_url": "some-FHIR-server-URL",
     }
 
-    patched_cred_managers.__getitem__.side_effect = {
-        "azure": patched_azure_cred_manager
-    }.__getitem__
+    # patched_cred_managers.__getitem__.side_effect = {
+    #     "azure": patched_azure_cred_manager
+    # }.__getitem__
+
+    patched_azure_cred_manager.return_value = mock.Mock()
 
     fhir_server_response = mock.Mock()
     fhir_server_response.status_code = 200
@@ -47,7 +48,7 @@ def test_upload_bundle_to_fhir_server_request_params_success(
 
     patched_bundle_upload.assert_called_with(
         bundle=test_bundle,
-        credential_manager=patched_azure_cred_manager,
+        credential_manager=patched_azure_cred_manager(),
         fhir_url=test_request["fhir_url"],
     )
     assert actual_response.status_code == 200
@@ -62,18 +63,19 @@ def test_upload_bundle_to_fhir_server_request_params_success(
 
 
 @mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
-@mock.patch("app.routers.fhir_transport_http.credential_managers")
-@mock.patch("app.routers.fhir_transport_http.AzureCredentialManager")
+@mock.patch("app.routers.fhir_transport_http.get_credential_manager")
 def test_upload_bundle_to_fhir_server_env_params_success(
-    patched_azure_cred_manager, patched_cred_managers, patched_bundle_upload
+    patched_azure_cred_manager, patched_bundle_upload
 ):
     test_request = {
         "bundle": test_bundle,
     }
 
-    patched_cred_managers.__getitem__.side_effect = {
-        "azure": patched_azure_cred_manager
-    }.__getitem__
+    # patched_cred_managers.__getitem__.side_effect = {
+    #     "azure": patched_azure_cred_manager
+    # }.__getitem__
+
+    patched_azure_cred_manager.return_value = mock.Mock()
 
     os.environ["CREDENTIAL_MANAGER"] = "azure"
     os.environ["FHIR_URL"] = "some-FHIR-server-URL"
@@ -90,7 +92,7 @@ def test_upload_bundle_to_fhir_server_env_params_success(
 
     patched_bundle_upload.assert_called_with(
         bundle=test_bundle,
-        credential_manager=patched_azure_cred_manager,
+        credential_manager=patched_azure_cred_manager(),
         fhir_url="some-FHIR-server-URL",
     )
     assert actual_response.status_code == 200
@@ -105,10 +107,9 @@ def test_upload_bundle_to_fhir_server_env_params_success(
 
 
 @mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
-@mock.patch("app.routers.fhir_transport_http.credential_managers")
-@mock.patch("app.routers.fhir_transport_http.AzureCredentialManager")
+@mock.patch("app.routers.fhir_transport_http.get_credential_manager")
 def test_upload_bundle_to_fhir_server_missing_params(
-    patched_azure_cred_manager, patched_cred_managers, patched_bundle_upload
+    patched_azure_cred_manager, patched_bundle_upload
 ):
     test_request = {
         "bundle": test_bundle,
@@ -117,6 +118,8 @@ def test_upload_bundle_to_fhir_server_missing_params(
     os.environ.pop("CREDENTIAL_MANAGER", None)
     os.environ.pop("FHIR_URL", None)
     get_settings.cache_clear()
+
+    patched_azure_cred_manager.return_value = mock.Mock()
 
     fhir_server_response = mock.Mock()
     fhir_server_response.status_code = 200
@@ -137,16 +140,17 @@ def test_upload_bundle_to_fhir_server_missing_params(
 
 
 @mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
-@mock.patch("app.routers.fhir_transport_http.credential_managers")
-@mock.patch("app.routers.fhir_transport_http.AzureCredentialManager")
+@mock.patch("app.routers.fhir_transport_http.get_credential_manager")
 def test_upload_bundle_to_fhir_server_bad_response_from_server(
-    patched_azure_cred_manager, patched_cred_managers, patched_bundle_upload
+    patched_azure_cred_manager, patched_bundle_upload
 ):
     test_request = {
         "bundle": test_bundle,
         "credential_manager": "azure",
         "fhir_url": "some-FHIR-server-URL",
     }
+
+    patched_azure_cred_manager.return_value = mock.Mock()
 
     fhir_server_response = mock.Mock()
     fhir_server_response.status_code = 400
@@ -165,10 +169,9 @@ def test_upload_bundle_to_fhir_server_bad_response_from_server(
 
 
 @mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
-@mock.patch("app.routers.fhir_transport_http.credential_managers")
-@mock.patch("app.routers.fhir_transport_http.AzureCredentialManager")
+@mock.patch("app.routers.fhir_transport_http.get_credential_manager")
 def test_upload_bundle_to_fhir_server_partial_success(
-    patched_azure_cred_manager, patched_cred_managers, patched_bundle_upload
+    patched_azure_cred_manager, patched_bundle_upload
 ):
     test_request = {
         "bundle": test_bundle,
@@ -176,9 +179,11 @@ def test_upload_bundle_to_fhir_server_partial_success(
         "fhir_url": "some-FHIR-server-URL",
     }
 
-    patched_cred_managers.__getitem__.side_effect = {
-        "azure": patched_azure_cred_manager
-    }.__getitem__
+    # patched_cred_managers.__getitem__.side_effect = {
+    #     "azure": patched_azure_cred_manager
+    # }.__getitem__
+
+    patched_azure_cred_manager.return_value = mock.Mock()
 
     partial_success_response_body = copy.deepcopy(fhir_server_response_body)
     partial_success_response_body["entry"][0]["response"]["status"] = "some issue"
@@ -194,7 +199,7 @@ def test_upload_bundle_to_fhir_server_partial_success(
 
     patched_bundle_upload.assert_called_with(
         bundle=test_bundle,
-        credential_manager=patched_azure_cred_manager,
+        credential_manager=patched_azure_cred_manager(),
         fhir_url=test_request["fhir_url"],
     )
 

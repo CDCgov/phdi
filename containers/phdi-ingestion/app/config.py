@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     credential_manager: Optional[Literal["azure", "gcp"]]
     salt_str: Optional[str]
     fhir_url: Optional[str]
+    auth_id: Optional[str]
+    auth_token: Optional[str]
 
 
 @lru_cache()

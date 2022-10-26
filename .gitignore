@@ -42,6 +42,9 @@ doctrees
 .coverage
 coverage.xml
 
+# PyPI
+.pypitoken
+
 # Azure Functions
 *local.settings.json
 bin/
@@ -60,7 +63,7 @@ data/
 
 # Notebooks
 *.ipynb*
-!examples/*.ipynb*
+!examples/**/*.ipynb*
 
 # VS Code
 /.vscode/settings.json
