@@ -20,6 +20,12 @@ def test_load_schema():
         open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
     )
 
+    assert load_schema(
+        pathlib.Path(__file__).parent.parent / "assets" / "test_schema.json"
+    ) == json.load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.json")
+    )
+
     # Invalid schema file path
     with pytest.raises(FileNotFoundError):
         load_schema("invalidPath")
