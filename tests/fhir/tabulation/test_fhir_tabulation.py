@@ -428,9 +428,17 @@ def test_drop_invalid():
 
     # Test that KeyError is raised when drop_invalid is True but no invalid_values
     # are provided
+    invalid_schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "invalid_schema_no_invalid_values.yaml"
+        )
+    )
+
     fhir_server_responses = [
         ["Observation ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Unknown", "123-456-7890"],
+        ["some-uuid", "John", "Lastname", "123-456-7890"],
         ["some-uuid2", "Firstname", "Lastname", "123-456-7890"],
     ]
     column = "Observation ID"
@@ -440,7 +448,8 @@ def test_drop_invalid():
     )
     with pytest.raises(KeyError, match=err_msg):
         drop_invalid(
-            fhir_server_responses, schema.get("tables").get("table 2A").get("columns")
+            fhir_server_responses,
+            invalid_schema.get("tables").get("table 2A").get("columns"),
         )
 
 
