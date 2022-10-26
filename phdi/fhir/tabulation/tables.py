@@ -273,11 +273,14 @@ def _generate_search_urls(schema: dict) -> dict:
     """
     url_dict = {}
 
-    count_top = schema.get("incremental_query_count")
-    since_top = schema.get("earliest_update_datetime")
+    schema_metadata = schema.get("metadata", {})
+    count_top = schema_metadata.get("results_per_page")
+    since_top = schema_metadata.get("earliest_update_datetime")
 
     for table_name, table in schema.get("tables", {}).items():
-        resource_type = table.get("resource_type")
+
+        table_metadata = table.get("metadata", {})
+        resource_type = table_metadata.get("resource_type")
 
         if not resource_type:
             raise ValueError(
@@ -285,13 +288,13 @@ def _generate_search_urls(schema: dict) -> dict:
                 + f"resource_type not found in table {table_name}."
             )
 
-        query_params = table.get("query_params")
+        query_params = table_metadata.get("query_params")
         search_string = resource_type
         if query_params is not None and len(query_params) > 0:
             search_string += f"?{urlencode(query_params)}"
 
-        count = table.get("incremental_query_count", count_top)
-        since = table.get("earliest_update_datetime", since_top)
+        count = table_metadata.get("results_per_page", count_top)
+        since = table_metadata.get("earliest_update_datetime", since_top)
 
         url_dict[table_name] = _generate_search_url(search_string, count, since)
 
