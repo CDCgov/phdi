@@ -4,7 +4,7 @@ import random
 import pathlib
 
 from functools import cache
-from typing import Any, Callable, Literal, List
+from typing import Any, Callable, Literal, List, Union
 from urllib.parse import parse_qs, urlencode
 
 from phdi.cloud.core import BaseCredentialManager
@@ -94,43 +94,144 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     return data
 
 
-def tabulate_data(extracted_data: dict, schema: dict) -> List[List]:
+def tabulate_data(extracted_data: dict, schema: dict) -> dict:
     """
-    Turns data extracted from a FHIR server into a tabular format for
-    downstream processing. Accepts a schema to apply to the extracted
-    data, which is transformed into a list of lists. The first entry
-    in the returned list is a list of headers for the new table, and
-    subsequent lists are each an extracted data element represented
-    in a tabular format.
+    Transforms a bundle of FHIR data into a tabular format (given by
+    a list of lists) using a user-defined schema of the columns of
+    interest. Tabulation works using a two-pass procedure.
 
-    :param extracted_data: The content response from the FHIR server
-      holding retrieved data to tabulate.
+    First, resources that are associated with one another in the
+    provided schema are grouped together. For example, a Patient
+    resource has a field `generalPractitioner` which holds a FHIR
+    `reference` dictionary giving the resource ID of the patient's
+    traditional doctor. For each table, one type of resource serves
+    as the "anchor" resource, which will define the number of rows
+    in the table. Other resources may be referrenced by either
+    "forwards" (an anchor resource has a reference to the other
+    resource, i.e. the Practitioner in the example above) or
+    "backwards" association (another resource has a reference to the
+    anchor resource, i.e. an Observation resource for a medical Exam
+    has a `subject` field holding a reference to an anchor Patient).
+    These related resources are stored in a data structure
+    accessible using the anchor resource's FHIR ID for efficient lookup.
+
+    Second, the aggregated resources are parsed for value extraction.
+    A second pass is made over just the collected anchor resources, and
+    using the reference mappings made in the first pass, all other
+    requested data from other resources is looked up and extracted.
+    The resulting collection of values is stored in a list in accordance
+    with the provided schema's column headers, and these lists are
+    appended as rows to the final tabulated data set.
+
+    The resulting list of lists serves as the output data table. The
+    first entry is a list of headers for the new table, and
+    subsequent lists are each an extracted data element represented
+    in a tabular format. The returned value of this function is a
+    dictionary whose keys are the names of tables (as given in the
+    provided schema) and whose values are the output tables.
+
+    :param extracted_data: The bundle of FHIR data to tabulate. Must
+      include all resources of each type to reference.
     :param schema: A schema of columns and values to apply to the
       extracted data, separated by resource type.
-    :return: A list of lists of the extracted data representing a
-      table. The first list in the return value is a list of headers
+    :return: A dictionary mapping table names to lists of lists.
+      The first list in the return value is a list of headers
       serving as the columns, and all subsequent lists are rows in
       the table.
     """
 
-    data = []
-    headers = None
-    for resource in extracted_data.get("entry", []):
-        values_from_resource = apply_schema_to_resource(
-            resource.get("resource", {}), schema
+    # First pass: build mapping of references for easy lookup
+    ref_directions = _get_reference_directions(schema)
+    ref_dicts = _build_reference_dicts(extracted_data, ref_directions)
+
+    data = {}
+    for table_name in ref_dicts.keys():
+        # Get the columns from the schema so we always iterate through
+        # them in a consistent order
+        column_items = (
+            schema.get("tables", {}).get(table_name, {}).get("columns", {}).items()
+        )
+        headers = [c[0] for c in column_items]
+        data[table_name] = [headers]
+        anchor_type = (
+            schema.get("tables", {}).get(table_name, {}).get("resource_type", "")
         )
 
-        # apply_schema_to_resource ensures that all desired table fields
-        # exist in the first element
-        if headers is None:
-            headers = sorted(list(values_from_resource.keys()))
-            data.append(headers)
+        # Second pass over just the anchor data, since that
+        # defines the table's rows
+        for anchor_id, anchor_resource in (
+            ref_dicts.get(table_name, {}).get(anchor_type, {}).items()
+        ):
+            row = []
 
-        # use extracted headers to tabulate each row in the same order
-        if values_from_resource != {}:
-            tabulated_values = [values_from_resource[h] for h in headers]
-            data.append(tabulated_values)
+            for _, column_params in column_items:
+                path_to_use = column_params["fhir_path"]
+                resource_to_use = anchor_resource
 
+                # Determine if we need to make a lookup in our
+                # first-pass reference mapping
+                if "reference_location" in column_params:
+                    [direction, ref_path] = column_params["reference_location"].split(
+                        ":", 1
+                    )
+                    referenced_type = path_to_use.split(".")[0]
+
+                    # If a reference resource is requested but the extracted
+                    # data didn't contain any of them, the referenced type
+                    # doesn't appear in the mapping
+                    if referenced_type not in ref_dicts[table_name]:
+                        row.append(None)
+                        continue
+
+                    # An anchor resource references another resource, so get the
+                    # ID from the anchor and look it up
+                    if direction == "forward":
+                        path_to_reference = ref_path.replace(":", ".") + ".reference"
+                        referenced_id = _extract_value_with_resource_path(
+                            anchor_resource, path_to_reference
+                        )
+
+                        # The requested resource may not exist
+                        if referenced_id not in ref_dicts[table_name][referenced_type]:
+                            row.append(None)
+                            continue
+                        resource_to_use = ref_dicts[table_name][referenced_type][
+                            referenced_id
+                        ]
+
+                    # Another resource references our anchor resource
+                    else:
+                        if anchor_id not in ref_dicts[table_name][referenced_type]:
+                            row.append(None)
+                            continue
+                        resource_to_use = ref_dicts[table_name][referenced_type][
+                            anchor_id
+                        ]
+
+                # Forward pointers are many-to-one anchor:target (i.e. many patients
+                # could point to the same general practitioner), so we only need a
+                # single value for them
+                if isinstance(resource_to_use, dict):
+                    row.append(
+                        _extract_value_with_resource_path(
+                            resource_to_use,
+                            path_to_use,
+                            column_params["selection_criteria"],
+                        )
+                    )
+
+                # Reverse pointers are one-to-many (one patient could have multiple
+                # observations pointing to them), so they need to be stored in a list
+                else:
+                    values = [
+                        _extract_value_with_resource_path(
+                            r, path_to_use, column_params["selection_criteria"]
+                        )
+                        for r in resource_to_use
+                    ]
+                    row.append(values)
+
+            data[table_name].append(row)
     return data
 
 
@@ -225,14 +326,155 @@ def generate_all_tables_in_schema(
 @cache
 def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Accepts a FHIRPath expression, and returns a callable function which returns the
-    evaluated value at fhirpath_expression for a specified FHIR resource.
+    Accepts a FHIRPath expression, and returns a callable function
+    which returns the evaluated value at fhirpath_expression for
+    a specified FHIR resource.
 
     :param fhirpath_expression: The FHIRPath expression to evaluate.
-    :return: A function that, when called passing in a FHIR resource, will return value
-      at `fhirpath_expression`.
+    :return: A function that, when called passing in a FHIR resource,
+      will return value at `fhirpath_expression`.
     """
     return fhirpathpy.compile(fhirpath_expression)
+
+
+def _get_reference_directions(schema: dict) -> dict:
+    """
+    Creates a dictionary mapping indicating how the resources that
+    will be used in creating the final output tables relate to each
+    other. For any column desired in an output table, it is possible
+    for the column to be found in a resource that either a) references
+    a given resource, or b) is referenced *by* the given resource.
+    Since each table in the schema is defined with an  "anchor" resource
+    (the main type of resource determining the number of rows in the
+    table), referenced resources of type A can be labeled "backward"
+    pointers and referenced resources of type B can be labeled "forward"
+    pointers. This mapping is used to efficiently group and aggregate
+    related resource data for tabulation.
+
+    :param schema: A user-defined schema featuring some number
+      (possibly 0) of indirectly referenced resources.
+    :return: A dictionary containing mappings, for each table, of
+      how referenced resources relate to the anchor resource.
+    """
+
+    directions_by_table = {}
+    for table_name, table_params in schema.get("tables", {}).items():
+        anchor_type = table_params.get("resource_type", "")
+        directions_by_table[table_name] = {
+            "anchor": anchor_type,
+            "forward": set(),
+            "reverse": {},
+        }
+
+        for _, column_params in table_params.get("columns", {}).items():
+            if "reference_location" in column_params:
+                [direction, ref_path] = column_params.get("reference_location").split(
+                    ":", 1
+                )
+                referenced_resource_type = column_params.get("fhir_path").split(".")[0]
+                if direction == "forward":
+                    directions_by_table[table_name][direction].add(
+                        referenced_resource_type
+                    )
+                else:
+                    directions_by_table[table_name][direction][
+                        referenced_resource_type
+                    ] = ref_path
+
+    return directions_by_table
+
+
+def _extract_value_with_resource_path(
+    resource: dict,
+    path: str,
+    selection_criteria: Literal["first", "last", "random"] = "first",
+) -> Union[Any, None]:
+    """
+    Yields a single value from a resource based on a provided `fhir_path`.
+    If the path doesn't map to an extant value in the first, returns
+    `None` instead.
+
+    :param resource: The FHIR resource to extract a value from.
+    :param path: The `fhir_path` at which the value can be found in the
+      resource.
+    :param selection_criteria: A string dictating which value to extract,
+      if multiple values exist at the path location.
+    :return: The extracted value, or `None` if the value doesn't exist.
+    """
+    parse_function = _get_fhirpathpy_parser(path)
+    value = parse_function(resource)
+    if len(value) == 0:
+        return None
+    else:
+        value = _apply_selection_criteria(value, selection_criteria)
+        return value
+
+
+def _build_reference_dicts(extracted_data: dict, directions_by_table: dict) -> dict:
+    """
+    Groups resources previously determined to reference each other into
+    dictionaries accessed using resource IDs. For each table, a dictionary
+    is created whose keys are the ID of the anchor resource that the
+    referenced resources relate to, and whose values are pointers to the
+    referenced resources. This allows the `tabulate_data` function to
+    simply iterate through the anchor resources (which are rows in the
+    table) and use its ID to quickly fetch all related resources for
+    columnar value extraction. This function and the `_get_reference_directions`
+    function represent the "first pass" of the tabulate function's two-pass
+    process.
+
+    :param extracted_data: A bundle of FHIR data with resources to-tabulate
+      stored in the usual `entry` parameter of the bundle.
+    :param directions_by_table: The output of the `_get_reference_directions`
+      function, which provides the directionality of linked resources to
+      the anchors they reference.
+    :return: A dictionary holding, for each table, the groups of resources
+      from which column values will be extracted.
+    """
+
+    # Build up connections table by table, since one resource could be
+    # used in multiple different tables
+    reference_dicts = {}
+    for table_name in directions_by_table.keys():
+        reference_dicts[table_name] = {}
+
+    for entry in extracted_data.get("entry", []):
+        resource = entry.get("resource", {})
+        rtype = resource.get("resourceType", "")
+
+        # Check each resource we got back against each table's schema
+        # to see if it slots in as an anchor, a forward reference, or
+        # a reverse reference
+        for table_name, resource_directions in directions_by_table.items():
+            if (
+                rtype == resource_directions["anchor"]
+                or rtype in resource_directions["forward"]
+            ):
+                if rtype not in reference_dicts[table_name]:
+                    reference_dicts[table_name][rtype] = {}
+
+                # Forward pointers are easy: just use the resource's ID, since
+                # that's what the anchor will reference
+                reference_dicts[table_name][rtype][resource.get("id", "")] = resource
+
+            if rtype in resource_directions["reverse"]:
+                if not rtype in reference_dicts[table_name]:
+                    reference_dicts[table_name][rtype] = {}
+
+                # Reverse pointers are more involved: need to figure out what
+                # resource this points to
+                ref_loc = directions_by_table[table_name]["reverse"][rtype]
+                ref_path = ref_loc.replace(":", ".") + ".reference"
+                parse_function = _get_fhirpathpy_parser(ref_path)
+                referenced_anchor = parse_function(resource)[0]
+
+                # There could be a many-to-one relationship with reverse pointers,
+                # so store them in a list
+                if not referenced_anchor in reference_dicts[table_name][rtype]:
+                    reference_dicts[table_name][rtype][referenced_anchor] = []
+                reference_dicts[table_name][rtype][referenced_anchor].append(resource)
+
+    return reference_dicts
 
 
 def _generate_search_url(

@@ -1,0 +1,52 @@
+metadata:
+  incremental_query_count: 1000
+tables:
+  Patients:
+    resource_type: Patient
+    earliest_update_datetime: "2020-01-01T00:00:00"
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      First Name:
+        fhir_path: Patient.name.given
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Last Name:
+        fhir_path: Patient.name.family
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Phone Number:
+        fhir_path: Patient.telecom.where(system = 'phone').value
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+  Physical Exams:
+    resource_type: Patient
+    columns:
+      Last Name:
+        fhir_path: Patient.name.family
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      City:
+        fhir_path: Patient.address.city
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Exam ID:
+        fhir_path: Observation.id
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+        reference_location: "reverse:Observation:subject"
+      General Practitioner:
+        fhir_path: Practitioner.name
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+        reference_location: "forward:Patient:generalPractitioner"

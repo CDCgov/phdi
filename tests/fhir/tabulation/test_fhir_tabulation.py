@@ -13,6 +13,8 @@ from phdi.fhir.tabulation.tables import (
     generate_all_tables_in_schema,
     generate_table,
     tabulate_data,
+    _get_reference_directions,
+    _build_reference_dicts,
     _generate_search_url,
     _generate_search_urls,
 )
@@ -88,7 +90,9 @@ def test_apply_schema_to_resource():
 def test_tabulate_data():
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
         )
     )
     extracted_data = json.load(
@@ -101,28 +105,71 @@ def test_tabulate_data():
 
     tabulated_data = tabulate_data(extracted_data, schema)
 
+    assert set(tabulated_data.keys()) == {"Patients", "Physical Exams"}
+
     # Check all columns from schema present
-    assert tabulated_data[0] == [
-        "first_name",
-        "last_name",
-        "patient_id",
-        "phone_number",
+    assert set(tabulated_data["Patients"][0]) == {
+        "Patient ID",
+        "First Name",
+        "Last Name",
+        "Phone Number",
+    }
+    assert set(tabulated_data["Physical Exams"][0]) == {
+        "Last Name",
+        "City",
+        "Exam ID",
+        "General Practitioner",
+    }
+
+    # Check Patients data table
+    row_sets = [
+        {
+            "Kimberley248",
+            "Price929",
+            "555-690-3898",
+            "907844f6-7c99-eabc-f68e-d92189729a55",
+        },
+        {"65489-asdf5-6d8w2-zz5g8", "John", "Shepard", None},
+        {"some-uuid", "John ", None, "123-456-7890"},
     ]
+    assert len(tabulated_data["Patients"][1:]) == 3
+    tests_run = 0
+    for row in row_sets:
+        found_match = False
+        for table_row in tabulated_data["Patients"][1:]:
+            if set(table_row) == row:
+                found_match = True
+                break
+        if tests_run <= 2:
+            tests_run += 1
+            assert found_match
 
-    # Check all records in data bundle present
-    assert len(extracted_data["entry"]) + 1 == len(tabulated_data)
-
-    # Check for expected blank strings
-    assert tabulated_data[3][1] == ""
-    assert tabulated_data[2][3] == ""
-
-    # Verify full row is correctly tabulated
-    assert tabulated_data[1] == [
-        "Kimberley248",
-        "Price929",
-        "907844f6-7c99-eabc-f68e-d92189729a55",
-        "555-690-3898",
+    # Check Physical Exams data table
+    row_lists = [
+        [
+            "Waltham",
+            "Price929",
+            "i-am-not-a-robot",
+            ["obs1"],
+        ],
+        ["no-srsly-i-am-hoomun", "Zakera Ward", "Shepard", None],
+        ["Faketon", None, None, ["obs2", "obs3"]],
     ]
+    assert len(tabulated_data["Physical Exams"][1:]) == 3
+    tests_run = 0
+    for row in row_lists:
+        found_match = False
+        for table_row in tabulated_data["Physical Exams"][1:]:
+            checked_elements = 0
+            for element in row:
+                if element in table_row:
+                    checked_elements += 1
+            if checked_elements == len(row) == len(table_row):
+                found_match = True
+                break
+        if tests_run <= 2:
+            tests_run += 1
+            assert found_match
 
 
 @mock.patch("phdi.fhir.tabulation.tables.write_table")
@@ -295,6 +342,68 @@ def test_generate_all_tables_schema(patched_load_schema, patched_make_table):
         fhir_url,
         mock_cred_manager,
     )
+
+
+def test_get_reference_directions():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
+        )
+    )
+
+    ref_dicts = _get_reference_directions(schema)
+    assert ref_dicts == {
+        "Patients": {"anchor": "Patient", "forward": set(), "reverse": {}},
+        "Physical Exams": {
+            "anchor": "Patient",
+            "forward": {"Practitioner"},
+            "reverse": {"Observation": "Observation:subject"},
+        },
+    }
+
+
+def test_build_reference_dicts():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
+        )
+    )
+    ref_directions = _get_reference_directions(schema)
+
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    ref_dicts = _build_reference_dicts(extracted_data, ref_directions)
+    assert set(ref_dicts.keys()) == {"Patients", "Physical Exams"}
+    assert len(ref_dicts["Patients"]["Patient"]) == 3
+    assert set(ref_dicts["Patients"]["Patient"].keys()) == {
+        "some-uuid",
+        "907844f6-7c99-eabc-f68e-d92189729a55",
+        "65489-asdf5-6d8w2-zz5g8",
+    }
+    assert "Observation" not in ref_dicts["Patients"]
+
+    assert len(ref_dicts["Physical Exams"]["Patient"]) == 3
+    assert len(ref_dicts["Physical Exams"]["Observation"]) == 2
+    assert set(ref_dicts["Physical Exams"]["Observation"].keys()) == {
+        "907844f6-7c99-eabc-f68e-d92189729a55",
+        "some-uuid",
+    }
+    assert set(
+        [x["id"] for x in ref_dicts["Physical Exams"]["Observation"]["some-uuid"]]
+    ) == {
+        "obs2",
+        "obs3",
+    }
+    assert len(ref_dicts["Physical Exams"]["Practitioner"]) == 2
 
 
 def test_generate_search_url():

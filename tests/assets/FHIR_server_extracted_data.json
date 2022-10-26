@@ -134,6 +134,10 @@
                 ],
                 "gender": "female",
                 "birthDate": "1996-04-17",
+                "generalPractitioner": {
+                    "reference": "doc1",
+                    "type": "Practitioner"
+                },
                 "address": [
                     {
                         "extension": [
@@ -190,6 +194,18 @@
             }
         },
         {
+            "fullUrl": "oiafiuhifaofweaf",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs1",
+                "category": "exam",
+                "subject": {
+                    "reference": "907844f6-7c99-eabc-f68e-d92189729a55",
+                    "type": "Patient"
+                }
+            }
+        },
+        {
             "fullUrl": "ajshdfo8ashf8191hf",
             "resource": {
                 "resourceType": "Patient",
@@ -229,7 +245,23 @@
                         "state": "Citadel",
                         "postalCode": "99999"
                     }
-                ]
+                ],
+                "generalPractitioner": {
+                    "reference": "doc2",
+                    "type": "Practitioner"
+                }
+            }
+        },
+        {
+            "fullUrl": "afsdabyeiufaoghiu3iw8y4t",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs2",
+                "category": "exam",
+                "subject": {
+                    "reference": "some-uuid",
+                    "type": "Patient"
+                }
             }
         },
         {
@@ -286,6 +318,34 @@
                         "system": "email"
                     }
                 ]
+            }
+        },
+        {
+            "fullUrl": "iie8d64die93923u7d",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs3",
+                "category": "exam",
+                "subject": {
+                    "reference": "some-uuid",
+                    "type": "Patient"
+                }
+            }
+        },
+        {
+            "fullUrl": "asdfghjkl",
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "doc1",
+                "name": "i-am-not-a-robot"
+            }
+        },
+        {
+            "fullUrl": "qwertyuiop",
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "doc2",
+                "name": "no-srsly-i-am-hoomun"
             }
         }
     ]
