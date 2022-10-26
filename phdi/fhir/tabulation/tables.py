@@ -300,15 +300,15 @@ def _generate_search_urls(schema: dict) -> dict:
 
 def drop_invalid(data: List[list], schema_columns: dict) -> List[list]:
     """
-    Removes resources from FHIR response if the resource contains an invalid value for
-    fields where the field's value is invalid, as specified in the invalid_values field
-    in a user-defined schema. Users may provide invalid values as a list, including
-    empty string values ("") and None/null values (null).
+    Removes resources from FHIR response if the resource contains an invalid value, as
+    specified in the invalid_values field in a user-defined schema. Users may provide
+    invalid values as a list, including empty string values ("") and
+    None/null values (null).
 
     :param data: List of resources returned from FHIR API.
     :param schema_columns: Dictionary of columns to include in tabulation that specifies
       which columns should include_invalid.
-    :param return: List of resources with invalid resources.
+    :param return: List of resources with valid fields.
     """
     # Identify columns to drop invalid values
     invalid_columns_to_drop = [
