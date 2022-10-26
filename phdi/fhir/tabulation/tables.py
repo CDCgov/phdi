@@ -460,7 +460,7 @@ def _build_reference_dicts(extracted_data: dict, directions_by_table: dict) -> d
                 reference_dicts[table_name][rtype][resource.get("id", "")] = resource
 
             if rtype in resource_directions["reverse"]:
-                if not rtype in reference_dicts[table_name]:
+                if rtype not in reference_dicts[table_name]:
                     reference_dicts[table_name][rtype] = {}
 
                 # Reverse pointers are more involved: need to figure out what
@@ -472,7 +472,7 @@ def _build_reference_dicts(extracted_data: dict, directions_by_table: dict) -> d
 
                 # There could be a many-to-one relationship with reverse pointers,
                 # so store them in a list
-                if not referenced_anchor in reference_dicts[table_name][rtype]:
+                if referenced_anchor not in reference_dicts[table_name][rtype]:
                     reference_dicts[table_name][rtype][referenced_anchor] = []
                 reference_dicts[table_name][rtype][referenced_anchor].append(resource)
 
