@@ -16,7 +16,7 @@ from phdi.fhir.tabulation.tables import (
     _generate_search_urls,
     extract_data_from_fhir_search_incremental,
     extract_data_from_fhir_search,
-    extract_data_from_fhir_schema,
+    extract_data_from_schema,
 )
 
 
@@ -464,7 +464,7 @@ def test_extract_data_from_fhir_search(patch_query):
 
 @mock.patch("phdi.fhir.tabulation.tables._generate_search_urls")
 @mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search")
-def test_extract_data_from_fhir_schema(patch_search, patch_gen_urls):
+def test_extract_data_from_schema(patch_search, patch_gen_urls):
     patch_gen_urls.return_value = {
         "Table 1A": "table_1a_search_string",
         "Table 2A": "table_2a_search_string",
@@ -499,7 +499,7 @@ def test_extract_data_from_fhir_schema(patch_search, patch_gen_urls):
 
     fhir_url = "http://some-fhir-url?some-query-url"
 
-    search_results = extract_data_from_fhir_schema(schema=schema, fhir_url=fhir_url)
+    search_results = extract_data_from_schema(schema=schema, fhir_url=fhir_url)
 
     assert search_results == data
 
