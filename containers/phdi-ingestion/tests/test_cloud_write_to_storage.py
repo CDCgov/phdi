@@ -46,7 +46,7 @@ def test_cloud_write_to_storage_params_success(
         "The data has successfully been stored in the azure cloud "
         "in test_bucket container with the name test_file_name."
     )
-    assert actual_response.status_code == 200
+    assert actual_response.status_code == 201
     assert actual_response.json() == {"message": message}
 
 

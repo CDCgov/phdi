@@ -51,7 +51,7 @@ def write_blob_to_cloud_storage_endpoint(
         filename=input["file_name"],
     )
 
-    response = status.HTTP_201_CREATED
+    response.status_code = status.HTTP_201_CREATED
     return {
         "message": "The data has successfully been stored in the {} cloud in {} container with the name {}.".format(
             input["cloud_provider"], input["bucket_name"], input["file_name"]
