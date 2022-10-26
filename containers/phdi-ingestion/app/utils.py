@@ -1,4 +1,7 @@
+from typing import Any
 from app.config import get_settings
+from phdi.cloud.azure import AzureCredentialManager
+from phdi.cloud.gcp import GcpCredentialManager
 
 
 def check_for_fhir(value: dict) -> dict:
@@ -65,3 +68,18 @@ def search_for_required_values(input: dict, required_values: list) -> str:
         )
 
     return message
+
+
+def get_credential_manager(credential_manager: str) -> Any:
+    """
+    Return a credential manager for different cloud providers depending upon which
+    one the user requests via the parameter.
+
+    :param credential_manager: A string identifying which cloud credential
+    manager is desired.
+    :return: Either a Google Cloud Credential Manager or an Azure Credential Manager
+    depending upon the value passed in.
+    """
+    credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
+    result = credential_managers.get(credential_manager)
+    return result
