@@ -4,7 +4,7 @@ import random
 import pathlib
 
 from functools import cache
-from typing import Any, Callable, Literal, List, Tuple
+from typing import Any, Callable, Dict, Literal, List, Tuple
 from urllib.parse import parse_qs, urlencode
 
 from requests import Response
@@ -298,44 +298,58 @@ def _generate_search_urls(schema: dict) -> dict:
     return url_dict
 
 
-def drop_invalid(data: List[list], schema_columns: dict) -> List[list]:
+def drop_invalid(data: Dict, schema: Dict) -> List[list]:
     """
-    Removes resources from FHIR response if the resource contains an invalid value, as
+    Removes resources from tabulated data if the resource contains an invalid value, as
     specified in the invalid_values field in a user-defined schema. Users may provide
     invalid values as a list, including empty string values ("") and
     None/null values (null).
 
-    :param data: List of resources returned from FHIR API.
-    :param schema_columns: Dictionary of columns to include in tabulation that specifies
-      which columns should include_invalid.
-    :param return: List of resources with valid fields.
+    :param data:  A dictionary mapping table names to lists of lists. The first list in
+        the data value is a list of headers serving as the columns, and all subsequent
+        lists are rows in the table.
+    :param schema: A schema of columns and values to apply to the
+      tabulated data, including invalid_values if applicable.
+    :param return: A dictionary mapping table names to lists of lists, without resources
+        that contained invalid values. The first list in the data value is a list of
+        headers serving as the columns, and all subsequent lists are rows in the table.
     """
-    # Identify columns to drop invalid values
-    invalid_columns_to_drop = [
-        column
-        for column in schema_columns.keys()
-        if schema_columns[column].get("drop_invalid", False)
-    ]
+    # Identify columns to drop invalid values for each table in schema
+    invalid_columns_to_drop = {}
+    for table in schema.get("tables"):
+        invalid_columns_to_drop[table] = [
+            column
+            for column in schema.get("tables").get(table).get("columns")
+            if (
+                schema.get("tables")
+                .get(table)
+                .get("columns")
+                .get(column)
+                .get("invalid_values")
+            )
+        ]
 
     # Identify indices in List of Lists to check for invalid values
     indices_of_invalids = {}
-    for column in invalid_columns_to_drop:
-        try:
-            indices_of_invalids[data[0].index(column)] = schema_columns[column][
-                "invalid_values"
-            ]
-        except KeyError as key_error:
-            raise KeyError(
-                f"Schema column {column} must define 'invalid_values'"
-                + " because 'drop_invalid' is set to True"
-            ) from key_error
 
-    # Check if resource contains invalid values to be  dropped
-    if len(indices_of_invalids) > 0:
-        for resource in data[1:]:
-            for i in indices_of_invalids.keys():
-                if resource[i] in indices_of_invalids[i]:
-                    data.remove(resource)
-                    break
+    for table in invalid_columns_to_drop.keys():
+        indices_of_invalids[table] = {}
+        for column in invalid_columns_to_drop[table]:
+            indices_of_invalids[table][data[table][0].index(column)] = (
+                schema.get("tables")
+                .get(table)
+                .get("columns")
+                .get(column)
+                .get("invalid_values")
+            )
+
+    # Check if resource contains invalid values to be dropped
+    for table in data.keys():
+        if len(indices_of_invalids[table]) > 0:
+            for resource in data[table][1:]:
+                for i in indices_of_invalids[table].keys():
+                    if resource[i] in indices_of_invalids[table][i]:
+                        data[table].remove(resource)
+                        break
 
     return data
