@@ -22,12 +22,11 @@ def load_schema(path: pathlib.Path) -> dict:
     :raises JSONDecodeError: If a JSON file is provided with invalid JSON.
     :return: A dict representing a schema read from the given path.
     """
-    path = str(path)
     try:
         with open(path, "r") as file:
-            if path.endswith(".yaml"):
+            if path.suffix == ".yaml":
                 schema = yaml.safe_load(file)
-            elif path.endswith(".json"):
+            elif path.suffix == ".json":
                 schema = json.load(file)
             else:
                 ftype = path.split(".")[-1].upper()
