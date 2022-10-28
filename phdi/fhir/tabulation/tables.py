@@ -236,7 +236,7 @@ def extract_data_from_fhir_search(
 
 def extract_data_from_schema(
     schema: dict, fhir_url: str, cred_manager: BaseCredentialManager = None
-) -> Dict[str, dict]:
+) -> Dict[str, List[dict]]:
     """
     Performs a full FHIR search for each table in `schema`, and returns a dictionary
     mapping the table name to corresponding search results.
