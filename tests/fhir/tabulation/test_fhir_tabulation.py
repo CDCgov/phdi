@@ -478,16 +478,26 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
 
     data = {
         "Table 1A": [
-            ["Patient ID", "First Name", "Last Name", "Phone Number"],
-            ["pid1", "John", "Doe", "111-222-3333"],
-            ["pid2", "Jane", "Smith", "111-222-4444"],
-            ["pid3", "Pat", "Cranston", "111-222-5555"],
+            {
+                "resourceType": "Patient",
+                "id": "pid1",
+                "name": {"given": ["John"], "family": "Doe"},
+            },
+            {
+                "resourceType": "Patient",
+                "id": "pid1",
+                "name": {"given": ["Jane"], "family": "Smith"},
+            },
+            {
+                "resourceType": "Patient",
+                "id": "pid1",
+                "name": {"given": ["Pat"], "family": "Cranston"},
+            },
         ],
         "Table 2A": [
-            ["Observation ID", "Observation Subject"],
-            ["oid1", "Patient/pid1"],
-            ["oid2", "Patient/pid1"],
-            ["oid3", "Patient/pid2"],
+            {"resourceType": "Observation", "id": "obs1", "subject": "pid1"},
+            {"resourceType": "Observation", "id": "obs2", "subject": "pid1"},
+            {"resourceType": "Observation", "id": "obs3", "subject": "pid2"},
         ],
     }
 
