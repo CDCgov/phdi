@@ -29,7 +29,7 @@ def load_schema(path: pathlib.Path) -> dict:
             elif path.suffix == ".json":
                 schema = json.load(file)
             else:
-                ftype = path.split(".")[-1].upper()
+                ftype = path.suffix.replace(".", "").upper()
                 raise ValueError(f"Unsupported file type provided: {ftype}")
         return schema
     except FileNotFoundError:
