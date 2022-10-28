@@ -356,101 +356,90 @@ def test_drop_invalid():
         )
     )
 
-    fhir_server_responses = [
-        ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "First", "Last", "123-456-7890"],
-    ]
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", "123-456-7890"],
+        ],
+    }
 
-    # Keeps all resources because drop_invalid all False
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
+    # Keeps all resources because no invalid values
+    no_invalid_values = drop_invalid(
+        tabulated_data,
+        schema,
     )
-    assert len(responses) == 3
-    assert responses[1][3] == fhir_server_responses[1][3]
+    assert len(no_invalid_values["table 1A"]) == 3
+    assert no_invalid_values["table 1A"][1][3] == tabulated_data["table 1A"][1][3]
 
     # Drop null resource
-    fhir_server_responses = [
-        ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", None],
-    ]
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", None],
+        ],
+    }
 
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
+    dropped_null_resource = drop_invalid(
+        tabulated_data,
+        schema,
     )
-    assert len(responses) == 2
-    assert responses[1][0] == fhir_server_responses[1][0]
+
+    assert len(dropped_null_resource["table 2A"]) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_null_resource["table 2A"][1][0]
 
     # Empty strings are dropped
-    fhir_server_responses = [
-        ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", ""],
-    ]
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", ""],
+        ],
+    }
 
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
+    dropped_empty_string = drop_invalid(
+        tabulated_data,
+        schema,
     )
-    assert len(responses) == 2
-    assert responses[1][0] == fhir_server_responses[1][0]
+    assert len(dropped_empty_string["table 2A"]) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_empty_string["table 2A"][1][0]
 
     # User-specified values are dropped
-    fhir_server_responses = [
-        ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", "DNA"],
-    ]
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", "Unknown"],
+        ],
+    }
 
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
+    dropped_user_value = drop_invalid(
+        tabulated_data,
+        schema,
     )
-    assert len(responses) == 2
-    assert responses[1][0] == fhir_server_responses[1][0]
-
-    # User-specified values are not dropped if drop_invalid is False
-    fhir_server_responses = [
-        ["Patient ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Unknown", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", "123-456-7890"],
-    ]
-
-    responses = drop_invalid(
-        fhir_server_responses,
-        schema.get("tables").get("table 1A").get("columns"),
-    )
-    assert len(responses) == 3
-    assert responses[1][0] == fhir_server_responses[1][0]
-
-    # Test that KeyError is raised when drop_invalid is True but no invalid_values
-    # are provided
-    invalid_schema = yaml.safe_load(
-        open(
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "invalid_schema_no_invalid_values.yaml"
-        )
-    )
-
-    fhir_server_responses = [
-        ["Observation ID", "First Name", "Last Name", "Phone Number"],
-        ["some-uuid", "John", "Lastname", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", "123-456-7890"],
-    ]
-    column = "Observation ID"
-    err_msg = (
-        f"Schema column {column} must define 'invalid_values'"
-        + " because 'drop_invalid' is set to True"
-    )
-    with pytest.raises(KeyError, match=err_msg):
-        drop_invalid(
-            fhir_server_responses,
-            invalid_schema.get("tables").get("table 2A").get("columns"),
-        )
+    assert len(dropped_user_value["table 2A"]) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_user_value["table 2A"][1][0]
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
