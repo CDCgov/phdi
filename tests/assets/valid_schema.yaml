@@ -20,7 +20,7 @@ tables:
           - "Unknown"
         selection_criteria: first
       Last Name:
-        fhir_path: Patient.name.famil
+        fhir_path: Patient.name.family
         selection_criteria: first
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
