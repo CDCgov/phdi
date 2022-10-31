@@ -4,7 +4,7 @@ import random
 import pathlib
 
 from functools import cache
-from typing import Any, Callable, Literal, List, Tuple
+from typing import Any, Callable, Dict, Literal, List, Tuple
 from urllib.parse import parse_qs, urlencode
 
 from phdi.cloud.core import BaseCredentialManager
@@ -173,7 +173,7 @@ def generate_all_tables_in_schema(
 
 def extract_data_from_fhir_search_incremental(
     search_url: str, cred_manager: BaseCredentialManager = None
-) -> Tuple[dict, str]:
+) -> Tuple[List[dict], str]:
     """
     Performs a FHIR search for a single page of data and returns a dictionary containing
     the data and a next URL. If there is no next URL (this is the last page of data),
@@ -181,7 +181,8 @@ def extract_data_from_fhir_search_incremental(
 
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: Tuple containing single page of data as a dictionary and the next URL.
+    :return: Tuple containing single page of data as a list of FHIR resources
+      and the next URL.
     """
 
     # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
@@ -229,6 +230,30 @@ def extract_data_from_fhir_search(
             search_url=next, cred_manager=cred_manager
         )
         results.extend(incremental_results)
+
+    return results
+
+
+def extract_data_from_schema(
+    schema: dict, fhir_url: str, cred_manager: BaseCredentialManager = None
+) -> Dict[str, List[dict]]:
+    """
+    Performs a full FHIR search for each table in `schema`, and returns a dictionary
+    mapping the table name to corresponding search results.
+
+    :param schema: The schema that defines the extraction to perform.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: A dictionary mapping table name to a list of FHIR resources returned from
+      the search.
+    """
+
+    search_urls = _generate_search_urls(schema=schema)
+
+    results = {}
+    for table_name, search_url in search_urls.items():
+        results[table_name] = extract_data_from_fhir_search(
+            search_url=f"{fhir_url}/{search_url}", cred_manager=cred_manager
+        )
 
     return results
 
