@@ -7,8 +7,6 @@ from functools import cache
 from typing import Any, Callable, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
 
-from requests import Response
-
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import fhir_server_get, http_request_with_reauth
 from phdi.tabulation.tables import load_schema, write_table
@@ -499,7 +497,7 @@ def _dereference_included_resource(
 
 def extract_data_from_fhir_search_incremental(
     search_url: str, cred_manager: BaseCredentialManager = None
-) -> Tuple[Response, str]:
+) -> Tuple[dict, str]:
     """
     Performs a FHIR search for a single page of data and returns a dictionary containing
     the data and a next URL. If there is no next URL (this is the last page of data),
@@ -531,6 +529,32 @@ def extract_data_from_fhir_search_incremental(
     content = [entry_json.get("resource") for entry_json in response.get("entry")]
 
     return content, next_url
+
+
+def extract_data_from_fhir_search(
+    search_url: str, cred_manager: BaseCredentialManager = None
+) -> List[dict]:
+    """
+    Performs a FHIR search, continuously using the "next" url to perform
+    search continuations until no additional search results are available.
+    Returns a dictionary containing the data from all search responses.
+
+    :param search_url: The URL to a FHIR server with search criteria.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: A list of FHIR resources returned from the search.
+    """
+
+    results, next = extract_data_from_fhir_search_incremental(
+        search_url=search_url, cred_manager=cred_manager
+    )
+
+    while next is not None:
+        incremental_results, next = extract_data_from_fhir_search_incremental(
+            search_url=next, cred_manager=cred_manager
+        )
+        results.extend(incremental_results)
+
+    return results
 
 
 def _generate_search_url(
@@ -570,56 +594,14 @@ def _generate_search_url(
     return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
 
 
-def _generate_search_urls(schema: dict) -> dict:
-    """
-    Parses a schema, and populates a dictionary containing generated search strings
-    for each table, in the following structure:
-    * table_1: search_string_1
-    * table_2: search_string_2
-    * ...
-
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
-    :raises ValueError: If any table does not contain a `search_string` entry.
-    :return: A dictionary containing search URLs.
-    """
-    url_dict = {}
-
-    count_top = schema.get("incremental_query_count")
-    since_top = schema.get("earliest_update_datetime")
-
-    for table_name, table in schema.get("tables", {}).items():
-        resource_type = table.get("resource_type")
-
-        if not resource_type:
-            raise ValueError(
-                "Each table must specify resource_type. "
-                + f"resource_type not found in table {table_name}."
-            )
-
-        query_params = table.get("query_params")
-        search_string = resource_type
-        if query_params is not None and len(query_params) > 0:
-            search_string += f"?{urlencode(query_params)}"
-
-        count = table.get("incremental_query_count", count_top)
-        since = table.get("earliest_update_datetime", since_top)
-
-        url_dict[table_name] = _generate_search_url(search_string, count, since)
-
-    return url_dict
-
-
 def drop_null(response: list, schema_columns: dict):
     """
-    Removes resources from a FHIR response if the resource contains a
-    null value for fields where include_nulls is False, as specified
-    in the schema.
+    Removes resources from FHIR response if the resource contains a null value for
+    fields where include_nulls is False, as specified in the schema.
 
     :param response: List of resources returned from FHIR API.
-    :param schema_columns: Dictionary of columns to include in tabulation
-      that specifies which columns should include_nulls.
+    :param schema_columns: Dictionary of columns to include in tabulation that specifies
+      which columns should include_nulls.
     :param return: List of resources with removed nulls.
     """
 
@@ -641,3 +623,60 @@ def drop_null(response: list, schema_columns: dict):
                 response.remove(resource)
                 break
     return response
+
+
+@cache
+def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
+    """
+    Accepts a FHIRPath expression, and returns a callable function which returns the
+    evaluated value at fhirpath_expression for a specified FHIR resource.
+
+    :param fhirpath_expression: The FHIRPath expression to evaluate.
+    :return: A function that, when called passing in a FHIR resource, will return value
+      at `fhirpath_expression`.
+    """
+    return fhirpathpy.compile(fhirpath_expression)
+
+
+def _generate_search_urls(schema: dict) -> dict:
+    """
+    Parses a schema, and populates a dictionary containing generated search strings
+    for each table, in the following structure:
+    * table_1: search_string_1
+    * table_2: search_string_2
+    * ...
+
+    :param schema: A user-defined schema describing, for one or more
+      tables, the indexing FHIR resource type used to define rows, as
+      well as some number of columns specifying what values to include.
+    :raises ValueError: If any table does not contain a `search_string` entry.
+    :return: A dictionary containing search URLs.
+    """
+    url_dict = {}
+
+    schema_metadata = schema.get("metadata", {})
+    count_top = schema_metadata.get("results_per_page")
+    since_top = schema_metadata.get("earliest_update_datetime")
+
+    for table_name, table in schema.get("tables", {}).items():
+
+        table_metadata = table.get("metadata", {})
+        resource_type = table_metadata.get("resource_type")
+
+        if not resource_type:
+            raise ValueError(
+                "Each table must specify resource_type. "
+                + f"resource_type not found in table {table_name}."
+            )
+
+        query_params = table_metadata.get("query_params")
+        search_string = resource_type
+        if query_params is not None and len(query_params) > 0:
+            search_string += f"?{urlencode(query_params)}"
+
+        count = table_metadata.get("results_per_page", count_top)
+        since = table_metadata.get("earliest_update_datetime", since_top)
+
+        url_dict[table_name] = _generate_search_url(search_string, count, since)
+
+    return url_dict
