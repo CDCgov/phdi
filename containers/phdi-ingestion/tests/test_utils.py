@@ -1,12 +1,13 @@
 import os
-from phdi.cloud.azure import AzureCredentialManager
-from phdi.cloud.gcp import GcpCredentialManager
+from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
+from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 import pytest
 from app.utils import (
     check_for_fhir,
     check_for_fhir_bundle,
     search_for_required_values,
     get_credential_manager,
+    get_cloud_provider_storage_connection,
 )
 from app.config import get_settings
 
@@ -75,4 +76,22 @@ def test_get_credential_manager_gcp():
 def test_get_credential_manager_invalid():
     expected_result = None
     actual_result = get_credential_manager("myown")
+    assert actual_result == expected_result
+
+
+def test_get_cloud_provider_azure():
+    expected_result = AzureCloudContainerConnection
+    actual_result = get_cloud_provider_storage_connection("azure")
+    assert actual_result == expected_result
+
+
+def test_get_cloud_provider_gcp():
+    expected_result = GcpCloudStorageConnection
+    actual_result = get_cloud_provider_storage_connection("gcp")
+    assert actual_result == expected_result
+
+
+def test_get_cloud_provider_invalid():
+    expected_result = None
+    actual_result = get_cloud_provider_storage_connection("myown")
     assert actual_result == expected_result

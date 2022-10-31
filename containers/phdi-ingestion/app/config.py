@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     fhir_url: Optional[str]
     auth_id: Optional[str]
     auth_token: Optional[str]
+    cloud_provider: Optional[Literal["azure", "gcp"]]
+    bucket_name: Optional[str]
 
 
 @lru_cache()

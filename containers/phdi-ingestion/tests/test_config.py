@@ -10,6 +10,8 @@ def test_get_settings_success():
     os.environ["SALT_STR"] = "my-salt"
     os.environ["AUTH_ID"] = "test_id"
     os.environ["AUTH_TOKEN"] = "test_token"
+    os.environ["CLOUD_PROVIDER"] = "azure"
+    os.environ["BUCKET_NAME"] = "my_bucket"
     get_settings.cache_clear()
     assert get_settings() == {
         "credential_manager": "azure",
@@ -17,8 +19,14 @@ def test_get_settings_success():
         "salt_str": "my-salt",
         "auth_id": "test_id",
         "auth_token": "test_token",
+        "cloud_provider": "azure",
+        "bucket_name": "my_bucket",
     }
     os.environ.pop("CREDENTIAL_MANAGER", None)
+    os.environ.pop("CLOUD_PROVIDER", None)
+    os.environ.pop("AUTH_ID", None)
+    os.environ.pop("AUTH_TOKEN", None)
+    os.environ.pop("BUCKET_NAME", None)
 
 
 def test_get_settings_failure():
