@@ -17,6 +17,7 @@ from phdi.fhir.tabulation.tables import (
     _build_reference_dicts,
     _generate_search_url,
     _generate_search_urls,
+    _dereference_included_resource,
     extract_data_from_fhir_search_incremental,
 )
 
@@ -405,6 +406,72 @@ def test_build_reference_dicts():
         "obs3",
     }
     assert len(ref_dicts["Physical Exams"]["Practitioner"]) == 2
+
+
+def test_dereference_included_resource():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
+        )
+    )
+    data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    ref_directions = _get_reference_directions(schema)
+    ref_dicts = _build_reference_dicts(data, ref_directions)
+
+    anchor_resource = data.get("entry")[0].get("resource")
+    path_to_use = "Observation.id"
+    referenced_resource = data.get("entry")[1].get("resource")
+    columns_in_table = schema.get("tables").get("Physical Exams").get("columns")
+    column_params = columns_in_table.get("Exam ID")
+
+    assert _dereference_included_resource(
+        anchor_resource,
+        path_to_use,
+        anchor_resource,
+        column_params,
+        ref_dicts,
+        "Physical Exams",
+    ) == [referenced_resource]
+
+    path_to_use = "Practitioner.name"
+    column_params = columns_in_table.get("General Practitioner")
+    referenced_resource = data.get("entry")[6].get("resource")
+
+    assert (
+        _dereference_included_resource(
+            anchor_resource,
+            path_to_use,
+            anchor_resource,
+            column_params,
+            ref_dicts,
+            "Physical Exams",
+        )
+        == referenced_resource
+    )
+
+    anchor_resource = data.get("entry")[2].get("resource")
+    path_to_use = "Observation.id"
+    column_params = columns_in_table.get("Exam ID")
+
+    assert (
+        _dereference_included_resource(
+            anchor_resource,
+            path_to_use,
+            anchor_resource,
+            column_params,
+            ref_dicts,
+            "Physical Exams",
+        )
+        is None
+    )
 
 
 def test_generate_search_url():
