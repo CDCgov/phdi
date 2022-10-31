@@ -1,3 +1,4 @@
+import time
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel
 from typing import Literal, Optional
@@ -6,7 +7,7 @@ from app.utils import search_for_required_values, get_cloud_provider_storage_con
 
 
 router = APIRouter(
-    prefix="/cloud/storage/write",
+    prefix="/cloud/storage",
     tags=["cloud/storage"],
 )
 
@@ -42,10 +43,11 @@ def write_blob_to_cloud_storage_endpoint(
         cloud_provider=input["cloud_provider"]
     )
 
+    full_file_name = input["file_name"] + str(int(time.time()))
     cloud_provider_connection.upload_object(
         message=input,
         container_name=input["bucket_name"],
-        filename=input["file_name"],
+        filename=full_file_name,
     )
 
     response.status_code = status.HTTP_201_CREATED
@@ -53,7 +55,7 @@ def write_blob_to_cloud_storage_endpoint(
         "message": (
             "The data has successfully been stored "
             "in the {} cloud in {} container with the name {}.".format(
-                input["cloud_provider"], input["bucket_name"], input["file_name"]
+                input["cloud_provider"], input["bucket_name"], full_file_name
             )
         )
     }

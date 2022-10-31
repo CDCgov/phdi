@@ -4,7 +4,7 @@ from app.routers import (
     fhir_geospatial,
     fhir_linkage_link,
     fhir_transport_http,
-    cloud_write_to_storage,
+    cloud_storage,
 )
 from app.config import get_settings
 
@@ -18,7 +18,7 @@ app.include_router(fhir_harmonization_standardization.router)
 app.include_router(fhir_geospatial.router)
 app.include_router(fhir_linkage_link.router)
 app.include_router(fhir_transport_http.router)
-app.include_router(cloud_write_to_storage.router)
+app.include_router(cloud_storage.router)
 
 
 @app.get("/")
