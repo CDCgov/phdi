@@ -625,19 +625,6 @@ def drop_null(response: list, schema_columns: dict):
     return response
 
 
-@cache
-def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
-    """
-    Accepts a FHIRPath expression, and returns a callable function which returns the
-    evaluated value at fhirpath_expression for a specified FHIR resource.
-
-    :param fhirpath_expression: The FHIRPath expression to evaluate.
-    :return: A function that, when called passing in a FHIR resource, will return value
-      at `fhirpath_expression`.
-    """
-    return fhirpathpy.compile(fhirpath_expression)
-
-
 def _generate_search_urls(schema: dict) -> dict:
     """
     Parses a schema, and populates a dictionary containing generated search strings
