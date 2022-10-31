@@ -20,7 +20,7 @@ def test_get_settings_success():
         "auth_id": "test_id",
         "auth_token": "test_token",
         "cloud_provider": "azure",
-        "bucket_name": "my_bucket"
+        "bucket_name": "my_bucket",
     }
     os.environ.pop("CREDENTIAL_MANAGER", None)
     os.environ.pop("CLOUD_PROVIDER", None)
