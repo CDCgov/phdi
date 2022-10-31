@@ -119,15 +119,13 @@ def test_cloud_storage_missing_filename():
         "file_name": None,
     }
 
-    expected_response = (
-        "The following values are required, but were not included in "
-        "the request and could not be read from the environment. "
-        "Please resubmit the request including these values or add "
-        "them as environment variables to this service. missing values: file_name."
-    )
-    expected_status_code = 400
+    expected_detail_loc = "file_name"
+    expected_detail_msg = "none is not an allowed value"
+    expected_status_code = 422
     actual_response = client.post(client_url, json=test_request)
-    assert actual_response.json() == expected_response
+
+    assert actual_response.json()["detail"][0]["loc"][1] == expected_detail_loc
+    assert actual_response.json()["detail"][0]["msg"] == expected_detail_msg
     assert actual_response.status_code == expected_status_code
 
 

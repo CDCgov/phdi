@@ -16,7 +16,7 @@ class WriteBlobToStorageInput(BaseModel):
     blob: dict
     cloud_provider: Optional[Literal["azure", "gcp"]]
     bucket_name: Optional[str]
-    file_name: Optional[str]
+    file_name: str
 
 
 @router.post("/write_blob_to_storage", status_code=200)
@@ -33,7 +33,7 @@ def write_blob_to_cloud_storage_endpoint(
         from the cloud provider.
     """
     input = dict(input)
-    required_values = ["cloud_provider", "bucket_name", "file_name"]
+    required_values = ["cloud_provider", "bucket_name"]
     search_result = search_for_required_values(input, required_values)
     if search_result != "All values were found.":
         response.status_code = status.HTTP_400_BAD_REQUEST
