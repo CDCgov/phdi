@@ -20,6 +20,7 @@ from phdi.fhir.tabulation.tables import (
     _dereference_included_resource,
     extract_data_from_fhir_search_incremental,
     extract_data_from_fhir_search,
+    extract_data_from_schema,
 )
 
 
@@ -690,3 +691,66 @@ def test_extract_data_from_fhir_search(patch_query):
     expected_output.extend(fhir_server_responses.get("content_2").get("entry"))
 
     assert content == expected_output
+
+
+@mock.patch("phdi.fhir.tabulation.tables._generate_search_urls")
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search")
+def test_extract_data_from_schema(patch_search, patch_gen_urls):
+    patch_gen_urls.return_value = {
+        "Table 1A": "table_1a_search_string",
+        "Table 2A": "table_2a_search_string",
+    }
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+        )
+    )
+
+    data = {
+        "Table 1A": [
+            {
+                "resourceType": "Patient",
+                "id": "pid1",
+                "name": {"given": ["John"], "family": "Doe"},
+            },
+            {
+                "resourceType": "Patient",
+                "id": "pid1",
+                "name": {"given": ["Jane"], "family": "Smith"},
+            },
+            {
+                "resourceType": "Patient",
+                "id": "pid1",
+                "name": {"given": ["Pat"], "family": "Cranston"},
+            },
+        ],
+        "Table 2A": [
+            {"resourceType": "Observation", "id": "obs1", "subject": "pid1"},
+            {"resourceType": "Observation", "id": "obs2", "subject": "pid1"},
+            {"resourceType": "Observation", "id": "obs3", "subject": "pid2"},
+        ],
+    }
+
+    # Mock data returned by search
+    patch_search.side_effect = [
+        data.get("Table 1A"),
+        data.get("Table 2A"),
+    ]
+
+    fhir_url = "http://some-fhir-url?some-query-url"
+
+    search_results = extract_data_from_schema(schema=schema, fhir_url=fhir_url)
+
+    assert search_results == data
+
+    patch_search.assert_has_calls(
+        [
+            mock.call(
+                search_url=f"{fhir_url}/table_1a_search_string", cred_manager=None
+            ),
+            mock.call(
+                search_url=f"{fhir_url}/table_2a_search_string", cred_manager=None
+            ),
+        ]
+    )
