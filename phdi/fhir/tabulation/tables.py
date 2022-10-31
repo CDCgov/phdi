@@ -370,6 +370,11 @@ def _generate_search_urls(schema: dict) -> dict:
 
         query_params = table_metadata.get("query_params")
         search_string = resource_type
+
+        _merge_include_query_params_for_references(
+            query_params, schema.get("columns", {})
+        )
+
         if query_params is not None and len(query_params) > 0:
             search_string += f"?{urlencode(query_params)}"
 
@@ -379,3 +384,15 @@ def _generate_search_urls(schema: dict) -> dict:
         url_dict[table_name] = _generate_search_url(search_string, count, since)
 
     return url_dict
+
+
+def _merge_include_query_params_for_references(
+    query_params: dict, schema_columns: dict
+) -> None:
+    for column_definition in schema_columns.values():
+        reference_location = column_definition.get("reference_location")
+
+        if reference_location:
+            direction, field_location = reference_location.split(":", 1)
+            if direction == "forward":
+                pass  # Pick up here
