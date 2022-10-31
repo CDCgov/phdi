@@ -20,7 +20,6 @@ app.include_router(fhir_linkage_link.router)
 app.include_router(fhir_transport_http.router)
 app.include_router(cloud_storage.router)
 
-
 @app.get("/")
 async def health_check():
     return {"status": "OK"}

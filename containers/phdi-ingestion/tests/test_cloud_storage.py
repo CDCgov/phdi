@@ -12,13 +12,15 @@ test_bundle = json.load(
     open(pathlib.Path(__file__).parent / "assets" / "single_patient_bundle.json")
 )
 
-client_url = "/cloud/storage/write_blob_to_cloud_storage"
+client_url = "/cloud/storage/write_blob_to_storage"
 
 
 @mock.patch("app.routers.cloud_storage.get_cloud_provider_storage_connection")
 @mock.patch("app.routers.cloud_storage.write_blob_to_cloud_storage_endpoint")
 @mock.patch("app.routers.cloud_storage.time")
-def test_cloud_storage_params_success(patched_time, patched_blob_write, patched_get_provider):
+def test_cloud_storage_params_success(
+    patched_time, patched_blob_write, patched_get_provider
+):
     test_request = {
         "blob": test_bundle,
         "cloud_provider": "azure",

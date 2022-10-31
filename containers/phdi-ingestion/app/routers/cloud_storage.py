@@ -19,7 +19,7 @@ class WriteBlobToStorageInput(BaseModel):
     file_name: Optional[str]
 
 
-@router.post("/write_blob_to_cloud_storage", status_code=200)
+@router.post("/write_blob_to_storage", status_code=200)
 def write_blob_to_cloud_storage_endpoint(
     input: WriteBlobToStorageInput, response: Response
 ) -> dict:
