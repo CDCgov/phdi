@@ -6,8 +6,8 @@ from app.utils import search_for_required_values, get_cloud_provider_storage_con
 
 
 router = APIRouter(
-    prefix="/cloud/storage/write",
-    tags=["cloud/storage"],
+    prefix="/cloud",
+    tags=["cloud"],
 )
 
 
@@ -18,7 +18,7 @@ class WriteBlobToStorageInput(BaseModel):
     file_name: Optional[str]
 
 
-@router.post("/write_blob_to_cloud_storage", status_code=200)
+@router.post("/write_blob_to_storage", status_code=200)
 def write_blob_to_cloud_storage_endpoint(
     input: WriteBlobToStorageInput, response: Response
 ) -> dict:

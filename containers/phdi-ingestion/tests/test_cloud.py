@@ -34,7 +34,7 @@ def test_cloud_write_to_storage_params_success(
     patched_get_provider.return_value.upload_object.return_value = mock.Mock()
 
     actual_response = client.post(
-        "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
+        "/cloud/write_blob_to_storage", json=test_request
     )
 
     patched_get_provider.return_value.upload_object.assert_called_with(
@@ -66,7 +66,7 @@ def test_cloud_write_to_storage_missing_provider():
     )
     expected_status_code = 400
     actual_response = client.post(
-        "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
+        "/cloud/write_blob_to_storage", json=test_request
     )
     assert actual_response.json() == expected_response
     assert actual_response.status_code == expected_status_code
@@ -84,7 +84,7 @@ def test_cloud_write_to_storage_wrong_provider():
     expected_detail_msg = "unexpected value; permitted: 'azure', 'gcp'"
     expected_status_code = 422
     actual_response = client.post(
-        "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
+        "/cloud/write_blob_to_storage", json=test_request
     )
 
     assert actual_response.json()["detail"][0]["loc"][1] == expected_detail_loc
@@ -108,7 +108,7 @@ def test_cloud_write_to_storage_missing_bucket():
     )
     expected_status_code = 400
     actual_response = client.post(
-        "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
+        "/cloud/write_blob_to_storage", json=test_request
     )
     assert actual_response.json() == expected_response
     assert actual_response.status_code == expected_status_code
@@ -130,7 +130,7 @@ def test_cloud_write_to_storage_missing_filename():
     )
     expected_status_code = 400
     actual_response = client.post(
-        "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
+        "/cloud/write_blob_to_storage", json=test_request
     )
     assert actual_response.json() == expected_response
     assert actual_response.status_code == expected_status_code
@@ -148,7 +148,7 @@ def test_cloud_write_to_storage_missing_blob():
     expected_detail_loc = "blob"
     expected_status_code = 422
     actual_response = client.post(
-        "/cloud/storage/write/write_blob_to_cloud_storage", json=test_request
+        "/cloud/write_blob_to_storage", json=test_request
     )
     assert actual_response.json()["detail"][0]["msg"] == expected_detail_msg
     assert actual_response.json()["detail"][0]["loc"][1] == expected_detail_loc
