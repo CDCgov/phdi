@@ -106,7 +106,7 @@ def test_tabulate_data():
         )
     )
 
-    tabulated_data = tabulate_data(extracted_data, schema)
+    tabulated_data = tabulate_data(extracted_data["entry"], schema)
 
     assert set(tabulated_data.keys()) == {"Patients", "Physical Exams"}
 
@@ -384,7 +384,7 @@ def test_build_reference_dicts():
             / "FHIR_server_extracted_data.json"
         )
     )
-    ref_dicts = _build_reference_dicts(extracted_data, ref_directions)
+    ref_dicts = _build_reference_dicts(extracted_data["entry"], ref_directions)
     assert set(ref_dicts.keys()) == {"Patients", "Physical Exams"}
     assert len(ref_dicts["Patients"]["Patient"]) == 3
     assert set(ref_dicts["Patients"]["Patient"].keys()) == {
@@ -425,7 +425,7 @@ def test_dereference_included_resource():
         )
     )
     ref_directions = _get_reference_directions(schema)
-    ref_dicts = _build_reference_dicts(data, ref_directions)
+    ref_dicts = _build_reference_dicts(data["entry"], ref_directions)
 
     anchor_resource = data.get("entry")[0].get("resource")
     path_to_use = "Observation.id"
