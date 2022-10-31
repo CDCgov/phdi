@@ -497,7 +497,7 @@ def _dereference_included_resource(
 
 def extract_data_from_fhir_search_incremental(
     search_url: str, cred_manager: BaseCredentialManager = None
-) -> Tuple[dict, str]:
+) -> Tuple[List[dict], str]:
     """
     Performs a FHIR search for a single page of data and returns a dictionary containing
     the data and a next URL. If there is no next URL (this is the last page of data),
@@ -505,7 +505,8 @@ def extract_data_from_fhir_search_incremental(
 
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: Tuple containing single page of data as a dictionary and the next URL.
+    :return: Tuple containing single page of data as a list of dictionaries and the
+        next URL.
     """
 
     # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
