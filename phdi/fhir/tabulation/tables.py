@@ -378,7 +378,7 @@ def drop_invalid(data: Dict, schema: Dict) -> List[list]:
         invalid_columns_to_drop[table] = [
             column
             for column in schema["tables"][table]["columns"]
-            if (schema["tables"][table]["columns"][column].get("invalid_values"))
+            if (schema["tables"][table]["columns"][column].get("invalid_values", []))
         ]
 
     # Identify indices in List of Lists to check for invalid values
