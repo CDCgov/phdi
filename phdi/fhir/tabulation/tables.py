@@ -418,7 +418,33 @@ def _merge_include_query_params_for_references(schema_table: dict) -> None:
 def _merge_include_query_params_for_location(
     query_params: dict, reference_location: str, relates_to_anchor: bool = True
 ) -> dict:
+    """
+    Merges an _include and/or _revinclude search parameter into the supplied
+    query parameters based on the supplied reference location. If the
+    reference is relative to a included resource rather than one of the
+    primary search results, then `relates_to_anchor` should be set to `False`.
+    This will cause a `:iterate` modifier to be appended to the `_include` or
+    `_revinclude` search term as described in the
+    [FHIR documentation](https://www.hl7.org/fhir/search.html#revinclude).
 
+    :param query_params: A dictionary containing query parameters of the form
+      `{ "param_name": "param_value" }` or
+      `{ "param_name": ["param_value1", ...]}`.
+    :param reference_location: The FHIR resource type and field location for
+      the referenced resource. For more informaiton see the
+      [FHIR documentation](https://www.hl7.org/fhir/search.html#revinclude).
+    :param relates_to_anchor: When true, the reference is interpreted relative
+      to a primary search result, so set the `_include` or `_revinclude`
+      directly. If false, the parameter is relative to an included resource so
+      append the `:iterate` modifier on the search parameter name, per the
+      [FHIR documentation](https://www.hl7.org/fhir/search.html#revinclude).
+    :raises AttributeError: When the reference_location does not begin with
+      `forward` or `reverse`.
+    :return: The modified `query_params` input parameter. Since the
+      `query_params` dict is modified in place, the caller can access the
+      result in the original input parameter if called with a variable
+      or the return value.
+    """
     direction, field_location = reference_location.split(":", 1)
 
     query_param_name = None
