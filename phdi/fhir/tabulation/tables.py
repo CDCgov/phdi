@@ -371,9 +371,7 @@ def _generate_search_urls(schema: dict) -> dict:
         query_params = table_metadata.get("query_params")
         search_string = resource_type
 
-        _merge_include_query_params_for_references(
-            query_params, schema.get("columns", {})
-        )
+        _merge_include_query_params_for_references(table)
 
         if query_params is not None and len(query_params) > 0:
             search_string += f"?{urlencode(query_params)}"
@@ -386,13 +384,59 @@ def _generate_search_urls(schema: dict) -> dict:
     return url_dict
 
 
-def _merge_include_query_params_for_references(
-    query_params: dict, schema_columns: dict
-) -> None:
+def _merge_include_query_params_for_references(schema_table: dict) -> None:
+
+    schema_columns = schema_table.get("columns", {})
+    query_params = schema_table.get("metadata", {}).get("query_params", {})
+
     for column_definition in schema_columns.values():
         reference_location = column_definition.get("reference_location")
 
-        if reference_location:
-            direction, field_location = reference_location.split(":", 1)
-            if direction == "forward":
-                pass  # Pick up here
+        if isinstance(reference_location, str):
+            _merge_include_query_params_for_location(
+                query_params=query_params,
+                reference_location=reference_location,
+                relates_to_anchor=True,
+            )
+        elif isinstance(reference_location, list):
+            for index, reference_location_element in enumerate(reference_location):
+                if index == 0:
+                    _merge_include_query_params_for_location(
+                        query_params=query_params,
+                        reference_location=reference_location_element,
+                        relates_to_anchor=True,
+                    )
+                else:
+                    _merge_include_query_params_for_location(
+                        query_params=query_params,
+                        reference_location=reference_location_element,
+                        relates_to_anchor=False,
+                    )
+
+
+def _merge_include_query_params_for_location(
+    query_params: dict, reference_location: str, relates_to_anchor: bool = True
+) -> None:
+    breakpoint
+
+    direction, field_location = reference_location.split(":", 1)
+
+    query_param_name = None
+    if direction == "forward":
+        query_param_name = "_include" if relates_to_anchor else "_include:iterate"
+    elif direction == "reverse":
+        query_param_name = "_revinclude" if relates_to_anchor else "_revinclude:iterate"
+    else:
+        raise AttributeError(
+            'reference_location must begin with "forward" or "reverse". '
+            + f"Received {reference_location}"
+        )
+
+    query_param_includes = query_params.get(query_param_name)
+
+    if query_param_includes is None:
+        query_param_includes = []
+        query_params[query_param_name] = query_param_includes
+
+    if field_location not in query_param_includes:
+        query_param_includes.append(field_location)

@@ -1,0 +1,66 @@
+tables:
+  no includes:
+    metadata:
+      resource_type: Patient
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+      First Name:
+        fhir_path: Patient.name.given
+      Last Name:
+        fhir_path: Patient.name.family
+      Phone Number:
+        fhir_path: Patient.telecom.where(system = 'phone').value
+  forward include:
+    metadata:
+      resource_type: Patient
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+      General Practitioner:
+        fhir_path: Practitioner.id
+        reference_location: forward:Patient.generalPractitioner
+  reverse include:
+    metadata:
+      resource_type: Patient
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+      Observations:
+        fhir_path: Observation.code.text
+        reference_location: reverse:Observation.subject
+  forward include additive:
+    metadata:
+      resource_type: Patient
+      query_params:
+        test: value
+        _include: existing value
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+      General Practitioner:
+        fhir_path: Practitioner.id
+        reference_location: forward:Patient.generalPractitioner
+  forward include additive2:
+    metadata:
+      resource_type: Patient
+      query_params:
+        test: value
+        _include: ["existing value", "existing value2"]
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+      General Practitioner:
+        fhir_path: Practitioner.id
+        reference_location: forward:Patient.generalPractitioner
+  reverse forward chain:
+    metadata:
+      resource_type: Patient
+      query_params:
+        test: value
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+      Case Organizaiton:
+        fhir_path: Practitioner.id
+        reference_location: [reverse:Composition:subject, forward:Composition:custodian] 
