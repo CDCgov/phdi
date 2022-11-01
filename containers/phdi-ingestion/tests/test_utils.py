@@ -15,11 +15,14 @@ from app.config import get_settings
 def test_search_for_required_values_success():
     input = {"salt_str": "request-value"}
     required_values = ["cred_manager"]
-    os.environ["cred_manager"] = "azure"
+    os.environ["CRED_MANAGER"] = "azure"
     os.environ["SALT_STR"] = "environment-value"
 
     get_settings.cache_clear()
     message = search_for_required_values(input, required_values)
+
+    os.environ.pop("CRED_MANAGER", None)
+    os.environ.pop("SALT_STR", None)
 
     assert input == {"salt_str": "request-value", "cred_manager": "azure"}
     assert message == "All values were found."
@@ -28,11 +31,13 @@ def test_search_for_required_values_success():
 def test_search_for_required_values_failure():
     input = {"salt_str": "request-value"}
     required_values = ["cred_manager"]
-    os.environ.pop("cred_manager", None)
+    os.environ.pop("CRED_MANAGER", None)
     os.environ["SALT_STR"] = "environment-value"
 
     get_settings.cache_clear()
     message = search_for_required_values(input, required_values)
+    os.environ.pop("CRED_MANAGER", None)
+    os.environ.pop("SALT_STR", None)
 
     assert input == {"salt_str": "request-value"}
     assert message == (

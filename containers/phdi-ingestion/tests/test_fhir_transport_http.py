@@ -31,10 +31,6 @@ def test_upload_bundle_to_fhir_server_request_params_success(
         "fhir_url": "some-FHIR-server-URL",
     }
 
-    # patched_cred_managers.__getitem__.side_effect = {
-    #     "azure": patched_azure_cred_manager
-    # }.__getitem__
-
     patched_azure_cred_manager.return_value = mock.Mock()
 
     fhir_server_response = mock.Mock()
@@ -71,13 +67,9 @@ def test_upload_bundle_to_fhir_server_env_params_success(
         "bundle": test_bundle,
     }
 
-    # patched_cred_managers.__getitem__.side_effect = {
-    #     "azure": patched_azure_cred_manager
-    # }.__getitem__
-
     patched_azure_cred_manager.return_value = mock.Mock()
 
-    os.environ["cred_manager"] = "azure"
+    os.environ["CRED_MANAGER"] = "azure"
     os.environ["FHIR_URL"] = "some-FHIR-server-URL"
     get_settings.cache_clear()
 
@@ -95,6 +87,9 @@ def test_upload_bundle_to_fhir_server_env_params_success(
         cred_manager=patched_azure_cred_manager(),
         fhir_url="some-FHIR-server-URL",
     )
+    os.environ.pop("CRED_MANAGER", None)
+    os.environ.pop("FHIR_URL", None)
+
     assert actual_response.status_code == 200
     assert actual_response.json() == {
         "fhir_server_status_code": 200,
@@ -115,7 +110,7 @@ def test_upload_bundle_to_fhir_server_missing_params(
         "bundle": test_bundle,
     }
 
-    os.environ.pop("cred_manager", None)
+    os.environ.pop("CRED_MANAGER", None)
     os.environ.pop("FHIR_URL", None)
     get_settings.cache_clear()
 
@@ -178,10 +173,6 @@ def test_upload_bundle_to_fhir_server_partial_success(
         "cred_manager": "azure",
         "fhir_url": "some-FHIR-server-URL",
     }
-
-    # patched_cred_managers.__getitem__.side_effect = {
-    #     "azure": patched_azure_cred_manager
-    # }.__getitem__
 
     patched_azure_cred_manager.return_value = mock.Mock()
 
