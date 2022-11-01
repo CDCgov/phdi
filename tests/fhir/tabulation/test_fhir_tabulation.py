@@ -649,69 +649,70 @@ def test_merge_include_query_params_for_location():
         "_include": ["Patient.generalPractitioner"]
     }
 
-    """
     # Test reverse reference
-    patch_merge_location.reset_mock()
     schema_table = schema["tables"]["reverse include"]
 
-    _merge_include_query_params_for_references(schema_table=schema_table)
-
-    assert patch_merge_location.call_count == 1
-
-    patch_merge_location.assert_called_with(
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
         query_params=schema_table["metadata"].get("query_params", {}),
-        reference_location="reverse:Observation.subject",
+        reference_location=schema_table["columns"]["Observations"][
+            "reference_location"
+        ],
         relates_to_anchor=True,
     )
 
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "_include": ["Observation.subject"]
+    }
+
     # Test forward reference with existing _include query parameter
-    patch_merge_location.reset_mock()
     schema_table = schema["tables"]["forward include additive"]
 
     _merge_include_query_params_for_references(schema_table=schema_table)
 
-    assert patch_merge_location.call_count == 1
-
-    patch_merge_location.assert_called_with(
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
         query_params=schema_table["metadata"].get("query_params", {}),
-        reference_location="forward:Patient.generalPractitioner",
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
         relates_to_anchor=True,
     )
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "test": "value",
+        "_include": ["existing value", "Observation.subject"],
+    }
 
     # Test forward reference with existing multi-value _include query parameter
-    patch_merge_location.reset_mock()
     schema_table = schema["tables"]["forward include additive2"]
 
-    _merge_include_query_params_for_references(schema_table=schema_table)
-
-    assert patch_merge_location.call_count == 1
-
-    patch_merge_location.assert_called_with(
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
         query_params=schema_table["metadata"].get("query_params", {}),
-        reference_location="forward:Patient.generalPractitioner",
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
         relates_to_anchor=True,
     )
 
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "test": "value",
+        "_include": ["existing value", "existing value2", "Observation.subject"],
+    }
+
     # Test chained reverse then forward reference
-    patch_merge_location.reset_mock()
     schema_table = schema["tables"]["reverse forward chain"]
 
     _merge_include_query_params_for_references(schema_table=schema_table)
 
-    assert patch_merge_location.call_count == 2
-
-    patch_merge_location.assert_has_calls(
-        [
-            mock.call(
-                query_params=schema_table["metadata"].get("query_params", {}),
-                reference_location="reverse:Composition:subject",
-                relates_to_anchor=True,
-            ),
-            mock.call(
-                query_params=schema_table["metadata"].get("query_params", {}),
-                reference_location="forward:Composition:custodian",
-                relates_to_anchor=False,
-            ),
-        ]
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
+        relates_to_anchor=True,
     )
-    """
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "test": "value",
+        "_revinclude": ["Composition:subject"],
+        "_include:iterate": ["Composition:subject"],
+    }
