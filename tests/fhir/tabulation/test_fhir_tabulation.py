@@ -18,6 +18,7 @@ from phdi.fhir.tabulation.tables import (
     extract_data_from_fhir_search,
     extract_data_from_schema,
     _merge_include_query_params_for_references,
+    _merge_include_query_params_for_location,
 )
 
 
@@ -622,3 +623,95 @@ def test_merge_include_query_params_for_references(patch_merge_location):
             ),
         ]
     )
+
+
+def test_merge_include_query_params_for_location():
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "reference_location_test_schema.yaml"
+        )
+    )
+    # Test forward reference
+    schema_table = schema["tables"]["forward include"]
+
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
+        relates_to_anchor=True,
+    )
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "_include": ["Patient.generalPractitioner"]
+    }
+
+    """
+    # Test reverse reference
+    patch_merge_location.reset_mock()
+    schema_table = schema["tables"]["reverse include"]
+
+    _merge_include_query_params_for_references(schema_table=schema_table)
+
+    assert patch_merge_location.call_count == 1
+
+    patch_merge_location.assert_called_with(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location="reverse:Observation.subject",
+        relates_to_anchor=True,
+    )
+
+    # Test forward reference with existing _include query parameter
+    patch_merge_location.reset_mock()
+    schema_table = schema["tables"]["forward include additive"]
+
+    _merge_include_query_params_for_references(schema_table=schema_table)
+
+    assert patch_merge_location.call_count == 1
+
+    patch_merge_location.assert_called_with(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location="forward:Patient.generalPractitioner",
+        relates_to_anchor=True,
+    )
+
+    # Test forward reference with existing multi-value _include query parameter
+    patch_merge_location.reset_mock()
+    schema_table = schema["tables"]["forward include additive2"]
+
+    _merge_include_query_params_for_references(schema_table=schema_table)
+
+    assert patch_merge_location.call_count == 1
+
+    patch_merge_location.assert_called_with(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location="forward:Patient.generalPractitioner",
+        relates_to_anchor=True,
+    )
+
+    # Test chained reverse then forward reference
+    patch_merge_location.reset_mock()
+    schema_table = schema["tables"]["reverse forward chain"]
+
+    _merge_include_query_params_for_references(schema_table=schema_table)
+
+    assert patch_merge_location.call_count == 2
+
+    patch_merge_location.assert_has_calls(
+        [
+            mock.call(
+                query_params=schema_table["metadata"].get("query_params", {}),
+                reference_location="reverse:Composition:subject",
+                relates_to_anchor=True,
+            ),
+            mock.call(
+                query_params=schema_table["metadata"].get("query_params", {}),
+                reference_location="forward:Composition:custodian",
+                relates_to_anchor=False,
+            ),
+        ]
+    )
+    """

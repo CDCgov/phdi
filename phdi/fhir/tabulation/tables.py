@@ -387,7 +387,8 @@ def _generate_search_urls(schema: dict) -> dict:
 def _merge_include_query_params_for_references(schema_table: dict) -> None:
 
     schema_columns = schema_table.get("columns", {})
-    query_params = schema_table.get("metadata", {}).get("query_params", {})
+    query_params = schema_table["metadata"].get("query_params", {})
+    schema_table["metadata"]["query_params"] = query_params
 
     for column_definition in schema_columns.values():
         reference_location = column_definition.get("reference_location")
@@ -401,13 +402,13 @@ def _merge_include_query_params_for_references(schema_table: dict) -> None:
         elif isinstance(reference_location, list):
             for index, reference_location_element in enumerate(reference_location):
                 if index == 0:
-                    _merge_include_query_params_for_location(
+                    query_params = _merge_include_query_params_for_location(
                         query_params=query_params,
                         reference_location=reference_location_element,
                         relates_to_anchor=True,
                     )
                 else:
-                    _merge_include_query_params_for_location(
+                    query_params = _merge_include_query_params_for_location(
                         query_params=query_params,
                         reference_location=reference_location_element,
                         relates_to_anchor=False,
@@ -416,8 +417,7 @@ def _merge_include_query_params_for_references(schema_table: dict) -> None:
 
 def _merge_include_query_params_for_location(
     query_params: dict, reference_location: str, relates_to_anchor: bool = True
-) -> None:
-    breakpoint
+) -> dict:
 
     direction, field_location = reference_location.split(":", 1)
 
@@ -440,3 +440,5 @@ def _merge_include_query_params_for_location(
 
     if field_location not in query_param_includes:
         query_param_includes.append(field_location)
+
+    return query_params
