@@ -8,7 +8,7 @@ cloud_providers = {
     "azure": AzureCloudContainerConnection,
     "gcp": GcpCloudStorageConnection,
 }
-credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
+cred_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
 
 
 def check_for_fhir(value: dict) -> dict:
@@ -77,7 +77,7 @@ def search_for_required_values(input: dict, required_values: list) -> str:
     return message
 
 
-def get_credential_manager(credential_manager: str) -> Any:
+def get_cred_manager(cred_manager: str) -> Any:
     """
     Return a credential manager for different cloud providers depending upon which
     one the user requests via the parameter.
@@ -87,7 +87,7 @@ def get_credential_manager(credential_manager: str) -> Any:
     :return: Either a Google Cloud Credential Manager or an Azure Credential Manager
     depending upon the value passed in.
     """
-    result = credential_managers.get(credential_manager)
+    result = cred_managers.get(cred_manager)
     return result
 
 
