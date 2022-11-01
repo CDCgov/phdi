@@ -97,9 +97,9 @@ def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
     return data
 
 
-def tabulate_data(data: List[dict], schema: dict) -> dict:
+def tabulate_data(data: dict, schema: dict) -> dict:
     """
-    Transforms a Bundle.entry of FHIR data into a tabular format (given by
+    Transforms a bundle of FHIR data into a tabular format (given by
     a list of lists) using a user-defined schema of the columns of
     interest. Tabulation works using a two-pass procedure.
 
@@ -117,7 +117,7 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
     of the data, taken from the schema. This procedure is performed
     for each table defined in the schema.
 
-    :param data: The Bundle.entry of FHIR data to tabulate.
+    :param data: The bundle of FHIR data to tabulate.
     :param schema: A user-defined schema describing, for one or more
       tables, the indexing FHIR resource type used to define rows, as
       well as some number of columns specifying what values to include.
@@ -375,7 +375,7 @@ def _extract_value_with_resource_path(
         return value
 
 
-def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
+def _build_reference_dicts(data: dict, directions_by_table: dict) -> dict:
     """
     Groups resources previously determined to reference each other into
     dictionaries accessed using resource IDs. For each table, a dictionary
@@ -388,7 +388,7 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
     function represent the "first pass" of the tabulate function's two-pass
     process.
 
-    :param data: A Bundle.entry of FHIR data with resources to tabulate.
+    :param data: A bundle of FHIR data with resources to-tabulate.
     :param directions_by_table: The output of the `_get_reference_directions`
       function, which provides the directionality of linked resources to
       the anchors they reference.
@@ -402,8 +402,8 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
     for table_name in directions_by_table.keys():
         reference_dicts[table_name] = {}
 
-    for item in data:
-        resource = item.get("resource", {})
+    for entry in data.get("entry", []):
+        resource = entry.get("resource", {})
         current_resource_type = resource.get("resourceType", "")
 
         # Check each resource we got back against each table's schema
