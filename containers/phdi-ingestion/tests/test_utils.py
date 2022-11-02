@@ -1,12 +1,10 @@
 import os
-from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
-from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 import pytest
 from app.utils import (
     check_for_fhir,
     check_for_fhir_bundle,
     search_for_required_values,
-    get_credential_manager,
+    get_cred_manager,
     get_cloud_provider_storage_connection,
 )
 from app.config import get_settings
@@ -14,32 +12,37 @@ from app.config import get_settings
 
 def test_search_for_required_values_success():
     input = {"salt_str": "request-value"}
-    required_values = ["credential_manager"]
-    os.environ["CREDENTIAL_MANAGER"] = "azure"
+    required_values = ["cred_manager"]
+    os.environ["CRED_MANAGER"] = "azure"
     os.environ["SALT_STR"] = "environment-value"
 
     get_settings.cache_clear()
     message = search_for_required_values(input, required_values)
 
-    assert input == {"salt_str": "request-value", "credential_manager": "azure"}
+    os.environ.pop("CRED_MANAGER", None)
+    os.environ.pop("SALT_STR", None)
+
+    assert input == {"salt_str": "request-value", "cred_manager": "azure"}
     assert message == "All values were found."
 
 
 def test_search_for_required_values_failure():
     input = {"salt_str": "request-value"}
-    required_values = ["credential_manager"]
-    os.environ.pop("CREDENTIAL_MANAGER", None)
+    required_values = ["cred_manager"]
+    os.environ.pop("CRED_MANAGER", None)
     os.environ["SALT_STR"] = "environment-value"
 
     get_settings.cache_clear()
     message = search_for_required_values(input, required_values)
+    os.environ.pop("CRED_MANAGER", None)
+    os.environ.pop("SALT_STR", None)
 
     assert input == {"salt_str": "request-value"}
     assert message == (
         "The following values are required, but were not included in the request and "
         "could not be read from the environment. Please resubmit the request including "
         "these values or add them as environment variables to this service. missing "
-        "values: credential_manager."
+        "values: cred_manager."
     )
 
 
@@ -61,34 +64,38 @@ def test_check_for_fhir_bundle():
         check_for_fhir_bundle(bad_fhir)
 
 
-def test_get_credential_manager_azure():
-    expected_result = AzureCredentialManager
-    actual_result = get_credential_manager("azure")
-    assert actual_result == expected_result
+def test_get_cred_manager_azure():
+    fhir_url = "Some URL"
+    actual_result = get_cred_manager("azure", fhir_url)
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "resource_location")
+    assert hasattr(actual_result, "access_token")
 
 
-def test_get_credential_manager_gcp():
-    expected_result = GcpCredentialManager
-    actual_result = get_credential_manager("gcp")
-    assert actual_result == expected_result
+def test_get_cred_manager_gcp():
+    actual_result = get_cred_manager("gcp")
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "scoped_credentials")
 
 
-def test_get_credential_manager_invalid():
+def test_get_cred_manager_invalid():
     expected_result = None
-    actual_result = get_credential_manager("myown")
+    actual_result = get_cred_manager("myown")
     assert actual_result == expected_result
 
 
 def test_get_cloud_provider_azure():
-    expected_result = AzureCloudContainerConnection
-    actual_result = get_cloud_provider_storage_connection("azure")
-    assert actual_result == expected_result
+    storage_url = "Storage URL"
+
+    actual_result = get_cloud_provider_storage_connection("azure", storage_url)
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "storage_account_url")
 
 
 def test_get_cloud_provider_gcp():
-    expected_result = GcpCloudStorageConnection
     actual_result = get_cloud_provider_storage_connection("gcp")
-    assert actual_result == expected_result
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "_get_storage_client")
 
 
 def test_get_cloud_provider_invalid():
