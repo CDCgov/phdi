@@ -1,6 +1,8 @@
 import csv
 import os
 import pathlib
+import yaml
+import json
 import pyarrow as pa
 import pyarrow.parquet as pq
 import sqlite3 as sql
@@ -10,22 +12,36 @@ from pathlib import Path
 from typing import Literal, List, Union
 
 
-def load_schema(path: str) -> dict:
+def load_schema(path: pathlib.Path) -> dict:
     """
     Given the path to a local YAML file containing a data schema,
     loads the file and return the resulting schema as a dictionary.
     If the file can't be found, raises an error.
 
     :param path: The file path to a YAML file holding a schema.
-    :raises Exception: If the file to be loaded could not be found.
+    :raises ValueError: If the provided path points to an unsupported file type.
+    :raises FileNotFoundError: If the file to be loaded could not be found.
+    :raises JSONDecodeError: If a JSON file is provided with invalid JSON.
     :return: A dict representing a schema read from the given path.
     """
     try:
         with open(path, "r") as file:
-            schema = yaml.safe_load(file)
+            if path.suffix == ".yaml":
+                schema = yaml.safe_load(file)
+            elif path.suffix == ".json":
+                schema = json.load(file)
+            else:
+                ftype = path.suffix.replace(".", "").upper()
+                raise ValueError(f"Unsupported file type provided: {ftype}")
         return schema
     except FileNotFoundError:
-        raise Exception("Could not find path to given file")
+        raise FileNotFoundError(
+            "The specified file does not exist at the path provided."
+        )
+    except json.decoder.JSONDecodeError as e:
+        raise json.decoder.JSONDecodeError(
+            "The specified file is not valid JSON.", e.doc, e.pos
+        )
 
 
 def write_data(

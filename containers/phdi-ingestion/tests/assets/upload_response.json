@@ -1,0 +1,78 @@
+{
+    "entry": [
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        },
+        {
+            "response": {
+                "etag": "W/\"MTY2Mjc0NTkxNDY4NTAxNTAwMA\"",
+                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                "location": "https://somefhirstore.com",
+                "status": "201 Created"
+            }
+        }
+    ],
+    "resourceType": "Bundle",
+    "type": "transaction-response"
+}
