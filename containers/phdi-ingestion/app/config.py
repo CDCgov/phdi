@@ -4,13 +4,14 @@ from typing import Optional, Literal
 
 
 class Settings(BaseSettings):
-    credential_manager: Optional[Literal["azure", "gcp"]]
+    cred_manager: Optional[Literal["azure", "gcp"]]
     salt_str: Optional[str]
     fhir_url: Optional[str]
     auth_id: Optional[str]
     auth_token: Optional[str]
     cloud_provider: Optional[Literal["azure", "gcp"]]
     bucket_name: Optional[str]
+    storage_account_url: Optional[str]
 
 
 @lru_cache()

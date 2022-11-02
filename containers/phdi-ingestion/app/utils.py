@@ -1,6 +1,6 @@
-from typing import Any
 from app.config import get_settings
 from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
+from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 
 
@@ -8,7 +8,7 @@ cloud_providers = {
     "azure": AzureCloudContainerConnection,
     "gcp": GcpCloudStorageConnection,
 }
-credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
+cred_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
 
 
 def check_for_fhir(value: dict) -> dict:
@@ -77,7 +77,9 @@ def search_for_required_values(input: dict, required_values: list) -> str:
     return message
 
 
-def get_credential_manager(credential_manager: str) -> Any:
+def get_cred_manager(
+    cred_manager: str, location_url: str = None
+) -> BaseCredentialManager:
     """
     Return a credential manager for different cloud providers depending upon which
     one the user requests via the parameter.
@@ -87,11 +89,21 @@ def get_credential_manager(credential_manager: str) -> Any:
     :return: Either a Google Cloud Credential Manager or an Azure Credential Manager
     depending upon the value passed in.
     """
-    result = credential_managers.get(credential_manager)
+    cred_manager_class = cred_managers.get(cred_manager)
+    result = None
+    # if the cred_manager_class is not none then instantiate an instance of it
+    if cred_manager_class is not None:
+        if cred_manager == "azure":
+            result = cred_manager_class(resource_location=location_url)
+        else:
+            result = cred_manager_class()
+
     return result
 
 
-def get_cloud_provider_storage_connection(cloud_provider: str) -> Any:
+def get_cloud_provider_storage_connection(
+    cloud_provider: str, storage_account_url: str = None
+) -> BaseCredentialManager:
     """
     Return a cloud provider storage connection for different cloud providers
     depending upon which one the user requests via the parameter.
@@ -100,5 +112,17 @@ def get_cloud_provider_storage_connection(cloud_provider: str) -> Any:
     :return: Either a Google Cloud Storage Connection or an Azure Storage
     Connection depending upon the value passed in.
     """
-    result = cloud_providers.get(cloud_provider)
+    cloud_provider_class = cloud_providers.get(cloud_provider)
+    result = None
+    # if the cloud_provider_class is not none then instantiate an instance of it
+    if cloud_provider_class is not None:
+        if cloud_provider == "azure":
+            cred_manager = get_cred_manager(
+                cred_manager=cloud_provider, location_url=storage_account_url
+            )
+            result = cloud_provider_class(
+                storage_account_url=storage_account_url, cred_manager=cred_manager
+            )
+        else:
+            result = cloud_provider_class()
     return result

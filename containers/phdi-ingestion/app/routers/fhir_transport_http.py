@@ -5,7 +5,7 @@ from typing import Literal, Optional
 from app.utils import (
     check_for_fhir_bundle,
     search_for_required_values,
-    get_credential_manager,
+    get_cred_manager,
 )
 
 from phdi.fhir.transport import upload_bundle_to_fhir_server
@@ -18,7 +18,7 @@ router = APIRouter(
 
 class UploadBundleToFhirServerInput(BaseModel):
     bundle: dict
-    credential_manager: Optional[Literal["azure", "gcp"]]
+    cred_manager: Optional[Literal["azure", "gcp"]]
     fhir_url: Optional[str]
 
     _check_for_fhir_bundle = validator("bundle", allow_reuse=True)(
@@ -39,14 +39,14 @@ def upload_bundle_to_fhir_server_endpoint(
         from the FHIR server.
     """
     input = dict(input)
-    required_values = ["credential_manager", "fhir_url"]
+    required_values = ["cred_manager", "fhir_url"]
     search_result = search_for_required_values(input, required_values)
     if search_result != "All values were found.":
         response.status_code = status.HTTP_400_BAD_REQUEST
         return search_result
 
-    input["credential_manager"] = get_credential_manager(
-        credential_manager=input["credential_manager"]
+    input["cred_manager"] = get_cred_manager(
+        cred_manager=input["cred_manager"], location_url=input["fhir_url"]
     )
 
     fhir_server_response = upload_bundle_to_fhir_server(**input)
