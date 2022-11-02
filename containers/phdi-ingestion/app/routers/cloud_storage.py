@@ -17,6 +17,7 @@ class WriteBlobToStorageInput(BaseModel):
     cloud_provider: Optional[Literal["azure", "gcp"]]
     bucket_name: Optional[str]
     file_name: str
+    storage_account_url: Optional[str] = None
 
 
 @router.post("/write_blob_to_storage", status_code=200)
@@ -38,9 +39,18 @@ def write_blob_to_cloud_storage_endpoint(
     if search_result != "All values were found.":
         response.status_code = status.HTTP_400_BAD_REQUEST
         return search_result
+    if input["cloud_provider"] == "azure":
+        azure_required_values = ["storage_account_url"]
+        azure_search_result = search_for_required_values(
+            input, required_values=azure_required_values
+        )
+        if azure_search_result != "All values were found.":
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return azure_search_result
 
     cloud_provider_connection = get_cloud_provider_storage_connection(
-        cloud_provider=input["cloud_provider"]
+        cloud_provider=input["cloud_provider"],
+        storage_account_url=input["storage_account_url"],
     )
 
     full_file_name = input["file_name"] + str(int(time.time()))

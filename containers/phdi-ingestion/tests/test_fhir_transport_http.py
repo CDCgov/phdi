@@ -4,7 +4,6 @@ import json
 import copy
 from fastapi.testclient import TestClient
 from unittest import mock
-
 from app.main import app
 from app.config import get_settings
 
@@ -25,10 +24,12 @@ fhir_server_response_body = json.load(
 def test_upload_bundle_to_fhir_server_request_params_success(
     patched_azure_cred_manager, patched_bundle_upload
 ):
+    manager = "azure"
+    fhir_url = "some-FHIR-server-URL"
     test_request = {
         "bundle": test_bundle,
-        "cred_manager": "azure",
-        "fhir_url": "some-FHIR-server-URL",
+        "cred_manager": manager,
+        "fhir_url": fhir_url,
     }
 
     patched_azure_cred_manager.return_value = mock.Mock()
