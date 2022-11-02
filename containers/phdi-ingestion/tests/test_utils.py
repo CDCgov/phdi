@@ -1,6 +1,4 @@
 import os
-from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
-from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 import pytest
 from app.utils import (
     check_for_fhir,
@@ -67,15 +65,17 @@ def test_check_for_fhir_bundle():
 
 
 def test_get_cred_manager_azure():
-    expected_result = AzureCredentialManager
-    actual_result = get_cred_manager("azure")
-    assert actual_result == expected_result
+    fhir_url = "Some URL"
+    actual_result = get_cred_manager("azure", fhir_url)
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "resource_location")
+    assert hasattr(actual_result, "access_token")
 
 
 def test_get_cred_manager_gcp():
-    expected_result = GcpCredentialManager
     actual_result = get_cred_manager("gcp")
-    assert actual_result == expected_result
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "scoped_credentials")
 
 
 def test_get_cred_manager_invalid():
@@ -85,15 +85,17 @@ def test_get_cred_manager_invalid():
 
 
 def test_get_cloud_provider_azure():
-    expected_result = AzureCloudContainerConnection
-    actual_result = get_cloud_provider_storage_connection("azure")
-    assert actual_result == expected_result
+    storage_url = "Storage URL"
+
+    actual_result = get_cloud_provider_storage_connection("azure", storage_url)
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "storage_account_url")
 
 
 def test_get_cloud_provider_gcp():
-    expected_result = GcpCloudStorageConnection
     actual_result = get_cloud_provider_storage_connection("gcp")
-    assert actual_result == expected_result
+    assert hasattr(actual_result, "__class__")
+    assert hasattr(actual_result, "_get_storage_client")
 
 
 def test_get_cloud_provider_invalid():

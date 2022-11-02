@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     auth_token: Optional[str]
     cloud_provider: Optional[Literal["azure", "gcp"]]
     bucket_name: Optional[str]
+    storage_account_url: Optional[str]
 
 
 @lru_cache()

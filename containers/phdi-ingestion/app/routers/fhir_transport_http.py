@@ -45,7 +45,9 @@ def upload_bundle_to_fhir_server_endpoint(
         response.status_code = status.HTTP_400_BAD_REQUEST
         return search_result
 
-    input["cred_manager"] = get_cred_manager(cred_manager=input["cred_manager"])
+    input["cred_manager"] = get_cred_manager(
+        cred_manager=input["cred_manager"], location_url=input["fhir_url"]
+    )
 
     fhir_server_response = upload_bundle_to_fhir_server(**input)
     fhir_server_response_body = fhir_server_response.json()

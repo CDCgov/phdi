@@ -12,6 +12,7 @@ def test_get_settings_success():
     os.environ["AUTH_TOKEN"] = "test_token"
     os.environ["CLOUD_PROVIDER"] = "azure"
     os.environ["BUCKET_NAME"] = "my_bucket"
+    os.environ["STORAGE_ACCOUNT_URL"] = "storage_url"
     get_settings.cache_clear()
     assert get_settings() == {
         "cred_manager": "azure",
@@ -21,12 +22,14 @@ def test_get_settings_success():
         "auth_token": "test_token",
         "cloud_provider": "azure",
         "bucket_name": "my_bucket",
+        "storage_account_url": "storage_url",
     }
     os.environ.pop("CRED_MANAGER", None)
     os.environ.pop("CLOUD_PROVIDER", None)
     os.environ.pop("AUTH_ID", None)
     os.environ.pop("AUTH_TOKEN", None)
     os.environ.pop("BUCKET_NAME", None)
+    os.environ.pop("STORAGE_ACCOUNT_URL", None)
 
 
 def test_get_settings_failure_creds():
