@@ -61,6 +61,6 @@ tables:
     columns:
       Patient ID:
         fhir_path: Patient.id
-      Case Organizaiton:
+      Case Organization:
         fhir_path: Practitioner.id
         reference_location: [reverse:Composition:subject, forward:Composition:custodian] 

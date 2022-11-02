@@ -722,8 +722,12 @@ def _merge_include_query_params_for_location(
       result in the original input parameter if called with a variable
       or the return value.
     """
+
     direction, field_location = reference_location.split(":", 1)
 
+    # Search term is _include for forward searchs, _revinclude for reverse searches.
+    # In addition, we must add an :iterate modifier if the reference is relative to
+    # another included resource
     query_param_name = None
     if direction == "forward":
         query_param_name = "_include" if relates_to_anchor else "_include:iterate"
@@ -737,8 +741,15 @@ def _merge_include_query_params_for_location(
 
     query_param_includes = query_params.get(query_param_name)
 
+    # Handle the case where the search term (_include or _revinclude)
+    # is not specified or is specified as a list.
     if query_param_includes is None:
         query_param_includes = []
+        query_params[query_param_name] = query_param_includes
+    elif isinstance(query_param_includes, str):
+        # Convert query_param_includes from str to list, and make sure
+        # the query_params dict references the new object.
+        query_param_includes = [query_param_includes]
         query_params[query_param_name] = query_param_includes
 
     if field_location not in query_param_includes:
