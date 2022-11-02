@@ -690,3 +690,44 @@ def _generate_search_urls(schema: dict) -> dict:
         url_dict[table_name] = _generate_search_url(search_string, count, since)
 
     return url_dict
+
+
+def drop_invalid(data: Dict, schema: Dict) -> List[list]:
+    """
+    Removes resources from tabulated data if the resource contains an invalid value, as
+    specified in the invalid_values field in a user-defined schema. Users may provide
+    invalid values as a list, including empty string values ("") and
+    None/null values (null).
+
+    :param data: A dictionary mapping table names to lists of lists. The first list in
+        the data value is a list of headers serving as the columns, and all subsequent
+        lists are rows in the table.
+    :param schema: A schema of columns and values to apply to the
+      tabulated data, including invalid_values if applicable.
+    :param return: A dictionary mapping table names to lists of lists, without resources
+        that contained invalid values. The first list in the data value is a list of
+        headers serving as the columns, and all subsequent lists are rows in the table.
+    """
+    invalid_values_by_column_index = {}
+    for table in schema.get("tables"):
+        # Identify columns to drop invalid values for each table in schema
+        columns = schema["tables"][table]["columns"]
+        # Identify indices in List of Lists to check for invalid values
+        invalid_values_by_column_index[table] = {
+            i: columns[col].get("invalid_values")
+            for i, col in enumerate(columns)
+            if columns[col].get("invalid_values", [])
+        }
+
+    # Check if resource contains invalid values to be dropped
+    for table in data.keys():
+        if len(invalid_values_by_column_index[table]) > 0:
+            for resource in data[table][1:]:
+                for index, invalid_values in invalid_values_by_column_index[
+                    table
+                ].items():
+                    if resource[index] in invalid_values:
+                        data[table].remove(resource)
+                        break
+
+    return data
