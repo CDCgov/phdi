@@ -4,7 +4,6 @@ from fastapi.testclient import TestClient
 from unittest import mock
 from app.main import app
 
-# from app.config import get_settings
 
 client = TestClient(app)
 
@@ -26,13 +25,11 @@ def test_cloud_storage_params_success(
         "cloud_provider": "azure",
         "bucket_name": "test_bucket",
         "file_name": "test_file_name",
+        "storage_account_url": "test_url",
     }
 
     patched_get_provider("azure").return_value = mock.Mock()
     cloud_response = mock.Mock()
-    cloud_response.status_code = 200
-    cloud_response.json.return_value = ""
-    patched_blob_write.full_file_name = "test_file_name1"
     patched_time.time().return_value = 1
     patched_blob_write.return_value = cloud_response
 
@@ -41,9 +38,7 @@ def test_cloud_storage_params_success(
     actual_response = client.post(client_url, json=test_request)
 
     patched_get_provider.return_value.upload_object.assert_called_with(
-        message=test_request,
-        container_name="test_bucket",
-        filename="test_file_name1",
+        message=test_request, container_name="test_bucket", filename="test_file_name1"
     )
     message = (
         "The data has successfully been stored in the azure cloud "
@@ -143,4 +138,27 @@ def test_cloud_storage_missing_blob():
     actual_response = client.post(client_url, json=test_request)
     assert actual_response.json()["detail"][0]["msg"] == expected_detail_msg
     assert actual_response.json()["detail"][0]["loc"][1] == expected_detail_loc
+    assert actual_response.status_code == expected_status_code
+
+
+def test_cloud_storage_missing_storage_url():
+    test_request = {
+        "blob": test_bundle,
+        "cloud_provider": "azure",
+        "bucket_name": "test_bucket",
+        "file_name": "file_name",
+        "storage_account_url": None,
+    }
+
+    expected_response = (
+        "The following values are required, but were not included in "
+        "the request and could not be read from the environment. "
+        "Please resubmit the request including these values or add "
+        "them as environment variables to this service. "
+        "missing values: storage_account_url."
+    )
+    expected_status_code = 400
+    actual_response = client.post(client_url, json=test_request)
+    print(actual_response.json())
+    assert actual_response.json() == expected_response
     assert actual_response.status_code == expected_status_code
