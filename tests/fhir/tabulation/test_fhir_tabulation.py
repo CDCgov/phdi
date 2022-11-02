@@ -21,6 +21,7 @@ from phdi.fhir.tabulation.tables import (
     extract_data_from_fhir_search_incremental,
     extract_data_from_fhir_search,
     extract_data_from_schema,
+    _merge_include_query_params_for_location,
 )
 
 
@@ -766,3 +767,92 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
             ),
         ]
     )
+
+
+def test_merge_include_query_params_for_location():
+
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "reference_location_test_schema.yaml"
+        )
+    )
+    # Test forward reference
+    schema_table = schema["tables"]["forward include"]
+
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
+        relates_to_anchor=True,
+    )
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "_include": ["Patient.generalPractitioner"]
+    }
+
+    # Test reverse reference
+    schema_table = schema["tables"]["reverse include"]
+
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location=schema_table["columns"]["Observations"][
+            "reference_location"
+        ],
+        relates_to_anchor=True,
+    )
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "_include": ["Observation.subject"]
+    }
+
+    # Test forward reference with existing _include query parameter
+    schema_table = schema["tables"]["forward include additive"]
+
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
+        relates_to_anchor=True,
+    )
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "test": "value",
+        "_include": ["existing value", "Observation.subject"],
+    }
+
+    # Test forward reference with existing multi-value _include query parameter
+    schema_table = schema["tables"]["forward include additive2"]
+
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
+        relates_to_anchor=True,
+    )
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "test": "value",
+        "_include": ["existing value", "existing value2", "Observation.subject"],
+    }
+
+    # Test chained reverse then forward reference
+    schema_table = schema["tables"]["reverse forward chain"]
+
+    schema_table["metadata"]["query_params"] = _merge_include_query_params_for_location(
+        query_params=schema_table["metadata"].get("query_params", {}),
+        reference_location=schema_table["columns"]["General Practitioner"][
+            "reference_location"
+        ],
+        relates_to_anchor=True,
+    )
+
+    assert schema_table["metadata"].get("query_params", {}) == {
+        "test": "value",
+        "_revinclude": ["Composition:subject"],
+        "_include:iterate": ["Composition:subject"],
+    }
