@@ -1,4 +1,3 @@
-import ast
 import csv
 import os
 import yaml
@@ -7,7 +6,6 @@ import pathlib
 import sqlite3 as sql
 from unittest import mock
 import pytest
-from unittest import mock
 
 from phdi.tabulation import (
     load_schema,

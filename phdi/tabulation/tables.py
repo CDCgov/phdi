@@ -1,7 +1,6 @@
 import csv
 import os
 import pathlib
-import yaml
 import json
 import pyarrow as pa
 import pyarrow.parquet as pq
