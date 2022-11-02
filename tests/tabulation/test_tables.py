@@ -1,3 +1,4 @@
+import ast
 import csv
 import os
 import yaml
@@ -47,9 +48,8 @@ def test_load_schema():
 
 def test_write_data_csv():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
     )
-    schema = schema["my_table"]
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
@@ -59,8 +59,9 @@ def test_write_data_csv():
     )
 
     tabulated_data = tabulate_data(extracted_data, schema)
-    batch_1 = tabulated_data[:2]
-    batch_2 = [tabulated_data[0]] + tabulated_data[2:]
+    table_to_use = tabulated_data["Physical Exams"]
+    batch_1 = table_to_use[:2]
+    batch_2 = [table_to_use[0]] + table_to_use[2:]
     file_location = "./"
     output_file_name = "create_new.csv"
     file_format = "csv"
@@ -75,7 +76,8 @@ def test_write_data_csv():
         reader = csv.reader(csv_file, dialect="excel")
         line = 0
         for row in reader:
-            assert list(row) == batch_1[line]
+            for i in range(len(row)):
+                assert row[i] == str(batch_1[line][i])
             line += 1
         assert line == 2
 
@@ -86,7 +88,12 @@ def test_write_data_csv():
         reader = csv.reader(csv_file, dialect="excel")
         line = 0
         for row in reader:
-            assert list(row) == tabulated_data[line]
+            print(row)
+            for i in range(len(row)):
+                if row[i] == "":
+                    assert table_to_use[line][i] is None
+                    continue
+                assert row[i] == str(table_to_use[line][i])
             line += 1
         assert line == 4
     os.remove(file_location + output_file_name)
@@ -97,9 +104,8 @@ def test_write_data_csv():
 def test_write_data_parquet(patched_pa_table, patched_writer):
 
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
     )
-    schema = schema["my_table"]
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
@@ -109,8 +115,9 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
     )
 
     tabulated_data = tabulate_data(extracted_data, schema)
-    batch_1 = tabulated_data[:2]
-    batch_2 = [tabulated_data[0]] + tabulated_data[2:]
+    table_to_use = tabulated_data["Physical Exams"]
+    batch_1 = table_to_use[:2]
+    batch_2 = [table_to_use[0]] + table_to_use[2:]
     file_location = "./"
     output_file_name = "new_parquet"
     file_format = "parquet"
@@ -118,7 +125,7 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
     # Batch 1 tests creating a new parquet file and returning a writer
     pq_writer = write_data(batch_1, file_location, file_format, output_file_name)
     patched_pa_table.from_arrays.assert_called_with(batch_1[1:], names=batch_1[0])
-    table = patched_pa_table.from_arrays(tabulated_data[1:], tabulated_data[0])
+    table = patched_pa_table.from_arrays(table_to_use[1:], table_to_use[0])
     patched_writer.assert_called_with(file_location + output_file_name, table.schema)
     patched_writer(
         file_location + output_file_name, table.schema
@@ -140,9 +147,8 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
 
 def test_write_data_sql():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
     )
-    schema = schema["my_table"]
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
@@ -152,8 +158,9 @@ def test_write_data_sql():
     )
 
     tabulated_data = tabulate_data(extracted_data, schema)
-    batch_1 = tabulated_data[:2]
-    batch_2 = [tabulated_data[0]] + tabulated_data[2:]
+    table_to_use = tabulated_data["Physical Exams"]
+    batch_1 = table_to_use[:2]
+    batch_2 = [table_to_use[0]] + table_to_use[2:]
     file_location = "./"
     file_format = "sql"
     db_file = "new_db.db"
@@ -173,10 +180,10 @@ def test_write_data_sql():
     res = cursor.execute("SELECT * FROM PATIENT").fetchall()
     assert res == [
         (
-            "Kimberley248",
             "Price929",
-            "907844f6-7c99-eabc-f68e-d92189729a55",
-            "555-690-3898",
+            "Waltham",
+            "['obs1']",
+            "i-am-not-a-robot",
         )
     ]
     conn.close()
@@ -193,13 +200,13 @@ def test_write_data_sql():
     assert len(res) == 3
     assert res == [
         (
-            "Kimberley248",
             "Price929",
-            "907844f6-7c99-eabc-f68e-d92189729a55",
-            "555-690-3898",
+            "Waltham",
+            "['obs1']",
+            "i-am-not-a-robot",
         ),
-        ("John", "Shepard", "65489-asdf5-6d8w2-zz5g8", ""),
-        ("John ", "", "some-uuid", "123-456-7890"),
+        ("Shepard", "Zakera Ward", "None", "no-srsly-i-am-hoomun"),
+        ("None", "Faketon", "['obs2', 'obs3']", "None"),
     ]
     conn.close()
 

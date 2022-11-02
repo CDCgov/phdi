@@ -54,19 +54,16 @@ def write_data(
     pq_writer: pq.ParquetWriter = None,
 ) -> Union[None, pq.ParquetWriter]:
     """
-    Writes a set of tabulated data to a particular output format on disk.
-    The given data should be tabulated using the `tabulate_data` function
-    in fhir/tabulation. This function can write output to a variety of
-    formats, including CSV, Parquet, or SQL. In the case of the first
-    two formats, a filename must be provided to write output to. In the
-    case of the third format, a database file (if one exists) should be
-    specified along with a table name. Creates new data files if the
-    given options specify a file that doesn't exist, and appends data
-    to already-present files if they do.
+    Writes a set of tabulated data to a particular output format on disk
+    (one of CSV, Parquet, or SQL). For CSV and Parquet writing, a filename
+    must be provided to write output to. In the case of the third format,
+    a database file (if one exists) should be specified along with a table
+    name. Creates new data files if the given options specify a file that
+    doesn't exist, and appends data to already-present files if they do.
 
-    :param tabulated_data: The output of the `tabulate_data` function, a
-      list of lists in which the first element is the headers for the
-      table-to-write and subsequent elements are rows in the table.
+    :param tabulated_data: A list of lists in which the first element
+      is the headers for the table-to-write and subsequent elements
+      are rows in the table.
     :param location: The directory in which to write the output data
       (if `output_type` is CSV or Parquet), or the directory in which
       the `db_file` is stored (if a database already exists) or should
@@ -114,8 +111,9 @@ def write_data(
         # don't have quotes around them individually when parsed by the SQL
         # engine
         hdr_placeholder = "({})".format(", ".join("?" * len(tabulated_data[0])))
-        tuple_data = [tuple(row) for row in tabulated_data[1:]]
+        tuple_data = [tuple([str(x) for x in row]) for row in tabulated_data[1:]]
         # Have to do a format string this way to avoid an empty f-string error
+        print(tuple_data)
         cursor.executemany(
             "INSERT INTO {} {} VALUES {};".format(
                 db_tablename, headers, hdr_placeholder
