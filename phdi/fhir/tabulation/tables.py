@@ -497,7 +497,7 @@ def _dereference_included_resource(
 
 def extract_data_from_fhir_search_incremental(
     search_url: str, cred_manager: BaseCredentialManager = None
-) -> Tuple[dict, str]:
+) -> Tuple[List[dict], str]:
     """
     Performs a FHIR search for a single page of data and returns a dictionary containing
     the data and a next URL. If there is no next URL (this is the last page of data),
