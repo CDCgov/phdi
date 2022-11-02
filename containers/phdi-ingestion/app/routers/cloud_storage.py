@@ -17,7 +17,7 @@ class WriteBlobToStorageInput(BaseModel):
     cloud_provider: Optional[Literal["azure", "gcp"]]
     bucket_name: Optional[str]
     file_name: str
-storage_account_url: Optional[str] = ""
+    storage_account_url: Optional[str] = ""
 
 
 @router.post("/write_blob_to_storage", status_code=200)
