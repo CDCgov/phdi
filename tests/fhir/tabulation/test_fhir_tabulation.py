@@ -175,6 +175,48 @@ def test_tabulate_data():
             tests_run += 1
             assert found_match
 
+    # Now test case where the anchor resource type references other
+    # resources of the same type that shouldn't generate rows
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "observation_reference_schema.yaml"
+        )
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_observation_data.json"
+        )
+    )
+
+    tabulated_data = tabulate_data(extracted_data["entry"], schema)
+    assert set(tabulated_data["BMI Values"][0]) == {
+        "Base Observation ID",
+        "BMI",
+        "Patient Height",
+        "Patient Weight",
+    }
+
+    row_sets = [
+        {"obs1", 26, 70, 187},
+        {"obs2", 34, 63, 132},
+    ]
+    assert len(tabulated_data["BMI Values"][1:]) == 2
+    tests_run = 0
+    for row in row_sets:
+        found_match = False
+        for table_row in tabulated_data["BMI Values"][1:]:
+            print(table_row)
+            if set(table_row) == row:
+                found_match = True
+                break
+        if tests_run <= 1:
+            tests_run += 1
+            assert found_match
+
 
 @mock.patch("phdi.fhir.tabulation.tables.write_table")
 @mock.patch("phdi.fhir.tabulation.tables.fhir_server_get")
