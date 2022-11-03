@@ -45,7 +45,7 @@ def load_schema(path: pathlib.Path) -> dict:
 
 def write_data(
     tabulated_data: List[List],
-    location: str,
+    directory: str,
     output_type: Literal["csv", "parquet", "sql"],
     filename: str = None,
     db_file: str = None,
@@ -55,21 +55,22 @@ def write_data(
     """
     Writes a set of tabulated data to a particular output format on disk
     (one of CSV, Parquet, or SQL). For CSV and Parquet writing, a filename
-    must be provided to write output to. In the case of the third format,
-    a database file (if one exists) should be specified along with a table
-    name. Creates new data files if the given options specify a file that
-    doesn't exist, and appends data to already-present files if they do.
+    must be provided to write output to. In the case of the SQL format,
+    a database file (if one exists and is being modified) must be specified
+    along with a table name in place of a filename. Creates new data files
+    if the given options specify a file that doesn't exist, and appends
+    data to already-present files if they do.
 
     :param tabulated_data: A list of lists in which the first element
       is the headers for the table-to-write and subsequent elements
       are rows in the table.
-    :param location: The directory in which to write the output data
+    :param directory: The directory in which to write the output data
       (if `output_type` is CSV or Parquet), or the directory in which
       the `db_file` is stored (if a database already exists) or should
       be created in (if a database does not already exist).
     :param output_type: The format the data should be written to.
     :param filename: The name of the CSV or Parquet file data should be
-      written to. Can be omitted if `output_type` is SQL. Default: `None`.
+      written to. Omit if `output_type` is SQL. Default: `None`.
     :param db_file: The name of the database file to either create or
       access when writing to a SQL format. Omit if `output_type` is not
       SQL. Default: `None`.
@@ -81,8 +82,10 @@ def write_data(
       `output_type` is not Parquet. Default: `None`.
     """
     if output_type == "csv":
-        write_headers = False if os.path.isfile(location + filename) else True
-        with open(location + filename, "a", newline="") as fp:
+        write_headers = (
+            False if os.path.isfile(os.path.join(directory, filename)) else True
+        )
+        with open(os.path.join(directory, filename), "a", newline="") as fp:
             writer = csv.writer(fp)
             if write_headers:
                 writer.writerow(tabulated_data[0])
@@ -91,14 +94,16 @@ def write_data(
     if output_type == "parquet":
         table = pa.Table.from_arrays(tabulated_data[1:], names=tabulated_data[0])
         if pq_writer is None:
-            pq_writer = pq.ParquetWriter(location + filename, table.schema)
+            pq_writer = pq.ParquetWriter(
+                os.path.join(directory, filename), table.schema
+            )
         pq_writer.write_table(table=table)
         return pq_writer
 
     if output_type == "sql":
 
         # We need a file-space cursor to operate on a connected table
-        conn = sql.connect(location + db_file)
+        conn = sql.connect(os.path.join(directory, db_file))
         cursor = conn.cursor()
 
         # Create requested table if it's not already in the database

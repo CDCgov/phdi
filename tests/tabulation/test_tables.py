@@ -86,7 +86,6 @@ def test_write_data_csv():
         reader = csv.reader(csv_file, dialect="excel")
         line = 0
         for row in reader:
-            print(row)
             for i in range(len(row)):
                 if row[i] == "":
                     assert table_to_use[line][i] is None
