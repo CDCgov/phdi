@@ -86,7 +86,7 @@ def write_data(
             False if os.path.isfile(os.path.join(directory, filename)) else True
         )
         with open(os.path.join(directory, filename), "a", newline="") as fp:
-            writer = csv.writer(fp)
+            writer = csv.writer(fp, dialect="excel")
             if write_headers:
                 writer.writerow(tabulated_data[0])
             writer.writerows(tabulated_data[1:])
@@ -100,6 +100,13 @@ def write_data(
         pq_writer.write_table(table=table)
         return pq_writer
 
+    # @TODO:
+    # 1. support username and passwords for database access
+    # 2. figure out a more intelligent way to serialize data that's being
+    # written to the SQL DB; there's the possibility that we need to write
+    # list data to the table if an anchor has multiple reverse references,
+    # but SQL can't write native python lists, so we need to either
+    # stringify them, json.dumps serialize them, or binarize them
     if output_type == "sql":
 
         # We need a file-space cursor to operate on a connected table
