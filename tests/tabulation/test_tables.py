@@ -55,6 +55,7 @@ def test_write_data_csv():
             / "FHIR_server_extracted_data.json"
         )
     )
+    extracted_data = extracted_data.get("entry", {})
 
     tabulated_data = tabulate_data(extracted_data, schema)
     table_to_use = tabulated_data["Physical Exams"]
@@ -110,6 +111,7 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
             / "FHIR_server_extracted_data.json"
         )
     )
+    extracted_data = extracted_data.get("entry", {})
 
     tabulated_data = tabulate_data(extracted_data, schema)
     table_to_use = tabulated_data["Physical Exams"]
@@ -153,6 +155,7 @@ def test_write_data_sql():
             / "FHIR_server_extracted_data.json"
         )
     )
+    extracted_data = extracted_data.get("entry", {})
 
     tabulated_data = tabulate_data(extracted_data, schema)
     table_to_use = tabulated_data["Physical Exams"]
