@@ -505,8 +505,8 @@ def extract_data_from_fhir_search_incremental(
 
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: Tuple containing single page of data as a list of dictionaries and the
-        next URL.
+    :return: Tuple containing single page of data as a list of dictionaries and the next
+        URL.
     """
 
     # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
