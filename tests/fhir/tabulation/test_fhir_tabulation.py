@@ -9,7 +9,7 @@ from unittest import mock
 from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
     apply_schema_to_resource,
-    drop_null,
+    drop_invalid,
     generate_all_tables_in_schema,
     generate_table,
     tabulate_data,
@@ -107,7 +107,7 @@ def test_tabulate_data():
         )
     )
 
-    tabulated_data = tabulate_data(extracted_data, schema)
+    tabulated_data = tabulate_data(extracted_data["entry"], schema)
 
     assert set(tabulated_data.keys()) == {"Patients", "Physical Exams"}
 
@@ -385,7 +385,7 @@ def test_build_reference_dicts():
             / "FHIR_server_extracted_data.json"
         )
     )
-    ref_dicts = _build_reference_dicts(extracted_data, ref_directions)
+    ref_dicts = _build_reference_dicts(extracted_data["entry"], ref_directions)
     assert set(ref_dicts.keys()) == {"Patients", "Physical Exams"}
     assert len(ref_dicts["Patients"]["Patient"]) == 3
     assert set(ref_dicts["Patients"]["Patient"].keys()) == {
@@ -426,7 +426,7 @@ def test_dereference_included_resource():
         )
     )
     ref_directions = _get_reference_directions(schema)
-    ref_dicts = _build_reference_dicts(data, ref_directions)
+    ref_dicts = _build_reference_dicts(data["entry"], ref_directions)
 
     anchor_resource = data.get("entry")[0].get("resource")
     path_to_use = "Observation.id"
@@ -593,39 +593,98 @@ def test_generate_search_urls_invalid():
         _generate_search_urls(schema)
 
 
-def test_drop_null():
+def test_drop_invalid():
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "test_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
         )
     )
 
-    fhir_server_responses_no_nulls = [
-        ["patient_id", "first_name", "last_name", "phone_number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "First", "Last", "123-456-7890"],
-    ]
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", "123-456-7890"],
+        ],
+    }
 
-    # Keeps all resources because include_nulls all False
-    responses_no_nulls = drop_null(
-        fhir_server_responses_no_nulls, schema["my_table"]["Patient"]
+    # Keeps all resources because no invalid values
+    no_invalid_values = drop_invalid(
+        tabulated_data,
+        schema,
     )
-    assert len(responses_no_nulls) == 3
-    assert responses_no_nulls[1][3] == fhir_server_responses_no_nulls[1][3]
+    assert len(no_invalid_values["table 1A"]) == 3
+    assert no_invalid_values["table 1A"][1][3] == tabulated_data["table 1A"][1][3]
 
     # Drop null resource
-    fhir_server_responses_1_null = [
-        ["patient_id", "first_name", "last_name", "phone_number"],
-        ["some-uuid", "John", "Doe", "123-456-7890"],
-        ["some-uuid2", "Firstname", "Lastname", ""],
-    ]
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", None],
+        ],
+    }
 
-    responses_1_null = drop_null(
-        fhir_server_responses_1_null, schema["my_table"]["Patient"]
+    dropped_null_resource = drop_invalid(
+        tabulated_data,
+        schema,
     )
-    assert len(responses_1_null) == 2
-    assert responses_1_null[1][0] == fhir_server_responses_1_null[1][0]
+
+    assert len(dropped_null_resource["table 2A"]) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_null_resource["table 2A"][1][0]
+
+    # Empty strings are dropped
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", ""],
+        ],
+    }
+
+    dropped_empty_string = drop_invalid(
+        tabulated_data,
+        schema,
+    )
+    assert len(dropped_empty_string["table 2A"]) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_empty_string["table 2A"][1][0]
+
+    # User-specified values are dropped
+    tabulated_data = {
+        "table 1A": [
+            ["Patient ID", "First Name", "Last Name", "Phone Number"],
+            ["some-uuid", "John", "Doe", "123-456-7890"],
+            ["some-uuid2", "First", "Last", "123-456-7890"],
+        ],
+        "table 2A": [
+            ["Observation ID", "First Name", "Last Name", "Phone Number"],
+            ["some-obsid", "John", "Doe", "123-456-7890"],
+            ["some-obsid2", "First", "Last", "Unknown"],
+        ],
+    }
+
+    dropped_user_value = drop_invalid(
+        tabulated_data,
+        schema,
+    )
+    assert len(dropped_user_value["table 2A"]) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_user_value["table 2A"][1][0]
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
@@ -640,6 +699,7 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     )
 
     search_url = "http://some-fhir-url?some-query-url"
+    search_url = "http://localhost:8080/fhir/Patient"
     cred_manager = None
 
     # Test that Next URL exists
@@ -650,10 +710,7 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     )
 
     assert next_url == fhir_server_responses.get("content_1").get("link")[0].get("url")
-    assert content == [
-        entry_json.get("resource")
-        for entry_json in fhir_server_responses.get("content_1").get("entry")
-    ]
+    assert content == fhir_server_responses.get("content_1").get("entry")
 
     # Test that Next URL is None
     patch_query.return_value = fhir_server_responses["content_2"]
@@ -663,10 +720,7 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     )
 
     assert next_url is None
-    assert content == [
-        entry_json.get("resource")
-        for entry_json in fhir_server_responses.get("content_2").get("entry")
-    ]
+    assert content == fhir_server_responses.get("content_2").get("entry")
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
@@ -691,16 +745,9 @@ def test_extract_data_from_fhir_search(patch_query):
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
 
-    expected_output = [
-        entry_json.get("resource")
-        for entry_json in fhir_server_responses.get("content_1").get("entry")
-    ]
-    expected_output.extend(
-        [
-            entry_json.get("resource")
-            for entry_json in fhir_server_responses.get("content_2").get("entry")
-        ]
-    )
+    expected_output = fhir_server_responses.get("content_1").get("entry")
+
+    expected_output.extend(fhir_server_responses.get("content_2").get("entry"))
 
     assert content == expected_output
 
