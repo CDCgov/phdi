@@ -107,7 +107,7 @@ def test_tabulate_data():
         )
     )
 
-    tabulated_data = tabulate_data(extracted_data, schema)
+    tabulated_data = tabulate_data(extracted_data["entry"], schema)
 
     assert set(tabulated_data.keys()) == {"Patients", "Physical Exams"}
 
@@ -385,7 +385,7 @@ def test_build_reference_dicts():
             / "FHIR_server_extracted_data.json"
         )
     )
-    ref_dicts = _build_reference_dicts(extracted_data, ref_directions)
+    ref_dicts = _build_reference_dicts(extracted_data["entry"], ref_directions)
     assert set(ref_dicts.keys()) == {"Patients", "Physical Exams"}
     assert len(ref_dicts["Patients"]["Patient"]) == 3
     assert set(ref_dicts["Patients"]["Patient"].keys()) == {
@@ -426,7 +426,7 @@ def test_dereference_included_resource():
         )
     )
     ref_directions = _get_reference_directions(schema)
-    ref_dicts = _build_reference_dicts(data, ref_directions)
+    ref_dicts = _build_reference_dicts(data["entry"], ref_directions)
 
     anchor_resource = data.get("entry")[0].get("resource")
     path_to_use = "Observation.id"
@@ -699,6 +699,7 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     )
 
     search_url = "http://some-fhir-url?some-query-url"
+    search_url = "http://localhost:8080/fhir/Patient"
     cred_manager = None
 
     # Test that Next URL exists
@@ -709,10 +710,7 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     )
 
     assert next_url == fhir_server_responses.get("content_1").get("link")[0].get("url")
-    assert content == [
-        entry_json.get("resource")
-        for entry_json in fhir_server_responses.get("content_1").get("entry")
-    ]
+    assert content == fhir_server_responses.get("content_1").get("entry")
 
     # Test that Next URL is None
     patch_query.return_value = fhir_server_responses["content_2"]
@@ -722,10 +720,7 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     )
 
     assert next_url is None
-    assert content == [
-        entry_json.get("resource")
-        for entry_json in fhir_server_responses.get("content_2").get("entry")
-    ]
+    assert content == fhir_server_responses.get("content_2").get("entry")
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
@@ -750,16 +745,9 @@ def test_extract_data_from_fhir_search(patch_query):
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
 
-    expected_output = [
-        entry_json.get("resource")
-        for entry_json in fhir_server_responses.get("content_1").get("entry")
-    ]
-    expected_output.extend(
-        [
-            entry_json.get("resource")
-            for entry_json in fhir_server_responses.get("content_2").get("entry")
-        ]
-    )
+    expected_output = fhir_server_responses.get("content_1").get("entry")
+
+    expected_output.extend(fhir_server_responses.get("content_2").get("entry"))
 
     assert content == expected_output
 
