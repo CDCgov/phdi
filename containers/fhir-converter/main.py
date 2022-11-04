@@ -181,4 +181,4 @@ def convert_to_fhir(
             "root_template": root_template,
         }
 
-    return result
+    return {"response": result}
