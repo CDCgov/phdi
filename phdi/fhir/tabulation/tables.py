@@ -192,6 +192,10 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
                     row.append(values)
 
             tabulated_data[table_name].append(row)
+
+    # Drop invalid values specified in the schema
+    tabulated_data = drop_invalid(tabulated_data, schema)
+
     return tabulated_data
 
 
