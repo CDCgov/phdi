@@ -45,4 +45,4 @@ async def add_patient_identifier_in_bundle_endpoint(
         response.status_code = status.HTTP_400_BAD_REQUEST
         return search_result
 
-    return add_patient_identifier_in_bundle(**input)
+    return {"bundle": add_patient_identifier_in_bundle(**input)}

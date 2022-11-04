@@ -66,4 +66,4 @@ def geocode_bundle_endpoint(
     except Exception as error:
         response.status_code = status.HTTP_400_BAD_REQUEST
         result = {"error": error}
-    return result
+    return {"bundle": result}
