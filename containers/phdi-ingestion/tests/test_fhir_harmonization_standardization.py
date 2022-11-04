@@ -107,7 +107,9 @@ def test_standardize_names_bad_parameters():
 def test_standardize_phones_success():
 
     expected_response = {"bundle": copy.deepcopy(test_bundle)}
-    expected_response["bundle"]["entry"][0]["resource"]["telecom"][0]["value"] = "+18015557777"
+    expected_response["bundle"]["entry"][0]["resource"]["telecom"][0][
+        "value"
+    ] = "+18015557777"
 
     actual_response = client.post(
         "/fhir/harmonization/standardization/standardize_phones",
