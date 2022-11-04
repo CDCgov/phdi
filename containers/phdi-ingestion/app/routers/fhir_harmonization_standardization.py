@@ -33,7 +33,7 @@ async def standardize_names_endpoint(input: StandardizeNamesInput) -> dict:
     :return: A FHIR bundle or resource with standardized names.
     """
     input = dict(input)
-    return standardize_names(**input)
+    return {"bundle": standardize_names(**input)}
 
 
 class StandardizePhonesInput(BaseModel):
@@ -52,4 +52,4 @@ async def standardize_phones_endpoint(input: StandardizePhonesInput) -> dict:
     :return: A FHIR bundle with standardized phone numbers.
     """
     input = dict(input)
-    return standardize_phones(**input)
+    return {"bundle": standardize_phones(**input)}
