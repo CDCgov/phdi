@@ -104,7 +104,7 @@ async def health_check():
 async def convert(input: FhirConverterInput, response: Response):
 
     result = convert_to_fhir(**dict(input))
-    if "original_request" in result:
+    if "original_request" in result.get("response"):
         response.status_code = status.HTTP_400_BAD_REQUEST
 
     return result
@@ -181,4 +181,4 @@ def convert_to_fhir(
             "root_template": root_template,
         }
 
-    return result
+    return {"response": result}
