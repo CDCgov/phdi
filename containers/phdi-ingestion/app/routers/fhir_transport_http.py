@@ -59,7 +59,7 @@ def upload_bundle_to_fhir_server_endpoint(
         failed_resources = [
             entry
             for entry in fhir_server_response_body["entry"]
-            if entry["response"]["status"] not in ["200 OK", "201 Created"]
+            if entry["response"]["status"] not in ["200 OK", "201 Created", "201"]
         ]
 
         fhir_server_response_body = {
