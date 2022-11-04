@@ -14,9 +14,11 @@ test_bundle = json.load(
 
 def test_standardize_names_success():
 
-    expected_response = copy.deepcopy(test_bundle)
-    expected_response["entry"][0]["resource"]["name"][0]["family"] = "SMITH"
-    expected_response["entry"][0]["resource"]["name"][0]["given"][0] = "DEEDEE"
+    expected_response = {"bundle": copy.deepcopy(test_bundle)}
+    expected_response["bundle"]["entry"][0]["resource"]["name"][0]["family"] = "SMITH"
+    expected_response["bundle"]["entry"][0]["resource"]["name"][0]["given"][
+        0
+    ] = "DEEDEE"
 
     actual_response = client.post(
         "/fhir/harmonization/standardization/standardize_names",
@@ -104,8 +106,10 @@ def test_standardize_names_bad_parameters():
 
 def test_standardize_phones_success():
 
-    expected_response = copy.deepcopy(test_bundle)
-    expected_response["entry"][0]["resource"]["telecom"][0]["value"] = "+18015557777"
+    expected_response = {"bundle": copy.deepcopy(test_bundle)}
+    expected_response["bundle"]["entry"][0]["resource"]["telecom"][0][
+        "value"
+    ] = "+18015557777"
 
     actual_response = client.post(
         "/fhir/harmonization/standardization/standardize_phones",
