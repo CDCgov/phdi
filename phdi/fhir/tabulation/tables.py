@@ -623,37 +623,6 @@ def _generate_search_url(
     return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
 
 
-def drop_null(response: list, schema_columns: dict):
-    """
-    Removes resources from FHIR response if the resource contains a null value for
-    fields where include_nulls is False, as specified in the schema.
-
-    :param response: List of resources returned from FHIR API.
-    :param schema_columns: Dictionary of columns to include in tabulation that specifies
-      which columns should include_nulls.
-    :param return: List of resources with removed nulls.
-    """
-
-    # Identify fields to drop nulls
-    nulls_to_drop = [
-        schema_columns[column]["new_name"]
-        for column in schema_columns.keys()
-        if not schema_columns[column]["include_nulls"]
-    ]
-
-    # Identify indices in List of Lists to check for nulls
-    indices_of_nulls = [response[0].index(field) for field in nulls_to_drop]
-
-    # Check if resource contains nulls to be dropped
-    for resource in response[1:]:
-        # Check if any of the fields are none
-        for i in indices_of_nulls:
-            if resource[i] == "":
-                response.remove(resource)
-                break
-    return response
-
-
 def _generate_search_urls(schema: dict) -> dict:
     """
     Parses a schema, and populates a dictionary containing generated search strings
