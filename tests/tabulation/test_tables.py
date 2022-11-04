@@ -15,15 +15,15 @@ from phdi.tabulation import (
 
 def test_load_schema():
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml"
+        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml"
     ) == yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
     )
 
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "test_schema.json"
+        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json"
     ) == json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.json")
+        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json")
     )
 
     # Invalid schema file path
