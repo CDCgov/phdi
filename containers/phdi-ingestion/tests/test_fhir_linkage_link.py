@@ -18,7 +18,7 @@ def test_add_patient_identifier_in_bundle_success():
 
     test_request = {"bundle": test_bundle, "salt_str": "test_hash"}
 
-    expected_response = copy.deepcopy(test_bundle)
+    expected_response = {"bundle": copy.deepcopy(test_bundle)}
     expected_response["entry"][0]["resource"]["identifier"] = [
         {
             "system": "urn:ietf:rfc:3986",
@@ -79,7 +79,7 @@ def test_add_patient_identifier_in_bundle_salt_from_env():
 
     test_request = {"bundle": test_bundle}
 
-    expected_response = copy.deepcopy(test_bundle)
+    expected_response = {"bundle": copy.deepcopy(test_bundle)}
     expected_response["entry"][0]["resource"]["identifier"] = [
         {
             "system": "urn:ietf:rfc:3986",
