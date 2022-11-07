@@ -8,6 +8,8 @@ import pyarrow.parquet as pq
 
 from pathlib import Path
 from typing import Literal, List, Union
+from jsonschema import validate
+import importlib.resources
 
 
 def load_schema(path: pathlib.Path) -> dict:
@@ -31,6 +33,7 @@ def load_schema(path: pathlib.Path) -> dict:
             else:
                 ftype = path.suffix.replace(".", "").upper()
                 raise ValueError(f"Unsupported file type provided: {ftype}")
+        validate_schema(schema)
         return schema
     except FileNotFoundError:
         raise FileNotFoundError(
@@ -40,6 +43,25 @@ def load_schema(path: pathlib.Path) -> dict:
         raise json.decoder.JSONDecodeError(
             "The specified file is not valid JSON.", e.doc, e.pos
         )
+
+
+def validate_schema(schema: dict):
+    """
+    Validates the schema structure, ensuring all required schema elements are present
+    and all schema elements are of the expected data type.
+
+    :param schema: A user-defined schema describing, for one or more
+      tables, the indexing FHIR resource type used to define rows, as
+      well as some number of columns specifying what values to include.
+    :raises jsonschema.exception.ValidationError: If the schema is invalid.
+    """
+    # Load validation schema
+    with importlib.resources.open_text(
+        "phdi.tabulation", "validation_schema.json"
+    ) as file:
+        validation_schema = json.load(file)
+
+    validate(schema=validation_schema, instance=schema)
 
 
 def write_table(
