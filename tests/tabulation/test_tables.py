@@ -1,15 +1,18 @@
 import csv
 import os
+import jsonschema
 import yaml
 import json
 import pathlib
 import pytest
 from unittest import mock
+import copy
 
 from phdi.tabulation import (
     load_schema,
     write_table,
     print_schema_summary,
+    validate_schema,
 )
 
 
@@ -39,6 +42,39 @@ def test_load_schema():
     # Invalid file format
     with pytest.raises(ValueError):
         load_schema(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7")
+
+
+def test_validate_schema():
+
+    valid_schema = yaml.safe_load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
+    )
+
+    assert validate_schema(schema=valid_schema) is None
+
+    # Invalid data type
+    invalid_data_type = copy.deepcopy(valid_schema)
+    invalid_data_type["tables"]["table 1A"]["resource_type"] = 10
+
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=invalid_data_type)
+    assert "10 is not of type 'string'" in str(e.value)
+
+    # Required element is not present
+    missing_fhir_path = copy.deepcopy(valid_schema)
+    del missing_fhir_path["tables"]["table 1A"]["columns"]["Patient ID"]["fhir_path"]
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=missing_fhir_path)
+    assert "'fhir_path' is a required property" in str(e.value)
+
+    # Invalid selection_criteria
+    bad_selection_criteria = copy.deepcopy(valid_schema)
+    bad_selection_criteria["tables"]["table 1A"]["columns"]["Patient ID"][
+        "selection_criteria"
+    ] = "test"
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=bad_selection_criteria)
+    assert "'test' is not one of ['first', 'last', 'random']" in str(e.value)
 
 
 @mock.patch("phdi.tabulation.tables.pq.ParquetWriter")

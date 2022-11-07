@@ -72,6 +72,12 @@
                     ]
                 }
             },
+            "patternProperties": {
+                "reference_location": {
+                    "type": "string",
+                    "pattern": "^forward|^reverse"
+                }
+            },
             "required": [
                 "fhir_path"
             ]
