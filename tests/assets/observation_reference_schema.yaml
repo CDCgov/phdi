@@ -1,0 +1,28 @@
+metadata:
+  incremental_query_count: 1000
+tables:
+  BMI Values:
+    resource_type: Observation
+    columns:
+      Base Observation ID:
+        fhir_path: Observation.id
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      BMI:
+        fhir_path: Observation.value.valueInteger
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+      Patient Height:
+        fhir_path: Observation.value.valueInteger
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+        reference_location: "forward:Observation:hasMember"
+      Patient Weight:
+        fhir_path: Observation.value.valueInteger
+        include_nulls: false
+        include_unknowns: false
+        selection_criteria: first
+        reference_location: "forward:Observation:derivedFrom"
