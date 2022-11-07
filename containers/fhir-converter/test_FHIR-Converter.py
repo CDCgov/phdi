@@ -193,7 +193,7 @@ def test_convert_valid_request(
         json=valid_request,
     )
     assert actual_response.status_code == 200
-    assert actual_response.json() == valid_response
+    assert actual_response.json().get("response") == valid_response
 
 
 @mock.patch("main.json.load")
@@ -212,7 +212,7 @@ def test_convert_conversion_failure(
         json=valid_request,
     )
     assert actual_response.status_code == 400
-    assert actual_response.json() == conversion_failure_response
+    assert actual_response.json().get("response") == conversion_failure_response
 
 
 @mock.patch("main.subprocess.run")
