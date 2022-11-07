@@ -25,6 +25,7 @@ coverage = "^6.4.1"
 fhirpathpy = "0.1.0"
 google-auth = "^2.10.0"
 google-cloud-storage = "^2.5.0"
+jsonschema = "4.16.0"
 
 [tool.poetry.dev-dependencies]
 Sphinx = "^4.4.0"

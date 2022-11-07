@@ -36,4 +36,3 @@ uvicorn==0.17.6
 uvloop==0.16.0
 watchgod==0.8.2
 websockets==10.3
-jsonschema==4.16.0
