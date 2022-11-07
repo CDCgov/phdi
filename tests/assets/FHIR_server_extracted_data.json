@@ -250,6 +250,9 @@
                     "reference": "doc2",
                     "type": "Practitioner"
                 }
+            },
+            "search": {
+                "mode": "match"
             }
         },
         {
@@ -318,6 +321,9 @@
                         "system": "email"
                     }
                 ]
+            },
+            "search": {
+                "mode": "match"
             }
         },
         {

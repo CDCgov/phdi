@@ -1,10 +1,11 @@
 import csv
 import os
 import pathlib
-import yaml
 import json
 import pyarrow as pa
 import pyarrow.parquet as pq
+import sqlite3 as sql
+import yaml
 
 from pathlib import Path
 from typing import Literal, List, Union
@@ -45,6 +46,101 @@ def load_schema(path: pathlib.Path) -> dict:
         )
 
 
+def write_data(
+    tabulated_data: List[List],
+    directory: str,
+    output_type: Literal["csv", "parquet", "sql"],
+    filename: str = None,
+    db_file: str = None,
+    db_tablename: str = None,
+    pq_writer: pq.ParquetWriter = None,
+) -> Union[None, pq.ParquetWriter]:
+    """
+    Writes a set of tabulated data to a particular output format on disk
+    (one of CSV, Parquet, or SQL). For CSV and Parquet writing, a filename
+    must be provided to write output to. In the case of the SQL format,
+    a database file (if one exists and is being modified) must be specified
+    along with a table name in place of a filename. Creates new data files
+    if the given options specify a file that doesn't exist, and appends
+    data to already-present files if they do.
+
+    :param tabulated_data: A list of lists in which the first element
+      is the headers for the table-to-write and subsequent elements
+      are rows in the table.
+    :param directory: The directory in which to write the output data
+      (if `output_type` is CSV or Parquet), or the directory in which
+      the `db_file` is stored (if a database already exists) or should
+      be created in (if a database does not already exist).
+    :param output_type: The format the data should be written to.
+    :param filename: The name of the CSV or Parquet file data should be
+      written to. Omit if `output_type` is SQL. Default: `None`.
+    :param db_file: The name of the database file to either create or
+      access when writing to a SQL format. Omit if `output_type` is not
+      SQL. Default: `None`.
+    :param db_tablename: The name of the table in the database to create
+      or write data to. Omit if `output_type` is not SQL. Default: `None`.
+    :param pq_writer: A pre-existing `ParquetWriter` object that can be
+      used to append data to a parquet format. Used in cases where
+      incremental writing to a parquet destination is desired. Omit if
+      `output_type` is not Parquet. Default: `None`.
+    """
+    if output_type == "csv":
+        write_headers = (
+            False if os.path.isfile(os.path.join(directory, filename)) else True
+        )
+        with open(os.path.join(directory, filename), "a", newline="") as fp:
+            writer = csv.writer(fp, dialect="excel")
+            if write_headers:
+                writer.writerow(tabulated_data[0])
+            writer.writerows(tabulated_data[1:])
+
+    if output_type == "parquet":
+        table = pa.Table.from_arrays(tabulated_data[1:], names=tabulated_data[0])
+        if pq_writer is None:
+            pq_writer = pq.ParquetWriter(
+                os.path.join(directory, filename), table.schema
+            )
+        pq_writer.write_table(table=table)
+        return pq_writer
+
+    # @TODO:
+    # 1. support username and passwords for database access
+    # 2. figure out a more intelligent way to serialize data that's being
+    # written to the SQL DB; there's the possibility that we need to write
+    # list data to the table if an anchor has multiple reverse references,
+    # but SQL can't write native python lists, so we need to either
+    # stringify them, json.dumps serialize them, or binarize them
+    if output_type == "sql":
+
+        # We need a file-space cursor to operate on a connected table
+        conn = sql.connect(os.path.join(directory, db_file))
+        cursor = conn.cursor()
+
+        # Create requested table if it's not already in the database
+        headers = tuple(tabulated_data[0])
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {db_tablename} {headers};")
+
+        # Format the programmatic values correctly by number of cols
+        # Need this ugly construction so that the binding placeholder qmarks
+        # don't have quotes around them individually when parsed by the SQL
+        # engine
+        hdr_placeholder = "({})".format(", ".join("?" * len(tabulated_data[0])))
+        tuple_data = [tuple([str(x) for x in row]) for row in tabulated_data[1:]]
+        # Have to do a format string this way to avoid an empty f-string error
+        print(tuple_data)
+        cursor.executemany(
+            "INSERT INTO {} {} VALUES {};".format(
+                db_tablename, headers, hdr_placeholder
+            ),
+            tuple_data,
+        )
+
+        conn.commit()
+        conn.close()
+
+
+# @TODO: REMOVE THIS FUNCTION ALONG WITH THE OLD GENERATE ALL TABLES CODE
+# ONCE THE NEW TABULATION WORK IS COMPLETE
 def validate_schema(schema: dict):
     """
     Validates the schema structure, ensuring all required schema elements are present
