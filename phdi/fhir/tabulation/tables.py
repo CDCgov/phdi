@@ -144,9 +144,16 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
 
         # Second pass over just the anchor data, since that
         # defines the table's rows
-        for anchor_resource in (
+        for anchor_resource, is_result_because in (
             ref_dicts.get(table_name, {}).get(anchor_type, {}).values()
         ):
+
+            # Resources that aren't matches to the original criteria
+            # don't generate rows because they were included via a
+            # reference
+            if is_result_because != "match":
+                continue
+
             row = []
 
             for _, column_params in column_items:
@@ -422,10 +429,13 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
                     reference_dicts[table_name][current_resource_type] = {}
 
                 # Forward pointers are easy: just use the resource's ID, since
-                # that's what the anchor will reference
+                # that's what the anchor will reference; store as a tuple since
+                # it's possible for an anchor resource to reference another
+                # resource of the same type without the reference needing
+                # to generate a row
                 reference_dicts[table_name][current_resource_type][
                     resource.get("id", "")
-                ] = resource
+                ] = (resource, entry.get("search", {}).get("mode", ""))
 
             if current_resource_type in resource_directions["reverse"]:
                 if current_resource_type not in reference_dicts[table_name]:
@@ -488,7 +498,7 @@ def _dereference_included_resource(
         # The requested resource may not exist
         if referenced_id not in ref_dicts[table_name][referenced_type]:
             return None
-        resource_to_use = ref_dicts[table_name][referenced_type][referenced_id]
+        resource_to_use = ref_dicts[table_name][referenced_type][referenced_id][0]
 
     # Another resource references our anchor resource
     else:
