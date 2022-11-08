@@ -1,0 +1,83 @@
+{
+    "metadata": {
+        "results_per_page": 1000
+    },
+    "tables": {
+        "table 1A": {
+            "resource_type": "Patient",
+            "earliest_update_datetime": "2020-01-01T00:00:00",
+            "columns": {
+                "Patient ID": {
+                    "fhir_path": "Patient.id",
+                    "invalid_values": [
+                        null,
+                        ""
+                    ],
+                    "selection_criteria": "first"
+                },
+                "First Name": {
+                    "fhir_path": "Patient.name.given",
+                    "invalid_values": [
+                        null,
+                        "",
+                        "Unknown"
+                    ],
+                    "selection_criteria": "first"
+                },
+                "Last Name": {
+                    "fhir_path": "Patient.name.family",
+                    "selection_criteria": "first"
+                },
+                "Phone Number": {
+                    "fhir_path": "Patient.telecom.where(system = 'phone').value",
+                    "invalid_values": [
+                        null,
+                        "",
+                        "Unknown",
+                        "DNA"
+                    ],
+                    "selection_criteria": "first"
+                }
+            }
+        },
+        "table 2A": {
+            "resource_type": "Patient",
+            "earliest_update_datetime": "2020-01-01T00:00:00",
+            "columns": {
+                "Last Name": {
+                    "fhir_path": "Patient.name.family",
+                    "selection_criteria": "first"
+                },
+                "City": {
+                    "fhir_path": "Patient.address.city",
+                    "invalid_values": [
+                        null,
+                        "",
+                        "Unknown"
+                    ],
+                    "selection_criteria": "first"
+                },
+                "Exam ID": {
+                    "fhir_path": "Observation.id",
+                    "invalid_values": [
+                        null,
+                        "",
+                        "Unknown"
+                    ],
+                    "selection_criteria": "first",
+                    "reference_location": "reverse:Observation:subject"
+                },
+                "General Practitioner": {
+                    "fhir_path": "Practitioner.name",
+                    "invalid_values": [
+                        null,
+                        "",
+                        "Unknown"
+                    ],
+                    "selection_criteria": "first",
+                    "reference_location": "forward:Patient:generalPractitioner"
+                }
+            }
+        }
+    }
+}
