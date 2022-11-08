@@ -21,6 +21,7 @@ from phdi.fhir.tabulation.tables import (
     extract_data_from_fhir_search_incremental,
     extract_data_from_fhir_search,
     extract_data_from_schema,
+    _merge_include_query_params_for_location,
 )
 
 
@@ -633,6 +634,38 @@ def test_generate_search_urls_invalid():
 
     with pytest.raises(ValueError):
         _generate_search_urls(schema)
+
+
+def test_merge_include_query_params():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
+        )
+    )
+    table = schema.get("tables", {})["Physical Exams"]
+    query_params = {}
+    reference_locations = []
+
+    for c in table.get("columns").values():
+        if "reference_location" in c:
+            reference_locations.append(c.get("reference_location"))
+    for r in reference_locations:
+        query_params = _merge_include_query_params_for_location(query_params, r)
+
+    assert query_params == {
+        "_include": ["Patient:generalPractitioner"],
+        "_revinclude": ["Observation:subject"],
+    }
+
+
+def test_merge_include_query_params_invalid():
+    query_params = {"count": 1000}
+    with pytest.raises(ValueError):
+        _merge_include_query_params_for_location(query_params, "")
+    with pytest.raises(AttributeError):
+        _merge_include_query_params_for_location(query_params, "invalid:Observation")
 
 
 def test_drop_invalid():

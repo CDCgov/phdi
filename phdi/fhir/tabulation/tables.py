@@ -633,6 +633,64 @@ def _generate_search_url(
     return "?".join((search_url_prefix, urlencode(query_string_dict, doseq=True)))
 
 
+def _merge_include_query_params_for_location(
+    query_params: dict, reference_location: str
+) -> dict:
+    """
+    Merges an _include and/or _revinclude search parameter into the supplied
+    query parameters based on the supplied reference location.
+    :param query_params: A dictionary containing query parameters of the form
+      `{ "param_name": "param_value" }` or
+      `{ "param_name": ["param_value1", ...]}`.
+    :param reference_location: The FHIR resource type and field location for
+      the referenced resource. For more informaiton see the
+      [FHIR documentation](https://www.hl7.org/fhir/search.html#revinclude).
+    :raises AttributeError: When the reference_location does not begin with
+      `forward` or `reverse`.
+    :return: The modified `query_params` input parameter. Since the
+      `query_params` dict is modified in place, the caller can access the
+      result in the original input parameter if called with a variable
+      or the return value.
+    """
+
+    if reference_location == "":
+        raise ValueError("reference_location cannot be empty")
+
+    direction, field_location = reference_location.split(":", 1)
+
+    # Search term is _include for forward searchs, _revinclude for reverse searches.
+    # In addition, we must add an :iterate modifier if the reference is relative to
+    # another included resource
+    query_param_name = None
+    if direction == "forward":
+        query_param_name = "_include"
+    elif direction == "reverse":
+        query_param_name = "_revinclude"
+    else:
+        raise AttributeError(
+            'reference_location must begin with "forward" or "reverse". '
+            + f"Received {reference_location}"
+        )
+
+    query_param_includes = query_params.get(query_param_name)
+
+    # Handle the case where the search term (_include or _revinclude)
+    # is not specified or is specified as a list.
+    if query_param_includes is None:
+        query_param_includes = []
+        query_params[query_param_name] = query_param_includes
+    elif isinstance(query_param_includes, str):
+        # Convert query_param_includes from str to list, and make sure
+        # the query_params dict references the new object.
+        query_param_includes = [query_param_includes]
+        query_params[query_param_name] = query_param_includes
+
+    if field_location not in query_param_includes:
+        query_param_includes.append(field_location)
+
+    return query_params
+
+
 def _generate_search_urls(schema: dict) -> dict:
     """
     Parses a schema, and populates a dictionary containing generated search strings
@@ -662,7 +720,15 @@ def _generate_search_urls(schema: dict) -> dict:
                 + f"resource_type not found in table {table_name}."
             )
 
-        query_params = table.get("query_params")
+        query_params = table.get("query_params", {})
+
+        # Handle any includes specified in the columns
+        for column in table.get("columns", {}).values():
+            if "reference_location" in column:
+                query_params = _merge_include_query_params_for_location(
+                    query_params, column.get("reference_location", "")
+                )
+
         search_string = resource_type
         if query_params is not None and len(query_params) > 0:
             search_string += f"?{urlencode(query_params)}"
