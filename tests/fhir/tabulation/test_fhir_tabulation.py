@@ -645,7 +645,7 @@ def test_merge_include_query_params():
         )
     )
     table = schema.get("tables", {})["Physical Exams"]
-    query_params = {}
+    query_params = {"_include": "some-reference"}
     reference_locations = []
 
     for c in table.get("columns").values():
@@ -655,7 +655,7 @@ def test_merge_include_query_params():
         query_params = _merge_include_query_params_for_location(query_params, r)
 
     assert query_params == {
-        "_include": ["Patient:generalPractitioner"],
+        "_include": ["some-reference", "Patient:generalPractitioner"],
         "_revinclude": ["Observation:subject"],
     }
 
