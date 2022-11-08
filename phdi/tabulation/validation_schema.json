@@ -1,0 +1,87 @@
+{
+    "type": "object",
+    "properties": {
+        "metadata": {
+            "type": "object"
+        },
+        "tables": {
+            "$ref": "#/$defs/tables"
+        }
+    },
+    "required": [
+        "tables"
+    ],
+    "$defs": {
+        "tables": {
+            "type": "object",
+            "patternProperties": {
+                ".": {
+                    "description": "The user's table name",
+                    "type": "object",
+                    "properties": {
+                        "resource_type": {
+                            "type": "string"
+                        },
+                        "earliest_update_datetime": {
+                            "type": "string"
+                        },
+                        "columns": {
+                            "$ref": "#/$defs/columns"
+                        }
+                    },
+                    "required": [
+                        "resource_type",
+                        "columns"
+                    ]
+                }
+            }
+        },
+        "columns": {
+            "type": "object",
+            "patternProperties": {
+                ".": {
+                    "$ref": "#/$defs/single_column"
+                }
+            }
+        },
+        "single_column": {
+            "description": "The user's column name",
+            "type": "object",
+            "properties": {
+                "fhir_path": {
+                    "type": "string"
+                },
+                "invalid_values": {
+                    "type": "array",
+                    "items": {
+                        "type": [
+                            "string",
+                            "boolean",
+                            "null",
+                            "number"
+                        ],
+                        "uniqueItems": true
+                    }
+                },
+                "selection_criteria": {
+                    "type": "string",
+                    "enum": [
+                        "first",
+                        "last",
+                        "random",
+                        "all"
+                    ]
+                }
+            },
+            "patternProperties": {
+                "reference_location": {
+                    "type": "string",
+                    "pattern": "^forward|^reverse"
+                }
+            },
+            "required": [
+                "fhir_path"
+            ]
+        }
+    }
+}
