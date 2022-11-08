@@ -374,4 +374,4 @@ def test_validate_schema():
     ] = "test"
     with pytest.raises(jsonschema.exceptions.ValidationError) as e:
         validate_schema(schema=bad_selection_criteria)
-    assert "'test' is not one of ['first', 'last', 'random']" in str(e.value)
+    assert "'test' is not one of ['first', 'last', 'random', 'all']" in str(e.value)
