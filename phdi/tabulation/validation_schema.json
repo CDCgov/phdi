@@ -68,7 +68,8 @@
                     "enum": [
                         "first",
                         "last",
-                        "random"
+                        "random",
+                        "all"
                     ]
                 }
             },
