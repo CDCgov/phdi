@@ -1,13 +1,14 @@
 {
-    "table 1A": {
-        "directory": "directory",
+    "Patients": {
+        "directory": "./fhir/tabulation/test_outputs/",
         "output_type": "csv",
-        "filename": "filename.csv",
+        "filename": "patients.csv"
     },
-    "table 2A": {
-        "directory": "directory",
-        "filename": "filename",
+    "Physical Exams": {
+        "directory": "./fhir/tabulation/test_outputs/",
+        "filename": "physical_exam.csv",
+        "output_type": "csv",
         "db_file": "db_file",
-        "db_tablename": "table 2A",
-    },
+        "db_tablename": "table 2A"
+    }
 }
