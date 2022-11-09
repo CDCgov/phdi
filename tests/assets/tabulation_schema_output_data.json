@@ -1,11 +1,11 @@
 {
     "Patients": {
-        "directory": "./fhir/tabulation/test_outputs/",
+        "directory": "tests/fhir/tabulation/test_outputs/",
         "output_type": "csv",
         "filename": "patients.csv"
     },
     "Physical Exams": {
-        "directory": "./fhir/tabulation/test_outputs/",
+        "directory": "tests/fhir/tabulation/test_outputs/",
         "filename": "physical_exam.csv",
         "output_type": "csv",
         "db_file": "db_file",
