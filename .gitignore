@@ -67,6 +67,3 @@ data/
 
 # VS Code
 /.vscode/settings.json
-
-# Test data
-tests/fhir/tabulation/test_outputs/*
