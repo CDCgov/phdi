@@ -1,5 +1,7 @@
 import json
 import pathlib
+import os
+import os.path
 import pytest
 import urllib.parse
 import yaml
@@ -10,8 +12,7 @@ from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
     apply_schema_to_resource,
     drop_invalid,
-    generate_all_tables_in_schema,
-    generate_table,
+    generate_tables,
     tabulate_data,
     _get_reference_directions,
     _build_reference_dicts,
@@ -216,6 +217,54 @@ def test_tabulate_data():
         if tests_run <= 1:
             tests_run += 1
             assert found_match
+
+
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_schema")
+def test_generate_tables(patch_schema_extraction):
+    # Set up
+    schema_path = (
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "tabulation_schema.yaml"
+    )
+    output_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent / "assets" / "output_data.json"
+        )
+    )
+    fhir_url = "https://some_fhir_server_url"
+    cred_manager = None
+
+    mock_extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+
+    # Mocks for extract_data_from_schema
+    patch_schema_extraction.return_value = mock_extracted_data["entry"]
+
+    generate_tables(
+        schema_path=schema_path,
+        output_data=output_data,
+        fhir_url=fhir_url,
+        cred_manager=cred_manager,
+    )
+
+    patch_schema_extraction.assert_called()
+
+    patients_path = os.path.join(
+        output_data["Patients"]["directory"], output_data["Patients"]["filename"]
+    )
+    assert os.path.exists(patients_path) is True
+
+    physical_exams_path = os.path.join(
+        output_data["Physical Exams"]["directory"],
+        output_data["Physical Exams"]["filename"],
+    )
+    assert os.path.exists(physical_exams_path) is True
 
 
 @mock.patch("phdi.fhir.tabulation.tables.write_table")
