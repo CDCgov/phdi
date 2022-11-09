@@ -139,8 +139,6 @@ def write_data(
         conn.close()
 
 
-# @TODO: REMOVE THIS FUNCTION ALONG WITH THE OLD GENERATE ALL TABLES CODE
-# ONCE THE NEW TABULATION WORK IS COMPLETE
 def validate_schema(schema: dict):
     """
     Validates the schema structure, ensuring all required schema elements are present
@@ -158,48 +156,6 @@ def validate_schema(schema: dict):
         validation_schema = json.load(file)
 
     validate(schema=validation_schema, instance=schema)
-
-
-def write_table(
-    data: List[dict],
-    output_file_name: pathlib.Path,
-    file_format: Literal["parquet", "csv"],
-    writer: pq.ParquetWriter = None,
-) -> Union[None, pq.ParquetWriter]:
-    """
-    Given data stored as a list of dictionaries, where all dictionaries
-    have a common set of keys, writes the set of data to an output
-    file of a particular type.
-
-    :param data: A list of dictionaries representing the table's data.
-      Each dictionary represents one row in the resulting table. The
-      keys serve as the table's columns, and the values represent the
-      entry for that column in the row given by a particular dict.
-    :param output_file_name: The full name for the file where the table
-      is to be written.
-    :param output_format: The file format of the table to be written.
-    :param writer: A writer object that can be maintained
-      between different calls of this function to support file formats
-      that cannot be appended to after being written (e.g. parquet). Default: `None`
-    :return: An instance of `pq.ParquetWriter` if file_format is parquet,
-      otherwise `None`
-    """
-
-    if file_format == "parquet":
-        table = pa.Table.from_pylist(data)
-        if writer is None:
-            writer = pq.ParquetWriter(output_file_name, table.schema)
-        writer.write_table(table=table)
-        return writer
-
-    if file_format == "csv":
-        keys = data[0].keys()
-        new_file = False if os.path.isfile(output_file_name) else True
-        with open(output_file_name, "a", newline="") as output_file:
-            dict_writer = csv.DictWriter(output_file, keys)
-            if new_file:
-                dict_writer.writeheader()
-            dict_writer.writerows(data)
 
 
 def print_schema_summary(
