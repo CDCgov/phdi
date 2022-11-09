@@ -234,8 +234,9 @@ def generate_tables(
     # Write each table
     for table, data in output_data.items():
         write_data(
-            data=tabulated_data[table],
+            tabulated_data=tabulated_data[table],
             directory=data["directory"],
+            filename=data["filename"],
             output_type=data["output_type"],
             db_file=data.get("db_file", None),
             db_tablename=data.get("db_filename", None),
