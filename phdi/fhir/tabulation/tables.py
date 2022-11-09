@@ -8,8 +8,8 @@ from typing import Any, Callable, Dict, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
 
 from phdi.cloud.core import BaseCredentialManager
-from phdi.fhir.transport import fhir_server_get, http_request_with_reauth
-from phdi.tabulation.tables import load_schema, write_table
+from phdi.fhir.transport import http_request_with_reauth
+from phdi.tabulation.tables import load_schema, write_data
 
 
 def _apply_selection_criteria(
@@ -206,94 +206,41 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
     return tabulated_data
 
 
-def generate_table(
-    schema: dict,
-    output_path: pathlib.Path,
-    output_format: Literal["parquet"],
-    fhir_url: str,
-    cred_manager: BaseCredentialManager,
-) -> None:
-    """
-    Makes a table for a single schema.
-
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
-    :param output_path: A path specifying where the table should be written.
-    :param output_format: A string indicating the file format to be used.
-    :param fhir_url: A URL to a FHIR server.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    """
-    output_path.mkdir(parents=True, exist_ok=True)
-    for table in schema.get("tables", {}).values():
-        resource_type = table.get("resource_type")
-        output_file_name = output_path / f"{resource_type}.{output_format}"
-
-        # TODO: make _count (and other query parameters) configurable
-        query = f"/{resource_type}?_count=1000"
-        url = fhir_url + query
-
-        writer = None
-        next_page = True
-        while next_page:
-            response = fhir_server_get(url, cred_manager)
-            if response.status_code != 200:
-                break
-
-            # Load queried data.
-            query_result = json.loads(response.content)
-            data = []
-
-            # Extract values specified by schema from each resource.
-            # values_from_resource is a dictionary of the form:
-            # {field1:value1, field2:value2, ...}.
-
-            for resource in query_result["entry"]:
-                values_from_resource = apply_schema_to_resource(
-                    resource["resource"], schema
-                )
-                if values_from_resource != {}:
-                    data.append(values_from_resource)
-
-            # Write data to file.
-            writer = write_table(data, output_file_name, output_format, writer)
-
-            # Check for an additional page of query results.
-            for link in query_result.get("link"):
-                if link.get("relation") == "next":
-                    url = link.get("url")
-                    break
-                else:
-                    next_page = False
-
-        if writer is not None:
-            writer.close()
-
-
-def generate_all_tables_in_schema(
+def generate_tables(
     schema_path: pathlib.Path,
-    base_output_path: pathlib.Path,
-    output_format: Literal["parquet"],
+    output_data: dict,
     fhir_url: str,
-    cred_manager: BaseCredentialManager,
+    cred_manager: BaseCredentialManager = None,
 ) -> None:
     """
     Queries a FHIR server for information, and generates and stores the tables in the
     desired location, according to the supplied schema.
 
-    :param schema_path: A path to the location of a YAML schema config file.
-    :param base_output_path: A path to the directory where tables of the schema should
-      be written.
-    :param output_format: The file format of the tables to be generated.
-    :param fhir_url: The URL to a FHIR server.
+    :param schema_path: A path to the location of a schema config file.
+    :param output_data: A dictionary containing the parameters for writing each table.
+    :param fhir_url: A URL to a  FHIR server.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     """
 
+    # Load schema
     schema = load_schema(schema_path)
 
-    for table in schema.get("tables", {}).values():
-        output_path = base_output_path / table.get("resourceType")
-        generate_table(schema, output_path, output_format, fhir_url, cred_manager)
+    # Extract data from FHIR server
+    extracted_data = extract_data_from_schema(schema, fhir_url, cred_manager)
+
+    # Tabulare the data
+    tabulated_data = tabulate_data(extracted_data, schema)
+
+    # Write each table
+    for table, data in output_data.items():
+        write_data(
+            data=tabulated_data[table],
+            directory=data["directory"],
+            output_type=data["output_type"],
+            db_file=data.get("db_file", None),
+            db_tablename=data.get("db_filename", None),
+            pq_writer=data.get("pq_writer", None),
+        )
 
 
 @cache
@@ -581,6 +528,7 @@ def extract_data_from_schema(
 
     :param schema: The schema that defines the extraction to perform.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :param fhir_url: A URL to a FHIR server.
     :return: A dictionary mapping table name to a list of FHIR resources returned from
       the search.
     """

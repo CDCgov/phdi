@@ -1,0 +1,13 @@
+{
+    "table 1A": {
+        "directory": "directory",
+        "output_type": "csv",
+        "filename": "filename.csv",
+    },
+    "table 2A": {
+        "directory": "directory",
+        "filename": "filename",
+        "db_file": "db_file",
+        "db_tablename": "table 2A",
+    },
+}
