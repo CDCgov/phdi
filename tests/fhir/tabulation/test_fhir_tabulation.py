@@ -229,7 +229,9 @@ def test_generate_tables(patch_schema_extraction):
     )
     output_data = json.load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "output_data.json"
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema_output_data.json"
         )
     )
     fhir_url = "https://some_fhir_server_url"
