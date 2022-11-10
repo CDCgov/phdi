@@ -485,7 +485,7 @@ def _dereference_included_resource(
     # data didn't contain any of them, the referenced type
     # doesn't appear in the mapping
     if referenced_type not in ref_dicts[table_name]:
-        return None
+        return None  # pragma: no cover
 
     # An anchor resource references another resource, so get the
     # ID from the anchor and look it up
