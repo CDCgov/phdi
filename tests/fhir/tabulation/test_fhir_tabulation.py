@@ -5,6 +5,7 @@ import urllib.parse
 import yaml
 
 from unittest import mock
+from requests.models import Response
 
 from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
@@ -739,13 +740,18 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
             / "FHIR_server_query_response_200_example.json"
         )
     )
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps(
+        fhir_server_responses["content_1"]
+    ).encode("utf-8")
 
     search_url = "http://some-fhir-url?some-query-url"
     search_url = "http://localhost:8080/fhir/Patient"
     cred_manager = None
 
     # Test that Next URL exists
-    patch_query.return_value = fhir_server_responses.get("content_1")
+    patch_query.return_value = mocked_http_response
 
     content, next_url = extract_data_from_fhir_search_incremental(
         search_url, cred_manager
@@ -755,7 +761,12 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     assert content == fhir_server_responses.get("content_1").get("entry")
 
     # Test that Next URL is None
-    patch_query.return_value = fhir_server_responses["content_2"]
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps(
+        fhir_server_responses["content_2"]
+    ).encode("utf-8")
+    patch_query.return_value = mocked_http_response
 
     content, next_url = extract_data_from_fhir_search_incremental(
         search_url, cred_manager
