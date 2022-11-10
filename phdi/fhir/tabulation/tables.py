@@ -537,7 +537,8 @@ def extract_data_from_fhir_search_incremental(
     )
 
     next_url = None
-    for link in response.get("link", []):
+    content = json.loads(response._content.decode("utf-8"))
+    for link in content.get("link", []):
         if link.get("relation") == "next":
             next_url = link.get("url")
 
