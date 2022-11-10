@@ -791,9 +791,20 @@ def test_extract_data_from_fhir_search(patch_query):
     cred_manager = None
 
     # Test that Next URL exists
+    mocked_http_response1 = mock.Mock(spec=Response)
+    mocked_http_response1.status_code = 200
+    mocked_http_response1._content = json.dumps(
+        fhir_server_responses["content_1"]
+    ).encode("utf-8")
+    mocked_http_response2 = mock.Mock(spec=Response)
+    mocked_http_response2.status_code = 200
+    mocked_http_response2._content = json.dumps(
+        fhir_server_responses["content_2"]
+    ).encode("utf-8")
+
     patch_query.side_effect = [
-        fhir_server_responses.get("content_1"),
-        fhir_server_responses.get("content_2"),
+        mocked_http_response1,
+        mocked_http_response2,
     ]
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
