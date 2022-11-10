@@ -645,8 +645,6 @@ def _merge_include_query_params_for_location(
     :param reference_location: The FHIR resource type and field location for
       the referenced resource. For more informaiton see the
       [FHIR documentation](https://www.hl7.org/fhir/search.html#revinclude).
-    :raises AttributeError: When the reference_location does not begin with
-      `forward` or `reverse`.
     :return: The modified `query_params` input parameter. Since the
       `query_params` dict is modified in place, the caller can access the
       result in the original input parameter if called with a variable
@@ -666,27 +664,22 @@ def _merge_include_query_params_for_location(
         query_param_name = "_include"
     elif direction == "reverse":
         query_param_name = "_revinclude"
-    else:
-        raise AttributeError(
-            'reference_location must begin with "forward" or "reverse". '
-            + f"Received {reference_location}"
-        )
 
-    query_param_includes = query_params.get(query_param_name)
+    current_referenced_direction = query_params.get(query_param_name)
 
     # Handle the case where the search term (_include or _revinclude)
     # is not specified or is specified as a list.
-    if query_param_includes is None:
-        query_param_includes = []
-        query_params[query_param_name] = query_param_includes
-    elif isinstance(query_param_includes, str):
-        # Convert query_param_includes from str to list, and make sure
-        # the query_params dict references the new object.
-        query_param_includes = [query_param_includes]
-        query_params[query_param_name] = query_param_includes
+    if current_referenced_direction is None:
+        current_referenced_direction = []
+        query_params[query_param_name] = current_referenced_direction
+    elif isinstance(current_referenced_direction, str):
+        # Convert current_referenced_direction from str to list, and
+        # make sure the query_params dict references the new object.
+        current_referenced_direction = [current_referenced_direction]
+        query_params[query_param_name] = current_referenced_direction
 
-    if field_location not in query_param_includes:
-        query_param_includes.append(field_location)
+    if field_location not in current_referenced_direction:
+        current_referenced_direction.append(field_location)
 
     return query_params
 

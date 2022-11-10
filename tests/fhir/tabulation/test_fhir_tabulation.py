@@ -664,8 +664,6 @@ def test_merge_include_query_params_invalid():
     query_params = {"count": 1000}
     with pytest.raises(ValueError):
         _merge_include_query_params_for_location(query_params, "")
-    with pytest.raises(AttributeError):
-        _merge_include_query_params_for_location(query_params, "invalid:Observation")
 
 
 def test_drop_invalid():
