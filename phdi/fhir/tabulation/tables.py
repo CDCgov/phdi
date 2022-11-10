@@ -201,7 +201,7 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
             tabulated_data[table_name].append(row)
 
     # Drop invalid values specified in the schema
-    tabulated_data = drop_invalid(tabulated_data, schema)
+    tabulated_data = drop_invalid(tabulated_data, table_name, schema)
 
     return tabulated_data
 
@@ -734,42 +734,42 @@ def _generate_search_urls(schema: dict) -> dict:
     return url_dict
 
 
-def drop_invalid(data: Dict, schema: Dict) -> List[list]:
+def drop_invalid(data: List[list], table_name: str, schema: Dict) -> List[list]:
     """
     Removes resources from tabulated data if the resource contains an invalid value, as
     specified in the invalid_values field in a user-defined schema. Users may provide
     invalid values as a list, including empty string values ("") and
     None/null values (null).
 
-    :param data: A dictionary mapping table names to lists of lists. The first list in
+    :param data: A list of lists containing data for a table. The first list in
         the data value is a list of headers serving as the columns, and all subsequent
         lists are rows in the table.
+    :param table_name: Name of the table to drop invalid values.
     :param schema: A schema of columns and values to apply to the
       tabulated data, including invalid_values if applicable.
-    :param return: A dictionary mapping table names to lists of lists, without resources
-        that contained invalid values. The first list in the data value is a list of
-        headers serving as the columns, and all subsequent lists are rows in the table.
+    :param return: A list of lists, without resources that contained invalid values. The
+        first list in the data value is a list of headers serving as the columns, and
+        all subsequent lists are rows in the table.
     """
     invalid_values_by_column_index = {}
-    for table in schema.get("tables"):
-        # Identify columns to drop invalid values for each table in schema
-        columns = schema["tables"][table]["columns"]
-        # Identify indices in List of Lists to check for invalid values
-        invalid_values_by_column_index[table] = {
-            i: columns[col].get("invalid_values")
-            for i, col in enumerate(columns)
-            if columns[col].get("invalid_values", [])
-        }
+
+    # Identify columns to drop invalid values for each table in schema
+    columns = schema["tables"][table_name]["columns"]
+    # Identify indices in List of Lists to check for invalid values
+    invalid_values_by_column_index[table_name] = {
+        i: columns[col].get("invalid_values")
+        for i, col in enumerate(columns)
+        if columns[col].get("invalid_values", [])
+    }
 
     # Check if resource contains invalid values to be dropped
-    for table in data.keys():
-        if len(invalid_values_by_column_index[table]) > 0:
-            for resource in data[table][1:]:
-                for index, invalid_values in invalid_values_by_column_index[
-                    table
-                ].items():
-                    if resource[index] in invalid_values:
-                        data[table].remove(resource)
-                        break
+    if len(invalid_values_by_column_index) > 0:
+        for resource in data[1:]:
+            for index, invalid_values in invalid_values_by_column_index[
+                table_name
+            ].items():
+                if resource[index] in invalid_values:
+                    data.remove(resource)
+                    break
 
     return data
