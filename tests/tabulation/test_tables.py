@@ -1,16 +1,19 @@
 import csv
 import os
+import jsonschema
 import yaml
 import json
 import pathlib
 import sqlite3 as sql
 from unittest import mock
 import pytest
+import copy
 
 from phdi.tabulation import (
     load_schema,
     write_table,
     print_schema_summary,
+    validate_schema,
 )
 from phdi.fhir.tabulation import tabulate_data
 from phdi.tabulation.tables import write_data
@@ -18,15 +21,15 @@ from phdi.tabulation.tables import write_data
 
 def test_load_schema():
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml"
+        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml"
     ) == yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
     )
 
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "test_schema.json"
+        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json"
     ) == json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "test_schema.json")
+        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json")
     )
 
     # Invalid schema file path
@@ -215,6 +218,8 @@ def test_write_data_sql():
 
 # @TODO: REMOVE THIS FUNCTION ALONG WITH THE OLD GENERATE ALL TABLES CODE
 # ONCE THE NEW TABULATION WORK IS COMPLETE
+
+
 @mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
 @mock.patch("phdi.tabulation.tables.pa.Table")
 def test_write_schema_table_no_writer(patched_pa_table, patched_writer):
@@ -337,3 +342,36 @@ def test_print_schema_summary_csv(patched_os_walk, capsys):
     assert captured.out == "['some_column', 'some_other_column']\n"
 
     os.remove(output_file_name)
+
+
+def test_validate_schema():
+
+    valid_schema = yaml.safe_load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
+    )
+
+    assert validate_schema(schema=valid_schema) is None
+
+    # Invalid data type
+    invalid_data_type = copy.deepcopy(valid_schema)
+    invalid_data_type["tables"]["table 1A"]["resource_type"] = 10
+
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=invalid_data_type)
+    assert "10 is not of type 'string'" in str(e.value)
+
+    # Required element is not present
+    missing_fhir_path = copy.deepcopy(valid_schema)
+    del missing_fhir_path["tables"]["table 1A"]["columns"]["Patient ID"]["fhir_path"]
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=missing_fhir_path)
+    assert "'fhir_path' is a required property" in str(e.value)
+
+    # Invalid selection_criteria
+    bad_selection_criteria = copy.deepcopy(valid_schema)
+    bad_selection_criteria["tables"]["table 1A"]["columns"]["Patient ID"][
+        "selection_criteria"
+    ] = "test"
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=bad_selection_criteria)
+    assert "'test' is not one of ['first', 'last', 'random', 'all']" in str(e.value)
