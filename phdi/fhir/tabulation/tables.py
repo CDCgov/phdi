@@ -659,27 +659,27 @@ def _merge_include_query_params_for_location(
     # Search term is _include for forward searchs, _revinclude for reverse searches.
     # In addition, we must add an :iterate modifier if the reference is relative to
     # another included resource
-    query_param_name = None
+    query_param_direction = None
     if direction == "forward":
-        query_param_name = "_include"
+        query_param_direction = "_include"
     elif direction == "reverse":
-        query_param_name = "_revinclude"
+        query_param_direction = "_revinclude"
 
-    current_referenced_direction = query_params.get(query_param_name)
+    referenced_resource_types = query_params.get(query_param_direction)
 
     # Handle the case where the search term (_include or _revinclude)
     # is not specified or is specified as a list.
-    if current_referenced_direction is None:
-        current_referenced_direction = []
-        query_params[query_param_name] = current_referenced_direction
-    elif isinstance(current_referenced_direction, str):
+    if referenced_resource_types is None:
+        referenced_resource_types = []
+        query_params[query_param_direction] = referenced_resource_types
+    elif isinstance(referenced_resource_types, str):
         # Convert current_referenced_direction from str to list, and
         # make sure the query_params dict references the new object.
-        current_referenced_direction = [current_referenced_direction]
-        query_params[query_param_name] = current_referenced_direction
+        referenced_resource_types = [referenced_resource_types]
+        query_params[query_param_direction] = referenced_resource_types
 
-    if field_location not in current_referenced_direction:
-        current_referenced_direction.append(field_location)
+    if field_location not in referenced_resource_types:
+        referenced_resource_types.append(field_location)
 
     return query_params
 
