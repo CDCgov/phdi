@@ -10,47 +10,6 @@ from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
 
 
-def drop_invalid(data: Dict, schema: Dict) -> List[list]:
-    """
-    Removes resources from tabulated data if the resource contains an invalid value, as
-    specified in the invalid_values field in a user-defined schema. Users may provide
-    invalid values as a list, including empty string values ("") and
-    None/null values (null).
-
-    :param data: A dictionary mapping table names to lists of lists. The first list in
-        the data value is a list of headers serving as the columns, and all subsequent
-        lists are rows in the table.
-    :param schema: A schema of columns and values to apply to the
-      tabulated data, including invalid_values if applicable.
-    :param return: A dictionary mapping table names to lists of lists, without resources
-        that contained invalid values. The first list in the data value is a list of
-        headers serving as the columns, and all subsequent lists are rows in the table.
-    """
-    invalid_values_by_column_index = {}
-    for table in schema.get("tables"):
-        # Identify columns to drop invalid values for each table in schema
-        columns = schema["tables"][table]["columns"]
-        # Identify indices in List of Lists to check for invalid values
-        invalid_values_by_column_index[table] = {
-            i: columns[col].get("invalid_values")
-            for i, col in enumerate(columns)
-            if columns[col].get("invalid_values", [])
-        }
-
-    # Check if resource contains invalid values to be dropped
-    for table in data.keys():
-        if len(invalid_values_by_column_index[table]) > 0:
-            for resource in data[table][1:]:
-                for index, invalid_values in invalid_values_by_column_index[
-                    table
-                ].items():
-                    if resource[index] in invalid_values:
-                        data[table].remove(resource)
-                        break
-
-    return data
-
-
 def extract_data_from_fhir_search(
     search_url: str, cred_manager: BaseCredentialManager = None
 ) -> List[dict]:
@@ -583,7 +542,6 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
 
 
 def _get_reference_directions(schema: dict) -> dict:
-def drop_invalid(data: List[list], table_name: str, schema: Dict) -> List[list]:
     """
     Creates a dictionary mapping indicating how the resources that
     will be used in creating the final output tables relate to each
@@ -631,3 +589,43 @@ def drop_invalid(data: List[list], table_name: str, schema: Dict) -> List[list]:
                     ] = ref_path
 
     return directions_by_table
+
+
+def drop_invalid(data: List[list], table_name: str, schema: Dict) -> List[list]:
+    """
+    Removes resources from tabulated data if the resource contains an invalid value, as
+    specified in the invalid_values field in a user-defined schema. Users may provide
+    invalid values as a list, including empty string values ("") and
+    None/null values (null).
+
+        :param data: A list of lists containing data for a table. The first list in
+        the data value is a list of headers serving as the columns, and all subsequent
+        lists are rows in the table.
+    :param table_name: Name of the table to drop invalid values.
+    :param schema: A schema of columns and values to apply to the
+      tabulated data, including invalid_values if applicable.
+    :param return: A list of lists, without resources that contained invalid values. The
+        first list in the data value is a list of headers serving as the columns, and
+        all subsequent lists are rows in the table.
+    """
+    invalid_values_by_column_index = {}
+
+    # Identify columns to drop invalid values for each table in schema
+    columns = schema["tables"][table_name]["columns"]
+    # Identify indices in List of Lists to check for invalid values
+    invalid_values_by_column_index[table_name] = {
+        i: columns[col].get("invalid_values")
+        for i, col in enumerate(columns)
+        if columns[col].get("invalid_values", [])
+    }
+
+    # Check if resource contains invalid values to be dropped
+    if len(invalid_values_by_column_index) > 0:
+        for resource in data[1:]:
+            for index, invalid_values in invalid_values_by_column_index[
+                table_name
+            ].items():
+                if resource[index] in invalid_values:
+                    data.remove(resource)
+                    break
+    return data
