@@ -598,12 +598,12 @@ def drop_invalid(data: List[list], table_name: str, schema: Dict) -> List[list]:
     invalid values as a list, including empty string values ("") and
     None/null values (null).
 
-        :param data: A list of lists containing data for a table. The first list in
+    :param data: A list of lists containing data for a table. The first list in
         the data value is a list of headers serving as the columns, and all subsequent
         lists are rows in the table.
     :param table_name: Name of the table to drop invalid values.
-    :param schema: A schema of columns and values to apply to the
-      tabulated data, including invalid_values if applicable.
+    :param schema: A schema of columns and values to apply to the tabulated data,
+        including invalid_values if applicable.
     :param return: A list of lists, without resources that contained invalid values. The
         first list in the data value is a list of headers serving as the columns, and
         all subsequent lists are rows in the table.
