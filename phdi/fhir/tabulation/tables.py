@@ -1,100 +1,141 @@
 import fhirpathpy
 import json
 import random
-import pathlib
 
 from functools import cache
 from typing import Any, Callable, Dict, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
 
 from phdi.cloud.core import BaseCredentialManager
-from phdi.fhir.transport import fhir_server_get, http_request_with_reauth
-from phdi.tabulation.tables import load_schema, write_table
+from phdi.fhir.transport import http_request_with_reauth
 
 
-def _apply_selection_criteria(
-    value: List[Any],
-    selection_criteria: Literal["first", "last", "random"],
-) -> str:
+def drop_invalid(data: Dict, schema: Dict) -> List[list]:
     """
-    Returns value(s), according to the selection criteria, from a given list of values
-    parsed from a FHIR resource. A single string value is returned - if the selected
-    value is a complex structure (list or dict), it is converted to a string.
+    Removes resources from tabulated data if the resource contains an invalid value, as
+    specified in the invalid_values field in a user-defined schema. Users may provide
+    invalid values as a list, including empty string values ("") and
+    None/null values (null).
 
-    :param value: A list containing the values parsed from a FHIR resource.
-    :param selection_criteria: A string indicating which element(s) of a list to select.
-    :return: Value(s) parsed from a FHIR resource that conform to the selection
-      criteria.
+    :param data: A dictionary mapping table names to lists of lists. The first list in
+        the data value is a list of headers serving as the columns, and all subsequent
+        lists are rows in the table.
+    :param schema: A schema of columns and values to apply to the
+      tabulated data, including invalid_values if applicable.
+    :param return: A dictionary mapping table names to lists of lists, without resources
+        that contained invalid values. The first list in the data value is a list of
+        headers serving as the columns, and all subsequent lists are rows in the table.
     """
+    invalid_values_by_column_index = {}
+    for table in schema.get("tables"):
+        # Identify columns to drop invalid values for each table in schema
+        columns = schema["tables"][table]["columns"]
+        # Identify indices in List of Lists to check for invalid values
+        invalid_values_by_column_index[table] = {
+            i: columns[col].get("invalid_values")
+            for i, col in enumerate(columns)
+            if columns[col].get("invalid_values", [])
+        }
 
-    if selection_criteria == "first":
-        value = value[0]
-    elif selection_criteria == "last":
-        value = value[-1]
-    elif selection_criteria == "random":
-        value = random.choice(value)
-
-    # Temporary hack to ensure no structured data is written using pyarrow.
-    # Currently Pyarrow does not support mixing non-structured and structured data.
-    # https://github.com/awslabs/aws-data-wrangler/issues/463
-    # Will need to consider other methods of writing to parquet if this is an essential
-    # feature.
-    if type(value) == dict:  # pragma: no cover
-        value = json.dumps(value)
-    elif type(value) == list:
-        value = ",".join(value)
-    return value
-
-
-def apply_schema_to_resource(resource: dict, schema: dict) -> dict:
-    """
-    Creates and returns a dictionary of data based on a FHIR resource
-    and a schema. The given schema should define a table for each
-    resource type to-be-processed, and each such table must have a
-    list of columns to be included in the table as well as a FHIR-path
-    like object to access the value from the FHIR resource. The keys
-    of the returned dictionary are the lower-cased, underscore-replaced
-    names of the columns entered in the schema.
-
-    :param resource: A FHIR resource on which to apply a schema.
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
-    A schema specifying the desired values to extract,
-      by FHIR resource type.
-    :return: A dictionary of data with the desired values, as
-      specified by the schema.
-    """
-
-    data = {}
-    for table_name, table in schema.get("tables", {}).items():
-        resource_type = table.get("resource_type", "")
-
-        if resource_type == "":
-            raise ValueError(
-                "Each table must specify resource_type. "
-                + f"resource_type not found in table {table_name}."
-            )
-
-        # We only care about the parts of the schema that match the resource
-        if resource.get("resourceType", "") == resource_type:
-            for column_name, column in table.get("columns", {}).items():
-                col_in_table = column_name.lower().strip().replace(" ", "_")
-
-                # Use FHIR-path to identify desired value
-                path = column["fhir_path"]
-                parse_function = _get_fhirpathpy_parser(path)
-                value = parse_function(resource)
-
-                if len(value) == 0:
-                    data[col_in_table] = ""
-
-                else:
-                    selection_criteria = column["selection_criteria"]
-                    value = _apply_selection_criteria(value, selection_criteria)
-                    data[col_in_table] = str(value)
+    # Check if resource contains invalid values to be dropped
+    for table in data.keys():
+        if len(invalid_values_by_column_index[table]) > 0:
+            for resource in data[table][1:]:
+                for index, invalid_values in invalid_values_by_column_index[
+                    table
+                ].items():
+                    if resource[index] in invalid_values:
+                        data[table].remove(resource)
+                        break
 
     return data
+
+
+def extract_data_from_fhir_search(
+    search_url: str, cred_manager: BaseCredentialManager = None
+) -> List[dict]:
+    """
+    Performs a FHIR search, continuously using the "next" url to perform
+    search continuations until no additional search results are available.
+    Returns a dictionary containing the data from all search responses.
+
+    :param search_url: The URL to a FHIR server with search criteria.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: A list of FHIR resources returned from the search.
+    """
+
+    results, next = extract_data_from_fhir_search_incremental(
+        search_url=search_url, cred_manager=cred_manager
+    )
+
+    while next is not None:
+        incremental_results, next = extract_data_from_fhir_search_incremental(
+            search_url=next, cred_manager=cred_manager
+        )
+        results.extend(incremental_results)
+
+    return results
+
+
+def extract_data_from_fhir_search_incremental(
+    search_url: str, cred_manager: BaseCredentialManager = None
+) -> Tuple[List[dict], str]:
+    """
+    Performs a FHIR search for a single page of data and returns a dictionary containing
+    the data and a next URL. If there is no next URL (this is the last page of data),
+    then return None as the next URL.
+
+    :param search_url: The URL to a FHIR server with search criteria.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: Tuple containing single page of data as a list of dictionaries and the next
+        URL.
+    """
+
+    # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
+    # mandating a credential manager. Then replace the direct call to
+    # http_request_with_reauth with fhir_server_get.
+    # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
+    response = http_request_with_reauth(
+        url=search_url,
+        cred_manager=cred_manager,
+        retry_count=2,
+        request_type="GET",
+        allowed_methods=["GET"],
+        headers={},
+    )
+
+    next_url = None
+    for link in response.get("link", []):
+        if link.get("relation") == "next":
+            next_url = link.get("url")
+
+    content = response.get("entry")
+
+    return content, next_url
+
+
+def extract_data_from_schema(
+    schema: dict, fhir_url: str, cred_manager: BaseCredentialManager = None
+) -> Dict[str, List[dict]]:
+    """
+    Performs a full FHIR search for each table in `schema`, and returns a dictionary
+    mapping the table name to corresponding search results.
+
+    :param schema: The schema that defines the extraction to perform.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: A dictionary mapping table name to a list of FHIR resources returned from
+      the search.
+    """
+
+    search_urls = _generate_search_urls(schema=schema)
+
+    results = {}
+    for table_name, search_url in search_urls.items():
+        results[table_name] = extract_data_from_fhir_search(
+            search_url=f"{fhir_url}/{search_url}", cred_manager=cred_manager
+        )
+
+    return results
 
 
 def tabulate_data(data: List[dict], schema: dict) -> dict:
@@ -206,184 +247,38 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
     return tabulated_data
 
 
-def generate_table(
-    schema: dict,
-    output_path: pathlib.Path,
-    output_format: Literal["parquet"],
-    fhir_url: str,
-    cred_manager: BaseCredentialManager,
-) -> None:
+def _apply_selection_criteria(
+    value: List[Any],
+    selection_criteria: Literal["first", "last", "random"],
+) -> str:
     """
-    Makes a table for a single schema.
+    Returns value(s), according to the selection criteria, from a given list of values
+    parsed from a FHIR resource. A single string value is returned - if the selected
+    value is a complex structure (list or dict), it is converted to a string.
 
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
-    :param output_path: A path specifying where the table should be written.
-    :param output_format: A string indicating the file format to be used.
-    :param fhir_url: A URL to a FHIR server.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    """
-    output_path.mkdir(parents=True, exist_ok=True)
-    for table in schema.get("tables", {}).values():
-        resource_type = table.get("resource_type")
-        output_file_name = output_path / f"{resource_type}.{output_format}"
-
-        # TODO: make _count (and other query parameters) configurable
-        query = f"/{resource_type}?_count=1000"
-        url = fhir_url + query
-
-        writer = None
-        next_page = True
-        while next_page:
-            response = fhir_server_get(url, cred_manager)
-            if response.status_code != 200:
-                break
-
-            # Load queried data.
-            query_result = json.loads(response.content)
-            data = []
-
-            # Extract values specified by schema from each resource.
-            # values_from_resource is a dictionary of the form:
-            # {field1:value1, field2:value2, ...}.
-
-            for resource in query_result["entry"]:
-                values_from_resource = apply_schema_to_resource(
-                    resource["resource"], schema
-                )
-                if values_from_resource != {}:
-                    data.append(values_from_resource)
-
-            # Write data to file.
-            writer = write_table(data, output_file_name, output_format, writer)
-
-            # Check for an additional page of query results.
-            for link in query_result.get("link"):
-                if link.get("relation") == "next":
-                    url = link.get("url")
-                    break
-                else:
-                    next_page = False
-
-        if writer is not None:
-            writer.close()
-
-
-def generate_all_tables_in_schema(
-    schema_path: pathlib.Path,
-    base_output_path: pathlib.Path,
-    output_format: Literal["parquet"],
-    fhir_url: str,
-    cred_manager: BaseCredentialManager,
-) -> None:
-    """
-    Queries a FHIR server for information, and generates and stores the tables in the
-    desired location, according to the supplied schema.
-
-    :param schema_path: A path to the location of a YAML schema config file.
-    :param base_output_path: A path to the directory where tables of the schema should
-      be written.
-    :param output_format: The file format of the tables to be generated.
-    :param fhir_url: The URL to a FHIR server.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :param value: A list containing the values parsed from a FHIR resource.
+    :param selection_criteria: A string indicating which element(s) of a list to select.
+    :return: Value(s) parsed from a FHIR resource that conform to the selection
+      criteria.
     """
 
-    schema = load_schema(schema_path)
+    if selection_criteria == "first":
+        value = value[0]
+    elif selection_criteria == "last":
+        value = value[-1]
+    elif selection_criteria == "random":
+        value = random.choice(value)
 
-    for table in schema.get("tables", {}).values():
-        output_path = base_output_path / table.get("resourceType")
-        generate_table(schema, output_path, output_format, fhir_url, cred_manager)
-
-
-@cache
-def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
-    """
-    Accepts a FHIRPath expression, and returns a callable function
-    which returns the evaluated value at fhirpath_expression for
-    a specified FHIR resource.
-
-    :param fhirpath_expression: The FHIRPath expression to evaluate.
-    :return: A function that, when called passing in a FHIR resource,
-      will return value at `fhirpath_expression`.
-    """
-    return fhirpathpy.compile(fhirpath_expression)
-
-
-def _get_reference_directions(schema: dict) -> dict:
-    """
-    Creates a dictionary mapping indicating how the resources that
-    will be used in creating the final output tables relate to each
-    other. For any column desired in an output table, it is possible
-    for the column to be found in a resource that either a) references
-    a given resource, or b) is referenced by the given resource.
-    Since each table in the schema is defined with an "anchor" resource
-    (the main type of resource determining the number of rows in the
-    table), referenced resources of type A can be labeled "backward"
-    pointers and referenced resources of type B can be labeled "forward"
-    pointers. This mapping is used to efficiently group and aggregate
-    related resource data for tabulation.
-
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
-    :return: A dictionary containing mappings, for each table, of
-      how referenced resources relate to the anchor resource.
-    """
-
-    directions_by_table = {}
-    for table_name, table_params in schema.get("tables", {}).items():
-        anchor_type = table_params.get("resource_type", "")
-        directions_by_table[table_name] = {
-            "anchor": anchor_type,
-            "forward": set(),
-            "reverse": {},
-        }
-
-        for column_params in table_params.get("columns", {}).values():
-            if "reference_location" in column_params:
-                [direction, ref_path] = column_params.get(
-                    "reference_location", ""
-                ).split(":", 1)
-                referenced_resource_type = column_params.get("fhir_path", "").split(
-                    "."
-                )[0]
-                if direction == "forward":
-                    directions_by_table[table_name][direction].add(
-                        referenced_resource_type
-                    )
-                else:
-                    directions_by_table[table_name][direction][
-                        referenced_resource_type
-                    ] = ref_path
-
-    return directions_by_table
-
-
-def _extract_value_with_resource_path(
-    resource: dict,
-    path: str,
-    selection_criteria: Literal["first", "last", "random"] = "first",
-) -> Union[Any, None]:
-    """
-    Yields a single value from a resource based on a provided `fhir_path`.
-    If the path doesn't map to an extant value in the first, returns
-    `None` instead.
-
-    :param resource: The FHIR resource to extract a value from.
-    :param path: The `fhir_path` at which the value can be found in the
-      resource.
-    :param selection_criteria: A string dictating which value to extract,
-      if multiple values exist at the path location.
-    :return: The extracted value, or `None` if the value doesn't exist.
-    """
-    parse_function = _get_fhirpathpy_parser(path)
-    value = parse_function(resource)
-    if len(value) == 0:
-        return None
-    else:
-        value = _apply_selection_criteria(value, selection_criteria)
-        return value
+    # Temporary hack to ensure no structured data is written using pyarrow.
+    # Currently Pyarrow does not support mixing non-structured and structured data.
+    # https://github.com/awslabs/aws-data-wrangler/issues/463
+    # Will need to consider other methods of writing to parquet if this is an essential
+    # feature.
+    if type(value) == dict:  # pragma: no cover
+        value = json.dumps(value)
+    elif type(value) == list:
+        value = ",".join(value)
+    return value
 
 
 def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
@@ -509,91 +404,30 @@ def _dereference_included_resource(
     return resource_to_use
 
 
-def extract_data_from_fhir_search_incremental(
-    search_url: str, cred_manager: BaseCredentialManager = None
-) -> Tuple[List[dict], str]:
+def _extract_value_with_resource_path(
+    resource: dict,
+    path: str,
+    selection_criteria: Literal["first", "last", "random"] = "first",
+) -> Union[Any, None]:
     """
-    Performs a FHIR search for a single page of data and returns a dictionary containing
-    the data and a next URL. If there is no next URL (this is the last page of data),
-    then return None as the next URL.
+    Yields a single value from a resource based on a provided `fhir_path`.
+    If the path doesn't map to an extant value in the first, returns
+    `None` instead.
 
-    :param search_url: The URL to a FHIR server with search criteria.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: Tuple containing single page of data as a list of dictionaries and the next
-        URL.
+    :param resource: The FHIR resource to extract a value from.
+    :param path: The `fhir_path` at which the value can be found in the
+      resource.
+    :param selection_criteria: A string dictating which value to extract,
+      if multiple values exist at the path location.
+    :return: The extracted value, or `None` if the value doesn't exist.
     """
-
-    # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
-    # mandating a credential manager. Then replace the direct call to
-    # http_request_with_reauth with fhir_server_get.
-    # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
-    response = http_request_with_reauth(
-        url=search_url,
-        cred_manager=cred_manager,
-        retry_count=2,
-        request_type="GET",
-        allowed_methods=["GET"],
-        headers={},
-    )
-
-    next_url = None
-    for link in response.get("link", []):
-        if link.get("relation") == "next":
-            next_url = link.get("url")
-
-    content = response.get("entry")
-
-    return content, next_url
-
-
-def extract_data_from_fhir_search(
-    search_url: str, cred_manager: BaseCredentialManager = None
-) -> List[dict]:
-    """
-    Performs a FHIR search, continuously using the "next" url to perform
-    search continuations until no additional search results are available.
-    Returns a dictionary containing the data from all search responses.
-
-    :param search_url: The URL to a FHIR server with search criteria.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: A list of FHIR resources returned from the search.
-    """
-
-    results, next = extract_data_from_fhir_search_incremental(
-        search_url=search_url, cred_manager=cred_manager
-    )
-
-    while next is not None:
-        incremental_results, next = extract_data_from_fhir_search_incremental(
-            search_url=next, cred_manager=cred_manager
-        )
-        results.extend(incremental_results)
-
-    return results
-
-
-def extract_data_from_schema(
-    schema: dict, fhir_url: str, cred_manager: BaseCredentialManager = None
-) -> Dict[str, List[dict]]:
-    """
-    Performs a full FHIR search for each table in `schema`, and returns a dictionary
-    mapping the table name to corresponding search results.
-
-    :param schema: The schema that defines the extraction to perform.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: A dictionary mapping table name to a list of FHIR resources returned from
-      the search.
-    """
-
-    search_urls = _generate_search_urls(schema=schema)
-
-    results = {}
-    for table_name, search_url in search_urls.items():
-        results[table_name] = extract_data_from_fhir_search(
-            search_url=f"{fhir_url}/{search_url}", cred_manager=cred_manager
-        )
-
-    return results
+    parse_function = _get_fhirpathpy_parser(path)
+    value = parse_function(resource)
+    if len(value) == 0:
+        return None
+    else:
+        value = _apply_selection_criteria(value, selection_criteria)
+        return value
 
 
 def _generate_search_url(
@@ -734,42 +568,65 @@ def _generate_search_urls(schema: dict) -> dict:
     return url_dict
 
 
-def drop_invalid(data: Dict, schema: Dict) -> List[list]:
+@cache
+def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     """
-    Removes resources from tabulated data if the resource contains an invalid value, as
-    specified in the invalid_values field in a user-defined schema. Users may provide
-    invalid values as a list, including empty string values ("") and
-    None/null values (null).
+    Accepts a FHIRPath expression, and returns a callable function
+    which returns the evaluated value at fhirpath_expression for
+    a specified FHIR resource.
 
-    :param data: A dictionary mapping table names to lists of lists. The first list in
-        the data value is a list of headers serving as the columns, and all subsequent
-        lists are rows in the table.
-    :param schema: A schema of columns and values to apply to the
-      tabulated data, including invalid_values if applicable.
-    :param return: A dictionary mapping table names to lists of lists, without resources
-        that contained invalid values. The first list in the data value is a list of
-        headers serving as the columns, and all subsequent lists are rows in the table.
+    :param fhirpath_expression: The FHIRPath expression to evaluate.
+    :return: A function that, when called passing in a FHIR resource,
+      will return value at `fhirpath_expression`.
     """
-    invalid_values_by_column_index = {}
-    for table in schema.get("tables"):
-        # Identify columns to drop invalid values for each table in schema
-        columns = schema["tables"][table]["columns"]
-        # Identify indices in List of Lists to check for invalid values
-        invalid_values_by_column_index[table] = {
-            i: columns[col].get("invalid_values")
-            for i, col in enumerate(columns)
-            if columns[col].get("invalid_values", [])
+    return fhirpathpy.compile(fhirpath_expression)
+
+
+def _get_reference_directions(schema: dict) -> dict:
+    """
+    Creates a dictionary mapping indicating how the resources that
+    will be used in creating the final output tables relate to each
+    other. For any column desired in an output table, it is possible
+    for the column to be found in a resource that either a) references
+    a given resource, or b) is referenced by the given resource.
+    Since each table in the schema is defined with an "anchor" resource
+    (the main type of resource determining the number of rows in the
+    table), referenced resources of type A can be labeled "backward"
+    pointers and referenced resources of type B can be labeled "forward"
+    pointers. This mapping is used to efficiently group and aggregate
+    related resource data for tabulation.
+
+    :param schema: A user-defined schema describing, for one or more
+      tables, the indexing FHIR resource type used to define rows, as
+      well as some number of columns specifying what values to include.
+    :return: A dictionary containing mappings, for each table, of
+      how referenced resources relate to the anchor resource.
+    """
+
+    directions_by_table = {}
+    for table_name, table_params in schema.get("tables", {}).items():
+        anchor_type = table_params.get("resource_type", "")
+        directions_by_table[table_name] = {
+            "anchor": anchor_type,
+            "forward": set(),
+            "reverse": {},
         }
 
-    # Check if resource contains invalid values to be dropped
-    for table in data.keys():
-        if len(invalid_values_by_column_index[table]) > 0:
-            for resource in data[table][1:]:
-                for index, invalid_values in invalid_values_by_column_index[
-                    table
-                ].items():
-                    if resource[index] in invalid_values:
-                        data[table].remove(resource)
-                        break
+        for column_params in table_params.get("columns", {}).values():
+            if "reference_location" in column_params:
+                [direction, ref_path] = column_params.get(
+                    "reference_location", ""
+                ).split(":", 1)
+                referenced_resource_type = column_params.get("fhir_path", "").split(
+                    "."
+                )[0]
+                if direction == "forward":
+                    directions_by_table[table_name][direction].add(
+                        referenced_resource_type
+                    )
+                else:
+                    directions_by_table[table_name][direction][
+                        referenced_resource_type
+                    ] = ref_path
 
-    return data
+    return directions_by_table
