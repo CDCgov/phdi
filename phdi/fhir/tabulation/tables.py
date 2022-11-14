@@ -16,7 +16,6 @@ def drop_invalid(data: Dict, schema: Dict) -> List[list]:
     specified in the invalid_values field in a user-defined schema. Users may provide
     invalid values as a list, including empty string values ("") and
     None/null values (null).
-
     :param data: A dictionary mapping table names to lists of lists. The first list in
         the data value is a list of headers serving as the columns, and all subsequent
         lists are rows in the table.
@@ -58,7 +57,6 @@ def extract_data_from_fhir_search(
     Performs a FHIR search, continuously using the "next" url to perform
     search continuations until no additional search results are available.
     Returns a dictionary containing the data from all search responses.
-
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :return: A list of FHIR resources returned from the search.
@@ -84,7 +82,6 @@ def extract_data_from_fhir_search_incremental(
     Performs a FHIR search for a single page of data and returns a dictionary containing
     the data and a next URL. If there is no next URL (this is the last page of data),
     then return None as the next URL.
-
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :return: Tuple containing single page of data as a list of dictionaries and the next
@@ -105,7 +102,8 @@ def extract_data_from_fhir_search_incremental(
     )
 
     next_url = None
-    for link in response.get("link", []):
+    content = json.loads(response._content.decode("utf-8"))
+    for link in content.get("link", []):
         if link.get("relation") == "next":
             next_url = link.get("url")
 
@@ -120,7 +118,6 @@ def extract_data_from_schema(
     """
     Performs a full FHIR search for each table in `schema`, and returns a dictionary
     mapping the table name to corresponding search results.
-
     :param schema: The schema that defines the extraction to perform.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :return: A dictionary mapping table name to a list of FHIR resources returned from
@@ -143,7 +140,6 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
     Transforms a list of bundle entries into a tabular format (given by
     a list of lists) using a user-defined schema of the columns of
     interest. Tabulation works using a two-pass procedure.
-
     First, resources that are associated with one another in the
     provided schema (identified by the presence of a `reference_location`
     field in one of the schema's columns) are grouped together.
@@ -151,13 +147,11 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
     which defines the number of rows in the table, while referenced
     resources are either "forwards" or "reverse" references, depending
     on their relationship to the anchor type.
-
     Second, the aggregated resources are parsed for value extraction
     using the schema's columns, and the results are stored in a list of
     lists for that table. The first entry in this list are the headers
     of the data, taken from the schema. This procedure is performed
     for each table defined in the schema.
-
     :param data: A list of FHIR bundle entries to tabulate.
     :param schema: A user-defined schema describing, for one or more
       tables, the indexing FHIR resource type used to define rows, as
@@ -255,7 +249,6 @@ def _apply_selection_criteria(
     Returns value(s), according to the selection criteria, from a given list of values
     parsed from a FHIR resource. A single string value is returned - if the selected
     value is a complex structure (list or dict), it is converted to a string.
-
     :param value: A list containing the values parsed from a FHIR resource.
     :param selection_criteria: A string indicating which element(s) of a list to select.
     :return: Value(s) parsed from a FHIR resource that conform to the selection
@@ -293,7 +286,6 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
     columnar value extraction. This function and the `_get_reference_directions`
     function represent the "first pass" of the tabulate function's two-pass
     process.
-
     :param data: A list of FHIR bundle entries to tabulate.
     :param directions_by_table: The output of the `_get_reference_directions`
       function, which provides the directionality of linked resources to
@@ -380,7 +372,7 @@ def _dereference_included_resource(
     # data didn't contain any of them, the referenced type
     # doesn't appear in the mapping
     if referenced_type not in ref_dicts[table_name]:
-        return None  # pragma: no cover
+        return None
 
     # An anchor resource references another resource, so get the
     # ID from the anchor and look it up
@@ -413,7 +405,6 @@ def _extract_value_with_resource_path(
     Yields a single value from a resource based on a provided `fhir_path`.
     If the path doesn't map to an extant value in the first, returns
     `None` instead.
-
     :param resource: The FHIR resource to extract a value from.
     :param path: The `fhir_path` at which the value can be found in the
       resource.
@@ -421,79 +412,13 @@ def _extract_value_with_resource_path(
       if multiple values exist at the path location.
     :return: The extracted value, or `None` if the value doesn't exist.
     """
-
-    # TODO: Modify fhir_server_get (and http_request_with_reauth) to function without
-    # mandating a credential manager. Then replace the direct call to
-    # http_request_with_reauth with fhir_server_get.
-    # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
-    response = http_request_with_reauth(
-        url=search_url,
-        cred_manager=cred_manager,
-        retry_count=2,
-        request_type="GET",
-        allowed_methods=["GET"],
-        headers={},
-    )
-
-    next_url = None
-    content = json.loads(response._content.decode("utf-8"))
-    for link in content.get("link", []):
-        if link.get("relation") == "next":
-            next_url = link.get("url")
-
-    content = content.get("entry")
-
-    return content, next_url
-
-
-def extract_data_from_fhir_search(
-    search_url: str, cred_manager: BaseCredentialManager = None
-) -> List[dict]:
-    """
-    Performs a FHIR search, continuously using the "next" url to perform
-    search continuations until no additional search results are available.
-    Returns a dictionary containing the data from all search responses.
-
-    :param search_url: The URL to a FHIR server with search criteria.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: A list of FHIR resources returned from the search.
-    """
-
-    results, next = extract_data_from_fhir_search_incremental(
-        search_url=search_url, cred_manager=cred_manager
-    )
-
-    while next is not None:
-        incremental_results, next = extract_data_from_fhir_search_incremental(
-            search_url=next, cred_manager=cred_manager
-        )
-        results.extend(incremental_results)
-
-    return results
-
-
-def extract_data_from_schema(
-    schema: dict, fhir_url: str, cred_manager: BaseCredentialManager = None
-) -> Dict[str, List[dict]]:
-    """
-    Performs a full FHIR search for each table in `schema`, and returns a dictionary
-    mapping the table name to corresponding search results.
-
-    :param schema: The schema that defines the extraction to perform.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: A dictionary mapping table name to a list of FHIR resources returned from
-      the search.
-    """
-
-    search_urls = _generate_search_urls(schema=schema)
-
-    results = {}
-    for table_name, search_url in search_urls.items():
-        results[table_name] = extract_data_from_fhir_search(
-            search_url=f"{fhir_url}/{search_url}", cred_manager=cred_manager
-        )
-
-    return results
+    parse_function = _get_fhirpathpy_parser(path)
+    value = parse_function(resource)
+    if len(value) == 0:
+        return None
+    else:
+        value = _apply_selection_criteria(value, selection_criteria)
+        return value
 
 
 def _generate_search_url(
@@ -503,7 +428,6 @@ def _generate_search_url(
     Generates a FHIR query string using the supplied search string, defaulting values
     for `_count` and `_since`, if given and not already set in the
     `url_with_querystring`.
-
     :param url_with_querystring: The search URL with querystring. The search URL
       may contain the base URL, or may start with the resource name.
     :param default_count: If set, and querystring does not specify `_count`, the
@@ -591,7 +515,6 @@ def _generate_search_urls(schema: dict) -> dict:
     * table_1: search_string_1
     * table_2: search_string_2
     * ...
-
     :param schema: A user-defined schema describing, for one or more
       tables, the indexing FHIR resource type used to define rows, as
       well as some number of columns specifying what values to include.
@@ -640,7 +563,6 @@ def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
     Accepts a FHIRPath expression, and returns a callable function
     which returns the evaluated value at fhirpath_expression for
     a specified FHIR resource.
-
     :param fhirpath_expression: The FHIRPath expression to evaluate.
     :return: A function that, when called passing in a FHIR resource,
       will return value at `fhirpath_expression`.
@@ -661,7 +583,6 @@ def _get_reference_directions(schema: dict) -> dict:
     pointers and referenced resources of type B can be labeled "forward"
     pointers. This mapping is used to efficiently group and aggregate
     related resource data for tabulation.
-
     :param schema: A user-defined schema describing, for one or more
       tables, the indexing FHIR resource type used to define rows, as
       well as some number of columns specifying what values to include.
