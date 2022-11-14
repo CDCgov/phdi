@@ -5,6 +5,7 @@ import urllib.parse
 import yaml
 
 from unittest import mock
+from requests.models import Response
 
 from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
@@ -35,6 +36,28 @@ def test_apply_selection_criteria():
     )
 
 
+def test_tabulate_data_invalid_table_name():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
+        )
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+
+    with pytest.raises(KeyError):
+        tabulate_data(extracted_data["entry"], schema, "")
+    with pytest.raises(KeyError):
+        tabulate_data(extracted_data["entry"], schema, "invalid name")
+
+
 def test_tabulate_data():
     schema = yaml.safe_load(
         open(
@@ -51,18 +74,19 @@ def test_tabulate_data():
         )
     )
 
-    tabulated_data = tabulate_data(extracted_data["entry"], schema)
-
-    assert set(tabulated_data.keys()) == {"Patients", "Physical Exams"}
+    tabulated_patient_data = tabulate_data(extracted_data["entry"], schema, "Patients")
+    tabulated_exam_data = tabulate_data(
+        extracted_data["entry"], schema, "Physical Exams"
+    )
 
     # Check all columns from schema present
-    assert set(tabulated_data["Patients"][0]) == {
+    assert set(tabulated_patient_data[0]) == {
         "Patient ID",
         "First Name",
         "Last Name",
         "Phone Number",
     }
-    assert set(tabulated_data["Physical Exams"][0]) == {
+    assert set(tabulated_exam_data[0]) == {
         "Last Name",
         "City",
         "Exam ID",
@@ -80,11 +104,11 @@ def test_tabulate_data():
         {"65489-asdf5-6d8w2-zz5g8", "John", "Shepard", None},
         {"some-uuid", "John ", None, "123-456-7890"},
     ]
-    assert len(tabulated_data["Patients"][1:]) == 3
+    assert len(tabulated_patient_data[1:]) == 3
     tests_run = 0
     for row in row_sets:
         found_match = False
-        for table_row in tabulated_data["Patients"][1:]:
+        for table_row in tabulated_patient_data[1:]:
             if set(table_row) == row:
                 found_match = True
                 break
@@ -103,11 +127,11 @@ def test_tabulate_data():
         ["no-srsly-i-am-hoomun", "Zakera Ward", "Shepard", None],
         ["Faketon", None, None, ["obs2", "obs3"]],
     ]
-    assert len(tabulated_data["Physical Exams"][1:]) == 3
+    assert len(tabulated_exam_data[1:]) == 3
     tests_run = 0
     for row in row_lists:
         found_match = False
-        for table_row in tabulated_data["Physical Exams"][1:]:
+        for table_row in tabulated_exam_data[1:]:
             checked_elements = 0
             for element in row:
                 if element in table_row:
@@ -136,8 +160,8 @@ def test_tabulate_data():
         )
     )
 
-    tabulated_data = tabulate_data(extracted_data["entry"], schema)
-    assert set(tabulated_data["BMI Values"][0]) == {
+    tabulated_data = tabulate_data(extracted_data["entry"], schema, "BMI Values")
+    assert set(tabulated_data[0]) == {
         "Base Observation ID",
         "BMI",
         "Patient Height",
@@ -148,12 +172,11 @@ def test_tabulate_data():
         {"obs1", 26, 70, 187},
         {"obs2", 34, 63, 132},
     ]
-    assert len(tabulated_data["BMI Values"][1:]) == 2
+    assert len(tabulated_data[1:]) == 2
     tests_run = 0
     for row in row_sets:
         found_match = False
-        for table_row in tabulated_data["BMI Values"][1:]:
-            print(table_row)
+        for table_row in tabulated_data[1:]:
             if set(table_row) == row:
                 found_match = True
                 break
@@ -543,13 +566,18 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
             / "FHIR_server_query_response_200_example.json"
         )
     )
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps(
+        fhir_server_responses["content_1"]
+    ).encode("utf-8")
 
     search_url = "http://some-fhir-url?some-query-url"
     search_url = "http://localhost:8080/fhir/Patient"
     cred_manager = None
 
     # Test that Next URL exists
-    patch_query.return_value = fhir_server_responses.get("content_1")
+    patch_query.return_value = mocked_http_response
 
     content, next_url = extract_data_from_fhir_search_incremental(
         search_url, cred_manager
@@ -559,7 +587,12 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     assert content == fhir_server_responses.get("content_1").get("entry")
 
     # Test that Next URL is None
-    patch_query.return_value = fhir_server_responses["content_2"]
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps(
+        fhir_server_responses["content_2"]
+    ).encode("utf-8")
+    patch_query.return_value = mocked_http_response
 
     content, next_url = extract_data_from_fhir_search_incremental(
         search_url, cred_manager
@@ -584,9 +617,20 @@ def test_extract_data_from_fhir_search(patch_query):
     cred_manager = None
 
     # Test that Next URL exists
+    mocked_http_response1 = mock.Mock(spec=Response)
+    mocked_http_response1.status_code = 200
+    mocked_http_response1._content = json.dumps(
+        fhir_server_responses["content_1"]
+    ).encode("utf-8")
+    mocked_http_response2 = mock.Mock(spec=Response)
+    mocked_http_response2.status_code = 200
+    mocked_http_response2._content = json.dumps(
+        fhir_server_responses["content_2"]
+    ).encode("utf-8")
+
     patch_query.side_effect = [
-        fhir_server_responses.get("content_1"),
-        fhir_server_responses.get("content_2"),
+        mocked_http_response1,
+        mocked_http_response2,
     ]
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
