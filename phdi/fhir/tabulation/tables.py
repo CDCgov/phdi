@@ -107,7 +107,7 @@ def extract_data_from_fhir_search_incremental(
         if link.get("relation") == "next":
             next_url = link.get("url")
 
-    content = response.get("entry")
+    content = content.get("entry")
 
     return content, next_url
 
