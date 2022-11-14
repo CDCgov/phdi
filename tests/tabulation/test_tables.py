@@ -54,8 +54,7 @@ def test_write_data_csv():
     )
     extracted_data = extracted_data.get("entry", {})
 
-    tabulated_data = tabulate_data(extracted_data, schema)
-    table_to_use = tabulated_data["Physical Exams"]
+    table_to_use = tabulate_data(extracted_data, schema, "Physical Exams")
     batch_1 = table_to_use[:2]
     batch_2 = [table_to_use[0]] + table_to_use[2:]
     file_location = "./"
@@ -110,8 +109,7 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
     )
     extracted_data = extracted_data.get("entry", {})
 
-    tabulated_data = tabulate_data(extracted_data, schema)
-    table_to_use = tabulated_data["Physical Exams"]
+    table_to_use = tabulate_data(extracted_data, schema, "Physical Exams")
     batch_1 = table_to_use[:2]
     batch_2 = [table_to_use[0]] + table_to_use[2:]
     file_location = "./"
@@ -154,8 +152,7 @@ def test_write_data_sql():
     )
     extracted_data = extracted_data.get("entry", {})
 
-    tabulated_data = tabulate_data(extracted_data, schema)
-    table_to_use = tabulated_data["Physical Exams"]
+    table_to_use = tabulate_data(extracted_data, schema, "Physical Exams")
     batch_1 = table_to_use[:2]
     batch_2 = [table_to_use[0]] + table_to_use[2:]
     file_location = "./"
