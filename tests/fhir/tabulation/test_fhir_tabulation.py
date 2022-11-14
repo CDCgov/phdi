@@ -177,7 +177,6 @@ def test_tabulate_data():
     for row in row_sets:
         found_match = False
         for table_row in tabulated_data[1:]:
-            print(table_row)
             if set(table_row) == row:
                 found_match = True
                 break

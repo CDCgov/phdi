@@ -135,7 +135,7 @@ def extract_data_from_schema(
     return results
 
 
-def tabulate_data(data: List[dict], schema: dict, table_name: str) -> dict:
+def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]:
     """
     Transforms a list of bundle entries into a tabular format (given by
     a list of lists) using a user-defined schema of the columns of
@@ -174,11 +174,11 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> dict:
 
     # Get the columns from the schema so we always iterate through
     # them in a consistent order
-    table_params = schema.get("tables", {}).get(table_name, {})
-    column_items = table_params.get("columns", {}).items()
+    table_params = schema["tables"][table_name]
+    column_items = table_params["columns"].items()
     headers = [column_name for column_name, _ in column_items]
     tabulated_data = [headers]
-    anchor_type = schema.get("tables", {}).get(table_name, {}).get("resource_type", "")
+    anchor_type = schema["tables"][table_name]["resource_type"]
 
     # Second pass over just the anchor data, since that
     # defines the table's rows
