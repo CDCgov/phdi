@@ -135,7 +135,7 @@ def extract_data_from_schema(
     return results
 
 
-def tabulate_data(data: List[dict], schema: dict) -> dict:
+def tabulate_data(data: List[dict], schema: dict, table_name: str) -> dict:
     """
     Transforms a list of bundle entries into a tabular format (given by
     a list of lists) using a user-defined schema of the columns of
@@ -150,93 +150,96 @@ def tabulate_data(data: List[dict], schema: dict) -> dict:
     Second, the aggregated resources are parsed for value extraction
     using the schema's columns, and the results are stored in a list of
     lists for that table. The first entry in this list are the headers
-    of the data, taken from the schema. This procedure is performed
-    for each table defined in the schema.
+    of the data, taken from the schema. This functions performs the above
+    procedure on one table from the schema, specified by a table name.
     :param data: A list of FHIR bundle entries to tabulate.
     :param schema: A user-defined schema describing, for one or more
       tables, the indexing FHIR resource type used to define rows, as
       well as some number of columns specifying what values to include.
-    :return: A dictionary mapping table names to lists of lists.
-      The first list in the return value is a list of headers
-      serving as the columns, and all subsequent lists are rows in
-      the table.
+    :param table_name: A string specifying the name of a table defined
+      in the given schema.
+    :raises KeyError: If the given `table_name` does not occur in the
+      provided schema.
+    :return: A list of lists denoting the tabulated form of the data.
+      The first list is a list of headers serving as the columns,
+      and all subsequent lists are rows in the table.
     """
+
+    if table_name not in schema.get("tables", {}):
+        raise KeyError(f"Provided table name {table_name} not found in schema")
 
     # First pass: build mapping of references for easy lookup
     ref_directions = _get_reference_directions(schema)
     ref_dicts = _build_reference_dicts(data, ref_directions)
 
-    tabulated_data = {}
-    for table_name, table_params in schema.get("tables", {}).items():
-        # Get the columns from the schema so we always iterate through
-        # them in a consistent order
-        column_items = table_params.get("columns", {}).items()
-        headers = [column_name for column_name, _ in column_items]
-        tabulated_data[table_name] = [headers]
-        anchor_type = (
-            schema.get("tables", {}).get(table_name, {}).get("resource_type", "")
-        )
+    # Get the columns from the schema so we always iterate through
+    # them in a consistent order
+    table_params = schema.get("tables", {}).get(table_name, {})
+    column_items = table_params.get("columns", {}).items()
+    headers = [column_name for column_name, _ in column_items]
+    tabulated_data = [headers]
+    anchor_type = schema.get("tables", {}).get(table_name, {}).get("resource_type", "")
 
-        # Second pass over just the anchor data, since that
-        # defines the table's rows
-        for anchor_resource, is_result_because in (
-            ref_dicts.get(table_name, {}).get(anchor_type, {}).values()
-        ):
+    # Second pass over just the anchor data, since that
+    # defines the table's rows
+    for anchor_resource, is_result_because in (
+        ref_dicts.get(table_name, {}).get(anchor_type, {}).values()
+    ):
 
-            # Resources that aren't matches to the original criteria
-            # don't generate rows because they were included via a
-            # reference
-            if is_result_because != "match":
-                continue
+        # Resources that aren't matches to the original criteria
+        # don't generate rows because they were included via a
+        # reference
+        if is_result_because != "match":
+            continue
 
-            row = []
+        row = []
 
-            for _, column_params in column_items:
-                path_to_use = column_params["fhir_path"]
-                resource_to_use = anchor_resource
+        for _, column_params in column_items:
+            path_to_use = column_params["fhir_path"]
+            resource_to_use = anchor_resource
 
-                # Determine if we need to make a lookup in our
-                # first-pass reference mapping
-                if "reference_location" in column_params:
-                    resource_to_use = _dereference_included_resource(
+            # Determine if we need to make a lookup in our
+            # first-pass reference mapping
+            if "reference_location" in column_params:
+                resource_to_use = _dereference_included_resource(
+                    resource_to_use,
+                    path_to_use,
+                    anchor_resource,
+                    column_params,
+                    ref_dicts,
+                    table_name,
+                )
+                if resource_to_use is None:
+                    row.append(None)
+                    continue
+
+            # Forward pointers are many-to-one anchor:target (i.e. many patients
+            # could point to the same general practitioner), so we only need a
+            # single value for them
+            if isinstance(resource_to_use, dict):
+                row.append(
+                    _extract_value_with_resource_path(
                         resource_to_use,
                         path_to_use,
-                        anchor_resource,
-                        column_params,
-                        ref_dicts,
-                        table_name,
+                        column_params["selection_criteria"],
                     )
-                    if resource_to_use is None:
-                        row.append(None)
-                        continue
+                )
 
-                # Forward pointers are many-to-one anchor:target (i.e. many patients
-                # could point to the same general practitioner), so we only need a
-                # single value for them
-                if isinstance(resource_to_use, dict):
-                    row.append(
-                        _extract_value_with_resource_path(
-                            resource_to_use,
-                            path_to_use,
-                            column_params["selection_criteria"],
-                        )
+            # Reverse pointers are one-to-many (one patient could have multiple
+            # observations pointing to them), so they need to be stored in a list
+            else:
+                values = [
+                    _extract_value_with_resource_path(
+                        r, path_to_use, column_params["selection_criteria"]
                     )
+                    for r in resource_to_use
+                ]
+                row.append(values)
 
-                # Reverse pointers are one-to-many (one patient could have multiple
-                # observations pointing to them), so they need to be stored in a list
-                else:
-                    values = [
-                        _extract_value_with_resource_path(
-                            r, path_to_use, column_params["selection_criteria"]
-                        )
-                        for r in resource_to_use
-                    ]
-                    row.append(values)
-
-            tabulated_data[table_name].append(row)
+        tabulated_data.append(row)
 
     # Drop invalid values specified in the schema
-    tabulated_data = drop_invalid(tabulated_data, schema)
+    # tabulated_data = drop_invalid(tabulated_data, schema)
 
     return tabulated_data
 
