@@ -483,7 +483,7 @@ def test_drop_invalid():
 
     # Keeps all resources because no invalid values
     table_name = "table 1A"
-    no_invalid_values = drop_invalid(tabulated_data["table 1A"], table_name, schema)
+    no_invalid_values = drop_invalid(tabulated_data["table 1A"], schema, table_name)
     assert len(no_invalid_values) == 3
     assert no_invalid_values[1][3] == tabulated_data["table 1A"][1][3]
 
@@ -502,11 +502,7 @@ def test_drop_invalid():
     }
 
     table_name = "table 2A"
-    dropped_null_resource = drop_invalid(
-        tabulated_data["table 2A"],
-        table_name,
-        schema,
-    )
+    dropped_null_resource = drop_invalid(tabulated_data["table 2A"], schema, table_name)
 
     assert len(dropped_null_resource) == 2
     assert tabulated_data["table 2A"][1][0] == dropped_null_resource[1][0]
@@ -525,11 +521,7 @@ def test_drop_invalid():
         ],
     }
     table_name = "table 2A"
-    dropped_empty_string = drop_invalid(
-        tabulated_data["table 2A"],
-        table_name,
-        schema,
-    )
+    dropped_empty_string = drop_invalid(tabulated_data["table 2A"], schema, table_name)
     assert len(dropped_empty_string) == 2
     assert tabulated_data["table 2A"][1][0] == dropped_empty_string[1][0]
 
@@ -547,11 +539,7 @@ def test_drop_invalid():
         ],
     }
     table_name = "table 2A"
-    dropped_user_value = drop_invalid(
-        tabulated_data["table 2A"],
-        table_name,
-        schema,
-    )
+    dropped_user_value = drop_invalid(tabulated_data["table 2A"], schema, table_name)
     assert len(dropped_user_value) == 2
     assert tabulated_data["table 2A"][1][0] == dropped_user_value[1][0]
 
