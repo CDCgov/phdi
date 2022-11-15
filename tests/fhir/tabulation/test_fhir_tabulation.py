@@ -7,12 +7,10 @@ import urllib.parse
 import yaml
 
 from unittest import mock
+from requests.models import Response
 
 from phdi.fhir.tabulation.tables import (
-    _apply_selection_criteria,
-    apply_schema_to_resource,
     drop_invalid,
-    generate_tables,
     tabulate_data,
     _get_reference_directions,
     _build_reference_dicts,
@@ -22,6 +20,7 @@ from phdi.fhir.tabulation.tables import (
     extract_data_from_fhir_search_incremental,
     extract_data_from_fhir_search,
     extract_data_from_schema,
+    _merge_include_query_params_for_location,
 )
 
 
@@ -38,58 +37,26 @@ def test_apply_selection_criteria():
     )
 
 
-def test_apply_schema_to_resource():
-    resource = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "patient_bundle.json"
-        )
-    )
-
-    resource = resource["entry"][1]["resource"]
-
+def test_tabulate_data_invalid_table_name():
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
         )
     )
-
-    assert apply_schema_to_resource(resource, schema) == {
-        "patient_id": "some-uuid",
-        "first_name": "John ",
-        "last_name": "doe",
-        "phone_number": "123-456-7890",
-    }
-
-    # Test for inserting empty string if field not found
-    del resource["name"][0]["family"]
-    assert apply_schema_to_resource(resource, schema) == {
-        "patient_id": "some-uuid",
-        "first_name": "John ",
-        "last_name": "",
-        "phone_number": "123-456-7890",
-    }
-
-    # Test for no schema in yaml file that matches incoming
-    # resource type
-    resource = json.load(
+    extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
-            / "patient_bundle.json"
+            / "FHIR_server_extracted_data.json"
         )
     )
-    resource = resource["entry"][0]["resource"]
-    assert apply_schema_to_resource(resource, schema) == {}
 
-    # Test for raised exception if no resource type at all
-    del schema["tables"]["table 1A"]["resource_type"]
-    with pytest.raises(
-        ValueError,
-        match="Each table must specify resource_type. resource_type not found in table table 1A.",  # noqa
-    ):
-        apply_schema_to_resource(resource, schema)
+    with pytest.raises(KeyError):
+        tabulate_data(extracted_data["entry"], schema, "")
+    with pytest.raises(KeyError):
+        tabulate_data(extracted_data["entry"], schema, "invalid name")
 
 
 def test_tabulate_data():
@@ -108,18 +75,19 @@ def test_tabulate_data():
         )
     )
 
-    tabulated_data = tabulate_data(extracted_data["entry"], schema)
-
-    assert set(tabulated_data.keys()) == {"Patients", "Physical Exams"}
+    tabulated_patient_data = tabulate_data(extracted_data["entry"], schema, "Patients")
+    tabulated_exam_data = tabulate_data(
+        extracted_data["entry"], schema, "Physical Exams"
+    )
 
     # Check all columns from schema present
-    assert set(tabulated_data["Patients"][0]) == {
+    assert set(tabulated_patient_data[0]) == {
         "Patient ID",
         "First Name",
         "Last Name",
         "Phone Number",
     }
-    assert set(tabulated_data["Physical Exams"][0]) == {
+    assert set(tabulated_exam_data[0]) == {
         "Last Name",
         "City",
         "Exam ID",
@@ -137,11 +105,11 @@ def test_tabulate_data():
         {"65489-asdf5-6d8w2-zz5g8", "John", "Shepard", None},
         {"some-uuid", "John ", None, "123-456-7890"},
     ]
-    assert len(tabulated_data["Patients"][1:]) == 3
+    assert len(tabulated_patient_data[1:]) == 3
     tests_run = 0
     for row in row_sets:
         found_match = False
-        for table_row in tabulated_data["Patients"][1:]:
+        for table_row in tabulated_patient_data[1:]:
             if set(table_row) == row:
                 found_match = True
                 break
@@ -160,11 +128,11 @@ def test_tabulate_data():
         ["no-srsly-i-am-hoomun", "Zakera Ward", "Shepard", None],
         ["Faketon", None, None, ["obs2", "obs3"]],
     ]
-    assert len(tabulated_data["Physical Exams"][1:]) == 3
+    assert len(tabulated_exam_data[1:]) == 3
     tests_run = 0
     for row in row_lists:
         found_match = False
-        for table_row in tabulated_data["Physical Exams"][1:]:
+        for table_row in tabulated_exam_data[1:]:
             checked_elements = 0
             for element in row:
                 if element in table_row:
@@ -193,8 +161,8 @@ def test_tabulate_data():
         )
     )
 
-    tabulated_data = tabulate_data(extracted_data["entry"], schema)
-    assert set(tabulated_data["BMI Values"][0]) == {
+    tabulated_data = tabulate_data(extracted_data["entry"], schema, "BMI Values")
+    assert set(tabulated_data[0]) == {
         "Base Observation ID",
         "BMI",
         "Patient Height",
@@ -205,68 +173,17 @@ def test_tabulate_data():
         {"obs1", 26, 70, 187},
         {"obs2", 34, 63, 132},
     ]
-    assert len(tabulated_data["BMI Values"][1:]) == 2
+    assert len(tabulated_data[1:]) == 2
     tests_run = 0
     for row in row_sets:
         found_match = False
-        for table_row in tabulated_data["BMI Values"][1:]:
-            print(table_row)
+        for table_row in tabulated_data[1:]:
             if set(table_row) == row:
                 found_match = True
                 break
         if tests_run <= 1:
             tests_run += 1
             assert found_match
-
-
-@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_schema")
-def test_generate_tables(patch_schema_extraction):
-    # Set up
-    schema_path = (
-        pathlib.Path(__file__).parent.parent.parent
-        / "assets"
-        / "tabulation_schema.yaml"
-    )
-    output_data = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "tabulation_schema_output_data.json"
-        )
-    )
-    fhir_url = "https://some_fhir_server_url"
-    cred_manager = None
-
-    mock_extracted_data = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "FHIR_server_extracted_data.json"
-        )
-    )
-
-    # Mocks for extract_data_from_schema
-    patch_schema_extraction.return_value = mock_extracted_data["entry"]
-
-    generate_tables(
-        schema_path=schema_path,
-        output_data=output_data,
-        fhir_url=fhir_url,
-        cred_manager=cred_manager,
-    )
-
-    patch_schema_extraction.assert_called()
-
-    patients_path = os.path.join(
-        output_data["Patients"]["directory"], output_data["Patients"]["filename"]
-    )
-    assert os.path.exists(patients_path) is True
-
-    physical_exams_path = os.path.join(
-        output_data["Physical Exams"]["directory"],
-        output_data["Physical Exams"]["filename"],
-    )
-    assert os.path.exists(physical_exams_path) is True
 
 
 def test_get_reference_directions():
@@ -514,6 +431,36 @@ def test_generate_search_urls_invalid():
         _generate_search_urls(schema)
 
 
+def test_merge_include_query_params():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema.yaml"
+        )
+    )
+    table = schema.get("tables", {})["Physical Exams"]
+    query_params = {"_include": "some-reference"}
+    reference_locations = []
+
+    for c in table.get("columns").values():
+        if "reference_location" in c:
+            reference_locations.append(c.get("reference_location"))
+    for r in reference_locations:
+        query_params = _merge_include_query_params_for_location(query_params, r)
+
+    assert query_params == {
+        "_include": ["some-reference", "Patient:generalPractitioner"],
+        "_revinclude": ["Observation:subject"],
+    }
+
+
+def test_merge_include_query_params_invalid():
+    query_params = {"count": 1000}
+    with pytest.raises(ValueError):
+        _merge_include_query_params_for_location(query_params, "")
+
+
 def test_drop_invalid():
 
     schema = yaml.safe_load(
@@ -618,13 +565,18 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
             / "FHIR_server_query_response_200_example.json"
         )
     )
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps(
+        fhir_server_responses["content_1"]
+    ).encode("utf-8")
 
     search_url = "http://some-fhir-url?some-query-url"
     search_url = "http://localhost:8080/fhir/Patient"
     cred_manager = None
 
     # Test that Next URL exists
-    patch_query.return_value = fhir_server_responses.get("content_1")
+    patch_query.return_value = mocked_http_response
 
     content, next_url = extract_data_from_fhir_search_incremental(
         search_url, cred_manager
@@ -634,7 +586,12 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     assert content == fhir_server_responses.get("content_1").get("entry")
 
     # Test that Next URL is None
-    patch_query.return_value = fhir_server_responses["content_2"]
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps(
+        fhir_server_responses["content_2"]
+    ).encode("utf-8")
+    patch_query.return_value = mocked_http_response
 
     content, next_url = extract_data_from_fhir_search_incremental(
         search_url, cred_manager
@@ -659,9 +616,20 @@ def test_extract_data_from_fhir_search(patch_query):
     cred_manager = None
 
     # Test that Next URL exists
+    mocked_http_response1 = mock.Mock(spec=Response)
+    mocked_http_response1.status_code = 200
+    mocked_http_response1._content = json.dumps(
+        fhir_server_responses["content_1"]
+    ).encode("utf-8")
+    mocked_http_response2 = mock.Mock(spec=Response)
+    mocked_http_response2.status_code = 200
+    mocked_http_response2._content = json.dumps(
+        fhir_server_responses["content_2"]
+    ).encode("utf-8")
+
     patch_query.side_effect = [
-        fhir_server_responses.get("content_1"),
-        fhir_server_responses.get("content_2"),
+        mocked_http_response1,
+        mocked_http_response2,
     ]
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
