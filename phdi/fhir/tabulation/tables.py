@@ -12,42 +12,47 @@ from phdi.fhir.transport import http_request_with_reauth
 from phdi.tabulation.tables import load_schema, write_data
 
 
-def drop_invalid(data: Dict, schema: Dict) -> List[list]:
+def drop_invalid(data: List[list], schema: Dict, table_name: str) -> List[list]:
     """
     Removes resources from tabulated data if the resource contains an invalid value, as
     specified in the invalid_values field in a user-defined schema. Users may provide
     invalid values as a list, including empty string values ("") and
     None/null values (null).
-    :param data: A dictionary mapping table names to lists of lists. The first list in
+    :param data: A list of lists containing data for a table. The first list in
         the data value is a list of headers serving as the columns, and all subsequent
         lists are rows in the table.
-    :param schema: A schema of columns and values to apply to the
-      tabulated data, including invalid_values if applicable.
-    :param return: A dictionary mapping table names to lists of lists, without resources
-        that contained invalid values. The first list in the data value is a list of
-        headers serving as the columns, and all subsequent lists are rows in the table.
+    :param schema: A schema of columns and values to apply to the tabulated data,
+        including invalid_values if applicable.
+    :param table_name: Name of the table to drop invalid values.
+    :param return: A list of lists, without resources that contained invalid values. The
+        first list in the data value is a list of headers serving as the columns, and
+        all subsequent lists are rows in the table.
     """
     invalid_values_by_column_index = {}
-    for table in schema.get("tables"):
-        # Identify columns to drop invalid values for each table in schema
-        columns = schema["tables"][table]["columns"]
-        # Identify indices in List of Lists to check for invalid values
-        invalid_values_by_column_index[table] = {
-            i: columns[col].get("invalid_values")
-            for i, col in enumerate(columns)
-            if columns[col].get("invalid_values", [])
-        }
+
+    # Identify columns to drop invalid values for each table in schema
+    columns = schema["tables"][table_name]["columns"]
+    # Identify indices in List of Lists to check for invalid values
+    invalid_values_by_column_index[table_name] = {
+        i: columns[col].get("invalid_values")
+        for i, col in enumerate(columns)
+        if columns[col].get("invalid_values", [])
+    }
 
     # Check if resource contains invalid values to be dropped
-    for table in data.keys():
-        if len(invalid_values_by_column_index[table]) > 0:
-            for resource in data[table][1:]:
-                for index, invalid_values in invalid_values_by_column_index[
-                    table
-                ].items():
-                    if resource[index] in invalid_values:
-                        data[table].remove(resource)
-                        break
+    rows_to_remove = []
+    if len(invalid_values_by_column_index) > 0:
+        for i in range(len(data)):
+            for index, invalid_values in invalid_values_by_column_index[
+                table_name
+            ].items():
+                if data[i][index] in invalid_values:
+                    rows_to_remove.append(i)
+                    break
+
+    # Remove rows with invalid values
+    for idx, i in enumerate(rows_to_remove):
+        del data[i - idx]
 
     return data
 
@@ -241,7 +246,7 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
         tabulated_data.append(row)
 
     # Drop invalid values specified in the schema
-    # tabulated_data = drop_invalid(tabulated_data, schema)
+    tabulated_data = drop_invalid(tabulated_data, schema, table_name)
 
     return tabulated_data
 
@@ -377,7 +382,7 @@ def _dereference_included_resource(
     # data didn't contain any of them, the referenced type
     # doesn't appear in the mapping
     if referenced_type not in ref_dicts[table_name]:
-        return None
+        return None  # pragma: no cover
 
     # An anchor resource references another resource, so get the
     # ID from the anchor and look it up
