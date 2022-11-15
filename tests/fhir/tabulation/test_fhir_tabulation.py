@@ -482,12 +482,10 @@ def test_drop_invalid():
     }
 
     # Keeps all resources because no invalid values
-    no_invalid_values = drop_invalid(
-        tabulated_data,
-        schema,
-    )
-    assert len(no_invalid_values["table 1A"]) == 3
-    assert no_invalid_values["table 1A"][1][3] == tabulated_data["table 1A"][1][3]
+    table_name = "table 1A"
+    no_invalid_values = drop_invalid(tabulated_data["table 1A"], schema, table_name)
+    assert len(no_invalid_values) == 3
+    assert no_invalid_values[1][3] == tabulated_data["table 1A"][1][3]
 
     # Drop null resource
     tabulated_data = {
@@ -503,13 +501,11 @@ def test_drop_invalid():
         ],
     }
 
-    dropped_null_resource = drop_invalid(
-        tabulated_data,
-        schema,
-    )
+    table_name = "table 2A"
+    dropped_null_resource = drop_invalid(tabulated_data["table 2A"], schema, table_name)
 
-    assert len(dropped_null_resource["table 2A"]) == 2
-    assert tabulated_data["table 2A"][1][0] == dropped_null_resource["table 2A"][1][0]
+    assert len(dropped_null_resource) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_null_resource[1][0]
 
     # Empty strings are dropped
     tabulated_data = {
@@ -524,13 +520,10 @@ def test_drop_invalid():
             ["some-obsid2", "First", "Last", ""],
         ],
     }
-
-    dropped_empty_string = drop_invalid(
-        tabulated_data,
-        schema,
-    )
-    assert len(dropped_empty_string["table 2A"]) == 2
-    assert tabulated_data["table 2A"][1][0] == dropped_empty_string["table 2A"][1][0]
+    table_name = "table 2A"
+    dropped_empty_string = drop_invalid(tabulated_data["table 2A"], schema, table_name)
+    assert len(dropped_empty_string) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_empty_string[1][0]
 
     # User-specified values are dropped
     tabulated_data = {
@@ -545,13 +538,10 @@ def test_drop_invalid():
             ["some-obsid2", "First", "Last", "Unknown"],
         ],
     }
-
-    dropped_user_value = drop_invalid(
-        tabulated_data,
-        schema,
-    )
-    assert len(dropped_user_value["table 2A"]) == 2
-    assert tabulated_data["table 2A"][1][0] == dropped_user_value["table 2A"][1][0]
+    table_name = "table 2A"
+    dropped_user_value = drop_invalid(tabulated_data["table 2A"], schema, table_name)
+    assert len(dropped_user_value) == 2
+    assert tabulated_data["table 2A"][1][0] == dropped_user_value[1][0]
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
