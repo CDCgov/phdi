@@ -10,8 +10,10 @@ from unittest import mock
 from requests.models import Response
 
 from phdi.fhir.tabulation.tables import (
+    _apply_selection_criteria,
     drop_invalid,
     tabulate_data,
+    generate_tables,
     _get_reference_directions,
     _build_reference_dicts,
     _generate_search_url,
@@ -702,3 +704,53 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
             ),
         ]
     )
+
+
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_schema")
+def test_generate_tables(patch_schema_extraction):
+    # Set up
+    schema_path = (
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "tabulation_schema.yaml"
+    )
+    output_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema_output_data.json"
+        )
+    )
+    fhir_url = "https://some_fhir_server_url"
+    cred_manager = None
+
+    mock_extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+
+    # Mocks for extract_data_from_schema
+    patch_schema_extraction.return_value = mock_extracted_data["entry"]
+
+    generate_tables(
+        schema_path=schema_path,
+        output_data=output_data,
+        fhir_url=fhir_url,
+        cred_manager=cred_manager,
+    )
+
+    patch_schema_extraction.assert_called()
+
+    patients_path = os.path.join(
+        output_data["Patients"]["directory"], output_data["Patients"]["filename"]
+    )
+    assert os.path.exists(patients_path) is True
+
+    physical_exams_path = os.path.join(
+        output_data["Physical Exams"]["directory"],
+        output_data["Physical Exams"]["filename"],
+    )
+    assert os.path.exists(physical_exams_path) is True
