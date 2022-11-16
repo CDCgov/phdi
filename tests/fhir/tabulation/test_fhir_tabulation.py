@@ -5,6 +5,7 @@ import os.path
 import pytest
 import urllib.parse
 import yaml
+import csv
 
 from unittest import mock
 from requests.models import Response
@@ -737,10 +738,62 @@ def test_generate_tables(patch_schema_extraction):
     patients_path = os.path.join(
         output_params["Patients"]["directory"], output_params["Patients"]["filename"]
     )
+    # Test that file was created
     assert os.path.exists(patients_path) is True
+
+    # Test that file content match expected content
+    with open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulated_patients.csv"
+        ),
+        "r",
+    ) as e:
+        csvreader = csv.reader(e)
+        expected_content = [row for row in csvreader]
+
+    with open(patients_path, "r") as csv_file:
+        reader = csv.reader(csv_file, dialect="excel")
+        line = 0
+        for row in reader:
+            for i in range(len(row)):
+                assert row[i] == str(expected_content[line][i])
+            line += 1
+        assert line == 4
+
+    # Remove file after testing is complete
+    if os.path.isfile(patients_path):  # pragma: no cover
+        os.remove(patients_path)
 
     physical_exams_path = os.path.join(
         output_params["Physical Exams"]["directory"],
         output_params["Physical Exams"]["filename"],
     )
+    # Test that file was created
     assert os.path.exists(physical_exams_path) is True
+
+    # Test that file content match expected content
+    with open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulated_physical_exam.csv"
+        ),
+        "r",
+    ) as e:
+        csvreader = csv.reader(e)
+        expected_content = [row for row in csvreader]
+
+    with open(physical_exams_path, "r") as csv_file:
+        reader = csv.reader(csv_file, dialect="excel")
+        line = 0
+        for row in reader:
+            for i in range(len(row)):
+                assert row[i] == str(expected_content[line][i])
+            line += 1
+        assert line == 4
+
+    # Remove file after testing is complete
+    if os.path.isfile(physical_exams_path):  # pragma: no cover
+        os.remove(physical_exams_path)
