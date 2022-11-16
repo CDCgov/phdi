@@ -1,6 +1,7 @@
 import fhirpathpy
 import json
 import random
+import warnings
 
 from functools import cache
 from typing import Any, Callable, Dict, Literal, List, Union, Tuple
@@ -115,11 +116,17 @@ def extract_data_from_fhir_search_incremental(
 
     next_url = None
     content = json.loads(response._content.decode("utf-8"))
-    for link in content.get("link", []):
-        if link.get("relation") == "next":
-            next_url = link.get("url")
+    if len(content) == 0:
+        warnings.warn(
+            message=f"The search_url returned no incremental results: {search_url}",
+        )
+        content = []
+    else:
+        for link in content.get("link", []):
+            if link.get("relation") == "next":
+                next_url = link.get("url")
 
-    content = content.get("entry")
+        content = content.get("entry")
 
     return content, next_url
 

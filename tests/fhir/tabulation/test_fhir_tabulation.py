@@ -589,6 +589,21 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     assert next_url is None
     assert content == fhir_server_responses.get("content_2").get("entry")
 
+    # Test that warning appears if no incremental data is returned
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps("").encode("utf-8")
+    patch_query.return_value = mocked_http_response
+
+    with pytest.warns() as warn:
+        content, next_url = extract_data_from_fhir_search_incremental(
+            search_url, cred_manager
+        )
+    assert (
+        "The search_url returned no incremental results: "
+        + "http://localhost:8080/fhir/Patient"
+    ) in str(warn[0].message)
+
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search(patch_query):
