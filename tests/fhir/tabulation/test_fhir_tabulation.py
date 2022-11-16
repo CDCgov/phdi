@@ -616,10 +616,7 @@ def test_extract_data_from_fhir_search(patch_query):
         fhir_server_responses["content_2"]
     ).encode("utf-8")
 
-    patch_query.side_effect = [
-        mocked_http_response1,
-        mocked_http_response2,
-    ]
+    patch_query.side_effect = [mocked_http_response1, mocked_http_response2]
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
 
@@ -628,6 +625,17 @@ def test_extract_data_from_fhir_search(patch_query):
     expected_output.extend(fhir_server_responses.get("content_2").get("entry"))
 
     assert content == expected_output
+
+
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search_incremental")
+def test_extract_data_from_fhir_search_no_data(patch_search):
+    search_url = "http://some-fhir-url?some-query-url"
+    cred_manager = None
+    # Mock no results returned from incremental search
+    patch_search.side_effect = [([], None)]
+    with pytest.raises(KeyError) as e:
+        extract_data_from_fhir_search(search_url, cred_manager)
+    assert "No data returned from server with the following query" in str(e.value)
 
 
 @mock.patch("phdi.fhir.tabulation.tables._generate_search_urls")
@@ -691,5 +699,3 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
             ),
         ]
     )
-
-    # Test raise error

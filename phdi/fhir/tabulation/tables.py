@@ -64,6 +64,7 @@ def extract_data_from_fhir_search(
     Returns a dictionary containing the data from all search responses.
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :raises KeyError: If the query returns no data from the FHIR server.
     :return: A list of FHIR resources returned from the search.
     """
 
@@ -76,6 +77,12 @@ def extract_data_from_fhir_search(
             search_url=next, cred_manager=cred_manager
         )
         results.extend(incremental_results)
+
+    # Check that results are not empty
+    if not results:
+        raise KeyError(
+            f"No data returned from server with the following query: {search_url}"
+        )
 
     return results
 
