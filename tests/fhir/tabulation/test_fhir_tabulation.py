@@ -704,7 +704,7 @@ def test_generate_tables(patch_schema_extraction):
         / "assets"
         / "tabulation_schema.yaml"
     )
-    output_data = json.load(
+    output_params = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
@@ -727,7 +727,7 @@ def test_generate_tables(patch_schema_extraction):
 
     generate_tables(
         schema_path=schema_path,
-        output_data=output_data,
+        output_params=output_params,
         fhir_url=fhir_url,
         cred_manager=cred_manager,
     )
@@ -735,12 +735,12 @@ def test_generate_tables(patch_schema_extraction):
     patch_schema_extraction.assert_called()
 
     patients_path = os.path.join(
-        output_data["Patients"]["directory"], output_data["Patients"]["filename"]
+        output_params["Patients"]["directory"], output_params["Patients"]["filename"]
     )
     assert os.path.exists(patients_path) is True
 
     physical_exams_path = os.path.join(
-        output_data["Physical Exams"]["directory"],
-        output_data["Physical Exams"]["filename"],
+        output_params["Physical Exams"]["directory"],
+        output_params["Physical Exams"]["filename"],
     )
     assert os.path.exists(physical_exams_path) is True
