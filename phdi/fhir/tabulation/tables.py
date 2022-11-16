@@ -631,7 +631,7 @@ def _get_reference_directions(schema: dict) -> dict:
 
 def generate_tables(
     schema_path: pathlib.Path,
-    output_data: dict,
+    output_params: dict,
     fhir_url: str,
     cred_manager: BaseCredentialManager = None,
 ) -> None:
@@ -640,8 +640,11 @@ def generate_tables(
     desired location, according to the supplied schema.
 
     :param schema_path: A path to the location of a schema config file.
-    :param output_data: A dictionary containing the parameters for writing each table.
-    :param fhir_url: A URL to a  FHIR server.
+    :param output_data: A dictionary of dictionaries containing the parameters for
+        writing each table specified in the schema. For each table in the schema, the
+        nested dictionary must contain a directory, filename, and output_type at
+        minimum. See `write_data` function for full writing specifications.
+    :param fhir_url: A URL to a FHIR server.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     """
 
@@ -659,10 +662,10 @@ def generate_tables(
         # Write each table
         write_data(
             tabulated_data=tabulated_data,
-            directory=output_data[table_name].get("directory"),
-            filename=output_data[table_name].get("filename"),
-            output_type=output_data[table_name].get("output_type"),
-            db_file=output_data[table_name].get("db_file", None),
-            db_tablename=output_data[table_name].get("db_filename", None),
-            pq_writer=output_data[table_name].get("pq_writer", None),
+            directory=output_params[table_name].get("directory"),
+            filename=output_params[table_name].get("filename"),
+            output_type=output_params[table_name].get("output_type"),
+            db_file=output_params[table_name].get("db_file", None),
+            db_tablename=output_params[table_name].get("db_filename", None),
+            pq_writer=output_params[table_name].get("pq_writer", None),
         )
