@@ -691,3 +691,5 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
             ),
         ]
     )
+
+    # Test raise error
