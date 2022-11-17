@@ -33,7 +33,7 @@ tables:
         selection_criteria: first
       Age:
         fhir_path: Patient.age
-        data_type: float
+        data_type: number
   table 2A:
     resource_type: Observation
     query_params:
@@ -69,4 +69,4 @@ tables:
         selection_criteria: first
       Diagnosis:
         fhir_path: Observation.diagnosis
-        data_type: bool
+        data_type: boolean

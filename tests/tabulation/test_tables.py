@@ -247,4 +247,4 @@ def test_validate_schema():
 
     with pytest.raises(jsonschema.exceptions.ValidationError) as e:
         validate_schema(schema=invalid_data_type_declaraction)
-    assert "'foo' is not one of ['string', 'float', 'bool']" in str(e.value)
+    assert "'foo' is not one of ['string', 'number', 'boolean']" in str(e.value)
