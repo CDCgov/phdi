@@ -8,7 +8,9 @@
       "$ref": "#/$defs/tables"
     }
   },
-  "required": ["tables"],
+  "required": [
+    "tables"
+  ],
   "$defs": {
     "tables": {
       "type": "object",
@@ -27,7 +29,10 @@
               "$ref": "#/$defs/columns"
             }
           },
-          "required": ["resource_type", "columns"]
+          "required": [
+            "resource_type",
+            "columns"
+          ]
         }
       }
     },
@@ -82,7 +87,9 @@
           "pattern": "^forward|^reverse"
         }
       },
-      "required": ["fhir_path"]
+      "required": [
+        "fhir_path"
+      ]
     }
   }
 }
