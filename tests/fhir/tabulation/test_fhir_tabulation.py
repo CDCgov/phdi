@@ -648,7 +648,7 @@ def test_extract_data_from_fhir_search_no_data(patch_search):
     cred_manager = None
     # Mock no results returned from incremental search
     patch_search.side_effect = [([], None)]
-    with pytest.raises(KeyError) as e:
+    with pytest.raises(ValueError) as e:
         extract_data_from_fhir_search(search_url, cred_manager)
     assert "No data returned from server with the following query" in str(e.value)
 

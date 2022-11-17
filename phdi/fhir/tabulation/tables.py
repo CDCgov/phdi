@@ -81,7 +81,7 @@ def extract_data_from_fhir_search(
 
     # Check that results are not empty
     if not results:
-        raise KeyError(
+        raise ValueError(
             f"No data returned from server with the following query: {search_url}"
         )
 
