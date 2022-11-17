@@ -241,7 +241,9 @@ def test_validate_schema():
 
     # Invalid data type declaration
     invalid_data_type_declaraction = copy.deepcopy(valid_schema)
-    invalid_data_type_declaraction["tables"]["table 1A"]["columns"]["First Name"]["data_type"] = "foo"
+    invalid_data_type_declaraction["tables"]["table 1A"]["columns"]["First Name"][
+        "data_type"
+    ] = "foo"
 
     with pytest.raises(jsonschema.exceptions.ValidationError) as e:
         validate_schema(schema=invalid_data_type_declaraction)
