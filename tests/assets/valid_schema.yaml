@@ -9,14 +9,14 @@ tables:
         fhir_path: Patient.id
         invalid_values:
           - null
-          - ''
+          - ""
         selection_criteria: first
       First Name:
         fhir_path: Patient.name.given
         invalid_values:
           - null
-          - ''
-          - 'Unknown'
+          - ""
+          - "Unknown"
         selection_criteria: first
         data_type: string
       Last Name:
@@ -27,9 +27,9 @@ tables:
         fhir_path: Patient.telecom.where(system = 'phone').value
         invalid_values:
           - null
-          - ''
-          - 'Unknown'
-          - 'DNA'
+          - ""
+          - "Unknown"
+          - "DNA"
         selection_criteria: first
       Age:
         fhir_path: Patient.age
@@ -43,29 +43,29 @@ tables:
         fhir_path: Observation.id
         invalid_values:
           - null
-          - ''
-          - 'Unknown'
+          - ""
+          - "Unknown"
         selection_criteria: first
       First Name:
         fhir_path: Patient.name.given
         invalid_values:
           - null
-          - ''
-          - 'Unknown'
+          - ""
+          - "Unknown"
         selection_criteria: first
       Last Name:
         fhir_path: Patient.name.family
         invalid_values:
           - null
-          - ''
-          - 'Unknown'
+          - ""
+          - "Unknown"
         selection_criteria: first
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
         invalid_values:
           - null
-          - ''
-          - 'Unknown'
+          - ""
+          - "Unknown"
         selection_criteria: first
       Diagnosis:
         fhir_path: Observation.diagnosis
