@@ -50,7 +50,7 @@ def validate_schema(schema: dict):
     Validates the schema structure, ensuring all required schema elements are present
     and all schema elements are of the expected data type.
 
-    :param schema: A user-defined schema, for one or more tables, that maps 
+    :param schema: A user-defined schema, for one or more tables, that maps
     a FHIR resource and element to a specified column in a table.
     :raises jsonschema.exception.ValidationError: If the schema is invalid.
     """
