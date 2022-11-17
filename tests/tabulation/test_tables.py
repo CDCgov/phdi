@@ -238,3 +238,11 @@ def test_validate_schema():
     with pytest.raises(jsonschema.exceptions.ValidationError) as e:
         validate_schema(schema=bad_selection_criteria)
     assert "'test' is not one of ['first', 'last', 'random', 'all']" in str(e.value)
+
+    # Invalid data type declaration
+    invalid_data_type_declaraction = copy.deepcopy(valid_schema)
+    invalid_data_type_declaraction["tables"]["table 1A"]["columns"]["First Name"]["data_type"] = "foo"
+
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=invalid_data_type_declaraction)
+    assert "'foo' is not one of ['string', 'float', 'bool']" in str(e.value)

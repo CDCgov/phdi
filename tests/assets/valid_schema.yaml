@@ -3,32 +3,37 @@ metadata:
 tables:
   table 1A:
     resource_type: Patient
-    earliest_update_datetime: "2020-01-01T00:00:00"
+    earliest_update_datetime: '2020-01-01T00:00:00'
     columns:
       Patient ID:
         fhir_path: Patient.id
         invalid_values:
           - null
-          - ""
+          - ''
         selection_criteria: first
       First Name:
         fhir_path: Patient.name.given
         invalid_values:
           - null
-          - ""
-          - "Unknown"
+          - ''
+          - 'Unknown'
         selection_criteria: first
+        data_type: string
       Last Name:
         fhir_path: Patient.name.family
         selection_criteria: first
+        data_type: string
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
         invalid_values:
           - null
-          - ""
-          - "Unknown"
-          - "DNA"
+          - ''
+          - 'Unknown'
+          - 'DNA'
         selection_criteria: first
+      Age:
+        fhir_path: Patient.age
+        data_type: float
   table 2A:
     resource_type: Observation
     query_params:
@@ -38,27 +43,30 @@ tables:
         fhir_path: Observation.id
         invalid_values:
           - null
-          - ""
-          - "Unknown"
+          - ''
+          - 'Unknown'
         selection_criteria: first
       First Name:
         fhir_path: Patient.name.given
         invalid_values:
           - null
-          - ""
-          - "Unknown"
+          - ''
+          - 'Unknown'
         selection_criteria: first
       Last Name:
         fhir_path: Patient.name.family
         invalid_values:
           - null
-          - ""
-          - "Unknown"
+          - ''
+          - 'Unknown'
         selection_criteria: first
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
         invalid_values:
           - null
-          - ""
-          - "Unknown"
+          - ''
+          - 'Unknown'
         selection_criteria: first
+      Diagnosis:
+        fhir_path: Observation.diagnosis
+        data_type: bool
