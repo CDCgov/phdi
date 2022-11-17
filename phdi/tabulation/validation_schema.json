@@ -49,17 +49,31 @@
         "invalid_values": {
           "type": "array",
           "items": {
-            "type": ["string", "boolean", "null", "number"],
+            "type": [
+              "string",
+              "boolean",
+              "null",
+              "number"
+            ],
             "uniqueItems": true
           }
         },
         "selection_criteria": {
           "type": "string",
-          "enum": ["first", "last", "random", "all"]
+          "enum": [
+            "first",
+            "last",
+            "random",
+            "all"
+          ]
         },
         "data_type": {
           "type": "string",
-          "enum": ["string", "float", "bool"]
+          "enum": [
+            "string",
+            "float",
+            "bool"
+          ]
         }
       },
       "patternProperties": {
