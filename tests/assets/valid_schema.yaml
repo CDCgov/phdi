@@ -3,7 +3,7 @@ metadata:
 tables:
   table 1A:
     resource_type: Patient
-    earliest_update_datetime: '2020-01-01T00:00:00'
+    earliest_update_datetime: "2020-01-01T00:00:00"
     columns:
       Patient ID:
         fhir_path: Patient.id
