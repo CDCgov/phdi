@@ -2,7 +2,7 @@ import fhirpathpy
 import json
 import random
 import warnings
-
+import requests
 from functools import cache
 from typing import Any, Callable, Dict, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
@@ -97,6 +97,7 @@ def extract_data_from_fhir_search_incremental(
     then return None as the next URL.
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :raises requests.HttpError: If the HTTP request was unsuccessful.
     :return: Tuple containing single page of data as a list of dictionaries and the next
         URL.
     """
@@ -113,6 +114,9 @@ def extract_data_from_fhir_search_incremental(
         allowed_methods=["GET"],
         headers={},
     )
+
+    if response.status_code != 200:  # pragma: no cover
+        raise requests.HTTPError(response=response)
 
     next_url = None
     content = json.loads(response._content.decode("utf-8"))
