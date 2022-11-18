@@ -22,7 +22,7 @@ def drop_invalid(data: List[list], schema: Dict, table_name: str) -> List[list]:
         the data value is a list of headers serving as the columns, and all subsequent
         lists are rows in the table.
     :param schema: A user-defined schema, for one or more tables, that maps
-        a FHIR resource and element to a specified column in a table, but also includes
+        a FHIR resource and element to a specified column in a table and also includes
         invalid criteria for filtering.
     :param table_name: Name of the table to drop invalid values.
     :param return: A list of lists, without rows of data from the FHIR resources and
@@ -130,8 +130,8 @@ def extract_data_from_schema(
     :param schema: A user-defined schema, for one or more tables,
         that maps a FHIR resource and element to a specified column in a table.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: A dict containing the mapping of a table and it's columns, grouped by
-        table name, to a list of FHIR resource and element results returned from
+    :return: A dict containing the mapping of a table and its columns, grouped by
+        table name, to a list of FHIR resource element results returned from
         the search for each subsequent table name.
     """
 
@@ -149,22 +149,21 @@ def extract_data_from_schema(
 def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]:
     """
     Transforms a list of FHIR bundle resource entries into a tabular
-    format (given by a list of lists) using a user-defined schema,
-    for one or more tables, that maps a FHIR resource and element
-    to a specified column of interest in a table. Tabulation works
-    using a two-pass procedure. First, resources that are associated
-    with one another in the provided schema (identified by the
-    presence of a `reference_location` field in one of the schema's
-    columns) are grouped together. For each table, one type of resource
-    serves as the "anchor", which defines the number of rows in the
-    table, while referenced resources are either "forwards" or
-    "reverse" references, depending on their relationship to the
-    anchor type. Second, the aggregated resources are parsed for value
-    extraction using the schema's columns, and the results are stored
-    in a list of lists for that table. The first entry in this list
-    are the headers of the data, taken from the schema.
-    This functions performs the above procedure on one table from the
-    schema, specified by a table name.
+    format (given by a list of lists) using a user-defined schema.
+    Tabulation works using a two-pass procedure. First, resources
+    that are associated with one another in the provided schema
+    (identified by the presence of a `reference_location` field in
+    one of the schema's columns) are grouped together. For each
+    table, one type of resource serves as the "anchor", which
+    defines the number of rows in the table, while referenced
+    resources are either "forwards" or "reverse" references,
+    depending on their relationship to the anchor type. Second,
+    the aggregated resources are parsed for value extraction using
+    the schema's columns, and the results are stored in a list of
+    lists for that table. The first entry in this list are the headers
+    of the data, taken from the schema. This functions performs the
+    above procedure on one table from the schema, specified by a
+    table name.
     :param data: A list of FHIR bundle resource entries to tabulate.
     :param schema: A user-defined schema, for one or more tables, that
         maps a FHIR resource and element to a specified column in a table.
@@ -298,9 +297,7 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
     referenced resources. This allows the `tabulate_data` function to
     simply iterate through the anchor resources (which are rows in the
     table) and use its ID to quickly fetch all related resources for
-    columnar value extraction. This function and the `_get_reference_directions`
-    function represent the "first pass" of the tabulate function's two-pass
-    process.
+    columnar value extraction.
     :param data: A list of FHIR bundle resource entries to tabulate.
     :param directions_by_table: The output of the `_get_reference_directions`
       function, which provides the directionality of linked resources to

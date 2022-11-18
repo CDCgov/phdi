@@ -14,7 +14,7 @@ import importlib.resources
 
 def load_schema(path: pathlib.Path) -> dict:
     """
-    Given the path to a local YAML file containing a schema,
+    Given the path to a local YAML or JSON file containing a schema,
     loads the file and return the resulting schema as a dictionary.
     If the file can't be found, raises an error.
 
