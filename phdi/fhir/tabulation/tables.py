@@ -1,10 +1,11 @@
 import fhirpathpy
 import json
 import random
-
+import requests
 from functools import cache
 from typing import Any, Callable, Dict, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
+import urllib.parse
 import pathlib
 
 from phdi.cloud.core import BaseCredentialManager
@@ -107,6 +108,10 @@ def extract_data_from_fhir_search_incremental(
         allowed_methods=["GET"],
         headers={},
     )
+
+    if response.status_code != 200:  # pragma: no cover
+        print("response:", response)
+        raise requests.HTTPError(response=response)
 
     next_url = None
     content = json.loads(response._content.decode("utf-8"))
@@ -504,16 +509,18 @@ def _merge_include_query_params_for_location(
     # Handle the case where the search term (_include or _revinclude)
     # is not specified or is specified as a list.
     if referenced_resource_types is None:
-        referenced_resource_types = []
-        query_params[query_param_direction] = referenced_resource_types
+        # referenced_resource_types = []
+        # query_params[query_param_direction] = referenced_resource_types
+        query_params[query_param_direction] = field_location
+        print("query params:", query_params)
     elif isinstance(referenced_resource_types, str):
         # Convert current_referenced_direction from str to list, and
         # make sure the query_params dict references the new object.
-        referenced_resource_types = [referenced_resource_types]
-        query_params[query_param_direction] = referenced_resource_types
+        # referenced_resource_types = [referenced_resource_types]
+        query_params[query_param_direction] = field_location
 
-    if field_location not in referenced_resource_types:
-        referenced_resource_types.append(field_location)
+    # if field_location not in referenced_resource_types:
+    #     referenced_resource_types.append(field_location)
 
     return query_params
 
@@ -554,9 +561,11 @@ def _generate_search_urls(schema: dict) -> dict:
                 query_params = _merge_include_query_params_for_location(
                     query_params, column.get("reference_location", "")
                 )
-
+        print("query_params:", query_params)
         search_string = resource_type
         if query_params is not None and len(query_params) > 0:
+            s = urlencode(query_params, encoding="utf-8")
+            print(s)
             search_string += f"?{urlencode(query_params)}"
 
         count = table.get("results_per_page", count_top)
@@ -651,17 +660,32 @@ def generate_tables(
     # Load schema
     schema = load_schema(schema_path)
 
-    # Extract data from FHIR server
-    extracted_data = extract_data_from_schema(schema, fhir_url, cred_manager)
+    # Load search_urls to query FHIR server
+    search_urls = _generate_search_urls(schema=schema)
+    # search_url = "Patient?_revinclude=Observation:subject"
+    table_name = "Patients"
+    search_url = "Patient?_since=2020-01-01T00%3A00%3A00"
 
-    for table_name in schema["tables"]:
+    for table_name, search_url in search_urls.items():
+        count = 0
+        print(table_name)
+        print("retrieving 1st incremental results")
+        # Get 1st set of incremental results
+        incremental_results, next = extract_data_from_fhir_search_incremental(
+            search_url=urllib.parse.urljoin(fhir_url, search_url),
+            cred_manager=cred_manager,
+        )
+        print(urllib.parse.urljoin(fhir_url, search_url))
+        # Tabulate data for 1st  set of incremental results
+        print("tabulating for 1st set of incremental results")
+        tabulated_incremental_data = tabulate_data(
+            incremental_results, schema, table_name
+        )
 
-        # Tabulate the data for each table
-        tabulated_data = tabulate_data(extracted_data, schema, table_name)
-
-        # Write each table
+        # Write 1st set of tabulated incremental data
+        print("writing data for 1st set of incremental results")
         write_data(
-            tabulated_data=tabulated_data,
+            tabulated_data=tabulated_incremental_data,
             directory=output_params[table_name].get("directory"),
             filename=output_params[table_name].get("filename"),
             output_type=output_params[table_name].get("output_type"),
@@ -669,3 +693,31 @@ def generate_tables(
             db_tablename=output_params[table_name].get("db_filename", None),
             pq_writer=output_params[table_name].get("pq_writer", None),
         )
+
+        while next is not None:
+            print("retrieving additional results")
+            incremental_results, next = extract_data_from_fhir_search_incremental(
+                search_url=urllib.parse.urljoin(fhir_url, next),
+                cred_manager=cred_manager,
+            )
+            print("next:", next)
+            print("tabulating additional results")
+            # Tabulate data for each set of incremental results
+            tabulated_incremental_data = tabulate_data(
+                incremental_results, schema, table_name
+            )
+
+            # Write each set of tabulated incremental data
+            print("writing additional results")
+            write_data(
+                tabulated_data=tabulated_incremental_data,
+                directory=output_params[table_name].get("directory"),
+                filename=output_params[table_name].get("filename"),
+                output_type=output_params[table_name].get("output_type"),
+                db_file=output_params[table_name].get("db_file", None),
+                db_tablename=output_params[table_name].get("db_filename", None),
+                pq_writer=output_params[table_name].get("pq_writer", None),
+            )
+            count += 1
+            print(next)
+            print(count)
