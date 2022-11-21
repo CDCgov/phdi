@@ -5,9 +5,11 @@ import random
 from functools import cache
 from typing import Any, Callable, Dict, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
+import pathlib
 
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
+from phdi.tabulation.tables import load_schema, write_data
 
 
 def drop_invalid(data: List[list], schema: Dict, table_name: str) -> List[list]:
@@ -625,3 +627,45 @@ def _get_reference_directions(schema: dict) -> dict:
                     ] = ref_path
 
     return directions_by_table
+
+
+def generate_tables(
+    schema_path: pathlib.Path,
+    output_params: dict,
+    fhir_url: str,
+    cred_manager: BaseCredentialManager = None,
+) -> None:
+    """
+    Queries a FHIR server for information, and generates and stores the tables in the
+    desired location, according to the supplied schema.
+
+    :param schema_path: A path to the location of a schema config file.
+    :param output_data: A dictionary of dictionaries containing the parameters for
+        writing each table specified in the schema. For each table in the schema, the
+        nested dictionary must contain a directory, filename, and output_type at
+        minimum. See `write_data` function for full writing specifications.
+    :param fhir_url: A URL to a FHIR server.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    """
+
+    # Load schema
+    schema = load_schema(schema_path)
+
+    # Extract data from FHIR server
+    extracted_data = extract_data_from_schema(schema, fhir_url, cred_manager)
+
+    for table_name in schema["tables"]:
+
+        # Tabulate the data for each table
+        tabulated_data = tabulate_data(extracted_data, schema, table_name)
+
+        # Write each table
+        write_data(
+            tabulated_data=tabulated_data,
+            directory=output_params[table_name].get("directory"),
+            filename=output_params[table_name].get("filename"),
+            output_type=output_params[table_name].get("output_type"),
+            db_file=output_params[table_name].get("db_file", None),
+            db_tablename=output_params[table_name].get("db_filename", None),
+            pq_writer=output_params[table_name].get("pq_writer", None),
+        )
