@@ -568,11 +568,8 @@ def _generate_search_urls(schema: dict) -> dict:
                 query_params = _merge_include_query_params_for_location(
                     query_params, column.get("reference_location", "")
                 )
-        print("query_params:", query_params)
         search_string = resource_type
         if query_params is not None and len(query_params) > 0:
-            s = urlencode(query_params, encoding="utf-8")
-            print(s)
             search_string += f"?{urlencode(query_params,True)}"
 
         count = table.get("results_per_page", count_top)
@@ -656,7 +653,7 @@ def generate_tables(
     desired location, according to the supplied schema.
 
     :param schema_path: A path to the location of a schema config file.
-    :param output_data: A dictionary of dictionaries containing the parameters for
+    :param output_params: A dictionary of dictionaries containing the parameters for
         writing each table specified in the schema. For each table in the schema, the
         nested dictionary must contain a directory, filename, and output_type at
         minimum. See `write_data` function for full writing specifications.
@@ -671,23 +668,17 @@ def generate_tables(
     search_urls = _generate_search_urls(schema=schema)
 
     for table_name, search_url in search_urls.items():
-        count = 0
-        print(table_name)
-        print("retrieving 1st incremental results")
         # Get 1st set of incremental results
         incremental_results, next = extract_data_from_fhir_search_incremental(
             search_url=urllib.parse.urljoin(fhir_url, search_url),
             cred_manager=cred_manager,
         )
-        print(urllib.parse.urljoin(fhir_url, search_url))
         # Tabulate data for 1st  set of incremental results
-        print("tabulating for 1st set of incremental results")
         tabulated_incremental_data = tabulate_data(
             incremental_results, schema, table_name
         )
 
         # Write 1st set of tabulated incremental data
-        print("writing data for 1st set of incremental results")
         write_data(
             tabulated_data=tabulated_incremental_data,
             directory=output_params[table_name].get("directory"),
@@ -699,20 +690,16 @@ def generate_tables(
         )
 
         while next is not None:
-            print("retrieving additional results")
             incremental_results, next = extract_data_from_fhir_search_incremental(
                 search_url=urllib.parse.urljoin(fhir_url, next),
                 cred_manager=cred_manager,
             )
-            print("next:", next)
-            print("tabulating additional results")
             # Tabulate data for each set of incremental results
             tabulated_incremental_data = tabulate_data(
                 incremental_results, schema, table_name
             )
 
             # Write each set of tabulated incremental data
-            print("writing additional results")
             write_data(
                 tabulated_data=tabulated_incremental_data,
                 directory=output_params[table_name].get("directory"),
@@ -722,6 +709,3 @@ def generate_tables(
                 db_tablename=output_params[table_name].get("db_filename", None),
                 pq_writer=output_params[table_name].get("pq_writer", None),
             )
-            count += 1
-            print(next)
-            print(count)
