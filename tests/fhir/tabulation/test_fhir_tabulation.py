@@ -589,6 +589,21 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     assert next_url is None
     assert content == fhir_server_responses.get("content_2").get("entry")
 
+    # Test that warning appears if no incremental data is returned
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps("").encode("utf-8")
+    patch_query.return_value = mocked_http_response
+
+    with pytest.warns() as warn:
+        content, next_url = extract_data_from_fhir_search_incremental(
+            search_url, cred_manager
+        )
+    assert (
+        "The search_url returned no incremental results: "
+        + "http://localhost:8080/fhir/Patient"
+    ) in str(warn[0].message)
+
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search(patch_query):
@@ -616,10 +631,7 @@ def test_extract_data_from_fhir_search(patch_query):
         fhir_server_responses["content_2"]
     ).encode("utf-8")
 
-    patch_query.side_effect = [
-        mocked_http_response1,
-        mocked_http_response2,
-    ]
+    patch_query.side_effect = [mocked_http_response1, mocked_http_response2]
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
 
@@ -628,6 +640,17 @@ def test_extract_data_from_fhir_search(patch_query):
     expected_output.extend(fhir_server_responses.get("content_2").get("entry"))
 
     assert content == expected_output
+
+
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search_incremental")
+def test_extract_data_from_fhir_search_no_data(patch_search):
+    search_url = "http://some-fhir-url?some-query-url"
+    cred_manager = None
+    # Mock no results returned from incremental search
+    patch_search.side_effect = [([], None)]
+    with pytest.raises(ValueError) as e:
+        extract_data_from_fhir_search(search_url, cred_manager)
+    assert "No data returned from server with the following query" in str(e.value)
 
 
 @mock.patch("phdi.fhir.tabulation.tables._generate_search_urls")
