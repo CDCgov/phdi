@@ -40,4 +40,4 @@ tables:
       General Practitioner:
         fhir_path: Practitioner.name
         selection_criteria: first
-        reference_location: "forward:Patient:generalPractitioner"
+        reference_location: "forward:Patient:general-practitioner"
