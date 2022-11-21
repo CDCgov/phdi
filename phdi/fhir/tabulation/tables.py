@@ -1,7 +1,8 @@
 import fhirpathpy
 import json
 import random
-
+import warnings
+import requests
 from functools import cache
 from typing import Any, Callable, Dict, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
@@ -66,6 +67,7 @@ def extract_data_from_fhir_search(
     Returns a dictionary containing the data from all search responses.
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :raises KeyError: If the query returns no data from the FHIR server.
     :return: A list of FHIR resources returned from the search.
     """
 
@@ -79,6 +81,12 @@ def extract_data_from_fhir_search(
         )
         results.extend(incremental_results)
 
+    # Check that results are not empty
+    if not results:
+        raise ValueError(
+            f"No data returned from server with the following query: {search_url}"
+        )
+
     return results
 
 
@@ -91,6 +99,7 @@ def extract_data_from_fhir_search_incremental(
     then return None as the next URL.
     :param search_url: The URL to a FHIR server with search criteria.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :raises requests.HttpError: If the HTTP request was unsuccessful.
     :return: Tuple containing single page of data as a list of dictionaries and the next
         URL.
     """
@@ -108,13 +117,22 @@ def extract_data_from_fhir_search_incremental(
         headers={},
     )
 
+    if response.status_code != 200:  # pragma: no cover
+        raise requests.HTTPError(response=response)
+
     next_url = None
     content = json.loads(response._content.decode("utf-8"))
-    for link in content.get("link", []):
-        if link.get("relation") == "next":
-            next_url = link.get("url")
+    if len(content) == 0:
+        warnings.warn(
+            message=f"The search_url returned no incremental results: {search_url}",
+        )
+        content = []
+    else:
+        for link in content.get("link", []):
+            if link.get("relation") == "next":
+                next_url = link.get("url")
 
-    content = content.get("entry")
+        content = content.get("entry")
 
     return content, next_url
 
