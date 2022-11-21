@@ -693,103 +693,108 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
     )
 
 
-# @mock.patch("phdi.fhir.tabulation.tables.extract_data_from_schema")
-# def test_generate_tables(patch_schema_extraction):
-#     # Set up
-#     schema_path = (
-#         pathlib.Path(__file__).parent.parent.parent
-#         / "assets"
-#         / "tabulation_schema.yaml"
-#     )
-#     output_params = json.load(
-#         open(
-#             pathlib.Path(__file__).parent.parent.parent
-#             / "assets"
-#             / "tabulation_schema_output_data.json"
-#         )
-#     )
-#     fhir_url = "https://some_fhir_server_url"
-#     cred_manager = None
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search_incremental")
+def test_generate_tables(patch_search_incremental):
+    # Set up
+    schema_path = (
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "tabulation_schema.yaml"
+    )
 
-#     mock_extracted_data = json.load(
-#         open(
-#             pathlib.Path(__file__).parent.parent.parent
-#             / "assets"
-#             / "FHIR_server_extracted_data.json"
-#         )
-#     )
+    output_params = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema_output_data.json"
+        )
+    )
+    fhir_url = "https://some_fhir_server_url"
+    cred_manager = None
 
-#     # Mocks for extract_data_from_schema
-#     patch_schema_extraction.return_value = mock_extracted_data["entry"]
+    mock_extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    mock_next_url = None
 
-#     generate_tables(
-#         schema_path=schema_path,
-#         output_params=output_params,
-#         fhir_url=fhir_url,
-#         cred_manager=cred_manager,
-#     )
+    # Mocks for extract_data_from_schema
+    patch_search_incremental.return_value = (
+        mock_extracted_data["entry"],
+        mock_next_url,
+    )
 
-#     patch_schema_extraction.assert_called()
+    generate_tables(
+        schema_path=schema_path,
+        output_params=output_params,
+        fhir_url=fhir_url,
+        cred_manager=cred_manager,
+    )
 
-#     patients_path = os.path.join(
-#         output_params["Patients"]["directory"], output_params["Patients"]["filename"]
-#     )
-#     # Test that file was created
-#     assert os.path.exists(patients_path) is True
+    patch_search_incremental.assert_called()
 
-#     # Test that file content match expected content
-#     with open(
-#         (
-#             pathlib.Path(__file__).parent.parent.parent
-#             / "assets"
-#             / "tabulated_patients.csv"
-#         ),
-#         "r",
-#     ) as e:
-#         csvreader = csv.reader(e)
-#         expected_content = [row for row in csvreader]
+    patients_path = os.path.join(
+        output_params["Patients"]["directory"], output_params["Patients"]["filename"]
+    )
+    # Test that file was created
+    assert os.path.exists(patients_path) is True
 
-#     with open(patients_path, "r") as csv_file:
-#         reader = csv.reader(csv_file, dialect="excel")
-#         line = 0
-#         for row in reader:
-#             for i in range(len(row)):
-#                 assert row[i] == str(expected_content[line][i])
-#             line += 1
-#         assert line == 4
+    # Test that file content match expected content
+    with open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulated_patients.csv"
+        ),
+        "r",
+    ) as e:
+        csvreader = csv.reader(e)
+        expected_content = [row for row in csvreader]
 
-#     # Remove file after testing is complete
-#     if os.path.isfile(patients_path):  # pragma: no cover
-#         os.remove(patients_path)
+    with open(patients_path, "r") as csv_file:
+        reader = csv.reader(csv_file, dialect="excel")
+        line = 0
+        for row in reader:
+            for i in range(len(row)):
+                assert row[i] == str(expected_content[line][i])
+            line += 1
+        assert line == 4
 
-#     physical_exams_path = os.path.join(
-#         output_params["Physical Exams"]["directory"],
-#         output_params["Physical Exams"]["filename"],
-#     )
-#     # Test that file was created
-#     assert os.path.exists(physical_exams_path) is True
+    # Remove file after testing is complete
+    if os.path.isfile(patients_path):  # pragma: no cover
+        os.remove(patients_path)
 
-#     # Test that file content match expected content
-#     with open(
-#         (
-#             pathlib.Path(__file__).parent.parent.parent
-#             / "assets"
-#             / "tabulated_physical_exam.csv"
-#         ),
-#         "r",
-#     ) as e:
-#         csvreader = csv.reader(e)
-#         expected_content = [row for row in csvreader]
+    physical_exams_path = os.path.join(
+        output_params["Physical Exams"]["directory"],
+        output_params["Physical Exams"]["filename"],
+    )
+    # Test that file was created
+    assert os.path.exists(physical_exams_path) is True
 
-#     with open(physical_exams_path, "r") as csv_file:
-#         reader = csv.reader(csv_file, dialect="excel")
-#         line = 0
-#         for row in reader:
-#             for i in range(len(row)):
-#                 assert row[i] == str(expected_content[line][i])
-#             line += 1
-#         assert line == 4
+    # Test that file content match expected content
+    with open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulated_physical_exam.csv"
+        ),
+        "r",
+    ) as e:
+        csvreader = csv.reader(e)
+        expected_content = [row for row in csvreader]
 
-#     # Remove file after testing is complete
-#     if os.path.isfile(physical_exams_path):  # pragma: no cover
-#         os.remove(physical_exams_path)
+    with open(physical_exams_path, "r") as csv_file:
+        reader = csv.reader(csv_file, dialect="excel")
+        line = 0
+        for row in reader:
+            for i in range(len(row)):
+                assert row[i] == str(expected_content[line][i])
+            line += 1
+        assert line == 4
+
+    # Remove file after testing is complete
+    if os.path.isfile(physical_exams_path):  # pragma: no cover
+        os.remove(physical_exams_path)
