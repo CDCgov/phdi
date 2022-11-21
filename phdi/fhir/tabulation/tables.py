@@ -495,6 +495,15 @@ def _merge_include_query_params_for_location(
 
     direction, field_location = reference_location.split(":", 1)
 
+    # Convert field location to search parameter formatting
+    new_field_location = str()
+    for letter in field_location.split(":")[1]:
+        if letter.isupper():
+            letter = "-" + letter.lower()
+        new_field_location += letter
+
+    field_location = field_location.split(":")[0] + ":" + new_field_location
+
     # Search term is _include for forward searchs, _revinclude for reverse searches.
     # In addition, we must add an :iterate modifier if the reference is relative to
     # another included resource
@@ -509,18 +518,16 @@ def _merge_include_query_params_for_location(
     # Handle the case where the search term (_include or _revinclude)
     # is not specified or is specified as a list.
     if referenced_resource_types is None:
-        # referenced_resource_types = []
-        # query_params[query_param_direction] = referenced_resource_types
-        query_params[query_param_direction] = field_location
-        print("query params:", query_params)
+        referenced_resource_types = []
+        query_params[query_param_direction] = referenced_resource_types
     elif isinstance(referenced_resource_types, str):
         # Convert current_referenced_direction from str to list, and
         # make sure the query_params dict references the new object.
-        # referenced_resource_types = [referenced_resource_types]
-        query_params[query_param_direction] = field_location
+        referenced_resource_types = [referenced_resource_types]
+        query_params[query_param_direction] = referenced_resource_types
 
-    # if field_location not in referenced_resource_types:
-    #     referenced_resource_types.append(field_location)
+    if field_location not in referenced_resource_types:
+        referenced_resource_types.append(field_location)
 
     return query_params
 
@@ -566,7 +573,7 @@ def _generate_search_urls(schema: dict) -> dict:
         if query_params is not None and len(query_params) > 0:
             s = urlencode(query_params, encoding="utf-8")
             print(s)
-            search_string += f"?{urlencode(query_params)}"
+            search_string += f"?{urlencode(query_params,True)}"
 
         count = table.get("results_per_page", count_top)
         since = table.get("earliest_update_datetime", since_top)
@@ -662,9 +669,6 @@ def generate_tables(
 
     # Load search_urls to query FHIR server
     search_urls = _generate_search_urls(schema=schema)
-    # search_url = "Patient?_revinclude=Observation:subject"
-    table_name = "Patients"
-    search_url = "Patient?_since=2020-01-01T00%3A00%3A00"
 
     for table_name, search_url in search_urls.items():
         count = 0
