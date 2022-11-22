@@ -1,8 +1,11 @@
 import json
 import pathlib
+import os
+import os.path
 import pytest
 import urllib.parse
 import yaml
+import csv
 
 from unittest import mock
 from requests.models import Response
@@ -11,6 +14,7 @@ from phdi.fhir.tabulation.tables import (
     _apply_selection_criteria,
     drop_invalid,
     tabulate_data,
+    generate_tables,
     _get_reference_directions,
     _build_reference_dicts,
     _generate_search_url,
@@ -589,6 +593,21 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
     assert next_url is None
     assert content == fhir_server_responses.get("content_2").get("entry")
 
+    # Test that warning appears if no incremental data is returned
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps("").encode("utf-8")
+    patch_query.return_value = mocked_http_response
+
+    with pytest.warns() as warn:
+        content, next_url = extract_data_from_fhir_search_incremental(
+            search_url, cred_manager
+        )
+    assert (
+        "The search_url returned no incremental results: "
+        + "http://localhost:8080/fhir/Patient"
+    ) in str(warn[0].message)
+
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search(patch_query):
@@ -616,10 +635,7 @@ def test_extract_data_from_fhir_search(patch_query):
         fhir_server_responses["content_2"]
     ).encode("utf-8")
 
-    patch_query.side_effect = [
-        mocked_http_response1,
-        mocked_http_response2,
-    ]
+    patch_query.side_effect = [mocked_http_response1, mocked_http_response2]
 
     content = extract_data_from_fhir_search(search_url, cred_manager)
 
@@ -628,6 +644,17 @@ def test_extract_data_from_fhir_search(patch_query):
     expected_output.extend(fhir_server_responses.get("content_2").get("entry"))
 
     assert content == expected_output
+
+
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search_incremental")
+def test_extract_data_from_fhir_search_no_data(patch_search):
+    search_url = "http://some-fhir-url?some-query-url"
+    cred_manager = None
+    # Mock no results returned from incremental search
+    patch_search.side_effect = [([], None)]
+    with pytest.raises(ValueError) as e:
+        extract_data_from_fhir_search(search_url, cred_manager)
+    assert "No data returned from server with the following query" in str(e.value)
 
 
 @mock.patch("phdi.fhir.tabulation.tables._generate_search_urls")
@@ -691,3 +718,105 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
             ),
         ]
     )
+
+
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_schema")
+def test_generate_tables(patch_schema_extraction):
+    # Set up
+    schema_path = (
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "tabulation_schema.yaml"
+    )
+    output_params = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation_schema_output_data.json"
+        )
+    )
+    fhir_url = "https://some_fhir_server_url"
+    cred_manager = None
+
+    mock_extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+
+    # Mocks for extract_data_from_schema
+    patch_schema_extraction.return_value = mock_extracted_data["entry"]
+
+    generate_tables(
+        schema_path=schema_path,
+        output_params=output_params,
+        fhir_url=fhir_url,
+        cred_manager=cred_manager,
+    )
+
+    patch_schema_extraction.assert_called()
+
+    patients_path = os.path.join(
+        output_params["Patients"]["directory"], output_params["Patients"]["filename"]
+    )
+    # Test that file was created
+    assert os.path.exists(patients_path) is True
+
+    # Test that file content match expected content
+    with open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulated_patients.csv"
+        ),
+        "r",
+    ) as e:
+        csvreader = csv.reader(e)
+        expected_content = [row for row in csvreader]
+
+    with open(patients_path, "r") as csv_file:
+        reader = csv.reader(csv_file, dialect="excel")
+        line = 0
+        for row in reader:
+            for i in range(len(row)):
+                assert row[i] == str(expected_content[line][i])
+            line += 1
+        assert line == 4
+
+    # Remove file after testing is complete
+    if os.path.isfile(patients_path):  # pragma: no cover
+        os.remove(patients_path)
+
+    physical_exams_path = os.path.join(
+        output_params["Physical Exams"]["directory"],
+        output_params["Physical Exams"]["filename"],
+    )
+    # Test that file was created
+    assert os.path.exists(physical_exams_path) is True
+
+    # Test that file content match expected content
+    with open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulated_physical_exam.csv"
+        ),
+        "r",
+    ) as e:
+        csvreader = csv.reader(e)
+        expected_content = [row for row in csvreader]
+
+    with open(physical_exams_path, "r") as csv_file:
+        reader = csv.reader(csv_file, dialect="excel")
+        line = 0
+        for row in reader:
+            for i in range(len(row)):
+                assert row[i] == str(expected_content[line][i])
+            line += 1
+        assert line == 4
+
+    # Remove file after testing is complete
+    if os.path.isfile(physical_exams_path):  # pragma: no cover
+        os.remove(physical_exams_path)
