@@ -508,15 +508,16 @@ def _merge_include_query_params_for_location(
         raise ValueError("reference_location cannot be empty")
 
     direction, field_location = reference_location.split(":", 1)
+    resource, element_path = field_location.split(":", 1)
 
     # Convert field location to search parameter formatting
-    new_field_location = str()
-    for letter in field_location.split(":")[1]:
+    new_field_location = ""
+    for letter in element_path:
         if letter.isupper():
-            letter = "-" + letter.lower()
-        new_field_location += letter
+            new_field_location += "-"
+        new_field_location += letter.lower()
 
-    field_location = field_location.split(":")[0] + ":" + new_field_location
+    field_location = resource + ":" + new_field_location
 
     # Search term is _include for forward searchs, _revinclude for reverse searches.
     # In addition, we must add an :iterate modifier if the reference is relative to
@@ -682,38 +683,20 @@ def generate_tables(
     search_urls = _generate_search_urls(schema=schema)
 
     for table_name, search_url in search_urls.items():
-        # Get 1st set of incremental results
-        incremental_results, next = extract_data_from_fhir_search_incremental(
-            search_url=urllib.parse.urljoin(fhir_url, search_url),
-            cred_manager=cred_manager,
-        )
-        # Tabulate data for 1st  set of incremental results
-        tabulated_incremental_data = tabulate_data(
-            incremental_results, schema, table_name
-        )
-
-        # Write 1st set of tabulated incremental data
-        write_data(
-            tabulated_data=tabulated_incremental_data,
-            directory=output_params[table_name].get("directory"),
-            filename=output_params[table_name].get("filename"),
-            output_type=output_params[table_name].get("output_type"),
-            db_file=output_params[table_name].get("db_file", None),
-            db_tablename=output_params[table_name].get("db_filename", None),
-            pq_writer=output_params[table_name].get("pq_writer", None),
-        )
-
+        next = search_url
         while next is not None:
+
+            # Return set of incremental results and next URL to query
             incremental_results, next = extract_data_from_fhir_search_incremental(
-                search_url=urllib.parse.urljoin(fhir_url, next),
+                search_url=urllib.parse.urljoin(fhir_url, search_url),
                 cred_manager=cred_manager,
             )
-            # Tabulate data for each set of incremental results
+            # Tabulate data for set of incremental results
             tabulated_incremental_data = tabulate_data(
                 incremental_results, schema, table_name
             )
 
-            # Write each set of tabulated incremental data
+            # Write set of tabulated incremental data
             write_data(
                 tabulated_data=tabulated_incremental_data,
                 directory=output_params[table_name].get("directory"),
