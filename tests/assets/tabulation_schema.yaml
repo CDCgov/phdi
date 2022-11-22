@@ -18,12 +18,17 @@ tables:
           - ""
           - "Unknown"
         selection_criteria: first
+        data_type: string
       Last Name:
         fhir_path: Patient.name.family
         selection_criteria: first
+        data_type: string
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
         selection_criteria: first
+      Age:
+        fhir_path: Patient.age
+        data_type: number
   Physical Exams:
     resource_type: Patient
     columns:
@@ -41,3 +46,6 @@ tables:
         fhir_path: Practitioner.name
         selection_criteria: first
         reference_location: "forward:Patient:generalPractitioner"
+      Diagnosis:
+        fhir_path: Observation.diagnosis
+        data_type: boolean
