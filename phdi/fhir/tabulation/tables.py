@@ -21,14 +21,14 @@ def drop_invalid(data: List[list], schema: Dict, table_name: str) -> List[list]:
     :param data: A list of lists containing data for a table. The first list in
         the data value is a list of headers serving as the columns, and all subsequent
         lists are rows in the table.
-    :param schema: A user-defined schema, for one or more tables, that maps
-        a FHIR resource and element to a specified column in a table and also includes
-        invalid criteria for filtering.
+    :param schema: A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :param table_name: Name of the table to drop invalid values.
-    :param return: A list of lists, without rows of data from the FHIR resources and
-        elements that contained invalid values. The first list in the data value
-        is a list of headers serving as the columns, and all subsequent lists are
-        rows in the table.
+    :param return: A list of lists, without rows of data derived from the FHIR
+        resources and elements that contained invalid values.
+        The first list in the data value is a list of headers serving as the
+        columns, and all subsequent lists are rows in the table.
     """
     invalid_values_by_column_index = {}
 
@@ -127,8 +127,9 @@ def extract_data_from_schema(
     """
     Performs a full FHIR search for each table in the specified `schema`,
     and returns a dictionary mapping the table name to corresponding search results.
-    :param schema: A user-defined schema, for one or more tables,
-        that maps a FHIR resource and element to a specified column in a table.
+    :param schema: A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :return: A dict containing the mapping of a table and its columns, grouped by
         table name, to a list of FHIR resource element results returned from
@@ -165,8 +166,9 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
     above procedure on one table from the schema, specified by a
     table name.
     :param data: A list of FHIR bundle resource entries to tabulate.
-    :param schema: A user-defined schema, for one or more tables, that
-        maps a FHIR resource and element to a specified column in a table.
+    :param schema: A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :param table_name: A string specifying the name of a table defined
       in the given schema.
     :raises KeyError: If the given `table_name` does not occur in the
@@ -527,8 +529,9 @@ def _generate_search_urls(schema: dict) -> dict:
     * table_1: search_string_1
     * table_2: search_string_2
     * ...
-    :param schema: A user-defined schema, for one or more tables, that maps a
-        FHIR resource and element to a specified column in a table.
+    :param schema:  A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :raises ValueError: If any table does not contain a `search_string` entry.
     :return: A dict containing search URLs.
     """
