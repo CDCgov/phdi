@@ -126,7 +126,7 @@ def extract_data_from_schema(
     :param schema: The schema that defines the extraction to perform.
     :param cred_manager: The credential manager used to authenticate
       to the FHIR server.
-    :return: A dictionary mapping table name to a list of entries from
+    :return: A dict mapping table name to a list of entries from
       a FHIR bundle returned from the search.
     """
 
