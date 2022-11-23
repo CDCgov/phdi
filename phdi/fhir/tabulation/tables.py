@@ -142,12 +142,13 @@ def extract_data_from_schema(
     schema: dict, fhir_url: str, cred_manager: BaseCredentialManager = None
 ) -> Dict[str, List[dict]]:
     """
-    Performs a full FHIR search for each table in `schema`, and returns a dictionary
-    mapping the table name to corresponding search results.
+    Performs a full FHIR search for each table in `schema`, and returns
+    a dictionary mapping the table name to corresponding search results.
     :param schema: The schema that defines the extraction to perform.
-    :param cred_manager: The credential manager used to authenticate to the FHIR server.
-    :return: A dictionary mapping table name to a list of FHIR resources returned from
-      the search.
+    :param cred_manager: The credential manager used to authenticate
+      to the FHIR server.
+    :return: A dict mapping table name to a list of entries from
+      a FHIR bundle returned from the search.
     """
 
     search_urls = _generate_search_urls(schema=schema)
