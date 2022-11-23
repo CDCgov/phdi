@@ -34,6 +34,7 @@ tables:
       Age:
         fhir_path: Patient.age
         data_type: number
+        selection_criteria: first
   table 2A:
     resource_type: Observation
     query_params:
@@ -70,3 +71,4 @@ tables:
       Diagnosis:
         fhir_path: Observation.diagnosis
         data_type: boolean
+        selection_criteria: first

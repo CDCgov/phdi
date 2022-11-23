@@ -28,6 +28,7 @@ tables:
         selection_criteria: first
       Age:
         fhir_path: Patient.age
+        selection_criteria: first
         data_type: number
   Physical Exams:
     resource_type: Patient
@@ -48,4 +49,5 @@ tables:
         reference_location: "forward:Patient:generalPractitioner"
       Diagnosis:
         fhir_path: Observation.diagnosis
+        selection_criteria: first
         data_type: boolean
