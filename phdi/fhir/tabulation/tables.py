@@ -6,6 +6,7 @@ import requests
 from functools import cache
 from typing import Any, Callable, Dict, Literal, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
+import urllib.parse
 import pathlib
 
 from phdi.cloud.core import BaseCredentialManager
@@ -507,6 +508,16 @@ def _merge_include_query_params_for_location(
         raise ValueError("reference_location cannot be empty")
 
     direction, field_location = reference_location.split(":", 1)
+    resource, element_path = field_location.split(":", 1)
+
+    # Convert field location to search parameter formatting
+    new_field_location = ""
+    for letter in element_path:
+        if letter.isupper():
+            new_field_location += "-"
+        new_field_location += letter.lower()
+
+    field_location = resource + ":" + new_field_location
 
     # Search term is _include for forward searchs, _revinclude for reverse searches.
     # In addition, we must add an :iterate modifier if the reference is relative to
@@ -572,10 +583,9 @@ def _generate_search_urls(schema: dict) -> dict:
                 query_params = _merge_include_query_params_for_location(
                     query_params, column.get("reference_location", "")
                 )
-
         search_string = resource_type
         if query_params is not None and len(query_params) > 0:
-            search_string += f"?{urlencode(query_params)}"
+            search_string += f"?{urlencode(query_params,True)}"
 
         count = table.get("results_per_page", count_top)
         since = table.get("earliest_update_datetime", since_top)
@@ -658,7 +668,7 @@ def generate_tables(
     desired location, according to the supplied schema.
 
     :param schema_path: A path to the location of a schema config file.
-    :param output_data: A dictionary of dictionaries containing the parameters for
+    :param output_params: A dictionary of dictionaries containing the parameters for
         writing each table specified in the schema. For each table in the schema, the
         nested dictionary must contain a directory, filename, and output_type at
         minimum. See `write_data` function for full writing specifications.
@@ -669,21 +679,30 @@ def generate_tables(
     # Load schema
     schema = load_schema(schema_path)
 
-    # Extract data from FHIR server
-    extracted_data = extract_data_from_schema(schema, fhir_url, cred_manager)
+    # Load search_urls to query FHIR server
+    search_urls = _generate_search_urls(schema=schema)
 
-    for table_name in schema["tables"]:
+    for table_name, search_url in search_urls.items():
+        next = search_url
+        while next is not None:
 
-        # Tabulate the data for each table
-        tabulated_data = tabulate_data(extracted_data, schema, table_name)
+            # Return set of incremental results and next URL to query
+            incremental_results, next = extract_data_from_fhir_search_incremental(
+                search_url=urllib.parse.urljoin(fhir_url, search_url),
+                cred_manager=cred_manager,
+            )
+            # Tabulate data for set of incremental results
+            tabulated_incremental_data = tabulate_data(
+                incremental_results, schema, table_name
+            )
 
-        # Write each table
-        write_data(
-            tabulated_data=tabulated_data,
-            directory=output_params[table_name].get("directory"),
-            filename=output_params[table_name].get("filename"),
-            output_type=output_params[table_name].get("output_type"),
-            db_file=output_params[table_name].get("db_file", None),
-            db_tablename=output_params[table_name].get("db_filename", None),
-            pq_writer=output_params[table_name].get("pq_writer", None),
-        )
+            # Write set of tabulated incremental data
+            write_data(
+                tabulated_data=tabulated_incremental_data,
+                directory=output_params[table_name].get("directory"),
+                filename=output_params[table_name].get("filename"),
+                output_type=output_params[table_name].get("output_type"),
+                db_file=output_params[table_name].get("db_file", None),
+                db_tablename=output_params[table_name].get("db_filename", None),
+                pq_writer=output_params[table_name].get("pq_writer", None),
+            )

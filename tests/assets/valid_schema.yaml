@@ -32,7 +32,7 @@ tables:
   table 2A:
     resource_type: Observation
     query_params:
-      category: http://hl7.org/fhir/ValueSet/observation-category|laboratory
+      category: laboratory
     columns:
       Observation ID:
         fhir_path: Observation.id
