@@ -14,7 +14,7 @@ import importlib.resources
 
 def load_schema(path: pathlib.Path) -> dict:
     """
-    Given the path to a local YAML file containing a data schema,
+    Given the path to a local YAML or JSON file containing a schema,
     loads the file and return the resulting schema as a dictionary.
     If the file can't be found, raises an error.
 
@@ -50,9 +50,9 @@ def validate_schema(schema: dict):
     Validates the schema structure, ensuring all required schema elements are present
     and all schema elements are of the expected data type.
 
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
+    :param schema: A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :raises jsonschema.exception.ValidationError: If the schema is invalid.
     """
     # Load validation schema
