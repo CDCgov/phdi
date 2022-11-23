@@ -6,7 +6,7 @@ def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict
     Collect all entries of a specific type in a bundle of FHIR data and
     return references to them in a list.
 
-    :param bundle: The FHIR bundle to search for entries.
+    :param bundle: The FHIR bundle to search for resource entries.
     :param resource_type: The type of FHIR resource to find.
     :return: A list holding all entries of the requested resource type that were
       found in the input bundle.
@@ -26,7 +26,7 @@ def get_field(
     require_use: bool = True,
 ) -> Any:
     """
-    Finds an instance of the specified field in a given FHIR- formatted JSON dict.
+    Finds an instance of the specified field in a given FHIR- formatted JSON dictionary.
     Optionally, a particular "use" of a field can be provided such that only instances
     with that purpose are considered. For example, find the name for a patient that has
     a "use" of "official". "Use" here refers to the FHIR-based usage of classifying a

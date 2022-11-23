@@ -23,12 +23,14 @@ def drop_invalid(data: List[list], schema: Dict, table_name: str) -> List[list]:
     :param data: A list of lists containing data for a table. The first list in
         the data value is a list of headers serving as the columns, and all subsequent
         lists are rows in the table.
-    :param schema: A schema of columns and values to apply to the tabulated data,
-        including invalid_values if applicable.
+    :param schema: A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :param table_name: Name of the table to drop invalid values.
-    :param return: A list of lists, without resources that contained invalid values. The
-        first list in the data value is a list of headers serving as the columns, and
-        all subsequent lists are rows in the table.
+    :param return: A list of lists, without rows of data derived from the FHIR
+        resources and elements that contained invalid values.
+        The first list in the data value is a list of headers serving as the
+        columns, and all subsequent lists are rows in the table.
     """
     invalid_values_by_column_index = {}
 
@@ -142,13 +144,15 @@ def extract_data_from_schema(
     schema: dict, fhir_url: str, cred_manager: BaseCredentialManager = None
 ) -> Dict[str, List[dict]]:
     """
-    Performs a full FHIR search for each table in `schema`, and returns
-    a dictionary mapping the table name to corresponding search results.
-    :param schema: The schema that defines the extraction to perform.
-    :param cred_manager: The credential manager used to authenticate
-      to the FHIR server.
-    :return: A dict mapping table name to a list of entries from
-      a FHIR bundle returned from the search.
+    Performs a full FHIR search for each table in the specified `schema`,
+    and returns a dictionary mapping the table name to corresponding search results.
+    :param schema: A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
+    :param cred_manager: The credential manager used to authenticate to the FHIR server.
+    :return: A dict containing the mapping of a table and its columns, grouped by
+        table name, to a list of FHIR resource element results returned from
+        the search for each subsequent table name.
     """
 
     search_urls = _generate_search_urls(schema=schema)
@@ -164,25 +168,26 @@ def extract_data_from_schema(
 
 def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]:
     """
-    Transforms a list of bundle entries into a tabular format (given by
-    a list of lists) using a user-defined schema of the columns of
-    interest. Tabulation works using a two-pass procedure.
-    First, resources that are associated with one another in the
-    provided schema (identified by the presence of a `reference_location`
-    field in one of the schema's columns) are grouped together.
-    For each table, one type of resource serves as the "anchor",
-    which defines the number of rows in the table, while referenced
-    resources are either "forwards" or "reverse" references, depending
-    on their relationship to the anchor type.
-    Second, the aggregated resources are parsed for value extraction
-    using the schema's columns, and the results are stored in a list of
+    Transforms a list of FHIR bundle resource entries into a tabular
+    format (given by a list of lists) using a user-defined schema.
+    Tabulation works using a two-pass procedure. First, resources
+    that are associated with one another in the provided schema
+    (identified by the presence of a `reference_location` field in
+    one of the schema's columns) are grouped together. For each
+    table, one type of resource serves as the "anchor", which
+    defines the number of rows in the table, while referenced
+    resources are either "forwards" or "reverse" references,
+    depending on their relationship to the anchor type. Second,
+    the aggregated resources are parsed for value extraction using
+    the schema's columns, and the results are stored in a list of
     lists for that table. The first entry in this list are the headers
-    of the data, taken from the schema. This functions performs the above
-    procedure on one table from the schema, specified by a table name.
-    :param data: A list of FHIR bundle entries to tabulate.
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
+    of the data, taken from the schema. This functions performs the
+    above procedure on one table from the schema, specified by a
+    table name.
+    :param data: A list of FHIR bundle resource entries to tabulate.
+    :param schema: A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :param table_name: A string specifying the name of a table defined
       in the given schema.
     :raises KeyError: If the given `table_name` does not occur in the
@@ -313,14 +318,12 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
     referenced resources. This allows the `tabulate_data` function to
     simply iterate through the anchor resources (which are rows in the
     table) and use its ID to quickly fetch all related resources for
-    columnar value extraction. This function and the `_get_reference_directions`
-    function represent the "first pass" of the tabulate function's two-pass
-    process.
-    :param data: A list of FHIR bundle entries to tabulate.
+    columnar value extraction.
+    :param data: A list of FHIR bundle resource entries to tabulate.
     :param directions_by_table: The output of the `_get_reference_directions`
       function, which provides the directionality of linked resources to
       the anchors they reference.
-    :return: A dictionary holding, for each table, the groups of resources
+    :return: A dict holding, for each table, the groups of resources
       from which column values will be extracted.
     """
 
@@ -555,11 +558,11 @@ def _generate_search_urls(schema: dict) -> dict:
     * table_1: search_string_1
     * table_2: search_string_2
     * ...
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
+    :param schema:  A declarative, user-defined specification, for one or more tables,
+        that defines the metadata, properties, and columns of those tables as they
+        relate to FHIR resources.
     :raises ValueError: If any table does not contain a `search_string` entry.
-    :return: A dictionary containing search URLs.
+    :return: A dict containing search URLs.
     """
     url_dict = {}
 
@@ -622,10 +625,9 @@ def _get_reference_directions(schema: dict) -> dict:
     pointers and referenced resources of type B can be labeled "forward"
     pointers. This mapping is used to efficiently group and aggregate
     related resource data for tabulation.
-    :param schema: A user-defined schema describing, for one or more
-      tables, the indexing FHIR resource type used to define rows, as
-      well as some number of columns specifying what values to include.
-    :return: A dictionary containing mappings, for each table, of
+    :param schema: A user-defined schema, for one or more tables, that
+        maps a FHIR resource and element to a specified column in a table.
+    :return: A dict containing mappings, for each table, of
       how referenced resources relate to the anchor resource.
     """
 
