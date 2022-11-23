@@ -782,6 +782,8 @@ def test_generate_tables(patch_search_incremental):
         line = 0
         for row in reader:
             for i in range(len(row)):
+                print('row' + str(i), row[i])
+                print(str(expected_content[line][i]))
                 assert row[i] == str(expected_content[line][i])
             line += 1
         assert line == 4
