@@ -412,11 +412,7 @@ def test_generate_search_urls(patch_generate_search_url):
 
     assert search_urls == {
         "table 1A": "Patient||1000||2020-01-01T00:00:00",
-        "table 2A": "Observation?category="
-        + urllib.parse.quote(
-            "http://hl7.org/fhir/ValueSet/observation-category|laboratory", safe=""
-        )
-        + urllib.parse.quote("||1000||None", safe="|"),
+        "table 2A": "Observation?category=laboratory||1000||None",
     }
 
 
@@ -453,7 +449,7 @@ def test_merge_include_query_params():
         query_params = _merge_include_query_params_for_location(query_params, r)
 
     assert query_params == {
-        "_include": ["some-reference", "Patient:generalPractitioner"],
+        "_include": ["some-reference", "Patient:general-practitioner"],
         "_revinclude": ["Observation:subject"],
     }
 
@@ -720,14 +716,15 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
     )
 
 
-@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_schema")
-def test_generate_tables(patch_schema_extraction):
+@mock.patch("phdi.fhir.tabulation.tables.extract_data_from_fhir_search_incremental")
+def test_generate_tables(patch_search_incremental):
     # Set up
     schema_path = (
         pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "tabulation_schema.yaml"
     )
+
     output_params = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
@@ -745,9 +742,13 @@ def test_generate_tables(patch_schema_extraction):
             / "FHIR_server_extracted_data.json"
         )
     )
+    mock_next_url = None
 
     # Mocks for extract_data_from_schema
-    patch_schema_extraction.return_value = mock_extracted_data["entry"]
+    patch_search_incremental.return_value = (
+        mock_extracted_data["entry"],
+        mock_next_url,
+    )
 
     generate_tables(
         schema_path=schema_path,
@@ -756,7 +757,7 @@ def test_generate_tables(patch_schema_extraction):
         cred_manager=cred_manager,
     )
 
-    patch_schema_extraction.assert_called()
+    patch_search_incremental.assert_called()
 
     patients_path = os.path.join(
         output_params["Patients"]["directory"], output_params["Patients"]["filename"]
