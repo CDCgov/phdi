@@ -108,7 +108,7 @@ def test_tabulate_data():
             "165",
         },
         {"65489-asdf5-6d8w2-zz5g8", "John", "Shepard", None, "1234"},
-        {"some-uuid", "John ", None, "123-456-7890", '123'},
+        {"some-uuid", "John ", None, "123-456-7890", "123"},
     ]
     assert len(tabulated_patient_data[1:]) == 3
     tests_run = 0
@@ -784,8 +784,6 @@ def test_generate_tables(patch_search_incremental):
         line = 0
         for row in reader:
             for i in range(len(row)):
-                print('row' + str(i), row[i])
-                print(str(expected_content[line][i]))
                 assert row[i] == str(expected_content[line][i])
             line += 1
         assert line == 4
