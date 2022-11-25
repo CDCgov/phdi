@@ -214,7 +214,7 @@ def test_validate_schema():
     )
     first_name = valid_schema["tables"]["table 1A"]["columns"]["First Name"]
     patient_id = valid_schema["tables"]["table 1A"]["columns"]["Patient ID"]
-    
+
     # data_type is defined on first_name, and not on patient_id
     assert "data_type" in first_name.keys()
     assert "data_type" not in patient_id.keys()
