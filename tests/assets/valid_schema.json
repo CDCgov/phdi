@@ -39,6 +39,11 @@
                         "DNA"
                     ],
                     "selection_criteria": "first"
+                },
+                "Building Number": {
+                  "fhir_path": "Patient.address.buidingNumber",
+                  "selection_criteria": "first",
+                  "data_type": "number"
                 }
             }
         },

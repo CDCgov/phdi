@@ -26,6 +26,10 @@ tables:
       Phone Number:
         fhir_path: Patient.telecom.where(system = 'phone').value
         selection_criteria: first
+      Building Number:
+        fhir_path: Patient.address.buildingNumber
+        selection_criteria: first
+        data_type: number
   Physical Exams:
     resource_type: Patient
     columns:

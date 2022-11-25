@@ -31,6 +31,10 @@ tables:
           - "Unknown"
           - "DNA"
         selection_criteria: first
+      Building Number:
+        fhir_path: Patient.address.buildingNumber
+        selection_criteria: first
+        data_type: number
   table 2A:
     resource_type: Observation
     query_params:
