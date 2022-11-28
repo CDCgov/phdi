@@ -47,6 +47,7 @@
                             "123 Fake St",
                             "Unit #F"
                         ],
+                        "BuildingNumber": "123",
                         "city": "Faketon",
                         "state": "NY",
                         "postalCode": "10001-0001",

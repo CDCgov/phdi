@@ -22,11 +22,13 @@
                         "",
                         "Unknown"
                     ],
-                    "selection_criteria": "first"
+                    "selection_criteria": "first",
+                    "data_type": "string"
                 },
                 "Last Name": {
                     "fhir_path": "Patient.name.family",
-                    "selection_criteria": "first"
+                    "selection_criteria": "first",
+                    "data_type": "string"
                 },
                 "Phone Number": {
                     "fhir_path": "Patient.telecom.where(system = 'phone').value",
@@ -37,6 +39,11 @@
                         "DNA"
                     ],
                     "selection_criteria": "first"
+                },
+                "Building Number": {
+                  "fhir_path": "Patient.address.buidingNumber",
+                  "selection_criteria": "first",
+                  "data_type": "number"
                 }
             }
         },
