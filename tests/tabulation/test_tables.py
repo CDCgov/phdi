@@ -212,6 +212,12 @@ def test_validate_schema():
     valid_schema = yaml.safe_load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
     )
+    first_name = valid_schema["tables"]["table 1A"]["columns"]["First Name"]
+    patient_id = valid_schema["tables"]["table 1A"]["columns"]["Patient ID"]
+
+    # data_type is defined on first_name, and not on patient_id
+    assert "data_type" in first_name.keys()
+    assert "data_type" not in patient_id.keys()
 
     assert validate_schema(schema=valid_schema) is None
 
@@ -238,3 +244,13 @@ def test_validate_schema():
     with pytest.raises(jsonschema.exceptions.ValidationError) as e:
         validate_schema(schema=bad_selection_criteria)
     assert "'test' is not one of ['first', 'last', 'random', 'all']" in str(e.value)
+
+    # Invalid data type declaration
+    invalid_data_type_declaraction = copy.deepcopy(valid_schema)
+    invalid_data_type_declaraction["tables"]["table 1A"]["columns"]["First Name"][
+        "data_type"
+    ] = "foo"
+
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=invalid_data_type_declaraction)
+    assert "'foo' is not one of ['string', 'number', 'boolean']" in str(e.value)

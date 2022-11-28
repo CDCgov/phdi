@@ -71,6 +71,14 @@
                         "random",
                         "all"
                     ]
+                },
+                "data_type": {
+                  "type": "string",
+                  "enum": [
+                    "string",
+                    "number",
+                    "boolean"
+                  ]
                 }
             },
             "patternProperties": {

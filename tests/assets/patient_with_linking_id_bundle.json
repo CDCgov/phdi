@@ -50,6 +50,7 @@
                         "line": [
                             "1234 Silversun Strip"
                         ],
+                        "buildingNumber": "1234",
                         "city": "Zakera Ward",
                         "state": "Citadel",
                         "postalCode": "99999"

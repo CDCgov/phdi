@@ -47,6 +47,7 @@
                             "239 Greene St",
                             "Apt 4L"
                         ],
+                        "BuildingNumber": "239",
                         "city": "New York",
                         "state": "NY",
                         "postalCode": "10003",

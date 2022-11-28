@@ -89,6 +89,7 @@ def test_tabulate_data():
         "First Name",
         "Last Name",
         "Phone Number",
+        "Building Number",
     }
     assert set(tabulated_exam_data[0]) == {
         "Last Name",
@@ -104,9 +105,10 @@ def test_tabulate_data():
             "Price929",
             "555-690-3898",
             "907844f6-7c99-eabc-f68e-d92189729a55",
+            "165",
         },
-        {"65489-asdf5-6d8w2-zz5g8", "John", "Shepard", None},
-        {"some-uuid", "John ", None, "123-456-7890"},
+        {"65489-asdf5-6d8w2-zz5g8", "John", "Shepard", None, 1234},
+        {"some-uuid", "John ", None, "123-456-7890", 123},
     ]
     assert len(tabulated_patient_data[1:]) == 3
     tests_run = 0
