@@ -68,30 +68,45 @@ def test_parse_census_result_failure():
     )
 
 
-def test_geocode_from_str():
+@patch.object(CensusGeocodeClient, "_call_census_api")
+def test_geocode_from_str(patched_api_call):
     census_client = CensusGeocodeClient()
-    address = "659 Centre St, Boston, MA 02130"
+    address = "239 Greene Street, New York, NY, 10003"
+    censusResponseFullAddress = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "censusResponseFullAddress.json"
+        )
+    )
+
+    patched_api_call.return_value = censusResponseFullAddress
 
     geocoded_response = GeocodeResult(
-        line=["659 CENTRE ST"],
-        city="BOSTON",
-        state="MA",
-        postal_code="02130",
-        county_fips="25025",
-        lat=42.31304390969022,
-        lng=-71.11410863903707,
+        line=["239 GREENE ST"],
+        city="NEW YORK",
+        state="NY",
+        postal_code="10003",
+        county_fips="36061",
+        lat=40.72962831414409,
+        lng=-73.9954428687588,
         district=None,
         country=None,
-        county_name="Suffolk",
+        county_name="New York",
         precision=None,
-        geoid="250251201031000",
-        census_tract="1201.03",
-        census_block="1000",
+        geoid="360610059003005",
+        census_tract="59",
+        census_block="3005",
     )
     assert geocoded_response == census_client.geocode_from_str(address)
 
     # Test ambiguous address/address with multiple matches
     address = "659 Centre St"
+    address_response = {
+        "address": address,
+    }
+    patched_api_call.return_value = address_response
+
     assert census_client.geocode_from_str(address) is None
 
     # Test empty string address
@@ -103,8 +118,21 @@ def test_geocode_from_str():
     assert geocoded_response is None
 
 
-def test_geocode_from_dict():
+@patch.object(CensusGeocodeClient, "_call_census_api")
+def test_geocode_from_dict(patched_api_call):
+
+    censusResponseFullAddress = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "censusResponseFullAddress.json"
+        )
+    )
+
+    patched_api_call.return_value = censusResponseFullAddress
+
     census_client = CensusGeocodeClient()
+
     # Test address with full, complete information
     full_address_dict = {
         "street": "239 Greene Street",
@@ -129,6 +157,7 @@ def test_geocode_from_dict():
         census_tract="59",
         census_block="3005",
     )
+
     assert geocoded_response == census_client.geocode_from_dict(full_address_dict)
 
     # Test address with missing zip code
@@ -146,6 +175,7 @@ def test_geocode_from_dict():
         "zip": "10003",
     }
     geocoded_response = None
+
     with pytest.raises(ValueError) as e:
         geocoded_response = census_client.geocode_from_dict(missing_street_dict)
     assert "Address must include street number and name at a minimum" in str(e.value)
@@ -153,6 +183,7 @@ def test_geocode_from_dict():
 
     # Test ambiguous address
     ambiguous_address_dict = {"street": "123 Main Street"}
+    patched_api_call.return_value = ambiguous_address_dict
     assert census_client.geocode_from_dict(ambiguous_address_dict) is None
 
     # Test malformed input input (e.g., zipcode == ABC)
