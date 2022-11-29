@@ -94,6 +94,13 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
     def storage_client(self) -> storage.Client:
         return self.__storage_client
 
+    def __init__(self):
+        """
+        Creates a new GcpCloudContainerConnection object.
+        """
+
+        self.__storage_client = None
+        
     def _get_storage_client(self) -> storage.Client:
         """
         Obtains a client connected to an GCP storage container by
