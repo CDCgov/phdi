@@ -68,8 +68,7 @@ def test_parse_census_result_failure():
     )
 
 
-@patch.object(CensusGeocodeClient, "_call_census_api")
-def test_geocode_from_str(patched_api_call):
+def test_geocode_from_str():
     census_client = CensusGeocodeClient()
     address = "239 Greene Street, New York, NY, 10003"
     censusResponseFullAddress = json.load(
@@ -79,8 +78,8 @@ def test_geocode_from_str(patched_api_call):
             / "censusResponseFullAddress.json"
         )
     )
-
-    patched_api_call.return_value = censusResponseFullAddress
+    census_client._call_census_api = mock.Mock()
+    census_client._call_census_api.return_value = censusResponseFullAddress
 
     geocoded_response = GeocodeResult(
         line=["239 GREENE ST"],
@@ -105,7 +104,7 @@ def test_geocode_from_str(patched_api_call):
     address_response = {
         "address": address,
     }
-    patched_api_call.return_value = address_response
+    census_client._call_census_api.return_value = address_response
 
     assert census_client.geocode_from_str(address) is None
 
@@ -118,8 +117,7 @@ def test_geocode_from_str(patched_api_call):
     assert geocoded_response is None
 
 
-@patch.object(CensusGeocodeClient, "_call_census_api")
-def test_geocode_from_dict(patched_api_call):
+def test_geocode_from_dict():
 
     censusResponseFullAddress = json.load(
         open(
@@ -129,9 +127,9 @@ def test_geocode_from_dict(patched_api_call):
         )
     )
 
-    patched_api_call.return_value = censusResponseFullAddress
-
     census_client = CensusGeocodeClient()
+    census_client._call_census_api = mock.Mock()
+    census_client._call_census_api.return_value = censusResponseFullAddress
 
     # Test address with full, complete information
     full_address_dict = {
@@ -183,7 +181,7 @@ def test_geocode_from_dict(patched_api_call):
 
     # Test ambiguous address
     ambiguous_address_dict = {"street": "123 Main Street"}
-    patched_api_call.return_value = ambiguous_address_dict
+    census_client._call_census_api.return_value = ambiguous_address_dict
     assert census_client.geocode_from_dict(ambiguous_address_dict) is None
 
     # Test malformed input input (e.g., zipcode == ABC)
