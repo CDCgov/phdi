@@ -11,7 +11,6 @@ from phdi.cloud.azure import (
     AzureCloudContainerConnection,
 )
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
-import google.cloud
 
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
