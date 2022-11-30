@@ -441,13 +441,18 @@ def test_azure_list_objects(mock_get_client):
 
     assert blob_list == ["blob1", "blob2"]
 
+
 def test_gcp_storage_connect_init():
     phdi_container_client = GcpCloudStorageConnection()
     assert phdi_container_client._GcpCloudStorageConnection__storage_client is None
 
+
 def test_gcp_get_storage_client():
     phdi_container_client = GcpCloudStorageConnection()
-    assert isinstance(phdi_container_client._get_storage_client(), google.cloud.storage.client.Client)
+    assert isinstance(
+        phdi_container_client._get_storage_client(), google.cloud.storage.client.Client
+    )
+
 
 @mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
 def test_gcp_upload_object(mock_get_client):
