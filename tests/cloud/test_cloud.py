@@ -446,12 +446,11 @@ def test_gcp_storage_connect_init():
     phdi_container_client = GcpCloudStorageConnection()
     assert phdi_container_client._GcpCloudStorageConnection__storage_client is None
 
-
-def test_gcp_get_storage_client():
+@mock.patch("phdi.cloud.gcp.storage")
+def test_gcp_get_storage_client(patched_storage):
     phdi_container_client = GcpCloudStorageConnection()
-    assert isinstance(
-        phdi_container_client._get_storage_client(), google.cloud.storage.client.Client
-    )
+    phdi_container_client._get_storage_client()
+    assert patched_storage.Client.called
 
 
 @mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
