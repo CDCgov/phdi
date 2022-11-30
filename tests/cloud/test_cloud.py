@@ -446,6 +446,7 @@ def test_gcp_storage_connect_init():
     phdi_container_client = GcpCloudStorageConnection()
     assert phdi_container_client._GcpCloudStorageConnection__storage_client is None
 
+
 @mock.patch("phdi.cloud.gcp.storage")
 def test_gcp_get_storage_client(patched_storage):
     phdi_container_client = GcpCloudStorageConnection()
