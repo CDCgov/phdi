@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Union
+import json
 from .core import BaseCredentialManager, BaseCloudStorageConnection
 import google.auth
 import google.auth.transport.requests
@@ -100,7 +101,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         """
 
         self.__storage_client = None
-        
+
     def _get_storage_client(self) -> storage.Client:
         """
         Obtains a client connected to an GCP storage container by
@@ -132,7 +133,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
 
     def upload_object(
         self,
-        message: str,
+        message: Union[str, dict],
         container_name: str,
         filename: str,
         content_type="application/json",
@@ -142,7 +143,7 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         The message can be passed either as a raw string or as JSON.
 
         :param message: The contents of a message, encoded either as a
-          string or in a JSON format.
+          string or in a JSON-formatted dictionary.
         :param container_name: The name of the target bucket for upload.
         :param filename: The location of file within GCP blob storage.
         """
@@ -151,6 +152,10 @@ class GcpCloudStorageConnection(BaseCloudStorageConnection):
         bucket = storage_client.bucket(container_name)
 
         blob = bucket.blob(filename)
+
+        if isinstance(message, dict):
+            message = json.dumps(message).encode("utf-8")
+
         blob.upload_from_string(data=message, content_type=content_type)
 
     def list_containers(self) -> List[str]:
