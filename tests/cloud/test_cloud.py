@@ -254,7 +254,7 @@ def test_gcp_credential_manager_handle_expired_credentials(
 
 
 @mock.patch.object(ContainerClient, "from_container_url")
-def test_upload_object(mock_get_client):
+def test_azure_upload_object(mock_get_client):
     mock_blob_client = mock.Mock()
 
     mock_container_client = mock.Mock()
@@ -296,7 +296,7 @@ def test_upload_object(mock_get_client):
 
 
 @mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
-def test_download_object(mock_get_client):
+def test_azure_download_object(mock_get_client):
     mock_blob_client = mock.Mock()
 
     mock_container_client = mock.Mock()
@@ -333,7 +333,7 @@ def test_download_object(mock_get_client):
 
 
 @mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
-def test_download_object_cp1252(mock_get_client):
+def test_azure_download_object_cp1252(mock_get_client):
     mock_blob_client = mock.Mock()
 
     mock_container_client = mock.Mock()
@@ -380,7 +380,7 @@ def test_download_object_cp1252(mock_get_client):
 
 
 @mock.patch("phdi.cloud.azure.BlobServiceClient")
-def test_list_containers(mock_service_client):
+def test_azure_list_containers(mock_service_client):
     mock_service_client_instance = mock_service_client.return_value
     item1 = mock.Mock()
     item1.name = "container1"
@@ -411,7 +411,7 @@ def test_list_containers(mock_service_client):
 
 
 @mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
-def test_list_objects(mock_get_client):
+def test_azure_list_objects(mock_get_client):
     item1 = mock.Mock()
     item1.name = "blob1"
     item2 = mock.Mock()
@@ -439,6 +439,18 @@ def test_list_objects(mock_get_client):
     mock_client.list_blobs.assert_called_with(name_starts_with=object_prefix)
 
     assert blob_list == ["blob1", "blob2"]
+
+
+def test_gcp_storage_connect_init():
+    phdi_container_client = GcpCloudStorageConnection()
+    assert phdi_container_client._GcpCloudStorageConnection__storage_client is None
+
+
+@mock.patch("phdi.cloud.gcp.storage")
+def test_gcp_get_storage_client(patched_storage):
+    phdi_container_client = GcpCloudStorageConnection()
+    phdi_container_client._get_storage_client()
+    assert patched_storage.Client.called
 
 
 @mock.patch.object(GcpCloudStorageConnection, "_get_storage_client")
