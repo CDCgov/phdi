@@ -34,7 +34,7 @@ jobs:
       - name: Generate Documenation
         working-directory: ./containers/${{matrix.container}}
         run: |
-          cp ..make_openapi_json.py .
+          cp ../make_openapi_json.py .
           python make_openapi_json.py
           npm i -g redoc-cli
           redoc-cli build -o documentation.html openapi.json
