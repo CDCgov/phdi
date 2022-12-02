@@ -1,0 +1,47 @@
+name: Update Conainter Documentation
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "containers/**"
+      - ".github/workflows/updateContainerDocumentation.yaml"
+
+jobs:
+  list-containers:
+    name: List Container Subdirectories  
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: List Containers
+        uses: ./.github/actions/list-containers
+    outputs:
+      container-dirs: ${{steps.make-list.outputs.containe-dirs}}
+  update-docs:
+    name: Build containers
+    needs: list-containers
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: ${{fromJson(needs.list-containers.outputs.container-dirs)}}
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Generate Documenation
+        working-directory: ./containers/${{matrix.container}}
+        run: |
+          cp ..make_openapi_json.py .
+          python make_openapi_json.py
+          npm i -g redoc-cli
+          redoc-cli build -o documentation.html openapi.json
+      - name: Commit New Documentation
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'documentation.html'
+          message: Update ${{matrix.container}} container documentation.
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
