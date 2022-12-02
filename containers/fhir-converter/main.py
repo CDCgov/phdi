@@ -7,7 +7,7 @@ from fastapi import FastAPI, Response, status
 from pydantic import BaseModel
 
 
-api = FastAPI()
+app = FastAPI()
 
 
 class InputType(str, Enum):
@@ -95,12 +95,12 @@ class FhirConverterInput(BaseModel):
     root_template: RootTemplate
 
 
-@api.get("/")
+@app.get("/")
 async def health_check():
     return {"status": "OK"}
 
 
-@api.post("/convert-to-fhir", status_code=200)
+@app.post("/convert-to-fhir", status_code=200)
 async def convert(input: FhirConverterInput, response: Response):
 
     result = convert_to_fhir(**dict(input))
