@@ -7,8 +7,6 @@ runs:
     run:
       working-directory: ./containers
   steps:
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Install dependencies
       run: |
         sudo apt-get install jq
