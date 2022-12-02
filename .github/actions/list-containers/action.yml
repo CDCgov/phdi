@@ -1,3 +1,5 @@
+
+
 name: "List Containers"
 description: "Generate a list of subdirectories within containers/."
 
@@ -16,6 +18,3 @@ runs:
       run: |
         ls -d * | jq -R -s -c 'split("\n")[:-1]'
         echo "containers=\"$(ls -d * | jq -R -s -c 'split("\n")[:-1]')\"" >> $GITHUB_OUTPUT
-    - name: Check output
-      shell: bash
-      run: echo '${{steps.generate-list.outputs.containers}}'

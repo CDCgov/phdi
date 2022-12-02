@@ -9,19 +9,7 @@ on:
 
 jobs:
   list-all-containers:
-    name: List Container Subdirectories  
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - name: Check Out Changes
-        uses: actions/checkout@v3
-      - id: make-list
-        name: Make list
-        uses: ./.github/actions/list-containers
-    outputs:
-      containers-dirs: ${{ steps.make-list.outputs.containers }}
+    uses: .github/workflows/listContainers.yml
   test-job:
     name: Test Job
     needs: list-all-containers
@@ -29,14 +17,14 @@ jobs:
     steps:
       - name: Log containers var
         run: |
-          echo ${{ needs.list-all-containers.outputs.containers-dirs }}
+          echo ${{ needs.list-all-containers.outputs.containers }}
   update-docs:
     name: Update Docs
     needs: list-all-containers
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ${{ fromJson(needs.list-all-containers.outputs.containers-dirs) }}
+        container: ${{ fromJson(needs.list-all-containers.outputs.containers) }}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
