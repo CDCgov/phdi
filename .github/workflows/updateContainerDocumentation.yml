@@ -9,7 +9,7 @@ on:
 
 jobs:
   list-all-containers:
-    uses: ./.github/workflows/listContainers.yml
+    uses: CDCgov/phdi/.github/workflows/listContainers.yml@dan/fastapi-service-auto-docs
   test-job:
     name: Test Job
     needs: list-all-containers
