@@ -3,17 +3,13 @@ description: "Generate a list of subdirectories within containers/."
 
 runs:
   using: composite
-  defaults:
-    run:
-      working-directory: ./containers
   steps:
     - name: Install dependencies
       run: |
         sudo apt-get install jq
     - id: make-list
       name: Generate list of directories within containers/
+      working-directory: ./containers
       # use jq to produce json output and filter out the empty item caused by final newline
       run: |
         echo "::set-output name=containers::$(ls -d * | jq -R -s -c 'split("\n")[:-1]')"
-  outputs:
-    container-dirs: ${{steps.make-list.outputs.containers}}

@@ -19,7 +19,7 @@ jobs:
       - name: List Containers
         uses: ./.github/actions/list-containers
     outputs:
-      container-dirs: ${{steps.make-list.outputs.containe-dirs}}
+      container-dirs: ${{steps.make-list.outputs.containers}}
   update-docs:
     name: Build containers
     needs: list-containers
