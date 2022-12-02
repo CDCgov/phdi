@@ -107,8 +107,8 @@ def test_tabulate_data():
             "907844f6-7c99-eabc-f68e-d92189729a55",
             "165",
         },
-        {"65489-asdf5-6d8w2-zz5g8", "John", "Shepard", None, 1234},
-        {"some-uuid", "John ", None, "123-456-7890", 123},
+        {"65489-asdf5-6d8w2-zz5g8", "John,Tiberius", "Shepard", None, 1234},
+        {"some-uuid", "John , Danger ", None, "123-456-7890", 123},
     ]
     assert len(tabulated_patient_data[1:]) == 3
     tests_run = 0

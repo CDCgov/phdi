@@ -278,7 +278,7 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
 
 def _apply_selection_criteria(
     value: List[Any],
-    selection_criteria: Literal["first", "last", "random"],
+    selection_criteria: Literal["first", "last", "random", "all"],
 ) -> str:
     """
     Returns value(s), according to the selection criteria, from a given list of values

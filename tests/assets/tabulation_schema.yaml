@@ -17,7 +17,7 @@ tables:
           - null
           - ""
           - "Unknown"
-        selection_criteria: first
+        selection_criteria: all
         data_type: string
       Last Name:
         fhir_path: Patient.name.family
@@ -30,6 +30,7 @@ tables:
         fhir_path: Patient.address.buildingNumber
         selection_criteria: first
         data_type: number
+      
   Physical Exams:
     resource_type: Patient
     columns:
