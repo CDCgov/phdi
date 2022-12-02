@@ -1,0 +1,23 @@
+name: "List Containers"
+
+on:
+  workflow_call:
+    outputs:
+      containers: ${{jobs.list-containers.outputs.container-dirs}}
+
+jobs:
+  list-containers:
+    runs_on: ubuntu-latest
+    outputs:
+      container-dirs: ${{steps.generate-list.outputs.containers}}
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get install jq
+      - id: generate-list
+        name: Generate list of directories within containers/
+        working-directory: ./containers
+        # use jq to produce json output and filter out the empty item caused by final newline
+        run: |
+          ls -d * | jq -R -s -c 'split("\n")[:-1]'
+          echo "containers=\"$(ls -d * | jq -R -s -c 'split("\n")[:-1]')\"" >> $GITHUB_OUTPUT
