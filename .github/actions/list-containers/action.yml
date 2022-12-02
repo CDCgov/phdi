@@ -5,10 +5,12 @@ runs:
   using: composite
   steps:
     - name: Install dependencies
+      shell: bash
       run: |
         sudo apt-get install jq
     - id: make-list
       name: Generate list of directories within containers/
+      shell: bash
       working-directory: ./containers
       # use jq to produce json output and filter out the empty item caused by final newline
       run: |
