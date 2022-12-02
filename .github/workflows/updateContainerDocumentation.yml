@@ -35,6 +35,7 @@ jobs:
         working-directory: ./containers/${{matrix.container}}
         run: |
           cp ../make_openapi_json.py .
+          pip install fastapi
           python make_openapi_json.py
           npm i -g redoc-cli
           redoc-cli build -o documentation.html openapi.json
