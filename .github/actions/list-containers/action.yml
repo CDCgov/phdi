@@ -13,7 +13,7 @@ runs:
       working-directory: ./containers
       # use jq to produce json output and filter out the empty item caused by final newline
       run: |
-        echo "containers=$(ls -d * | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
+        echo "containers=$(ls -d * | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
     - name: Use the value
       run: |
         echo "${{ env.containers }}"

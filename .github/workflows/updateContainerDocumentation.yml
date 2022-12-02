@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ${{ fromJson(needs.list-containers.env.containers) }}
+        container: ${{ fromJson(needs.list-containers.outputs.containers) }}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
