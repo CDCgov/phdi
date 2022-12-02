@@ -21,7 +21,15 @@ jobs:
         name: Make list
         uses: ./.github/actions/list-containers
     outputs:
-      containers-dirs: ${{steps.make-list.outputs.containers}}
+      containers-dirs: ${{ steps.make-list.outputs.containers }}
+  test-job:
+    name: Test Job
+    needs: list-all-containers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log containers var
+        run: |
+          echo ${{ needs.list-all-containers.outputs.containers-dirs }}
   update-docs:
     name: Update Docs
     needs: list-all-containers
