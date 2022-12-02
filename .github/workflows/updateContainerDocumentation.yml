@@ -20,12 +20,12 @@ jobs:
       - name: List Containers
         uses: ./.github/actions/list-containers
   update-docs:
-    name: Build containers
+    name: Update Docs
     needs: list-containers
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ${{ fromJson(env.containers) }}
+        container: ${{ fromJson(needs.list-containers.env.containers) }}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
