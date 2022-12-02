@@ -17,18 +17,15 @@ jobs:
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
-      - id: list-containers
-        name: List Containers
+      - name: List Containers
         uses: ./.github/actions/list-containers
-    outputs:
-      container-dirs: ${{steps.list-containers.outputs.containers}}
   update-docs:
     name: Build containers
     needs: list-containers
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ${{fromJson(needs.list-containers.outputs.container-dirs)}}
+        container: ${{ fromJson(env.containers) }}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
