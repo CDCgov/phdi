@@ -5,11 +5,11 @@ on:
     paths:
       - "containers/**"
       - ".github/workflows/updateContainerDocumentation.yml"
-      - ".github/actions/list-containers/action.yml"
+      - ".github/workflows/listContainers.yml"
 
 jobs:
   list-all-containers:
-    uses: CDCgov/phdi/.github/workflows/listContainers.yml@dan/fastapi-service-auto-docs
+    uses: ./.github/workflows/listContainers.yml
   test-job:
     name: Test Job
     needs: list-all-containers
