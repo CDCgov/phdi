@@ -23,4 +23,4 @@ jobs:
         # use jq to produce json output and filter out the empty item caused by final newline
         run: |
           ls -d * | jq -R -s -c 'split("\n")[:-1]'
-          echo "containers=\"$(ls -d * | jq -R -s -c 'split("\n")[:-1]')\"" >> $GITHUB_OUTPUT
+          echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
