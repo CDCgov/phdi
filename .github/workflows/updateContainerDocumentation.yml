@@ -4,8 +4,8 @@ on:
   push:
     paths:
       - "containers/**"
-      - ".github/workflows/updateContainerDocumentation.yaml"
-      - ".github/actions/list-containers/action.yaml"
+      - ".github/workflows/updateContainerDocumentation.yml"
+      - ".github/actions/list-containers/action.yml"
 
 jobs:
   list-containers:
