@@ -3,7 +3,8 @@ name: "List Containers"
 on:
   workflow_call:
     outputs:
-      containers: ${{jobs.list-containers.outputs.container-dirs}}
+      containers: 
+        value: ${{ jobs.list-containers.outputs.container-dirs }}
 
 jobs:
   list-containers:
