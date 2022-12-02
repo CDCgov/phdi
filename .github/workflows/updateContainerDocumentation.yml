@@ -8,7 +8,7 @@ on:
       - ".github/actions/list-containers/action.yml"
 
 jobs:
-  list-containers:
+  list-all-containers:
     name: List Container Subdirectories  
     runs-on: ubuntu-latest
     defaults:
@@ -17,18 +17,18 @@ jobs:
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
-      - id: list-containers
-        name: List Containers
+      - id: make-list
+        name: Make list
         uses: ./.github/actions/list-containers
     outputs:
-      containers: ${{steps.list-containers.outputs.containers}}
+      containers-dirs: ${{steps.make-list.outputs.containers}}
   update-docs:
     name: Update Docs
-    needs: list-containers
+    needs: list-all-containers
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ${{ fromJson(needs.list-containers.outputs.containers) }}
+        container: ${{ fromJson(needs.list-all-containers.outputs.containers-dirs) }}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
