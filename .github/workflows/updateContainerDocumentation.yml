@@ -9,7 +9,7 @@ on:
 
 jobs:
   list-all-containers:
-    uses: ./.github/workflows/listContainers.yml@v1
+    uses: ./.github/workflows/listContainers.yml
   test-job:
     name: Test Job
     needs: list-all-containers
