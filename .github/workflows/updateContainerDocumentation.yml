@@ -17,8 +17,11 @@ jobs:
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
-      - name: List Containers
+      - id: list-containers
+        name: List Containers
         uses: ./.github/actions/list-containers
+    outputs:
+      containers: ${{steps.list-containers.outputs.containers}}
   update-docs:
     name: Update Docs
     needs: list-containers
