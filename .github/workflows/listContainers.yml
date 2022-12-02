@@ -8,7 +8,7 @@ on:
 
 jobs:
   list-containers:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     outputs:
       container-dirs: ${{steps.generate-list.outputs.containers}}
     steps:
