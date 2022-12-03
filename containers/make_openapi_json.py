@@ -2,7 +2,7 @@ from fastapi.openapi.utils import get_openapi
 import json
 
 try:
-   from app.main import app 
+    from app.main import app
 except ModuleNotFoundError:
     from main import app
 """
