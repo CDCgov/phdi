@@ -1,7 +1,10 @@
 from fastapi.openapi.utils import get_openapi
-from app.main import app
 import json
 
+try:
+   from app.main import app 
+except ModuleNotFoundError:
+    from main import app
 """
 This is a simple script that writes the OpenAPI schema for a FastAPI application to
 a JSON file. This JSON can then be used with a tool like redoc-cli to generate a static
