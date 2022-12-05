@@ -196,18 +196,20 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
       The first list is a list of headers serving as the columns,
       and all subsequent lists are rows in the table.
     """
-
+    print('tabulate data \n')
     if table_name not in schema.get("tables", {}):
         raise KeyError(f"Provided table name {table_name} not found in schema")
 
     # First pass: build mapping of references for easy lookup
     ref_directions = _get_reference_directions(schema)
+    data_types = _get_data_types(schema)
     ref_dicts = _build_reference_dicts(data, ref_directions)
 
     # Get the columns from the schema so we always iterate through
     # them in a consistent order
     table_params = schema["tables"][table_name]
     column_items = table_params["columns"].items()
+    print('column_items'+str(column_items))
     headers = [column_name for column_name, _ in column_items]
     tabulated_data = [headers]
     anchor_type = schema["tables"][table_name]["resource_type"]
@@ -330,6 +332,7 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
     # Build up connections table by table, since one resource could be
     # used in multiple different tables
     reference_dicts = {}
+    print("*********tableName****"+str(directions_by_table))
     for table_name in directions_by_table.keys():
         reference_dicts[table_name] = {}
 
@@ -447,6 +450,7 @@ def _extract_value_with_resource_path(
     """
     parse_function = _get_fhirpathpy_parser(path)
     value = parse_function(resource)
+    print("resource"+str(resource))
     if len(value) == 0:
         return None
     else:
@@ -631,6 +635,44 @@ def _get_reference_directions(schema: dict) -> dict:
       how referenced resources relate to the anchor resource.
     """
 
+    directions_by_table = {}
+    for table_name, table_params in schema.get("tables", {}).items():
+        anchor_type = table_params.get("resource_type", "")
+        directions_by_table[table_name] = {
+            "anchor": anchor_type,
+            "forward": set(),
+            "reverse": {},
+        }
+
+        for column_params in table_params.get("columns", {}).values():
+            if "reference_location" in column_params:
+                [direction, ref_path] = column_params.get(
+                    "reference_location", ""
+                ).split(":", 1)
+                referenced_resource_type = column_params.get("fhir_path", "").split(
+                    "."
+                )[0]
+                if direction == "forward":
+                    directions_by_table[table_name][direction].add(
+                        referenced_resource_type
+                    )
+                else:
+                    directions_by_table[table_name][direction][
+                        referenced_resource_type
+                    ] = ref_path
+
+    return directions_by_table
+
+
+def _get_data_types(schema: dict) -> dict:
+    """
+    Creates a dictionary mapping indicating the data types that will be used
+    for the data.
+    :param schema: A user-defined schema, for one or more tables, that
+        maps a FHIR resource and element to a specified column in a table.
+    :return: A dict containing mappings, for each table, of
+      how referenced resources relate to the anchor resource.
+    """
     directions_by_table = {}
     for table_name, table_params in schema.get("tables", {}).items():
         anchor_type = table_params.get("resource_type", "")
