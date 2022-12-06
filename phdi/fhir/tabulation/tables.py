@@ -202,7 +202,6 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
 
     # First pass: build mapping of references for easy lookup
     ref_directions = _get_reference_directions(schema)
-    data_types = _get_data_types(schema)
     ref_dicts = _build_reference_dicts(data, ref_directions)
 
     # Get the columns from the schema so we always iterate through
@@ -280,7 +279,7 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
 
 def _apply_selection_criteria(
     value: List[Any],
-    selection_criteria: Literal["first", "last", "random", "all"],
+    selection_criteria: Literal["first", "last", "random"],
 ) -> str:
     """
     Returns value(s), according to the selection criteria, from a given list of values
@@ -635,44 +634,6 @@ def _get_reference_directions(schema: dict) -> dict:
       how referenced resources relate to the anchor resource.
     """
 
-    directions_by_table = {}
-    for table_name, table_params in schema.get("tables", {}).items():
-        anchor_type = table_params.get("resource_type", "")
-        directions_by_table[table_name] = {
-            "anchor": anchor_type,
-            "forward": set(),
-            "reverse": {},
-        }
-
-        for column_params in table_params.get("columns", {}).values():
-            if "reference_location" in column_params:
-                [direction, ref_path] = column_params.get(
-                    "reference_location", ""
-                ).split(":", 1)
-                referenced_resource_type = column_params.get("fhir_path", "").split(
-                    "."
-                )[0]
-                if direction == "forward":
-                    directions_by_table[table_name][direction].add(
-                        referenced_resource_type
-                    )
-                else:
-                    directions_by_table[table_name][direction][
-                        referenced_resource_type
-                    ] = ref_path
-
-    return directions_by_table
-
-
-def _get_data_types(schema: dict) -> dict:
-    """
-    Creates a dictionary mapping indicating the data types that will be used
-    for the data.
-    :param schema: A user-defined schema, for one or more tables, that
-        maps a FHIR resource and element to a specified column in a table.
-    :return: A dict containing mappings, for each table, of
-      how referenced resources relate to the anchor resource.
-    """
     directions_by_table = {}
     for table_name, table_params in schema.get("tables", {}).items():
         anchor_type = table_params.get("resource_type", "")
