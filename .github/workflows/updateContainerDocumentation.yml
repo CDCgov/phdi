@@ -22,9 +22,6 @@ jobs:
     name: Update Docs
     needs: list-all-containers
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        container: ${{ fromJson(needs.list-all-containers.outputs.containers) }}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
@@ -34,16 +31,19 @@ jobs:
       - name: Generate Documenation
         working-directory: ./containers/${{matrix.container}}
         run: |
-          cp ../make_openapi_json.py .
-          pip install -r requirements.txt
-          python make_openapi_json.py
-          npm i -g redoc-cli
-          redoc-cli build -o documentation.html openapi.json
+          for CONTAINER in ${{ fromJson(needs.list-all-containers.outputs.containers) }}
+          do
+            cd phdi/containers/$CONTAINER
+            cp ../make_openapi_json.py .
+            pip install -r requirements.txt
+            python make_openapi_json.py
+            npm i -g redoc-cli
+            redoc-cli build -o documentation.html openapi.json
+          done
       - name: Commit New Documentation
         uses: EndBug/add-and-commit@v9
         with:
           add: '*.html'
-          pull: '--rebase'
-          message: Update ${{matrix.container}} container documentation.
+          message: Update container documentation.
           committer_name: GitHub Actions
           committer_email: actions@github.com
