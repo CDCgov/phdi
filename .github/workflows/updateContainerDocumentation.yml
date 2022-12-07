@@ -35,7 +35,7 @@ jobs:
           container_list=($(echo "${{needs.list-all-containers.outputs.containers}}" | sed 's/[][]//g' | sed 's/,/ /g'))
           for CONTAINER in "${container_list[@]}"
           do
-            cd $GITHUB_WORKSPACE/$CONTAINER
+            cd $GITHUB_WORKSPACE/containers/$CONTAINER
             cp ../make_openapi_json.py .
             pip install -r requirements.txt
             python make_openapi_json.py
