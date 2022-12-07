@@ -43,6 +43,7 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           add: '*.html'
+          pull: '--rebase'
           message: Update ${{matrix.container}} container documentation.
           committer_name: GitHub Actions
           committer_email: actions@github.com
