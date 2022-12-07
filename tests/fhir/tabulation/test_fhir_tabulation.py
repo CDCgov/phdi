@@ -837,3 +837,9 @@ def test_convert_list_to_string():
         "string,array-string-1,array-string-2,array-array-1-1,array-array-1-2,2"
     )
     assert _convert_list_to_string(array_source) == array_result
+
+
+def test_convert_dict_to_string():
+    dict_source = {"foo": "bar", "baz": "biz"}
+    dict_result = "{'foo': 'bar', 'baz': 'biz'}"
+    assert _convert_dict_to_string(dict_source) == dict_result
