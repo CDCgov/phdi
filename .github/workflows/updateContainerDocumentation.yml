@@ -31,13 +31,13 @@ jobs:
       - name: Generate Documenation
         working-directory: ./containers/${{matrix.container}}
         run: |
-          for CONTAINER in ${{ fromJson(needs.list-all-containers.outputs.containers) }}
+          npm i -g redoc-cli
+          for CONTAINER in $( ${{ needs.list-all-containers.outputs.containers }}[2,-2] | sed "s/,/ /g" )
           do
             cd phdi/containers/$CONTAINER
             cp ../make_openapi_json.py .
             pip install -r requirements.txt
             python make_openapi_json.py
-            npm i -g redoc-cli
             redoc-cli build -o documentation.html openapi.json
           done
       - name: Commit New Documentation
