@@ -82,7 +82,7 @@ def test_tabulate_data():
     tabulated_exam_data = tabulate_data(
         extracted_data["entry"], schema, "Physical Exams"
     )
-    
+
     # Check all columns from schema present
     assert set(tabulated_patient_data[0]) == {
         "Patient ID",
