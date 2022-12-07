@@ -461,8 +461,10 @@ def _convert_list_to_string(val: list) -> str:
     for i, v in enumerate(val):
         if isinstance(v, list):
             val[i] = _convert_list_to_string(v)
-        if isinstance(v, dict):
+        elif isinstance(v, dict):
             val[i] = _convert_dict_to_string(v)
+        elif type(v) != str:
+            val[i] = str(v)
     return (",").join(val)
 
 
