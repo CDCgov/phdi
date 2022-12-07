@@ -176,7 +176,7 @@ def test_write_data_sql():
         (
             "Price929",
             "Waltham",
-            "['obs1']",
+            "obs1",
             "i-am-not-a-robot",
         )
     ]
@@ -196,11 +196,11 @@ def test_write_data_sql():
         (
             "Price929",
             "Waltham",
-            "['obs1']",
+            "obs1",
             "i-am-not-a-robot",
         ),
         ("Shepard", "Zakera Ward", "None", "no-srsly-i-am-hoomun"),
-        ("None", "Faketon", "['obs2', 'obs3']", "None"),
+        ("None", "Faketon", "obs2,obs3", "None"),
     ]
     conn.close()
 
