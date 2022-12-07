@@ -33,7 +33,7 @@ jobs:
         run: |
           npm i -g redoc-cli
           container_list=${{ needs.list-all-containers.outputs.containers }}
-          for CONTAINER in $( $container_list[2,-2] | sed "s/,/ /g" )
+          for CONTAINER in $( echo $container_list[2,-2] | sed "s/,/ /g" )
           do
             cd phdi/containers/$CONTAINER
             cp ../make_openapi_json.py .
