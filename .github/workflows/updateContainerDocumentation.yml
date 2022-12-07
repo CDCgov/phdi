@@ -32,7 +32,8 @@ jobs:
         working-directory: ./containers/${{matrix.container}}
         run: |
           npm i -g redoc-cli
-          for CONTAINER in $( ${{ needs.list-all-containers.outputs.containers }}[2,-2] | sed "s/,/ /g" )
+          container_list=${{ needs.list-all-containers.outputs.containers }}
+          for CONTAINER in $( container_list[2,-2] | sed "s/,/ /g" )
           do
             cd phdi/containers/$CONTAINER
             cp ../make_openapi_json.py .
