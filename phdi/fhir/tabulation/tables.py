@@ -463,7 +463,7 @@ def _convert_list_to_string(val: list) -> str:
             val[i] = _convert_list_to_string(v)
         if isinstance(v, dict):
             val[i] = _convert_dict_to_string(v)
-    return (',').join(val)
+    return (",").join(val)
 
 
 def _convert_dict_to_string(val: dict) -> str:
