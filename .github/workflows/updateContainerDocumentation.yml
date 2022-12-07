@@ -32,7 +32,7 @@ jobs:
         working-directory: ./containers/${{matrix.container}}
         run: |
           npm i -g redoc-cli
-          container_list=$(echo "$containers" | sed 's/[][]//g')
+          container_list=$(echo "$containers" | sed 's/[][]//g' | sed 's/,/ /g')
           for CONTAINER in "${container_list[@]}"
           do
             cd phdi/containers/$CONTAINER
