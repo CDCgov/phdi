@@ -28,11 +28,11 @@ We recommend running the FHIR Converter from a container, but if that is not fea
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/fhir-converter/`.
 4. Install all of the dependencies with `pip install -r requirements.txt`. We recommend that you do this in Python virtual environment.
-5. Run the Ingestion Service on `localhost:8080` with `uvicorn main:app --host 0.0.0.0 --port 8080`. 
+5. Run the FHIR Converter on `localhost:8080` with `uvicorn main:app --host 0.0.0.0 --port 8080`. 
 
 ### Building the Docker Image
 
-To build the Docker image for the Ingestion Service from source instead of downloading it from the PHDI repository follow these steps.
+To build the Docker image for the FHIR Converter from source instead of downloading it from the PHDI repository follow these steps.
 1. Ensure that bother Git and Docker are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/fhir-converter/`.
