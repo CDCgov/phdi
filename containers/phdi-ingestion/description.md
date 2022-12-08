@@ -5,7 +5,7 @@ The PHDI Ingestion Service offers a containerized web-API that provides HTTP end
 
 ### Available Functionality
 
-The table below offers a brief summary the endpoints and their functionalty currently supported by the Ingestion Service. For more detailed docuementation about the API please download the [documentation.html](documentation.html) file and open it in your browers. Alternatively, you may also view this more documentation by spinning up your own instance of the service by following [these directions](#running-the-ingestion-service) and visit the `/docs` endpoint.
+The table below offers a brief summary the endpoints and their functionalty currently supported by the Ingestion Service. Detailed documentation about the API and all of the endpoints is available [here](#detailed-endpoint-documentation). Alternatively, you may also view this more documentation by spinning up your own instance of the service by following [these directions](#running-the-ingestion-service) and visit the `/docs` endpoint.
 
 | Endpoint | Description |
 | -------- | ----------- |
@@ -55,5 +55,5 @@ To build the Docker image for the Ingestion Service from source instead of downl
 
 Below you will find detailed documentation about each of the endpoints on the Ingestion Service.
 
-## A note on API design
+#### A note on API design
 Each endpoint on the Ingestion Service implements a Building Block imported from the PHDI python library [phdi](https://pypi.org/project/phdi/). For consistency between `phdi` and the API on this service, the path to each endpoint corresponds to the location in `phdi` of the Building Block  that it implements. For example, the `standardize_names` function for FHIR resources and bundles can be imported from `phdi` with `from phdi.fhir.harmonization.standardization import standardize_names` and the `standardiz_names` endpoint on this service is located at `/fhir/harmonization/standardization/standardize_names`. 
