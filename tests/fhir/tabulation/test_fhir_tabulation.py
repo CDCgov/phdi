@@ -832,9 +832,11 @@ def test_convert_list_to_string():
         "string",
         ["array-string-1", "array-string-2"],
         [["array-array-1-1", "array-array-1-2"], 2],
+        {"foo": "bar"},
     ]
     array_result = (
-        "string,array-string-1,array-string-2,array-array-1-1,array-array-1-2,2"
+        "string,array-string-1,array-string-2,array-array-1-1"
+        + ",array-array-1-2,2,{'foo': 'bar'}"
     )
     assert _convert_list_to_string(array_source) == array_result
 
