@@ -38,7 +38,7 @@ Congradulations the Ingestion Service should now be running on `localhost:8080`!
 We recommend running the Ingestion Service from a container, but if that is not feasible for a given use case it may also be run directly from Python using the steps below.
 
 1. Ensure that both Git and Python 3.10 or higher are installed.
-2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi.git`.
+2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/phdi-ingestion/`.
 4. Install all of the dependencies with `pip install -r requirements.txt`. We recommend that you do this in Python virtual environment.
 5. Run the Ingestion Service on `localhost:8080` with `uvicorn app.main:app --host 0.0.0.0 --port 8080`. 
@@ -47,7 +47,7 @@ We recommend running the Ingestion Service from a container, but if that is not 
 
 To build the Docker image for the Ingestion Service from source instead of downloading it from the PHDI repository follow these steps.
 1. Ensure that bother Git and Docker are installed.
-2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi.git`.
+2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/phdi-ingestion/`.
 4. Run `docker build -t phdi-ingestion .`
 
