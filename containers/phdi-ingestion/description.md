@@ -1,7 +1,7 @@
 ## Getting Started with the PHDI Ingestion Service
 
 ### Introduction
-The PHDI Ingestion Service offers a containerized web-API that provides HTTP endpoints for each of the Building Blocks that compose the Ingestion Pipeline, except FHIR conversion. A dedicated FHIR conversion service is available [here](../fhir-converter/).
+The PHDI Ingestion Service offers a containerized web-API that provides HTTP endpoints for each of the Building Blocks that compose the Ingestion Pipeline, except FHIR conversion. A dedicated FHIR conversion service is available [here](https://github.com/CDCgov/phdi/tree/main/containers/fhir-converter).
 
 ### Available Functionality
 
@@ -31,7 +31,7 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/phdi-ingestion:main`.
 3. Run the service with `docker run -p 8080:8080 phdi-ingestion`.
 
-Congradualtions the Ingestion Service should now be running on `localhost:8080`!
+Congradulations the Ingestion Service should now be running on `localhost:8080`!
 
 #### Running from Python Source Code
 
@@ -49,4 +49,11 @@ To build the Docker image for the Ingestion Service from source instead of downl
 1. Ensure that bother Git and Docker are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi.git`.
 3. Navigate to `/phdi/containers/phdi-ingestion/`.
-4. Run `docker build -t phdi-ingestion .` 
+4. Run `docker build -t phdi-ingestion .`
+
+### Detailed Endpoint Documentation
+
+Below you will find detailed documentation about each of the endpoints on the Ingestion Service.
+
+## A note on API design
+Each endpoint on the Ingestion Service implements a Building Block imported from the PHDI python library [phdi](https://pypi.org/project/phdi/). For consistency between `phdi` and the API on this service, the path to each endpoint corresponds to the location in `phdi` of the Building Block  that it implements. For example, the `standardize_names` function for FHIR resources and bundles can be imported from `phdi` with `from phdi.fhir.harmonization.standardization import standardize_names` and the `standardiz_names` endpoint on this service is located at `/fhir/harmonization/standardization/standardize_names`. 

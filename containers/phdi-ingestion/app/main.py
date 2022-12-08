@@ -13,7 +13,7 @@ from pathlib import Path
 get_settings()
 
 # Start the API and set service metadata.
-description = Path('getting-started.md').read_text()
+description = Path('description.md').read_text()
 app = FastAPI(
     title="PHDI Ingestion Service",
     description=description,
