@@ -5,10 +5,24 @@ import json
 from enum import Enum
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel
+from pathlib import Path
 
 
-app = FastAPI()
-
+description = Path('description.md').read_text()
+app = FastAPI(
+    title="PHDI Ingestion Service",
+    description=description,
+    version="0.0.1",
+    contact={
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    },
+    license_info={
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    },
+)
 
 class InputType(str, Enum):
     hl7v2 = "hl7v2"
