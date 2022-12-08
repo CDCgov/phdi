@@ -36,10 +36,10 @@ jobs:
           for CONTAINER in "${container_list[@]}"
           do
             cd $GITHUB_WORKSPACE/containers/$CONTAINER
-            cp ../make_openapi_json.py .
+            cp $GITHUB_WORKSPACE/docs/containers/make_openapi_json.py .
             pip install -r requirements.txt
             python make_openapi_json.py
-            redoc-cli build -o documentation.html openapi.json
+            redoc-cli build -o $GITHUB_WORKSPACE/docs/containers/$CONTAINER.html openapi.json
           done
       - name: Commit New Documentation
         uses: EndBug/add-and-commit@v9
