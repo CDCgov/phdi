@@ -196,6 +196,7 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
       The first list is a list of headers serving as the columns,
       and all subsequent lists are rows in the table.
     """
+
     if table_name not in schema.get("tables", {}):
         raise KeyError(f"Provided table name {table_name} not found in schema")
 
@@ -271,6 +272,7 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
 
     # Drop invalid values specified in the schema
     tabulated_data = drop_invalid(tabulated_data, schema, table_name)
+
     return tabulated_data
 
 
@@ -449,7 +451,7 @@ def _extract_value_with_resource_path(
         return None
     else:
         value = _apply_selection_criteria(value, selection_criteria)
-    return value
+        return value
 
 
 def _generate_search_url(
