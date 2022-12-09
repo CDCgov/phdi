@@ -102,6 +102,14 @@ def write_data(
       incremental writing to a parquet destination is desired. Omit if
       `output_type` is not Parquet. Default: `None`.
     """
+    for i in range(1, len(tabulated_data)):
+        tableList = tabulated_data[i]
+        for n, v in enumerate(tableList):
+            if isinstance(v, list):
+                tabulated_data[i][n] = _convert_list_to_string(v)
+            if isinstance(v, dict):
+                tabulated_data[i][n] = _convert_dict_to_string(v)
+
     if output_type == "csv":
         write_headers = (
             False if os.path.isfile(os.path.join(directory, filename)) else True
@@ -155,3 +163,31 @@ def write_data(
 
         conn.commit()
         conn.close()
+
+
+def _convert_list_to_string(val: list) -> str:
+    """
+    Takes a parameter and checks that the value, if it is a list, uses recursion
+    to break down to the values to join into a string with a `,`.
+
+    :param val: A list object that may contain other types of objects to be stringified
+    for use in CSV, SQL, etc
+    """
+    for i, v in enumerate(val):
+        if isinstance(v, list):
+            val[i] = _convert_list_to_string(v)
+        elif isinstance(v, dict):
+            val[i] = _convert_dict_to_string(v)
+        elif type(v) != str:
+            val[i] = str(v)
+    return (",").join(val)
+
+
+def _convert_dict_to_string(val: dict) -> str:
+    """
+    Simple placeholder function to convert a dictionary into a string.
+    May be changed in the future
+
+    :param val: A dictionary object to be converted into a string.
+    """
+    return str(val)

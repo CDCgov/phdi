@@ -265,7 +265,6 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
                     )
                     for r in resource_to_use
                 ]
-                values = _convert_list_to_string(values)
                 row.append(values)
 
         tabulated_data.append(row)
@@ -450,26 +449,7 @@ def _extract_value_with_resource_path(
         return None
     else:
         value = _apply_selection_criteria(value, selection_criteria)
-        if isinstance(value, list):
-            return _convert_list_to_string(value)
-        if isinstance(value, dict):
-            return _convert_dict_to_string(value)
-        return value
-
-
-def _convert_list_to_string(val: list) -> str:
-    for i, v in enumerate(val):
-        if isinstance(v, list):
-            val[i] = _convert_list_to_string(v)
-        elif isinstance(v, dict):
-            val[i] = _convert_dict_to_string(v)
-        elif type(v) != str:
-            val[i] = str(v)
-    return (",").join(val)
-
-
-def _convert_dict_to_string(val: dict) -> str:
-    return str(val)
+    return value
 
 
 def _generate_search_url(

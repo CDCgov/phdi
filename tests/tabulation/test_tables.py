@@ -9,8 +9,16 @@ from unittest import mock
 import pytest
 import copy
 
-from phdi.tabulation import load_schema, validate_schema, write_data
+from phdi.tabulation import (
+    load_schema,
+    validate_schema,
+    write_data,
+)
 from phdi.fhir.tabulation import tabulate_data
+from phdi.tabulation.tables import (
+    _convert_list_to_string,
+    _convert_dict_to_string,
+)
 
 
 def test_load_schema():
@@ -254,3 +262,23 @@ def test_validate_schema():
     with pytest.raises(jsonschema.exceptions.ValidationError) as e:
         validate_schema(schema=invalid_data_type_declaraction)
     assert "'foo' is not one of ['string', 'number', 'boolean']" in str(e.value)
+
+
+def test_convert_list_to_string():
+    array_source = [
+        "string",
+        ["array-string-1", "array-string-2"],
+        [["array-array-1-1", "array-array-1-2"], 2],
+        {"foo": "bar"},
+    ]
+    array_result = (
+        "string,array-string-1,array-string-2,array-array-1-1"
+        + ",array-array-1-2,2,{'foo': 'bar'}"
+    )
+    assert _convert_list_to_string(array_source) == array_result
+
+
+def test_convert_dict_to_string():
+    dict_source = {"foo": "bar", "baz": "biz"}
+    dict_result = "{'foo': 'bar', 'baz': 'biz'}"
+    assert _convert_dict_to_string(dict_source) == dict_result

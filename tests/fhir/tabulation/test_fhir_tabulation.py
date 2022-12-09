@@ -20,8 +20,6 @@ from phdi.fhir.tabulation.tables import (
     _generate_search_url,
     _generate_search_urls,
     _dereference_included_resource,
-    _convert_dict_to_string,
-    _convert_list_to_string,
     extract_data_from_fhir_search_incremental,
     extract_data_from_fhir_search,
     extract_data_from_schema,
@@ -130,10 +128,10 @@ def test_tabulate_data():
             "Waltham",
             "Price929",
             "i-am-not-a-robot",
-            "obs1",
+            ["obs1"],
         ],
         ["no-srsly-i-am-hoomun", "Zakera Ward", "Shepard", None],
-        ["Faketon", None, None, "obs2,obs3"],
+        ["Faketon", None, None, ["obs2", "obs3"]],
     ]
     assert len(tabulated_exam_data[1:]) == 3
     tests_run = 0
@@ -825,23 +823,3 @@ def test_generate_tables(patch_search_incremental):
     # Remove file after testing is complete
     if os.path.isfile(physical_exams_path):  # pragma: no cover
         os.remove(physical_exams_path)
-
-
-def test_convert_list_to_string():
-    array_source = [
-        "string",
-        ["array-string-1", "array-string-2"],
-        [["array-array-1-1", "array-array-1-2"], 2],
-        {"foo": "bar"},
-    ]
-    array_result = (
-        "string,array-string-1,array-string-2,array-array-1-1"
-        + ",array-array-1-2,2,{'foo': 'bar'}"
-    )
-    assert _convert_list_to_string(array_source) == array_result
-
-
-def test_convert_dict_to_string():
-    dict_source = {"foo": "bar", "baz": "biz"}
-    dict_result = "{'foo': 'bar', 'baz': 'biz'}"
-    assert _convert_dict_to_string(dict_source) == dict_result
