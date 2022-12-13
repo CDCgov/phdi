@@ -17,7 +17,6 @@ from phdi.tabulation import (
 from phdi.fhir.tabulation import tabulate_data
 from phdi.tabulation.tables import (
     _convert_list_to_string,
-    _convert_dict_to_string,
 )
 
 
@@ -276,9 +275,3 @@ def test_convert_list_to_string():
         + ",array-array-1-2,2,{'foo': 'bar'}"
     )
     assert _convert_list_to_string(array_source) == array_result
-
-
-def test_convert_dict_to_string():
-    dict_source = {"foo": "bar", "baz": "biz"}
-    dict_result = "{'foo': 'bar', 'baz': 'biz'}"
-    assert _convert_dict_to_string(dict_source) == dict_result
