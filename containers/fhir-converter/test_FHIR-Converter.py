@@ -2,9 +2,9 @@
 from unittest import mock
 from fastapi.testclient import TestClient
 
-from main import api
+from main import app
 
-client = TestClient(api)
+client = TestClient(app)
 
 valid_request = {
     "input_data": "VALID_INPUT_DATA",
