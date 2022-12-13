@@ -10,14 +10,6 @@ on:
 jobs:
   list-all-containers:
     uses: ./.github/workflows/listContainers.yml
-  test-job:
-    name: Test Job
-    needs: list-all-containers
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log containers var
-        run: |
-          echo ${{ needs.list-all-containers.outputs.containers }}
   update-docs:
     name: Update Docs
     needs: list-all-containers
@@ -28,7 +20,15 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Generate Documenation
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      - name: Install Sphinx
+        run: pip install Sphinx
+      - name: Update Sphinx Documentation
+        run: |
+          sphinx-apidoc -o _source phdi
+          poetry run make html
+      - name: Update Container Documenation
         working-directory: ./containers/${{matrix.container}}
         run: |
           npm i -g redoc-cli
@@ -36,10 +36,10 @@ jobs:
           for CONTAINER in "${container_list[@]}"
           do
             cd $GITHUB_WORKSPACE/containers/$CONTAINER
-            cp $GITHUB_WORKSPACE/docs/containers/make_openapi_json.py .
+            cp $GITHUB_WORKSPACE/utils/make_openapi_json.py .
             pip install -r requirements.txt
             python make_openapi_json.py
-            redoc-cli build -o $GITHUB_WORKSPACE/docs/containers/$CONTAINER.html openapi.json
+            redoc-cli build -o $GITHUB_WORKSPACE/docs/html/$CONTAINER.html openapi.json
           done
       - name: Commit New Documentation
         uses: EndBug/add-and-commit@v9
