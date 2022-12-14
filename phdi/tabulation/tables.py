@@ -102,6 +102,15 @@ def write_data(
       incremental writing to a parquet destination is desired. Omit if
       `output_type` is not Parquet. Default: `None`.
     """
+    # some elements may themselves contain lists, if selection_criteria = all is used
+    for i in range(1, len(tabulated_data)):
+        table_list = tabulated_data[i]
+        for row, elt in enumerate(table_list):
+            if isinstance(elt, list):
+                tabulated_data[i][row] = _convert_list_to_string(elt)
+            if isinstance(elt, dict):
+                tabulated_data[i][row] = str(elt)
+
     if output_type == "csv":
         write_headers = (
             False if os.path.isfile(os.path.join(directory, filename)) else True
@@ -155,3 +164,20 @@ def write_data(
 
         conn.commit()
         conn.close()
+
+
+def _convert_list_to_string(val: list) -> str:
+    """
+    Serializes a given list into a string, separating values with commas.
+
+    :param val: A list that may contain other types of objects to be stringified
+      for use in CSV, SQL, etc
+    """
+    for i, v in enumerate(val):
+        if isinstance(v, list):
+            val[i] = _convert_list_to_string(v)
+        elif isinstance(v, dict):
+            val[i] = str(v)
+        elif type(v) != str:
+            val[i] = str(v)
+    return (",").join(val)
