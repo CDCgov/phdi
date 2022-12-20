@@ -686,7 +686,7 @@ def generate_tables(
     search_urls = _generate_search_urls(schema=schema)
 
     for table_name, search_url in search_urls.items():
-        pq_writer = output_params[table_name].get("pq_writer", None)
+        pq_writer = None
         next = search_url
         while next is not None:
 
@@ -707,6 +707,8 @@ def generate_tables(
                 filename=output_params[table_name].get("filename"),
                 output_type=output_params[table_name].get("output_type"),
                 db_file=output_params[table_name].get("db_file", None),
-                db_tablename=output_params[table_name].get("db_filename", None),
+                db_tablename=output_params[table_name].get("db_tablename", None),
                 pq_writer=pq_writer,
             )
+        if pq_writer is not None:
+            pq_writer.close()  # pragma: no cover
