@@ -3,5 +3,3 @@ uvicorn
 phdi
 httpx
 pytest
-jsonschema
-loguru
