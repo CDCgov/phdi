@@ -128,13 +128,13 @@ def tabulate(
     """
     # Load search_urls to query FHIR server
     search_urls = _generate_search_urls(schema=schema_)
-    directory = os.path.join(
-        "C:/Repos/phdi/containers/tabulation/",
-        "tables/",
-        f"{schema_name}/",
-        f"{datetime.datetime.now().strftime('%m-%d-%YT%H-%M-%S')}/",
+    directory = (
+        Path()
+        / "tables"
+        / schema_name
+        / datetime.datetime.now().strftime("%m-%d-%YT%H-%M-%S")
     )
-    os.makedirs(directory)
+    directory.mkdir(parents=True)
 
     for table_name, search_url in search_urls.items():
         next = search_url
