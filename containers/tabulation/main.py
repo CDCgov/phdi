@@ -20,7 +20,7 @@ get_settings()
 
 app = FastAPI()
 
-description = Path('description.md').read_text()
+description = Path("description.md").read_text(encoding="utf-8")
 app = FastAPI(
     title="PHDI Tabulation Service",
     version="0.0.1",
@@ -36,16 +36,25 @@ app = FastAPI(
     description=description,
 )
 
+
 class TabulateInput(BaseModel):
     """
     Request schema for the tabulate endpoint.
     """
 
     schema_: dict = Field(alias="schema", description="A JSON formatted PHDI schema.")
-    output_type: Literal["parquet", "csv", "sql"] = Field(description="Method for persisting data after extraction from the FHIR server and tabulation.")
-    schema_name: Optional[str] = Field(description="Name of the schema, if not provided here then it must be included within the metadata section of the schema in the 'schema_name' key.")
-    fhir_url: Optional[str] = Field(description="The URL of the FHIR server from which data should be extracted, should end with '/fhir'. If not provided here then it must be set as an environment variable.")
-    cred_manager: Optional[Literal["azure", "gcp"]] = Field(description="Chose a PHDI credential manager to use for authentication with the FHIR. May be set here or as an environment variable. If not provided anywhere then un-authenticated FHIR server requests will be attempted.")
+    output_type: Literal["parquet", "csv", "sql"] = Field(
+        description="Method for persisting data after extraction from the FHIR server and tabulation."
+    )
+    schema_name: Optional[str] = Field(
+        description="Name of the schema, if not provided here then it must be included within the metadata section of the schema in the 'schema_name' key."
+    )
+    fhir_url: Optional[str] = Field(
+        description="The URL of the FHIR server from which data should be extracted, should end with '/fhir'. If not provided here then it must be set as an environment variable."
+    )
+    cred_manager: Optional[Literal["azure", "gcp"]] = Field(
+        description="Chose a PHDI credential manager to use for authentication with the FHIR. May be set here or as an environment variable. If not provided anywhere then un-authenticated FHIR server requests will be attempted."
+    )
 
 
 # _check_schema_validity = validator("schema_", allow_reuse=True)(
@@ -61,7 +70,7 @@ async def health_check():
 @app.post("/tabulate", status_code=200)
 async def tabulate_endpoint(input: TabulateInput, response: Response):
     """
-    This endpoint will extract, tabulate, and persist data from a FHIR server according 
+    This endpoint will extract, tabulate, and persist data from a FHIR server according
     to a user-defined schema in the method of the user's choosing.
     """
 
@@ -101,31 +110,32 @@ def tabulate(
     cred_manager: BaseCredentialManager = None,
 ) -> dict:
     """
-    Given a schema and FHIR server, extract the required data from the FHIR server, 
-    tabulate the data according to the schema, and persist the data according to the 
+    Given a schema and FHIR server, extract the required data from the FHIR server,
+    tabulate the data according to the schema, and persist the data according to the
     file type specified by output_type.
 
     :param schema_: A declarative, user-defined specification, for one or more tables,
         that defines the metadata, properties, and columns of those tables as they
-        relate to FHIR resources. Additional information about creating and using these 
-        schema can be found at 
-        https://github.com/CDCgov/phdi/blob/main/tutorials/tabulation-tutorial.md. 
-    :output_type: Specifies how the data should be persisted after it has been extracted 
+        relate to FHIR resources. Additional information about creating and using these
+        schema can be found at
+        https://github.com/CDCgov/phdi/blob/main/tutorials/tabulation-tutorial.md.
+    :output_type: Specifies how the data should be persisted after it has been extracted
         from a FHIR server and tabulated.
     :schema_name: The name for the schema.
     :fhir_url: The URL of the FHIR server data should be extracted from.
-    :cred_manager: A credential manager that can be used handle authentication with FHIR 
-        server.  
+    :cred_manager: A credential manager that can be used handle authentication with FHIR
+        server.
     """
     # Load search_urls to query FHIR server
     search_urls = _generate_search_urls(schema=schema_)
-    directory = (
-        Path()
-        / "tables"
-        / schema_name
-        / datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
+    directory = os.path.join(
+        "C:/Repos/phdi/containers/tabulation/",
+        "tables/",
+        f"{schema_name}/",
+        f"{datetime.datetime.now().strftime('%m-%d-%YT%H-%M-%S')}/",
     )
-    directory.mkdir(parents=True)
+    os.makedirs(directory)
+
     for table_name, search_url in search_urls.items():
         next = search_url
         pq_writer = None
