@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel, validator, Field
-import os
 from typing import Optional, Literal, Dict, Any
 import urllib.parse
 import datetime
@@ -161,7 +160,7 @@ def tabulate(
                 pq_writer=pq_writer,
             )
 
-        if pq_writer != None:
+        if pq_writer is not None:
             pq_writer.close()
 
     result = {
