@@ -72,6 +72,8 @@ def write_data(
     db_file: str = None,
     db_tablename: str = None,
     pq_writer: pq.ParquetWriter = None,
+    schema: dict = None,
+    table_name: str = None,
 ) -> Union[None, pq.ParquetWriter]:
     """
     Writes a set of tabulated data to a particular output format on disk
@@ -122,7 +124,17 @@ def write_data(
             writer.writerows(tabulated_data[1:])
 
     if output_type == "parquet":
-        table = pa.Table.from_arrays(tabulated_data[1:], names=tabulated_data[0])
+        if schema and table_name:
+            print("RUNNING")
+            pq_schema = _create_pa_schema_from_table_schema(
+                schema, tabulated_data[0], table_name
+            )
+        else:
+            pq_schema = None
+
+        table = pa.Table.from_arrays(
+            tabulated_data[1:], names=tabulated_data[0], schema=pq_schema
+        )
         if pq_writer is None:
             pq_writer = pq.ParquetWriter(
                 os.path.join(directory, filename), table.schema
@@ -181,3 +193,30 @@ def _convert_list_to_string(val: list) -> str:
         elif type(v) != str:
             val[i] = str(v)
     return (",").join(val)
+
+
+def _create_pa_schema_from_table_schema(
+    schema: dict, names: List, table_name: str
+) -> pa.Schema:
+    table_columns = schema["tables"][table_name]["columns"]
+    pa_schema_arr = []
+    for name in names:
+        if name not in table_columns:
+            pa_schema_arr.append((name, pa.string()))
+            continue
+        for col in table_columns:
+            if str(col) == str(name):
+                data_type = (
+                    str(table_columns[col]["data_type"])
+                    if "data_type" in table_columns[col]
+                    else False
+                )
+
+                if data_type == "number":
+                    pa_schema_arr.append((name, pa.float32()))
+                elif data_type == "boolean":
+                    pa_schema_arr.append((name, pa.bool_()))
+                else:
+                    pa_schema_arr.append((name, pa.string()))
+    pa_schema = pa.schema(pa_schema_arr)
+    return pa_schema

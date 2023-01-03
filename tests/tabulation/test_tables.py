@@ -17,7 +17,9 @@ from phdi.tabulation import (
 from phdi.fhir.tabulation import tabulate_data
 from phdi.tabulation.tables import (
     _convert_list_to_string,
+    _create_pa_schema_from_table_schema,
 )
+import pyarrow as pa
 
 
 def test_load_schema():
@@ -124,8 +126,23 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
     file_format = "parquet"
 
     # Batch 1 tests creating a new parquet file and returning a writer
-    pq_writer = write_data(batch_1, file_location, file_format, output_file_name)
-    patched_pa_table.from_arrays.assert_called_with(batch_1[1:], names=batch_1[0])
+    pq_writer = write_data(
+        batch_1,
+        file_location,
+        file_format,
+        output_file_name,
+        None,
+        None,
+        None,
+        schema,
+        "Physical Exams",
+    )
+    pq_schema = _create_pa_schema_from_table_schema(
+        schema, batch_1[0], "Physical Exams"
+    )
+    patched_pa_table.from_arrays.assert_called_with(
+        batch_1[1:], names=batch_1[0], schema=pq_schema
+    )
     table = patched_pa_table.from_arrays(table_to_use[1:], table_to_use[0])
     patched_writer.assert_called_with(file_location + output_file_name, table.schema)
     patched_writer(
@@ -136,7 +153,9 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
     write_data(
         batch_2, file_location, file_format, output_file_name, pq_writer=pq_writer
     )
-    patched_pa_table.from_arrays.assert_called_with(batch_2[1:], names=batch_2[0])
+    patched_pa_table.from_arrays.assert_called_with(
+        batch_2[1:], names=batch_2[0], schema=None
+    )
     table = patched_pa_table.from_arrays(batch_2[1:], batch_2[0])
     pq_writer.write_table.assert_called_with(table=table)
 
@@ -275,3 +294,29 @@ def test_convert_list_to_string():
         + ",array-array-1-2,2,{'foo': 'bar'}"
     )
     assert _convert_list_to_string(array_source) == array_result
+
+
+def test_create_pa_schema_from_table_schema():
+    schema = yaml.safe_load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    extracted_data = extracted_data.get("entry", {})
+
+    table_to_use = tabulate_data(extracted_data, schema, "Patients")
+    pq_schema = _create_pa_schema_from_table_schema(schema, table_to_use[0], "Patients")
+    assert pq_schema == pa.schema(
+        [
+            ("Patient ID", pa.string()),
+            ("First Name", pa.string()),
+            ("Last Name", pa.string()),
+            ("Phone Number", pa.string()),
+            ("Building Number", pa.float32()),
+        ]
+    )
