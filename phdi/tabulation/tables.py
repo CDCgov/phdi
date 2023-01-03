@@ -125,7 +125,6 @@ def write_data(
 
     if output_type == "parquet":
         if schema and table_name:
-            print("RUNNING")
             pq_schema = _create_pa_schema_from_table_schema(
                 schema, tabulated_data[0], table_name
             )
