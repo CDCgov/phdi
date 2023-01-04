@@ -11,37 +11,6 @@ cloud_providers = {
 cred_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
 
 
-def check_for_fhir(value: dict) -> dict:
-    """
-    Check if the value provided is a valid FHIR resource or bundle by asserting that
-    a 'resourceType' key exists with a non-null value.
-
-    :param value: Dictionary to be tested for FHIR validity.
-    :return: The dictionary originally passed in as 'value'
-    """
-
-    assert value.get("resourceType") not in [
-        None,
-        "",
-    ], "Must provide a FHIR resource or bundle"
-    return value
-
-
-def check_for_fhir_bundle(value: dict) -> dict:
-    """
-    Check if the dictionary provided is a valid FHIR bundle by asserting that a
-    'resourceType' key exists with the value 'Bundle'.
-
-    :param value: Dictionary to be tested for FHIR validity.
-    :return: The dictionary originally passed in as 'value'
-    """
-
-    assert (
-        value.get("resourceType") == "Bundle"
-    ), "Must provide a FHIR resource or bundle"  # noqa
-    return value
-
-
 def search_for_required_values(input: dict, required_values: list) -> str:
     """
     Search for required values in the input dictionary and the environment.
