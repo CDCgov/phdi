@@ -370,6 +370,7 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
                 referenced_anchor = _extract_value_with_resource_path(
                     resource, ref_path
                 )
+                referenced_anchor = referenced_anchor.split("/")[-1]
 
                 # There could be a many-to-one relationship with reverse pointers,
                 # so store them in a list
