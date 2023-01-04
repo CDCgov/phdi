@@ -2,6 +2,7 @@ from app.config import get_settings
 from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
+from phdi.tabulation.tables import validate_schema
 
 
 cloud_providers = {
@@ -95,3 +96,11 @@ def get_cloud_provider_storage_connection(
         else:
             result = cloud_provider_class()
     return result
+
+def check_schema_validity(value:dict):
+    valid = True
+    try:
+        validate_schema(value)
+    except:
+        valid = False
+    assert valid is True, "Must provide a valid schema."

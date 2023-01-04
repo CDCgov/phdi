@@ -105,7 +105,7 @@ async def tabulate_endpoint(input: TabulateInput, response: Response):
     # Instantiate a credential manager.
     if input["cred_manager"] is not None:
         input["cred_manager"] = get_cred_manager(
-            cred_manager=input["cred_manager"], location_url=["fhir_url"]
+            cred_manager=input["cred_manager"], location_url=input["fhir_url"]
         )
 
     return tabulate(**input)
@@ -145,7 +145,6 @@ def tabulate(
     )
     
     directory.mkdir(parents=True)
-
     for table_name, search_url in search_urls.items():
         next = search_url
         pq_writer = None
