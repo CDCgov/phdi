@@ -35,6 +35,7 @@ app = FastAPI(
     description=description,
 )
 
+
 class TabulateInput(BaseModel):
     """
     Request schema for the tabulate endpoint.
@@ -144,6 +145,7 @@ def tabulate(
     )
     
     directory.mkdir(parents=True)
+
     for table_name, search_url in search_urls.items():
         next = search_url
         pq_writer = None
@@ -169,7 +171,7 @@ def tabulate(
                 pq_writer=pq_writer,
             )
 
-        if pq_writer != None:
+        if pq_writer is not None:
             pq_writer.close()
 
     result = {
