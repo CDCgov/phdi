@@ -1,7 +1,7 @@
+from dataclasses import replace
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel, validator, Field
-import os
-from typing import Optional, Literal, Dict, Any
+from typing import Optional, Literal
 import urllib.parse
 import datetime
 from pathlib import Path
@@ -12,15 +12,14 @@ from phdi.fhir.tabulation.tables import (
     extract_data_from_fhir_search_incremental,
     tabulate_data,
 )
-from config import get_settings
-from utils import get_cred_manager, search_for_required_values
+from app.config import get_settings
+from app.utils import get_cred_manager, search_for_required_values
 
-# Read settings immediately to fail fast in case there are invalid values.
+# Read settings from environmnent.
 get_settings()
 
-app = FastAPI()
-
-description = Path('description.md').read_text()
+# Instantiate FastAPI and set metadata.
+description = Path("description.md").read_text()
 app = FastAPI(
     title="PHDI Tabulation Service",
     version="0.0.1",
@@ -42,26 +41,44 @@ class TabulateInput(BaseModel):
     """
 
     schema_: dict = Field(alias="schema", description="A JSON formatted PHDI schema.")
-    output_type: Literal["parquet", "csv", "sql"] = Field(description="Method for persisting data after extraction from the FHIR server and tabulation.")
-    schema_name: Optional[str] = Field(description="Name of the schema, if not provided here then it must be included within the metadata section of the schema in the 'schema_name' key.")
-    fhir_url: Optional[str] = Field(description="The URL of the FHIR server from which data should be extracted, should end with '/fhir'. If not provided here then it must be set as an environment variable.")
-    cred_manager: Optional[Literal["azure", "gcp"]] = Field(description="Chose a PHDI credential manager to use for authentication with the FHIR. May be set here or as an environment variable. If not provided anywhere then un-authenticated FHIR server requests will be attempted.")
+    output_type: Literal["parquet", "csv", "sql"] = Field(
+        description="Method for persisting data after extraction from the FHIR server "
+        "and tabulation."
+    )
+    schema_name: Optional[str] = Field(
+        description="Name of the schema, if not provided here then it must be included "
+        "within the metadata section of the schema in the 'schema_name' key."
+    )
+    fhir_url: Optional[str] = Field(
+        description="The URL of the FHIR server from which data should be extracted, "
+        "should end with '/fhir'. If not provided here then it must be set as an "
+        "environment variable."
+    )
+    cred_manager: Optional[Literal["azure", "gcp"]] = Field(
+        description="Chose a PHDI credential manager to use for authentication with the" 
+        " FHIR. May be set here or as an environment variable. If not provided anywhere" 
+        " then un-authenticated FHIR server requests will be attempted."
+    )
 
 
-# _check_schema_validity = validator("schema_", allow_reuse=True)(
-# validate_schema
-# )
+    #_check_schema_validity = validator("schema_", allow_reuse=True)(
+    #validate_schema
+    #)
 
 
 @app.get("/")
 async def health_check():
+    """
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the tabulation service is available and running properly.
+    """
     return {"status": "OK"}
 
 
 @app.post("/tabulate", status_code=200)
 async def tabulate_endpoint(input: TabulateInput, response: Response):
     """
-    This endpoint will extract, tabulate, and persist data from a FHIR server according 
+    This endpoint will extract, tabulate, and persist data from a FHIR server according
     to a user-defined schema in the method of the user's choosing.
     """
 
@@ -76,7 +93,7 @@ async def tabulate_endpoint(input: TabulateInput, response: Response):
 
     # Look for a schema name.
     if input["schema_name"] is None:
-        input["schema_name"] = input["schema"]["metadata"].get("schema_name")
+        input["schema_name"] = input["schema_"]["metadata"].get("schema_name")
         if input["schema_name"] is None:
             response.status_code = status.HTTP_400_BAD_REQUEST
             response_message = "A value for schema_name could not be found. A value for"
@@ -101,21 +118,21 @@ def tabulate(
     cred_manager: BaseCredentialManager = None,
 ) -> dict:
     """
-    Given a schema and FHIR server, extract the required data from the FHIR server, 
-    tabulate the data according to the schema, and persist the data according to the 
+    Given a schema and FHIR server, extract the required data from the FHIR server,
+    tabulate the data according to the schema, and persist the data according to the
     file type specified by output_type.
 
     :param schema_: A declarative, user-defined specification, for one or more tables,
         that defines the metadata, properties, and columns of those tables as they
-        relate to FHIR resources. Additional information about creating and using these 
-        schema can be found at 
-        https://github.com/CDCgov/phdi/blob/main/tutorials/tabulation-tutorial.md. 
-    :output_type: Specifies how the data should be persisted after it has been extracted 
+        relate to FHIR resources. Additional information about creating and using these
+        schema can be found at
+        https://github.com/CDCgov/phdi/blob/main/tutorials/tabulation-tutorial.md.
+    :output_type: Specifies how the data should be persisted after it has been extracted
         from a FHIR server and tabulated.
     :schema_name: The name for the schema.
     :fhir_url: The URL of the FHIR server data should be extracted from.
-    :cred_manager: A credential manager that can be used handle authentication with FHIR 
-        server.  
+    :cred_manager: A credential manager that can be used handle authentication with FHIR
+        server.
     """
     # Load search_urls to query FHIR server
     search_urls = _generate_search_urls(schema=schema_)
@@ -123,8 +140,9 @@ def tabulate(
         Path()
         / "tables"
         / schema_name
-        / datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
+        / datetime.datetime.now().strftime("%m-%d-%YT%H%M%S")
     )
+    
     directory.mkdir(parents=True)
     for table_name, search_url in search_urls.items():
         next = search_url
@@ -139,12 +157,12 @@ def tabulate(
             tabulated_incremental_data = tabulate_data(
                 incremental_results, schema_, table_name
             )
-
+            filename = table_name.replace(" ", "_") + "." + output_type
             # Write set of tabulated incremental data
             write_data(
                 tabulated_data=tabulated_incremental_data,
                 directory=str(directory),
-                filename=table_name,
+                filename=filename,
                 output_type=output_type,
                 db_file=schema_name,
                 db_tablename=table_name,

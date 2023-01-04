@@ -1,4 +1,4 @@
-from config import get_settings
+from app.config import get_settings
 from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager

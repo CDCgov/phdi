@@ -16,7 +16,7 @@ To run the tabulation service with Docker follow these steps.
 Docker version 20.10.21, build baeda1f
 ``` 
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/tabulation:main`.
-3. Run the service with `docker run -p 8080:8080 tabulation:main`.
+3. Run the service with ` docker run -p 8080:8080 -v $(pwd):/code tabulation:main`.
 
 Congradulations the FHIR Converter should now be running on `localhost:8080`!
 
