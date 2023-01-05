@@ -3,9 +3,10 @@ from pydantic import BaseModel, Field, validator
 from typing import Optional, Literal
 import urllib.parse
 import datetime
+import jsonschema
 from pathlib import Path
 from phdi.cloud.core import BaseCredentialManager
-
+from phdi.tabulation import validate_schema
 from phdi.tabulation.tables import write_data
 from phdi.fhir.tabulation.tables import (
     _generate_search_urls,
@@ -38,6 +39,16 @@ app = FastAPI(
     },
     description=description,
 )
+
+
+class SchemaValidationInput(BaseModel):
+    """
+    Input parameters for the tabulation service.
+    """
+
+    table_schema: dict = Field(
+        alias="schema", description="A JSON formatted PHDI schema."
+    )
 
 
 class TabulateInput(BaseModel):
@@ -77,6 +88,27 @@ async def health_check():
     '{"status": "OK"}' then the tabulation service is available and running properly.
     """
     return {"status": "OK"}
+
+
+@app.post("/validate-schema", status_code=200)
+async def validate_schema_endpoint(input: SchemaValidationInput):
+    try:
+        validate_schema(input.table_schema)
+        return {"success": True, "isValid": True, "message": "Valid Schema"}
+    except jsonschema.exceptions.ValidationError as e:
+        print("Error: ", e)
+        return {
+            "success": True,
+            "isValid": False,
+            "message": "Invalid schema: Validation exception",
+        }
+    except jsonschema.exceptions.SchemaError as e:
+        print("Error: ", e)
+        return {
+            "success": True,
+            "isValid": False,
+            "message": "Invalid schema: Schema error",
+        }
 
 
 @app.post("/tabulate", status_code=200)
