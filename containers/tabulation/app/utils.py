@@ -71,7 +71,7 @@ def get_cred_manager(
     return result
 
 
-def check_schema_validity(value:dict):
+def check_schema_validity(value: dict):
     valid = True
     try:
         validate_schema(value)

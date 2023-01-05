@@ -3,23 +3,28 @@ from pydantic import BaseModel, Field, validator
 from typing import Optional, Literal
 import urllib.parse
 import datetime
+import jsonschema
 from pathlib import Path
 from phdi.cloud.core import BaseCredentialManager
-
+from phdi.tabulation import validate_schema
 from phdi.tabulation.tables import write_data
 from phdi.fhir.tabulation.tables import (
     _generate_search_urls,
     extract_data_from_fhir_search_incremental,
-    tabulate_data
+    tabulate_data,
 )
 from app.config import get_settings
-from app.utils import get_cred_manager, search_for_required_values, check_schema_validity
+from app.utils import (
+    get_cred_manager,
+    search_for_required_values,
+    check_schema_validity,
+)
 
 # Read settings from environmnent.
 get_settings()
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text()
+description = Path("description.md").read_text(encoding="utf-8")
 app = FastAPI(
     title="PHDI Tabulation Service",
     version="0.0.1",
@@ -34,6 +39,16 @@ app = FastAPI(
     },
     description=description,
 )
+
+
+class SchemaValidationInput(BaseModel):
+    """
+    Input parameters for the tabulation service.
+    """
+
+    table_schema: dict = Field(
+        alias="schema", description="A JSON formatted PHDI schema."
+    )
 
 
 class TabulateInput(BaseModel):
@@ -62,7 +77,7 @@ class TabulateInput(BaseModel):
     )
 
     _check_schema_validity = validator("schema_", allow_reuse=True)(
-    check_schema_validity
+        check_schema_validity
     )
 
 
@@ -73,6 +88,27 @@ async def health_check():
     '{"status": "OK"}' then the tabulation service is available and running properly.
     """
     return {"status": "OK"}
+
+
+@app.post("/validate-schema", status_code=200)
+async def validate_schema_endpoint(input: SchemaValidationInput):
+    try:
+        validate_schema(input.table_schema)
+        return {"success": True, "isValid": True, "message": "Valid Schema"}
+    except jsonschema.exceptions.ValidationError as e:
+        print("Error: ", e)
+        return {
+            "success": True,
+            "isValid": False,
+            "message": "Invalid schema: Validation exception",
+        }
+    except jsonschema.exceptions.SchemaError as e:
+        print("Error: ", e)
+        return {
+            "success": True,
+            "isValid": False,
+            "message": "Invalid schema: Schema error",
+        }
 
 
 @app.post("/tabulate", status_code=200)
