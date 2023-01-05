@@ -5,7 +5,7 @@ import json
 from app.utils import (
     search_for_required_values,
     get_cred_manager,
-    check_schema_validity
+    check_schema_validity,
 )
 from app.config import get_settings
 
@@ -71,10 +71,11 @@ def test_check_schema_validity_invalid_schema():
     with pytest.raises(AssertionError):
         check_schema_validity(invalid_schema)
 
+
 def test_check_schema_validity_valid_schema():
     valid_schema_path = (
         pathlib.Path(__file__).parent.parent.parent.parent
-        /"tests"
+        / "tests"
         / "assets"
         / "valid_schema.json"
     )
