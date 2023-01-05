@@ -10,10 +10,14 @@ from phdi.tabulation.tables import write_data
 from phdi.fhir.tabulation.tables import (
     _generate_search_urls,
     extract_data_from_fhir_search_incremental,
-    tabulate_data
+    tabulate_data,
 )
 from app.config import get_settings
-from app.utils import get_cred_manager, search_for_required_values, check_schema_validity
+from app.utils import (
+    get_cred_manager,
+    search_for_required_values,
+    check_schema_validity,
+)
 
 # Read settings from environmnent.
 get_settings()
@@ -62,7 +66,7 @@ class TabulateInput(BaseModel):
     )
 
     _check_schema_validity = validator("schema_", allow_reuse=True)(
-    check_schema_validity
+        check_schema_validity
     )
 
 
