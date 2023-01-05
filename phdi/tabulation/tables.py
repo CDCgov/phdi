@@ -107,6 +107,8 @@ def write_data(
     # some elements may themselves contain lists, if selection_criteria = all is used
     for i in range(1, len(tabulated_data)):
         table_list = tabulated_data[i]
+        if table_list is None:
+            continue
         for row, elt in enumerate(table_list):
             if isinstance(elt, list):
                 tabulated_data[i][row] = _convert_list_to_string(elt)

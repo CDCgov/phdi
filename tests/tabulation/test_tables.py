@@ -120,7 +120,8 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
 
     table_to_use = tabulate_data(extracted_data, schema, "Physical Exams")
     batch_1 = table_to_use[:2]
-    batch_2 = [table_to_use[0]] + table_to_use[2:]
+    batch_2 = [table_to_use[0]] + table_to_use[2]
+    batch_3 = [table_to_use[0]] + table_to_use[3:]
     file_location = "./"
     output_file_name = "new_parquet"
     file_format = "parquet"
@@ -151,12 +152,33 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
 
     # Batch 2 tests appending to existing parquet using previous writer
     write_data(
-        batch_2, file_location, file_format, output_file_name, pq_writer=pq_writer
+        batch_2,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        schema=schema,
     )
     patched_pa_table.from_arrays.assert_called_with(
         batch_2[1:], names=batch_2[0], schema=None
     )
     table = patched_pa_table.from_arrays(batch_2[1:], batch_2[0])
+    pq_writer.write_table.assert_called_with(table=table)
+
+    # Batch 3 tests appending to existing parquet using previous writer
+    write_data(
+        batch_3,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        schema=schema,
+    )
+
+    patched_pa_table.from_arrays.assert_called_with(
+        batch_3[1:], names=batch_3[0], schema=None
+    )
+    table = patched_pa_table.from_arrays(batch_3[1:], batch_3[0])
     pq_writer.write_table.assert_called_with(table=table)
 
     # One from initial test of creating new pq file, and one
