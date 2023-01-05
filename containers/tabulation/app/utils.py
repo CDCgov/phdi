@@ -2,6 +2,7 @@ from app.config import get_settings
 from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
+from phdi.tabulation.tables import validate_schema
 
 
 cloud_providers = {
@@ -9,37 +10,6 @@ cloud_providers = {
     "gcp": GcpCloudStorageConnection,
 }
 cred_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
-
-
-def check_for_fhir(value: dict) -> dict:
-    """
-    Check if the value provided is a valid FHIR resource or bundle by asserting that
-    a 'resourceType' key exists with a non-null value.
-
-    :param value: Dictionary to be tested for FHIR validity.
-    :return: The dictionary originally passed in as 'value'
-    """
-
-    assert value.get("resourceType") not in [
-        None,
-        "",
-    ], "Must provide a FHIR resource or bundle"
-    return value
-
-
-def check_for_fhir_bundle(value: dict) -> dict:
-    """
-    Check if the dictionary provided is a valid FHIR bundle by asserting that a
-    'resourceType' key exists with the value 'Bundle'.
-
-    :param value: Dictionary to be tested for FHIR validity.
-    :return: The dictionary originally passed in as 'value'
-    """
-
-    assert (
-        value.get("resourceType") == "Bundle"
-    ), "Must provide a FHIR resource or bundle"  # noqa
-    return value
 
 
 def search_for_required_values(input: dict, required_values: list) -> str:
@@ -101,28 +71,11 @@ def get_cred_manager(
     return result
 
 
-def get_cloud_provider_storage_connection(
-    cloud_provider: str, storage_account_url: str = None
-) -> BaseCredentialManager:
-    """
-    Return a cloud provider storage connection for different cloud providers
-    depending upon which one the user requests via the parameter.
-
-    :param cloud_provider: A string identifying which cloud provider is desired.
-    :return: Either a Google Cloud Storage Connection or an Azure Storage
-    Connection depending upon the value passed in.
-    """
-    cloud_provider_class = cloud_providers.get(cloud_provider)
-    result = None
-    # if the cloud_provider_class is not none then instantiate an instance of it
-    if cloud_provider_class is not None:
-        if cloud_provider == "azure":
-            cred_manager = get_cred_manager(
-                cred_manager=cloud_provider, location_url=storage_account_url
-            )
-            result = cloud_provider_class(
-                storage_account_url=storage_account_url, cred_manager=cred_manager
-            )
-        else:
-            result = cloud_provider_class()
-    return result
+def check_schema_validity(value:dict):
+    valid = True
+    try:
+        validate_schema(value)
+    except:
+        valid = False
+    assert valid is True, "Must provide a valid schema."
+    return value
