@@ -22,7 +22,7 @@ from app.utils import get_cred_manager, search_for_required_values
 get_settings()
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text()
+description = Path("description.md").read_text(encoding="utf-8")
 app = FastAPI(
     title="PHDI Tabulation Service",
     version="0.0.1",
@@ -567,7 +567,7 @@ def tabulate(
             write_data(
                 tabulated_data=tabulated_incremental_data,
                 directory=str(directory),
-                filename=filename,
+                filename=table_name,
                 output_type=output_type,
                 db_file=schema_name,
                 db_tablename=table_name,
