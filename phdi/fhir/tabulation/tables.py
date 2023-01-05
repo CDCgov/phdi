@@ -111,13 +111,22 @@ def extract_data_from_fhir_search_incremental(
     # mandating a credential manager. Then replace the direct call to
     # http_request_with_reauth with fhir_server_get.
     # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
+    headers = {}
+    if cred_manager is not None:
+        access_token = cred_manager.get_access_token()
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Accept": "application/fhir+json",
+            "Content-Type": "application/fhir+json",
+        }
+
     response = http_request_with_reauth(
         url=search_url,
         cred_manager=cred_manager,
         retry_count=2,
         request_type="GET",
         allowed_methods=["GET"],
-        headers={},
+        headers=headers,
     )
 
     if response.status_code != 200:  # pragma: no cover
