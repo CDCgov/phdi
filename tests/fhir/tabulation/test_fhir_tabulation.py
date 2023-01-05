@@ -606,9 +606,10 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
         + "http://localhost:8080/fhir/Patient"
     ) in str(warn[0].message)
 
+
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search_incremental_auth(patch_query):
-    """Test that the header of the request passed to http_request_with_reauth is set 
+    """Test that the header of the request passed to http_request_with_reauth is set
     appropriately when a credential manager is provided and when one is not."""
 
     # Case 1: Credential manager is provided.
@@ -617,10 +618,10 @@ def test_extract_data_from_fhir_search_incremental_auth(patch_query):
     search_url = "some-fhir-search-url"
 
     headers = {
-            "Authorization": f"Bearer {cred_manager.get_access_token.return_value}",
-            "Accept": "application/fhir+json",
-            "Content-Type": "application/fhir+json",
-        }
+        "Authorization": f"Bearer {cred_manager.get_access_token.return_value}",
+        "Accept": "application/fhir+json",
+        "Content-Type": "application/fhir+json",
+    }
 
     mocked_http_response = mock.Mock(spec=Response)
     mocked_http_response.status_code = 200
@@ -637,13 +638,14 @@ def test_extract_data_from_fhir_search_incremental_auth(patch_query):
         retry_count=2,
         request_type="GET",
         allowed_methods=["GET"],
-        headers=headers)
+        headers=headers,
+    )
 
     cred_manager = None
 
     # Case 2: Credential manager is not provided.
     extract_data_from_fhir_search_incremental(
-        search_url=search_url, cred_manager = cred_manager
+        search_url=search_url, cred_manager=cred_manager
     )
 
     assert patch_query.called_with(
@@ -652,7 +654,8 @@ def test_extract_data_from_fhir_search_incremental_auth(patch_query):
         retry_count=2,
         request_type="GET",
         allowed_methods=["GET"],
-        headers={})
+        headers={},
+    )
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")

@@ -114,7 +114,7 @@ def extract_data_from_fhir_search_incremental(
     headers = {}
     if cred_manager is not None:
         access_token = cred_manager.get_access_token()
-        headers={
+        headers = {
             "Authorization": f"Bearer {access_token}",
             "Accept": "application/fhir+json",
             "Content-Type": "application/fhir+json",
