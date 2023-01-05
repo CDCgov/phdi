@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Response, status
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import Optional, Literal
 import urllib.parse
 import datetime
@@ -13,7 +13,7 @@ from phdi.fhir.tabulation.tables import (
     tabulate_data
 )
 from app.config import get_settings
-from app.utils import get_cred_manager, search_for_required_values
+from app.utils import get_cred_manager, search_for_required_values, check_schema_validity
 
 # Read settings from environmnent.
 get_settings()
@@ -61,9 +61,9 @@ class TabulateInput(BaseModel):
         " then un-authenticated FHIR server requests will be attempted."
     )
 
-    # _check_schema_validity = validator("schema_", allow_reuse=True)(
-    # validate_schema
-    # )
+    _check_schema_validity = validator("schema_", allow_reuse=True)(
+    check_schema_validity
+    )
 
 
 @app.get("/")

@@ -71,32 +71,6 @@ def get_cred_manager(
     return result
 
 
-def get_cloud_provider_storage_connection(
-    cloud_provider: str, storage_account_url: str = None
-) -> BaseCredentialManager:
-    """
-    Return a cloud provider storage connection for different cloud providers
-    depending upon which one the user requests via the parameter.
-
-    :param cloud_provider: A string identifying which cloud provider is desired.
-    :return: Either a Google Cloud Storage Connection or an Azure Storage
-    Connection depending upon the value passed in.
-    """
-    cloud_provider_class = cloud_providers.get(cloud_provider)
-    result = None
-    # if the cloud_provider_class is not none then instantiate an instance of it
-    if cloud_provider_class is not None:
-        if cloud_provider == "azure":
-            cred_manager = get_cred_manager(
-                cred_manager=cloud_provider, location_url=storage_account_url
-            )
-            result = cloud_provider_class(
-                storage_account_url=storage_account_url, cred_manager=cred_manager
-            )
-        else:
-            result = cloud_provider_class()
-    return result
-
 def check_schema_validity(value:dict):
     valid = True
     try:
@@ -104,3 +78,4 @@ def check_schema_validity(value:dict):
     except:
         valid = False
     assert valid is True, "Must provide a valid schema."
+    return value
