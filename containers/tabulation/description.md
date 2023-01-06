@@ -28,7 +28,7 @@ We recommend running the tabulation service from a container, but if that is not
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/tabulation/`.
 4. Make a fresh virtual environment with `python -m venv .venv`.
-5. Activate the virtual environement with `source .venv/bin/activate` (MacOS and Linux), or `venv\Scripts\activate` (Windows).
+5. Activate the virtual environement with `source .venv/bin/activate` (MacOS and Linux), `venv\Scripts\activate` (Windows Command Prompt), or `.venv\Scripts\Activate.ps1` (Windows Power Shell).
 5. Install all of the Python dependencies for the tabulation service with `pip install -r requirements.txt` into your virtual environment.
 6. Run the FHIR Converter on `localhost:8080` with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8080`. 
 
