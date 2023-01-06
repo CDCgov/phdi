@@ -9,44 +9,85 @@ from azure.communication.phonenumbers import (
 from azure.communication.sms import SmsClient
 from azure.identity import DefaultAzureCredential
 from fastapi import FastAPI, Response, status
-from pydantic import BaseModel, BaseSettings
+from pydantic import BaseModel, BaseSettings, Field
 import pymsteams
 from functools import lru_cache
+from pathlib import Path
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from typing import Optional
 
-
-api = FastAPI()
+# Instantiate FastAPI and set metadata.
+description = Path("README.md").read_text(encoding="utf-8")
+api = FastAPI(
+    title="PHDI Alerts Service",
+    version="0.0.1",
+    contact={
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    },
+    license_info={
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    },
+    description=description,
+)
 
 
 class Settings(BaseSettings):
+    """
+    Environment variables needed for alerts.
+    """
+
     communication_service_name: Optional[str]
     slack_bot_token: Optional[str]
     teams_webhook_url: Optional[str]
 
 
 class SmsAlertInput(BaseModel):
-    phone_number: str
-    message: str
+    """
+    Input parameters for SMS alerts.
+    """
+
+    phone_number: str = Field(description="The phone number to send the alert to.")
+    message: str = Field(description="The message to send to the phone number.")
 
 
 class SlackAlertInput(BaseModel):
-    channel_id: str
-    message: str
+    """
+    Input parameters for Slack alerts.
+    """
+
+    channel_id: str = Field(description="The Slack channel ID to send the alert to.")
+    message: str = Field(description="The message to send to the Slack channel.")
 
 
 class TeamsAlertInput(BaseModel):
-    message: str
+    """
+    Input parameter for Teams alerts.
+    """
+
+    message: str = Field(description="The message to send to the Teams channel.")
 
 
 @api.get("/")
 async def health_check():
+    """
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the alerts service is available and running properly.
+    """
     return {"status": "OK"}
 
 
 @api.post("/sms-alert", status_code=200)
 async def sms_alert(input: SmsAlertInput, response: Response):
+    """
+    Send an SMS alert to a phone number.
+    :param input: A JSON formated request body with schema specified by the
+        SmsAlertInput model.
+    """
+
     env = check_for_environment_variables()
     communication_service_name = env.get("communication_service_name")
     if communication_service_name is None:
@@ -68,6 +109,12 @@ async def sms_alert(input: SmsAlertInput, response: Response):
 
 @api.post("/slack-alert", status_code=200)
 async def slack_alert(input: SlackAlertInput, response: Response):
+    """
+    Send a Slack alert to a channel.
+    :param input: A JSON formated request body with schema specified by the
+        SlackAlertInput model.
+    """
+
     env = check_for_environment_variables()
     slack_bot_token = env.get("slack_bot_token")
     if slack_bot_token is None:
@@ -89,6 +136,12 @@ async def slack_alert(input: SlackAlertInput, response: Response):
 
 @api.post("/teams-alert", status_code=200)
 async def teams_alert(input: TeamsAlertInput, response: Response):
+    """
+    Send a Teams alert to a channel.
+    :param input: A JSON formated request body with schema specified by the
+        TeamsAlertInput model.
+    """
+
     env = check_for_environment_variables()
     teams_webhook_url = env.get("teams_webhook_url")
     if teams_webhook_url is None:
@@ -114,6 +167,11 @@ def get_settings() -> dict:
 
 
 def check_for_environment_variables():
+    """
+    Read the environment variables needed for alerts and return a dictionary containing
+    them.
+    """
+
     return {
         "communication_service_name": get_settings().get("communication_service_name"),
         "slack_bot_token": get_settings().get("slack_bot_token"),
@@ -122,6 +180,11 @@ def check_for_environment_variables():
 
 
 def get_phone_number(endpoint, credential):
+    """
+    Purchase a phone number to use for sending SMS messages, or find an existing phone
+    number that has already been purchased.
+    """
+
     phone_numbers_client = PhoneNumbersClient(endpoint, credential)
     capabilities = PhoneNumberCapabilities(
         calling=PhoneNumberCapabilityType.OUTBOUND,
@@ -152,6 +215,10 @@ def get_phone_number(endpoint, credential):
 
 
 def check_for_purchased_phone_numbers(phone_numbers_client):
+    """
+    Check if any phone numbers have already been purchased.
+    """
+
     purchased_phone_numbers = phone_numbers_client.list_purchased_phone_numbers()
     for purchased_phone_number in purchased_phone_numbers:
         return {
@@ -162,6 +229,10 @@ def check_for_purchased_phone_numbers(phone_numbers_client):
 
 
 def create_identity_and_get_token(resource_endpoint, credential):
+    """
+    Create a new user identity and get a token for that identity.
+    """
+
     client = CommunicationIdentityClient(resource_endpoint, credential)
     client.create_user_and_token(scopes=["voip"])
 
@@ -169,6 +240,10 @@ def create_identity_and_get_token(resource_endpoint, credential):
 def send_sms(
     resource_endpoint, credential, from_phone_number, to_phone_number, message_content
 ):
+    """
+    Send an SMS message.
+    """
+
     sms_client = SmsClient(resource_endpoint, credential)
 
     response = sms_client.send(
