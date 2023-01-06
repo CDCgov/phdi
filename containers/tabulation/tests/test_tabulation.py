@@ -10,10 +10,10 @@ import datetime
 from app.main import app, tabulate
 
 valid_schema_path = (
-        pathlib.Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "valid_schema.json"
+    pathlib.Path(__file__).parent.parent.parent.parent
+    / "tests"
+    / "assets"
+    / "valid_schema.json"
 )
 
 valid_schema = json.load(open(valid_schema_path))
@@ -27,9 +27,7 @@ valid_tabulate_request = {
 
 client = TestClient(app)
 
-valid_validate_request = {
-    "schema": valid_schema
-}
+valid_validate_request = {"schema": valid_schema}
 
 invalid_validate_request = {"schema": {}}
 
