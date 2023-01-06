@@ -30,12 +30,12 @@ We recommend running the tabulation service from a container, but if that is not
 4. Make a fresh virtual environment with `python -m venv .venv`.
 5. Activate the virtual environement with `source .venv/bin/activate` (MacOS and Linux), or `venv\Scripts\activate` (Windows).
 5. Install all of the Python dependencies for the tabulation service with `pip install -r requirements.txt` into your virtual environment.
-6. Run the FHIR Converter on `localhost:8080` with `python -m uvicorn main:app --host 0.0.0.0 --port 8080`. 
+6. Run the FHIR Converter on `localhost:8080` with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8080`. 
 
 ### Building the Docker Image
 
 To build the Docker image for the tabulation service from source instead of downloading it from the PHDI repository follow these steps.
-1. Ensure that bother Git and Docker are installed.
+1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/tabulation/`.
 4. Run `docker build -t tabulation .`.

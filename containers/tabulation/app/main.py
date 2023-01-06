@@ -185,14 +185,12 @@ def tabulate(
     for table_name, search_url in search_urls.items():
         next = search_url
         pq_writer = None
-        print(table_name)
         while next is not None:
             # Return set of incremental results and next URL to query
             incremental_results, next = extract_data_from_fhir_search_incremental(
-                search_url=urllib.parse.urljoin(fhir_url, search_url),
+                search_url=urllib.parse.urljoin(fhir_url, next),
                 cred_manager=cred_manager,
             )
-            print(urllib.parse.urljoin(fhir_url, search_url))
             # Tabulate data for set of incremental results
             tabulated_incremental_data = tabulate_data(
                 incremental_results, schema_, table_name
