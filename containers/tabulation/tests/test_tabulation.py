@@ -1,4 +1,5 @@
 # flake8: noqa
+import os
 from fastapi.testclient import TestClient
 import json
 from unittest import mock
@@ -7,11 +8,17 @@ import copy
 import urllib
 import datetime
 from app.main import app, tabulate
+from pathlib import Path
+
+# Load valid schema
+abs_path = os.path.dirname(__file__)
+filename = abs_path + '/assets/valid_schema.json'
+schema_text = json.loads(Path(filename).read_text())
 
 client = TestClient(app)
 
 valid_request = {
-    "table_schema": {},
+    "table_schema": schema_text
 }
 
 invalid_request = {"table_schema": {}}
