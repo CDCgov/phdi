@@ -111,13 +111,22 @@ def extract_data_from_fhir_search_incremental(
     # mandating a credential manager. Then replace the direct call to
     # http_request_with_reauth with fhir_server_get.
     # response = fhir_server_get(url=full_url, cred_manager=cred_manager)
+    headers = {}
+    if cred_manager is not None:
+        access_token = cred_manager.get_access_token()
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Accept": "application/fhir+json",
+            "Content-Type": "application/fhir+json",
+        }
+
     response = http_request_with_reauth(
         url=search_url,
         cred_manager=cred_manager,
         retry_count=2,
         request_type="GET",
         allowed_methods=["GET"],
-        headers={},
+        headers=headers,
     )
 
     if response.status_code != 200:  # pragma: no cover
@@ -370,6 +379,7 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
                 referenced_anchor = _extract_value_with_resource_path(
                     resource, ref_path
                 )
+                referenced_anchor = referenced_anchor.split("/")[-1]
 
                 # There could be a many-to-one relationship with reverse pointers,
                 # so store them in a list
@@ -686,6 +696,7 @@ def generate_tables(
     search_urls = _generate_search_urls(schema=schema)
 
     for table_name, search_url in search_urls.items():
+        pq_writer = None
         next = search_url
         while next is not None:
 
@@ -700,12 +711,14 @@ def generate_tables(
             )
 
             # Write set of tabulated incremental data
-            write_data(
+            pq_writer = write_data(
                 tabulated_data=tabulated_incremental_data,
                 directory=output_params[table_name].get("directory"),
                 filename=output_params[table_name].get("filename"),
                 output_type=output_params[table_name].get("output_type"),
                 db_file=output_params[table_name].get("db_file", None),
-                db_tablename=output_params[table_name].get("db_filename", None),
-                pq_writer=output_params[table_name].get("pq_writer", None),
+                db_tablename=output_params[table_name].get("db_tablename", None),
+                pq_writer=pq_writer,
             )
+        if pq_writer is not None:
+            pq_writer.close()  # pragma: no cover

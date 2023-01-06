@@ -608,6 +608,57 @@ def test_extract_data_from_fhir_search_incremental(patch_query):
 
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
+def test_extract_data_from_fhir_search_incremental_auth(patch_query):
+    """Test that the header of the request passed to http_request_with_reauth is set
+    appropriately when a credential manager is provided and when one is not."""
+
+    # Case 1: Credential manager is provided.
+    cred_manager = mock.Mock()
+    cred_manager.get_access_token.return_value = "my-access-token"
+    search_url = "some-fhir-search-url"
+
+    headers = {
+        "Authorization": f"Bearer {cred_manager.get_access_token.return_value}",
+        "Accept": "application/fhir+json",
+        "Content-Type": "application/fhir+json",
+    }
+
+    mocked_http_response = mock.Mock(spec=Response)
+    mocked_http_response.status_code = 200
+    mocked_http_response._content = json.dumps("").encode("utf-8")
+    patch_query.return_value = mocked_http_response
+
+    extract_data_from_fhir_search_incremental(
+        search_url=search_url, cred_manager=cred_manager
+    )
+
+    assert patch_query.called_with(
+        url=search_url,
+        cred_manager=cred_manager,
+        retry_count=2,
+        request_type="GET",
+        allowed_methods=["GET"],
+        headers=headers,
+    )
+
+    cred_manager = None
+
+    # Case 2: Credential manager is not provided.
+    extract_data_from_fhir_search_incremental(
+        search_url=search_url, cred_manager=cred_manager
+    )
+
+    assert patch_query.called_with(
+        url=search_url,
+        cred_manager=cred_manager,
+        retry_count=2,
+        request_type="GET",
+        allowed_methods=["GET"],
+        headers={},
+    )
+
+
+@mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search(patch_query):
 
     fhir_server_responses = json.load(
