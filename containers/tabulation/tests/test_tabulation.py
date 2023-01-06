@@ -1,4 +1,5 @@
 # flake8: noqa
+import os
 from fastapi.testclient import TestClient
 import json
 from unittest import mock
@@ -8,13 +9,29 @@ import urllib
 import datetime
 from app.main import app, tabulate
 
-client = TestClient(app)
+valid_schema_path = (
+        pathlib.Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "valid_schema.json"
+)
 
-valid_request = {
-    "table_schema": {},
+valid_schema = json.load(open(valid_schema_path))
+
+valid_tabulate_request = {
+    "output_type": "csv",
+    "schema_name": "new_schema",
+    "fhir_url": "http://localhost:8000/fhir/",
+    "schema": valid_schema,
 }
 
-invalid_request = {"table_schema": {}}
+client = TestClient(app)
+
+valid_validate_request = {
+    "schema": valid_schema
+}
+
+invalid_validate_request = {"schema": {}}
 
 valid_response = {}
 
@@ -26,7 +43,7 @@ def test_health_check():
 
 
 def test_validate_schema_pass():
-    actual_response = client.post("/validate-schema", json=valid_request)
+    actual_response = client.post("/validate-schema", json=valid_validate_request)
     assert actual_response.status_code == 200
     assert actual_response.json() == {
         "success": True,
@@ -36,29 +53,13 @@ def test_validate_schema_pass():
 
 
 def test_validate_validation_fail():
-    actual_response = client.post("/validate-schema", json=invalid_request)
+    actual_response = client.post("/validate-schema", json=invalid_validate_request)
     assert actual_response.status_code == 200
     assert actual_response.json() == {
         "success": True,
         "isValid": False,
         "message": "Invalid schema: Validation exception",
     }
-
-
-valid_schema_path = (
-    pathlib.Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "valid_schema.json"
-)
-valid_schema = json.load(open(valid_schema_path))
-
-valid_tabulate_request = {
-    "output_type": "csv",
-    "schema_name": "new_schema",
-    "fhir_url": "http://localhost:8000/fhir/",
-    "schema": valid_schema,
-}
 
 
 @mock.patch("app.main.tabulate")

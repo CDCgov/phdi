@@ -43,7 +43,7 @@ app = FastAPI(
 
 class SchemaValidationInput(BaseModel):
     """
-    Input parameters for the tabulation service.
+    Input parameters for schema validation.
     """
 
     table_schema: dict = Field(
