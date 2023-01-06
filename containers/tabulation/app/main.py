@@ -132,9 +132,11 @@ async def tabulate_endpoint(input: TabulateInput, response: Response):
         input["schema_name"] = input["schema_"]["metadata"].get("schema_name")
         if input["schema_name"] is None:
             response.status_code = status.HTTP_400_BAD_REQUEST
-            response_message = "A value for schema_name could not be found. A value for"
-            "schema_name must be provided using the 'schema_name' key in the request"
-            "body, or within the metadata section of the schema."
+            response_message = (
+                "A value for schema_name could not be found. A value for"
+                "schema_name must be provided using the 'schema_name' key in the request"
+                "body, or within the metadata section of the schema."
+            )
             return response_message
 
     # Instantiate a credential manager.
