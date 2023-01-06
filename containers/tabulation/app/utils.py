@@ -3,6 +3,7 @@ from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManag
 from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 from phdi.tabulation.tables import validate_schema
+import jsonschema
 
 
 cloud_providers = {
@@ -75,7 +76,7 @@ def check_schema_validity(value: dict):
     valid = True
     try:
         validate_schema(value)
-    except:
+    except jsonschema.exceptions.ValidationError:
         valid = False
     assert valid is True, "Must provide a valid schema."
     return value

@@ -167,7 +167,7 @@ def test_tabulate_endpoint_missing_schema_name(patched_tabulate):
     assert actual_response.status_code == 400
     assert (
         actual_response.json()
-        == "A value for schema_name could not be found. A value forschema_name must be provided using the 'schema_name' key in the requestbody, or within the metadata section of the schema."
+        == "A value for schema_name could not be found. A value for schema_name must be provided using the 'schema_name' key in the request body, or within the metadata section of the schema."
     )  # noqa
 
 

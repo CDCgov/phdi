@@ -83,5 +83,5 @@ def test_check_schema_validity_valid_schema():
 
     try:
         check_schema_validity(valid_schema)
-    except:
+    except AssertionError:
         pytest.fail("A valid schema raised an exception which should not happen.")
