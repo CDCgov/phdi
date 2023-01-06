@@ -198,7 +198,7 @@ def tabulate(
                 incremental_results, schema_, table_name
             )
             # Write set of tabulated incremental data
-            write_data(
+            pq_writer = write_data(
                 tabulated_data=tabulated_incremental_data,
                 directory=str(directory),
                 filename=table_name,

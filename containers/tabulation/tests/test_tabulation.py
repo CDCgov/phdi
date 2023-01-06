@@ -4,7 +4,9 @@ import json
 from unittest import mock
 import pathlib
 import copy
-from app.main import app
+import urllib
+import datetime
+from app.main import app, tabulate
 
 client = TestClient(app)
 
@@ -196,3 +198,59 @@ def test_tabulate_endpoint_instantiate_cred_manager(
         cred_manager=tabulate_request["cred_manager"],
         location_url=tabulate_request["fhir_url"],
     )
+
+
+@mock.patch("app.main.write_data")
+@mock.patch("app.main.tabulate_data")
+@mock.patch("app.main.extract_data_from_fhir_search_incremental")
+@mock.patch("app.main._generate_search_urls")
+def test_tabulate(
+    patched_generate_search_urls,
+    patched_extract_data_from_fhir_search_incremental,
+    patched_tabulate_data,
+    patched_write_data,
+):
+    tabulate_request = copy.deepcopy(valid_tabulate_request)
+    tabulate_request["schema_"] = tabulate_request["schema"]
+    tabulate_request.pop("schema")
+
+    search_urls = {"my-table": "my-table-search-url"}
+    patched_generate_search_urls.return_value = search_urls
+
+    incremental_results = ("some-incremental-results", None)
+    patched_extract_data_from_fhir_search_incremental.return_value = incremental_results
+
+    patched_tabulate_data.return_value = "some-tabulated-incremental-results"
+
+    pq_writer = mock.Mock()
+    patched_write_data.return_value = pq_writer
+
+    directory = (
+        pathlib.Path()
+        / "tables"
+        / tabulate_request["schema_name"]
+        / datetime.datetime.now().strftime("%m-%d-%YT%H%M%S")
+    )
+
+    tabulate(**tabulate_request)
+
+    patched_generate_search_urls.assert_called_with(schema=tabulate_request["schema_"])
+    patched_extract_data_from_fhir_search_incremental.assert_called_with(
+        search_url=urllib.parse.urljoin(
+            tabulate_request["fhir_url"], search_urls["my-table"]
+        ),
+        cred_manager=None,
+    )
+    patched_tabulate_data.assert_called_with(
+        incremental_results[0], tabulate_request["schema_"], list(search_urls.keys())[0]
+    )
+    patched_write_data.assert_called_with(
+        tabulated_data=patched_tabulate_data(),
+        directory=str(directory),
+        filename=list(search_urls.keys())[0],
+        output_type=tabulate_request["output_type"],
+        db_file=tabulate_request["schema_name"],
+        db_tablename=list(search_urls.keys())[0],
+        pq_writer=None,
+    )
+    assert pq_writer.close.called
