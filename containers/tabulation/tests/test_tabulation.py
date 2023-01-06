@@ -157,13 +157,18 @@ def test_tabulate_endpoint_invalid_cred_manager(patched_tabulate):
         ]
     }
 
+
 @mock.patch("app.main.tabulate")
 def test_tabulate_endpoint_missing_schema_name(patched_tabulate):
     invalid_tabulate_request = copy.deepcopy(valid_tabulate_request)
     invalid_tabulate_request.pop("schema_name")
     actual_response = client.post("/tabulate", json=invalid_tabulate_request)
     assert actual_response.status_code == 400
-    assert actual_response.json() == "A value for schema_name could not be found. A value forschema_name must be provided using the 'schema_name' key in the requestbody, or within the metadata section of the schema." #noqa
+    assert (
+        actual_response.json()
+        == "A value for schema_name could not be found. A value forschema_name must be provided using the 'schema_name' key in the requestbody, or within the metadata section of the schema."
+    )  # noqa
+
 
 @mock.patch("app.main.tabulate")
 def test_tabulate_endpoint_missing_fhirl_url(patched_tabulate):
@@ -171,14 +176,23 @@ def test_tabulate_endpoint_missing_fhirl_url(patched_tabulate):
     invalid_tabulate_request.pop("fhir_url")
     actual_response = client.post("/tabulate", json=invalid_tabulate_request)
     assert actual_response.status_code == 400
-    assert actual_response.json() == "The following values are required, but were not included in the request and could not be read from the environment. Please resubmit the request including these values or add them as environment variables to this service. missing values: fhir_url." #noqa
+    assert (
+        actual_response.json()
+        == "The following values are required, but were not included in the request and could not be read from the environment. Please resubmit the request including these values or add them as environment variables to this service. missing values: fhir_url."
+    )  # noqa
+
 
 @mock.patch("app.main.get_cred_manager")
 @mock.patch("app.main.tabulate")
-def test_tabulate_endpoint_instantiate_cred_manager(patched_tabulate, patched_get_cred_manager):
+def test_tabulate_endpoint_instantiate_cred_manager(
+    patched_tabulate, patched_get_cred_manager
+):
     tabulate_request = copy.deepcopy(valid_tabulate_request)
     tabulate_request["cred_manager"] = "azure"
     actual_response = client.post("/tabulate", json=tabulate_request)
     assert actual_response.status_code == 200
     assert actual_response.json() == {}
-    patched_get_cred_manager.assert_called_with(cred_manager=tabulate_request["cred_manager"], location_url=tabulate_request["fhir_url"])
+    patched_get_cred_manager.assert_called_with(
+        cred_manager=tabulate_request["cred_manager"],
+        location_url=tabulate_request["fhir_url"],
+    )
