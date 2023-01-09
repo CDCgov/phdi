@@ -138,6 +138,8 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
         schema,
         "Physical Exams",
     )
+    assert pq_writer is not None
+
     pq_schema = _create_pa_schema_from_table_schema(
         schema, batch_1[0], "Physical Exams"
     )

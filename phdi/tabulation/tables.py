@@ -197,11 +197,21 @@ def _convert_list_to_string(val: list) -> str:
 
 
 def _create_pa_schema_from_table_schema(
-    schema: dict, names: List, table_name: str
+    schema: dict, col_names: List, table_name: str
 ) -> pa.Schema:
+    """
+    Returns a parquet schema based on the schema definition file provided to the
+      function. Defaults to String.
+
+    :param schema: A dict value that is defined by the user which contains the structure
+      of the data.
+    :param col_names: A list of column names that the parquet schema is being generated for.
+    :param table_name: A string of the table name that the parquet schema is being
+      generated for.
+    """
     table_columns = schema["tables"][table_name]["columns"]
     pa_schema_arr = []
-    for name in names:
+    for name in col_names:
         if name not in table_columns:
             pa_schema_arr.append((name, pa.string()))
             continue
