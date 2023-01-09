@@ -1,0 +1,10 @@
+azure-communication-identity
+azure-communication-phonenumbers
+azure-communication-sms
+azure-identity
+fastapi
+uvicorn
+httpx
+slack_sdk
+pymsteams
+pytest
