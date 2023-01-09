@@ -205,7 +205,8 @@ def _create_pa_schema_from_table_schema(
 
     :param schema: A dict value that is defined by the user which contains the structure
       of the data.
-    :param col_names: A list of column names that the parquet schema is being generated for.
+    :param col_names: A list of column names that the parquet schema is being generated
+      for.
     :param table_name: A string of the table name that the parquet schema is being
       generated for.
     """
