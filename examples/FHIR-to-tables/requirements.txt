@@ -1,7 +1,0 @@
-azure-identity
-pyyaml
-pyarrow
-pandas
-numpy
-pandas
-phdi
