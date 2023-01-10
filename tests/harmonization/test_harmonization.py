@@ -10,6 +10,7 @@ from phdi.harmonization import (
     standardize_country_code,
     standardize_phone,
     standardize_name,
+    compare_strings,
 )
 
 
@@ -301,3 +302,44 @@ def test_standardize_name():
         "PAUL BUNYAN",
         "JRRTOLKIE87N 999",
     ]
+
+
+def test_compare_strings():
+    correct_string = "John"
+    test_string = "Jhon"
+
+    assert compare_strings(correct_string, test_string) != 1.0
+
+    # 100% match for all similarity measures
+    test_string = "John"
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="JaroWinkler")
+        == 1.0
+    )
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="Levenshtein")
+        == 1.0
+    )
+    assert (
+        compare_strings(
+            correct_string, test_string, similarity_measure="DemerauLevenshtein"
+        )
+        == 1.0
+    )
+
+    # 0% match for all similarity measures
+    test_string = "abcd"
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="JaroWinkler")
+        == 0.0
+    )
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="Levenshtein")
+        == 0.0
+    )
+    assert (
+        compare_strings(
+            correct_string, test_string, similarity_measure="DemerauLevenshtein"
+        )
+        == 0.0
+    )
