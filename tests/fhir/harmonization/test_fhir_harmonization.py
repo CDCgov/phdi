@@ -1,8 +1,64 @@
+import fuzzy
 import json
 import pathlib
 import copy
 
-from phdi.fhir.harmonization import standardize_names, standardize_phones
+from phdi.fhir.harmonization import (
+    double_metaphone_bundle,
+    double_metaphone_patient,
+    standardize_names,
+    standardize_phones,
+)
+
+
+def test_double_metaphone_bundle():
+    raw_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    raw_bundle = standardize_names(raw_bundle)
+    dms = double_metaphone_bundle(raw_bundle)
+    assert dms == {
+        "907844f6-7c99-eabc-f68e-d92189729a55": [
+            {"official": [[b"KMPR", None], [b"PRK", None]]}
+        ],
+        "65489-asdf5-6d8w2-zz5g8": [
+            {"official": [[b"JN", b"AN"], [b"TPRS", None], [b"XPRT", None]]}
+        ],
+        "some-uuid": [{"official": [[b"JN", b"AN"], [b"TNJR", b"TNKR"], [None, None]]}],
+    }
+
+
+def test_double_metaphone_patient():
+    raw_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+
+    # Add a couple more name uses to prove out robustness
+    patient = raw_bundle.get("entry")[1].get("resource")
+    patient.get("name").append({"family": "D", "given": ["Johnny"], "use": "usual"})
+    patient.get("name").append(
+        {"family": "Doe", "given": ["Johnathan", "Dangerson"], "use": "old"}
+    )
+
+    # Standardize all of the names
+    patient = standardize_names(patient)
+
+    # Now test and verify using preexisting and new dmeta objects
+    for dmeta in [None, fuzzy.DMetaphone()]:
+        dms = double_metaphone_patient(patient, dmeta)
+        assert dms == [
+            {"official": [[b"JN", b"AN"], [b"TNJR", b"TNKR"], [b"T", None]]},
+            {"usual": [[b"JN", b"AN"], [b"T", None]]},
+            {"old": [[b"JN0N", b"ANTN"], [b"TNJR", b"TNKR"], [b"T", None]]},
+        ]
 
 
 def test_standardize_names():
