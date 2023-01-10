@@ -322,7 +322,7 @@ def test_compare_strings():
     )
     assert (
         compare_strings(
-            correct_string, test_string, similarity_measure="DemerauLevenshtein"
+            correct_string, test_string, similarity_measure="DamerauLevenshtein"
         )
         == 1.0
     )
@@ -339,7 +339,7 @@ def test_compare_strings():
     )
     assert (
         compare_strings(
-            correct_string, test_string, similarity_measure="DemerauLevenshtein"
+            correct_string, test_string, similarity_measure="DamerauLevenshtein"
         )
         == 0.0
     )
