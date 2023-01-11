@@ -13,7 +13,9 @@ def compare_strings(
     Returns the normalized similarity measure between string1 and string2, as
     determined by the similarlity measure. The higher the normalized similarity measure
     (up to 1.0), the more similar string1 and string2 are. A normalized similarity
-    measure of 0.0 means string1 and string 2 are not at all similar.
+    measure of 0.0 means string1 and string 2 are not at all similar. This function
+    expects basic text cleaning (e.g. removal of numeric characters, trimming of spaces,
+    etc.) to already have been performed on the input strings.
 
     :param string1: First string for comparison.
     :param string2: Second string for comparison.
