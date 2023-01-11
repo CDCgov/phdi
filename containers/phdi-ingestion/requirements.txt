@@ -1,4 +1,4 @@
-fastapi
+fastapi==0.88.0
 uvicorn
 phdi
 httpx
