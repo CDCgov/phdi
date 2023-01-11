@@ -39,6 +39,9 @@ def test_double_metaphone_string():
         assert double_metaphone_string(
             "Beaumarchais", dmeta
         ) == double_metaphone_string("Bumarchay", dmeta)
+        assert double_metaphone_string("Sophia", dmeta) == double_metaphone_string(
+            "Sofia", dmeta
+        )
 
         # Test 2: names with language-dependent pronunciation (e.g. German
         # pronunciation of 'W' as 'V') should have secondary encodings
