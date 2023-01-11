@@ -163,7 +163,7 @@ def test_tabulate_endpoint_invalid_cred_manager(patched_tabulate):
 def test_tabulate_endpoint_missing_schema_name(patched_tabulate):
     invalid_tabulate_request = copy.deepcopy(valid_tabulate_request)
     invalid_tabulate_request.pop("schema_name")
-    invalid_tabulate_request["schema"].pop("schema_name")
+    del invalid_tabulate_request["schema"]["metadata"]["schema_name"]
     actual_response = client.post("/tabulate", json=invalid_tabulate_request)
     assert actual_response.status_code == 400
     assert (
