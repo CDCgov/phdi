@@ -19,7 +19,7 @@ def compare_strings(
     :param string2: Second string for comparison.
     :param similarity_measure: The method used to measure the similarity between two
         strings, defaults to "JaroWinkler".
-     - JaroWinkler: the number of matching characters and transpositions needed to
+     - JaroWinkler: a ratio of matching characters and transpositions needed to
         transform string1 into string2.
      - Levenshtein: the number of edits (excluding transpositions) needed to transform
         string1 into string2.
