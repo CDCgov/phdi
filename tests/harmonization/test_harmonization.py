@@ -10,8 +10,9 @@ from phdi.harmonization import (
     standardize_country_code,
     standardize_phone,
     standardize_name,
-    compare_strings,
 )
+
+from phdi.harmonization.utils import compare_strings
 
 
 def test_standardize_hl7_datetimes():
