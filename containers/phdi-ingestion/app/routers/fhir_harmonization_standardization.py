@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from typing import Literal, Optional
 
 from app.utils import check_for_fhir, StandardResponse
@@ -15,11 +15,23 @@ router = APIRouter(
 
 
 class StandardizeNamesInput(BaseModel):
-    data: dict
-    trim: Optional[bool] = True
-    overwrite: Optional[bool] = True
-    case: Optional[Literal["upper", "lower", "title"]] = "upper"
-    remove_numbers: Optional[bool] = True
+    data: dict = Field(description="A FHIR resource or bundle in JSON format.")
+    trim: Optional[bool] = Field(
+        description="When true, leading and trailing spaces are removed", default=True
+    )
+    overwrite: Optional[bool] = Field(
+        description="If true, `data` is modified in-place; if false, a copy of `data` "
+        "modified and returned.",
+        default=True,
+    )
+    case: Optional[Literal["upper", "lower", "title"]] = Field(
+        descripton="The type of casing that should be used.", default="upper"
+    )
+    remove_numbers: Optional[bool] = Field(
+        description="If true, delete numeric characters; if false leave numbers in "
+        "place.",
+        default=True,
+    )
 
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
