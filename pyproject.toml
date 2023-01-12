@@ -22,10 +22,11 @@ PyYAML = "^6.0"
 pyarrow = "^8.0.0"
 pandas = "^1.4.2"
 coverage = "^6.4.1"
-fhirpathpy = "0.1.0"
 google-auth = "^2.10.0"
 google-cloud-storage = "^2.5.0"
 jsonschema = "4.16.0"
+Fuzzy = "^1.2.2"
+fhirpathpy = "^0.1.1"
 rapidfuzz = "^2.13.6"
 
 [tool.poetry.dev-dependencies]
