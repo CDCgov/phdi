@@ -1,16 +1,76 @@
+import fuzzy
 import hl7
 import pathlib
 
 from phdi.harmonization import (
-    standardize_hl7_datetimes,
-    normalize_hl7_datetime_segment,
-    normalize_hl7_datetime,
-    default_hl7_value,
     convert_hl7_batch_messages_to_list,
+    default_hl7_value,
+    double_metaphone_string,
+    normalize_hl7_datetime,
+    normalize_hl7_datetime_segment,
     standardize_country_code,
-    standardize_phone,
+    standardize_hl7_datetimes,
     standardize_name,
+    standardize_phone,
 )
+
+
+def test_double_metaphone_string():
+
+    # Two test conditions: one in which dmeta is created within each
+    # function call, and another where it's initiated outside the call
+    # and passed in repeatedly to simulate bulk processing
+    for dmeta in [None, fuzzy.DMetaphone()]:
+
+        # Test 1: phonetically similar names (i.e. names that sound
+        # the same) should map to the same encoding
+        assert double_metaphone_string("John", dmeta) == double_metaphone_string(
+            "Jon", dmeta
+        )
+        assert double_metaphone_string("John", dmeta) == double_metaphone_string(
+            "Jhon", dmeta
+        )
+        assert double_metaphone_string("Michelle", dmeta) == double_metaphone_string(
+            "Michel", dmeta
+        )
+        assert double_metaphone_string("Deanardo", dmeta) == double_metaphone_string(
+            "Dinardio", dmeta
+        )
+        assert double_metaphone_string(
+            "Beaumarchais", dmeta
+        ) == double_metaphone_string("Bumarchay", dmeta)
+        assert double_metaphone_string("Sophia", dmeta) == double_metaphone_string(
+            "Sofia", dmeta
+        )
+
+        # Test 2: names with language-dependent pronunciation (e.g. German
+        # pronunciation of 'W' as 'V') should have secondary encodings
+        # that reflect this
+        michael = double_metaphone_string("Michael", dmeta)
+        mikael = double_metaphone_string("Mikael", dmeta)
+        assert michael[0] == mikael[0] and michael[1] != mikael[1]
+        wagner = double_metaphone_string("Wagner", dmeta)
+        assert wagner[1] is not None and wagner[0] != wagner[1]
+        filipowitz = double_metaphone_string("Filipowitz", dmeta)
+        assert filipowitz[1] is not None and filipowitz[0] != filipowitz[1]
+
+        # Test 3: correctly spelled name should map to the same phonetics as a
+        # misspelled or incomplete root/derivative stem of the name
+        assert double_metaphone_string("Johnson", dmeta) == double_metaphone_string(
+            "Jhnson", dmeta
+        )
+        assert double_metaphone_string("Williams", dmeta) == double_metaphone_string(
+            "Wiliams", dmeta
+        )
+        assert double_metaphone_string("Harper", dmeta) == double_metaphone_string(
+            "Harpr", dmeta
+        )
+        assert double_metaphone_string("Harper", dmeta) == double_metaphone_string(
+            "Harpur", dmeta
+        )
+
+        # Test 4: Make sure both formats can handle an empty string
+        assert double_metaphone_string("", dmeta) == [None, None]
 
 
 def test_standardize_hl7_datetimes():
