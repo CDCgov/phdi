@@ -702,7 +702,7 @@ def generate_tables(
 
             # Return set of incremental results and next URL to query
             incremental_results, next = extract_data_from_fhir_search_incremental(
-                search_url=urllib.parse.urljoin(fhir_url, search_url),
+                search_url=urllib.parse.urljoin(fhir_url, next),
                 cred_manager=cred_manager,
             )
             # Tabulate data for set of incremental results
