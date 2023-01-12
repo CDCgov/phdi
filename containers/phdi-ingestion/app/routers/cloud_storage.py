@@ -1,6 +1,6 @@
 import time
 from fastapi import APIRouter, Response, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Literal, Optional
 
 from app.utils import (
@@ -17,11 +17,24 @@ router = APIRouter(
 
 
 class WriteBlobToStorageInput(BaseModel):
-    blob: dict
-    cloud_provider: Optional[Literal["azure", "gcp"]]
-    bucket_name: Optional[str]
-    file_name: str
-    storage_account_url: Optional[str] = ""
+    blob: dict = Field(description="Contents of a blob to be written to cloud storage.")
+    cloud_provider: Optional[Literal["azure", "gcp"]] = Field(
+        description="The cloud provider hosting the storage resource that the blob will"
+        " be uploaded to. Must be provided in the request body or set as an environment" 
+        " variable of the service."
+    )
+    bucket_name: Optional[str] = Field(
+        description="Name of the cloud storage bucket that the blob should be uploaded "
+        "to. Must be provided in the request body or set as an environment variable of "
+        "the service."
+    )
+    file_name: str = Field(description="Name of the blob")
+    storage_account_url: Optional[str] = Field(
+        description="The URL of an Azure storage account. Must be provided in the "
+        "request body or set as an environment variable of the service is "
+        "'cloud_provider' is 'azure'.",
+        default="",
+    )
 
 
 @router.post("/write_blob_to_storage", status_code=201)
