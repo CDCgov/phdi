@@ -1,10 +1,92 @@
 import copy
+import fuzzy
 from typing import List, Literal, Union
 from phdi.harmonization import (
+    double_metaphone_string,
     standardize_name,
     standardize_country_code,
     standardize_phone,
 )
+
+
+def double_metaphone_bundle(bundle: dict, overwrite=True) -> dict:
+    """
+    Performs the double metaphone algorithm on each name of each patient in a
+    given FHIR bundle.
+
+    :param bundle: A FHIR bundle of data containing one or more patient
+      resources.
+    :param overwrite: If true, `data` is modified in-place; if false, a
+      copy of `data` modified and returned.  Default: `True`.
+    :return: A dictionary mapping the FHIR IDs of patients in the bundle
+      to lists holding the double metaphone representations of their
+      names for each FHIR use case their resource includes.
+    """
+    if not overwrite:
+        bundle = copy.deepcopy(bundle)
+
+    dmeta = fuzzy.DMetaphone()
+    for entry in bundle.get("entry", []):
+        resource = entry.get("resource", {})
+        if resource.get("resourceType", "") == "Patient":
+            double_metaphone_patient(resource, dmeta, overwrite=True)
+    return bundle
+
+
+def double_metaphone_patient(patient: dict, dmeta=None, overwrite=True) -> dict:
+    """
+    Performs the double metaphone algorithm for each name in a given patient
+    resource. The algorithm is performed on each component of the name (first,
+    middle, last), and the resulting representations are ordered in a list
+    such that the first element is first name, the last element is last name,
+    and all other elements are one or more middle names in the order of
+    name presentation. These lists of phonetic representations are stored as
+    the values of dictionaries whose keys are the FHIR uses of the name in
+    the patient resource (e.g. "official"), and all such dictionaries are
+    returned to the caller in a list ordered the same as the names within
+    the given resource.
+
+    :param patient: A FHIR-formatted JSON dictionary representing a patient
+      resource.
+    :param dmeta: An optional existing instantiation of a double metaphone
+      object for use in bulk processing.
+    :param overwrite: If true, `data` is modified in-place; if false, a
+      copy of `data` modified and returned.  Default: `True`.
+    :return: A list of dictionaries mapping FHIR uses to the phonetic
+      representations of names associated with those uses, in presentation
+      order (first, middle, last).
+    """
+
+    if not overwrite:
+        patient = copy.deepcopy(patient)
+
+    for name in patient.get("name", []):
+        # Processing last name separately allows us to note in the result
+        # whether last name wasn't present ( = [None, None])
+        dm_last = double_metaphone_string(name.get("family", ""), dmeta)
+        dm_givens = []
+
+        # Each name is processed sequentially because FHIR expects given
+        # names to already follow proper presentation order
+        for given in name.get("given", []):
+            dm_givens.append(double_metaphone_string(given, dmeta))
+
+        # Cleanest way to store computed encodings is as an extension directly
+        # within the HumanName objects of the patient's `name` field
+        if name.get("extension", []) == []:
+            name["extension"] = []
+
+        name.get("extension").append(
+            {
+                "url": "https://xlinux.nist.gov/dads/HTML/doubleMetaphone.html",
+                "extension": [
+                    {"url": "familyName", "valueString": dm_last},
+                    {"url": "givenName", "valueString": dm_givens},
+                ],
+            }
+        )
+
+    return patient
 
 
 def standardize_names(
