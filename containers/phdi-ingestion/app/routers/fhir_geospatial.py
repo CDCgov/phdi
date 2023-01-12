@@ -33,9 +33,8 @@ class GeocodeAddressInBundleInput(BaseModel):
         default="",
     )
     overwrite: Optional[bool] = Field(
-        description="If true, addresses will be replaced with standardized versions "
-        "returned by the geocoding service. If false the address is maintained in its "
-        "original form.",
+        description="If true, `data` is modified in-place; if false, a copy of `data` "
+        "modified and returned.",
         default=True,
     )
 

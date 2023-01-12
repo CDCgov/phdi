@@ -49,8 +49,12 @@ async def standardize_names_endpoint(input: StandardizeNamesInput) -> StandardRe
 
 
 class StandardizePhonesInput(BaseModel):
-    data: dict
-    overwrite: Optional[bool] = True
+    data: dict = Field(description="A FHIR resource or bundle in JSON format.")
+    overwrite: Optional[bool] = Field(
+        description="If true, `data` is modified in-place; if false, a copy of `data` "
+        "modified and returned.",
+        default=True,
+    )
 
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
