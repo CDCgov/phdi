@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel, validator
 from typing import Literal, Optional
 
-from app.utils import check_for_fhir
+from app.utils import check_for_fhir, StandardResponse
 
 from phdi.fhir.harmonization.standardization import standardize_names
 from phdi.fhir.harmonization.standardization import standardize_phones
@@ -25,7 +25,7 @@ class StandardizeNamesInput(BaseModel):
 
 
 @router.post("/standardize_names")
-async def standardize_names_endpoint(input: StandardizeNamesInput) -> dict:
+async def standardize_names_endpoint(input: StandardizeNamesInput) -> StandardResponse:
     """
     Standardize the names in the provided FHIR bundle or resource.
     :param input: A dictionary with the schema specified by the StandardizeNamesInput
@@ -33,7 +33,7 @@ async def standardize_names_endpoint(input: StandardizeNamesInput) -> dict:
     :return: A FHIR bundle or resource with standardized names.
     """
     input = dict(input)
-    return {"bundle": standardize_names(**input)}
+    return {"status_code": "200", "bundle": standardize_names(**input)}
 
 
 class StandardizePhonesInput(BaseModel):
@@ -44,7 +44,9 @@ class StandardizePhonesInput(BaseModel):
 
 
 @router.post("/standardize_phones")
-async def standardize_phones_endpoint(input: StandardizePhonesInput) -> dict:
+async def standardize_phones_endpoint(
+    input: StandardizePhonesInput,
+) -> StandardResponse:
     """
     Standardize the phone numbers in the provided FHIR bundle or resource.
     :param input: A dictionary with the schema specified by the StandardizePhonesInput
@@ -52,4 +54,4 @@ async def standardize_phones_endpoint(input: StandardizePhonesInput) -> dict:
     :return: A FHIR bundle with standardized phone numbers.
     """
     input = dict(input)
-    return {"bundle": standardize_phones(**input)}
+    return {"status_code": "200", "bundle": standardize_phones(**input)}

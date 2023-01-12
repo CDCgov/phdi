@@ -50,12 +50,18 @@ def test_upload_bundle_to_fhir_server_request_params_success(
     )
     assert actual_response.status_code == 200
     assert actual_response.json() == {
-        "fhir_server_status_code": 200,
-        "fhir_server_response_body": {
-            "entry": [],
-            "resourceType": "Bundle",
-            "type": "transaction-response",
+        "status_code": "200",
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": 200,
+                "fhir_server_response_body": {
+                    "entry": [],
+                    "resourceType": "Bundle",
+                    "type": "transaction-response",
+                },
+            }
         },
+        "bundle": None,
     }
 
 
@@ -93,12 +99,18 @@ def test_upload_bundle_to_fhir_server_env_params_success(
 
     assert actual_response.status_code == 200
     assert actual_response.json() == {
-        "fhir_server_status_code": 200,
-        "fhir_server_response_body": {
-            "entry": [],
-            "resourceType": "Bundle",
-            "type": "transaction-response",
+        "status_code": "200",
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": 200,
+                "fhir_server_response_body": {
+                    "entry": [],
+                    "resourceType": "Bundle",
+                    "type": "transaction-response",
+                },
+            }
         },
+        "bundle": None,
     }
 
 
@@ -125,14 +137,20 @@ def test_upload_bundle_to_fhir_server_missing_params(
     actual_response = client.post(
         "/fhir/transport/http/upload_bundle_to_fhir_server", json=test_request
     )
-    assert ~patched_bundle_upload.called
-    assert actual_response.status_code == 400
-    assert actual_response.json() == (
+    expected_message = (
         "The following values are required, but were not included in the request and "
         "could not be read from the environment. Please resubmit the request including "
         "these values or add them as environment variables to this service. missing "
         "values: cred_manager, fhir_url."
     )
+    expected_response = {
+        "status_code": "400",
+        "message": expected_message,
+        "bundle": None,
+    }
+    assert ~patched_bundle_upload.called
+    assert actual_response.status_code == 400
+    assert actual_response.json() == expected_response
 
 
 @mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
@@ -159,8 +177,14 @@ def test_upload_bundle_to_fhir_server_bad_response_from_server(
     assert ~patched_bundle_upload.called
     assert actual_response.status_code == 400
     assert actual_response.json() == {
-        "fhir_server_status_code": 400,
-        "fhir_server_response_body": "some bad response from FHIR server",
+        "status_code": "400",
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": 400,
+                "fhir_server_response_body": "some bad response from FHIR server",
+            }
+        },
+        "bundle": None,
     }
 
 
@@ -197,21 +221,27 @@ def test_upload_bundle_to_fhir_server_partial_success(
 
     assert actual_response.status_code == 400
     assert actual_response.json() == {
-        "fhir_server_status_code": 400,
-        "fhir_server_response_body": {
-            "entry": [
-                {
-                    "response": {
-                        "etag": 'W/"MTY2Mjc0NTkxNDY4NTAxNTAwMA"',
-                        "lastModified": "2022-09-09T17:51:54.685015+00:00",
-                        "location": "https://somefhirstore.com",
-                        "status": "some issue",
-                    }
-                }
-            ],
-            "resourceType": "Bundle",
-            "type": "transaction-response",
+        "status_code": "400",
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": 400,
+                "fhir_server_response_body": {
+                    "entry": [
+                        {
+                            "response": {
+                                "etag": 'W/"MTY2Mjc0NTkxNDY4NTAxNTAwMA"',
+                                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                                "location": "https://somefhirstore.com",
+                                "status": "some issue",
+                            }
+                        }
+                    ],
+                    "resourceType": "Bundle",
+                    "type": "transaction-response",
+                },
+            }
         },
+        "bundle": None,
     }
 
 

@@ -3,7 +3,11 @@ from fastapi import APIRouter, Response, status
 from pydantic import BaseModel
 from typing import Literal, Optional
 
-from app.utils import search_for_required_values, get_cloud_provider_storage_connection
+from app.utils import (
+    search_for_required_values,
+    get_cloud_provider_storage_connection,
+    StandardResponse,
+)
 
 
 router = APIRouter(
@@ -20,10 +24,10 @@ class WriteBlobToStorageInput(BaseModel):
     storage_account_url: Optional[str] = ""
 
 
-@router.post("/write_blob_to_storage", status_code=200)
+@router.post("/write_blob_to_storage", status_code=201)
 def write_blob_to_cloud_storage_endpoint(
     input: WriteBlobToStorageInput, response: Response
-) -> dict:
+) -> StandardResponse:
     """
     Upload the information from a blob into a specified cloud providers storage
     organizing it by a bucket name as well as a file name.
@@ -38,7 +42,7 @@ def write_blob_to_cloud_storage_endpoint(
     search_result = search_for_required_values(input, required_values)
     if search_result != "All values were found.":
         response.status_code = status.HTTP_400_BAD_REQUEST
-        return search_result
+        return {"status_code": 400, "message": search_result}
     if input["cloud_provider"] == "azure":
         azure_required_values = ["storage_account_url"]
         azure_search_result = search_for_required_values(
@@ -46,7 +50,7 @@ def write_blob_to_cloud_storage_endpoint(
         )
         if azure_search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
-            return azure_search_result
+            return {"status_code": 400, "message": azure_search_result}
 
     cloud_provider_connection = get_cloud_provider_storage_connection(
         cloud_provider=input["cloud_provider"],
@@ -62,10 +66,11 @@ def write_blob_to_cloud_storage_endpoint(
 
     response.status_code = status.HTTP_201_CREATED
     return {
+        "status_code": "201",
         "message": (
             "The data has successfully been stored "
             "in the {} cloud in {} container with the name {}.".format(
                 input["cloud_provider"], input["bucket_name"], full_file_name
             )
-        )
+        ),
     }

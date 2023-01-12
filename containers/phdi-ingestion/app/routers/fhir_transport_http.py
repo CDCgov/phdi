@@ -6,6 +6,7 @@ from app.utils import (
     check_for_fhir_bundle,
     search_for_required_values,
     get_cred_manager,
+    StandardResponse,
 )
 
 from phdi.fhir.transport import upload_bundle_to_fhir_server
@@ -29,7 +30,7 @@ class UploadBundleToFhirServerInput(BaseModel):
 @router.post("/upload_bundle_to_fhir_server", status_code=200)
 def upload_bundle_to_fhir_server_endpoint(
     input: UploadBundleToFhirServerInput, response: Response
-) -> dict:
+) -> StandardResponse:
     """
     Upload all of the resources in a FHIR bundle to a FHIR server.
 
@@ -43,7 +44,7 @@ def upload_bundle_to_fhir_server_endpoint(
     search_result = search_for_required_values(input, required_values)
     if search_result != "All values were found.":
         response.status_code = status.HTTP_400_BAD_REQUEST
-        return search_result
+        return {"status_code": "400", "message": search_result}
 
     input["cred_manager"] = get_cred_manager(
         cred_manager=input["cred_manager"], location_url=input["fhir_url"]
@@ -72,10 +73,17 @@ def upload_bundle_to_fhir_server_endpoint(
         if failed_resources != []:
             fhir_server_response.status_code = 400
 
+    status_code = "200"
     if fhir_server_response.status_code != 200:
         response.status_code = status.HTTP_400_BAD_REQUEST
+        status_code = "400"
 
     return {
-        "fhir_server_status_code": fhir_server_response.status_code,
-        "fhir_server_response_body": fhir_server_response_body,
+        "status_code": status_code,
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": fhir_server_response.status_code,
+                "fhir_server_response_body": fhir_server_response_body,
+            }
+        },
     }

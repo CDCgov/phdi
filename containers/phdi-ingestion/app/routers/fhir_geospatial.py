@@ -2,7 +2,11 @@ from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator
 from typing import Optional, Literal
 from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
-from app.utils import search_for_required_values, check_for_fhir_bundle
+from app.utils import (
+    search_for_required_values,
+    check_for_fhir_bundle,
+    StandardResponse,
+)
 
 
 router = APIRouter(
@@ -24,7 +28,7 @@ class GeocodeAddressInBundleInput(BaseModel):
 @router.post("/geocode_bundle", status_code=200)
 def geocode_bundle_endpoint(
     input: GeocodeAddressInBundleInput, response: Response
-) -> dict:
+) -> StandardResponse:
     """
     Given a FHIR bundle and a specified geocode method, with any required
     subsequent credentials (ie.. SmartyStreets auth id and auth token),
@@ -48,7 +52,7 @@ def geocode_bundle_endpoint(
         search_result = search_for_required_values(input, required_values)
         if search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
-            return search_result
+            return {"status_code": 400, "message": search_result}
         geocode_client = SmartyFhirGeocodeClient(
             auth_id=input.get("auth_id"), auth_token=input.get("auth_token")
         )
@@ -66,4 +70,4 @@ def geocode_bundle_endpoint(
     except Exception as error:
         response.status_code = status.HTTP_400_BAD_REQUEST
         result = {"error": error}
-    return {"bundle": result}
+    return {"status_code": "200", "bundle": result}
