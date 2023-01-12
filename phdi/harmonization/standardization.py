@@ -6,14 +6,11 @@ from typing import Literal, List, Union
 
 def double_metaphone_string(string: str, dmeta=None) -> List[Union[str, None]]:
     """
-    Performs the double metaphone algorithm originally developed by Lawrence
-    Phillips for the purpose of phonetic search and matching. Double Metaphone
-    is an improvement over SoundEx with broader support for languages and non-
-    English names. Returns a list holding the primary and secondary
-    phonetic encodings of the given string (including None if there is no
-    valid secondary encoding). This function experts basic text cleaning (e.g.
-    removal of numeric characters, trimming of spaces, etc.) to already
-    have been performed.
+    Performs the double metaphone phonetic encoding algorithm on the given string.
+    Returns a list holding the primary and secondary phonetic representations
+    of the string (including None if there is no valid secondary encoding).
+    This function experts basic text cleaning (e.g. removal of numeric characters,
+    trimming of spaces, etc.) to already have been performed.
 
     :param string: The string to phonetically encode.
     :param dmeta: An optional existing double metaphone object, in the case
