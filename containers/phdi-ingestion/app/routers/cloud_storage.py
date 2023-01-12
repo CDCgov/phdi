@@ -20,7 +20,7 @@ class WriteBlobToStorageInput(BaseModel):
     blob: dict = Field(description="Contents of a blob to be written to cloud storage.")
     cloud_provider: Optional[Literal["azure", "gcp"]] = Field(
         description="The cloud provider hosting the storage resource that the blob will"
-        " be uploaded to. Must be provided in the request body or set as an environment" 
+        " be uploaded to. Must be provided in the request body or set as an environment"
         " variable of the service."
     )
     bucket_name: Optional[str] = Field(

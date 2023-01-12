@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Response, status
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from typing import Optional, Literal
 from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
 from app.utils import (
@@ -16,11 +16,28 @@ router = APIRouter(
 
 
 class GeocodeAddressInBundleInput(BaseModel):
-    bundle: dict
-    geocode_method: Literal["smarty", "census"]
-    auth_id: Optional[str] = ""
-    auth_token: Optional[str] = ""
-    overwrite: Optional[bool] = True
+    bundle: dict = Field(description="A FHIR bundle")
+    geocode_method: Literal["smarty", "census"] = Field(
+        description="The geocoding service to be used."
+    )
+    auth_id: Optional[str] = Field(
+        description="Authentication ID for the geocoding service. Must be provided in "
+        "the request body or set as an environment variable of the service if "
+        "'geocode_method' is 'smarty'.",
+        default="",
+    )
+    auth_token: Optional[str] = Field(
+        description="Authentication Token for the geocoding service. Must be provided "
+        "in the request body or set as an environment variable of the service if "
+        "'geocode_method' is 'smarty'.",
+        default="",
+    )
+    overwrite: Optional[bool] = Field(
+        description="If true, addresses will be replaced with standardized versions "
+        "returned by the geocoding service. If false the address is maintained in its "
+        "original form.",
+        default=True,
+    )
 
     _check_for_fhir = validator("bundle", allow_reuse=True)(check_for_fhir_bundle)
 
