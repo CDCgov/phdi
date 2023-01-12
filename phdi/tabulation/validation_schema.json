@@ -2,7 +2,15 @@
     "type": "object",
     "properties": {
         "metadata": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "schema_name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "schema_name"
+            ]
         },
         "tables": {
             "$ref": "#/$defs/tables"
@@ -73,12 +81,12 @@
                     ]
                 },
                 "data_type": {
-                  "type": "string",
-                  "enum": [
-                    "string",
-                    "number",
-                    "boolean"
-                  ]
+                    "type": "string",
+                    "enum": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
                 }
             },
             "patternProperties": {

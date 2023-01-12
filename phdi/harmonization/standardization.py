@@ -1,6 +1,27 @@
+import fuzzy
 import phonenumbers
 import pycountry
 from typing import Literal, List, Union
+
+
+def double_metaphone_string(string: str, dmeta=None) -> List[Union[str, None]]:
+    """
+    Performs the double metaphone phonetic encoding algorithm on the given
+    string. Returns a list holding the primary and secondary phonetic
+    representations of the string (including None if there is no valid
+    secondary encoding). This function expects basic text cleaning (e.g.
+    removal of numeric characters, trimming of spaces, etc.) to already
+    have been performed.
+
+    :param string: The string to phonetically encode.
+    :param dmeta: An optional existing double metaphone object, in the case
+      one has already been instantiated for bulk processing.
+    :return: A list of the primary and secondary encodings of the given
+      string.
+    """
+    if dmeta is None:
+        dmeta = fuzzy.DMetaphone()
+    return dmeta(string)
 
 
 def standardize_country_code(
