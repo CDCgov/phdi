@@ -167,11 +167,15 @@ def test_tabulate_endpoint_missing_schema_name(patched_tabulate):
     del invalid_tabulate_request["schema"]["metadata"]["schema_name"]
     actual_response = client.post("/tabulate", json=invalid_tabulate_request)
     assert actual_response.status_code == 422
-    print(actual_response.json())
-    assert (
-        actual_response.json()
-        == "A value for schema_name could not be found. A value for schema_name must be provided using the 'schema_name' key in the request body, or within the metadata section of the schema."
-    )  # noqa
+    assert actual_response.json() == {
+        "detail": [
+            {
+                "loc": ["body", "schema"],
+                "msg": "Must provide a valid schema.",
+                "type": "assertion_error",
+            }
+        ]
+    }  # noqa
 
 
 @mock.patch("app.main.tabulate")
