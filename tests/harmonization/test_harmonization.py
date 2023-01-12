@@ -306,13 +306,13 @@ def test_standardize_name():
 
 
 def test_compare_strings():
-    correct_string = "John"
-    test_string = "Jhon"
+    correct_string = "Jose"
+    test_string = "Jsoe"
 
     assert compare_strings(correct_string, test_string) != 1.0
 
     # 100% match for all similarity measures
-    test_string = "John"
+    test_string = "Jose"
     assert (
         compare_strings(correct_string, test_string, similarity_measure="JaroWinkler")
         == 1.0
