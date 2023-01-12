@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Response, status
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from typing import Optional
 
 from phdi.fhir.linkage.link import add_patient_identifier_in_bundle
@@ -18,9 +18,17 @@ router = APIRouter(
 
 
 class AddPatientIdentifierInBundleInput(BaseModel):
-    bundle: dict
-    salt_str: Optional[str] = ""
-    overwrite: Optional[bool] = True
+    bundle: dict = Field(description="A FHIR bundle")
+    salt_str: Optional[str] = Field(
+        description="The salt to use with the hash. This is intended to prevent reverse"
+        " engineering of the PII used to create the hash.",
+        default="",
+    )
+    overwrite: Optional[bool] = Field(
+        description="If true, `data` is modified in-place; if false, a copy of `data` "
+        "modified and returned.",
+        default=True,
+    )
 
     _check_for_fhir_bundle = validator("bundle", allow_reuse=True)(
         check_for_fhir_bundle
