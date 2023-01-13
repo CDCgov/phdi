@@ -19,6 +19,7 @@ from phdi.tabulation.tables import (
     _convert_list_to_string,
     _create_pa_schema_from_table_schema,
     _create_from_arrays_data,
+    _create_parquet_data,
 )
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -454,3 +455,26 @@ def test_create_pa_schema_from_table_schema():
 def test_create_from_arrays_data():
     result = _create_from_arrays_data([["foo", "bar", "baz"], ["biz", "taz", "laz"]])
     assert result == [["foo", "biz"], ["bar", "taz"], ["baz", "laz"]]
+
+
+def test_create_parquet_data():
+    schema = yaml.safe_load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    extracted_data = extracted_data.get("entry", {})
+    table_to_use = tabulate_data(extracted_data, schema, "Patients")
+    batch_1 = [table_to_use[0]] + table_to_use[3:]
+
+    pq_schema = _create_pa_schema_from_table_schema(schema, table_to_use[0], "Patients")
+    result = _create_parquet_data(batch_1, pq_schema)
+    assert result == [
+        ["Patient ID", "First Name", "Last Name", "Phone Number", "Building Number"],
+        ["some-uuid", "John ", "None", "123-456-7890", 123.0],
+    ]
