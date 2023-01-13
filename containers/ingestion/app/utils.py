@@ -1,7 +1,30 @@
+from pydantic import BaseModel, Field, root_validator
+from typing import Optional, Union
 from app.config import get_settings
 from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
+
+
+class StandardResponse(BaseModel):
+    """The standard schema for the body of responses returned by the PHDI Ingestion
+    Service."""
+
+    status_code: str = Field(description="The HTTP status code of the response.")
+    message: Optional[Union[str, dict]] = Field(
+        description="A message from the service, used to provide details on an error "
+        "that was encounted while attempting the process a request, or the response "
+        "a FHIR server."
+    )
+    bundle: Optional[dict] = Field(description="A FHIR bundle")
+
+    @root_validator
+    def any_of(cls, values):
+        if not any(value in values for value in ["message", "bundle"]):
+            raise ValueError(
+                "A value for at least 'message' or 'bundle' must be provided"
+            )
+        return values
 
 
 cloud_providers = {

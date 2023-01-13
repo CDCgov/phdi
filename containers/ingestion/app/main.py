@@ -7,12 +7,27 @@ from app.routers import (
     cloud_storage,
 )
 from app.config import get_settings
+from pathlib import Path
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
 
-# Start the API
-app = FastAPI()
+# Instantiate FastAPI and set metadata.
+description = Path("description.md").read_text(encoding="utf-8")
+app = FastAPI(
+    title="PHDI Ingestion Service",
+    version="0.0.1",
+    contact={
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    },
+    license_info={
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    },
+    description=description,
+)
 
 app.include_router(fhir_harmonization_standardization.router)
 app.include_router(fhir_geospatial.router)
