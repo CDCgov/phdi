@@ -18,7 +18,11 @@ def test_add_patient_identifier_in_bundle_success():
 
     test_request = {"bundle": test_bundle, "salt_str": "test_hash"}
 
-    expected_response = {"bundle": copy.deepcopy(test_bundle)}
+    expected_response = {
+        "status_code": "200",
+        "message": None,
+        "bundle": copy.deepcopy(test_bundle),
+    }
     expected_response["bundle"]["entry"][0]["resource"]["identifier"] = [
         {
             "system": "urn:ietf:rfc:3986",
@@ -79,7 +83,11 @@ def test_add_patient_identifier_in_bundle_salt_from_env():
 
     test_request = {"bundle": test_bundle}
 
-    expected_response = {"bundle": copy.deepcopy(test_bundle)}
+    expected_response = {
+        "status_code": "200",
+        "message": None,
+        "bundle": copy.deepcopy(test_bundle),
+    }
     expected_response["bundle"]["entry"][0]["resource"]["identifier"] = [
         {
             "system": "urn:ietf:rfc:3986",
@@ -100,12 +108,17 @@ def test_add_patient_identifier_in_bundle_salt_from_env_missing():
 
     test_request = {"bundle": test_bundle}
 
-    expected_response = (
+    expected_message = (
         "The following values are required, but were not included in "
         "the request and could not be read from the environment. Please resubmit the "
         "request including these values or add them as environment variables to this "
         "service. missing values: salt_str."
     )
+    expected_response = {
+        "status_code": "400",
+        "message": expected_message,
+        "bundle": None,
+    }
     get_settings.cache_clear()
     actual_response = client.post(
         "/fhir/linkage/link/add_patient_identifier_in_bundle", json=test_request

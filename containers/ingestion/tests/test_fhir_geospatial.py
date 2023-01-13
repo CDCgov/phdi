@@ -91,12 +91,17 @@ def test_geocode_bundle_smarty_no_auth_id():
         "auth_id": None,
         "auth_token": "test_token",
     }
-    expected_response = (
+    expected_message = (
         "The following values are required, but "
         "were not included in the request and could not be read from the environment."
         " Please resubmit the request including these values or add them as "
         "environment variables to this service. missing values: auth_id."
     )
+    expected_response = {
+        "status_code": "400",
+        "message": expected_message,
+        "bundle": None,
+    }
     get_settings.cache_clear()
     os.environ.pop("AUTH_ID", None)
     actual_response = client.post(
@@ -112,12 +117,17 @@ def test_geocode_bundle_smarty_no_auth_token():
         "auth_id": "test_id",
         "auth_token": None,
     }
-    expected_response = (
+    expected_message = (
         "The following values are required, but were not included "
         "in the request and could not be read from the environment. Please "
         "resubmit the request including these values or add them as "
         "environment variables to this service. missing values: auth_token."
     )
+    expected_response = {
+        "status_code": "400",
+        "message": expected_message,
+        "bundle": None,
+    }
     get_settings.cache_clear()
     os.environ.pop("AUTH_TOKEN", None)
 

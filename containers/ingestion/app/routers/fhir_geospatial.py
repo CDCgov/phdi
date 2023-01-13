@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Response, status
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from typing import Optional, Literal
 from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
-from app.utils import search_for_required_values, check_for_fhir_bundle
+from app.utils import (
+    search_for_required_values,
+    check_for_fhir_bundle,
+    StandardResponse,
+)
 
 
 router = APIRouter(
@@ -12,11 +16,27 @@ router = APIRouter(
 
 
 class GeocodeAddressInBundleInput(BaseModel):
-    bundle: dict
-    geocode_method: Literal["smarty", "census"]
-    auth_id: Optional[str] = ""
-    auth_token: Optional[str] = ""
-    overwrite: Optional[bool] = True
+    bundle: dict = Field(description="A FHIR bundle")
+    geocode_method: Literal["smarty", "census"] = Field(
+        description="The geocoding service to be used."
+    )
+    auth_id: Optional[str] = Field(
+        description="Authentication ID for the geocoding service. Must be provided in "
+        "the request body or set as an environment variable of the service if "
+        "'geocode_method' is 'smarty'.",
+        default="",
+    )
+    auth_token: Optional[str] = Field(
+        description="Authentication Token for the geocoding service. Must be provided "
+        "in the request body or set as an environment variable of the service if "
+        "'geocode_method' is 'smarty'.",
+        default="",
+    )
+    overwrite: Optional[bool] = Field(
+        description="If true, `data` is modified in-place; if false, a copy of `data` "
+        "modified and returned.",
+        default=True,
+    )
 
     _check_for_fhir = validator("bundle", allow_reuse=True)(check_for_fhir_bundle)
 
@@ -24,7 +44,7 @@ class GeocodeAddressInBundleInput(BaseModel):
 @router.post("/geocode_bundle", status_code=200)
 def geocode_bundle_endpoint(
     input: GeocodeAddressInBundleInput, response: Response
-) -> dict:
+) -> StandardResponse:
     """
     Given a FHIR bundle and a specified geocode method, with any required
     subsequent credentials (ie.. SmartyStreets auth id and auth token),
@@ -48,7 +68,7 @@ def geocode_bundle_endpoint(
         search_result = search_for_required_values(input, required_values)
         if search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
-            return search_result
+            return {"status_code": 400, "message": search_result}
         geocode_client = SmartyFhirGeocodeClient(
             auth_id=input.get("auth_id"), auth_token=input.get("auth_token")
         )
@@ -66,4 +86,4 @@ def geocode_bundle_endpoint(
     except Exception as error:
         response.status_code = status.HTTP_400_BAD_REQUEST
         result = {"error": error}
-    return {"bundle": result}
+    return {"status_code": "200", "bundle": result}

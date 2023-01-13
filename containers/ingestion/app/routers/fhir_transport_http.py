@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Response, status
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from typing import Literal, Optional
 
 from app.utils import (
     check_for_fhir_bundle,
     search_for_required_values,
     get_cred_manager,
+    StandardResponse,
 )
 
 from phdi.fhir.transport import upload_bundle_to_fhir_server
@@ -17,9 +18,18 @@ router = APIRouter(
 
 
 class UploadBundleToFhirServerInput(BaseModel):
-    bundle: dict
-    cred_manager: Optional[Literal["azure", "gcp"]]
-    fhir_url: Optional[str]
+    bundle: dict = Field(
+        description="A FHIR bundle (type 'batch' or 'transaction') to post.  Each entry"
+        " in the bundle must contain a `request` element in addition to a `resource`. "
+        "The FHIR API provides additional details on creating [FHIR-conformant "
+        "batch/transaction](https://hl7.org/fhir/http.html#transaction) bundles."
+    )
+    cred_manager: Optional[Literal["azure", "gcp"]] = Field(
+        description="The credential manager used to authenticate to the FHIR server."
+    )
+    fhir_url: Optional[str] = Field(
+        description="The url of the FHIR server to upload to."
+    )
 
     _check_for_fhir_bundle = validator("bundle", allow_reuse=True)(
         check_for_fhir_bundle
@@ -29,7 +39,7 @@ class UploadBundleToFhirServerInput(BaseModel):
 @router.post("/upload_bundle_to_fhir_server", status_code=200)
 def upload_bundle_to_fhir_server_endpoint(
     input: UploadBundleToFhirServerInput, response: Response
-) -> dict:
+) -> StandardResponse:
     """
     Upload all of the resources in a FHIR bundle to a FHIR server.
 
@@ -43,7 +53,7 @@ def upload_bundle_to_fhir_server_endpoint(
     search_result = search_for_required_values(input, required_values)
     if search_result != "All values were found.":
         response.status_code = status.HTTP_400_BAD_REQUEST
-        return search_result
+        return {"status_code": "400", "message": search_result}
 
     input["cred_manager"] = get_cred_manager(
         cred_manager=input["cred_manager"], location_url=input["fhir_url"]
@@ -72,10 +82,17 @@ def upload_bundle_to_fhir_server_endpoint(
         if failed_resources != []:
             fhir_server_response.status_code = 400
 
+    status_code = "200"
     if fhir_server_response.status_code != 200:
         response.status_code = status.HTTP_400_BAD_REQUEST
+        status_code = "400"
 
     return {
-        "fhir_server_status_code": fhir_server_response.status_code,
-        "fhir_server_response_body": fhir_server_response_body,
+        "status_code": status_code,
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": fhir_server_response.status_code,
+                "fhir_server_response_body": fhir_server_response_body,
+            }
+        },
     }

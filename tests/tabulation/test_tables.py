@@ -410,6 +410,13 @@ def test_validate_schema():
         validate_schema(schema=invalid_data_type_declaraction)
     assert "'foo' is not one of ['string', 'number', 'boolean']" in str(e.value)
 
+    # Missing schema_name
+    missing_schema = copy.deepcopy(valid_schema)
+    del missing_schema["metadata"]["schema_name"]
+    with pytest.raises(jsonschema.exceptions.ValidationError) as e:
+        validate_schema(schema=missing_schema)
+    assert "'schema_name' is a required property" in str(e.value)
+
 
 def test_convert_list_to_string():
     array_source = [
