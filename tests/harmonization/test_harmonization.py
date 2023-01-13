@@ -14,6 +14,8 @@ from phdi.harmonization import (
     standardize_phone,
 )
 
+from phdi.harmonization.utils import compare_strings
+
 
 def test_double_metaphone_string():
 
@@ -361,3 +363,44 @@ def test_standardize_name():
         "PAUL BUNYAN",
         "JRRTOLKIE87N 999",
     ]
+
+
+def test_compare_strings():
+    correct_string = "Jose"
+    test_string = "Jsoe"
+
+    assert compare_strings(correct_string, test_string) != 1.0
+
+    # 100% match for all similarity measures
+    test_string = "Jose"
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="JaroWinkler")
+        == 1.0
+    )
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="Levenshtein")
+        == 1.0
+    )
+    assert (
+        compare_strings(
+            correct_string, test_string, similarity_measure="DamerauLevenshtein"
+        )
+        == 1.0
+    )
+
+    # 0% match for all similarity measures
+    test_string = "abcd"
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="JaroWinkler")
+        == 0.0
+    )
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="Levenshtein")
+        == 0.0
+    )
+    assert (
+        compare_strings(
+            correct_string, test_string, similarity_measure="DamerauLevenshtein"
+        )
+        == 0.0
+    )
