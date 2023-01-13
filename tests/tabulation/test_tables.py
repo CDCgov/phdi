@@ -18,8 +18,10 @@ from phdi.fhir.tabulation import tabulate_data
 from phdi.tabulation.tables import (
     _convert_list_to_string,
     _create_pa_schema_from_table_schema,
+    _create_from_arrays_data,
 )
 import pyarrow as pa
+import pyarrow.parquet as pq
 
 
 def test_load_schema():
@@ -120,8 +122,7 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
 
     table_to_use = tabulate_data(extracted_data, schema, "Physical Exams")
     batch_1 = table_to_use[:2]
-    batch_2 = [table_to_use[0]] + table_to_use[2]
-    batch_3 = [table_to_use[0]] + table_to_use[3:]
+    batch_2 = [table_to_use[0]] + table_to_use[2:]
     file_location = "./"
     output_file_name = "new_parquet"
     file_format = "parquet"
@@ -132,11 +133,8 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
         file_location,
         file_format,
         output_file_name,
-        None,
-        None,
-        None,
-        schema,
-        "Physical Exams",
+        schema=schema,
+        table_name="Physical Exams",
     )
     assert pq_writer is not None
 
@@ -144,7 +142,7 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
         schema, batch_1[0], "Physical Exams"
     )
     patched_pa_table.from_arrays.assert_called_with(
-        batch_1[1:], names=batch_1[0], schema=pq_schema
+        _create_from_arrays_data(batch_1[1:]), schema=pq_schema
     )
     table = patched_pa_table.from_arrays(table_to_use[1:], table_to_use[0])
     patched_writer.assert_called_with(file_location + output_file_name, table.schema)
@@ -160,12 +158,64 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
         output_file_name,
         pq_writer=pq_writer,
         schema=schema,
+        table_name="Physical Exams",
     )
     patched_pa_table.from_arrays.assert_called_with(
-        batch_2[1:], names=batch_2[0], schema=None
+        _create_from_arrays_data(batch_2[1:]), schema=pq_schema
     )
     table = patched_pa_table.from_arrays(batch_2[1:], batch_2[0])
     pq_writer.write_table.assert_called_with(table=table)
+
+    # One from initial test of creating new pq file, and one
+    # from calling it on a mocked table in this test, line 105;
+    # Should NOT be called a third time with batch 2
+    assert patched_writer.call_count == 2
+
+
+def test_write_data_parquet_with_schema():
+
+    schema = yaml.safe_load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    extracted_data = extracted_data.get("entry", {})
+    table_name = "Patients"
+    table_to_use = tabulate_data(extracted_data, schema, table_name)
+    batch_1 = table_to_use[:2]
+    batch_2 = [table_to_use[0]] + [table_to_use[2]]
+    batch_3 = [table_to_use[0]] + table_to_use[3:]
+    file_location = "./"
+    output_file_name = "new_parquet.parquet"
+    file_format = "parquet"
+
+    # Batch 1 tests creating a new parquet file and returning a writer
+    pq_writer = write_data(
+        batch_1,
+        file_location,
+        file_format,
+        output_file_name,
+        None,
+        None,
+        None,
+        schema,
+        table_name,
+    )
+    # Batch 2 tests appending to existing parquet using previous writer
+    write_data(
+        batch_2,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        schema=schema,
+        table_name=table_name,
+    )
 
     # Batch 3 tests appending to existing parquet using previous writer
     write_data(
@@ -175,18 +225,73 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
         output_file_name,
         pq_writer=pq_writer,
         schema=schema,
+        table_name=table_name,
     )
+    pq_writer.close()
+    if os.path.isfile(file_location + output_file_name):  # pragma: no cover
+        patient_id = pa.array(
+            [
+                "907844f6-7c99-eabc-f68e-d92189729a55",
+                "65489-asdf5-6d8w2-zz5g8",
+                "some-uuid",
+            ]
+        )
+        first_name = pa.array(
+            [
+                "Kimberley248",
+                "John",
+                "John ",
+            ]
+        )
+        last_name = pa.array(
+            [
+                "Price929",
+                "Shepard",
+                "None",
+            ]
+        )
+        phone = pa.array(
+            [
+                "555-690-3898",
+                "None",
+                "123-456-7890",
+            ]
+        )
+        bulding_number = pa.array(
+            [
+                float(165),
+                float(1234),
+                float(123),
+            ]
+        )
 
-    patched_pa_table.from_arrays.assert_called_with(
-        batch_3[1:], names=batch_3[0], schema=None
-    )
-    table = patched_pa_table.from_arrays(batch_3[1:], batch_3[0])
-    pq_writer.write_table.assert_called_with(table=table)
+        names = [
+            "Patient ID",
+            "First Name",
+            "Last Name",
+            "Phone Number",
+            "Building Number",
+        ]
+        table_from_arrays = pa.Table.from_arrays(
+            [patient_id, first_name, last_name, phone, bulding_number], names=names
+        )
+        table_parquet_read = pq.read_table(
+            file_location + output_file_name, columns=names
+        )
+        for i, elm in enumerate(table_parquet_read):
+            for n, el in enumerate(elm):
+                parquet_data = table_parquet_read[i][n]
+                array_data = table_from_arrays[i][n]
 
-    # One from initial test of creating new pq file, and one
-    # from calling it on a mocked table in this test, line 105;
-    # Should NOT be called a third time with batch 2
-    assert patched_writer.call_count == 2
+                # if the number types are the correct type, convert to strings to
+                #   compare.
+                if isinstance(array_data, pa.DoubleScalar):
+                    array_data = str(array_data)
+                if isinstance(parquet_data, pa.FloatScalar):
+                    parquet_data = str(parquet_data)
+                assert parquet_data == array_data
+
+        os.remove(file_location + output_file_name)
 
 
 def test_write_data_sql():
@@ -344,3 +449,8 @@ def test_create_pa_schema_from_table_schema():
             ("Building Number", pa.float32()),
         ]
     )
+
+
+def test_create_from_arrays_data():
+    result = _create_from_arrays_data([["foo", "bar", "baz"], ["biz", "taz", "laz"]])
+    assert result == [["foo", "biz"], ["bar", "taz"], ["baz", "laz"]]

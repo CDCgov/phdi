@@ -132,10 +132,14 @@ def write_data(
             )
         else:
             pq_schema = None
-
-        table = pa.Table.from_arrays(
-            tabulated_data[1:], names=tabulated_data[0], schema=pq_schema
-        )
+        parquet_data = _create_parquet_data(tabulated_data, pq_schema)
+        # parquet_data = tabulated_data
+        if pq_schema:
+            table = pa.Table.from_arrays(
+                _create_from_arrays_data(parquet_data[1:]), schema=pq_schema
+            )
+        else:
+            table = pa.Table.from_arrays(parquet_data[1:], names=parquet_data[0])
         if pq_writer is None:
             pq_writer = pq.ParquetWriter(
                 os.path.join(directory, filename), table.schema
@@ -225,10 +229,60 @@ def _create_pa_schema_from_table_schema(
                 )
 
                 if data_type == "number":
-                    pa_schema_arr.append((name, pa.float32()))
+                    pa_schema_arr.append(pa.field(name, pa.float32()))
                 elif data_type == "boolean":
-                    pa_schema_arr.append((name, pa.bool_()))
+                    pa_schema_arr.append(pa.field(name, pa.bool_()))
                 else:
-                    pa_schema_arr.append((name, pa.string()))
+                    pa_schema_arr.append(pa.field(name, pa.string()))
     pa_schema = pa.schema(pa_schema_arr)
     return pa_schema
+
+
+def _create_from_arrays_data(row_data: List) -> List:
+    """
+    Returns a list that is one array per column. Accepts list that is one
+      array per row.
+    :param row_data: A list that is made of multiple arrays
+    """
+    if len(row_data) == 0:
+        return row_data
+    col_data = []
+    for row in row_data:
+        for i, data in enumerate(row):
+            if (len(col_data) - 1) < i:
+                col_data.append([])
+            col_data[i].append(data)
+    return col_data
+
+
+def _create_parquet_data(data: List[List], pq_schema: pa.Schema) -> List[List]:
+    if pq_schema is None:
+        for row in data[1:]:
+            for i, elm in enumerate(row):
+                if elm is None:
+                    row[i] = ""
+                else:
+                    row[i] = str(elm)
+        return data
+    for row in data[1:]:
+        for i, elm in enumerate(row):
+            data_type_index = pq_schema.get_field_index(data[0][i])
+            data_type = pq_schema.types[data_type_index]
+            if data_type == "string":
+                if isinstance(elm, str):
+                    row[i] = elm
+                else:
+                    row[i] = str(elm)
+            elif data_type == "float":
+                if isinstance(elm, float):
+                    row[i] = elm
+                else:
+                    row[i] = float(elm)
+            elif data_type == "bool_":
+                if isinstance(elm, bool):
+                    row[i] = elm
+                else:
+                    row[i] = bool(elm)
+            else:
+                row[i] = elm
+    return data
