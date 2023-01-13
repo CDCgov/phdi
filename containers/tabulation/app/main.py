@@ -61,10 +61,6 @@ class TabulateInput(BaseModel):
         description="Method for persisting data after extraction from the FHIR server "
         "and tabulation."
     )
-    schema_name: Optional[str] = Field(
-        description="Name of the schema, if not provided here then it must be included "
-        "within the metadata section of the schema in the 'schema_name' key."
-    )
     fhir_url: Optional[str] = Field(
         description="The URL of the FHIR server from which data should be extracted, "
         "should end with '/fhir'. If not provided here then it must be set as an "
@@ -127,17 +123,8 @@ async def tabulate_endpoint(input: TabulateInput, response: Response):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return search_result
 
-    # Look for a schema name.
-    if input["schema_name"] is None:
-        input["schema_name"] = input["schema_"]["metadata"].get("schema_name")
-        if input["schema_name"] is None:
-            response.status_code = status.HTTP_400_BAD_REQUEST
-            response_message = (
-                "A value for schema_name could not be found. A value for "
-                "schema_name must be provided using the 'schema_name' key in the "
-                "request body, or within the metadata section of the schema."
-            )
-            return response_message
+    # Extract schema name from schema metadata.
+    input["schema_name"] = input["schema_"]["metadata"].get("schema_name")
 
     # Instantiate a credential manager.
     if input["cred_manager"] is not None:

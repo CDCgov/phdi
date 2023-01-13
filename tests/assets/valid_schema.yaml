@@ -1,5 +1,6 @@
 metadata:
   results_per_page: 1000
+  schema_name: "valid_schema"
 tables:
   table 1A:
     resource_type: Patient

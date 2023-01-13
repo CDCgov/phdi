@@ -66,6 +66,7 @@ def test_tabulate_endpoint_valid_request(patched_tabulate):
     actual_response = client.post("/tabulate", json=valid_request)
     valid_request["cred_manager"] = None
     valid_request["schema_"] = valid_tabulate_request["schema"]
+    valid_request["schema_name"] = valid_request["schema"]["metadata"]["schema_name"]
     valid_request.pop("schema")
     assert actual_response.status_code == 200
     assert actual_response.json() == {}
@@ -163,12 +164,18 @@ def test_tabulate_endpoint_invalid_cred_manager(patched_tabulate):
 def test_tabulate_endpoint_missing_schema_name(patched_tabulate):
     invalid_tabulate_request = copy.deepcopy(valid_tabulate_request)
     invalid_tabulate_request.pop("schema_name")
+    invalid_tabulate_request["schema"]["metadata"].pop("schema_name")
     actual_response = client.post("/tabulate", json=invalid_tabulate_request)
-    assert actual_response.status_code == 400
-    assert (
-        actual_response.json()
-        == "A value for schema_name could not be found. A value for schema_name must be provided using the 'schema_name' key in the request body, or within the metadata section of the schema."
-    )  # noqa
+    assert actual_response.status_code == 422
+    assert actual_response.json() == {
+        "detail": [
+            {
+                "loc": ["body", "schema"],
+                "msg": "Must provide a valid schema.",
+                "type": "assertion_error",
+            }
+        ]
+    }  # noqa
 
 
 @mock.patch("app.main.tabulate")

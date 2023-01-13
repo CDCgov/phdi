@@ -12,6 +12,7 @@ Data schemas are designed around the FHIR data format, and the first step to ext
 metadata:
   # Parameters that specify metadata applying to all tables in the schema
   results_per_page: 1000
+  schema_name: "Schema Name" # Required
 tables:
   Patient Information:  # All tables must have a name
     # Properties specific to this table
@@ -59,7 +60,7 @@ tables:
         reference_location: "forward:Observation:derivedFrom"
 ```
 
-**Metadata**: A schema file begins by specifying any metadata that relates to all tables in the schema (since a schema can specify more than one table). The most relevant parameter of this group is `results_per_page`, which specifies how many results the FHIR server should return at a time when using an incremental, paginated search approach (so as to not make memory costs prohibitively high). If this parameter is omitted, the default value of 1000 is used when paginating results.
+**Metadata**: A schema file begins by specifying any metadata that relates to all tables in the schema (since a schema can specify more than one table). The most relevant parameters of this group are `schema_name` and `results_per_page`. `schema_name` is a required parameter and specific to the schema not table(s) within a schema. `results_per_page` specifies how many results the FHIR server should return at a time when using an incremental, paginated search approach (so as to not make memory costs prohibitively high). If this parameter is omitted, the default value of 1000 is used when paginating results.
 
 **Tables**: The next section in the schema file is the `Tables` field, which specifies how many tables the schema holds as well as the properties of those tables. A single schema file can hold as many tables as a user desires, but importantly, even if a schema defines only a single table, the `Tables` field must still exist (it will just have one member element).
 
