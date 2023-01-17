@@ -563,14 +563,17 @@ def test_create_pa_schema_from_table_schema():
     extracted_data = extracted_data.get("entry", {})
 
     table_to_use = tabulate_data(extracted_data, schema, "Patients")
-    pq_schema = _create_pa_schema_from_table_schema(schema, table_to_use[0], "Patients")
+    names = table_to_use[0] + ["test"]
+    schema["tables"]["Patients"]["columns"]["Last Name"]["data_type"] = "boolean"
+    pq_schema = _create_pa_schema_from_table_schema(schema, names, "Patients")
     assert pq_schema == pa.schema(
         [
             ("Patient ID", pa.string()),
             ("First Name", pa.string()),
-            ("Last Name", pa.string()),
+            ("Last Name", pa.bool_()),
             ("Phone Number", pa.string()),
             ("Building Number", pa.float32()),
+            ("test", pa.string()),
         ]
     )
 
