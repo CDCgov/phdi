@@ -137,7 +137,9 @@ def write_data(
                 _create_from_arrays_data(parquet_data[1:]), schema=pq_schema
             )
         else:
-            table = pa.Table.from_arrays(parquet_data[1:], names=parquet_data[0])
+            table = pa.Table.from_arrays(
+                _create_from_arrays_data(parquet_data[1:]), names=tabulated_data[0]
+            )
         if pq_writer is None:
             pq_writer = pq.ParquetWriter(
                 os.path.join(directory, filename), table.schema
