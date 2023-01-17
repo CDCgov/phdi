@@ -4,10 +4,13 @@ WORKDIR /code
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git
+    apt-get install -y git gcc
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
+
+RUN apt-get remove -y git gcc && \
+    apt-get autoremove -y
 
 COPY ./app /code/app
 
