@@ -9,7 +9,7 @@ RUN apt-get update && \
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
-RUN apt-get remove -y git gcc && \
+RUN apt-get remove -y git && \
     apt-get autoremove -y
 
 COPY ./app /code/app
