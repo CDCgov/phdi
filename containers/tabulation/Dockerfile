@@ -4,10 +4,15 @@ WORKDIR /code
 
 # Install git.
 # TODO: remove this step when a PyPi release of PHDI is available that includes Tabulation.
-RUN apt-get -y update && apt-get -y install git
+RUN apt-get -y update && \
+    apt-get upgrade -y && \
+    apt-get -y install git gcc
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
+
+RUN apt-get -y remove git gcc && \
+    apt-get -y autoremove
 
 COPY ./app /code/app
 COPY ./description.md /code/description.md
