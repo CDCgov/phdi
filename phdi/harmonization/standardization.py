@@ -1,6 +1,6 @@
-import fuzzy
 import phonenumbers
 import pycountry
+from phdi.harmonization.double_metaphone import DoubleMetaphone
 from typing import Literal, List, Union
 
 
@@ -20,7 +20,7 @@ def double_metaphone_string(string: str, dmeta=None) -> List[Union[str, None]]:
       string.
     """
     if dmeta is None:
-        dmeta = fuzzy.DMetaphone()
+        dmeta = DoubleMetaphone()
     return dmeta(string)
 
 
