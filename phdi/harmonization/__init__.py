@@ -11,6 +11,7 @@ from phdi.harmonization.standardization import (
     standardize_name,
     standardize_phone,
 )
+from phdi.harmonization.double_metaphone import DoubleMetaphone
 
 from phdi.harmonization.utils import compare_strings
 
@@ -25,4 +26,5 @@ __all__ = (
     "standardize_name",
     "double_metaphone_string",
     "compare_strings",
+    "DoubleMetaphone",
 )
