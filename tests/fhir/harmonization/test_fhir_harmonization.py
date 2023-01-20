@@ -24,16 +24,16 @@ def test_double_metaphone_bundle():
     dm_bundle = double_metaphone_bundle(raw_bundle, overwrite=False)
     dms = {
         "907844f6-7c99-eabc-f68e-d92189729a55": {
-            "familyName": ["PRS", ""],
-            "givenName": [["KMPR", ""]],
+            "familyName": ["PRS", ""],  # Price
+            "givenName": [["KMPR", ""]],  # Kimberly
         },
         "65489-asdf5-6d8w2-zz5g8": {
-            "givenName": [["JN", "AN"], ["TPRS", ""]],
-            "familyName": ["XPRT", ""],
+            "givenName": [["JN", "AN"], ["TPRS", ""]],  # John Tiberius
+            "familyName": ["XPRT", ""],  # Shepard
         },
         "some-uuid": {
-            "givenName": [["JN", "AN"], ["TNJR", "TNKR"]],
-            "familyName": ["", ""],
+            "givenName": [["JN", "AN"], ["TNJR", "TNKR"]],  # John Danger
+            "familyName": ["", ""],  # No family name
         },
     }
 
