@@ -14,16 +14,24 @@ with open(pathlib.Path(__file__).parent / "nicknames.csv") as fp:
             if i == 0:
                 i += 1
                 continue
+
+            # One row is of the form:
+            # ID    Normal_Name    Nickname
             toks = line.strip().split(",")
             root_name = toks[1].strip().upper()
+            nickname = toks[2].strip().upper()
+
             if root_name not in names_to_nicknames:
                 names_to_nicknames[root_name] = []
-            names_to_nicknames[root_name].append(toks[2].strip().upper())
+            names_to_nicknames[root_name].append(nickname)
 
 for f in ["names.csv", "male_diminutives.csv", "female_diminutives.csv"]:
     with open(pathlib.Path(__file__).parent / f) as fp:
         for line in fp:
             if line.strip() != "":
+
+                # Each line is of the form:
+                # Normal_Name, Nickname_1, Nickname_2, Nickname_3, ...
                 root_name, nicknames = line.strip().split(",", 1)
                 root_name = root_name.strip().upper()
                 if root_name not in names_to_nicknames:
@@ -38,6 +46,9 @@ with open(pathlib.Path(__file__).parent / "nick_to_name.csv") as fp:
             if i == 0:
                 i += 1
                 continue
+
+            # Each line is of the form
+            # Nickname, Normal_name_1, Normal_name_2, ...
             nick, names = line.strip().split(",", 1)
             nick = nick.strip().upper()
             for name in names.strip().upper().split(","):
@@ -48,13 +59,17 @@ with open(pathlib.Path(__file__).parent / "nick_to_name.csv") as fp:
 with open(pathlib.Path(__file__).parent / "nicknames.txt") as fp:
     for line in fp:
         if line.strip() != "":
+
+            # Each line is of the form:
+            # Normal_Name, Nickname_1, Nickname_2, Nickname_3, ...
+            # But some of the spacing is weird
             toks = line.strip().upper().split()
             root_name = toks[0]
             if root_name not in names_to_nicknames:
                 names_to_nicknames[root_name] = []
-            for name in toks[1:]:
-                if name.strip() != "":
-                    names_to_nicknames[root_name].append(name.strip())
+            for nickname in toks[1:]:
+                if nickname.strip() != "":
+                    names_to_nicknames[root_name].append(nickname.strip())
 
 for name in names_to_nicknames:
     names_to_nicknames[name] = list(set(names_to_nicknames[name]))
