@@ -1,7 +1,8 @@
-import fuzzy
 import json
 import pathlib
 import copy
+
+from phdi.harmonization import DoubleMetaphone
 
 from phdi.fhir.harmonization import (
     double_metaphone_bundle,
@@ -23,16 +24,16 @@ def test_double_metaphone_bundle():
     dm_bundle = double_metaphone_bundle(raw_bundle, overwrite=False)
     dms = {
         "907844f6-7c99-eabc-f68e-d92189729a55": {
-            "familyName": [b"PRK", None],
-            "givenName": [[b"KMPR", None]],
+            "familyName": ["PRS", ""],  # Price
+            "givenName": [["KMPR", ""]],  # Kimberly
         },
         "65489-asdf5-6d8w2-zz5g8": {
-            "givenName": [[b"JN", b"AN"], [b"TPRS", None]],
-            "familyName": [b"XPRT", None],
+            "givenName": [["JN", "AN"], ["TPRS", ""]],  # John Tiberius
+            "familyName": ["XPRT", ""],  # Shepard
         },
         "some-uuid": {
-            "givenName": [[b"JN", b"AN"], [b"TNJR", b"TNKR"]],
-            "familyName": [None, None],
+            "givenName": [["JN", "AN"], ["TNJR", "TNKR"]],  # John Danger
+            "familyName": ["", ""],  # No family name
         },
     }
 
@@ -85,24 +86,24 @@ def test_double_metaphone_patient():
     # DM Answers
     dms_1 = {
         "official": {
-            "givenName": [[b"JN", b"AN"], [b"TNJR", b"TNKR"]],
-            "familyName": [b"T", None],
+            "givenName": [["JN", "AN"], ["TNJR", "TNKR"]],
+            "familyName": ["T", ""],
         },
-        "usual": {"givenName": [[b"JN", b"AN"]], "familyName": [b"T", None]},
+        "usual": {"givenName": [["JN", "AN"]], "familyName": ["T", ""]},
         "old": {
-            "givenName": [[b"JN0N", b"ANTN"], [b"TNJR", b"TNKR"]],
-            "familyName": [b"T", None],
+            "givenName": [["JN0N", "ANTN"], ["TNJR", "TNKR"]],
+            "familyName": ["T", ""],
         },
     }
     dms_2 = {
         "official": {
-            "givenName": [[b"TMNK", None], [b"ALJN", b"ALHN"], [b"TK", None]],
-            "familyName": [b"HRNN", None],
+            "givenName": [["TMNK", ""], ["ALJN", "ALHN"], ["TK", ""]],
+            "familyName": ["HRNN", ""],
         },
-        "nickname": {"givenName": [[b"TM", None]], "familyName": [b"HRNN", None]},
+        "nickname": {"givenName": [["TM", ""]], "familyName": ["HRNN", ""]},
         "temp": {
-            "givenName": [[b"SF", b"SFR"], [b"JRJ", b"ARK"], [b"ATRT", None]],
-            "familyName": [b"RTRK", None],
+            "givenName": [["SF", "SFR"], ["JRJ", "ARK"], ["ATRT", ""]],
+            "familyName": ["RTRK", ""],
         },
     }
 
@@ -116,7 +117,7 @@ def test_double_metaphone_patient():
         patient = standardize_names(patients[i])
 
         # Now test and verify using preexisting and new dmeta objects
-        for dmeta in [None, fuzzy.DMetaphone()]:
+        for dmeta in [None, DoubleMetaphone()]:
             dm_patient = double_metaphone_patient(patient, dmeta, overwrite=False)
 
             for name in dm_patient.get("name", []):

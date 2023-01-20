@@ -40,12 +40,18 @@ def test_cloud_storage_params_success(
     patched_get_provider.return_value.upload_object.assert_called_with(
         message=test_request, container_name="test_bucket", filename="test_file_name1"
     )
-    message = (
+
+    expected_message = (
         "The data has successfully been stored in the azure cloud "
         "in test_bucket container with the name test_file_name1."
     )
+    expected_response = {
+        "status_code": "201",
+        "message": expected_message,
+        "bundle": None,
+    }
     assert actual_response.status_code == 201
-    assert actual_response.json() == {"message": message}
+    assert actual_response.json() == expected_response
 
 
 def test_cloud_storage_missing_provider():
@@ -56,12 +62,18 @@ def test_cloud_storage_missing_provider():
         "file_name": "test_file_name",
     }
 
-    expected_response = (
+    expected_message = (
         "The following values are required, but were not included in "
         "the request and could not be read from the environment. "
         "Please resubmit the request including these values or add "
         "them as environment variables to this service. missing values: cloud_provider."
     )
+
+    expected_response = {
+        "status_code": "400",
+        "message": expected_message,
+        "bundle": None,
+    }
     expected_status_code = 400
     actual_response = client.post(client_url, json=test_request)
     assert actual_response.json() == expected_response
@@ -94,12 +106,17 @@ def test_cloud_storage_missing_bucket():
         "file_name": "test_file_name",
     }
 
-    expected_response = (
+    expected_message = (
         "The following values are required, but were not included in "
         "the request and could not be read from the environment. "
         "Please resubmit the request including these values or add "
         "them as environment variables to this service. missing values: bucket_name."
     )
+    expected_response = {
+        "status_code": "400",
+        "message": expected_message,
+        "bundle": None,
+    }
     expected_status_code = 400
     actual_response = client.post(client_url, json=test_request)
     assert actual_response.json() == expected_response
@@ -150,15 +167,19 @@ def test_cloud_storage_missing_storage_url():
         "storage_account_url": None,
     }
 
-    expected_response = (
+    expected_message = (
         "The following values are required, but were not included in "
         "the request and could not be read from the environment. "
         "Please resubmit the request including these values or add "
         "them as environment variables to this service. "
         "missing values: storage_account_url."
     )
+    expected_response = {
+        "status_code": "400",
+        "message": expected_message,
+        "bundle": None,
+    }
     expected_status_code = 400
     actual_response = client.post(client_url, json=test_request)
-    print(actual_response.json())
     assert actual_response.json() == expected_response
     assert actual_response.status_code == expected_status_code

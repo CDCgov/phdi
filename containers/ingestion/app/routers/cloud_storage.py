@@ -1,9 +1,13 @@
 import time
 from fastapi import APIRouter, Response, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Literal, Optional
 
-from app.utils import search_for_required_values, get_cloud_provider_storage_connection
+from app.utils import (
+    search_for_required_values,
+    get_cloud_provider_storage_connection,
+    StandardResponse,
+)
 
 
 router = APIRouter(
@@ -13,17 +17,30 @@ router = APIRouter(
 
 
 class WriteBlobToStorageInput(BaseModel):
-    blob: dict
-    cloud_provider: Optional[Literal["azure", "gcp"]]
-    bucket_name: Optional[str]
-    file_name: str
-    storage_account_url: Optional[str] = ""
+    blob: dict = Field(description="Contents of a blob to be written to cloud storage.")
+    cloud_provider: Optional[Literal["azure", "gcp"]] = Field(
+        description="The cloud provider hosting the storage resource that the blob will"
+        " be uploaded to. Must be provided in the request body or set as an environment"
+        " variable of the service."
+    )
+    bucket_name: Optional[str] = Field(
+        description="Name of the cloud storage bucket that the blob should be uploaded "
+        "to. Must be provided in the request body or set as an environment variable of "
+        "the service."
+    )
+    file_name: str = Field(description="Name of the blob")
+    storage_account_url: Optional[str] = Field(
+        description="The URL of an Azure storage account. Must be provided in the "
+        "request body or set as an environment variable of the service is "
+        "'cloud_provider' is 'azure'.",
+        default="",
+    )
 
 
-@router.post("/write_blob_to_storage", status_code=200)
+@router.post("/write_blob_to_storage", status_code=201)
 def write_blob_to_cloud_storage_endpoint(
     input: WriteBlobToStorageInput, response: Response
-) -> dict:
+) -> StandardResponse:
     """
     Upload the information from a blob into a specified cloud providers storage
     organizing it by a bucket name as well as a file name.
@@ -38,7 +55,7 @@ def write_blob_to_cloud_storage_endpoint(
     search_result = search_for_required_values(input, required_values)
     if search_result != "All values were found.":
         response.status_code = status.HTTP_400_BAD_REQUEST
-        return search_result
+        return {"status_code": 400, "message": search_result}
     if input["cloud_provider"] == "azure":
         azure_required_values = ["storage_account_url"]
         azure_search_result = search_for_required_values(
@@ -46,7 +63,7 @@ def write_blob_to_cloud_storage_endpoint(
         )
         if azure_search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
-            return azure_search_result
+            return {"status_code": 400, "message": azure_search_result}
 
     cloud_provider_connection = get_cloud_provider_storage_connection(
         cloud_provider=input["cloud_provider"],
@@ -62,10 +79,11 @@ def write_blob_to_cloud_storage_endpoint(
 
     response.status_code = status.HTTP_201_CREATED
     return {
+        "status_code": "201",
         "message": (
             "The data has successfully been stored "
             "in the {} cloud in {} container with the name {}.".format(
                 input["cloud_provider"], input["bucket_name"], full_file_name
             )
-        )
+        ),
     }

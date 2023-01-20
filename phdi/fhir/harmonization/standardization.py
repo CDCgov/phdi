@@ -1,7 +1,7 @@
 import copy
-import fuzzy
 from typing import List, Literal, Union
 from phdi.harmonization import (
+    DoubleMetaphone,
     double_metaphone_string,
     standardize_name,
     standardize_country_code,
@@ -25,7 +25,7 @@ def double_metaphone_bundle(bundle: dict, overwrite=True) -> dict:
     if not overwrite:
         bundle = copy.deepcopy(bundle)
 
-    dmeta = fuzzy.DMetaphone()
+    dmeta = DoubleMetaphone()
     for entry in bundle.get("entry", []):
         resource = entry.get("resource", {})
         if resource.get("resourceType", "") == "Patient":

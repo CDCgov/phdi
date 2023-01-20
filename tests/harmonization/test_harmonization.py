@@ -1,10 +1,10 @@
-import fuzzy
 import hl7
 import pathlib
 
 from phdi.harmonization import (
     convert_hl7_batch_messages_to_list,
     default_hl7_value,
+    DoubleMetaphone,
     double_metaphone_string,
     normalize_hl7_datetime,
     normalize_hl7_datetime_segment,
@@ -14,13 +14,15 @@ from phdi.harmonization import (
     standardize_phone,
 )
 
+from phdi.harmonization.utils import compare_strings
+
 
 def test_double_metaphone_string():
 
     # Two test conditions: one in which dmeta is created within each
     # function call, and another where it's initiated outside the call
     # and passed in repeatedly to simulate bulk processing
-    for dmeta in [None, fuzzy.DMetaphone()]:
+    for dmeta in [None, DoubleMetaphone()]:
 
         # Test 1: phonetically similar names (i.e. names that sound
         # the same) should map to the same encoding
@@ -70,7 +72,7 @@ def test_double_metaphone_string():
         )
 
         # Test 4: Make sure both formats can handle an empty string
-        assert double_metaphone_string("", dmeta) == [None, None]
+        assert double_metaphone_string("", dmeta) == ["", ""]
 
 
 def test_standardize_hl7_datetimes():
@@ -361,3 +363,44 @@ def test_standardize_name():
         "PAUL BUNYAN",
         "JRRTOLKIE87N 999",
     ]
+
+
+def test_compare_strings():
+    correct_string = "Jose"
+    test_string = "Jsoe"
+
+    assert compare_strings(correct_string, test_string) != 1.0
+
+    # 100% match for all similarity measures
+    test_string = "Jose"
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="JaroWinkler")
+        == 1.0
+    )
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="Levenshtein")
+        == 1.0
+    )
+    assert (
+        compare_strings(
+            correct_string, test_string, similarity_measure="DamerauLevenshtein"
+        )
+        == 1.0
+    )
+
+    # 0% match for all similarity measures
+    test_string = "abcd"
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="JaroWinkler")
+        == 0.0
+    )
+    assert (
+        compare_strings(correct_string, test_string, similarity_measure="Levenshtein")
+        == 0.0
+    )
+    assert (
+        compare_strings(
+            correct_string, test_string, similarity_measure="DamerauLevenshtein"
+        )
+        == 0.0
+    )
