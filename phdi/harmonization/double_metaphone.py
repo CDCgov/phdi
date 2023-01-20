@@ -1,7 +1,7 @@
 import unicodedata
 
 """
-The Double Metaphone phonetic encoding algorithm is an improvement to the 
+The Double Metaphone phonetic encoding algorithm is an improvement to the
 phonetic representation algorithm Soundex, commonly used to identify what an
 English name "sounds like." However, rather than produce an exact phonetic
 description of a name, Double Metaphone produces an intentionally approximate
@@ -150,7 +150,7 @@ class DoubleMetaphone(object):
             position == (start_index + 1) and buffer[start_index] == "M"
         ):
 
-            #'bellocchio' but not 'bacchus'
+            # 'bellocchio' but not 'bacchus'
             if (
                 buffer[position + 2] in ["I", "E", "H"]
                 and buffer[position + 2 : position + 4] != "HU"
