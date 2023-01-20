@@ -68,6 +68,16 @@ The PRIME Public Health Data Infrastructure prototype a sibling project to [PRIM
 
 Long-term Vision: Current public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective is to help the CDC best support STLTs in moving towards a modern public health data infrastructure.
 
+## Additional Acknowledgments 
+
+The compiled database mappings of root names to various nicknames was produced by the aggregation and synthesis of open source work from a number of projects. While we do not employ the packages and wrappers used by the various projects (merely their open source data), we do wish to give credit to their various works building collections of nickname mappings. These projects are:
+
+* [Secure Enterprise Master Patient Index](https://github.com/MrCsabaToth/SOEMPI), based on OpenEMPI, conducted by Vanderbilt University
+* [Curated Nicknames](https://github.com/carltonnorthern/nicknames), scraped from genealogy webpages and run by Old Dominion University Web Science and Digital Libraries Research Group
+* [Simple Public Domain Nickname Mappings](https://github.com/onyxrev/common_nickname_csv), hand collected using various sources
+* [Lingua En Nickname](https://github.com/brianary/Lingua-EN-Nickname), collected from a series of GenWeb projects
+* [diminutives.db](https://github.com/HaJongler/diminutives.db), compiled via a nickname extract using Wikipedia and Wiktionary
+
 ## Standard Notices
 
 ### Public Domain Standard Notice
