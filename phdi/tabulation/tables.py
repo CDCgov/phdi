@@ -189,6 +189,7 @@ def _convert_list_to_string(val: list) -> str:
 
     :param val: A list that may contain other types of objects to be stringified
       for use in CSV, SQL, etc
+    :return: A string representation of the list
     """
     for i, v in enumerate(val):
         if isinstance(v, list):
@@ -213,6 +214,8 @@ def _create_pa_schema_from_table_schema(
       for.
     :param table_name: A string of the table name that the parquet schema is being
       generated for.
+    :return: A pyarrow schema object based on the schema of the table, column names, and
+      which table is being used.
     """
     table_columns = schema["tables"][table_name]["columns"]
     pa_schema_arr = []
@@ -243,6 +246,7 @@ def _create_from_arrays_data(row_data: List) -> List:
     Returns a list that is one array per column. Accepts list that is one
       array per row.
     :param row_data: A list that is made of multiple arrays
+    :return: A list of lists.
     """
     if len(row_data) == 0:
         return row_data
@@ -256,6 +260,13 @@ def _create_from_arrays_data(row_data: List) -> List:
 
 
 def _create_parquet_data(data: List[List], pq_schema: pa.Schema) -> List[List]:
+    """
+    Returns a list with the data being modified to the data types specified by the
+      pyarrow schema.
+    :param data: A list of lists with multiple objects.
+    :param pq_schema: A pyarrow schema file which references the data in the data file.
+    :return: A list of lists.
+    """
     if pq_schema is None:
         for row in data[1:]:
             for i, elm in enumerate(row):

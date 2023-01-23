@@ -190,6 +190,8 @@ def test_write_data_parquet_with_schema():
     table_to_use = tabulate_data(extracted_data, schema, table_name)
     batch_1 = table_to_use[:2]
     batch_2 = [table_to_use[0]] + [table_to_use[2]]
+    # Batch 3 has null defined in certain columns, which should be accounted for by the
+    #  schema file
     batch_3 = [table_to_use[0]] + table_to_use[3:]
     file_location = "./"
     output_file_name = "new_parquet.parquet"
