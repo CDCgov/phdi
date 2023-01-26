@@ -1,4 +1,6 @@
 import hashlib
+from phdi.harmonization.utils import compare_strings
+from typing import List, Callable
 
 
 def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
@@ -16,3 +18,142 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     to_encode = (linking_identifier + salt_str).encode("utf-8")
     hash_obj.update(to_encode)
     return hash_obj.hexdigest()
+
+
+def match_within_block(
+    block: List[List],
+    feature_funcs: dict[int, Callable],
+    match_eval: Callable,
+    **kwargs
+) -> None:
+    """
+    Performs matching on all candidate pairs of records within a given block
+    of data. Actual partitioning of the data should be done outside this
+    function, as it compares all possible pairs within the provided partition.
+    Uses a given construction of feature comparison rules as well as a
+    match evaluation rule to determine the final verdict on whether two
+    records are indeed a match.
+
+    A feature function is of the form "feature_match_X" for some condition
+    X; it must accept two records (lists of data), an index i in which the
+    feature to compare is stored, and the parameter **kwargs. It must return
+    a boolean indicating whether the features "match" for whatever definition
+    of match the function uses (i.e. this allows modular logic to apply to
+    different features in the compared records). Note that not all features
+    in a record need a comparison function defined.
+
+    A match evaluation rule is a function of the form "eval_X" for some
+    condition X. It accepts as input a list of booleans, one for each feature
+    that was compared with feature funcs, and determines whether the
+    comparisons constitute a match according to X.
+
+    :param block: A list of records to check for matches. Each record in
+      the list is itself a list of features.
+    :param feature_funcs: A dictionary mapping feature indices to functions
+      used to evaluate those features for a match.
+    :param match_eval: A function for determining whether a given set of
+      feature comparisons constitutes a match for linkage.
+    :return: A list of 2-tuples of the form (i,j), where i,j give the indices
+      in the block of data of records deemed to match.
+    """
+    match_pairs = []
+    checked = {}
+    for i in range(len(block)):
+        record_i = block[i]
+        id_i = record_i[0]
+
+        # Store "visited" sets so that if see j matches i, we don't later
+        # have to recompute whether i matches j
+        if id_i not in checked:
+            checked[id_i] = set()
+        for j in range(len(block)):
+            record_j = block[j]
+            id_j = record_j[0]
+            if record_i != record_j:
+                if id_j not in checked:
+                    checked[id_j] = set()
+
+                    # Mark the record pair as "visited"
+                    # Then, compute feature-wise comparisons
+                    if id_j not in checked[id_i] or id_i not in checked[id_j]:
+                        checked[id_i].add(id_j)
+                        checked[id_j].add(id_i)
+                        feature_comps = [
+                            feature_funcs[x](record_i, record_j, x, **kwargs)
+                            for x in range(len(record_i))
+                            if x in feature_funcs
+                        ]
+
+                        # If it's a match, store the result
+                        is_match = match_eval(feature_comps)
+                        if is_match:
+                            match_pairs.append((i, j))
+
+    return match_pairs
+
+
+def feature_match_exact(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+) -> bool:
+    """
+    Determines whether a single feature in a given pair of records
+    constitutes an exact match (perfect equality).
+
+    :param record_i: One of the records in the candidate pair to evaluate.
+    :param record_j: The second record in the candidate pair.
+    :param feature_x: A number representing the index of the feature to
+      compare for equality.
+    :return: A boolean indicating whether the features are an exact match.
+    """
+    return record_i[feature_x] == record_j[feature_x]
+
+
+def feature_match_fuzzy_string(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+) -> bool:
+    """
+    Determines whether two strings in a given pair of records are close
+    enough to constitute a partial match. The exact nature of the match
+    is determined by the specified string comparison function (see
+    harmonization/utils/compare_strings for more details) as well as a
+    scoring threshold the comparison must meet or exceed.
+
+    :param record_i: One of the records in the candidate pair to evaluate.
+    :param record_j: The second record in the candidate pair.
+    :param feature_x: A number representing the index of the feature to
+      compare for a partial match.
+    :param **kwargs: Optionally, a dictionary including specifications for
+      the string comparison metric to use, as well as the cutoff score
+      beyond which to classify the strings as a partial match.
+    :return: A boolean indicating whether the features are a fuzzy match.
+    """
+    # Special case for two empty strings, since we don't want vacuous
+    # equality (or in-) to penalize the score
+    if record_i[feature_x] == "" and record_j[feature_x] == "":
+        return True
+    if record_i[feature_x] is None and record_j[feature_x] is None:
+        return True
+
+    similarity_measure = "JaroWinkler"
+    if "similarity_measure" in kwargs:
+        similarity_measure = kwargs["similarity_measure"]
+    threshold = 0.7
+    if "threshold" in kwargs:
+        threshold = kwargs["threshold"]
+    score = compare_strings(
+        record_i[feature_x], record_j[feature_x], similarity_measure
+    )
+    return score >= threshold
+
+
+def eval_perfect_match(feature_comparisons: List) -> bool:
+    """
+    Determines whether a given set of feature comparisons represent a
+    'perfect' match (i.e. whether all features that were compared match
+    in whatever criteria was specified for them).
+
+    :param feature_comparisons: A list of 1s and 0s, one for each feature
+      that was compared during the match algorithm.
+    :return: The evaluation of whether the given features all match.
+    """
+    return sum(feature_comparisons) == len(feature_comparisons)
