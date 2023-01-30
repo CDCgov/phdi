@@ -265,7 +265,7 @@ def _create_parquet_data(data: List[List], pq_schema: pa.Schema) -> List[List]:
       pyarrow schema.
     :param data: A list of lists with multiple objects.
     :param pq_schema: A pyarrow schema file which references the data in the data file.
-    :return: A list of lists.
+    :return: A list of lists with data types specified in the pyarrow schema.
     """
     if pq_schema is None:
         for row in data[1:]:
