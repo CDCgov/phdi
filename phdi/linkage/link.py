@@ -31,6 +31,11 @@ def block_parquet_data(path: str, blocks: List) -> Dict:
     within each block, stored as a list of lists.
     """
     data = pd.read_parquet(path, engine="pyarrow")
-    blocked_data = dict(tuple(data.groupby(blocks)))
+    blocked_data_tuples = tuple(data.groupby(blocks))
+
+    # Convert data to list of lists within dict
+    blocked_data = dict()
+    for block, df in blocked_data_tuples:
+        blocked_data[block] = df.values.tolist()
 
     return blocked_data
