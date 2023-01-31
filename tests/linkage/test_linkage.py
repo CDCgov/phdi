@@ -33,10 +33,6 @@ def test_block_parquet_data():
 
     blocked_test_data = block_parquet_data(path="./test.parquet", blocks=["zip"])
 
-    for key, value in blocked_test_data.items():
-        print("ZIP:", key)
-        print(value)
-        print()
     # Test output data types are correct
     assert isinstance(blocked_test_data, dict)
     assert isinstance(blocked_test_data[90006], list)
