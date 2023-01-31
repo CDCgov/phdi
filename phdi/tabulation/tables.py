@@ -131,7 +131,6 @@ def write_data(
         else:
             pq_schema = None
         parquet_data = _create_parquet_data(tabulated_data, pq_schema)
-        # parquet_data = tabulated_data
         if pq_schema:
             table = pa.Table.from_arrays(
                 _create_from_arrays_data(parquet_data[1:]), schema=pq_schema
