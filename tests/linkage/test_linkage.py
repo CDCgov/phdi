@@ -70,6 +70,10 @@ def test_match_within_block():
         [11, "Jon", "Shepherd", "11-7-2153", "90909"],
         [14, "Jane", "Smith", "01-10-1986", "12345"],
         [18, "Daphne", "Walker", "12-12-1992", "23456"],
+        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
+        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
+        [27, "Philip", "", "2-2-1990", "64873"],
+        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
     ]
     eval_rule = eval_perfect_match
 
@@ -85,16 +89,16 @@ def test_match_within_block():
     assert len(match_pairs) == 0
 
     # Now, require exact on DOB and zip, but allow fuzzy on first and last
-    # Expect 2 matches
+    # Expect 6 matches
     funcs[1] = feature_match_fuzzy_string
     funcs[2] = feature_match_fuzzy_string
     match_pairs = match_within_block(data, funcs, eval_rule)
-    assert match_pairs == [(0, 1), (0, 2)]
+    assert match_pairs == [(0, 1), (0, 2), (1, 2), (5, 6), (5, 8), (6, 8)]
 
     # As above, but let's be explicit about string comparison and threshold
-    # Expect a single tuple
+    # Expect three matches, but none with the "Johns"
     # Note the difference in returned results by changing distance function
     match_pairs = match_within_block(
-        data, funcs, eval_rule, similarity_measure="Levenshtein", threshold=0.75
+        data, funcs, eval_rule, similarity_measure="Levenshtein", threshold=0.8
     )
-    assert match_pairs == [(0, 2)]
+    assert match_pairs == [(5, 6), (5, 8), (6, 8)]

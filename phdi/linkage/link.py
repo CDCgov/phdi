@@ -25,7 +25,7 @@ def match_within_block(
     feature_funcs: dict[int, Callable],
     match_eval: Callable,
     **kwargs
-) -> None:
+) -> List[tuple]:
     """
     Performs matching on all candidate pairs of records within a given block
     of data. Actual partitioning of the data should be done outside this
@@ -48,7 +48,8 @@ def match_within_block(
     comparisons constitute a match according to X.
 
     :param block: A list of records to check for matches. Each record in
-      the list is itself a list of features.
+      the list is itself a list of features. The first feature of the
+      record must be an "id" for the record.
     :param feature_funcs: A dictionary mapping feature indices to functions
       used to evaluate those features for a match.
     :param match_eval: A function for determining whether a given set of
@@ -57,37 +58,22 @@ def match_within_block(
       in the block of data of records deemed to match.
     """
     match_pairs = []
-    checked = {}
-    for i in range(len(block)):
-        record_i = block[i]
-        id_i = record_i[0]
 
-        # Store "visited" sets so that if see j matches i, we don't later
-        # have to recompute whether i matches j
-        if id_i not in checked:
-            checked[id_i] = set()
-        for j in range(len(block)):
+    # Dynamic programming table: order doesn't matter, so only need to
+    # check each combo of i,j once
+    for i, record_i in enumerate(block):
+        for j in range(i + 1, len(block)):
             record_j = block[j]
-            id_j = record_j[0]
-            if record_i != record_j:
-                if id_j not in checked:
-                    checked[id_j] = set()
+            feature_comps = [
+                feature_funcs[x](record_i, record_j, x, **kwargs)
+                for x in range(len(record_i))
+                if x in feature_funcs
+            ]
 
-                    # Mark the record pair as "visited"
-                    # Then, compute feature-wise comparisons
-                    if id_j not in checked[id_i] or id_i not in checked[id_j]:
-                        checked[id_i].add(id_j)
-                        checked[id_j].add(id_i)
-                        feature_comps = [
-                            feature_funcs[x](record_i, record_j, x, **kwargs)
-                            for x in range(len(record_i))
-                            if x in feature_funcs
-                        ]
-
-                        # If it's a match, store the result
-                        is_match = match_eval(feature_comps)
-                        if is_match:
-                            match_pairs.append((i, j))
+            # If it's a match, store the result
+            is_match = match_eval(feature_comps)
+            if is_match:
+                match_pairs.append((i, j))
 
     return match_pairs
 
