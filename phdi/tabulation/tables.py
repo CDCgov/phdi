@@ -125,17 +125,20 @@ def write_data(
 
     if output_type == "parquet":
         if schema and table_name:
+            # Create the parquet schema based on the config file
             pq_schema = _create_pa_schema_from_table_schema(
                 schema, tabulated_data[0], table_name
             )
         else:
             pq_schema = None
+        # Rearrange data so that it is column, not row based as parquet needs
         parquet_data = _create_parquet_data(tabulated_data, pq_schema)
         if pq_schema:
             table = pa.Table.from_arrays(
                 _create_from_arrays_data(parquet_data[1:]), schema=pq_schema
             )
         else:
+            # If no schema file is provided, use the names field
             table = pa.Table.from_arrays(
                 _create_from_arrays_data(parquet_data[1:]), names=tabulated_data[0]
             )
