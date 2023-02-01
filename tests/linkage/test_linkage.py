@@ -106,7 +106,7 @@ def test_match_within_block():
     )
     assert match_pairs == [(5, 6), (5, 8), (6, 8)]
 
-    
+
 def test_block_parquet_data():
     # Create data for testing
     test_data = {

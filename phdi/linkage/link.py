@@ -145,7 +145,7 @@ def eval_perfect_match(feature_comparisons: List) -> bool:
     """
     return sum(feature_comparisons) == len(feature_comparisons)
 
-  
+
 def block_parquet_data(path: str, blocks: List) -> Dict:
     """
     Generates dictionary of blocked data where each key is a block and each value is a
