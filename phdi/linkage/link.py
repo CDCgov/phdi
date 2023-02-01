@@ -1,6 +1,7 @@
 import hashlib
+import pandas as pd
 from phdi.harmonization.utils import compare_strings
-from typing import List, Callable
+from typing import List, Callable, Dict
 
 
 def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
@@ -143,3 +144,24 @@ def eval_perfect_match(feature_comparisons: List) -> bool:
     :return: The evaluation of whether the given features all match.
     """
     return sum(feature_comparisons) == len(feature_comparisons)
+
+  
+def block_parquet_data(path: str, blocks: List) -> Dict:
+    """
+    Generates dictionary of blocked data where each key is a block and each value is a
+    distinct list of lists containing the data for a given block.
+
+    :param path: Path to parquet file containing data that needs to be linked.
+    :param blocks: List of columns to be used in blocks.
+    :return: A dictionary of with the keys as the blocks and the values as the data
+    within each block, stored as a list of lists.
+    """
+    data = pd.read_parquet(path, engine="pyarrow")
+    blocked_data_tuples = tuple(data.groupby(blocks))
+
+    # Convert data to list of lists within dict
+    blocked_data = dict()
+    for block, df in blocked_data_tuples:
+        blocked_data[block] = df.values.tolist()
+
+    return blocked_data

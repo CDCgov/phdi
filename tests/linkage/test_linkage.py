@@ -1,5 +1,8 @@
+import os
+import pandas as pd
 from phdi.linkage import (
     generate_hash_str,
+    block_parquet_data,
     feature_match_exact,
     feature_match_fuzzy_string,
     eval_perfect_match,
@@ -102,3 +105,38 @@ def test_match_within_block():
         data, funcs, eval_rule, similarity_measure="Levenshtein", threshold=0.8
     )
     assert match_pairs == [(5, 6), (5, 8), (6, 8)]
+
+    
+def test_block_parquet_data():
+    # Create data for testing
+    test_data = {
+        "id": [0, 1, 2, 3],
+        "first_name": ["Marc", "Mark", "Jose", "Eliza"],
+        "last_name": ["Gutierrez", "Smith", "Garcia", "Jones"],
+        "zip": [90210, 90210, 90210, 90006],
+        "year_of_birth": [1980, 1992, 1992, 1992],
+    }
+    test_data_df = pd.DataFrame.from_dict(test_data)
+
+    if os.path.isfile("./test.parquet"):  # pragma: no cover
+        os.remove("./test.parquet")
+    test_data_df.to_parquet(path="./test.parquet", engine="pyarrow")
+
+    blocked_test_data = block_parquet_data(path="./test.parquet", blocks=["zip"])
+
+    # Test output data types are correct
+    assert isinstance(blocked_test_data, dict)
+    assert isinstance(blocked_test_data[90006], list)
+
+    # Test that the number of blocks is the same as the distinct number of zip codes
+    assert len(blocked_test_data.keys()) == test_data_df["zip"].nunique()
+
+    # Test blocks with multiple block columns
+    blocked_test_data = block_parquet_data(
+        path="./test.parquet", blocks=["zip", "year_of_birth"]
+    )
+    assert len(blocked_test_data[(90210, 1992)]) == 2
+
+    # Clean up
+    if os.path.isfile("./test.parquet"):  # pragma: no cover
+        os.remove("./test.parquet")
