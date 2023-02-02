@@ -19,7 +19,6 @@ test_bundle = json.load(
 @mock.patch("app.routers.fhir_geospatial.SmartyFhirGeocodeClient")
 @mock.patch("app.routers.fhir_geospatial.geocode_bundle_endpoint")
 def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client):
-
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",

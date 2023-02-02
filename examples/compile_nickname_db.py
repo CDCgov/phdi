@@ -29,7 +29,6 @@ for f in ["names.csv", "male_diminutives.csv", "female_diminutives.csv"]:
     with open(pathlib.Path(__file__).parent / f) as fp:
         for line in fp:
             if line.strip() != "":
-
                 # Each line is of the form:
                 # Normal_Name, Nickname_1, Nickname_2, Nickname_3, ...
                 root_name, nicknames = line.strip().split(",", 1)
@@ -59,7 +58,6 @@ with open(pathlib.Path(__file__).parent / "nick_to_name.csv") as fp:
 with open(pathlib.Path(__file__).parent / "nicknames.txt") as fp:
     for line in fp:
         if line.strip() != "":
-
             # Each line is of the form:
             # Normal_Name, Nickname_1, Nickname_2, Nickname_3, ...
             # But some of the spacing is weird

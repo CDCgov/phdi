@@ -15,7 +15,6 @@ from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
     az_scope = "some-scope"
@@ -39,7 +38,6 @@ def test_azure_credential_manager(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_default_scope(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -65,7 +63,6 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_reuse_token(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -98,7 +95,6 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_refresh_token(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -131,7 +127,6 @@ def test_azure_credential_manager_refresh_token(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_force_refresh_token(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -170,7 +165,6 @@ def test_azure_need_new_token_without_token():
 @mock.patch("phdi.cloud.gcp.google.auth.transport.requests.Request")
 @mock.patch("phdi.cloud.gcp.google.auth.default")
 def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
-
     # Set dummy project ID, access token, and scope values.
     project_id = "some-project"
     token = "some-token"
@@ -201,7 +195,6 @@ def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
 @mock.patch("phdi.cloud.gcp.google.auth.transport.requests.Request")
 @mock.patch("phdi.cloud.gcp.google.auth.default")
 def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_requests):
-
     # Set dummy project ID, access token, and scope values.
     project_id = "some-project"
     token = "some-token"
@@ -230,7 +223,6 @@ def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_re
 def test_gcp_credential_manager_handle_expired_credentials(
     mock_gcp_creds,
 ):
-
     # Set dummy project ID, access token, and scope values.
     project_id = "some-project"
     token = "some-token"
