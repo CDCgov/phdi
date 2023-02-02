@@ -8,7 +8,7 @@ from phdi.linkage import (
     eval_perfect_match,
     match_within_block,
 )
-from phdi.linkage.link import _eval_record_in_cluster, _match_within_block_cluster_ratio
+from phdi.linkage.link import _match_within_block_cluster_ratio
 
 
 def test_generate_hash():
