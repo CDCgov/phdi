@@ -8,6 +8,7 @@ from phdi.linkage import (
     eval_perfect_match,
     match_within_block,
 )
+from phdi.linkage.link import _eval_record_in_cluster, _match_within_block_cluster_ratio
 
 
 def test_generate_hash():
@@ -61,6 +62,43 @@ def test_eval_perfect_match():
     assert not eval_perfect_match([1, 1, 0])
     assert not eval_perfect_match([1, 0, 0])
     assert not eval_perfect_match([0, 0, 0])
+
+
+def test_match_within_block_cluster_ratio():
+    data = [
+        [1, "John", "Shepard", "11-7-2153", "90909"],
+        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
+        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
+        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
+        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
+        [14, "Jane", "Smith", "01-10-1986", "12345"],
+        [18, "Daphne", "Walker", "12-12-1992", "23456"],
+        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
+        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
+        [27, "Philip", "", "2-2-1990", "64873"],
+        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
+        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+    ]
+
+    eval_rule = eval_perfect_match
+    funcs = {
+        1: feature_match_fuzzy_string,
+        2: feature_match_fuzzy_string,
+        3: feature_match_exact,
+        4: feature_match_exact,
+    }
+
+    # Do a test run requiring total membership match
+    matches = _match_within_block_cluster_ratio(
+        data, 1.0, funcs, eval_rule, threshold=0.8
+    )
+    assert matches == [{0, 1, 2}, {3}, {4}, {5}, {6}, {7, 8, 10}, {9}, {11}]
+
+    # Now do a test showing different cluster groupings
+    matches = _match_within_block_cluster_ratio(
+        data, 0.6, funcs, eval_rule, threshold=0.8
+    )
+    assert matches == [{0, 1, 2, 3}, {4}, {5}, {6}, {7, 8, 10, 11}, {9}]
 
 
 def test_match_within_block():
