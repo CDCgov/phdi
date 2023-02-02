@@ -11,7 +11,6 @@ from phdi.linkage import (
 
 
 def test_generate_hash():
-
     salt_str = "super-legit-salt"
     patient_1 = "John-Shepard-2153/11/07-1234 Silversun Strip Zakera Ward Citadel 99999"
     patient_2 = "Tali-Zora-Vas-Normandy-2160/05/14-PO Box 1 Rock Rannoch"

@@ -10,7 +10,6 @@ from phdi.fhir.utils import (
 
 
 def test_find_resource_by_type():
-
     # Empty dictionary case, with no key for entries
     bundle = {}
     found_patients = find_entries_by_resource_type(bundle, "Patient")

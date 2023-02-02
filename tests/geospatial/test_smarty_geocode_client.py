@@ -10,7 +10,6 @@ from phdi.geospatial.smarty import SmartyGeocodeClient
 
 
 def test_parse_smarty_result_success():
-
     candidate = Candidate({})
     candidate.delivery_line_1 = "123 FAKE ST"
     candidate.delivery_line_2 = "UNIT 221B"
@@ -62,7 +61,6 @@ def test_parse_smarty_result_failure():
 
 
 def test_geocode_from_str():
-
     auth_id = mock.Mock()
     auth_token = mock.Mock()
     smarty_client = SmartyGeocodeClient(auth_id, auth_token)

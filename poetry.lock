@@ -87,7 +87,7 @@ pytz = ">=2015.7"
 
 [[package]]
 name = "black"
-version = "22.12.0"
+version = "23.1.0"
 description = "The uncompromising code formatter."
 category = "dev"
 optional = false
@@ -96,9 +96,10 @@ python-versions = ">=3.7"
 [package.dependencies]
 click = ">=8.0.0"
 mypy-extensions = ">=0.4.3"
+packaging = ">=22.0"
 pathspec = ">=0.9.0"
 platformdirs = ">=2"
-tomli = {version = ">=1.1.0", markers = "python_full_version < \"3.11.0a7\""}
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 typing-extensions = {version = ">=3.10.0.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
@@ -1056,7 +1057,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "51880c6a5f78cbb1b8165c477d309e8fb0b9cfc598d742d23c98a2818a2dfc04"
+content-hash = "bc2f3763532104c0a05bbb96fd2fe6d9fa037c998b9a2f1f32579a9b128e4365"
 
 [metadata.files]
 alabaster = []

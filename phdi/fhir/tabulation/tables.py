@@ -226,7 +226,6 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
     for anchor_resource, is_result_because in (
         ref_dicts.get(table_name, {}).get(anchor_type, {}).values()
     ):
-
         # Resources that aren't matches to the original criteria
         # don't generate rows because they were included via a
         # reference
@@ -406,7 +405,6 @@ def _dereference_included_resource(
     ref_dicts: dict,
     table_name: str,
 ) -> Union[dict, None]:
-
     anchor_id = anchor_resource.get("id", "")
     [direction, ref_path] = column_params["reference_location"].split(":", 1)
     referenced_type = path_to_use.split(".")[0]
@@ -699,7 +697,6 @@ def generate_tables(
         pq_writer = None
         next = search_url
         while next is not None:
-
             # Return set of incremental results and next URL to query
             incremental_results, next = extract_data_from_fhir_search_incremental(
                 search_url=urllib.parse.urljoin(fhir_url, next),

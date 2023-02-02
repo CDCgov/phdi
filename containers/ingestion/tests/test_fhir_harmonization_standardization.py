@@ -13,7 +13,6 @@ test_bundle = json.load(
 
 
 def test_standardize_names_success():
-
     expected_response = {
         "status_code": "200",
         "message": None,
@@ -48,7 +47,6 @@ def test_standardize_names_missing_data():
 
 
 def test_standardize_names_not_fhir():
-
     invalid_bundle = copy.deepcopy(test_bundle)
     invalid_bundle["resourceType"] = ""
 
@@ -69,7 +67,6 @@ def test_standardize_names_not_fhir():
 
 
 def test_standardize_names_bad_parameters():
-
     actual_response = client.post(
         "/fhir/harmonization/standardization/standardize_names",
         json={
@@ -108,7 +105,6 @@ def test_standardize_names_bad_parameters():
 
 
 def test_standardize_phones_success():
-
     expected_response = {
         "status_code": "200",
         "message": None,
