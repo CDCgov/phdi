@@ -116,7 +116,6 @@ def standardize_phone(
     for phone in phones_to_clean:
         standardized = ""
         for country in countries:
-
             # We were able to pull the phone # and corresponding country
             try:
                 standardized = phonenumbers.parse(phone, country)
