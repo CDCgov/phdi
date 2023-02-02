@@ -6,6 +6,7 @@ from phdi.fhir.harmonization.standardization import (
     _standardize_names_in_resource,
     _standardize_phones_in_resource,
     _extract_countries_from_resource,
+    _standardize_dob_in_resource
 )
 
 

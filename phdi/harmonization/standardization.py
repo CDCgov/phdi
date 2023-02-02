@@ -1,6 +1,8 @@
 import pathlib
 import phonenumbers
 import pycountry
+import datetime
+from detect_delimiter import detect
 from phdi.harmonization.double_metaphone import DoubleMetaphone
 from typing import Literal, List, Union
 
@@ -206,3 +208,41 @@ def _build_nicknames_db():
                 for nickname in nicks.split(","):
                     nicknames_to_names[nickname] = name
     return nicknames_to_names
+
+
+def _validate_date(year: str, month: str, day: str) -> bool:
+    is_valid_date = True
+
+    try:
+        valid_date = datetime.datetime(int(year), int(month), int(day))
+        if valid_date > datetime.datetime.now():
+            is_valid_date = False
+    except ValueError:
+        is_valid_date = False
+
+    return is_valid_date
+
+
+def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
+    """
+    Parses birth date into year, month, and day based upon the format provided.
+    The default being yyyy-mm-dd which is also the standard format for dates
+    that is utilized in FHIR STu3 and R4.  Then verify that the date is
+    a proper date and isn't a future date.  If the date is invalid then the
+    value for the dob will be nulled out and an error will be raised.
+
+    :param raw_dob: One birth date (dob) to standardize.
+    :param format: An optional string containing the format of the date
+      supplied.
+    :return: Either a string that has the birth date in yyyy-mm-dd format
+        or a null value
+    """
+    output = ""
+    delim = detect(format)
+
+    year, month, day = raw_dob.split(delim)
+    if _validate_date(year, month, day):
+        output = year+"-"+month+"-"+day
+    else:
+        raise ValueError(f"Invalid birth date supplied: {raw_dob}")
+    return output
