@@ -68,7 +68,6 @@ def export_from_fhir_server(
 
     # TODO handle export failure conditions and timeouts.
     if response.status_code == 202:
-
         # Repeatedly poll the endpoint the FHIR server creates for us
         # until either the connection times out (as we configured) or
         # we have the response in hand

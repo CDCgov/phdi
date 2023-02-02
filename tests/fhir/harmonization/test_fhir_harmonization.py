@@ -110,7 +110,6 @@ def test_double_metaphone_patient():
     patients = [patient_1, patient_2]
     dms = [dms_1, dms_2]
     for i in range(len(patients)):
-
         dm_answers = dms[i]
 
         # Standardize all of the names

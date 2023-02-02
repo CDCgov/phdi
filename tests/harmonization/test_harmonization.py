@@ -18,12 +18,10 @@ from phdi.harmonization.utils import compare_strings
 
 
 def test_double_metaphone_string():
-
     # Two test conditions: one in which dmeta is created within each
     # function call, and another where it's initiated outside the call
     # and passed in repeatedly to simulate bulk processing
     for dmeta in [None, DoubleMetaphone()]:
-
         # Test 1: phonetically similar names (i.e. names that sound
         # the same) should map to the same encoding
         assert double_metaphone_string("John", dmeta) == double_metaphone_string(

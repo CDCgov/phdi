@@ -138,7 +138,6 @@ def write_data(
     # but SQL can't write native python lists, so we need to either
     # stringify them, json.dumps serialize them, or binarize them
     if output_type == "sql":
-
         # We need a file-space cursor to operate on a connected table
         conn = sql.connect(os.path.join(directory, db_file))
         cursor = conn.cursor()
