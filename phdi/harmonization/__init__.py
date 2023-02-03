@@ -10,7 +10,7 @@ from phdi.harmonization.standardization import (
     standardize_country_code,
     standardize_name,
     standardize_phone,
-    standardize_birth_date
+    standardize_birth_date,
 )
 from phdi.harmonization.double_metaphone import DoubleMetaphone
 
@@ -28,5 +28,5 @@ __all__ = (
     "double_metaphone_string",
     "compare_strings",
     "DoubleMetaphone",
-    "standardize_birth_date"
+    "standardize_birth_date",
 )
