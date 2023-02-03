@@ -277,9 +277,12 @@ def standardize_dob(data: dict, format: str = "%Y-%m-%d", overwrite=True) -> dic
     """
     Standardizes all birth dates in a given FHIR bundle or a FHIR resource.
     Standardization is done according to the underlying `standardize_dob` function in
-    `phdi.harmonization`.
+    `phdi.harmonization`.  The final birthDate will follow the FHIR STu3/R4 format
+    of YYYY-MM-DD which will be stored in the Patient resource.
 
     :param data: A FHIR bundle or FHIR-formatted JSON dict.
+    :param format: A python DateTime format used to parse the birthDate within
+        the Patient resource.  Default: `%Y-%m-%d` (also known as YYYY-MM-DD)
     :param overwrite: If true, `data` is modified in-place;
       if false, a copy of `data` modified and returned.  Default: `True`
     :return: The bundle or resource with bith dates appropriately standardized.

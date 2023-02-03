@@ -233,8 +233,8 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
     value for the dob will be nulled out and an error will be raised.
 
     :param raw_dob: One birth date (dob) to standardize.
-    :param format: An optional string containing the format of the date
-      supplied.
+    :param format: A python DateTime format used to parse the birthDate within
+        the Patient resource.  Default: `%Y-%m-%d` (also known as YYYY-MM-DD)
     :return: Either a string that has the birth date in yyyy-mm-dd format
         or a null value
     """
