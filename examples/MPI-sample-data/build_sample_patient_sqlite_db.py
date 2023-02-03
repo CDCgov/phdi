@@ -6,7 +6,7 @@ import sqlite3
 
 df = pd.read_csv(
     # locally stord file of synthetic LAC synthea data
-    "~/20230106_LAC_10000_123_456/csv/patients.csv",
+    "C://Users/Marcelle/Desktop/resources/20230106_LAC_10000_123_456/csv/patients.csv",
     usecols=[
         "Id",
         "BIRTHDATE",
@@ -28,13 +28,14 @@ df = pd.read_csv(
 # Transformations for LAC
 df["FIRST4"] = df["FIRST"].str[0:4]
 df["LAST4"] = df["LAST"].str[0:4]
-df["MIDDLE4"] = df["LAST"].str[0:4]
 df["ADDRESS4"] = df["ADDRESS"].str.replace(" ", "").str[0:4]
 
 # Set up SQLite connection
 tablename = "synthetic_patient_mpi"
 columns = ", ".join(col for col in df.columns)
-conn = sqlite3.connect("./examples/MPI-sample-data/synthetic_patient_mpi_db")
+conn = sqlite3.connect(
+    "C://Repos/phdi/examples/MPI-sample-data/synthetic_patient_mpi_db"
+)
 
 conn.execute(
     f"""
