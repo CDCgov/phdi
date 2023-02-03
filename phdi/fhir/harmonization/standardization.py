@@ -135,8 +135,8 @@ def standardize_names(
 def standardize_phones(data: dict, overwrite=True) -> dict:
     """
     Standardizes all phone numbers in a given FHIR bundle or a FHIR resource.
-    Standardization is done according to the underlying `standardize_phone` function in
-    `phdi.harmonization`.
+    Standardization is done according to the underlying `standardize_phone`
+    function in `phdi.harmonization`.
 
     :param data: A FHIR bundle or FHIR-formatted JSON dict.
     :param overwrite: If true, `data` is modified in-place;
@@ -181,9 +181,11 @@ def _standardize_names_in_resource(
     that function.
 
     :param resource: A FHIR-formatted JSON dictionary.
-    :param trim: Whether leading/trailing whitespace should be removed. Default: `True`
+    :param trim: Whether leading/trailing whitespace should be removed.
+      Default: `True`
     :param case: The type of casing that should be used. Default: `upper`
-    :param remove_numbers: Whether to delete numeric characters. Default: `True`
+    :param remove_numbers: Whether to delete numeric characters.
+      Default: `True`
     :param overwrite: Whether to replace the original names in the input
       data with the standardized names. Default: `True`
     :return: The resource with appropriately standardized names.
@@ -280,7 +282,7 @@ def standardize_dob(data: dict, format: str = "%Y-%m-%d", overwrite=True) -> dic
 
     :param data: A FHIR bundle or FHIR-formatted JSON dict.
     :param format: A python DateTime format used to parse the birthDate within
-        the Patient resource.  Default: `%Y-%m-%d` (also known as YYYY-MM-DD)
+      the Patient resource.  Default: `%Y-%m-%d` (also known as YYYY-MM-DD)
     :param overwrite: If true, `data` is modified in-place;
       if false, a copy of `data` modified and returned.  Default: `True`
     :return: The bundle or resource with bith dates appropriately standardized.
