@@ -262,7 +262,6 @@ def _extract_countries_from_resource(
 def _standardize_dob_in_resource(
     resource: dict, format: str = "%Y-%m-%d", overwrite=True
 ) -> Union[dict, None]:
-
     if not overwrite:
         resource = copy.deepcopy(resource)
 
