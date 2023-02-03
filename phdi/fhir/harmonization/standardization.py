@@ -194,7 +194,6 @@ def _standardize_names_in_resource(
 
     if resource.get("resourceType", "") == "Patient":
         for name in resource.get("name", []):
-
             # Handle family names
             if "family" in name:
                 transformed_name = standardize_name(
@@ -216,7 +215,6 @@ def _standardize_names_in_resource(
 def _standardize_phones_in_resource(
     resource: dict, overwrite=True
 ) -> Union[dict, None]:
-
     if not overwrite:
         resource = copy.deepcopy(resource)
 

@@ -8,7 +8,6 @@ from unittest import mock
 
 
 def test_get_fhir_conversion_settings():
-
     # HL7 case 1 (using the demo message from the HL7 API walkthrough)
     message = ""
     with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
@@ -62,7 +61,6 @@ def test_get_fhir_conversion_settings():
 
 @mock.patch("requests.Session")
 def test_convert_to_fhir_success_cred_manager(mock_requests_session):
-
     mock_requests_session_instance = mock_requests_session.return_value
 
     mock_requests_session_instance.post.return_value = mock.Mock(
@@ -99,7 +97,6 @@ def test_convert_to_fhir_success_cred_manager(mock_requests_session):
 
 @mock.patch("requests.Session")
 def test_convert_to_fhir_success_auth_header(mock_requests_session):
-
     mock_requests_session_instance = mock_requests_session.return_value
 
     mock_requests_session_instance.post.return_value = mock.Mock(
@@ -137,7 +134,6 @@ def test_convert_to_fhir_success_auth_header(mock_requests_session):
 
 @mock.patch("requests.Session")
 def test_convert_to_fhir_unrecognized_data(mock_requests_session):
-
     mock_requests_session_instance = mock_requests_session.return_value
 
     mock_requests_session_instance.post.return_value = mock.Mock(
@@ -188,7 +184,6 @@ def test_convert_to_fhir_unrecognized_data(mock_requests_session):
 
 @mock.patch("requests.Session")
 def test_convert_to_fhir_failure(mock_requests_session):
-
     mock_requests_session_instance = mock_requests_session.return_value
     mock_access_token_value = "some-token"
     mock_access_token = mock.Mock()
