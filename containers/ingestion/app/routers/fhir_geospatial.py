@@ -69,7 +69,9 @@ def geocode_bundle_endpoint(
         if search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"status_code": 400, "message": search_result}
-        geocode_client = SmartyFhirGeocodeClient(auth_id=input.get("auth_id"), auth_token=input.get("auth_token"))
+        geocode_client = SmartyFhirGeocodeClient(
+            auth_id=input.get("auth_id"), auth_token=input.get("auth_token")
+        )
 
     elif input.get("geocode_method") == "census":
         geocode_client = CensusFhirGeocodeClient()
