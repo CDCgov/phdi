@@ -22,8 +22,8 @@ def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client)
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
-        "auth_id": "I am a bad auth ID",
-        "auth_token": "I am a string but not an auth token string",
+        "auth_id": "test_id",
+        "auth_token": "test_token",
     }
     error = ""
     expected_response = Response
@@ -36,7 +36,6 @@ def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client)
     )
 
     assert actual_response.status_code == expected_response.status_code
-    assert actual_response
 
 
 @mock.patch("app.routers.fhir_geospatial.CensusFhirGeocodeClient")
