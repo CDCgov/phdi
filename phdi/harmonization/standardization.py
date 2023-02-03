@@ -2,6 +2,7 @@ import pathlib
 import phonenumbers
 import pycountry
 import datetime
+import logging
 from detect_delimiter import detect
 from phdi.harmonization.double_metaphone import DoubleMetaphone
 from typing import Literal, List, Union
@@ -238,11 +239,36 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
         or a null value
     """
     output = ""
-    delim = detect(format)
+    error_msg = ""
+    if raw_dob and raw_dob.strip():
+        delim = detect(format.strip("%"))
+        date_dict = {}
+        if raw_dob.find(delim) >=0:
+            # get year, month and day positions in the format string
+            positions = {"year": format.lower().find("y"), "month": format.lower().find("m"), "day": format.lower().find("d")}
+            date_values = raw_dob.split(delim)
+        
+            index = 0
+            for dictKey in dict(sorted(positions.items(), key=lambda item: item[1])).keys():
+                date_dict[dictKey] = date_values[index]
+                index = index+1
 
-    year, month, day = raw_dob.split(delim)
-    if _validate_date(year, month, day):
-        output = year+"-"+month+"-"+day
+            if _validate_date(date_dict["year"], date_dict["month"], date_dict["day"]):
+                output = date_dict["year"]+"-"+date_dict["month"]+"-"+date_dict["day"]
+            else:
+                #TODO:
+                # do we want to raise an exception here or any other action??
+                error_msg = f"Invalid birth date supplied: {raw_dob}"
+        else:
+            #TODO:
+            # do we want to raise an exception here or any other action??
+            error_msg = f"Delimiter {delim} not found in birth date string supplied: {raw_dob}"
     else:
-        raise ValueError(f"Invalid birth date supplied: {raw_dob}")
+        #TODO:
+        # do we want to raise an exception here or any other action??
+        error_msg = f"Invalid birth date supplied: {raw_dob}"
+    
+    if error_msg:
+        logging.exception(error_msg)
+        
     return output

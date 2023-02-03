@@ -415,10 +415,17 @@ def test_standardize_birth_date():
     # Now supply format information
     assert standardize_birth_date("1977/11/21", "%Y/%m/%d") == "1977-11-21"
     assert standardize_birth_date("1980/01/31", "%Y/%m/%d") == "1980-01-31"
+    assert standardize_birth_date("01/1980/31", "%m/%Y/%d") == "1980-01-31"
+    assert standardize_birth_date("11-1977-21", "%m-%Y-%d") == "1977-11-21"
    
     # Make sure we catch edge cases and bad inputs
-    #assert standardize_phone("") == ""
-    #assert standardize_phone(" ") == ""
-    #assert standardize_phone("gibberish") == ""
-    #assert standardize_phone("1234567890987654321") == ""
-    #assert standardize_phone("123") == ""
+    assert standardize_birth_date("") == ""
+    assert standardize_birth_date("    ") == ""
+    assert standardize_birth_date("blah") == ""
+    assert standardize_birth_date("blah-ha-no") == ""
+    # format doesn't match date passed in
+    assert standardize_birth_date("11-1977-21", "%m/%Y/%d") == ""
+    # just an invalid date
+    assert standardize_birth_date("1980-02-30") == ""
+    # future date
+    assert standardize_birth_date("3030-02-01") == ""
