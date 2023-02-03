@@ -12,7 +12,7 @@ from phdi.harmonization import (
     standardize_hl7_datetimes,
     standardize_name,
     standardize_phone,
-    standardize_birth_date
+    standardize_birth_date,
 )
 
 from phdi.harmonization.utils import compare_strings
@@ -417,7 +417,7 @@ def test_standardize_birth_date():
     assert standardize_birth_date("1980/01/31", "%Y/%m/%d") == "1980-01-31"
     assert standardize_birth_date("01/1980/31", "%m/%Y/%d") == "1980-01-31"
     assert standardize_birth_date("11-1977-21", "%m-%Y-%d") == "1977-11-21"
-   
+
     # Make sure we catch edge cases and bad inputs
     assert standardize_birth_date("") == ""
     assert standardize_birth_date("    ") == ""

@@ -74,4 +74,6 @@ def test_standardize_dob_in_resource():
 
     patient_resource["birthDate"] = "02/1983/01"
     standardized_patient["birthDate"] = "1983-02-01"
-    assert _standardize_dob_in_resource(patient_resource, "%m/%Y/%d") == standardized_patient
+    assert _standardize_dob_in_resource(
+        patient_resource, "%m/%Y/%d"
+    ) == standardized_patient

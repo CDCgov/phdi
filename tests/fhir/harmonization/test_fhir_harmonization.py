@@ -9,7 +9,7 @@ from phdi.fhir.harmonization import (
     double_metaphone_patient,
     standardize_names,
     standardize_phones,
-    standardize_dob
+    standardize_dob,
 )
 
 
@@ -224,7 +224,6 @@ def test_standardize_phones():
     assert standardize_phones(patient_resource, overwrite=False) == standardized_patient
 
 
-
 def test_standardize_dob():
     raw_bundle = json.load(
         open(
@@ -250,7 +249,9 @@ def test_standardize_dob():
     patient_resource = copy.deepcopy(patient)
     patient["birthDate"] = "1983-02-01"
     patient_resource["birthDate"] = "02/1983/01"
-    assert standardize_dob(raw_bundle, "%m/%Y/%d", overwrite=False) == standardized_bundle
+    assert (
+        standardize_dob(raw_bundle, "%m/%Y/%d", overwrite=False) == standardized_bundle
+    )
 
     # Case where we provide only a single resource
     standardized_patient = copy.deepcopy(patient_resource)
@@ -262,4 +263,7 @@ def test_standardize_dob():
     standardized_patient = copy.deepcopy(patient_resource)
     standardized_patient["birthDate"] = "02/1983/01"
     patient_resource["birthDate"] = "02/1983/01"
-    assert standardize_dob(patient_resource, "%m/%Y/%d", overwrite=False) == standardized_patient
+    assert (
+        standardize_dob(patient_resource, "%m/%Y/%d", overwrite=False)
+        == standardized_patient
+    )
