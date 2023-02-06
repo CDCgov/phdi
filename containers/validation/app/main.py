@@ -44,7 +44,7 @@ class ValidateResponse(BaseModel):
         "message was found to be invalid."
     )
     validation_results: dict = Field(
-        description="A JSON object containing detailing the validation result."
+        description="A JSON object containing details on the validation result."
     )
 
 
