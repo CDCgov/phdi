@@ -8,25 +8,6 @@ import random
 from random import shuffle
 import numpy as np
 
-
-# Get nicknames
-names_to_nicknames = {}
-with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
-    for line in fp:
-        if line.strip() != "":
-            name, nicks = line.strip().split(":", 1)
-            names_to_nicknames[name] = nicks.split(",")
-
-# Get source data
-conn = sqlite3.connect(
-    "C://Repos/phdi/examples/MPI-sample-data/synthetic_patient_mpi.db"
-)
-
-
-df = pd.read_sql_query("SELECT * from synthetic_patient_mpi", conn)
-conn.commit()
-conn.close()
-
 # Functions
 def scramble_dob(dob: str) -> str:
 
@@ -108,7 +89,7 @@ def scramble_zip(zip: str) -> str:
     return scrambled_zip
 
 
-def swap_name_for_nickname(name: str) -> str:
+def swap_name_for_nickname(name: str, names_to_nicknames: dict) -> str:
     """
     Swaps in a random, associated nickname for a given name, if the name has any
     associated nicknames, e.g., 'Bill' or 'Will' could be randomly swapped for
@@ -116,8 +97,10 @@ def swap_name_for_nickname(name: str) -> str:
     'William'.
 
     :param name: Single name
+    :names_to_nicknames: Dictionary containing first names and their associated
+        nicknames.
     :return: Randomly chosen nickname that corresponds to input name. If no nicknames
-    correspond to the input name, the original name is returned instead.
+        correspond to the input name, the original name is returned instead.
 
     """
     if name.upper() in names_to_nicknames.keys():
@@ -127,7 +110,9 @@ def swap_name_for_nickname(name: str) -> str:
         return name
 
 
-def add_missing_values(data, column: str, perc_missing: float):
+def add_missing_values(
+    data: pd.DataFrame, column: str, perc_missing: float
+) -> pd.DataFrame:
     """
     Randomly changes values in a column to missing (nan).
 
@@ -141,7 +126,7 @@ def add_missing_values(data, column: str, perc_missing: float):
     return data
 
 
-def add_copies(data, num_copies: int):
+def add_copies(data: pd.DataFrame, num_copies: int) -> pd.DataFrame:
     """
     Adds duplicate rows to a DataFrame.
 
@@ -156,42 +141,109 @@ def add_copies(data, num_copies: int):
     return data_with_copies
 
 
-# Workflow
+def scramble_data(
+    source_data: pd.DataFrame, seed: int, names_to_nicknames: dict
+) -> pd.DataFrame:
+    """
+    Scrambles a dataset including names, dates of birth, and zip codes. This function
+    assumes the dataset contains the following columns:
+    - BIRTHDATE
+    - ZIP
+    - FIRST (for first name)
+    - LAST (for last name)
+    - Id
+
+    :param source_data: DataFrame object.
+    :param seed: Seed.
+    :names_to_nicknames: Dictionary containing first names and their associated
+        nicknames.
+    :return: DataFrame object that has been scrambled.
+    """
+
+    source_data["ZIP"] = source_data["ZIP"].astype(str).str.split(".").str[0]
+    source_data_with_copies = add_copies(source_data, num_copies=3)
+
+    good_data = source_data_with_copies.sample(frac=0.7, random_state=seed)
+
+    # Scramble DOB in subsample
+    bad_dob = source_data_with_copies.sample(frac=0.05, random_state=seed)
+    bad_dob["BIRTHDATE"] = bad_dob["BIRTHDATE"].apply(lambda x: scramble_dob(x))
+    bad_dob["bad_dob"] = 1
+
+    # Scramble zip in subsample
+    bad_zip = source_data_with_copies.sample(frac=0.1, random_state=seed)
+    bad_zip["bad_zip"] = 1
+    bad_zip["ZIP"] = bad_zip["ZIP"].apply(lambda x: scramble_zip(x))
+
+    # Assign nicknames in subsample
+    bad_name_nickname = source_data_with_copies.sample(frac=0.1, random_state=seed)
+    bad_name_nickname["bad_name_nickname"] = 1
+    bad_name_nickname["FIRST"] = bad_name_nickname["FIRST"].apply(
+        lambda x: swap_name_for_nickname(x)
+    )
+
+    # Scramble first names in subsample
+    bad_name_scramble_first = source_data_with_copies.sample(
+        frac=0.05, random_state=seed
+    )
+    bad_name_scramble_first["bad_name_scramble_first"] = 1
+    bad_name_scramble_first["FIRST"] = bad_name_scramble_first["FIRST"].apply(
+        lambda x: scramble_name(x)
+    )
+    bad_name_scramble_first["FIRST4"] = bad_name_scramble_first["FIRST"].str[0:4]
+
+    # Scramble last names in subsample
+    bad_name_scramble_last = source_data_with_copies.sample(
+        frac=0.05, random_state=seed
+    )
+    bad_name_scramble_last["bad_name_scramble_last"] = 1
+    bad_name_scramble_first["LAST"] = bad_name_scramble_last["LAST"].apply(
+        lambda x: scramble_name(x)
+    )
+    bad_name_scramble_last["LAST4"] = bad_name_scramble_last["LAST"].str[0:4]
+
+    # Compile data
+    data = pd.concat(
+        [
+            good_data,
+            bad_dob,
+            bad_zip,
+            bad_name_scramble_first,
+            bad_name_scramble_last,
+            bad_name_nickname,
+        ],
+        ignore_index=True,
+    ).sort_values(by="Id")
+    data = data.fillna(0)
+
+    # Count number of true matches per Id
+    data["num_matches"] = data.groupby("Id")["Id"].transform("count")
+
+    return data
+
+
+# Get nicknames
+names_to_nicknames = {}
+with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
+    for line in fp:
+        if line.strip() != "":
+            name, nicks = line.strip().split(":", 1)
+            names_to_nicknames[name] = nicks.split(",")
+
+# Get source data
+conn = sqlite3.connect("./examples/MPI-sample-data/synthetic_patient_mpi.db")
+
+
+df = pd.read_sql_query("SELECT * from synthetic_patient_mpi", conn)
+conn.commit()
+conn.close()
+
 seed = 123
 source_data = df.copy()
-source_data["ZIP"] = source_data["ZIP"].astype(str).str.split(".").str[0]
-source_data_with_copies = add_copies(source_data, num_copies=3)
 
-good_data = source_data_with_copies.sample(frac=0.7, random_state=seed)
-
-# Scramble DOB in subsample
-bad_dob = source_data_with_copies.sample(frac=0.05, random_state=seed)
-bad_dob["BIRTHDATE"] = bad_dob["BIRTHDATE"].apply(lambda x: scramble_dob(x))
-bad_dob["bad_dob"] = 1
-
-# Scramble zip in subsample
-bad_zip = source_data_with_copies.sample(frac=0.1, random_state=seed)
-bad_zip["bad_zip"] = 1
-bad_zip["ZIP"] = bad_zip["ZIP"].apply(lambda x: scramble_zip(x))
-
-# Assign nicknames in subsample
-bad_name_nickname = source_data_with_copies.sample(frac=0.1, random_state=seed)
-bad_name_nickname["bad_name_nickname"] = 1
-bad_name_nickname["FIRST"] = bad_name_nickname["FIRST"].apply(
-    lambda x: swap_name_for_nickname(x)
+scrambled_data = scramble_data(
+    source_data, seed=123, names_to_nicknames=names_to_nicknames
 )
-
-# Scramble names in subsample
-bad_name_scramble = source_data_with_copies.sample(frac=0.05, random_state=seed)
-bad_name_scramble["bad_name_scramble"] = 1
-bad_name_scramble["FIRST"] = bad_name_scramble["FIRST"].apply(
-    lambda x: scramble_name(x)
+scrambled_data.to_csv(
+    "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.csv"
 )
-bad_name_scramble["FIRST4"] = bad_name_scramble["FIRST"].str[0:4]
-
-# Compile data
-data = pd.concat(
-    [good_data, bad_dob, bad_zip, bad_name_scramble, bad_name_nickname],
-    ignore_index=True,
-).sort_values(by="Id")
-data = data.fillna(0)
