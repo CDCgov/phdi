@@ -225,17 +225,12 @@ def _validate_date(year: str, month: str, day: str) -> bool:
 
 def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
     """
-    Parses birth date into year, month, and day based upon the format provided.
-    The default being yyyy-mm-dd which is also the standard format for dates
-    that is utilized in FHIR STu3 and R4.  Then verify that the date is
-    a proper date and isn't a future date.  If the date is invalid then the
-    value for the dob will be nulled out and an error will be raised.
+    Validates and standardizes a date of birth string into YYYY-MM-DD format.
 
-    :param raw_dob: One birth date (dob) to standardize.
-    :param format: A python DateTime format used to parse the birthDate within
-        the Patient resource.  Default: `%Y-%m-%d` (also known as YYYY-MM-DD)
-    :return: Either a string that has the birth date in yyyy-mm-dd format
-        or a null value
+    :param raw_dob: One date of birth (dob) to standardize.
+    :param format: A python DateTime format used to parse the date of birth within
+        the Patient resource.  Default: `%Y-%m-%d` (YYYY-MM-DD).
+    :return: Date of birth as a string in YYYY-MM-DD format or None if invalid date of birth.
     """
     output = ""
     error_msg = ""
