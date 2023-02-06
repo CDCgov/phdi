@@ -110,19 +110,18 @@ def swap_name_for_nickname(name: str, names_to_nicknames: dict) -> str:
         return name
 
 
-def add_missing_values(
-    data: pd.DataFrame, column: str, perc_missing: float
-) -> pd.DataFrame:
+def add_missing_values(data: pd.DataFrame, missingness: dict) -> pd.DataFrame:
     """
     Randomly changes values in a column to missing (nan).
 
     :param data: A DataFrame object.
-    :param column: Column name that you wish to add missing values to.
-    :param perc_missing: The percent missingness you wish to introduce.
+    :param missingness: Dictionary containing the percent missing (as a float) to
+        introduce for each column, e.g., "BIRTHDATE": 0.02.
     :return: DataFrame with randomly missing data from the input column.
 
     """
-    data[column] = data[column].sample(frac=(1 - perc_missing))
+    for column, perc_missing in missingness.items():
+        data[column] = data[column].sample(frac=(1 - perc_missing))
     return data
 
 
@@ -142,7 +141,7 @@ def add_copies(data: pd.DataFrame, num_copies: int) -> pd.DataFrame:
 
 
 def scramble_data(
-    source_data: pd.DataFrame, seed: int, names_to_nicknames: dict
+    source_data: pd.DataFrame, seed: int, names_to_nicknames: dict, missingness: dict
 ) -> pd.DataFrame:
     """
     Scrambles a dataset including names, dates of birth, and zip codes. This function
@@ -157,10 +156,17 @@ def scramble_data(
     :param seed: Seed.
     :names_to_nicknames: Dictionary containing first names and their associated
         nicknames.
+    :missingness: Dictionary containing the percent missing (as a float) to
+        introduce for each column, e.g., "BIRTHDATE": 0.02.
     :return: DataFrame object that has been scrambled.
+
     """
 
     source_data["ZIP"] = source_data["ZIP"].astype(str).str.split(".").str[0]
+
+    # Introduce missingness
+    source_data = add_missing_values(source_data, missingness)
+
     source_data_with_copies = add_copies(source_data, num_copies=3)
 
     good_data = source_data_with_copies.sample(frac=0.7, random_state=seed)
@@ -230,6 +236,9 @@ with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
             name, nicks = line.strip().split(":", 1)
             names_to_nicknames[name] = nicks.split(",")
 
+# Intialize LAC-specific missingness
+lac_missingness = {"ADDRESS": 0.06}
+
 # Get source data
 conn = sqlite3.connect("./examples/MPI-sample-data/synthetic_patient_mpi.db")
 
@@ -242,7 +251,10 @@ seed = 123
 source_data = df.copy()
 
 scrambled_data = scramble_data(
-    source_data, seed=123, names_to_nicknames=names_to_nicknames
+    source_data,
+    seed=123,
+    names_to_nicknames=names_to_nicknames,
+    missingness=lac_missingness,
 )
 scrambled_data.to_csv(
     "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.csv"
