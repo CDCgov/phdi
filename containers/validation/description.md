@@ -1,7 +1,7 @@
 ## Getting Started with the PHDI validation Service
 
 ### Introduction
-The PHDI validation service offers a REST API for validating healthcare messages
+The PHDI validation service offers a REST API for validating healthcare messages.
 
 ### Running the Validation Service
 

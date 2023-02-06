@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 from typing import Literal
 from pathlib import Path
 
@@ -90,6 +90,6 @@ async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
     """
 
     input = dict(input)
-    validator = message_validators[input["message_type"]]
+    message_validator = message_validators[input["message_type"]]
 
-    return validator(input["message"])
+    return message_validator(input["message"])
