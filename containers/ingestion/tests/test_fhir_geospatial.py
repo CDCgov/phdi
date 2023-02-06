@@ -17,25 +17,26 @@ test_bundle = json.load(
 
 
 @mock.patch("app.routers.fhir_geospatial.SmartyFhirGeocodeClient")
-@mock.patch("app.routers.fhir_geospatial.geocode_bundle_endpoint")
-def test_geocode_bundle_bad_smarty_creds(patched_geocode, patched_smarty_client):
+def test_geocode_bundle_returns_errors_from_smarty(patched_smarty_client):
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
         "auth_id": "test_id",
         "auth_token": "test_token",
     }
-    error = ""
-    expected_response = Response
-    expected_response.status_code = status.HTTP_400_BAD_REQUEST
-    expected_response.json = {"error": "The hell"}
-    patched_smarty_client.return_value.geocode_bundle = expected_response
-    patched_geocode.geocode_client = patched_smarty_client
+
+    expected_response = {
+        "status_code": "400",
+        "message": "Smarty raised the following exception: I am a test error message",
+        "bundle": None,
+    }
+
+    patched_smarty_client.return_value.geocode_bundle.side_effect = Exception("I am a test error message")
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
 
-    assert actual_response.status_code == expected_response.status_code
+    assert actual_response.json() == expected_response
 
 
 @mock.patch("app.routers.fhir_geospatial.CensusFhirGeocodeClient")
