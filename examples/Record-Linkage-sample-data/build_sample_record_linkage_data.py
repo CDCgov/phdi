@@ -241,7 +241,7 @@ with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
 lac_missingness = {"ADDRESS": 0.06}
 
 # Get source data
-conn = sqlite3.connect("./examples/MPI-sample-data/synthetic_patient_mpi.db")
+conn = sqlite3.connect("./examples/MPI-sample-data/synthetic_patient_mpi_db")
 
 
 df = pd.read_sql_query("SELECT * from synthetic_patient_mpi", conn)
