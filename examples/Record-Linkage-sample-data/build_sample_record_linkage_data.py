@@ -9,8 +9,9 @@ from random import shuffle
 import numpy as np
 
 # Functions
-def scramble_dob(dob: str) -> str:
 
+
+def scramble_dob(dob: str) -> str:
     """
     Scrambles a date of birth (DOB) that is in the form YYYY-MM-DD. DOBs can be
     scrambled by year (last two digits are swapped), month (two digits are swapped),
@@ -19,6 +20,7 @@ def scramble_dob(dob: str) -> str:
 
     :param dob: Date of birth string in the format YYYY-MM-DD.
     :return: Scrambled date of birth string in the format YYYY-MM-DD.
+
 
     """
     # Randomly select how DOB will be scrambled.
@@ -45,7 +47,6 @@ def scramble_dob(dob: str) -> str:
             )
         elif time == "day":
             scrambled_dob = dob[0:8] + str(int(dob.split("-")[2]) + plus_minus).zfill(2)
-
     return scrambled_dob
 
 
