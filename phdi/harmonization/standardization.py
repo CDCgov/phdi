@@ -232,51 +232,33 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
         the Patient resource.  Default: `%Y-%m-%d` (YYYY-MM-DD).
     :return: Date of birth as a string in YYYY-MM-DD format or None if invalid date of birth.
     """
-    output = ""
-    error_msg = ""
-    if raw_dob and raw_dob.strip():
-        delim = detect(format.strip("%"))
-        date_dict = {}
-        if raw_dob.find(delim) >= 0:
-            # get year, month and day positions in the format string
-            positions = {
-                "year": format.lower().find("y"),
-                "month": format.lower().find("m"),
-                "day": format.lower().find("d"),
-            }
-            date_values = raw_dob.split(delim)
 
-            index = 0
-            for dictKey in dict(
-                sorted(positions.items(), key=lambda item: item[1])
-            ).keys():
-                date_dict[dictKey] = date_values[index]
-                index = index + 1
+    delim = detect(format.replace("%", ""))
+    if delim != detect(raw_dob):
+        logging.error(
+            f"Delimiter {delim} not found in birth date string supplied: {raw_dob}"
+        )
+        return ""
 
-            if _validate_date(date_dict["year"], date_dict["month"], date_dict["day"]):
-                output = (
-                    date_dict["year"]
-                    + "-"
-                    + date_dict["month"]
-                    + "-"
-                    + date_dict["day"]
-                )
-            else:
-                # TODO:
-                # do we want to raise an exception here or any other action??
-                error_msg = f"Invalid birth date supplied: {raw_dob}"
-        else:
-            # TODO:
-            # do we want to raise an exception here or any other action??
-            error_msg = (
-                f"Delimiter {delim} not found in birth date string supplied: {raw_dob}"
-            )
+    date_dict = {}
+
+    # get year, month and day positions in the format string
+    positions = {
+        "year": format.lower().find("y"),
+        "month": format.lower().find("m"),
+        "day": format.lower().find("d"),
+    }
+    date_values = raw_dob.split(delim)
+
+    index = 0
+    for dictKey in dict(sorted(positions.items(), key=lambda item: item[1])).keys():
+        date_dict[dictKey] = date_values[index]
+        index = index + 1
+
+    if not _validate_date(date_dict["year"], date_dict["month"], date_dict["day"]):
+        logging(f"Invalid birth date supplied: {raw_dob}")
+        return ""
     else:
-        # TODO:
-        # do we want to raise an exception here or any other action??
-        error_msg = f"Invalid birth date supplied: {raw_dob}"
-
-    if error_msg:
-        logging.exception(error_msg)
+        output = date_dict["year"] + "-" + date_dict["month"] + "-" + date_dict["day"]
 
     return output
