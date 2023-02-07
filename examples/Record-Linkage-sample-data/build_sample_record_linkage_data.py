@@ -9,8 +9,6 @@ from random import shuffle
 import numpy as np
 
 # Functions
-
-
 def scramble_dob(dob: str) -> str:
     """
     Scrambles a date of birth (DOB) that is in the form YYYY-MM-DD. DOBs can be
@@ -24,7 +22,7 @@ def scramble_dob(dob: str) -> str:
 
     """
     # Randomly select how DOB will be scrambled.
-    method = random.choice(["year", "month", "day"])
+    method = random.choice(["year", "month", "day", "diff"])
 
     # Swap last two digits of the year
     if method == "year":
@@ -69,8 +67,16 @@ def scramble_name(name: str) -> str:
     elif method == "remove":
         scrambled_name = name[0:char] + name[char + 1 :]
     elif method == "swap":
+        subset_length = random.choice([3, 4, 5])  # number of characters to swap
+        # Make sure subset length can fit in the name
+        while subset_length > len(name):
+            subset_length -= 1
+        while char + subset_length > len(name):
+            char -= 1
+        subset_chars = list(name[char : char + subset_length])
+        random.shuffle(subset_chars)
         scrambled_name = (
-            name[0 : char - 1] + name[char] + name[char - 1] + name[char + 1 :]
+            name[:char] + "".join(subset_chars) + name[char + subset_length :]
         )
 
     return scrambled_name
