@@ -8,6 +8,21 @@ import random
 from random import shuffle
 import numpy as np
 
+# Set up proportions of scramble
+
+
+PROPORTION_NO_ERRORS = 0.6
+PROPORTION_BAD_FIRST_NAME = 0.1
+PROPORTION_BAD_LAST_NAME = 0.05
+PROPORTION_NICKNAME = 0.15
+PROPORTION_BAD_DOB = 0.05
+PROPORTION_BAD_ZIP = 0.05
+
+PROPORTION_MISSING_ADDRESS_LAC = 0.06
+
+# Set seed
+seed = 123
+
 # Functions
 
 
@@ -178,28 +193,32 @@ def scramble_data(
 
     source_data_with_copies = add_copies(source_data, num_copies=3)
 
-    good_data = source_data_with_copies.sample(frac=0.7, random_state=seed)
+    good_data = source_data_with_copies.sample(
+        frac=PROPORTION_NO_ERRORS, random_state=seed
+    )
 
     # Scramble DOB in subsample
-    bad_dob = source_data_with_copies.sample(frac=0.05, random_state=seed)
+    bad_dob = source_data_with_copies.sample(frac=PROPORTION_BAD_DOB, random_state=seed)
     bad_dob["BIRTHDATE"] = bad_dob["BIRTHDATE"].apply(lambda x: scramble_dob(x))
     bad_dob["bad_dob"] = 1
 
     # Scramble zip in subsample
-    bad_zip = source_data_with_copies.sample(frac=0.1, random_state=seed)
+    bad_zip = source_data_with_copies.sample(frac=PROPORTION_BAD_ZIP, random_state=seed)
     bad_zip["bad_zip"] = 1
     bad_zip["ZIP"] = bad_zip["ZIP"].apply(lambda x: scramble_zip(x))
 
     # Assign nicknames in subsample
-    bad_name_nickname = source_data_with_copies.sample(frac=0.1, random_state=seed)
+    bad_name_nickname = source_data_with_copies.sample(
+        frac=PROPORTION_NICKNAME, random_state=seed
+    )
     bad_name_nickname["bad_name_nickname"] = 1
     bad_name_nickname["FIRST"] = bad_name_nickname["FIRST"].apply(
-        lambda x: swap_name_for_nickname(x)
+        lambda x: swap_name_for_nickname(x, names_to_nicknames)
     )
 
     # Scramble first names in subsample
     bad_name_scramble_first = source_data_with_copies.sample(
-        frac=0.05, random_state=seed
+        frac=PROPORTION_BAD_FIRST_NAME, random_state=seed
     )
     bad_name_scramble_first["bad_name_scramble_first"] = 1
     bad_name_scramble_first["FIRST"] = bad_name_scramble_first["FIRST"].apply(
@@ -209,7 +228,7 @@ def scramble_data(
 
     # Scramble last names in subsample
     bad_name_scramble_last = source_data_with_copies.sample(
-        frac=0.05, random_state=seed
+        frac=PROPORTION_BAD_LAST_NAME, random_state=seed
     )
     bad_name_scramble_last["bad_name_scramble_last"] = 1
     bad_name_scramble_first["LAST"] = bad_name_scramble_last["LAST"].apply(
@@ -246,17 +265,15 @@ with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
             names_to_nicknames[name] = nicks.split(",")
 
 # Intialize LAC-specific missingness
-lac_missingness = {"ADDRESS": 0.06}
+lac_missingness = {"ADDRESS": PROPORTION_MISSING_ADDRESS_LAC}
 
 # Get source data
 conn = sqlite3.connect("./examples/MPI-sample-data/synthetic_patient_mpi_db")
-
-
 df = pd.read_sql_query("SELECT * from synthetic_patient_mpi", conn)
 conn.commit()
 conn.close()
 
-seed = 123
+
 source_data = df.copy()
 
 scrambled_data = scramble_data(
@@ -266,5 +283,8 @@ scrambled_data = scramble_data(
     missingness=lac_missingness,
 )
 scrambled_data.to_csv(
-    "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.csv"
+    "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.csv",
+    index=False,
 )
+
+scrambled_data.num_matches.value_counts().sort_index()
