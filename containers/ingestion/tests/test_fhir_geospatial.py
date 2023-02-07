@@ -31,7 +31,9 @@ def test_geocode_bundle_returns_errors_from_smarty(patched_smarty_client):
         "bundle": None,
     }
 
-    patched_smarty_client.return_value.geocode_bundle.side_effect = Exception("I am a test error message")
+    patched_smarty_client.return_value.geocode_bundle.side_effect = Exception(
+        "I am a test error message"
+    )
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
