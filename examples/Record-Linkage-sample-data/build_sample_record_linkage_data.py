@@ -286,5 +286,3 @@ scrambled_data.to_csv(
     "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.csv",
     index=False,
 )
-
-scrambled_data.num_matches.value_counts().sort_index()
