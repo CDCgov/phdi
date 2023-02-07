@@ -9,6 +9,8 @@ from random import shuffle
 import numpy as np
 
 # Functions
+
+
 def scramble_dob(dob: str) -> str:
     """
     Scrambles a date of birth (DOB) that is in the form YYYY-MM-DD. DOBs can be
