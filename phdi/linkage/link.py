@@ -79,6 +79,93 @@ def match_within_block(
     return match_pairs
 
 
+def _match_within_block_cluster_ratio(
+    block: List[List],
+    cluster_ratio: float,
+    feature_funcs: dict[int, Callable],
+    match_eval: Callable,
+    **kwargs
+) -> List[set]:
+    """
+    A matching function for statistically testing the impact of membership
+    ratio to the quality of clusters formed. This function behaves similarly
+    to `match_within_block`, except that rather than identifying all pairwise
+    candidates which are deemed matches, the function creates a list of
+    clusters of patients, where each cluster constitutes what would be a
+    single "representative" patient in the database. The formation of
+    clusters is determined by the parameter `cluster_ratio`, which defines
+    the proportion of other records in an existing cluster that a new
+    incoming record must match in order to join the cluster.
+
+    :param block: A list of records to check for matches. Each record in
+      the list is itself a list of features. The first feature of the
+      record must be an "id" for the record.
+    :param cluster_ratio: A float giving the proportion of records in an
+      existing cluster that a new incoming record must match in order
+      to qualify for membership in the cluster.
+    :param feature_funcs: A dictionary mapping feature indices to functions
+      used to evaluate those features for a match.
+    :param match_eval: A function for determining whether a given set of
+      feature comparisons constitutes a match for linkage.
+    :return: A list of 2-tuples of the form (i,j), where i,j give the indices
+      in the block of data of records deemed to match.
+    """
+    clusters = []
+    for i in range(len(block)):
+        # Base case
+        if len(clusters) == 0:
+            clusters.append({i})
+            continue
+        found_master_cluster = False
+
+        # Iterate through clusters to find one that we match with
+        for cluster in clusters:
+            belongs = _eval_record_in_cluster(
+                block, i, cluster, cluster_ratio, feature_funcs, match_eval, **kwargs
+            )
+            if belongs:
+                found_master_cluster = True
+                cluster.add(i)
+                break
+
+        # Create a new singleton if no other cluster qualified
+        if not found_master_cluster:
+            clusters.append({i})
+    return clusters
+
+
+def _eval_record_in_cluster(
+    block: List[List],
+    i: int,
+    cluster: set,
+    cluster_ratio: float,
+    feature_funcs: dict[int, Callable],
+    match_eval: Callable,
+    **kwargs
+):
+    """
+    A helper function used to evaluate whether a given incoming record
+    satisfies the matching proportion threshold of an existing cluster,
+    and therefore would belong to the cluster.
+    """
+    record_i = block[i]
+    num_matched = 0.0
+    for j in cluster:
+        record_j = block[j]
+        feature_comps = [
+            feature_funcs[x](record_i, record_j, x, **kwargs)
+            for x in range(len(record_i))
+            if x in feature_funcs
+        ]
+
+        is_match = match_eval(feature_comps)
+        if is_match:
+            num_matched += 1.0
+    if (num_matched / len(cluster)) >= cluster_ratio:
+        return True
+    return False
+
+
 def feature_match_exact(
     record_i: List, record_j: List, feature_x: int, **kwargs: dict
 ) -> bool:
