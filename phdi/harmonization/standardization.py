@@ -230,7 +230,8 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
     :param raw_dob: One date of birth (dob) to standardize.
     :param format: A python DateTime format used to parse the date of birth within
         the Patient resource.  Default: `%Y-%m-%d` (YYYY-MM-DD).
-    :return: Date of birth as a string in YYYY-MM-DD format or None if invalid date of birth.
+    :return: Date of birth as a string in YYYY-MM-DD format
+        or None if date of birth is invalid.
     """
 
     delim = detect(format.replace("%", ""))
@@ -240,25 +241,15 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
         )
         return ""
 
+    raw_dob_values = raw_dob.split(delim)
+    format_values = format.replace("%", "").lower().split(delim)
+
     date_dict = {}
+    for format_value, dob_value in zip(format_values, raw_dob_values):
+        date_dict[format_value] = dob_value
 
-    # get year, month and day positions in the format string
-    positions = {
-        "year": format.lower().find("y"),
-        "month": format.lower().find("m"),
-        "day": format.lower().find("d"),
-    }
-    date_values = raw_dob.split(delim)
-
-    index = 0
-    for dictKey in dict(sorted(positions.items(), key=lambda item: item[1])).keys():
-        date_dict[dictKey] = date_values[index]
-        index = index + 1
-
-    if not _validate_date(date_dict["year"], date_dict["month"], date_dict["day"]):
+    if not _validate_date(date_dict["y"], date_dict["m"], date_dict["d"]):
         logging(f"Invalid birth date supplied: {raw_dob}")
         return ""
-    else:
-        output = date_dict["year"] + "-" + date_dict["month"] + "-" + date_dict["day"]
 
-    return output
+    return date_dict["y"] + "-" + date_dict["m"] + "-" + date_dict["d"]
