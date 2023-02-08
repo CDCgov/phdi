@@ -81,9 +81,15 @@ def geocode_bundle_endpoint(
     input.pop("geocode_method", None)
     input.pop("auth_id", None)
     input.pop("auth_token", None)
+    result = {}
     try:
-        result = geocode_client.geocode_bundle(**input)
+        geocoder_result = geocode_client.geocode_bundle(**input)
+        result["status_code"] = "200"
+        result["bundle"] = geocoder_result
     except Exception as error:
         response.status_code = status.HTTP_400_BAD_REQUEST
-        result = {"error": error}
-    return {"status_code": "200", "bundle": result}
+        geocoder_result = "Smarty raised the following exception: " + error.__str__()
+        result["status_code"] = "400"
+        result["message"] = geocoder_result
+
+    return result
