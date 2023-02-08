@@ -407,7 +407,7 @@ def test_compare_strings():
     )
 
 
-def test_standardize_birth_date():
+def test_standardize_birth_date_success():
     # Working examples of "real" birth dates
     assert standardize_birth_date("1977-11-21") == "1977-11-21"
     assert standardize_birth_date("1980-01-31") == "1980-01-31"
@@ -418,6 +418,8 @@ def test_standardize_birth_date():
     assert standardize_birth_date("01/1980/31", "%m/%Y/%d") == "1980-01-31"
     assert standardize_birth_date("11-1977-21", "%m-%Y-%d") == "1977-11-21"
 
+
+def test_standardize_birth_date_missing_dob():
     # Make sure we catch edge cases and bad inputs
     with pytest.raises(ValueError) as e:
         standardize_dob_response = standardize_birth_date("")
@@ -439,13 +441,14 @@ def test_standardize_birth_date():
         standardize_dob_response = standardize_birth_date("     ")
         assert "Date of Birth must be supplied!" in str(e.value)
         assert standardize_dob_response is None
+
+
+def test_standardize_birth_date_invalid_format():
     with pytest.raises(ValueError) as e:
         standardize_dob_response = standardize_birth_date("blah")
-        assert "Date of Birth must be supplied!" in str(e.value)
-        assert standardize_dob_response is None
-    with pytest.raises(ValueError) as e:
-        standardize_dob_response = standardize_birth_date("blah-ha-no")
-        assert "Date of Birth must be supplied!" in str(e.value)
+        assert "Delimiter - not found in birth date string supplied: blah" in str(
+            e.value
+        )
         assert standardize_dob_response is None
 
     # format doesn't match date passed in
@@ -454,6 +457,13 @@ def test_standardize_birth_date():
         assert "Delimiter / not found in birth date string supplied: 11-1977-21" in str(
             e.value
         )
+        assert standardize_dob_response is None
+
+
+def test_standardize_birth_date_invalid_dob():
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("blah-ha-no")
+        assert "Invalid birth date supplied: blah-ha-no" in str(e.value)
         assert standardize_dob_response is None
 
     # just an invalid date
