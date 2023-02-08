@@ -236,33 +236,37 @@ def test_standardize_dob():
     standardized_bundle = copy.deepcopy(raw_bundle.copy())
     raw_bundle_updated = copy.deepcopy(raw_bundle.copy())
     patient = standardized_bundle["entry"][1]["resource"]
-    patient_resource = copy.deepcopy(patient)
-    patient["birthDate"] = "1983-02-01"
-    patient_resource["birthDate"] = "02/1983/01"
-    raw_bundle_updated["entry"][1]["resource"] = patient_resource
+    patient["birthDate"] = "02/1983/01"
+    raw_bundle_updated["entry"][1]["resource"] = patient
     assert standardize_dob(raw_bundle_updated, "%m/%Y/%d") == standardized_bundle
 
     # Case where we pass in a whole FHIR bundle and do not overwrite the data
     standardized_bundle = copy.deepcopy(raw_bundle.copy())
+    raw_bundle_updated = copy.deepcopy(raw_bundle.copy())
     patient = standardized_bundle["entry"][1]["resource"]
-    patient_resource = copy.deepcopy(patient)
-    patient["birthDate"] = "1983-02-01"
-    patient_resource["birthDate"] = "02/1983/01"
+    patient["birthDate"] = "02/1983/01"
+    raw_bundle_updated["entry"][1]["resource"] = patient
     assert (
-        standardize_dob(raw_bundle, "%m/%Y/%d", overwrite=False) == standardized_bundle
+        standardize_dob(raw_bundle_updated, "%m/%Y/%d", overwrite=False)
+        == standardized_bundle
     )
 
     # Case where we provide only a single resource
-    standardized_patient = copy.deepcopy(patient_resource)
-    standardized_patient["birthDate"] = "1983-02-01"
-    patient_resource["birthDate"] = "02/1983/01"
-    assert standardize_dob(patient_resource, "%m/%Y/%d") == standardized_patient
+    standardized_bundle = copy.deepcopy(raw_bundle.copy())
+    patient = standardized_bundle["entry"][1]["resource"]
+    standardized_patient = copy.deepcopy(patient)
+    patient_updated = copy.deepcopy(patient)
+    patient_updated["birthDate"] = "02/1983/01"
+    assert standardize_dob(patient_updated, "%m/%Y/%d") == standardized_patient
 
     # Case where we provide only a single resource and do not overwrite the data
-    standardized_patient = copy.deepcopy(patient_resource)
-    standardized_patient["birthDate"] = "02/1983/01"
-    patient_resource["birthDate"] = "02/1983/01"
+    standardized_bundle = copy.deepcopy(raw_bundle.copy())
+    patient = standardized_bundle["entry"][1]["resource"]
+    standardized_patient = copy.deepcopy(patient)
+    patient_updated = copy.deepcopy(patient)
+    patient_updated["birthDate"] = "02/1983/01"
+    print("HERE:")
+    print(standardize_dob(patient_updated, "%m/%Y/%d", overwrite=False))
     assert (
-        standardize_dob(patient_resource, "%m/%Y/%d", overwrite=False)
-        == standardized_patient
+        standardize_dob(patient_updated, "%m/%Y/%d", overwrite=False) == patient_updated
     )
