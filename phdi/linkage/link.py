@@ -1,7 +1,153 @@
 import hashlib
 import pandas as pd
 from phdi.harmonization.utils import compare_strings
-from typing import List, Callable, Dict
+from typing import List, Callable, Union
+
+
+def block_data(data: pd.DataFrame, blocks: List) -> dict:
+    """
+    Generates dictionary of blocked data where each key is a block
+    and each value is a distinct list of lists containing the data
+    for a given block.
+
+    :param path: Path to parquet file containing data that needs to
+      be linked.
+    :param blocks: List of columns to be used in blocks.
+    :return: A dictionary of with the keys as the blocks and the
+      values as the data within each block, stored as a list of
+      lists.
+    """
+    blocked_data_tuples = tuple(data.groupby(blocks))
+
+    # Convert data to list of lists within dict
+    blocked_data = dict()
+    for block, df in blocked_data_tuples:
+        blocked_data[block] = df.values.tolist()
+
+    return blocked_data
+
+
+def compile_match_lists(match_lists: List[dict], cluster_mode: bool = False):
+    """
+    Turns a list of matches of either clusters or candidate pairs found
+    during linkage into a single unified structure holding all found matches
+    across all rules passes. E.g. if a single pass of a linkage algorithm
+    uses three rules, hence generates three dictionaries of matches, this
+    function will aggregate the results of those three separate dicts into
+    a single unified and deduplicated dictionary. For consistency during
+    statistical evaluation, the returned dictionary is always indexed by
+    the lower ID of the records in a given pair.
+
+    :param match_lists: A list of the dictionaries obtained during a run
+      of the linkage algorithm, one dictionary per rule used in the run.
+    :param cluster_mode: An optional boolean indicating whether the linkage
+      algorithm was run in cluster mode. Default is False.
+    :return: The aggregated dictionary of unified matches.
+    """
+    matches = {}
+    for matches_from_rule in match_lists:
+        for matches_within_blocks in matches_from_rule.values():
+            for candidate_set in matches_within_blocks:
+                # Always index the aggregate by the lowest valued ID
+                # for statistical consistency and deduplication
+                root_record = min(candidate_set)
+                if root_record not in matches:
+                    matches[root_record] = set()
+
+                # For clustering, need to add all other records in the cluster
+                if cluster_mode:
+                    for clustered_record in candidate_set:
+                        if clustered_record != root_record:
+                            matches[root_record].add(clustered_record)
+                else:
+                    matched_record = max(candidate_set)
+                    matches[root_record].add(matched_record)
+    return matches
+
+
+def eval_perfect_match(feature_comparisons: List) -> bool:
+    """
+    Determines whether a given set of feature comparisons represent a
+    'perfect' match (i.e. whether all features that were compared match
+    in whatever criteria was specified for them).
+
+    :param feature_comparisons: A list of 1s and 0s, one for each feature
+      that was compared during the match algorithm.
+    :return: The evaluation of whether the given features all match.
+    """
+    return sum(feature_comparisons) == len(feature_comparisons)
+
+
+def feature_match_exact(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+) -> bool:
+    """
+    Determines whether a single feature in a given pair of records
+    constitutes an exact match (perfect equality).
+
+    :param record_i: One of the records in the candidate pair to evaluate.
+    :param record_j: The second record in the candidate pair.
+    :param feature_x: A number representing the index of the feature to
+      compare for equality.
+    :return: A boolean indicating whether the features are an exact match.
+    """
+    return record_i[feature_x] == record_j[feature_x]
+
+
+def feature_match_four_char(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+) -> bool:
+    """
+    Determines whether a string feature in a pair of records exactly matches
+    on the first four characters.
+
+    :param record_i: One of the records in the candidate pair to evaluate.
+    :param record_j: The second record in the candidate pair.
+    :param feature_x: A number representing the index of the feature to
+      compare.
+    :return: A boolean indicating whether the features are a match.
+    """
+    first_four_i = record_i[feature_x][: min(4, len(record_i[feature_x]))]
+    first_four_j = record_j[feature_x][: min(4, len(record_j[feature_x]))]
+    return first_four_i == first_four_j
+
+
+def feature_match_fuzzy_string(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+) -> bool:
+    """
+    Determines whether two strings in a given pair of records are close
+    enough to constitute a partial match. The exact nature of the match
+    is determined by the specified string comparison function (see
+    harmonization/utils/compare_strings for more details) as well as a
+    scoring threshold the comparison must meet or exceed.
+
+    :param record_i: One of the records in the candidate pair to evaluate.
+    :param record_j: The second record in the candidate pair.
+    :param feature_x: A number representing the index of the feature to
+      compare for a partial match.
+    :param **kwargs: Optionally, a dictionary including specifications for
+      the string comparison metric to use, as well as the cutoff score
+      beyond which to classify the strings as a partial match.
+    :return: A boolean indicating whether the features are a fuzzy match.
+    """
+    # Special case for two empty strings, since we don't want vacuous
+    # equality (or in-) to penalize the score
+    if record_i[feature_x] == "" and record_j[feature_x] == "":
+        return True
+    if record_i[feature_x] is None and record_j[feature_x] is None:
+        return True
+
+    similarity_measure = "JaroWinkler"
+    if "similarity_measure" in kwargs:
+        similarity_measure = kwargs["similarity_measure"]
+    threshold = 0.7
+    if "threshold" in kwargs:
+        threshold = kwargs["threshold"]
+    score = compare_strings(
+        record_i[feature_x], record_j[feature_x], similarity_measure
+    )
+    return score >= threshold
 
 
 def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
@@ -21,11 +167,72 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     return hash_obj.hexdigest()
 
 
+def lac_validation_linkage(
+    data: pd.DataFrame, cluster_ratio: Union[float, None] = None, **kwargs
+) -> dict:
+    """
+    Perform a simplified run of the linkage algorithm currently used by LAC.
+    This algorithm is purely deterministic and uses three rules:
+
+      1. exact match on first 4 characters of each of first and last name,
+        and exact match on full DOB
+      2. exact match on first 4 characters of first and last name, and
+        exact match on first 4 chars of zip code
+      3. exact match on full DOB
+
+    No expectation maximization is used in this algorithm to estimate
+    initial match weights, since true matches are assumed to be known in
+    advance via synthetic data generation.
+
+    :param data: The pandas dataframe of records to link.
+    :param cluster_ratio: An optional parameter indicating whether to run
+      the algorithm in clustering mode. Default is false.
+    :return: A dictionary holding all found matches during each pass of
+      the algorithm.
+    """
+    # Assume order of columns in records is:
+    # id, first, last, dob, zip
+
+    # Rule 1: exact match on first 4 of first, first 4 of last, DOB
+    # Zip not used, so block on it
+    funcs = {
+        1: feature_match_four_char,
+        2: feature_match_four_char,
+        3: feature_match_exact,
+    }
+    matches_1 = perform_linkage_pass(
+        data, ["zip"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    # Rule 2: exact match on first 4 of first, first 4 of last,
+    # first 4 of zip--DOB not used, so block on it
+    funcs = {
+        1: feature_match_four_char,
+        2: feature_match_four_char,
+        4: feature_match_four_char,
+    }
+    matches_2 = perform_linkage_pass(
+        data, ["dob"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    # Rule 3: exact match just on full DOB
+    # Zip not used, block on it
+    funcs = {3: feature_match_exact}
+    matches_3 = perform_linkage_pass(
+        data, ["zip"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    total_matches = compile_match_lists(
+        [matches_1, matches_2, matches_3], cluster_ratio is not None
+    )
+    return total_matches
+
+
 def match_within_block(
     block: List[List],
     feature_funcs: dict[int, Callable],
     match_eval: Callable,
-    **kwargs
+    **kwargs,
 ) -> List[tuple]:
     """
     Performs matching on all candidate pairs of records within a given block
@@ -79,12 +286,117 @@ def match_within_block(
     return match_pairs
 
 
+def perform_linkage_pass(
+    data: pd.DataFrame,
+    blocks: List,
+    feature_funcs: dict[int, Callable],
+    matching_rule: Callable,
+    cluster_ratio: Union[float, None] = None,
+    **kwargs,
+) -> dict:
+    """
+    Performs a partial run of a linkage algorithm using a single rule.
+    Each rule in an algorithm is associated with its own pass through the
+    data.
+
+    :param data: A pandas dataframe of records to link.
+    :param blocks: A list of column headers to use as blocking assignments
+      by which to partition the data.
+    :param feature_funcs: A dictionary mapping feature indices to functions
+      used to evaluate those features for a match.
+    :param matching_rule: A function for determining whether a given set of
+      feature comparisons constitutes a match for linkage.
+    :param cluster_ratio: An optional parameter indicating, if using the
+      algorithm in cluster mode, the required membership percentage a record
+      must score with an existing cluster in order to join.
+    :return: A dictionary mapping each block found in the pass to the matches
+      discovered within that block.
+    """
+    blocked_data = block_data(data, blocks)
+    matches = {}
+    for block in blocked_data:
+        if cluster_ratio:
+            matches_in_block = _match_within_block_cluster_ratio(
+                blocked_data[block],
+                cluster_ratio,
+                feature_funcs,
+                matching_rule,
+                **kwargs,
+            )
+        else:
+            matches_in_block = match_within_block(
+                blocked_data[block], feature_funcs, matching_rule, **kwargs
+            )
+        matches_in_block = _map_matches_to_record_ids(
+            matches_in_block, blocked_data[block], cluster_ratio is not None
+        )
+        matches[block] = matches_in_block
+    return matches
+
+
+def _eval_record_in_cluster(
+    block: List[List],
+    i: int,
+    cluster: set,
+    cluster_ratio: float,
+    feature_funcs: dict[int, Callable],
+    match_eval: Callable,
+    **kwargs,
+):
+    """
+    A helper function used to evaluate whether a given incoming record
+    satisfies the matching proportion threshold of an existing cluster,
+    and therefore would belong to the cluster.
+    """
+    record_i = block[i]
+    num_matched = 0.0
+    for j in cluster:
+        record_j = block[j]
+        feature_comps = [
+            feature_funcs[x](record_i, record_j, x, **kwargs)
+            for x in range(len(record_i))
+            if x in feature_funcs
+        ]
+
+        is_match = match_eval(feature_comps)
+        if is_match:
+            num_matched += 1.0
+    if (num_matched / len(cluster)) >= cluster_ratio:
+        return True
+    return False
+
+
+def _map_matches_to_record_ids(
+    match_list: List[tuple], data_block, cluster_mode: bool = False
+) -> List[tuple]:
+    """
+    Helper function to turn a list of tuples of row indices in a block
+    of data into a list of tuples of the IDs of the records within
+    that block.
+    """
+    matched_records = []
+
+    # Assumes ID is first column in data set
+    if cluster_mode:
+        for cluster in match_list:
+            new_cluster = set()
+            for record_idx in cluster:
+                new_cluster.add(data_block[record_idx][0])
+            matched_records.append(new_cluster)
+    else:
+        for matching_pair in match_list:
+            id_i = data_block[matching_pair[0]][0]
+            id_j = data_block[matching_pair[1]][0]
+            matched_records.append((id_i, id_j))
+    return matched_records
+
+
 def _match_within_block_cluster_ratio(
     block: List[List],
     cluster_ratio: float,
     feature_funcs: dict[int, Callable],
     match_eval: Callable,
-    **kwargs
+    **kwargs,
 ) -> List[set]:
     """
     A matching function for statistically testing the impact of membership
@@ -134,121 +446,56 @@ def _match_within_block_cluster_ratio(
     return clusters
 
 
-def _eval_record_in_cluster(
-    block: List[List],
-    i: int,
-    cluster: set,
-    cluster_ratio: float,
-    feature_funcs: dict[int, Callable],
-    match_eval: Callable,
-    **kwargs
-):
+def score_linkage_vs_truth(
+    found_matches: dict[Union[int, str], set],
+    true_matches: dict[Union[int, str], set],
+    records_in_dataset: int,
+) -> tuple:
     """
-    A helper function used to evaluate whether a given incoming record
-    satisfies the matching proportion threshold of an existing cluster,
-    and therefore would belong to the cluster.
+    Compute the statistical qualities of a run of record linkage against
+    known true results. This function assumes that matches have already
+    been determined by the algorithm, and further assumes that true
+    matches have already been identified in the data.
+
+    :param found_matches: A dictionary mapping IDs of records to sets of
+      other records which were determined to be a match.
+    :param true_matches: A dictionary mapping IDs of records to sets of
+      other records which are _known_ to be a true match.
+    :param records_in_dataset: The number of records in the original data
+      set to-link.
+    :return: A tuple reporting the sensitivity/precision, specificity/recall,
+      positive prediction value, and F1 score of the linkage algorithm.
     """
-    record_i = block[i]
-    num_matched = 0.0
-    for j in cluster:
-        record_j = block[j]
-        feature_comps = [
-            feature_funcs[x](record_i, record_j, x, **kwargs)
-            for x in range(len(record_i))
-            if x in feature_funcs
-        ]
+    # Need division by 2 because ordering is irrelevant, matches are symmetric
+    total_possible_matches = (records_in_dataset * (records_in_dataset - 1)) / 2.0
+    true_positives = 0.0
+    false_positives = 0.0
+    false_negatives = 0.0
 
-        is_match = match_eval(feature_comps)
-        if is_match:
-            num_matched += 1.0
-    if (num_matched / len(cluster)) >= cluster_ratio:
-        return True
-    return False
+    for root_record in true_matches:
+        if root_record in found_matches:
+            true_positives += len(
+                true_matches[root_record].intersection(found_matches[root_record])
+            )
+            false_positives += len(
+                found_matches[root_record].difference(true_matches[root_record])
+            )
+            false_negatives += len(
+                true_matches[root_record].difference(found_matches[root_record])
+            )
+        else:
+            false_negatives += len(true_matches[root_record])
+    for record in set(set(found_matches.keys()).difference(true_matches.keys())):
+        false_positives += len(found_matches[record])
 
-
-def feature_match_exact(
-    record_i: List, record_j: List, feature_x: int, **kwargs: dict
-) -> bool:
-    """
-    Determines whether a single feature in a given pair of records
-    constitutes an exact match (perfect equality).
-
-    :param record_i: One of the records in the candidate pair to evaluate.
-    :param record_j: The second record in the candidate pair.
-    :param feature_x: A number representing the index of the feature to
-      compare for equality.
-    :return: A boolean indicating whether the features are an exact match.
-    """
-    return record_i[feature_x] == record_j[feature_x]
-
-
-def feature_match_fuzzy_string(
-    record_i: List, record_j: List, feature_x: int, **kwargs: dict
-) -> bool:
-    """
-    Determines whether two strings in a given pair of records are close
-    enough to constitute a partial match. The exact nature of the match
-    is determined by the specified string comparison function (see
-    harmonization/utils/compare_strings for more details) as well as a
-    scoring threshold the comparison must meet or exceed.
-
-    :param record_i: One of the records in the candidate pair to evaluate.
-    :param record_j: The second record in the candidate pair.
-    :param feature_x: A number representing the index of the feature to
-      compare for a partial match.
-    :param **kwargs: Optionally, a dictionary including specifications for
-      the string comparison metric to use, as well as the cutoff score
-      beyond which to classify the strings as a partial match.
-    :return: A boolean indicating whether the features are a fuzzy match.
-    """
-    # Special case for two empty strings, since we don't want vacuous
-    # equality (or in-) to penalize the score
-    if record_i[feature_x] == "" and record_j[feature_x] == "":
-        return True
-    if record_i[feature_x] is None and record_j[feature_x] is None:
-        return True
-
-    similarity_measure = "JaroWinkler"
-    if "similarity_measure" in kwargs:
-        similarity_measure = kwargs["similarity_measure"]
-    threshold = 0.7
-    if "threshold" in kwargs:
-        threshold = kwargs["threshold"]
-    score = compare_strings(
-        record_i[feature_x], record_j[feature_x], similarity_measure
+    true_negatives = (
+        total_possible_matches - true_positives - false_positives - false_negatives
     )
-    return score >= threshold
-
-
-def eval_perfect_match(feature_comparisons: List) -> bool:
-    """
-    Determines whether a given set of feature comparisons represent a
-    'perfect' match (i.e. whether all features that were compared match
-    in whatever criteria was specified for them).
-
-    :param feature_comparisons: A list of 1s and 0s, one for each feature
-      that was compared during the match algorithm.
-    :return: The evaluation of whether the given features all match.
-    """
-    return sum(feature_comparisons) == len(feature_comparisons)
-
-
-def block_parquet_data(path: str, blocks: List) -> Dict:
-    """
-    Generates dictionary of blocked data where each key is a block and each value is a
-    distinct list of lists containing the data for a given block.
-
-    :param path: Path to parquet file containing data that needs to be linked.
-    :param blocks: List of columns to be used in blocks.
-    :return: A dictionary of with the keys as the blocks and the values as the data
-    within each block, stored as a list of lists.
-    """
-    data = pd.read_parquet(path, engine="pyarrow")
-    blocked_data_tuples = tuple(data.groupby(blocks))
-
-    # Convert data to list of lists within dict
-    blocked_data = dict()
-    for block, df in blocked_data_tuples:
-        blocked_data[block] = df.values.tolist()
-
-    return blocked_data
+    sensitivity = round(true_positives / (true_positives + false_negatives), 3)
+    specificity = round(true_negatives / (true_negatives + false_positives), 3)
+    ppv = round(true_positives / (true_positives + false_positives), 3)
+    f1 = round(
+        (2 * true_positives) / (2 * true_positives + false_negatives + false_positives),
+        3,
+    )
+    return (sensitivity, specificity, ppv, f1)

@@ -2,13 +2,21 @@ import os
 import pandas as pd
 from phdi.linkage import (
     generate_hash_str,
-    block_parquet_data,
+    block_data,
     feature_match_exact,
     feature_match_fuzzy_string,
     eval_perfect_match,
     match_within_block,
+    compile_match_lists,
+    feature_match_four_char,
+    lac_validation_linkage,
+    perform_linkage_pass,
+    score_linkage_vs_truth,
 )
-from phdi.linkage.link import _match_within_block_cluster_ratio
+from phdi.linkage.link import (
+    _match_within_block_cluster_ratio,
+    _map_matches_to_record_ids,
+)
 
 
 def test_generate_hash():
@@ -159,7 +167,8 @@ def test_block_parquet_data():
         os.remove("./test.parquet")
     test_data_df.to_parquet(path="./test.parquet", engine="pyarrow")
 
-    blocked_test_data = block_parquet_data(path="./test.parquet", blocks=["zip"])
+    test_data = pd.read_parquet(path="./test.parquet", engine="pyarrow")
+    blocked_test_data = block_data(test_data, blocks=["zip"])
 
     # Test output data types are correct
     assert isinstance(blocked_test_data, dict)
@@ -169,11 +178,212 @@ def test_block_parquet_data():
     assert len(blocked_test_data.keys()) == test_data_df["zip"].nunique()
 
     # Test blocks with multiple block columns
-    blocked_test_data = block_parquet_data(
-        path="./test.parquet", blocks=["zip", "year_of_birth"]
-    )
+    blocked_test_data = block_data(test_data, blocks=["zip", "year_of_birth"])
     assert len(blocked_test_data[(90210, 1992)]) == 2
 
     # Clean up
     if os.path.isfile("./test.parquet"):  # pragma: no cover
         os.remove("./test.parquet")
+
+
+def test_compile_match_lists():
+    data = [
+        [1, "John", "Shepard", "11-7-2153", "90909"],
+        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
+        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
+        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
+        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
+        [14, "Jane", "Smith", "01-10-1986", "12345"],
+        [18, "Daphne", "Walker", "12-12-1992", "23456"],
+        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
+        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
+        [27, "Philip", "", "2-2-1990", "64873"],
+        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
+        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+    ]
+    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    funcs = {
+        1: feature_match_four_char,
+        2: feature_match_four_char,
+        3: feature_match_exact,
+    }
+    matches_1 = perform_linkage_pass(data, ["zip"], funcs, eval_perfect_match)
+    funcs = {
+        1: feature_match_four_char,
+        2: feature_match_four_char,
+        4: feature_match_four_char,
+    }
+    matches_2 = perform_linkage_pass(data, ["dob"], funcs, eval_perfect_match)
+    funcs = {3: feature_match_exact}
+    matches_3 = perform_linkage_pass(data, ["zip"], funcs, eval_perfect_match)
+    assert compile_match_lists([matches_1, matches_2, matches_3], False) == {
+        1: {5, 11, 12, 13},
+        5: {11, 12, 13},
+        11: {12, 13},
+        12: {13},
+        23: {24, 31, 32},
+        24: {31, 32},
+        31: {32},
+    }
+
+
+def test_feature_match_four_char():
+    record_i = ["Johnathan", "Shepard"]
+    record_j = ["John", "Sheperd"]
+    record_k = ["Jhon", "Sehpard"]
+
+    # Simultaneously test matches and non-matches of different data types
+    for i in range(len(record_i)):
+        assert feature_match_four_char(record_i, record_j, i)
+        assert not feature_match_four_char(record_i, record_k, i)
+
+
+def test_lac_validation_linkage():
+    data = [
+        [1, "John", "Shepard", "11-7-2153", "90909"],
+        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
+        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
+        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
+        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
+        [14, "Jane", "Smith", "01-10-1986", "12345"],
+        [18, "Daphne", "Walker", "12-12-1992", "23456"],
+        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
+        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
+        [27, "Philip", "", "2-2-1990", "64873"],
+        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
+        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+    ]
+    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    matches = lac_validation_linkage(data, None)
+    assert matches == {
+        1: {5, 11, 12, 13},
+        5: {11, 12, 13},
+        11: {12, 13},
+        12: {13},
+        23: {24, 31, 32},
+        24: {31, 32},
+        31: {32},
+    }
+
+
+def test_map_matches_to_ids():
+    data = [
+        [1, "John", "Shepard", "11-7-2153", "90909"],
+        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
+        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
+        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
+        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
+        [14, "Jane", "Smith", "01-10-1986", "12345"],
+        [18, "Daphne", "Walker", "12-12-1992", "23456"],
+        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
+        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
+        [27, "Philip", "", "2-2-1990", "64873"],
+        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
+        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+    ]
+    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    blocked_data = block_data(data, ["zip"])
+    matches_with_ids = {
+        "12345": [],
+        "15935": [(23, 24), (23, 31), (24, 31)],
+        "23456": [],
+        "64873": [],
+        "90909": [(1, 12)],
+    }
+    found_matches = {
+        "12345": [],
+        "15935": [(0, 1), (0, 2), (1, 2)],
+        "23456": [],
+        "64873": [],
+        "90909": [(0, 3)],
+    }
+    for block in matches_with_ids:
+        assert matches_with_ids[block] == _map_matches_to_record_ids(
+            found_matches[block], blocked_data[block]
+        )
+
+    # Now test in cluster mode
+    found_matches = {
+        "12345": set(),
+        "15935": {0, 1, 2},
+        "23456": set(),
+        "64873": set(),
+        "90909": {0, 3},
+    }
+
+
+def test_perform_linkage_pass():
+    data = [
+        [1, "John", "Shepard", "11-7-2153", "90909"],
+        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
+        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
+        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
+        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
+        [14, "Jane", "Smith", "01-10-1986", "12345"],
+        [18, "Daphne", "Walker", "12-12-1992", "23456"],
+        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
+        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
+        [27, "Philip", "", "2-2-1990", "64873"],
+        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
+        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+    ]
+    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    funcs = {
+        1: feature_match_four_char,
+        2: feature_match_four_char,
+        3: feature_match_exact,
+    }
+    matches = perform_linkage_pass(data, ["zip"], funcs, eval_perfect_match, None)
+    assert matches == {
+        "12345": [],
+        "15935": [(23, 24), (23, 31), (24, 31)],
+        "23456": [],
+        "64873": [],
+        "90909": [(1, 12)],
+    }
+
+    # Now test again in cluster mode
+    matches = perform_linkage_pass(
+        data, ["zip"], funcs, eval_perfect_match, cluster_ratio=0.75
+    )
+    assert matches == {
+        "12345": [{14}],
+        "15935": [{24, 31, 23}, {32}],
+        "23456": [{18}],
+        "64873": [{27}],
+        "90909": [{1, 12}, {5}, {11}, {13}],
+    }
+
+
+def test_score_linkage_vs_truth():
+    data = [
+        [1, "John", "Shepard", "11-7-2153", "90909"],
+        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
+        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
+        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
+        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
+        [14, "Jane", "Smith", "01-10-1986", "12345"],
+        [18, "Daphne", "Walker", "12-12-1992", "23456"],
+        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
+        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
+        [27, "Philip", "", "2-2-1990", "64873"],
+        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
+        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+    ]
+    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    matches = lac_validation_linkage(data, None)
+    true_matches = {
+        1: {5, 11, 12},
+        5: {11, 12},
+        11: {12},
+        23: {24, 31, 32},
+        24: {31, 32},
+        31: {32},
+    }
+    sensitivity, specificity, ppv, f1 = score_linkage_vs_truth(
+        matches, true_matches, len(data)
+    )
+    assert sensitivity == 1.0
+    assert specificity == 0.926
+    assert ppv == 0.75
+    assert f1 == 0.857
