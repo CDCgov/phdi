@@ -418,6 +418,9 @@ def test_standardize_birth_date():
 
     # Make sure we catch edge cases and bad inputs
     assert standardize_birth_date("") == ""
+    assert standardize_birth_date("", None) == ""
+    assert standardize_birth_date("", "") == ""
+    assert standardize_birth_date(None) == ""
     assert standardize_birth_date("    ") == ""
     assert standardize_birth_date("blah") == ""
     assert standardize_birth_date("blah-ha-no") == ""

@@ -212,7 +212,6 @@ def _build_nicknames_db():
 
 def _validate_date(year: str, month: str, day: str) -> bool:
     is_valid_date = True
-
     try:
         valid_date = datetime.datetime(int(year), int(month), int(day))
         if valid_date > datetime.datetime.now():
@@ -233,8 +232,15 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
     :return: Date of birth as a string in YYYY-MM-DD format
         or None if date of birth is invalid.
     """
+    #  Need to make sure dob is not None or null ("")
+    #  or detect() will end up in an infinite loop
+    if raw_dob is None or len(raw_dob) == 0:
+        logging.error("Date of Birth must be supplied!")
+        return ""
 
     delim = detect(format.replace("%", ""))
+
+    # ensure that the delim in format exists in dob
     if delim != detect(raw_dob):
         logging.error(
             f"Delimiter {delim} not found in birth date string supplied: {raw_dob}"
@@ -244,12 +250,15 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
     raw_dob_values = raw_dob.split(delim)
     format_values = format.replace("%", "").lower().split(delim)
 
+    if len(raw_dob_values) == 0 or format_values == 0:
+        return ""
+
     date_dict = {}
     for format_value, dob_value in zip(format_values, raw_dob_values):
         date_dict[format_value] = dob_value
 
     if not _validate_date(date_dict["y"], date_dict["m"], date_dict["d"]):
-        logging(f"Invalid birth date supplied: {raw_dob}")
+        logging.error(f"Invalid birth date supplied: {raw_dob}")
         return ""
 
     return date_dict["y"] + "-" + date_dict["m"] + "-" + date_dict["d"]
