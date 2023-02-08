@@ -2,7 +2,6 @@ import pathlib
 import phonenumbers
 import pycountry
 import datetime
-import logging
 from detect_delimiter import detect
 from phdi.harmonization.double_metaphone import DoubleMetaphone
 from typing import Literal, List, Union
@@ -235,30 +234,24 @@ def standardize_birth_date(raw_dob: str, format: str = "%Y-%m-%d") -> str:
     #  Need to make sure dob is not None or null ("")
     #  or detect() will end up in an infinite loop
     if raw_dob is None or len(raw_dob) == 0:
-        logging.error("Date of Birth must be supplied!")
-        return ""
+        raise ValueError("Date of Birth must be supplied!")
 
     delim = detect(format.replace("%", ""))
 
     # ensure that the delim in format exists in dob
     if delim != detect(raw_dob):
-        logging.error(
+        raise ValueError(
             f"Delimiter {delim} not found in birth date string supplied: {raw_dob}"
         )
-        return ""
 
     raw_dob_values = raw_dob.split(delim)
     format_values = format.replace("%", "").lower().split(delim)
-
-    if len(raw_dob_values) == 0 or format_values == 0:
-        return ""
 
     date_dict = {}
     for format_value, dob_value in zip(format_values, raw_dob_values):
         date_dict[format_value] = dob_value
 
     if not _validate_date(date_dict["y"], date_dict["m"], date_dict["d"]):
-        logging.error(f"Invalid birth date supplied: {raw_dob}")
-        return ""
+        raise ValueError(f"Invalid birth date supplied: {raw_dob}")
 
     return date_dict["y"] + "-" + date_dict["m"] + "-" + date_dict["d"]

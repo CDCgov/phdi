@@ -1,6 +1,8 @@
 import hl7
 import pathlib
 
+import pytest
+
 from phdi.harmonization import (
     convert_hl7_batch_messages_to_list,
     default_hl7_value,
@@ -417,16 +419,51 @@ def test_standardize_birth_date():
     assert standardize_birth_date("11-1977-21", "%m-%Y-%d") == "1977-11-21"
 
     # Make sure we catch edge cases and bad inputs
-    assert standardize_birth_date("") == ""
-    assert standardize_birth_date("", None) == ""
-    assert standardize_birth_date("", "") == ""
-    assert standardize_birth_date(None) == ""
-    assert standardize_birth_date("    ") == ""
-    assert standardize_birth_date("blah") == ""
-    assert standardize_birth_date("blah-ha-no") == ""
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("", None)
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("", "")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date(None)
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("     ")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("blah")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("blah-ha-no")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+
     # format doesn't match date passed in
-    assert standardize_birth_date("11-1977-21", "%m/%Y/%d") == ""
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("11-1977-21", "%m/%Y/%d")
+        assert "Delimiter / not found in birth date string supplied: 11-1977-21" in str(
+            e.value
+        )
+        assert standardize_dob_response is None
+
     # just an invalid date
-    assert standardize_birth_date("1980-02-30") == ""
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("1980-02-30")
+        assert "Invalid birth date supplied: 1980-02-30" in str(e.value)
+        assert standardize_dob_response is None
+
     # future date
-    assert standardize_birth_date("3030-02-01") == ""
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("3030-02-01")
+        assert "Invalid birth date supplied: 3030-02-01" in str(e.value)
+        assert standardize_dob_response is None
