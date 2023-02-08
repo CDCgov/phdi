@@ -188,34 +188,47 @@ def test_block_parquet_data():
 
 def test_compile_match_lists():
     data = [
-        [1, "John", "Shepard", "11-7-2153", "90909"],
-        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
-        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
-        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
-        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
-        [14, "Jane", "Smith", "01-10-1986", "12345"],
-        [18, "Daphne", "Walker", "12-12-1992", "23456"],
-        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
-        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
-        [27, "Philip", "", "2-2-1990", "64873"],
-        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
-        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
+        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
+        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
+        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
+        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
+        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
+        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
+        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
+        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
+        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
+        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
+        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
     ]
-    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    data = pd.DataFrame(
+        data,
+        columns=[
+            "BIRTHDATE",
+            "FIRST",
+            "LAST",
+            "GENDER",
+            "ADDRESS",
+            "CITY",
+            "STATE",
+            "ZIP",
+            "ID",
+        ],
+    )
     funcs = {
         1: feature_match_four_char,
         2: feature_match_four_char,
         3: feature_match_exact,
     }
-    matches_1 = perform_linkage_pass(data, ["zip"], funcs, eval_perfect_match)
+    matches_1 = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match)
     funcs = {
         1: feature_match_four_char,
         2: feature_match_four_char,
         4: feature_match_four_char,
     }
-    matches_2 = perform_linkage_pass(data, ["dob"], funcs, eval_perfect_match)
+    matches_2 = perform_linkage_pass(data, ["BIRTHDATE"], funcs, eval_perfect_match)
     funcs = {3: feature_match_exact}
-    matches_3 = perform_linkage_pass(data, ["zip"], funcs, eval_perfect_match)
+    matches_3 = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match)
     assert compile_match_lists([matches_1, matches_2, matches_3], False) == {
         1: {5, 11, 12, 13},
         5: {11, 12, 13},
@@ -240,20 +253,33 @@ def test_feature_match_four_char():
 
 def test_lac_validation_linkage():
     data = [
-        [1, "John", "Shepard", "11-7-2153", "90909"],
-        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
-        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
-        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
-        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
-        [14, "Jane", "Smith", "01-10-1986", "12345"],
-        [18, "Daphne", "Walker", "12-12-1992", "23456"],
-        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
-        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
-        [27, "Philip", "", "2-2-1990", "64873"],
-        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
-        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
+        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
+        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
+        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
+        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
+        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
+        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
+        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
+        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
+        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
+        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
+        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
     ]
-    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    data = pd.DataFrame(
+        data,
+        columns=[
+            "BIRTHDATE",
+            "FIRST",
+            "LAST",
+            "GENDER",
+            "ADDRESS",
+            "CITY",
+            "STATE",
+            "ZIP",
+            "ID",
+        ],
+    )
     matches = lac_validation_linkage(data, None)
     assert matches == {
         1: {5, 11, 12, 13},
@@ -268,21 +294,34 @@ def test_lac_validation_linkage():
 
 def test_map_matches_to_ids():
     data = [
-        [1, "John", "Shepard", "11-7-2153", "90909"],
-        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
-        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
-        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
-        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
-        [14, "Jane", "Smith", "01-10-1986", "12345"],
-        [18, "Daphne", "Walker", "12-12-1992", "23456"],
-        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
-        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
-        [27, "Philip", "", "2-2-1990", "64873"],
-        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
-        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
+        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
+        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
+        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
+        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
+        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
+        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
+        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
+        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
+        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
+        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
+        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
     ]
-    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
-    blocked_data = block_data(data, ["zip"])
+    data = pd.DataFrame(
+        data,
+        columns=[
+            "BIRTHDATE",
+            "FIRST",
+            "LAST",
+            "GENDER",
+            "ADDRESS",
+            "CITY",
+            "STATE",
+            "ZIP",
+            "ID",
+        ],
+    )
+    blocked_data = block_data(data, ["ZIP"])
     matches_with_ids = {
         "12345": [],
         "15935": [(23, 24), (23, 31), (24, 31)],
@@ -314,26 +353,39 @@ def test_map_matches_to_ids():
 
 def test_perform_linkage_pass():
     data = [
-        [1, "John", "Shepard", "11-7-2153", "90909"],
-        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
-        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
-        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
-        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
-        [14, "Jane", "Smith", "01-10-1986", "12345"],
-        [18, "Daphne", "Walker", "12-12-1992", "23456"],
-        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
-        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
-        [27, "Philip", "", "2-2-1990", "64873"],
-        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
-        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
+        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
+        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
+        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
+        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
+        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
+        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
+        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
+        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
+        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
+        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
+        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
     ]
-    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    data = pd.DataFrame(
+        data,
+        columns=[
+            "BIRTHDATE",
+            "FIRST",
+            "LAST",
+            "GENDER",
+            "ADDRESS",
+            "CITY",
+            "STATE",
+            "ZIP",
+            "ID",
+        ],
+    )
     funcs = {
         1: feature_match_four_char,
         2: feature_match_four_char,
         3: feature_match_exact,
     }
-    matches = perform_linkage_pass(data, ["zip"], funcs, eval_perfect_match, None)
+    matches = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match, None)
     assert matches == {
         "12345": [],
         "15935": [(23, 24), (23, 31), (24, 31)],
@@ -344,7 +396,7 @@ def test_perform_linkage_pass():
 
     # Now test again in cluster mode
     matches = perform_linkage_pass(
-        data, ["zip"], funcs, eval_perfect_match, cluster_ratio=0.75
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio=0.75
     )
     assert matches == {
         "12345": [{14}],
@@ -357,20 +409,33 @@ def test_perform_linkage_pass():
 
 def test_score_linkage_vs_truth():
     data = [
-        [1, "John", "Shepard", "11-7-2153", "90909"],
-        [5, "Jhon", "Sheperd", "11-7-2153", "90909"],
-        [11, "Jon", "Shepherd", "11-7-2153", "90909"],
-        [12, "Johnathan", "Shepard", "11-7-2153", "90909"],
-        [13, "Nathan", "Shepard", "11-7-2153", "90909"],
-        [14, "Jane", "Smith", "01-10-1986", "12345"],
-        [18, "Daphne", "Walker", "12-12-1992", "23456"],
-        [23, "Alejandro", "Villanueve", "1-1-1980", "15935"],
-        [24, "Alejandro", "Villanueva", "1-1-1980", "15935"],
-        [27, "Philip", "", "2-2-1990", "64873"],
-        [31, "Alejandr", "Villanueve", "1-1-1980", "15935"],
-        [32, "Aelxdrano", "Villanueve", "1-1-1980", "15935"],
+        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
+        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
+        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
+        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
+        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
+        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
+        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
+        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
+        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
+        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
+        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
+        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
     ]
-    data = pd.DataFrame(data, columns=["id", "first", "last", "dob", "zip"])
+    data = pd.DataFrame(
+        data,
+        columns=[
+            "BIRTHDATE",
+            "FIRST",
+            "LAST",
+            "GENDER",
+            "ADDRESS",
+            "CITY",
+            "STATE",
+            "ZIP",
+            "ID",
+        ],
+    )
     matches = lac_validation_linkage(data, None)
     true_matches = {
         1: {5, 11, 12},

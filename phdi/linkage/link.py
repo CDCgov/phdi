@@ -191,17 +191,18 @@ def lac_validation_linkage(
       the algorithm.
     """
     # Assume order of columns in records is:
-    # id, first, last, dob, zip
+    # BIRTHDATE, FIRST, LAST, GENDER, ADDRESS, CITY, STATE, ZIP, ID
 
     # Rule 1: exact match on first 4 of first, first 4 of last, DOB
     # Zip not used, so block on it
     funcs = {
+        0: feature_match_exact,
         1: feature_match_four_char,
         2: feature_match_four_char,
-        3: feature_match_exact,
     }
+    print("-------Matching on Rule 1: First 4 of First/Last, Exact DOB-------")
     matches_1 = perform_linkage_pass(
-        data, ["zip"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
     )
 
     # Rule 2: exact match on first 4 of first, first 4 of last,
@@ -209,17 +210,19 @@ def lac_validation_linkage(
     funcs = {
         1: feature_match_four_char,
         2: feature_match_four_char,
-        4: feature_match_four_char,
+        7: feature_match_four_char,
     }
+    print("-------Matching on Rule 2: First 4 of First/Last/Zip-------")
     matches_2 = perform_linkage_pass(
-        data, ["dob"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data, ["BIRTHDATE"], funcs, eval_perfect_match, cluster_ratio, **kwargs
     )
 
     # Rule 3: exact match just on full DOB
     # Zip not used, block on it
-    funcs = {3: feature_match_exact}
+    funcs = {0: feature_match_exact}
+    print("-------Matching on Rule 3: Exact DOB-------")
     matches_3 = perform_linkage_pass(
-        data, ["zip"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
     )
 
     total_matches = compile_match_lists(
@@ -376,17 +379,17 @@ def _map_matches_to_record_ids(
     """
     matched_records = []
 
-    # Assumes ID is first column in data set
+    # Assumes ID is last column in data set
     if cluster_mode:
         for cluster in match_list:
             new_cluster = set()
             for record_idx in cluster:
-                new_cluster.add(data_block[record_idx][0])
+                new_cluster.add(data_block[record_idx][-1])
             matched_records.append(new_cluster)
     else:
         for matching_pair in match_list:
-            id_i = data_block[matching_pair[0]][0]
-            id_j = data_block[matching_pair[1]][0]
+            id_i = data_block[matching_pair[0]][-1]
+            id_j = data_block[matching_pair[1]][-1]
             matched_records.append((id_i, id_j))
     return matched_records
 
@@ -491,6 +494,11 @@ def score_linkage_vs_truth(
     true_negatives = (
         total_possible_matches - true_positives - false_positives - false_negatives
     )
+
+    print("True Positives Found:", true_positives)
+    print("False Positives Misidentified:", false_positives)
+    print("False Negatives Missed:", false_negatives)
+
     sensitivity = round(true_positives / (true_positives + false_negatives), 3)
     specificity = round(true_negatives / (true_negatives + false_positives), 3)
     ppv = round(true_positives / (true_positives + false_positives), 3)
