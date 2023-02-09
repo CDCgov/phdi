@@ -272,7 +272,7 @@ def block(db_name: str, table_name: str, block_data: Dict) -> List[list]:
     """
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
-    conn.row_factory = lambda cursor, row: [i for i in row]
+    cursor.row_factory = lambda c, row: [i for i in row]
 
     query = _generate_block_query(table_name, block_data)  # Generate SQL query
     cursor.execute(query)  # Execute query
