@@ -28,7 +28,7 @@ class ValidateInput(BaseModel):
     The schema for requests to the validate endpoint.
     """
 
-    message_type: Literal["ecr"] = Field(
+    message_type: Literal["ecr", "elr", "vxu"] = Field(
         description="The type of message to be validated."
     )
     message: str = Field(description="The message to be validated.")
@@ -51,7 +51,7 @@ class ValidateResponse(BaseModel):
 # Message type-specific validation
 def validate_ecr(message: str) -> ValidateResponse:
     """
-    Validate an eCR message.
+    Validate an XML-formatted eCR message.
     :param message: A string representation of an eCR in XML format to be validated.
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
@@ -64,8 +64,37 @@ def validate_ecr(message: str) -> ValidateResponse:
         },
     }
 
+def validate_elr(message: str) -> ValidateResponse:
+    """
+    Validate an HL7v2 ORU_R01 ELR message.
+    :param message: A string representation of an HL7v2 ORU_R01 message to be validated.
+    :return: A dictionary with keys and values described by the ValidateResponse class.
+    """
 
-message_validators = {"ecr": validate_ecr}
+    return {
+        "message_valid": True,
+        "validation_results": {
+            "details": "No validation was actually preformed. This endpoint only has "
+            "stubbed functionality"
+        },
+    }
+
+def validate_vxu(message: str) -> ValidateResponse:
+    """
+    Validate an HL7v2 VXU_04 VXU message.
+    :param message: A string representation of a HL7v2 VXU_04 message to be validated.
+    :return: A dictionary with keys and values described by the ValidateResponse class.
+    """
+
+    return {
+        "message_valid": True,
+        "validation_results": {
+            "details": "No validation was actually preformed. This endpoint only has "
+            "stubbed functionality"
+        },
+    }
+
+message_validators = {"ecr": validate_ecr, "elr": validate_elr, "vxu": validate_vxu}
 
 
 # Endpoints
