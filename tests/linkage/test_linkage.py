@@ -7,6 +7,8 @@ from phdi.linkage import (
     feature_match_fuzzy_string,
     eval_perfect_match,
     match_within_block,
+    block,
+    _generate_block_query,
 )
 from phdi.linkage.link import _match_within_block_cluster_ratio
 
@@ -177,3 +179,8 @@ def test_block_parquet_data():
     # Clean up
     if os.path.isfile("./test.parquet"):  # pragma: no cover
         os.remove("./test.parquet")
+
+
+def test_generate_block_query():
+    tablename = "test_table"
+    block_data = {"ZIP": 90210, "City": "Los Angeles"}
