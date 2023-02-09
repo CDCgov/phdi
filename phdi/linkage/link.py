@@ -266,9 +266,8 @@ def block(db_name: str, table_name: str, block_data: Dict) -> List[list]:
     :param table_name: Table name.
     :param block_data: Dictionary containing key value pairs for the column name you for
       blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
-    :return: A list of records to that are within in the block, e.g., records that all
+    :return: A list of records that are within in the block, e.g., records that all
       have 90210 as their ZIP.
-
 
     """
     conn = sqlite3.connect(db_name)
@@ -297,7 +296,10 @@ def _generate_block_query(table_name: str, block_data: Dict) -> str:
     """
     query_stub = f"SELECT * FROM {table_name} WHERE "
     block_query = " AND ".join(
-        [key + f" = '{str(value)}'" for key, value in block_data.items()]
+        [
+            key + f" = '{value}'" if type(value) == str else (key + f" = {value}")
+            for key, value in block_data.items()
+        ]
     )
     query = query_stub + block_query
     return query
