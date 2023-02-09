@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import random
 from phdi.linkage import (
     generate_hash_str,
     block_parquet_data,
@@ -11,6 +12,7 @@ from phdi.linkage import (
     _generate_block_query,
 )
 from phdi.linkage.link import _match_within_block_cluster_ratio
+import pathlib
 
 
 def test_generate_hash():
@@ -204,3 +206,29 @@ def test_generate_block_query():
         type(list(block_data.values())[0]) != str
         and "'" not in correct_query.split("= ")[1]
     )  # Non-string types should not be enclosed in quotes
+
+
+def test_blocking_data():
+    db_name = (
+        pathlib.Path(__file__).parent.parent.parent
+        / "examples"
+        / "MPI-sample-data"
+        / "synthetic_patient_mpi_db"
+    )
+
+    table_name = "synthetic_patient_mpi"
+    block_data = {"ZIP": 90265, "City": "Malibu"}
+
+    blocked_data = block(db_name, table_name, block_data)
+
+    # Assert data is returned
+    assert len(blocked_data) > 0
+    # Assert returned data is in the correct format
+    assert type(blocked_data[0]) == list
+    # Assert returned data match the block_data parameters
+    assert (
+        blocked_data[random.randint(0, len(blocked_data) - 1)][10] == block_data["City"]
+    )
+    assert (
+        blocked_data[random.randint(0, len(blocked_data) - 1)][-5] == block_data["ZIP"]
+    )
