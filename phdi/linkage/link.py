@@ -216,27 +216,25 @@ def lac_validation_linkage(
 
     # Rule 2: exact match on first 4 of first, first 4 of last,
     # first 4 of zip--DOB not used, so block on it
-    funcs = {
-        1: feature_match_four_char,
-        2: feature_match_four_char,
-        7: feature_match_four_char,
-    }
-    print("-------Matching on Rule 2: First 4 of First/Last/Zip-------")
-    matches_2 = perform_linkage_pass(
-        data, ["BIRTHDATE"], funcs, eval_perfect_match, cluster_ratio, **kwargs
-    )
+    # funcs = {
+    #     1: feature_match_four_char,
+    #     2: feature_match_four_char,
+    #     13: feature_match_four_char,
+    # }
+    # print("-------Matching on Rule 2: First 4 of First/Last/Zip-------")
+    # matches_2 = perform_linkage_pass(
+    #     data, ["BIRTHDATE"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    # )
 
     # Rule 3: exact match just on full DOB
     # Zip not used, block on it
-    funcs = {0: feature_match_exact}
-    print("-------Matching on Rule 3: Exact DOB-------")
-    matches_3 = perform_linkage_pass(
-        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
-    )
+    # funcs = {0: feature_match_exact}
+    # print("-------Matching on Rule 3: Exact DOB-------")
+    # matches_3 = perform_linkage_pass(
+    #     data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    # )
 
-    total_matches = compile_match_lists(
-        [matches_1, matches_2, matches_3], cluster_ratio is not None
-    )
+    total_matches = compile_match_lists([matches_1], cluster_ratio is not None)
     return total_matches
 
 
@@ -354,22 +352,22 @@ def phdi_linkage_algorithm(
 
     # Rule 1: exact match on first/last/DOB
     # Zip not used, so block on it
-    funcs = {
-        0: feature_match_exact,
-        1: feature_match_exact,
-        2: feature_match_exact,
-    }
-    print("-------Matching on Rule 1: Exact First/Last/DOB-------")
-    matches_1 = perform_linkage_pass(
-        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
-    )
+    # funcs = {
+    #     0: feature_match_exact,
+    #     1: feature_match_exact,
+    #     2: feature_match_exact,
+    # }
+    # print("-------Matching on Rule 1: Exact First/Last/DOB-------")
+    # matches_1 = perform_linkage_pass(
+    #     data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    # )
 
     # Rule 2: fuzzy match on first/last, exact match on sex,
     # exact match on zip--DOB not used, so block on it
     funcs = {
         0: feature_match_exact,
-        1: feature_match_exact,
-        2: feature_match_exact,
+        23: feature_match_exact,
+        24: feature_match_exact,
     }
     print("-------Matching on Rule 2: Metaphone first/last, exact DOB-------")
     matches_2 = perform_linkage_pass(
@@ -388,9 +386,7 @@ def phdi_linkage_algorithm(
     #     data, ["GENDER"], funcs, eval_perfect_match, cluster_ratio, threshold=0.9
     # )
 
-    total_matches = compile_match_lists(
-        [matches_1, matches_2], cluster_ratio is not None
-    )
+    total_matches = compile_match_lists([matches_2], cluster_ratio is not None)
     return total_matches
 
 

@@ -2,6 +2,7 @@ import warnings
 
 import pandas as pd
 
+from phdi.harmonization import double_metaphone_string
 from phdi.linkage import lac_validation_linkage, score_linkage_vs_truth
 from phdi.linkage.link import phdi_linkage_algorithm
 from typing import Union
@@ -22,9 +23,19 @@ def determine_true_matches_in_pd_dataset(data: pd.DataFrame):
                 true_matches[r_idx] = set()
             for i in range(idx + 1, len(sorted_idx)):
                 true_matches[r_idx].add(sorted_idx[i])
+    return true_matches
+
+
+def set_record_id(data: pd.DataFrame):
     data["ID"] = data.index
     data = data.drop(columns=["Id"])
-    return data, true_matches
+    return data
+
+
+def add_metaphone_columns_to_data(data: pd.DataFrame):
+    data["DM_FIRST"] = data["FIRST"].apply(lambda x: double_metaphone_string(x)[0])
+    data["DM_LAST"] = data["LAST"].apply(lambda x: double_metaphone_string(x)[0])
+    return data
 
 
 def identify_missed_matches(
@@ -70,11 +81,32 @@ def display_missed_matches_by_type(matches: dict, true_matches: dict):
     scrambled_first = missed_df["bad_name_scramble_first"].astype(float).sum()
     scrambled_last = missed_df["bad_name_scramble_last"].astype(float).sum()
     scrambled_nickname = missed_df["bad_name_nickname"].astype(float).sum()
-    print("Misses on records with scrambled DOB:", scrambled_dobs)
-    print("Misses on records with scrambled ZIP:", scrambled_zips)
-    print("Misses on records with scrambled FIRST:", scrambled_first)
-    print("Misses on records with scrambled LAST:", scrambled_last)
-    print("Misses on records with scrambled NICKNAME:", scrambled_nickname)
+    non_scrambled_misses = missed_df.loc[missed_df["bad_dob"] == 0]
+    non_scrambled_misses = non_scrambled_misses.loc[missed_df["bad_zip"] == 0]
+    non_scrambled_misses = non_scrambled_misses.loc[
+        missed_df["bad_name_scramble_first"] == 0
+    ]
+    non_scrambled_misses = non_scrambled_misses.loc[
+        missed_df["bad_name_scramble_last"] == 0
+    ]
+    non_scrambled_misses = non_scrambled_misses.loc[missed_df["bad_name_nickname"] == 0]
+    non_scrambled_misses = len(non_scrambled_misses)
+    missing_address_misses = len(missed_df.loc[missed_df["ADDRESS"] == 0])
+    print("Misses on records with scrambled DOB:", scrambled_dobs / len(missed_df))
+    print("Misses on records with scrambled ZIP:", scrambled_zips / len(missed_df))
+    print("Misses on records with scrambled FIRST:", scrambled_first / len(missed_df))
+    print("Misses on records with scrambled LAST:", scrambled_last / len(missed_df))
+    print(
+        "Misses on records with scrambled NICKNAME:",
+        scrambled_nickname / len(missed_df),
+    )
+    print(
+        "Misses on records with a missing ADDRESS:",
+        missing_address_misses / len(missed_df),
+    )
+    print(
+        "Misses on records with no scrambling:", non_scrambled_misses / len(missed_df)
+    )
 
 
 data = pd.read_csv("./sample_record_linkage_data_scrambled.csv", dtype="string")
@@ -90,9 +122,11 @@ data = pd.read_csv("./sample_record_linkage_data_scrambled.csv", dtype="string")
 #     "ZIP",
 # ]
 data = data.loc[:DATA_SIZE]
+data = add_metaphone_columns_to_data(data)
 # data = data.drop(columns=[c for c in data.columns if c not in cols_to_keep])
-data, true_matches = determine_true_matches_in_pd_dataset(data)
-matches = lac_validation_linkage(data, None)
-# matches = phdi_linkage_algorithm(data, None)
-
-display_missed_matches_by_type(matches, true_matches)
+true_matches = determine_true_matches_in_pd_dataset(data)
+data = set_record_id(data)
+# matches = lac_validation_linkage(data, None)
+matches = phdi_linkage_algorithm(data, None)
+display_statistical_evaluation(matches, true_matches)
+# display_missed_matches_by_type(matches, true_matches)
