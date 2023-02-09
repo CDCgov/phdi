@@ -368,8 +368,8 @@ def phdi_linkage_algorithm(
     # exact match on zip--DOB not used, so block on it
     funcs = {
         0: feature_match_exact,
-        1: feature_match_metaphone,
-        2: feature_match_metaphone,
+        1: feature_match_exact,
+        2: feature_match_exact,
     }
     print("-------Matching on Rule 2: Metaphone first/last, exact DOB-------")
     matches_2 = perform_linkage_pass(
