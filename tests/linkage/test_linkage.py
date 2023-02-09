@@ -182,5 +182,25 @@ def test_block_parquet_data():
 
 
 def test_generate_block_query():
-    tablename = "test_table"
+    table_name = "test_table"
     block_data = {"ZIP": 90210, "City": "Los Angeles"}
+    correct_query = (
+        f"SELECT * FROM {table_name} WHERE "
+        + f"{list(block_data.keys())[0]} = {list(block_data.values())[0]} "
+        + f"AND {list(block_data.keys())[1]} = '{list(block_data.values())[1]}'"
+    )
+
+    query = _generate_block_query(table_name, block_data)
+
+    assert query == correct_query
+
+    # Tests for appropriate data type handling in query generation
+    assert (
+        type(list(block_data.values())[1]) == str
+        and "'" in correct_query.split("= ")[-1]
+    )  # String types should be enclosed in quotes
+
+    assert (
+        type(list(block_data.values())[0]) != str
+        and "'" not in correct_query.split("= ")[1]
+    )  # Non-string types should not be enclosed in quotes
