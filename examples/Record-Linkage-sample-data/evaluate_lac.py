@@ -3,6 +3,7 @@ import warnings
 import pandas as pd
 
 from phdi.linkage import lac_validation_linkage, score_linkage_vs_truth
+from phdi.linkage.link import phdi_linkage_algorithm
 
 DATA_SIZE = 50000
 warnings.simplefilter(action="ignore", category=FutureWarning)
@@ -41,7 +42,8 @@ for master_patient, sub_df in tuple_data:
 data["ID"] = data.index
 data = data.drop(columns=["Id"])
 
-matches = lac_validation_linkage(data, None)
+# matches = lac_validation_linkage(data, None)
+matches = phdi_linkage_algorithm(data, None)
 sensitivitiy, specificity, ppv, f1 = score_linkage_vs_truth(
     matches, true_matches, DATA_SIZE
 )

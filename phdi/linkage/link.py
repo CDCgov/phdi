@@ -1,6 +1,7 @@
 import hashlib
 import pandas as pd
 from phdi.harmonization.utils import compare_strings
+from phdi.harmonization import double_metaphone_string
 from typing import List, Callable, Union
 
 
@@ -148,6 +149,14 @@ def feature_match_fuzzy_string(
         record_i[feature_x], record_j[feature_x], similarity_measure
     )
     return score >= threshold
+
+
+def feature_match_metaphone(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+):
+    dm_i = double_metaphone_string(record_i[feature_x])
+    dm_j = double_metaphone_string(record_j[feature_x])
+    return dm_i[0] == dm_j[0]
 
 
 def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
@@ -335,6 +344,54 @@ def perform_linkage_pass(
         )
         matches[block] = matches_in_block
     return matches
+
+
+def phdi_linkage_algorithm(
+    data: pd.DataFrame, cluster_ratio: Union[float, None] = None, **kwargs
+) -> dict:
+    # Assume order of columns in records is:
+    # BIRTHDATE, FIRST, LAST, GENDER, ADDRESS, CITY, STATE, ZIP, ID
+
+    # Rule 1: exact match on first/last/DOB
+    # Zip not used, so block on it
+    funcs = {
+        0: feature_match_exact,
+        1: feature_match_exact,
+        2: feature_match_exact,
+    }
+    print("-------Matching on Rule 1: Exact First/Last/DOB-------")
+    matches_1 = perform_linkage_pass(
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    # Rule 2: fuzzy match on first/last, exact match on sex,
+    # exact match on zip--DOB not used, so block on it
+    funcs = {
+        0: feature_match_exact,
+        1: feature_match_metaphone,
+        2: feature_match_metaphone,
+    }
+    print("-------Matching on Rule 2: Metaphone first/last, exact DOB-------")
+    matches_2 = perform_linkage_pass(
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    # Rule 3: exact match on sex/zip, fuzzy match on DOB
+    # City not used, block on it
+    # funcs = {
+    #     0: feature_match_fuzzy_string,
+    #     3: feature_match_exact,
+    #     7: feature_match_exact,
+    # }
+    # print("-------Matching on Rule 3: Fuzzy First/Last, Exact Zip, Fuzzy DOB-------")
+    # matches_3 = perform_linkage_pass(
+    #     data, ["GENDER"], funcs, eval_perfect_match, cluster_ratio, threshold=0.9
+    # )
+
+    total_matches = compile_match_lists(
+        [matches_1, matches_2], cluster_ratio is not None
+    )
+    return total_matches
 
 
 def _eval_record_in_cluster(
