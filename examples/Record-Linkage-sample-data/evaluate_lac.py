@@ -3,19 +3,130 @@ import warnings
 import pandas as pd
 
 from phdi.harmonization import double_metaphone_string
-from phdi.linkage import lac_validation_linkage, score_linkage_vs_truth
-from phdi.linkage.link import phdi_linkage_algorithm
+from phdi.linkage import (
+    score_linkage_vs_truth,
+    feature_match_exact,
+    eval_perfect_match,
+    perform_linkage_pass,
+    compile_match_lists,
+    feature_match_four_char,
+)
 from typing import Union
 
 DATA_SIZE = 50000
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
+def lac_validation_linkage(
+    data: pd.DataFrame, cluster_ratio: Union[float, None] = None, **kwargs
+) -> dict:
+    """
+    Perform a simplified run of the linkage algorithm currently used by LAC.
+    This algorithm is purely deterministic and uses three rules:
+
+      1. exact match on first 4 characters of each of first and last name,
+        and exact match on full DOB
+      2. exact match on first 4 characters of first and last name, and
+        exact match on first 4 chars of zip code
+      3. exact match on full DOB
+
+    No expectation maximization is used in this algorithm to estimate
+    initial match weights, since true matches are assumed to be known in
+    advance via synthetic data generation.
+
+    :param data: The pandas dataframe of records to link.
+    :param cluster_ratio: An optional parameter indicating whether to run
+      the algorithm in clustering mode. Default is false.
+    :return: A dictionary holding all found matches during each pass of
+      the algorithm.
+    """
+
+    # Rule 1: exact match on first 4 of first, first 4 of last, DOB
+    # Zip not used, so block on it
+    funcs = {
+        0: feature_match_exact,
+        1: feature_match_four_char,
+        2: feature_match_four_char,
+    }
+    print("-------Matching on Rule 1: First 4 of First/Last, Exact DOB-------")
+    matches_1 = perform_linkage_pass(
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    # Rule 2: exact match on first 4 of first, first 4 of last,
+    # first 4 of zip--DOB not used, so block on it
+    funcs = {
+        1: feature_match_four_char,
+        2: feature_match_four_char,
+        13: feature_match_four_char,
+    }
+    print("-------Matching on Rule 2: First 4 of First/Last/Zip-------")
+    matches_2 = perform_linkage_pass(
+        data, ["BIRTHDATE"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    # Rule 3: exact match just on full DOB
+    # Zip not used, block on it
+    funcs = {0: feature_match_exact}
+    print("-------Matching on Rule 3: Exact DOB-------")
+    matches_3 = perform_linkage_pass(
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    total_matches = compile_match_lists(
+        [matches_1, matches_2, matches_3], cluster_ratio is not None
+    )
+    return total_matches
+
+
+def phdi_linkage_algorithm(
+    data: pd.DataFrame, cluster_ratio: Union[float, None] = None, **kwargs
+) -> dict:
+    # Rule 1: exact match on first/last/DOB
+    # Zip not used, so block on it
+    # funcs = {
+    #     0: feature_match_exact,
+    #     1: feature_match_exact,
+    #     2: feature_match_exact,
+    # }
+    # print("-------Matching on Rule 1: Exact First/Last/DOB-------")
+    # matches_1 = perform_linkage_pass(
+    #     data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    # )
+
+    # Rule 2: fuzzy match on first/last, exact match on sex,
+    # exact match on zip--DOB not used, so block on it
+    funcs = {
+        0: feature_match_exact,
+        23: feature_match_exact,
+        24: feature_match_exact,
+    }
+    print("-------Matching on Rule 2: Metaphone first/last, exact DOB-------")
+    matches_2 = perform_linkage_pass(
+        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+    )
+
+    # Rule 3: exact match on sex/zip, fuzzy match on DOB
+    # City not used, block on it
+    # funcs = {
+    #     0: feature_match_fuzzy_string,
+    #     3: feature_match_exact,
+    #     7: feature_match_exact,
+    # }
+    # print("-------Matching on Rule 3: Fuzzy First/Last, Exact Zip, Fuzzy DOB-------")
+    # matches_3 = perform_linkage_pass(
+    #     data, ["GENDER"], funcs, eval_perfect_match, cluster_ratio, threshold=0.9
+    # )
+
+    total_matches = compile_match_lists([matches_2], cluster_ratio is not None)
+    return total_matches
+
+
 def determine_true_matches_in_pd_dataset(data: pd.DataFrame):
     print("-------Identifying True Matches for Evaluation-------")
     true_matches = {}
     tuple_data = tuple(data.groupby("Id"))
-    for master_patient, sub_df in tuple_data:
+    for _, sub_df in tuple_data:
         sorted_idx = sorted(sub_df.index)
         for idx in range(len(sorted_idx)):
             r_idx = sorted_idx[idx]
@@ -110,20 +221,8 @@ def display_missed_matches_by_type(matches: dict, true_matches: dict):
 
 
 data = pd.read_csv("./sample_record_linkage_data_scrambled.csv", dtype="string")
-# cols_to_keep = [
-#     "Id",
-#     "BIRTHDATE",
-#     "FIRST",
-#     "LAST",
-#     "GENDER",
-#     "ADDRESS",
-#     "CITY",
-#     "STATE",
-#     "ZIP",
-# ]
 data = data.loc[:DATA_SIZE]
 data = add_metaphone_columns_to_data(data)
-# data = data.drop(columns=[c for c in data.columns if c not in cols_to_keep])
 true_matches = determine_true_matches_in_pd_dataset(data)
 data = set_record_id(data)
 # matches = lac_validation_linkage(data, None)

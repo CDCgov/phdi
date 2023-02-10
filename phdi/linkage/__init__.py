@@ -7,7 +7,6 @@ from phdi.linkage.link import (
     eval_perfect_match,
     compile_match_lists,
     feature_match_four_char,
-    lac_validation_linkage,
     perform_linkage_pass,
     score_linkage_vs_truth,
 )
@@ -21,7 +20,6 @@ __all__ = [
     "eval_perfect_match",
     "compile_match_lists",
     "feature_match_four_char",
-    "lac_validation_linkage",
     "perform_linkage_pass",
     "score_linkage_vs_truth",
 ]

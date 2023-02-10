@@ -9,7 +9,6 @@ from phdi.linkage import (
     match_within_block,
     compile_match_lists,
     feature_match_four_char,
-    lac_validation_linkage,
     perform_linkage_pass,
     score_linkage_vs_truth,
 )
@@ -251,47 +250,6 @@ def test_feature_match_four_char():
         assert not feature_match_four_char(record_i, record_k, i)
 
 
-def test_lac_validation_linkage():
-    data = [
-        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
-        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
-        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
-        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
-        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
-        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
-        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
-        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
-        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
-        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
-        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
-        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
-    ]
-    data = pd.DataFrame(
-        data,
-        columns=[
-            "BIRTHDATE",
-            "FIRST",
-            "LAST",
-            "GENDER",
-            "ADDRESS",
-            "CITY",
-            "STATE",
-            "ZIP",
-            "ID",
-        ],
-    )
-    matches = lac_validation_linkage(data, None)
-    assert matches == {
-        1: {5, 11, 12, 13},
-        5: {11, 12, 13},
-        11: {12, 13},
-        12: {13},
-        23: {24, 31, 32},
-        24: {31, 32},
-        31: {32},
-    }
-
-
 def test_map_matches_to_ids():
     data = [
         ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
@@ -408,35 +366,16 @@ def test_perform_linkage_pass():
 
 
 def test_score_linkage_vs_truth():
-    data = [
-        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
-        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
-        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
-        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
-        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
-        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
-        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
-        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
-        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
-        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
-        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
-        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
-    ]
-    data = pd.DataFrame(
-        data,
-        columns=[
-            "BIRTHDATE",
-            "FIRST",
-            "LAST",
-            "GENDER",
-            "ADDRESS",
-            "CITY",
-            "STATE",
-            "ZIP",
-            "ID",
-        ],
-    )
-    matches = lac_validation_linkage(data, None)
+    num_records = 12
+    matches = {
+        1: {5, 11, 12, 13},
+        5: {11, 12, 13},
+        11: {12, 13},
+        12: {13},
+        23: {24, 31, 32},
+        24: {31, 32},
+        31: {32},
+    }
     true_matches = {
         1: {5, 11, 12},
         5: {11, 12},
@@ -446,7 +385,7 @@ def test_score_linkage_vs_truth():
         31: {32},
     }
     sensitivity, specificity, ppv, f1 = score_linkage_vs_truth(
-        matches, true_matches, len(data)
+        matches, true_matches, num_records
     )
     assert sensitivity == 1.0
     assert specificity == 0.926
