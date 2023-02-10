@@ -265,8 +265,6 @@ def test_standardize_dob():
     standardized_patient = copy.deepcopy(patient)
     patient_updated = copy.deepcopy(patient)
     patient_updated["birthDate"] = "02/1983/01"
-    print("HERE:")
-    print(standardize_dob(patient_updated, "%m/%Y/%d", overwrite=False))
     assert (
         standardize_dob(patient_updated, "%m/%Y/%d", overwrite=False) == patient_updated
     )

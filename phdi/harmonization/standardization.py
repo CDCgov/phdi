@@ -259,15 +259,13 @@ def _standardize_date(
     # of potential delimiters and just look at what the delim is
     # for the date string supplied
     delim = detect(raw_date)
-    print("HERE:")
-    print(delim)
     format_delim = detect(date_format.replace("%", ""))
-    print(format_delim)
+
     # parse out the different date components (year, month, day)
     date_values = raw_date.split(delim)
     format_values = date_format.replace("%", "").lower().split(format_delim)
-    print(format_values)
     date_dict = {}
+
     # loop through date values and the format values
     #   and create a date dictionary where the format is the key
     #   and the date values are the value ordering the date component values
@@ -277,7 +275,9 @@ def _standardize_date(
 
     # verify that the date components in the date dictionary create a valid
     # date and based upon the future param that the date is not in the future
-    if not _validate_date(date_dict["y"], date_dict["m"], date_dict["d"], future):
+    if len(date_dict) != 3 or not _validate_date(
+        date_dict["y"], date_dict["m"], date_dict["d"], future
+    ):
         raise ValueError(f"Invalid date supplied: {raw_date}")
 
     return (
