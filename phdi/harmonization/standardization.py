@@ -1,8 +1,14 @@
 import pathlib
 import phonenumbers
 import pycountry
+import datetime
+from detect_delimiter import detect
 from phdi.harmonization.double_metaphone import DoubleMetaphone
 from typing import Literal, List, Union
+
+
+FHIR_DATE_FORMAT = "%Y-%m-%d"
+FHIR_DATE_DELIM = "-"
 
 
 def double_metaphone_string(string: str, dmeta=None) -> List[Union[str, None]]:
@@ -205,3 +211,103 @@ def _build_nicknames_db():
                 for nickname in nicks.split(","):
                     nicknames_to_names[nickname] = name
     return nicknames_to_names
+
+
+def _validate_date(year: str, month: str, day: str, future: bool = False) -> bool:
+    """
+    Validates that a date supplied, split out by the different date components
+        is a valid date (ie. not 02-30-2000 or 12-32-2000). This function can
+        also verify that the date supplied is not greater than now
+
+    :param raw_date: One date in string format to standardize.
+    :param existing_format: A python DateTime format used to parse the date
+        supplied.  Default: `%Y-%m-%d` (YYYY-MM-DD).
+    :param new_format: A python DateTime format used to convert the date
+        supplied into.  Default: `%Y-%m-%d` (YYYY-MM-DD).
+    :return: A date as a string in the format supplied by new_format.
+    """
+    is_valid_date = True
+    try:
+        valid_date = datetime.datetime(int(year), int(month), int(day))
+        if future and valid_date > datetime.datetime.now():
+            is_valid_date = False
+    except ValueError:
+        is_valid_date = False
+
+    return is_valid_date
+
+
+def _standardize_date(
+    raw_date: str, date_format: str = FHIR_DATE_FORMAT, future: bool = False
+) -> str:
+    """
+    Validates a date string is a proper date and then standardizes the
+    date string into the FHIR Date Standard (YYYY-MM-DD)
+
+    :param raw_date: A date string to standardize.
+    param date_format: A python Date format used to parse and order
+        the date components from the date string.
+        Default: `%Y-%m-%d` (YYYY-MM-DD).
+    :param future: A boolean that if True will verify that the date
+        supplied is not in the future.
+        Default: False
+    :return: A date as a string in the FHIR Date Format.
+    """
+    # get the date delimiter from the date string
+    # this is easier than regexp as we won't have to maintain a list
+    # of potential delimiters and just look at what the delim is
+    # for the date string supplied
+    delim = detect(raw_date)
+    format_delim = detect(date_format.replace("%", ""))
+
+    # parse out the different date components (year, month, day)
+    date_values = raw_date.split(delim)
+    format_values = date_format.replace("%", "").lower().split(format_delim)
+    date_dict = {}
+
+    # loop through date values and the format values
+    #   and create a date dictionary where the format is the key
+    #   and the date values are the value ordering the date component values
+    #   using the date format supplied
+    for format_value, date_value in zip(format_values, date_values):
+        date_dict[format_value[0]] = date_value
+
+    # verify that the date components in the date dictionary create a valid
+    # date and based upon the future param that the date is not in the future
+    if len(date_dict) != 3 or not _validate_date(
+        date_dict["y"], date_dict["m"], date_dict["d"], future
+    ):
+        raise ValueError(f"Invalid date supplied: {raw_date}")
+
+    return (
+        date_dict["y"]
+        + FHIR_DATE_DELIM
+        + date_dict["m"]
+        + FHIR_DATE_DELIM
+        + date_dict["d"]
+    )
+
+
+def standardize_birth_date(
+    raw_dob: str, existing_format: str = FHIR_DATE_FORMAT
+) -> str:
+    """
+    Validates and standardizes a date of birth string into YYYY-MM-DD format.
+
+    :param raw_dob: One date of birth (dob) to standardize.
+    :param existing_format: A python DateTime format used to parse the date of
+        birth within the Patient resource.  Default: `%Y-%m-%d` (YYYY-MM-DD).
+    :return: Date of birth as a string in YYYY-MM-DD format
+        or None if date of birth is invalid.
+    """
+
+    #  Need to make sure dob is not None or null ("")
+    #  or detect() will end up in an infinite loop
+    if raw_dob is None or len(raw_dob) == 0:
+        raise ValueError("Date of Birth must be supplied!")
+
+    standardized_dob = _standardize_date(
+        raw_date=raw_dob, date_format=existing_format, future=True
+    )
+
+    return standardized_dob
