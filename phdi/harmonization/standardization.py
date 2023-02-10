@@ -265,7 +265,8 @@ def _standardize_date(
     print(format_delim)
     # parse out the different date components (year, month, day)
     date_values = raw_date.split(delim)
-    format_values = date_format.replace("%", "").split(format_delim)
+    format_values = date_format.replace("%", "").lower().split(format_delim)
+    print(format_values)
     date_dict = {}
     # loop through date values and the format values
     #   and create a date dictionary where the format is the key
@@ -279,7 +280,13 @@ def _standardize_date(
     if not _validate_date(date_dict["y"], date_dict["m"], date_dict["d"], future):
         raise ValueError(f"Invalid date supplied: {raw_date}")
 
-    return date_dict["y"] + FHIR_DATE_DELIM + date_dict["m"] + FHIR_DATE_DELIM + ["d"]
+    return (
+        date_dict["y"]
+        + FHIR_DATE_DELIM
+        + date_dict["m"]
+        + FHIR_DATE_DELIM
+        + date_dict["d"]
+    )
 
 
 def standardize_birth_date(
