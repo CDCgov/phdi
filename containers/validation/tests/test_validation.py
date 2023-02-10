@@ -10,6 +10,7 @@ def test_health_check():
     assert actual_response.status_code == 200
     assert actual_response.json() == {"status": "OK"}
 
+
 def test_validate_ecr():
     assert validate_ecr("my ecr contents") == {
         "message_valid": True,
@@ -18,6 +19,7 @@ def test_validate_ecr():
             "stubbed functionality"
         },
     }
+
 
 def test_validate_elr():
     assert validate_elr("my elr contents") == {
@@ -28,6 +30,7 @@ def test_validate_elr():
         },
     }
 
+
 def test_validate_vxu():
     assert validate_vxu("my vxu contents") == {
         "message_valid": True,
@@ -37,6 +40,7 @@ def test_validate_vxu():
         },
     }
 
+
 @mock.patch("app.main.message_validators")
 def test_validate_endpoint_valid_vxu(patched_message_validators):
     for message_type in message_validators:
@@ -45,7 +49,9 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
         mocked_validator = mock.Mock()
         mocked_validator.return_value = validation_response
         message_validators_dict = {message_type: mocked_validator}
-        patched_message_validators.__getitem__.side_effect = message_validators_dict.__getitem__
+        patched_message_validators.__getitem__.side_effect = (
+            message_validators_dict.__getitem__
+        )
 
         # Send request to test client
         request_body = {"message_type": message_type, "message": "message contents"}
@@ -53,4 +59,6 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
 
         # Check that the correct validator was selected and used properly.
         assert actual_response.status_code == 200
-        message_validators_dict[message_type].assert_called_with(request_body["message"])
+        message_validators_dict[message_type].assert_called_with(
+            request_body["message"]
+        )

@@ -64,6 +64,7 @@ def validate_ecr(message: str) -> ValidateResponse:
         },
     }
 
+
 def validate_elr(message: str) -> ValidateResponse:
     """
     Validate an HL7v2 ORU_R01 ELR message.
@@ -79,6 +80,7 @@ def validate_elr(message: str) -> ValidateResponse:
         },
     }
 
+
 def validate_vxu(message: str) -> ValidateResponse:
     """
     Validate an HL7v2 VXU_04 VXU message.
@@ -93,6 +95,7 @@ def validate_vxu(message: str) -> ValidateResponse:
             "stubbed functionality"
         },
     }
+
 
 message_validators = {"ecr": validate_ecr, "elr": validate_elr, "vxu": validate_vxu}
 
