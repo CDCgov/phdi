@@ -1,7 +1,6 @@
 import hashlib
 import pandas as pd
 from phdi.harmonization.utils import compare_strings
-from phdi.harmonization import double_metaphone_string
 from typing import List, Callable, Union
 
 
