@@ -51,7 +51,7 @@ class ValidateResponse(BaseModel):
 # Message type-specific validation
 def validate_ecr(message: str) -> ValidateResponse:
     """
-    Validate an XML-formatted eCR message.
+    Validate an XML-formatted CDA eCR message.
     :param message: A string representation of an eCR in XML format to be validated.
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
