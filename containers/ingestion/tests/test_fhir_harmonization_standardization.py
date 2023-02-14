@@ -154,3 +154,18 @@ def test_standardize_phones_bad_overwrite_value():
             }
         ]
     }
+
+
+def test_standardize_dobs_success():
+    expected_response = {
+        "status_code": "200",
+        "message": None,
+        "bundle": copy.deepcopy(test_bundle),
+    }
+    expected_response["bundle"]["entry"][0]["resource"]["birthDate"] = "1955-11-05"
+
+    actual_response = client.post(
+        "/fhir/harmonization/standardization/standardize_dobs",
+        json={"data": test_bundle},
+    )
+    assert actual_response.json() == expected_response
