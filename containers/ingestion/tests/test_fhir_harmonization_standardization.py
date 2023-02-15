@@ -169,3 +169,36 @@ def test_standardize_dobs_success():
         json={"data": test_bundle},
     )
     assert actual_response.json() == expected_response
+
+    updated_expected_response = {
+        "status_code": "200",
+        "message": None,
+        "bundle": copy.deepcopy(test_bundle),
+    }
+    updated_bundle = copy.deepcopy(test_bundle)
+    updated_bundle["bundle"]["entry"][0]["resource"]["birthDate"] = "11/05/1955"
+    updated_expected_response["bundle"]["entry"][0]["resource"][
+        "birthDate"
+    ] = "1955-11-05"
+
+    actual_response = client.post(
+        "/fhir/harmonization/standardization/standardize_dobs",
+        json={"data": updated_bundle, "format": "m%/%d/%Y"},
+    )
+    assert actual_response.json() == expected_response
+
+
+def test_standardize_dobs_failures():
+    expected_response = {
+        "status_code": "400",
+        "message": "Date of Birth must be supplied!",
+        "bundle": copy.deepcopy(test_bundle),
+    }
+    updated_bundle = copy.deepcopy(test_bundle)
+    updated_bundle["bundle"]["entry"][0]["resource"]["birthDate"] = ""
+
+    actual_response = client.post(
+        "/fhir/harmonization/standardization/standardize_dobs",
+        json={"data": updated_bundle},
+    )
+    assert actual_response.json() == expected_response

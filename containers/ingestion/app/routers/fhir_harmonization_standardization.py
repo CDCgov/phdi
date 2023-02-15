@@ -91,7 +91,7 @@ class StandardizeBirthDateInput(BaseModel):
 
 
 @router.post("/standardize_dobs")
-async def standardize_dob_endpoint(
+async def standardize_dobs_endpoint(
     input: StandardizeBirthDateInput,
 ) -> StandardResponse:
     """
