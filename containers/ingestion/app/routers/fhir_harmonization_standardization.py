@@ -98,7 +98,7 @@ async def standardize_dob_endpoint(
     Standardize the birth date in the provided FHIR bundle or resource.
     :param input: A dictionary with the schema specified by the
         StandardizeBirthDateInput model.
-    :return: A FHIR bundle with standardized phone numbers.
+    :return: A FHIR bundle with standardized birth dates.
     """
     input = dict(input)
     result = {}
