@@ -7,7 +7,7 @@ from app.utils import check_for_fhir, StandardResponse
 from phdi.fhir.harmonization.standardization import (
     standardize_names,
     standardize_phones,
-    standardize_dobs,
+    standardize_dob,
 )
 
 
@@ -90,8 +90,8 @@ class StandardizeBirthDateInput(BaseModel):
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
 
-@router.post("/standardize_dobs")
-async def standardize_dobs_endpoint(
+@router.post("/standardize_dob")
+async def standardize_dob_endpoint(
     input: StandardizeBirthDateInput,
 ) -> StandardResponse:
     """
@@ -101,4 +101,4 @@ async def standardize_dobs_endpoint(
     :return: A FHIR bundle with standardized phone numbers.
     """
     input = dict(input)
-    return {"status_code": "200", "bundle": standardize_dobs(**input)}
+    return {"status_code": "200", "bundle": standardize_dob(**input)}

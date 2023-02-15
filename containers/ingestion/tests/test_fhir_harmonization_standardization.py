@@ -156,7 +156,7 @@ def test_standardize_phones_bad_overwrite_value():
     }
 
 
-def test_standardize_dobs_success():
+def test_standardize_dob_success():
     expected_response = {
         "status_code": "200",
         "message": None,
@@ -165,7 +165,7 @@ def test_standardize_dobs_success():
     expected_response["bundle"]["entry"][0]["resource"]["birthDate"] = "1955-11-05"
 
     actual_response = client.post(
-        "/fhir/harmonization/standardization/standardize_dobs",
+        "/fhir/harmonization/standardization/standardize_dob",
         json={"data": test_bundle},
     )
     assert actual_response.json() == expected_response
@@ -182,13 +182,13 @@ def test_standardize_dobs_success():
     ] = "1955-11-05"
 
     actual_response = client.post(
-        "/fhir/harmonization/standardization/standardize_dobs",
+        "/fhir/harmonization/standardization/standardize_dob",
         json={"data": updated_bundle, "format": "m%/%d/%Y"},
     )
     assert actual_response.json() == expected_response
 
 
-def test_standardize_dobs_failures():
+def test_standardize_dob_failures():
     expected_response = {
         "status_code": "400",
         "message": "Date of Birth must be supplied!",
@@ -198,7 +198,7 @@ def test_standardize_dobs_failures():
     updated_bundle["bundle"]["entry"][0]["resource"]["birthDate"] = ""
 
     actual_response = client.post(
-        "/fhir/harmonization/standardization/standardize_dobs",
+        "/fhir/harmonization/standardization/standardize_dob",
         json={"data": updated_bundle},
     )
     assert actual_response.json() == expected_response

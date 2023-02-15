@@ -9,7 +9,7 @@ from phdi.fhir.harmonization import (
     double_metaphone_patient,
     standardize_names,
     standardize_phones,
-    standardize_dobs,
+    standardize_dob,
 )
 
 
@@ -223,7 +223,7 @@ def test_standardize_phones():
     assert standardize_phones(patient_resource, overwrite=False) == standardized_patient
 
 
-def test_standardize_dobs():
+def test_standardize_dob():
     raw_bundle = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
@@ -238,7 +238,7 @@ def test_standardize_dobs():
     patient = standardized_bundle["entry"][1]["resource"]
     patient["birthDate"] = "02/1983/01"
     raw_bundle_updated["entry"][1]["resource"] = patient
-    assert standardize_dobs(raw_bundle_updated, "%m/%Y/%d") == standardized_bundle
+    assert standardize_dob(raw_bundle_updated, "%m/%Y/%d") == standardized_bundle
 
     # Case where we pass in a whole FHIR bundle and do not overwrite the data
     standardized_bundle = copy.deepcopy(raw_bundle.copy())
@@ -247,7 +247,7 @@ def test_standardize_dobs():
     patient["birthDate"] = "02/1983/01"
     raw_bundle_updated["entry"][1]["resource"] = patient
     assert (
-        standardize_dobs(raw_bundle_updated, "%m/%Y/%d", overwrite=False)
+        standardize_dob(raw_bundle_updated, "%m/%Y/%d", overwrite=False)
         == standardized_bundle
     )
 
@@ -257,7 +257,7 @@ def test_standardize_dobs():
     standardized_patient = copy.deepcopy(patient)
     patient_updated = copy.deepcopy(patient)
     patient_updated["birthDate"] = "02/1983/01"
-    assert standardize_dobs(patient_updated, "%m/%Y/%d") == standardized_patient
+    assert standardize_dob(patient_updated, "%m/%Y/%d") == standardized_patient
 
     # Case where we provide only a single resource and do not overwrite the data
     standardized_bundle = copy.deepcopy(raw_bundle.copy())
@@ -266,6 +266,5 @@ def test_standardize_dobs():
     patient_updated = copy.deepcopy(patient)
     patient_updated["birthDate"] = "02/1983/01"
     assert (
-        standardize_dobs(patient_updated, "%m/%Y/%d", overwrite=False)
-        == patient_updated
+        standardize_dob(patient_updated, "%m/%Y/%d", overwrite=False) == patient_updated
     )

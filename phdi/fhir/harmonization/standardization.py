@@ -274,7 +274,7 @@ def _standardize_dob_in_resource(
     return resource
 
 
-def standardize_dobs(data: dict, format: str = "%Y-%m-%d", overwrite=True) -> dict:
+def standardize_dob(data: dict, format: str = "%Y-%m-%d", overwrite=True) -> dict:
     """
     Standardizes all birth dates in a given FHIR bundle or a FHIR resource.
     Standardization is done according to the underlying `standardize_dob` function in
