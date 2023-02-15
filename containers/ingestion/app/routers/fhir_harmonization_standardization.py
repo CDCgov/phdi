@@ -101,4 +101,13 @@ async def standardize_dob_endpoint(
     :return: A FHIR bundle with standardized phone numbers.
     """
     input = dict(input)
-    return {"status_code": "200", "bundle": standardize_dob(**input)}
+    result = {}
+    try:
+        standardized_bundles = standardize_dob(**input)
+        result["status_code"] = "200"
+        result["bundle"] = standardized_bundles
+    except Exception as error:
+        result["status_code"] = "400"
+        result["bundle"] = input["data"]
+        result["message"] = error.__str__()
+    return result

@@ -267,8 +267,6 @@ def _standardize_dob_in_resource(
 
     if resource.get("resourceType", "") == "Patient":
         birth_date = resource.get("birthDate")
-        print("BDAY:")
-        print(birth_date)
         transformed_birth_date = standardize_birth_date(birth_date, format)
         resource["birthDate"] = transformed_birth_date
     return resource
