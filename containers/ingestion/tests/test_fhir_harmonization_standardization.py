@@ -154,3 +154,64 @@ def test_standardize_phones_bad_overwrite_value():
             }
         ]
     }
+
+
+def test_standardize_dob_success():
+    expected_response = {
+        "status_code": "200",
+        "message": None,
+        "bundle": copy.deepcopy(test_bundle),
+    }
+    expected_response["bundle"]["entry"][0]["resource"]["birthDate"] = "1955-11-05"
+
+    actual_response = client.post(
+        "/fhir/harmonization/standardization/standardize_dob",
+        json={"data": test_bundle},
+    )
+    assert actual_response.json() == expected_response
+
+    expected_response = {
+        "status_code": "200",
+        "message": None,
+        "bundle": copy.deepcopy(test_bundle),
+    }
+    updated_bundle = copy.deepcopy(test_bundle)
+    updated_bundle["entry"][0]["resource"]["birthDate"] = "11/05/1955"
+
+    actual_response = client.post(
+        "/fhir/harmonization/standardization/standardize_dob",
+        json={"data": updated_bundle, "format": "m%/%d/%Y"},
+    )
+    assert actual_response.json() == expected_response
+
+
+def test_standardize_dob_failures():
+    updated_bundle = copy.deepcopy(test_bundle)
+    updated_bundle["entry"][0]["resource"]["birthDate"] = ""
+    expected_response = {
+        "status_code": "400",
+        "message": "Date of Birth must be supplied!",
+        "bundle": updated_bundle,
+    }
+
+    actual_response = client.post(
+        "/fhir/harmonization/standardization/standardize_dob",
+        json={"data": updated_bundle},
+    )
+
+    assert actual_response.json() == expected_response
+
+    updated_bundle = copy.deepcopy(test_bundle)
+    updated_bundle["entry"][0]["resource"]["birthDate"] = "1978-02-30"
+    expected_response = {
+        "status_code": "400",
+        "message": "Invalid date supplied: 1978-02-30",
+        "bundle": updated_bundle,
+    }
+
+    actual_response = client.post(
+        "/fhir/harmonization/standardization/standardize_dob",
+        json={"data": updated_bundle},
+    )
+
+    assert actual_response.json() == expected_response
