@@ -126,6 +126,8 @@ def standardize_names(
         resource = _standardize_names_in_resource(
             resource, trim, case, remove_numbers, overwrite
         )
+        # Add double metaphone data to patient name after standardizing it
+        double_metaphone_patient(patient=resource, dmeta=None, overwrite=overwrite)
 
     if "entry" not in data:
         return bundle.get("entry", [{}])[0].get("resource", {})
