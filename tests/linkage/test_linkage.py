@@ -13,6 +13,8 @@ from phdi.linkage import (
 )
 from phdi.linkage.link import _match_within_block_cluster_ratio
 import pathlib
+import pytest
+from pydantic import ValidationError
 
 
 def test_generate_hash():
@@ -232,3 +234,9 @@ def test_blocking_data():
     assert (
         blocked_data[random.randint(0, len(blocked_data) - 1)][-5] == block_data["ZIP"]
     )
+
+    # Assert exception is raised when block_data is empty
+    block_data = {}
+    with pytest.raises(ValueError) as e:
+        block(db_name, table_name, block_data)
+    assert "`block_data` cannot be empty." in str(e.value)

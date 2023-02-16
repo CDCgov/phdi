@@ -264,12 +264,15 @@ def block(db_name: str, table_name: str, block_data: Dict) -> List[list]:
 
     :param db_name: Database name.
     :param table_name: Table name.
-    :param block_data: Dictionary containing key value pairs for the column name you for
+    :param block_data: Dictionary containing key value pairs for the column name for
       blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
-    :return: A list of records that are within in the block, e.g., records that all
-      have 90210 as their ZIP.
+    :return: A list of records that are within the block, e.g., records that all have
+      90210 as their ZIP.
 
     """
+    if len(block_data) == 0:
+        raise ValueError("`block_data` cannot be empty.")
+
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
     cursor.row_factory = lambda c, row: [i for i in row]
@@ -285,7 +288,7 @@ def block(db_name: str, table_name: str, block_data: Dict) -> List[list]:
 
 def _generate_block_query(table_name: str, block_data: Dict) -> str:
     """
-    Generates a query for selecting block of data from `table_name` per the block_data
+    Generates a query for selecting a block of data from `table_name` per the block_data
     parameters.
 
     :param table_name: Table name.
