@@ -5,6 +5,8 @@ from phdi.linkage.link import (
     feature_match_exact,
     feature_match_fuzzy_string,
     eval_perfect_match,
+    block,
+    _generate_block_query,
 )
 
 __all__ = [
@@ -14,4 +16,6 @@ __all__ = [
     "feature_match_exact",
     "feature_match_fuzzy_string",
     "eval_perfect_match",
+    "block",
+    "_generate_block_query",
 ]
