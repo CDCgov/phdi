@@ -180,8 +180,11 @@ def validate_text(field, node):
                 parent_node,
             )
         found, error_messages = field_matches(field, node)
+        error_messages += error_messages_parents
         if found is not True or parent_found is not True:
-            return (False, error_messages_parents + error_messages)
+            return (False, error_messages)
+        if error_messages:
+            return (True, error_messages)
         else:
             return (True, [])
 
@@ -227,7 +230,7 @@ def field_matches(field, node):
         regEx = field.get("regEx")
         if regEx is not None:
             pattern = re.compile(regEx)
-            if not pattern.match(text):
+            if pattern.match(text) is None:
                 return (
                     True,
                     [

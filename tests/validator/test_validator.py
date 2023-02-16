@@ -37,11 +37,21 @@ def test_validate_text():
                     error_messages += error_messages_from_node
             if not found_field:
                 error_messages += ["Field not found: " + str(field)]
-            assert len(error_messages) == 1
-            assert (
-                error_messages[0]
-                == "Field not found: {'fieldName': 'First Name', 'nodeName': 'given', 'cdaPath': '//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given', 'textRequired': 'True', 'parent': 'name', 'parent_attributes': [{'attributeName': 'use', 'regEx': 'L'}]}"
-            )
+
+        assert len(error_messages) == 3
+        assert (
+            error_messages[0]
+            == "Field not found: {'fieldName': 'First Name', 'nodeName': 'given', 'cdaPath': '//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given', 'textRequired': 'True', 'parent': 'name', 'parent_attributes': [{'attributeName': 'use', 'regEx': 'L'}]}"
+        )
+        assert (
+            error_messages[1]
+            == "Field not found: {'fieldName': 'City', 'cdaPath': '//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city', 'textRequired': 'True', 'parent': 'addr', 'parent_attributes': [{'attributeName': 'use', 'regEx': 'H'}]}"
+        )
+
+        assert (
+            error_messages[2]
+            == "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?"
+        )
 
         # Test good file
         sample_file_good = get_parsed_file(
@@ -63,4 +73,4 @@ def test_validate_text():
                     error_messages += error_messages_from_node
             if not found_field:
                 error_messages += ["Field not found: " + str(field)]
-            assert len(error_messages) == 0
+        assert len(error_messages) == 0

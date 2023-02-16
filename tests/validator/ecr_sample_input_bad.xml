@@ -43,11 +43,13 @@
         as possible (city, zip, county, etc.) and use the 
         Characteristics of Home Environment template in the 
         Social History Section to indicate that the patient is homeless. -->
-      <addr use="H">
+        
+      <!-- *** WRONG USE CODE *** -->
+      <addr use="L">
         <streetAddressLine>2222 Home Street</streetAddressLine>
         <city>Ann Arbor</city>
         <state>MI</state>
-        <postalCode>99999</postalCode>
+        <postalCode>9999</postalCode>
         <!-- Although "county" is not explicitly specified in the 
           US Realm Address, it is not precluded from use and for 
           the purposes of this IG it SHOULD be included. 
