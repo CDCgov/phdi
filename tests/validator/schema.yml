@@ -33,12 +33,13 @@ requiredFields:
   nodeName: given
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
   textRequired: 'True'
+  attributes:
+  - attributeName: qualifier
+    regEx: "IN"
   parent: name
   parent_attributes:
   - attributeName: use
     regEx: "L"
-  - attributeName: qualifer
-    regEx: "IN"
 - fieldName: Last Name
   nodeName: family
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:family"
@@ -50,7 +51,6 @@ requiredFields:
 - fieldName: DOB
   nodeName: birthTime
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:birthTime"
-  textRequired: 'True'
 - fieldName: MRN
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:id"
   attributes:

@@ -117,14 +117,17 @@ def get_parsed_file(file_path):
 
 def validate(file_path, config):
     tree = get_parsed_file(Path(__file__).parent / file_path)
+    error_messages = []
     for field in config.get("requiredFields"):
         path = field.get("cdaPath")
         matched_nodes = tree.xpath(path, namespaces=namespaces)
         for node in matched_nodes:
             # attributes check
-            validate_attribute(field, node)
+            error_messages.append(validate_attribute(field, node))
             # text check
-            validate_text(field, node)
+            error_messages.append(validate_text(field, node))
+    # if not error_messages:
+    # we have an error
 
 
 def validate_attribute(field, node):
@@ -167,36 +170,20 @@ def validate_text(field, node):
         parent_node = node.getparent() if field.get("parent") else None
         # If there is no parent, just set parent found to true
         if parent_node is None:
-            parent_found = True
+            parent_found, error_messages_parents = (True, [])
         else:
-            parent_found = field_matches(
+            parent_found, error_messages_parents = field_matches(
                 {
                     "fieldName": field.get("parent"),
                     "attributes": field.get("parent_attributes"),
                 },
                 parent_node,
             )
-        found = field_matches(field, node)
-    if found is not True or parent_found is not True:
-        if parent_found is False:
-            return (
-                "Parent: "
-                + str(field.get("parent"))
-                + " not found."
-                + " Field: "
-                + str(field)
-            )
+        found, error_messages = field_matches(field, node)
+        if found is not True or parent_found is not True:
+            return (False, error_messages_parents + error_messages)
         else:
-            return (
-                "Node: "
-                + str(found)
-                + " Parent: "
-                + str(parent_found)
-                + " Field: "
-                + str(field)
-            )
-    else:
-        return True
+            return (True, [])
 
 
 def field_matches(field, node):
@@ -205,42 +192,62 @@ def field_matches(field, node):
         field.get("nodeName") if field.get("nodeName") else field.get("fieldName")
     )
     if fieldName.lower() not in node.tag.lower():
-        return False
-    # Check if the parent is supposed to have attributes
+        return (False, [])
+    # Check if it has the right attributes
     if field.get("attributes"):
         attributes_dont_match = []
-        for attribute in field.get("attributes"):
-            # For each attribute see if it has a regEx and match it
-            if attribute.get("regEx"):
-                pattern = re.compile(attribute.get("regEx"))
-                text = node.get(attribute.get("attributeName"))
-                text = text if text is not None else ""
-                if not pattern.match(text):
-                    attributes_dont_match.append(attribute.get("attributeName"))
-            else:
-                if not field.get(attribute.get("attributeName")):
-                    attributes_dont_match.append(attribute.get("attributeName"))
-        if attributes_dont_match is not None:
-            return "Could not find element with: " + str(attributes_dont_match)
+        field_attributes = field.get("attributes")
+        if field_attributes:
+            for attribute in field_attributes:
+                # For each attribute see if it has a regEx and match it
+                if attribute.get("regEx"):
+                    pattern = re.compile(attribute.get("regEx"))
+                    text = node.get(attribute.get("attributeName"))
+                    text = text if text is not None else ""
+                    if not pattern.match(text):
+                        attributes_dont_match.append(
+                            "Attribute: "
+                            + attribute.get("attributeName")
+                            + " does not match regex"
+                        )
+                else:
+                    if not field.get(attribute.get("attributeName")):
+                        attributes_dont_match.append(
+                            "Attribute: "
+                            + attribute.get("attributeName")
+                            + " not found"
+                        )
+            if attributes_dont_match:
+                return (False, [])
+    else:
+        if node.attrib:
+            return (False, [])
     if field.get("textRequired") is not None:
         text = "".join(node.itertext())
-        if field.get("regEx") is not None:
-            pattern = re.compile(field.get("regEx")) if field.get("regEx") else None
+        regEx = field.get("regEx")
+        if regEx is not None:
+            pattern = re.compile(regEx)
             if not pattern.match(text):
                 return (
-                    "Field: "
-                    + field.get("fieldName")
-                    + " does not match regEx: "
-                    + field.get("regEx")
+                    True,
+                    [
+                        "Field: "
+                        + field.get("fieldName")
+                        + " does not match regEx: "
+                        + field.get("regEx")
+                    ],
                 )
             else:
-                return True
+                return (True, [])
         else:
             if text is not None:
-                return True
+                return (True, [])
             else:
-                return "Field: " + field.get("fieldName") + " does not have text"
-    return True
+                return (
+                    True,
+                    ["Field: " + field.get("fieldName") + " does not have text"],
+                )
+    return (True, [])
 
 
 def main():
