@@ -219,7 +219,6 @@ def test_blocking_data():
 
     table_name = "synthetic_patient_mpi"
     block_data = {"ZIP": 90265, "City": "Malibu"}
-
     blocked_data = block(db_name, table_name, block_data)
 
     # Assert data is returned
@@ -228,10 +227,10 @@ def test_blocking_data():
     assert type(blocked_data[0]) == list
     # Assert returned data match the block_data parameters
     assert (
-        blocked_data[random.randint(0, len(blocked_data) - 1)][10] == block_data["City"]
+        blocked_data[random.randint(0, len(blocked_data) - 1)][11] == block_data["City"]
     )
     assert (
-        blocked_data[random.randint(0, len(blocked_data) - 1)][-5] == block_data["ZIP"]
+        blocked_data[random.randint(0, len(blocked_data) - 1)][-4] == block_data["ZIP"]
     )
 
     # Assert exception is raised when block_data is empty
