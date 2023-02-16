@@ -164,6 +164,16 @@ def _print_nodes(nodes):
 
 
 def validate_text(field, node):
+    """
+    Validates a node text by checking if it has a parent that matches the schema.
+    Then it validates that the text of the node matches is there or matches the
+    regEx listed in the schema
+
+    :param field: A dictionary entry that describes what fields need to be
+        validated and how
+    :param node: A dictionary entry that includes the attribute name key and
+        value.
+    """
     if field.get("textRequired"):
         found = False
         parent_found = False
