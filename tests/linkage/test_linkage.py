@@ -14,7 +14,6 @@ from phdi.linkage import (
 from phdi.linkage.link import _match_within_block_cluster_ratio
 import pathlib
 import pytest
-from pydantic import ValidationError
 
 
 def test_generate_hash():
