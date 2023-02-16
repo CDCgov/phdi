@@ -22,6 +22,7 @@ df = pd.read_csv(
         "STATE",
         "COUNTY",
         "ZIP",
+        "SSN",
     ],
 )
 
@@ -33,7 +34,7 @@ df["ADDRESS4"] = df["ADDRESS"].str.replace(" ", "").str[0:4]
 # Set up SQLite connection
 tablename = "synthetic_patient_mpi"
 columns = ", ".join(col for col in df.columns)
-conn = sqlite3.connect("~/phdi/examples/MPI-sample-data/synthetic_patient_mpi_db")
+conn = sqlite3.connect("~/examples/MPI-sample-data/synthetic_patient_mpi_db")
 
 conn.execute(
     f"""
