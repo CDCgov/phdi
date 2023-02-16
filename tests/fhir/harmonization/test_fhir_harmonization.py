@@ -143,20 +143,47 @@ def test_standardize_names():
             / "patient_bundle.json"
         )
     )
+    raw_bundle2 = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
 
     # Case where we pass in a whole FHIR bundle
     standardized_bundle = copy.deepcopy(raw_bundle)
     patient = standardized_bundle["entry"][1]["resource"]
     patient["name"][0]["family"] = "DOE"
     patient["name"][0]["given"] = ["JOHN", "DANGER"]
-    assert standardize_names(raw_bundle) == standardized_bundle
+    patient["name"][0]["extension"] = [
+        {
+            "url": "https://xlinux.nist.gov/dads/HTML/doubleMetaphone.html",
+            "extension": [
+                {"url": "familyName", "valueString": ["T", ""]},
+                {"url": "givenName", "valueString": [["JN", "AN"], ["TNJR", "TNKR"]]},
+            ],
+        }
+    ]
+    result = standardize_names(raw_bundle)
+    assert result == standardized_bundle
 
     # Case when we don't want to overwrite the data for a bundle
-    standardized_bundle = copy.deepcopy(raw_bundle)
+    standardized_bundle = copy.deepcopy(raw_bundle2)
     patient = standardized_bundle["entry"][1]["resource"]
     patient["name"][0]["family"] = "DOE"
     patient["name"][0]["given"] = ["JOHN", "DANGER"]
-    assert standardize_names(raw_bundle, overwrite=True) == standardized_bundle
+    patient["name"][0]["extension"] = [
+        {
+            "url": "https://xlinux.nist.gov/dads/HTML/doubleMetaphone.html",
+            "extension": [
+                {"url": "familyName", "valueString": ["T", ""]},
+                {"url": "givenName", "valueString": [["JN", "AN"], ["TNJR", "TNKR"]]},
+            ],
+        }
+    ]
+    result = standardize_names(raw_bundle2, overwrite=True)
+    assert result == standardized_bundle
 
     # Case where we provide only a single resource
     patient_resource = raw_bundle["entry"][1]["resource"]

@@ -101,6 +101,8 @@ def standardize_names(
     Standardizes all names contained in a given FHIR bundle or a FHIR resource. The
     default standardization behavior is our defined non-numeric, space-trimming, full
     capitalization standardization, but other modes may be specified.
+    Names are also assigned a double metaphone encoding after standardization is
+    complete.
 
     :param data: A FHIR-formatted JSON dict.
     :param trim: Whether leading/trailing whitespace should be removed. Default: `True`
@@ -126,11 +128,14 @@ def standardize_names(
         resource = _standardize_names_in_resource(
             resource, trim, case, remove_numbers, overwrite
         )
-        # Add double metaphone data to patient name after standardizing it
-        double_metaphone_patient(patient=resource, dmeta=None, overwrite=overwrite)
 
     if "entry" not in data:
         return bundle.get("entry", [{}])[0].get("resource", {})
+
+    # Add double metaphone data to bundle after the names have been
+    # standardized
+    double_metaphone_bundle(bundle=bundle, overwrite=overwrite)
+
     return bundle
 
 
