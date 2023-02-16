@@ -6,6 +6,7 @@ import sqlite3
 import pandas as pd
 import random
 from random import shuffle
+from string import ascii_letters
 import numpy as np
 
 # Set up proportions of scramble
@@ -19,6 +20,8 @@ PROPORTION_BAD_DOB = 0.05
 PROPORTION_BAD_ZIP = 0.05
 
 PROPORTION_MISSING_ADDRESS_LAC = 0.06
+PROPORTION_MISSING_EMAIL_LAC = 0.79
+PROPORTION_MISSING_MRN_LAC = 0.48
 
 # Set seed
 seed = 123
@@ -164,6 +167,29 @@ def add_copies(data: pd.DataFrame, num_copies: int) -> pd.DataFrame:
     return data_with_copies
 
 
+def add_emails(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds an "EMAIL" column with a synthetic email address for each row of data. The
+    email address domains are limited to the most common providers in the US (gmail,
+    yahoo, and hotmail).
+
+    :param data: A DataFrame object.
+    :return: A DataFrame object with an EMAIL column of synthetic email addresses.
+    """
+    emails = [
+        "".join(random.choice(ascii_letters) for x in range(10))
+        for _ in range(len(data))
+    ]
+    emails = [
+        (email + random.choice(["@gmail.com", "@yahoo.com", "@hotmail.com"]))
+        for email in emails
+    ]
+
+    data["EMAIL"] = emails
+
+    return data
+
+
 def scramble_data(
     source_data: pd.DataFrame, seed: int, names_to_nicknames: dict, missingness: dict
 ) -> pd.DataFrame:
@@ -172,9 +198,10 @@ def scramble_data(
     assumes the dataset contains the following columns:
     - BIRTHDATE
     - ZIP
-    - FIRST (for first name)
-    - LAST (for last name)
+    - FIRST (first name)
+    - LAST (last name)
     - Id
+    - SSN
 
     :param source_data: DataFrame object.
     :param seed: Seed.
@@ -187,6 +214,12 @@ def scramble_data(
     """
 
     source_data["ZIP"] = source_data["ZIP"].astype(str).str.split(".").str[0]
+
+    # Add synthetic emails
+    source_data = add_emails(source_data)
+
+    # Use SSN as MRN
+    source_data["MRN"] = source_data["SSN"]
 
     # Introduce missingness
     source_data = add_missing_values(source_data, missingness)
@@ -265,7 +298,11 @@ with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
             names_to_nicknames[name] = nicks.split(",")
 
 # Intialize LAC-specific missingness
-lac_missingness = {"ADDRESS": PROPORTION_MISSING_ADDRESS_LAC}
+lac_missingness = {
+    "ADDRESS": PROPORTION_MISSING_ADDRESS_LAC,
+    "EMAIL": PROPORTION_MISSING_EMAIL_LAC,
+    "MRN": PROPORTION_MISSING_MRN_LAC,
+}
 
 # Get source data
 conn = sqlite3.connect("./examples/MPI-sample-data/synthetic_patient_mpi_db")
