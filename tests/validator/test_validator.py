@@ -1,27 +1,6 @@
-import csv
-import os
-import jsonschema
 import yaml
-import json
-import pathlib
-import sqlite3 as sql
-from unittest import mock
-import pytest
-import copy
 
-from phdi.tabulation import (
-    load_schema,
-    validate_schema,
-    write_data,
-)
-from phdi.fhir.tabulation import tabulate_data
-from phdi.tabulation.tables import (
-    _convert_list_to_string,
-)
-
-from phdi.validator.validate import validate_text, get_parsed_file
-
-from lxml import etree
+from phdi.validator.validate import validate_text, get_parsed_file, validate_attribute
 from pathlib import Path
 
 namespaces = {
@@ -64,6 +43,35 @@ def test_validate_text():
 
         # print("****SAMPLE FILE***")
         # print(str(sample_file))
+
+
+def test_validate_attribute():
+    with open("schema.yml") as f:
+        schema = yaml.safe_load(f)
+        # print("yaml")
+        # print(str(schema))
+        sample_file_good = get_parsed_file(
+            Path(__file__).parent / "ecr_sample_input_good.xml"
+        )
+        sample_file_bad = get_parsed_file(
+            Path(__file__).parent / "ecr_sample_input_bad.xml"
+        )
+        for field in schema.get("requiredFields"):
+            # print("Field name")
+            # print(str(field.get("fieldName")))
+            # print("path")
+            if not field.get("attributes"):
+                continue
+            path = field.get("cdaPath")
+            matched_nodes = sample_file_good.xpath(path, namespaces=namespaces)
+            found = False
+            for node in matched_nodes:
+                result = validate_attribute(field, node)
+                if result is True:
+                    found = True
+                print(str(result))
+            if not found:
+                print("Field not found: " + str(field))
 
 
 # def test_load_schema():
