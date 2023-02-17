@@ -1,7 +1,8 @@
 import hashlib
 import pandas as pd
 from phdi.harmonization.utils import compare_strings
-from typing import List, Callable, Union
+from typing import List, Callable, Dict, Union
+import sqlite3
 
 
 def block_data(data: pd.DataFrame, blocks: List) -> dict:
@@ -443,3 +444,77 @@ def score_linkage_vs_truth(
         3,
     )
     return (sensitivity, specificity, ppv, f1)
+
+
+def block_parquet_data(path: str, blocks: List) -> Dict:
+    """
+    Generates dictionary of blocked data where each key is a block and each value is a
+    distinct list of lists containing the data for a given block.
+
+    :param path: Path to parquet file containing data that needs to be linked.
+    :param blocks: List of columns to be used in blocking.
+    :return: A dictionary of with the keys as the blocks and the values as the data
+    within each block, stored as a list of lists.
+    """
+    data = pd.read_parquet(path, engine="pyarrow")
+    blocked_data_tuples = tuple(data.groupby(blocks))
+
+    # Convert data to list of lists within dict
+    blocked_data = dict()
+    for block, df in blocked_data_tuples:
+        blocked_data[block] = df.values.tolist()
+
+    return blocked_data
+
+
+def block(db_name: str, table_name: str, block_data: Dict) -> List[list]:
+    """
+    Returns a list of lists containing records from the database that match on the
+    incoming record's block values. If blocking on 'ZIP' and the incoming record's zip
+    code is '90210', the resulting block of data would contain records that all have the
+    same zip code of 90210.
+
+    :param db_name: Database name.
+    :param table_name: Table name.
+    :param block_data: Dictionary containing key value pairs for the column name for
+      blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+    :return: A list of records that are within the block, e.g., records that all have
+      90210 as their ZIP.
+
+    """
+    if len(block_data) == 0:
+        raise ValueError("`block_data` cannot be empty.")
+
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+    cursor.row_factory = lambda c, row: [i for i in row]
+
+    query = _generate_block_query(table_name, block_data)  # Generate SQL query
+    cursor.execute(query)  # Execute query
+    block = cursor.fetchall()  # Fetch data from query
+    conn.commit()
+    conn.close()
+
+    return block
+
+
+def _generate_block_query(table_name: str, block_data: Dict) -> str:
+    """
+    Generates a query for selecting a block of data from `table_name` per the block_data
+    parameters.
+
+    :param table_name: Table name.
+    :param block_data: Dictionary containing key value pairs for the column name you for
+      blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+    :return: Query to select block of data base on `block_data` parameters.
+
+    """
+    query_stub = f"SELECT * FROM {table_name} WHERE "
+    block_query = " AND ".join(
+        [
+            key + f" = '{value}'" if type(value) == str else (key + f" = {value}")
+            for key, value in block_data.items()
+        ]
+    )
+    query = query_stub + block_query
+    return query

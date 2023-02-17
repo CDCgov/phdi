@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+import random
+
 from phdi.linkage import (
     generate_hash_str,
     block_data,
@@ -11,11 +13,16 @@ from phdi.linkage import (
     feature_match_four_char,
     perform_linkage_pass,
     score_linkage_vs_truth,
+    block,
+    _generate_block_query,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
     _map_matches_to_record_ids,
 )
+
+import pathlib
+import pytest
 
 
 def test_generate_hash():
@@ -391,3 +398,59 @@ def test_score_linkage_vs_truth():
     assert specificity == 0.926
     assert ppv == 0.75
     assert f1 == 0.857
+
+
+def test_generate_block_query():
+    table_name = "test_table"
+    block_data = {"ZIP": 90210, "City": "Los Angeles"}
+    correct_query = (
+        f"SELECT * FROM {table_name} WHERE "
+        + f"{list(block_data.keys())[0]} = {list(block_data.values())[0]} "
+        + f"AND {list(block_data.keys())[1]} = '{list(block_data.values())[1]}'"
+    )
+
+    query = _generate_block_query(table_name, block_data)
+
+    assert query == correct_query
+
+    # Tests for appropriate data type handling in query generation
+    assert (
+        type(list(block_data.values())[1]) == str
+        and "'" in correct_query.split("= ")[-1]
+    )  # String types should be enclosed in quotes
+
+    assert (
+        type(list(block_data.values())[0]) != str
+        and "'" not in correct_query.split("= ")[1]
+    )  # Non-string types should not be enclosed in quotes
+
+
+def test_blocking_data():
+    db_name = (
+        pathlib.Path(__file__).parent.parent.parent
+        / "examples"
+        / "MPI-sample-data"
+        / "synthetic_patient_mpi_db"
+    )
+
+    table_name = "synthetic_patient_mpi"
+    block_data = {"ZIP": 90265, "City": "Malibu"}
+    blocked_data = block(db_name, table_name, block_data)
+
+    # Assert data is returned
+    assert len(blocked_data) > 0
+    # Assert returned data is in the correct format
+    assert type(blocked_data[0]) == list
+    # Assert returned data match the block_data parameters
+    assert (
+        blocked_data[random.randint(0, len(blocked_data) - 1)][11] == block_data["City"]
+    )
+    assert (
+        blocked_data[random.randint(0, len(blocked_data) - 1)][-4] == block_data["ZIP"]
+    )
+
+    # Assert exception is raised when block_data is empty
+    block_data = {}
+    with pytest.raises(ValueError) as e:
+        block(db_name, table_name, block_data)
+    assert "`block_data` cannot be empty." in str(e.value)

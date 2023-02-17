@@ -9,6 +9,8 @@ from phdi.linkage.link import (
     feature_match_four_char,
     perform_linkage_pass,
     score_linkage_vs_truth,
+    block,
+    _generate_block_query,
 )
 
 __all__ = [
@@ -22,4 +24,6 @@ __all__ = [
     "feature_match_four_char",
     "perform_linkage_pass",
     "score_linkage_vs_truth",
+    "block",
+    "_generate_block_query",
 ]
