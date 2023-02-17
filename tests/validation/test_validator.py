@@ -1,6 +1,6 @@
 import yaml
 
-from phdi.validator.validate import validate_text, get_parsed_file, validate_attribute
+from phdi.validation.validate import validate_text, get_parsed_file, validate_attribute
 from pathlib import Path
 
 namespaces = {
@@ -11,23 +11,30 @@ namespaces = {
     "voc": "http://www.lantanagroup.com/voc",
 }
 
+# Test file with known errors
+sample_file_bad = get_parsed_file(
+    Path(__file__).parent / "../assets/ecr_sample_input_bad.xml"
+)
+
+# Test good file
+sample_file_good = get_parsed_file(
+    Path(__file__).parent / "../assets/ecr_sample_input_good.xml"
+)
+
+schema_path = "../assets/schema.yml"
+
 
 def test_validate_text():
-    with open("schema.yml") as f:
+    with open(schema_path) as f:
         # use safe_load instead load
         schema = yaml.safe_load(f)
 
-        # Test file with known errors
-        sample_file_bad = get_parsed_file(
-            Path(__file__).parent / "ecr_sample_input_bad.xml"
-        )
         error_messages = []
         for field in schema.get("requiredFields"):
             if not field.get("textRequired"):
                 continue
             path = field.get("cdaPath")
             matched_nodes_bad = sample_file_bad.xpath(path, namespaces=namespaces)
-            matched_nodes_good = sample_file_bad.xpath(path, namespaces=namespaces)
             found_field = False
 
             for node in matched_nodes_bad:
@@ -42,7 +49,7 @@ def test_validate_text():
         assert len(error_messages) == 3
         assert (
             error_messages[0]
-            == "Field not found: {'fieldName': 'First Name', 'nodeName': 'given', 'cdaPath': '//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given', 'textRequired': 'True', 'parent': 'name', 'parent_attributes': [{'attributeName': 'use', 'regEx': 'L'}]}"
+            == "Field not found: {'fieldName': 'First Name', 'cdaPath': '//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given', 'textRequired': 'True', 'parent': 'name', 'parent_attributes': [{'attributeName': 'use', 'regEx': 'L'}]}"
         )
         assert (
             error_messages[1]
@@ -54,10 +61,6 @@ def test_validate_text():
             == "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?"
         )
 
-        # Test good file
-        sample_file_good = get_parsed_file(
-            Path(__file__).parent / "ecr_sample_input_good.xml"
-        )
         error_messages = []
         for field in schema.get("requiredFields"):
             if not field.get("textRequired"):
@@ -78,11 +81,8 @@ def test_validate_text():
 
 
 def test_validate_attribute_no_errors():
-    with open("schema.yml") as f:
+    with open(schema_path) as f:
         schema = yaml.safe_load(f)
-        sample_file_good = get_parsed_file(
-            Path(__file__).parent / "ecr_sample_input_good.xml"
-        )
         for field in schema.get("requiredFields"):
             if not field.get("attributes"):
                 continue
@@ -94,11 +94,8 @@ def test_validate_attribute_no_errors():
 
 
 def test_validate_attribute_with_errors():
-    with open("schema.yml") as f:
+    with open(schema_path) as f:
         schema = yaml.safe_load(f)
-        sample_file_good = get_parsed_file(
-            Path(__file__).parent / "ecr_sample_input_bad.xml"
-        )
         for field in schema.get("requiredFields"):
 
             if not field.get("attributes"):

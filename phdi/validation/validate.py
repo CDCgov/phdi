@@ -56,7 +56,8 @@ def validate_attribute(field, node):
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
-            if not pattern.match(attribute_value):
+
+            if not attribute_value or pattern.match(attribute_value):
                 error_messages.append(
                     f"Attribute '{attribute_name}' not in expected format"
                 )
@@ -91,6 +92,7 @@ def validate_text(field, node):
                 {
                     "fieldName": field.get("parent"),
                     "attributes": field.get("parent_attributes"),
+                    "cdaPath": field.get("cdaPath") + ":" + field.get("parent"),
                 },
                 parent_node,
             )
@@ -106,9 +108,7 @@ def validate_text(field, node):
 
 def field_matches(field, node):
     # If it has the wrong parent, go to the next one
-    fieldName = (
-        field.get("nodeName") if field.get("nodeName") else field.get("fieldName")
-    )
+    fieldName = re.search(r"(?!\:)[a-zA-z]+\w$", field.get("cdaPath")).group(0)
     if fieldName.lower() not in node.tag.lower():
         return (False, [])
     # Check if it has the right attributes

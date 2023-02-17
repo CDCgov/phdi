@@ -5,7 +5,6 @@ requiredFields:
   attributes:
   - attributeName: code
 # - fieldName: Conditions
-#   nodeName: code
 #   cdaPath: "//hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry/hl7:organizer/hl7:component/hl7:observation/hl7:value/hl7:code"
 #   textRequired: 'True'
 - fieldName: eICR
@@ -17,12 +16,10 @@ requiredFields:
   attributes:
   - attributeName: value
 - fieldName: Authoring date
-  nodeName: time
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:author/hl7:time"
   attributes:
   - attributeName: value
 - fieldName: First Name
-  nodeName: given
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
   textRequired: 'True'
   parent: name
@@ -30,15 +27,16 @@ requiredFields:
   - attributeName: use
     regEx: "L"
 - fieldName: Middle Name
-  nodeName: given
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
   textRequired: 'True'
+  attributes:
+  - attributeName: qualifier
+    regEx: "IN"
   parent: name
   parent_attributes:
   - attributeName: use
     regEx: "L"
 - fieldName: Last Name
-  nodeName: family
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:family"
   parent: name
   parent_attributes:
@@ -46,7 +44,6 @@ requiredFields:
     regEx: "L"
   textRequired: 'True'
 - fieldName: DOB
-  nodeName: birthTime
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:birthTime"
 - fieldName: MRN
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:id"
@@ -57,7 +54,6 @@ requiredFields:
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:administrativeGenderCode"
   regEx: "/F|M|O|U/"
 - fieldName: Street Address
-  nodeName: streetAddressLine
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:streetAddressLine"
   textRequired: 'True'
 - fieldName: City
@@ -74,7 +70,6 @@ requiredFields:
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:country"
   textRequired: 'True'
 - fieldName: Zip
-  nodeName: postalCode
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:postalCode"
   textRequired: 'True'
   regEx: "[0-9]{5}(?:-[0-9]{4})?"
