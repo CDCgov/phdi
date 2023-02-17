@@ -9,11 +9,11 @@ from phdi.linkage import (
     eval_perfect_match,
     perform_linkage_pass,
     compile_match_lists,
-    feature_match_four_char,
+    feature_match_fuzzy_string,
 )
 from typing import Union
 
-DATA_SIZE = 50000
+DATA_SIZE = 100000
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
@@ -40,37 +40,61 @@ def lac_validation_linkage(
     :return: A dictionary holding all found matches during each pass of
       the algorithm.
     """
+    # Fields that get string comparisons (column in our data set):
+    # * First (2)
+    # * Last (3)
+    # * Address (9)
+    # * Email (17)
+    # * MRN (18)
+    # String comparison LA uses: Levenshtein, variable EM threshold
 
-    # Rule 1: exact match on first 4 of first, first 4 of last, DOB
-    # Zip not used, so block on it
+    # Rule 1:
+    # Blocks: first 4 of first and last name, DOB
+    # Compare: first, last, street address, MRN, email
     funcs = {
-        0: feature_match_exact,
-        1: feature_match_four_char,
-        2: feature_match_four_char,
+        2: feature_match_fuzzy_string,
+        3: feature_match_fuzzy_string,
+        9: feature_match_fuzzy_string,
+        17: feature_match_fuzzy_string,
+        18: feature_match_fuzzy_string,
     }
-    print("-------Matching on Rule 1: First 4 of First/Last, Exact DOB-------")
+    print("-------Matching on Rule 1-------")
     matches_1 = perform_linkage_pass(
-        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data,
+        ["FIRST4", "LAST4", "BIRTHDATE"],
+        funcs,
+        eval_perfect_match,
+        cluster_ratio,
+        similarity_measure="Levenshtein",
+        threshold=0.7,
     )
 
-    # Rule 2: exact match on first 4 of first, first 4 of last,
-    # first 4 of zip--DOB not used, so block on it
-    funcs = {
-        1: feature_match_four_char,
-        2: feature_match_four_char,
-        13: feature_match_four_char,
-    }
-    print("-------Matching on Rule 2: First 4 of First/Last/Zip-------")
+    # Rule 2:
+    # Blocks: first 4 of first and last name, first 4 of address
+    # Compare: first, last, street address, MRN, email
+    print("-------Matching on Rule 2-------")
     matches_2 = perform_linkage_pass(
-        data, ["BIRTHDATE"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data,
+        ["FIRST4", "LAST4", "ADDRESS4"],
+        funcs,
+        eval_perfect_match,
+        cluster_ratio,
+        similarity_measure="Levenshtein",
+        threshold=0.7,
     )
 
-    # Rule 3: exact match just on full DOB
-    # Zip not used, block on it
-    funcs = {0: feature_match_exact}
-    print("-------Matching on Rule 3: Exact DOB-------")
+    # Rule 3:
+    # Blocks: DOB
+    # Compare: first, last, street address, MRN, email
+    print("-------Matching on Rule 3-------")
     matches_3 = perform_linkage_pass(
-        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data,
+        ["BIRTHDATE"],
+        funcs,
+        eval_perfect_match,
+        cluster_ratio,
+        similarity_measure="Levenshtein",
+        threshold=0.7,
     )
 
     total_matches = compile_match_lists(
@@ -82,43 +106,46 @@ def lac_validation_linkage(
 def phdi_linkage_algorithm(
     data: pd.DataFrame, cluster_ratio: Union[float, None] = None, **kwargs
 ) -> dict:
-    # Rule 1: exact match on first/last/DOB
+    # Rule 1: metaphone match on first/last, exact on DOB
     # Zip not used, so block on it
-    # funcs = {
-    #     0: feature_match_exact,
-    #     1: feature_match_exact,
-    #     2: feature_match_exact,
-    # }
-    # print("-------Matching on Rule 1: Exact First/Last/DOB-------")
-    # matches_1 = perform_linkage_pass(
-    #     data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
-    # )
-
-    # Rule 2: fuzzy match on first/last, exact match on sex,
-    # exact match on zip--DOB not used, so block on it
     funcs = {
         0: feature_match_exact,
-        23: feature_match_exact,
-        24: feature_match_exact,
+        25: feature_match_exact,
+        26: feature_match_exact,
     }
-    print("-------Matching on Rule 2: Metaphone first/last, exact DOB-------")
-    matches_2 = perform_linkage_pass(
+    print("-------Matching on Rule 1: Metaphone first/last, exact DOB-------")
+    matches_1 = perform_linkage_pass(
         data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
     )
 
-    # Rule 3: exact match on sex/zip, fuzzy match on DOB
-    # City not used, block on it
-    # funcs = {
-    #     0: feature_match_fuzzy_string,
-    #     3: feature_match_exact,
-    #     7: feature_match_exact,
-    # }
-    # print("-------Matching on Rule 3: Fuzzy First/Last, Exact Zip, Fuzzy DOB-------")
-    # matches_3 = perform_linkage_pass(
-    #     data, ["GENDER"], funcs, eval_perfect_match, cluster_ratio, threshold=0.9
-    # )
+    # Rule 2: fuzzy match on first/last, exact match on sex, exact on DOB
+    # Block on metaphone 1 of first name
+    funcs = {
+        0: feature_match_fuzzy_string,
+        2: feature_match_fuzzy_string,
+        3: feature_match_fuzzy_string,
+        8: feature_match_exact,
+    }
+    print("-------Matching on Rule 2: Fuzzy First/Last, Exact Sex, Fuzzy DOB-------")
+    matches_2 = perform_linkage_pass(
+        data, ["DM_FIRST"], funcs, eval_perfect_match, cluster_ratio, threshold=0.7
+    )
 
-    total_matches = compile_match_lists([matches_2], cluster_ratio is not None)
+    # Rule 3: stronger fuzzy on first/last, strong fuzzy on zip
+    # DOB not used, block on it
+    funcs = {
+        2: feature_match_fuzzy_string,
+        3: feature_match_fuzzy_string,
+        9: feature_match_fuzzy_string,
+    }
+    print("-------Matching on Rule 3: Fuzzy First/Last, Fuzzy Zip-------")
+    matches_3 = perform_linkage_pass(
+        data, ["BIRTHDATE"], funcs, eval_perfect_match, cluster_ratio, threshold=0.7
+    )
+
+    total_matches = compile_match_lists(
+        [matches_1, matches_2, matches_3], cluster_ratio is not None
+    )
     return total_matches
 
 
@@ -192,31 +219,47 @@ def display_missed_matches_by_type(matches: dict, true_matches: dict):
     scrambled_first = missed_df["bad_name_scramble_first"].astype(float).sum()
     scrambled_last = missed_df["bad_name_scramble_last"].astype(float).sum()
     scrambled_nickname = missed_df["bad_name_nickname"].astype(float).sum()
-    non_scrambled_misses = missed_df.loc[missed_df["bad_dob"] == 0]
-    non_scrambled_misses = non_scrambled_misses.loc[missed_df["bad_zip"] == 0]
+    non_scrambled_misses = missed_df.loc[missed_df["bad_dob"] == "0.0"]
+    non_scrambled_misses = non_scrambled_misses.loc[missed_df["bad_zip"] == "0.0"]
     non_scrambled_misses = non_scrambled_misses.loc[
-        missed_df["bad_name_scramble_first"] == 0
+        missed_df["bad_name_scramble_first"] == "0.0"
     ]
     non_scrambled_misses = non_scrambled_misses.loc[
-        missed_df["bad_name_scramble_last"] == 0
+        missed_df["bad_name_scramble_last"] == "0.0"
     ]
-    non_scrambled_misses = non_scrambled_misses.loc[missed_df["bad_name_nickname"] == 0]
+    non_scrambled_misses = non_scrambled_misses.loc[
+        missed_df["bad_name_nickname"] == "0.0"
+    ]
+    non_scrambled_misses = non_scrambled_misses.loc[missed_df["ADDRESS"] == "0"]
+    non_scrambled_misses = non_scrambled_misses.loc[missed_df["MRN"] == "0"]
+    non_scrambled_misses = non_scrambled_misses.loc[missed_df["EMAIL"] == "0"]
     non_scrambled_misses = len(non_scrambled_misses)
-    missing_address_misses = len(missed_df.loc[missed_df["ADDRESS"] == 0])
-    print("Misses on records with scrambled DOB:", scrambled_dobs / len(missed_df))
-    print("Misses on records with scrambled ZIP:", scrambled_zips / len(missed_df))
-    print("Misses on records with scrambled FIRST:", scrambled_first / len(missed_df))
-    print("Misses on records with scrambled LAST:", scrambled_last / len(missed_df))
+    missing_address_misses = len(missed_df.loc[missed_df["ADDRESS"] == "0"])
+    missing_mrn_misses = len(missed_df.loc[missed_df["MRN"] == "0"])
+    missing_email_misses = len(missed_df.loc[missed_df["EMAIL"] == "0"])
+    print("Miss %% on records with scrambled DOB:", scrambled_dobs / len(missed_df))
+    print("Miss %% on records with scrambled ZIP:", scrambled_zips / len(missed_df))
+    print("Miss %% on records with scrambled FIRST:", scrambled_first / len(missed_df))
+    print("Miss %% on records with scrambled LAST:", scrambled_last / len(missed_df))
     print(
-        "Misses on records with scrambled NICKNAME:",
-        scrambled_nickname / len(missed_df),
+        "Miss %% on records with scrambled NICKNAME:",
+        scrambled_nickname / float(len(missed_df)),
     )
     print(
-        "Misses on records with a missing ADDRESS:",
-        missing_address_misses / len(missed_df),
+        "Miss %% on records with a missing ADDRESS:",
+        missing_address_misses / float(len(missed_df)),
     )
     print(
-        "Misses on records with no scrambling:", non_scrambled_misses / len(missed_df)
+        "Miss %% on records with a missing MRN:",
+        missing_mrn_misses / float(len(missed_df)),
+    )
+    print(
+        "Miss %% on records with a missing EMAIL:",
+        missing_email_misses / float(len(missed_df)),
+    )
+    print(
+        "Miss %% on records having all fields present without scrambling:",
+        non_scrambled_misses / float(len(missed_df)),
     )
 
 
@@ -226,7 +269,7 @@ data = pd.read_csv(
 data = add_metaphone_columns_to_data(data)
 true_matches = determine_true_matches_in_pd_dataset(data)
 data = set_record_id(data)
-# matches = lac_validation_linkage(data, None)
-matches = phdi_linkage_algorithm(data, None)
+matches = lac_validation_linkage(data, None)
+# matches = phdi_linkage_algorithm(data, None)
 display_statistical_evaluation(matches, true_matches)
-# display_missed_matches_by_type(matches, true_matches)
+display_missed_matches_by_type(matches, true_matches)
