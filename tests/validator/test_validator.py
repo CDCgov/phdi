@@ -112,4 +112,4 @@ def test_validate_attribute_with_errors():
                     and field.get("attributes")[0].get("attributeName") == "value"
                 ):
                     print(results)
-                    assert len(results) == 0
+                    assert len(results) != 0
