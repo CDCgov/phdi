@@ -77,30 +77,39 @@ def test_validate_text():
         assert len(error_messages) == 0
 
 
-def test_validate_attribute():
+def test_validate_attribute_no_errors():
     with open("schema.yml") as f:
         schema = yaml.safe_load(f)
-        # print("yaml")
-        # print(str(schema))
         sample_file_good = get_parsed_file(
             Path(__file__).parent / "ecr_sample_input_good.xml"
         )
-        sample_file_bad = get_parsed_file(
-            Path(__file__).parent / "ecr_sample_input_bad.xml"
-        )
         for field in schema.get("requiredFields"):
-            # print("Field name")
-            # print(str(field.get("fieldName")))
-            # print("path")
             if not field.get("attributes"):
                 continue
             path = field.get("cdaPath")
             matched_nodes = sample_file_good.xpath(path, namespaces=namespaces)
-            found = False
             for node in matched_nodes:
-                result = validate_attribute(field, node)
-                if result is True:
-                    found = True
-                print(str(result))
-            if not found:
-                print("Field not found: " + str(field))
+                results = validate_attribute(field, node)
+                assert len(results) == 0
+
+
+def test_validate_attribute_with_errors():
+    with open("schema.yml") as f:
+        schema = yaml.safe_load(f)
+        sample_file_good = get_parsed_file(
+            Path(__file__).parent / "ecr_sample_input_bad.xml"
+        )
+        for field in schema.get("requiredFields"):
+
+            if not field.get("attributes"):
+                continue
+            path = field.get("cdaPath")
+            matched_nodes = sample_file_good.xpath(path, namespaces=namespaces)
+            for node in matched_nodes:
+                results = validate_attribute(field, node)
+                if (
+                    field.get("cdaPath") == "//hl7:ClinicalDocument/hl7:versionNumber"
+                    and field.get("attributes")[0].get("attributeName") == "value"
+                ):
+                    print(results)
+                    assert len(results) == 0
