@@ -220,8 +220,9 @@ def display_missed_matches_by_type(matches: dict, true_matches: dict):
     )
 
 
-data = pd.read_csv("./sample_record_linkage_data_scrambled.csv", dtype="string")
-data = data.loc[:DATA_SIZE]
+data = pd.read_csv(
+    "./sample_record_linkage_data_scrambled.csv", dtype="string", nrows=DATA_SIZE
+)
 data = add_metaphone_columns_to_data(data)
 true_matches = determine_true_matches_in_pd_dataset(data)
 data = set_record_id(data)

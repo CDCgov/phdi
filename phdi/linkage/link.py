@@ -226,6 +226,10 @@ def match_within_block(
     return match_pairs
 
 
+# @TODO: Make the data parameter into a list of lists once we finish up
+# statistical evaluation--alternatively, allow the function to accept both
+# data types, but either way, LoL needs to be in there since that's our
+# primary data type to use here.
 def perform_linkage_pass(
     data: pd.DataFrame,
     blocks: List,
@@ -239,7 +243,8 @@ def perform_linkage_pass(
     Each rule in an algorithm is associated with its own pass through the
     data.
 
-    :param data: A pandas dataframe of records to link.
+    :param data: Currently, a pandas dataframe of records to link. When we
+      move out of testing, this should become a LoL.
     :param blocks: A list of column headers to use as blocking assignments
       by which to partition the data.
     :param feature_funcs: A dictionary mapping feature indices to functions
@@ -467,7 +472,7 @@ def block_parquet_data(path: str, blocks: List) -> Dict:
     return blocked_data
 
 
-def block(db_name: str, table_name: str, block_data: Dict) -> List[list]:
+def block_data_from_db(db_name: str, table_name: str, block_data: Dict) -> List[list]:
     """
     Returns a list of lists containing records from the database that match on the
     incoming record's block values. If blocking on 'ZIP' and the incoming record's zip

@@ -13,7 +13,7 @@ from phdi.linkage import (
     feature_match_four_char,
     perform_linkage_pass,
     score_linkage_vs_truth,
-    block,
+    block_data_from_db,
     _generate_block_query,
 )
 from phdi.linkage.link import (
@@ -435,7 +435,7 @@ def test_blocking_data():
 
     table_name = "synthetic_patient_mpi"
     block_data = {"ZIP": 90265, "City": "Malibu"}
-    blocked_data = block(db_name, table_name, block_data)
+    blocked_data = block_data_from_db(db_name, table_name, block_data)
 
     # Assert data is returned
     assert len(blocked_data) > 0
@@ -452,5 +452,5 @@ def test_blocking_data():
     # Assert exception is raised when block_data is empty
     block_data = {}
     with pytest.raises(ValueError) as e:
-        block(db_name, table_name, block_data)
+        block_data_from_db(db_name, table_name, block_data)
     assert "`block_data` cannot be empty." in str(e.value)
