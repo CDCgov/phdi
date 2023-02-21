@@ -185,12 +185,31 @@ def test_standardize_names():
     result = standardize_names(raw_bundle2, overwrite=True)
     assert result == standardized_bundle
 
+    # Case where we pass in a whole FHIR bundle
+    # don't include DM
+    standardized_bundle_no_dm = copy.deepcopy(raw_bundle)
+    patient_no_dm = standardized_bundle_no_dm["entry"][1]["resource"]
+    patient_no_dm["name"][0]["family"] = "DOE"
+    patient_no_dm["name"][0]["given"] = ["JOHN", "DANGER"]
+    result_no_dm = standardize_names(data=raw_bundle, incl_encoding=False)
+    assert result_no_dm == standardized_bundle_no_dm
+
     # Case where we provide only a single resource
-    patient_resource = raw_bundle["entry"][1]["resource"]
-    standardized_patient = copy.deepcopy(patient_resource)
-    standardized_patient["name"][0]["family"] = "DOE"
-    standardized_patient["name"][0]["given"] = ["JOHN", "DANGER"]
-    assert standardize_names(patient_resource) == standardized_patient
+    patient_resource_dm = raw_bundle["entry"][1]["resource"]
+    standardized_patient_dm = copy.deepcopy(patient_resource_dm)
+    patient_single_dm = standardized_patient_dm
+    standardized_patient_dm["name"][0]["family"] = "DOE"
+    standardized_patient_dm["name"][0]["given"] = ["JOHN", "DANGER"]
+    standardized_patient_dm["name"][0]["extension"] = [
+        {
+            "url": "https://xlinux.nist.gov/dads/HTML/doubleMetaphone.html",
+            "extension": [
+                {"url": "familyName", "valueString": ["T", ""]},
+                {"url": "givenName", "valueString": [["JN", "AN"], ["TNJR", "TNKR"]]},
+            ],
+        }
+    ]
+    assert standardize_names(patient_single_dm) == standardized_patient_dm
 
     # Case when we don't want to overwrite the data for a single resource
     patient_resource = raw_bundle["entry"][1]["resource"]
@@ -198,6 +217,17 @@ def test_standardize_names():
     standardized_patient["name"][0]["family"] = "DOE"
     standardized_patient["name"][0]["given"] = ["JOHN", "DANGER"]
     assert standardize_names(patient_resource, overwrite=False) == standardized_patient
+
+    # Case where we provide only a single resource
+    # don't include DM
+    patient_resource_no_dm = raw_bundle["entry"][1]["resource"]
+    standardized_patient_no_dm = copy.deepcopy(patient_resource)
+    standardized_patient_no_dm["name"][0]["family"] = "DOE"
+    standardized_patient_no_dm["name"][0]["given"] = ["JOHN", "DANGER"]
+    assert (
+        standardize_names(patient_resource_no_dm, incl_encoding=False)
+        == standardized_patient_no_dm
+    )
 
 
 def test_standardize_phones():

@@ -30,7 +30,7 @@ def double_metaphone_bundle(bundle: dict, overwrite=True) -> dict:
     for entry in bundle.get("entry", []):
         resource = entry.get("resource", {})
         if resource.get("resourceType", "") == "Patient":
-            double_metaphone_patient(resource, dmeta, overwrite=True)
+            double_metaphone_patient(resource, dmeta, overwrite=overwrite)
     return bundle
 
 
@@ -95,6 +95,7 @@ def standardize_names(
     trim: bool = True,
     case: Literal["upper", "lower", "title"] = "upper",
     remove_numbers: bool = True,
+    incl_encoding: bool = True,
     overwrite: bool = True,
 ) -> dict:
     """
@@ -109,6 +110,8 @@ def standardize_names(
     :param case: The type of casing that should be used. Default: `upper`
     :param remove_numbers: If true, delete numeric characters; if false leave numbers
       in place. Default: `True`
+    :param incl_encoding: If true, include a phonetic encoding for the names.  if false
+      perform name standardization only. Default: `True`
     :param overwrite: If true, `data` is modified in-place;
       if false, a copy of `data` modified and returned.  Default: `True`
     :return: The bundle or resource with names appropriately standardized.
@@ -128,13 +131,14 @@ def standardize_names(
         resource = _standardize_names_in_resource(
             resource, trim, case, remove_numbers, overwrite
         )
+        # Add double metaphone data to bundle after the names have been
+        # standardized if the client so chooses based upon the parameter
+        if incl_encoding and resource.get("resourceType", "") == "Patient":
+            dmeta = DoubleMetaphone()
+            double_metaphone_patient(resource, dmeta, overwrite=overwrite)
 
     if "entry" not in data:
         return bundle.get("entry", [{}])[0].get("resource", {})
-
-    # Add double metaphone data to bundle after the names have been
-    # standardized
-    double_metaphone_bundle(bundle=bundle, overwrite=overwrite)
 
     return bundle
 
