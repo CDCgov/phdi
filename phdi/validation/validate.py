@@ -1,5 +1,4 @@
 from lxml import etree
-from pathlib import Path
 import re
 
 namespaces = {
@@ -17,16 +16,25 @@ def get_parsed_file(file_path):
 
 
 def validate(file_path, config):
-    tree = get_parsed_file(Path(__file__).parent / file_path)
+    tree = get_parsed_file(file_path)
     error_messages = []
     for field in config.get("requiredFields"):
         path = field.get("cdaPath")
         matched_nodes = tree.xpath(path, namespaces=namespaces)
         for node in matched_nodes:
-            # attributes check
-            error_messages.append(validate_attribute(field, node))
-            # text check
-            error_messages.append(validate_text(field, node))
+            # TODO: Evaluate if textRequired check should be done up here or
+            # in the function
+            # TODO: This needs to be cleaned up
+            if field.get("textRequired"):
+                # text check
+                found, text_error_messages = validate_text(field, node)
+                if text_error_messages:
+                    error_messages.append(text_error_messages)
+            elif field.get("attributes"):
+                # attributes check
+                attribute_error_messages = validate_attribute(field, node)
+                if attribute_error_messages:
+                    error_messages.append(attribute_error_messages)
     if error_messages:
         return False, error_messages
     return True, error_messages
@@ -46,7 +54,7 @@ def validate_attribute(field, node):
     attribute_value = ""
     error_messages = []
     # TODO: remove when we refactor
-    if field.get("textRequired"):
+    if field.get("textRequired") or not field.get("attributes"):
         return []
     for attribute in field.get("attributes"):
         if "attributeName" in attribute:
@@ -65,11 +73,6 @@ def validate_attribute(field, node):
                     f"Attribute '{attribute_name}' not in expected format"
                 )
     return error_messages
-
-
-def _print_nodes(nodes):
-    for node in nodes:
-        print(node)
 
 
 def validate_text(field, node):

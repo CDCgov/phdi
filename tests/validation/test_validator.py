@@ -1,6 +1,11 @@
 import yaml
 
-from phdi.validation.validate import validate_text, get_parsed_file, validate_attribute
+from phdi.validation.validate import (
+    validate_text,
+    get_parsed_file,
+    validate_attribute,
+    validate,
+)
 from pathlib import Path
 
 namespaces = {
@@ -115,3 +120,23 @@ def test_validate_attribute_with_errors():
                     and field.get("attributes")[0].get("attributeName") == "value"
                 ):
                     assert len(results) != 0
+
+
+def test_validate_good():
+    error_messages = []
+    with open(schema_path) as f:
+        schema = yaml.safe_load(f)
+        found, error_messages = validate(
+            Path(__file__).parent / "../assets/ecr_sample_input_good.xml", schema
+        )
+    assert len(error_messages) == 0
+
+
+def test_validate_bad():
+    error_messages = []
+    with open(schema_path) as f:
+        schema = yaml.safe_load(f)
+        found, error_messages = validate(
+            Path(__file__).parent / "../assets/ecr_sample_input_bad.xml", schema
+        )
+    assert len(error_messages) != 0
