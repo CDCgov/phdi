@@ -4,8 +4,11 @@ from typing import Literal, Optional
 
 from app.utils import check_for_fhir, StandardResponse
 
-from phdi.fhir.harmonization.standardization import standardize_names
-from phdi.fhir.harmonization.standardization import standardize_phones
+from phdi.fhir.harmonization.standardization import (
+    standardize_names,
+    standardize_phones,
+    standardize_dob,
+)
 
 
 router = APIRouter(
@@ -71,3 +74,40 @@ async def standardize_phones_endpoint(
     """
     input = dict(input)
     return {"status_code": "200", "bundle": standardize_phones(**input)}
+
+
+class StandardizeBirthDateInput(BaseModel):
+    data: dict = Field(description="A FHIR resource or bundle in JSON format.")
+    overwrite: Optional[bool] = Field(
+        description="If true, `data` is modified in-place; if false, a copy of `data` "
+        "modified and returned.",
+        default=True,
+    )
+    format: Optional[str] = Field(
+        descripton="The date format that the dob is supplied in.", default="Y%-m%-d%"
+    )
+
+    _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
+
+
+@router.post("/standardize_dob")
+async def standardize_dob_endpoint(
+    input: StandardizeBirthDateInput,
+) -> StandardResponse:
+    """
+    Standardize the birth date in the provided FHIR bundle or resource.
+    :param input: A dictionary with the schema specified by the
+        StandardizeBirthDateInput model.
+    :return: A FHIR bundle with standardized birth dates.
+    """
+    input = dict(input)
+    result = {}
+    try:
+        standardized_bundles = standardize_dob(**input)
+        result["status_code"] = "200"
+        result["bundle"] = standardized_bundles
+    except Exception as error:
+        result["status_code"] = "400"
+        result["bundle"] = input["data"]
+        result["message"] = error.__str__()
+    return result
