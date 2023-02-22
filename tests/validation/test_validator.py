@@ -21,7 +21,7 @@ sample_file_good = get_parsed_file(
     Path(__file__).parent / "../assets/ecr_sample_input_good.xml"
 )
 
-schema_path = "../assets/schema.yml"
+schema_path = Path(__file__).parent / "../assets/schema.yml"
 
 
 def test_validate_text():
