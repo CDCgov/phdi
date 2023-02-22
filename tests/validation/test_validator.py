@@ -49,11 +49,18 @@ def test_validate_text():
         assert len(error_messages) == 3
         assert (
             error_messages[0]
-            == "Field not found: {'fieldName': 'First Name', 'cdaPath': '//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given', 'textRequired': 'True', 'parent': 'name', 'parent_attributes': [{'attributeName': 'use', 'regEx': 'L'}]}"
+            == "Field not found: {'fieldName': 'First Name', 'cdaPath': "
+            "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
+            "hl7:patient/hl7:name/hl7:given', 'textRequired': 'True', "
+            "'parent': 'name', 'parent_attributes': "
+            "[{'attributeName': 'use', 'regEx': 'L'}]}"
         )
         assert (
-            error_messages[1]
-            == "Field not found: {'fieldName': 'City', 'cdaPath': '//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city', 'textRequired': 'True', 'parent': 'addr', 'parent_attributes': [{'attributeName': 'use', 'regEx': 'H'}]}"
+            error_messages[1] == "Field not found: {'fieldName': 'City', 'cdaPath': "
+            "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
+            "hl7:addr/hl7:city', 'textRequired': 'True', "
+            "'parent': 'addr', 'parent_attributes': "
+            "[{'attributeName': 'use', 'regEx': 'H'}]}"
         )
 
         assert (
@@ -97,16 +104,14 @@ def test_validate_attribute_with_errors():
     with open(schema_path) as f:
         schema = yaml.safe_load(f)
         for field in schema.get("requiredFields"):
-
             if not field.get("attributes"):
                 continue
             path = field.get("cdaPath")
-            matched_nodes = sample_file_good.xpath(path, namespaces=namespaces)
+            matched_nodes = sample_file_bad.xpath(path, namespaces=namespaces)
             for node in matched_nodes:
                 results = validate_attribute(field, node)
                 if (
                     field.get("cdaPath") == "//hl7:ClinicalDocument/hl7:versionNumber"
                     and field.get("attributes")[0].get("attributeName") == "value"
                 ):
-                    print(results)
                     assert len(results) != 0

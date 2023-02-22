@@ -27,6 +27,7 @@
   <setId root="2.16.840.1.113883.3.117.1.1.5.2.1.1.1" extension="31" />
   <!-- the second in the series -->
   <versionNumber />
+  <!-- This is intentionally left blank-->
 
   <!-- recordTarget: The patient -->
   <recordTarget>
@@ -43,7 +44,7 @@
         as possible (city, zip, county, etc.) and use the 
         Characteristics of Home Environment template in the 
         Social History Section to indicate that the patient is homeless. -->
-        
+
       <!-- *** WRONG USE CODE *** -->
       <addr use="L">
         <streetAddressLine>2222 Home Street</streetAddressLine>

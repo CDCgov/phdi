@@ -20,7 +20,6 @@ def validate(file_path, config):
     tree = get_parsed_file(Path(__file__).parent / file_path)
     error_messages = []
     for field in config.get("requiredFields"):
-        print(field)
         path = field.get("cdaPath")
         matched_nodes = tree.xpath(path, namespaces=namespaces)
         for node in matched_nodes:
@@ -46,13 +45,17 @@ def validate_attribute(field, node):
     """
     attribute_value = ""
     error_messages = []
+    # TODO: remove when we refactor
+    if field.get("textRequired"):
+        return []
     for attribute in field.get("attributes"):
         if "attributeName" in attribute:
             attribute_name = attribute.get("attributeName")
             attribute_value = node.get(attribute_name)
             if not attribute_value:
                 error_messages.append(
-                    f"Could not find attribute {attribute_name} for tag {field.get('fieldName')}"
+                    f"Could not find attribute {attribute_name} "
+                    f"for tag {field.get('fieldName')}"
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
