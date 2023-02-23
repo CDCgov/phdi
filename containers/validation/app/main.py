@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import Literal
 from pathlib import Path
-from phdi.fhir.validation.validation import validate_ecr
+from phdi.validation.validation import validate_ecr
 
 
 # Instantiate FastAPI and set metadata.
