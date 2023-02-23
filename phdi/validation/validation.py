@@ -1,5 +1,7 @@
-from lxml import etree
+from io import StringIO
 import re
+from lxml import etree
+
 
 namespaces = {
     "hl7": "urn:hl7-org:v3",
@@ -10,37 +12,63 @@ namespaces = {
 }
 
 
-def get_parsed_file(file_path):
-    file = open(file_path, "r")
-    return etree.parse(file)
+def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
+    # first convert the ecr_message into stringIO which
+    # which can then be used by the etree parse function
+    # that creates an ElementTree object - if you just
+    # use etree.XML() it only creates an Element object
+    ecr = StringIO(ecr_message)
+    parsed_ecr = etree.parse(ecr)
 
+    # TODO: utilize the error_types to filter out the different error message
+    # types as well as specify the difference between the different error types
+    # during the validation process
 
-def validate(file_path, config):
-    tree = get_parsed_file(file_path)
     error_messages = []
+    messages = []
     for field in config.get("requiredFields"):
-        path = field.get("cdaPath")
-        matched_nodes = tree.xpath(path, namespaces=namespaces)
+        cda_path = field.get("cdaPath")
+        matched_nodes = parsed_ecr.xpath(cda_path, namespaces=namespaces)
+
         for node in matched_nodes:
             # TODO: Evaluate if textRequired check should be done up here or
             # in the function
             # TODO: This needs to be cleaned up
             if field.get("textRequired"):
                 # text check
-                found, text_error_messages = validate_text(field, node)
-                if text_error_messages:
-                    error_messages.append(text_error_messages)
+                found, text_error_messages = _validate_text(field, node)
+                for error in text_error_messages:
+                    error_messages.append(error)
             elif field.get("attributes"):
                 # attributes check
-                attribute_error_messages = validate_attribute(field, node)
-                if attribute_error_messages:
-                    error_messages.append(attribute_error_messages)
+                attribute_error_messages = _validate_attribute(field, node)
+                for error in attribute_error_messages:
+                    error_messages.append(error)
     if error_messages:
-        return False, error_messages
-    return True, error_messages
+        valid = False
+    else:
+        valid = True
+        messages.append("Validation complete with no errors!")
+
+    response = {
+        "message_valid": valid,
+        "validation_results": _organize_messages(
+            errors=error_messages, warnings=[], information=messages
+        ),
+    }
+    return response
 
 
-def validate_attribute(field, node):
+def _organize_messages(errors: list, warnings: list, information: list) -> dict:
+    organized_messages = {
+        "errors": errors,
+        "warnings": warnings,
+        "information": information,
+    }
+    return organized_messages
+
+
+def _validate_attribute(field, node) -> list:
     """
     Validates a node by checking if attribute exists or matches regex pattern.
     If the node does not pass a test as described in the config, an error message is
@@ -63,7 +91,7 @@ def validate_attribute(field, node):
             if not attribute_value:
                 error_messages.append(
                     f"Could not find attribute {attribute_name} "
-                    f"for tag {field.get('fieldName')}"
+                    + f"for tag {field.get('fieldName')}"
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
@@ -75,7 +103,7 @@ def validate_attribute(field, node):
     return error_messages
 
 
-def validate_text(field, node):
+def _validate_text(field, node):
     """
     Validates a node text by checking if it has a parent that matches the schema.
     Then it validates that the text of the node matches is there or matches the
@@ -94,7 +122,7 @@ def validate_text(field, node):
         if parent_node is None:
             parent_found, error_messages_parents = (True, [])
         else:
-            parent_found, error_messages_parents = field_matches(
+            parent_found, error_messages_parents = _field_matches(
                 {
                     "fieldName": field.get("parent"),
                     "attributes": field.get("parent_attributes"),
@@ -102,7 +130,7 @@ def validate_text(field, node):
                 },
                 parent_node,
             )
-        found, error_messages = field_matches(field, node)
+        found, error_messages = _field_matches(field, node)
         error_messages += error_messages_parents
         if found is not True or parent_found is not True:
             return (False, error_messages)
@@ -112,7 +140,7 @@ def validate_text(field, node):
             return (True, [])
 
 
-def field_matches(field, node):
+def _field_matches(field, node):
     # If it has the wrong parent, go to the next one
     fieldName = re.search(r"(?!\:)[a-zA-z]+\w$", field.get("cdaPath")).group(0)
     if fieldName.lower() not in node.tag.lower():
