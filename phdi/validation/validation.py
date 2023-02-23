@@ -15,77 +15,7 @@ namespaces = {
 }
 
 
-# TODO: Determine where/when this configuration should be loaded (as we
-# will only want to load this once or after it has been updated instead
-# of loading it each time we validate an eCR)
-# we may also need to move this to a different location depending upon where/when
-# the loading occurs
-def load_config(path: pathlib.Path) -> dict:
-    """
-    Given the path to a local YAML or JSON file containing a validation
-    configuration, loads the file and returns the resulting validation
-    configuration as a dictionary. If the file can't be found, raises an error.
-
-    :param path: The file path to a YAML file holding a validation configuration.
-    :raises ValueError: If the provided path points to an unsupported file type.
-    :raises FileNotFoundError: If the file to be loaded could not be found.
-    :raises JSONDecodeError: If a JSON file is provided with invalid JSON.
-    :return: A dict representing a validation configuration read
-        from the given path.
-    """
-    try:
-        with open(path, "r") as file:
-            if path.suffix == ".yaml":
-                config = yaml.safe_load(file)
-            elif path.suffix == ".json":
-                config = json.load(file)
-            else:
-                ftype = path.suffix.replace(".", "").upper()
-                raise ValueError(f"Unsupported file type provided: {ftype}")
-        # TODO:
-        # Create a file that validates the validation configuration created
-        # by the client
-        # validate_config(config)
-        return config
-    except FileNotFoundError:
-        raise FileNotFoundError(
-            "The specified file does not exist at the path provided."
-        )
-    except json.decoder.JSONDecodeError as e:
-        raise json.decoder.JSONDecodeError(
-            "The specified file is not valid JSON.", e.doc, e.pos
-        )
-
-
-# def validate_config(config: dict):
-#     """
-#     Validates the validation configuration structure, ensuring
-#     all required validation elements are present and all configuration
-#     elements are of the expected data type.
-
-#     :param config: A declarative, user-defined configuration for validating
-#         data fields within a message (ecr, elr, vxu).
-#     :raises jsonschema.exception.ValidationError: If the schema is invalid.
-#     """
-#     # TODO:
-#     # Create a file that validates the validation configuration created
-#     # by the client
-#     with importlib.resources.open_text(
-#         "phdi.tabulation", "validation_schema.json"
-#     ) as file:
-#         validation_schema = json.load(file)
-
-#     validate(schema=validation_schema, instance=config)
-
-
-def validate_ecr(ecr_message: str, config_path: str, error_types: list) -> dict:
-    # TODO: remove the hard coding of the location of the config file
-    # and utilize the location passed in...OR we could use a specified
-    # location for the config file with a particular name that we would utilize
-    if config_path is None:
-        curr_path = os.path.dirname(__file__)
-        config_path = os.path.relpath("..\\config\\sample_config.yaml", curr_path)
-    config = load_config(path=config_path)
+def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
     # first convert the ecr_message into stringIO which
     # which can then be used by the etree parse function
     # that creates an ElementTree object - if you just

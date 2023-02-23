@@ -1,8 +1,16 @@
+import pathlib
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import Literal
 from pathlib import Path
 from phdi.validation.validation import validate_ecr
+from utils import load_config, validate_error_types
+
+# TODO: remove the hard coding of the location of the config file
+# and utilize the location passed in...OR we could use a specified
+# location for the config file with a particular name that we would utilize
+config_path = pathlib.Path(__file__).parent.parent / "config" / "sample_config.yaml"
+config = load_config(path=config_path)
 
 
 # Instantiate FastAPI and set metadata.
@@ -32,7 +40,7 @@ class ValidateInput(BaseModel):
     message_type: Literal["ecr", "elr", "vxu"] = Field(
         description="The type of message to be validated."
     )
-    include_error_types: Literal["error", "warn", "info"] = Field(
+    include_error_types: str = Field(
         description=(
             "The types of errors that should be included in the return response."
         )
@@ -127,7 +135,7 @@ async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
 
     input = dict(input)
     message_validator = message_validators[input["message_type"]]
-    include_error_types = input["include_error_types"]
+    include_error_types = validate_error_types(input["include_error_types"])
     msg = input["message"]
 
     return message_validator(message=msg, error_types=include_error_types)
