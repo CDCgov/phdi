@@ -81,17 +81,19 @@ def validate_ecr_msg(ecr_message: str, config_path: str, error_types: list):
     # TODO: remove the hard coding of the location of the config file
     # and utilize the location passed in...OR we could use a specified
     # location for the config file with a particular name that we would utilize
-
-    curr_path = os.path.dirname(__file__)
-    config_path = os.path.relpath("..\\config\\sample_config.yaml", curr_path)
+    if config_path is None:
+        curr_path = os.path.dirname(__file__)
+        config_path = os.path.relpath("..\\config\\sample_config.yaml", curr_path)
     config = load_config(path=config_path)
     parsed_ecr = etree.parse(source=ecr_message)
+    valid = False
 
     # TODO: utilize the error_types to filter out the different error message
     # types as well as specify the difference between the different error types
     # during the validation process
 
     error_messages = []
+    messages = []
     for field in config.get("requiredFields"):
         path = field.get("cdaPath")
         matched_nodes = parsed_ecr.xpath(path, namespaces=namespaces)
@@ -109,11 +111,30 @@ def validate_ecr_msg(ecr_message: str, config_path: str, error_types: list):
                 attribute_error_messages = _validate_attribute(field, node)
                 if attribute_error_messages:
                     error_messages.append(attribute_error_messages)
+
     if error_messages:
-        return False, error_messages
-    if len(error_messages) == 0:
-        error_messages.append("Validation complete with no errors!")
-    return True, error_messages
+        valid = False
+        messages.append(error_messages)
+    else:
+        valid = True
+        messages.append("Validation complete with no errors!")
+
+    response = {
+        "message_valid": valid,
+        "validation_results": _organize_messages(
+            errors=error_messages, warnings=[], information=messages
+        ),
+    }
+    return response
+
+
+def _organize_messages(errors: list, warnings: list, information: list) -> dict:
+    organized_messages = {
+        "errors": errors,
+        "warnings": warnings,
+        "information": information,
+    }
+    return organized_messages
 
 
 def _validate_attribute(field, node):
