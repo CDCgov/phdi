@@ -1,4 +1,4 @@
 fastapi
 uvicorn
-phdi @ git+https://github.com/CDCgov/phdi.git@328bc7b
+phdi @ git+https://github.com/CDCgov/phdi.git@main
 httpx
