@@ -5,8 +5,6 @@ config_path = pathlib.Path(__file__).parent.parent / "config" / "sample_ecr_conf
 
 
 def test_load_config():
-    print("HERE:")
-    print(config_path)
     config = load_config(config_path)
     assert config != ""
 

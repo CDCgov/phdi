@@ -13,9 +13,7 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
 ).read()
 
-config_path = (
-   pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
-)
+config_path = pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
 
 
 def test_validate_good():

@@ -20,7 +20,7 @@ sample_file_good = open(
 ).read()
 
 config = (
-   pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
+    pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
 ).read()
 
 # def test_validate_text():
