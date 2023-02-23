@@ -27,6 +27,7 @@ body:
     attributes:
       label: Acceptance Criteria
       description: "How will we know when this work is completed? What artifacts or deliverables will be created as a result of this work?"
+      placeholder: "GIVEN...WHEN...THEN"
     validations:
       required: true
   - type: textarea
