@@ -1,6 +1,6 @@
 import yaml
 
-from phdi.validation.validate import (
+from phdi.validation.validation import (
     validate_text,
     get_parsed_file,
     validate_attribute,

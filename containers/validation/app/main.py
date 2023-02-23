@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import Literal
 from pathlib import Path
+from phdi.fhir.validation.validation import validate_ecr
 
 
 # Instantiate FastAPI and set metadata.
@@ -31,6 +32,11 @@ class ValidateInput(BaseModel):
     message_type: Literal["ecr", "elr", "vxu"] = Field(
         description="The type of message to be validated."
     )
+    include_error_types: Literal["error", "warn", "info"] = Field(
+        description=(
+            "The types of errors that should be included in the return response."
+        )
+    )
     message: str = Field(description="The message to be validated.")
 
 
@@ -49,23 +55,17 @@ class ValidateResponse(BaseModel):
 
 
 # Message type-specific validation
-def validate_ecr(message: str) -> ValidateResponse:
+def validate_ecr_msg(message: str, error_types: list) -> ValidateResponse:
     """
     Validate an XML-formatted CDA eCR message.
     :param message: A string representation of an eCR in XML format to be validated.
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return {
-        "message_valid": True,
-        "validation_results": {
-            "details": "No validation was actually preformed. This endpoint only has "
-            "stubbed functionality"
-        },
-    }
+    return validate_ecr(message=message, error_types=error_types)
 
 
-def validate_elr(message: str) -> ValidateResponse:
+def validate_elr_msg(message: str, error_types: list) -> ValidateResponse:
     """
     Validate an HL7v2 ORU_R01 ELR message.
     :param message: A string representation of an HL7v2 ORU_R01 message to be validated.
@@ -81,7 +81,7 @@ def validate_elr(message: str) -> ValidateResponse:
     }
 
 
-def validate_vxu(message: str) -> ValidateResponse:
+def validate_vxu_msg(message: str, error_types: list) -> ValidateResponse:
     """
     Validate an HL7v2 VXU_04 VXU message.
     :param message: A string representation of a HL7v2 VXU_04 message to be validated.
@@ -97,7 +97,11 @@ def validate_vxu(message: str) -> ValidateResponse:
     }
 
 
-message_validators = {"ecr": validate_ecr, "elr": validate_elr, "vxu": validate_vxu}
+message_validators = {
+    "ecr": validate_ecr_msg,
+    "elr": validate_elr_msg,
+    "vxu": validate_vxu_msg,
+}
 
 
 # Endpoints
@@ -123,5 +127,7 @@ async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
 
     input = dict(input)
     message_validator = message_validators[input["message_type"]]
+    include_error_types = input["include_error_types"]
+    msg = input["message"]
 
-    return message_validator(input["message"])
+    return message_validator(message=msg, error_types=include_error_types)

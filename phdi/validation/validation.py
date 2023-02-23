@@ -1,5 +1,9 @@
-from lxml import etree
+import json
+import os
+import pathlib
 import re
+from lxml import etree
+import yaml
 
 namespaces = {
     "hl7": "urn:hl7-org:v3",
@@ -10,37 +14,109 @@ namespaces = {
 }
 
 
-def get_parsed_file(file_path):
-    file = open(file_path, "r")
-    return etree.parse(file)
+# TODO: Determine where/when this configuration should be loaded (as we
+# will only want to load this once or after it has been updated instead
+# of loading it each time we validate an eCR)
+# we may also need to move this to a different location depending upon where/when
+# the loading occurs
+def load_config(path: pathlib.Path) -> dict:
+    """
+    Given the path to a local YAML or JSON file containing a validation
+    configuration, loads the file and returns the resulting validation
+    configuration as a dictionary. If the file can't be found, raises an error.
+
+    :param path: The file path to a YAML file holding a validation configuration.
+    :raises ValueError: If the provided path points to an unsupported file type.
+    :raises FileNotFoundError: If the file to be loaded could not be found.
+    :raises JSONDecodeError: If a JSON file is provided with invalid JSON.
+    :return: A dict representing a validation configuration read
+        from the given path.
+    """
+    try:
+        with open(path, "r") as file:
+            if path.suffix == ".yaml":
+                config = yaml.safe_load(file)
+            elif path.suffix == ".json":
+                config = json.load(file)
+            else:
+                ftype = path.suffix.replace(".", "").upper()
+                raise ValueError(f"Unsupported file type provided: {ftype}")
+        # TODO:
+        # Create a file that validates the validation configuration created
+        # by the client
+        # validate_config(config)
+        return config
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            "The specified file does not exist at the path provided."
+        )
+    except json.decoder.JSONDecodeError as e:
+        raise json.decoder.JSONDecodeError(
+            "The specified file is not valid JSON.", e.doc, e.pos
+        )
 
 
-def validate(file_path, config):
-    tree = get_parsed_file(file_path)
+# def validate_config(config: dict):
+#     """
+#     Validates the validation configuration structure, ensuring
+#     all required validation elements are present and all configuration
+#     elements are of the expected data type.
+
+#     :param config: A declarative, user-defined configuration for validating
+#         data fields within a message (ecr, elr, vxu).
+#     :raises jsonschema.exception.ValidationError: If the schema is invalid.
+#     """
+#     # TODO:
+#     # Create a file that validates the validation configuration created
+#     # by the client
+#     with importlib.resources.open_text(
+#         "phdi.tabulation", "validation_schema.json"
+#     ) as file:
+#         validation_schema = json.load(file)
+
+#     validate(schema=validation_schema, instance=config)
+
+
+def validate_ecr_msg(ecr_message: str, config_path: str, error_types: list):
+    # TODO: remove the hard coding of the location of the config file
+    # and utilize the location passed in...OR we could use a specified
+    # location for the config file with a particular name that we would utilize
+
+    curr_path = os.path.dirname(__file__)
+    config_path = os.path.relpath("..\\config\\sample_config.yaml", curr_path)
+    config = load_config(path=config_path)
+    parsed_ecr = etree.parse(source=ecr_message)
+
+    # TODO: utilize the error_types to filter out the different error message
+    # types as well as specify the difference between the different error types
+    # during the validation process
+
     error_messages = []
     for field in config.get("requiredFields"):
         path = field.get("cdaPath")
-        matched_nodes = tree.xpath(path, namespaces=namespaces)
+        matched_nodes = parsed_ecr.xpath(path, namespaces=namespaces)
         for node in matched_nodes:
             # TODO: Evaluate if textRequired check should be done up here or
             # in the function
             # TODO: This needs to be cleaned up
             if field.get("textRequired"):
                 # text check
-                found, text_error_messages = validate_text(field, node)
+                found, text_error_messages = _validate_text(field, node)
                 if text_error_messages:
                     error_messages.append(text_error_messages)
             elif field.get("attributes"):
                 # attributes check
-                attribute_error_messages = validate_attribute(field, node)
+                attribute_error_messages = _validate_attribute(field, node)
                 if attribute_error_messages:
                     error_messages.append(attribute_error_messages)
     if error_messages:
         return False, error_messages
+    if len(error_messages) == 0:
+        error_messages.append("Validation complete with no errors!")
     return True, error_messages
 
 
-def validate_attribute(field, node):
+def _validate_attribute(field, node):
     """
     Validates a node by checking if attribute exists or matches regex pattern.
     If the node does not pass a test as described in the config, an error message is
@@ -75,7 +151,7 @@ def validate_attribute(field, node):
     return error_messages
 
 
-def validate_text(field, node):
+def _validate_text(field, node):
     """
     Validates a node text by checking if it has a parent that matches the schema.
     Then it validates that the text of the node matches is there or matches the
@@ -94,7 +170,7 @@ def validate_text(field, node):
         if parent_node is None:
             parent_found, error_messages_parents = (True, [])
         else:
-            parent_found, error_messages_parents = field_matches(
+            parent_found, error_messages_parents = _field_matches(
                 {
                     "fieldName": field.get("parent"),
                     "attributes": field.get("parent_attributes"),
@@ -102,7 +178,7 @@ def validate_text(field, node):
                 },
                 parent_node,
             )
-        found, error_messages = field_matches(field, node)
+        found, error_messages = _field_matches(field, node)
         error_messages += error_messages_parents
         if found is not True or parent_found is not True:
             return (False, error_messages)
@@ -112,7 +188,7 @@ def validate_text(field, node):
             return (True, [])
 
 
-def field_matches(field, node):
+def _field_matches(field, node):
     # If it has the wrong parent, go to the next one
     fieldName = re.search(r"(?!\:)[a-zA-z]+\w$", field.get("cdaPath")).group(0)
     if fieldName.lower() not in node.tag.lower():
