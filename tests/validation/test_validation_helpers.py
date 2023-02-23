@@ -1,5 +1,4 @@
-import os
-from pathlib import Path
+import pathlib
 from phdi.validation.validation import (
     _organize_messages,
     # _validate_attribute,
@@ -11,17 +10,17 @@ from phdi.validation.validation import (
 
 
 # Test file with known errors
-current_path = os.path.dirname(__file__)
 sample_file_bad = open(
-    os.path.relpath("../assets/ecr_sample_input_bad.xml", current_path)
-).read()
+        pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
+    ).read()
+
 
 # Test good file
 sample_file_good = open(
-    os.path.relpath("../assets/ecr_sample_input_good.xml", current_path)
+    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
 ).read()
 
-config_path = Path("../../phdi/config/sample_config.yaml")
+config_path = pathlib.Path("../../phdi/config/sample_config.yaml")
 config = load_config(config_path)
 
 

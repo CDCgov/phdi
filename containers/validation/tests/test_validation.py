@@ -1,6 +1,12 @@
 from fastapi.testclient import TestClient
 from unittest import mock
-from app.main import app, message_validators, validate_ecr_msg, validate_elr_msg, validate_vxu_msg
+from app.main import (
+    app,
+    message_validators,
+    validate_ecr_msg,
+    validate_elr_msg,
+    validate_vxu_msg,
+)
 
 client = TestClient(app)
 
