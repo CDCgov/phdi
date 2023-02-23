@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 # TODO: Install phdi from PyPi when release that includes that Tabulation module is available.
-phdi @ git+https://github.com/CDCgov/phdi.git@e5972c8
+phdi @ git+https://github.com/CDCgov/phdi.git@328bc7b
 httpx
 pytest
 jsonschema
