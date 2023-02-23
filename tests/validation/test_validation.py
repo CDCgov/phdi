@@ -1,4 +1,6 @@
 import pathlib
+
+import yaml
 from phdi.validation.validation import validate_ecr
 
 
@@ -13,7 +15,10 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
 ).read()
 
-config_path = pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
+with open(
+    pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml", "r"
+) as file:
+    config = yaml.safe_load(file)
 
 
 def test_validate_good():
@@ -27,7 +32,7 @@ def test_validate_good():
     }
     result = validate_ecr(
         ecr_message=sample_file_good,
-        config_path=config_path,
+        config=config,
         error_types=["error", "warn", "info"],
     )
 
@@ -48,7 +53,7 @@ def test_validate_bad():
     }
     result = validate_ecr(
         ecr_message=sample_file_bad,
-        config_path=config_path,
+        config=config,
         error_types=["error", "warn", "info"],
     )
 

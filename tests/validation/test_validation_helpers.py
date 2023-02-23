@@ -19,7 +19,7 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
 ).read()
 
-config = (
+config = open(
     pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
 ).read()
 

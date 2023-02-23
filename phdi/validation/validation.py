@@ -1,10 +1,7 @@
 from io import StringIO
-import json
-import os
-import pathlib
 import re
 from lxml import etree
-import yaml
+
 
 namespaces = {
     "hl7": "urn:hl7-org:v3",
