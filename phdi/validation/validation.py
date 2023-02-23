@@ -99,7 +99,6 @@ def validate_ecr(ecr_message: str, config_path: str, error_types: list) -> dict:
 
     error_messages = []
     messages = []
-    print(len(error_messages))
     for field in config.get("requiredFields"):
         cda_path = field.get("cdaPath")
         matched_nodes = parsed_ecr.xpath(cda_path, namespaces=namespaces)
