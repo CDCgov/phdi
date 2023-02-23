@@ -70,7 +70,7 @@ def validate_ecr_msg(message: str, error_types: list) -> ValidateResponse:
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return validate_ecr(message=message, config=config, error_types=error_types)
+    return validate_ecr(ecr_message=message, config=config, error_types=error_types)
 
 
 def validate_elr_msg(message: str, error_types: list) -> ValidateResponse:

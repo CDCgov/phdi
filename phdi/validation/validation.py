@@ -18,7 +18,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     # that creates an ElementTree object - if you just
     # use etree.XML() it only creates an Element object
     ecr = StringIO(ecr_message)
-    parsed_ecr = etree.parse(ecr)
+    parsed_ecr = etree.fromstring(ecr)
 
     # TODO: utilize the error_types to filter out the different error message
     # types as well as specify the difference between the different error types
