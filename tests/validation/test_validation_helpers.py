@@ -20,7 +20,9 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
 ).read()
 
-config_path = pathlib.Path("../../phdi/config/sample_config.yaml")
+config_path = (
+    pathlib.Path(__file__).parent.parent.parent / "config" / "sample_config.yaml"
+)
 config = load_config(config_path)
 
 

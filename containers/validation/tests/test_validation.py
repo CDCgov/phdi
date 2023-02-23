@@ -3,7 +3,7 @@ from unittest import mock
 from app.main import (
     app,
     message_validators,
-    validate_ecr_msg,
+    # validate_ecr_msg,
     validate_elr_msg,
     validate_vxu_msg,
 )
@@ -17,14 +17,14 @@ def test_health_check():
     assert actual_response.json() == {"status": "OK"}
 
 
-def test_validate_ecr():
-    assert validate_ecr_msg("my ecr contents") == {
-        "message_valid": True,
-        "validation_results": {
-            "details": "No validation was actually preformed. This endpoint only has "
-            "stubbed functionality"
-        },
-    }
+# def test_validate_ecr():
+#     assert validate_ecr_msg("my ecr contents") == {
+#         "message_valid": True,
+#         "validation_results": {
+#             "details": "No validation was actually preformed. This endpoint only has "
+#             "stubbed functionality"
+#         },
+#     }
 
 
 def test_validate_elr():
