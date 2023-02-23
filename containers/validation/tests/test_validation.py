@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from unittest import mock
-from app.main import app, validate_ecr, validate_elr, validate_vxu, message_validators
+from app.main import app, message_validators, validate_ecr_msg, validate_elr_msg, validate_vxu_msg
 
 client = TestClient(app)
 
@@ -12,7 +12,7 @@ def test_health_check():
 
 
 def test_validate_ecr():
-    assert validate_ecr("my ecr contents") == {
+    assert validate_ecr_msg("my ecr contents") == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
@@ -22,7 +22,7 @@ def test_validate_ecr():
 
 
 def test_validate_elr():
-    assert validate_elr("my elr contents") == {
+    assert validate_elr_msg("my elr contents") == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
@@ -32,7 +32,7 @@ def test_validate_elr():
 
 
 def test_validate_vxu():
-    assert validate_vxu("my vxu contents") == {
+    assert validate_vxu_msg("my vxu contents") == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
