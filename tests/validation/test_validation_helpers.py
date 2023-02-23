@@ -11,8 +11,8 @@ from phdi.validation.validation import (
 
 # Test file with known errors
 sample_file_bad = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
-    ).read()
+    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
+).read()
 
 
 # Test good file
