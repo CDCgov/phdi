@@ -3,7 +3,7 @@ from .validation import (
     _field_matches,
     _validate_attribute,
     _validate_text,
-    _organize_messages
+    _organize_messages,
 )
 
 __all__ = [
@@ -11,5 +11,5 @@ __all__ = [
     "_field_matches",
     "_validate_attribute",
     "_validate_text",
-    "_organize_messages"
+    "_organize_messages",
 ]

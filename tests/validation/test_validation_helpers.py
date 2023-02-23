@@ -2,11 +2,11 @@ import os
 from pathlib import Path
 from phdi.validation.validation import (
     _organize_messages,
-    _validate_attribute,
-    _validate_text,
-    _field_matches,
+    # _validate_attribute,
+    # _validate_text,
+    # _field_matches,
     load_config,
-    namespaces,
+    # namespaces,
 )
 
 
@@ -34,7 +34,7 @@ def test_load_config():
 #     actual_result = _validate_text("First Name", None)
 #     print(actual_result)
 #     assert 1 == 2
-    
+
 #     error_messages = []
 #     for field in config.get("requiredFields"):
 #         if not field.get("textRequired"):
@@ -54,7 +54,8 @@ def test_load_config():
 
 #     assert len(error_messages) == 3
 #     assert (
-#         error_messages[0] == "Field not found: {'fieldName': 'First Name', 'cdaPath': "
+#         error_messages[0] ==
+#          "Field not found: {'fieldName': 'First Name', 'cdaPath': "
 #         "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
 #         "hl7:patient/hl7:name/hl7:given', 'textRequired': 'True', "
 #         "'parent': 'name', 'parent_attributes': "

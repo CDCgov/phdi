@@ -11,7 +11,7 @@ namespaces = {
     "xsi": "http://www.w3.org/2005/Atom",
     "cda": "urn:hl7-org:v3",
     "sdtc": "urn:hl7-org:sdtc",
-    "voc": "http://www.lantanagroup.com/voc"
+    "voc": "http://www.lantanagroup.com/voc",
 }
 
 
@@ -88,7 +88,7 @@ def validate_ecr(ecr_message: str, config_path: str, error_types: list) -> dict:
     config = load_config(path=config_path)
     # first convert the ecr_message into stringIO which
     # which can then be used by the etree parse function
-    # that creates an ElementTree object - if you just 
+    # that creates an ElementTree object - if you just
     # use etree.XML() it only creates an Element object
     ecr = StringIO(ecr_message)
     parsed_ecr = etree.parse(ecr)
@@ -164,7 +164,8 @@ def _validate_attribute(field, node) -> list:
             attribute_value = node.get(attribute_name)
             if not attribute_value:
                 error_messages.append(
-                    f"Could not find attribute {attribute_name} for tag {field.get('fieldName')}"
+                    f"Could not find attribute {attribute_name} "
+                    + "for tag {field.get('fieldName')}"
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
