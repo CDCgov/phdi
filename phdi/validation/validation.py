@@ -1,3 +1,4 @@
+from io import StringIO
 import json
 import os
 import pathlib
@@ -10,7 +11,7 @@ namespaces = {
     "xsi": "http://www.w3.org/2005/Atom",
     "cda": "urn:hl7-org:v3",
     "sdtc": "urn:hl7-org:sdtc",
-    "voc": "http://www.lantanagroup.com/voc",
+    "voc": "http://www.lantanagroup.com/voc"
 }
 
 
@@ -77,7 +78,7 @@ def load_config(path: pathlib.Path) -> dict:
 #     validate(schema=validation_schema, instance=config)
 
 
-def validate_ecr_msg(ecr_message: str, config_path: str, error_types: list):
+def validate_ecr(ecr_message: str, config_path: str, error_types: list) -> dict:
     # TODO: remove the hard coding of the location of the config file
     # and utilize the location passed in...OR we could use a specified
     # location for the config file with a particular name that we would utilize
@@ -85,8 +86,12 @@ def validate_ecr_msg(ecr_message: str, config_path: str, error_types: list):
         curr_path = os.path.dirname(__file__)
         config_path = os.path.relpath("..\\config\\sample_config.yaml", curr_path)
     config = load_config(path=config_path)
-    parsed_ecr = etree.parse(source=ecr_message)
-    valid = False
+    # first convert the ecr_message into stringIO which
+    # which can then be used by the etree parse function
+    # that creates an ElementTree object - if you just 
+    # use etree.XML() it only creates an Element object
+    ecr = StringIO(ecr_message)
+    parsed_ecr = etree.parse(ecr)
 
     # TODO: utilize the error_types to filter out the different error message
     # types as well as specify the difference between the different error types
@@ -94,9 +99,11 @@ def validate_ecr_msg(ecr_message: str, config_path: str, error_types: list):
 
     error_messages = []
     messages = []
+    print(len(error_messages))
     for field in config.get("requiredFields"):
-        path = field.get("cdaPath")
-        matched_nodes = parsed_ecr.xpath(path, namespaces=namespaces)
+        cda_path = field.get("cdaPath")
+        matched_nodes = parsed_ecr.xpath(cda_path, namespaces=namespaces)
+
         for node in matched_nodes:
             # TODO: Evaluate if textRequired check should be done up here or
             # in the function
@@ -104,17 +111,15 @@ def validate_ecr_msg(ecr_message: str, config_path: str, error_types: list):
             if field.get("textRequired"):
                 # text check
                 found, text_error_messages = _validate_text(field, node)
-                if text_error_messages:
-                    error_messages.append(text_error_messages)
+                for error in text_error_messages:
+                    error_messages.append(error)
             elif field.get("attributes"):
                 # attributes check
                 attribute_error_messages = _validate_attribute(field, node)
-                if attribute_error_messages:
-                    error_messages.append(attribute_error_messages)
-
+                for error in attribute_error_messages:
+                    error_messages.append(error)
     if error_messages:
         valid = False
-        messages.append(error_messages)
     else:
         valid = True
         messages.append("Validation complete with no errors!")
@@ -137,7 +142,7 @@ def _organize_messages(errors: list, warnings: list, information: list) -> dict:
     return organized_messages
 
 
-def _validate_attribute(field, node):
+def _validate_attribute(field, node) -> list:
     """
     Validates a node by checking if attribute exists or matches regex pattern.
     If the node does not pass a test as described in the config, an error message is
@@ -159,8 +164,7 @@ def _validate_attribute(field, node):
             attribute_value = node.get(attribute_name)
             if not attribute_value:
                 error_messages.append(
-                    f"Could not find attribute {attribute_name} "
-                    f"for tag {field.get('fieldName')}"
+                    f"Could not find attribute {attribute_name} for tag {field.get('fieldName')}"
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
