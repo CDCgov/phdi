@@ -28,7 +28,7 @@ def test_health_check():
 
 
 def test_validate_elr():
-    assert validate_elr_msg("my elr contents") == {
+    assert validate_elr_msg("my elr contents", "error") == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
@@ -38,7 +38,7 @@ def test_validate_elr():
 
 
 def test_validate_vxu():
-    assert validate_vxu_msg("my vxu contents") == {
+    assert validate_vxu_msg("my vxu contents", "error") == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
@@ -60,11 +60,15 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
         )
 
         # Send request to test client
-        request_body = {"message_type": message_type, "message": "message contents"}
+        request_body = {
+            "message_type": message_type,
+            "include_error_types": "error",
+            "message": "message contents",
+        }
         actual_response = client.post("/validate", json=request_body)
 
         # Check that the correct validator was selected and used properly.
         assert actual_response.status_code == 200
         message_validators_dict[message_type].assert_called_with(
-            request_body["message"]
+            message=request_body["message"], error_types="error"
         )

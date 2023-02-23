@@ -21,7 +21,10 @@ sample_file_good = open(
 ).read()
 
 config_path = (
-    pathlib.Path(__file__).parent.parent.parent / "config" / "sample_config.yaml"
+    pathlib.Path(__file__).parent.parent.parent
+    / "phdi"
+    / "config"
+    / "sample_config.yaml"
 )
 config = load_config(config_path)
 

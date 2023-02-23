@@ -165,7 +165,7 @@ def _validate_attribute(field, node) -> list:
             if not attribute_value:
                 error_messages.append(
                     f"Could not find attribute {attribute_name} "
-                    + "for tag {field.get('fieldName')}"
+                    + f"for tag {field.get('fieldName')}"
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
