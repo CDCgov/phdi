@@ -15,7 +15,7 @@ namespaces = {
 }
 
 
-def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
+def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     # first convert the ecr_message into stringIO which
     # which can then be used by the etree parse function
     # that creates an ElementTree object - if you just

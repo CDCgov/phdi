@@ -4,12 +4,12 @@ from pydantic import BaseModel, Field
 from typing import Literal
 from pathlib import Path
 from phdi.validation.validation import validate_ecr
-from utils import load_config, validate_error_types
+from .utils import load_config, validate_error_types
 
 # TODO: remove the hard coding of the location of the config file
 # and utilize the location passed in...OR we could use a specified
 # location for the config file with a particular name that we would utilize
-config_path = pathlib.Path(__file__).parent.parent / "config" / "sample_config.yaml"
+config_path = pathlib.Path(__file__).parent.parent / "config" / "sample_ecr_config.yaml"
 config = load_config(path=config_path)
 
 
@@ -70,7 +70,7 @@ def validate_ecr_msg(message: str, error_types: list) -> ValidateResponse:
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return validate_ecr(message=message, error_types=error_types)
+    return validate_ecr(message=message, config=config, error_types=error_types)
 
 
 def validate_elr_msg(message: str, error_types: list) -> ValidateResponse:

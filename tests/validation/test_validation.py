@@ -14,7 +14,7 @@ sample_file_good = open(
 ).read()
 
 config_path = (
-   pathlib.Path(__file__).parent.parent / "assets" / "sample_config.yaml"
+   pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
 )
 
 

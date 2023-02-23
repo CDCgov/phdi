@@ -19,10 +19,9 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
 ).read()
 
-config_path = (
-   pathlib.Path(__file__).parent.parent / "assets" / "sample_config.yaml"
-)
-
+config = (
+   pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
+).read()
 
 # def test_validate_text():
 #     actual_result = _validate_text("First Name", None)
