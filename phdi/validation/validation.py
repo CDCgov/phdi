@@ -12,13 +12,6 @@ namespaces = {
 
 
 def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
-    # first convert the ecr_message into stringIO which
-    # which can then be used by the etree parse function
-    # that creates an ElementTree object - if you just
-    # use etree.XML() it only creates an Element object
-    # ecr = StringIO(ecr_message)
-    # parsed_ecr = etree.fromstring(ecr_message)
-
     xml = ecr_message.encode("utf-8")
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
     parsed_ecr = etree.fromstring(xml, parser=parser)
