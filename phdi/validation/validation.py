@@ -11,8 +11,15 @@ namespaces = {
 }
 
 
-def validate_config():
-    pass
+def validate_config(config):
+    if not config.get("fields"):
+        return False
+    for field in config.get("fields"):
+        if not all(key in field for key in ("fieldName", "cdaPath", "errorType")):
+            return False
+        if "attributeName" not in field or "requiredText" not in field:
+            return False
+    return True
 
 
 def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
@@ -26,7 +33,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
 
     error_messages = []
     messages = []
-    for field in config.get("requiredFields"):
+    for field in config.get("fields"):
         cda_path = field.get("cdaPath")
         matched_nodes = parsed_ecr.xpath(cda_path, namespaces=namespaces)
 
