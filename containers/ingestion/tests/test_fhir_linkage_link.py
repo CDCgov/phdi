@@ -15,7 +15,6 @@ test_bundle = json.load(
 
 
 def test_add_patient_identifier_in_bundle_success():
-
     test_request = {"bundle": test_bundle, "salt_str": "test_hash"}
 
     expected_response = {
@@ -38,7 +37,6 @@ def test_add_patient_identifier_in_bundle_success():
 
 
 def test_add_patient_identifier_in_bundle_missing_bundle():
-
     actual_response = client.post(
         "/fhir/linkage/link/add_patient_identifier_in_bundle", json={}
     )
@@ -55,7 +53,6 @@ def test_add_patient_identifier_in_bundle_missing_bundle():
 
 
 def test_add_patient_identifier_in_bundle_bad_parameter_types():
-
     test_request = {"bundle": test_bundle, "salt_str": [], "overwrite": 123}
     actual_response = client.post(
         "/fhir/linkage/link/add_patient_identifier_in_bundle", json=test_request

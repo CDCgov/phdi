@@ -419,7 +419,6 @@ def test_generate_search_urls(patch_generate_search_url):
 
 
 def test_generate_search_urls_invalid():
-
     schema = yaml.safe_load(
         open(
             pathlib.Path(__file__).parent.parent.parent
@@ -463,7 +462,6 @@ def test_merge_include_query_params_invalid():
 
 
 def test_drop_invalid():
-
     schema = yaml.safe_load(
         open(
             pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
@@ -548,7 +546,6 @@ def test_drop_invalid():
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search_incremental(patch_query):
-
     fhir_server_responses = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
@@ -660,7 +657,6 @@ def test_extract_data_from_fhir_search_incremental_auth(patch_query):
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search(patch_query):
-
     fhir_server_responses = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent

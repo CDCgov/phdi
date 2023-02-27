@@ -118,7 +118,6 @@ def test_geocode_from_str():
 
 
 def test_geocode_from_dict():
-
     censusResponseFullAddress = json.load(
         open(
             pathlib.Path(__file__).parent.parent

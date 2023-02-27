@@ -108,7 +108,6 @@ def test_write_data_csv():
 @mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
 @mock.patch("phdi.tabulation.tables.pa.Table")
 def test_write_data_parquet(patched_pa_table, patched_writer):
-
     schema = yaml.safe_load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
     )
@@ -482,7 +481,6 @@ def test_write_data_sql():
 
 
 def test_validate_schema():
-
     valid_schema = yaml.safe_load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
     )
