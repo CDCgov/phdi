@@ -11,6 +11,10 @@ namespaces = {
 }
 
 
+def validate_config():
+    pass
+
+
 def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     xml = ecr_message.encode("utf-8")
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
