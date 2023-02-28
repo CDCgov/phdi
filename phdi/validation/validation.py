@@ -35,28 +35,24 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     messages = []
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
-        matched_nodes = parsed_ecr.xpath(cda_path, namespaces=namespaces)
+        matched_xml_elements = _match_nodes(
+            xml_elements=parsed_ecr.xpath(cda_path, namespaces=namespaces),
+            config_field=field,
+        )
+        if not matched_xml_elements:
+            error_message = "Could not find field: " + str(field)
+            error_messages.append(error_message)
+            continue
 
-        for node in matched_nodes:
-            # TODO: Evaluate if textRequired check should be done up here or
-            # in the function
-            # TODO: This needs to be cleaned up
-            if field.get("textRequired"):
-                # text check
-                found, text_error_messages = _validate_text(field, node)
-                for error in text_error_messages:
-                    error_messages.append(error)
-            elif field.get("attributes"):
-                # attributes check
-                attribute_error_messages = _validate_attribute(field, node)
-                for error in attribute_error_messages:
-                    error_messages.append(error)
+        for xml_element in matched_xml_elements:
+            error_messages += _validate_attribute(field, xml_element)
+            error_messages += _validate_text(field, xml_element)
+
     if error_messages:
         valid = False
     else:
         valid = True
         messages.append("Validation complete with no errors!")
-
     response = {
         "message_valid": valid,
         "validation_results": _organize_messages(
@@ -75,6 +71,67 @@ def _organize_messages(errors: list, warnings: list, information: list) -> dict:
     return organized_messages
 
 
+def _match_nodes(xml_elements, config_field) -> list:
+    """
+    Matches the xml_elements to the config fields attributes and parent
+    attributes. Returns list of matching fields
+
+    :param xml_elements: A list of xml elements
+    :param config_field: A dictionay of the requrements of the field.
+    """
+    if not xml_elements:
+        return []
+    matching_elements = []
+    for xml_element in xml_elements:
+        if config_field.get("parent"):
+            parent_element = xml_element.getparent()
+
+            # Account for the possibility that we want a parent but none are found
+            if parent_element is None:
+                continue
+            parent_config = {
+                "fieldName": config_field.get("parent"),
+                "attributes": config_field.get("parent_attributes"),
+                "cdaPath": config_field.get("cdaPath")
+                + ":"
+                + config_field.get("parent"),
+            }
+
+            parent_found = _check_field_matches(
+                parent_config,
+                parent_element,
+            )
+
+            # If we didn't find the parent, or it has the wrong attributes,
+            # go to the next xml element
+            if (not parent_found) or _validate_attribute(parent_config, parent_element):
+                continue
+        found = _check_field_matches(config_field, xml_element)
+        if found:
+            matching_elements.append(xml_element)
+    return matching_elements
+
+
+def _check_field_matches(config_field, xml_element):
+    # If it has the wrong field name, go to the next one
+    field_name = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
+    if field_name.lower() not in xml_element.tag.lower():
+        return False
+    # Check if it has the right attributes
+    field_attributes = config_field.get("attributes")
+    if field_attributes:
+        # For each attribute see if it has a regEx and match it
+        for attribute in field_attributes:
+            # If field is supposed to have an attribute and doesn't,
+            # return not field not found.
+            if not xml_element.get(attribute.get("attributeName")):
+                return False
+    else:
+        if xml_element.attrib:
+            return False
+    return True
+
+
 def _validate_attribute(field, node) -> list:
     """
     Validates a node by checking if attribute exists or matches regex pattern.
@@ -86,11 +143,11 @@ def _validate_attribute(field, node) -> list:
     :param node: A dictionary entry that includes the attribute name key and
         value.
     """
+    if not field.get("attributes"):
+        return []
+
     attribute_value = ""
     error_messages = []
-    # TODO: remove when we refactor
-    if field.get("textRequired") or not field.get("attributes"):
-        return []
     for attribute in field.get("attributes"):
         if "attributeName" in attribute:
             attribute_name = attribute.get("attributeName")
@@ -102,8 +159,7 @@ def _validate_attribute(field, node) -> list:
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
-
-            if not attribute_value or pattern.match(attribute_value):
+            if not (attribute_value or pattern.match(attribute_value)):
                 error_messages.append(
                     f"Attribute '{attribute_name}' not in expected format"
                 )
@@ -121,89 +177,24 @@ def _validate_text(field, node):
     :param node: A dictionary entry that includes the attribute name key and
         value.
     """
-    if field.get("textRequired"):
-        found = False
-        parent_found = False
-        parent_node = node.getparent() if field.get("parent") else None
-        # If there is no parent, just set parent found to true
-        if parent_node is None:
-            parent_found, error_messages_parents = (True, [])
-        else:
-            parent_found, error_messages_parents = _field_matches(
-                {
-                    "fieldName": field.get("parent"),
-                    "attributes": field.get("parent_attributes"),
-                    "cdaPath": field.get("cdaPath") + ":" + field.get("parent"),
-                },
-                parent_node,
-            )
-        found, error_messages = _field_matches(field, node)
-        error_messages += error_messages_parents
-        if found is not True or parent_found is not True:
-            return (False, error_messages)
-        if error_messages:
-            return (True, error_messages)
-        else:
-            return (True, [])
+    if not field.get("textRequired"):
+        return []
 
-
-def _field_matches(field, node):
-    # If it has the wrong parent, go to the next one
-    fieldName = re.search(r"(?!\:)[a-zA-z]+\w$", field.get("cdaPath")).group(0)
-    if fieldName.lower() not in node.tag.lower():
-        return (False, [])
-    # Check if it has the right attributes
-    if field.get("attributes"):
-        attributes_dont_match = []
-        field_attributes = field.get("attributes")
-        if field_attributes:
-            for attribute in field_attributes:
-                # For each attribute see if it has a regEx and match it
-                if attribute.get("regEx"):
-                    pattern = re.compile(attribute.get("regEx"))
-                    text = node.get(attribute.get("attributeName"))
-                    text = text if text is not None else ""
-                    if not pattern.match(text):
-                        attributes_dont_match.append(
-                            "Attribute: "
-                            + attribute.get("attributeName")
-                            + " does not match regex"
-                        )
-                else:
-                    if not field.get(attribute.get("attributeName")):
-                        attributes_dont_match.append(
-                            "Attribute: "
-                            + attribute.get("attributeName")
-                            + " not found"
-                        )
-            if attributes_dont_match:
-                return (False, [])
+    text = "".join(node.itertext())
+    regEx = field.get("regEx")
+    if regEx is not None:
+        pattern = re.compile(regEx)
+        if pattern.match(text) is None:
+            return [
+                "Field: "
+                + field.get("fieldName")
+                + " does not match regEx: "
+                + field.get("regEx")
+            ]
+        else:
+            return []
     else:
-        if node.attrib:
-            return (False, [])
-    if field.get("textRequired") is not None:
-        text = "".join(node.itertext())
-        regEx = field.get("regEx")
-        if regEx is not None:
-            pattern = re.compile(regEx)
-            if pattern.match(text) is None:
-                return (
-                    True,
-                    [
-                        "Field: "
-                        + field.get("fieldName")
-                        + " does not match regEx: "
-                        + field.get("regEx")
-                    ],
-                )
-            else:
-                return (True, [])
+        if text is not None:
+            return []
         else:
-            if text is not None:
-                return (True, [])
-            else:
-                return (
-                    True,
-                    ["Field: " + field.get("fieldName") + " does not have text"],
-                )
-    return (True, [])
+            return ["Field: " + field.get("fieldName") + " does not have text"]

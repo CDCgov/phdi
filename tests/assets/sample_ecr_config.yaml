@@ -53,6 +53,8 @@ fields:
 - fieldName: DOB
   errorType: 'error'
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:birthTime"
+  attributes:
+  - attributeName: value
 - fieldName: MRN
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:id"
   errorType: 'error'
@@ -62,8 +64,10 @@ fields:
 - fieldName: Sex
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:administrativeGenderCode"
   errorType: 'warning'
-  textRequired: 'False'
-  regEx: "/F|M|O|U/"
+  attributes:
+  - attributeName: code
+    regEx: "F|M|O|U"
+  - attributeName: codeSystem
 - fieldName: Street Address
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:streetAddressLine"
   errorType: 'error'
@@ -75,7 +79,7 @@ fields:
   parent: addr
   parent_attributes:
   - attributeName: use
-    regEx: H
+    regEx: "H"
 - fieldName: State
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:state"
   errorType: 'error'
