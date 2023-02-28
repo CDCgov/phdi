@@ -35,7 +35,7 @@ def test_validate_good():
         config=config,
         error_types=["error", "warn", "info"],
     )
-
+    print(result)
     assert result == expected_response
 
 

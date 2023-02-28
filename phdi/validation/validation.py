@@ -32,6 +32,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     # during the validation process
 
     error_messages = []
+    warning_messages = []
     messages = []
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
@@ -45,8 +46,12 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
             continue
 
         for xml_element in matched_xml_elements:
-            error_messages += _validate_attribute(field, xml_element)
-            error_messages += _validate_text(field, xml_element)
+            if field.get("errorType") == "error":
+                error_messages += _validate_attribute(field, xml_element)
+                error_messages += _validate_text(field, xml_element)
+            elif field.get("errorType") == "warning":
+                warning_messages += _validate_attribute(field, xml_element)
+                warning_messages += _validate_text(field, xml_element)
 
     if error_messages:
         valid = False
@@ -56,7 +61,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     response = {
         "message_valid": valid,
         "validation_results": _organize_messages(
-            errors=error_messages, warnings=[], information=messages
+            errors=error_messages, warnings=warning_messages, information=messages
         ),
     }
     return response
