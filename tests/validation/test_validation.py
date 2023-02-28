@@ -44,7 +44,16 @@ def test_validate_bad():
         "message_valid": False,
         "validation_results": {
             "errors": [
-                "Could not find attribute value for tag eICR Version Number",
+                "Could not find field: {'fieldName': 'eICR Version Number', "
+                + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
+                + "'attributes': [{'attributeName': 'value'}]}",
+                "Could not find field: {'fieldName': 'First "
+                + "Name', 'cdaPath': "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
+                + "hl7:patient/hl7:name/hl7:given', "
+                + "'textRequired': 'True', 'parent': 'name', "
+                + "'parent_attributes': [{'attributeName': "
+                + "'use', 'regEx': 'L'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
             "warnings": [],
