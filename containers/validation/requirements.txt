@@ -5,5 +5,4 @@ uvicorn
 httpx
 pytest
 jsonschema
-
-git+https://github.com/CDCgov/phdi.git@xpath-ecr-validator
+phdi

@@ -74,7 +74,8 @@ def _match_nodes(xml_elements, config_field) -> list:
     for xml_element in xml_elements:
         if config_field.get("parent"):
             parent_element = xml_element.getparent()
-            # If we can't find a parent, move to the next
+
+            # Account for the possibility that we want a parent but none are found
             if parent_element is None:
                 continue
             parent_config = {
