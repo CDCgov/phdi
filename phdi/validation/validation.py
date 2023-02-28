@@ -42,7 +42,6 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     else:
         valid = True
         messages.append("Validation complete with no errors!")
-
     response = {
         "message_valid": valid,
         "validation_results": _organize_messages(
@@ -71,13 +70,12 @@ def _match_nodes(xml_elements, config_field) -> list:
     """
     if not xml_elements:
         return []
-
     matching_elements = []
     for xml_element in xml_elements:
         if config_field.get("parent"):
             parent_element = xml_element.getparent()
             # If we can't find a parent, move to the next
-            if not parent_element:
+            if parent_element is None:
                 continue
             parent_config = {
                 "fieldName": config_field.get("parent"),
@@ -86,10 +84,12 @@ def _match_nodes(xml_elements, config_field) -> list:
                 + ":"
                 + config_field.get("parent"),
             }
+
             parent_found = _check_field_matches(
                 parent_config,
                 parent_element,
             )
+
             # If we didn't find the parent, or it has the wrong attributes,
             # go to the next xml element
             if (not parent_found) or _validate_attribute(parent_config, parent_element):
@@ -106,15 +106,14 @@ def _check_field_matches(config_field, xml_element):
     if field_name.lower() not in xml_element.tag.lower():
         return False
     # Check if it has the right attributes
-    if config_field.get("attributes"):
-        field_attributes = config_field.get("attributes")
-        if field_attributes:
-            # For each attribute see if it has a regEx and match it
-            for attribute in field_attributes:
-                # If field is supposed to have an attribute and doesn't,
-                # return not field not found.
-                if not config_field.get(attribute.get("attributeName")):
-                    return False
+    field_attributes = config_field.get("attributes")
+    if field_attributes:
+        # For each attribute see if it has a regEx and match it
+        for attribute in field_attributes:
+            # If field is supposed to have an attribute and doesn't,
+            # return not field not found.
+            if not xml_element.get(attribute.get("attributeName")):
+                return False
     else:
         if xml_element.attrib:
             return False
@@ -148,8 +147,7 @@ def _validate_attribute(field, node) -> list:
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
-
-            if not attribute_value or pattern.match(attribute_value):
+            if not (attribute_value or pattern.match(attribute_value)):
                 error_messages.append(
                     f"Attribute '{attribute_name}' not in expected format"
                 )
@@ -175,18 +173,16 @@ def _validate_text(field, node):
     if regEx is not None:
         pattern = re.compile(regEx)
         if pattern.match(text) is None:
-            return (
-                [
-                    "Field: "
-                    + field.get("fieldName")
-                    + " does not match regEx: "
-                    + field.get("regEx")
-                ],
-            )
+            return [
+                "Field: "
+                + field.get("fieldName")
+                + " does not match regEx: "
+                + field.get("regEx")
+            ]
         else:
             return []
     else:
         if text is not None:
             return []
         else:
-            return (["Field: " + field.get("fieldName") + " does not have text"],)
+            return ["Field: " + field.get("fieldName") + " does not have text"]
