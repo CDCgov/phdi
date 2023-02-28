@@ -11,6 +11,17 @@ namespaces = {
 }
 
 
+def validate_config(config):
+    if not config.get("fields"):
+        return False
+    for field in config.get("fields"):
+        if not all(key in field for key in ("fieldName", "cdaPath", "errorType")):
+            return False
+        if "attributeName" not in field or "requiredText" not in field:
+            return False
+    return True
+
+
 def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     xml = ecr_message.encode("utf-8")
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")

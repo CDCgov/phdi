@@ -46,11 +46,13 @@ def test_validate_bad():
             "errors": [
                 "Could not find field: {'fieldName': 'eICR Version Number', "
                 + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
+                + "'errorType': 'error', "
                 + "'attributes': [{'attributeName': 'value'}]}",
                 "Could not find field: {'fieldName': 'First "
                 + "Name', 'cdaPath': "
                 + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
                 + "hl7:patient/hl7:name/hl7:given', "
+                + "'errorType': 'error', "
                 + "'textRequired': 'True', 'parent': 'name', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'L'}]}",
