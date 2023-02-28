@@ -76,30 +76,34 @@ def _match_nodes(xml_elements, config_field) -> list:
     for xml_element in xml_elements:
         if config_field.get("parent"):
             parent_element = xml_element.getparent()
-            if parent_element:
-                parent_found = _field_matches(
-                    {
-                        "fieldName": config_field.get("parent"),
-                        "attributes": config_field.get("parent_attributes"),
-                        "cdaPath": config_field.get("cdaPath")
-                        + ":"
-                        + config_field.get("parent"),
-                    },
-                    parent_element,
-                )
-                if not parent_found:
-                    continue
-        found = _field_matches(config_field, xml_element)
-        if not found:
-            continue
-        matching_elements.append(xml_element)
+            # If we can't find a parent, move to the next
+            if not parent_element:
+                continue
+            parent_config = {
+                "fieldName": config_field.get("parent"),
+                "attributes": config_field.get("parent_attributes"),
+                "cdaPath": config_field.get("cdaPath")
+                + ":"
+                + config_field.get("parent"),
+            }
+            parent_found = _check_field_matches(
+                parent_config,
+                parent_element,
+            )
+            # If we didn't find the parent, or it has the wrong attributes,
+            # go to the next xml element
+            if (not parent_found) or _validate_attribute(parent_config, parent_element):
+                continue
+        found = _check_field_matches(config_field, xml_element)
+        if found:
+            matching_elements.append(xml_element)
     return matching_elements
 
 
-def _field_matches(config_field, xml_element):
+def _check_field_matches(config_field, xml_element):
     # If it has the wrong field name, go to the next one
-    fieldName = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
-    if fieldName.lower() not in xml_element.tag.lower():
+    field_name = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
+    if field_name.lower() not in xml_element.tag.lower():
         return False
     # Check if it has the right attributes
     if config_field.get("attributes"):
@@ -112,8 +116,6 @@ def _field_matches(config_field, xml_element):
                 if not config_field.get(attribute.get("attributeName")):
                     return False
     else:
-        # If element is not supposed to have attributes and does,
-        # return false
         if xml_element.attrib:
             return False
     return True
@@ -135,9 +137,6 @@ def _validate_attribute(field, node) -> list:
 
     attribute_value = ""
     error_messages = []
-    # TODO: remove when we refactor
-    # if field.get("textRequired") or not field.get("attributes"):
-    #     return []
     for attribute in field.get("attributes"):
         if "attributeName" in attribute:
             attribute_name = attribute.get("attributeName")
