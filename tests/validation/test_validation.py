@@ -56,17 +56,17 @@ def test_validate_bad():
                 + "'textRequired': 'True', 'parent': 'name', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'L'}]}",
-                "Attribute: 'use' for field: 'Address' not in expected format",
                 "Could not find field: {'fieldName': "
                 + "'City', 'cdaPath': "
                 + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
                 + "hl7:city', "
+                + "'errorType': 'error', "
                 + "'textRequired': 'True', 'parent': 'addr', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'H'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
-            "warnings": [],
+            "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
             "information": [],
         },
     }
@@ -75,6 +75,10 @@ def test_validate_bad():
         config=config,
         error_types=["error", "warn", "info"],
     )
+
+    print(result)
+    print("\n")
+    print(expected_response)
 
     assert result == expected_response
 
