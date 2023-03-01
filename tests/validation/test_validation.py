@@ -2,7 +2,6 @@ import pathlib
 
 import yaml
 from phdi.validation.validation import validate_ecr
-from icecream import ic
 
 
 # Test file with known errors
@@ -74,6 +73,5 @@ def test_validate_bad():
         config=config,
         error_types=["error", "warn", "info"],
     )
-    ic(result)
 
     assert result == expected_response
