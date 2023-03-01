@@ -2,6 +2,7 @@ import pathlib
 
 import yaml
 from phdi.validation.validation import validate_ecr
+from icecream import ic
 
 
 # Test file with known errors
@@ -54,6 +55,13 @@ def test_validate_bad():
                 + "'textRequired': 'True', 'parent': 'name', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'L'}]}",
+                "Attribute: 'use' for field: 'Address' not in expected format",
+                "Could not find field: {'fieldName': "
+                + "'City', 'cdaPath': "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city', "
+                + "'textRequired': 'True', 'parent': 'addr', "
+                + "'parent_attributes': [{'attributeName': "
+                + "'use', 'regEx': 'H'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
             "warnings": [],
@@ -65,5 +73,6 @@ def test_validate_bad():
         config=config,
         error_types=["error", "warn", "info"],
     )
+    ic(result)
 
     assert result == expected_response

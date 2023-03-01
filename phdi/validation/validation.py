@@ -148,9 +148,11 @@ def _validate_attribute(field, node) -> list:
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
-            if not (attribute_value or pattern.match(attribute_value)):
+            if (not attribute_value) or (not pattern.match(attribute_value)):
+                field_name = field.get("fieldName")
                 error_messages.append(
-                    f"Attribute '{attribute_name}' not in expected format"
+                    f"Attribute: '{attribute_name}' for field: '{field_name}'"
+                    + " not in expected format"
                 )
     return error_messages
 
