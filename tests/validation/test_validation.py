@@ -58,7 +58,8 @@ def test_validate_bad():
                 "Attribute: 'use' for field: 'Address' not in expected format",
                 "Could not find field: {'fieldName': "
                 + "'City', 'cdaPath': "
-                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city', "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
+                + "hl7:city', "
                 + "'textRequired': 'True', 'parent': 'addr', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'H'}]}",
