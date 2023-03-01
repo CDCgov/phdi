@@ -80,7 +80,8 @@
           <given qualifier="IN">L</given>
           <family>Everywoman</family>
         </name>
-        <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" />
+        <!--gender code is wrong-->
+        <administrativeGenderCode code="t" codeSystem="2.16.840.1.113883.5.1" />
         <!-- Patient Birthdate -->
         <birthTime value="19741124" />
         <!-- If sdtc:deceasedInd is true then sdtc:deceasedTime must be present -->

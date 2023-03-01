@@ -1,7 +1,7 @@
 import pathlib
 
 import yaml
-from phdi.validation.validation import validate_ecr
+from phdi.validation.validation import validate_ecr, _validate_config
 
 
 # Test file with known errors
@@ -69,3 +69,13 @@ def test_validate_bad():
     )
 
     assert result == expected_response
+
+
+def test_validate_config_bad():
+    with open(
+        pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config_bad.yaml",
+        "r",
+    ) as file:
+        config_bad = yaml.safe_load(file)
+        result = _validate_config(config_bad)
+        assert not result
