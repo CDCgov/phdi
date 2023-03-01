@@ -62,6 +62,11 @@ fields:
   attributes:
   - attributeName: extension
   - attributeName: root
+- fieldName: Address
+  cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr"
+  attributes:
+  - attributeName: use
+    regEx: "H"
 - fieldName: Sex
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:administrativeGenderCode"
   errorType: "warning"
