@@ -1,11 +1,14 @@
 import pathlib
 from phdi.validation.validation import (
     _organize_messages,
-    # _validate_attribute,
+    _match_nodes,
+    _validate_attribute,
     # _validate_text,
-    # _check_field_matches,
+    _check_field_matches,
     # namespaces,
 )
+from icecream import ic
+from lxml import etree
 
 
 # Test file with known errors
@@ -120,3 +123,83 @@ def test_organize_messages():
 
     actual_result = _organize_messages(errors, warns, infos)
     assert actual_result == expected_result
+
+
+def test_match_nodes():
+    namespace = {"test": "test"}
+    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/></foo>"
+    root = etree.fromstring(xml)
+
+    config = {"parent": "foo", "fieldName": "bar", "cdaPath": "//test:foo/test:bar"}
+    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+
+    config_biz = {
+        "parent": "baz",
+        "fieldName": "biz",
+        "cdaPath": "//test:foo/test:baz/test:biz",
+    }
+    xml_elements_biz = root.xpath(config_biz.get("cdaPath"), namespaces=namespace)
+
+    assert _match_nodes([], config) == []
+    assert _match_nodes(xml_elements, config) == [xml_elements[0]]
+    assert _match_nodes(xml_elements_biz, config_biz) == [xml_elements_biz[0]]
+    assert len(_match_nodes(xml_elements_biz, config_biz)) == 1
+
+
+def test_check_field_matches():
+    namespace = {"test": "test"}
+    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/></foo>"
+    root = etree.fromstring(xml)
+
+    config = {"parent": "foo", "fieldName": "bar", "cdaPath": "//test:foo/test:bar"}
+    config_false_cda_path = {
+        "parent": "foo",
+        "fieldName": "biz",
+        "cdaPath": "//test:foo/test:biz",
+    }
+    config_false_attributes = {
+        "parent": "foo",
+        "fieldName": "bar",
+        "cdaPath": "//test:foo/test:bar",
+        "attributes": [{"attributeName": "test"}],
+    }
+    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+
+    assert _check_field_matches(xml_elements[0], config)
+    assert not _check_field_matches(xml_elements[0], config_false_cda_path)
+    assert not _check_field_matches(xml_elements[0], config_false_attributes)
+
+
+def test_validate_attribute():
+    namespace = {"test": "test"}
+    xml = "<foo xmlns='test'><bar test='bat'/><baz><biz/></baz><biz/></foo>"
+    root = etree.fromstring(xml)
+
+    config = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+    }
+    config_attributes = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "fail"}],
+        "cdaPath": "//test:foo/test:bar",
+    }
+    config_reg_ex = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test", "regEx": "bar"}],
+        "cdaPath": "//test:foo/test:bar",
+    }
+
+    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+    assert _validate_attribute(xml_elements[0], config) == []
+    assert _validate_attribute(xml_elements[0], config_attributes) == [
+        "Could not find attribute fail for tag bar"
+    ]
+    assert _validate_attribute(xml_elements[0], config_reg_ex) == [
+        "Attribute 'test' not in expected format"
+    ]
+
+
+def test_validate_text():
+    pass

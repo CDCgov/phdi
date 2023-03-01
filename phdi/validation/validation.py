@@ -34,7 +34,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
             continue
 
         for xml_element in matched_xml_elements:
-            error_messages += _validate_attribute(field, xml_element)
+            error_messages += _validate_attribute(xml_element, field)
             error_messages += _validate_text(field, xml_element)
 
     if error_messages:
@@ -86,22 +86,19 @@ def _match_nodes(xml_elements, config_field) -> list:
                 + config_field.get("parent"),
             }
 
-            parent_found = _check_field_matches(
-                parent_config,
-                parent_element,
-            )
+            parent_found = _check_field_matches(parent_element, parent_config)
 
             # If we didn't find the parent, or it has the wrong attributes,
             # go to the next xml element
-            if (not parent_found) or _validate_attribute(parent_config, parent_element):
+            if (not parent_found) or _validate_attribute(parent_element, parent_config):
                 continue
-        found = _check_field_matches(config_field, xml_element)
+        found = _check_field_matches(xml_element, config_field)
         if found:
             matching_elements.append(xml_element)
     return matching_elements
 
 
-def _check_field_matches(config_field, xml_element):
+def _check_field_matches(xml_element, config_field):
     # If it has the wrong field name, go to the next one
     field_name = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
     if field_name.lower() not in xml_element.tag.lower():
@@ -121,7 +118,7 @@ def _check_field_matches(config_field, xml_element):
     return True
 
 
-def _validate_attribute(field, node) -> list:
+def _validate_attribute(node, field) -> list:
     """
     Validates a node by checking if attribute exists or matches regex pattern.
     If the node does not pass a test as described in the config, an error message is
@@ -148,7 +145,7 @@ def _validate_attribute(field, node) -> list:
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
-            if not (attribute_value or pattern.match(attribute_value)):
+            if (not attribute_value) or (not pattern.match(attribute_value)):
                 error_messages.append(
                     f"Attribute '{attribute_name}' not in expected format"
                 )
