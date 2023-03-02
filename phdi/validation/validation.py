@@ -16,13 +16,17 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
     parsed_ecr = etree.fromstring(xml, parser=parser)
 
+    if not _validate_config(config):
+        return {"message": "config file is invalid"}
+
     # TODO: utilize the error_types to filter out the different error message
     # types as well as specify the difference between the different error types
     # during the validation process
 
     error_messages = []
+    warning_messages = []
     messages = []
-    for field in config.get("requiredFields"):
+    for field in config.get("fields"):
         cda_path = field.get("cdaPath")
         matched_xml_elements = _match_nodes(
             xml_elements=parsed_ecr.xpath(cda_path, namespaces=namespaces),
@@ -33,9 +37,14 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
             error_messages.append(error_message)
             continue
 
-        for xml_element in matched_xml_elements:
-            error_messages += _validate_attribute(field, xml_element)
-            error_messages += _validate_text(field, xml_element)
+        if field.get("errorType") == "error":
+            for xml_element in matched_xml_elements:
+                error_messages += _validate_attribute(field, xml_element)
+                error_messages += _validate_text(field, xml_element)
+        elif field.get("errorType") == "warning":
+            for xml_element in matched_xml_elements:
+                warning_messages += _validate_attribute(field, xml_element)
+                warning_messages += _validate_text(field, xml_element)
 
     if error_messages:
         valid = False
@@ -45,10 +54,21 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     response = {
         "message_valid": valid,
         "validation_results": _organize_messages(
-            errors=error_messages, warnings=[], information=messages
+            errors=error_messages, warnings=warning_messages, information=messages
         ),
     }
     return response
+
+
+def _validate_config(config: dict):
+    if not config.get("fields"):
+        return False
+    for field in config.get("fields"):
+        if not all(key in field for key in ("fieldName", "cdaPath", "errorType")):
+            return False
+        if "attributes" not in field and "textRequired" not in field:
+            return False
+    return True
 
 
 def _organize_messages(errors: list, warnings: list, information: list) -> dict:
@@ -66,7 +86,7 @@ def _match_nodes(xml_elements, config_field) -> list:
     attributes. Returns list of matching fields
 
     :param xml_elements: A list of xml elements
-    :param config_field: A dictionay of the requrements of the field.
+    :param config_field: A dictionary of the requirements of the field.
     """
     if not xml_elements:
         return []
@@ -148,9 +168,11 @@ def _validate_attribute(field, node) -> list:
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
-            if not (attribute_value or pattern.match(attribute_value)):
+            if (not attribute_value) or (not pattern.match(attribute_value)):
+                field_name = field.get("fieldName")
                 error_messages.append(
-                    f"Attribute '{attribute_name}' not in expected format"
+                    f"Attribute: '{attribute_name}' for field: '{field_name}'"
+                    + " not in expected format"
                 )
     return error_messages
 
