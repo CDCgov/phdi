@@ -2,7 +2,6 @@ import pathlib
 
 import yaml
 from phdi.validation.validation import validate_ecr, _validate_config
-from icecream import ic
 
 
 # Test file with known errors
