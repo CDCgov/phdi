@@ -39,12 +39,12 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
 
         if field.get("errorType") == "error":
             for xml_element in matched_xml_elements:
-                error_messages += _validate_attribute(xml_element, field)
-                error_messages += _validate_text(xml_element, field)
+                error_messages += _validate_attribute(field, xml_element)
+                error_messages += _validate_text(field, xml_element)
         elif field.get("errorType") == "warning":
             for xml_element in matched_xml_elements:
-                warning_messages += _validate_attribute(xml_element, field)
-                warning_messages += _validate_text(xml_element, field)
+                warning_messages += _validate_attribute(field, xml_element)
+                warning_messages += _validate_text(field, xml_element)
 
     if error_messages:
         valid = False
