@@ -1,7 +1,7 @@
 import pathlib
 
 import yaml
-from phdi.validation.validation import validate_ecr
+from phdi.validation.validation import validate_ecr, _validate_config
 
 
 # Test file with known errors
@@ -46,17 +46,27 @@ def test_validate_bad():
             "errors": [
                 "Could not find field: {'fieldName': 'eICR Version Number', "
                 + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
+                + "'errorType': 'error', "
                 + "'attributes': [{'attributeName': 'value'}]}",
                 "Could not find field: {'fieldName': 'First "
                 + "Name', 'cdaPath': "
                 + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
                 + "hl7:patient/hl7:name/hl7:given', "
+                + "'errorType': 'error', "
                 + "'textRequired': 'True', 'parent': 'name', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'L'}]}",
+                "Could not find field: {'fieldName': "
+                + "'City', 'cdaPath': "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
+                + "hl7:city', "
+                + "'errorType': 'error', "
+                + "'textRequired': 'True', 'parent': 'addr', "
+                + "'parent_attributes': [{'attributeName': "
+                + "'use', 'regEx': 'H'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
-            "warnings": [],
+            "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
             "information": [],
         },
     }
@@ -67,3 +77,13 @@ def test_validate_bad():
     )
 
     assert result == expected_response
+
+
+def test_validate_config_bad():
+    with open(
+        pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config_bad.yaml",
+        "r",
+    ) as file:
+        config_bad = yaml.safe_load(file)
+        result = _validate_config(config_bad)
+        assert not result
