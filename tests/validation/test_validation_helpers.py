@@ -3,11 +3,10 @@ from phdi.validation.validation import (
     _organize_messages,
     _match_nodes,
     _validate_attribute,
-    # _validate_text,
+    _validate_text,
     _check_field_matches,
     # namespaces,
 )
-from icecream import ic
 from lxml import etree
 
 
@@ -115,4 +114,54 @@ def test_validate_attribute():
 
 
 def test_validate_text():
-    pass
+    namespace = {"test": "test"}
+    xml = "<foo xmlns='test'><bar>test</bar><baz><biz/></baz><biz>wrong</biz></foo>"
+    root = etree.fromstring(xml)
+
+    config = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+    }
+
+    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+    assert _validate_text(xml_elements[0], config) == []
+
+    config_no_text = {
+        "fieldName": "biz",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:baz/test:biz",
+        "textRequired": "True",
+    }
+
+    xml_elements = root.xpath(config_no_text.get("cdaPath"), namespaces=namespace)
+    assert _validate_text(xml_elements[0], config_no_text) == [
+        "Field: biz does not have text"
+    ]
+
+    config_text_matches_reg_ex = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "test",
+    }
+    xml_elements = root.xpath(
+        config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
+    )
+    assert _validate_text(xml_elements[0], config_text_matches_reg_ex) == []
+
+    config_text_doesnt_match_reg_ex = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "foo",
+    }
+    xml_elements = root.xpath(
+        config_text_doesnt_match_reg_ex.get("cdaPath"), namespaces=namespace
+    )
+    assert _validate_text(xml_elements[0], config_text_doesnt_match_reg_ex) == [
+        "Field: bar does not match regEx: foo"
+    ]
