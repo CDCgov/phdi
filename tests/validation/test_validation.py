@@ -76,10 +76,6 @@ def test_validate_bad():
         error_types=["error", "warn", "info"],
     )
 
-    print(result)
-    print("\n")
-    print(expected_response)
-
     assert result == expected_response
 
 
