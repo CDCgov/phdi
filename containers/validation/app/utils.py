@@ -60,7 +60,7 @@ def load_config(path: pathlib.Path) -> dict:
 #     validate(schema=validation_schema, instance=config)
 
 
-def validate_error_types(error_types: str) -> str:
+def validate_error_types(error_types: str) -> list:
     """
     Given a string of comma separated of error types ensure they are valid.
     If they aren't, remove them from the string.
@@ -77,4 +77,4 @@ def validate_error_types(error_types: str) -> str:
         if et in VALID_ERROR_TYPES:
             validated_error_types.append(et)
 
-    return ",".join(validated_error_types)
+    return validated_error_types
