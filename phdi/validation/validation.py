@@ -12,7 +12,7 @@ namespaces = {
 
 
 def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
-    # encoding ecr_message to allow it to be 
+    # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
     xml = ecr_message.encode("utf-8")
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
@@ -28,7 +28,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
     error_messages = []
     warning_messages = []
     messages = []
-    
+
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
         matched_xml_elements = _match_nodes(
