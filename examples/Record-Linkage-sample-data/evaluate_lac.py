@@ -1,5 +1,6 @@
 import warnings
 
+import time
 import pandas as pd
 
 from phdi.harmonization import double_metaphone_string
@@ -10,10 +11,12 @@ from phdi.linkage import (
     perform_linkage_pass,
     compile_match_lists,
     feature_match_fuzzy_string,
+    load_json_probs,
+    calculate_log_odds,
 )
 from typing import Union
 
-DATA_SIZE = 100000
+DATA_SIZE = 50000
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
@@ -109,42 +112,26 @@ def phdi_linkage_algorithm(
     # Rule 1: metaphone match on first/last, exact on DOB
     # Zip not used, so block on it
     funcs = {
-        0: feature_match_exact,
-        25: feature_match_exact,
-        26: feature_match_exact,
-    }
-    print("-------Matching on Rule 1: Metaphone first/last, exact DOB-------")
-    matches_1 = perform_linkage_pass(
-        data, ["ZIP"], funcs, eval_perfect_match, cluster_ratio, **kwargs
-    )
-
-    # Rule 2: fuzzy match on first/last, exact match on sex, exact on DOB
-    # Block on metaphone 1 of first name
-    funcs = {
         0: feature_match_fuzzy_string,
         2: feature_match_fuzzy_string,
         3: feature_match_fuzzy_string,
         8: feature_match_exact,
     }
-    print("-------Matching on Rule 2: Fuzzy First/Last, Exact Sex, Fuzzy DOB-------")
-    matches_2 = perform_linkage_pass(
-        data, ["DM_FIRST"], funcs, eval_perfect_match, cluster_ratio, threshold=0.7
+    # print("-------Matching on Rule 1: Metaphone first/last, exact DOB-------")
+    matches_1 = perform_linkage_pass(
+        data, ["MRN4", "ADDRESS4"], funcs, eval_perfect_match, cluster_ratio, **kwargs
     )
 
-    # Rule 3: stronger fuzzy on first/last, strong fuzzy on zip
-    # DOB not used, block on it
     funcs = {
-        2: feature_match_fuzzy_string,
-        3: feature_match_fuzzy_string,
-        9: feature_match_fuzzy_string,
+        16: feature_match_fuzzy_string,
+        10: feature_match_fuzzy_string,
     }
-    print("-------Matching on Rule 3: Fuzzy First/Last, Fuzzy Zip-------")
-    matches_3 = perform_linkage_pass(
-        data, ["BIRTHDATE"], funcs, eval_perfect_match, cluster_ratio, threshold=0.7
+    matches_2 = perform_linkage_pass(
+        data, ["FIRST4", "LAST4"], funcs, eval_perfect_match, cluster_ratio, **kwargs
     )
 
     total_matches = compile_match_lists(
-        [matches_1, matches_2, matches_3], cluster_ratio is not None
+        [matches_1, matches_2], cluster_ratio is not None
     )
     return total_matches
 
@@ -173,6 +160,21 @@ def set_record_id(data: pd.DataFrame):
 def add_metaphone_columns_to_data(data: pd.DataFrame):
     data["DM_FIRST"] = data["FIRST"].apply(lambda x: double_metaphone_string(x)[0])
     data["DM_LAST"] = data["LAST"].apply(lambda x: double_metaphone_string(x)[0])
+    return data
+
+
+def derive_mrn4(data: pd.DataFrame):
+    data["MRN4"] = data["MRN"].apply(lambda x: x[-4:] if len(x) >= 4 else x)
+    return data
+
+
+def add_split_birth_fields(data: pd.DataFrame):
+    data["BIRTH_MONTH"] = data["BIRTHDATE"].apply(
+        lambda x: x.split("-")[1] if "-" in x else x
+    )
+    data["BIRTH_YEAR"] = data["BIRTHDATE"].apply(
+        lambda x: x.split("-")[0] if "-" in x else x
+    )
     return data
 
 
@@ -268,8 +270,32 @@ data = pd.read_csv(
 )
 data = add_metaphone_columns_to_data(data)
 true_matches = determine_true_matches_in_pd_dataset(data)
+data = add_split_birth_fields(data)
+data = derive_mrn4(data)
 data = set_record_id(data)
-matches = lac_validation_linkage(data, None)
-# matches = phdi_linkage_algorithm(data, None)
+
+# start = time.time()
+# m_probs = calculate_m_probs(data, true_matches, file_to_write="m_probs_synthetic.json")
+# end = time.time()
+# print("m-Probabilities took", str(round(end - start, 2)), "seconds to compute.")
+# m_probs = load_json_probs("m_probs_synthetic.json")
+
+# start = time.time()
+# u_probs = calculate_u_probs(
+#     data, true_matches, n_samples=50000, file_to_write="u_probs_synthetic.json"
+# )
+# end = time.time()
+# print("u-Probabilities took", str(round(end - start, 2)), "seconds to compute.")
+# u_probs = load_json_probs("u_probs_synthetic.json")
+
+# log_odds = calculate_log_odds(m_probs, u_probs, "log_odds_synthetic.json")
+log_odds = load_json_probs("log_odds_synthetic.json")
+
+start = time.time()
+# matches = lac_validation_linkage(data, None)
+matches = phdi_linkage_algorithm(data, None)
+end = time.time()
+
+print("Computation took", str(round(end - start, 2)), "seconds")
 display_statistical_evaluation(matches, true_matches)
-display_missed_matches_by_type(matches, true_matches)
+# display_missed_matches_by_type(matches, true_matches)
