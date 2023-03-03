@@ -11,7 +11,9 @@ namespaces = {
 }
 
 
-def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
+def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
+    # encoding ecr_message to allow it to be
+    #  parsed and organized as an lxml Element Tree Object
     xml = ecr_message.encode("utf-8")
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
     parsed_ecr = etree.fromstring(xml, parser=parser)
@@ -26,6 +28,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
     error_messages = []
     warning_messages = []
     messages = []
+
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
         matched_xml_elements = _match_nodes(
@@ -39,12 +42,12 @@ def validate_ecr(ecr_message: str, config: dict, error_types: str) -> dict:
 
         if field.get("errorType") == "error":
             for xml_element in matched_xml_elements:
-                error_messages += _validate_attribute(field, xml_element)
-                error_messages += _validate_text(field, xml_element)
+                error_messages += _validate_attribute(xml_element, field)
+                error_messages += _validate_text(xml_element, field)
         elif field.get("errorType") == "warning":
             for xml_element in matched_xml_elements:
-                warning_messages += _validate_attribute(field, xml_element)
-                warning_messages += _validate_text(field, xml_element)
+                warning_messages += _validate_attribute(xml_element, field)
+                warning_messages += _validate_text(xml_element, field)
 
     if error_messages:
         valid = False
@@ -106,22 +109,19 @@ def _match_nodes(xml_elements, config_field) -> list:
                 + config_field.get("parent"),
             }
 
-            parent_found = _check_field_matches(
-                parent_config,
-                parent_element,
-            )
+            parent_found = _check_field_matches(parent_element, parent_config)
 
             # If we didn't find the parent, or it has the wrong attributes,
             # go to the next xml element
-            if (not parent_found) or _validate_attribute(parent_config, parent_element):
+            if (not parent_found) or _validate_attribute(parent_element, parent_config):
                 continue
-        found = _check_field_matches(config_field, xml_element)
+        found = _check_field_matches(xml_element, config_field)
         if found:
             matching_elements.append(xml_element)
     return matching_elements
 
 
-def _check_field_matches(config_field, xml_element):
+def _check_field_matches(xml_element, config_field):
     # If it has the wrong field name, go to the next one
     field_name = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
     if field_name.lower() not in xml_element.tag.lower():
@@ -141,7 +141,7 @@ def _check_field_matches(config_field, xml_element):
     return True
 
 
-def _validate_attribute(field, node) -> list:
+def _validate_attribute(xml_element, config_field) -> list:
     """
     Validates a node by checking if attribute exists or matches regex pattern.
     If the node does not pass a test as described in the config, an error message is
@@ -152,24 +152,24 @@ def _validate_attribute(field, node) -> list:
     :param node: A dictionary entry that includes the attribute name key and
         value.
     """
-    if not field.get("attributes"):
+    if not config_field.get("attributes"):
         return []
 
     attribute_value = ""
     error_messages = []
-    for attribute in field.get("attributes"):
+    for attribute in config_field.get("attributes"):
         if "attributeName" in attribute:
             attribute_name = attribute.get("attributeName")
-            attribute_value = node.get(attribute_name)
+            attribute_value = xml_element.get(attribute_name)
             if not attribute_value:
                 error_messages.append(
                     f"Could not find attribute {attribute_name} "
-                    + f"for tag {field.get('fieldName')}"
+                    + f"for tag {config_field.get('fieldName')}"
                 )
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
             if (not attribute_value) or (not pattern.match(attribute_value)):
-                field_name = field.get("fieldName")
+                field_name = config_field.get("fieldName")
                 error_messages.append(
                     f"Attribute: '{attribute_name}' for field: '{field_name}'"
                     + " not in expected format"
@@ -177,7 +177,7 @@ def _validate_attribute(field, node) -> list:
     return error_messages
 
 
-def _validate_text(field, node):
+def _validate_text(xml_element, config_field):
     """
     Validates a node text by checking if it has a parent that matches the schema.
     Then it validates that the text of the node matches is there or matches the
@@ -188,24 +188,24 @@ def _validate_text(field, node):
     :param node: A dictionary entry that includes the attribute name key and
         value.
     """
-    if not field.get("textRequired"):
+    if not config_field.get("textRequired"):
         return []
 
-    text = "".join(node.itertext())
-    regEx = field.get("regEx")
+    text = "".join(xml_element.itertext())
+    regEx = config_field.get("regEx")
     if regEx is not None:
         pattern = re.compile(regEx)
         if pattern.match(text) is None:
             return [
                 "Field: "
-                + field.get("fieldName")
+                + config_field.get("fieldName")
                 + " does not match regEx: "
-                + field.get("regEx")
+                + config_field.get("regEx")
             ]
         else:
             return []
     else:
-        if text is not None:
+        if text is not None and text != "":
             return []
         else:
-            return ["Field: " + field.get("fieldName") + " does not have text"]
+            return ["Field: " + config_field.get("fieldName") + " does not have text"]
