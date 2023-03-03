@@ -12,7 +12,6 @@ from phdi.linkage import (
     compile_match_lists,
     feature_match_fuzzy_string,
     load_json_probs,
-    calculate_log_odds,
 )
 from typing import Union
 
@@ -275,7 +274,7 @@ data = derive_mrn4(data)
 data = set_record_id(data)
 
 # start = time.time()
-# m_probs = calculate_m_probs(data, true_matches, file_to_write="m_probs_synthetic.json")
+# m_probs = calculate_m_probs(data, true_matches, file_to_write="m_probs_synthetic.json")  # noqa
 # end = time.time()
 # print("m-Probabilities took", str(round(end - start, 2)), "seconds to compute.")
 # m_probs = load_json_probs("m_probs_synthetic.json")
