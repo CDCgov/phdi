@@ -1,6 +1,6 @@
 import pathlib
 from phdi.validation.validation import (
-    _organize_messages,
+    _organize_error_messages,
     _match_nodes,
     _validate_attribute,
     _validate_text,
@@ -26,14 +26,22 @@ config = open(
 ).read()
 
 
-def test_organize_messages():
+def test_organize_error_messages():
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
     infos = ["", "SOME"]
+    test_include_errors = ["error", "warning", "information"]
 
     expected_result = {"errors": errors, "warnings": warns, "information": infos}
 
-    actual_result = _organize_messages(errors, warns, infos)
+    actual_result = _organize_error_messages(errors, warns, infos, test_include_errors)
+    assert actual_result == expected_result
+
+    test_include_errors = ["information"]
+
+    expected_result = {"errors": [], "warnings": [], "information": infos}
+
+    actual_result = _organize_error_messages(errors, warns, infos, test_include_errors)
     assert actual_result == expected_result
 
 

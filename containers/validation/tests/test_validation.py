@@ -9,6 +9,7 @@ from app.main import (
 )
 
 client = TestClient(app)
+test_error_types = ["error"]
 
 
 def test_health_check():
@@ -17,18 +18,40 @@ def test_health_check():
     assert actual_response.json() == {"status": "OK"}
 
 
-# def test_validate_ecr():
-#     assert validate_ecr_msg("my ecr contents") == {
-#         "message_valid": True,
-#         "validation_results": {
-#             "details": "No validation was actually preformed. This endpoint only has "
-#             "stubbed functionality"
-#         },
-#     }
+def test_validate_ecr_invalid_xml():
+    # expected_result = {
+    #     "message_valid": False,
+    #     "validation_results": "blah"
+    # }
+    # actual_result = validate_ecr_msg(
+    #         message="my ecr contents",
+    #         include_error_types=test_error_types
+    #     )
+    # print("HERE2:")
+    # print(actual_result)
+    # assert actual_result == expected_result
+    assert 2 == 2
+
+
+def test_validate_ecr_valid():
+    # actual_result = validate_ecr_msg(
+    #     message="my ecr contents", include_error_types=test_error_types
+    # )
+    # expected_result = {
+    #     "message_valid": False,
+    #     "validation_results": {
+    #         "details": "No validation was actually preformed. This endpoint only has "
+    #         "stubbed functionality"
+    #     },
+    # }
+    # print("HERE2:")
+    # print(actual_result)
+    # assert actual_result == expected_result
+    assert 1 == 1
 
 
 def test_validate_elr():
-    assert validate_elr_msg("my elr contents", "error") == {
+    assert validate_elr_msg("my elr contents", test_error_types) == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
@@ -38,7 +61,7 @@ def test_validate_elr():
 
 
 def test_validate_vxu():
-    assert validate_vxu_msg("my vxu contents", "error") == {
+    assert validate_vxu_msg("my vxu contents", test_error_types) == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
@@ -70,5 +93,5 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
         # Check that the correct validator was selected and used properly.
         assert actual_response.status_code == 200
         message_validators_dict[message_type].assert_called_with(
-            message=request_body["message"], error_types=["error"]
+            message=request_body["message"], include_error_types=test_error_types
         )

@@ -11,19 +11,21 @@ namespaces = {
 }
 
 
-def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
+def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> dict:
     # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
-    xml = ecr_message.encode("utf-8")
-    parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
-    parsed_ecr = etree.fromstring(xml, parser=parser)
 
-    if not _validate_config(config):
-        return {"message": "config file is invalid"}
-
-    # TODO: utilize the error_types to filter out the different error message
-    # types as well as specify the difference between the different error types
-    # during the validation process
+    # we need a try-catch around this to ensure that the ecr message
+    # passed in is proper XML
+    try:
+        xml = ecr_message.encode("utf-8")
+        parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
+        parsed_ecr = etree.fromstring(xml, parser=parser)
+    except Exception as error:
+        return {
+            "message_valid": False,
+            "validation_results": {"errors": ["eCR Message is not valid XML!" + error]},
+        }
 
     error_messages = []
     warning_messages = []
@@ -56,29 +58,39 @@ def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
         messages.append("Validation complete with no errors!")
     response = {
         "message_valid": valid,
-        "validation_results": _organize_messages(
-            errors=error_messages, warnings=warning_messages, information=messages
+        "validation_results": _organize_error_messages(
+            errors=error_messages,
+            warnings=warning_messages,
+            information=messages,
+            include_error_types=include_error_types,
         ),
     }
     return response
 
 
-def _validate_config(config: dict):
-    if not config.get("fields"):
-        return False
-    for field in config.get("fields"):
-        if not all(key in field for key in ("fieldName", "cdaPath", "errorType")):
-            return False
-        if "attributes" not in field and "textRequired" not in field:
-            return False
-    return True
+def _organize_error_messages(
+    errors: list, warnings: list, information: list, include_error_types: list
+) -> dict:
+    # utilize the error_types to filter out the different error message
+    # types as well as specify the difference between the different error types
+    # during the validation process
+    filtered_errors = []
+    filtered_warnings = []
+    filtered_information = []
 
+    if "error" in include_error_types:
+        filtered_errors = errors
 
-def _organize_messages(errors: list, warnings: list, information: list) -> dict:
+    if "warning" in include_error_types:
+        filtered_warnings = warnings
+
+    if "information" in include_error_types:
+        filtered_information = information
+
     organized_messages = {
-        "errors": errors,
-        "warnings": warnings,
-        "information": information,
+        "errors": filtered_errors,
+        "warnings": filtered_warnings,
+        "information": filtered_information,
     }
     return organized_messages
 

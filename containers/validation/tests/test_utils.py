@@ -1,5 +1,7 @@
 import pathlib
-from app.utils import load_config, validate_error_types
+
+import yaml
+from app.utils import load_config, validate_error_types, validate_config
 
 config_path = pathlib.Path(__file__).parent.parent / "config" / "sample_ecr_config.yaml"
 
@@ -10,15 +12,43 @@ def test_load_config():
 
 
 def test_validate_error_types():
-    valid_ets = "error,warn"
-    invalid_ets = "blah,info"
+    valid_ets = "error,warning"
+    invalid_ets = "blah,information"
     invalid_ets2 = "blah, nope, wrong"
-    invalid_ets3 = "info,blah, nope, wrong,warn"
+    invalid_ets3 = "information,blah, nope, wrong,warning"
+    invalid_ets4 = "info,warning"
     null_ets = ""
 
-    assert validate_error_types(valid_ets) == ["error", "warn"]
-    assert validate_error_types(invalid_ets) == ["info"]
+    assert validate_error_types(valid_ets) == ["error", "warning"]
+    assert validate_error_types(invalid_ets) == ["information"]
     assert validate_error_types(invalid_ets2) == []
-    assert validate_error_types(invalid_ets3) == ["info", "warn"]
-    assert validate_error_types(null_ets) == ""
-    assert validate_error_types(None) == ""
+    assert validate_error_types(invalid_ets3) == ["information", "warning"]
+    assert validate_error_types(invalid_ets4) == ["warning"]
+    assert validate_error_types(null_ets) == []
+    assert validate_error_types(None) == []
+
+
+def test_validate_config_bad():
+    with open(
+        pathlib.Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "sample_ecr_config_bad.yaml",
+        "r",
+    ) as file:
+        config_bad = yaml.safe_load(file)
+        result = validate_config(config_bad)
+        assert not result
+
+
+def test_validate_config_good():
+    with open(
+        pathlib.Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "sample_ecr_config.yaml",
+        "r",
+    ) as file:
+        config = yaml.safe_load(file)
+        result = validate_config(config)
+        assert result
