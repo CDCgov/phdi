@@ -27,8 +27,7 @@ def load_config(path: pathlib.Path) -> dict:
                 config = yaml.safe_load(file)
                 if not validate_config(config):
                     raise ValueError(
-                        "The configuration file supplied: "
-                        + f"{path} is invalid!"
+                        "The configuration file supplied: " + f"{path} is invalid!"
                     )
             else:
                 ftype = path.suffix.replace(".", "").upper()

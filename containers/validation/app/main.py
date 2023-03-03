@@ -44,6 +44,7 @@ class ValidateInput(BaseModel):
         description=(
             "A list of the types of errors that should be"
             + " included in the return response."
+            + " Valid types are error, warning, information"
         )
     )
     message: str = Field(description="The message to be validated.")
