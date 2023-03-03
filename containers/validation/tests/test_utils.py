@@ -18,7 +18,7 @@ def test_validate_error_types():
 
     assert validate_error_types(valid_ets) == ["error", "warn"]
     assert validate_error_types(invalid_ets) == ["info"]
-    assert validate_error_types(invalid_ets2) == ""
+    assert validate_error_types(invalid_ets2) == []
     assert validate_error_types(invalid_ets3) == ["info", "warn"]
-    assert validate_error_types(null_ets) == ""
-    assert validate_error_types(None) == ""
+    assert validate_error_types(null_ets) == []
+    assert validate_error_types(None) == []
