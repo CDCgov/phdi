@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, root_validator
 from typing import Literal, Optional, Union
 from pathlib import Path
 from app.utils import load_extraction_schema, get_extraction_parsers
@@ -50,6 +50,14 @@ class ParseMessageInput(BaseModel):
         default="",
     )
     message: Union[str, dict] = Field(description="The message to be parsed.")
+
+    @root_validator
+    def require_message_type_when_not_fhir(cls, values):
+        if values.get("message_format") != "fhir" and values.get("message_type") is None:
+            raise ValueError(
+                "When the message format is not FHIR then the message type must be included. "
+            )
+        return values
 
 
 class ParseMessageResponse(BaseModel):
