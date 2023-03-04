@@ -14,14 +14,14 @@ namespaces = {
 def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> dict:
     # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
+    xml = ecr_message.encode("utf-8")
+    parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
 
     # we need a try-catch around this to ensure that the ecr message
     # passed in is proper XML
     try:
-        xml = ecr_message.encode("utf-8")
-        parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
         parsed_ecr = etree.fromstring(xml, parser=parser)
-    except Exception as error:
+    except etree.XMLSyntaxError as error:
         return {
             "message_valid": False,
             "validation_results": {"errors": ["eCR Message is not valid XML!" + error]},

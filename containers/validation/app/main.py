@@ -73,7 +73,7 @@ def validate_ecr_msg(message: str, include_error_types: list) -> ValidateRespons
     """
 
     return validate_ecr(
-        ecr_message=message, config=config, error_types=include_error_types
+        ecr_message=message, config=config, include_error_types=include_error_types
     )
 
 

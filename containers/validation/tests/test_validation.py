@@ -3,7 +3,7 @@ from unittest import mock
 from app.main import (
     app,
     message_validators,
-    # validate_ecr_msg,
+    validate_ecr_msg,
     validate_elr_msg,
     validate_vxu_msg,
 )
@@ -19,18 +19,17 @@ def test_health_check():
 
 
 def test_validate_ecr_invalid_xml():
-    # expected_result = {
-    #     "message_valid": False,
-    #     "validation_results": "blah"
-    # }
-    # actual_result = validate_ecr_msg(
-    #         message="my ecr contents",
-    #         include_error_types=test_error_types
-    #     )
-    # print("HERE2:")
-    # print(actual_result)
-    # assert actual_result == expected_result
-    assert 2 == 2
+    expected_result = {
+        "message_valid": False,
+        "validation_results": "blah"
+    }
+    actual_result = validate_ecr_msg(
+            message="my ecr contents",
+            include_error_types=test_error_types
+        )
+    print("HERE2:")
+    print(actual_result)
+    assert actual_result == expected_result
 
 
 def test_validate_ecr_valid():
