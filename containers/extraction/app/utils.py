@@ -2,6 +2,7 @@ import json
 import fhirpathpy
 from functools import cache
 
+
 @cache
 def load_extraction_schema(path: str) -> dict:
     """
@@ -18,7 +19,6 @@ def load_extraction_schema(path: str) -> dict:
             "The specified file does not exist at the path provided."
         )
     return extraction_schema
-
 
 
 def get_extraction_parsers(extraction_schema: dict) -> dict:
@@ -38,4 +38,3 @@ def get_extraction_parsers(extraction_schema: dict) -> dict:
         parsers[field] = fhirpathpy.compile(fhirpath)
 
     return parsers
-

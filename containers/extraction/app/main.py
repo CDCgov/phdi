@@ -33,18 +33,19 @@ class ParseMessageInput(BaseModel):
         description="The format of the message."
     )
     message_type: Optional[Literal["ecr", "elr", "vxu"]] = Field(
-        description="The type of message that values will be extracted from."
+        description="The type of message that values will be extracted from. Required "
+        "when 'message_format is not FHIR."
     )
     fhir_converter_url: Optional[str] = Field(
-        description="The URL of an instance of the PHDI FHIR converter to use when the "
-        "message is not already in FHIR format.",
+        description="The URL of an instance of the PHDI FHIR converter. Required when "
+        "the message is not already in FHIR format.",
         default="",
     )
-    extraction_schema: Optional[dict] = Field(
+    parsing_schema: Optional[dict] = Field(
         description="A schema describing which fields to extract from the message.",
-        default="",
+        default={},
     )
-    extraction_schema_name: Optional[str] = Field(
+    parsing_schema_name: Optional[str] = Field(
         description="The name of a schema that was previously"
         " loaded in the service to use to extract fields from the message.",
         default="",
@@ -53,9 +54,36 @@ class ParseMessageInput(BaseModel):
 
     @root_validator
     def require_message_type_when_not_fhir(cls, values):
-        if values.get("message_format") != "fhir" and values.get("message_type") is None:
+        if (
+            values.get("message_format") != "fhir"
+            and values.get("message_type") is None
+        ):
             raise ValueError(
-                "When the message format is not FHIR then the message type must be included. "
+                "When the message format is not FHIR then the message type must be included."
+            )
+        return values
+
+    @root_validator
+    def prohibit_schema_and_schema_name(cls, values):
+        if (
+            values.get("parsing_schema") != {}
+            and values.get("parsing_schema_name") != ""
+        ):
+            raise ValueError(
+                "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
+                "provided. Only one of these values is permited"
+            )
+        return values
+
+    @root_validator
+    def require_schema_or_schema_name(cls, values):
+        if (
+            values.get("parsing_schema") == {}
+            and values.get("parsing_schema_name") == ""
+        ):
+            raise ValueError(
+                "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
+                "provided. One, but not both, of these values is required. "
             )
         return values
 
@@ -93,12 +121,8 @@ async def parse_message_endpoint(input: ParseMessageInput) -> ParseMessageRespon
         model.
     """
 
-    if input.extraction_schema != "":
-        extraction_schema = input.extraction_schema
-    elif input.extraction_schema_name != "":
-        extraction_schema = load_extraction_schema(
-            f"./schemas/{input.extraction_schema_name}.json"
-        )
+    if input.parsing_schema != {}:
+        extraction_schema = input.parsing_schema
     else:
         path = Path(__file__).parent / "default_schemas" / f"{input.message_type}.json"
         extraction_schema = load_extraction_schema(path)
