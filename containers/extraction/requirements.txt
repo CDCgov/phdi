@@ -4,4 +4,4 @@ uvicorn
 phdi @ git+https://github.com/CDCgov/phdi@main
 httpx
 pytest
-jsonschema
+frozendict

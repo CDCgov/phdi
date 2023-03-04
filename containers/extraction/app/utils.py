@@ -1,27 +1,37 @@
 import json
 import fhirpathpy
 from functools import cache
+from pathlib import Path
+from frozendict import frozendict
 
 
 @cache
-def load_extraction_schema(path: str) -> dict:
+def load_parsing_schema(schema_name: str) -> dict:
     """
     Given a path load and extraction schema.
 
     :param path: The path to an extraction schema file.
     :return: A dictionary containing the extraction schema.
     """
+    custom_schema_path = Path(__file__).parent / "custom_schemas" / schema_name
     try:
-        with open(path, "r") as file:
+        with open(custom_schema_path, "r") as file:
             extraction_schema = json.load(file)
     except FileNotFoundError:
-        raise FileNotFoundError(
-            "The specified file does not exist at the path provided."
-        )
+        try:
+            default_schema_path = (
+                Path(__file__).parent / "default_schemas" / schema_name
+            )
+            with open(default_schema_path, "r") as file:
+                extraction_schema = json.load(file)
+        except:
+            raise FileNotFoundError(
+                f"A schema with the name '{schema_name}' could not be found."
+            )
     return extraction_schema
 
-
-def get_extraction_parsers(extraction_schema: dict) -> dict:
+@cache
+def get_parsers(extraction_schema: frozendict) -> frozendict:
     """
     Generate a FHIRpath parser for each field in a given schema. Return these parsers as
     values in a dictionary whose keys indicate the field in the schema the parser is
@@ -36,5 +46,4 @@ def get_extraction_parsers(extraction_schema: dict) -> dict:
 
     for field, fhirpath in extraction_schema.items():
         parsers[field] = fhirpathpy.compile(fhirpath)
-
-    return parsers
+    return frozendict(parsers)
