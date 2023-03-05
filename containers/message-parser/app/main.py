@@ -13,7 +13,7 @@ get_settings()
 # Instantiate FastAPI and set metadata.
 description = Path("description.md").read_text(encoding="utf-8")
 app = FastAPI(
-    title="PHDI Extraction Service",
+    title="PHDI Message Parser",
     version="0.0.1",
     contact={
         "name": "CDC Public Health Data Infrastructure",
