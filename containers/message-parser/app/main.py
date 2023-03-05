@@ -158,7 +158,7 @@ async def parse_message_endpoint(
     # 2. Convert to FHIR, if necessary.
     if input.message_format != "fhir":
         if input.credential_manager is not None:
-            credential_manager = get_credential_manager(
+            input.credential_manager = get_credential_manager(
                 credential_manger=input.credential_manager,
                 location_url=input.fhir_converter_url,
             )
@@ -166,7 +166,7 @@ async def parse_message_endpoint(
             message=input.message,
             message_type=input.message_type,
             fhir_converter_url=input.fhir_converter_url,
-            credential_manager=credential_manager,
+            credential_manager=input.credential_manager,
         )
         if fhir_converter_response.status_code == 200:
             input.message = fhir_converter_response.json()["FhirResource"]
