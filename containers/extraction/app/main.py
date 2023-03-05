@@ -4,8 +4,11 @@ from typing import Literal, Optional, Union
 from pathlib import Path
 from frozendict import frozendict
 import os
-from app.utils import load_parsing_schema, get_parsers
+from app.utils import load_parsing_schema, get_parsers, convert_to_fhir
+from app.config import get_settings
 
+# Read settings immediately to fail fast in case there are invalid values.
+get_settings()
 
 # Instantiate FastAPI and set metadata.
 description = Path("description.md").read_text(encoding="utf-8")
@@ -32,6 +35,7 @@ async def health_check():
     '{"status": "OK"}' then the extraction service is available and running properly.
     """
     return {"status": "OK"}
+
 
 ### /parse_message endpoint ###
 
@@ -117,6 +121,7 @@ class ParseMessageResponse(BaseModel):
         "message."
     )
 
+
 @app.post("/parse_message", status_code=200)
 async def parse_message_endpoint(
     input: ParseMessageInput, response: Response
@@ -141,8 +146,20 @@ async def parse_message_endpoint(
             return {"message": error.__str__(), "parsed_values": {}}
 
     # 2. Convert to FHIR, if necessary.
-
-    
+    if input.message_format != "fhir":
+        fhir_converter_response = convert_to_fhir(
+            message=input.message,
+            message_type=input.message_type,
+            fhir_converter_url=input.fhir_converter_url,
+        )
+        if fhir_converter_response.status_code == 200:
+            input.message = fhir_converter_response.json()["FhirResource"]
+        else:
+            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+            return {
+                "message": f"Failed to convert to FHIR: {fhir_converter_response.text}",
+                "parsed_values": {},
+            }
 
     # 3. Generate parsers for FHIRpaths specified in schema.
     parsers = get_parsers(frozendict(parsing_schema))
@@ -156,6 +173,7 @@ async def parse_message_endpoint(
         parsed_values[field] = value
 
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
+
 
 ### /schemas endpoint ###
 class ListSchemasResponse(BaseModel):
@@ -171,24 +189,26 @@ class ListSchemasResponse(BaseModel):
         " the ones come by default."
     )
 
+
 @app.get("/schemas", status_code=200)
 async def list_schemas() -> ListSchemasResponse:
     """
-    Get a list of all the parsing schemas currently available. Default schemas are ones 
-    that are packaged by default with this service. Custom schemas are any additional 
+    Get a list of all the parsing schemas currently available. Default schemas are ones
+    that are packaged by default with this service. Custom schemas are any additional
     schema that users have chosen to upload to this service.
 
-    :return: A JSON formated response body with schema specified by the 
+    :return: A JSON formated response body with schema specified by the
         ListSchemasResponse model.
     """
     default_schemas = os.listdir(Path(__file__).parent / "default_schemas")
     custom_schemas = os.listdir(Path(__file__).parent / "custom_schemas")
-    schemas = {"default_schemas": default_schemas, "custom_schemas":custom_schemas}
+    schemas = {"default_schemas": default_schemas, "custom_schemas": custom_schemas}
     return schemas
+
 
 class GetSchemaResponse(BaseModel):
     """
-    The schema for esponses from the /schemas endpoint when a specific schema is 
+    The schema for esponses from the /schemas endpoint when a specific schema is
     queried.
     """
 
@@ -201,12 +221,13 @@ class GetSchemaResponse(BaseModel):
         "message."
     )
 
+
 @app.get("/schemas/{parsing_schema_name}", status_code=200)
-async def get_schema(parsing_schema_name:str, response:Response) -> GetSchemaResponse:
+async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaResponse:
     """
     Get the schema specified by 'parsing_schema_name'.
 
-    :return: A JSON formated response body with schema specified by the 
+    :return: A JSON formated response body with schema specified by the
         GetSchemaResponse model.
     """
     try:
@@ -214,5 +235,4 @@ async def get_schema(parsing_schema_name:str, response:Response) -> GetSchemaRes
     except FileNotFoundError as error:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": error.__str__(), "parsing_schema": {}}
-    return {"message": "Schema found!", "parsing_schema":parsing_schema}
-
+    return {"message": "Schema found!", "parsing_schema": parsing_schema}
