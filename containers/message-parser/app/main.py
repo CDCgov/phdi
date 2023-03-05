@@ -4,7 +4,12 @@ from typing import Literal, Optional, Union
 from pathlib import Path
 from frozendict import frozendict
 import os
-from app.utils import load_parsing_schema, get_parsers, convert_to_fhir
+from app.utils import (
+    load_parsing_schema,
+    get_parsers,
+    convert_to_fhir,
+    get_credential_manager,
+)
 from app.config import get_settings
 
 # Read settings immediately to fail fast in case there are invalid values.
@@ -52,11 +57,6 @@ class ParseMessageInput(BaseModel):
         description="The type of message that values will be extracted from. Required "
         "when 'message_format is not FHIR."
     )
-    fhir_converter_url: Optional[str] = Field(
-        description="The URL of an instance of the PHDI FHIR converter. Required when "
-        "the message is not already in FHIR format.",
-        default="",
-    )
     parsing_schema: Optional[dict] = Field(
         description="A schema describing which fields to extract from the message. This"
         " must be a JSON object with key:value pairs of the form "
@@ -67,6 +67,16 @@ class ParseMessageInput(BaseModel):
         description="The name of a schema that was previously"
         " loaded in the service to use to extract fields from the message.",
         default="",
+    )
+    fhir_converter_url: Optional[str] = Field(
+        description="The URL of an instance of the PHDI FHIR converter. Required when "
+        "the message is not already in FHIR format.",
+        default="",
+    )
+    credential_manager: Optional[Literal["azure", "gcp"]] = Field(
+        description="The type of credential manager to use for authentication with a "
+        "FHIR converter when conversion to FHIR is required.",
+        default=None,
     )
     message: Union[str, dict] = Field(description="The message to be parsed.")
 
@@ -147,10 +157,16 @@ async def parse_message_endpoint(
 
     # 2. Convert to FHIR, if necessary.
     if input.message_format != "fhir":
+        if input.credential_manager is not None:
+            credential_manager = get_credential_manager(
+                credential_manger=input.credential_manager,
+                location_url=input.fhir_converter_url,
+            )
         fhir_converter_response = convert_to_fhir(
             message=input.message,
             message_type=input.message_type,
             fhir_converter_url=input.fhir_converter_url,
+            credential_manager=credential_manager,
         )
         if fhir_converter_response.status_code == 200:
             input.message = fhir_converter_response.json()["FhirResource"]

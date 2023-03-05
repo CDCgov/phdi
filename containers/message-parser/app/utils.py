@@ -9,6 +9,9 @@ import requests
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
 from phdi.transport.http import http_request_with_retry
+from phdi.cloud.azure import AzureCredentialManager
+from phdi.cloud.core import BaseCredentialManager
+from phdi.cloud.gcp import GcpCredentialManager
 
 
 @cache
@@ -96,7 +99,7 @@ def convert_to_fhir(
     message_type: Literal["elr", "vxu", "ecr"],
     fhir_converter_url: str,
     headers: dict = {},
-    cred_manager: BaseCredentialManager = None,
+    credential_manager: BaseCredentialManager = None,
 ) -> requests.Response:
     """
     Convert a message to FHIR by making a request to an instance of the DIBBs FHIR
@@ -120,11 +123,11 @@ def convert_to_fhir(
         "root_template": conversion_settings[message_type]["root_template"],
     }
     fhir_converter_url = fhir_converter_url + "/convert-to-fhir"
-    if cred_manager:
-        access_token = cred_manager.get_access_token()
+    if credential_manager:
+        access_token = credential_manager.get_access_token()
         headers["Authorization"] = f"Bearer {access_token}"
         response = http_request_with_reauth(
-            cred_manager=cred_manager,
+            credential_manager=credential_manager,
             url=fhir_converter_url,
             retry_count=3,
             request_type="POST",
@@ -143,3 +146,30 @@ def convert_to_fhir(
         )
 
     return response
+
+
+credential_managers = {"azure": AzureCredentialManager, "gcp": GcpCredentialManager}
+
+
+def get_credential_manager(
+    credential_manager: str, location_url: str = None
+) -> BaseCredentialManager:
+    """
+    Return a credential manager for different cloud providers depending upon which
+    one the user requests via the parameter.
+
+    :param credential_manager: A string identifying which cloud credential
+    manager is desired.
+    :return: Either a Google Cloud Credential Manager or an Azure Credential Manager
+    depending upon the value passed in.
+    """
+    credential_manager_class = credential_managers.get(credential_manager)
+    result = None
+    # if the credential_manager_class is not none then instantiate an instance of it
+    if credential_manager_class is not None:
+        if credential_manager == "azure":
+            result = credential_manager_class(resource_location=location_url)
+        else:
+            result = credential_manager_class()
+
+    return result
