@@ -568,7 +568,7 @@ def test_read_write_log_odds():
 def test_load_json_probs_errors():
     with pytest.raises(FileNotFoundError) as e:
         load_json_probs("does_not_exist.json")
-    assert "specified file does not exist at the path provided" in str(e.value)
+    assert "specified file does not exist at" in str(e.value)
 
     with open("not_valid_json.json", "w") as file:
         file.write("I am not valid JSON")
