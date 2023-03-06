@@ -18,10 +18,11 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
 
     # we need a try-catch around this to ensure that the ecr message
-    # passed in is proper XML
+    # passed in is proper XML - also ensure it's a clinical document
     try:
         parsed_ecr = etree.fromstring(xml, parser=parser)
-    except etree.XMLSyntaxError as error:
+        parsed_ecr.xpath("//hl7:ClinicalDocument",namespaces)
+    except AttributeError as error:
         return {
             "message_valid": False,
             "validation_results": {"errors": ["eCR Message is not valid XML!" + error]},

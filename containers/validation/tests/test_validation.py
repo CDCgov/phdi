@@ -19,14 +19,10 @@ def test_health_check():
 
 
 def test_validate_ecr_invalid_xml():
-    expected_result = {
-        "message_valid": False,
-        "validation_results": "blah"
-    }
+    expected_result = {"message_valid": False, "validation_results": "blah"}
     actual_result = validate_ecr_msg(
-            message="my ecr contents",
-            include_error_types=test_error_types
-        )
+        message="my ecr contents", include_error_types=test_error_types
+    )
     print("HERE2:")
     print(actual_result)
     assert actual_result == expected_result
