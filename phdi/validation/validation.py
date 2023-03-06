@@ -21,7 +21,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     # passed in is proper XML - also ensure it's a clinical document
     try:
         parsed_ecr = etree.fromstring(xml, parser=parser)
-        parsed_ecr.xpath("//hl7:ClinicalDocument",namespaces)
+        parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=namespaces)
     except AttributeError as error:
         return {
             "message_valid": False,
