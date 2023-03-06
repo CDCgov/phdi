@@ -70,5 +70,5 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
         # Check that the correct validator was selected and used properly.
         assert actual_response.status_code == 200
         message_validators_dict[message_type].assert_called_with(
-            message=request_body["message"], error_types="error"
+            message=request_body["message"], error_types=["error"]
         )
