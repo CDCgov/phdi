@@ -27,21 +27,28 @@ config = open(
 
 
 def test_organize_error_messages():
+    fatal = ["foo"]
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
     infos = ["", "SOME"]
-    test_include_errors = ["error", "warning", "information"]
+    test_include_errors = ["fatal", "error", "warning", "information"]
 
-    expected_result = {"errors": errors, "warnings": warns, "information": infos}
+    expected_result = {
+        "fatal": fatal,
+        "errors": errors,
+        "warnings": warns,
+        "information": infos,
+    }
 
     actual_result = _organize_error_messages(errors, warns, infos, test_include_errors)
     assert actual_result == expected_result
 
     test_include_errors = ["information"]
 
-    expected_result = {"errors": [], "warnings": [], "information": infos}
+    expected_result = {"fatal": [], "errors": [], "warnings": [], "information": infos}
 
     actual_result = _organize_error_messages(errors, warns, infos, test_include_errors)
+
     assert actual_result == expected_result
 
 
