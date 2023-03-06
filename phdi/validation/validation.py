@@ -22,10 +22,10 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     try:
         parsed_ecr = etree.fromstring(xml, parser=parser)
         parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=namespaces)
-    except AttributeError as error:
+    except AttributeError:
         return {
             "message_valid": False,
-            "validation_results": {"errors": ["eCR Message is not valid XML!" + error]},
+            "validation_results": {"errors": ["eCR Message is not valid XML!"]},
         }
 
     error_messages = []
