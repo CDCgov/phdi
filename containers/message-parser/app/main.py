@@ -9,6 +9,7 @@ from app.utils import (
     get_parsers,
     convert_to_fhir,
     get_credential_manager,
+    search_for_required_values,
 )
 from app.config import get_settings
 
@@ -157,11 +158,18 @@ async def parse_message_endpoint(
 
     # 2. Convert to FHIR, if necessary.
     if input.message_format != "fhir":
+
         if input.credential_manager is not None:
             input.credential_manager = get_credential_manager(
-                credential_manger=input.credential_manager,
+                credential_manager=input.credential_manager,
                 location_url=input.fhir_converter_url,
             )
+
+        search_result = search_for_required_values(dict(input), ["fhir_converter_url"])
+        if search_result != "All values were found.":
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return {"message": search_result, "parsed_values": {}}
+
         fhir_converter_response = convert_to_fhir(
             message=input.message,
             message_type=input.message_type,
@@ -171,7 +179,7 @@ async def parse_message_endpoint(
         if fhir_converter_response.status_code == 200:
             input.message = fhir_converter_response.json()["FhirResource"]
         else:
-            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+            response.status_code = status.HTTP_400_BAD_REQUEST
             return {
                 "message": f"Failed to convert to FHIR: {fhir_converter_response.text}",
                 "parsed_values": {},
