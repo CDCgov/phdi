@@ -42,6 +42,9 @@ def test_validate_good():
 
 
 def test_validate_bad():
+    # TODO: we need to clean up the error messages
+    # we don't need to see all the xpath data within the error
+    # just the field, value, and why it failed
     expected_response = {
         "message_valid": False,
         "validation_results": {

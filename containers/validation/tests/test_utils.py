@@ -1,5 +1,4 @@
 import pathlib
-
 import yaml
 from app.utils import load_config, validate_error_types, validate_config
 

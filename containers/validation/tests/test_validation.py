@@ -1,3 +1,4 @@
+import pathlib
 from fastapi.testclient import TestClient
 from unittest import mock
 from app.main import (
@@ -9,7 +10,21 @@ from app.main import (
 )
 
 client = TestClient(app)
-test_error_types = ["error"]
+test_error_types = ["error", "warning", "information"]
+# Test good file
+sample_file_good = open(
+    pathlib.Path(__file__).parent.parent.parent.parent
+    / "tests"
+    / "assets"
+    / "ecr_sample_input_good.xml"
+).read()
+# Test bad file
+sample_file_bad = open(
+    pathlib.Path(__file__).parent.parent.parent.parent
+    / "tests"
+    / "assets"
+    / "ecr_sample_input_bad.xml"
+).read()
 
 
 def test_health_check():
@@ -19,30 +34,70 @@ def test_health_check():
 
 
 def test_validate_ecr_invalid_xml():
-    expected_result = {"message_valid": False, "validation_results": "blah"}
+    expected_result = {
+        "message_valid": False,
+        "validation_results": {"errors": ["eCR Message is not valid XML!"]},
+    }
     actual_result = validate_ecr_msg(
         message="my ecr contents", include_error_types=test_error_types
     )
-    print("HERE2:")
-    print(actual_result)
     assert actual_result == expected_result
 
 
 def test_validate_ecr_valid():
-    # actual_result = validate_ecr_msg(
-    #     message="my ecr contents", include_error_types=test_error_types
-    # )
-    # expected_result = {
-    #     "message_valid": False,
-    #     "validation_results": {
-    #         "details": "No validation was actually preformed. This endpoint only has "
-    #         "stubbed functionality"
-    #     },
-    # }
-    # print("HERE2:")
-    # print(actual_result)
-    # assert actual_result == expected_result
-    assert 1 == 1
+    actual_result = validate_ecr_msg(
+        message=sample_file_good, include_error_types=test_error_types
+    )
+    expected_result = {
+        "message_valid": True,
+        "validation_results": {
+            "errors": [],
+            "warnings": [],
+            "information": ["Validation complete with no errors!"],
+        },
+    }
+    assert actual_result == expected_result
+
+
+def test_validate_ecr_invalid():
+    actual_result = validate_ecr_msg(
+        message=sample_file_bad, include_error_types=test_error_types
+    )
+    # TODO: we need to clean up the error messages
+    # we don't need to see all the xpath data within the error
+    # just the field, value, and why it failed
+    expected_result = {
+        "message_valid": False,
+        "validation_results": {
+            "errors": [
+                "Could not find field: {'fieldName': 'eICR Version Number', "
+                + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
+                + "'errorType': 'error', "
+                + "'attributes': [{'attributeName': 'value'}]}",
+                "Could not find field: {'fieldName': 'First "
+                + "Name', 'cdaPath': "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
+                + "hl7:patient/hl7:name/hl7:given', "
+                + "'errorType': 'error', "
+                + "'textRequired': 'True', 'parent': 'name', "
+                + "'parent_attributes': [{'attributeName': "
+                + "'use', 'regEx': 'L'}]}",
+                "Could not find field: {'fieldName': "
+                + "'City', 'cdaPath': "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
+                + "hl7:city', "
+                + "'errorType': 'error', "
+                + "'textRequired': 'True', 'parent': 'addr', "
+                + "'parent_attributes': [{'attributeName': "
+                + "'use', 'regEx': 'H'}]}",
+                "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
+            ],
+            "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
+            "information": [],
+        },
+    }
+    print(actual_result)
+    assert actual_result == expected_result
 
 
 def test_validate_elr():
@@ -80,7 +135,7 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
         # Send request to test client
         request_body = {
             "message_type": message_type,
-            "include_error_types": "error",
+            "include_error_types": "error,warning,information",
             "message": "message contents",
         }
         actual_response = client.post("/validate", json=request_body)
