@@ -96,7 +96,6 @@ def test_validate_ecr_invalid():
             "information": [],
         },
     }
-    print(actual_result)
     assert actual_result == expected_result
 
 
