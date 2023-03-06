@@ -1,7 +1,7 @@
 import pathlib
 import yaml
 
-VALID_ERROR_TYPES = ["error", "warning", "information"]
+VALID_ERROR_TYPES = ["fatal", "error", "warning", "information"]
 
 
 # TODO: Determine where/when this configuration should be loaded (as we

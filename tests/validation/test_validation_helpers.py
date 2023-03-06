@@ -40,14 +40,23 @@ def test_organize_error_messages():
         "information": infos,
     }
 
-    actual_result = _organize_error_messages(errors, warns, infos, test_include_errors)
+    actual_result = _organize_error_messages(
+        fatal=fatal,
+        errors=errors,
+        warnings=warns,
+        information=infos,
+        include_error_types=test_include_errors,
+    )
     assert actual_result == expected_result
 
+    fatal = []
     test_include_errors = ["information"]
 
     expected_result = {"fatal": [], "errors": [], "warnings": [], "information": infos}
 
-    actual_result = _organize_error_messages(errors, warns, infos, test_include_errors)
+    actual_result = _organize_error_messages(
+        fatal, errors, warns, infos, test_include_errors
+    )
 
     assert actual_result == expected_result
 

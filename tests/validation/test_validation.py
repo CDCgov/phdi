@@ -109,7 +109,7 @@ def test_validate_error():
     result = validate_ecr(
         ecr_message=sample_file_error,
         config=config,
-        error_types=["fatal", "error", "warning", "information"],
+        include_error_types=["fatal", "error", "warning", "information"],
     )
 
     assert result == expected_response
