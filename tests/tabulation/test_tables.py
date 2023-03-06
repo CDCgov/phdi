@@ -173,7 +173,6 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
 
 
 def test_write_data_parquet_with_schema():
-
     schema = yaml.safe_load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
     )
@@ -297,7 +296,6 @@ def test_write_data_parquet_with_schema():
 
 
 def test_write_data_parquet_with_no_schema():
-
     schema = yaml.safe_load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
     )
