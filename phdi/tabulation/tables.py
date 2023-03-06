@@ -72,6 +72,8 @@ def write_data(
     db_file: str = None,
     db_tablename: str = None,
     pq_writer: pq.ParquetWriter = None,
+    schema: dict = None,
+    table_name: str = None,
 ) -> Union[None, pq.ParquetWriter]:
     """
     Writes a set of tabulated data to a particular output format on disk
@@ -122,7 +124,24 @@ def write_data(
             writer.writerows(tabulated_data[1:])
 
     if output_type == "parquet":
-        table = pa.Table.from_arrays(tabulated_data[1:], names=tabulated_data[0])
+        if schema and table_name:
+            # Create the parquet schema based on the config file
+            pq_schema = _create_pa_schema_from_table_schema(
+                schema, tabulated_data[0], table_name
+            )
+        else:
+            pq_schema = None
+        # Rearrange data so that it is column, not row based as parquet needs
+        parquet_data = _create_parquet_data(tabulated_data, pq_schema)
+        if pq_schema:
+            table = pa.Table.from_arrays(
+                _create_from_arrays_data(parquet_data[1:]), schema=pq_schema
+            )
+        else:
+            # If no schema file is provided, use the names field
+            table = pa.Table.from_arrays(
+                _create_from_arrays_data(parquet_data[1:]), names=tabulated_data[0]
+            )
         if pq_writer is None:
             pq_writer = pq.ParquetWriter(
                 os.path.join(directory, filename), table.schema
@@ -171,6 +190,7 @@ def _convert_list_to_string(val: list) -> str:
 
     :param val: A list that may contain other types of objects to be stringified
       for use in CSV, SQL, etc
+    :return: A string representation of the list
     """
     for i, v in enumerate(val):
         if isinstance(v, list):
@@ -180,3 +200,101 @@ def _convert_list_to_string(val: list) -> str:
         elif type(v) != str:
             val[i] = str(v)
     return (",").join(val)
+
+
+def _create_pa_schema_from_table_schema(
+    schema: dict, col_names: List, table_name: str
+) -> pa.Schema:
+    """
+    Returns a parquet schema based on the schema definition file provided to the
+      function. Defaults to String.
+
+    :param schema: A dict value that is defined by the user which contains the structure
+      of the data.
+    :param col_names: A list of column names that the parquet schema is being generated
+      for.
+    :param table_name: A string of the table name that the parquet schema is being
+      generated for.
+    :return: A pyarrow schema object based on the schema of the table, column names, and
+      which table is being used.
+    """
+    table_columns = schema["tables"][table_name]["columns"]
+    pa_schema_arr = []
+    for name in col_names:
+        if name not in table_columns:
+            pa_schema_arr.append((name, pa.string()))
+            continue
+        for col in table_columns:
+            if str(col) == str(name):
+                data_type = (
+                    str(table_columns[col]["data_type"])
+                    if "data_type" in table_columns[col]
+                    else False
+                )
+
+                if data_type == "number":
+                    pa_schema_arr.append(pa.field(name, pa.float32()))
+                elif data_type == "boolean":
+                    pa_schema_arr.append(pa.field(name, pa.bool_()))
+                else:
+                    pa_schema_arr.append(pa.field(name, pa.string()))
+    pa_schema = pa.schema(pa_schema_arr)
+    return pa_schema
+
+
+def _create_from_arrays_data(row_data: List) -> List:
+    """
+    Returns a list that is one array per column. Accepts list that is one
+      array per row.
+    :param row_data: A list that is made of multiple arrays
+    :return: A list of lists.
+    """
+    if len(row_data) == 0:
+        return row_data
+    col_data = []
+    for row in row_data:
+        for i, data in enumerate(row):
+            if (len(col_data) - 1) < i:
+                col_data.append([])
+            col_data[i].append(data)
+    return col_data
+
+
+def _create_parquet_data(data: List[List], pq_schema: pa.Schema) -> List[List]:
+    """
+    Returns a list with the data being modified to the data types specified by the
+      pyarrow schema.
+    :param data: A list of lists with multiple objects.
+    :param pq_schema: A pyarrow schema file which references the data in the data file.
+    :return: A list of lists with data types specified in the pyarrow schema.
+    """
+    if pq_schema is None:
+        for row in data[1:]:
+            for i, elm in enumerate(row):
+                if elm is None:
+                    row[i] = ""
+                else:
+                    row[i] = str(elm)
+        return data
+    for row in data[1:]:
+        for i, elm in enumerate(row):
+            data_type_index = pq_schema.get_field_index(data[0][i])
+            data_type = pq_schema.types[data_type_index]
+            if data_type == "string":
+                if isinstance(elm, str):
+                    row[i] = elm
+                else:
+                    row[i] = str(elm)
+            elif data_type == "float":
+                if isinstance(elm, float):
+                    row[i] = elm
+                else:
+                    row[i] = float(elm)
+            elif data_type == "bool_":
+                if isinstance(elm, bool):
+                    row[i] = elm
+                else:
+                    row[i] = bool(elm)
+            else:
+                row[i] = elm
+    return data
