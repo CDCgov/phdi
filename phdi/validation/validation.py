@@ -77,18 +77,23 @@ def _organize_error_messages(
     # utilize the error_types to filter out the different error message
     # types as well as specify the difference between the different error types
     # during the validation process
-    filtered_errors = []
-    filtered_warnings = []
-    filtered_information = []
+
+    # fatal warnings cannot be filtered and will be automatically included!
 
     if "error" in include_error_types:
         filtered_errors = errors
+    else:
+        filtered_errors = []
 
     if "warning" in include_error_types:
         filtered_warnings = warnings
+    else:
+        filtered_warnings = []
 
     if "information" in include_error_types:
         filtered_information = information
+    else:
+        filtered_information = []
 
     organized_messages = {
         "fatal": fatal,
