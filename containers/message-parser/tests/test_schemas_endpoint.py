@@ -17,7 +17,6 @@ def test_list_loaded_schemas():
 
 
 def test_get_specific_schema():
-
     test_schema_path = (
         Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
     )

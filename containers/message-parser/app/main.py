@@ -33,6 +33,7 @@ app = FastAPI(
     description=description,
 )
 
+
 ### /health_check endpoint ###
 @app.get("/")
 async def health_check():
@@ -44,6 +45,7 @@ async def health_check():
 
 
 ### /parse_message endpoint ###
+
 
 # Request and respone models
 class ParseMessageInput(BaseModel):
@@ -158,7 +160,6 @@ async def parse_message_endpoint(
 
     # 2. Convert to FHIR, if necessary.
     if input.message_format != "fhir":
-
         if input.credential_manager is not None:
             input.credential_manager = get_credential_manager(
                 credential_manager=input.credential_manager,

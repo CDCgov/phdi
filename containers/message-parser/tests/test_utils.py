@@ -36,7 +36,6 @@ def test_load_parsing_schema_fail():
 
 @mock.patch("app.utils.fhirpathpy")
 def test_get_parsers(patched_fhirpathpy):
-
     parsing_schema = load_parsing_schema("test_schema.json")
     get_parsers(frozendict(parsing_schema))
     assert len(patched_fhirpathpy.compile.call_args_list) == len(parsing_schema)
@@ -129,7 +128,6 @@ def test_convert_fhir_cred_manager(patched_requests_with_reauth):
 
 @mock.patch("app.utils.http_request_with_retry")
 def test_convert_fhir_cred_manager(patched_requests_with_retryh):
-
     parameters = {
         "message": "some message to convert",
         "message_type": "elr",
