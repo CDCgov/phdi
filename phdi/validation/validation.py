@@ -1,5 +1,6 @@
 import re
 from lxml import etree
+from icecream import ic
 
 
 namespaces = {
@@ -124,8 +125,15 @@ def _match_nodes(xml_elements, config_field) -> list:
 def _check_field_matches(xml_element, config_field):
     # If it has the wrong field name, go to the next one
     field_name = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
+    ic(field_name)
+    ic(xml_element.tag.lower())
     if field_name.lower() not in xml_element.tag.lower():
         return False
+    # Don't match attributes if we are validating all fields
+    ic(config_field)
+    match_attributes = False if config_field.get("validateAll") == "True" else True
+    if not match_attributes:
+        return True
     # Check if it has the right attributes
     field_attributes = config_field.get("attributes")
     if field_attributes:
