@@ -4,6 +4,8 @@ import yaml
 from phdi.validation.validation import validate_ecr
 
 
+test_include_errors = ["fatal", "error", "warning", "information"]
+
 # Test file with known errors
 sample_file_bad = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
@@ -13,6 +15,11 @@ sample_file_bad = open(
 # Test good file
 sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
+).read()
+
+# Test file with error
+sample_file_error = open(
+    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_error.xml"
 ).read()
 
 with open(
@@ -25,6 +32,7 @@ def test_validate_good():
     expected_response = {
         "message_valid": True,
         "validation_results": {
+            "fatal": [],
             "errors": [],
             "warnings": [],
             "information": ["Validation complete with no errors!"],
@@ -33,28 +41,87 @@ def test_validate_good():
     result = validate_ecr(
         ecr_message=sample_file_good,
         config=config,
-        error_types=["error", "warn", "info"],
+        include_error_types=test_include_errors,
     )
 
     assert result == expected_response
 
 
 def test_validate_bad():
+    # TODO: we need to clean up the error messages
+    # we don't need to see all the xpath data within the error
+    # just the field, value, and why it failed
     expected_response = {
         "message_valid": False,
         "validation_results": {
-            "errors": [
-                "Could not find attribute value for tag eICR Version Number",
+            "fatal": [
+                "Could not find field: {'fieldName': 'eICR Version Number', "
+                + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
+                + "'errorType': 'fatal', "
+                + "'attributes': [{'attributeName': 'value'}]}",
+                "Could not find field: {'fieldName': 'First "
+                + "Name', 'cdaPath': "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
+                + "hl7:patient/hl7:name/hl7:given', "
+                + "'errorType': 'fatal', "
+                + "'textRequired': 'True', 'parent': 'name', "
+                + "'parent_attributes': [{'attributeName': "
+                + "'use', 'regEx': 'L'}]}",
+                "Could not find field: {'fieldName': "
+                + "'City', 'cdaPath': "
+                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
+                + "hl7:city', "
+                + "'errorType': 'fatal', "
+                + "'textRequired': 'True', 'parent': 'addr', "
+                + "'parent_attributes': [{'attributeName': "
+                + "'use', 'regEx': 'H'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
-            "warnings": [],
+            "errors": [],
+            "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
             "information": [],
         },
     }
     result = validate_ecr(
         ecr_message=sample_file_bad,
         config=config,
-        error_types=["error", "warn", "info"],
+        include_error_types=test_include_errors,
+    )
+
+    assert result == expected_response
+
+
+def test_validate_error():
+    expected_response = {
+        "message_valid": True,
+        "validation_results": {
+            "fatal": [],
+            "errors": [
+                "Could not find attribute code for tag Status",
+                "Could not find attribute code for tag Status",
+            ],
+            "warnings": [],
+            "information": ["Validation complete with no errors!"],
+        },
+    }
+    result = validate_ecr(
+        ecr_message=sample_file_error,
+        config=config,
+        include_error_types=test_include_errors,
+    )
+
+    assert result == expected_response
+
+
+def test_invalid_xml():
+    expected_response = {
+        "message_valid": False,
+        "validation_results": {"fatal": ["eCR Message is not valid XML!"]},
+    }
+    result = validate_ecr(
+        ecr_message="BLAH",
+        config=config,
+        include_error_types=test_include_errors,
     )
 
     assert result == expected_response

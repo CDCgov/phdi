@@ -24,8 +24,7 @@
   <languageCode code="en-US" />
   <setId root="2.16.840.1.113883.3.117.1.1.5.2.1.1.1" extension="31" />
   <!-- the second in the series -->
-  <versionNumber />
-  <!-- This is intentionally left blank-->
+  <versionNumber value="2" />
   <!-- recordTarget: The patient -->
   <recordTarget>
     <!-- Patient demographic information -->
@@ -41,12 +40,11 @@
         as possible (city, zip, county, etc.) and use the 
         Characteristics of Home Environment template in the 
         Social History Section to indicate that the patient is homeless. -->
-      <!-- *** WRONG USE CODE *** -->
-      <addr use="L">
+      <addr use="H">
         <streetAddressLine>2222 Home Street</streetAddressLine>
         <city>Ann Arbor</city>
         <state>MI</state>
-        <postalCode>9999</postalCode>
+        <postalCode>99999</postalCode>
         <!-- Although "county" is not explicitly specified in the 
           US Realm Address, it is not precluded from use and for 
           the purposes of this IG it SHOULD be included. 
@@ -69,19 +67,17 @@
       <patient>
         <!-- Patient "legal" (known as/conventional/the one you use) name -->
         <name use="L">
-          <!-- Error no first name -->
-          <!-- <given>Eve</given> -->
+          <given>Eve</given>
           <given qualifier="IN">H</given>
           <family>Everywoman</family>
         </name>
         <!-- Patient "artist/stage" (includes writer's pseudonym, stage name, etc) name -->
         <name use="A">
-          <!-- <given>Ruth</given> -->
+          <given>Ruth</given>
           <given qualifier="IN">L</given>
           <family>Everywoman</family>
         </name>
-        <!--gender code is wrong-->
-        <administrativeGenderCode code="t" codeSystem="2.16.840.1.113883.5.1" />
+        <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" />
         <!-- Patient Birthdate -->
         <birthTime value="19741124" />
         <!-- If sdtc:deceasedInd is true then sdtc:deceasedTime must be present -->
@@ -293,7 +289,7 @@
                 <tr>
                   <th>Initial Case Report Trigger
                     <br />
-Code Lab Test Order
+                    Code Lab Test Order
                   </th>
                   <th>Trigger Code</th>
                   <th>Trigger Code codeSystem</th>
@@ -306,7 +302,7 @@ Code Lab Test Order
                 <tr ID="id_b52bee94-c34b-4e2c-8c15-5ad9d6def205_ref">
                   <td>Zika virus envelope (E) gene [Presence] in Serum
                     <br />
-by Probe and target amplification method
+                    by Probe and target amplification method
                   </td>
                   <td>80825-3</td>
                   <td>LOINC</td>
@@ -358,7 +354,8 @@ by Probe and target amplification method
               <!-- [eCR R2D3] Initial Case Report Trigger Code Planned Act -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.41" extension="2021-01-01" />
               <id root="7658963e-54da-496f-bf18-dea1dddaa3b0" />
-              <code code="409524006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Airborne precautions (procedure)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2020-11-13" />
+              <!-- Removed Code attribute -->
+              <code codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Airborne precautions (procedure)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2020-11-13" />
               <statusCode code="active" />
               <effectiveTime value="20201108" />
             </act>
@@ -746,7 +743,8 @@ Code Problem Observation
               <!-- [C-CDA 2.1] Problem Concern Act (V3) -->
               <templateId root="2.16.840.1.113883.10.20.22.4.3" extension="2015-08-01" />
               <id root="ec8a6ff8-ed4b-4f7e-82c3-e98e58b45de7" />
-              <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
+              <!-- Code attribute removed -->
+              <code codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
               <!-- The statusCode represents the need to continue tracking the problem -->
               <!-- This is of ongoing concern to the provider -->
               <statusCode code="active" />
@@ -780,7 +778,7 @@ Code Problem Observation
                   <!-- [C-CDA R2.1] Problem Observation (V3) -->
                   <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01" />
                   <id root="ab1791b0-5c71-11db-b0de-0800200c9a67" />
-                  <code code="75322-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Complaint">
+                  <code codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Complaint">
                     <translation code="409586006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Complaint" />
                   </code>
                   <!-- The statusCode reflects the status of the observation itself -->
@@ -801,7 +799,7 @@ Code Problem Observation
               <!-- [C-CDA 2.1] Problem Concern Act (V3) -->
               <templateId root="2.16.840.1.113883.10.20.22.4.3" extension="2015-08-01" />
               <id root="ec8a6ff8-ed4b-4f7e-82c3-e98e58b45de8" />
-              <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
+              <code code='1234' codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
               <!-- The statusCode represents the need to continue tracking the problem -->
               <!-- This is of ongoing concern to the provider -->
               <statusCode code="active" />
@@ -816,7 +814,7 @@ Code Problem Observation
                   <!-- [C-CDA R2.1] Problem Observation (V3) -->
                   <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2015-08-01" />
                   <id root="ab1791b0-5c71-11db-b0de-0800200c9a66" />
-                  <code code="75325-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Symptom">
+                  <code  codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Symptom">
                     <translation code="418799008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Symptom" />
                   </code>
                   <!-- The statusCode reflects the status of the observation itself -->
@@ -855,7 +853,7 @@ Code Problem Observation
       <component>
         <section>
           <templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1" />
-          <code code="10154-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Chief complaint Narrative - Reported" />
+          <code codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Chief complaint Narrative - Reported" />
           <title>Chief Complaint</title>
           <text>
             <paragraph>Chief Complaint (the patient's own description): Headache and rash</paragraph>
@@ -1369,7 +1367,7 @@ in Throat by Organism specific culture
               <!-- [eICR R2 STU3] Initial Case Report Trigger Code Procedure Activity Act -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.45" extension="2021-01-01" />
               <id root="941aee94-1f69-4fa8-91c8-7eee00915728" />
-              <code code="409524006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Airborn precautions (procedure)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2020-11-13" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Airborn precautions (procedure)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2020-11-13" />
               <statusCode code="completed" />
               <effectiveTime value="20201115" />
             </act>
@@ -1859,7 +1857,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="79565142-eae0-4213-a3b3-b73cdf474682" />
-              <code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <text>Spent 8 years in the UK during the BSE outbreak</text>
               <statusCode code="completed" />
               <!-- Duration (from 1999 to 2007) -->
@@ -1875,7 +1873,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="030df1dc-1d31-4e5d-abdd-5edd0b74c5c3" />
-              <code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <!-- Denotes "past 3 weeks" with the high value being the date the statement was made -->
               <effectiveTime>
@@ -1896,7 +1894,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="b98e410c-d29a-46d8-8fc8-f55a9d3022b9" />
-              <code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234'  codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <!-- Duration -->
               <effectiveTime>
@@ -1977,7 +1975,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="b97346f7-8f9e-4c5b-97bb-df4f6e057fd4" />
-              <code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <!-- Duration -->
               <effectiveTime>
@@ -2002,7 +2000,7 @@ Version
               <!-- [eICR R2 STU3] Travel History (V2) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2021-01-01" />
               <id root="1d957c2a-6133-427d-a6cc-26f132773b86" />
-              <code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <effectiveTime>
                 <low value="20200713" />
@@ -2026,7 +2024,7 @@ Version
               <!-- [eICR R2 STU3] Travel History (V2) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2021-01-01" />
               <id root="45397b5c-e974-4cf1-8b19-e1555bd55701" />
-              <code code="420008001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <effectiveTime>
                 <low value="20201022" />
@@ -2050,7 +2048,7 @@ Version
               <!-- [eICR R2 STU3] Country of Residence Observation -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.53" extension="2021-01-01" />
               <id root="3adc7f4d-ff0a-4b38-9252-bd65edbe3dfg" />
-              <code code="77983-5" codeSystem="2.16.840.1.113883.6.1" displayName="Country of usual residence" codeSystemName="LOINC" />
+              <code  codeSystem="2.16.840.1.113883.6.1" displayName="Country of usual residence" codeSystemName="LOINC" />
               <statusCode code="completed" />
               <value xsi:type="CD" code="GB" codeSystem="1.0.3166.1.2.2" displayName="United Kingdom of Great Britain and Northern Ireland" codeSystemName="ISO 3166 Part 1 Country Codes, 2nd Edition, Alpha-2" />
             </observation>
@@ -2435,7 +2433,7 @@ current at time of recording)
                       <!-- This ID equals the ID of the relevant Estimated Date of Delivery template -->
                       <id root="f3dfc576-2329-4f71-af3f-d500cab1146b" />
                       <!-- The code is nulled to "NP" Not Present" -->
-                      <code nullFlavor="NP" />
+                      <code code='1234' nullFlavor="NP" />
                       <statusCode code="completed" />
                     </act>
                   </entryRelationship>

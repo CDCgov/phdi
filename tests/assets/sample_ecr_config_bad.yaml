@@ -1,0 +1,10 @@
+---
+fields:
+- fieldName: eICR
+  cdaPath: "//hl7:ClinicalDocument/hl7:id"
+  errorType: "error"
+- fieldName: eICR Version Number
+  cdaPath: "//hl7:ClinicalDocument/hl7:versionNumber"
+  errorType: "error"
+  attributes:
+  - attributeName: value
