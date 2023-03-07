@@ -232,7 +232,7 @@ async def list_schemas() -> ListSchemasResponse:
 
 class GetSchemaResponse(BaseModel):
     """
-    The schema for esponses from the /schemas endpoint when a specific schema is
+    The schema for responses from the /schemas endpoint when a specific schema is
     queried.
     """
 

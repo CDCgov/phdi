@@ -40,6 +40,7 @@ def load_parsing_schema(schema_name: str) -> dict:
     return extraction_schema
 
 
+# Using here frozendict to have an immutable that can be hashed for caching purposes.
 @cache
 def get_parsers(extraction_schema: frozendict) -> frozendict:
     """
