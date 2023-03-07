@@ -90,7 +90,7 @@ def test_match_nodes():
 
 def test_check_field_matches():
     namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/></foo>"
+    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/><taz/></foo>"
     root = etree.fromstring(xml)
 
     config = {"parent": "foo", "fieldName": "bar", "cdaPath": "//test:foo/test:bar"}
@@ -105,11 +105,39 @@ def test_check_field_matches():
         "cdaPath": "//test:foo/test:bar",
         "attributes": [{"attributeName": "test"}],
     }
+
+    config_check_all = {
+        "parent": "foo",
+        "fieldName": "taz",
+        "cdaPath": "//test:foo/test:taz",
+        "attributes": [{"attributeName": "test"}],
+        "validateAll": "True",
+    }
+    config_dont_check_all = {
+        "parent": "foo",
+        "fieldName": "taz",
+        "cdaPath": "//test:foo/test:taz",
+        "attributes": [{"attributeName": "test"}],
+        "validateAll": "False",
+    }
+    config_dont_check_all_default = {
+        "parent": "foo",
+        "fieldName": "taz",
+        "cdaPath": "//test:foo/test:taz",
+        "attributes": [{"attributeName": "test"}],
+    }
     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+    xml_elements_bar = root.xpath(
+        config_false_attributes.get("cdaPath"), namespaces=namespace
+    )
+    xml_elements_taz = root.xpath(config_check_all.get("cdaPath"), namespaces=namespace)
 
     assert _check_field_matches(xml_elements[0], config)
     assert not _check_field_matches(xml_elements[0], config_false_cda_path)
-    assert not _check_field_matches(xml_elements[0], config_false_attributes)
+    assert not _check_field_matches(xml_elements_bar[0], config_false_attributes)
+    assert _check_field_matches(xml_elements_taz[0], config_check_all)
+    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all)
+    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all_default)
 
 
 def test_validate_attribute():
