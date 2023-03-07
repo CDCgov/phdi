@@ -1,6 +1,7 @@
 import pathlib
 import yaml
 
+
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]
 
 
