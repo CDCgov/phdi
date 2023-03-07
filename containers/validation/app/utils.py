@@ -1,7 +1,7 @@
 import pathlib
 import yaml
 
-VALID_ERROR_TYPES = ["error", "warn", "info"]
+VALID_ERROR_TYPES = ["fatal", "error", "warning", "information"]
 
 
 # TODO: Determine where/when this configuration should be loaded (as we
@@ -25,39 +25,18 @@ def load_config(path: pathlib.Path) -> dict:
         with open(path, "r") as file:
             if path.suffix == ".yaml":
                 config = yaml.safe_load(file)
+                if not validate_config(config):
+                    raise ValueError(
+                        "The configuration file supplied: " + f"{path} is invalid!"
+                    )
             else:
                 ftype = path.suffix.replace(".", "").upper()
                 raise ValueError(f"Unsupported file type provided: {ftype}")
-        # TODO:
-        # Create a file that validates the validation configuration created
-        # by the client
-        # validate_config(config)
         return config
     except FileNotFoundError:
         raise FileNotFoundError(
             "The specified file does not exist at the path provided."
         )
-
-
-# def validate_config(config: dict):
-#     """
-#     Validates the validation configuration structure, ensuring
-#     all required validation elements are present and all configuration
-#     elements are of the expected data type.
-
-#     :param config: A declarative, user-defined configuration for validating
-#         data fields within a message (ecr, elr, vxu).
-#     :raises jsonschema.exception.ValidationError: If the schema is invalid.
-#     """
-#     # TODO:
-#     # Create a file that validates the validation configuration created
-#     # by the client
-#     with importlib.resources.open_text(
-#         "phdi.tabulation", "validation_schema.json"
-#     ) as file:
-#         validation_schema = json.load(file)
-
-#     validate(schema=validation_schema, instance=config)
 
 
 def validate_error_types(error_types: str) -> list:
@@ -66,10 +45,10 @@ def validate_error_types(error_types: str) -> list:
     If they aren't, remove them from the string.
 
     :param error_types: A comma separated string of error types.
-    :return: A valid comma separate list of error types in a string.
+    :return: A valid list of error types in a string.
     """
     if error_types is None or error_types == "":
-        return ""
+        return []
 
     validated_error_types = []
 
@@ -78,3 +57,25 @@ def validate_error_types(error_types: str) -> list:
             validated_error_types.append(et)
 
     return validated_error_types
+
+
+def validate_config(config: dict):
+    """
+    #     # TODO:
+    #     # Create a file that validates the validation configuration created
+    #     # by the client - example below
+    #     with importlib.resources.open_text(
+    #         "phdi.tabulation", "validation_schema.json"
+    #     ) as file:
+    #         validation_schema = json.load(file)
+
+    #     validate(schema=validation_schema, instance=config)
+    """
+    if not config.get("fields"):
+        return False
+    for field in config.get("fields"):
+        if not all(key in field for key in ("fieldName", "cdaPath", "errorType")):
+            return False
+        if "attributes" not in field and "textRequired" not in field:
+            return False
+    return True
