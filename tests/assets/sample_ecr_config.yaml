@@ -2,7 +2,7 @@
 fields:
 - fieldName: Status
   cdaPath: "//hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry/hl7:act/hl7:code"
-  errorType: "error"
+  errorType: "errors"
   attributes:
   - attributeName: code
 # - fieldName: Conditions
@@ -64,13 +64,13 @@ fields:
   - attributeName: root
 # - fieldName: Address
 #   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr"
-#   errorType: "warning"
+#   errorType: "warnings"
 #   attributes:
 #   - attributeName: use
 #     regEx: "H"
 - fieldName: Sex
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:administrativeGenderCode"
-  errorType: "warning"
+  errorType: "warnings"
   attributes:
   - attributeName: code
     regEx: "F|M|O|U"

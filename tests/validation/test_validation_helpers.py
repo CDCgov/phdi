@@ -5,10 +5,11 @@ from phdi.validation.validation import (
     _validate_attribute,
     _validate_text,
     _check_field_matches,
-    # namespaces,
+    _response_builder,
 )
 from lxml import etree
 
+test_include_errors = ["fatal", "errors", "warnings", "information"]
 
 # Test file with known errors
 sample_file_bad = open(
@@ -31,7 +32,7 @@ def test_organize_error_messages():
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
     infos = ["", "SOME"]
-    test_include_errors = ["fatal", "error", "warning", "information"]
+    test_include_errors = ["fatal", "errors", "warnings", "information"]
 
     expected_result = {
         "fatal": fatal,
@@ -189,3 +190,23 @@ def test_validate_text():
     assert _validate_text(xml_elements[0], config_text_doesnt_match_reg_ex) == [
         "Field: bar does not match regEx: foo"
     ]
+
+
+def test_response_builder():
+    expected_response = {
+        "message_valid": True,
+        "validation_results": {
+            "fatal": [],
+            "errors": [],
+            "warnings": [],
+            "information": ["Validation complete with no errors!"],
+        },
+        "validated_message": sample_file_good,
+    }
+    result = _response_builder(
+        errors=expected_response["validation_results"],
+        msg=sample_file_good,
+        include_error_types=test_include_errors,
+    )
+
+    assert result == expected_response

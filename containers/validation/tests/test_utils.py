@@ -11,18 +11,18 @@ def test_load_config():
 
 
 def test_validate_error_types():
-    valid_ets = "error,warning"
+    valid_ets = "errors,warnings"
     invalid_ets = "blah,information"
     invalid_ets2 = "blah, nope, wrong"
-    invalid_ets3 = "information,blah, nope, wrong,warning"
-    invalid_ets4 = "info,warning"
+    invalid_ets3 = "information,blah, nope, wrong,warnings"
+    invalid_ets4 = "info,warnings"
     null_ets = ""
 
-    assert validate_error_types(valid_ets) == ["error", "warning"]
+    assert validate_error_types(valid_ets) == ["errors", "warnings"]
     assert validate_error_types(invalid_ets) == ["information"]
     assert validate_error_types(invalid_ets2) == []
-    assert validate_error_types(invalid_ets3) == ["information", "warning"]
-    assert validate_error_types(invalid_ets4) == ["warning"]
+    assert validate_error_types(invalid_ets3) == ["information", "warnings"]
+    assert validate_error_types(invalid_ets4) == ["warnings"]
     assert validate_error_types(null_ets) == []
     assert validate_error_types(None) == []
 

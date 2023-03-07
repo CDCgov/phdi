@@ -10,7 +10,7 @@ from app.main import (
 )
 
 client = TestClient(app)
-test_error_types = ["error", "warning", "information"]
+test_error_types = ["errors", "warnings", "information"]
 # Test good file
 sample_file_good = open(
     pathlib.Path(__file__).parent.parent.parent.parent
@@ -51,6 +51,7 @@ def test_validate_ecr_valid():
     expected_result = {
         "message_valid": True,
         "validation_results": {
+            "fatal": [],
             "errors": [],
             "warnings": [],
             "information": ["Validation complete with no errors!"],
@@ -69,7 +70,7 @@ def test_validate_ecr_invalid():
     expected_result = {
         "message_valid": False,
         "validation_results": {
-            "errors": [
+            "fatal": [
                 "Could not find field: {'fieldName': 'eICR Version Number', "
                 + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
                 + "'errorType': 'error', "
@@ -92,10 +93,13 @@ def test_validate_ecr_invalid():
                 + "'use', 'regEx': 'H'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
+            "errors": [],
             "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
             "information": [],
         },
+        "validated_message": None
     }
+    print(actual_result)
     assert actual_result == expected_result
 
 
@@ -106,6 +110,7 @@ def test_validate_elr():
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
+        "validated_message": None
     }
 
 
@@ -116,6 +121,7 @@ def test_validate_vxu():
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
+        "validated_message": None
     }
 
 
@@ -123,7 +129,7 @@ def test_validate_vxu():
 def test_validate_endpoint_valid_vxu(patched_message_validators):
     for message_type in message_validators:
         # Prepare mocked validator function
-        validation_response = {"message_valid": True, "validation_results": {}}
+        validation_response = {"message_valid": True, "validation_results": {}, "validated_message": None}
         mocked_validator = mock.Mock()
         mocked_validator.return_value = validation_response
         message_validators_dict = {message_type: mocked_validator}
@@ -135,7 +141,7 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
         request_body = {
             "message_type": message_type,
             "include_error_types": "error,warning,information",
-            "message": "message contents",
+            "message": "message contents"
         }
         actual_response = client.post("/validate", json=request_body)
 

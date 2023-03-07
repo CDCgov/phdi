@@ -12,6 +12,7 @@ namespaces = {
 
 
 def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> dict:
+    error_messages = {"fatal": [], "errors": [], "warnings": [], "information": []}
     # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
     xml = ecr_message.encode("utf-8")
@@ -23,12 +24,10 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         parsed_ecr = etree.fromstring(xml, parser=parser)
         parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=namespaces)
     except AttributeError:
-        return {
-            "message_valid": False,
-            "validation_results": {"errors": ["eCR Message is not valid XML!"]},
-        }
-
-    msgs = {"fatal": [], "error": [], "warning": [], "information": []}
+        error_messages["fatal"].append("eCR Message is not valid XML!")
+        _response_builder(
+            errors=error_messages, msg=None, include_error_types=include_error_types
+        )
 
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
@@ -37,33 +36,23 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
             config_field=field,
         )
         message_type = (
-            field.get("errorType") if field.get("errorType") in msgs.keys() else "error"
+            field.get("errorType")
+            if field.get("errorType") in error_messages.keys()
+            else "errors"
         )
 
         if not matched_xml_elements:
             error_message = "Could not find field: " + str(field)
-            msgs[message_type].append(error_message)
+            error_messages[message_type].append(error_message)
             continue
 
         for xml_element in matched_xml_elements:
-            msgs[message_type] += _validate_attribute(xml_element, field)
-            msgs[message_type] += _validate_text(xml_element, field)
+            error_messages[message_type] += _validate_attribute(xml_element, field)
+            error_messages[message_type] += _validate_text(xml_element, field)
 
-    if msgs["fatal"]:
-        valid = False
-    else:
-        valid = True
-        msgs["information"].append("Validation complete with no errors!")
-    response = {
-        "message_valid": valid,
-        "validation_results": _organize_error_messages(
-            fatal=msgs["fatal"],
-            errors=msgs["error"],
-            warnings=msgs["warning"],
-            information=msgs["information"],
-            include_error_types=include_error_types,
-        ),
-    }
+    response = _response_builder(
+        errors=error_messages, msg=ecr_message, include_error_types=include_error_types
+    )
     return response
 
 
@@ -80,12 +69,12 @@ def _organize_error_messages(
 
     # fatal warnings cannot be filtered and will be automatically included!
 
-    if "error" in include_error_types:
+    if "errors" in include_error_types:
         filtered_errors = errors
     else:
         filtered_errors = []
 
-    if "warning" in include_error_types:
+    if "warnings" in include_error_types:
         filtered_warnings = warnings
     else:
         filtered_warnings = []
@@ -230,3 +219,28 @@ def _validate_text(xml_element, config_field):
             return []
         else:
             return ["Field: " + config_field.get("fieldName") + " does not have text"]
+
+
+def _response_builder(errors: dict, msg: str, include_error_types: list) -> dict:
+    if errors.get("fatal") != []:
+        valid = False
+    else:
+        valid = True
+        errors["information"].append("Validation completed with no fatal errors!")
+
+    if valid:
+        validated_message = msg
+    else:
+        validated_message = None
+
+    return {
+        "message_valid": valid,
+        "validation_results": _organize_error_messages(
+            fatal=errors["fatal"],
+            errors=errors["errors"],
+            warnings=errors["warnings"],
+            information=errors["information"],
+            include_error_types=include_error_types,
+        ),
+        "validated_message": validated_message,
+    }

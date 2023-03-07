@@ -4,7 +4,7 @@ import yaml
 from phdi.validation.validation import validate_ecr
 
 
-test_include_errors = ["fatal", "error", "warning", "information"]
+test_include_errors = ["fatal", "errors", "warnings", "information"]
 
 # Test file with known errors
 sample_file_bad = open(
@@ -35,15 +35,15 @@ def test_validate_good():
             "fatal": [],
             "errors": [],
             "warnings": [],
-            "information": ["Validation complete with no errors!"],
+            "information": ["Validation completed with no fatal errors!"],
         },
+        "validated_message": sample_file_good,
     }
     result = validate_ecr(
         ecr_message=sample_file_good,
         config=config,
         include_error_types=test_include_errors,
     )
-
     assert result == expected_response
 
 
@@ -81,13 +81,13 @@ def test_validate_bad():
             "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
             "information": [],
         },
+        "validated_message": None,
     }
     result = validate_ecr(
         ecr_message=sample_file_bad,
         config=config,
         include_error_types=test_include_errors,
     )
-
     assert result == expected_response
 
 
@@ -98,18 +98,19 @@ def test_validate_error():
             "fatal": [],
             "errors": [
                 "Could not find field: {'fieldName': 'Status', 'cdaPath': "
-                + "'//hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:"
-                + "component/hl7:section/hl7:entry/hl7:act/hl7:code', "
-                + "'errorType': 'error', 'attributes': [{'attributeName': 'code'}]}"
+                + "'//hl7:ClinicalDocument/hl7:component/hl7:structuredBody"
+                + "/hl7:component/hl7:section/hl7:entry/hl7:act/hl7:code', "
+                + "'errorType': 'errors', 'attributes': [{'attributeName': "
+                + "'code'}]}"
             ],
             "warnings": [],
-            "information": ["Validation complete with no errors!"],
+            "information": ["Validation completed with no fatal errors!"],
         },
+        "validated_message": sample_file_error,
     }
     result = validate_ecr(
         ecr_message=sample_file_error,
         config=config,
-        include_error_types=["fatal", "error", "warning", "information"],
+        include_error_types=["fatal", "errors", "warnings", "information"],
     )
-
     assert result == expected_response
