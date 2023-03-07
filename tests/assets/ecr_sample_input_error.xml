@@ -743,6 +743,7 @@ Code Problem Observation
               <!-- [C-CDA 2.1] Problem Concern Act (V3) -->
               <templateId root="2.16.840.1.113883.10.20.22.4.3" extension="2015-08-01" />
               <id root="ec8a6ff8-ed4b-4f7e-82c3-e98e58b45de7" />
+              <!-- Code attribute removed -->
               <code codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
               <!-- The statusCode represents the need to continue tracking the problem -->
               <!-- This is of ongoing concern to the provider -->
@@ -798,7 +799,7 @@ Code Problem Observation
               <!-- [C-CDA 2.1] Problem Concern Act (V3) -->
               <templateId root="2.16.840.1.113883.10.20.22.4.3" extension="2015-08-01" />
               <id root="ec8a6ff8-ed4b-4f7e-82c3-e98e58b45de8" />
-              <code codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
+              <code code='1234' codeSystem="2.16.840.1.113883.5.6" displayName="Concern" />
               <!-- The statusCode represents the need to continue tracking the problem -->
               <!-- This is of ongoing concern to the provider -->
               <statusCode code="active" />
@@ -1366,7 +1367,7 @@ in Throat by Organism specific culture
               <!-- [eICR R2 STU3] Initial Case Report Trigger Code Procedure Activity Act -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.45" extension="2021-01-01" />
               <id root="941aee94-1f69-4fa8-91c8-7eee00915728" />
-              <code codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Airborn precautions (procedure)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2020-11-13" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Airborn precautions (procedure)" sdtc:valueSet="2.16.840.1.114222.4.11.7508" sdtc:valueSetVersion="2020-11-13" />
               <statusCode code="completed" />
               <effectiveTime value="20201115" />
             </act>
@@ -1856,7 +1857,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="79565142-eae0-4213-a3b3-b73cdf474682" />
-              <code codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <text>Spent 8 years in the UK during the BSE outbreak</text>
               <statusCode code="completed" />
               <!-- Duration (from 1999 to 2007) -->
@@ -1872,7 +1873,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="030df1dc-1d31-4e5d-abdd-5edd0b74c5c3" />
-              <code  codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <!-- Denotes "past 3 weeks" with the high value being the date the statement was made -->
               <effectiveTime>
@@ -1893,7 +1894,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="b98e410c-d29a-46d8-8fc8-f55a9d3022b9" />
-              <code  codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234'  codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <!-- Duration -->
               <effectiveTime>
@@ -1974,7 +1975,7 @@ Version
               <!-- [eICR R2 STU3.1] Travel History (V3) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2022-05-01" />
               <id root="b97346f7-8f9e-4c5b-97bb-df4f6e057fd4" />
-              <code  codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <!-- Duration -->
               <effectiveTime>
@@ -1999,7 +2000,7 @@ Version
               <!-- [eICR R2 STU3] Travel History (V2) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2021-01-01" />
               <id root="1d957c2a-6133-427d-a6cc-26f132773b86" />
-              <code codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <effectiveTime>
                 <low value="20200713" />
@@ -2023,7 +2024,7 @@ Version
               <!-- [eICR R2 STU3] Travel History (V2) -->
               <templateId root="2.16.840.1.113883.10.20.15.2.3.1" extension="2021-01-01" />
               <id root="45397b5c-e974-4cf1-8b19-e1555bd55701" />
-              <code codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
+              <code code='1234' codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Travel" />
               <statusCode code="completed" />
               <effectiveTime>
                 <low value="20201022" />
@@ -2432,7 +2433,7 @@ current at time of recording)
                       <!-- This ID equals the ID of the relevant Estimated Date of Delivery template -->
                       <id root="f3dfc576-2329-4f71-af3f-d500cab1146b" />
                       <!-- The code is nulled to "NP" Not Present" -->
-                      <code nullFlavor="NP" />
+                      <code code='1234' nullFlavor="NP" />
                       <statusCode code="completed" />
                     </act>
                   </entryRelationship>

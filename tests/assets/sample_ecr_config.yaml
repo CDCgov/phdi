@@ -3,6 +3,7 @@ fields:
 - fieldName: Status
   cdaPath: "//hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry/hl7:act/hl7:code"
   errorType: "error"
+  validateAll: "True"
   attributes:
   - attributeName: code
 # - fieldName: Conditions
