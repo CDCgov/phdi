@@ -67,7 +67,6 @@ def test_organize_error_messages():
     assert actual_result == expected_result
 
 
-
 def test_match_nodes():
     namespace = {"test": "test"}
     xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/></foo>"
