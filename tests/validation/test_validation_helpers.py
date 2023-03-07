@@ -57,7 +57,6 @@ def test_organize_error_messages():
     actual_result = _organize_error_messages(
         fatal, errors, warns, infos, test_include_errors
     )
-
     assert actual_result == expected_result
 
 
