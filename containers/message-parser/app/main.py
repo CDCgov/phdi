@@ -101,7 +101,7 @@ class ParseMessageInput(BaseModel):
         ):
             raise ValueError(
                 "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
-                "provided. Only one of these values is permited"
+                "provided. Only one of these values is permited."
             )
         return values
 
@@ -113,7 +113,7 @@ class ParseMessageInput(BaseModel):
         ):
             raise ValueError(
                 "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
-                "provided. One, but not both, of these values is required. "
+                "provided. One, but not both, of these values is required."
             )
         return values
 

@@ -152,3 +152,38 @@ def test_parse_message_success_non_fhir(patched_convert_to_fhir):
         credential_manager=None,
     )
 
+def test_parse_message_non_fhir_missing_converter_url():
+
+    request = {
+        "message_format": "hl7v2",
+        "parsing_schema_name": "ecr.json",
+        "message": "some-hl7v2-elr-message",
+    }
+
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 422
+    assert actual_response.json()['detail'][0]['msg'] == "When the message format is not FHIR then the message type must be included."
+
+def test_parse_message_internal_and_external_schema():
+
+    request = {
+        "message_format": "fhir",
+        "parsing_schema": {"my-field": "FHIR.to.my.field"},
+        "parsing_schema_name": "ecr.json",
+        "message": "some-hl7v2-elr-message",
+    }
+
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 422
+    assert actual_response.json()['detail'][0]['msg'] == "Values for both 'parsing_schema' and 'parsing_schema_name' have been provided. Only one of these values is permited."
+
+def test_parse_message_neither_internal_nor_external_schema():
+
+    request = {
+        "message_format": "fhir",
+        "message": "some-hl7v2-elr-message",
+    }
+
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 422
+    assert actual_response.json()['detail'][0]['msg'] == "Values for 'parsing_schema' and 'parsing_schema_name' have not been provided. One, but not both, of these values is required."
