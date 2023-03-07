@@ -1,6 +1,6 @@
 import pathlib
 from phdi.validation.validation import (
-    _organize_messages,
+    _organize_error_messages,
     _match_nodes,
     _validate_attribute,
     _validate_text,
@@ -26,11 +26,12 @@ config = open(
 ).read()
 
 
-def test_organize_messages():
+def test_organize_error_messages():
     fatal = ["foo"]
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
     infos = ["", "SOME"]
+    test_include_errors = ["fatal", "error", "warning", "information"]
 
     expected_result = {
         "fatal": fatal,
@@ -39,7 +40,30 @@ def test_organize_messages():
         "information": infos,
     }
 
-    actual_result = _organize_messages(fatal, errors, warns, infos)
+    actual_result = _organize_error_messages(
+        fatal=fatal,
+        errors=errors,
+        warnings=warns,
+        information=infos,
+        include_error_types=test_include_errors,
+    )
+    assert actual_result == expected_result
+
+    fatal = []
+    test_include_errors = ["information"]
+
+    expected_result = {"fatal": [], "errors": [], "warnings": [], "information": infos}
+
+    actual_result = _organize_error_messages(
+        fatal, errors, warns, infos, test_include_errors
+    )
+    assert actual_result == expected_result
+
+    test_include_errors = ["fatal"]
+    expected_result = {"fatal": fatal, "errors": [], "warnings": [], "information": []}
+    actual_result = _organize_error_messages(
+        fatal, errors, warns, infos, test_include_errors
+    )
     assert actual_result == expected_result
 
 

@@ -1,9 +1,7 @@
 fastapi
 uvicorn
 # TODO: Install phdi from PyPi when release that includes that Validation module is available.
-# phdi @ git+https://github.com/CDCgov/phdi.git@d64257f
+phdi @ git+https://github.com/CDCgov/phdi.git@875c523
 httpx
 pytest
 jsonschema
-
-git+https://github.com/CDCgov/phdi.git@main
