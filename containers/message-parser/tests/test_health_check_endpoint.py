@@ -4,6 +4,7 @@ from app.main import app
 
 client = TestClient(app)
 
+
 def test_health_check():
     actual_response = client.get("/")
     assert actual_response.status_code == 200
