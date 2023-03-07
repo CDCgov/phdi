@@ -92,10 +92,8 @@ def test_validate_error():
         "validation_results": {
             "fatal": [],
             "errors": [
-                "Could not find field: {'fieldName': 'Status', 'cdaPath': "
-                + "'//hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:"
-                + "component/hl7:section/hl7:entry/hl7:act/hl7:code', "
-                + "'errorType': 'error', 'attributes': [{'attributeName': 'code'}]}"
+                "Could not find attribute code for tag Status",
+                "Could not find attribute code for tag Status",
             ],
             "warnings": [],
             "information": ["Validation complete with no errors!"],
