@@ -37,6 +37,7 @@ def test_load_parsing_schema_fail():
 @mock.patch("app.utils.fhirpathpy")
 def test_get_parsers(patched_fhirpathpy):
     parsing_schema = load_parsing_schema("test_schema.json")
+    get_parsers.cache_clear()
     get_parsers(frozendict(parsing_schema))
     assert len(patched_fhirpathpy.compile.call_args_list) == len(parsing_schema)
 
