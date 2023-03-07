@@ -1,6 +1,5 @@
 import re
 from lxml import etree
-from icecream import ic
 
 
 namespaces = {
