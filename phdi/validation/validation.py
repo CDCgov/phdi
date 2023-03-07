@@ -25,10 +25,7 @@ def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
     # TODO: utilize the error_types to filter out the different error message
     # types as well as specify the difference between the different error types
     # during the validation process
-
-    error_messages = []
-    warning_messages = []
-    messages = []
+    msgs = {"fatal": [], "error": [], "warning": [], "information": []}
 
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
@@ -36,29 +33,31 @@ def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
             xml_elements=parsed_ecr.xpath(cda_path, namespaces=namespaces),
             config_field=field,
         )
+        message_type = (
+            field.get("errorType") if field.get("errorType") in msgs.keys() else "error"
+        )
+
         if not matched_xml_elements:
             error_message = "Could not find field: " + str(field)
-            error_messages.append(error_message)
+            msgs[message_type].append(error_message)
             continue
 
-        if field.get("errorType") == "error":
-            for xml_element in matched_xml_elements:
-                error_messages += _validate_attribute(xml_element, field)
-                error_messages += _validate_text(xml_element, field)
-        elif field.get("errorType") == "warning":
-            for xml_element in matched_xml_elements:
-                warning_messages += _validate_attribute(xml_element, field)
-                warning_messages += _validate_text(xml_element, field)
+        for xml_element in matched_xml_elements:
+            msgs[message_type] += _validate_attribute(xml_element, field)
+            msgs[message_type] += _validate_text(xml_element, field)
 
-    if error_messages:
+    if msgs["fatal"]:
         valid = False
     else:
         valid = True
-        messages.append("Validation complete with no errors!")
+        msgs["information"].append("Validation complete with no errors!")
     response = {
         "message_valid": valid,
         "validation_results": _organize_messages(
-            errors=error_messages, warnings=warning_messages, information=messages
+            fatal=msgs["fatal"],
+            errors=msgs["error"],
+            warnings=msgs["warning"],
+            information=msgs["information"],
         ),
     }
     return response
@@ -75,8 +74,11 @@ def _validate_config(config: dict):
     return True
 
 
-def _organize_messages(errors: list, warnings: list, information: list) -> dict:
+def _organize_messages(
+    fatal: list, errors: list, warnings: list, information: list
+) -> dict:
     organized_messages = {
+        "fatal": fatal,
         "errors": errors,
         "warnings": warnings,
         "information": information,

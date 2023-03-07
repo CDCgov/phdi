@@ -28,13 +28,19 @@ config = open(
 
 
 def test_organize_messages():
+    fatal = ["foo"]
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
     infos = ["", "SOME"]
 
-    expected_result = {"errors": errors, "warnings": warns, "information": infos}
+    expected_result = {
+        "fatal": fatal,
+        "errors": errors,
+        "warnings": warns,
+        "information": infos,
+    }
 
-    actual_result = _organize_messages(errors, warns, infos)
+    actual_result = _organize_messages(fatal, errors, warns, infos)
     assert actual_result == expected_result
 
 

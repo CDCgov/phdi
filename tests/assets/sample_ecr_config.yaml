@@ -8,26 +8,26 @@ fields:
   - attributeName: code
 # - fieldName: Conditions
 #   cdaPath: "//hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry/hl7:organizer/hl7:component/hl7:observation/hl7:value/hl7:code"
-#   errorType: "error" 
+#   errorType: "fatal" 
 #   textRequired: 'True'
 - fieldName: eICR
   cdaPath: "//hl7:ClinicalDocument/hl7:id"
-  errorType: "error"
+  errorType: "fatal"
   attributes:
   - attributeName: root
 - fieldName: eICR Version Number
   cdaPath: "//hl7:ClinicalDocument/hl7:versionNumber"
-  errorType: "error"
+  errorType: "fatal"
   attributes:
   - attributeName: value
 # - fieldName: Authoring date
 #   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:author/hl7:time"
-#   errorType: "error"   
+#   errorType: "fatal"   
 #   attributes:
 #   - attributeName: value
 - fieldName: First Name
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
-  errorType: "error"
+  errorType: "fatal"
   textRequired: 'True'
   parent: name
   parent_attributes:
@@ -35,7 +35,7 @@ fields:
     regEx: "L"
 - fieldName: Middle Name
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
-  errorType: "error"
+  errorType: "fatal"
   textRequired: 'True'
   attributes:
   - attributeName: qualifier
@@ -46,7 +46,7 @@ fields:
     regEx: "L"
 - fieldName: Last Name
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:family"
-  errorType: "error"
+  errorType: "fatal"
   parent: name
   parent_attributes:
   - attributeName: use
@@ -54,12 +54,12 @@ fields:
   textRequired: 'True'
 - fieldName: DOB
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:birthTime"
-  errorType: "error"
+  errorType: "fatal"
   attributes:
   - attributeName: value
 - fieldName: MRN
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:id"
-  errorType: "error"
+  errorType: "fatal"
   attributes:
   - attributeName: extension
   - attributeName: root
@@ -78,11 +78,11 @@ fields:
   - attributeName: codeSystem
 - fieldName: Street Address
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:streetAddressLine"
-  errorType: "error"
+  errorType: "fatal"
   textRequired: 'True'
 - fieldName: City
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city"
-  errorType: "error"
+  errorType: "fatal"
   textRequired: 'True'
   parent: addr
   parent_attributes:
@@ -90,20 +90,20 @@ fields:
     regEx: "H"
 - fieldName: State
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:state"
-  errorType: "error"
+  errorType: "fatal"
   textRequired: 'True'
 - fieldName: Country
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:country"
-  errorType: "error"
+  errorType: "fatal"
   textRequired: 'True'
 - fieldName: Zip
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:postalCode"
-  errorType: "error"
+  errorType: "fatal"
   textRequired: 'True'
   regEx: "[0-9]{5}(?:-[0-9]{4})?"
 - fieldName: Provider ID
   cdaPath: "//hl7:ClinicalDocument/hl7:componentOf/hl7:encompassingEncounter/hl7:responsibleParty/hl7:assignedEntity/hl7:id"
-  errorType: "error"
+  errorType: "fatal"
   attributes:
   - attributeName: extension
   - attributeName: root
