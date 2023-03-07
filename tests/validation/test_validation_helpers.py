@@ -8,7 +8,6 @@ from phdi.validation.validation import (
     # namespaces,
 )
 from lxml import etree
-from icecream import ic
 
 
 # Test file with known errors
