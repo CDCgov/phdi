@@ -34,7 +34,7 @@ app = FastAPI(
 )
 
 
-### /health_check endpoint ###
+# /health_check endpoint #
 @app.get("/")
 async def health_check():
     """
@@ -44,7 +44,7 @@ async def health_check():
     return {"status": "OK"}
 
 
-### /parse_message endpoint ###
+# /parse_message endpoint #
 
 
 # Request and respone models
@@ -200,7 +200,7 @@ async def parse_message_endpoint(
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
 
-### /schemas endpoint ###
+# /schemas endpoint #
 class ListSchemasResponse(BaseModel):
     """
     The schema for responses from the /schemas endpoint.

@@ -100,7 +100,7 @@ def test_parse_message_non_fhir_missing_converter_url():
 
 
 @mock.patch("app.main.convert_to_fhir")
-def test_parse_message_success_non_fhir(patched_convert_to_fhir):
+def test_parse_message_fhir_conversion_fail(patched_convert_to_fhir):
     request = {
         "message_format": "hl7v2",
         "message_type": "elr",
@@ -129,7 +129,7 @@ def test_parse_message_success_non_fhir(patched_convert_to_fhir):
     )
 
 
-def test_parse_message_non_fhir_missing_converter_url():
+def test_parse_message_non_fhir_missing_message_type():
     request = {
         "message_format": "hl7v2",
         "parsing_schema_name": "ecr.json",

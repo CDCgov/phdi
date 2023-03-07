@@ -6,7 +6,6 @@ from frozendict import frozendict
 from app.config import get_settings
 from typing import Literal
 import requests
-from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
 from phdi.transport.http import http_request_with_retry
 from phdi.cloud.azure import AzureCredentialManager
@@ -33,7 +32,7 @@ def load_parsing_schema(schema_name: str) -> dict:
             )
             with open(default_schema_path, "r") as file:
                 extraction_schema = json.load(file)
-        except:
+        except FileNotFoundError:
             raise FileNotFoundError(
                 f"A schema with the name '{schema_name}' could not be found."
             )

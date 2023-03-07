@@ -128,7 +128,7 @@ def test_convert_fhir_cred_manager(patched_requests_with_reauth):
 
 
 @mock.patch("app.utils.http_request_with_retry")
-def test_convert_fhir_cred_manager(patched_requests_with_retryh):
+def test_convert_fhir_no_cred_manager(patched_requests_with_retryh):
     parameters = {
         "message": "some message to convert",
         "message_type": "elr",
