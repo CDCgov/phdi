@@ -59,6 +59,14 @@ def test_organize_error_messages():
     )
     assert actual_result == expected_result
 
+    test_include_errors = ["fatal"]
+    expected_result = {"fatal": fatal, "errors": [], "warnings": [], "information": []}
+    actual_result = _organize_error_messages(
+        fatal, errors, warns, infos, test_include_errors
+    )
+    assert actual_result == expected_result
+
+
 
 def test_match_nodes():
     namespace = {"test": "test"}

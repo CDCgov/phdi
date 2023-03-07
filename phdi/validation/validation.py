@@ -25,7 +25,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     except AttributeError:
         return {
             "message_valid": False,
-            "validation_results": {"errors": ["eCR Message is not valid XML!"]},
+            "validation_results": {"fatal": ["eCR Message is not valid XML!"]},
         }
 
     msgs = {"fatal": [], "error": [], "warning": [], "information": []}

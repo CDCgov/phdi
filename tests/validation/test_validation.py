@@ -113,3 +113,19 @@ def test_validate_error():
     )
 
     assert result == expected_response
+
+
+def test_invalid_xml():
+    expected_response = {
+        "message_valid": False,
+        "validation_results": {
+            "fatal": ["eCR Message is not valid XML!"]
+        },
+    }
+    result = validate_ecr(
+        ecr_message="BLAH",
+        config=config,
+        include_error_types=test_include_errors,
+    )
+
+    assert result == expected_response
