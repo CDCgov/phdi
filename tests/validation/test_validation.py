@@ -1,8 +1,10 @@
 import pathlib
 
 import yaml
-from phdi.validation.validation import validate_ecr, _validate_config
+from phdi.validation.validation import validate_ecr
 
+
+test_include_errors = ["fatal", "error", "warning", "information"]
 
 # Test file with known errors
 sample_file_bad = open(
@@ -39,13 +41,16 @@ def test_validate_good():
     result = validate_ecr(
         ecr_message=sample_file_good,
         config=config,
-        error_types=["fatal", "error", "warn", "info"],
+        include_error_types=test_include_errors,
     )
 
     assert result == expected_response
 
 
 def test_validate_bad():
+    # TODO: we need to clean up the error messages
+    # we don't need to see all the xpath data within the error
+    # just the field, value, and why it failed
     expected_response = {
         "message_valid": False,
         "validation_results": {
@@ -80,7 +85,7 @@ def test_validate_bad():
     result = validate_ecr(
         ecr_message=sample_file_bad,
         config=config,
-        error_types=["error", "warn", "info"],
+        include_error_types=test_include_errors,
     )
 
     assert result == expected_response
@@ -104,17 +109,21 @@ def test_validate_error():
     result = validate_ecr(
         ecr_message=sample_file_error,
         config=config,
-        error_types=["error", "warn", "info"],
+        include_error_types=test_include_errors,
     )
 
     assert result == expected_response
 
 
-def test_validate_config_bad():
-    with open(
-        pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config_bad.yaml",
-        "r",
-    ) as file:
-        config_bad = yaml.safe_load(file)
-        result = _validate_config(config_bad)
-        assert not result
+def test_invalid_xml():
+    expected_response = {
+        "message_valid": False,
+        "validation_results": {"fatal": ["eCR Message is not valid XML!"]},
+    }
+    result = validate_ecr(
+        ecr_message="BLAH",
+        config=config,
+        include_error_types=test_include_errors,
+    )
+
+    assert result == expected_response
