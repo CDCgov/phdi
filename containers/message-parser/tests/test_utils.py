@@ -34,12 +34,12 @@ def test_load_parsing_schema_fail():
     )
 
 
-# @mock.patch("app.utils.fhirpathpy")
-# def test_get_parsers(patched_fhirpathpy):
+@mock.patch("app.utils.fhirpathpy")
+def test_get_parsers(patched_fhirpathpy):
 
-#     parsing_schema = load_parsing_schema("test_schema.json")
-#     get_parsers(frozendict(parsing_schema))
-#     assert len(patched_fhirpathpy.compile.call_args_list) == len(parsing_schema)
+    parsing_schema = load_parsing_schema("test_schema.json")
+    get_parsers(frozendict(parsing_schema))
+    assert len(patched_fhirpathpy.compile.call_args_list) == len(parsing_schema)
 
 
 def test_search_for_required_values_success():
@@ -125,6 +125,7 @@ def test_convert_fhir_cred_manager(patched_requests_with_reauth):
             "root_template": "ORU_R01",
         },
     )
+
 
 @mock.patch("app.utils.http_request_with_retry")
 def test_convert_fhir_cred_manager(patched_requests_with_retryh):
