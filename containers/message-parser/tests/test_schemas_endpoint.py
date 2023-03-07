@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 from fastapi.testclient import TestClient
 from app.main import app
+import os
 
 
 client = TestClient(app)
@@ -9,9 +10,12 @@ client = TestClient(app)
 
 def test_list_loaded_schemas():
     response = client.get("/schemas")
+    default_schemas = os.listdir(
+        Path(__file__).parent.parent / "app" / "default_schemas"
+    )
     assert response.status_code == 200
     assert response.json() == {
-        "default_schemas": ["ecr.json", "test_schema.json"],
+        "default_schemas": default_schemas,
         "custom_schemas": [],
     }
 
