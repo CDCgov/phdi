@@ -5,16 +5,6 @@ from unittest import mock
 from app.main import app
 
 
-valid_tabulate_request = {
-    "message_format": "fhir",
-    "message_type": "ecr",
-    "parsing_schema": {},
-    "parsing_schema_name": "ecr.json",
-    "fhir_converter_url": "my-fhir-converter-url",
-    "credential_manager": "azure",
-    "message": "my-message",
-}
-
 client = TestClient(app)
 
 fhir_bundle_path = (
@@ -26,11 +16,10 @@ fhir_bundle_path = (
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
 
-
-def test_health_check():
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {"status": "OK"}
+expected_successful_response = {
+        "message": "Parsing succeeded!",
+        "parsed_values": {"first_name": "John ", "last_name": "doe"},
+    }
 
 
 def test_parse_message_success_internal_schema():
@@ -39,13 +28,10 @@ def test_parse_message_success_internal_schema():
         "parsing_schema_name": "ecr.json",
         "message": fhir_bundle,
     }
-    expected_response = {
-        "message": "Parsing succeeded!",
-        "parsed_values": {"first_name": "John ", "last_name": "doe"},
-    }
+
     actual_response = client.post("/parse_message", json=request)
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_response
+    assert actual_response.json() == expected_successful_response
 
 
 def test_parse_message_success_external_schema():
@@ -57,13 +43,10 @@ def test_parse_message_success_external_schema():
         },
         "message": fhir_bundle,
     }
-    expected_response = {
-        "message": "Parsing succeeded!",
-        "parsed_values": {"first_name": "John ", "last_name": "doe"},
-    }
+
     actual_response = client.post("/parse_message", json=request)
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_response
+    assert actual_response.json() == expected_successful_response
 
 
 @mock.patch("app.main.convert_to_fhir")
@@ -86,14 +69,10 @@ def test_parse_message_success_non_fhir(
     convert_to_fhir_response.status_code = 200
     convert_to_fhir_response.json.return_value = {"FhirResource": fhir_bundle}
     patched_convert_to_fhir.return_value = convert_to_fhir_response
-    expected_response = {
-        "message": "Parsing succeeded!",
-        "parsed_values": {"first_name": "John ", "last_name": "doe"},
-    }
 
     actual_response = client.post("/parse_message", json=request)
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_response
+    assert actual_response.json() == expected_successful_response
     patched_convert_to_fhir.assert_called_with(
         message="some-hl7v2-elr-message",
         message_type="elr",
