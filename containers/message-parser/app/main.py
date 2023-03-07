@@ -227,6 +227,7 @@ async def list_schemas() -> ListSchemasResponse:
     """
     default_schemas = os.listdir(Path(__file__).parent / "default_schemas")
     custom_schemas = os.listdir(Path(__file__).parent / "custom_schemas")
+    custom_schemas = [schema for schema in custom_schemas if schema != ".keep"]
     schemas = {"default_schemas": default_schemas, "custom_schemas": custom_schemas}
     return schemas
 
