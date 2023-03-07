@@ -4,7 +4,7 @@ from typing import Optional, Literal
 
 
 class Settings(BaseSettings):
-    fhir_url: Optional[str]
+    fhir_converter_url: Optional[str]
 
 
 @lru_cache()
