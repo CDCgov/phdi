@@ -38,8 +38,10 @@ def test_parse_message_success_external_schema():
     request = {
         "message_format": "fhir",
         "parsing_schema": {
-            "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-            "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+            "first_name": "Bundle.entry.resource.where(resourceType = "
+            "'Patient').name.first().given.first()",
+            "last_name": "Bundle.entry.resource.where(resourceType = "
+            "'Patient').name.first().family",
         },
         "message": fhir_bundle,
     }
@@ -94,7 +96,10 @@ def test_parse_message_non_fhir_missing_converter_url():
     actual_response = client.post("/parse_message", json=request)
     assert actual_response.status_code == 400
     assert actual_response.json() == {
-        "message": "The following values are required, but were not included in the request and could not be read from the environment. Please resubmit the request including these values or add them as environment variables to this service. missing values: fhir_converter_url.",
+        "message": "The following values are required, but were not included in the "
+        "request and could not be read from the environment. Please resubmit the "
+        "request including these values or add them as environment variables to this "
+        "service. missing values: fhir_converter_url.",
         "parsed_values": {},
     }
 
@@ -156,7 +161,8 @@ def test_parse_message_internal_and_external_schema():
     assert actual_response.status_code == 422
     assert (
         actual_response.json()["detail"][0]["msg"]
-        == "Values for both 'parsing_schema' and 'parsing_schema_name' have been provided. Only one of these values is permited."
+        == "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
+        "provided. Only one of these values is permited."
     )
 
 
@@ -170,5 +176,6 @@ def test_parse_message_neither_internal_nor_external_schema():
     assert actual_response.status_code == 422
     assert (
         actual_response.json()["detail"][0]["msg"]
-        == "Values for 'parsing_schema' and 'parsing_schema_name' have not been provided. One, but not both, of these values is required."
+        == "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
+        "provided. One, but not both, of these values is required."
     )

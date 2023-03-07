@@ -35,6 +35,7 @@ def test_schema_not_found():
     response = client.get("/schemas/some-schema-that-does-not-exist.json")
     assert response.status_code == 400
     assert response.json() == {
-        "message": "A schema with the name 'some-schema-that-does-not-exist.json' could not be found.",
+        "message": "A schema with the name 'some-schema-that-does-not-exist.json' "
+        "could not be found.",
         "parsing_schema": {},
     }
