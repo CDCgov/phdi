@@ -189,18 +189,23 @@ def _validate_attribute(xml_element, config_field) -> list:
             attribute_name = attribute.get("attributeName")
             attribute_value = xml_element.get(attribute_name)
             if not attribute_value:
-                error_messages.append(
+                message = _check_custom_message(
+                    config_field,
                     f"Could not find attribute {attribute_name} "
-                    + f"for tag {config_field.get('fieldName')}"
+                    + f"for tag {config_field.get('fieldName')}",
                 )
+                error_messages.append(message)
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
             if (not attribute_value) or (not pattern.match(attribute_value)):
                 field_name = config_field.get("fieldName")
-                error_messages.append(
+                message = _check_custom_message(
+                    config_field,
                     f"Attribute: '{attribute_name}' for field: '{field_name}'"
-                    + " not in expected format"
+                    + " not in expected format",
                 )
+                error_messages.append(message)
+
     return error_messages
 
 
@@ -223,16 +228,29 @@ def _validate_text(xml_element, config_field):
     if regEx is not None:
         pattern = re.compile(regEx)
         if pattern.match(text) is None:
-            return [
+            message = _check_custom_message(
+                config_field,
                 "Field: "
                 + config_field.get("fieldName")
                 + " does not match regEx: "
-                + config_field.get("regEx")
-            ]
+                + config_field.get("regEx"),
+            )
+            return [message]
         else:
             return []
     else:
         if text is not None and text != "":
             return []
         else:
-            return ["Field: " + config_field.get("fieldName") + " does not have text"]
+            message = _check_custom_message(
+                config_field,
+                "Field: " + config_field.get("fieldName") + " does not have text",
+            )
+            return [message]
+
+
+def _check_custom_message(config_field, default_message):
+    message = default_message
+    if config_field.get("customMessage"):
+        message = config_field.get("customMessage")
+    return message
