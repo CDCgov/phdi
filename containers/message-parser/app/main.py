@@ -145,7 +145,7 @@ async def parse_message_endpoint(
 
     :param input: A JSON formated request body with schema specified by the
         ParseMessageInput model.
-    :return: A JSON formated response body with schema specified by the 
+    :return: A JSON formated response body with schema specified by the
         ParseMessageResponse model.
     """
     # 1. Load schema.

@@ -16,7 +16,9 @@ from phdi.cloud.gcp import GcpCredentialManager
 @cache
 def load_parsing_schema(schema_name: str) -> dict:
     """
-    Given a path load and extraction schema.
+    Load a parsing schema given its name. Look in the 'custom_schemas/' directory first.
+    If no custom schemas match the provided name, check the schemas provided by default
+    with this service in the 'default_schemas/' directory.
 
     :param path: The path to an extraction schema file.
     :return: A dictionary containing the extraction schema.
