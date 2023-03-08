@@ -42,9 +42,9 @@ class ValidateInput(BaseModel):
     )
     include_error_types: str = Field(
         description=(
-            "A list of the types of errors that should be"
+            "A comma separated list of the types of errors that should be"
             + " included in the return response."
-            + " Valid types are fatal, error, warning, information"
+            + " Valid types are fatal, errors, warnings, information"
         )
     )
     message: str = Field(description="The message to be validated.")
@@ -61,6 +61,10 @@ class ValidateResponse(BaseModel):
     )
     validation_results: dict = Field(
         description="A JSON object containing details on the validation result."
+    )
+    validated_message: dict = Field(
+        description="The returned message is returned if message_valid = true,"
+        + " otherwise it will be set to None"
     )
 
 
@@ -90,6 +94,7 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
+        "validated_message": None,
     }
 
 
@@ -106,6 +111,7 @@ def validate_vxu_msg(message: str, include_error_types: list) -> ValidateRespons
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
+        "validated_message": None,
     }
 
 
