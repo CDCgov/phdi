@@ -42,7 +42,7 @@ class ValidateInput(BaseModel):
     )
     include_error_types: str = Field(
         description=(
-            "A list of the types of errors that should be"
+            "A comma separated list of the types of errors that should be"
             + " included in the return response."
             + " Valid types are fatal, errors, warnings, information"
         )
@@ -94,7 +94,7 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None
+        "validated_message": None,
     }
 
 
@@ -111,7 +111,7 @@ def validate_vxu_msg(message: str, include_error_types: list) -> ValidateRespons
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None
+        "validated_message": None,
     }
 
 

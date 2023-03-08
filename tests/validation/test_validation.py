@@ -114,3 +114,22 @@ def test_validate_error():
         include_error_types=["fatal", "errors", "warnings", "information"],
     )
     assert result == expected_response
+
+
+def test_validate_ecr_invalid_xml():
+    expected_response = {
+        "message_valid": False,
+        "validation_results": {
+            "fatal": ["eCR Message is not valid XML!"],
+            "errors": [],
+            "warnings": [],
+            "information": [],
+        },
+        "validated_message": None,
+    }
+    result = validate_ecr(
+        ecr_message=" BLAH ",
+        config=config,
+        include_error_types=test_include_errors,
+    )
+    assert result == expected_response

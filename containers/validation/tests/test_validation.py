@@ -34,52 +34,57 @@ def test_health_check():
 
 
 def test_validate_ecr_invalid_xml():
-    expected_result = {
+    expected_result2 = {
         "message_valid": False,
-        "validation_results": {"errors": ["eCR Message is not valid XML!"]},
+        "validation_results": {
+            "fatal": ["eCR Message is not valid XML!"],
+            "errors": [],
+            "warnings": [],
+            "information": [],
+        },
+        "validated_message": None,
     }
-    actual_result = validate_ecr_msg(
+    actual_result2 = validate_ecr_msg(
         message="my ecr contents", include_error_types=test_error_types
     )
-    assert actual_result == expected_result
+    assert actual_result2 == expected_result2
 
 
 def test_validate_ecr_valid():
-    actual_result = validate_ecr_msg(
+    actual_result1 = validate_ecr_msg(
         message=sample_file_good, include_error_types=test_error_types
     )
-    expected_result = {
+    expected_result1 = {
         "message_valid": True,
         "validation_results": {
             "fatal": [],
             "errors": [],
             "warnings": [],
-            "information": ["Validation complete with no errors!"],
+            "information": ["Validation completed with no fatal errors!"],
         },
+        "validated_message": sample_file_good,
     }
-    assert actual_result == expected_result
+    assert actual_result1 == expected_result1
 
 
 def test_validate_ecr_invalid():
-    actual_result = validate_ecr_msg(
-        message=sample_file_bad, include_error_types=test_error_types
-    )
     # TODO: we need to clean up the error messages
     # we don't need to see all the xpath data within the error
     # just the field, value, and why it failed
-    expected_result = {
-        "message_valid": False,
+    expected_result3 = {
+        "message_valid": True,
         "validation_results": {
-            "fatal": [
+            "fatal": [],
+            "errors": [
                 "Could not find field: {'fieldName': 'eICR Version Number', "
                 + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
-                + "'errorType': 'error', "
+                + "'errorType': 'errors', "
                 + "'attributes': [{'attributeName': 'value'}]}",
                 "Could not find field: {'fieldName': 'First "
                 + "Name', 'cdaPath': "
                 + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
                 + "hl7:patient/hl7:name/hl7:given', "
-                + "'errorType': 'error', "
+                + "'errorType': 'errors', "
                 + "'textRequired': 'True', 'parent': 'name', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'L'}]}",
@@ -87,20 +92,22 @@ def test_validate_ecr_invalid():
                 + "'City', 'cdaPath': "
                 + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
                 + "hl7:city', "
-                + "'errorType': 'error', "
+                + "'errorType': 'errors', "
                 + "'textRequired': 'True', 'parent': 'addr', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'H'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
-            "errors": [],
             "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
-            "information": [],
+            "information": ["Validation completed with no fatal errors!"],
         },
-        "validated_message": None
+        "validated_message": sample_file_bad,
     }
-    print(actual_result)
-    assert actual_result == expected_result
+    actual_result3 = validate_ecr_msg(
+        message=sample_file_bad, include_error_types=test_error_types
+    )
+
+    assert actual_result3 == expected_result3
 
 
 def test_validate_elr():
@@ -110,7 +117,7 @@ def test_validate_elr():
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None
+        "validated_message": None,
     }
 
 
@@ -121,7 +128,7 @@ def test_validate_vxu():
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None
+        "validated_message": None,
     }
 
 
@@ -129,7 +136,11 @@ def test_validate_vxu():
 def test_validate_endpoint_valid_vxu(patched_message_validators):
     for message_type in message_validators:
         # Prepare mocked validator function
-        validation_response = {"message_valid": True, "validation_results": {}, "validated_message": None}
+        validation_response = {
+            "message_valid": True,
+            "validation_results": {},
+            "validated_message": {},
+        }
         mocked_validator = mock.Mock()
         mocked_validator.return_value = validation_response
         message_validators_dict = {message_type: mocked_validator}
@@ -140,13 +151,13 @@ def test_validate_endpoint_valid_vxu(patched_message_validators):
         # Send request to test client
         request_body = {
             "message_type": message_type,
-            "include_error_types": "error,warning,information",
-            "message": "message contents"
+            "include_error_types": "",
+            "message": "message contents",
         }
         actual_response = client.post("/validate", json=request_body)
 
         # Check that the correct validator was selected and used properly.
         assert actual_response.status_code == 200
         message_validators_dict[message_type].assert_called_with(
-            message=request_body["message"], include_error_types=test_error_types
+            message=request_body["message"], include_error_types=[]
         )

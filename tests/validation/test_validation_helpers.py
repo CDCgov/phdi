@@ -199,7 +199,7 @@ def test_response_builder():
             "fatal": [],
             "errors": [],
             "warnings": [],
-            "information": ["Validation complete with no errors!"],
+            "information": ["Validation completed with no fatal errors!"],
         },
         "validated_message": sample_file_good,
     }

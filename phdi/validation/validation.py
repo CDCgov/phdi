@@ -25,7 +25,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=namespaces)
     except AttributeError:
         error_messages["fatal"].append("eCR Message is not valid XML!")
-        _response_builder(
+        return _response_builder(
             errors=error_messages, msg=None, include_error_types=include_error_types
         )
 
@@ -69,20 +69,9 @@ def _organize_error_messages(
 
     # fatal warnings cannot be filtered and will be automatically included!
 
-    if "errors" in include_error_types:
-        filtered_errors = errors
-    else:
-        filtered_errors = []
-
-    if "warnings" in include_error_types:
-        filtered_warnings = warnings
-    else:
-        filtered_warnings = []
-
-    if "information" in include_error_types:
-        filtered_information = information
-    else:
-        filtered_information = []
+    filtered_errors = errors if "errors" in include_error_types else []
+    filtered_warnings = warnings if "warnings" in include_error_types else []
+    filtered_information = information if "information" in include_error_types else []
 
     organized_messages = {
         "fatal": fatal,
@@ -228,10 +217,7 @@ def _response_builder(errors: dict, msg: str, include_error_types: list) -> dict
         valid = True
         errors["information"].append("Validation completed with no fatal errors!")
 
-    if valid:
-        validated_message = msg
-    else:
-        validated_message = None
+    validated_message = msg if valid else None
 
     return {
         "message_valid": valid,
