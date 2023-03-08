@@ -1,4 +1,4 @@
-name: Test and Tag Release
+name: Test, Tag, Document
 on:
   workflow_dispatch:
     inputs:
@@ -26,3 +26,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CUSTOM_TAG: ${{ github.event.inputs.custom_tag }}
+
+  generate-and-update-docs:
+    needs: create-tagged-release
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+
+      - name: Install poetry and dependencies
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Generate docs and move to docs branch
+        run: |
+          poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}
+          git checkout docs --
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated update of API docs for ${{ github.event.inputs.custom_tag }} release.
+          branch: docs
