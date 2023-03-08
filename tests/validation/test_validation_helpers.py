@@ -5,6 +5,7 @@ from phdi.validation.validation import (
     _validate_attribute,
     _validate_text,
     _check_field_matches,
+    _check_custom_message,
     # namespaces,
 )
 from lxml import etree
@@ -223,3 +224,28 @@ def test_validate_text():
     assert _validate_text(xml_elements[0], config_text_doesnt_match_reg_ex) == [
         "Field: bar does not match regEx: foo"
     ]
+
+
+def test_check_custom_message():
+    config_field_with_custom = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "foo",
+        "customMessage": "this is a custom message",
+    }
+    result = _check_custom_message(
+        config_field_with_custom, "this is a default message"
+    )
+    assert result == "this is a custom message"
+
+    config_field_no_custom = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "foo",
+    }
+    result = _check_custom_message(config_field_no_custom, "this is a default message")
+    assert result == "this is a default message"
