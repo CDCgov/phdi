@@ -24,10 +24,10 @@ sample_file_error = open(
 
 # Test config file with custom error messages
 with open(
-        pathlib.Path(__file__).parent.parent
-        / "assets"
-        / "sample_ecr_config_custom_messages.yaml",
-        "r",
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "sample_ecr_config_custom_messages.yaml",
+    "r",
 ) as file2:
     config_with_custom_errors = yaml.safe_load(file2)
 
@@ -152,7 +152,7 @@ def test_custom_error_messages():
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
         },
-        "validated_message": sample_file_bad
+        "validated_message": sample_file_bad,
     }
     result = validate_ecr(
         ecr_message=sample_file_bad,
