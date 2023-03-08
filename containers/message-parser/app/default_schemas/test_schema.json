@@ -1,0 +1,4 @@
+{
+    "first_name":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "last_name":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().family"
+}
