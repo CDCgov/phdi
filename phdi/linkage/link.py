@@ -489,7 +489,7 @@ def _eval_record_in_cluster(
 
 
 def _map_matches_to_record_ids(
-    match_list: List[tuple], data_block, cluster_mode: bool = False
+    match_list: Union[List[tuple], List[set]], data_block, cluster_mode: bool = False
 ) -> List[tuple]:
     """
     Helper function to turn a list of tuples of row indices in a block
@@ -572,6 +572,7 @@ def score_linkage_vs_truth(
     found_matches: dict[Union[int, str], set],
     true_matches: dict[Union[int, str], set],
     records_in_dataset: int,
+    expand_clusters_pairwise: bool = False,
 ) -> tuple:
     """
     Compute the statistical qualities of a run of record linkage against
@@ -585,9 +586,29 @@ def score_linkage_vs_truth(
       other records which are _known_ to be a true match.
     :param records_in_dataset: The number of records in the original data
       set to-link.
+    :param expand_clusters_pairwise: Optionally, whether we need to take
+      the cross-product of members within the sets of the match list. This
+      parameter only needs to be used if the linkage algorithm was run in
+      cluster mode. Default is False.
     :return: A tuple reporting the sensitivity/precision, specificity/recall,
       positive prediction value, and F1 score of the linkage algorithm.
     """
+
+    # If cluster mode was used, only the "master" patient's set will exist
+    # Need to expand other permutations for accurate statistics
+    if expand_clusters_pairwise:
+        new_found_matches = {}
+        for root_rec in found_matches:
+            if root_rec not in new_found_matches:
+                new_found_matches[root_rec] = found_matches[root_rec]
+            for paired_record in found_matches[root_rec]:
+                if paired_record not in new_found_matches:
+                    new_found_matches[paired_record] = set()
+                for other_record in found_matches[root_rec]:
+                    if other_record > paired_record:
+                        new_found_matches[paired_record].add(other_record)
+        found_matches = new_found_matches
+
     # Need division by 2 because ordering is irrelevant, matches are symmetric
     total_possible_matches = (records_in_dataset * (records_in_dataset - 1)) / 2.0
     true_positives = 0.0
