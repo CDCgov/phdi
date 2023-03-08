@@ -130,3 +130,28 @@ def test_validate_ecr_invalid_xml():
         include_error_types=test_include_errors,
     )
     assert result == expected_response
+
+
+def test_custom_error_messages():
+    expected_result = {
+        "message_valid": True,
+        "validation_results": {
+            "errors": ["Invalid postal code"],
+            "fatal": [],
+            "warnings": [],
+            "information": ["Validation complete with no errors!"],
+        },
+    }
+    with open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "sample_ecr_config_custom_messages.yaml",
+        "r",
+    ) as file:
+        config_custom = yaml.safe_load(file)
+        result = validate_ecr(
+            ecr_message=sample_file_bad,
+            config=config_custom,
+            include_error_types=test_include_errors,
+        )
+        assert expected_result == result

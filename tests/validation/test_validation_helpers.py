@@ -6,6 +6,8 @@ from phdi.validation.validation import (
     _validate_text,
     _check_field_matches,
     _response_builder,
+    _check_custom_message,
+    # namespaces,
 )
 from lxml import etree
 
@@ -238,3 +240,28 @@ def test_response_builder():
     )
 
     assert result == expected_response
+
+
+def test_check_custom_message():
+    config_field_with_custom = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "foo",
+        "customMessage": "this is a custom message",
+    }
+    result = _check_custom_message(
+        config_field_with_custom, "this is a default message"
+    )
+    assert result == "this is a custom message"
+
+    config_field_no_custom = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "foo",
+    }
+    result = _check_custom_message(config_field_no_custom, "this is a default message")
+    assert result == "this is a default message"
