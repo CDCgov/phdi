@@ -252,6 +252,5 @@ def _validate_text(xml_element, config_field):
 def _check_custom_message(config_field, default_message):
     message = default_message
     if config_field.get("customMessage"):
-        print("hi")
         message = config_field.get("customMessage")
     return message
