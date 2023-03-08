@@ -201,9 +201,11 @@ def get_indices_affected_by_misses(missed_matches: dict):
     return affected_records
 
 
-def display_statistical_evaluation(matches: dict, true_matches: dict):
+def display_statistical_evaluation(
+    matches: dict, true_matches: dict, cluster_mode_used: bool = False
+):
     sensitivitiy, specificity, ppv, f1 = score_linkage_vs_truth(
-        matches, true_matches, DATA_SIZE
+        matches, true_matches, DATA_SIZE, cluster_mode_used
     )
     print("Sensitivity:", sensitivitiy)
     print("Specificity:", specificity)
@@ -292,9 +294,9 @@ log_odds = load_json_probs("log_odds_synthetic.json")
 
 start = time.time()
 # matches = lac_validation_linkage(data, None)
-matches = phdi_linkage_algorithm(data, None)
+matches = phdi_linkage_algorithm(data, 0.7)
 end = time.time()
 
 print("Computation took", str(round(end - start, 2)), "seconds")
-display_statistical_evaluation(matches, true_matches)
+display_statistical_evaluation(matches, true_matches, True)
 # display_missed_matches_by_type(matches, true_matches)
