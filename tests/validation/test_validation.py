@@ -125,3 +125,27 @@ def test_invalid_xml():
     )
 
     assert result == expected_response
+
+
+def test_custom_error_messages():
+    expected_result = {
+        "message_valid": False,
+        "validation_results": {
+            "errors": ["Invalid postal code"],
+            "warnings": [],
+            "information": [],
+        },
+    }
+    with open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "sample_ecr_config_custom_messages.yaml",
+        "r",
+    ) as file:
+        config_custom = yaml.safe_load(file)
+        result = validate_ecr(
+            ecr_message=sample_file_bad,
+            config=config_custom,
+            error_types=["error", "warn", "info"],
+        )
+        assert expected_result == result
