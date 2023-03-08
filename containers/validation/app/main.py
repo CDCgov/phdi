@@ -42,7 +42,9 @@ class ValidateInput(BaseModel):
     )
     include_error_types: str = Field(
         description=(
-            "The types of errors that should be included in the return response."
+            "A comma separated list of the types of errors that should be"
+            + " included in the return response."
+            + " Valid types are fatal, errors, warnings, information"
         )
     )
     message: str = Field(description="The message to be validated.")
@@ -60,20 +62,26 @@ class ValidateResponse(BaseModel):
     validation_results: dict = Field(
         description="A JSON object containing details on the validation result."
     )
+    validated_message: dict = Field(
+        description="The returned message is returned if message_valid = true,"
+        + " otherwise it will be set to None"
+    )
 
 
 # Message type-specific validation
-def validate_ecr_msg(message: str, error_types: list) -> ValidateResponse:
+def validate_ecr_msg(message: str, include_error_types: list) -> ValidateResponse:
     """
     Validate an XML-formatted CDA eCR message.
     :param message: A string representation of an eCR in XML format to be validated.
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return validate_ecr(ecr_message=message, config=config, error_types=error_types)
+    return validate_ecr(
+        ecr_message=message, config=config, include_error_types=include_error_types
+    )
 
 
-def validate_elr_msg(message: str, error_types: list) -> ValidateResponse:
+def validate_elr_msg(message: str, include_error_types: list) -> ValidateResponse:
     """
     Validate an HL7v2 ORU_R01 ELR message.
     :param message: A string representation of an HL7v2 ORU_R01 message to be validated.
@@ -86,10 +94,11 @@ def validate_elr_msg(message: str, error_types: list) -> ValidateResponse:
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
+        "validated_message": None,
     }
 
 
-def validate_vxu_msg(message: str, error_types: list) -> ValidateResponse:
+def validate_vxu_msg(message: str, include_error_types: list) -> ValidateResponse:
     """
     Validate an HL7v2 VXU_04 VXU message.
     :param message: A string representation of a HL7v2 VXU_04 message to be validated.
@@ -102,6 +111,7 @@ def validate_vxu_msg(message: str, error_types: list) -> ValidateResponse:
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
+        "validated_message": None,
     }
 
 
@@ -138,4 +148,4 @@ async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
     include_error_types = validate_error_types(input["include_error_types"])
     msg = input["message"]
 
-    return message_validator(message=msg, error_types=include_error_types)
+    return message_validator(message=msg, include_error_types=include_error_types)

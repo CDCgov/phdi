@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+# TODO: Install phdi from PyPi when release that includes that Tabulation module is available.
+phdi @ git+https://github.com/CDCgov/phdi@main
+httpx
+pytest
+frozendict

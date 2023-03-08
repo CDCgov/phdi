@@ -1,14 +1,17 @@
 import pathlib
 from phdi.validation.validation import (
-    _organize_messages,
+    _organize_error_messages,
     _match_nodes,
     _validate_attribute,
     _validate_text,
     _check_field_matches,
+    _response_builder,
+    _check_custom_message,
     # namespaces,
 )
 from lxml import etree
 
+test_include_errors = ["fatal", "errors", "warnings", "information"]
 
 # Test file with known errors
 sample_file_bad = open(
@@ -26,14 +29,38 @@ config = open(
 ).read()
 
 
-def test_organize_messages():
+def test_organize_error_messages():
+    fatal = ["foo"]
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
     infos = ["", "SOME"]
+    test_include_errors = ["fatal", "errors", "warnings", "information"]
 
-    expected_result = {"errors": errors, "warnings": warns, "information": infos}
+    expected_result = {
+        "fatal": fatal,
+        "errors": errors,
+        "warnings": warns,
+        "information": infos,
+    }
 
-    actual_result = _organize_messages(errors, warns, infos)
+    actual_result = _organize_error_messages(
+        fatal=fatal,
+        errors=errors,
+        warnings=warns,
+        information=infos,
+        include_error_types=test_include_errors,
+    )
+    assert actual_result == expected_result
+
+    fatal = []
+    test_include_errors = ["information"]
+
+    expected_result = {"fatal": [], "errors": [], "warnings": [], "information": infos}
+
+    actual_result = _organize_error_messages(
+        fatal, errors, warns, infos, test_include_errors
+    )
+
     assert actual_result == expected_result
 
 
@@ -60,7 +87,7 @@ def test_match_nodes():
 
 def test_check_field_matches():
     namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/></foo>"
+    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/><taz/></foo>"
     root = etree.fromstring(xml)
 
     config = {"parent": "foo", "fieldName": "bar", "cdaPath": "//test:foo/test:bar"}
@@ -75,11 +102,39 @@ def test_check_field_matches():
         "cdaPath": "//test:foo/test:bar",
         "attributes": [{"attributeName": "test"}],
     }
+
+    config_check_all = {
+        "parent": "foo",
+        "fieldName": "taz",
+        "cdaPath": "//test:foo/test:taz",
+        "attributes": [{"attributeName": "test"}],
+        "validateAll": "True",
+    }
+    config_dont_check_all = {
+        "parent": "foo",
+        "fieldName": "taz",
+        "cdaPath": "//test:foo/test:taz",
+        "attributes": [{"attributeName": "test"}],
+        "validateAll": "False",
+    }
+    config_dont_check_all_default = {
+        "parent": "foo",
+        "fieldName": "taz",
+        "cdaPath": "//test:foo/test:taz",
+        "attributes": [{"attributeName": "test"}],
+    }
     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+    xml_elements_bar = root.xpath(
+        config_false_attributes.get("cdaPath"), namespaces=namespace
+    )
+    xml_elements_taz = root.xpath(config_check_all.get("cdaPath"), namespaces=namespace)
 
     assert _check_field_matches(xml_elements[0], config)
     assert not _check_field_matches(xml_elements[0], config_false_cda_path)
-    assert not _check_field_matches(xml_elements[0], config_false_attributes)
+    assert not _check_field_matches(xml_elements_bar[0], config_false_attributes)
+    assert _check_field_matches(xml_elements_taz[0], config_check_all)
+    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all)
+    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all_default)
 
 
 def test_validate_attribute():
@@ -165,3 +220,48 @@ def test_validate_text():
     assert _validate_text(xml_elements[0], config_text_doesnt_match_reg_ex) == [
         "Field: bar does not match regEx: foo"
     ]
+
+
+def test_response_builder():
+    expected_response = {
+        "message_valid": True,
+        "validation_results": {
+            "fatal": [],
+            "errors": [],
+            "warnings": [],
+            "information": ["Validation completed with no fatal errors!"],
+        },
+        "validated_message": sample_file_good,
+    }
+    result = _response_builder(
+        errors=expected_response["validation_results"],
+        msg=sample_file_good,
+        include_error_types=test_include_errors,
+    )
+
+    assert result == expected_response
+
+
+def test_check_custom_message():
+    config_field_with_custom = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "foo",
+        "customMessage": "this is a custom message",
+    }
+    result = _check_custom_message(
+        config_field_with_custom, "this is a default message"
+    )
+    assert result == "this is a custom message"
+
+    config_field_no_custom = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "foo",
+    }
+    result = _check_custom_message(config_field_no_custom, "this is a default message")
+    assert result == "this is a default message"
