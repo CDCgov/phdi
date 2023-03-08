@@ -88,7 +88,6 @@ def test_validate_bad():
         config=config,
         include_error_types=test_include_errors,
     )
-    print(result)
     assert result == expected_response
 
 
@@ -111,8 +110,6 @@ def test_validate_error():
         config=config,
         include_error_types=test_include_errors,
     )
-    print("HERE")
-    print(result)
     assert result == expected_response
 
 
