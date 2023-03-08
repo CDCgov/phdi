@@ -144,9 +144,9 @@ async def parse_message_endpoint(
     FHIR format convert it to FHIR first.
 
     :param input: A JSON formated request body with schema specified by the
-        ExtractInput model.
-    :return: A JSON formated response body with schema specified by the ExtractResponse
-        model.
+        ParseMessageInput model.
+    :return: A JSON formated response body with schema specified by the 
+        ParseMessageResponse model.
     """
     # 1. Load schema.
     if input.parsing_schema != {}:
