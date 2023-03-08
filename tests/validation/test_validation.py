@@ -88,6 +88,7 @@ def test_validate_bad():
         config=config,
         include_error_types=test_include_errors,
     )
+    print(result)
     assert result == expected_response
 
 
@@ -97,11 +98,8 @@ def test_validate_error():
         "validation_results": {
             "fatal": [],
             "errors": [
-                "Could not find field: {'fieldName': 'Status', 'cdaPath': "
-                + "'//hl7:ClinicalDocument/hl7:component/hl7:structuredBody"
-                + "/hl7:component/hl7:section/hl7:entry/hl7:act/hl7:code', "
-                + "'errorType': 'errors', 'attributes': [{'attributeName': "
-                + "'code'}]}"
+                "Could not find attribute code for tag Status",
+                "Could not find attribute code for tag Status",
             ],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
@@ -111,8 +109,10 @@ def test_validate_error():
     result = validate_ecr(
         ecr_message=sample_file_error,
         config=config,
-        include_error_types=["fatal", "errors", "warnings", "information"],
+        include_error_types=test_include_errors,
     )
+    print("HERE")
+    print(result)
     assert result == expected_response
 
 

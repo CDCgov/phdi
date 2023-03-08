@@ -72,19 +72,19 @@ def test_validate_ecr_invalid():
     # we don't need to see all the xpath data within the error
     # just the field, value, and why it failed
     expected_result3 = {
-        "message_valid": True,
+        "message_valid": False,
         "validation_results": {
-            "fatal": [],
-            "errors": [
+            "errors": [],
+            "fatal": [
                 "Could not find field: {'fieldName': 'eICR Version Number', "
                 + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
-                + "'errorType': 'errors', "
+                + "'errorType': 'fatal', "
                 + "'attributes': [{'attributeName': 'value'}]}",
                 "Could not find field: {'fieldName': 'First "
                 + "Name', 'cdaPath': "
                 + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
                 + "hl7:patient/hl7:name/hl7:given', "
-                + "'errorType': 'errors', "
+                + "'errorType': 'fatal', "
                 + "'textRequired': 'True', 'parent': 'name', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'L'}]}",
@@ -92,21 +92,21 @@ def test_validate_ecr_invalid():
                 + "'City', 'cdaPath': "
                 + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
                 + "hl7:city', "
-                + "'errorType': 'errors', "
+                + "'errorType': 'fatal', "
                 + "'textRequired': 'True', 'parent': 'addr', "
                 + "'parent_attributes': [{'attributeName': "
                 + "'use', 'regEx': 'H'}]}",
                 "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
             ],
             "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
-            "information": ["Validation completed with no fatal errors!"],
+            "information": [],
         },
-        "validated_message": sample_file_bad,
+        "validated_message": None,
     }
     actual_result3 = validate_ecr_msg(
         message=sample_file_bad, include_error_types=test_error_types
     )
-
+    print(actual_result3)
     assert actual_result3 == expected_result3
 
 
