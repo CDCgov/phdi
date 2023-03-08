@@ -8,6 +8,7 @@ from math import log
 from phdi.harmonization.utils import compare_strings
 from typing import List, Callable, Dict, Union
 import sqlite3
+import matplotlib.pyplot as plt
 
 
 def block_data(data: pd.DataFrame, blocks: List) -> dict:
@@ -215,7 +216,7 @@ def compile_match_lists(match_lists: List[dict], cluster_mode: bool = False):
     return matches
 
 
-def eval_perfect_match(feature_comparisons: List) -> bool:
+def eval_perfect_match(feature_comparisons: List, **kwargs) -> bool:
     """
     Determines whether a given set of feature comparisons represent a
     'perfect' match (i.e. whether all features that were compared match
@@ -226,6 +227,22 @@ def eval_perfect_match(feature_comparisons: List) -> bool:
     :return: The evaluation of whether the given features all match.
     """
     return sum(feature_comparisons) == len(feature_comparisons)
+
+
+def eval_log_odds_cutoff(feature_comparisons: List, **kwargs) -> bool:
+    """
+    Determines whether a given set of feature comparisons matches enough
+    to be the result of a true patient link instead of just random chance.
+    This is represented using previously computed log-odds ratios.
+
+    :param feature_comparisons: A list of floats representing the log-odds
+      score of each field computed on.
+    :return: Whether the feature comparisons score well enough to be
+      considered a match.
+    """
+    if "true_match_threshold" not in kwargs:
+        raise KeyError("Cutoff threshold for true matches must be passed.")
+    return sum(feature_comparisons) >= kwargs["true_match_threshold"]
 
 
 def feature_match_exact(
@@ -298,6 +315,60 @@ def feature_match_fuzzy_string(
         record_i[feature_x], record_j[feature_x], similarity_measure
     )
     return score >= threshold
+
+
+def feature_match_log_odds_exact(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+) -> float:
+    """
+    Determines whether two feature values in two records should earn the full
+    log-odds similarity score (i.e. they match exactly) or whether they
+    should earn no weight (they differ). Used for fields for which fuzzy
+    comparisons are inappropriate, such as sex.
+
+    :param record_i: One of the records in the candidate pair to evaluate.
+    :param record_j: The second record in the candidate pair.
+    :param feature_x: A number representing the index of the feature to
+      compare for a partial match.
+    :return: A float of the score the feature comparison earned.
+    """
+    if "idx_to_col" not in kwargs:
+        raise KeyError("Mapping of indices to column names must be provided.")
+    if "log_odds" not in kwargs:
+        raise KeyError("Mapping of columns to m/u log-odds must be provided.")
+    col = kwargs["idx_to_col"][feature_x]
+    col_odds = kwargs["log_odds"][col]
+    if record_i[feature_x] == record_j[feature_x]:
+        return col_odds
+    else:
+        return 0.0
+
+
+def feature_match_log_odds_fuzzy_compare(
+    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+) -> float:
+    """
+    Determines the weighted string-odds similarly score earned by two
+    feature values in two records, as a function of the pre-computed
+    log-odds weights and the string similarity between the two features.
+    This scales the full score that would be earned from a perfect
+    match to a degree of partial weight appropriate to how similar the
+    two strings are.
+
+    :param record_i: One of the records in the candidate pair to evaluate.
+    :param record_j: The second record in the candidate pair.
+    :param feature_x: A number representing the index of the feature to
+      compare for a partial match.
+    :return: A float of the score the feature comparison earned.
+    """
+    if "idx_to_col" not in kwargs:
+        raise KeyError("Mapping of indices to column names must be provided.")
+    if "log_odds" not in kwargs:
+        raise KeyError("Mapping of columns to m/u log-odds must be provided.")
+    col = kwargs["idx_to_col"][feature_x]
+    col_odds = kwargs["log_odds"][col]
+    score = compare_strings(record_i[feature_x], record_j[feature_x], "JaroWinkler")
+    return score * col_odds
 
 
 def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
@@ -396,7 +467,7 @@ def match_within_block(
             ]
 
             # If it's a match, store the result
-            is_match = match_eval(feature_comps)
+            is_match = match_eval(feature_comps, **kwargs)
             if is_match:
                 match_pairs.append((i, j))
 
@@ -454,6 +525,106 @@ def perform_linkage_pass(
         )
         matches[block] = matches_in_block
     return matches
+
+
+# TODO: Migrate away from pandas eventually
+def profile_log_odds(
+    data: pd.DataFrame,
+    true_matches: dict,
+    log_odds: dict,
+    exact_cols: List,
+    fuzzy_cols: List,
+    idx_to_col: dict,
+    neg_samples: int = 50000,
+) -> None:
+    """
+    Basic graphical profiler for log-odds histogram analysis. Using the
+    raw data and previously known true matches, the function computes one
+    list of log-odds scores that that would be earned by true matches under
+    a given linkage rule, and another list of scores that would be earned
+    by a random sampling of non-matches under the same linkage rule. These
+    lists are used to plot bimodal histograms so that the cutoff threshold
+    between non-matchces and true matches can be visually determined.
+
+    :param data: A pandas data frame holding the raw patient record data.
+    :param true_matches: A dictionary of known true matches in the data.
+    :param log_odds: A dictionary whose keys are the column fields of data
+      and whose values are the log-odds scores that two values match relative
+      to random chance.
+    :param exact_cols: A list of columns to be evaluated using equality
+      comparisons.
+    :param fuzzy_cols: A list of columns to be evaluated using fuzzy weighted
+      comparisons.
+    :param idx_to_col: A dictionary mapping the number of a column in a list
+      representation of the data, to the name of the column in a pandas
+      representation.
+    :param neg_samples: Optionally, how many non-match samples to compute a
+      score for when generating the histogram.
+    """
+    base_pairs = list(combinations(data.index, 2))
+    neg_pairs = [
+        x
+        for x in base_pairs
+        if x[0] not in true_matches or x[1] not in true_matches[x[0]]
+    ]
+    if neg_samples < len(neg_pairs):
+        neg_pairs = sample(neg_pairs, neg_samples)
+
+    data = data.values.tolist()
+    cols_to_idx = {}
+    for idx in idx_to_col:
+        cols_to_idx[idx_to_col[idx]] = idx
+
+    true_match_scores = []
+    for root_record, paired_records in true_matches.items():
+        for pr in paired_records:
+            score = 0.0
+            for c in exact_cols:
+                score += feature_match_log_odds_exact(
+                    data[root_record],
+                    data[pr],
+                    cols_to_idx[c],
+                    idx_to_col=idx_to_col,
+                    log_odds=log_odds,
+                )
+            for c in fuzzy_cols:
+                score += feature_match_log_odds_fuzzy_compare(
+                    data[root_record],
+                    data[pr],
+                    cols_to_idx[c],
+                    idx_to_col=idx_to_col,
+                    log_odds=log_odds,
+                )
+            true_match_scores.append(score)
+
+    non_match_scores = []
+    for record_1, record_2 in neg_pairs:
+        score = 0.0
+        for c in exact_cols:
+            score += feature_match_log_odds_exact(
+                data[record_1],
+                data[record_2],
+                cols_to_idx[c],
+                idx_to_col=idx_to_col,
+                log_odds=log_odds,
+            )
+        for c in fuzzy_cols:
+            score += feature_match_log_odds_fuzzy_compare(
+                data[record_1],
+                data[record_2],
+                cols_to_idx[c],
+                idx_to_col=idx_to_col,
+                log_odds=log_odds,
+            )
+            non_match_scores.append(score)
+
+    min_length = min(len(true_match_scores), len(non_match_scores))
+    true_match_scores = true_match_scores[:min_length]
+    non_match_scores = non_match_scores[:min_length]
+
+    _, bins, _ = plt.hist(true_match_scores, bins=75, range=[0, 25])
+    _ = plt.hist(non_match_scores, bins=bins, alpha=0.5)
+    plt.show()
 
 
 def _eval_record_in_cluster(

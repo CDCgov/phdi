@@ -11,7 +11,14 @@ from phdi.linkage import (
     perform_linkage_pass,
     compile_match_lists,
     feature_match_fuzzy_string,
+    # calculate_m_probs,
+    # calculate_u_probs,
+    # calculate_log_odds
     load_json_probs,
+    feature_match_log_odds_exact,
+    feature_match_log_odds_fuzzy_compare,
+    # profile_log_odds,
+    eval_log_odds_cutoff,
 )
 from typing import Union
 
@@ -106,27 +113,52 @@ def lac_validation_linkage(
 
 
 def phdi_linkage_algorithm(
-    data: pd.DataFrame, cluster_ratio: Union[float, None] = None, **kwargs
+    data: pd.DataFrame,
+    cluster_ratio: Union[float, None] = None,
+    use_log_odds_enhancement: bool = True,
+    **kwargs
 ) -> dict:
-    # Rule 1: metaphone match on first/last, exact on DOB
-    # Zip not used, so block on it
-    funcs = {
-        0: feature_match_fuzzy_string,
-        2: feature_match_fuzzy_string,
-        3: feature_match_fuzzy_string,
-        8: feature_match_exact,
-    }
-    # print("-------Matching on Rule 1: Metaphone first/last, exact DOB-------")
+    if use_log_odds_enhancement:
+        funcs = {
+            0: feature_match_log_odds_fuzzy_compare,
+            2: feature_match_log_odds_fuzzy_compare,
+            3: feature_match_log_odds_fuzzy_compare,
+            8: feature_match_log_odds_exact,
+        }
+        eval_rule = eval_log_odds_cutoff
+    else:
+        funcs = {
+            0: feature_match_fuzzy_string,
+            2: feature_match_fuzzy_string,
+            3: feature_match_fuzzy_string,
+            8: feature_match_exact,
+        }
+        eval_rule = eval_perfect_match
     matches_1 = perform_linkage_pass(
-        data, ["MRN4", "ADDRESS4"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data,
+        ["MRN4", "ADDRESS4"],
+        funcs,
+        eval_rule,
+        cluster_ratio,
+        true_match_threshold=16.5,
+        **kwargs
     )
 
-    funcs = {
-        16: feature_match_fuzzy_string,
-        10: feature_match_fuzzy_string,
-    }
+    if use_log_odds_enhancement:
+        funcs = {
+            16: feature_match_log_odds_fuzzy_compare,
+            10: feature_match_log_odds_fuzzy_compare,
+        }
+    else:
+        funcs = {10: feature_match_fuzzy_string, 16: feature_match_fuzzy_string}
     matches_2 = perform_linkage_pass(
-        data, ["FIRST4", "LAST4"], funcs, eval_perfect_match, cluster_ratio, **kwargs
+        data,
+        ["FIRST4", "LAST4"],
+        funcs,
+        eval_rule,
+        cluster_ratio,
+        true_match_threshold=7,
+        **kwargs
     )
 
     total_matches = compile_match_lists(
@@ -135,7 +167,16 @@ def phdi_linkage_algorithm(
     return total_matches
 
 
-def determine_true_matches_in_pd_dataset(data: pd.DataFrame):
+def determine_true_matches_in_synthetic_pd_dataset(data: pd.DataFrame):
+    """
+    NOTE: The true matches dictionary here is created using the index of a
+    record in the dataframe (i.e. the keys are lower numbered indices, and
+    the values are sets of higher numbered indices), but because we reset
+    the record IDs in a later function (see below), this winds up being the
+    same as using the ID itself. In other applications, this may not hold,
+    so a more precise true match determination would be required that
+    explicitly stores IDs to sets of other IDs.
+    """
     print("-------Identifying True Matches for Evaluation-------")
     true_matches = {}
     tuple_data = tuple(data.groupby("Id"))
@@ -268,10 +309,13 @@ data = pd.read_csv(
     "./sample_record_linkage_data_scrambled.csv", dtype="string", nrows=DATA_SIZE
 )
 data = add_metaphone_columns_to_data(data)
-true_matches = determine_true_matches_in_pd_dataset(data)
+true_matches = determine_true_matches_in_synthetic_pd_dataset(data)
 data = add_split_birth_fields(data)
 data = derive_mrn4(data)
 data = set_record_id(data)
+
+cols = list(data.columns)
+idx_to_col = dict(zip(range(len(cols)), cols))
 
 # start = time.time()
 # m_probs = calculate_m_probs(data, true_matches, file_to_write="m_probs_synthetic.json")  # noqa
@@ -292,9 +336,25 @@ log_odds = load_json_probs("log_odds_synthetic.json")
 
 start = time.time()
 # matches = lac_validation_linkage(data, None)
-matches = phdi_linkage_algorithm(data, None)
+matches = phdi_linkage_algorithm(
+    data,
+    cluster_ratio=None,
+    use_log_odds_enhancement=True,
+    idx_to_col=idx_to_col,
+    log_odds=log_odds,
+)
 end = time.time()
 
 print("Computation took", str(round(end - start, 2)), "seconds")
 display_statistical_evaluation(matches, true_matches)
 # display_missed_matches_by_type(matches, true_matches)
+
+# profile_log_odds(
+#     data,
+#     true_matches,
+#     log_odds,
+#     [],
+#     ["FIRST", "LAST"],
+#     idx_to_col,
+#     neg_samples=25000,
+# )

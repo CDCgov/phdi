@@ -19,6 +19,9 @@ from phdi.linkage import (
     calculate_u_probs,
     calculate_log_odds,
     load_json_probs,
+    eval_log_odds_cutoff,
+    feature_match_log_odds_exact,
+    feature_match_log_odds_fuzzy_compare,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
@@ -577,3 +580,93 @@ def test_load_json_probs_errors():
     assert "specified file is not valid JSON" in str(e.value)
 
     os.remove("not_valid_json.json")
+
+
+def test_eval_log_odds_cutoff():
+    with pytest.raises(KeyError) as e:
+        eval_log_odds_cutoff([])
+    assert "Cutoff threshold for true matches must be passed" in str(e.value)
+
+    assert not eval_log_odds_cutoff([], true_match_threshold=10.0)
+    assert not eval_log_odds_cutoff([1.0, 0.0, 6.0, 2.7], true_match_threshold=10.0)
+    assert eval_log_odds_cutoff([4.3, 6.1, 2.5], true_match_threshold=10.0)
+
+
+def test_feature_match_log_odds_exact():
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_exact([], [], 0)
+    assert "Mapping of indices to column names must be provided" in str(e.value)
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_exact([], [], 0, idx_to_col={})
+    assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
+
+    ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
+    rj = ["John", 6.0, None, "2345 Goldmoon Ave."]
+    idx_to_col = {0: "first", 1: "last", 2: "birthdate", 3: "address"}
+    log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
+
+    assert (
+        feature_match_log_odds_exact(
+            ri, rj, 0, idx_to_col=idx_to_col, log_odds=log_odds
+        )
+        == 4.0
+    )
+
+    for i in range(1, 4):
+        assert (
+            feature_match_log_odds_exact(
+                ri, rj, i, idx_to_col=idx_to_col, log_odds=log_odds
+            )
+            == 0.0
+        )
+
+
+def test_feature_match_log_odds_fuzzy():
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_fuzzy_compare([], [], 0)
+    assert "Mapping of indices to column names must be provided" in str(e.value)
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_fuzzy_compare([], [], 0, idx_to_col={})
+    assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
+
+    ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
+    rj = ["John", "Sheperd", "06-08-2000", "asdfghjeki"]
+    idx_to_col = {0: "first", 1: "last", 2: "birthdate", 3: "address"}
+    log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
+
+    assert (
+        feature_match_log_odds_fuzzy_compare(
+            ri, rj, 0, idx_to_col=idx_to_col, log_odds=log_odds
+        )
+        == 4.0
+    )
+
+    assert (
+        round(
+            feature_match_log_odds_fuzzy_compare(
+                ri, rj, 1, idx_to_col=idx_to_col, log_odds=log_odds
+            ),
+            3,
+        )
+        == 6.129
+    )
+
+    assert (
+        round(
+            feature_match_log_odds_fuzzy_compare(
+                ri, rj, 2, idx_to_col=idx_to_col, log_odds=log_odds
+            ),
+            3,
+        )
+        == 5.227
+    )
+
+    assert (
+        round(
+            feature_match_log_odds_fuzzy_compare(
+                ri, rj, 3, idx_to_col=idx_to_col, log_odds=log_odds
+            ),
+            3,
+        )
+        == 0.987
+    )
