@@ -22,6 +22,17 @@ sample_file_error = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_error.xml"
 ).read()
 
+# Test config file with custom error messages
+with open(
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "sample_ecr_config_custom_messages.yaml",
+        "r",
+) as file2:
+    config_with_custom_errors = yaml.safe_load(file2)
+
+
+# standard config file
 with open(
     pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml", "r"
 ) as file:
@@ -139,19 +150,13 @@ def test_custom_error_messages():
             "errors": ["Invalid postal code"],
             "fatal": [],
             "warnings": [],
-            "information": ["Validation complete with no errors!"],
+            "information": ["Validation completed with no fatal errors!"],
         },
+        "validated_message": sample_file_bad
     }
-    with open(
-        pathlib.Path(__file__).parent.parent
-        / "assets"
-        / "sample_ecr_config_custom_messages.yaml",
-        "r",
-    ) as file:
-        config_custom = yaml.safe_load(file)
-        result = validate_ecr(
-            ecr_message=sample_file_bad,
-            config=config_custom,
-            include_error_types=test_include_errors,
-        )
-        assert expected_result == result
+    result = validate_ecr(
+        ecr_message=sample_file_bad,
+        config=config_with_custom_errors,
+        include_error_types=test_include_errors,
+    )
+    assert expected_result == result
