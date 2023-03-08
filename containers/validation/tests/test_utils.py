@@ -9,8 +9,6 @@ def test_load_config():
     config = load_config(config_path)
     assert config != ""
 
-    config = 
-
 
 def test_validate_error_types():
     valid_ets = "errors,warnings"

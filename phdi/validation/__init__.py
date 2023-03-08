@@ -4,7 +4,7 @@ from .validation import (
     _validate_attribute,
     _validate_text,
     _organize_error_messages,
-    _response_builder
+    _response_builder,
 )
 
 __all__ = [
@@ -13,5 +13,5 @@ __all__ = [
     "_validate_attribute",
     "_validate_text",
     "_organize_error_messages",
-    "_response_builder"
+    "_response_builder",
 ]
