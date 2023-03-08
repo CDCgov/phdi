@@ -406,6 +406,15 @@ def test_score_linkage_vs_truth():
     assert ppv == 0.75
     assert f1 == 0.857
 
+    cluster_mode_matches = {1: {5, 11, 12, 13}, 23: {24, 31, 32}}
+    sensitivity, specificity, ppv, f1 = score_linkage_vs_truth(
+        cluster_mode_matches, true_matches, num_records, True
+    )
+    assert sensitivity == 1.0
+    assert specificity == 0.926
+    assert ppv == 0.75
+    assert f1 == 0.857
+
 
 def test_generate_block_query():
     table_name = "test_table"
