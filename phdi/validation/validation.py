@@ -87,7 +87,7 @@ def _get_field_details_string(xml_element, config_field) -> str:
         else []
     )
     parent_name = (
-        ["Parent element: " + config_field.get("parent")]
+        ["Parent element: '" + config_field.get("parent") + "'"]
         if config_field.get("parent")
         else []
     )

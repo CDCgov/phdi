@@ -320,7 +320,6 @@ def test_get_xml_message_id():
     actual_result = _get_xml_message_id(
         parsed_ecr.xpath(RR_MSG_ID_XPATH, namespaces=namespaces)
     )
-    print(actual_result)
     assert actual_result == expected_result
 
 
