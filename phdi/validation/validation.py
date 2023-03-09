@@ -10,9 +10,18 @@ namespaces = {
     "voc": "http://www.lantanagroup.com/voc",
 }
 
+EICR_MSG_ID_XPATH = "//hl7:ClinicalDocument/hl7:id"
+RR_MSG_ID_XPATH = "//hl7:ClinicalDocument/hl7:section/hl7:id"
+
 
 def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> dict:
-    error_messages = {"fatal": [], "errors": [], "warnings": [], "information": []}
+    error_messages = {
+        "fatal": [],
+        "errors": [],
+        "warnings": [],
+        "information": [],
+        "message_ids": {},
+    }
     # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
     xml = ecr_message.encode("utf-8")
@@ -23,11 +32,22 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     try:
         parsed_ecr = etree.fromstring(xml, parser=parser)
         parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=namespaces)
+
     except AttributeError:
         error_messages["fatal"].append("eCR Message is not valid XML!")
         return _response_builder(
             errors=error_messages, msg=None, include_error_types=include_error_types
         )
+
+    # first get the message id for the eicr and the rr
+    xml_eicr_id = _get_xml_message_id(
+        parsed_ecr.xpath(EICR_MSG_ID_XPATH, namespaces=namespaces)
+    )
+    xml_rr_id = _get_xml_message_id(
+        parsed_ecr.xpath(RR_MSG_ID_XPATH, namespaces=namespaces)
+    )
+    message_ids = {"eicr": xml_eicr_id, "rr": xml_rr_id}
+    error_messages["message_ids"] = message_ids
 
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
@@ -61,6 +81,7 @@ def _organize_error_messages(
     errors: list,
     warnings: list,
     information: list,
+    message_ids: dict,
     include_error_types: list,
 ) -> dict:
     # utilize the error_types to filter out the different error message
@@ -78,6 +99,7 @@ def _organize_error_messages(
         "errors": filtered_errors,
         "warnings": filtered_warnings,
         "information": filtered_information,
+        "message_ids": message_ids,
     }
     return organized_messages
 
@@ -243,6 +265,7 @@ def _response_builder(errors: dict, msg: str, include_error_types: list) -> dict
             errors=errors["errors"],
             warnings=errors["warnings"],
             information=errors["information"],
+            message_ids=errors["message_ids"],
             include_error_types=include_error_types,
         ),
         "validated_message": validated_message,
@@ -254,3 +277,12 @@ def _check_custom_message(config_field, default_message):
     if config_field.get("customMessage"):
         message = config_field.get("customMessage")
     return message
+
+
+def _get_xml_message_id(id_xml_tag: etree.Element) -> dict:
+    if id_xml_tag == []:
+        return {}
+    id_root = id_xml_tag[0].get("root")
+    id_extension = id_xml_tag[0].get("extension")
+    message_id = {"root": id_root, "extension": id_extension}
+    return message_id

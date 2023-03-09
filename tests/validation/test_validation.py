@@ -22,6 +22,13 @@ sample_file_error = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_error.xml"
 ).read()
 
+# Test good file with RR data
+sample_file_good_RR = open(
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "ecr_sample_input_good_with_RR.xml"
+).read()
+
 # Test config file with custom error messages
 with open(
     pathlib.Path(__file__).parent.parent
@@ -40,6 +47,11 @@ with open(
 
 
 def test_validate_good():
+    eicr_result = {
+        "root": "2.16.840.1.113883.9.9.9.9.9",
+        "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+    }
+    rr_result = {}
     expected_response = {
         "message_valid": True,
         "validation_results": {
@@ -47,6 +59,7 @@ def test_validate_good():
             "errors": [],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
+            "message_ids": {"eicr": eicr_result, "rr": rr_result},
         },
         "validated_message": sample_file_good,
     }
@@ -91,6 +104,13 @@ def test_validate_bad():
             "errors": [],
             "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
             "information": [],
+            "message_ids": {
+                "eicr": {
+                    "root": "2.16.840.1.113883.9.9.9.9.9",
+                    "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+                },
+                "rr": {},
+            },
         },
         "validated_message": None,
     }
@@ -113,6 +133,13 @@ def test_validate_error():
             ],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
+            "message_ids": {
+                "eicr": {
+                    "root": "2.16.840.1.113883.9.9.9.9.9",
+                    "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+                },
+                "rr": {},
+            },
         },
         "validated_message": sample_file_error,
     }
@@ -132,6 +159,7 @@ def test_validate_ecr_invalid_xml():
             "errors": [],
             "warnings": [],
             "information": [],
+            "message_ids": {},
         },
         "validated_message": None,
     }
@@ -151,6 +179,13 @@ def test_custom_error_messages():
             "fatal": [],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
+            "message_ids": {
+                "eicr": {
+                    "root": "2.16.840.1.113883.9.9.9.9.9",
+                    "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+                },
+                "rr": {},
+            },
         },
         "validated_message": sample_file_bad,
     }
@@ -160,3 +195,31 @@ def test_custom_error_messages():
         include_error_types=test_include_errors,
     )
     assert expected_result == result
+
+
+def test_validate_good_with_rr_data():
+    eicr_result = {
+        "root": "2.16.840.1.113883.9.9.9.9.9",
+        "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+    }
+    rr_result = {
+        "root": "4efa0e5c-c34c-429f-b5de-f1a13aef4a28",
+        "extension": None,
+    }
+    expected_response = {
+        "message_valid": True,
+        "validation_results": {
+            "fatal": [],
+            "errors": [],
+            "warnings": [],
+            "information": ["Validation completed with no fatal errors!"],
+            "message_ids": {"eicr": eicr_result, "rr": rr_result},
+        },
+        "validated_message": sample_file_good_RR,
+    }
+    result = validate_ecr(
+        ecr_message=sample_file_good_RR,
+        config=config,
+        include_error_types=test_include_errors,
+    )
+    assert result == expected_response

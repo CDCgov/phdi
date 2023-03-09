@@ -7,7 +7,10 @@ from phdi.validation.validation import (
     _check_field_matches,
     _response_builder,
     _check_custom_message,
-    # namespaces,
+    _get_xml_message_id,
+    RR_MSG_ID_XPATH,
+    EICR_MSG_ID_XPATH,
+    namespaces,
 )
 from lxml import etree
 
@@ -24,6 +27,13 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
 ).read()
 
+# Test good file with RR data
+sample_file_good_RR = open(
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "ecr_sample_input_good_with_RR.xml"
+).read()
+
 config = open(
     pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
 ).read()
@@ -35,12 +45,14 @@ def test_organize_error_messages():
     warns = ["my warn1"]
     infos = ["", "SOME"]
     test_include_errors = ["fatal", "errors", "warnings", "information"]
+    msg_ids = {}
 
     expected_result = {
         "fatal": fatal,
         "errors": errors,
         "warnings": warns,
         "information": infos,
+        "message_ids": msg_ids,
     }
 
     actual_result = _organize_error_messages(
@@ -48,6 +60,7 @@ def test_organize_error_messages():
         errors=errors,
         warnings=warns,
         information=infos,
+        message_ids=msg_ids,
         include_error_types=test_include_errors,
     )
     assert actual_result == expected_result
@@ -55,10 +68,21 @@ def test_organize_error_messages():
     fatal = []
     test_include_errors = ["information"]
 
-    expected_result = {"fatal": [], "errors": [], "warnings": [], "information": infos}
+    expected_result = {
+        "fatal": [],
+        "errors": [],
+        "warnings": [],
+        "information": infos,
+        "message_ids": msg_ids,
+    }
 
     actual_result = _organize_error_messages(
-        fatal, errors, warns, infos, test_include_errors
+        fatal=fatal,
+        errors=errors,
+        warnings=warns,
+        information=infos,
+        message_ids=msg_ids,
+        include_error_types=test_include_errors,
     )
 
     assert actual_result == expected_result
@@ -230,6 +254,7 @@ def test_response_builder():
             "errors": [],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
+            "message_ids": {},
         },
         "validated_message": sample_file_good,
     }
@@ -265,3 +290,30 @@ def test_check_custom_message():
     }
     result = _check_custom_message(config_field_no_custom, "this is a default message")
     assert result == "this is a default message"
+
+
+def test_get_xml_message_id():
+    # parse and prep data from example file
+    # for testing
+    xml = sample_file_good_RR.encode("utf-8")
+    parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
+    parsed_ecr = etree.fromstring(xml, parser=parser)
+
+    actual_result = _get_xml_message_id(
+        parsed_ecr.xpath(EICR_MSG_ID_XPATH, namespaces=namespaces)
+    )
+    expected_result = {
+        "root": "2.16.840.1.113883.9.9.9.9.9",
+        "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+    }
+    assert actual_result == expected_result
+
+    expected_result = {
+        "root": "4efa0e5c-c34c-429f-b5de-f1a13aef4a28",
+        "extension": None,
+    }
+    actual_result = _get_xml_message_id(
+        parsed_ecr.xpath(RR_MSG_ID_XPATH, namespaces=namespaces)
+    )
+    print(actual_result)
+    assert actual_result == expected_result
