@@ -8,11 +8,14 @@ from phdi.validation.validation import (
     _response_builder,
     _check_custom_message,
     _get_xml_message_id,
+    _get_attributes_list,
+    _get_field_details_string,
     RR_MSG_ID_XPATH,
     EICR_MSG_ID_XPATH,
     namespaces,
 )
 from lxml import etree
+
 
 test_include_errors = ["fatal", "errors", "warnings", "information"]
 
@@ -185,10 +188,11 @@ def test_validate_attribute():
     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
     assert _validate_attribute(xml_elements[0], config) == []
     assert _validate_attribute(xml_elements[0], config_attributes) == [
-        "Could not find attribute fail for tag bar"
+        "Could not find attribute fail. Field name: 'bar' Attributes: name: 'fail'"
     ]
     assert _validate_attribute(xml_elements[0], config_reg_ex) == [
-        "Attribute: 'test' for field: 'bar' not in expected format"
+        "Attribute: 'test' not in expected format. Field name: 'bar' Attributes: name:"
+        + " 'test' RegEx: 'bar' value: 'bat'"
     ]
 
 
@@ -216,7 +220,7 @@ def test_validate_text():
 
     xml_elements = root.xpath(config_no_text.get("cdaPath"), namespaces=namespace)
     assert _validate_text(xml_elements[0], config_no_text) == [
-        "Field: biz does not have text"
+        "Field does not have text. Field name: 'biz' value: '' Attributes: name: 'test'"
     ]
 
     config_text_matches_reg_ex = {
@@ -242,7 +246,8 @@ def test_validate_text():
         config_text_doesnt_match_reg_ex.get("cdaPath"), namespaces=namespace
     )
     assert _validate_text(xml_elements[0], config_text_doesnt_match_reg_ex) == [
-        "Field: bar does not match regEx: foo"
+        "Field does not match regEx: foo. Field name: 'bar' value: 'test' Attributes:"
+        + " name: 'test'"
     ]
 
 
@@ -317,3 +322,53 @@ def test_get_xml_message_id():
     )
     print(actual_result)
     assert actual_result == expected_result
+
+
+def test_get_field_details_string():
+    namespace = {"test": "test"}
+    xml = (
+        "<foo xmlns='test'><bar test='hello'>test</bar><baz><biz/></baz>"
+        + "<biz>wrong</biz></foo>"
+    )
+    root = etree.fromstring(xml)
+    config_text_matches_reg_ex = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "test",
+    }
+
+    xml_elements = root.xpath(
+        config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
+    )
+    assert (
+        _get_field_details_string(xml_elements[0], config_text_matches_reg_ex)
+        == "Field name: 'bar' value: 'test' Attributes: name: 'test' value: 'hello'"
+    )
+
+
+def test_get_attributes_list():
+    namespace = {"test": "test"}
+    xml = (
+        "<foo xmlns='test'><bar test='hello'>test</bar><baz><biz/></baz>"
+        + "<biz>wrong</biz></foo>"
+    )
+    root = etree.fromstring(xml)
+    config_text_matches_reg_ex = {
+        "fieldName": "bar",
+        "attributes": [
+            {"attributeName": "test", "regEx": "test"},
+            {"attributeName": "foo"},
+        ],
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "test",
+    }
+
+    xml_elements = root.xpath(
+        config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
+    )
+    assert _get_attributes_list(
+        config_text_matches_reg_ex.get("attributes"), xml_elements[0]
+    ) == ["name: 'test' RegEx: 'test' value: 'hello', name: 'foo'"]
