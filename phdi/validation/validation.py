@@ -42,7 +42,9 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         )
 
         if not matched_xml_elements:
-            error_message = "Could not find field: " + str(field)
+            error_message = "Could not find field. " + _get_field_details_string(
+                None, field
+            )
             error_messages[message_type].append(error_message)
             continue
 
@@ -54,6 +56,51 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         errors=error_messages, msg=ecr_message, include_error_types=include_error_types
     )
     return response
+
+
+def _get_field_details_string(xml_element, config_field) -> str:
+    name = [f"Field name: '{config_field.get('fieldName')}'"]
+    config_attributes = config_field.get("attributes")
+    attributes = (
+        ["Attributes:"] + _get_attributes_list(config_attributes, xml_element)
+        if config_attributes
+        else []
+    )
+    parent_name = (
+        ["Parent element: " + config_field.get("parent")]
+        if config_field.get("parent")
+        else []
+    )
+    config_parent_attributes = config_field.get("parent_attributes")
+    parent_attributes = (
+        ["Parent attributes"]
+        + _get_attributes_list(config_parent_attributes, xml_element)
+        if config_parent_attributes
+        else []
+    )
+
+    value = (
+        [f"value: '{''.join(xml_element.itertext())}'"]
+        if config_field.get("textRequired") and xml_element is not None
+        else []
+    )
+    return " ".join(name + value + attributes + parent_name + parent_attributes)
+
+
+def _get_attributes_list(attributes, xml_element) -> list:
+    attrs = []
+    for attribute in attributes:
+        attribute_name = attribute.get("attributeName")
+        reg_ex = attribute.get("regEx")
+        reg_ex_string = f" RegEx: '{reg_ex}'" if reg_ex else ""
+        attribute_value = (
+            f" value: '{xml_element.get(attribute_name)}'"
+            if xml_element is not None and xml_element.get(attribute_name)
+            else ""
+        )
+
+        attrs.append(f"name: '{attribute_name}'{reg_ex_string}{attribute_value}")
+    return [", ".join(attrs)]
 
 
 def _organize_error_messages(
@@ -169,18 +216,18 @@ def _validate_attribute(xml_element, config_field) -> list:
             if not attribute_value:
                 message = _check_custom_message(
                     config_field,
-                    f"Could not find attribute {attribute_name} "
-                    + f"for tag {config_field.get('fieldName')}",
+                    f"Could not find attribute {attribute_name}. "
+                    + f"{_get_field_details_string(xml_element, config_field)}",
                 )
                 error_messages.append(message)
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
             if (not attribute_value) or (not pattern.match(attribute_value)):
-                field_name = config_field.get("fieldName")
                 message = _check_custom_message(
                     config_field,
-                    f"Attribute: '{attribute_name}' for field: '{field_name}'"
-                    + " not in expected format",
+                    f"Attribute: '{attribute_name}'"
+                    + " not in expected format. "
+                    + f"{_get_field_details_string(xml_element, config_field)}",
                 )
                 error_messages.append(message)
 
@@ -208,10 +255,9 @@ def _validate_text(xml_element, config_field):
         if pattern.match(text) is None:
             message = _check_custom_message(
                 config_field,
-                "Field: "
-                + config_field.get("fieldName")
-                + " does not match regEx: "
-                + config_field.get("regEx"),
+                "Field does not match regEx: "
+                + config_field.get("regEx")
+                + f". {_get_field_details_string(xml_element, config_field)}",
             )
             return [message]
         else:
@@ -222,7 +268,8 @@ def _validate_text(xml_element, config_field):
         else:
             message = _check_custom_message(
                 config_field,
-                "Field: " + config_field.get("fieldName") + " does not have text",
+                "Field does not have text. "
+                + f"{_get_field_details_string(xml_element, config_field)}",
             )
             return [message]
 
