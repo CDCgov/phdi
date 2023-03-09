@@ -15,6 +15,10 @@ from phdi.linkage import (
     score_linkage_vs_truth,
     block_data_from_db,
     _generate_block_query,
+    calculate_m_probs,
+    calculate_u_probs,
+    calculate_log_odds,
+    load_json_probs,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
@@ -23,6 +27,9 @@ from phdi.linkage.link import (
 
 import pathlib
 import pytest
+from random import seed
+from math import log
+from json.decoder import JSONDecodeError
 
 
 def test_generate_hash():
@@ -399,6 +406,15 @@ def test_score_linkage_vs_truth():
     assert ppv == 0.75
     assert f1 == 0.857
 
+    cluster_mode_matches = {1: {5, 11, 12, 13}, 23: {24, 31, 32}}
+    sensitivity, specificity, ppv, f1 = score_linkage_vs_truth(
+        cluster_mode_matches, true_matches, num_records, True
+    )
+    assert sensitivity == 1.0
+    assert specificity == 0.926
+    assert ppv == 0.75
+    assert f1 == 0.857
+
 
 def test_generate_block_query():
     table_name = "test_table"
@@ -454,3 +470,119 @@ def test_blocking_data():
     with pytest.raises(ValueError) as e:
         block_data_from_db(db_name, table_name, block_data)
     assert "`block_data` cannot be empty." in str(e.value)
+
+
+def test_read_write_m_probs():
+    data = pd.read_csv(
+        pathlib.Path(__file__).parent.parent / "assets" / "patient_lol.csv",
+        index_col=False,
+        dtype="object",
+        keep_default_na=False,
+    )
+    true_matches = {
+        0: {1, 2, 3},
+        1: {2, 3},
+        2: {3},
+        7: {8, 10, 11},
+        8: {10, 11},
+        10: {11},
+    }
+    true_probs = {
+        "BIRTHDATE": 1.0,
+        "FIRST": 2.0 / 13.0,
+        "LAST": 5.0 / 13.0,
+        "GENDER": 1.0,
+        "ADDRESS": 1.0,
+        "CITY": 1.0,
+        "STATE": 1.0,
+        "ZIP": 1.0,
+        "ID": 1.0 / 13.0,
+    }
+    if os.path.isfile("./m.json"):
+        os.remove("./m.json")
+
+    m_probs = calculate_m_probs(data, true_matches, file_to_write="m.json")
+    assert m_probs == true_probs
+
+    loaded_probs = load_json_probs("m.json")
+    assert loaded_probs == true_probs
+
+    os.remove("./m.json")
+
+
+def test_read_write_u_probs():
+    seed(0)
+    data = pd.read_csv(
+        pathlib.Path(__file__).parent.parent / "assets" / "patient_lol.csv",
+        index_col=False,
+        dtype="object",
+        keep_default_na=False,
+    )
+    true_matches = {
+        0: {1, 2, 3},
+        1: {2, 3},
+        2: {3},
+        7: {8, 10, 11},
+        8: {10, 11},
+        10: {11},
+    }
+    true_probs = {
+        "BIRTHDATE": 3.0 / 11.0,
+        "FIRST": 1.0 / 11.0,
+        "LAST": 2.0 / 11.0,
+        "GENDER": 1.0,
+        "ADDRESS": 1.0,
+        "CITY": 1.0,
+        "STATE": 1.0,
+        "ZIP": 3.0 / 11.0,
+        "ID": 1.0 / 11.0,
+    }
+    if os.path.isfile("./u.json"):
+        os.remove("./u.json")
+
+    u_probs = calculate_u_probs(
+        data, true_matches, n_samples=10, file_to_write="u.json"
+    )
+    assert u_probs == true_probs
+
+    loaded_probs = load_json_probs("u.json")
+    assert loaded_probs == true_probs
+
+    os.remove("./u.json")
+
+
+def test_read_write_log_odds():
+    if os.path.isfile("./log_odds.json"):
+        os.remove("./log_odds.json")
+    m_probs = {"A": 1.0, "B": 0.5, "C": 0.25, "D": 0.125}
+    u_probs = {"A": 0.1, "B": 0.2, "C": 0.05, "D": 0.125}
+    true_log_odds = {
+        "A": log(1.0) - log(0.1),
+        "B": log(0.5) - log(0.2),
+        "C": log(0.25) - log(0.05),
+        "D": log(1),
+    }
+    log_odds = calculate_log_odds(m_probs, u_probs, file_to_write="log_odds.json")
+    assert log_odds == true_log_odds
+    loaded_log_odds = load_json_probs("log_odds.json")
+    assert loaded_log_odds == true_log_odds
+
+    with pytest.raises(ValueError) as e:
+        calculate_log_odds({}, u_probs)
+    assert "probability dictionaries must contain the same set of keys" in str(e.value)
+
+    os.remove("log_odds.json")
+
+
+def test_load_json_probs_errors():
+    with pytest.raises(FileNotFoundError) as e:
+        load_json_probs("does_not_exist.json")
+    assert "specified file does not exist at" in str(e.value)
+
+    with open("not_valid_json.json", "w") as file:
+        file.write("I am not valid JSON")
+    with pytest.raises(JSONDecodeError) as e:
+        load_json_probs("not_valid_json.json")
+    assert "specified file is not valid JSON" in str(e.value)
+
+    os.remove("not_valid_json.json")

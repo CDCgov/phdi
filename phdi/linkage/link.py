@@ -1,5 +1,10 @@
 import hashlib
+import json
 import pandas as pd
+import pathlib
+from itertools import combinations
+from random import sample
+from math import log
 from phdi.harmonization.utils import compare_strings
 from typing import List, Callable, Dict, Union
 import sqlite3
@@ -11,8 +16,7 @@ def block_data(data: pd.DataFrame, blocks: List) -> dict:
     and each value is a distinct list of lists containing the data
     for a given block.
 
-    :param path: Path to parquet file containing data that needs to
-      be linked.
+    :param data: A pandas dataframe of records to be linked.
     :param blocks: List of columns to be used in blocks.
     :return: A dictionary of with the keys as the blocks and the
       values as the data within each block, stored as a list of
@@ -26,6 +30,153 @@ def block_data(data: pd.DataFrame, blocks: List) -> dict:
         blocked_data[block] = df.values.tolist()
 
     return blocked_data
+
+
+def calculate_log_odds(
+    m_probs: dict,
+    u_probs: dict,
+    file_to_write: Union[pathlib.Path, None] = None,
+):
+    """
+    Calculate the per-field log odds ratio score that two records will
+    match in a given field. Measures the likelihood that two records
+    match on a column due to being a true match as opposed to random
+    chance.
+
+    :param m_probs: A dictionary of m-probabilities computed per field.
+    :param u_probs: A dictionary of u_probabilities computed per field.
+    :param file_to_write: Optionally, a destination filepath at which
+      to write the probabilities in JSON format. Default is None.
+    :raises ValueError: If the supplied m- and u- probability dictionaries
+      do not share an equal key set.
+    """
+    if m_probs.keys() != u_probs.keys():
+        raise ValueError(
+            "m- and u- probability dictionaries must contain the same set of keys"
+        )
+    log_odds = {}
+    for k in m_probs:
+        log_odds[k] = log(m_probs[k]) - log(u_probs[k])
+    _write_prob_file(log_odds, file_to_write)
+    return log_odds
+
+
+# TODO: We will eventually want to move away from pandas in favor of something
+# more light-weight. While pandas is good for pre-computing and model
+# examination, it does come with substantial overhead. Maybe make this work
+# on a list of lists at some point.
+def calculate_m_probs(
+    data: pd.DataFrame,
+    true_matches: dict,
+    cols: Union[List[str], None] = None,
+    file_to_write: Union[pathlib.Path, None] = None,
+):
+    """
+    For a given set of patient records, calculate the per-field
+    m-probability. The m-probability for field X is defined as the
+    probability that a pair of records A and B have the same value in
+    X, given that A and B are a true matching pair. This function
+    incorporates LaPlacian Smoothing to account for unseen data and
+    to resolve future logarithms against 0.
+
+    :param data: A pandas dataframe of patient records to compute
+      probabilities for.
+    :param true_matches: A dictionary holding the IDs of record pairs
+      that are true matches in the data set. The format of the dictionary
+      should be such that the IDs of the "lower numbered" records in each
+      match pair are the keys, and the values are sets of the "higher
+      numbered" records in each pair.
+    :param cols: Optionally, a list of columns to compute probabilities
+      for. If not supplied, computes probabilities across all fields.
+      Default is None.
+    :param file_to_write: Optionally, a destination filepath at which to
+      write the probabilities in JSON format. Default is None.
+    """
+    if cols is None:
+        cols = data.columns
+    m_probs = {c: 1.0 for c in cols}
+    total_pairs = 1.0
+    for root_record, paired_records in true_matches.items():
+        total_pairs += len(paired_records)
+        for pr in paired_records:
+            for c in cols:
+                if data[c].iloc[root_record] == data[c].iloc[pr]:
+                    m_probs[c] += 1
+    for c in cols:
+        m_probs[c] /= total_pairs
+
+    _write_prob_file(m_probs, file_to_write)
+    return m_probs
+
+
+# TODO: We will eventually want to move away from pandas in favor of something
+# more light-weight. While pandas is good for pre-computing and model
+# examination, it does come with substantial overhead. Maybe make this work
+# on a list of lists at some point.
+def calculate_u_probs(
+    data: pd.DataFrame,
+    true_matches: dict,
+    n_samples: Union[int, None] = None,
+    cols: Union[List, None] = None,
+    file_to_write: Union[pathlib.Path, None] = None,
+):
+    """
+    For a given set of patient records, calculate the per-field
+    u-probability. The u-probability for field X is defined as the
+    probability that a pair of records A and B have the same value in
+    X, given that A and B are not a true matching pair. This function
+    incorporates LaPlacian Smoothing to account for unseen data and
+    to handle future logarithms against 0.
+
+    Note: This function can be slow to compute for large data sets.
+    It is recommended to pass only a representative subsample of the
+    data to the function (we recommend sampling ~25k candidate pairs
+    from a sub-sample of ~25k records), even if the sample operation
+    is used.
+
+    :param data: A pandas dataframe of patient records to compute
+      probabilities for.
+    :param true_matches: A dictionary holding the IDs of record pairs
+      that are true matches in the data set. The format of the dictionary
+      should be such that the IDs of the "lower numbered" records in each
+      match pair are the keys, and the values are sets of the "higher
+      numbered" records in each pair.
+    :param n_samples: Optionally, a number of samples to take from the
+      list of possible pairs to compute probabilities over.
+    :param cols: Optionally, a list of columns to compute probabilities
+      for. If not supplied, computes probabilities across all fields.
+      Default is None.
+    :param file_to_write: Optionally, a destination filepath at which to
+      write the probabilities in JSON format. Default is None.
+    """
+    if cols is None:
+        cols = data.columns
+
+    u_probs = {c: 1.0 for c in cols}
+
+    # Want only the pairs of candidates that aren't true matches
+    base_pairs = list(combinations(data.index, 2))
+    neg_pairs = [
+        x
+        for x in base_pairs
+        if x[0] not in true_matches or x[1] not in true_matches[x[0]]
+    ]
+
+    if n_samples is not None and n_samples < len(neg_pairs):
+        neg_pairs = sample(neg_pairs, n_samples)
+    for index in neg_pairs:
+        for c in cols:
+            if data[c].iloc[index[0]] == data[c].iloc[index[1]]:
+                u_probs[c] += 1.0
+
+    for c in cols:
+        if n_samples is not None and n_samples < len(neg_pairs):
+            u_probs[c] = u_probs[c] / (n_samples + 1.0)
+        else:
+            u_probs[c] = u_probs[c] / (len(neg_pairs) + 1.0)
+
+    _write_prob_file(u_probs, file_to_write)
+    return u_probs
 
 
 def compile_match_lists(match_lists: List[dict], cluster_mode: bool = False):
@@ -166,6 +317,32 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     to_encode = (linking_identifier + salt_str).encode("utf-8")
     hash_obj.update(to_encode)
     return hash_obj.hexdigest()
+
+
+def load_json_probs(path: pathlib.Path):
+    """
+    Load a dictionary of probabilities from a JSON-formatted file.
+    The probabilities correspond to previously computed m-, u-, or
+    log-odds probabilities derived from patient records, with one
+    score for each field (column) appearing in the data.
+
+    :param path: The file path to load the data from.
+    :return: A dictionary of probability scores, one for each field
+      in the data set on which they were computed.
+    :raises FileNotFoundError: If a file does not exist at the given
+      path.
+    :raises JSONDecodeError: If the file cannot be read as valid JSON.
+    """
+    try:
+        with open(path, "r") as file:
+            prob_dict = json.load(file)
+        return prob_dict
+    except FileNotFoundError:
+        raise FileNotFoundError(f"The specified file does not exist at {path}.")
+    except json.decoder.JSONDecodeError as e:
+        raise json.decoder.JSONDecodeError(
+            "The specified file is not valid JSON.", e.doc, e.pos
+        )
 
 
 def match_within_block(
@@ -312,7 +489,7 @@ def _eval_record_in_cluster(
 
 
 def _map_matches_to_record_ids(
-    match_list: List[tuple], data_block, cluster_mode: bool = False
+    match_list: Union[List[tuple], List[set]], data_block, cluster_mode: bool = False
 ) -> List[tuple]:
     """
     Helper function to turn a list of tuples of row indices in a block
@@ -395,6 +572,7 @@ def score_linkage_vs_truth(
     found_matches: dict[Union[int, str], set],
     true_matches: dict[Union[int, str], set],
     records_in_dataset: int,
+    expand_clusters_pairwise: bool = False,
 ) -> tuple:
     """
     Compute the statistical qualities of a run of record linkage against
@@ -408,9 +586,29 @@ def score_linkage_vs_truth(
       other records which are _known_ to be a true match.
     :param records_in_dataset: The number of records in the original data
       set to-link.
+    :param expand_clusters_pairwise: Optionally, whether we need to take
+      the cross-product of members within the sets of the match list. This
+      parameter only needs to be used if the linkage algorithm was run in
+      cluster mode. Default is False.
     :return: A tuple reporting the sensitivity/precision, specificity/recall,
       positive prediction value, and F1 score of the linkage algorithm.
     """
+
+    # If cluster mode was used, only the "master" patient's set will exist
+    # Need to expand other permutations for accurate statistics
+    if expand_clusters_pairwise:
+        new_found_matches = {}
+        for root_rec in found_matches:
+            if root_rec not in new_found_matches:
+                new_found_matches[root_rec] = found_matches[root_rec]
+            for paired_record in found_matches[root_rec]:
+                if paired_record not in new_found_matches:
+                    new_found_matches[paired_record] = set()
+                for other_record in found_matches[root_rec]:
+                    if other_record > paired_record:
+                        new_found_matches[paired_record].add(other_record)
+        found_matches = new_found_matches
+
     # Need division by 2 because ordering is irrelevant, matches are symmetric
     total_possible_matches = (records_in_dataset * (records_in_dataset - 1)) / 2.0
     true_positives = 0.0
@@ -523,3 +721,19 @@ def _generate_block_query(table_name: str, block_data: Dict) -> str:
     )
     query = query_stub + block_query
     return query
+
+
+def _write_prob_file(prob_dict: dict, file_to_write: Union[pathlib.Path, None]):
+    """
+    Helper method to write a probability dictionary to a JSON file, if
+    a valid path is supplied.
+
+    :param prob_dict: A dictionary mapping column names to the log-probability
+      values computed for those columns.
+    :param file_to_write: Optionally, a path variable indicating where to
+      write the probabilities in a JSON format. Default is None (meaning this
+      function would execute nothing.)
+    """
+    if file_to_write is not None:
+        with open(file_to_write, "w") as out:
+            out.write(json.dumps(prob_dict))
