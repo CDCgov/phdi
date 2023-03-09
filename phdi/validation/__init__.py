@@ -5,6 +5,7 @@ from .validation import (
     _validate_text,
     _organize_error_messages,
     _response_builder,
+    _get_xml_message_id,
 )
 
 __all__ = [
@@ -14,4 +15,5 @@ __all__ = [
     "_validate_text",
     "_organize_error_messages",
     "_response_builder",
+    "_get_xml_message_id",
 ]
