@@ -83,14 +83,20 @@ def test_validate_ecr_invalid():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'eICR Version Number' Attributes: name: 'value'",
-                "Could not find field. Field name: 'First Name' Parent element: 'name' Parent attributes name: 'use' RegEx: 'L'",
-                "Could not find field. Field name: 'City' Parent element: 'addr' Parent attributes name: 'use' RegEx: 'H'",
-                "Field does not match regEx: [0-9]{5}(?:-[0-9]{4})?. Field name: 'Zip' value: '9999'",
+                "Could not find field. Field name: 'eICR Version Number' Attributes:"
+                + " name: 'value'",
+                "Could not find field. Field name: 'First Name' Parent element: 'name'"
+                + " Parent attributes name: 'use' RegEx: 'L'",
+                "Could not find field. Field name: 'City' Parent element: 'addr' Parent"
+                + " attributes name: 'use' RegEx: 'H'",
+                "Field does not match regEx: [0-9]{5}(?:-[0-9]{4})?. Field name:"
+                + " 'Zip' value: '9999'",
             ],
             "errors": [],
             "warnings": [
-                "Attribute: 'code' not in expected format. Field name: 'Sex' Attributes: name: 'code' RegEx: 'F|M|O|U' value: 't', name: 'codeSystem' value: '2.16.840.1.113883.5.1'"
+                "Attribute: 'code' not in expected format. Field name: 'Sex'"
+                + " Attributes: name: 'code' RegEx: 'F|M|O|U' value: 't', name:"
+                + " 'codeSystem' value: '2.16.840.1.113883.5.1'"
             ],
             "information": [],
             "message_ids": {
@@ -107,6 +113,8 @@ def test_validate_ecr_invalid():
         message=sample_file_bad, include_error_types=test_error_types
     )
     print(actual_result3["validation_results"])
+    print("Expected:")
+    print(expected_result3["validation_results"])
     assert actual_result3 == expected_result3
 
 
