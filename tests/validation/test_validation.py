@@ -59,41 +59,30 @@ def test_validate_good():
 
 
 def test_validate_bad():
-    # TODO: we need to clean up the error messages
-    # we don't need to see all the xpath data within the error
-    # just the field, value, and why it failed
     expected_response = {
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field: {'fieldName': 'eICR Version Number', "
-                + "'cdaPath': '//hl7:ClinicalDocument/hl7:versionNumber', "
-                + "'errorType': 'fatal', "
-                + "'attributes': [{'attributeName': 'value'}]}",
-                "Could not find field: {'fieldName': 'First "
-                + "Name', 'cdaPath': "
-                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/"
-                + "hl7:patient/hl7:name/hl7:given', "
-                + "'errorType': 'fatal', "
-                + "'textRequired': 'True', 'parent': 'name', "
-                + "'parent_attributes': [{'attributeName': "
-                + "'use', 'regEx': 'L'}]}",
-                "Could not find field: {'fieldName': "
-                + "'City', 'cdaPath': "
-                + "'//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/"
-                + "hl7:city', "
-                + "'errorType': 'fatal', "
-                + "'textRequired': 'True', 'parent': 'addr', "
-                + "'parent_attributes': [{'attributeName': "
-                + "'use', 'regEx': 'H'}]}",
-                "Field: Zip does not match regEx: [0-9]{5}(?:-[0-9]{4})?",
+                "Could not find field. Field name: 'eICR Version Number' Attributes:"
+                + " name: 'value'",
+                "Could not find field. Field name: 'First Name' Parent element: name"
+                + " Parent attributes name: 'use' RegEx: 'L'",
+                "Could not find field. Field name: 'City' Parent element: addr Parent"
+                + " attributes name: 'use' RegEx: 'H'",
+                "Field does not match regEx: [0-9]{5}(?:-[0-9]{4})?. Field name:"
+                + " 'Zip' value: '9999'",
             ],
             "errors": [],
-            "warnings": ["Attribute: 'code' for field: 'Sex' not in expected format"],
+            "warnings": [
+                "Attribute: 'code' not in expected format. Field name: 'Sex'"
+                + " Attributes: name: 'code' RegEx: 'F|M|O|U' value: 't', name:"
+                + " 'codeSystem' value: '2.16.840.1.113883.5.1'"
+            ],
             "information": [],
         },
         "validated_message": None,
     }
+
     result = validate_ecr(
         ecr_message=sample_file_bad,
         config=config,
@@ -108,8 +97,10 @@ def test_validate_error():
         "validation_results": {
             "fatal": [],
             "errors": [
-                "Could not find attribute code for tag Status",
-                "Could not find attribute code for tag Status",
+                "Could not find attribute code. Field name: 'Status' Attributes: name:"
+                + " 'code'",
+                "Could not find attribute code. Field name: 'Status' Attributes: name:"
+                + " 'code'",
             ],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
