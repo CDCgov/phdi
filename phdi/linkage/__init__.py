@@ -11,6 +11,10 @@ from phdi.linkage.link import (
     score_linkage_vs_truth,
     block_data_from_db,
     _generate_block_query,
+    calculate_m_probs,
+    calculate_u_probs,
+    load_json_probs,
+    calculate_log_odds,
 )
 
 __all__ = [
@@ -26,4 +30,8 @@ __all__ = [
     "score_linkage_vs_truth",
     "block_data_from_db",
     "_generate_block_query",
+    "calculate_m_probs",
+    "calculate_u_probs",
+    "load_json_probs",
+    "calculate_log_odds",
 ]
