@@ -183,15 +183,15 @@ def _match_nodes(xml_elements, config_field) -> list:
                 + ":"
                 + config_field.get("parent"),
             }
-            
+
             parent_found = _check_field_matches(parent_element, parent_config)
-            
+
             # If we didn't find the parent, or it has the wrong attributes,
             # go to the next xml element
             if (not parent_found) or _validate_attribute(parent_element, parent_config):
                 continue
         found = _check_field_matches(xml_element, config_field)
-        
+
         if found:
             matching_elements.append(xml_element)
     return matching_elements
