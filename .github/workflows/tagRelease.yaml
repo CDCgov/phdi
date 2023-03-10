@@ -46,6 +46,8 @@ jobs:
         run: |
           poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}
           git checkout docs --
+          rm -rf ./docs/latest
+          cp -r ./docs/${{ github.event.inputs.custom_tag }} ./docs/latest
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
