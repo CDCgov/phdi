@@ -234,8 +234,11 @@ def test_validate_with_rr_data_missing_rr():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'Status' Attributes: name: 'code' RegEx: 'RRVS19|RRVS20|RRVS21|RRVS22', name: 'codeSystem', name: 'displayName'",
-                "Could not find field. Field name: 'Conditions' Attributes: name: 'code' RegEx: '[0-9]+', name: 'codeSystem'",
+                "Could not find field. Field name: 'Status' Attributes: name:"
+                + " 'code' RegEx: 'RRVS19|RRVS20|RRVS21|RRVS22', name: 'codeSystem',"
+                + " name: 'displayName'",
+                "Could not find field. Field name: 'Conditions' Attributes: name:"
+                + " 'code' RegEx: '[0-9]+', name: 'codeSystem'",
             ],
             "errors": [],
             "warnings": [],
