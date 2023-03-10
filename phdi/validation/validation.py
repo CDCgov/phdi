@@ -209,9 +209,6 @@ def _check_field_matches(xml_element, config_field):
             # return not field not found.
             if not xml_element.get(attribute.get("attributeName")):
                 return False
-    else:
-        if xml_element.attrib:
-            return False
     return True
 
 

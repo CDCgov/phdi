@@ -3170,5 +3170,12 @@ current at time of recording)
         </component>
       </organizer>
     </entry>
+    <entry>
+      <act classCode="ACT" moodCode="EVN">
+        <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.29"/>
+        <id root="39d966b9-8a3a-4024-93d8-138e97d5898a"/>
+        <code code="RRVS19" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="eICR processed"/>
+      </act>
+    </entry>
   </section>
 </ClinicalDocument>
