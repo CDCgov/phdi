@@ -10,10 +10,11 @@ fields:
   - attributeName: displayName
 - fieldName: Conditions
   cdaPath: "//hl7:ClinicalDocument/hl7:section/hl7:entry/hl7:organizer/hl7:component/hl7:observation/hl7:value"
-  errorType: "fatal" 
+  errorType: "fatal"
+  validateOne: True
   attributes:
   - attributeName: code
-    regEx: "[^NA]"
+    regEx: "[0-9]+"
   - attributeName: codeSystem
 - fieldName: eICR
   cdaPath: "//hl7:ClinicalDocument/hl7:id"

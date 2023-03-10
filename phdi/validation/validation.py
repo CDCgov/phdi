@@ -67,11 +67,18 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
             )
             error_messages[message_type].append(error_message)
             continue
-
+        attribute_errors = []
+        text_errors = []
         for xml_element in matched_xml_elements:
-            error_messages[message_type] += _validate_attribute(xml_element, field)
-            error_messages[message_type] += _validate_text(xml_element, field)
-
+            attribute_errors += _validate_attribute(xml_element, field)
+            text_errors += _validate_text(xml_element, field)
+        if not (
+            field.get("validateOne")
+            and len(attribute_errors) < len(matched_xml_elements)
+            and len(text_errors) < len(matched_xml_elements)
+        ):
+            error_messages[message_type] += attribute_errors
+            error_messages[message_type] += text_errors
     response = _response_builder(
         errors=error_messages, msg=ecr_message, include_error_types=include_error_types
     )
@@ -93,7 +100,7 @@ def _get_field_details_string(xml_element, config_field) -> str:
     )
     config_parent_attributes = config_field.get("parent_attributes")
     parent_attributes = (
-        ["Parent attributes"]
+        ["Parent attributes:"]
         + _get_attributes_list(config_parent_attributes, xml_element)
         if config_parent_attributes
         else []
@@ -176,14 +183,15 @@ def _match_nodes(xml_elements, config_field) -> list:
                 + ":"
                 + config_field.get("parent"),
             }
-
+            
             parent_found = _check_field_matches(parent_element, parent_config)
-
+            
             # If we didn't find the parent, or it has the wrong attributes,
             # go to the next xml element
             if (not parent_found) or _validate_attribute(parent_element, parent_config):
                 continue
         found = _check_field_matches(xml_element, config_field)
+        
         if found:
             matching_elements.append(xml_element)
     return matching_elements
@@ -209,6 +217,9 @@ def _check_field_matches(xml_element, config_field):
             # return not field not found.
             if not xml_element.get(attribute.get("attributeName")):
                 return False
+    else:
+        if xml_element.attrib:
+            return False
     return True
 
 
