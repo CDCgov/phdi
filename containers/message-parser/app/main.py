@@ -47,7 +47,7 @@ async def health_check():
 # /parse_message endpoint #
 
 
-# Request and respone models
+# Request and response models
 class ParseMessageInput(BaseModel):
     """
     The schema for requests to the /extract endpoint.
