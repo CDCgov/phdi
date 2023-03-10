@@ -252,6 +252,4 @@ def test_validate_with_rr_data_missing_rr():
         config=config_rr,
         include_error_types=test_include_errors,
     )
-    print(result["validation_results"])
-    print(expected_response["validation_results"])
     assert result == expected_response
