@@ -86,9 +86,9 @@ def test_validate_ecr_invalid():
                 "Could not find field. Field name: 'eICR Version Number' Attributes:"
                 + " name: 'value'",
                 "Could not find field. Field name: 'First Name' Parent element: 'name'"
-                + " Parent attributes name: 'use' RegEx: 'L'",
+                + " Parent attributes: name: 'use' RegEx: 'L'",
                 "Could not find field. Field name: 'City' Parent element: 'addr' Parent"
-                + " attributes name: 'use' RegEx: 'H'",
+                + " attributes: name: 'use' RegEx: 'H'",
                 "Field does not match regEx: [0-9]{5}(?:-[0-9]{4})?. Field name:"
                 + " 'Zip' value: '9999'",
             ],
