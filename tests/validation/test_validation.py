@@ -45,6 +45,13 @@ with open(
 ) as file:
     config = yaml.safe_load(file)
 
+# standard config file with correct RR Data
+with open(
+    pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config_with_rr.yaml",
+    "r",
+) as file:
+    config_rr = yaml.safe_load(file)
+
 
 def test_validate_good():
     eicr_result = {
@@ -79,9 +86,9 @@ def test_validate_bad():
                 "Could not find field. Field name: 'eICR Version Number' Attributes:"
                 + " name: 'value'",
                 "Could not find field. Field name: 'First Name' Parent element: 'name'"
-                + " Parent attributes name: 'use' RegEx: 'L'",
+                + " Parent attributes: name: 'use' RegEx: 'L'",
                 "Could not find field. Field name: 'City' Parent element: 'addr' Parent"
-                + " attributes name: 'use' RegEx: 'H'",
+                + " attributes: name: 'use' RegEx: 'H'",
                 "Field does not match regEx: [0-9]{5}(?:-[0-9]{4})?. Field name:"
                 + " 'Zip' value: '9999'",
             ],
@@ -108,6 +115,7 @@ def test_validate_bad():
         config=config,
         include_error_types=test_include_errors,
     )
+
     assert result == expected_response
 
 
@@ -210,7 +218,38 @@ def test_validate_good_with_rr_data():
     }
     result = validate_ecr(
         ecr_message=sample_file_good_RR,
-        config=config,
+        config=config_rr,
+        include_error_types=test_include_errors,
+    )
+    assert result == expected_response
+
+
+def test_validate_with_rr_data_missing_rr():
+    eicr_result = {
+        "root": "2.16.840.1.113883.9.9.9.9.9",
+        "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+    }
+
+    expected_response = {
+        "message_valid": False,
+        "validation_results": {
+            "fatal": [
+                "Could not find field. Field name: 'Status' Attributes: name:"
+                + " 'code' RegEx: 'RRVS19|RRVS20|RRVS21|RRVS22', name: 'codeSystem',"
+                + " name: 'displayName'",
+                "Could not find field. Field name: 'Conditions' Attributes: name:"
+                + " 'code' RegEx: '[0-9]+', name: 'codeSystem'",
+            ],
+            "errors": [],
+            "warnings": [],
+            "information": [],
+            "message_ids": {"eicr": eicr_result, "rr": {}},
+        },
+        "validated_message": None,
+    }
+    result = validate_ecr(
+        ecr_message=sample_file_good,
+        config=config_rr,
         include_error_types=test_include_errors,
     )
     assert result == expected_response
