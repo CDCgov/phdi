@@ -9,6 +9,17 @@ def test_load_config():
     config = load_config(config_path)
     assert config != ""
 
+    config = load_config(None)
+    assert config != ""
+    config_fields = config.get("fields")
+    value_for_ecr_version = list(
+        filter(
+            lambda config_fields: config_fields["fieldName"] == "eICR Version Number",
+            config_fields,
+        )
+    )
+    assert value_for_ecr_version[0].get("errorType") == "warnings"
+
 
 def test_validate_error_types():
     valid_ets = "errors,warnings"

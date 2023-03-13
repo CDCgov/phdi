@@ -1,4 +1,3 @@
-import pathlib
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import Literal
@@ -6,11 +5,10 @@ from pathlib import Path
 from phdi.validation.validation import validate_ecr
 from .utils import load_config, validate_error_types
 
-# TODO: remove the hard coding of the location of the config file
-# and utilize the location passed in...OR we could use a specified
-# location for the config file with a particular name that we would utilize
-config_path = pathlib.Path(__file__).parent.parent / "config" / "sample_ecr_config.yaml"
-config = load_config(path=config_path)
+# TODO: Remove hard coded location for config path
+# and/or provide a mechanism to pass in coniguration
+#  via endpoint
+config = load_config()
 
 
 # Instantiate FastAPI and set metadata.
