@@ -11,16 +11,6 @@ class BaseMPIConnectorClient(ABC):
     """
 
     @abstractmethod
-    def connect(**params) -> None:
-        """
-        Connects to a database server.
-
-        :param params: Vendor-specific database connection params.
-
-        """
-        pass  # pragma: no cover
-
-    @abstractmethod
     def block_data(db_name: str, table_name: str, block_data: Dict) -> List[list]:
         """
         Returns a list of lists containing records from the database that match on the
