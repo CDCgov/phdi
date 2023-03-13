@@ -17,6 +17,8 @@ from phdi.linkage.link import (
     calculate_log_odds,
 )
 
+from phdi.linkage.core import BaseMPIConnectorClient
+
 __all__ = [
     "generate_hash_str",
     "block_data",
@@ -34,4 +36,5 @@ __all__ = [
     "calculate_u_probs",
     "load_json_probs",
     "calculate_log_odds",
+    "BaseMPIConnectorClient",
 ]
