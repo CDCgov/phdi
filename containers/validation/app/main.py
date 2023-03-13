@@ -3,12 +3,12 @@ from pydantic import BaseModel, Field
 from typing import Literal
 from pathlib import Path
 from phdi.validation.validation import validate_ecr
-from .utils import load_config, validate_error_types
+from .utils import load_ecr_config, validate_error_types
 
 # TODO: Remove hard coded location for config path
 # and/or provide a mechanism to pass in coniguration
 #  via endpoint
-config = load_config()
+ecr_config = load_ecr_config()
 
 
 # Instantiate FastAPI and set metadata.
@@ -75,7 +75,7 @@ def validate_ecr_msg(message: str, include_error_types: list) -> ValidateRespons
     """
 
     return validate_ecr(
-        ecr_message=message, config=config, include_error_types=include_error_types
+        ecr_message=message, config=ecr_config, include_error_types=include_error_types
     )
 
 

@@ -16,7 +16,7 @@ DEFAULT_CONFIG_PATH = pathlib.Path(__file__).parent.parent / "config"
 # of loading it each time we validate an eCR)
 # we may also need to move this to a different location depending upon where/when
 # the loading occurs
-def load_config(file_path: pathlib.Path = None) -> dict:
+def load_ecr_config(file_path: pathlib.Path = None) -> dict:
     """
     Given the path to a local YAML file containing a validation
     configuration, loads the file and returns the resulting validation

@@ -1,15 +1,15 @@
 import pathlib
 import yaml
-from app.utils import load_config, validate_error_types, validate_config
+from app.utils import load_ecr_config, validate_error_types, validate_config
 
 config_path = pathlib.Path(__file__).parent.parent / "config" / "sample_ecr_config.yaml"
 
 
-def test_load_config():
-    config = load_config(config_path)
+def test_load_ecr_config():
+    config = load_ecr_config(config_path)
     assert config != ""
 
-    config = load_config(None)
+    config = load_ecr_config(None)
     assert config != ""
     config_fields = config.get("fields")
     value_for_ecr_version = list(
