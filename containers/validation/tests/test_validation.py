@@ -85,7 +85,6 @@ def test_validate_ecr_valid():
         },
         "validated_message": sample_file_good_with_RR,
     }
-    print(actual_result1["validation_results"])
     assert actual_result1 == expected_result1
 
 
@@ -134,7 +133,6 @@ def test_validate_ecr_invalid():
     actual_result3 = validate_ecr_msg(
         message=sample_file_bad, include_error_types=test_error_types
     )
-    print(actual_result3["validation_results"])
     assert actual_result3 == expected_result3
 
 
