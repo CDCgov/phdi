@@ -119,12 +119,12 @@ def phdi_linkage_algorithm(
     use_log_odds_enhancement: bool = True,
     **kwargs
 ) -> dict:
+    # func 0 maps to birthdate, func 2 to first name, func 3 to last name
     if use_log_odds_enhancement:
         funcs = {
             0: feature_match_log_odds_fuzzy_compare,
             2: feature_match_log_odds_fuzzy_compare,
             3: feature_match_log_odds_fuzzy_compare,
-            8: feature_match_log_odds_exact,
         }
         eval_rule = eval_log_odds_cutoff
     else:
@@ -132,7 +132,6 @@ def phdi_linkage_algorithm(
             0: feature_match_fuzzy_string,
             2: feature_match_fuzzy_string,
             3: feature_match_fuzzy_string,
-            8: feature_match_exact,
         }
         eval_rule = eval_perfect_match
     matches_1 = perform_linkage_pass(
@@ -145,6 +144,7 @@ def phdi_linkage_algorithm(
         **kwargs
     )
 
+    # func 10 maps to city, func 16 maps to address4
     if use_log_odds_enhancement:
         funcs = {
             16: feature_match_log_odds_fuzzy_compare,

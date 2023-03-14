@@ -536,7 +536,7 @@ def profile_log_odds(
     fuzzy_cols: List,
     idx_to_col: dict,
     neg_samples: int = 50000,
-) -> None:
+) -> None:  # pragma: no cover
     """
     Basic graphical profiler for log-odds histogram analysis. Using the
     raw data and previously known true matches, the function computes one
