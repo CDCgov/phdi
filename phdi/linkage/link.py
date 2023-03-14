@@ -528,7 +528,7 @@ def perform_linkage_pass(
 
 
 # TODO: Migrate away from pandas eventually
-def profile_log_odds(  # pragma: no cover
+def profile_log_odds(
     data: pd.DataFrame,
     true_matches: dict,
     log_odds: dict,
@@ -536,7 +536,7 @@ def profile_log_odds(  # pragma: no cover
     fuzzy_cols: List,
     idx_to_col: dict,
     neg_samples: int = 50000,
-) -> None:
+) -> None:  # pragma: no cover
     """
     Basic graphical profiler for log-odds histogram analysis. Using the
     raw data and previously known true matches, the function computes one
