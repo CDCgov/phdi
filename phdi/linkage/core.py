@@ -29,32 +29,15 @@ class BaseMPIConnectorClient(ABC):
 
     @abstractmethod
     def upsert_match_patient(
-        patient_record: Dict, patient_table: str, person_table: str, person_id=None
+        patient_record: Dict, table_name: str, person_id=None
     ) -> None:
         """
         If a matching ID has been found in the MPI, inserts a new patient record into
-        the patient table with a matching personID; else a new patient record is
+        a table with a matching personID; else a new patient record is
         inserted with a new personID.
 
         :param patient_record: A FHIR patient resource.
-        :param patient_table: Name of MPI patient table.
-        :param person_table: Name of MPI person table.
-        :param person_id: The personID matching the patient record if a match has been
-        found in the MPI, defaults to None.
-        """
-        pass  # pragma: no cover
-
-    @abstractmethod
-    def upsert_match_person(
-        patient_record: Dict, person_table: str, person_id=None
-    ) -> None:
-        """
-        If a matching ID has been found in the MPI, updates an existing person record in
-        the person table to associate with the incoming patient record; else, a new
-        person record is inserted with a new personID.
-
-        :param patient_record: A FHIR patient resource.
-        :param person_table: Name of MPI person table.
+        :param table_name: Name of table to update or insert into.
         :param person_id: The personID matching the patient record if a match has been
         found in the MPI, defaults to None.
         """
