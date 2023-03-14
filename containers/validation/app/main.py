@@ -6,7 +6,7 @@ from phdi.validation.validation import validate_ecr
 from .utils import load_ecr_config, validate_error_types
 
 # TODO: Remove hard coded location for config path
-# and/or provide a mechanism to pass in coniguration
+# and/or provide a mechanism to pass in configuration
 #  via endpoint
 ecr_config = load_ecr_config()
 
@@ -29,7 +29,7 @@ app = FastAPI(
 )
 
 
-# Request and and respone models
+# Request and and response models
 class ValidateInput(BaseModel):
     """
     The schema for requests to the validate endpoint.
