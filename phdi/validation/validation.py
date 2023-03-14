@@ -10,24 +10,44 @@ namespaces = {
     "voc": "http://www.lantanagroup.com/voc",
 }
 
+EICR_MSG_ID_XPATH = "//hl7:ClinicalDocument/hl7:id"
+RR_MSG_ID_XPATH = "//hl7:ClinicalDocument/hl7:section/hl7:id"
 
-def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
+
+def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> dict:
+    error_messages = {
+        "fatal": [],
+        "errors": [],
+        "warnings": [],
+        "information": [],
+        "message_ids": {},
+    }
     # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
     xml = ecr_message.encode("utf-8")
     parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
-    parsed_ecr = etree.fromstring(xml, parser=parser)
 
-    if not _validate_config(config):
-        return {"message": "config file is invalid"}
+    # we need a try-catch around this to ensure that the ecr message
+    # passed in is proper XML - also ensure it's a clinical document
+    try:
+        parsed_ecr = etree.fromstring(xml, parser=parser)
+        parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=namespaces)
 
-    # TODO: utilize the error_types to filter out the different error message
-    # types as well as specify the difference between the different error types
-    # during the validation process
+    except AttributeError:
+        error_messages["fatal"].append("eCR Message is not valid XML!")
+        return _response_builder(
+            errors=error_messages, msg=None, include_error_types=include_error_types
+        )
 
-    error_messages = []
-    warning_messages = []
-    messages = []
+    # first get the message id for the eicr and the rr
+    xml_eicr_id = _get_xml_message_id(
+        parsed_ecr.xpath(EICR_MSG_ID_XPATH, namespaces=namespaces)
+    )
+    xml_rr_id = _get_xml_message_id(
+        parsed_ecr.xpath(RR_MSG_ID_XPATH, namespaces=namespaces)
+    )
+    message_ids = {"eicr": xml_eicr_id, "rr": xml_rr_id}
+    error_messages["message_ids"] = message_ids
 
     for field in config.get("fields"):
         cda_path = field.get("cdaPath")
@@ -35,50 +55,105 @@ def validate_ecr(ecr_message: str, config: dict, error_types: list) -> dict:
             xml_elements=parsed_ecr.xpath(cda_path, namespaces=namespaces),
             config_field=field,
         )
+        message_type = (
+            field.get("errorType")
+            if field.get("errorType") in error_messages.keys()
+            else "errors"
+        )
+
         if not matched_xml_elements:
-            error_message = "Could not find field: " + str(field)
-            error_messages.append(error_message)
+            error_message = "Could not find field. " + _get_field_details_string(
+                None, field
+            )
+            error_messages[message_type].append(error_message)
             continue
-
-        if field.get("errorType") == "error":
-            for xml_element in matched_xml_elements:
-                error_messages += _validate_attribute(xml_element, field)
-                error_messages += _validate_text(xml_element, field)
-        elif field.get("errorType") == "warning":
-            for xml_element in matched_xml_elements:
-                warning_messages += _validate_attribute(xml_element, field)
-                warning_messages += _validate_text(xml_element, field)
-
-    if error_messages:
-        valid = False
-    else:
-        valid = True
-        messages.append("Validation complete with no errors!")
-    response = {
-        "message_valid": valid,
-        "validation_results": _organize_messages(
-            errors=error_messages, warnings=warning_messages, information=messages
-        ),
-    }
+        attribute_errors = []
+        text_errors = []
+        for xml_element in matched_xml_elements:
+            attribute_errors += _validate_attribute(xml_element, field)
+            text_errors += _validate_text(xml_element, field)
+        if not (
+            field.get("validateOne")
+            and len(attribute_errors) < len(matched_xml_elements)
+            and len(text_errors) < len(matched_xml_elements)
+        ):
+            error_messages[message_type] += attribute_errors
+            error_messages[message_type] += text_errors
+    response = _response_builder(
+        errors=error_messages, msg=ecr_message, include_error_types=include_error_types
+    )
     return response
 
 
-def _validate_config(config: dict):
-    if not config.get("fields"):
-        return False
-    for field in config.get("fields"):
-        if not all(key in field for key in ("fieldName", "cdaPath", "errorType")):
-            return False
-        if "attributes" not in field and "textRequired" not in field:
-            return False
-    return True
+def _get_field_details_string(xml_element, config_field) -> str:
+    name = [f"Field name: '{config_field.get('fieldName')}'"]
+    config_attributes = config_field.get("attributes")
+    attributes = (
+        ["Attributes:"] + _get_attributes_list(config_attributes, xml_element)
+        if config_attributes
+        else []
+    )
+    parent_name = (
+        ["Parent element: '" + config_field.get("parent") + "'"]
+        if config_field.get("parent")
+        else []
+    )
+    config_parent_attributes = config_field.get("parent_attributes")
+    parent_attributes = (
+        ["Parent attributes:"]
+        + _get_attributes_list(config_parent_attributes, xml_element)
+        if config_parent_attributes
+        else []
+    )
+
+    value = (
+        [f"value: '{''.join(xml_element.itertext())}'"]
+        if config_field.get("textRequired") and xml_element is not None
+        else []
+    )
+    return " ".join(name + value + attributes + parent_name + parent_attributes)
 
 
-def _organize_messages(errors: list, warnings: list, information: list) -> dict:
+def _get_attributes_list(attributes, xml_element) -> list:
+    attrs = []
+    for attribute in attributes:
+        attribute_name = attribute.get("attributeName")
+        reg_ex = attribute.get("regEx")
+        reg_ex_string = f" RegEx: '{reg_ex}'" if reg_ex else ""
+        attribute_value = (
+            f" value: '{xml_element.get(attribute_name)}'"
+            if xml_element is not None and xml_element.get(attribute_name)
+            else ""
+        )
+
+        attrs.append(f"name: '{attribute_name}'{reg_ex_string}{attribute_value}")
+    return [", ".join(attrs)]
+
+
+def _organize_error_messages(
+    fatal: list,
+    errors: list,
+    warnings: list,
+    information: list,
+    message_ids: dict,
+    include_error_types: list,
+) -> dict:
+    # utilize the error_types to filter out the different error message
+    # types as well as specify the difference between the different error types
+    # during the validation process
+
+    # fatal warnings cannot be filtered and will be automatically included!
+
+    filtered_errors = errors if "errors" in include_error_types else []
+    filtered_warnings = warnings if "warnings" in include_error_types else []
+    filtered_information = information if "information" in include_error_types else []
+
     organized_messages = {
-        "errors": errors,
-        "warnings": warnings,
-        "information": information,
+        "fatal": fatal,
+        "errors": filtered_errors,
+        "warnings": filtered_warnings,
+        "information": filtered_information,
+        "message_ids": message_ids,
     }
     return organized_messages
 
@@ -116,6 +191,7 @@ def _match_nodes(xml_elements, config_field) -> list:
             if (not parent_found) or _validate_attribute(parent_element, parent_config):
                 continue
         found = _check_field_matches(xml_element, config_field)
+
         if found:
             matching_elements.append(xml_element)
     return matching_elements
@@ -124,8 +200,14 @@ def _match_nodes(xml_elements, config_field) -> list:
 def _check_field_matches(xml_element, config_field):
     # If it has the wrong field name, go to the next one
     field_name = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
+
     if field_name.lower() not in xml_element.tag.lower():
         return False
+    # Don't match attributes if we are validating all fields
+
+    match_attributes = False if config_field.get("validateAll") == "True" else True
+    if not match_attributes:
+        return True
     # Check if it has the right attributes
     field_attributes = config_field.get("attributes")
     if field_attributes:
@@ -162,18 +244,23 @@ def _validate_attribute(xml_element, config_field) -> list:
             attribute_name = attribute.get("attributeName")
             attribute_value = xml_element.get(attribute_name)
             if not attribute_value:
-                error_messages.append(
-                    f"Could not find attribute {attribute_name} "
-                    + f"for tag {config_field.get('fieldName')}"
+                message = _check_custom_message(
+                    config_field,
+                    f"Could not find attribute {attribute_name}. "
+                    + f"{_get_field_details_string(xml_element, config_field)}",
                 )
+                error_messages.append(message)
         if "regEx" in attribute:
             pattern = re.compile(attribute.get("regEx"))
             if (not attribute_value) or (not pattern.match(attribute_value)):
-                field_name = config_field.get("fieldName")
-                error_messages.append(
-                    f"Attribute: '{attribute_name}' for field: '{field_name}'"
-                    + " not in expected format"
+                message = _check_custom_message(
+                    config_field,
+                    f"Attribute: '{attribute_name}'"
+                    + " not in expected format. "
+                    + f"{_get_field_details_string(xml_element, config_field)}",
                 )
+                error_messages.append(message)
+
     return error_messages
 
 
@@ -196,16 +283,61 @@ def _validate_text(xml_element, config_field):
     if regEx is not None:
         pattern = re.compile(regEx)
         if pattern.match(text) is None:
-            return [
-                "Field: "
-                + config_field.get("fieldName")
-                + " does not match regEx: "
+            message = _check_custom_message(
+                config_field,
+                "Field does not match regEx: "
                 + config_field.get("regEx")
-            ]
+                + f". {_get_field_details_string(xml_element, config_field)}",
+            )
+            return [message]
         else:
             return []
     else:
         if text is not None and text != "":
             return []
         else:
-            return ["Field: " + config_field.get("fieldName") + " does not have text"]
+            message = _check_custom_message(
+                config_field,
+                "Field does not have text. "
+                + f"{_get_field_details_string(xml_element, config_field)}",
+            )
+            return [message]
+
+
+def _response_builder(errors: dict, msg: str, include_error_types: list) -> dict:
+    if errors.get("fatal") != []:
+        valid = False
+    else:
+        valid = True
+        errors["information"].append("Validation completed with no fatal errors!")
+
+    validated_message = msg if valid else None
+
+    return {
+        "message_valid": valid,
+        "validation_results": _organize_error_messages(
+            fatal=errors["fatal"],
+            errors=errors["errors"],
+            warnings=errors["warnings"],
+            information=errors["information"],
+            message_ids=errors["message_ids"],
+            include_error_types=include_error_types,
+        ),
+        "validated_message": validated_message,
+    }
+
+
+def _check_custom_message(config_field, default_message):
+    message = default_message
+    if config_field.get("customMessage"):
+        message = config_field.get("customMessage")
+    return message
+
+
+def _get_xml_message_id(id_xml_tag: etree.Element) -> dict:
+    if id_xml_tag == []:
+        return {}
+    id_root = id_xml_tag[0].get("root")
+    id_extension = id_xml_tag[0].get("extension")
+    message_id = {"root": id_root, "extension": id_extension}
+    return message_id

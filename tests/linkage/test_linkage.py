@@ -409,6 +409,15 @@ def test_score_linkage_vs_truth():
     assert ppv == 0.75
     assert f1 == 0.857
 
+    cluster_mode_matches = {1: {5, 11, 12, 13}, 23: {24, 31, 32}}
+    sensitivity, specificity, ppv, f1 = score_linkage_vs_truth(
+        cluster_mode_matches, true_matches, num_records, True
+    )
+    assert sensitivity == 1.0
+    assert specificity == 0.926
+    assert ppv == 0.75
+    assert f1 == 0.857
+
 
 def test_generate_block_query():
     table_name = "test_table"
@@ -571,7 +580,7 @@ def test_read_write_log_odds():
 def test_load_json_probs_errors():
     with pytest.raises(FileNotFoundError) as e:
         load_json_probs("does_not_exist.json")
-    assert "specified file does not exist at the path provided" in str(e.value)
+    assert "specified file does not exist at" in str(e.value)
 
     with open("not_valid_json.json", "w") as file:
         file.write("I am not valid JSON")

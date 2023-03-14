@@ -19,6 +19,7 @@ from phdi.linkage import (
     feature_match_log_odds_fuzzy_compare,
     # profile_log_odds,
     eval_log_odds_cutoff,
+    load_json_probs,
 )
 from typing import Union
 
@@ -242,9 +243,11 @@ def get_indices_affected_by_misses(missed_matches: dict):
     return affected_records
 
 
-def display_statistical_evaluation(matches: dict, true_matches: dict):
+def display_statistical_evaluation(
+    matches: dict, true_matches: dict, cluster_mode_used: bool = False
+):
     sensitivitiy, specificity, ppv, f1 = score_linkage_vs_truth(
-        matches, true_matches, DATA_SIZE
+        matches, true_matches, DATA_SIZE, cluster_mode_used
     )
     print("Sensitivity:", sensitivitiy)
     print("Specificity:", specificity)
@@ -336,6 +339,7 @@ log_odds = load_json_probs("log_odds_synthetic.json")
 
 start = time.time()
 # matches = lac_validation_linkage(data, None)
+
 matches = phdi_linkage_algorithm(
     data,
     cluster_ratio=None,

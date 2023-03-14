@@ -36,7 +36,7 @@ def block_data(data: pd.DataFrame, blocks: List) -> dict:
 def calculate_log_odds(
     m_probs: dict,
     u_probs: dict,
-    file_to_write: Union[str, None] = None,
+    file_to_write: Union[pathlib.Path, None] = None,
 ):
     """
     Calculate the per-field log odds ratio score that two records will
@@ -58,18 +58,19 @@ def calculate_log_odds(
     log_odds = {}
     for k in m_probs:
         log_odds[k] = log(m_probs[k]) - log(u_probs[k])
-    print(log_odds)
-    if file_to_write is not None:
-        with open(file_to_write, "w") as out:
-            out.write(json.dumps(log_odds))
+    _write_prob_file(log_odds, file_to_write)
     return log_odds
 
 
+# TODO: We will eventually want to move away from pandas in favor of something
+# more light-weight. While pandas is good for pre-computing and model
+# examination, it does come with substantial overhead. Maybe make this work
+# on a list of lists at some point.
 def calculate_m_probs(
     data: pd.DataFrame,
     true_matches: dict,
     cols: Union[List[str], None] = None,
-    file_to_write: Union[str, None] = None,
+    file_to_write: Union[pathlib.Path, None] = None,
 ):
     """
     For a given set of patient records, calculate the per-field
@@ -105,18 +106,20 @@ def calculate_m_probs(
     for c in cols:
         m_probs[c] /= total_pairs
 
-    if file_to_write is not None:
-        with open(file_to_write, "w") as out:
-            out.write(json.dumps(m_probs))
+    _write_prob_file(m_probs, file_to_write)
     return m_probs
 
 
+# TODO: We will eventually want to move away from pandas in favor of something
+# more light-weight. While pandas is good for pre-computing and model
+# examination, it does come with substantial overhead. Maybe make this work
+# on a list of lists at some point.
 def calculate_u_probs(
     data: pd.DataFrame,
     true_matches: dict,
     n_samples: Union[int, None] = None,
     cols: Union[List, None] = None,
-    file_to_write: Union[str, None] = None,
+    file_to_write: Union[pathlib.Path, None] = None,
 ):
     """
     For a given set of patient records, calculate the per-field
@@ -128,8 +131,9 @@ def calculate_u_probs(
 
     Note: This function can be slow to compute for large data sets.
     It is recommended to pass only a representative subsample of the
-    data to the function, even if sampling is used within (the sample
-    operation can be time-consuming).
+    data to the function (we recommend sampling ~25k candidate pairs
+    from a sub-sample of ~25k records), even if the sample operation
+    is used.
 
     :param data: A pandas dataframe of patient records to compute
       probabilities for.
@@ -172,9 +176,7 @@ def calculate_u_probs(
         else:
             u_probs[c] = u_probs[c] / (len(neg_pairs) + 1.0)
 
-    if file_to_write is not None:
-        with open(file_to_write, "w") as out:
-            out.write(json.dumps(u_probs))
+    _write_prob_file(u_probs, file_to_write)
     return u_probs
 
 
@@ -407,9 +409,7 @@ def load_json_probs(path: pathlib.Path):
             prob_dict = json.load(file)
         return prob_dict
     except FileNotFoundError:
-        raise FileNotFoundError(
-            "The specified file does not exist at the path provided."
-        )
+        raise FileNotFoundError(f"The specified file does not exist at {path}.")
     except json.decoder.JSONDecodeError as e:
         raise json.decoder.JSONDecodeError(
             "The specified file is not valid JSON.", e.doc, e.pos
@@ -660,7 +660,7 @@ def _eval_record_in_cluster(
 
 
 def _map_matches_to_record_ids(
-    match_list: List[tuple], data_block, cluster_mode: bool = False
+    match_list: Union[List[tuple], List[set]], data_block, cluster_mode: bool = False
 ) -> List[tuple]:
     """
     Helper function to turn a list of tuples of row indices in a block
@@ -743,6 +743,7 @@ def score_linkage_vs_truth(
     found_matches: dict[Union[int, str], set],
     true_matches: dict[Union[int, str], set],
     records_in_dataset: int,
+    expand_clusters_pairwise: bool = False,
 ) -> tuple:
     """
     Compute the statistical qualities of a run of record linkage against
@@ -756,9 +757,29 @@ def score_linkage_vs_truth(
       other records which are _known_ to be a true match.
     :param records_in_dataset: The number of records in the original data
       set to-link.
+    :param expand_clusters_pairwise: Optionally, whether we need to take
+      the cross-product of members within the sets of the match list. This
+      parameter only needs to be used if the linkage algorithm was run in
+      cluster mode. Default is False.
     :return: A tuple reporting the sensitivity/precision, specificity/recall,
       positive prediction value, and F1 score of the linkage algorithm.
     """
+
+    # If cluster mode was used, only the "master" patient's set will exist
+    # Need to expand other permutations for accurate statistics
+    if expand_clusters_pairwise:
+        new_found_matches = {}
+        for root_rec in found_matches:
+            if root_rec not in new_found_matches:
+                new_found_matches[root_rec] = found_matches[root_rec]
+            for paired_record in found_matches[root_rec]:
+                if paired_record not in new_found_matches:
+                    new_found_matches[paired_record] = set()
+                for other_record in found_matches[root_rec]:
+                    if other_record > paired_record:
+                        new_found_matches[paired_record].add(other_record)
+        found_matches = new_found_matches
+
     # Need division by 2 because ordering is irrelevant, matches are symmetric
     total_possible_matches = (records_in_dataset * (records_in_dataset - 1)) / 2.0
     true_positives = 0.0
@@ -871,3 +892,19 @@ def _generate_block_query(table_name: str, block_data: Dict) -> str:
     )
     query = query_stub + block_query
     return query
+
+
+def _write_prob_file(prob_dict: dict, file_to_write: Union[pathlib.Path, None]):
+    """
+    Helper method to write a probability dictionary to a JSON file, if
+    a valid path is supplied.
+
+    :param prob_dict: A dictionary mapping column names to the log-probability
+      values computed for those columns.
+    :param file_to_write: Optionally, a path variable indicating where to
+      write the probabilities in a JSON format. Default is None (meaning this
+      function would execute nothing.)
+    """
+    if file_to_write is not None:
+        with open(file_to_write, "w") as out:
+            out.write(json.dumps(prob_dict))
