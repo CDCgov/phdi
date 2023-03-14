@@ -528,6 +528,9 @@ def perform_linkage_pass(
 
 
 # TODO: Migrate away from pandas eventually
+# TODO: If profiling ever gets rolled into the pipeline as a standard
+# part of the process, we should revisit that this function is essentially
+# "blocking"--the user can't do anything while the plot is shown.
 def profile_log_odds(
     data: pd.DataFrame,
     true_matches: dict,
