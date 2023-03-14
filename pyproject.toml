@@ -29,6 +29,7 @@ jsonschema = "4.16.0"
 rapidfuzz = "^2.13.6"
 lxml = "^4.9.2"
 detect-delimiter = "^0.1.1"
+psycopg2 = "^2.9.5" 
 
 [tool.poetry.dev-dependencies]
 pdoc = "^13.0.0"
