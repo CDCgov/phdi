@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 
 # Read settings immediately to fail fast in case there are invalid values.
-get_settings()
+# get_settings()
 
 # Instantiate FastAPI and set metadata.
 description = Path("description.md").read_text(encoding="utf-8")
@@ -65,23 +65,14 @@ class HealthCheckResponse(BaseModel):
 
 
 @app.get("/")
-async def health_check()-> HealthCheckResponse:
+async def health_check() -> HealthCheckResponse:
     """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the record linkage service is available and running properly.
+    Check service status and connection status to Master Patient Index(MPI). If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the record linkage service is available and running properly. The mpi_connection_status
+    is a description of the connection health to the MPI database.
     """
     return {"status": "OK",
             "mpi_connection_status": "Connected (JK its a stub)"}
-
-
-@app.get("/mpi-connection-check")
-async def mpi_connection_check():
-    """
-    Check connection status to Master Patient Index (MPI). If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the record linkage service's connection to the MPI database is available and running
-    properly.
-    """
-    return {"status": "OK"}
 
 
 @app.post("/link-record", status_code=200)

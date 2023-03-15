@@ -135,9 +135,9 @@ async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
     """
     Check if the value presented in the 'message' key is a valid example of the type of
     message specified in the 'message_type'.
-    :param input: A JSON formated request body with schema specified by the
+    :param input: A JSON formatted request body with schema specified by the
         ValidateInput model.
-    :return: A JSON formated response body with schema specified by the ValidateResponse
+    :return: A JSON formatted response body with schema specified by the ValidateResponse
         model.
     """
 
