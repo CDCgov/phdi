@@ -93,25 +93,34 @@ def _get_field_details_string(xml_element, config_field) -> str:
         if config_attributes
         else []
     )
-    parent_name = (
-        ["Parent element: '" + config_field.get("parent") + "'"]
-        if config_field.get("parent")
-        else []
-    )
-    config_parent_attributes = config_field.get("parent_attributes")
-    parent_attributes = (
-        ["Parent attributes:"]
-        + _get_attributes_list(config_parent_attributes, xml_element)
-        if config_parent_attributes
-        else []
-    )
+    relative_string = []
+    if config_field.get("relatives"):
+        relative_string.append("Related elements:")
+        for config in config_field.get("relatives"):
+            relative_name = (
+                ["Field name: '" + config.get("name") + "'"]
+                if config.get("name")
+                else []
+            )
+            config_related_attributes = config_field.get("attributes")
+            element = _find_related_element(
+                xml_element, config_field.get("cdaPath"), config
+            )
+            relative_attributes = (
+                ["Attributes:"]
+                + _get_attributes_list(config_related_attributes, element)
+                if config_related_attributes
+                else []
+            )
+            relative_string += relative_name
+            relative_string += relative_attributes
 
     value = (
         [f"value: '{''.join(xml_element.itertext())}'"]
         if config_field.get("textRequired") and xml_element is not None
         else []
     )
-    return " ".join(name + value + attributes + parent_name + parent_attributes)
+    return " ".join(name + value + attributes + relative_string)
 
 
 def _get_attributes_list(attributes, xml_element) -> list:
@@ -120,11 +129,14 @@ def _get_attributes_list(attributes, xml_element) -> list:
         attribute_name = attribute.get("attributeName")
         reg_ex = attribute.get("regEx")
         reg_ex_string = f" RegEx: '{reg_ex}'" if reg_ex else ""
-        attribute_value = (
-            f" value: '{xml_element.get(attribute_name)}'"
-            if xml_element is not None and xml_element.get(attribute_name)
-            else ""
-        )
+        if (
+            xml_element is not None
+            and xml_element is not False
+            and xml_element.get(attribute_name)
+        ):
+            attribute_value = f" value: '{xml_element.get(attribute_name)}'"
+        else:
+            attribute_value = ""
 
         attrs.append(f"name: '{attribute_name}'{reg_ex_string}{attribute_value}")
     return [", ".join(attrs)]
@@ -170,31 +182,68 @@ def _match_nodes(xml_elements, config_field) -> list:
         return []
     matching_elements = []
     for xml_element in xml_elements:
-        if config_field.get("parent"):
-            parent_element = xml_element.getparent()
-
-            # Account for the possibility that we want a parent but none are found
-            if parent_element is None:
-                continue
-            parent_config = {
-                "fieldName": config_field.get("parent"),
-                "attributes": config_field.get("parent_attributes"),
-                "cdaPath": config_field.get("cdaPath")
-                + ":"
-                + config_field.get("parent"),
-            }
-
-            parent_found = _check_field_matches(parent_element, parent_config)
-
-            # If we didn't find the parent, or it has the wrong attributes,
-            # go to the next xml element
-            if (not parent_found) or _validate_attribute(parent_element, parent_config):
-                continue
+        if not _check_relatives(xml_element, config_field):
+            continue
         found = _check_field_matches(xml_element, config_field)
 
         if found:
             matching_elements.append(xml_element)
     return matching_elements
+
+
+def _find_related_element(xml_element, cda_path, config_field):
+    if xml_element is None:
+        return False
+    relative = config_field
+    relative_cda_path = relative.get("cdaPath")
+    relative_tag_name = re.search(r"(?!\:)[a-zA-z]+\w$", relative.get("cdaPath")).group(
+        0
+    )
+    diff = len(cda_path.split("/")) - len(relative_cda_path.split("/"))
+    iter = []
+    if diff == 0:
+        iter = []
+        iter_forward = xml_element.itersiblings()
+        iter_reverse = xml_element.itersiblings(preceding=True)
+        for e in iter_forward:
+            iter.append(e)
+        for e in iter_reverse:
+            iter.append(e)
+    elif diff > 0:
+        iter = xml_element.iterancestors()
+    else:
+        iter = xml_element.iterchildren()
+
+    elements = []
+    for e in iter:
+        if relative_tag_name in e.tag:
+            elements.append(e)
+
+    if elements is None or len(elements) == 0:
+        return False
+    for element in elements:
+        relative_config = {
+            "fieldName": relative.get("name"),
+            "attributes": relative.get("attributes"),
+            "cdaPath": relative.get("cdaPath"),
+        }
+        relative_found = _check_field_matches(element, relative_config)
+        if (not relative_found) or _validate_attribute(element, relative_config):
+            return False
+        else:
+            return element
+
+
+def _check_relatives(xml_element, config_field) -> bool:
+    if config_field.get("relatives") is None:
+        return True
+    for relative in config_field.get("relatives"):
+        if (
+            _find_related_element(xml_element, config_field.get("cdaPath"), relative)
+            is False
+        ):
+            return False
+    return True
 
 
 def _check_field_matches(xml_element, config_field):

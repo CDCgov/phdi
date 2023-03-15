@@ -10,6 +10,8 @@ from phdi.validation.validation import (
     _get_xml_message_id,
     _get_attributes_list,
     _get_field_details_string,
+    _find_related_element,
+    _check_relatives,
     RR_MSG_ID_XPATH,
     EICR_MSG_ID_XPATH,
     namespaces,
@@ -371,3 +373,167 @@ def test_get_attributes_list():
     assert _get_attributes_list(
         config_text_matches_reg_ex.get("attributes"), xml_elements[0]
     ) == ["name: 'test' RegEx: 'test' value: 'hello', name: 'foo'"]
+
+
+def test_find_related_element():
+    namespace = {"test": "test"}
+    xml = (
+        "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
+        + "<biz>wrong</biz></foo>"
+    )
+    root = etree.fromstring(xml)
+    config = {
+        "fieldName": "bar",
+        "attributes": [
+            {"attributeName": "test", "regEx": "test"},
+            {"attributeName": "foo"},
+        ],
+        "cdaPath": "//test:foo/test:bar",
+        "regEx": "test",
+        "relatives": [
+            {
+                "name": "baz",
+                "cdaPath": "//test:foo/test:bar/test:baz",
+                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+            },
+            {"name": "foo", "cdaPath": "//test:foo"},
+            {"name": "biz", "cdaPath": "//test:foo/test:biz"},
+            {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
+            {
+                "name": "Not found",
+                "cdaPath": "//test:foo/test:bar/test:notFound",
+                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+            },
+            {
+                "name": "baz",
+                "cdaPath": "//test:foo/test:bar/test:baz",
+                "attributes": [{"attributeName": "foo", "regEx": "bat"}],
+            },
+        ],
+    }
+
+    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+
+    assert (
+        _find_related_element(
+            xml_elements[0],
+            config.get("cdaPath"),
+            config.get("relatives")[0],
+        ).tag
+        == "{test}baz"
+    )
+    assert (
+        _find_related_element(
+            xml_elements[0],
+            config.get("cdaPath"),
+            config.get("relatives")[1],
+        ).tag
+        == "{test}foo"
+    )
+
+    assert (
+        _find_related_element(
+            xml_elements[0],
+            config.get("cdaPath"),
+            config.get("relatives")[2],
+        ).tag
+        == "{test}biz"
+    )
+
+    assert (
+        _find_related_element(
+            xml_elements[0],
+            config.get("cdaPath"),
+            config.get("relatives")[3],
+        ).tag
+        == "{test}chaz"
+    )
+
+    assert (
+        _find_related_element(
+            xml_elements[0],
+            config.get("cdaPath"),
+            config.get("relatives")[4],
+        )
+        is False
+    )
+
+    assert (
+        _find_related_element(
+            xml_elements[0],
+            config.get("cdaPath"),
+            config.get("relatives")[5],
+        )
+        is False
+    )
+
+    assert (
+        _find_related_element(
+            None,
+            config.get("cdaPath"),
+            config.get("relatives")[0],
+        )
+        is False
+    )
+
+
+def test_check_relatives():
+    namespace = {"test": "test"}
+    xml = (
+        "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
+        + "<biz>wrong</biz></foo>"
+    )
+    root = etree.fromstring(xml)
+    config = {
+        "fieldName": "bar",
+        "attributes": [
+            {"attributeName": "test", "regEx": "test"},
+            {"attributeName": "foo"},
+        ],
+        "cdaPath": "//test:foo/test:bar",
+        "regEx": "test",
+        "relatives": [
+            {
+                "name": "baz",
+                "cdaPath": "//test:foo/test:bar/test:baz",
+                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+            },
+            {"name": "foo", "cdaPath": "//test:foo"},
+            {"name": "biz", "cdaPath": "//test:foo/test:biz"},
+            {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
+            {
+                "name": "Not found",
+                "cdaPath": "//test:foo/test:bar/test:notFound",
+                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+            },
+            {
+                "name": "baz",
+                "cdaPath": "//test:foo/test:bar/test:baz",
+                "attributes": [{"attributeName": "foo", "regEx": "bat"}],
+            },
+        ],
+    }
+
+    config_correct = {
+        "fieldName": "bar",
+        "attributes": [
+            {"attributeName": "test", "regEx": "test"},
+            {"attributeName": "foo"},
+        ],
+        "cdaPath": "//test:foo/test:bar",
+        "regEx": "test",
+        "relatives": [
+            {
+                "name": "baz",
+                "cdaPath": "//test:foo/test:bar/test:baz",
+                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+            },
+            {"name": "foo", "cdaPath": "//test:foo"},
+            {"name": "biz", "cdaPath": "//test:foo/test:biz"},
+            {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
+        ],
+    }
+
+    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+    assert _check_relatives(xml_elements[0], config) is False
+    assert _check_relatives(xml_elements[0], config_correct) is True
