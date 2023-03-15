@@ -21,6 +21,8 @@ from phdi.linkage.link import (
     eval_log_odds_cutoff,
 )
 
+from phdi.linkage.core import BaseMPIConnectorClient
+
 __all__ = [
     "generate_hash_str",
     "block_data",
@@ -42,4 +44,5 @@ __all__ = [
     "feature_match_log_odds_fuzzy_compare",
     "profile_log_odds",
     "eval_log_odds_cutoff",
+    "BaseMPIConnectorClient",
 ]
