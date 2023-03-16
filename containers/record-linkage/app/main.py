@@ -33,7 +33,7 @@ class LinkRecordInput(BaseModel):
 
     fhir_bundle: dict = Field(
         description="A FHIR bundle containing a patient resource to be checked "
-                    "for links to existing patient records"
+        "for links to existing patient records"
     )
 
 
@@ -47,9 +47,9 @@ class LinkRecordResponse(BaseModel):
     )
     updated_bundle: dict = Field(
         description="If link_found is true, returns the FHIR bundle with updated"
-                    " references to existing Personresource. If link_found is false, "
-                    "returns the FHIR bundle with a reference to a newly created "
-                    "Person resource."
+        " references to existing Personresource. If link_found is false, "
+        "returns the FHIR bundle with a reference to a newly created "
+        "Person resource."
     )
 
 
