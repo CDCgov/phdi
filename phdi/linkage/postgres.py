@@ -1,7 +1,6 @@
 from typing import List, Dict
 from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
-from sqlalchemy import text
 
 
 class PostgresConnectorClient(BaseMPIConnectorClient):
@@ -62,11 +61,13 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         query = self._generate_block_query(table_name, block_data)
 
         # Execute query
-        blocked_data = self.cursor.execute(text(query))
+        self.cursor.execute(query)
+        blocked_data = [list(row) for row in self.cursor.fetchall()]
 
         return blocked_data
 
     def upsert_match_patient(
+        self,
         patient_record: Dict,
         patient_table_name: str,
         person_table_name: str,
@@ -84,7 +85,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :param person_id: The personID matching the patient record if a match has been
         found in the MPI, defaults to None.
         """
-        print("hello!")
+
+        print("temp workaround!")
 
     def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
         """
@@ -104,5 +106,5 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 for key, value in block_data.items()
             ]
         )
-        query = query_stub + block_query
+        query = query_stub + block_query + ";"
         return query
