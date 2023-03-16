@@ -28,7 +28,7 @@ app = FastAPI(
 # Request and and response models
 class LinkRecordInput(BaseModel):
     """
-    Endpoint schema for record linkage requests.
+    Schema for requests to the /link-record endpoint..
     """
 
     fhir_bundle: dict = Field(
@@ -39,7 +39,7 @@ class LinkRecordInput(BaseModel):
 
 class LinkRecordResponse(BaseModel):
     """
-    The schema for response from the link-record endpoint.
+    The schema for responses from the link_record endpoint.
     """
 
     link_found: bool = Field(
@@ -67,9 +67,9 @@ class HealthCheckResponse(BaseModel):
 @app.get("/")
 async def health_check() -> HealthCheckResponse:
     """
-    Check service status and connection status to Master Patient Index(MPI). If an HTTP 200 status code is returned
+    Check the status of this service and its connection to Master Patient Index(MPI). If an HTTP 200 status code is returned
     along with '{"status": "OK"}' then the record linkage service is available and running properly. The
-    mpi_connection_status is a description of the connection health to the MPI database.
+    mpi_connection_status field contains a description of the connection health to the MPI database.
     """
     return {"status": "OK", "mpi_connection_status": "Stubbed response"}
 
