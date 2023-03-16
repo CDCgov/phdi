@@ -10,7 +10,6 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY ./app /code/app
-COPY ./config /code/config
 COPY ./description.md /code/description.md
 
 EXPOSE 8080

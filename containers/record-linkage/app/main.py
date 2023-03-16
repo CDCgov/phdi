@@ -28,7 +28,7 @@ app = FastAPI(
 # Request and and response models
 class LinkRecordInput(BaseModel):
     """
-    Schema for requests to the /link-record endpoint..
+    Schema for requests to the /link-record endpoint.
     """
 
     fhir_bundle: dict = Field(
