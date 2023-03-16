@@ -32,8 +32,8 @@ class LinkRecordInput(BaseModel):
     """
 
     fhir_bundle: dict = Field(
-        description="A FHIR bundle containing a patient resource to be checked for links to "
-        "existing patient records"
+        description="A FHIR bundle containing a patient resource to be checked "
+                    "for links to existing patient records"
     )
 
 
@@ -46,9 +46,10 @@ class LinkRecordResponse(BaseModel):
         description="A true value indicates linked record(s) were found."
     )
     updated_bundle: dict = Field(
-        description="If link_found is true, returns the FHIR bundle with updated references to existing Person "
-        "resource. If link_found is false, returns the FHIR bundle with a reference to a newly created"
-        " Person resource."
+        description="If link_found is true, returns the FHIR bundle with updated"
+                    " references to existing Personresource. If link_found is false, "
+                    "returns the FHIR bundle with a reference to a newly created "
+                    "Person resource."
     )
 
 
@@ -67,9 +68,10 @@ class HealthCheckResponse(BaseModel):
 @app.get("/")
 async def health_check() -> HealthCheckResponse:
     """
-    Check the status of this service and its connection to Master Patient Index(MPI). If an HTTP 200 status code is
-    returned along with '{"status": "OK"}' then the record linkage service is available and running properly. The
-    mpi_connection_status field contains a description of the connection health to the MPI database.
+    Check the status of this service and its connection to Master Patient Index(MPI). If
+    an HTTP 200 status code is returned along with '{"status": "OK"}' then the record linkage
+    service is available and running properly. The mpi_connection_status field contains a
+    description of the connection health to the MPI database.
     """
     return {"status": "OK", "mpi_connection_status": "Stubbed response"}
 
@@ -78,12 +80,13 @@ async def health_check() -> HealthCheckResponse:
 async def link_record(input: LinkRecordInput) -> LinkRecordResponse:
     """
     This is just a stub.
-    Compare a FHIR bundle with records in the Master Patient Index (MPI) to check for matches with existing patient
-    records If matches are found, returns the bundle with updated references to existing patients.
+    Compare a FHIR bundle with records in the Master Patient Index (MPI) to
+    check for matches with existing patient records If matches are found,
+    returns the bundle with updated references to existing patients.
     :param input: A JSON formatted request body with schema specified by the
         LinkRecordInput model.
-    :return: A JSON formatted response body with schema specified by the LinkRecordResponse
-        model.
+    :return: A JSON formatted response body with schema specified by the
+        LinkRecordResponse model.
     """
 
     return {"link_found": False, "updated_bundle": input.fhir_bundle}
