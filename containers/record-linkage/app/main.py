@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pathlib import Path
 from pydantic import BaseModel, Field
+
 # from app.config import get_settings
 
 # Read settings immediately to fail fast in case there are invalid values.
@@ -9,7 +10,7 @@ from pydantic import BaseModel, Field
 # Instantiate FastAPI and set metadata.
 description = Path("description.md").read_text(encoding="utf-8")
 app = FastAPI(
-    title="PHDI Validation Service",
+    title="DIBBs Record Linkage Service",
     version="0.0.1",
     contact={
         "name": "CDC Public Health Data Infrastructure",
@@ -70,7 +71,7 @@ async def health_check() -> HealthCheckResponse:
     along with '{"status": "OK"}' then the record linkage service is available and running properly. The
     mpi_connection_status is a description of the connection health to the MPI database.
     """
-    return {"status": "OK", "mpi_connection_status": "Connected (JK its a stub)"}
+    return {"status": "OK", "mpi_connection_status": "Stubbed response"}
 
 
 @app.post("/link-record", status_code=200)
