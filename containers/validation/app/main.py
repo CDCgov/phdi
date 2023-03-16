@@ -6,7 +6,7 @@ from phdi.validation.validation import validate_ecr
 from .utils import load_ecr_config, validate_error_types
 
 # TODO: Remove hard coded location for config path
-# and/or provide a mechanism to pass in coniguration
+# and/or provide a mechanism to pass in configuration
 #  via endpoint
 ecr_config = load_ecr_config()
 
@@ -29,7 +29,7 @@ app = FastAPI(
 )
 
 
-# Request and and respone models
+# Request and and response models
 class ValidateInput(BaseModel):
     """
     The schema for requests to the validate endpoint.
@@ -133,12 +133,12 @@ async def health_check():
 @app.post("/validate", status_code=200)
 async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
     """
-    Check if the value presented in the 'message' key is a valid example of the type of
-    message specified in the 'message_type'.
-    :param input: A JSON formated request body with schema specified by the
+    Check if the value presented in the 'message' key is a valid example
+    of the type of message specified in the 'message_type'.
+    :param input: A JSON formatted request body with schema specified by the
         ValidateInput model.
-    :return: A JSON formated response body with schema specified by the ValidateResponse
-        model.
+    :return: A JSON formatted response body with schema specified
+        by the ValidateResponse model.
     """
 
     input = dict(input)

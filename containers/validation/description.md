@@ -18,7 +18,7 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/validation:main`.
 3. Run the service with ` docker run -p 8080:8080 validation:main`.
 
-Congradulations the FHIR Converter should now be running on `localhost:8080`!
+Congratulations the FHIR Converter should now be running on `localhost:8080`!
 
 #### Running from Python Source Code
 
@@ -28,8 +28,8 @@ We recommend running the validation service from a container, but if that is not
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/validation/`.
 4. Make a fresh virtual environment with `python -m venv .venv`.
-5. Activate the virtual environement with `source .venv/bin/activate` (MacOS and Linux), `venv\Scripts\activate` (Windows Command Prompt), or `.venv\Scripts\Activate.ps1` (Windows Power Shell).
-5. Install all of the Python dependencies for the validation service with `pip install -r requirements.txt` into your virtual environment.
+5. Activate the virtual environment with `source .venv/bin/activate` (MacOS and Linux), `venv\Scripts\activate` (Windows Command Prompt), or `.venv\Scripts\Activate.ps1` (Windows Power Shell).
+5. Install all Python dependencies for the validation service with `pip install -r requirements.txt` into your virtual environment.
 6. Run the FHIR Converter on `localhost:8080` with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8080`. 
 
 ### Building the Docker Image
