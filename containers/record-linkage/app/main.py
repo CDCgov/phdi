@@ -69,9 +69,10 @@ class HealthCheckResponse(BaseModel):
 async def health_check() -> HealthCheckResponse:
     """
     Check the status of this service and its connection to Master Patient Index(MPI). If
-    an HTTP 200 status code is returned along with '{"status": "OK"}' then the record linkage
-    service is available and running properly. The mpi_connection_status field contains a
-    description of the connection health to the MPI database.
+    an HTTP 200 status code is returned along with '{"status": "OK"}' then the record
+    linkage service is available and running properly. The mpi_connection_status field
+    contains a description of the connection health to the
+    MPI database.
     """
     return {"status": "OK", "mpi_connection_status": "Stubbed response"}
 
