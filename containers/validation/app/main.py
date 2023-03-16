@@ -133,12 +133,12 @@ async def health_check():
 @app.post("/validate", status_code=200)
 async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
     """
-    Check if the value presented in the 'message' key is a valid example of the type of
-    message specified in the 'message_type'.
+    Check if the value presented in the 'message' key is a valid example
+    of the type of message specified in the 'message_type'.
     :param input: A JSON formatted request body with schema specified by the
         ValidateInput model.
-    :return: A JSON formatted response body with schema specified by the ValidateResponse
-        model.
+    :return: A JSON formatted response body with schema specified
+        by the ValidateResponse model.
     """
 
     input = dict(input)
