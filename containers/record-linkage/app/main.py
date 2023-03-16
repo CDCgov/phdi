@@ -39,7 +39,7 @@ class LinkRecordInput(BaseModel):
 
 class LinkRecordResponse(BaseModel):
     """
-    The schema for responses from the link_record endpoint.
+    The schema for responses from the /link-record endpoint.
     """
 
     link_found: bool = Field(
