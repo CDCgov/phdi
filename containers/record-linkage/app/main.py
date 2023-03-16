@@ -32,7 +32,7 @@ class LinkRecordInput(BaseModel):
 
     fhir_bundle: dict = Field(
         description="A FHIR bundle containing a patient resource to be checked for links to "
-                    "existing patient records"
+        "existing patient records"
     )
 
 
@@ -46,8 +46,8 @@ class LinkRecordResponse(BaseModel):
     )
     updated_bundle: dict = Field(
         description="If link_found is true, returns the FHIR bundle with updated references to existing Person "
-                    "resource. If link_found is false, returns the FHIR bundle with a reference to a newly created"
-                    " Person resource."
+        "resource. If link_found is false, returns the FHIR bundle with a reference to a newly created"
+        " Person resource."
     )
 
 
@@ -55,9 +55,8 @@ class HealthCheckResponse(BaseModel):
     """
     The schema for response from the record linkage health check endpoint.
     """
-    status: str = Field(
-        description="Returns status of this service"
-    )
+
+    status: str = Field(description="Returns status of this service")
 
     mpi_connection_status: str = Field(
         description="Returns status of connection to Master Patient Index(MPI)"
@@ -71,8 +70,7 @@ async def health_check() -> HealthCheckResponse:
     '{"status": "OK"}' then the record linkage service is available and running properly. The mpi_connection_status
     is a description of the connection health to the MPI database.
     """
-    return {"status": "OK",
-            "mpi_connection_status": "Connected (JK its a stub)"}
+    return {"status": "OK", "mpi_connection_status": "Connected (JK its a stub)"}
 
 
 @app.post("/link-record", status_code=200)
@@ -87,7 +85,4 @@ async def link_record(input: LinkRecordInput) -> LinkRecordResponse:
         model.
     """
 
-    return {
-        "link_found": False,
-        "updated_bundle": input.fhir_bundle
-    }
+    return {"link_found": False, "updated_bundle": input.fhir_bundle}
