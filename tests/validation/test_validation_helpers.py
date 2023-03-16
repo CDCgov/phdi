@@ -12,6 +12,8 @@ from phdi.validation.validation import (
     _get_field_details_string,
     _find_related_element,
     _check_relatives,
+    _diff_split,
+    _get_iterator,
     RR_MSG_ID_XPATH,
     EICR_MSG_ID_XPATH,
     namespaces,
@@ -537,3 +539,64 @@ def test_check_relatives():
     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
     assert _check_relatives(xml_elements[0], config) is False
     assert _check_relatives(xml_elements[0], config_correct) is True
+
+
+def test_diff_split():
+    str1 = "f^oo/b^ar"
+    str2 = "fo^o/bar/biz"
+    assert _diff_split(str1, str2) == -1
+    assert _diff_split(str1, str2, "^") == 1
+
+
+def test_get_iterator():
+    namespace = {"test": "test"}
+    xml = (
+        "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
+        + "<biz>wrong</biz></foo>"
+    )
+    root = etree.fromstring(xml)
+
+    xml_elements = root.xpath("//test:foo/test:bar", namespaces=namespace)
+    assert (
+        type(
+            _get_iterator(
+                "//test:foo/test:bar",
+                "//test:foo/test:bar/test:baz",
+                xml_elements[0],
+            )
+        ).__name__
+        == "ElementChildIterator"
+    )
+
+    assert (
+        type(
+            _get_iterator(
+                "//test:foo/test:bar",
+                "//test:foo/test:chaz",
+                xml_elements[0],
+            )
+        ).__name__
+        == "list"
+    )
+
+    assert (
+        type(
+            _get_iterator(
+                "//test:foo/test:bar",
+                "//test:foo/test:biz",
+                xml_elements[0],
+            )
+        ).__name__
+        == "list"
+    )
+
+    assert (
+        type(
+            _get_iterator(
+                "//test:foo/test:bar",
+                "//test:foo",
+                xml_elements[0],
+            )
+        ).__name__
+        == "AncestorsIterator"
+    )
