@@ -98,7 +98,12 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         found in the MPI, defaults to None.
         """
 
-        print("temp workaround!")
+        if person_id is not None:
+            print("Match found!")
+        else:
+            print(
+                "No match found, create new person UUID and insert into person table."
+            )
 
     def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
         """
