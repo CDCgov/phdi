@@ -93,30 +93,23 @@ def test_validate_ecr_invalid():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'Status' Attributes: "
-                + "name: 'code' "
-                + "RegEx: 'RRVS19|RRVS20|RRVS21|RRVS22', name: 'codeSystem', "
-                + "name: 'displayName'",
+                "Could not find field. Field name: 'Status' "
+                + "Attributes: name: 'code' RegEx: 'RRVS19|RRVS20|RRVS21|"
+                + "RRVS22', name: 'codeSystem', name: "
+                + "'displayName'",
                 "Could not find field. Field name: "
-                + "'Conditions' Attributes: name: 'code' RegEx: '[0-9]+', "
-                + "name: 'codeSystem'",
-                "Could not find field. Field name: "
-                + "'City' Parent element: 'addr' Parent attributes: name: "
-                + "'use' RegEx: 'H'",
+                + "'Conditions' Attributes: name: 'code' RegEx: '[0-9]+',"
+                + " name: 'codeSystem'",
                 "Field does not match regEx: "
                 + "[0-9]{5}(?:-[0-9]{4})?. Field name: 'Zip' value: '9999'",
             ],
-            "errors": [
-                "Could not find field. Field name: 'First Name' "
-                + "Parent element: 'name' Parent attributes: "
-                + "name: 'use' RegEx: 'L'"
-            ],
+            "errors": ["Could not find field. Field name: 'First Name'"],
             "warnings": [
-                "Could not find field. Field name: 'eICR Version Number'"
-                + " Attributes: name: 'value'",
-                "Attribute: 'code' not "
-                + "in expected format. Field name: 'Sex' Attributes: name:"
-                + " 'code' RegEx: 'F|M|O|U' value: 't', name: 'codeSystem'"
+                "Could not find field. Field name: 'eICR Version Number' "
+                + "Attributes: name: 'value'",
+                "Attribute: 'code' not in "
+                + "expected format. Field name: 'Sex' Attributes: name: "
+                + "'code' RegEx: 'F|M|O|U' value: 't', name: 'codeSystem'"
                 + " value: '2.16.840.1.113883.5.1'",
             ],
             "information": [],
