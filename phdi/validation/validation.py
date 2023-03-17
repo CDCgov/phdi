@@ -197,18 +197,18 @@ def _match_nodes(xml_elements, config_field) -> list:
     return matching_elements
 
 
-def _find_related_element(xml_element, cda_path, config_field):
+def _find_related_element(xml_element, cda_path, relative_config_field):
     """
     Returns an xml element that is related to another xml element based on
     the cda_path of the element you are searching for
 
-    :param xml_elements: A list of xml elements
-    :param cda_path: A string representing the location of the item being looked for.
+    :param xml_element: An XML element.
+    :param cda_path: A string representing the location of the primary element.
     :param config_field: A dictionary of the requirements of the field.
     """
     if xml_element is None:
         return False
-    relative = config_field
+    relative = relative_config_field
     relative_cda_path = relative.get("cdaPath")
     relative_tag_name = re.search(r"(?!\:)[a-zA-z]+\w$", relative.get("cdaPath")).group(
         0
@@ -240,7 +240,7 @@ def _get_iterator(cda_path, relative_cda_path, xml_element):
     Gets an iterator or list for elements based on the main element path and the element
     path being searched for.
 
-    :param cda_path: A string representing the location of the item being looked for.
+    :param cda_path: A string representing the location of the primary element.
     :param relative_cda_path: A string representing the path of the item to be searched
     for.
     :param xml_element: The xml_element that is being used to find the relative
