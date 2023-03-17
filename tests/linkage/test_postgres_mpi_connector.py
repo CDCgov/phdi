@@ -25,10 +25,10 @@ def test_generate_block_query():
         person_table="test_person_mpi",
     )
     table_name = "test_patient_mpi"
-    block_data = {"ZIP": "90120-1001", "FIRST4": "JOSE", "LAST4": "GONZ"}
+    block_data = {"ZIP": "90120-1001", "LAST4": "GONZ"}
     expected_query = (
-        "SELECT * FROM test_patient_mpi WHERE ZIP = '90120-1001' "
-        + "AND FIRST4 = 'JOSE' AND LAST4 = 'GONZ';"
+        "SELECT * FROM test_patient_mpi WHERE patient_resource->>'ZIP' = '90120-1001' "
+        + "AND patient_resource->>'LAST4' = 'GONZ';"
     )
 
     generated_query = postgres_client._generate_block_query(table_name, block_data)
@@ -53,14 +53,14 @@ def test_block_data():
     funcs = {
         "create": (
             f"CREATE TABLE IF NOT EXISTS {table_name} "
-            + "(patient_id int, FIRST4 varchar(4), "
-            + "LAST4 varchar(4), ZIP varchar(10));"
+            + "(patient_id VARCHAR(32), person_id VARCHAR(32), "
+            + "patient_resource JSONB);"
         ),
         "insert": (
-            f"INSERT INTO {table_name} (patient_id, FIRST4, LAST4, ZIP) VALUES "
-            + "(1, 'JOHN', 'SMIT','90120-1001'),"
-            + "(2, 'JOSE', 'GONZ','90120-1001'),"
-            + "(3, 'MARI', 'GONZ','90120-1001');"
+            f"""INSERT INTO {table_name} (patient_id, person_id, patient_resource) """
+            + """VALUES (1, 45, '{"FIRST4":"JOHN","LAST4":"SMIT","ZIP":"90120-1001"}'),
+            (2, 67, '{"FIRST4":"JOSE","LAST4":"GONZ","ZIP":"90120-1001"}'),
+            (3, 89, '{"FIRST4":"MARI","LAST4":"GONZ","ZIP":"90120-1001"}');"""
         ),
     }
 
@@ -76,12 +76,13 @@ def test_block_data():
     blocked_data = postgres_client.block_data(table_name, block_data)
 
     # Assert that all returned data matches blocking criterion
-    for row in blocked_data:
-        assert row[2] == block_data["LAST4"]
+    for row in blocked_data[1:]:
+        assert row[-2] == block_data["LAST4"]
 
     # Assert returned data are LoL
     assert type(blocked_data[0]) is list
 
     # Clean up
     postgres_client.cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+    postgres_client.connection.commit()
     postgres_client.connection.close()

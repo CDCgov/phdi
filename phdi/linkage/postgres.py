@@ -62,13 +62,25 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         # Execute query
         self.cursor.execute(query)
-        blocked_data = [list(row) for row in self.cursor.fetchall()]
+        extracted_data = self.cursor.fetchall()
+
+        # Set up blocked data
+        blocked_data = [["patient_id", "person_id"]]
+        for key in list(extracted_data[0][-1].keys()):
+            blocked_data[0].append(key)
+
+        # Unnest patient_resource data
+        for row in extracted_data:
+            row_data = [row[0], row[1]]
+            for value in list(row[-1].values()):
+                row_data.append(value)
+            blocked_data.append(row_data)
 
         return blocked_data
 
     def upsert_match_patient(
         self,
-        patient_record: Dict,
+        patient_resource: Dict,
         patient_table_name: str,
         person_table_name: str,
         person_id=None,
@@ -99,10 +111,13 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: Query to select block of data base on `block_data` parameters.
 
         """
+        # TODO: Update queries for nested values, e.g., zip within address
         query_stub = f"SELECT * FROM {table_name} WHERE "
         block_query = " AND ".join(
             [
-                key + f" = '{value}'" if type(value) == str else (key + f" = {value}")
+                f"patient_resource->>'{key}' = '{value}'"
+                if type(value) == str
+                else (f"'{key}' = {value}")
                 for key, value in block_data.items()
             ]
         )
