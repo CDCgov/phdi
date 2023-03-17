@@ -90,7 +90,7 @@ def _get_field_details_string(xml_element, config_field) -> str:
     Gets the name, value, of the field referenced as well as the details of the
     relatives and formats it into a string for use in messages
 
-    :param xml_elements: A list of xml elements
+    :param xml_element: An xml element.
     :param config_field: A dictionary of the requirements of the field.
     """
     name = [f"Field name: '{config_field.get('fieldName')}'"]
