@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS patient (
 
 CREATE TABLE IF NOT EXISTS person (
     person_id   UUID DEFAULT uuid_generate_v4 () 
-    linked_patient_ids  text ARRAY
+    external_person_id  VARCHAR(100)
     PRIMARY KEY (person_id)
 );
 COMMIT;
