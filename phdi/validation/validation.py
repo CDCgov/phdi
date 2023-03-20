@@ -48,7 +48,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=ECR_NAMESPACES)
 
     except AttributeError:
-        _add_basic_error("eCR Message is not valid XML!")
+        _add_fatal_error("eCR Message is not valid XML!")
         return _response_builder(include_error_types=include_error_types)
 
     _add_message_ids(message_ids=get_ecr_message_ids(parsed_ecr=parsed_ecr))
