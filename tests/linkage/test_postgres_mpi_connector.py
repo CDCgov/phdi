@@ -70,13 +70,19 @@ def test_block_data():
 
     # Test for invalue block data
     with pytest.raises(ValueError) as e:
-        blocked_data = postgres_client.block_data(table_name, block_data)
+        blocked_data = postgres_client.block_data(block_data)
         assert "`block_data` cannot be empty." in str(e.value)
 
     block_data = {"LAST4": "GONZ"}
 
     # Create test table and insert data
     funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
         "create": (
             """
             BEGIN;
@@ -107,7 +113,7 @@ def test_block_data():
             print(e)
             postgres_client.connection.rollback()
 
-    blocked_data = postgres_client.block_data(table_name, block_data)
+    blocked_data = postgres_client.block_data(block_data)
 
     # Assert that all returned data matches blocking criterion
     for row in blocked_data[1:]:
@@ -148,6 +154,12 @@ def test_upsert_match_patient():
     # Generate test tables
     # Create test table and insert data
     funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
         "create_patient": (
             """
             BEGIN;
