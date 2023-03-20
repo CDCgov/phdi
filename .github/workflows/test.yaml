@@ -13,6 +13,7 @@ env:
 
 jobs:
   postgres-tests:
+    runs-on: ubuntu-latest
     services:
       test-db:
         image: postgres:13-alpine3.16
