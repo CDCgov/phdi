@@ -1,6 +1,7 @@
 from typing import List, Dict
 from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
+import json
 
 
 class PostgresConnectorClient(BaseMPIConnectorClient):
@@ -81,8 +82,6 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
     def upsert_match_patient(
         self,
         patient_resource: Dict,
-        patient_table_name: str,
-        person_table_name: str,
         person_id=None,
     ) -> None:
         """
@@ -92,18 +91,60 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         person table with a new personID, linking the new personID to the new patient.
 
         :param patient_record: A FHIR patient resource.
-        :param patient_table_name: Name of patient table to update or insert into.
-        :param person_table_name: Name of person table to update or insert into.
         :param person_id: The personID matching the patient record if a match has been
         found in the MPI, defaults to None.
         """
-
+        # Match has been found
         if person_id is not None:
-            print("Match found!")
-        else:
-            print(
-                "No match found, create new person UUID and insert into person table."
+            # Insert into patient table
+            insert_patient_table = (
+                f"INSERT INTO {self.patient_table} "
+                + "(patient_id, person_id, patient_resource) "
+                + f"""VALUES ('{patient_resource.get("id")}', '{person_id}', """
+                + f"""'{json.dumps(patient_resource)}');"""
+                # + f"{patient_resource});"
             )
+            self.cursor.execute(insert_patient_table)
+            self.connection.commit()
+
+            # Insert into person table
+            insert_person_table = (
+                f"INSERT INTO {self.person_table} "
+                + "(person_id, external_person_id) "
+                + f"VALUES ('{person_id}', '{patient_resource.get('id')}');"
+            )
+            self.cursor.execute(insert_person_table)
+            self.connection.commit()
+
+        # Match has not been found
+        else:
+            # Insert a new record into person table to generate new person_id
+            insert_person_table = (
+                f"INSERT INTO {self.person_table} "
+                + "(external_person_id) "
+                + f"VALUES ('{patient_resource.get('id')}');"
+            )
+            self.cursor.execute(insert_person_table)
+            self.connection.commit()
+
+            # Retrieve newly generated person_id
+            select_statement = (
+                f"SELECT person_id from {self.person_table} "
+                + f"WHERE external_person_id = '{patient_resource.get('id')}'"
+            )
+            self.cursor.execute(select_statement)
+            self.connection.commit()
+            person_id = self.cursor.fetchall()
+
+            # Insert into patient table
+            insert_patient_table = (
+                f"INSERT INTO {self.patient_table} "
+                + "(patient_id, person_id, patient_resource) "
+                + f"VALUES ('{patient_resource.get('id')}','{person_id[0][0]}', "
+                + f"'{json.dumps(patient_resource)}');"
+            )
+            self.cursor.execute(insert_patient_table)
+            self.connection.commit()
 
     def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
         """
