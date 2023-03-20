@@ -1,19 +1,33 @@
-from .validation import (
-    validate_ecr,
-    _check_field_matches,
-    _validate_attribute,
-    _validate_text,
-    _organize_error_messages,
-    _response_builder,
+from .validation import validate_ecr, _organize_error_messages, _response_builder
+from .xml_utils import (
+    get_ecr_message_ids,
+    _check_xml_names_and_attribs_exist,
+    _get_ecr_custom_message,
     _get_xml_message_id,
+    _get_xml_element_details,
+    _get_xml_attributes,
+    _get_xml_relative_iterator,
+    _validate_xml_elements,
+    _validate_xml_attributes,
+    _validate_xml_related_element,
+    _validate_xml_relatives,
+    _validate_xml_value,
 )
 
 __all__ = [
     "validate_ecr",
-    "_check_field_matches",
-    "_validate_attribute",
-    "_validate_text",
     "_organize_error_messages",
     "_response_builder",
+    "get_ecr_message_ids",
+    "_check_xml_names_and_attribs_exist",
+    "_get_ecr_custom_message",
     "_get_xml_message_id",
+    "_get_xml_element_details",
+    "_get_xml_attributes",
+    "_get_xml_relative_iterator",
+    "_validate_xml_elements",
+    "_validate_xml_attributes",
+    "_validate_xml_related_element",
+    "_validate_xml_relatives",
+    "_validate_xml_value",
 ]
