@@ -27,7 +27,7 @@ def test_postgres_connection():
             patient_table="test_patient_mpi",
             person_table="test_person_mpi",
         )
-        assert """connection to server at "localhost" (::1), port 5432 failed: FATAL: 
+        assert """connection to server at "localhost" (::1), port 5432 failed: FATAL:
         password authentication failed for user "postgres" """ in str(
             e.value
         )
