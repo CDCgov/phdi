@@ -27,22 +27,22 @@ jobs:
           --name testdb
         ports:
           - 5432:5432
-      steps:
-        - name: Checkout
-        uses: actions/checkout@v3
-        - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          uses: actions/setup-python@v2
-          with:
-            python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-            cache: pip
-        - name: Install poetry
-          run: |
-            curl -sSL https://install.python-poetry.org | python3 -
-            echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
-        - name: Install dependencies
-          run: poetry install
-        - name: test_postgres_connection
-          run: pytest -k "test_postgres_connection"
+    steps:
+      - name: Checkout
+      uses: actions/checkout@v3
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: poetry install
+      - name: test_postgres_connection
+        run: pytest -k "test_postgres_connection"
   unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
     steps:
