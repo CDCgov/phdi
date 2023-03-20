@@ -4,10 +4,12 @@ import random
 from functools import cache
 from typing import Any, Callable, List, Literal, Union
 
+selection_criteria_types = Literal["first", "last", "random"]
+
 
 def apply_selection_criteria(
     value: List[Any],
-    selection_criteria: Literal["first", "last", "random"],
+    selection_criteria: selection_criteria_types,
 ) -> str:
     """
     Returns value(s), according to the selection criteria, from a given list of values
@@ -25,6 +27,10 @@ def apply_selection_criteria(
         value = value[-1]
     elif selection_criteria == "random":
         value = random.choice(value)
+    else:
+        raise ValueError(
+            f'Selection criteria {selection_criteria} is not a valid option. Must be one of "first", "last", or "random".'  # noqa
+        )
 
     # Temporary hack to ensure no structured data is written using pyarrow.
     # Currently Pyarrow does not support mixing non-structured and structured data.
