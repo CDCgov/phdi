@@ -1,4 +1,9 @@
 {
-    "first_name":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-    "last_name":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().family"
+    "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "eicr_id": "Bundle.entry.resource.where(resourceType = 'Composition').identifier.where(use = 'official').value",
+    "authoring_datetime": "Bundle.entry.resource.where(resourceType = 'Composition').date",
+    "facility_id": "Bundle.entry.resource.where(resourceType = 'Location').identifier.system",
+    "encounter_start_date": "Bundle.entry.resource.where(resourceType = 'Encounter').period.start",
+    "encounter_end_date": "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
 }
