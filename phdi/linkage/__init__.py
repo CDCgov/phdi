@@ -15,6 +15,10 @@ from phdi.linkage.link import (
     calculate_u_probs,
     load_json_probs,
     calculate_log_odds,
+    feature_match_log_odds_exact,
+    feature_match_log_odds_fuzzy_compare,
+    profile_log_odds,
+    eval_log_odds_cutoff,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -36,5 +40,9 @@ __all__ = [
     "calculate_u_probs",
     "load_json_probs",
     "calculate_log_odds",
+    "feature_match_log_odds_exact",
+    "feature_match_log_odds_fuzzy_compare",
+    "profile_log_odds",
+    "eval_log_odds_cutoff",
     "BaseMPIConnectorClient",
 ]
