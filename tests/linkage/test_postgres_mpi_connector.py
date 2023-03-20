@@ -1,9 +1,10 @@
 from phdi.linkage.postgres import PostgresConnectorClient
 import pathlib
+import pytest
 import json
 
 
-def test_postgres_connection_local():
+def test_postgres_connection():
     postgres_client = PostgresConnectorClient(
         database="testdb",
         user="postgres",
@@ -14,6 +15,22 @@ def test_postgres_connection_local():
         person_table="test_person_mpi",
     )
     assert postgres_client.connection is not None
+
+    # Test with failed connection, e.g., bad password
+    with pytest.raises(ValueError) as e:
+        postgres_client = PostgresConnectorClient(
+            database="testdb",
+            user="postgres",
+            password="bad password",
+            host="localhost",
+            port="5432",
+            patient_table="test_patient_mpi",
+            person_table="test_person_mpi",
+        )
+        assert """connection to server at "localhost" (::1), port 5432 failed: FATAL: 
+        password authentication failed for user "postgres" """ in str(
+            e.value
+        )
 
 
 def test_generate_block_query():
@@ -49,6 +66,13 @@ def test_block_data():
         person_table="test_person_mpi",
     )
     table_name = "test_patient_mpi"
+    block_data = {}
+
+    # Test for invalue block data
+    with pytest.raises(ValueError) as e:
+        blocked_data = postgres_client.block_data(table_name, block_data)
+        assert "`block_data` cannot be empty." in str(e.value)
+
     block_data = {"LAST4": "GONZ"}
 
     # Create test table and insert data

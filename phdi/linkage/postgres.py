@@ -38,9 +38,9 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 host=self.host,
                 port=self.port,
             )
+            self.cursor = self.connection.cursor()
         except Exception as error:
-            print(f"{error}")
-        self.cursor = self.connection.cursor()
+            raise ValueError(f"{error}")
 
     def block_data(self, table_name, block_data: Dict) -> List[list]:
         """
