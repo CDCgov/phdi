@@ -11,7 +11,6 @@ from unittest import mock
 from requests.models import Response
 
 from phdi.fhir.tabulation.tables import (
-    _apply_selection_criteria,
     drop_invalid,
     tabulate_data,
     generate_tables,
@@ -25,19 +24,6 @@ from phdi.fhir.tabulation.tables import (
     extract_data_from_schema,
     _merge_include_query_params_for_location,
 )
-
-
-def test_apply_selection_criteria():
-    selection_criteria_test_list = ["one", "two", "three"]
-    assert _apply_selection_criteria(selection_criteria_test_list, "first") == "one"
-    assert _apply_selection_criteria(selection_criteria_test_list, "last") == "three"
-    assert (
-        _apply_selection_criteria(selection_criteria_test_list, "random")
-        in selection_criteria_test_list
-    )
-    assert _apply_selection_criteria(selection_criteria_test_list, "all") == ",".join(
-        selection_criteria_test_list
-    )
 
 
 def test_tabulate_data_invalid_table_name():

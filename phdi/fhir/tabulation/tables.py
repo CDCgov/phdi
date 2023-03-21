@@ -1,10 +1,7 @@
-import fhirpathpy
 import json
-import random
 import warnings
 import requests
-from functools import cache
-from typing import Any, Callable, Dict, Literal, List, Union, Tuple
+from typing import Dict, List, Union, Tuple
 from urllib.parse import parse_qs, urlencode
 import urllib.parse
 import pathlib
@@ -12,6 +9,7 @@ import pathlib
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
 from phdi.tabulation.tables import load_schema, write_data
+from phdi.fhir.utils import extract_value_with_resource_path
 
 
 def drop_invalid(data: List[list], schema: Dict, table_name: str) -> List[list]:
@@ -258,7 +256,7 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
             # single value for them
             if isinstance(resource_to_use, dict):
                 row.append(
-                    _extract_value_with_resource_path(
+                    extract_value_with_resource_path(
                         resource_to_use,
                         path_to_use,
                         column_params["selection_criteria"],
@@ -269,7 +267,7 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
             # observations pointing to them), so they need to be stored in a list
             else:
                 values = [
-                    _extract_value_with_resource_path(
+                    extract_value_with_resource_path(
                         r, path_to_use, column_params["selection_criteria"]
                     )
                     for r in resource_to_use
@@ -282,39 +280,6 @@ def tabulate_data(data: List[dict], schema: dict, table_name: str) -> List[list]
     tabulated_data = drop_invalid(tabulated_data, schema, table_name)
 
     return tabulated_data
-
-
-def _apply_selection_criteria(
-    value: List[Any],
-    selection_criteria: Literal["first", "last", "random"],
-) -> str:
-    """
-    Returns value(s), according to the selection criteria, from a given list of values
-    parsed from a FHIR resource. A single string value is returned - if the selected
-    value is a complex structure (list or dict), it is converted to a string.
-    :param value: A list containing the values parsed from a FHIR resource.
-    :param selection_criteria: A string indicating which element(s) of a list to select.
-    :return: Value(s) parsed from a FHIR resource that conform to the selection
-      criteria.
-    """
-
-    if selection_criteria == "first":
-        value = value[0]
-    elif selection_criteria == "last":
-        value = value[-1]
-    elif selection_criteria == "random":
-        value = random.choice(value)
-
-    # Temporary hack to ensure no structured data is written using pyarrow.
-    # Currently Pyarrow does not support mixing non-structured and structured data.
-    # https://github.com/awslabs/aws-data-wrangler/issues/463
-    # Will need to consider other methods of writing to parquet if this is an essential
-    # feature.
-    if type(value) == dict:  # pragma: no cover
-        value = json.dumps(value)
-    elif type(value) == list:
-        value = ",".join(value)
-    return value
 
 
 def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
@@ -375,9 +340,7 @@ def _build_reference_dicts(data: List[dict], directions_by_table: dict) -> dict:
                     current_resource_type
                 ]
                 ref_path = ref_loc.replace(":", ".") + ".reference"
-                referenced_anchor = _extract_value_with_resource_path(
-                    resource, ref_path
-                )
+                referenced_anchor = extract_value_with_resource_path(resource, ref_path)
                 referenced_anchor = referenced_anchor.split("/")[-1]
 
                 # There could be a many-to-one relationship with reverse pointers,
@@ -419,7 +382,7 @@ def _dereference_included_resource(
     # ID from the anchor and look it up
     if direction == "forward":
         path_to_reference = ref_path.replace(":", ".") + ".reference"
-        referenced_id = _extract_value_with_resource_path(
+        referenced_id = extract_value_with_resource_path(
             anchor_resource, path_to_reference
         )
 
@@ -435,31 +398,6 @@ def _dereference_included_resource(
         resource_to_use = ref_dicts[table_name][referenced_type][anchor_id]
 
     return resource_to_use
-
-
-def _extract_value_with_resource_path(
-    resource: dict,
-    path: str,
-    selection_criteria: Literal["first", "last", "random"] = "first",
-) -> Union[Any, None]:
-    """
-    Yields a single value from a resource based on a provided `fhir_path`.
-    If the path doesn't map to an extant value in the first, returns
-    `None` instead.
-    :param resource: The FHIR resource to extract a value from.
-    :param path: The `fhir_path` at which the value can be found in the
-      resource.
-    :param selection_criteria: A string dictating which value to extract,
-      if multiple values exist at the path location.
-    :return: The extracted value, or `None` if the value doesn't exist.
-    """
-    parse_function = _get_fhirpathpy_parser(path)
-    value = parse_function(resource)
-    if len(value) == 0:
-        return None
-    else:
-        value = _apply_selection_criteria(value, selection_criteria)
-        return value
 
 
 def _generate_search_url(
@@ -605,19 +543,6 @@ def _generate_search_urls(schema: dict) -> dict:
         url_dict[table_name] = _generate_search_url(search_string, count, since)
 
     return url_dict
-
-
-@cache
-def _get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
-    """
-    Accepts a FHIRPath expression, and returns a callable function
-    which returns the evaluated value at fhirpath_expression for
-    a specified FHIR resource.
-    :param fhirpath_expression: The FHIRPath expression to evaluate.
-    :return: A function that, when called passing in a FHIR resource,
-      will return value at `fhirpath_expression`.
-    """
-    return fhirpathpy.compile(fhirpath_expression)
 
 
 def _get_reference_directions(schema: dict) -> dict:
