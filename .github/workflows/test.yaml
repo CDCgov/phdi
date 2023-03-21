@@ -10,6 +10,7 @@ on:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.9
+  POSTGRES_DB: testdb
 
 jobs:
   postgres-tests:
