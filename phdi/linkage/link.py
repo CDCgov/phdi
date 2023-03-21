@@ -757,6 +757,22 @@ def profile_log_odds(
     plt.show()
 
 
+def read_linkage_config(config_file: pathlib.Path):
+    try:
+        algo_config = json.load(open(config_file))
+        # Need to convert function keys back to column indices, since
+        # JSON serializes dict keys as strings
+        for rl_pass in algo_config.get("algorithm"):
+            rl_pass["funcs"] = {int(col): f for (col, f) in rl_pass["funcs"].items()}
+        return algo_config
+    except FileNotFoundError:
+        raise FileNotFoundError(f"No file exists at path {config_file}.")
+    except json.decoder.JSONDecodeError as e:
+        raise json.decoder.JSONDecodeError(
+            "The specified file is not valid JSON.", e.doc, e.pos
+        )
+
+
 def score_linkage_vs_truth(
     found_matches: dict[Union[int, str], set],
     true_matches: dict[Union[int, str], set],
@@ -836,6 +852,25 @@ def score_linkage_vs_truth(
         3,
     )
     return (sensitivity, specificity, ppv, f1)
+
+
+def write_linkage_config(linkage_algo: List[dict], file_to_write: pathlib.Path) -> None:
+    algo_json = []
+    for rl_pass in linkage_algo:
+        pass_json = {}
+        pass_json["funcs"] = {col: f.__name__ for (col, f) in rl_pass["funcs"].items()}
+        pass_json["blocks"] = rl_pass["blocks"]
+        pass_json["matching_rule"] = rl_pass["matching_rule"].__name__
+        if rl_pass.get("cluster_ratio", None) is not None:
+            pass_json["cluster_ratio"] = rl_pass["cluster_ratio"]
+        if rl_pass.get("kwargs", None) is not None:
+            pass_json["kwargs"] = {
+                kwarg: val for (kwarg, val) in rl_pass.get("kwargs", {}).items()
+            }
+        algo_json.append(pass_json)
+    linkage_json = {"algorithm": algo_json}
+    with open(file_to_write, "w") as out:
+        out.write(json.dumps(linkage_json))
 
 
 def _eval_record_in_cluster(

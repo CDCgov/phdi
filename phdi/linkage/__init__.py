@@ -20,6 +20,8 @@ from phdi.linkage.link import (
     profile_log_odds,
     eval_log_odds_cutoff,
     extract_blocking_values_from_record,
+    write_linkage_config,
+    read_linkage_config,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -47,4 +49,6 @@ __all__ = [
     "eval_log_odds_cutoff",
     "BaseMPIConnectorClient",
     "extract_blocking_values_from_record",
+    "write_linkage_config",
+    "read_linkage_config",
 ]
