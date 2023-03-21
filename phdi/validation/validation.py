@@ -9,6 +9,7 @@ from .xml_utils import (
 )
 
 
+global ERROR_MESSAGES
 ERROR_MESSAGES = {
     "fatal": [],
     "errors": [],
@@ -56,7 +57,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         )
         return _response_builder(include_error_types=include_error_types)
 
-    _add_message_ids(message_ids=get_ecr_message_ids(parsed_ecr=parsed_ecr))
+    _add_message_ids(get_ecr_message_ids(parsed_ecr=parsed_ecr))
 
     for field in config.get("fields"):
         # extract the specific information from the configuration
@@ -64,7 +65,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         cda_path = field.get("cdaPath")
         # get a list of XML elements that match the field configuration
         matched_xml_elements = _validate_xml_elements(
-            xml_elements=parsed_ecr.xpath(cda_path, namespaces=ECR_NAMESPACES),
+            xml_elements=parsed_ecr.findall(path=cda_path, namespaces=ECR_NAMESPACES),
             config_field=field,
         )
         error_message_type = (
@@ -129,16 +130,15 @@ def _response_builder(include_error_types: list) -> dict:
             error_message_type="information",
             message="Validation completed with no fatal errors!"
         )
+    _organize_error_messages(include_error_types=include_error_types)
 
     return {
         "message_valid": valid,
-        "validation_results": _organize_error_messages(
-            include_error_types=include_error_types
-        ),
+        "validation_results": ERROR_MESSAGES
     }
 
 
-def _append_error_message(error_message_type: str, message: str):
+def _append_error_message(error_message_type: str, message: str) -> None:
     if error_message_type in ERROR_MESSAGES.keys():
         if isinstance(message, list):
             for msg in message:
@@ -148,14 +148,14 @@ def _append_error_message(error_message_type: str, message: str):
             ERROR_MESSAGES[error_message_type].append(message.strip())
 
 
-def _add_message_ids(ids: dict):
+def _add_message_ids(ids: dict) -> None:
     if ids:
         ERROR_MESSAGES["message_ids"] = ids
     else:
         ERROR_MESSAGES["message_ids"] = {}
 
 
-def _clear_all_errors_and_ids():
+def _clear_all_errors_and_ids() -> None:
     ERROR_MESSAGES["fatal"] = []
     ERROR_MESSAGES["errors"] = []
     ERROR_MESSAGES["information"] = []

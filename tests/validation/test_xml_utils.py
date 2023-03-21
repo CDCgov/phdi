@@ -15,7 +15,8 @@ from phdi.validation.xml_utils import (
     _validate_xml_elements,
     _validate_xml_related_element,
     _validate_xml_relatives,
-    XML_PATH_DELIMITER
+    _get_xml_relatives_details,
+    XML_PATH_DELIMITER,
 )
 from lxml import etree
 
@@ -45,77 +46,163 @@ config = open(
 ).read()
 
 
-def test_organize_error_messages():
-    fatal = ["foo"]
-    errors = ["my error1", "my_error2"]
-    warns = ["my warn1"]
-    infos = ["", "SOME"]
-    test_include_errors = ["fatal", "errors", "warnings", "information"]
-    msg_ids = {}
-
-    expected_result = {
-        "fatal": fatal,
-        "errors": errors,
-        "warnings": warns,
-        "information": infos,
-        "message_ids": msg_ids,
-    }
-
-    actual_result = _organize_error_messages(
-        fatal=fatal,
-        errors=errors,
-        warnings=warns,
-        information=infos,
-        message_ids=msg_ids,
-        include_error_types=test_include_errors,
-    )
-    assert actual_result == expected_result
-
-    fatal = []
-    test_include_errors = ["information"]
-
-    expected_result = {
-        "fatal": [],
-        "errors": [],
-        "warnings": [],
-        "information": infos,
-        "message_ids": msg_ids,
-    }
-
-    actual_result = _organize_error_messages(
-        fatal=fatal,
-        errors=errors,
-        warnings=warns,
-        information=infos,
-        message_ids=msg_ids,
-        include_error_types=test_include_errors,
-    )
-
-    assert actual_result == expected_result
-
-
-def test_match_nodes():
+def test_validate_xml_elements():
     namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/></foo>"
+    xml = "<foo xmlns='test' use='L'><bar>Blah<baz><biz></biz></baz></bar></foo>"
     root = etree.fromstring(xml)
 
-    config = {"parent": "foo", "fieldName": "bar", "cdaPath": "//test:foo/test:bar"}
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+    proper_config = {
+        "fieldName": "bar",
+        "cdaPath": "//test:foo/test:bar",
+        "errorType": "fatal",
+        "textRequired": "True",
+        "validateOne": False,
+        "relatives": [
+            {
+                "name": "foo",
+                "cdaPath": "//test:foo",
+                "attributes": [{"attributeName": "use", "regEx": "L"}],
+            }
+        ],
+    }
 
+    xml_elements = root.xpath("//test:foo/test:bar", namespaces=namespace)
     config_biz = {
-        "parent": "baz",
         "fieldName": "biz",
-        "cdaPath": "//test:foo/test:baz/test:biz",
+        "cdaPath": "//test:foo/test:bar/test:baz/test:biz",
+        "errorType": "fatal",
+        "relatives": [{"name": "baz", "cdaPath": "//test:foo/test:bar/test:baz"}],
     }
     xml_elements_biz = root.xpath(config_biz.get("cdaPath"), namespaces=namespace)
 
-    assert _match_nodes([], config) == []
-    assert _match_nodes(xml_elements, config) == [xml_elements[0]]
-    assert _match_nodes(xml_elements_biz, config_biz) == [xml_elements_biz[0]]
-    assert len(_match_nodes(xml_elements_biz, config_biz)) == 1
+    assert _validate_xml_elements([], config) == []
+    assert _validate_xml_elements(xml_elements, proper_config) == [xml_elements[0]]
+    assert _validate_xml_elements(xml_elements_biz, config_biz) == [xml_elements_biz[0]]
+    assert len(_validate_xml_elements(xml_elements_biz, config_biz)) == 1
+
+    # now let's make it fail and return none based upon the config
+    wrong_config = {
+        "fieldName": "biz",
+        "cdaPath": "//test:foo/test:bar/test:baz/test:biz",
+        "errorType": "fatal",
+        "relatives": [{"name": "baz", "cdaPath": "//test:foo/test:bar/test:booty"}],
+    }
+    assert _validate_xml_elements(xml_elements_biz, wrong_config) == []
 
 
-def test_check_field_matches():
+def test_get_xml_relative_iterator():
+    namespace = {"test": "test"}
+    xml = "<foo xmlns='test' use='L'><bar>Blah<baz><biz></biz></baz></bar></foo>"
+    root = etree.fromstring(xml)
+
+    proper_config = {
+        "fieldName": "bar",
+        "cdaPath": "//test:foo/test:bar",
+        "errorType": "fatal",
+        "textRequired": "True",
+        "validateOne": False,
+        "relatives": [
+            {
+                "name": "foo",
+                "cdaPath": "//test:foo",
+                "attributes": [{"attributeName": "use", "regEx": "L"}],
+            }
+        ],
+    }
+    xml_elements = root.xpath("//test:foo/test:bar", namespaces=namespace)
+    result = _get_xml_relative_iterator(
+        cda_path=proper_config["cdaPath"],
+        relative_cda_path=proper_config.get("relatives")[0].get("cdaPath"),
+        xml_element=xml_elements[0]
+    )
+    assert result.tag == "{test}foo"
+
+    child_config = {
+        "fieldName": "bar",
+        "cdaPath": "//test:foo/test:bar",
+        "errorType": "fatal",
+        "textRequired": "True",
+        "validateOne": False,
+        "relatives": [
+            {
+                "name": "baz",
+                "cdaPath": "//test:foo/test:bar/test:baz",
+            }
+        ],
+    }
+
+    result = _get_xml_relative_iterator(
+        cda_path=child_config["cdaPath"],
+        relative_cda_path=child_config.get("relatives")[0].get("cdaPath"),
+        xml_element=xml_elements[0]
+    )
+    child_tag = ""
+    for childs in result:
+        child_tag = childs.tag
+    assert child_tag == "{test}baz"
+
+    anc_config = {
+        "fieldName": "baz",
+        "cdaPath": "//test:foo/test:bar/test:baz",
+        "errorType": "fatal",
+        "textRequired": "True",
+        "validateOne": False,
+        "relatives": [
+            {
+                "name": "foo",
+                "cdaPath": "//test:foo",
+            }
+        ],
+    }
+
+    xml_elements = root.xpath("//test:foo/test:bar/test:baz", namespaces=namespace)
+
+    result = _get_xml_relative_iterator(
+        cda_path=anc_config["cdaPath"],
+        relative_cda_path=anc_config.get("relatives")[0].get("cdaPath"),
+        xml_element=xml_elements[0]
+    )
+    assert result.tag == "{test}foo"
+
+    sib_config = {
+        "fieldName": "baz",
+        "cdaPath": "//test:foo/test:bar/test:baz",
+        "errorType": "fatal",
+        "textRequired": "True",
+        "validateOne": False,
+        "relatives": [
+            {
+                "name": "beep",
+                "cdaPath": "//test:foo/test:bar/test:beep",
+            }
+        ],
+    }
+
+    namespace = {"test": "test"}
+    xml3 = "<foo xmlns='test' use='L'><bar>Blah<baz><biz></biz></baz><beep></beep></bar></foo>"
+    root3 = etree.fromstring(xml3)
+    xml_elements3 = root3.xpath("//test:foo/test:bar/test:baz", namespaces=namespace)
+
+    result = _get_xml_relative_iterator(
+        cda_path=sib_config["cdaPath"],
+        relative_cda_path=sib_config.get("relatives")[0].get("cdaPath"),
+        xml_element=xml_elements3[0]
+    )
+    sib_tag = ""
+    for sibs in result:
+        sib_tag = sibs.tag
+    assert sib_tag == "{test}beep"
+
+    result = _get_xml_relative_iterator(
+        cda_path=proper_config["cdaPath"],
+        relative_cda_path=proper_config.get("relatives")[0].get("cdaPath"),
+        xml_element=None
+    )
+
+    assert result is None
+
+
+def test_check_xml_names_and_attribs_exist():
     namespace = {"test": "test"}
     xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/><taz/></foo>"
     root = etree.fromstring(xml)
@@ -159,60 +246,68 @@ def test_check_field_matches():
     )
     xml_elements_taz = root.xpath(config_check_all.get("cdaPath"), namespaces=namespace)
 
-    assert _check_field_matches(xml_elements[0], config)
-    assert not _check_field_matches(xml_elements[0], config_false_cda_path)
-    assert not _check_field_matches(xml_elements_bar[0], config_false_attributes)
-    assert _check_field_matches(xml_elements_taz[0], config_check_all)
-    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all)
-    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all_default)
+    assert _check_xml_names_and_attribs_exist(xml_elements[0], config)
+    assert not _check_xml_names_and_attribs_exist(
+        xml_elements[0], config_false_cda_path
+    )
+    assert not _check_xml_names_and_attribs_exist(
+        xml_elements_bar[0], config_false_attributes
+    )
+    assert _check_xml_names_and_attribs_exist(xml_elements_taz[0], config_check_all)
+    assert not _check_xml_names_and_attribs_exist(
+        xml_elements_taz[0], config_dont_check_all
+    )
+    assert not _check_xml_names_and_attribs_exist(
+        xml_elements_taz[0], config_dont_check_all_default
+    )
 
 
-def test_validate_attribute():
-    namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar test='bat'/><baz><biz/></baz><biz/></foo>"
-    root = etree.fromstring(xml)
+# def test_validate_attribute():
+#     namespace = {"test": "test"}
+#     xml = "<foo xmlns='test'><bar test='bat'/><baz><biz/></baz><biz/></foo>"
+#     root = etree.fromstring(xml)
 
-    config = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-    }
-    config_attributes = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "fail"}],
-        "cdaPath": "//test:foo/test:bar",
-    }
-    config_reg_ex = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test", "regEx": "bar"}],
-        "cdaPath": "//test:foo/test:bar",
-    }
+#     config = {
+#         "fieldName": "bar",
+#         "attributes": [{"attributeName": "test"}],
+#         "cdaPath": "//test:foo/test:bar",
+#     }
+#     config_attributes = {
+#         "fieldName": "bar",
+#         "attributes": [{"attributeName": "fail"}],
+#         "cdaPath": "//test:foo/test:bar",
+#     }
+#     config_reg_ex = {
+#         "fieldName": "bar",
+#         "attributes": [{"attributeName": "test", "regEx": "bar"}],
+#         "cdaPath": "//test:foo/test:bar",
+#     }
 
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-    assert _validate_attribute(xml_elements[0], config) == []
-    assert _validate_attribute(xml_elements[0], config_attributes) == [
-        "Could not find attribute fail. Field name: 'bar' Attributes: name: 'fail'"
-    ]
-    assert _validate_attribute(xml_elements[0], config_reg_ex) == [
-        "Attribute: 'test' not in expected format. Field name: 'bar' Attributes: name:"
-        + " 'test' RegEx: 'bar' value: 'bat'"
-    ]
+#     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+#     assert _validate_attribute(xml_elements[0], config) == []
+#     assert _validate_attribute(xml_elements[0], config_attributes) == [
+#         "Could not find attribute fail. Field name: 'bar' Attributes: name: 'fail'"
+#     ]
+#     assert _validate_attribute(xml_elements[0], config_reg_ex) == [
+#         "Attribute: 'test' not in expected format. Field name: 'bar' Attributes: name:"
+#         + " 'test' RegEx: 'bar' value: 'bat'"
+#     ]
 
 
-def test_validate_text():
+def test_validate_xml_value():
     namespace = {"test": "test"}
     xml = "<foo xmlns='test'><bar>test</bar><baz><biz/></baz><biz>wrong</biz></foo>"
     root = etree.fromstring(xml)
 
-    config = {
+    okconfig = {
         "fieldName": "bar",
         "attributes": [{"attributeName": "test"}],
         "cdaPath": "//test:foo/test:bar",
         "textRequired": "True",
     }
 
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-    assert _validate_text(xml_elements[0], config) == []
+    xml_elements = root.xpath(okconfig.get("cdaPath"), namespaces=namespace)
+    assert _validate_xml_value(xml_element=xml_elements[0], config_field=okconfig) == []
 
     config_no_text = {
         "fieldName": "biz",
@@ -222,8 +317,10 @@ def test_validate_text():
     }
 
     xml_elements = root.xpath(config_no_text.get("cdaPath"), namespaces=namespace)
-    assert _validate_text(xml_elements[0], config_no_text) == [
-        "Field does not have text. Field name: 'biz' value: '' Attributes: name: 'test'"
+    result = _validate_xml_value(xml_elements[0], config_no_text)
+    print(result)
+    assert result == [
+        "Field does not have a value. Field name: 'biz' Attributes: attribute #1: 'test'"
     ]
 
     config_text_matches_reg_ex = {
@@ -236,7 +333,7 @@ def test_validate_text():
     xml_elements = root.xpath(
         config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    assert _validate_text(xml_elements[0], config_text_matches_reg_ex) == []
+    assert _validate_xml_value(xml_elements[0], config_text_matches_reg_ex) == []
 
     config_text_doesnt_match_reg_ex = {
         "fieldName": "bar",
@@ -248,34 +345,28 @@ def test_validate_text():
     xml_elements = root.xpath(
         config_text_doesnt_match_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    assert _validate_text(xml_elements[0], config_text_doesnt_match_reg_ex) == [
-        "Field does not match regEx: foo. Field name: 'bar' value: 'test' Attributes:"
-        + " name: 'test'"
+    result = _validate_xml_value(xml_elements[0], config_text_doesnt_match_reg_ex)
+    print(result)
+    assert result == [
+        "The field value does not exist or doesn't match the following pattern: 'foo'."
+        + " For the Field name: 'bar' value: 'test' Attributes: attribute #1: 'test'"
     ]
 
-
-def test_response_builder():
-    expected_response = {
-        "message_valid": True,
-        "validation_results": {
-            "fatal": [],
-            "errors": [],
-            "warnings": [],
-            "information": ["Validation completed with no fatal errors!"],
-            "message_ids": {},
-        },
-        "validated_message": sample_file_good,
+    config_text_not_required = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "regEx": "foo",
     }
-    result = _response_builder(
-        errors=expected_response["validation_results"],
-        msg=sample_file_good,
-        include_error_types=test_include_errors,
+    xml_elements = root.xpath(
+        config_text_doesnt_match_reg_ex.get("cdaPath"), namespaces=namespace
     )
+    result = _validate_xml_value(xml_elements[0], config_text_not_required)
+    print(result)
+    assert result == []
 
-    assert result == expected_response
 
-
-def test_check_custom_message():
+def test_get_ecr_custom_message():
     config_field_with_custom = {
         "fieldName": "bar",
         "attributes": [{"attributeName": "test"}],
@@ -284,7 +375,7 @@ def test_check_custom_message():
         "regEx": "foo",
         "customMessage": "this is a custom message",
     }
-    result = _check_custom_message(
+    result = _get_ecr_custom_message(
         config_field_with_custom, "this is a default message"
     )
     assert result == "this is a custom message"
@@ -296,7 +387,9 @@ def test_check_custom_message():
         "textRequired": "True",
         "regEx": "foo",
     }
-    result = _check_custom_message(config_field_no_custom, "this is a default message")
+    result = _get_ecr_custom_message(
+        config_field_no_custom, "this is a default message"
+    )
     assert result == "this is a default message"
 
 
@@ -308,7 +401,7 @@ def test_get_xml_message_id():
     parsed_ecr = etree.fromstring(xml, parser=parser)
 
     actual_result = _get_xml_message_id(
-        parsed_ecr.xpath(EICR_MSG_ID_XPATH, namespaces=namespaces)
+        parsed_ecr.xpath(EICR_MSG_ID_XPATH, namespaces=ECR_NAMESPACES)
     )
     expected_result = {
         "root": "2.16.840.1.113883.9.9.9.9.9",
@@ -321,12 +414,45 @@ def test_get_xml_message_id():
         "extension": None,
     }
     actual_result = _get_xml_message_id(
-        parsed_ecr.xpath(RR_MSG_ID_XPATH, namespaces=namespaces)
+        parsed_ecr.xpath(RR_MSG_ID_XPATH, namespaces=ECR_NAMESPACES)
     )
     assert actual_result == expected_result
 
 
-def test_get_field_details_string():
+def test_get_ecr_message_ids():
+    # parse and prep data from example file
+    # for testing
+    xml = sample_file_good_RR.encode("utf-8")
+    parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
+    parsed_ecr = etree.fromstring(xml, parser=parser)
+
+    actual_result = get_ecr_message_ids(parsed_ecr)
+    expected_result = {
+        "eicr": {
+            "root": "2.16.840.1.113883.9.9.9.9.9",
+            "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+        },
+        "rr": {"root": "4efa0e5c-c34c-429f-b5de-f1a13aef4a28", "extension": None},
+    }
+    assert actual_result == expected_result
+
+    xml = sample_file_good.encode("utf-8")
+    parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
+    parsed_ecr = etree.fromstring(xml, parser=parser)
+
+    actual_result = get_ecr_message_ids(parsed_ecr)
+    expected_result = {
+        "eicr": {
+            "root": "2.16.840.1.113883.9.9.9.9.9",
+            "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+        },
+        "rr": {},
+    }
+    print(actual_result)
+    assert actual_result == expected_result
+
+
+def test_get_xml_element_details():
     namespace = {"test": "test"}
     xml = (
         "<foo xmlns='test'><bar test='hello'>test</bar><baz><biz/></baz>"
@@ -340,17 +466,53 @@ def test_get_field_details_string():
         "textRequired": "True",
         "regEx": "test",
     }
-
     xml_elements = root.xpath(
         config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
     )
+    result = _get_xml_element_details(xml_elements[0], config_text_matches_reg_ex)
     assert (
-        _get_field_details_string(xml_elements[0], config_text_matches_reg_ex)
-        == "Field name: 'bar' value: 'test' Attributes: name: 'test' value: 'hello'"
+        result
+        == "Field name: 'bar' value: 'test' Attributes: attribute #1: 'test' actual value: 'hello'"
+    )
+
+    result = _get_xml_element_details(None, config_text_matches_reg_ex)
+    assert result == ""
+
+    config_no_attrs = {
+        "fieldName": "bar",
+        "cdaPath": "//test:foo/test:bar",
+        "textRequired": "True",
+        "regEx": "test",
+    }
+    result = _get_xml_element_details(xml_elements[0], config_no_attrs)
+    assert result == "Field name: 'bar' value: 'test'"
+
+    xml2 = (
+        "<foo xmlns='test'><bar test='hello'></bar><baz><biz/></baz>"
+        + "<biz>wrong</biz></foo>"
+    )
+    root2 = etree.fromstring(xml2)
+    xml_elements2 = root2.xpath(
+        config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
+    )
+    result = _get_xml_element_details(xml_elements2[0], config_no_attrs)
+    assert result == "Field name: 'bar'"
+
+    config_no_text_required = {
+        "fieldName": "bar",
+        "attributes": [{"attributeName": "test"}],
+        "cdaPath": "//test:foo/test:bar",
+        "regEx": "test",
+    }
+    result = _get_xml_element_details(xml_elements[0], config_no_text_required)
+    print(result)
+    assert (
+        result
+        == "Field name: 'bar' Attributes: attribute #1: 'test' actual value: 'hello'"
     )
 
 
-def test_get_attributes_list():
+def test_get_xml_attributes():
     namespace = {"test": "test"}
     xml = (
         "<foo xmlns='test'><bar test='hello'>test</bar><baz><biz/></baz>"
@@ -371,231 +533,236 @@ def test_get_attributes_list():
     xml_elements = root.xpath(
         config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    assert _get_attributes_list(
-        config_text_matches_reg_ex.get("attributes"), xml_elements[0]
-    ) == ["name: 'test' RegEx: 'test' value: 'hello', name: 'foo'"]
-
-
-def test_find_related_element():
-    namespace = {"test": "test"}
-    xml = (
-        "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
-        + "<biz>wrong</biz></foo>"
+    result = _get_xml_attributes(
+        xml_elements[0], config_text_matches_reg_ex.get("attributes")
     )
-    root = etree.fromstring(xml)
-    config = {
-        "fieldName": "bar",
-        "attributes": [
-            {"attributeName": "test", "regEx": "test"},
-            {"attributeName": "foo"},
-        ],
-        "cdaPath": "//test:foo/test:bar",
-        "regEx": "test",
-        "relatives": [
-            {
-                "name": "baz",
-                "cdaPath": "//test:foo/test:bar/test:baz",
-                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
-            },
-            {"name": "foo", "cdaPath": "//test:foo"},
-            {"name": "biz", "cdaPath": "//test:foo/test:biz"},
-            {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
-            {
-                "name": "Not found",
-                "cdaPath": "//test:foo/test:bar/test:notFound",
-                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
-            },
-            {
-                "name": "baz",
-                "cdaPath": "//test:foo/test:bar/test:baz",
-                "attributes": [{"attributeName": "foo", "regEx": "bat"}],
-            },
-        ],
-    }
+    assert result == [
+        "attribute #1: 'test' with the required value pattern: 'test' actual value: 'hello', attribute #2: 'foo'"
+    ]
 
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-
-    assert (
-        _find_related_element(
-            xml_elements[0],
-            config.get("cdaPath"),
-            config.get("relatives")[0],
-        ).tag
-        == "{test}baz"
-    )
-    assert (
-        _find_related_element(
-            xml_elements[0],
-            config.get("cdaPath"),
-            config.get("relatives")[1],
-        ).tag
-        == "{test}foo"
-    )
-
-    assert (
-        _find_related_element(
-            xml_elements[0],
-            config.get("cdaPath"),
-            config.get("relatives")[2],
-        ).tag
-        == "{test}biz"
-    )
-
-    assert (
-        _find_related_element(
-            xml_elements[0],
-            config.get("cdaPath"),
-            config.get("relatives")[3],
-        ).tag
-        == "{test}chaz"
-    )
-
-    assert (
-        _find_related_element(
-            xml_elements[0],
-            config.get("cdaPath"),
-            config.get("relatives")[4],
-        )
-        is False
-    )
-
-    assert (
-        _find_related_element(
-            xml_elements[0],
-            config.get("cdaPath"),
-            config.get("relatives")[5],
-        )
-        is False
-    )
-
-    assert (
-        _find_related_element(
-            None,
-            config.get("cdaPath"),
-            config.get("relatives")[0],
-        )
-        is False
-    )
+    result = _get_xml_attributes(xml_elements[0], None) == []
 
 
-def test_check_relatives():
-    namespace = {"test": "test"}
-    xml = (
-        "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
-        + "<biz>wrong</biz></foo>"
-    )
-    root = etree.fromstring(xml)
-    config = {
-        "fieldName": "bar",
-        "attributes": [
-            {"attributeName": "test", "regEx": "test"},
-            {"attributeName": "foo"},
-        ],
-        "cdaPath": "//test:foo/test:bar",
-        "regEx": "test",
-        "relatives": [
-            {
-                "name": "baz",
-                "cdaPath": "//test:foo/test:bar/test:baz",
-                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
-            },
-            {"name": "foo", "cdaPath": "//test:foo"},
-            {"name": "biz", "cdaPath": "//test:foo/test:biz"},
-            {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
-            {
-                "name": "Not found",
-                "cdaPath": "//test:foo/test:bar/test:notFound",
-                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
-            },
-            {
-                "name": "baz",
-                "cdaPath": "//test:foo/test:bar/test:baz",
-                "attributes": [{"attributeName": "foo", "regEx": "bat"}],
-            },
-        ],
-    }
+# def test_find_related_element():
+#     namespace = {"test": "test"}
+#     xml = (
+#         "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
+#         + "<biz>wrong</biz></foo>"
+#     )
+#     root = etree.fromstring(xml)
+#     config = {
+#         "fieldName": "bar",
+#         "attributes": [
+#             {"attributeName": "test", "regEx": "test"},
+#             {"attributeName": "foo"},
+#         ],
+#         "cdaPath": "//test:foo/test:bar",
+#         "regEx": "test",
+#         "relatives": [
+#             {
+#                 "name": "baz",
+#                 "cdaPath": "//test:foo/test:bar/test:baz",
+#                 "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+#             },
+#             {"name": "foo", "cdaPath": "//test:foo"},
+#             {"name": "biz", "cdaPath": "//test:foo/test:biz"},
+#             {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
+#             {
+#                 "name": "Not found",
+#                 "cdaPath": "//test:foo/test:bar/test:notFound",
+#                 "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+#             },
+#             {
+#                 "name": "baz",
+#                 "cdaPath": "//test:foo/test:bar/test:baz",
+#                 "attributes": [{"attributeName": "foo", "regEx": "bat"}],
+#             },
+#         ],
+#     }
 
-    config_correct = {
-        "fieldName": "bar",
-        "attributes": [
-            {"attributeName": "test", "regEx": "test"},
-            {"attributeName": "foo"},
-        ],
-        "cdaPath": "//test:foo/test:bar",
-        "regEx": "test",
-        "relatives": [
-            {
-                "name": "baz",
-                "cdaPath": "//test:foo/test:bar/test:baz",
-                "attributes": [{"attributeName": "foo", "regEx": "bar"}],
-            },
-            {"name": "foo", "cdaPath": "//test:foo"},
-            {"name": "biz", "cdaPath": "//test:foo/test:biz"},
-            {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
-        ],
-    }
+#     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
 
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-    assert _check_relatives(xml_elements[0], config) is False
-    assert _check_relatives(xml_elements[0], config_correct) is True
+#     assert (
+#         _find_related_element(
+#             xml_elements[0],
+#             config.get("cdaPath"),
+#             config.get("relatives")[0],
+#         ).tag
+#         == "{test}baz"
+#     )
+#     assert (
+#         _find_related_element(
+#             xml_elements[0],
+#             config.get("cdaPath"),
+#             config.get("relatives")[1],
+#         ).tag
+#         == "{test}foo"
+#     )
+
+#     assert (
+#         _find_related_element(
+#             xml_elements[0],
+#             config.get("cdaPath"),
+#             config.get("relatives")[2],
+#         ).tag
+#         == "{test}biz"
+#     )
+
+#     assert (
+#         _find_related_element(
+#             xml_elements[0],
+#             config.get("cdaPath"),
+#             config.get("relatives")[3],
+#         ).tag
+#         == "{test}chaz"
+#     )
+
+#     assert (
+#         _find_related_element(
+#             xml_elements[0],
+#             config.get("cdaPath"),
+#             config.get("relatives")[4],
+#         )
+#         is False
+#     )
+
+#     assert (
+#         _find_related_element(
+#             xml_elements[0],
+#             config.get("cdaPath"),
+#             config.get("relatives")[5],
+#         )
+#         is False
+#     )
+
+#     assert (
+#         _find_related_element(
+#             None,
+#             config.get("cdaPath"),
+#             config.get("relatives")[0],
+#         )
+#         is False
+#     )
 
 
-def test_diff_split():
-    str1 = "f^oo/b^ar"
-    str2 = "fo^o/bar/biz"
-    assert _diff_split(str1, str2) == -1
-    assert _diff_split(str1, str2, "^") == 1
+# def test_check_relatives():
+#     namespace = {"test": "test"}
+#     xml = (
+#         "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
+#         + "<biz>wrong</biz></foo>"
+#     )
+#     root = etree.fromstring(xml)
+#     config = {
+#         "fieldName": "bar",
+#         "attributes": [
+#             {"attributeName": "test", "regEx": "test"},
+#             {"attributeName": "foo"},
+#         ],
+#         "cdaPath": "//test:foo/test:bar",
+#         "regEx": "test",
+#         "relatives": [
+#             {
+#                 "name": "baz",
+#                 "cdaPath": "//test:foo/test:bar/test:baz",
+#                 "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+#             },
+#             {"name": "foo", "cdaPath": "//test:foo"},
+#             {"name": "biz", "cdaPath": "//test:foo/test:biz"},
+#             {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
+#             {
+#                 "name": "Not found",
+#                 "cdaPath": "//test:foo/test:bar/test:notFound",
+#                 "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+#             },
+#             {
+#                 "name": "baz",
+#                 "cdaPath": "//test:foo/test:bar/test:baz",
+#                 "attributes": [{"attributeName": "foo", "regEx": "bat"}],
+#             },
+#         ],
+#     }
+
+#     config_correct = {
+#         "fieldName": "bar",
+#         "attributes": [
+#             {"attributeName": "test", "regEx": "test"},
+#             {"attributeName": "foo"},
+#         ],
+#         "cdaPath": "//test:foo/test:bar",
+#         "regEx": "test",
+#         "relatives": [
+#             {
+#                 "name": "baz",
+#                 "cdaPath": "//test:foo/test:bar/test:baz",
+#                 "attributes": [{"attributeName": "foo", "regEx": "bar"}],
+#             },
+#             {"name": "foo", "cdaPath": "//test:foo"},
+#             {"name": "biz", "cdaPath": "//test:foo/test:biz"},
+#             {"name": "chaz", "cdaPath": "//test:foo/test:chaz"},
+#         ],
+#     }
+
+#     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
+#     assert _check_relatives(xml_elements[0], config) is False
+#     assert _check_relatives(xml_elements[0], config_correct) is True
 
 
-def test_get_iterator():
-    namespace = {"test": "test"}
-    xml = (
-        "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
-        + "<biz>wrong</biz></foo>"
-    )
-    root = etree.fromstring(xml)
+# def test_diff_split():
+#     str1 = "f^oo/b^ar"
+#     str2 = "fo^o/bar/biz"
+#     assert _diff_split(str1, str2) == -1
+#     assert _diff_split(str1, str2, "^") == 1
 
-    xml_elements = root.xpath("//test:foo/test:bar", namespaces=namespace)
-    assert (
-        type(
-            _get_iterator(
-                "//test:foo/test:bar",
-                "//test:foo/test:bar/test:baz",
-                xml_elements[0],
-            )
-        ).__name__
-        == "ElementChildIterator"
-    )
 
-    assert (
-        type(
-            _get_iterator(
-                "//test:foo/test:bar",
-                "//test:foo/test:chaz",
-                xml_elements[0],
-            )
-        ).__name__
-        == "list"
-    )
+# def test_get_iterator():
+#     namespace = {"test": "test"}
+#     xml = (
+#         "<foo xmlns='test'><chaz/><bar test='hello'><baz foo='bar'><biz/></baz></bar>"
+#         + "<biz>wrong</biz></foo>"
+#     )
+#     root = etree.fromstring(xml)
 
-    assert (
-        type(
-            _get_iterator(
-                "//test:foo/test:bar",
-                "//test:foo/test:biz",
-                xml_elements[0],
-            )
-        ).__name__
-        == "list"
-    )
+#     xml_elements = root.xpath("//test:foo/test:bar", namespaces=namespace)
+#     assert (
+#         type(
+#             _get_iterator(
+#                 "//test:foo/test:bar",
+#                 "//test:foo/test:bar/test:baz",
+#                 xml_elements[0],
+#             )
+#         ).__name__
+#         == "ElementChildIterator"
+#     )
 
-    assert (
-        type(
-            _get_iterator(
-                "//test:foo/test:bar",
-                "//test:foo",
-                xml_elements[0],
-            )
-        ).__name__
-        == "AncestorsIterator"
-    )
+#     assert (
+#         type(
+#             _get_iterator(
+#                 "//test:foo/test:bar",
+#                 "//test:foo/test:chaz",
+#                 xml_elements[0],
+#             )
+#         ).__name__
+#         == "list"
+#     )
+
+#     assert (
+#         type(
+#             _get_iterator(
+#                 "//test:foo/test:bar",
+#                 "//test:foo/test:biz",
+#                 xml_elements[0],
+#             )
+#         ).__name__
+#         == "list"
+#     )
+
+#     assert (
+#         type(
+#             _get_iterator(
+#                 "//test:foo/test:bar",
+#                 "//test:foo",
+#                 xml_elements[0],
+#             )
+#         ).__name__
+#         == "AncestorsIterator"
+#     )

@@ -11,7 +11,6 @@ sample_file_bad = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
 ).read()
 
-
 # Test good file
 sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
@@ -37,7 +36,6 @@ with open(
     "r",
 ) as file2:
     config_with_custom_errors = yaml.safe_load(file2)
-
 
 # standard config file
 with open(
@@ -68,13 +66,14 @@ def test_validate_good():
             "information": ["Validation completed with no fatal errors!"],
             "message_ids": {"eicr": eicr_result, "rr": rr_result},
         },
-        "validated_message": sample_file_good,
     }
     result = validate_ecr(
         ecr_message=sample_file_good,
         config=config,
         include_error_types=test_include_errors,
     )
+    print("HERE:")
+    print(config)
     assert result == expected_response
 
 
