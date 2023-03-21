@@ -1,3 +1,4 @@
+import json
 import os
 import pandas as pd
 import random
@@ -22,6 +23,7 @@ from phdi.linkage import (
     eval_log_odds_cutoff,
     feature_match_log_odds_exact,
     feature_match_log_odds_fuzzy_compare,
+    extract_blocking_values_from_record,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
@@ -33,6 +35,53 @@ import pytest
 from random import seed
 from math import log
 from json.decoder import JSONDecodeError
+
+
+def test_extract_blocking_values_from_record():
+    bundle = json.load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+    )
+    patient = [
+        r.get("resource")
+        for r in bundle.get("entry")
+        if r.get("resource", {}).get("resourceType") == "Patient"
+    ][0]
+    patient["name"][0]["family"] = "Shepard"
+
+    with pytest.raises(ValueError) as e:
+        extract_blocking_values_from_record(patient, {"invalid"}, {})
+    assert "is not a supported extraction field" in str(e.value)
+
+    with pytest.raises(ValueError) as e:
+        extract_blocking_values_from_record(
+            patient, {"first_name"}, {"first_name": "invalid_transform"}
+        )
+    assert "Transformation invalid_transform is not valid" in str(e.value)
+
+    blocking_fields = [
+        "first_name",
+        "last_name",
+        "zip",
+        "city",
+        "birthdate",
+        "sex",
+        "state",
+        "address",
+    ]
+    transforms = {"first_name": "first4", "last_name": "first4", "address": "last4"}
+    blocking_vals = extract_blocking_values_from_record(
+        patient, blocking_fields, transforms
+    )
+    assert blocking_vals == {
+        "first_name": "John",
+        "last_name": "Shep",
+        "zip": "10001-0001",
+        "city": "Faketon",
+        "birthdate": "1983-02-01",
+        "sex": "female",
+        "state": "NY",
+        "address": "e St",
+    }
 
 
 def test_generate_hash():
