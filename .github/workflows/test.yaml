@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: test_postgres_connection
-        run: poetry run pytest tests/test_postgres_mpi_connector.py
+        run: poetry run pytest tests/linkage/test_postgres_mpi_connector.py
   unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
     steps:
