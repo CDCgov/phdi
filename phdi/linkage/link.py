@@ -757,7 +757,20 @@ def profile_log_odds(
     plt.show()
 
 
-def read_linkage_config(config_file: pathlib.Path):
+def read_linkage_config(config_file: pathlib.Path) -> List[dict]:
+    """
+    Reads and generates a record linkage algorithm configuration list from
+    the provided filepath, which should point to a JSON file. A record
+    linkage configuration list is a list of dictionaries--one for each
+    pass in the algorithm it describes--containing information on the
+    blocking fields, functions, cluster thresholds, and keyword arguments
+    for that pass of the linkage algorithm.
+
+    :param config_file: A `pathlib.Path` string pointing to a JSON file
+      that describes the algorithm to decode.
+    :return: A list of dictionaries whose values can be passed to the
+      various parts of linkage pass function.
+    """
     try:
         algo_config = json.load(open(config_file))
         # Need to convert function keys back to column indices, since
@@ -855,6 +868,30 @@ def score_linkage_vs_truth(
 
 
 def write_linkage_config(linkage_algo: List[dict], file_to_write: pathlib.Path) -> None:
+    """
+    Save a provided algorithm description as a JSON dictionary at the provided
+    filepath location. Algorithm descriptions are lists of dictionaries, one
+    for each pass of the algorithm, whose keys are parameter values for a
+    linkage pass (drawn from the list `"funcs"`, `"blocks"`, `"matching_rule"`,
+    and optionally `"cluster_ratio"` and `"kwargs"`) and whose values are
+    as follows:
+
+    - `"funcs"` should map to a dictionary mapping column index to the
+    name of a function in the DIBBS linkage module (such as
+    `feature_match_fuzzy_string`)--note that these are the actual
+    functions, not string names of the functions
+    - `"blocks"` should map to a list of columns to block on (e.g.
+    ["MRN4", "ADDRESS4"])
+    - `"matching_rule"` should map to one of the evaluation rule functions
+    in the DIBBS linkage module (i.e. `eval_perfect_match`)
+    - `"cluster_ratio"` should map to a float, if provided
+    - `"kwargs"` should map to a dictionary of keyword arguments and their
+    associated values, if provided
+
+    :param linkage_algo: A list of dictionaries whose key-value pairs correspond
+      to the rules above.
+    :param file_to_write: The path to the destination JSON file to write.
+    """
     algo_json = []
     for rl_pass in linkage_algo:
         pass_json = {}
