@@ -10,7 +10,6 @@ on:
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.9
-  POSTGRES_DB: testdb
 
 jobs:
   postgres-tests:
@@ -20,6 +19,7 @@ jobs:
         image: postgres:13-alpine3.16
         env:
           POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
