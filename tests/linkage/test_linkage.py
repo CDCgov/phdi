@@ -779,3 +779,15 @@ def test_algo_read_write():
         },
     ]
     os.remove("./" + test_file_path)
+
+
+def test_read_algo_errors():
+    with pytest.raises(FileNotFoundError) as e:
+        read_linkage_config("invalid.json")
+    assert "No file exists at path invalid.json." in str(e.value)
+    with open("not_valid_json_test.json", "w") as fp:
+        fp.write("this is a random string that is not in json format\n")
+    with pytest.raises(JSONDecodeError) as e:
+        read_linkage_config("not_valid_json_test.json")
+    assert "The specified file is not valid JSON" in str(e.value)
+    os.remove("not_valid_json_test.json")
