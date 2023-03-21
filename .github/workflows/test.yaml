@@ -43,10 +43,10 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: test_postgres_connection
-        run: poetry run ./tests/pytest test_postgres_mpi_connector.py
+        run: poetry run tests/pytest test_postgres_mpi_connector.py
   unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
-    steps:
+    steps:s
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
