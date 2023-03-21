@@ -1,5 +1,5 @@
 from lxml import etree
-from xml_utils import (
+from .xml_utils import (
     get_ecr_message_ids,
     _validate_xml_elements,
     _validate_xml_attributes,
@@ -36,6 +36,8 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     :return: A dictionary containing bool message_valid as well as a
         dictionary containing the validation results/errors.
     """
+    # initialize the Error Messages dict
+    _clear_all_errors_and_ids()
     # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
     xml = ecr_message.encode("utf-8")
@@ -48,7 +50,10 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         parsed_ecr.xpath("//hl7:ClinicalDocument", namespaces=ECR_NAMESPACES)
 
     except AttributeError:
-        _add_fatal_error("eCR Message is not valid XML!")
+        _append_error_message(
+            error_message_type="fatal",
+            message="eCR Message is not valid XML!"
+        )
         return _response_builder(include_error_types=include_error_types)
 
     _add_message_ids(message_ids=get_ecr_message_ids(parsed_ecr=parsed_ecr))
@@ -104,27 +109,15 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     return response
 
 
-def _organize_error_messages(include_error_types: list):
+def _organize_error_messages(include_error_types: list) -> None:
     # utilize the error_types to filter out the different error message
     # types as well as specify the difference between the different error types
     # during the validation process
 
     # fatal warnings cannot be filtered and will be automatically included!
-
-    filtered_errors = (
-        ERROR_MESSAGES["errors"] if "errors" in include_error_types else []
-    )
-    filtered_warnings = (
-        ERROR_MESSAGES["warnings"] if "warnings" in include_error_types else []
-    )
-    filtered_information = (
-        ERROR_MESSAGES["information"]
-        if "information" in include_error_types else []
-    )
-
-    ERROR_MESSAGES["errors"] = filtered_errors
-    ERROR_MESSAGES["warnings"] = filtered_warnings
-    ERROR_MESSAGES["information"] = filtered_information
+    for error_type in ERROR_MESSAGES.keys():
+        if error_type != "fatal" and error_type not in include_error_types:
+            ERROR_MESSAGES[error_type] = []
 
 
 def _response_builder(include_error_types: list) -> dict:
@@ -132,7 +125,10 @@ def _response_builder(include_error_types: list) -> dict:
         valid = False
     else:
         valid = True
-        _add_information_message("Validation completed with no fatal errors!")
+        _append_error_message(
+            error_message_type="information",
+            message="Validation completed with no fatal errors!"
+        )
 
     return {
         "message_valid": valid,
@@ -143,36 +139,25 @@ def _response_builder(include_error_types: list) -> dict:
 
 
 def _append_error_message(error_message_type: str, message: str):
-    if error_message_type == "fatal":
-        _add_fatal_error(message=message)
-    if error_message_type == "errors":
-        _add_basic_error(message=message)
-    if error_message_type == "warnings":
-        _add_warning_message(message=message)
-    if error_message_type == "information":
-        _add_information_message(message=message)
+    if error_message_type in ERROR_MESSAGES.keys():
+        if isinstance(message, list):
+            for msg in message:
+                if msg is not None and msg.strip() != "":
+                    ERROR_MESSAGES[error_message_type].append(msg.strip())
+        elif message is not None and message.strip() != "":
+            ERROR_MESSAGES[error_message_type].append(message.strip())
 
 
-def _add_fatal_error(message: str):
-    if message is not None and message != "":
-        ERROR_MESSAGES["fatal"].append(message)
+def _add_message_ids(ids: dict):
+    if ids:
+        ERROR_MESSAGES["message_ids"] = ids
+    else:
+        ERROR_MESSAGES["message_ids"] = {}
 
 
-def _add_basic_error(message: str):
-    if message is not None and message != "":
-        ERROR_MESSAGES["errors"].append(message)
-
-
-def _add_warning_message(message: str):
-    if message is not None and message != "":
-        ERROR_MESSAGES["warnings"].append(message)
-
-
-def _add_information_message(message: str):
-    if message is not None and message != "":
-        ERROR_MESSAGES["information"].append(message)
-
-
-def _add_message_ids(message_ids: dict):
-    if message_ids is not None and len(message_ids) > 0:
-        ERROR_MESSAGES[message_ids] = message_ids
+def _clear_all_errors_and_ids():
+    ERROR_MESSAGES["fatal"] = []
+    ERROR_MESSAGES["errors"] = []
+    ERROR_MESSAGES["information"] = []
+    ERROR_MESSAGES["warnings"] = []
+    ERROR_MESSAGES["message_ids"] = {}

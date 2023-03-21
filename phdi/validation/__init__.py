@@ -1,5 +1,12 @@
-from .validation import validate_ecr, _organize_error_messages, _response_builder
-from .xml_utils import (
+from phdi.validation.validation import (
+    validate_ecr,
+    _organize_error_messages,
+    _response_builder,
+    _append_error_message,
+    _add_message_ids,
+    _clear_all_errors_and_ids,
+)
+from phdi.validation.xml_utils import (
     get_ecr_message_ids,
     _check_xml_names_and_attribs_exist,
     _get_ecr_custom_message,
@@ -18,6 +25,9 @@ __all__ = [
     "validate_ecr",
     "_organize_error_messages",
     "_response_builder",
+    "_append_error_message",
+    "_add_message_ids",
+    "_clear_all_errors_and_ids",
     "get_ecr_message_ids",
     "_check_xml_names_and_attribs_exist",
     "_get_ecr_custom_message",
