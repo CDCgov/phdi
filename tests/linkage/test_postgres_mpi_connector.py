@@ -16,21 +16,21 @@ def test_postgres_connection():
     )
     assert postgres_client.connection is not None
 
-    # # Test with failed connection, e.g., bad password
-    # with pytest.raises(ValueError) as e:
-    #     postgres_client = PostgresConnectorClient(
-    #         database="testdb",
-    #         user="postgres",
-    #         password="bad password",
-    #         host="localhost",
-    #         port="5432",
-    #         patient_table="test_patient_mpi",
-    #         person_table="test_person_mpi",
-    #     )
-    #     assert """connection to server at "localhost" (::1), port 5432 failed: FATAL:
-    #     password authentication failed for user "postgres" """ in str(
-    #         e.value
-    #     )
+    # Test with failed connection, e.g., bad password
+    with pytest.raises(ValueError) as e:
+        postgres_client = PostgresConnectorClient(
+            database="testdb",
+            user="postgres",
+            password="bad password",
+            host="localhost",
+            port="5432",
+            patient_table="test_patient_mpi",
+            person_table="test_person_mpi",
+        )
+        assert """connection to server at "localhost" (::1), port 5432 failed: FATAL:
+        password authentication failed for user "postgres" """ in str(
+            e.value
+        )
 
 
 def test_generate_block_query():

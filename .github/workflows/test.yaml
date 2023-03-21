@@ -48,6 +48,22 @@ jobs:
         run: poetry run pytest tests/linkage/test_postgres_mpi_connector.py
   unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v3
