@@ -52,7 +52,7 @@ def test_validate_ecr_invalid_xml():
             "warnings": [],
             "information": [],
             "message_ids": {},
-        }
+        },
     }
     actual_result2 = validate_ecr_msg(
         message="my ecr contents", include_error_types=test_error_types
@@ -81,7 +81,7 @@ def test_validate_ecr_valid():
                     "extension": None,
                 },
             },
-        }
+        },
     }
     assert actual_result1 == expected_result1
 
@@ -114,11 +114,12 @@ def test_validate_ecr_invalid():
             ],
             "warnings": [
                 "Could not find field. Field name: 'eICR Version Number' "
-                + "Attributes: attribute #1: 'value'", "Attribute: 'code' "
+                + "Attributes: attribute #1: 'value'",
+                "Attribute: 'code' "
                 + "not in expected format. Field name: 'Sex' Attributes: "
                 + "attribute #1: 'code' with the required value pattern: "
                 + "'F|M|O|U' actual value: 't', attribute #2: 'codeSystem'"
-                + " actual value: '2.16.840.1.113883.5.1'"
+                + " actual value: '2.16.840.1.113883.5.1'",
             ],
             "information": [],
             "message_ids": {
@@ -126,9 +127,9 @@ def test_validate_ecr_invalid():
                     "root": "2.16.840.1.113883.9.9.9.9.9",
                     "extension": "db734647-fc99-424c-a864-7e3cda82e704",
                 },
-                "rr": {}
-            }
-        }
+                "rr": {},
+            },
+        },
     }
     actual_result3 = validate_ecr_msg(
         message=sample_file_bad, include_error_types=test_error_types
@@ -142,7 +143,7 @@ def test_validate_elr():
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
-        }
+        },
     }
 
 
@@ -154,7 +155,7 @@ def test_validate_vxu():
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
-        }
+        },
     }
 
 
@@ -162,10 +163,7 @@ def test_validate_vxu():
 def test_validate_endpoint_valid_vxu(patched_message_validators):
     for message_type in message_validators:
         # Prepare mocked validator function
-        validation_response = {
-            "message_valid": True,
-            "validation_results": {}
-        }
+        validation_response = {"message_valid": True, "validation_results": {}}
         mocked_validator = mock.Mock()
         mocked_validator.return_value = validation_response
         message_validators_dict = {message_type: mocked_validator}
