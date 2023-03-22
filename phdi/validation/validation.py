@@ -1,10 +1,10 @@
 from lxml import etree
 from .xml_utils import (
     get_ecr_message_ids,
-    _validate_xml_elements,
-    _validate_xml_attributes,
-    _validate_xml_value,
-    _get_xml_element_details,
+    validate_xml_elements,
+    validate_xml_attributes,
+    validate_xml_value,
+    get_xml_element_details,
     ECR_NAMESPACES,
 )
 
@@ -62,7 +62,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         cda_path = field.get("cdaPath")
 
         # get a list of XML elements that match the field configuration
-        matched_xml_elements = _validate_xml_elements(
+        matched_xml_elements = validate_xml_elements(
             xml_elements=parsed_ecr.xpath(cda_path, namespaces=ECR_NAMESPACES),
             config_field=field,
         )
@@ -75,7 +75,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         # the configuration then store an error for that based
         # upon the configured error message type
         if not matched_xml_elements:
-            error_message = "Could not find field. " + _get_xml_element_details(
+            error_message = "Could not find field. " + get_xml_element_details(
                 None, field
             )
             _append_error_message(
@@ -86,8 +86,8 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         attribute_errors = []
         value_errors = []
         for xml_element in matched_xml_elements:
-            attribute_errors += _validate_xml_attributes(xml_element, field)
-            value_errors += _validate_xml_value(xml_element, field)
+            attribute_errors += validate_xml_attributes(xml_element, field)
+            value_errors += validate_xml_value(xml_element, field)
         # this handles a specific case where just ONE xml element
         # must meet the attribute or xml value criteria - otherwise
         # you wil want to include an error.

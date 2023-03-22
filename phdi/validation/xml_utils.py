@@ -41,7 +41,7 @@ def get_ecr_message_ids(parsed_ecr) -> dict:
     return {"eicr": xml_eicr_id, "rr": xml_rr_id}
 
 
-def _validate_xml_elements(xml_elements, config_field) -> list:
+def validate_xml_elements(xml_elements, config_field) -> list:
     """
     Matches the xml_elements to the config field requirements for
     values, attributes, and relative xml element requirements for
@@ -196,7 +196,7 @@ def _validate_xml_related_element(xml_element, cda_path, relative_config) -> str
             relative_validated = _check_xml_names_and_attribs_exist(
                 xml_element=related_xml_element, config_field=relative_config
             )
-            relative_attributes_validated = _validate_xml_attributes(
+            relative_attributes_validated = validate_xml_attributes(
                 related_xml_element, relative_config
             )
 
@@ -259,7 +259,7 @@ def _get_xml_relative_iterator(cda_path, relative_cda_path, xml_element) -> list
         return list(xml_element.iterdescendants())
 
 
-def _validate_xml_attributes(xml_element, config_field) -> list:
+def validate_xml_attributes(xml_element, config_field) -> list:
     """
     Validates an xml element by checking if the configured attribute(s) exist
     and match the configured regex pattern for the value of the attribute.
@@ -287,7 +287,7 @@ def _validate_xml_attributes(xml_element, config_field) -> list:
                 message = _get_ecr_custom_message(
                     config_field,
                     f"Could not find attribute '{attribute_name}'. "
-                    + f"{_get_xml_element_details(xml_element, config_field)}",
+                    + f"{get_xml_element_details(xml_element, config_field)}",
                 )
                 error_messages.append(message)
         if "regEx" in attribute:
@@ -297,7 +297,7 @@ def _validate_xml_attributes(xml_element, config_field) -> list:
                     config_field,
                     f"Attribute: '{attribute_name}'"
                     + " not in expected format. "
-                    + f"{_get_xml_element_details(xml_element, config_field)}",
+                    + f"{get_xml_element_details(xml_element, config_field)}",
                 )
                 error_messages.append(message)
     return error_messages
@@ -310,7 +310,7 @@ def _get_ecr_custom_message(config_field, default_message):
     return message
 
 
-def _get_xml_element_details(xml_element, config_field) -> str:
+def get_xml_element_details(xml_element, config_field) -> str:
     """
     Gets the name, value, of the xml element referenced as well
     as the details of any configured relative xml elements for
@@ -413,7 +413,7 @@ def _get_xml_attributes(xml_element, config_attributes) -> list:
     return [", ".join(attrs)]
 
 
-def _validate_xml_value(xml_element, config_field) -> list:
+def validate_xml_value(xml_element, config_field) -> list:
     """
     Validates the value of an xml element (ie... between the tags) based upon
     validating the xml element exists within the relative xml element location
@@ -442,7 +442,7 @@ def _validate_xml_value(xml_element, config_field) -> list:
                 "The field value does not exist or "
                 + "doesn't match the following pattern: '"
                 + config_regex
-                + f"'. For the {_get_xml_element_details(xml_element, config_field)}",
+                + f"'. For the {get_xml_element_details(xml_element, config_field)}",
             )
             return [message]
         else:
@@ -455,6 +455,6 @@ def _validate_xml_value(xml_element, config_field) -> list:
             message = _get_ecr_custom_message(
                 config_field,
                 "Field does not have a value. "
-                + f"{_get_xml_element_details(xml_element, config_field)}",
+                + f"{get_xml_element_details(xml_element, config_field)}",
             )
             return [message]

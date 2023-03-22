@@ -3,16 +3,16 @@ from phdi.validation.xml_utils import (
     ECR_NAMESPACES,
     EICR_MSG_ID_XPATH,
     RR_MSG_ID_XPATH,
-    _validate_xml_value,
+    validate_xml_value,
     _check_xml_names_and_attribs_exist,
     _get_ecr_custom_message,
     _get_xml_attributes,
-    _get_xml_element_details,
+    get_xml_element_details,
     _get_xml_message_id,
     get_ecr_message_ids,
     _get_xml_relative_iterator,
-    _validate_xml_attributes,
-    _validate_xml_elements,
+    validate_xml_attributes,
+    validate_xml_elements,
     _validate_xml_related_element,
     _validate_xml_relatives,
     _get_xml_relatives_details,
@@ -74,10 +74,10 @@ def test_validate_xml_elements():
     }
     xml_elements_biz = root.xpath(config_biz.get("cdaPath"), namespaces=namespace)
 
-    assert _validate_xml_elements([], config) == []
-    assert _validate_xml_elements(xml_elements, proper_config) == [xml_elements[0]]
-    assert _validate_xml_elements(xml_elements_biz, config_biz) == [xml_elements_biz[0]]
-    assert len(_validate_xml_elements(xml_elements_biz, config_biz)) == 1
+    assert validate_xml_elements([], config) == []
+    assert validate_xml_elements(xml_elements, proper_config) == [xml_elements[0]]
+    assert validate_xml_elements(xml_elements_biz, config_biz) == [xml_elements_biz[0]]
+    assert len(validate_xml_elements(xml_elements_biz, config_biz)) == 1
 
     # now let's make it fail and return none based upon the config
     wrong_config = {
@@ -86,7 +86,7 @@ def test_validate_xml_elements():
         "errorType": "fatal",
         "relatives": [{"name": "baz", "cdaPath": "//test:foo/test:bar/test:booty"}],
     }
-    assert _validate_xml_elements(xml_elements_biz, wrong_config) == []
+    assert validate_xml_elements(xml_elements_biz, wrong_config) == []
 
 
 def test_get_xml_relative_iterator():
@@ -290,21 +290,21 @@ def test_validate_xml_attributes():
     }
 
     xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-    result = _validate_xml_attributes(xml_elements[0], config)
+    result = validate_xml_attributes(xml_elements[0], config)
     assert result == []
-    result = _validate_xml_attributes(xml_elements[0], config_attributes)
+    result = validate_xml_attributes(xml_elements[0], config_attributes)
     assert result == [
         "Could not find attribute 'fail'. Field name: 'bar' Attributes: "
         + "attribute #1: 'fail'"
     ]
-    result = _validate_xml_attributes(xml_elements[0], config_reg_ex)
+    result = validate_xml_attributes(xml_elements[0], config_reg_ex)
     assert result == [
         "Attribute: 'test' not in expected format. Field name:"
         + " 'bar' Attributes: attribute #1: 'test' with the "
         + "required value pattern: 'bar' actual value: 'bat'"
     ]
 
-    result = _validate_xml_attributes(xml_elements[0], config_no_attr)
+    result = validate_xml_attributes(xml_elements[0], config_no_attr)
     assert result == []
 
 
@@ -321,7 +321,7 @@ def test_validate_xml_value():
     }
 
     xml_elements = root.xpath(okconfig.get("cdaPath"), namespaces=namespace)
-    assert _validate_xml_value(xml_element=xml_elements[0], config_field=okconfig) == []
+    assert validate_xml_value(xml_element=xml_elements[0], config_field=okconfig) == []
 
     config_no_text = {
         "fieldName": "biz",
@@ -331,7 +331,7 @@ def test_validate_xml_value():
     }
 
     xml_elements = root.xpath(config_no_text.get("cdaPath"), namespaces=namespace)
-    result = _validate_xml_value(xml_elements[0], config_no_text)
+    result = validate_xml_value(xml_elements[0], config_no_text)
     assert result == [
         "Field does not have a value. Field name: "
         + "'biz' Attributes: attribute #1: 'test'"
@@ -347,7 +347,7 @@ def test_validate_xml_value():
     xml_elements = root.xpath(
         config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    assert _validate_xml_value(xml_elements[0], config_text_matches_reg_ex) == []
+    assert validate_xml_value(xml_elements[0], config_text_matches_reg_ex) == []
 
     config_text_doesnt_match_reg_ex = {
         "fieldName": "bar",
@@ -359,7 +359,7 @@ def test_validate_xml_value():
     xml_elements = root.xpath(
         config_text_doesnt_match_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    result = _validate_xml_value(xml_elements[0], config_text_doesnt_match_reg_ex)
+    result = validate_xml_value(xml_elements[0], config_text_doesnt_match_reg_ex)
     assert result == [
         "The field value does not exist or doesn't match the following pattern: 'foo'."
         + " For the Field name: 'bar' value: 'test' Attributes: attribute #1: 'test'"
@@ -374,7 +374,7 @@ def test_validate_xml_value():
     xml_elements = root.xpath(
         config_text_doesnt_match_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    result = _validate_xml_value(xml_elements[0], config_text_not_required)
+    result = validate_xml_value(xml_elements[0], config_text_not_required)
     assert result == []
 
 
@@ -480,13 +480,13 @@ def test_get_xml_element_details():
     xml_elements = root.xpath(
         config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    result = _get_xml_element_details(xml_elements[0], config_text_matches_reg_ex)
+    result = get_xml_element_details(xml_elements[0], config_text_matches_reg_ex)
     assert result == (
         "Field name: 'bar' value: 'test' Attributes:"
         + " attribute #1: 'test' actual value: 'hello'"
     )
 
-    result = _get_xml_element_details(xml_elements[0], None)
+    result = get_xml_element_details(xml_elements[0], None)
     assert result == ""
 
     config_no_attrs = {
@@ -495,7 +495,7 @@ def test_get_xml_element_details():
         "textRequired": "True",
         "regEx": "test",
     }
-    result = _get_xml_element_details(xml_elements[0], config_no_attrs)
+    result = get_xml_element_details(xml_elements[0], config_no_attrs)
     assert result == "Field name: 'bar' value: 'test'"
 
     xml2 = (
@@ -506,7 +506,7 @@ def test_get_xml_element_details():
     xml_elements2 = root2.xpath(
         config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
     )
-    result = _get_xml_element_details(xml_elements2[0], config_no_attrs)
+    result = get_xml_element_details(xml_elements2[0], config_no_attrs)
     assert result == "Field name: 'bar'"
 
     config_no_text_required = {
@@ -515,7 +515,7 @@ def test_get_xml_element_details():
         "cdaPath": "//test:foo/test:bar",
         "regEx": "test",
     }
-    result = _get_xml_element_details(xml_elements[0], config_no_text_required)
+    result = get_xml_element_details(xml_elements[0], config_no_text_required)
     assert (
         result
         == "Field name: 'bar' Attributes: attribute #1: 'test' actual value: 'hello'"
