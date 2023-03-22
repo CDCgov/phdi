@@ -149,7 +149,6 @@ def test_validate_elr():
 
 def test_validate_vxu():
     result = validate_vxu_msg("my vxu contents", test_error_types)
-    print(result)
     assert result == {
         "message_valid": True,
         "validation_results": {
