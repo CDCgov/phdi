@@ -6,9 +6,8 @@ import json
 
 class PostgresConnectorClient(BaseMPIConnectorClient):
     """
-    Represents a Postgres-specific Master Patient Index (MPI) connector client. Requires
-    implementing classes to define methods to retrive blocks of data from the MPI.
-    Callers should use the provided interface functions (e.g., geocode_from_str)
+    Represents a Postgres-specific Master Patient Index (MPI) connector client.
+    Callers should use the provided interface functions (e.g., block_data)
     to interact with the underlying vendor-specific client property.
     """
 
@@ -50,9 +49,9 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         have the same zip code of 90210.
 
         :param block_data: Dictionary containing key value pairs for the column name for
-        blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+          blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
         :return: A list of records that are within the block, e.g., records that all
-        have 90210 as their ZIP.
+          have 90210 as their ZIP.
         """
         if len(block_data) == 0:
             raise ValueError("`block_data` cannot be empty.")
@@ -64,7 +63,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         self.cursor.execute(query)
         extracted_data = self.cursor.fetchall()
 
-        # Set up blocked data
+        # Set up blocked data by adding column headers as 1st row of LoL
+        # TODO: Replace indices with column names for reability
         blocked_data = [["patient_id", "person_id"]]
         for key in list(extracted_data[0][-1].keys()):
             blocked_data[0].append(key)
@@ -91,7 +91,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         :param patient_record: A FHIR patient resource.
         :param person_id: The personID matching the patient record if a match has been
-        found in the MPI, defaults to None.
+          found in the MPI, defaults to None.
         """
         # Match has been found
         if person_id is not None:
@@ -152,7 +152,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         :param table_name: Table name.
         :param block_data: Dictionary containing key value pairs for the column name
-        for blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+          for blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
         :return: Query to select block of data base on `block_data` parameters.
 
         """
