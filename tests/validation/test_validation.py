@@ -11,7 +11,6 @@ sample_file_bad = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
 ).read()
 
-
 # Test good file
 sample_file_good = open(
     pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
@@ -37,7 +36,6 @@ with open(
     "r",
 ) as file2:
     config_with_custom_errors = yaml.safe_load(file2)
-
 
 # standard config file
 with open(
@@ -68,7 +66,6 @@ def test_validate_good():
             "information": ["Validation completed with no fatal errors!"],
             "message_ids": {"eicr": eicr_result, "rr": rr_result},
         },
-        "validated_message": sample_file_good,
     }
     result = validate_ecr(
         ecr_message=sample_file_good,
@@ -83,20 +80,24 @@ def test_validate_bad():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'eICR Version Number' Attributes:"
-                + " name: 'value'",
-                "Could not find field. Field name: 'First Name' Related elements:"
-                + " Field name: 'name'",
-                "Could not find field. Field name: 'City' Related elements: Field name:"
-                + " 'addr'",
-                "Field does not match regEx: [0-9]{5}(?:-[0-9]{4})?. Field name:"
-                + " 'Zip' value: '9999'",
+                "Could not find field. Field name: 'eICR Version Number'"
+                + " Attributes: attribute #1: 'value'",
+                "Could not find field. Field name: 'First Name' Related elements: "
+                + "Field name: 'name' Attributes: attribute #1: "
+                + "'use' with the required value pattern: 'L'",
+                "Could not find field. Field name: 'City' Related elements: "
+                + "Field name: 'addr' Attributes: attribute #1: 'use' with "
+                + "the required value pattern: 'H'",
+                "The field value does not exist or doesn't match the "
+                + "following pattern: '[0-9]{5}(?:-[0-9]{4})?'. For "
+                + "the Field name: 'Zip' value: '9999'",
             ],
             "errors": [],
             "warnings": [
                 "Attribute: 'code' not in expected format. Field name:"
-                + " 'Sex' Attributes: name: 'code' RegEx: 'F|M|O|U' value: 't', name:"
-                + " 'codeSystem' value: '2.16.840.1.113883.5.1'"
+                + " 'Sex' Attributes: attribute #1: 'code' with the required"
+                + " value pattern: 'F|M|O|U' actual value: 't', attribute #2:"
+                + " 'codeSystem' actual value: '2.16.840.1.113883.5.1'"
             ],
             "information": [],
             "message_ids": {
@@ -107,7 +108,6 @@ def test_validate_bad():
                 "rr": {},
             },
         },
-        "validated_message": None,
     }
 
     result = validate_ecr(
@@ -115,7 +115,6 @@ def test_validate_bad():
         config=config,
         include_error_types=test_include_errors,
     )
-    print(result)
     assert result == expected_response
 
 
@@ -125,10 +124,10 @@ def test_validate_error():
         "validation_results": {
             "fatal": [],
             "errors": [
-                "Could not find attribute code. Field name: 'Status' Attributes: name:"
-                + " 'code'",
-                "Could not find attribute code. Field name: 'Status' Attributes: name:"
-                + " 'code'",
+                "Could not find attribute 'code'. Field name: 'Status' "
+                + "Attributes: attribute #1: 'code'",
+                "Could not find attribute 'code'. Field name: 'Status' "
+                + "Attributes: attribute #1: 'code'",
             ],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
@@ -140,7 +139,6 @@ def test_validate_error():
                 "rr": {},
             },
         },
-        "validated_message": sample_file_error,
     }
     result = validate_ecr(
         ecr_message=sample_file_error,
@@ -160,7 +158,6 @@ def test_validate_ecr_invalid_xml():
             "information": [],
             "message_ids": {},
         },
-        "validated_message": None,
     }
     result = validate_ecr(
         ecr_message=" BLAH ",
@@ -186,7 +183,6 @@ def test_custom_error_messages():
                 "rr": {},
             },
         },
-        "validated_message": sample_file_bad,
     }
     result = validate_ecr(
         ecr_message=sample_file_bad,
@@ -214,7 +210,6 @@ def test_validate_good_with_rr_data():
             "information": ["Validation completed with no fatal errors!"],
             "message_ids": {"eicr": eicr_result, "rr": rr_result},
         },
-        "validated_message": sample_file_good_RR,
     }
     result = validate_ecr(
         ecr_message=sample_file_good_RR,
@@ -234,18 +229,19 @@ def test_validate_with_rr_data_missing_rr():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'Status' Attributes: name:"
-                + " 'code' RegEx: 'RRVS19|RRVS20|RRVS21|RRVS22', name: 'codeSystem',"
-                + " name: 'displayName'",
-                "Could not find field. Field name: 'Conditions' Attributes: name:"
-                + " 'code' RegEx: '[0-9]+', name: 'codeSystem'",
+                "Could not find field. Field name: 'Status' Attributes: attribute #1:"
+                + " 'code' with the required value pattern: "
+                + "'RRVS19|RRVS20|RRVS21|RRVS22', attribute #2: 'codeSystem',"
+                + " attribute #3: 'displayName'",
+                "Could not find field. Field name: 'Conditions' "
+                + "Attributes: attribute #1: 'code' with the required "
+                + "value pattern: '[0-9]+', attribute #2: 'codeSystem'",
             ],
             "errors": [],
             "warnings": [],
             "information": [],
             "message_ids": {"eicr": eicr_result, "rr": {}},
         },
-        "validated_message": None,
     }
     result = validate_ecr(
         ecr_message=sample_file_good,
