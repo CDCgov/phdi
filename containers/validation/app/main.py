@@ -87,7 +87,7 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
-        }
+        },
     }
 
 
@@ -103,7 +103,7 @@ def validate_vxu_msg(message: str, include_error_types: list) -> ValidateRespons
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
-        }
+        },
     }
 
 
