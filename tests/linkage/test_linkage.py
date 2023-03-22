@@ -732,32 +732,15 @@ def test_feature_match_log_odds_fuzzy():
     )
 
 
-def test_algo_read_write():
-    dibbs_deterministic_algo = [
-        {
-            "funcs": {
-                0: feature_match_fuzzy_string,
-                2: feature_match_fuzzy_string,
-                3: feature_match_fuzzy_string,
-            },
-            "blocks": ["MRN4", "ADDRESS4"],
-            "matching_rule": eval_perfect_match,
-        },
-        {
-            "funcs": {10: feature_match_fuzzy_string, 16: feature_match_fuzzy_string},
-            "blocks": ["FIRST4", "LAST4"],
-            "matching_rule": eval_perfect_match,
-            "cluster_ratio": 0.9,
-            "kwargs": {"similarity_measure": "JaroWinkler", "threshold": 0.7},
-        },
-    ]
-    test_file_path = "default_algo_test.json"
-    if os.path.isfile("./" + test_file_path):  # pragma: no cover
-        os.remove("./" + test_file_path)
-    write_linkage_config(dibbs_deterministic_algo, test_file_path)
-
-    loaded_algo = read_linkage_config(test_file_path)
-    assert loaded_algo.get("algorithm", []) == [
+def test_algo_read():
+    dibbs_basic_algo = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_basic.json"
+    )
+    assert dibbs_basic_algo.get("algorithm", []) == [
         {
             "funcs": {
                 0: "feature_match_fuzzy_string",
@@ -766,6 +749,7 @@ def test_algo_read_write():
             },
             "blocks": ["MRN4", "ADDRESS4"],
             "matching_rule": "eval_perfect_match",
+            "cluster_ratio": 0.9,
         },
         {
             "funcs": {
@@ -775,10 +759,47 @@ def test_algo_read_write():
             "blocks": ["FIRST4", "LAST4"],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9,
-            "kwargs": {"similarity_measure": "JaroWinkler", "threshold": 0.7},
         },
     ]
-    os.remove("./" + test_file_path)
+
+    dibbs_enhanced_algo = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_enhanced.json"
+    )
+    assert dibbs_enhanced_algo.get("algorithm", []) == [
+        {
+            "funcs": {
+                0: "feature_match_log_odds_fuzzy_compare",
+                2: "feature_match_log_odds_fuzzy_compare",
+                3: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {
+                "similarity_measure": "JaroWinkler",
+                "threshold": 0.7,
+                "true_match_threshold": 16.5,
+            },
+        },
+        {
+            "funcs": {
+                10: "feature_match_log_odds_fuzzy_compare",
+                16: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": ["FIRST4", "LAST4"],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {
+                "similarity_measure": "JaroWinkler",
+                "threshold": 0.7,
+                "true_match_threshold": 7.0,
+            },
+        },
+    ]
 
 
 def test_read_algo_errors():
@@ -791,3 +812,55 @@ def test_read_algo_errors():
         read_linkage_config("not_valid_json_test.json")
     assert "The specified file is not valid JSON" in str(e.value)
     os.remove("not_valid_json_test.json")
+
+
+def test_algo_write():
+    sample_algo = [
+        {
+            "funcs": {
+                8: feature_match_fuzzy_string,
+                12: feature_match_exact,
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": eval_perfect_match,
+        },
+        {
+            "funcs": {
+                10: feature_match_four_char,
+                16: feature_match_log_odds_exact,
+                22: feature_match_log_odds_fuzzy_compare,
+            },
+            "blocks": ["ZIP", "BIRTH_YEAR"],
+            "matching_rule": eval_log_odds_cutoff,
+            "cluster_ratio": 0.9,
+            "kwargs": {"similarity_measure": "Levenshtein", "threshold": 0.85},
+        },
+    ]
+    test_file_path = "algo_test_write.json"
+    if os.path.isfile("./" + test_file_path):  # pragma: no cover
+        os.remove("./" + test_file_path)
+    write_linkage_config(sample_algo, test_file_path)
+
+    loaded_algo = read_linkage_config(test_file_path)
+    assert loaded_algo.get("algorithm", []) == [
+        {
+            "funcs": {
+                8: "feature_match_fuzzy_string",
+                12: "feature_match_exact",
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": "eval_perfect_match",
+        },
+        {
+            "funcs": {
+                10: "feature_match_four_char",
+                16: "feature_match_log_odds_exact",
+                22: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": ["ZIP", "BIRTH_YEAR"],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {"similarity_measure": "Levenshtein", "threshold": 0.85},
+        },
+    ]
+    os.remove("./" + test_file_path)

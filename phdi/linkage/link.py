@@ -764,7 +764,9 @@ def read_linkage_config(config_file: pathlib.Path) -> List[dict]:
     linkage configuration list is a list of dictionaries--one for each
     pass in the algorithm it describes--containing information on the
     blocking fields, functions, cluster thresholds, and keyword arguments
-    for that pass of the linkage algorithm.
+    for that pass of the linkage algorithm. For a full example of all the
+    components involved in a linkage description structure, see the doc
+    string for `write_linkage_config`.
 
     :param config_file: A `pathlib.Path` string pointing to a JSON file
       that describes the algorithm to decode.
@@ -887,6 +889,27 @@ def write_linkage_config(linkage_algo: List[dict], file_to_write: pathlib.Path) 
     - `"cluster_ratio"` should map to a float, if provided
     - `"kwargs"` should map to a dictionary of keyword arguments and their
     associated values, if provided
+
+    Here's an example of a simple single-pass linkage algorithm that blocks
+    on zip code, then matches on exact first name, exact last name, and
+    fuzzy date of birth (using, say, Levenshtein similarity with a score
+    threshold of 0.8) in dictionary descriptor form (for the sake of the
+    example, let's assume the data has the column order first, last, DOB):
+
+    [{
+        "funcs": {
+            0: feature_match_exact,
+            1: feature_match_exact,
+            2: feature_match_fuzzy_string,
+            3: feature_match_fuzzy_string,
+        },
+        "blocks": ["ZIP"],
+        "matching_rule": eval_perfect_match,
+        "kwargs": {
+            "similarity-measure": "Levenshtein",
+            "threshold": 0.8
+        }
+    }]
 
     :param linkage_algo: A list of dictionaries whose key-value pairs correspond
       to the rules above.
