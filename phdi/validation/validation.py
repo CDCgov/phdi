@@ -9,7 +9,6 @@ from .xml_utils import (
 )
 
 
-global ERROR_MESSAGES
 ERROR_MESSAGES = {
     "fatal": [],
     "errors": [],
@@ -37,7 +36,6 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
     :return: A dictionary containing bool message_valid as well as a
         dictionary containing the validation results/errors.
     """
-    # initialize the Error Messages dict
     _clear_all_errors_and_ids()
     # encoding ecr_message to allow it to be
     #  parsed and organized as an lxml Element Tree Object
@@ -52,8 +50,7 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
 
     except AttributeError:
         _append_error_message(
-            error_message_type="fatal",
-            message="eCR Message is not valid XML!"
+            error_message_type="fatal", message="eCR Message is not valid XML!"
         )
         return _response_builder(include_error_types=include_error_types)
 
@@ -63,9 +60,10 @@ def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> d
         # extract the specific information from the configuration
         # for the different fields
         cda_path = field.get("cdaPath")
+
         # get a list of XML elements that match the field configuration
         matched_xml_elements = _validate_xml_elements(
-            xml_elements=parsed_ecr.findall(path=cda_path, namespaces=ECR_NAMESPACES),
+            xml_elements=parsed_ecr.xpath(cda_path, namespaces=ECR_NAMESPACES),
             config_field=field,
         )
         error_message_type = (
@@ -116,8 +114,12 @@ def _organize_error_messages(include_error_types: list) -> None:
     # during the validation process
 
     # fatal warnings cannot be filtered and will be automatically included!
+    # also, let's not wipe out the message_ids dictionary
     for error_type in ERROR_MESSAGES.keys():
-        if error_type != "fatal" and error_type not in include_error_types:
+        if (
+            error_type not in ("fatal", "message_ids")
+            and error_type not in include_error_types
+        ):
             ERROR_MESSAGES[error_type] = []
 
 
@@ -128,14 +130,11 @@ def _response_builder(include_error_types: list) -> dict:
         valid = True
         _append_error_message(
             error_message_type="information",
-            message="Validation completed with no fatal errors!"
+            message="Validation completed with no fatal errors!",
         )
     _organize_error_messages(include_error_types=include_error_types)
 
-    return {
-        "message_valid": valid,
-        "validation_results": ERROR_MESSAGES
-    }
+    return {"message_valid": valid, "validation_results": ERROR_MESSAGES}
 
 
 def _append_error_message(error_message_type: str, message: str) -> None:

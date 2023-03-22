@@ -42,7 +42,7 @@ def test_organize_error_messages():
     warns = ["my warn1"]
     infos = ["", "SOME"]
     test_include_errors = ["fatal", "errors", "warnings", "information"]
-    msg_ids = []
+    msg_ids = {}
 
     expected_result = {
         "fatal": fatal,
@@ -51,6 +51,7 @@ def test_organize_error_messages():
         "information": ["SOME"],
         "message_ids": msg_ids,
     }
+    _clear_all_errors_and_ids()
 
     _append_error_message("fatal", fatal)
     _append_error_message("warnings", warns)
@@ -68,7 +69,7 @@ def test_organize_error_messages():
     warns = ["my warn1"]
     infos = ["", "SOME"]
     test_include_errors = ["errors", "warnings"]
-    msg_ids = []
+    msg_ids = {}
 
     expected_result = {
         "fatal": fatal,
@@ -119,7 +120,7 @@ def test_response_builder():
             "errors": [],
             "warnings": [],
             "information": ["Validation completed with no fatal errors!"],
-            "message_ids": [],
+            "message_ids": {},
         },
     }
     _clear_all_errors_and_ids()

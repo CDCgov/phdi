@@ -19,6 +19,8 @@ from phdi.validation.xml_utils import (
     _validate_xml_related_element,
     _validate_xml_relatives,
     _validate_xml_value,
+    _get_xml_relatives_details,
+    ECR_NAMESPACES,
 )
 
 __all__ = [
@@ -40,4 +42,6 @@ __all__ = [
     "_validate_xml_related_element",
     "_validate_xml_relatives",
     "_validate_xml_value",
+    "_get_xml_relatives_details",
+    "ECR_NAMESPACES",
 ]

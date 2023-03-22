@@ -43,38 +43,23 @@ def get_ecr_message_ids(parsed_ecr) -> dict:
 
 def _validate_xml_elements(xml_elements, config_field) -> list:
     """
-    Matches the xml_elements to the config fields requirements for
+    Matches the xml_elements to the config field requirements for
     values, attributes, and relative xml element requirements for
-    values, and attributes. Returns list of matching fields
+    values, and attributes. Returns list of matching fields.
 
     :param xml_elements: A list of xml elements
     :param config_field: A dictionary of the requirements of the field.
     :return: A list of matched xml elemnts
     """
-    print("HERE1")
     if not xml_elements:
-        print("HERE2")
         return []
     validated_elements = []
     for xml_element in xml_elements:
-        print("HERE3:")
-        print(xml_element)
-        print(config_field)
-        print(config_field.get("fieldName"))
-        print(xml_element.tag)
-        # ensure that the field configuration is for the proper
-        # xml element by checking the field name
-        if config_field.get("fieldName") in xml_element.tag:
-            print("MADE IT 100!")
-            if not _validate_xml_relatives(xml_element, config_field):
-                print("20: CONTINUE")
-                continue
-            found = _check_xml_names_and_attribs_exist(xml_element, config_field)
-            print("21:")
-            print(found)
-
-            if found:
-                validated_elements.append(xml_element)
+        if not _validate_xml_relatives(xml_element, config_field):
+            continue
+        found = _check_xml_names_and_attribs_exist(xml_element, config_field)
+        if found:
+            validated_elements.append(xml_element)
     return validated_elements
 
 
@@ -91,28 +76,22 @@ def _validate_xml_relatives(xml_element, config_field) -> bool:
     :return: Bool - True if all relative xml elements match the criteria
         specified in the configuration, otherwise false.
     """
+    relatives_valid = True
     relatives = config_field.get("relatives")
-    print("4:")
-    print(relatives)
     if relatives is None:
-        return True
+        return relatives_valid
     for relative_config in relatives:
         base_cda_path = config_field.get("cdaPath")
-        print("5:")
-        print(base_cda_path)
-        print(relative_config)
         if (
             _validate_xml_related_element(
                 xml_element=xml_element,
                 cda_path=base_cda_path,
-                relative_config=relative_config
+                relative_config=relative_config,
             )
             is None
         ):
-            print("19: FALSE")
-            return False
-    print("19: True")
-    return True
+            relatives_valid = False
+    return relatives_valid
 
 
 def _check_xml_names_and_attribs_exist(xml_element, config_field) -> bool:
@@ -126,13 +105,10 @@ def _check_xml_names_and_attribs_exist(xml_element, config_field) -> bool:
     :return: Bool - True if the name and attributes exist in the passed in
         xml element, otherwise false.
     """
-    print("21.1")
-    print(xml_element)
     # If the configuration specified field name doesn't match the xml elements
     # tag name, then return false to go to the next xml element
     field_name = re.search(r"(?!\:)[a-zA-z]+\w$", config_field.get("cdaPath")).group(0)
-    print("21.2")
-    print(field_name)
+
     if field_name.lower() not in xml_element.tag.lower():
         return False
 
@@ -168,8 +144,8 @@ def _validate_xml_related_element(xml_element, cda_path, relative_config) -> str
     """
     Validates a related xml element, to the key xml element,
     against the configured rules for the related element's
-    location to the key element and the existence and values
-    of the related xml element's attributes.  If the relative
+    location to the key element and the existence of values
+    and attributes for the related xml element.  If the relative
     xml element meets all the configured criteria, then the xml
     element will be returned, otherwise None.
 
@@ -179,72 +155,61 @@ def _validate_xml_related_element(xml_element, cda_path, relative_config) -> str
     :return: A related xml element if the related xml element meets the configured
         criteria, otherwise return None.
     """
-    print("6.1:")
-    print(xml_element)
     if xml_element is None:
         return None
-
-    print("6.2")
-    print(relative_config)
     relative_cda_path = relative_config.get("cdaPath")
-    print("7:")
-    print(relative_cda_path)
     relative_tag_name = re.search(
-        r"(?!\:)[a-zA-z]+\w$", relative_config.get("cdaPath")).group(
-        0
-    )
-    print("8:")
-    print(relative_tag_name)
-    print(xml_element)
-    xml_iterator = _get_xml_relative_iterator(
-        cda_path,
-        relative_cda_path,
-        xml_element
-    )
-    print("9:")
-    print(len(xml_iterator))
-    print(xml_iterator)
+        r"(?!\:)[a-zA-z]+\w$", relative_config.get("cdaPath")
+    ).group(0)
+
+    xml_iterator = _get_xml_relative_iterator(cda_path, relative_cda_path, xml_element)
 
     # if there are no related xml elements based upon the
     # specified cda paths then just return None
-    if xml_iterator is None:
-        print("WHOOPS")
+    if xml_iterator is None or len(xml_iterator) == 0:
         return None
 
-    # first get the tag names and add them to the elements list
-    for related_xml_element in xml_iterator:
-        if len(xml_iterator) == 1:
-            related_xml_element = xml_iterator
-        print("10:")
-        print(related_xml_element)
-        print(related_xml_element.tag)
-        print(relative_tag_name)
-        if relative_tag_name in related_xml_element.tag:
-            print("11:")
-            print(relative_tag_name)
+    # sibling, descendant, child iterators
+    # are of different type than ancestors
+    # It's not clear why, but this prevents errors
+    # and ensures that we have the correct element tag
+    # and related element
+    try:
+        related_xml_element_tag = xml_iterator.tag
+        related_xml_element = xml_iterator
+    except Exception as e:
+        print(e)
+        related_xml_element = None
+        related_xml_element_tag = None
+
+    for xi in xml_iterator:
+        # loop through iterator - unless it's
+        # a ancestor - if that is the case then
+        # the iterator itself IS the proper related
+        # element and we want to use that - otherwise
+        # loop through the list of elements in the list
+        if related_xml_element_tag is None:
+            related_xml_element = xi
+            related_xml_element_tag = related_xml_element.tag
+
+        if relative_tag_name in related_xml_element_tag:
             relative_validated = _check_xml_names_and_attribs_exist(
-                xml_element=related_xml_element,
-                config_field=relative_config
+                xml_element=related_xml_element, config_field=relative_config
             )
-            print("11.1:")
-            print(relative_validated)
             relative_attributes_validated = _validate_xml_attributes(
-                related_xml_element,
-                relative_config
+                related_xml_element, relative_config
             )
-            print("11.2:")
-            print(relative_attributes_validated)
 
             if not relative_validated or len(relative_attributes_validated) != 0:
-                print("11.3")
                 return None
             else:
-                print("18:")
-                print(related_xml_element)
                 return related_xml_element
+        else:
+            related_xml_element = None
+            related_xml_element_tag = None
 
 
-def _get_xml_relative_iterator(cda_path, relative_cda_path, xml_element):
+def _get_xml_relative_iterator(cda_path, relative_cda_path, xml_element) -> list:
     """
     Gets an iterator, basically a list of xml elements, based on the key
     xml element's path and the relative xml element's path being
@@ -258,18 +223,12 @@ def _get_xml_relative_iterator(cda_path, relative_cda_path, xml_element):
         based on the key xml element.
     """
     if xml_element is None:
-        print("WHAT??")
         return None
     # get the difference of the number of '/' between the key cda_path and the
     # relative_cda_path
-    print("GET DIFF")
-    diff = (
-        len(cda_path.split(XML_PATH_DELIMITER)) -
-        len(relative_cda_path.split(XML_PATH_DELIMITER))
+    diff = len(cda_path.split(XML_PATH_DELIMITER)) - len(
+        relative_cda_path.split(XML_PATH_DELIMITER)
     )
-    print("DIFF")
-    print(xml_element)
-    print(diff)
     # element is on the same level of the main element
     if diff == 0:
         iter = []
@@ -285,31 +244,19 @@ def _get_xml_relative_iterator(cda_path, relative_cda_path, xml_element):
         # get all the ancestors and put them into a list
         # and then get the one that is at the level
         # equal to the diff -1 (to account for array numbering)
-        xml_ancestors = list(xml_element.iterancestors())
-        for e in xml_element.iterancestors():
-            print("E:")
-            print(e)
-        print(xml_ancestors)
-        if len(xml_ancestors) < diff-1:
-            print("DOAH")
+
+        if len(list(xml_element.iterancestors())) < diff - 1:
             return None
-        print("JOE:")
-        print(diff)
-        print(len(xml_ancestors))
-        print(xml_ancestors)
-        full = diff-1
-        print(full)
-        xml_relative_element = xml_ancestors[diff-1]
-        print(xml_relative_element)
+        xml_relative_element = list(xml_element.iterancestors())[diff - 1]
         return xml_relative_element
     # element is a child of the main element
     elif diff == -1:
-        return xml_element.iterchildren()
+        return list(xml_element.iterchildren())
     # if diff is < -1 then it's a descendant and it's
     # going to have to return all tags under the base
     # xml element
     else:
-        return xml_element.iterdescendants()
+        return list(xml_element.iterdescendants())
 
 
 def _validate_xml_attributes(xml_element, config_field) -> list:
@@ -327,37 +274,24 @@ def _validate_xml_attributes(xml_element, config_field) -> list:
     :return: A list of errors or an empty list.  If the list is empty then
         the validation was successful.
     """
-    print("12:")
-    print(config_field)
-    print(xml_element)
     config_attribs = config_field.get("attributes")
     if not config_attribs:
         return []
 
-    attribute_value = ""
     error_messages = []
     for attribute in config_attribs:
-        print("13:")
-        print(attribute)
         if "attributeName" in attribute:
             attribute_name = attribute.get("attributeName")
-            print("14:")
-            print(attribute_name)
             attribute_value = xml_element.get(attribute_name)
-            print("15:")
-            print(attribute_value)
             if not attribute_value:
                 message = _get_ecr_custom_message(
                     config_field,
-                    f"Could not find attribute {attribute_name}. "
+                    f"Could not find attribute '{attribute_name}'. "
                     + f"{_get_xml_element_details(xml_element, config_field)}",
                 )
                 error_messages.append(message)
         if "regEx" in attribute:
-            print("16:")
             pattern = re.compile(attribute.get("regEx"))
-            print(pattern)
-            print(pattern.match(attribute_value))
             if (not attribute_value) or (not pattern.match(attribute_value)):
                 message = _get_ecr_custom_message(
                     config_field,
@@ -366,8 +300,6 @@ def _validate_xml_attributes(xml_element, config_field) -> list:
                     + f"{_get_xml_element_details(xml_element, config_field)}",
                 )
                 error_messages.append(message)
-    print("17:")
-    print(error_messages)
     return error_messages
 
 
@@ -391,19 +323,23 @@ def _get_xml_element_details(xml_element, config_field) -> str:
     :return: A single string containing the information about the
         key xml element and its attribute(s).
     """
-    if xml_element is None or xml_element == "":
+    if config_field is None or config_field == {}:
         return ""
     name = [f"Field name: '{config_field.get('fieldName')}'"]
     config_attributes = config_field.get("attributes")
     attributes = (
-            ["Attributes:"] + _get_xml_attributes(xml_element, config_attributes)
-            if config_attributes
-            else []
+        ["Attributes:"] + _get_xml_attributes(xml_element, config_attributes)
+        if config_attributes
+        else []
     )
     relative_string = _get_xml_relatives_details(config_field.get("relatives"))
     value = (
         [f"value: '{''.join(xml_element.itertext())}'"]
-        if config_field.get("textRequired") and xml_element is not None and "".join(xml_element.itertext()) != ""
+        if (
+            config_field.get("textRequired")
+            and xml_element is not None
+            and "".join(xml_element.itertext()) != ""
+        )
         else []
     )
     return " ".join(name + value + attributes + relative_string)
@@ -433,11 +369,10 @@ def _get_xml_relatives_details(relatives_config: dict) -> list:
             )
             config_related_attributes = rel_config.get("attributes")
             relative_attributes = (
-                    ["Attributes:"]
-                    + _get_xml_attributes(None, config_related_attributes)
-                    if config_related_attributes
-                    else []
-                )
+                ["Attributes:"] + _get_xml_attributes(None, config_related_attributes)
+                if config_related_attributes
+                else []
+            )
             relative_string += relative_name
             relative_string += relative_attributes
     return relative_string
@@ -459,17 +394,22 @@ def _get_xml_attributes(xml_element, config_attributes) -> list:
     if config_attributes is None or config_attributes == "":
         return attrs
     for attribute in config_attributes:
-        attr_index = len(attrs)+1
+        attr_index = len(attrs) + 1
         attribute_name = attribute.get("attributeName")
         reg_ex = attribute.get("regEx")
-        reg_ex_string = f" with the required value pattern: '{reg_ex}'" if reg_ex else ""
+        reg_ex_string = (
+            f" with the required value pattern: '{reg_ex}'" if reg_ex else ""
+        )
 
         if xml_element is not None and xml_element.get(attribute_name):
             attribute_value = f" actual value: '{xml_element.get(attribute_name)}'"
         else:
             attribute_value = ""
 
-        attrs.append(f"attribute #{attr_index}: '{attribute_name}'{reg_ex_string}{attribute_value}")
+        attrs.append(
+            f"attribute #{attr_index}: "
+            + f"'{attribute_name}'{reg_ex_string}{attribute_value}"
+        )
     return [", ".join(attrs)]
 
 
@@ -499,7 +439,8 @@ def _validate_xml_value(xml_element, config_field) -> list:
         if pattern.match(value) is None:
             message = _get_ecr_custom_message(
                 config_field,
-                "The field value does not exist or doesn't match the following pattern: '"
+                "The field value does not exist or "
+                + "doesn't match the following pattern: '"
                 + config_regex
                 + f"'. For the {_get_xml_element_details(xml_element, config_field)}",
             )
