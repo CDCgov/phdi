@@ -60,10 +60,6 @@ class ValidateResponse(BaseModel):
     validation_results: dict = Field(
         description="A JSON object containing details on the validation result."
     )
-    validated_message: dict = Field(
-        description="The returned message is returned if message_valid = true,"
-        + " otherwise it will be set to None"
-    )
 
 
 # Message type-specific validation
