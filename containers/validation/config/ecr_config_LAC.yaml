@@ -30,10 +30,12 @@ fields:
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
   errorType: "errors"
   textRequired: 'True'
-  parent: name
-  parent_attributes:
-  - attributeName: use
-    regEx: "L"
+  relatives:
+    - name: name
+      cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
+      attributes:
+      - attributeName: use
+        regEx: "L"
 - fieldName: Middle Name
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
   errorType: "errors"
@@ -41,17 +43,21 @@ fields:
   attributes:
   - attributeName: qualifier
     regEx: "IN"
-  parent: name
-  parent_attributes:
-  - attributeName: use
-    regEx: "L"
+  relatives:
+    - name: name
+      cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
+      attributes:
+      - attributeName: use
+        regEx: "L"
 - fieldName: Last Name
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:family"
   errorType: "errors"
-  parent: name
-  parent_attributes:
-  - attributeName: use
-    regEx: "L"
+  relatives:
+    - name: name
+      cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
+      attributes:
+      - attributeName: use
+        regEx: "L"
   textRequired: 'True'
 - fieldName: DOB
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:birthTime"
@@ -79,10 +85,12 @@ fields:
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city"
   errorType: "fatal"
   textRequired: 'True'
-  parent: addr
-  parent_attributes:
-  - attributeName: use
-    regEx: "H"
+  relatives:
+    - name: addr
+      cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr"
+      attributes:
+      - attributeName: use
+        regEx: "H"
 - fieldName: State
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:state"
   errorType: "errors"
