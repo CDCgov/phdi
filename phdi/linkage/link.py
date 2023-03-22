@@ -1,14 +1,17 @@
 import hashlib
 import json
+import matplotlib.pyplot as plt
 import pandas as pd
 import pathlib
-from itertools import combinations
-from random import sample
-from math import log
-from phdi.harmonization.utils import compare_strings
-from typing import List, Callable, Dict, Union
 import sqlite3
-import matplotlib.pyplot as plt
+
+from itertools import combinations
+from math import log
+from random import sample
+from typing import List, Callable, Dict, Union
+
+from phdi.harmonization.utils import compare_strings
+from phdi.fhir.utils import extract_value_with_resource_path
 
 
 def block_data(data: pd.DataFrame, blocks: List) -> dict:
@@ -23,6 +26,58 @@ def block_data(data: pd.DataFrame, blocks: List) -> dict:
       values as the data within each block, stored as a list of
       lists.
     """
+    blocked_data_tuples = tuple(data.groupby(blocks))
+
+    # Convert data to list of lists within dict
+    blocked_data = dict()
+    for block, df in blocked_data_tuples:
+        blocked_data[block] = df.values.tolist()
+
+    return blocked_data
+
+
+def block_data_from_db(db_name: str, table_name: str, block_data: Dict) -> List[list]:
+    """
+    Returns a list of lists containing records from the database that match on the
+    incoming record's block values. If blocking on 'ZIP' and the incoming record's zip
+    code is '90210', the resulting block of data would contain records that all have the
+    same zip code of 90210.
+
+    :param db_name: Database name.
+    :param table_name: Table name.
+    :param block_data: Dictionary containing key value pairs for the column name for
+      blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+    :return: A list of records that are within the block, e.g., records that all have
+      90210 as their ZIP.
+
+    """
+    if len(block_data) == 0:
+        raise ValueError("`block_data` cannot be empty.")
+
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+    cursor.row_factory = lambda c, row: [i for i in row]
+
+    query = _generate_block_query(table_name, block_data)  # Generate SQL query
+    cursor.execute(query)  # Execute query
+    block = cursor.fetchall()  # Fetch data from query
+    conn.commit()
+    conn.close()
+
+    return block
+
+
+def block_parquet_data(path: str, blocks: List) -> Dict:
+    """
+    Generates dictionary of blocked data where each key is a block and each value is a
+    distinct list of lists containing the data for a given block.
+
+    :param path: Path to parquet file containing data that needs to be linked.
+    :param blocks: List of columns to be used in blocking.
+    :return: A dictionary of with the keys as the blocks and the values as the data
+    within each block, stored as a list of lists.
+    """
+    data = pd.read_parquet(path, engine="pyarrow")
     blocked_data_tuples = tuple(data.groupby(blocks))
 
     # Convert data to list of lists within dict
@@ -245,6 +300,78 @@ def eval_log_odds_cutoff(feature_comparisons: List, **kwargs) -> bool:
     if "true_match_threshold" not in kwargs:
         raise KeyError("Cutoff threshold for true matches must be passed.")
     return sum(feature_comparisons) >= kwargs["true_match_threshold"]
+
+
+def extract_blocking_values_from_record(
+    record: dict, blocking_fields: List, transformations: dict[str, str]
+) -> dict:
+    """
+    Extracts values from a given patient record for eventual use in database
+    record linkage blocking. A list of fields to block on, as well as a mapping
+    of those fields to any desired transformations of their extracted values,
+    is used to fhir-path parse the value out of the incoming patient record.
+
+    Currently supported blocking fields:
+    - first_name
+    - last_name
+    - birthdate
+    - address
+    - city
+    - state
+    - zip
+    - sex
+
+    Currently supported transformations on extracted fields:
+    - first4: the first four characters of the value
+    - last4: the last four characters of the value
+
+    :param record: A FHIR-formatted Patient record.
+    :param blocking_fields: A List of supported fields whose values to pull
+      from the patient record.
+    :param transformations: A dictionary mapping field names to any desired
+      transformations for those fields. If no transformation is desired for
+      a field, simply leave it out of the dictionary.
+    """
+
+    # Pre-defined supported FHIR Path mappings and transformations
+    fields_to_fhirpaths = {
+        "first_name": "Patient.name.given",
+        "last_name": "Patient.name.family",
+        "birthdate": "Patient.birthDate",
+        "address": "Patient.address.line",
+        "zip": "Patient.address.postalCode",
+        "city": "Patient.address.city",
+        "state": "Patient.address.state",
+        "sex": "Patient.gender",
+    }
+    transform_funcs = {
+        "first4": lambda x: x[:4] if len(x) >= 4 else x,
+        "last4": lambda x: x[-4:] if len(x) >= 4 else x,
+    }
+
+    block_vals = dict.fromkeys(blocking_fields, "")
+    for block in blocking_fields:
+        try:
+            # Apply utility extractor for safe parsing
+            value = str(
+                extract_value_with_resource_path(
+                    record, fields_to_fhirpaths[block], selection_criteria="first"
+                )
+            )
+            if value:
+                if block in transformations:
+                    try:
+                        value = transform_funcs[transformations[block]](value)
+                    except KeyError:
+                        raise ValueError(
+                            f"Transformation {transformations[block]} is not valid."
+                        )
+                block_vals[block] = value
+
+        except KeyError:
+            raise ValueError(f"Field {block} is not a supported extraction field.")
+
+    return block_vals
 
 
 def feature_match_exact(
@@ -630,6 +757,182 @@ def profile_log_odds(
     plt.show()
 
 
+def read_linkage_config(config_file: pathlib.Path) -> List[dict]:
+    """
+    Reads and generates a record linkage algorithm configuration list from
+    the provided filepath, which should point to a JSON file. A record
+    linkage configuration list is a list of dictionaries--one for each
+    pass in the algorithm it describes--containing information on the
+    blocking fields, functions, cluster thresholds, and keyword arguments
+    for that pass of the linkage algorithm. For a full example of all the
+    components involved in a linkage description structure, see the doc
+    string for `write_linkage_config`.
+
+    :param config_file: A `pathlib.Path` string pointing to a JSON file
+      that describes the algorithm to decode.
+    :return: A list of dictionaries whose values can be passed to the
+      various parts of linkage pass function.
+    """
+    try:
+        algo_config = json.load(open(config_file))
+        # Need to convert function keys back to column indices, since
+        # JSON serializes dict keys as strings
+        for rl_pass in algo_config.get("algorithm"):
+            rl_pass["funcs"] = {int(col): f for (col, f) in rl_pass["funcs"].items()}
+        return algo_config
+    except FileNotFoundError:
+        raise FileNotFoundError(f"No file exists at path {config_file}.")
+    except json.decoder.JSONDecodeError as e:
+        raise json.decoder.JSONDecodeError(
+            "The specified file is not valid JSON.", e.doc, e.pos
+        )
+
+
+def score_linkage_vs_truth(
+    found_matches: dict[Union[int, str], set],
+    true_matches: dict[Union[int, str], set],
+    records_in_dataset: int,
+    expand_clusters_pairwise: bool = False,
+) -> tuple:
+    """
+    Compute the statistical qualities of a run of record linkage against
+    known true results. This function assumes that matches have already
+    been determined by the algorithm, and further assumes that true
+    matches have already been identified in the data.
+
+    :param found_matches: A dictionary mapping IDs of records to sets of
+      other records which were determined to be a match.
+    :param true_matches: A dictionary mapping IDs of records to sets of
+      other records which are _known_ to be a true match.
+    :param records_in_dataset: The number of records in the original data
+      set to-link.
+    :param expand_clusters_pairwise: Optionally, whether we need to take
+      the cross-product of members within the sets of the match list. This
+      parameter only needs to be used if the linkage algorithm was run in
+      cluster mode. Default is False.
+    :return: A tuple reporting the sensitivity/precision, specificity/recall,
+      positive prediction value, and F1 score of the linkage algorithm.
+    """
+
+    # If cluster mode was used, only the "master" patient's set will exist
+    # Need to expand other permutations for accurate statistics
+    if expand_clusters_pairwise:
+        new_found_matches = {}
+        for root_rec in found_matches:
+            if root_rec not in new_found_matches:
+                new_found_matches[root_rec] = found_matches[root_rec]
+            for paired_record in found_matches[root_rec]:
+                if paired_record not in new_found_matches:
+                    new_found_matches[paired_record] = set()
+                for other_record in found_matches[root_rec]:
+                    if other_record > paired_record:
+                        new_found_matches[paired_record].add(other_record)
+        found_matches = new_found_matches
+
+    # Need division by 2 because ordering is irrelevant, matches are symmetric
+    total_possible_matches = (records_in_dataset * (records_in_dataset - 1)) / 2.0
+    true_positives = 0.0
+    false_positives = 0.0
+    false_negatives = 0.0
+
+    for root_record in true_matches:
+        if root_record in found_matches:
+            true_positives += len(
+                true_matches[root_record].intersection(found_matches[root_record])
+            )
+            false_positives += len(
+                found_matches[root_record].difference(true_matches[root_record])
+            )
+            false_negatives += len(
+                true_matches[root_record].difference(found_matches[root_record])
+            )
+        else:
+            false_negatives += len(true_matches[root_record])
+    for record in set(set(found_matches.keys()).difference(true_matches.keys())):
+        false_positives += len(found_matches[record])
+
+    true_negatives = (
+        total_possible_matches - true_positives - false_positives - false_negatives
+    )
+
+    print("True Positives Found:", true_positives)
+    print("False Positives Misidentified:", false_positives)
+    print("False Negatives Missed:", false_negatives)
+
+    sensitivity = round(true_positives / (true_positives + false_negatives), 3)
+    specificity = round(true_negatives / (true_negatives + false_positives), 3)
+    ppv = round(true_positives / (true_positives + false_positives), 3)
+    f1 = round(
+        (2 * true_positives) / (2 * true_positives + false_negatives + false_positives),
+        3,
+    )
+    return (sensitivity, specificity, ppv, f1)
+
+
+def write_linkage_config(linkage_algo: List[dict], file_to_write: pathlib.Path) -> None:
+    """
+    Save a provided algorithm description as a JSON dictionary at the provided
+    filepath location. Algorithm descriptions are lists of dictionaries, one
+    for each pass of the algorithm, whose keys are parameter values for a
+    linkage pass (drawn from the list `"funcs"`, `"blocks"`, `"matching_rule"`,
+    and optionally `"cluster_ratio"` and `"kwargs"`) and whose values are
+    as follows:
+
+    - `"funcs"` should map to a dictionary mapping column index to the
+    name of a function in the DIBBS linkage module (such as
+    `feature_match_fuzzy_string`)--note that these are the actual
+    functions, not string names of the functions
+    - `"blocks"` should map to a list of columns to block on (e.g.
+    ["MRN4", "ADDRESS4"])
+    - `"matching_rule"` should map to one of the evaluation rule functions
+    in the DIBBS linkage module (i.e. `eval_perfect_match`)
+    - `"cluster_ratio"` should map to a float, if provided
+    - `"kwargs"` should map to a dictionary of keyword arguments and their
+    associated values, if provided
+
+    Here's an example of a simple single-pass linkage algorithm that blocks
+    on zip code, then matches on exact first name, exact last name, and
+    fuzzy date of birth (using, say, Levenshtein similarity with a score
+    threshold of 0.8) in dictionary descriptor form (for the sake of the
+    example, let's assume the data has the column order first, last, DOB):
+
+    [{
+        "funcs": {
+            0: feature_match_exact,
+            1: feature_match_exact,
+            2: feature_match_fuzzy_string,
+            3: feature_match_fuzzy_string,
+        },
+        "blocks": ["ZIP"],
+        "matching_rule": eval_perfect_match,
+        "kwargs": {
+            "similarity-measure": "Levenshtein",
+            "threshold": 0.8
+        }
+    }]
+
+    :param linkage_algo: A list of dictionaries whose key-value pairs correspond
+      to the rules above.
+    :param file_to_write: The path to the destination JSON file to write.
+    """
+    algo_json = []
+    for rl_pass in linkage_algo:
+        pass_json = {}
+        pass_json["funcs"] = {col: f.__name__ for (col, f) in rl_pass["funcs"].items()}
+        pass_json["blocks"] = rl_pass["blocks"]
+        pass_json["matching_rule"] = rl_pass["matching_rule"].__name__
+        if rl_pass.get("cluster_ratio", None) is not None:
+            pass_json["cluster_ratio"] = rl_pass["cluster_ratio"]
+        if rl_pass.get("kwargs", None) is not None:
+            pass_json["kwargs"] = {
+                kwarg: val for (kwarg, val) in rl_pass.get("kwargs", {}).items()
+            }
+        algo_json.append(pass_json)
+    linkage_json = {"algorithm": algo_json}
+    with open(file_to_write, "w") as out:
+        out.write(json.dumps(linkage_json))
+
+
 def _eval_record_in_cluster(
     block: List[List],
     i: int,
@@ -740,139 +1043,6 @@ def _match_within_block_cluster_ratio(
         if not found_master_cluster:
             clusters.append({i})
     return clusters
-
-
-def score_linkage_vs_truth(
-    found_matches: dict[Union[int, str], set],
-    true_matches: dict[Union[int, str], set],
-    records_in_dataset: int,
-    expand_clusters_pairwise: bool = False,
-) -> tuple:
-    """
-    Compute the statistical qualities of a run of record linkage against
-    known true results. This function assumes that matches have already
-    been determined by the algorithm, and further assumes that true
-    matches have already been identified in the data.
-
-    :param found_matches: A dictionary mapping IDs of records to sets of
-      other records which were determined to be a match.
-    :param true_matches: A dictionary mapping IDs of records to sets of
-      other records which are _known_ to be a true match.
-    :param records_in_dataset: The number of records in the original data
-      set to-link.
-    :param expand_clusters_pairwise: Optionally, whether we need to take
-      the cross-product of members within the sets of the match list. This
-      parameter only needs to be used if the linkage algorithm was run in
-      cluster mode. Default is False.
-    :return: A tuple reporting the sensitivity/precision, specificity/recall,
-      positive prediction value, and F1 score of the linkage algorithm.
-    """
-
-    # If cluster mode was used, only the "master" patient's set will exist
-    # Need to expand other permutations for accurate statistics
-    if expand_clusters_pairwise:
-        new_found_matches = {}
-        for root_rec in found_matches:
-            if root_rec not in new_found_matches:
-                new_found_matches[root_rec] = found_matches[root_rec]
-            for paired_record in found_matches[root_rec]:
-                if paired_record not in new_found_matches:
-                    new_found_matches[paired_record] = set()
-                for other_record in found_matches[root_rec]:
-                    if other_record > paired_record:
-                        new_found_matches[paired_record].add(other_record)
-        found_matches = new_found_matches
-
-    # Need division by 2 because ordering is irrelevant, matches are symmetric
-    total_possible_matches = (records_in_dataset * (records_in_dataset - 1)) / 2.0
-    true_positives = 0.0
-    false_positives = 0.0
-    false_negatives = 0.0
-
-    for root_record in true_matches:
-        if root_record in found_matches:
-            true_positives += len(
-                true_matches[root_record].intersection(found_matches[root_record])
-            )
-            false_positives += len(
-                found_matches[root_record].difference(true_matches[root_record])
-            )
-            false_negatives += len(
-                true_matches[root_record].difference(found_matches[root_record])
-            )
-        else:
-            false_negatives += len(true_matches[root_record])
-    for record in set(set(found_matches.keys()).difference(true_matches.keys())):
-        false_positives += len(found_matches[record])
-
-    true_negatives = (
-        total_possible_matches - true_positives - false_positives - false_negatives
-    )
-
-    print("True Positives Found:", true_positives)
-    print("False Positives Misidentified:", false_positives)
-    print("False Negatives Missed:", false_negatives)
-
-    sensitivity = round(true_positives / (true_positives + false_negatives), 3)
-    specificity = round(true_negatives / (true_negatives + false_positives), 3)
-    ppv = round(true_positives / (true_positives + false_positives), 3)
-    f1 = round(
-        (2 * true_positives) / (2 * true_positives + false_negatives + false_positives),
-        3,
-    )
-    return (sensitivity, specificity, ppv, f1)
-
-
-def block_parquet_data(path: str, blocks: List) -> Dict:
-    """
-    Generates dictionary of blocked data where each key is a block and each value is a
-    distinct list of lists containing the data for a given block.
-
-    :param path: Path to parquet file containing data that needs to be linked.
-    :param blocks: List of columns to be used in blocking.
-    :return: A dictionary of with the keys as the blocks and the values as the data
-    within each block, stored as a list of lists.
-    """
-    data = pd.read_parquet(path, engine="pyarrow")
-    blocked_data_tuples = tuple(data.groupby(blocks))
-
-    # Convert data to list of lists within dict
-    blocked_data = dict()
-    for block, df in blocked_data_tuples:
-        blocked_data[block] = df.values.tolist()
-
-    return blocked_data
-
-
-def block_data_from_db(db_name: str, table_name: str, block_data: Dict) -> List[list]:
-    """
-    Returns a list of lists containing records from the database that match on the
-    incoming record's block values. If blocking on 'ZIP' and the incoming record's zip
-    code is '90210', the resulting block of data would contain records that all have the
-    same zip code of 90210.
-
-    :param db_name: Database name.
-    :param table_name: Table name.
-    :param block_data: Dictionary containing key value pairs for the column name for
-      blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
-    :return: A list of records that are within the block, e.g., records that all have
-      90210 as their ZIP.
-
-    """
-    if len(block_data) == 0:
-        raise ValueError("`block_data` cannot be empty.")
-
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
-    cursor.row_factory = lambda c, row: [i for i in row]
-
-    query = _generate_block_query(table_name, block_data)  # Generate SQL query
-    cursor.execute(query)  # Execute query
-    block = cursor.fetchall()  # Fetch data from query
-    conn.commit()
-    conn.close()
-
-    return block
 
 
 def _generate_block_query(table_name: str, block_data: Dict) -> str:

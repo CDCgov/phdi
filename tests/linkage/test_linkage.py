@@ -1,3 +1,4 @@
+import json
 import os
 import pandas as pd
 import random
@@ -22,6 +23,9 @@ from phdi.linkage import (
     eval_log_odds_cutoff,
     feature_match_log_odds_exact,
     feature_match_log_odds_fuzzy_compare,
+    extract_blocking_values_from_record,
+    write_linkage_config,
+    read_linkage_config,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
@@ -33,6 +37,53 @@ import pytest
 from random import seed
 from math import log
 from json.decoder import JSONDecodeError
+
+
+def test_extract_blocking_values_from_record():
+    bundle = json.load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+    )
+    patient = [
+        r.get("resource")
+        for r in bundle.get("entry")
+        if r.get("resource", {}).get("resourceType") == "Patient"
+    ][0]
+    patient["name"][0]["family"] = "Shepard"
+
+    with pytest.raises(ValueError) as e:
+        extract_blocking_values_from_record(patient, {"invalid"}, {})
+    assert "is not a supported extraction field" in str(e.value)
+
+    with pytest.raises(ValueError) as e:
+        extract_blocking_values_from_record(
+            patient, {"first_name"}, {"first_name": "invalid_transform"}
+        )
+    assert "Transformation invalid_transform is not valid" in str(e.value)
+
+    blocking_fields = [
+        "first_name",
+        "last_name",
+        "zip",
+        "city",
+        "birthdate",
+        "sex",
+        "state",
+        "address",
+    ]
+    transforms = {"first_name": "first4", "last_name": "first4", "address": "last4"}
+    blocking_vals = extract_blocking_values_from_record(
+        patient, blocking_fields, transforms
+    )
+    assert blocking_vals == {
+        "first_name": "John",
+        "last_name": "Shep",
+        "zip": "10001-0001",
+        "city": "Faketon",
+        "birthdate": "1983-02-01",
+        "sex": "female",
+        "state": "NY",
+        "address": "e St",
+    }
 
 
 def test_generate_hash():
@@ -679,3 +730,137 @@ def test_feature_match_log_odds_fuzzy():
         )
         == 0.987
     )
+
+
+def test_algo_read():
+    dibbs_basic_algo = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_basic.json"
+    )
+    assert dibbs_basic_algo.get("algorithm", []) == [
+        {
+            "funcs": {
+                0: "feature_match_fuzzy_string",
+                2: "feature_match_fuzzy_string",
+                3: "feature_match_fuzzy_string",
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": "eval_perfect_match",
+            "cluster_ratio": 0.9,
+        },
+        {
+            "funcs": {
+                10: "feature_match_fuzzy_string",
+                16: "feature_match_fuzzy_string",
+            },
+            "blocks": ["FIRST4", "LAST4"],
+            "matching_rule": "eval_perfect_match",
+            "cluster_ratio": 0.9,
+        },
+    ]
+
+    dibbs_enhanced_algo = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_enhanced.json"
+    )
+    assert dibbs_enhanced_algo.get("algorithm", []) == [
+        {
+            "funcs": {
+                0: "feature_match_log_odds_fuzzy_compare",
+                2: "feature_match_log_odds_fuzzy_compare",
+                3: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {
+                "similarity_measure": "JaroWinkler",
+                "threshold": 0.7,
+                "true_match_threshold": 16.5,
+            },
+        },
+        {
+            "funcs": {
+                10: "feature_match_log_odds_fuzzy_compare",
+                16: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": ["FIRST4", "LAST4"],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {
+                "similarity_measure": "JaroWinkler",
+                "threshold": 0.7,
+                "true_match_threshold": 7.0,
+            },
+        },
+    ]
+
+
+def test_read_algo_errors():
+    with pytest.raises(FileNotFoundError) as e:
+        read_linkage_config("invalid.json")
+    assert "No file exists at path invalid.json." in str(e.value)
+    with open("not_valid_json_test.json", "w") as fp:
+        fp.write("this is a random string that is not in json format\n")
+    with pytest.raises(JSONDecodeError) as e:
+        read_linkage_config("not_valid_json_test.json")
+    assert "The specified file is not valid JSON" in str(e.value)
+    os.remove("not_valid_json_test.json")
+
+
+def test_algo_write():
+    sample_algo = [
+        {
+            "funcs": {
+                8: feature_match_fuzzy_string,
+                12: feature_match_exact,
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": eval_perfect_match,
+        },
+        {
+            "funcs": {
+                10: feature_match_four_char,
+                16: feature_match_log_odds_exact,
+                22: feature_match_log_odds_fuzzy_compare,
+            },
+            "blocks": ["ZIP", "BIRTH_YEAR"],
+            "matching_rule": eval_log_odds_cutoff,
+            "cluster_ratio": 0.9,
+            "kwargs": {"similarity_measure": "Levenshtein", "threshold": 0.85},
+        },
+    ]
+    test_file_path = "algo_test_write.json"
+    if os.path.isfile("./" + test_file_path):  # pragma: no cover
+        os.remove("./" + test_file_path)
+    write_linkage_config(sample_algo, test_file_path)
+
+    loaded_algo = read_linkage_config(test_file_path)
+    assert loaded_algo.get("algorithm", []) == [
+        {
+            "funcs": {
+                8: "feature_match_fuzzy_string",
+                12: "feature_match_exact",
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": "eval_perfect_match",
+        },
+        {
+            "funcs": {
+                10: "feature_match_four_char",
+                16: "feature_match_log_odds_exact",
+                22: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": ["ZIP", "BIRTH_YEAR"],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {"similarity_measure": "Levenshtein", "threshold": 0.85},
+        },
+    ]
+    os.remove("./" + test_file_path)
