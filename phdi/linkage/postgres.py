@@ -147,8 +147,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
             if len(person_id) > 1:
                 raise ValueError(
-                    f"""Too many person_ids returned from {self.person_table}. There may 
-                    be duplicates that need to be resolved."""
+                    f"""Too many person_ids returned from {self.person_table}. There may
+                     be duplicates that need to be resolved."""
                 )
 
             # Insert into patient table
