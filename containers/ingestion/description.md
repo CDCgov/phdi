@@ -16,7 +16,7 @@ To run the ingestion service with Docker follow these steps.
 Docker version 20.10.21, build baeda1f
 ``` 
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/ingestion:main`.
-3. Run the service with ` docker run -p 8080:8080 ingestion:main`.
+3. Run the service with ` docker run -p 8080:8080 ghcr.io/cdcgov/phdi/ingestion:main`.
 
 Congratulations, the FHIR Converter should now be running on `localhost:8080`!
 
