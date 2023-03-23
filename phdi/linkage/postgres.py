@@ -29,18 +29,6 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         self.patient_table = patient_table
         self.person_table = person_table
 
-        try:
-            self.connection = psycopg2.connect(
-                database=self.database,
-                user=self.user,
-                password=self.password,
-                host=self.host,
-                port=self.port,
-            )
-            self.cursor = self.connection.cursor()
-        except Exception as error:
-            raise ValueError(f"{error}")
-
     def block_data(self, block_data: Dict) -> List[list]:
         """
         Returns a list of lists containing records from the database that match on the
@@ -53,6 +41,20 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
+        # TODO: Update with conext manager
+        # Connect to MPI
+        try:
+            self.connection = psycopg2.connect(
+                database=self.database,
+                user=self.user,
+                password=self.password,
+                host=self.host,
+                port=self.port,
+            )
+            self.cursor = self.connection.cursor()
+        except Exception as error:
+            raise ValueError(f"{error}")
+
         if len(block_data) == 0:
             raise ValueError("`block_data` cannot be empty.")
 
@@ -62,6 +64,10 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         # Execute query
         self.cursor.execute(query)
         extracted_data = self.cursor.fetchall()
+
+        # Close cursor and connection
+        self.cursor.close()
+        self.connection.close()
 
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
@@ -93,6 +99,19 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :param person_id: The personID matching the patient record if a match has been
           found in the MPI, defaults to None.
         """
+        # Connect to MPI
+        try:
+            self.connection = psycopg2.connect(
+                database=self.database,
+                user=self.user,
+                password=self.password,
+                host=self.host,
+                port=self.port,
+            )
+            self.cursor = self.connection.cursor()
+        except Exception as error:
+            raise ValueError(f"{error}")
+
         # Match has been found
         if person_id is not None:
             # Insert into patient table
@@ -132,7 +151,6 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 + f"WHERE external_person_id = '{patient_resource.get('id')}'"
             )
             self.cursor.execute(select_statement)
-            self.connection.commit()
             person_id = self.cursor.fetchall()
 
             # Insert into patient table
@@ -144,6 +162,9 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             )
             self.cursor.execute(insert_patient_table)
             self.connection.commit()
+
+            self.cursor.close()
+            self.connection.close()
 
     def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
         """
