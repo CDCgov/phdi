@@ -34,7 +34,7 @@ We recommend running the ingestion service from a container, but if that is not 
 
 ### Building the Docker Image
 
-To build the Docker image for the ingestion service from source code instead of downloading it from the PHDI repository follow these steps.
+To build the Docker image for the ingestion service from source code instead of downloading it from the PHDI repository, follow these steps.
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/ingestion/`.
