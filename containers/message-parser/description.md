@@ -1,7 +1,7 @@
 ## Getting Started with the DIBBs Message Parser
 
 ### Introduction
-The PHDI message parser is a REST service for extracting desired fields from a given message. The service natively supports extracting values from the FHIR bundles, but it can support parsing Hl7v2 (eLR, VXU, ADT, etc.) and CDA(eCR) messages by first using the DIBBs FHIR converter to convert them to FHIR. Fields are extracted using a "parsing schema" which is simply a mapping in key:value format between desired field names (keys) and the FHIR paths inside a FHIR bundle where the values can be found. A simple example of a schema for extracting a patient's first and last name from messages is shown below.
+The PHDI message parser offers a REST API for extracting desired fields from a given message. The service natively supports extracting values from the FHIR bundles, but it can support parsing Hl7v2 (eLR, VXU, ADT, etc.) and CDA(eCR) messages by first using the DIBBs FHIR converter to convert them to FHIR. Fields are extracted using a "parsing schema" which is simply a mapping in key:value format between desired field names (keys) and the FHIR paths inside a FHIR bundle where the values can be found. A simple example of a schema for extracting a patient's first and last name from messages is shown below.
 
 
 ```
