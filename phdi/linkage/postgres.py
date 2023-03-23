@@ -145,6 +145,12 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             self.cursor.execute(select_statement)
             person_id = self.cursor.fetchall()
 
+            if len(person_id) > 1:
+                raise ValueError(
+                    f"""Too many person_ids returned from {self.person_table}. There may 
+                    be duplicates that need to be resolved."""
+                )
+
             # Insert into patient table
             insert_patient_table = (
                 f"INSERT INTO {self.patient_table} "
