@@ -123,15 +123,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             )
             self.cursor.execute(insert_patient_table)
             self.connection.commit()
-
-            # Insert into person table
-            insert_person_table = (
-                f"INSERT INTO {self.person_table} "
-                + "(person_id, external_person_id) "
-                + f"VALUES ('{person_id}', '{patient_resource.get('id')}');"
-            )
-            self.cursor.execute(insert_person_table)
-            self.connection.commit()
+            self.cursor.close()
+            self.connection.close()
 
         # Match has not been found
         else:
