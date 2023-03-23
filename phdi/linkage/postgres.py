@@ -120,7 +120,6 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 + "(patient_id, person_id, patient_resource) "
                 + f"""VALUES ('{patient_resource.get("id")}', '{person_id}', """
                 + f"""'{json.dumps(patient_resource)}');"""
-                # + f"{patient_resource});"
             )
             self.cursor.execute(insert_patient_table)
             self.connection.commit()

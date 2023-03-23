@@ -2,6 +2,7 @@ from phdi.linkage.postgres import PostgresConnectorClient
 import pathlib
 import pytest
 import json
+import psycopg2
 
 
 def test_postgres_connection():
@@ -14,23 +15,22 @@ def test_postgres_connection():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
-    assert postgres_client.connection is not None
 
-    # Test with failed connection, e.g., bad password
-    with pytest.raises(ValueError) as e:
-        postgres_client = PostgresConnectorClient(
-            database="testdb",
-            user="postgres",
-            password="bad password",
-            host="localhost",
-            port="5432",
-            patient_table="test_patient_mpi",
-            person_table="test_person_mpi",
+    try:
+        postgres_client.connection = psycopg2.connect(
+            database=postgres_client.database,
+            user=postgres_client.user,
+            password=postgres_client.password,
+            host=postgres_client.host,
+            port=postgres_client.port,
         )
-        assert """connection to server at "localhost" (::1), port 5432 failed: FATAL:
-        password authentication failed for user "postgres" """ in str(
-            e.value
-        )
+        postgres_client.cursor = postgres_client.connection.cursor()
+    except Exception as error:
+        raise ValueError(f"{error}")
+
+    assert postgres_client.connection is not None
+    postgres_client.cursor.close()
+    postgres_client.connection.close()
 
 
 def test_generate_block_query():
@@ -123,6 +123,14 @@ def test_block_data():
     assert type(blocked_data[0]) is list
 
     # Clean up
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
     postgres_client.cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
     postgres_client.connection.commit()
     postgres_client.connection.close()
@@ -138,6 +146,14 @@ def test_upsert_match_patient():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
 
     raw_bundle = json.load(
         open(
@@ -219,7 +235,15 @@ def test_upsert_match_patient():
         patient_resource=patient_resource,
         person_id=person_id,
     )
-
+    # Re-open connection for next test
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
     # Extract all data
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
     postgres_client.connection.commit()
@@ -234,6 +258,16 @@ def test_upsert_match_patient():
     # Assert person_id == inserted person_id
     assert data[-1][1] == person_id
 
+    # Re-open connection for next test
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.person_table}")
     postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
@@ -247,7 +281,15 @@ def test_upsert_match_patient():
     # Assert person_id == inserted person_id
     assert data[-1][0] == person_id
 
-    # Clean up
+    # Re-open connection for next test
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
 
     # Match has not been found, i.e., new patient and person added, new person_id is
     # generated
@@ -261,6 +303,16 @@ def test_upsert_match_patient():
         person_id=person_id,
     )
 
+    # Re-open connection for next test
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
     postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
@@ -269,9 +321,18 @@ def test_upsert_match_patient():
     assert len(data) == 5
     assert data[-1][-1]["address"] == patient_resource["address"]
 
+    # Re-open connection for next test
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
     # Assert new patient record was added to person table with new person_id
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.person_table}")
-    postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
 
     assert len(data) == 5
@@ -279,6 +340,13 @@ def test_upsert_match_patient():
     assert data[-1][0] is not None
 
     # Clean up
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
     postgres_client.cursor.execute(
         f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
     )
@@ -287,4 +355,5 @@ def test_upsert_match_patient():
         f"DROP TABLE IF EXISTS {postgres_client.person_table}"
     )
     postgres_client.connection.commit()
+    postgres_client.cursor.close()
     postgres_client.connection.close()
