@@ -41,7 +41,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
-        # TODO: Update with conext manager
+        # TODO: Update with context manager
         # Connect to MPI
         try:
             self.connection = psycopg2.connect(
@@ -129,27 +129,14 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         # Match has not been found
         else:
             # Insert a new record into person table to generate new person_id
-            insert_person_table = (
-                f"INSERT INTO {self.person_table} "
-                + "(external_person_id) "
-                + f"VALUES ('{patient_resource.get('id')}');"
+            self.cursor.execute(
+                f"""INSERT INTO {self.person_table} """
+                + """ (external_person_id) VALUES ('NULL') """
+                + """ RETURNING person_id;"""
             )
-            self.cursor.execute(insert_person_table)
-            self.connection.commit()
 
             # Retrieve newly generated person_id
-            select_statement = (
-                f"SELECT person_id from {self.person_table} "
-                + f"WHERE external_person_id = '{patient_resource.get('id')}'"
-            )
-            self.cursor.execute(select_statement)
             person_id = self.cursor.fetchall()
-
-            if len(person_id) > 1:
-                raise ValueError(
-                    f"Too many person_ids returned from {self.person_table}. "
-                    + "There may be duplicates that need to be resolved."
-                )
 
             # Insert into patient table
             insert_patient_table = (
