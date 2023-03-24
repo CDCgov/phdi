@@ -19,26 +19,13 @@ from app.utils import (
     search_for_required_values,
     check_schema_validity,
 )
+from containers.utils import instantiate_fastapi
 
 # Read settings from environmnent.
 get_settings()
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
-app = FastAPI(
-    title="PHDI Tabulation Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+app = instantiate_fastapi("PHDI Tabulation Service", "0.0.1")
 
 
 class SchemaValidationInput(BaseModel):

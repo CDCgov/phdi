@@ -1,6 +1,5 @@
-from fastapi import FastAPI
-from pathlib import Path
 from pydantic import BaseModel, Field
+from containers.utils import instantiate_fastapi
 
 # from app.config import get_settings
 
@@ -8,21 +7,7 @@ from pydantic import BaseModel, Field
 # get_settings()
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
-app = FastAPI(
-    title="DIBBs Record Linkage Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+app = instantiate_fastapi("DIBBs Record Linkage Service", "0.0.1")
 
 
 # Request and and response models

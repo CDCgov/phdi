@@ -16,24 +16,11 @@ from pathlib import Path
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from typing import Optional
+from containers.utils import instantiate_fastapi
+
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
-api = FastAPI(
-    title="PHDI Alerts Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
-
+app = instantiate_fastapi("PHDI Alerts Service", "0.0.1")
 
 class Settings(BaseSettings):
     """

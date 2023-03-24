@@ -12,26 +12,13 @@ from app.utils import (
     search_for_required_values,
 )
 from app.config import get_settings
+from containers.utils import instantiate_fastapi
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
-app = FastAPI(
-    title="PHDI Message Parser",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+app = instantiate_fastapi("PHDI Message Parser", "0.0.1")
 
 
 # /health_check endpoint #

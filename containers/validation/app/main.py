@@ -4,6 +4,7 @@ from typing import Literal
 from pathlib import Path
 from phdi.validation.validation import validate_ecr
 from .utils import load_ecr_config, validate_error_types
+from containers.utils import instantiate_fastapi
 
 # TODO: Remove hard coded location for config path
 # and/or provide a mechanism to pass in configuration
@@ -12,21 +13,7 @@ ecr_config = load_ecr_config()
 
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
-app = FastAPI(
-    title="PHDI Validation Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+app = instantiate_fastapi("PHDI Validation Service", "0.0.1")
 
 
 # Request and and response models
