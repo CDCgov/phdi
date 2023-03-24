@@ -12,7 +12,7 @@ api = FastAPI()
 
 class InputType(str, Enum):
     hl7v2 = "hl7v2"
-    ccda = "ccda"
+    ecr = "ecr"
 
 
 class RootTemplate(str, Enum):
@@ -139,7 +139,7 @@ def convert_to_fhir(
     )
     if input_type == "hl7v2":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Hl7v2"
-    elif input_type == "ccda":
+    elif input_type == "ecr":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Ccda"
     else:
         raise ValueError(
