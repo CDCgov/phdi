@@ -72,14 +72,14 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
         blocked_data = [["patient_id", "person_id"]]
-        for key in list(extracted_data[0][-1].keys()):
+        for key in sorted(list(extracted_data[0][-1].keys())):
             blocked_data[0].append(key)
 
         # Unnest patient_resource data
         for row in extracted_data:
             row_data = [row[0], row[1]]
-            for value in list(row[-1].values()):
-                row_data.append(value)
+            for value in sorted(list(row[-1].keys())):
+                row_data.append(row[-1][value])
             blocked_data.append(row_data)
 
         return blocked_data

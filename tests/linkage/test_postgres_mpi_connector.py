@@ -66,9 +66,9 @@ def test_block_data():
         person_table="test_person_mpi",
     )
     table_name = "test_patient_mpi"
-    block_data = {}
 
     # Test for invalue block data
+    block_data = {}
     with pytest.raises(ValueError) as e:
         blocked_data = postgres_client.block_data(block_data)
         assert "`block_data` cannot be empty." in str(e.value)
