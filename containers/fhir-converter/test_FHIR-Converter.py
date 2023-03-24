@@ -77,9 +77,9 @@ invalid_input_type_response = {
     "detail": [
         {
             "loc": ["body", "input_type"],
-            "msg": "value is not a valid enumeration member; permitted: 'hl7v2', 'ccda'",
+            "msg": "value is not a valid enumeration member; permitted: 'hl7v2', 'ecr'",
             "type": "type_error.enum",
-            "ctx": {"enum_values": ["hl7v2", "ccda"]},
+            "ctx": {"enum_values": ["hl7v2", "ecr"]},
         }
     ]
 }
