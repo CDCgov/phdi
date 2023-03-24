@@ -6,7 +6,7 @@ class BaseMPIConnectorClient(ABC):
     """
     Represents a vendor-agnostic Master Patient Index (MPI) connector client. Requires
     implementing classes to define methods to retrive blocks of data from the MPI.
-    Callers should use the provided interface functions (e.g., geocode_from_str)
+    Callers should use the provided interface functions (e.g., block_data)
     to interact with the underlying vendor-specific client property.
     """
 
