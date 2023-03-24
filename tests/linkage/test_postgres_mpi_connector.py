@@ -341,6 +341,31 @@ def test_upsert_match_patient():
     assert data[-1][-1] == patient_resource["id"]
     assert data[-1][0] is not None
 
+    # Test for error with too many person_ids returned
+    patient_resource = {
+        "id": "4d88cd35-5ee7-4419-a847-2818fdfeec54",
+        "address": "123 Main Street",
+    }
+    person_id = None
+    with pytest.raises(ValueError) as e:
+        postgres_client.upsert_match_patient(
+            patient_resource=patient_resource,
+            person_id=person_id,
+        )
+    assert f"Too many person_ids returned from {postgres_client.person_table}." in str(
+        e.value
+    )
+
+    # Re-open connection for next test
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
     # Clean up
     postgres_client.connection = psycopg2.connect(
         database=postgres_client.database,

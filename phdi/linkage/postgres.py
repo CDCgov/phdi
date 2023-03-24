@@ -52,7 +52,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 port=self.port,
             )
             self.cursor = self.connection.cursor()
-        except Exception as error:
+        except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
         if len(block_data) == 0:
@@ -109,7 +109,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 port=self.port,
             )
             self.cursor = self.connection.cursor()
-        except Exception as error:
+        except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
         # Match has been found
@@ -147,8 +147,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
             if len(person_id) > 1:
                 raise ValueError(
-                    f"""Too many person_ids returned from {self.person_table}. There may
-                     be duplicates that need to be resolved."""
+                    f"Too many person_ids returned from {self.person_table}. "
+                    + "There may be duplicates that need to be resolved."
                 )
 
             # Insert into patient table
