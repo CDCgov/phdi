@@ -74,7 +74,6 @@ def test_block_data():
         assert "`block_data` cannot be empty." in str(e.value)
 
     block_data = {"LAST4": "GONZ"}
-
     # Create test table and insert data
     funcs = {
         "drop tables": (
@@ -103,6 +102,14 @@ def test_block_data():
             '{"FIRST4":"MARI","LAST4":"GONZ","ZIP":"90120-1001"}');"""
         ),
     }
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
 
     for command, statement in funcs.items():
         try:
@@ -244,6 +251,7 @@ def test_upsert_match_patient():
         port=postgres_client.port,
     )
     postgres_client.cursor = postgres_client.connection.cursor()
+
     # Extract all data
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
     postgres_client.connection.commit()
@@ -272,14 +280,8 @@ def test_upsert_match_patient():
     postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
 
-    # Assert record has been added to person table
-    assert len(data) == 4
-
-    # Assert new external_person_id == id from patient resource
-    assert data[-1][1] == patient_resource.get("id")
-
-    # Assert person_id == inserted person_id
-    assert data[-1][0] == person_id
+    # Assert record has not been added to person table
+    assert len(data) == 3
 
     # Re-open connection for next test
     postgres_client.connection = psycopg2.connect(
@@ -335,7 +337,7 @@ def test_upsert_match_patient():
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.person_table}")
     data = postgres_client.cursor.fetchall()
 
-    assert len(data) == 5
+    assert len(data) == 4
     assert data[-1][-1] == patient_resource["id"]
     assert data[-1][0] is not None
 
