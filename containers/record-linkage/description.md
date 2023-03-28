@@ -18,7 +18,7 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the DIBBs repository by running `docker pull ghcr.io/cdcgov/phdi/record-linkage:main`.
 3. Run the service with ` docker run -p 8080:8080 record-linkage:main`.
 
-Congratulations, the FHIR Converter should now be running on `localhost:8080`!
+Congratulations, the record linkage service should now be running on `localhost:8080`!
 
 #### Running from Python Source Code
 
