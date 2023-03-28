@@ -40,7 +40,7 @@ The `convert_to_fhir` method returns your data in FHIR format.
 The FHIR Converter supports authentication via several cloud providers, as well as direct authentication (Basic, Bearer, etc.) by directly specifying an http header. Each authentication method is described in more detail below.
 
 ### Cloud Authentication
-To authenticate using cloud credentials, simply create a Credential Manager as described in the [cloud tutorial](cloud-tutorial.md). The Credential Manager can then be passed as a parameter to the convert_to_fhir function.
+To authenticate using cloud credentials, simply create a credential manager as described in the [cloud tutorial](cloud-tutorial.md). The credential manager can then be passed as a parameter to the convert_to_fhir function.
 
 ```python
 # message and url input parameter assignment omitted for brevity
