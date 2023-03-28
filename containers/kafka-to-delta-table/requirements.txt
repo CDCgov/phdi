@@ -1,0 +1,7 @@
+pyspark==3.3.2
+azure-keyvault-secrets
+argparse
+pytest
+uvicorn
+httpx
+phdi @ git+https://github.com/CDCgov/phdi.git@dan/container_base_class
