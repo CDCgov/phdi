@@ -1,11 +1,33 @@
 from fastapi import FastAPI
 from pathlib import Path
 from pydantic import BaseModel, Field
+from contextlib import asynccontextmanager
+import psycopg2
+import os
 
 # from app.config import get_settings
 
 # Read settings immediately to fail fast in case there are invalid values.
 # get_settings()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    dbname = os.getenv("DB_NAME", "testdb")
+    user = os.getenv("DB_USER", "postgres")
+    password = os.getenv("DB_PASSWORD", "pw")
+    host = os.getenv("DB_HOST", "db")
+
+    conn = psycopg2.connect(
+        dbname=dbname,
+        user=user,
+        password=password,
+        host=host,
+    )
+    with conn.cursor() as cur:
+        cur.execute(open("./migrations/tables.ddl", "r").read())
+    yield
+
 
 # Instantiate FastAPI and set metadata.
 description = Path("description.md").read_text(encoding="utf-8")
@@ -22,6 +44,7 @@ app = FastAPI(
         "url": "https://creativecommons.org/publicdomain/zero/1.0/",
     },
     description=description,
+    lifespan=lifespan,
 )
 
 
