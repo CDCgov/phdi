@@ -18,7 +18,7 @@ Docker version 20.10.21, build baeda1f
 2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/validation:main`.
 3. Run the service with ` docker run -p 8080:8080 validation:main`.
 
-Congratulations, the FHIR Converter should now be running on `localhost:8080`!
+Congratulations, the validation service should now be running on `localhost:8080`!
 
 #### Running from Python Source Code
 
