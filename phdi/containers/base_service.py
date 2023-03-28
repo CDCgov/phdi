@@ -45,15 +45,15 @@ class BaseService:
         async def health_check() -> dict:
             """
             Check service status. If an HTTP 200 status code is returned along with
-            '{"status": "OK"}' then the tabulation service is available and running 
+            '{"status": "OK"}' then the tabulation service is available and running
             properly.
             """
             return {"status": "OK"}
 
     def start(self) -> FastAPI:
         """
-        Return a FastAPI instance with DIBBs metadata set. If 
-        `include_health_check_endpoint` is True, then the health check endpoint 
+        Return a FastAPI instance with DIBBs metadata set. If
+        `include_health_check_endpoint` is True, then the health check endpoint
         will be added.
 
         :return: The FastAPI instance.
