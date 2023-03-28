@@ -3,7 +3,7 @@
 This guide serves as a tutorial overview of the functionality available in both `phdi.geospatial` and `phdi.fhir.geospatial`. It will cover concepts such as data type basics, imports, and common uses invocations.
 
 ## The Basics: Clients and Results
-The basic data structures used by the geospatial model are a `BaseGeocodeClient` and a `GeocodeResult`. The former is an abstract base class (see https://docs.python.org/3/library/abc.html for more details) that provides vendor-agnostic function skeletons for use on raw data (e.g. strings and dictionaries); the latter is a dataclass (see https://docs.python.org/3/library/dataclasses.html) designed to hold address field information in a standardized fashion. The `fhir` wrapper for the geospatial module also provides a `BaseFhirGeocodeClient`, which is an abstract class that behaves like `BaseGeocodeClient` but which is designed to work with FHIR-formatted data. For clarity, we'll use `BaseGeocodeClient` to refer to implementations that deal with raw data, `BaseFhirGeocodeClient` to refer to implementations that deal with FHIR-formatted data, and "Geocode Clients" to refer the set of both types.
+The basic data structures used by the geospatial model are a `BaseGeocodeClient` and a `GeocodeResult`. The former is an abstract base class (see https://docs.python.org/3/library/abc.html for more details) that provides vendor-agnostic function skeletons for use on raw data (e.g., strings and dictionaries); the latter is a dataclass (see https://docs.python.org/3/library/dataclasses.html) designed to hold address field information in a standardized fashion. The `fhir` wrapper for the geospatial module also provides a `BaseFhirGeocodeClient`, which is an abstract class that behaves like `BaseGeocodeClient` but which is designed to work with FHIR-formatted data. For clarity, we'll use `BaseGeocodeClient` to refer to implementations that deal with raw data, `BaseFhirGeocodeClient` to refer to implementations that deal with FHIR-formatted data, and "Geocode Clients" to refer to the set of both types.
 
 The Geocode Clients have the following important methods:
 ```
@@ -71,8 +71,8 @@ from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
 ## Common Uses
 Listed below are several example use cases for employing the geospatial module.
 
-### Geocode Address In A String
-Suppose a data element has an address field in which the entire address occurs in a string, e.g.
+### Geocode Address in a String
+Suppose a data element has an address field in which the entire address occurs in a string, e.g.,
 
 ```python
 location = "5905 Wilshire Blvd Los Angeles CA 90036"
@@ -97,7 +97,7 @@ print(geo_result)
     >>> )
 ```
 
-Here, the parameters in the `SmartyGeocodeClient` constructor correspond to authentication and authorization variables related to your SmartyStreets subscription. So, `YOUR_AUTH_ID` is your authorization ID to use the service and `YOUR_AUTH_TOKEN` is an access token generated to communicate with the API. The `licenses` parameter does not need to be modified if you wish to perform a search with the default license agreement (e.g. `"us-standard-cloud"`) but can be changed to a list of other license types if you wish to customize the search.
+Here, the parameters in the `SmartyGeocodeClient` constructor correspond to authentication and authorization variables related to your SmartyStreets subscription. So, `YOUR_AUTH_ID` is your authorization ID to use the service and `YOUR_AUTH_TOKEN` is an access token generated to communicate with the API. The `licenses` parameter does not need to be modified if you wish to perform a search with the default license agreement (e.g., `"us-standard-cloud"`) but can be changed to a list of other license types if you wish to customize the search.
 
 To precisely geocode this address, using, say, the Census geocoder, we would write:
 
@@ -120,7 +120,7 @@ print(geo_result)
     >>> )
 ```
 
-### Geocode Address From A Dictionary
+### Geocode Address from a Dictionary
 Let's take the example above and now suppose that the address we wish to work with is contained in a dictionary. Because of the standardization of our Geocode Clients and `GeocodeResult`, the code is extremely similar:
 
 ```python
@@ -144,8 +144,8 @@ print(geo_result)
 
 When providing input to `.geocode_from_dict()`, it is desirable to pass in as many fields as possible to ensure a high quality geocoding match. However, none of the fields are required so that you can pass in any fields you do have. For best results, we recommend providing at least `street`, `city`, and `state`. In the example above, we could have had just as successful a geocode query if we had omitted `apartment` and `postal_code` from the address.
 
-### Geocode A Patient Resource
-Now let's suppose the data we're processing is FHIR-formatted (i.e. it is a JSON dictionary with field structure and names corresponding to FHIR labels). We want to geocode the home address of an incoming patient resource. Despite the change in input type, the resulting code doesn't change all that much, since we have a convenience wrapper around the same core functionality. 
+### Geocode a Patient Resource
+Now let's suppose the data we're processing is FHIR-formatted (e.g., it is a JSON dictionary with field structure and names corresponding to FHIR labels). We want to geocode the home address of an incoming patient resource. Despite the change in input type, the resulting code doesn't change all that much, since we have a convenience wrapper around the same core functionality. 
 
 ```python
 from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
