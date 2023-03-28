@@ -3,9 +3,9 @@
 This guide serves as a tutorial overview of the functionality available in `phdi.fhir.conversion`. It will cover concepts such as using a credential manager, what data types are allowed, and what error messages may be returned. 
 
 ## Why Convert to FHIR?
-In the design of our building blocks, we have modules to be used specifically with the FHIR data type. 
+In the design of our Building Blocks, we have modules to be used specifically with the FHIR data type. 
 
-FHIR is a widely used standard designed for storing and interacting with healthcare data. There is significant overlap between healthcare and public health domains. In addition, FHIR standard maintainers have focused on keeping the FHIR data format general so it can be applied to areas like public health. Primary goals of promoting a common format like FHIR include allowing the PHDI tools to help a wider array of public health agencies, and facilitating inter-agency data exchange.
+FHIR is a widely used standard designed for storing and interacting with health care data. There is significant overlap between health care and public health domains. In addition, FHIR standard maintainers have focused on keeping the FHIR data format general so it can be applied to areas like public health. Promoting a common format like FHIR allows Building Blocks to help a wider array of public health agencies and facilitates inter-agency data exchange.
 
 ## Pre-requisites
 Currently, PHDI depends on a containerized [Azure FHIR Converter](https://github.com/microsoft/FHIR-Converter) to convert HL7 v2 or CCDA to FHIR. The docker container build artifacts are currently located [here](https://github.com/CDCgov/phdi-google-cloud/tree/main/cloud-run/fhir-converter).
@@ -13,7 +13,7 @@ Currently, PHDI depends on a containerized [Azure FHIR Converter](https://github
 [//]: # (TODO The cloud converter containerized solution and its documentation will move to the PHDI library, but this migration hasn't been completed yet. Once the container has been migrated, this will need to be updated to point to the correct location.)
 
 ## The Basics: How to Convert
-This package contains the process of converting HL7 v2 or CCDA into FHIR (JSON). We encourage the use of the FHIR data type for all of our functions. This package aims to easily convert other common healthcare data formats to FHIR. 
+This package contains the process of converting HL7 v2 or CCDA into FHIR (JSON). We encourage the use of the FHIR data type for all of our functions. This package aims to easily convert other common health care data formats to FHIR. 
 
 With a valid HL7 v2 message, you can pass in the data to the `convert_to_fhir` function as a string. 
 
@@ -31,16 +31,16 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|"""
 url = "https://fhir_converter_url.com"
 
 convert_to_fhir(message, url)
->>>{...converted fhir version of the the HL7 v2...}
+>>>{...converted fhir version of the HL7 v2...}
 ```
 
 The `convert_to_fhir` method returns your data in FHIR format.
 
 ## Authentication
-The FHIR converter supports authentication via several cloud providers, as well as direct authentication (Basic, Bearer, etc) by directly specifying an http header. Each authentication method is described in more detail below.
+The FHIR Converter supports authentication via several cloud providers, as well as direct authentication (Basic, Bearer, etc.) by directly specifying an http header. Each authentication method is described in more detail below.
 
 ### Cloud Authentication
-To authenticate using cloud credentials, simply create a Credential Manager as described in the [cloud tutorial](cloud-tutorial.md). The Credential Manager can then be passed as a parameter to the the convert_to_fhir function.
+To authenticate using cloud credentials, simply create a Credential Manager as described in the [cloud tutorial](cloud-tutorial.md). The Credential Manager can then be passed as a parameter to the convert_to_fhir function.
 
 ```python
 # message and url input parameter assignment omitted for brevity
@@ -51,7 +51,7 @@ convert_to_fhir(message, url, cred_manager=cred_manager)
 ```
 
 ### HTTP Authentication
-You can also control authentication at the HTTP header level.  Simply build your http header as a `dict`, and pass it to the function in the `headers` parameter.
+You can also control authentication at the HTTP header level. Simply build your http header as a `dict`, and pass it to the function in the `headers` parameter.
 
 ```python
 # message and url input parameter assignment omitted for brevity
