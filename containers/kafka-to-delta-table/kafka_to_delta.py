@@ -4,6 +4,7 @@ from pyspark.sql.types import StructType, StructField, StringType
 from pyspark.sql import SparkSession
 import argparse
 import sys
+from app.utils import get_spark_schema
 
 selection_flags = {
     "adlsgen2": False,
@@ -110,6 +111,12 @@ parser.add_argument(
     " containing the client secret of the service principal specified by "
     "'--client_id'.",
 )
+parser.add_argument(
+    "--schema",
+    type=str,
+    required=True,
+    help="The schema of the data to be written to the Delta table as a JSON string with"
+    " the form '{'field1': 'type1', 'field2': 'type2'}'.",
 
 arguments = parser.parse_args()
 
@@ -135,17 +142,10 @@ if selection_flags["adlsgen2"]:
         arguments.key_vault_name,
     )
 
-schema = StructType(
-    [
-        StructField("property1", StringType(), True),
-        StructField("property2", StringType(), True),
-    ]
-)
-
 if selection_flags["azure_event_hubs"]:
     kafka_data_frame = connect_to_azure_event_hubs(
         spark,
-        schema,
+        get_spark_schema(arguments.schema),
         arguments.event_hubs_namespace,
         arguments.event_hub,
         arguments.connection_string_secret_name,

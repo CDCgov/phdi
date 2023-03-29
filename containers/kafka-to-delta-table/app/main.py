@@ -12,6 +12,7 @@ from app.storage_connectors import (
     connect_to_adlsgen2,
     STORAGE_PROVIDERS,
 )
+from app.utils import validate_schema, SCHEMA_TYPE_MAP
 
 REQUIRED_VALUES_MAP = {
     "kafka_provider": {
@@ -51,6 +52,18 @@ class KafkaToDeltaTableInput(BaseModel):
     )
     delta_table_name: str = Field(
         description="The name of the Delta table to write to."
+    )
+    schema: Optional[dict] = Field(
+        description=f"A schema describing the format of messages to read from Kafka. "
+        "Should be of the form { 'field_name': 'field_type' }. Field names must be "
+        "strings and supported field types include: "
+        ", ".join(list(SCHEMA_TYPE_MAP.keys())),
+        default={},
+    )
+    parsing_schema_name: Optional[str] = Field(
+        description="The name of a schema that was previously uploaded to the service"
+        " describing the format of messages to read from Kafka. If this is provided",
+        default="",
     )
     kafka_server: str = Field(
         description="The URL of a Kafka server including port. Required when 'kafka_provider' is 'local'.",
@@ -119,8 +132,11 @@ class KafkaToDeltaTableOutput(BaseModel):
     status: Literal["success", "failed"] = Field(description="The status of the job.")
     spark_log: str = Field(description="The log output from the spark job.")
 
+
 @app.post("/kafka-to-delta-table")
-async def kafka_to_delta_table(input: KafkaToDeltaTableInput) -> KafkaToDeltaTableOutput:
+async def kafka_to_delta_table(
+    input: KafkaToDeltaTableInput,
+) -> KafkaToDeltaTableOutput:
     kafka_to_delta_command = [
         "spark-submit",
         "--packages",
@@ -143,7 +159,9 @@ async def kafka_to_delta_table(input: KafkaToDeltaTableInput) -> KafkaToDeltaTab
             kafka_to_delta_command.append(input[value])
 
     kafka_to_delta_command = " ".join(kafka_to_delta_command)
-    kafka_to_delta_result = subprocess.run(kafka_to_delta_command, shell=True, capture_output=True, text=True)
+    kafka_to_delta_result = subprocess.run(
+        kafka_to_delta_command, shell=True, capture_output=True, text=True
+    )
 
     if kafka_to_delta_result.returncode != 0:
         return {
