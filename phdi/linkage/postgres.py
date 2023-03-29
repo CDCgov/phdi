@@ -41,6 +41,18 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
+        # # TODO: Add MRN
+        # fields_to_dictpaths = {
+        #     "first_name": row[-1]["name"][0]["given"][0],
+        #     "last_name": row[-1]["name"][0]["family"],
+        #     "birthdate": row[-1]["birthDate"],
+        #     "address": row[-1]["address"][0]["line"][0],
+        #     "city": row[-1]["address"][0]["city"],
+        #     "state": row[-1]["address"][0]["state"],
+        #     "zip": row[-1]["address"][0]["postalCode"],
+        #     "sex": row[-1]["gender"],
+        # }
+
         # TODO: Update with context manager
         # Connect to MPI
         try:
@@ -72,14 +84,14 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
         blocked_data = [["patient_id", "person_id"]]
-        for key in sorted(list(extracted_data[0][-1].keys())):
+        for key in sorted(list(fields_to_dictpaths.keys())):
             blocked_data[0].append(key)
 
         # Unnest patient_resource data
         for row in extracted_data:
             row_data = [row[0], row[1]]
-            for value in sorted(list(row[-1].keys())):
-                row_data.append(row[-1][value])
+            for value in sorted(list(fields_to_dictpaths.keys())):
+                row_data.append(fields_to_dictpaths[value])
             blocked_data.append(row_data)
 
         return blocked_data
@@ -154,21 +166,43 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
     def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
         """
         Generates a query for selecting a block of data from `table_name` per the
-        block_data parameters.
+        block_data parameters. Accepted blocking fields include: first_name, last_name,
+        birthdate, addess, city, state, zip, and sex
 
         :param table_name: Table name.
         :param block_data: Dictionary containing key value pairs for the column name
-          for blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+          for blocking and the data for the incoming record, e.g., ["zip"]: "90210".
+        :raises ValueError: If column key in `block_data` is not supported.
         :return: Query to select block of data base on `block_data` parameters.
 
         """
-        # TODO: Update queries for nested values, e.g., zip within address
+        # TODO: Add MRN to fields_to_jsonpaths
+        fields_to_jsonpaths = {
+            "first_name": "'{name,0,given,0}'",
+            "last_name": "'{name,0,family}'",
+            "birthdate": "'{birthDate}'",
+            "address": "'{address,0,line,0}'",
+            "city": "'{address,0,city}'",
+            "state": "'{address,0,state}'",
+            "zip": "'{address,0,postalCode}'",
+            "sex": "'{gender}'",
+        }
+
+        # Check whether `block_data` contains supported keys
+        for key in block_data.keys():
+            if key not in fields_to_jsonpaths.keys():
+                raise ValueError(
+                    f"""`{key}` not supported for blocking at this time. Supported
+                    columns include first_name, last_name, birthdate, address, city,
+                    state, zip, and sex."""
+                )
+
         query_stub = f"SELECT * FROM {table_name} WHERE "
         block_query = " AND ".join(
             [
-                f"patient_resource->>'{key}' = '{value}'"
+                f"patient_resource#>>{fields_to_jsonpaths[key]} = '{value}'"
                 if type(value) == str
-                else (f"'{key}' = {value}")
+                else (f"{fields_to_jsonpaths[key]} = {value}")
                 for key, value in block_data.items()
             ]
         )

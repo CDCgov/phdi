@@ -16,18 +16,6 @@ def test_postgres_connection():
         person_table="test_person_mpi",
     )
 
-    try:
-        postgres_client.connection = psycopg2.connect(
-            database=postgres_client.database,
-            user=postgres_client.user,
-            password=postgres_client.password,
-            host=postgres_client.host,
-            port=postgres_client.port,
-        )
-        postgres_client.cursor = postgres_client.connection.cursor()
-    except Exception as error:
-        raise ValueError(f"{error}")
-
     assert postgres_client.connection is not None
     postgres_client.cursor.close()
     postgres_client.connection.close()
@@ -44,15 +32,26 @@ def test_generate_block_query():
         person_table="test_person_mpi",
     )
     table_name = "test_patient_mpi"
-    block_data = {"ZIP": "90120-1001", "LAST4": "GONZ"}
+    block_data = {"zip": "90120-1001", "last_name": "GONZ"}
     expected_query = (
-        "SELECT * FROM test_patient_mpi WHERE patient_resource->>'ZIP' = '90120-1001' "
-        + "AND patient_resource->>'LAST4' = 'GONZ';"
+        "SELECT * FROM test_patient_mpi WHERE patient_resource#>>"
+        + "'{address,0,postalCode}' = '90120-1001' "
+        + "AND patient_resource#>>'{name,0,given,0}' = 'GONZ';"
     )
 
     generated_query = postgres_client._generate_block_query(table_name, block_data)
 
     assert expected_query == generated_query
+
+    # Test bad block_data
+    block_data = {"bad_block_column": "90120-1001"}
+    with pytest.raises(ValueError) as e:
+        blocked_data = postgres_client._generate_block_query(table_name, block_data)
+        assert f"""`{list(block_data.keys())[0]}` 
+        not supported for blocking at this time.""" in str(
+            e
+        )
+        assert blocked_data is None
 
 
 def test_block_data():
@@ -67,13 +66,26 @@ def test_block_data():
     )
     table_name = "test_patient_mpi"
 
-    # Test for invalue block data
+    raw_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "tests"
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+    raw_bundle = json.load(open("C://Repos/phdi/tests/assets/patient_bundle.json"))
+
+    patient_resource = raw_bundle.get("entry")[1].get("resource")
+    patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
+
+    # Test for invalid block data
     block_data = {}
     with pytest.raises(ValueError) as e:
         blocked_data = postgres_client.block_data(block_data)
         assert "`block_data` cannot be empty." in str(e.value)
 
-    block_data = {"LAST4": "GONZ"}
+    block_data = {"last_name": patient_resource["name"][0]["family"]}
     # Create test table and insert data
     funcs = {
         "drop tables": (
@@ -94,12 +106,8 @@ def test_block_data():
         "insert": (
             f"""INSERT INTO {postgres_client.patient_table}
              (person_id, patient_resource) """
-            + """VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec38',
-            '{"FIRST4":"JOHN","LAST4":"SMIT","ZIP":"90120-1001"}'),
-            ('4d88cd35-5ee7-4419-a847-2818fdfeec39',
-            '{"FIRST4":"JOSE","LAST4":"GONZ","ZIP":"90120-1001"}'),
-            ('4d88cd35-5ee7-4419-a847-2818fdfeec40',
-            '{"FIRST4":"MARI","LAST4":"GONZ","ZIP":"90120-1001"}');"""
+            + f"""VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec38',
+            '{json.dumps(patient_resource)}');"""
         ),
     }
     postgres_client.connection = psycopg2.connect(
@@ -124,7 +132,7 @@ def test_block_data():
 
     # Assert that all returned data matches blocking criterion
     for row in blocked_data[1:]:
-        assert row[-2] == block_data["LAST4"]
+        assert row[-2] == block_data["last_name"]
 
     # Assert returned data are LoL
     assert type(blocked_data[0]) is list
