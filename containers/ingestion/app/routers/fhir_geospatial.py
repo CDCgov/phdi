@@ -2,6 +2,7 @@ from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator, Field
 from typing import Optional, Literal
 from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
+from app.config import get_settings
 from app.utils import (
     search_for_required_values,
     check_for_fhir_bundle,
@@ -31,6 +32,10 @@ class GeocodeAddressInBundleInput(BaseModel):
         "in the request body or set as an environment variable of the service if "
         "'geocode_method' is 'smarty'.",
         default="",
+    )
+    licenses: Optional[list[str]] = Field(
+        description="A list of license types for the geocoding service.",
+        default=None,
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
@@ -69,9 +74,18 @@ def geocode_bundle_endpoint(
         if search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"status_code": 400, "message": search_result}
-        geocode_client = SmartyFhirGeocodeClient(
-            auth_id=input.get("auth_id"), auth_token=input.get("auth_token")
-        )
+        licenses = input.get("licenses") or get_settings().get("licenses")
+        if licenses:
+            geocode_client = SmartyFhirGeocodeClient(
+                auth_id=input.get("auth_id"),
+                auth_token=input.get("auth_token"),
+                licenses=licenses,
+            )
+        else:
+            geocode_client = SmartyFhirGeocodeClient(
+                auth_id=input.get("auth_id"),
+                auth_token=input.get("auth_token"),
+            )
 
     elif input.get("geocode_method") == "census":
         geocode_client = CensusFhirGeocodeClient()
