@@ -1,0 +1,121 @@
+{
+    "fullUrl":"urn:uuid:{{ ID }}",
+    "resource":{
+        "resourceType": "Composition",
+        "id":"{{ ID }}",
+        "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+        ],
+        "identifier":
+        [
+            {
+                "use":"official",
+                "type":
+                {
+                    {% assign codes = composition.code | to_array -%}
+                    {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                },
+                "value":"{{ composition.id.root }}",
+                "assigner": "{{ composition.id.assigningAuthorityName }}"
+            },
+            {% if composition.section.code.code -%}
+                {% if composition.section.code.code == "88085-6" -%}
+                    {
+                        "use":"secondary",
+                        "type":
+                        {
+                            {% assign codes = composition.section.code | to_array -%}
+                            {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                        },
+                        "value":"{{ composition.section.id.root }}",
+                    },
+                {% endif -%}
+            {% endif -%}
+        ],
+        "extension":[
+            {
+                "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+                "valueString" : "{{ composition.versionNumber.value }}"
+            },
+        ],
+        "status":"final",
+        "type":
+        {
+            {% assign codes = composition.code | to_array -%}
+            {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+        },
+        "date":"{{ composition.effectiveTime.value | format_as_date_time }}",
+        "title":"{{ composition.title._ }}",
+        "confidentiality":"{{ composition.confidentialityCode.code }}",
+        "event":
+        [
+            {
+                "period":
+                {
+                    "start":"{{ composition.documentationOf.serviceEvent.effectiveTime.low.value | format_as_date_time }}",
+                    "end":"{{ composition.documentationOf.serviceEvent.effectiveTime.high.value | format_as_date_time }}",
+                },
+            },
+        ],
+        "section":
+        [
+            {% assign components = composition.component.structuredBody.component | to_array -%}
+            {% for component in components -%}
+            {   
+                {% if component.section -%}
+                    {% if component.section.title._ -%}
+                    "title":"{{ component.section.title._ }}",
+                    {% endif -%}
+                    {% if component.section.title._ == null -%}
+                    "title":"{{ component.section.code.displayName }}",
+                    {% endif -%}
+                    "text":
+                    {
+                        "status":"generated",
+                        {% if component.section.title._ -%}
+                            "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.title._ | escape }}</div>",
+                        {% else -%}
+                            "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.code.displayName | escape }}</div>",
+                        {% endif -%}
+                    },
+                    "code":
+                    {
+                        {% include 'DataType/CodeableConcept' CodeableConcept: component.section.code -%}
+                    },
+                    "mode":"snapshot",
+                {% endif -%}
+            },
+            {% endfor -%}
+            {   
+                {% if composition.section.code.code -%}
+                    {% if composition.section.code.code == "88085-6" -%}
+                    "title": "Reportability Response Information Section",
+                    "text": {
+                        "status": "generated",
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>",
+                    },
+                    "code": {
+                        "coding": [
+                            {
+                                {% include 'DataType/Coding' Coding: composition.section.code -%}
+                            },
+                            {
+                                {% assign rrentries = composition.section.entry | to_array -%}
+                                {% for rrentry in rrentries -%}
+                                    {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
+                                        {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                    {% endif -%}
+                                {% endfor -%}
+                            },
+                        ],
+                    },
+                    {% endif -%}
+                {% endif -%}
+            },
+        ],
+    },
+    "request":{
+        "method":"PUT",
+        "url":"Composition/{{ ID }}",
+    },
+},
