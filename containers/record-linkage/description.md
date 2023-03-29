@@ -16,7 +16,7 @@ To run the record linkage service with Docker Compose follow these steps.
 Docker version 20.10.21, build baeda1f
 ```
 
-2. Start the service by running `docker compose up --build`
+2. Navigate to the `containers/record-linkage` folder and start the service by running `docker compose up --build`
 
 Congratulations the FHIR Converter should now be running on `localhost:8080`!
 
