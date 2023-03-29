@@ -29,15 +29,17 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         self.patient_table = patient_table
         self.person_table = person_table
 
-    def block_data(self, block_data: Dict) -> List[list]:
+    def block_data(self, block_vals: Dict) -> List[list]:
         """
         Returns a list of lists containing records from the database that match on the
         incoming record's block values. If blocking on 'ZIP' and the incoming record's
         zip code is '90210', the resulting block of data would contain records that all
         have the same zip code of 90210.
 
-        :param block_data: Dictionary containing key value pairs for the column name for
-          blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+        :param block_vals: Dictionary containing key value pairs for the column name for
+          blocking and the data for the incoming record as well as any transformations,
+          e.g., {["ZIP"]: {"value": "90210"}} or
+          {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
@@ -55,11 +57,11 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
-        if len(block_data) == 0:
+        if len(block_vals) == 0:
             raise ValueError("`block_data` cannot be empty.")
 
         # Generate raw SQL query
-        query = self._generate_block_query(self.patient_table, block_data)
+        query = self._generate_block_query(self.patient_table, block_vals)
 
         # Execute query
         self.cursor.execute(query)
