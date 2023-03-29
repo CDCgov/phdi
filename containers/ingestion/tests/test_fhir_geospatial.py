@@ -64,7 +64,7 @@ def test_geocode_bundle_success_smarty(patched_client):
     client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
 
     patched_client.return_value.geocode_bundle.assert_called_with(
-        bundle=test_bundle, licenses=None, overwrite=True
+        bundle=test_bundle, overwrite=True
     )
 
 
