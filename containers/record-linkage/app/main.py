@@ -2,8 +2,11 @@ from fastapi import FastAPI
 from pathlib import Path
 from pydantic import BaseModel, Field
 from contextlib import asynccontextmanager
+from psycopg2 import OperationalError, errors
 import psycopg2
 import os
+import sys
+
 
 # from app.config import get_settings
 
@@ -13,19 +16,30 @@ import os
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    dbname = os.getenv("DB_NAME", "testdb")
-    user = os.getenv("DB_USER", "postgres")
-    password = os.getenv("DB_PASSWORD", "pw")
-    host = os.getenv("DB_HOST", "db")
+    dbname = os.getenv("DB_NAME")
+    user = os.getenv("DB_USER")
+    password = os.getenv("DB_PASSWORD")
+    host = os.getenv("DB_HOST")
+    try:
+        connection = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+        )
+    except OperationalError as err:
+        # pass exception to function
+        print_psycopg2_exception(err)
 
-    conn = psycopg2.connect(
-        dbname=dbname,
-        user=user,
-        password=password,
-        host=host,
-    )
-    with conn.cursor() as cur:
-        cur.execute(open("./migrations/tables.ddl", "r").read())
+        # set the connection to 'None' in case of error
+        connection = None
+    if connection is not None:
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(open("./migrations/tables.ddl", "r").read())
+        except errors.InFailedSqlTranroughsaction as err:
+            # pass exception to function
+            print_psycopg2_exception(err)
     yield
 
 
@@ -114,3 +128,23 @@ async def link_record(input: LinkRecordInput) -> LinkRecordResponse:
     """
 
     return {"link_found": False, "updated_bundle": input.fhir_bundle}
+
+
+# https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
+def print_psycopg2_exception(err):
+    # get details about the exception
+    err_type, err_obj, traceback = sys.exc_info()
+
+    # get the line number when exception occured
+    line_num = traceback.tb_lineno
+
+    # print the connect() error
+    print("\npsycopg2 ERROR:", err, "on line number:", line_num)
+    print("psycopg2 traceback:", traceback, "-- type:", err_type)
+
+    # psycopg2 extensions.Diagnostics object attribute
+    print("\nextensions.Diagnostics:", err.diag)
+
+    # print the pgcode and pgerror exceptions
+    print("pgerror:", err.pgerror)
+    print("pgcode:", err.pgcode, "\n")

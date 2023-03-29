@@ -18,6 +18,11 @@ services:
     build: .
     ports:
       - "8080:8080"
+    environment:
+      - DB_NAME=testdb
+      - DB_USER=postgres
+      - DB_PASSWORD=pw
+      - DB_HOST=db
     depends_on:
       db:
         condition: service_healthy
