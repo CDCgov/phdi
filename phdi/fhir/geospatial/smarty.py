@@ -14,8 +14,10 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
     in order to build a street lookup client.
     """
 
-    def __init__(self, auth_id, auth_token):
-        self.__client = SmartyGeocodeClient(auth_id, auth_token)
+    def __init__(
+        self, auth_id: str, auth_token: str, licenses: list[str] = ["us-standard-cloud"]
+    ):
+        self.__client = SmartyGeocodeClient(auth_id, auth_token, licenses)
 
     @property
     def geocode_client(self) -> us_street.Client:
