@@ -128,6 +128,16 @@ def test_block_data():
             print(e)
             postgres_client.connection.rollback()
 
+    statement = f"""SELECT jsonb_path_query(patient_resource, '$.name[*] ?(@.use=="official").given') as first_name from {postgres_client.patient_table};"""
+    statement = f"SELECT * from {postgres_client.patient_table};"
+    statement = f"SELECT jsonb_path_query_array(patient_resource, '$.identifier[*].value') FROM {postgres_client.patient_table};"
+    postgres_client.cursor.execute(statement)
+    data = postgres_client.cursor.fetchall()
+    data
+
+    postgres_client.connection.commit()
+    postgres_client.connection.close()
+
     blocked_data = postgres_client.block_data(block_data)
 
     # Assert that all returned data matches blocking criterion

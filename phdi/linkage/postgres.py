@@ -43,17 +43,18 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
-        # # TODO: Add MRN
-        # fields_to_dictpaths = {
-        #     "first_name": row[-1]["name"][0]["given"][0],
-        #     "last_name": row[-1]["name"][0]["family"],
-        #     "birthdate": row[-1]["birthDate"],
-        #     "address": row[-1]["address"][0]["line"][0],
-        #     "city": row[-1]["address"][0]["city"],
-        #     "state": row[-1]["address"][0]["state"],
-        #     "zip": row[-1]["address"][0]["postalCode"],
-        #     "sex": row[-1]["gender"],
-        # }
+
+        fields_to_jsonpaths = {
+            "first_name": """'$.name[*] ?(@.use=="official").given'""",
+            "last_name": """'$.name ?(@.use=="official").family'""",
+            "birthdate": "'$.birthDate'",
+            "address": """'$.address[*] ?(@.use=="home").line'""",
+            "city": """'$.address[*] ?(@.use=="home").city'""",
+            "state": """'$.address[*] ?(@.use=="home").state'""",
+            "zip": """'$.address[*] ?(@.use=="home").postalCode'""",
+            "sex": "'$.gender'",
+            "mrn": """'$.identifier ?(@.type.coding[0].code=="MR").value'""",
+        }
 
         # TODO: Update with context manager
         # Connect to MPI
@@ -165,33 +166,38 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             self.cursor.close()
             self.connection.close()
 
-    def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
+            return person_id[0][0]
+
+    def _generate_block_query(self, table_name: str, block_vals: Dict) -> str:
         """
         Generates a query for selecting a block of data from `table_name` per the
         block_data parameters. Accepted blocking fields include: first_name, last_name,
         birthdate, addess, city, state, zip, and sex
 
         :param table_name: Table name.
-        :param block_data: Dictionary containing key value pairs for the column name
-          for blocking and the data for the incoming record, e.g., ["zip"]: "90210".
-        :raises ValueError: If column key in `block_data` is not supported.
-        :return: Query to select block of data base on `block_data` parameters.
+        :param block_vals: Dictionary containing key value pairs for the column name for
+          blocking and the data for the incoming record as well as any transformations,
+          e.g., {["ZIP"]: {"value": "90210"}} or
+          {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
+        :raises ValueError: If column key in `block_vals` is not supported.
+        :return: Query to select block of data base on `block_vals` parameters.
 
         """
         # TODO: Add MRN to fields_to_jsonpaths
         fields_to_jsonpaths = {
-            "first_name": "'{name,0,given,0}'",
-            "last_name": "'{name,0,family}'",
-            "birthdate": "'{birthDate}'",
-            "address": "'{address,0,line,0}'",
-            "city": "'{address,0,city}'",
-            "state": "'{address,0,state}'",
-            "zip": "'{address,0,postalCode}'",
-            "sex": "'{gender}'",
+            "address": """'$.address[*] ?(@.use=="home").line'""",
+            "birthdate": "'$.birthDate'",
+            "city": """'$.address[*] ?(@.use=="home").city'""",
+            "first_name": """'$.name[*] ?(@.use=="official").given'""",
+            "last_name": """'$.name ?(@.use=="official").family'""",
+            "mrn": """'$.identifier ?(@.type.coding[0].code=="MR").value'""",
+            "sex": "'$.gender'",
+            "state": """'$.address[*] ?(@.use=="home").state'""",
+            "zip": """'$.address[*] ?(@.use=="home").postalCode'""",
         }
 
-        # Check whether `block_data` contains supported keys
-        for key in block_data.keys():
+        # Check whether `block_vals` contains supported keys
+        for key in block_vals.keys():
             if key not in fields_to_jsonpaths.keys():
                 raise ValueError(
                     f"""`{key}` not supported for blocking at this time. Supported
@@ -199,13 +205,22 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                     state, zip, and sex."""
                 )
 
-        query_stub = f"SELECT * FROM {table_name} WHERE "
+        query_stub = "SELECT "
+        select_query = ", ".join(
+            f"jsonb_path_query(patient_resource,{fields_to_jsonpaths[field]} as {field}"
+            if field != "mrn"
+            else (
+                f"""jsonb_path_query_array(patient_resource,
+                {fields_to_jsonpaths[field]} as {field}"""
+            )
+            for field in fields_to_jsonpaths.keys()
+        )
         block_query = " AND ".join(
             [
-                f"patient_resource#>>{fields_to_jsonpaths[key]} = '{value}'"
+                f"patient_resource#>>{fields_to_jsonpaths[key]} ? '{value}'"
                 if type(value) == str
                 else (f"{fields_to_jsonpaths[key]} = {value}")
-                for key, value in block_data.items()
+                for key, value in block_vals.items()
             ]
         )
         query = query_stub + block_query + ";"
