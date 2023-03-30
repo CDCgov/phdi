@@ -95,6 +95,7 @@ def geocode_bundle_endpoint(
     input.pop("geocode_method", None)
     input.pop("auth_id", None)
     input.pop("auth_token", None)
+    input.pop("licenses", None)
     result = {}
     try:
         geocoder_result = geocode_client.geocode_bundle(**input)
