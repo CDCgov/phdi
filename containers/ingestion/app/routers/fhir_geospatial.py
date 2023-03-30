@@ -1,4 +1,3 @@
-from enum import Enum
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator, Field
 from typing import Optional, Literal
@@ -17,7 +16,14 @@ router = APIRouter(
 )
 
 
-license_types = Literal["us-standard-cloud", "us-core-cloud", "us-rooftop-geocoding-cloud", "us-rooftop-geocoding-enterprise-cloud", "us-autocomplete-pro-cloud", "international-global-plus-cloud"]
+license_types = Literal[
+    "us-standard-cloud",
+    "us-core-cloud",
+    "us-rooftop-geocoding-cloud",
+    "us-rooftop-geocoding-enterprise-cloud",
+    "us-autocomplete-pro-cloud",
+    "international-global-plus-cloud",
+]
 
 
 class GeocodeAddressInBundleInput(BaseModel):
@@ -40,7 +46,6 @@ class GeocodeAddressInBundleInput(BaseModel):
     license_type: Optional[license_types] = Field(
         description="The license type for the geocoding service.",
         default="",
-
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
@@ -84,7 +89,7 @@ def geocode_bundle_endpoint(
             geocode_client = SmartyFhirGeocodeClient(
                 auth_id=input.get("auth_id"),
                 auth_token=input.get("auth_token"),
-                license_type=license_type,
+                licenses=[license_type],
             )
         else:
             geocode_client = SmartyFhirGeocodeClient(
