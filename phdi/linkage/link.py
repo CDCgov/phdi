@@ -320,6 +320,7 @@ def extract_blocking_values_from_record(
     - state
     - zip
     - sex
+    - mrn
 
     Currently supported transformations on extracted fields:
     - first4: the first four characters of the value
