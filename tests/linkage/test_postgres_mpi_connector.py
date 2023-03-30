@@ -15,6 +15,14 @@ def test_postgres_connection():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
 
     assert postgres_client.connection is not None
     postgres_client.cursor.close()
@@ -31,23 +39,25 @@ def test_generate_block_query():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
-    table_name = "test_patient_mpi"
-    block_data = {"zip": "90120-1001", "last_name": "GONZ"}
-    expected_query = (
-        "SELECT * FROM test_patient_mpi WHERE patient_resource#>>"
-        + "'{address,0,postalCode}' = '90120-1001' "
-        + "AND patient_resource#>>'{name,0,given,0}' = 'GONZ';"
+    block_vals = {
+        "zip": {"value": "90120-1001"},
+        "last_name": {"value": "GONZ", "transformation": "first4"},
+    }
+    expected_query_line_0 = (
+        """SELECT TRANSLATE(CAST(jsonb_path_query(patient_resource,"""
     )
+    expected_query_last_line = "'GONZ';"
 
-    generated_query = postgres_client._generate_block_query(table_name, block_data)
+    generated_query = postgres_client._generate_block_query(block_vals)
 
-    assert expected_query == generated_query
+    assert expected_query_line_0 == generated_query.split("\n")[0]
+    assert expected_query_last_line == generated_query.split("\n")[-1].strip()
 
     # Test bad block_data
-    block_data = {"bad_block_column": "90120-1001"}
+    block_vals = {"bad_block_column": "90120-1001"}
     with pytest.raises(ValueError) as e:
-        blocked_data = postgres_client._generate_block_query(table_name, block_data)
-        assert f"""`{list(block_data.keys())[0]}` 
+        blocked_data = postgres_client._generate_block_query(block_vals)
+        assert f"""`{list(block_vals.keys())[0]}` 
         not supported for blocking at this time.""" in str(
             e
         )
@@ -64,7 +74,6 @@ def test_block_data():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
-    table_name = "test_patient_mpi"
 
     raw_bundle = json.load(
         open(
@@ -74,18 +83,17 @@ def test_block_data():
             / "patient_bundle.json"
         )
     )
-    raw_bundle = json.load(open("C://Repos/phdi/tests/assets/patient_bundle.json"))
 
     patient_resource = raw_bundle.get("entry")[1].get("resource")
     patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
 
     # Test for invalid block data
-    block_data = {}
+    block_vals = {}
     with pytest.raises(ValueError) as e:
-        blocked_data = postgres_client.block_data(block_data)
+        blocked_data = postgres_client.block_data(block_vals)
         assert "`block_data` cannot be empty." in str(e.value)
 
-    block_data = {"last_name": patient_resource["name"][0]["family"]}
+    block_vals = {"last_name": {"value": patient_resource["name"][0]["family"]}}
     # Create test table and insert data
     funcs = {
         "drop tables": (
@@ -128,21 +136,11 @@ def test_block_data():
             print(e)
             postgres_client.connection.rollback()
 
-    statement = f"""SELECT jsonb_path_query(patient_resource, '$.name[*] ?(@.use=="official").given') as first_name from {postgres_client.patient_table};"""
-    statement = f"SELECT * from {postgres_client.patient_table};"
-    statement = f"SELECT jsonb_path_query_array(patient_resource, '$.identifier[*].value') FROM {postgres_client.patient_table};"
-    postgres_client.cursor.execute(statement)
-    data = postgres_client.cursor.fetchall()
-    data
-
-    postgres_client.connection.commit()
-    postgres_client.connection.close()
-
-    blocked_data = postgres_client.block_data(block_data)
+    blocked_data = postgres_client.block_data(block_vals)
 
     # Assert that all returned data matches blocking criterion
     for row in blocked_data[1:]:
-        assert row[-2] == block_data["last_name"]
+        assert row[-5] == block_vals["last_name"]["value"]
 
     # Assert returned data are LoL
     assert type(blocked_data[0]) is list
@@ -156,9 +154,111 @@ def test_block_data():
         port=postgres_client.port,
     )
     postgres_client.cursor = postgres_client.connection.cursor()
-    postgres_client.cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+    )
     postgres_client.connection.commit()
     postgres_client.connection.close()
+
+
+def test_dibbs_blocking():
+    postgres_client = PostgresConnectorClient(
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )
+
+    raw_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "tests"
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+
+    raw_bundle = json.load(open("C://Repos/phdi/tests/assets/patient_bundle.json"))
+    patient_resource = raw_bundle.get("entry")[1].get("resource")
+    patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
+    # Add 2nd MRN to patient resource
+    another_mrn = {
+        "value": "78910",
+        "type": {
+            "coding": [
+                {
+                    "code": "MR",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                    "display": "Medical record number",
+                }
+            ]
+        },
+        "system": "other system",
+    }
+    patient_resource["identifier"].append(another_mrn)
+
+    # Create test table and insert data
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
+            + "patient_resource JSONB);"
+        ),
+        "insert": (
+            f"""INSERT INTO {postgres_client.patient_table}
+             (person_id, patient_resource) """
+            + f"""VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec38',
+            '{json.dumps(patient_resource)}');"""
+        ),
+    }
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    # ALL data
+    statement = f"select * from {postgres_client.patient_table};"
+    postgres_client.cursor.execute(statement)
+    data = postgres_client.cursor.fetchall()
+    print(data)
+
+    # DIBBS Pass 1 Blocks
+    block_vals_pass1 = {
+        "mrn": {
+            "value": patient_resource["identifier"][0]["value"][-4:],
+            "transformation": "last4",
+        },
+        # "address": {"value": patient_resource["address"][0]["line"][0][0:4]},
+    }
+
+    blocked_data = postgres_client.block_data(block_vals_pass1)
+    print(blocked_data)
 
 
 def test_upsert_match_patient():
@@ -377,3 +477,8 @@ def test_upsert_match_patient():
     postgres_client.connection.commit()
     postgres_client.cursor.close()
     postgres_client.connection.close()
+
+
+block_vals = {
+    "mrn": {"value": "3456", "transformation": "last4"},
+}

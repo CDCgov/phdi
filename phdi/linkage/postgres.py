@@ -7,7 +7,7 @@ import json
 class PostgresConnectorClient(BaseMPIConnectorClient):
     """
     Represents a Postgres-specific Master Patient Index (MPI) connector client.
-    Callers should use the provided interface functions (e.g., block_data)
+    Callers should use the provided interface functions (e.g., block_vals)
     to interact with the underlying vendor-specific client property.
     """
 
@@ -71,14 +71,14 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             raise ValueError(f"{error}")
 
         if len(block_vals) == 0:
-            raise ValueError("`block_data` cannot be empty.")
+            raise ValueError("`block_vals` cannot be empty.")
 
         # Generate raw SQL query
         query = self._generate_block_query(block_vals)
 
         # Execute query
         self.cursor.execute(query)
-        extracted_data = self.cursor.fetchall()
+        blocked_data = [list(row) for row in self.cursor.fetchall()]
 
         # Close cursor and connection
         self.cursor.close()
@@ -86,16 +86,10 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
-        blocked_data = [["patient_id", "person_id"]]
+        blocked_data_cols = ["patient_id", "person_id"]
         for key in sorted(list(fields_to_jsonpaths.keys())):
-            blocked_data[0].append(key)
-
-        # Unnest patient_resource data
-        for row in extracted_data:
-            row_data = [row[0], row[1]]
-            for value in sorted(list(fields_to_jsonpaths.keys())):
-                row_data.append(fields_to_jsonpaths[value])
-            blocked_data.append(row_data)
+            blocked_data_cols.append(key)
+        blocked_data.insert(0, blocked_data_cols)
 
         return blocked_data
 
@@ -171,7 +165,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
     def _generate_block_query(self, block_vals: dict) -> str:
         """
         Generates a query for selecting a block of data from the patient table per the
-        block_data parameters. Accepted blocking fields include: first_name, last_name,
+        block_vals parameters. Accepted blocking fields include: first_name, last_name,
         birthdate, addess, city, state, zip, mrn, and sex.
 
         :param table_name: Table name.
@@ -189,14 +183,14 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             "birthdate": "'$.birthDate'",
             "city": """'$.address[*] ?(@.use=="home").city'""",
             "first_name": """'$.name[*] ?(@.use=="official").given'""",
-            "last_name": """'$.name ?(@.use=="official").family'""",
+            "last_name": """'$.name[*] ?(@.use=="official").family'""",
             "mrn": """'$.identifier ?(@.type.coding[0].code=="MR").value'""",
             "sex": "'$.gender'",
             "state": """'$.address[*] ?(@.use=="home").state'""",
             "zip": """'$.address[*] ?(@.use=="home").postalCode'""",
             "mrn": """'$.identifier ?(@.type.coding[0].code=="MR").value'""",
         }
-        chars_to_remove = '"-[]'
+        chars_to_remove = '"[]'
 
         # Check whether `block_vals` contains supported keys
         for key in block_vals.keys():
@@ -219,7 +213,9 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 {fields_to_jsonpaths[col_name]}) as varchar),
                 '{chars_to_remove}','') as {col_name}"""
             select_query_stubs.append(query)
-        select_query = "SELECT " + ", ".join(stub for stub in select_query_stubs)
+        select_query = "SELECT patient_id, person_id, " + ", ".join(
+            stub for stub in select_query_stubs
+        )
 
         # Generate blocking query based on blocking criteria
         block_query_stubs = []
@@ -229,7 +225,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             if "transformation" in param.keys():
                 # first4 transformations
                 if block_vals[col_name]["transformation"] == "first4":
-                    if col_name != "mrn":
+                    if col_name not in ["mrn", "first_name", "last_name"]:
                         query = f"""
                         LEFT(TRANSLATE(CAST(jsonb_path_query(patient_resource,
                         {fields_to_jsonpaths[col_name]}) as varchar),
@@ -243,7 +239,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                         '{block_vals[col_name]["value"]}'"""
                 # last4 transformations
                 else:
-                    if col_name != "mrn":
+                    if col_name not in ["mrn", "first_name", "last_name", "address"]:
                         query = f"""
                         RIGHT(TRANSLATE(CAST(jsonb_path_query(patient_resource,
                         {fields_to_jsonpaths[col_name]}) as varchar),
@@ -257,7 +253,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                         '{block_vals[col_name]["value"]}'"""
             # Build query for columns without transformations
             else:
-                if col_name != "mrn":
+                if col_name not in ["mrn", "first_name", "last_name", "address"]:
                     query = f"""TRANSLATE(CAST(jsonb_path_query(patient_resource,
                         {fields_to_jsonpaths[col_name]}) as varchar),
                         '{chars_to_remove}','') =
@@ -272,4 +268,6 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
 
         query = select_query + f" FROM {self.patient_table}" + block_query + ";"
+        print("QUERY")
+        print(query)
         return query
