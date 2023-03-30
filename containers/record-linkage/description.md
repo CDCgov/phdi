@@ -7,7 +7,20 @@ The DIBBs record linkage service offers a REST API for linking new health care m
 
 The record linkage service can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
 
-#### Running with Docker (Recommended)
+#### Running with Docker Compose (Recommended)
+
+To run the record linkage service with Docker Compose follow these steps.
+1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
+```
+❯ docker -v
+Docker version 20.10.21, build baeda1f
+```
+
+2. Navigate to the `containers/record-linkage` folder and start the service by running `docker compose up --build`
+
+Congratulations the FHIR Converter should now be running on `localhost:8080`!
+
+#### Running with Docker
 
 To run the record linkage service with Docker follow these steps.
 1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.

@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Union
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
@@ -14,7 +14,7 @@ class SmartyGeocodeClient(BaseGeocodeClient):
     """
 
     def __init__(
-        self, auth_id: str, auth_token: str, licenses: List[str] = ["us-standard-cloud"]
+        self, auth_id: str, auth_token: str, licenses: list[str] = ["us-standard-cloud"]
     ):
         self.auth_id = auth_id
         self.auth_token = auth_token
