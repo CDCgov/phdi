@@ -117,10 +117,14 @@ parser.add_argument(
     required=True,
     help="The schema of the data to be written to the Delta table as a JSON string with"
     " the form '{'field1': 'type1', 'field2': 'type2'}'.",
-
+)
 arguments = parser.parse_args()
 
-kafka_topic_mappings = {"azure_event_hubs": arguments.event_hub, "local_kafka": arguments.kafka_topic}
+
+kafka_topic_mappings = {
+    "azure_event_hubs": arguments.event_hub,
+    "local_kafka": arguments.kafka_topic,
+}
 
 spark = (
     SparkSession.builder.master("local[*]")

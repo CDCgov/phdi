@@ -11,6 +11,7 @@ from pyspark.sql.types import (
     TimestampType,
     DateType,
 )
+from pathlib import Path
 
 
 # TODO - turn this function into a method of AzureCredentialManager
@@ -62,7 +63,7 @@ def validate_schema(json_schema: dict) -> dict:
     """
     Validate a JSON schema string.
 
-    :param json_schema: A dictonary representation of a chema. Should be of the form
+    :param json_schema: A dictionary representation of a schema. Should be of the form
         {"field1": "type1", "field2": "type2"}.
     :return: A dictionary with 'valid' and 'error' keys. If the schema is valid then the
         value of 'valid' will be True and 'errors will be empty. If the schema is not
@@ -85,3 +86,30 @@ def validate_schema(json_schema: dict) -> dict:
             )
 
     return validation_results
+
+
+def load_schema(schema_name: str) -> dict:
+    """
+    Load a schema given its name. Look in the 'custom_schemas/' directory first.
+    If no custom schemas match the provided name, check the schemas provided by default
+    with this service in the 'default_schemas/' directory.
+
+    :param schema_name: The name of a schema to be loaded.
+    :return: A dictionary containing the schema.
+    """
+    custom_schema_path = Path(__file__).parent / "custom_schemas" / schema_name
+    try:
+        with open(custom_schema_path, "r") as file:
+            extraction_schema = json.load(file)
+    except FileNotFoundError:
+        try:
+            default_schema_path = (
+                Path(__file__).parent / "default_schemas" / schema_name
+            )
+            with open(default_schema_path, "r") as file:
+                extraction_schema = json.load(file)
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                f"A schema with the name '{schema_name}' could not be found."
+            )
+    return extraction_schema

@@ -1,19 +1,15 @@
 from phdi.containers.base_service import BaseService
 from pathlib import Path
+import json
 from typing import Literal
 from pydantic import BaseModel, Field, root_validator
 import subprocess
-from app.kafka_connectors import (
-    connect_to_local_kafka,
-    connect_to_azure_event_hubs,
-    KAFKA_PROVIDERS,
-)
-from app.storage_connectors import (
-    connect_to_adlsgen2,
-    STORAGE_PROVIDERS,
-)
-from app.utils import validate_schema, SCHEMA_TYPE_MAP
+from fastapi import Response, status
+from app.kafka_connectors import KAFKA_PROVIDERS
+from app.storage_connectors import STORAGE_PROVIDERS
+from app.utils import validate_schema, SCHEMA_TYPE_MAP, load_schema
 
+# A map of the required values for all supported kafka and storage providers.
 REQUIRED_VALUES_MAP = {
     "kafka_provider": {
         "local_kafka": ["kafka_server", "kafka_topic"],
@@ -38,12 +34,11 @@ REQUIRED_VALUES_MAP = {
 }
 
 
-app = BaseService(
-    "kafka-to-delta-table", Path(__file__).parent.parent / "description.md"
-).start()
-
-
 class KafkaToDeltaTableInput(BaseModel):
+    """
+    The model for requests to the /kafka-to-delta-table endpoint.
+    """
+
     kafka_provider: KAFKA_PROVIDERS = Field(
         description="The type of kafka cluster to read from."
     )
@@ -53,16 +48,18 @@ class KafkaToDeltaTableInput(BaseModel):
     delta_table_name: str = Field(
         description="The name of the Delta table to write to."
     )
-    schema: Optional[dict] = Field(
+    schema: dict = Field(
         description=f"A schema describing the format of messages to read from Kafka. "
         "Should be of the form { 'field_name': 'field_type' }. Field names must be "
         "strings and supported field types include: "
-        ", ".join(list(SCHEMA_TYPE_MAP.keys())),
+        f"{', '.join(list(SCHEMA_TYPE_MAP.keys()))}. If this is provided, then. "
+        "'schema_name' must be empty.",
         default={},
     )
-    parsing_schema_name: Optional[str] = Field(
+    schema_name: str = Field(
         description="The name of a schema that was previously uploaded to the service"
-        " describing the format of messages to read from Kafka. If this is provided",
+        " describing the format of messages to read from Kafka. If this is provided"
+        " then 'schema' must be empty.",
         default="",
     )
     kafka_server: str = Field(
@@ -112,6 +109,10 @@ class KafkaToDeltaTableInput(BaseModel):
 
     @root_validator
     def check_for_required_values(cls, values):
+        """
+        For a given set of values, check that all required values are present based on
+        the values of the kafka_provider and storage_provider fields.
+        """
         missing_values = []
 
         for provider_type in REQUIRED_VALUES_MAP:
@@ -127,16 +128,71 @@ class KafkaToDeltaTableInput(BaseModel):
                 )
         return values
 
+    @root_validator
+    def prohibit_schema_and_schema_name(cls, values):
+        if values.get("schema") != {} and values.get("schema_name") != "":
+            raise ValueError(
+                "Values for both 'schema' and 'schema_name' have been "
+                "provided. Only one of these values is permitted."
+            )
+        return values
+
+    @root_validator
+    def require_schema_or_schema_name(cls, values):
+        if values.get("schema") == {} and values.get("schema_name") == "":
+            raise ValueError(
+                "Values for neither 'schema' now 'schema_name' have been "
+                "provided. One, but not both, of these values is required."
+            )
+        return values
+
 
 class KafkaToDeltaTableOutput(BaseModel):
+    """
+    The model for responses from the /kafka-to-delta-table endpoint.
+    """
+
     status: Literal["success", "failed"] = Field(description="The status of the job.")
+    message: str = Field(description="A message describing the status of the job.")
     spark_log: str = Field(description="The log output from the spark job.")
 
 
-@app.post("/kafka-to-delta-table")
+app = BaseService(
+    "kafka-to-delta-table", Path(__file__).parent.parent / "description.md"
+).start()
+
+
+@app.post("/kafka-to-delta-table", status_code=200)
 async def kafka_to_delta_table(
-    input: KafkaToDeltaTableInput,
+    input: KafkaToDeltaTableInput, response: Response
 ) -> KafkaToDeltaTableOutput:
+    """
+    Stream JSON data from Kafka to a Delta table.
+
+    :param input: A JSON formatted request body with schema specified by the
+        KafkaToDeltaTableInput model.
+    :return: A JSON formatted response body with schema specified by the
+        KafkaToDeltaTableOutput model.
+    """
+    response_body = {
+        "status": "success",
+        "message": "",
+        "spark_log": "",
+    }
+
+    if input.schema_name != "":
+        schema = load_schema(input.schema_name)
+    else:
+        schema = input.schema
+
+    schema_validation_results = validate_schema(schema)
+
+    if schema_validation_results["status"] == "failed":
+        response_body["status"] = "failed"
+        response_body["message"] = schema_validation_results["message"]
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response_body
+
     kafka_to_delta_command = [
         "spark-submit",
         "--packages",
@@ -148,6 +204,8 @@ async def kafka_to_delta_table(
         input.storage_provider,
         "--delta_table_name",
         input.delta_table_name,
+        "--schema",
+        json.dumps(schema),
     ]
 
     input = input.dict()
@@ -162,14 +220,11 @@ async def kafka_to_delta_table(
     kafka_to_delta_result = subprocess.run(
         kafka_to_delta_command, shell=True, capture_output=True, text=True
     )
+    
+    response_body["spark_log"] = kafka_to_delta_result.stdout
 
     if kafka_to_delta_result.returncode != 0:
-        return {
-            "status": "failed",
-            "spark_log": kafka_to_delta_result.stderr,
-        }
-    else:
-        return {
-            "status": "success",
-            "spark_log": kafka_to_delta_result.stdout,
-        }
+        response_body["status"]: "failed"
+        response_body["spark_log"]: kafka_to_delta_result.stderr
+
+    return response_body
