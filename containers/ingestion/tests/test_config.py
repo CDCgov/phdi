@@ -10,6 +10,7 @@ def test_get_settings_success():
     os.environ["SALT_STR"] = "my-salt"
     os.environ["AUTH_ID"] = "test_id"
     os.environ["AUTH_TOKEN"] = "test_token"
+    os.environ["LICENSES"] = '["us-standard-cloud"]'
     os.environ["CLOUD_PROVIDER"] = "azure"
     os.environ["BUCKET_NAME"] = "my_bucket"
     os.environ["STORAGE_ACCOUNT_URL"] = "storage_url"
@@ -20,6 +21,7 @@ def test_get_settings_success():
         "salt_str": "my-salt",
         "auth_id": "test_id",
         "auth_token": "test_token",
+        "licenses": '["us-standard-cloud"]',
         "cloud_provider": "azure",
         "bucket_name": "my_bucket",
         "storage_account_url": "storage_url",
@@ -28,6 +30,7 @@ def test_get_settings_success():
     os.environ.pop("CLOUD_PROVIDER", None)
     os.environ.pop("AUTH_ID", None)
     os.environ.pop("AUTH_TOKEN", None)
+    os.environ.pop("LICENSES", None)
     os.environ.pop("BUCKET_NAME", None)
     os.environ.pop("STORAGE_ACCOUNT_URL", None)
 
