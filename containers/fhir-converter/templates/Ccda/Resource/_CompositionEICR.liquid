@@ -63,6 +63,12 @@
             {% for component in components -%}
             {   
                 {% if component.section -%}
+                    {% if component.section.id.root -%}
+                    "id": "{{ component.section.id.root }}",
+                    {% else -%}
+                    {% assign sectionId = component | to_json_string | generate_uuid -%}
+                    "id": "{{ sectionId }}",
+                    {% endif -%}
                     {% if component.section.title._ -%}
                     "title":"{{ component.section.title._ }}",
                     {% endif -%}
@@ -83,33 +89,82 @@
                         {% include 'DataType/CodeableConcept' CodeableConcept: component.section.code -%}
                     },
                     "mode":"snapshot",
+                    "entry": 
+                    [                    
+                        {% assign entries = composition.section.entry | to_array -%}
+                        {% for entry in entries -%}
+                            {% if entry.act.first.entryRelationship.first.observation and entry.act.first.entryRelationship.first.observation.templateId.root == "2.16.840.1.113883.10.20.22.4.4" -%}
+                                {% if entry.act.first.entryRelationship.first.observation.id and entry.act.first.entryRelationship.first.observation.id.root -%}
+                                    {% assign conditionId = entry.act.first.entryRelationship.first.observation.id.root -%}
+                                {% else -%}
+                                    {% assign conditionId = entry.act.first.entryRelationship.first.observation.value | to_json_string | generate_uuid -%}
+                                {% endif -%}
+                                {% assign fullConditionId = conditionId | prepend: 'Condition/' -%}
+                                    {
+                                        {% if entry.act.first.entryRelationship.first.observation.value.displayName -%}
+                                            "display": "Problem - {{ ob.value.displayName }}",
+                                        {% elsif entry.act.first.entryRelationship.first.observation.value.translation.first.displayName -%}
+                                            "display": "Problem - {{entry.act.first.entryRelationship.first.observation.value.translation.first.displayNamea}}",
+                                        {% endif -%}
+                                        "reference": "{{ fullConditionId }}",
+                                    },
+                            {% endif -%}
+                        {% endfor -%}
+                    ],
                 {% endif -%}
             },
             {% endfor -%}
-            {   
-                {% if composition.section.code.code -%}
-                    {% if composition.section.code.code == "88085-6" -%}
-                    "title": "Reportability Response Information Section",
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>",
-                    },
-                    "code": {
-                        "coding": [
-                            {
-                                {% include 'DataType/Coding' Coding: composition.section.code -%}
-                            },
-                            {
-                                {% assign rrentries = composition.section.entry | to_array -%}
-                                {% for rrentry in rrentries -%}
-                                    {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
-                                        {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+            {
+                {% if composition.section.code.code and composition.section.code.code == "88085-6" -%}
+                {% assign sectionId = composition.section | to_json_string | generate_uuid -%}
+                "id": "{{ sectionId }}",
+                "title": "Reportability Response Information Section",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>",
+                },
+                "code": {
+                    "coding": [
+                        {
+                            {% include 'DataType/Coding' Coding: composition.section.code -%}
+                        },
+                        {
+                            {% assign rrentries = composition.section.entry | to_array -%}
+                            {% for rrentry in rrentries -%}
+                                {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
+                                    {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                {% endif -%}
+                            {% endfor -%}
+                        },
+                    ],
+                },
+                "entry": 
+                [
+                    
+                    {% assign entries = composition.section.entry | to_array -%}
+                    {% for entry in entries -%}
+                        {% if entry.organizer.templateId.root and entry.organizer.templateId.root == "2.16.840.1.113883.10.20.15.2.3.34" -%}
+                            {% assign comps = entry.organizer.component | to_array -%}
+                            {% for comp in comps -%}
+                                {% assign obs = comp.observation | to_array -%}
+                                {% for ob in obs -%}
+                                    {% if ob.code.codeSystem == "2.16.840.1.113883.6.96" and ob.code.code == "64572001" and ob.value.code and ob.value.code != "NA" -%}
+                                        {% if ob.id and ob.id.root -%}
+                                            {% assign observationId = ob.id.root -%}
+                                        {% else -%}
+                                            {% assign observationId = ob.value | to_json_string | generate_uuid -%}
+                                        {% endif -%}
+                                        {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                        {
+                                            "display": "Relevant Reportable Condition Observation - {{ ob.value.displayName }}",
+                                            "reference": "{{ fullObservationId }}",
+                                        },
                                     {% endif -%}
                                 {% endfor -%}
-                            },
-                        ],
-                    },
-                    {% endif -%}
+                            {% endfor -%}
+                        {% endif -%}
+                    {% endfor -%}
+                ],
                 {% endif -%}
             },
         ],

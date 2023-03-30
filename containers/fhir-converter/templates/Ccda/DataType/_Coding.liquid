@@ -1,3 +1,7 @@
 "code":"{{Coding.code}}",
-"display":"{{Coding.displayName}}",
+{% if Coding.displayName -%}
+    "display": "{{Coding.displayName}}",
+{% elsif Coding.originalText._ -%}
+    "display": "{{Coding.originalText._}}",
+{% endif -%}
 "system":{% include 'ValueSet/SystemReference' code: Coding.codeSystem -%},
