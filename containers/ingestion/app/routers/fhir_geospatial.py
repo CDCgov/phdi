@@ -17,13 +17,7 @@ router = APIRouter(
 )
 
 
-class LicenseType(str, Enum):
-    usStandardCloud = "us-standard-cloud"
-    usCoreCloud = "us-core-cloud"
-    usRooftopGeocodingCloud = "us-rooftop-geocoding-cloud"
-    usRooftopGeocodingEnterpriseCloud = "us-rooftop-geocoding-enterprise-cloud"
-    usAutocompleteProCloud = "us-autocomplete-pro-cloud"
-    internationalGlobalPlusCloud = "international-global-plus-cloud"
+license_types = Literal["us-standard-cloud", "us-core-cloud", "us-rooftop-geocoding-cloud", "us-rooftop-geocoding-enterprise-cloud", "us-autocomplete-pro-cloud", "international-global-plus-cloud"]
 
 
 class GeocodeAddressInBundleInput(BaseModel):
@@ -43,9 +37,10 @@ class GeocodeAddressInBundleInput(BaseModel):
         "'geocode_method' is 'smarty'.",
         default="",
     )
-    license_type: Optional[LicenseType] = Field(
+    license_type: Optional[license_types] = Field(
         description="The license type for the geocoding service.",
         default="",
+
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
