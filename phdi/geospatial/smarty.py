@@ -14,13 +14,15 @@ class SmartyGeocodeClient(BaseGeocodeClient):
     """
 
     def __init__(
-        self, auth_id: str, auth_token: str, licenses: list[str] = ["us-standard-cloud"]
+        self, auth_id: str, auth_token: str, license_type: str = "us-standard-cloud"
     ):
         self.auth_id = auth_id
         self.auth_token = auth_token
         creds = StaticCredentials(auth_id, auth_token)
         self.__client = (
-            ClientBuilder(creds).with_licenses(licenses).build_us_street_api_client()
+            ClientBuilder(creds)
+            .with_licenses([license_type])
+            .build_us_street_api_client()
         )
 
     @property

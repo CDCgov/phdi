@@ -1,3 +1,4 @@
+from enum import Enum
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, validator, Field
 from typing import Optional, Literal
@@ -14,6 +15,15 @@ router = APIRouter(
     prefix="/fhir/geospatial/geocode",
     tags=["fhir/geospatial"],
 )
+
+
+class LicenseType(str, Enum):
+    usStandardCloud = "us-standard-cloud"
+    usCoreCloud = "us-core-cloud"
+    usRooftopGeocodingCloud = "us-rooftop-geocoding-cloud"
+    usRooftopGeocodingEnterpriseCloud = "us-rooftop-geocoding-enterprise-cloud"
+    usAutocompleteProCloud = "us-autocomplete-pro-cloud"
+    internationalGlobalPlusCloud = "international-global-plus-cloud"
 
 
 class GeocodeAddressInBundleInput(BaseModel):
@@ -33,9 +43,9 @@ class GeocodeAddressInBundleInput(BaseModel):
         "'geocode_method' is 'smarty'.",
         default="",
     )
-    licenses: Optional[list[str]] = Field(
-        description="A list of license types for the geocoding service.",
-        default=None,
+    license_type: Optional[LicenseType] = Field(
+        description="The license type for the geocoding service.",
+        default="",
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
@@ -74,12 +84,12 @@ def geocode_bundle_endpoint(
         if search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"status_code": 400, "message": search_result}
-        licenses = input.get("licenses") or get_settings().get("licenses")
-        if licenses:
+        license_type = input.get("license_type") or get_settings().get("license_type")
+        if license_type:
             geocode_client = SmartyFhirGeocodeClient(
                 auth_id=input.get("auth_id"),
                 auth_token=input.get("auth_token"),
-                licenses=licenses,
+                license_type=license_type,
             )
         else:
             geocode_client = SmartyFhirGeocodeClient(
@@ -95,7 +105,7 @@ def geocode_bundle_endpoint(
     input.pop("geocode_method", None)
     input.pop("auth_id", None)
     input.pop("auth_token", None)
-    input.pop("licenses", None)
+    input.pop("license_type", None)
     result = {}
     try:
         geocoder_result = geocode_client.geocode_bundle(**input)
