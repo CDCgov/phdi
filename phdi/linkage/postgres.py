@@ -28,6 +28,17 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         self.port = port
         self.patient_table = patient_table
         self.person_table = person_table
+        self.fields_to_jsonpaths = {
+            "address": """$.address[*] ?(@.use=="home").line""",
+            "birthdate": "$.birthDate",
+            "city": """$.address[*] ?(@.use=="home").city""",
+            "first_name": """$.name[*] ?(@.use=="official").given""",
+            "last_name": """$.name[*] ?(@.use=="official").family""",
+            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
+            "sex": "$.gender",
+            "state": """$.address[*] ?(@.use=="home").state""",
+            "zip": """$.address[*] ?(@.use=="home").postalCode""",
+        }
 
     def block_data(self, block_vals: Dict) -> List[list]:
         """
@@ -43,18 +54,6 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
-
-        fields_to_jsonpaths = {
-            "address": """$.address[*] ?(@.use=="home").line""",
-            "birthdate": "$.birthDate",
-            "city": """$.address[*] ?(@.use=="home").city""",
-            "first_name": """$.name[*] ?(@.use=="official").given""",
-            "last_name": """$.name[*] ?(@.use=="official").family""",
-            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
-            "sex": "$.gender",
-            "state": """$.address[*] ?(@.use=="home").state""",
-            "zip": """$.address[*] ?(@.use=="home").postalCode""",
-        }
 
         # TODO: Update with context manager
         # Connect to MPI
@@ -87,7 +86,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
         blocked_data_cols = ["patient_id", "person_id"]
-        for key in sorted(list(fields_to_jsonpaths.keys())):
+        for key in sorted(list(self.fields_to_jsonpaths.keys())):
             blocked_data_cols.append(key)
         blocked_data.insert(0, blocked_data_cols)
 
@@ -177,21 +176,9 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: Query to select block of data base on `block_vals` parameters.
 
         """
-        fields_to_jsonpaths = {
-            "address": """$.address[*] ?(@.use=="home").line""",
-            "birthdate": "$.birthDate",
-            "city": """$.address[*] ?(@.use=="home").city""",
-            "first_name": """$.name[*] ?(@.use=="official").given""",
-            "last_name": """$.name[*] ?(@.use=="official").family""",
-            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
-            "sex": "$.gender",
-            "state": """$.address[*] ?(@.use=="home").state""",
-            "zip": """$.address[*] ?(@.use=="home").postalCode""",
-        }
-
         # Check whether `block_vals` contains supported keys
         for key in block_vals.keys():
-            if key not in fields_to_jsonpaths.keys():
+            if key not in self.fields_to_jsonpaths.keys():
                 raise ValueError(
                     f"""`{key}` not supported for blocking at this time. Supported
                     columns include first_name, last_name, birthdate, address, city,
@@ -200,9 +187,9 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         # Generate select query to extract fields_to_jsonpaths keys
         select_query_stubs = []
-        for col_name in fields_to_jsonpaths.keys():
+        for col_name in self.fields_to_jsonpaths.keys():
             query = f"""jsonb_path_query_array(patient_resource,
-                '{fields_to_jsonpaths[col_name]}') as {col_name}"""
+                '{self.fields_to_jsonpaths[col_name]}') as {col_name}"""
             select_query_stubs.append(query)
         select_query = "SELECT patient_id, person_id, " + ", ".join(
             stub for stub in select_query_stubs
@@ -217,21 +204,21 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 if block_vals[col_name]["transformation"] == "first4":
                     query = f"""
                         CAST(jsonb_path_query_array(patient_resource,
-                        '{fields_to_jsonpaths[col_name]} starts with
+                        '{self.fields_to_jsonpaths[col_name]} starts with
                         "{block_vals[col_name]["value"]}"') as VARCHAR)
                         = '[true]'"""
                 # last4 transformations
                 else:
                     query = f"""
                         CAST(jsonb_path_query_array(patient_resource,
-                        '{fields_to_jsonpaths[col_name]} like_regex
+                        '{self.fields_to_jsonpaths[col_name]} like_regex
                         "{block_vals[col_name]["value"]}$$"') as VARCHAR)
                         = '[true]'"""
 
             # Build query for columns without transformations
             else:
                 query = f"""CAST(jsonb_path_query_array(patient_resource,
-                        '{fields_to_jsonpaths[col_name]} like_regex
+                        '{self.fields_to_jsonpaths[col_name]} like_regex
                         "{block_vals[col_name]["value"]}"') as VARCHAR)
                         = '[true]'"""
             block_query_stubs.append(query)
