@@ -44,9 +44,9 @@ def test_generate_block_query():
         "last_name": {"value": "GONZ", "transformation": "first4"},
     }
     expected_query_line_0 = (
-        """SELECT TRANSLATE(CAST(jsonb_path_query(patient_resource,"""
+        """SELECT patient_id, person_id, jsonb_path_query_array(patient_resource,"""
     )
-    expected_query_last_line = "'GONZ';"
+    expected_query_last_line = "= '[true]';"
 
     generated_query = postgres_client._generate_block_query(block_vals)
 
@@ -57,7 +57,7 @@ def test_generate_block_query():
     block_vals = {"bad_block_column": "90120-1001"}
     with pytest.raises(ValueError) as e:
         blocked_data = postgres_client._generate_block_query(block_vals)
-        assert f"""`{list(block_vals.keys())[0]}` 
+        assert f"""`{list(block_vals.keys())[0]}`
         not supported for blocking at this time.""" in str(
             e
         )

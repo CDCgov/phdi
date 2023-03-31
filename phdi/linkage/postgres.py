@@ -179,18 +179,16 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         """
         # TODO: Update MRN, first_name to return list instead of single value
         fields_to_jsonpaths = {
-            "address": """'$.address[*] ?(@.use=="home").line'""",
-            "birthdate": "'$.birthDate'",
-            "city": """'$.address[*] ?(@.use=="home").city'""",
-            "first_name": """'$.name[*] ?(@.use=="official").given'""",
-            "last_name": """'$.name[*] ?(@.use=="official").family'""",
-            "mrn": """'$.identifier ?(@.type.coding[0].code=="MR").value'""",
-            "sex": "'$.gender'",
-            "state": """'$.address[*] ?(@.use=="home").state'""",
-            "zip": """'$.address[*] ?(@.use=="home").postalCode'""",
-            "mrn": """'$.identifier ?(@.type.coding[0].code=="MR").value'""",
+            "address": """$.address[*] ?(@.use=="home").line""",
+            "birthdate": "$.birthDate",
+            "city": """$.address[*] ?(@.use=="home").city""",
+            "first_name": """$.name[*] ?(@.use=="official").given""",
+            "last_name": """$.name[*] ?(@.use=="official").family""",
+            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
+            "sex": "$.gender",
+            "state": """$.address[*] ?(@.use=="home").state""",
+            "zip": """$.address[*] ?(@.use=="home").postalCode""",
         }
-        chars_to_remove = '"[]'
 
         # Check whether `block_vals` contains supported keys
         for key in block_vals.keys():
@@ -198,20 +196,14 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
                 raise ValueError(
                     f"""`{key}` not supported for blocking at this time. Supported
                     columns include first_name, last_name, birthdate, address, city,
-                    state, zip, and sex."""
+                    state, zip, mrn, and sex."""
                 )
 
         # Generate select query to extract fields_to_jsonpaths keys
         select_query_stubs = []
         for col_name in fields_to_jsonpaths.keys():
-            if col_name != "mrn":
-                query = f"""TRANSLATE(CAST(jsonb_path_query(patient_resource,
-                {fields_to_jsonpaths[col_name]}) as varchar),
-                '{chars_to_remove}','') as {col_name}"""
-            else:
-                query = f"""TRANSLATE(CAST(jsonb_path_query_array(patient_resource,
-                {fields_to_jsonpaths[col_name]}) as varchar),
-                '{chars_to_remove}','') as {col_name}"""
+            query = f"""jsonb_path_query_array(patient_resource,
+                '{fields_to_jsonpaths[col_name]}') as {col_name}"""
             select_query_stubs.append(query)
         select_query = "SELECT patient_id, person_id, " + ", ".join(
             stub for stub in select_query_stubs
@@ -221,53 +213,31 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         block_query_stubs = []
         for col_name, param in block_vals.items():
             # Add appropriate transformations
-            # TODO: Add transformations to multiple resturned values,e.g., MRN
             if "transformation" in param.keys():
                 # first4 transformations
                 if block_vals[col_name]["transformation"] == "first4":
-                    if col_name not in ["mrn", "first_name", "last_name"]:
-                        query = f"""
-                        LEFT(TRANSLATE(CAST(jsonb_path_query(patient_resource,
-                        {fields_to_jsonpaths[col_name]}) as varchar),
-                        '{chars_to_remove}',''),4) =
-                        '{block_vals[col_name]["value"]}'"""
-                    else:
-                        query = f"""
-                        LEFT(TRANSLATE(CAST(jsonb_path_query_array(patient_resource,
-                        {fields_to_jsonpaths[col_name]}) as varchar),
-                        '{chars_to_remove}',''),4) =
-                        '{block_vals[col_name]["value"]}'"""
+                    query = f"""
+                        CAST(jsonb_path_query_array(patient_resource,
+                        '{fields_to_jsonpaths[col_name]} starts with
+                        "{block_vals[col_name]["value"]}"') as VARCHAR)
+                        = '[true]'"""
                 # last4 transformations
                 else:
-                    if col_name not in ["mrn", "first_name", "last_name", "address"]:
-                        query = f"""
-                        RIGHT(TRANSLATE(CAST(jsonb_path_query(patient_resource,
-                        {fields_to_jsonpaths[col_name]}) as varchar),
-                        '{chars_to_remove}',''),4) =
-                        '{block_vals[col_name]["value"]}'"""
-                    else:
-                        query = f"""
-                        RIGHT(TRANSLATE(CAST(jsonb_path_query_array(patient_resource,
-                        {fields_to_jsonpaths[col_name]}) as varchar),
-                        '{chars_to_remove}',''),4) =
-                        '{block_vals[col_name]["value"]}'"""
+                    query = f"""
+                        CAST(jsonb_path_query_array(patient_resource,
+                        '{fields_to_jsonpaths[col_name]} like_regex
+                        "{block_vals[col_name]["value"]}$$"') as VARCHAR)
+                        = '[true]'"""
+
             # Build query for columns without transformations
             else:
-                if col_name not in ["mrn", "first_name", "last_name", "address"]:
-                    query = f"""TRANSLATE(CAST(jsonb_path_query(patient_resource,
-                        {fields_to_jsonpaths[col_name]}) as varchar),
-                        '{chars_to_remove}','') =
-                        '{block_vals[col_name]["value"]}'"""
-                else:
-                    query = f"""TRANSLATE(CAST(jsonb_path_query_array(patient_resource,
-                        {fields_to_jsonpaths[col_name]}) as varchar),
-                        '{chars_to_remove}','') =
-                        '{block_vals[col_name]["value"]}'"""
+                query = f"""CAST(jsonb_path_query_array(patient_resource,
+                        '{fields_to_jsonpaths[col_name]} like_regex
+                        "{block_vals[col_name]["value"]}"') as VARCHAR)
+                        = '[true]'"""
             block_query_stubs.append(query)
 
         block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
 
         query = select_query + f" FROM {self.patient_table}" + block_query + ";"
-        print("QUERY")
-        print(query)
         return query
