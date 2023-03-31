@@ -3,6 +3,7 @@ import pathlib
 import pytest
 import json
 import psycopg2
+import copy
 
 
 def test_postgres_connection():
@@ -181,9 +182,11 @@ def test_dibbs_blocking():
         )
     )
 
-    raw_bundle = json.load(open("C://Repos/phdi/tests/assets/patient_bundle.json"))
     patient_resource = raw_bundle.get("entry")[1].get("resource")
+    patient_resource_2 = copy.deepcopy(patient_resource)
     patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
+    patient_resource_2["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec51"
+    patient_resource_2["identifier"][0]["value"] = "4455"
     # Add 2nd MRN to patient resource
     another_mrn = {
         "value": "78910",
@@ -223,6 +226,12 @@ def test_dibbs_blocking():
             + f"""VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec38',
             '{json.dumps(patient_resource)}');"""
         ),
+        "insert_2": (
+            f"""INSERT INTO {postgres_client.patient_table}
+             (person_id, patient_resource) """
+            + f"""VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec39',
+            '{json.dumps(patient_resource_2)}');"""
+        ),
     }
     postgres_client.connection = psycopg2.connect(
         database=postgres_client.database,
@@ -242,23 +251,52 @@ def test_dibbs_blocking():
             print(e)
             postgres_client.connection.rollback()
 
-    # ALL data
-    statement = f"select * from {postgres_client.patient_table};"
-    postgres_client.cursor.execute(statement)
-    data = postgres_client.cursor.fetchall()
-    print(data)
-
     # DIBBS Pass 1 Blocks
     block_vals_pass1 = {
         "mrn": {
             "value": patient_resource["identifier"][0]["value"][-4:],
             "transformation": "last4",
         },
-        # "address": {"value": patient_resource["address"][0]["line"][0][0:4]},
+        "address": {
+            "value": patient_resource["address"][0]["line"][0][0:4],
+            "transformation": "first4",
+        },
+    }
+    blocked_data_pass1 = postgres_client.block_data(block_vals_pass1)
+
+    # Assert only patient 1 is returned & matches on block criteria
+    assert len(blocked_data_pass1[1:]) == 1
+    # Assert matching on last4 of MRN
+    assert patient_resource["identifier"][0]["value"][-4:] in [
+        b[-4:] for b in blocked_data_pass1[1][-4]
+    ]
+    # Assert matching on 1st 4 of address
+    assert patient_resource["address"][0]["line"][0][0:4] in [
+        b[:4] for b in blocked_data_pass1[1][2][0]
+    ]
+
+    # DIBBS Pass 2 Blocks
+    block_vals_pass2 = {
+        "first_name": {
+            "value": patient_resource["name"][0]["given"][0][0:4],
+            "transformation": "first4",
+        },
+        "last_name": {
+            "value": patient_resource["name"][0]["family"][0:4],
+            "transformation": "first4",
+        },
     }
 
-    blocked_data = postgres_client.block_data(block_vals_pass1)
-    print(blocked_data)
+    blocked_data_pass2 = postgres_client.block_data(block_vals_pass2)
+
+    # Assert both patients are  returned & matches on block criteria
+    assert len(blocked_data_pass2[1:]) == 2
+    # Assert all returned records match on first 4 characters of first and last names
+    for record in blocked_data_pass2[1:]:
+        assert patient_resource["name"][0]["given"][0][0:4] in [
+            fname[0:4] for fname in record[5][0][0:4]
+        ]
+        assert patient_resource["name"][0]["family"][0:4] == record[6][0][0:4]
 
 
 def test_upsert_match_patient():
