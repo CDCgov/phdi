@@ -45,15 +45,15 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         """
 
         fields_to_jsonpaths = {
-            "first_name": """'$.name[*] ?(@.use=="official").given'""",
-            "last_name": """'$.name ?(@.use=="official").family'""",
-            "birthdate": "'$.birthDate'",
-            "address": """'$.address[*] ?(@.use=="home").line'""",
-            "city": """'$.address[*] ?(@.use=="home").city'""",
-            "state": """'$.address[*] ?(@.use=="home").state'""",
-            "zip": """'$.address[*] ?(@.use=="home").postalCode'""",
-            "sex": "'$.gender'",
-            "mrn": """'$.identifier ?(@.type.coding[0].code=="MR").value'""",
+            "address": """$.address[*] ?(@.use=="home").line""",
+            "birthdate": "$.birthDate",
+            "city": """$.address[*] ?(@.use=="home").city""",
+            "first_name": """$.name[*] ?(@.use=="official").given""",
+            "last_name": """$.name[*] ?(@.use=="official").family""",
+            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
+            "sex": "$.gender",
+            "state": """$.address[*] ?(@.use=="home").state""",
+            "zip": """$.address[*] ?(@.use=="home").postalCode""",
         }
 
         # TODO: Update with context manager
@@ -177,7 +177,6 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         :return: Query to select block of data base on `block_vals` parameters.
 
         """
-        # TODO: Update MRN, first_name to return list instead of single value
         fields_to_jsonpaths = {
             "address": """$.address[*] ?(@.use=="home").line""",
             "birthdate": "$.birthDate",

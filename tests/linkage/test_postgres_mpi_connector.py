@@ -140,10 +140,10 @@ def test_block_data():
 
     # Assert that all returned data matches blocking criterion
     for row in blocked_data[1:]:
-        assert row[-5] == block_vals["last_name"]["value"]
+        assert block_vals["last_name"]["value"] in row[-5]
 
     # Assert returned data are LoL
-    assert type(blocked_data[0]) is list
+    assert type(blocked_data[1]) is list
 
     # Clean up
     postgres_client.connection = psycopg2.connect(
