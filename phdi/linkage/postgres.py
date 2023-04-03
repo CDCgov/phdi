@@ -200,7 +200,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         block_query_stubs = []
         for col_name, param in block_vals.items():
             # Add appropriate transformations
-            if "transformation" in param.keys():
+            if "transformation" in param:
                 # first4 transformations
                 if block_vals[col_name]["transformation"] == "first4":
                     query = f"""
