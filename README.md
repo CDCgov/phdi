@@ -1,11 +1,14 @@
-# PRIME Public Health Data Infrastructure
+# PRIME Data Integration Building Blocks (DIBBs)
 [![Test github badge](https://github.com/CDCgov/phdi/actions/workflows/test.yaml/badge.svg)](https://github.com/CDCgov/phdi/actions/workflows/test.yaml)
 [![codecov](https://codecov.io/gh/CDCgov/phdi/branch/main/graph/badge.svg)](https://codecov.io/gh/CDCgov/phdi)
-- [PRIME Public Health Data Infrastructure](#prime-public-health-data-infrastructure)
-  - [Getting Started](#getting-started)
-    - [How to import PHDI](#how-to-import-phdi)
+- [PRIME Data Integration Building Blocks (DIBBs)](#prime-data-integration-building-blocks)
   - [Overview](#overview)
     - [Problem Scope](#problem-scope)
+  - [Getting Started](#getting-started)
+    - [How to import PHDI](#how-to-import-phdi)
+  - [Main Features](#main-features)
+  - [Where to Get DIBBs](#where-to-get-dibbs)
+  - [Documentation](#documentation)
   - [Standard Notices](#standard-notices)
     - [Public Domain Standard Notice](#public-domain-standard-notice)
     - [License Standard Notice](#license-standard-notice)
@@ -16,6 +19,36 @@
     - [Additional Standard Notices](#additional-standard-notices)
 
 **General disclaimer** This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/organization/mission.htm). GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
+
+## Overview
+
+This repository is a part of the CDC/USDS [DIBBS project](https://cdcgov.github.io/phdi-site/) and has two components: 
+1. DIBBs Python Package
+2. DIBBs containerized Building Blocks 
+
+The DIBBs Python package contains source code for a platform to help public health authorities (PHAs) ingest and report on public health data. This platform is composed of **Building Blocks**, which are modular software tools that, when composed together, can improve data quality and reduce data cleaning workloads by providing analysis-ready data to downstream public health surveillance systems and other analytical and reporting applications. 
+
+
+The PRIME Public Health Data Infrastructure projects are part of the Pandemic-Ready Interoperability Modernization Effort, a multi-year collaboration between CDC and the U.S. Digital Service (USDS) to strengthen data quality and information technology systems in state and local health departments.
+
+This repository contains source code for a platform to help state, tribal, local and territorial (STLT) public health departments ingest and report on public health data.  It contains the following components:
+
+- **Data Ingestion** - Data ingestion tools provide a common framework to prepare data for storage, and store the data in a common standard data model ([FHIR](https://hl7.org/FHIR/)). 
+  - __Harmonization__ - Data harmonization tools can operate on raw input data (HL7 version 2, CCDA) and convert to the common data model format (FHIR).
+  - __Geospatial__ - Geospatial tools provide a common interface for obtaining precise geographic locations based on street addresses from input data.
+  - __Linkage__ - Linkage tools assign a common identifier to patient records to link and deduplicate patients seen across data contributors.
+  - __Transport__ - Transport tools provide a mechanism to store and interact with data stored to a central repostory (FHIR server). 
+- **Reporting** - Reporting tools define a dynamic framework for building custom data models in an analysis-ready output format.
+  - __Tabulation__ - Tabulation provides tools to retrieve data dynamically-defined records and data fields from the common data platform (FHIR server), extract, convert it to a tabular representation, and store to a user-defined tabular storage file type (Parquet or CSV).
+- **Implementation Support** - Implemetnation resources support implementing STLTs to configure a PHDI-driven workflow to manage their data and analysis workflows.
+  - __Cloud-agnostic tools__ - A common PHDI programming interface supports STLTs interacting with cloud-based data storage (containers/buckets), and FHIR servers in a common way.
+  - __Examples and Tutorials__ - Example and tutorial materials help STLTs implement the PHDI solution more quickly by providing easy-to-follow examples and tutorials.
+
+The PRIME Public Health Data Infrastructure prototype a sibling project to [PRIME ReportStream](https://reportstream.cdc.gov), focusing on delivering COVID-19 test data to public health departments, and [PRIME SimpleReport](https://simplereport.gov), working on a better way to report COVID-19 rapid tests.
+
+### Problem Scope
+
+Long-term Vision: Current public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective is to help the CDC best support STLTs in moving towards a modern public health data infrastructure.
 
 ## Getting Started
 
@@ -45,28 +78,6 @@ Every building block has a FHIR counterpart that works well with FHIR bundles as
 
 For further information on the tutorial: [Geospatial Tutorial](tutorials/geospatial-tutorial.md)
 
-## Overview
-
-The PRIME Public Health Data Infrastructure projects are part of the Pandemic-Ready Interoperability Modernization Effort, a multi-year collaboration between CDC and the U.S. Digital Service (USDS) to strengthen data quality and information technology systems in state and local health departments.
-
-This repository contains source code for a platform to help state, tribal, local and territorial (STLT) public health departments ingest and report on public health data.  It contains the following components:
-
-- **Data Ingestion** - Data ingestion tools provide a common framework to prepare data for storage, and store the data in a common standard data model ([FHIR](https://hl7.org/FHIR/)). 
-  - __Harmonization__ - Data harmonization tools can operate on raw input data (HL7 version 2, CCDA) and convert to the common data model format (FHIR).
-  - __Geospatial__ - Geospatial tools provide a common interface for obtaining precise geographic locations based on street addresses from input data.
-  - __Linkage__ - Linkage tools assign a common identifier to patient records to link and deduplicate patients seen across data contributors.
-  - __Transport__ - Transport tools provide a mechanism to store and interact with data stored to a central repostory (FHIR server). 
-- **Reporting** - Reporting tools define a dynamic framework for building custom data models in an analysis-ready output format.
-  - __Tabulation__ - Tabulation provides tools to retrieve data dynamically-defined records and data fields from the common data platform (FHIR server), extract, convert it to a tabular representation, and store to a user-defined tabular storage file type (Parquet or CSV).
-- **Implementation Support** - Implemetnation resources support implementing STLTs to configure a PHDI-driven workflow to manage their data and analysis workflows.
-  - __Cloud-agnostic tools__ - A common PHDI programming interface supports STLTs interacting with cloud-based data storage (containers/buckets), and FHIR servers in a common way.
-  - __Examples and Tutorials__ - Example and tutorial materials help STLTs implement the PHDI solution more quickly by providing easy-to-follow examples and tutorials.
-
-The PRIME Public Health Data Infrastructure prototype a sibling project to [PRIME ReportStream](https://reportstream.cdc.gov), focusing on delivering COVID-19 test data to public health departments, and [PRIME SimpleReport](https://simplereport.gov), working on a better way to report COVID-19 rapid tests.
-
-### Problem Scope
-
-Long-term Vision: Current public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective is to help the CDC best support STLTs in moving towards a modern public health data infrastructure.
 
 ## Additional Acknowledgments 
 
