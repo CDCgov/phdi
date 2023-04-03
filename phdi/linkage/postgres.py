@@ -49,8 +49,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         :param block_vals: Dictionary containing key value pairs for the column name for
           blocking and the data for the incoming record as well as any transformations,
-          e.g., {["ZIP"]: {"value": "90210"}} or
-          {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
+          e.g., {"ZIP": {"value": "90210"}} or
+          {"ZIP": {"value": "90210",}, "transformation":"first4"}.
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
