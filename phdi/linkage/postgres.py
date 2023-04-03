@@ -187,10 +187,9 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         # Generate select query to extract fields_to_jsonpaths keys
         select_query_stubs = []
-        for key in block_vals:
-            if key not in self.fields_to_jsonpaths:
+        for key in self.fields_to_jsonpaths:
             query = f"""jsonb_path_query_array(patient_resource,
-                '{self.fields_to_jsonpaths[col_name]}') as {col_name}"""
+                '{self.fields_to_jsonpaths[key]}') as {key}"""
             select_query_stubs.append(query)
         select_query = "SELECT patient_id, person_id, " + ", ".join(
             stub for stub in select_query_stubs
