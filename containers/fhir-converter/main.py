@@ -11,8 +11,9 @@ api = FastAPI()
 
 
 class InputType(str, Enum):
-    hl7v2 = "hl7v2"
-    ccda = "ccda"
+    elr = "elr"
+    vxu = "vxu"
+    ecr = "ecr"
 
 
 class RootTemplate(str, Enum):
@@ -127,8 +128,8 @@ def convert_to_fhir(
     converter can be found at https://github.com/microsoft/FHIR-Converter.
 
     :param input_data: The message to be converted as a string.
-    :param input_type: The type of message to be converted. Valid values are "hl7v2"
-        and "c-cda".
+    :param input_type: The type of message to be converted. Valid values are
+        "elr", "vxu", and "ecr".
     :param root_template: Name of the liquid template within to be used for conversion.
         Options are listed in the FHIR-Converter README.md.
     """
@@ -137,9 +138,9 @@ def convert_to_fhir(
     converter_project_path = (
         "/build/FHIR-Converter/output/Microsoft.Health.Fhir.Liquid.Converter.Tool.dll"
     )
-    if input_type == "hl7v2":
+    if input_type == "elr" or input_type == "vxu":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Hl7v2"
-    elif input_type == "ccda":
+    elif input_type == "ecr":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Ccda"
     else:
         raise ValueError(

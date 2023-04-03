@@ -320,6 +320,7 @@ def extract_blocking_values_from_record(
     - state
     - zip
     - sex
+    - mrn
 
     Currently supported transformations on extracted fields:
     - first4: the first four characters of the value
@@ -366,7 +367,12 @@ def extract_blocking_values_from_record(
                         raise ValueError(
                             f"Transformation {transformations[block]} is not valid."
                         )
-                block_vals[block] = value
+                    block_vals[block] = {
+                        "value": value,
+                        "transformation": transformations[block],
+                    }
+                else:
+                    block_vals[block] = {"value": value}
 
         except KeyError:
             raise ValueError(f"Field {block} is not a supported extraction field.")
@@ -757,6 +763,37 @@ def profile_log_odds(
     plt.show()
 
 
+def read_linkage_config(config_file: pathlib.Path) -> List[dict]:
+    """
+    Reads and generates a record linkage algorithm configuration list from
+    the provided filepath, which should point to a JSON file. A record
+    linkage configuration list is a list of dictionaries--one for each
+    pass in the algorithm it describes--containing information on the
+    blocking fields, functions, cluster thresholds, and keyword arguments
+    for that pass of the linkage algorithm. For a full example of all the
+    components involved in a linkage description structure, see the doc
+    string for `write_linkage_config`.
+
+    :param config_file: A `pathlib.Path` string pointing to a JSON file
+      that describes the algorithm to decode.
+    :return: A list of dictionaries whose values can be passed to the
+      various parts of linkage pass function.
+    """
+    try:
+        algo_config = json.load(open(config_file))
+        # Need to convert function keys back to column indices, since
+        # JSON serializes dict keys as strings
+        for rl_pass in algo_config.get("algorithm"):
+            rl_pass["funcs"] = {int(col): f for (col, f) in rl_pass["funcs"].items()}
+        return algo_config
+    except FileNotFoundError:
+        raise FileNotFoundError(f"No file exists at path {config_file}.")
+    except json.decoder.JSONDecodeError as e:
+        raise json.decoder.JSONDecodeError(
+            "The specified file is not valid JSON.", e.doc, e.pos
+        )
+
+
 def score_linkage_vs_truth(
     found_matches: dict[Union[int, str], set],
     true_matches: dict[Union[int, str], set],
@@ -836,6 +873,70 @@ def score_linkage_vs_truth(
         3,
     )
     return (sensitivity, specificity, ppv, f1)
+
+
+def write_linkage_config(linkage_algo: List[dict], file_to_write: pathlib.Path) -> None:
+    """
+    Save a provided algorithm description as a JSON dictionary at the provided
+    filepath location. Algorithm descriptions are lists of dictionaries, one
+    for each pass of the algorithm, whose keys are parameter values for a
+    linkage pass (drawn from the list `"funcs"`, `"blocks"`, `"matching_rule"`,
+    and optionally `"cluster_ratio"` and `"kwargs"`) and whose values are
+    as follows:
+
+    - `"funcs"` should map to a dictionary mapping column index to the
+    name of a function in the DIBBS linkage module (such as
+    `feature_match_fuzzy_string`)--note that these are the actual
+    functions, not string names of the functions
+    - `"blocks"` should map to a list of columns to block on (e.g.
+    ["MRN4", "ADDRESS4"])
+    - `"matching_rule"` should map to one of the evaluation rule functions
+    in the DIBBS linkage module (i.e. `eval_perfect_match`)
+    - `"cluster_ratio"` should map to a float, if provided
+    - `"kwargs"` should map to a dictionary of keyword arguments and their
+    associated values, if provided
+
+    Here's an example of a simple single-pass linkage algorithm that blocks
+    on zip code, then matches on exact first name, exact last name, and
+    fuzzy date of birth (using, say, Levenshtein similarity with a score
+    threshold of 0.8) in dictionary descriptor form (for the sake of the
+    example, let's assume the data has the column order first, last, DOB):
+
+    [{
+        "funcs": {
+            0: feature_match_exact,
+            1: feature_match_exact,
+            2: feature_match_fuzzy_string,
+            3: feature_match_fuzzy_string,
+        },
+        "blocks": ["ZIP"],
+        "matching_rule": eval_perfect_match,
+        "kwargs": {
+            "similarity-measure": "Levenshtein",
+            "threshold": 0.8
+        }
+    }]
+
+    :param linkage_algo: A list of dictionaries whose key-value pairs correspond
+      to the rules above.
+    :param file_to_write: The path to the destination JSON file to write.
+    """
+    algo_json = []
+    for rl_pass in linkage_algo:
+        pass_json = {}
+        pass_json["funcs"] = {col: f.__name__ for (col, f) in rl_pass["funcs"].items()}
+        pass_json["blocks"] = rl_pass["blocks"]
+        pass_json["matching_rule"] = rl_pass["matching_rule"].__name__
+        if rl_pass.get("cluster_ratio", None) is not None:
+            pass_json["cluster_ratio"] = rl_pass["cluster_ratio"]
+        if rl_pass.get("kwargs", None) is not None:
+            pass_json["kwargs"] = {
+                kwarg: val for (kwarg, val) in rl_pass.get("kwargs", {}).items()
+            }
+        algo_json.append(pass_json)
+    linkage_json = {"algorithm": algo_json}
+    with open(file_to_write, "w") as out:
+        out.write(json.dumps(linkage_json))
 
 
 def _eval_record_in_cluster(

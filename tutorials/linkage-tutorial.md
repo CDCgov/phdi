@@ -2,15 +2,15 @@
 
 This guide serves as a tutorial overview of the functionality available in both `linkage.py` and `fhir.linkage.py`. It will cover concepts such as using FHIR bundles for linkage, imports, and common use invocations.
 
-## The Basics: How it links
+## The Basics: How it Links
 
-The linkage module adds a patient identifier to each patient record in a bundle. The patient identifier is generated from patient information (name, birth date, and address), converting it to a hash string and adding a salt value. If two patient identifiers are the same, that means that the two patient records are referring to the same patient. 
+The linkage module adds a patient identifier to each patient record in a bundle, converts it into a hash string, and adds a salt value. The patient identifier is generated from patient information (name, birth date, and address). If two patient identifiers are the same, that means the two patient records are referring to the same patient. 
 
 ## Common Uses
 Listed below are several example use cases for employing the linkage module.
 
 ### Passing in a FHIR Bundle of Patient Data
-Suppose you had a FHIR bundle that had the following data
+Suppose you had a FHIR bundle that had the following data:
 
 ```
 {
@@ -132,7 +132,7 @@ The key section that was added is the `identifier` section:
 ]
 ```
 
-### Using your own non-FHIR data type 
+### Using Your Own Non-FHIR Data Type 
 If you did not want to use the FHIR bundle data type, you can just use `generate_hash_str` on a patient's name, DOB, and address.
 
 ```

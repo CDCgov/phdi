@@ -8,7 +8,7 @@ client = TestClient(api)
 
 valid_request = {
     "input_data": "VALID_INPUT_DATA",
-    "input_type": "hl7v2",
+    "input_type": "elr",
     "root_template": "ADT_A01",
 }
 
@@ -49,13 +49,13 @@ conversion_failure_response = {
     "method_calls": [],
     "original_request": {
         "input_data": "VALID_INPUT_DATA",
-        "input_type": "hl7v2",
+        "input_type": "elr",
         "root_template": "ADT_A01",
     },
     "returncode": 1,
 }
 
-missing_input_data_request = {"input_type": "hl7v2", "root_template": "ADT_A01"}
+missing_input_data_request = {"input_type": "elr", "root_template": "ADT_A01"}
 
 missing_input_data_response = {
     "detail": [
@@ -77,16 +77,16 @@ invalid_input_type_response = {
     "detail": [
         {
             "loc": ["body", "input_type"],
-            "msg": "value is not a valid enumeration member; permitted: 'hl7v2', 'ccda'",
+            "msg": "value is not a valid enumeration member; permitted: 'elr', 'vxu', 'ecr'",
             "type": "type_error.enum",
-            "ctx": {"enum_values": ["hl7v2", "ccda"]},
+            "ctx": {"enum_values": ["elr", "vxu", "ecr"]},
         }
     ]
 }
 
 invalid_root_template_request = {
     "input_data": "VALID_INPUT_DATA",
-    "input_type": "hl7v2",
+    "input_type": "elr",
     "root_template": "INVALID_ROOT_TEMPLATE",
 }
 
