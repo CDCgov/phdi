@@ -7,4 +7,26 @@
     {% assign fullPractitionerId = practitionerId | prepend: 'Practitioner/' -%}
     {% include 'Reference/DiagnosticReport/Performer' ID: diagnosticId, REF: fullPractitionerId -%}
 {% endif -%}
-{{ entry.organizer.component | to_array | batch_render: 'Entry/Result/entry_organizer_component', 'component' }}
+{% if entry.organizer.effectiveTime.low and entry.organizer.effectiveTime.low.value -%}
+    {% assign collectTime = entry.organizer.effectiveTime.low.value -%}
+{% endif -%}
+{% assign comps = entry.organizer.component | to_array -%}
+{% for comp in comps -%}
+    {% if comp.procedure  -%}
+        {% if comp.procedure.participant.participantRole.id -%}
+            {% if comp.procedure.participant.participantRole.playingEntity.code.translation -%}
+                {% assign translations = comp.procedure.participant.participantRole.playingEntity.code.translation | to_array -%}
+                {% if translations.first.displayName -%}
+                    {% assign specValue = translations.first.displayName -%}
+                {% endif -%}
+            {% elsif comp.procedure.participant.participantRole.id.displayName -%}
+                {% assign specValue = comp.procedure.participant.participantRole.id.displayName -%}
+            {% elsif entry.organizer.component.procedure.participant.participantRole.playingEntity.code.displayName -%}
+                {% assign specValue = comp.procedure.participant.participantRole.playingEntity.code.displayName -%}
+            {% else -%}
+                {% assign specValue = "None" -%}
+            {% endif -%}
+        {% endif -%}
+    {% endif -%}
+{% endfor-%}   
+{{ comps | batch_render: 'Entry/Result/entry_organizer_component', 'component' }}

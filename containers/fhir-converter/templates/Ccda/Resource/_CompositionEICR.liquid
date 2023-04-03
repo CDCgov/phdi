@@ -89,25 +89,67 @@
                         {% include 'DataType/CodeableConcept' CodeableConcept: component.section.code -%}
                     },
                     "mode":"snapshot",
+                    {% if component.section.templateId.root and component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.12" -%}
+                        {% if component.section.text and component.section.text.content and component.section.text.content._ -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.content._ }}"
+                                },
+                            ],
+                        {% elsif component.section.text and component.section.text._ and component.section.text._ != null -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.content._ }}"
+                                },
+                            ],
+                        {% endif -%}
+                    {% endif -%}
                     "entry": 
                     [                    
-                        {% assign entries = composition.section.entry | to_array -%}
-                        {% for entry in entries -%}
-                            {% if entry.act.first.entryRelationship.first.observation and entry.act.first.entryRelationship.first.observation.templateId.root == "2.16.840.1.113883.10.20.22.4.4" -%}
-                                {% if entry.act.first.entryRelationship.first.observation.id and entry.act.first.entryRelationship.first.observation.id.root -%}
-                                    {% assign conditionId = entry.act.first.entryRelationship.first.observation.id.root -%}
-                                {% else -%}
-                                    {% assign conditionId = entry.act.first.entryRelationship.first.observation.value | to_json_string | generate_uuid -%}
+                        {% assign entries = component.section.entry | to_array -%}
+                        {% for sectionEntry in entries -%}
+                            {% if sectionEntry.act.entryRelationship -%}
+                                {% assign ers = sectionEntry.act.entryRelationship | to_array -%}
+                                {% for er in ers -%}
+                                {% assign obsTemplates = er.observation.templateId | to_array -%}
+                                {% if er.observation and obsTemplates.first.root and obsTemplates.first.root == "2.16.840.1.113883.10.20.22.4.4" -%}
+                                        {% assign conditionId = er.observation | to_json_string | generate_uuid -%}
+                                        {% assign fullConditionId = conditionId | prepend: 'Condition/' -%}
+                                        {
+                                            {% if er.observation.value.displayName -%}
+                                                "display": "Problem - {{ er.observation.value.displayName }}",
+                                            {% elsif er.observation.value.translation -%}
+                                                {% assign translations = er.observation.value.translation | to_array -%}
+                                                "display": "Problem - {{translations.first.displayName}}",
+                                            {% endif -%}
+                                            "reference": "{{ fullConditionId }}",
+                                        },
                                 {% endif -%}
-                                {% assign fullConditionId = conditionId | prepend: 'Condition/' -%}
-                                    {
-                                        {% if entry.act.first.entryRelationship.first.observation.value.displayName -%}
-                                            "display": "Problem - {{ ob.value.displayName }}",
-                                        {% elsif entry.act.first.entryRelationship.first.observation.value.translation.first.displayName -%}
-                                            "display": "Problem - {{entry.act.first.entryRelationship.first.observation.value.translation.first.displayNamea}}",
+                                {% endfor -%}
+                            {% elsif component.section.code.code and component.section.code.code == "30954-2" -%}                                
+                                {% assign orgComps = sectionEntry.organizer.component | to_array -%}
+                                {% for orgComp in orgComps -%}
+                                    {% if orgComp.observation -%}
+                                        {% if orgComp.observation.code.nullFlavor -%}
+                                        {% else -%}
+                                        {% assign observationId = orgComp.observation | to_json_string | generate_uuid -%}
+                                        {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                        {
+                                            {% if orgComp.observation.code.originalText._ -%}
+                                                "display": "{{orgComp.observation.code.originalText._ | strip}}",
+                                            {% elsif orgComp.observation.code.translation -%}
+                                                {% assign translations = orgComp.observation.code.translation | to_array -%}
+                                                "display": "{{translations.first.displayName | strip}}",
+                                            {% endif -%}
+                                            "reference": "{{ fullObservationId }}",
+                                        },
                                         {% endif -%}
-                                        "reference": "{{ fullConditionId }}",
-                                    },
+                                    {% endif -%}
+                                {% endfor -%}
                             {% endif -%}
                         {% endfor -%}
                     ],

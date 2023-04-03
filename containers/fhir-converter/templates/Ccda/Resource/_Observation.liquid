@@ -96,6 +96,21 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
+        "extension":
+            [
+                {% if specimenValue and specimenValue != "None" -%}
+                    {
+                        "url" : "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString" : "{{ specimenValue }}",
+                    },
+                {% endif -%}
+                {% if collectTime -%}
+                    {
+                        "url" : "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime" : "{{ collectTime | format_as_date_time }}",
+                    },
+                {% endif -%}
+            ],
     },
     "request":{
         "method":"PUT",
