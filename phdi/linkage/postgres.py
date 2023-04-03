@@ -4,11 +4,12 @@ import psycopg2
 import json
 
 
-class PostgresConnectorClient(BaseMPIConnectorClient):
+class DIBBsConnectorClient(BaseMPIConnectorClient):
     """
-    Represents a Postgres-specific Master Patient Index (MPI) connector client.
-    Callers should use the provided interface functions (e.g., block_vals)
-    to interact with the underlying vendor-specific client property.
+    Represents a Postgres-specific Master Patient Index (MPI) connector client for the
+    DIBBs implementation of the record linkage building block. Callers should use the
+    provided interface functions (e.g., block_vals) to interact with the underlying
+    vendor-specific client property.
     """
 
     def __init__(
@@ -92,7 +93,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         return blocked_data
 
-    def upsert_match_patient(
+    def insert_match_patient(
         self,
         patient_resource: Dict,
         person_id=None,

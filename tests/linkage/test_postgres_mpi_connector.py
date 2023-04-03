@@ -1,4 +1,4 @@
-from phdi.linkage.postgres import PostgresConnectorClient
+from phdi.linkage.postgres import DIBBsConnectorClient
 import pathlib
 import pytest
 import json
@@ -7,7 +7,7 @@ import copy
 
 
 def test_postgres_connection():
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -31,7 +31,7 @@ def test_postgres_connection():
 
 
 def test_generate_block_query():
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -66,7 +66,7 @@ def test_generate_block_query():
 
 
 def test_block_data():
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -163,7 +163,7 @@ def test_block_data():
 
 
 def test_dibbs_blocking():
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -299,8 +299,8 @@ def test_dibbs_blocking():
         assert patient_resource["name"][0]["family"][0:4] == record[6][0][0:4]
 
 
-def test_upsert_match_patient():
-    postgres_client = PostgresConnectorClient(
+def test_insert_match_patient():
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -394,7 +394,7 @@ def test_upsert_match_patient():
 
     # Match has been found, i.e., person_id is not None
     person_id = "4d88cd35-5ee7-4419-a847-2818fdfeec88"
-    postgres_client.upsert_match_patient(
+    postgres_client.insert_match_patient(
         patient_resource=patient_resource,
         person_id=person_id,
     )
@@ -456,7 +456,7 @@ def test_upsert_match_patient():
         "address": "123 Main Street",
     }
     person_id = None
-    postgres_client.upsert_match_patient(
+    postgres_client.insert_match_patient(
         patient_resource=patient_resource,
         person_id=person_id,
     )
