@@ -177,8 +177,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         """
         # Check whether `block_vals` contains supported keys
-        for key in block_vals.keys():
-            if key not in self.fields_to_jsonpaths.keys():
+        for key in block_vals:
+            if key not in self.fields_to_jsonpaths:
                 raise ValueError(
                     f"""`{key}` not supported for blocking at this time. Supported
                     columns include first_name, last_name, birthdate, address, city,
