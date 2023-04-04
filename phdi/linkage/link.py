@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pathlib
 import sqlite3
-
+from pydantic import Field
 from itertools import combinations
 from math import log
 from random import sample
@@ -1087,3 +1087,34 @@ def _write_prob_file(prob_dict: dict, file_to_write: Union[pathlib.Path, None]):
     if file_to_write is not None:
         with open(file_to_write, "w") as out:
             out.write(json.dumps(prob_dict))
+
+
+def add_person_resource(
+    person_id: str, patient_id: str, bundle: dict = Field(description="A FHIR bundle")
+) -> dict:
+    """
+    Adds a simplified person resource to a bundle if the patient resource in the bundle
+    matches an existing record in the Master Patient Index. Returns the bundle with
+    the newly added person resource.
+
+    :param person_id: _description_
+    :param patient_id: _description_
+    :param bundle: _description_, defaults to Field(description="A FHIR bundle")
+    :return: _description_
+    """
+    person_resource = {
+        "fullUrl": f"urn:uuid:{person_id}",
+        "resource": {
+            "resourceType": "Person",
+            "id": f"{person_id}",
+            "link": [{"target": {"Reference": f"Patient/{patient_id}"}}],
+        },
+        "request": {
+            "method": "PUT",
+            "url": f"Person/{person_id}",
+        },
+    }
+
+    bundle.get("entry", []).append(person_resource)
+
+    return bundle
