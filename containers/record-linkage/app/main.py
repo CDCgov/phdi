@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from pathlib import Path
 from pydantic import BaseModel, Field
-from contextlib import asynccontextmanager
 from psycopg2 import OperationalError, errors
 import psycopg2
 import os
