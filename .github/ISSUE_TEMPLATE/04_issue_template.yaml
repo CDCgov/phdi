@@ -34,6 +34,6 @@ body:
     id: additional
     attributes:
       label: Additional Context
-      description: "What does someone else picking up this ticket need to know? This could be related issues, meeting notes, design specs, etc."
+      description: "What does someone else picking up this ticket need to know? This could be related issues, meeting notes, design specs, architecture diagrams, etc."
     validations:
       required: false

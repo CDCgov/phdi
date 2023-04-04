@@ -1,12 +1,13 @@
-from phdi.linkage.postgres import PostgresConnectorClient
+from phdi.linkage.postgres import DIBBsConnectorClient
 import pathlib
 import pytest
 import json
 import psycopg2
+import copy
 
 
 def test_postgres_connection():
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -15,18 +16,14 @@ def test_postgres_connection():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
-
-    try:
-        postgres_client.connection = psycopg2.connect(
-            database=postgres_client.database,
-            user=postgres_client.user,
-            password=postgres_client.password,
-            host=postgres_client.host,
-            port=postgres_client.port,
-        )
-        postgres_client.cursor = postgres_client.connection.cursor()
-    except Exception as error:
-        raise ValueError(f"{error}")
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
 
     assert postgres_client.connection is not None
     postgres_client.cursor.close()
@@ -34,7 +31,7 @@ def test_postgres_connection():
 
 
 def test_generate_block_query():
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -43,20 +40,33 @@ def test_generate_block_query():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
-    table_name = "test_patient_mpi"
-    block_data = {"ZIP": "90120-1001", "LAST4": "GONZ"}
-    expected_query = (
-        "SELECT * FROM test_patient_mpi WHERE patient_resource->>'ZIP' = '90120-1001' "
-        + "AND patient_resource->>'LAST4' = 'GONZ';"
+    block_vals = {
+        "zip": {"value": "90120-1001"},
+        "last_name": {"value": "GONZ", "transformation": "first4"},
+    }
+    expected_query_line_0 = (
+        """SELECT patient_id, person_id, jsonb_path_query_array(patient_resource,"""
     )
+    expected_query_last_line = "= '[true]';"
 
-    generated_query = postgres_client._generate_block_query(table_name, block_data)
+    generated_query = postgres_client._generate_block_query(block_vals)
 
-    assert expected_query == generated_query
+    assert expected_query_line_0 == generated_query.split("\n")[0]
+    assert expected_query_last_line == generated_query.split("\n")[-1].strip()
+
+    # Test bad block_data
+    block_vals = {"bad_block_column": "90120-1001"}
+    with pytest.raises(ValueError) as e:
+        blocked_data = postgres_client._generate_block_query(block_vals)
+        assert f"""`{list(block_vals.keys())[0]}`
+        not supported for blocking at this time.""" in str(
+            e
+        )
+        assert blocked_data is None
 
 
 def test_block_data():
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -65,15 +75,26 @@ def test_block_data():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
-    table_name = "test_patient_mpi"
 
-    # Test for invalue block data
-    block_data = {}
+    raw_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "tests"
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+
+    patient_resource = raw_bundle.get("entry")[1].get("resource")
+    patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
+
+    # Test for invalid block data
+    block_vals = {}
     with pytest.raises(ValueError) as e:
-        blocked_data = postgres_client.block_data(block_data)
+        blocked_data = postgres_client.block_data(block_vals)
         assert "`block_data` cannot be empty." in str(e.value)
 
-    block_data = {"LAST4": "GONZ"}
+    block_vals = {"last_name": {"value": patient_resource["name"][0]["family"]}}
     # Create test table and insert data
     funcs = {
         "drop tables": (
@@ -94,12 +115,8 @@ def test_block_data():
         "insert": (
             f"""INSERT INTO {postgres_client.patient_table}
              (person_id, patient_resource) """
-            + """VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec38',
-            '{"FIRST4":"JOHN","LAST4":"SMIT","ZIP":"90120-1001"}'),
-            ('4d88cd35-5ee7-4419-a847-2818fdfeec39',
-            '{"FIRST4":"JOSE","LAST4":"GONZ","ZIP":"90120-1001"}'),
-            ('4d88cd35-5ee7-4419-a847-2818fdfeec40',
-            '{"FIRST4":"MARI","LAST4":"GONZ","ZIP":"90120-1001"}');"""
+            + f"""VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec38',
+            '{json.dumps(patient_resource)}');"""
         ),
     }
     postgres_client.connection = psycopg2.connect(
@@ -120,14 +137,14 @@ def test_block_data():
             print(e)
             postgres_client.connection.rollback()
 
-    blocked_data = postgres_client.block_data(block_data)
+    blocked_data = postgres_client.block_data(block_vals)
 
     # Assert that all returned data matches blocking criterion
     for row in blocked_data[1:]:
-        assert row[-2] == block_data["LAST4"]
+        assert block_vals["last_name"]["value"] in row[-5]
 
     # Assert returned data are LoL
-    assert type(blocked_data[0]) is list
+    assert type(blocked_data[1]) is list
 
     # Clean up
     postgres_client.connection = psycopg2.connect(
@@ -138,13 +155,152 @@ def test_block_data():
         port=postgres_client.port,
     )
     postgres_client.cursor = postgres_client.connection.cursor()
-    postgres_client.cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+    )
     postgres_client.connection.commit()
     postgres_client.connection.close()
 
 
-def test_upsert_match_patient():
-    postgres_client = PostgresConnectorClient(
+def test_dibbs_blocking():
+    postgres_client = DIBBsConnectorClient(
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )
+
+    raw_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "tests"
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+
+    patient_resource = raw_bundle.get("entry")[1].get("resource")
+    patient_resource_2 = copy.deepcopy(patient_resource)
+    patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
+    patient_resource_2["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec51"
+    patient_resource_2["identifier"][0]["value"] = "4455"
+    # Add 2nd MRN to patient resource
+    another_mrn = {
+        "value": "78910",
+        "type": {
+            "coding": [
+                {
+                    "code": "MR",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                    "display": "Medical record number",
+                }
+            ]
+        },
+        "system": "other system",
+    }
+    patient_resource["identifier"].append(another_mrn)
+
+    # Create test table and insert data
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
+            + "patient_resource JSONB);"
+        ),
+        "insert": (
+            f"""INSERT INTO {postgres_client.patient_table}
+             (person_id, patient_resource) """
+            + f"""VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec38',
+            '{json.dumps(patient_resource)}');"""
+        ),
+        "insert_2": (
+            f"""INSERT INTO {postgres_client.patient_table}
+             (person_id, patient_resource) """
+            + f"""VALUES ('4d88cd35-5ee7-4419-a847-2818fdfeec39',
+            '{json.dumps(patient_resource_2)}');"""
+        ),
+    }
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    # DIBBS Pass 1 Blocks
+    block_vals_pass1 = {
+        "mrn": {
+            "value": patient_resource["identifier"][0]["value"][-4:],
+            "transformation": "last4",
+        },
+        "address": {
+            "value": patient_resource["address"][0]["line"][0][0:4],
+            "transformation": "first4",
+        },
+    }
+    blocked_data_pass1 = postgres_client.block_data(block_vals_pass1)
+
+    # Assert only patient 1 is returned & matches on block criteria
+    assert len(blocked_data_pass1[1:]) == 1
+    # Assert matching on last4 of MRN
+    assert patient_resource["identifier"][0]["value"][-4:] in [
+        b[-4:] for b in blocked_data_pass1[1][-4]
+    ]
+    # Assert matching on 1st 4 of address
+    assert patient_resource["address"][0]["line"][0][0:4] in [
+        b[:4] for b in blocked_data_pass1[1][2][0]
+    ]
+
+    # DIBBS Pass 2 Blocks
+    block_vals_pass2 = {
+        "first_name": {
+            "value": patient_resource["name"][0]["given"][0][0:4],
+            "transformation": "first4",
+        },
+        "last_name": {
+            "value": patient_resource["name"][0]["family"][0:4],
+            "transformation": "first4",
+        },
+    }
+
+    blocked_data_pass2 = postgres_client.block_data(block_vals_pass2)
+
+    # Assert both patients are  returned & matches on block criteria
+    assert len(blocked_data_pass2[1:]) == 2
+    # Assert all returned records match on first 4 characters of first and last names
+    for record in blocked_data_pass2[1:]:
+        assert patient_resource["name"][0]["given"][0][0:4] in [
+            fname[0:4] for fname in record[5][0][0:4]
+        ]
+        assert patient_resource["name"][0]["family"][0:4] == record[6][0][0:4]
+
+
+def test_insert_match_patient():
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -238,7 +394,7 @@ def test_upsert_match_patient():
 
     # Match has been found, i.e., person_id is not None
     person_id = "4d88cd35-5ee7-4419-a847-2818fdfeec88"
-    postgres_client.upsert_match_patient(
+    postgres_client.insert_match_patient(
         patient_resource=patient_resource,
         person_id=person_id,
     )
@@ -300,7 +456,7 @@ def test_upsert_match_patient():
         "address": "123 Main Street",
     }
     person_id = None
-    postgres_client.upsert_match_patient(
+    postgres_client.insert_match_patient(
         patient_resource=patient_resource,
         person_id=person_id,
     )
@@ -359,3 +515,8 @@ def test_upsert_match_patient():
     postgres_client.connection.commit()
     postgres_client.cursor.close()
     postgres_client.connection.close()
+
+
+block_vals = {
+    "mrn": {"value": "3456", "transformation": "last4"},
+}
