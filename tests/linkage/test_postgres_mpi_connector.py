@@ -1,4 +1,4 @@
-from phdi.linkage.postgres import PostgresConnectorClient
+from phdi.linkage import PostgresConnectorClient
 import pathlib
 import pytest
 import json

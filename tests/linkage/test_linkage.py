@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+import psycopg2
 import random
 
 from phdi.linkage import (
@@ -26,11 +27,13 @@ from phdi.linkage import (
     extract_blocking_values_from_record,
     write_linkage_config,
     read_linkage_config,
+    link_record_against_mpi,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
     _map_matches_to_record_ids,
 )
+from phdi.linkage import PostgresConnectorClient
 
 import pathlib
 import pytest
@@ -50,29 +53,33 @@ def test_extract_blocking_values_from_record():
     ][0]
     patient["name"][0]["family"] = "Shepard"
 
+    with pytest.raises(KeyError) as e:
+        extract_blocking_values_from_record(patient, {"invalid"})
+    assert "Input dictionary for block" in str(e.value)
+
     with pytest.raises(ValueError) as e:
-        extract_blocking_values_from_record(patient, {"invalid"}, {})
+        extract_blocking_values_from_record(patient, [{"value": "invalid"}])
     assert "is not a supported extraction field" in str(e.value)
 
     with pytest.raises(ValueError) as e:
         extract_blocking_values_from_record(
-            patient, {"first_name"}, {"first_name": "invalid_transform"}
+            patient, [{"value": "first_name", "transformation": "invalid_transform"}]
         )
     assert "Transformation invalid_transform is not valid" in str(e.value)
 
     blocking_fields = [
-        "first_name",
-        "last_name",
-        "zip",
-        "city",
-        "birthdate",
-        "sex",
-        "state",
-        "address",
+        {"value": "first_name", "transformation": "first4"},
+        {"value": "last_name", "transformation": "first4"},
+        {"value": "zip"},
+        {"value": "city"},
+        {"value": "birthdate"},
+        {"value": "sex"},
+        {"value": "state"},
+        {"value": "address", "transformation": "last4"},
     ]
-    transforms = {"first_name": "first4", "last_name": "first4", "address": "last4"}
     blocking_vals = extract_blocking_values_from_record(
-        patient, blocking_fields, transforms
+        patient,
+        blocking_fields,
     )
     assert blocking_vals == {
         "first_name": {"value": "John", "transformation": "first4"},
@@ -740,14 +747,17 @@ def test_algo_read():
         / "algorithms"
         / "dibbs_basic.json"
     )
-    assert dibbs_basic_algo.get("algorithm", []) == [
+    assert dibbs_basic_algo == [
         {
             "funcs": {
                 0: "feature_match_fuzzy_string",
                 2: "feature_match_fuzzy_string",
                 3: "feature_match_fuzzy_string",
             },
-            "blocks": ["MRN4", "ADDRESS4"],
+            "blocks": [
+                {"value": "mrn", "transformation": "last4"},
+                {"value": "address", "transformation": "last4"},
+            ],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9,
         },
@@ -756,7 +766,10 @@ def test_algo_read():
                 10: "feature_match_fuzzy_string",
                 16: "feature_match_fuzzy_string",
             },
-            "blocks": ["FIRST4", "LAST4"],
+            "blocks": [
+                {"value": "first_name", "transformation": "first4"},
+                {"value": "last_name", "transformation": "first4"},
+            ],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9,
         },
@@ -769,14 +782,17 @@ def test_algo_read():
         / "algorithms"
         / "dibbs_enhanced.json"
     )
-    assert dibbs_enhanced_algo.get("algorithm", []) == [
+    assert dibbs_enhanced_algo == [
         {
             "funcs": {
                 0: "feature_match_log_odds_fuzzy_compare",
                 2: "feature_match_log_odds_fuzzy_compare",
                 3: "feature_match_log_odds_fuzzy_compare",
             },
-            "blocks": ["MRN4", "ADDRESS4"],
+            "blocks": [
+                {"value": "mrn", "transformation": "last4"},
+                {"value": "address", "transformation": "last4"},
+            ],
             "matching_rule": "eval_log_odds_cutoff",
             "cluster_ratio": 0.9,
             "kwargs": {
@@ -790,7 +806,10 @@ def test_algo_read():
                 10: "feature_match_log_odds_fuzzy_compare",
                 16: "feature_match_log_odds_fuzzy_compare",
             },
-            "blocks": ["FIRST4", "LAST4"],
+            "blocks": [
+                {"value": "first_name", "transformation": "first4"},
+                {"value": "last_name", "transformation": "first4"},
+            ],
             "matching_rule": "eval_log_odds_cutoff",
             "cluster_ratio": 0.9,
             "kwargs": {
@@ -842,7 +861,7 @@ def test_algo_write():
     write_linkage_config(sample_algo, test_file_path)
 
     loaded_algo = read_linkage_config(test_file_path)
-    assert loaded_algo.get("algorithm", []) == [
+    assert loaded_algo == [
         {
             "funcs": {
                 8: "feature_match_fuzzy_string",
@@ -864,3 +883,107 @@ def test_algo_write():
         },
     ]
     os.remove("./" + test_file_path)
+
+
+def test_link_record_against_mpi():
+    # algorithm = read_linkage_config(
+    #     pathlib.Path(__file__).parent.parent.parent
+    #     / "phdi"
+    #     / "linkage"
+    #     / "algorithms"
+    #     / "dibbs_basic.json"
+    # )
+    algorithm = [
+        {
+            "funcs": {
+                3: feature_match_fuzzy_string,
+                4: feature_match_fuzzy_string,
+                1: feature_match_fuzzy_string,
+            },
+            "blocks": [{"value": "mrn"}, {"value": "address"}],
+            "matching_rule": eval_perfect_match,
+            "cluster_ratio": 0.9,
+        },
+        {
+            "funcs": {0: feature_match_fuzzy_string, 2: feature_match_fuzzy_string},
+            "blocks": [{"value": "first_name"}, {"value": "last_name"}],
+            "matching_rule": eval_perfect_match,
+            "cluster_ratio": 0.9,
+        },
+    ]
+
+    postgres_client = PostgresConnectorClient(
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Generate test tables
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create_patient": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
+            + "patient_resource JSONB);"
+        ),
+        "create_person": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
+            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
+            + "external_person_id VARCHAR(100));"
+        ),
+    }
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patient = patients[0]
+    link_record_against_mpi(
+        patient["resource"],
+        algorithm,
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )

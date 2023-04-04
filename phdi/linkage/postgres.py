@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
 import json
@@ -62,6 +62,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         # Generate raw SQL query
         query = self._generate_block_query(self.patient_table, block_vals)
+        print("GENERATED APPROPRIATE QUERY")
+        print(query)
 
         # Execute query
         self.cursor.execute(query)
@@ -90,7 +92,7 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         self,
         patient_resource: Dict,
         person_id=None,
-    ) -> None:
+    ) -> Union[None, str]:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
         the patient table and updates the person table to link to the new patient; else
@@ -152,6 +154,8 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
             self.cursor.close()
             self.connection.close()
+
+            return person_id[0][0]
 
     def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
         """

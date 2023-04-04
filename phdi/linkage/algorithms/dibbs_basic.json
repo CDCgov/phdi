@@ -7,8 +7,14 @@
                 "3": "feature_match_fuzzy_string"
             },
             "blocks": [
-                "MRN4",
-                "ADDRESS4"
+                {
+                    "value": "mrn",
+                    "transformation": "last4"
+                },
+                {
+                    "value": "address",
+                    "transformation": "last4"
+                }
             ],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9
@@ -19,8 +25,14 @@
                 "16": "feature_match_fuzzy_string"
             },
             "blocks": [
-                "FIRST4",
-                "LAST4"
+                {
+                    "value": "first_name",
+                    "transformation": "first4"
+                },
+                {
+                    "value": "last_name",
+                    "transformation": "first4"
+                }
             ],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9

@@ -22,9 +22,11 @@ from phdi.linkage.link import (
     extract_blocking_values_from_record,
     write_linkage_config,
     read_linkage_config,
+    link_record_against_mpi,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
+from phdi.linkage.postgres import PostgresConnectorClient
 
 __all__ = [
     "generate_hash_str",
@@ -51,4 +53,6 @@ __all__ = [
     "extract_blocking_values_from_record",
     "write_linkage_config",
     "read_linkage_config",
+    "PostgresConnectorClient",
+    "link_record_against_mpi",
 ]
