@@ -354,7 +354,7 @@ def extract_blocking_values_from_record(
     }
 
     for block_dict in blocking_fields:
-        if not "value" in block_dict:
+        if "value" not in block_dict:
             raise KeyError(
                 f"Input dictionary for block {block_dict} must contain a 'value' key."
             )
@@ -553,6 +553,33 @@ def link_record_against_mpi(
     patient_table: str,
     person_table: str,
 ) -> tuple[bool, str]:
+    """
+    Runs record linkage on a single incoming record (extracted from a FHIR
+    bundle) using an existing database as an MPI. Uses a flexible algorithm
+    configuration to allow customization of the exact kind of linkage to
+    run. Linkage is assumed to run using cluster membership (i.e. the new
+    record must match a certain proportion of existing records all assigned
+    to a person in order to match), and if multiple persons are matched,
+    the new record is linked to the person with the strongest membership
+    percentage.
+
+    :param record: The FHIR-formatted patient resource to try to match to
+      other records in the MPI.
+    :param algo_config: An algorithm configuration consisting of a list
+      of dictionaries describing the algorithm to run. See
+      `read_linkage_config` and `write_linkage_config` for more details.
+    :param database: The database instance to use as the MPI.
+    :param user: The user name associated with MPI database access.
+    :param password: The password requried to access the MPI.
+    :param host: The host on which the MPI is running.
+    :param port: The port number at which the MPI database can be accessed.
+    :param patient_table: The name of the Patient table in the MPI.
+    :param person_table: The name of the Person table in the MPI.
+    :returns: A tuple consisting of a boolean indicating whether a match
+      was found for the new record in the MPI, followed by the ID of the
+      Person entity now associated with the incoming patient (either a
+      new Person ID or the ID of an existing matched Person).
+    """
     db_client = DIBBsConnectorClient(
         database, user, password, host, port, patient_table, person_table
     )

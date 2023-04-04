@@ -977,7 +977,7 @@ def test_link_record_against_mpi():
             person_table="test_person_mpi",
         )
         matches.append(matched)
-        if not pid in mapped_patients:
+        if pid not in mapped_patients:
             mapped_patients[pid] = 0
         mapped_patients[pid] += 1
 
@@ -1024,7 +1024,7 @@ def test_link_record_against_mpi():
         postgres_client.cursor = postgres_client.connection.cursor()
         print(person_id)
         postgres_client.cursor.execute(
-            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"
+            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
         )
         postgres_client.connection.commit()
         data = postgres_client.cursor.fetchall()
