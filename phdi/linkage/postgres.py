@@ -30,15 +30,15 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         self.patient_table = patient_table
         self.person_table = person_table
         self.fields_to_jsonpaths = {
-            "address": """$.address[*] ?(@.use=="home").line""",
+            "address": """$.address[*].line""",
             "birthdate": "$.birthDate",
-            "city": """$.address[*] ?(@.use=="home").city""",
-            "first_name": """$.name[*] ?(@.use=="official").given""",
-            "last_name": """$.name[*] ?(@.use=="official").family""",
-            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
+            "city": """$.address[*].city""",
+            "first_name": """$.name[*].given""",
+            "last_name": """$.name[*].family""",
+            "mrn": """$.identifier.value""",
             "sex": "$.gender",
-            "state": """$.address[*] ?(@.use=="home").state""",
-            "zip": """$.address[*] ?(@.use=="home").postalCode""",
+            "state": """$.address[*].state""",
+            "zip": """$.address[*].postalCode""",
         }
 
     def block_data(self, block_vals: Dict) -> List[list]:
