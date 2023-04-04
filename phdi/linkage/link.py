@@ -1,3 +1,4 @@
+import copy
 import hashlib
 import json
 import matplotlib.pyplot as plt
@@ -12,7 +13,7 @@ from typing import List, Callable, Dict, Union
 
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
-from phdi.linkage.postgres import PostgresConnectorClient
+from phdi.linkage.postgres import DIBBsConnectorClient
 
 LINKING_FIELDS_TO_FHIRPATHS = {
     "first_name": "Patient.name.given",
@@ -359,7 +360,6 @@ def extract_blocking_values_from_record(
             )
 
     block_vals = dict.fromkeys([b.get("value") for b in blocking_fields], "")
-    print(block_vals)
     transform_blocks = [b for b in blocking_fields if "transformation" in b]
     transformations = dict(
         zip(
@@ -553,11 +553,16 @@ def link_record_against_mpi(
     patient_table: str,
     person_table: str,
 ) -> tuple[bool, str]:
-    db_client = PostgresConnectorClient(
+    db_client = DIBBsConnectorClient(
         database, user, password, host, port, patient_table, person_table
     )
     flattened_record = _flatten_patient_resource(record)
-    print("FLATTENED RECORD")
+
+    # Need to bind function names back to their symbolic invocations
+    # in context of the module--i.e. turn the string of a function
+    # name back into the callable defined in link.py
+    algo_config = copy.deepcopy(algo_config)
+    algo_config = _bind_func_names_to_invocations(algo_config)
 
     # Membership ratios need to persist across linkage passes so that we can
     # find the highest scoring match across all trials
@@ -565,23 +570,33 @@ def link_record_against_mpi(
     for linkage_pass in algo_config:
         blocking_fields = linkage_pass["blocks"]
         field_blocks = extract_blocking_values_from_record(record, blocking_fields)
-        print("EXTRACTED FIELDS TO BLOCK ON WITH THEIR VALUES")
-        print(field_blocks)
         data_block = db_client.block_data(field_blocks)
-        print("BLOCKED DATA USING OBTAINED FIELDS")
-        print(data_block)
+
+        # TODO: First row of returned block is column headers for eventual
+        # mapping of indices to cols. Right now, just ignore the first element.
+        data_block = data_block[1:]
+
+        # TODO: Currently, some fields may be LoL (name, address) since they
+        # can contain historical values. For the MVP, take only the first
+        # element as the one that should be used with the record.
+        for i in range(len(data_block)):
+            blocked_record = data_block[i]
+            for j in range(len(blocked_record)):
+                while type(blocked_record[j]) == list:
+                    blocked_record[j] = blocked_record[j][0]
+
         clusters = _group_patient_block_by_person(data_block)
 
         # Check if incoming record should belong to one of the person clusters
-        kwargs = algo_config["kwargs"]
+        kwargs = linkage_pass.get("kwargs", {})
         for person in clusters:
             num_matched_in_cluster = 0.0
             for linked_patient in clusters[person]:
                 is_match = _compare_records(
                     flattened_record,
                     linked_patient,
-                    algo_config["funcs"],
-                    algo_config["matching_rule"],
+                    linkage_pass["funcs"],
+                    linkage_pass["matching_rule"],
                     **kwargs,
                 )
                 if is_match:
@@ -590,7 +605,7 @@ def link_record_against_mpi(
             # Update membership score for this person cluster so that we can
             # track best possible link across multiple passes
             belongingness_ratio = num_matched_in_cluster / len(clusters[person])
-            if belongingness_ratio >= kwargs["cluster_ratio"]:
+            if belongingness_ratio >= linkage_pass.get("cluster_ratio", 0):
                 if person in linkage_scores:
                     linkage_scores[person] = max(
                         [linkage_scores[person], belongingness_ratio]
@@ -600,13 +615,13 @@ def link_record_against_mpi(
 
     # Didn't match any person in our database
     if len(linkage_scores) == 0:
-        new_person_id = db_client.upsert_match_patient(record, person_id=None)
+        new_person_id = db_client.insert_match_patient(record, person_id=None)
         return (False, new_person_id)
 
     # Determine strongest match, upsert, then let the caller know
     else:
         best_person = _find_strongest_link(linkage_scores)
-        db_client.upsert_match_patient(record, person_id=best_person)
+        db_client.insert_match_patient(record, person_id=best_person)
         return (True, best_person)
 
 
@@ -1024,6 +1039,21 @@ def write_linkage_config(linkage_algo: List[dict], file_to_write: pathlib.Path) 
     linkage_json = {"algorithm": algo_json}
     with open(file_to_write, "w") as out:
         out.write(json.dumps(linkage_json))
+
+
+def _bind_func_names_to_invocations(algo_config: List[dict]):
+    """
+    Helper method that re-maps the string names of functions to their
+    callable invocations as defined within the `link.py` module.
+    """
+    for lp in algo_config:
+        feature_funcs = lp["funcs"]
+        for func in feature_funcs:
+            if type(feature_funcs[func]) == str:
+                feature_funcs[func] = globals()[feature_funcs[func]]
+        if type(lp["matching_rule"]) == str:
+            lp["matching_rule"] = globals()[lp["matching_rule"]]
+    return algo_config
 
 
 def _eval_record_in_cluster(

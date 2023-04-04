@@ -13,7 +13,7 @@
                 },
                 {
                     "value": "address",
-                    "transformation": "last4"
+                    "transformation": "first4"
                 }
             ],
             "matching_rule": "eval_log_odds_cutoff",

@@ -26,7 +26,7 @@ from phdi.linkage.link import (
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
-from phdi.linkage.postgres import PostgresConnectorClient
+from phdi.linkage.postgres import DIBBsConnectorClient
 
 __all__ = [
     "generate_hash_str",
@@ -53,6 +53,6 @@ __all__ = [
     "extract_blocking_values_from_record",
     "write_linkage_config",
     "read_linkage_config",
-    "PostgresConnectorClient",
+    "DIBBsConnectorClient",
     "link_record_against_mpi",
 ]

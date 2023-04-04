@@ -33,7 +33,7 @@ from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
     _map_matches_to_record_ids,
 )
-from phdi.linkage import PostgresConnectorClient
+from phdi.linkage import DIBBsConnectorClient
 
 import pathlib
 import pytest
@@ -750,21 +750,21 @@ def test_algo_read():
     assert dibbs_basic_algo == [
         {
             "funcs": {
-                0: "feature_match_fuzzy_string",
-                2: "feature_match_fuzzy_string",
+                1: "feature_match_fuzzy_string",
                 3: "feature_match_fuzzy_string",
+                4: "feature_match_fuzzy_string",
             },
             "blocks": [
                 {"value": "mrn", "transformation": "last4"},
-                {"value": "address", "transformation": "last4"},
+                {"value": "address", "transformation": "first4"},
             ],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9,
         },
         {
             "funcs": {
-                10: "feature_match_fuzzy_string",
-                16: "feature_match_fuzzy_string",
+                0: "feature_match_fuzzy_string",
+                2: "feature_match_fuzzy_string",
             },
             "blocks": [
                 {"value": "first_name", "transformation": "first4"},
@@ -791,7 +791,7 @@ def test_algo_read():
             },
             "blocks": [
                 {"value": "mrn", "transformation": "last4"},
-                {"value": "address", "transformation": "last4"},
+                {"value": "address", "transformation": "first4"},
             ],
             "matching_rule": "eval_log_odds_cutoff",
             "cluster_ratio": 0.9,
@@ -886,33 +886,15 @@ def test_algo_write():
 
 
 def test_link_record_against_mpi():
-    # algorithm = read_linkage_config(
-    #     pathlib.Path(__file__).parent.parent.parent
-    #     / "phdi"
-    #     / "linkage"
-    #     / "algorithms"
-    #     / "dibbs_basic.json"
-    # )
-    algorithm = [
-        {
-            "funcs": {
-                3: feature_match_fuzzy_string,
-                4: feature_match_fuzzy_string,
-                1: feature_match_fuzzy_string,
-            },
-            "blocks": [{"value": "mrn"}, {"value": "address"}],
-            "matching_rule": eval_perfect_match,
-            "cluster_ratio": 0.9,
-        },
-        {
-            "funcs": {0: feature_match_fuzzy_string, 2: feature_match_fuzzy_string},
-            "blocks": [{"value": "first_name"}, {"value": "last_name"}],
-            "matching_rule": eval_perfect_match,
-            "cluster_ratio": 0.9,
-        },
-    ]
+    algorithm = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_basic.json"
+    )
 
-    postgres_client = PostgresConnectorClient(
+    postgres_client = DIBBsConnectorClient(
         database="testdb",
         user="postgres",
         password="pw",
@@ -975,15 +957,95 @@ def test_link_record_against_mpi():
         )
     )
     patients = patients["entry"]
-    patient = patients[0]
-    link_record_against_mpi(
-        patient["resource"],
-        algorithm,
-        database="testdb",
-        user="postgres",
-        password="pw",
-        host="localhost",
-        port="5432",
-        patient_table="test_patient_mpi",
-        person_table="test_person_mpi",
+    patients = [
+        p
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        matched, pid = link_record_against_mpi(
+            patient["resource"],
+            algorithm,
+            database="testdb",
+            user="postgres",
+            password="pw",
+            host="localhost",
+            port="5432",
+            patient_table="test_patient_mpi",
+            person_table="test_person_mpi",
+        )
+        matches.append(matched)
+        if not pid in mapped_patients:
+            mapped_patients[pid] = 0
+        mapped_patients[pid] += 1
+
+    # First patient inserted into empty MPI, no match
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    # Third patient is entirely new individual, no match
+    # Fourth patient fails blocking with first pass but catches on second, fuzzy matches
+    # Fifth patient: in first pass MRN blocks with one cluster but fails name,
+    #  in second pass name blocks with different cluster but fails address, no match
+    # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
+    #  in second pass name blocks on different cluster and address matches it,
+    #  finds greatest strength match and correctly assigns to larger cluster
+    assert matches == [False, True, False, True, False, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
+
+    # Re-open connection to check for all insertions
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
     )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Extract all data
+    postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
+    postgres_client.connection.commit()
+    data = postgres_client.cursor.fetchall()
+
+    assert len(data) == 6
+
+    # Re-open connection to check that num records for each person
+    # ID matches what we found to link on (i.e. links were made
+    # correctly)
+    for person_id in mapped_patients:
+        postgres_client.connection = psycopg2.connect(
+            database=postgres_client.database,
+            user=postgres_client.user,
+            password=postgres_client.password,
+            host=postgres_client.host,
+            port=postgres_client.port,
+        )
+        postgres_client.cursor = postgres_client.connection.cursor()
+        print(person_id)
+        postgres_client.cursor.execute(
+            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"
+        )
+        postgres_client.connection.commit()
+        data = postgres_client.cursor.fetchall()
+        assert len(data) == mapped_patients[person_id]
+
+    # Clean up
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.close()
+    postgres_client.connection.close()

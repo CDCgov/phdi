@@ -2,9 +2,9 @@
     "algorithm": [
         {
             "funcs": {
-                "0": "feature_match_fuzzy_string",
-                "2": "feature_match_fuzzy_string",
-                "3": "feature_match_fuzzy_string"
+                "1": "feature_match_fuzzy_string",
+                "3": "feature_match_fuzzy_string",
+                "4": "feature_match_fuzzy_string"
             },
             "blocks": [
                 {
@@ -13,7 +13,7 @@
                 },
                 {
                     "value": "address",
-                    "transformation": "last4"
+                    "transformation": "first4"
                 }
             ],
             "matching_rule": "eval_perfect_match",
@@ -21,8 +21,8 @@
         },
         {
             "funcs": {
-                "10": "feature_match_fuzzy_string",
-                "16": "feature_match_fuzzy_string"
+                "0": "feature_match_fuzzy_string",
+                "2": "feature_match_fuzzy_string"
             },
             "blocks": [
                 {
