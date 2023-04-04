@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from pathlib import Path
 from pydantic import BaseModel, Field
-from contextlib import asynccontextmanager
 from psycopg2 import OperationalError, errors
 import psycopg2
 import os
@@ -14,8 +13,7 @@ import sys
 # get_settings()
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
+def run_migrations():
     dbname = os.getenv("DB_NAME")
     user = os.getenv("DB_USER")
     password = os.getenv("DB_PASSWORD")
@@ -40,7 +38,6 @@ async def lifespan(app: FastAPI):
         except errors.InFailedSqlTranroughsaction as err:
             # pass exception to function
             print_psycopg2_exception(err)
-    yield
 
 
 # Instantiate FastAPI and set metadata.
@@ -58,7 +55,6 @@ app = FastAPI(
         "url": "https://creativecommons.org/publicdomain/zero/1.0/",
     },
     description=description,
-    lifespan=lifespan,
 )
 
 
@@ -126,6 +122,8 @@ async def link_record(input: LinkRecordInput) -> LinkRecordResponse:
     :return: A JSON formatted response body with schema specified by the
         LinkRecordResponse model.
     """
+
+    run_migrations()
 
     return {"link_found": False, "updated_bundle": input.fhir_bundle}
 
