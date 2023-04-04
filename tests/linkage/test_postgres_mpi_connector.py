@@ -84,7 +84,6 @@ def test_block_data():
             / "patient_bundle.json"
         )
     )
-    raw_bundle = json.load(open("C://Repos/phdi/tests/assets/patient_bundle.json"))
     patient_resource = raw_bundle.get("entry")[1].get("resource")
     patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
 
