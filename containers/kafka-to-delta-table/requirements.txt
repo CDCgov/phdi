@@ -4,4 +4,4 @@ argparse
 pytest
 uvicorn
 httpx
-phdi @ git+https://github.com/CDCgov/phdi.git@dan/container_base_class
+phdi @ git+https://github.com/CDCgov/phdi.git@main
