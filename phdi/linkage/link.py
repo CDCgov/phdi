@@ -13,7 +13,6 @@ from typing import List, Callable, Dict, Union
 
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
-from phdi.linkage.postgres import DIBBsConnectorClient
 from phdi.linkage.core import BaseMPIConnectorClient
 
 LINKING_FIELDS_TO_FHIRPATHS = {
