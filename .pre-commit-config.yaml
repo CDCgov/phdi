@@ -20,4 +20,4 @@ repos:
           - terraform
         pass_filenames: false
 files:
-  '/phdi'
+  '/phdi/..'
