@@ -14,6 +14,7 @@ from typing import List, Callable, Dict, Union
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
 from phdi.linkage.postgres import DIBBsConnectorClient
+from phdi.linkage.core import BaseMPIConnectorClient
 
 LINKING_FIELDS_TO_FHIRPATHS = {
     "first_name": "Patient.name.given",
@@ -345,7 +346,7 @@ def extract_blocking_values_from_record(
       fields and any transformations that should be applied to them. Each
       dictionary in the list should include a "value" key with one of the
       supported blocking fields above, and may also optionally contain a
-      "transformation" key whose value is one of our supported tranforms.
+      "transformation" key whose value is one of our supported transforms.
     """
 
     transform_funcs = {
@@ -545,13 +546,7 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
 def link_record_against_mpi(
     record: dict,
     algo_config: List[dict],
-    database: str,
-    user: str,
-    password: str,
-    host: str,
-    port: str,
-    patient_table: str,
-    person_table: str,
+    db_client: BaseMPIConnectorClient,
 ) -> tuple[bool, str]:
     """
     Runs record linkage on a single incoming record (extracted from a FHIR
@@ -568,21 +563,12 @@ def link_record_against_mpi(
     :param algo_config: An algorithm configuration consisting of a list
       of dictionaries describing the algorithm to run. See
       `read_linkage_config` and `write_linkage_config` for more details.
-    :param database: The database instance to use as the MPI.
-    :param user: The user name associated with MPI database access.
-    :param password: The password requried to access the MPI.
-    :param host: The host on which the MPI is running.
-    :param port: The port number at which the MPI database can be accessed.
-    :param patient_table: The name of the Patient table in the MPI.
-    :param person_table: The name of the Person table in the MPI.
+    :param db_client: An instantiated connection to an MPI database.
     :returns: A tuple consisting of a boolean indicating whether a match
       was found for the new record in the MPI, followed by the ID of the
       Person entity now associated with the incoming patient (either a
       new Person ID or the ID of an existing matched Person).
     """
-    db_client = DIBBsConnectorClient(
-        database, user, password, host, port, patient_table, person_table
-    )
     flattened_record = _flatten_patient_resource(record)
 
     # Need to bind function names back to their symbolic invocations
@@ -1144,12 +1130,7 @@ def _find_strongest_link(linkage_scores: dict) -> str:
     patient records in the MPI. The cluster with the highest belongingness
     ratio is chosen as the Person to link the new record to.
     """
-    max_membership = 0.0
-    best_person = None
-    for person_id in linkage_scores:
-        if linkage_scores[person_id] > max_membership:
-            max_membership = linkage_scores[person_id]
-            best_person = person_id
+    best_person = max(linkage_scores, key=linkage_scores.get)
     return best_person
 
 
@@ -1167,7 +1148,7 @@ def _flatten_patient_resource(resource: dict) -> List:
     return flattened_record
 
 
-def _group_patient_block_by_person(data_block: List[list]):
+def _group_patient_block_by_person(data_block: List[list]) -> dict[str, List]:
     """
     Helper method that partitions the block of patient data returned from the MPI
     into clusters of records according to their linked Person ID.

@@ -785,9 +785,9 @@ def test_algo_read():
     assert dibbs_enhanced_algo == [
         {
             "funcs": {
-                0: "feature_match_log_odds_fuzzy_compare",
-                2: "feature_match_log_odds_fuzzy_compare",
+                1: "feature_match_log_odds_fuzzy_compare",
                 3: "feature_match_log_odds_fuzzy_compare",
+                4: "feature_match_log_odds_fuzzy_compare",
             },
             "blocks": [
                 {"value": "mrn", "transformation": "last4"},
@@ -803,8 +803,8 @@ def test_algo_read():
         },
         {
             "funcs": {
-                10: "feature_match_log_odds_fuzzy_compare",
-                16: "feature_match_log_odds_fuzzy_compare",
+                0: "feature_match_log_odds_fuzzy_compare",
+                2: "feature_match_log_odds_fuzzy_compare",
             },
             "blocks": [
                 {"value": "first_name", "transformation": "first4"},
@@ -885,6 +885,7 @@ def test_algo_write():
     os.remove("./" + test_file_path)
 
 
+# TODO: Move this to an integration test suite
 def test_link_record_against_mpi():
     algorithm = read_linkage_config(
         pathlib.Path(__file__).parent.parent.parent
@@ -968,13 +969,7 @@ def test_link_record_against_mpi():
         matched, pid = link_record_against_mpi(
             patient["resource"],
             algorithm,
-            database="testdb",
-            user="postgres",
-            password="pw",
-            host="localhost",
-            port="5432",
-            patient_table="test_patient_mpi",
-            person_table="test_person_mpi",
+            postgres_client,
         )
         matches.append(matched)
         if pid not in mapped_patients:
