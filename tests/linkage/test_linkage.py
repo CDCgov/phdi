@@ -2,6 +2,7 @@ import json
 import os
 import pandas as pd
 import random
+import copy
 
 from phdi.linkage import (
     generate_hash_str,
@@ -26,6 +27,7 @@ from phdi.linkage import (
     extract_blocking_values_from_record,
     write_linkage_config,
     read_linkage_config,
+    add_person_resource,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
@@ -864,3 +866,33 @@ def test_algo_write():
         },
     ]
     os.remove("./" + test_file_path)
+
+
+def test_add_person_resource():
+    bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "tests"
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+    raw_bundle = copy.deepcopy(bundle)
+    patient_id = "TEST_PATIENT_ID"
+    person_id = "TEST_PERSON_ID"
+
+    returned_bundle = add_person_resource(
+        person_id=person_id, patient_id=patient_id, bundle=raw_bundle
+    )
+
+    # Assert returned_bundle has added element in "entry"
+    assert len(returned_bundle.get("entry")) == len(bundle.get("entry")) + 1
+
+    # Assert the added element is the person_resource bundle
+    assert (
+        returned_bundle.get("entry")[-1].get("resource").get("resourceType") == "Person"
+    )
+    assert (
+        returned_bundle.get("entry")[-1].get("request").get("url")
+        == "Person/TEST_PERSON_ID"
+    )
