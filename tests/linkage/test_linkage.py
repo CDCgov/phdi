@@ -75,14 +75,14 @@ def test_extract_blocking_values_from_record():
         patient, blocking_fields, transforms
     )
     assert blocking_vals == {
-        "first_name": "John",
-        "last_name": "Shep",
-        "zip": "10001-0001",
-        "city": "Faketon",
-        "birthdate": "1983-02-01",
-        "sex": "female",
-        "state": "NY",
-        "address": "e St",
+        "first_name": {"value": "John", "transformation": "first4"},
+        "last_name": {"value": "Shep", "transformation": "first4"},
+        "zip": {"value": "10001-0001"},
+        "city": {"value": "Faketon"},
+        "birthdate": {"value": "1983-02-01"},
+        "sex": {"value": "female"},
+        "state": {"value": "NY"},
+        "address": {"value": "e St", "transformation": "last4"},
     }
 
 

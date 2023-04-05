@@ -3,13 +3,13 @@
 This guide serves as a tutorial overview of the functionality available in both `phdi.harmonization` and `phdi.fhir.harmonization`. It will cover concepts such as data type basics, imports, and common uses invocations.
 
 ## Module Overview: What is Harmonization?
-When we say "_harmonization_," we mean **the process of smoothing out, standardizing, and normalizing either data values or entries in a data structure**. Putting timestamps in a uniform structure, standardizing strings of text with cleaning rules, and identifying country information for ISO-formatted phone numbers are all examples that would leverage the harmonization module. Indeed, the purpose of the harmonization module as a whole is to streamline the process of cleaning data and massaging it into a user-friendly format. Importantly, harmonization does _not_ deal with the conversion of data between types or structures (for example, converting HL7v2 data into a FHIR-formatted data structure); that functionality can be found in the `phdi.fhir.conversion` module. Let's take a look at the two broad categories of functionality available in this module and its FHIR wrapper.
+When we say "_harmonization_," we mean **the process of smoothing out, standardizing, and normalizing either data values or entries in a data structure**. Putting timestamps in a uniform structure, standardizing strings of text with cleaning rules, and identifying country information for ISO-formatted phone numbers are all examples that would leverage the harmonization module. Indeed, the purpose of the harmonization module as a whole is to streamline the process of cleaning data and putting it into a user-friendly format. Importantly, harmonization does _not_ deal with the conversion of data between types or structures (for example, converting HL7v2 data into a FHIR-formatted data structure); that functionality can be found in the `phdi.fhir.conversion` module. Let's take a look at the two broad categories of functionality available in this module and its FHIR wrapper.
 
 ## The Basics: Sanitizing HL7 and Standardizing Inputs
 The harmonization modules broadly cover two main areas of functionality:
 
-1. cleaning, standardizing, and applying uniform formatting to fields, segments, and messages of raw HL7v2 data, and
-2. normalizing the values and formatting of raw string data (representing text such as a name or a phone number).
+1. Cleaning, standardizing, and applying uniform formatting to fields, segments, and messages of raw HL7v2 data, and
+2. Normalizing the values and formatting of raw string data (representing text such as a name or a phone number).
 
 The HL7 functionality of harmonization can enable pre-processing of one or more messages for storage or possible conversion to FHIR, while the normalization functionality can operate on either raw data (text strings) or FHIR resources, as appropriate. Each of these functional areas relies on several additional operations under the hood, but the PHDI module structure enables their broad use without relying on lower-level functional details. 
 
@@ -21,12 +21,12 @@ from phdi.harmonization import function_you_want_to_import          # used for r
 from phdi.fhir.harmonization import fhir_wrapper_of_raw_function    # used for FHIR data
 ```
 
-Below, we'll explore some of the more common functions you may want to use when harmonizing your data. It's worth noting that the functions which aren't defined in the `phdi.harmonization` and `phdi.fhir.harmonization` namespaces should very likely _not_ be imported (i.e. you shouldn't find yourself needing to write `from phdi.harmonization.hl7 import _clean_hl7_batch`). These "supporting files" simply contain helper functions used by the publicly-defined API functions exposed in the `__init__.py` files of each directory; the API functions you'll want to use already invoke these under the hood.
+Below, we'll explore some of the more common functions you may want to use when harmonizing your data. It's worth noting that the functions which aren't defined in the `phdi.harmonization` and `phdi.fhir.harmonization` namespaces should very likely _not_ be imported (e.g., you shouldn't find yourself needing to write `from phdi.harmonization.hl7 import _clean_hl7_batch`). These "supporting files" simply contain helper functions used by the publicly-defined API functions exposed in the `__init__.py` files of each directory; the API functions you'll want to use already invoke these under the hood.
 
 ## Common Uses
 Listed below are several example use cases for employing the harmonization module.
 
-### Normalizing the datetime segments in an HL7 message
+### Normalizing the Datetime Segments in an HL7 Message
 
 Suppose we have an HL7 message with MSH and PID segments as follows:
 
@@ -51,7 +51,7 @@ print(cleaned_msg)
 
 We see that the datetime segments have now been truncated appropriately for downstream use (MSH[7] had 10 digits removed, MSH[10] had none removed as its time zone information was already compliant, and PID[8] had 5 digits removed).
 
-### Processing a batch of HL7 messages
+### Processing a Batch of HL7 Messages
 Suppose now that we have a file holding a batch of HL7 messages. Here, a "batch" corresponds to a batch file having the structure 
 
 ```
@@ -100,8 +100,8 @@ assert msg_list[0].startswith("MSH|")
 >>> True
 ```
 
-### Standardizing one or more names
-Let's now say we want to work with some raw text data, in the form of strings. Perhaps we have a databse of patient names, or perhaps a CSV file of provider organizations. Whatever the case, we want to perform text cleaning on one or more entity names. This is easily accomplished using the raw data standardization functionality of harmonization:
+### Standardizing One or More Names
+Let's now say we want to work with some raw text data, in the form of strings. Perhaps we have a database of patient names, or perhaps a CSV file of provider organizations. Whatever the case, we want to perform text cleaning on one or more entity names. This is easily accomplished using the raw data standardization functionality of harmonization:
 
 ```python
 from phdi.harmonization import standardize_name
@@ -124,7 +124,7 @@ print(clean)
 >>> "[' John', 'Phil', 'Shepard  ']"
 ```
 
-### Standardizing one or more phone numbers
+### Standardizing One or More Phone Numbers
 The functionality to standardize either a single phone number or a list of phone numbers is analogous to standardizing names above. Here, the standardization employed is ISO E.164, the International Public Telecommunications Numbering Plan.
 
 ```python
@@ -141,10 +141,10 @@ print(clean_2)
 >>> "+447986123456"
 ```
 
-If we choose not to pass in a parameter of countries, the standardization function will automatically attempt to parse using the United States' country code. If we wish to attempt standardizing using a parsing scheme for another country, as in our second example using Great Britain, we must pass in a list of countries to attempt to parse with. The standardization function will always append the US to the back of this list as a fallback country to parse with. Further, if an input phone number begins with a `+` and an identifiable country code (such as `+1` for US phones), the `countries` parameter will be ignored in favor of the provided country code. Note that the standardization function is robust to the use of delimiters separating the chunks of a phone number--functionality remains unchanged whether a `.`, `-`, or even ` ` is used (i.e. passing in `123 456 7890` will parse to the same result as `123-456-7890`). We can also standardize an entire list of phone numbers at once, as with names:
+If we choose not to pass in a parameter of countries, the standardization function will automatically attempt to parse using the United States' country code. If we wish to attempt standardizing using a parsing scheme for another country, as in our second example using Great Britain, we must pass in a list of countries to attempt to parse with. The standardization function will always append the US to the back of this list as a fallback country to parse with. Further, if an input phone number begins with a `+` and an identifiable country code (such as `+1` for US phones), the `countries` parameter will be ignored in favor of the provided country code. Note that the standardization function is robust to the use of delimiters separating the chunks of a phone number—functionality remains unchanged whether a `.`, `-`, or even ` ` is used (e.g., passing in `123 456 7890` will parse to the same result as `123-456-7890`). We can also standardize an entire list of phone numbers at once, as with names:
 
 ```python
-from phdi.harmonization import standardiation
+from phdi.harmonization import standardization
 
 phones = ["555-654-1234", "919876543210", "648.324 687878965"]
 cleaned_phones = standardize_phone(phones, ["IN"])
@@ -152,7 +152,7 @@ print(cleaned_phones)
 >>> "['+915556541234', '+919876543210', '+916483246878']"
 ```
 
-### Standardizing all names in a patient resource
+### Standardizing All Names in a Patient Resource
 While the harmonization modules provide diverse functionality to operate on raw text strings, they also allow us to process more complex, richly-structured FHIR resource data. The `phdi.fhir.harmonization` package contains wrappers for all functions used in the base `phdi.harmonization` package, so that the same standardization can be performed (with the same options) on FHIR data. Suppose we have a patient resource that looks as follows:
 
 ```python
@@ -195,7 +195,7 @@ patient = {
 }
 ```
 
-We can see there are multiple names within this resource corresponding to different use capacities. The harmonization module gives us an easy way to standardize and process all the names within a resource using the same kinds of normalization that we could on raw text, e.g.:
+We can see there are multiple names within this resource corresponding to different use capacities. The harmonization module gives us an easy way to standardize and process all the names within a resource using the same kinds of normalization that we could on raw text. For example:
 
 ```python
 from phdi.fhir.harmonization import standardize_names
@@ -209,7 +209,7 @@ assert cleaned_patient.get("name").get("given") == ["JOHN", "DANGER"]
 
 We spelled out the parameter options in this example, but we could just as easily have omitted them all, since they're using the default settings. Of particular interest is the `overwrite` parameter, which specifies whether the standardization function should overwrite the information in the provided input resource (`overwrite=True`) or whether the function should create a copy of the input first and only modify the copy (`overwrite=False`).
 
-### Standardizing all phone numbers in a bundle of resources
+### Standardizing All Phone Numbers in a Bundle of Resources
 Now let's suppose that instead of a single resource, we have a whole bundle of FHIR data (recall that a bundle is simply a list of FHIR-formatted JSON resources). This data structure would look like:
 
 ```python

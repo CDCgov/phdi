@@ -4,11 +4,12 @@ import psycopg2
 import json
 
 
-class PostgresConnectorClient(BaseMPIConnectorClient):
+class DIBBsConnectorClient(BaseMPIConnectorClient):
     """
-    Represents a Postgres-specific Master Patient Index (MPI) connector client.
-    Callers should use the provided interface functions (e.g., block_data)
-    to interact with the underlying vendor-specific client property.
+    Represents a Postgres-specific Master Patient Index (MPI) connector client for the
+    DIBBs implementation of the record linkage building block. Callers should use the
+    provided interface functions (e.g., block_vals) to interact with the underlying
+    vendor-specific client property.
     """
 
     def __init__(
@@ -28,19 +29,33 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         self.port = port
         self.patient_table = patient_table
         self.person_table = person_table
+        self.fields_to_jsonpaths = {
+            "address": """$.address[*].line""",
+            "birthdate": "$.birthDate",
+            "city": """$.address[*].city""",
+            "first_name": """$.name[*].given""",
+            "last_name": """$.name[*].family""",
+            "mrn": """$.identifier.value""",
+            "sex": "$.gender",
+            "state": """$.address[*].state""",
+            "zip": """$.address[*].postalCode""",
+        }
 
-    def block_data(self, block_data: Dict) -> List[list]:
+    def block_data(self, block_vals: Dict) -> List[list]:
         """
         Returns a list of lists containing records from the database that match on the
         incoming record's block values. If blocking on 'ZIP' and the incoming record's
         zip code is '90210', the resulting block of data would contain records that all
         have the same zip code of 90210.
 
-        :param block_data: Dictionary containing key value pairs for the column name for
-          blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
+        :param block_vals: Dictionary containing key value pairs for the column name for
+          blocking and the data for the incoming record as well as any transformations,
+          e.g., {"ZIP": {"value": "90210"}} or
+          {"ZIP": {"value": "90210",}, "transformation":"first4"}.
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
+
         # TODO: Update with context manager
         # Connect to MPI
         try:
@@ -55,15 +70,15 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
-        if len(block_data) == 0:
-            raise ValueError("`block_data` cannot be empty.")
+        if len(block_vals) == 0:
+            raise ValueError("`block_vals` cannot be empty.")
 
         # Generate raw SQL query
-        query = self._generate_block_query(self.patient_table, block_data)
+        query = self._generate_block_query(block_vals)
 
         # Execute query
         self.cursor.execute(query)
-        extracted_data = self.cursor.fetchall()
+        blocked_data = [list(row) for row in self.cursor.fetchall()]
 
         # Close cursor and connection
         self.cursor.close()
@@ -71,20 +86,14 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
 
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
-        blocked_data = [["patient_id", "person_id"]]
-        for key in sorted(list(extracted_data[0][-1].keys())):
-            blocked_data[0].append(key)
-
-        # Unnest patient_resource data
-        for row in extracted_data:
-            row_data = [row[0], row[1]]
-            for value in sorted(list(row[-1].keys())):
-                row_data.append(row[-1][value])
-            blocked_data.append(row_data)
+        blocked_data_cols = ["patient_id", "person_id"]
+        for key in sorted(list(self.fields_to_jsonpaths.keys())):
+            blocked_data_cols.append(key)
+        blocked_data.insert(0, blocked_data_cols)
 
         return blocked_data
 
-    def upsert_match_patient(
+    def insert_match_patient(
         self,
         patient_resource: Dict,
         person_id=None,
@@ -151,26 +160,71 @@ class PostgresConnectorClient(BaseMPIConnectorClient):
             self.cursor.close()
             self.connection.close()
 
-    def _generate_block_query(self, table_name: str, block_data: Dict) -> str:
+            return person_id[0][0]
+
+    def _generate_block_query(self, block_vals: dict) -> str:
         """
-        Generates a query for selecting a block of data from `table_name` per the
-        block_data parameters.
+        Generates a query for selecting a block of data from the patient table per the
+        block_vals parameters. Accepted blocking fields include: first_name, last_name,
+        birthdate, addess, city, state, zip, mrn, and sex.
 
         :param table_name: Table name.
-        :param block_data: Dictionary containing key value pairs for the column name
-          for blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
-        :return: Query to select block of data base on `block_data` parameters.
+        :param block_vals: Dictionary containing key value pairs for the column name for
+          blocking and the data for the incoming record as well as any transformations,
+          e.g., {["ZIP"]: {"value": "90210"}} or
+          {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
+        :raises ValueError: If column key in `block_vals` is not supported.
+        :return: Query to select block of data base on `block_vals` parameters.
 
         """
-        # TODO: Update queries for nested values, e.g., zip within address
-        query_stub = f"SELECT * FROM {table_name} WHERE "
-        block_query = " AND ".join(
-            [
-                f"patient_resource->>'{key}' = '{value}'"
-                if type(value) == str
-                else (f"'{key}' = {value}")
-                for key, value in block_data.items()
-            ]
+        # Check whether `block_vals` contains supported keys
+        for key in block_vals:
+            if key not in self.fields_to_jsonpaths:
+                raise ValueError(
+                    f"""`{key}` not supported for blocking at this time. Supported
+                    columns include first_name, last_name, birthdate, address, city,
+                    state, zip, mrn, and sex."""
+                )
+
+        # Generate select query to extract fields_to_jsonpaths keys
+        select_query_stubs = []
+        for key in self.fields_to_jsonpaths:
+            query = f"""jsonb_path_query_array(patient_resource,
+                '{self.fields_to_jsonpaths[key]}') as {key}"""
+            select_query_stubs.append(query)
+        select_query = "SELECT patient_id, person_id, " + ", ".join(
+            stub for stub in select_query_stubs
         )
-        query = query_stub + block_query + ";"
+
+        # Generate blocking query based on blocking criteria
+        block_query_stubs = []
+        for col_name, param in block_vals.items():
+            # Add appropriate transformations
+            if "transformation" in param:
+                # first4 transformations
+                if block_vals[col_name]["transformation"] == "first4":
+                    query = f"""
+                        CAST(jsonb_path_query_array(patient_resource,
+                        '{self.fields_to_jsonpaths[col_name]} starts with
+                        "{block_vals[col_name]["value"]}"') as VARCHAR)
+                        = '[true]'"""
+                # last4 transformations
+                else:
+                    query = f"""
+                        CAST(jsonb_path_query_array(patient_resource,
+                        '{self.fields_to_jsonpaths[col_name]} like_regex
+                        "{block_vals[col_name]["value"]}$$"') as VARCHAR)
+                        = '[true]'"""
+
+            # Build query for columns without transformations
+            else:
+                query = f"""CAST(jsonb_path_query_array(patient_resource,
+                        '{self.fields_to_jsonpaths[col_name]} like_regex
+                        "{block_vals[col_name]["value"]}"') as VARCHAR)
+                        = '[true]'"""
+            block_query_stubs.append(query)
+
+        block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
+
+        query = select_query + f" FROM {self.patient_table}" + block_query + ";"
         return query

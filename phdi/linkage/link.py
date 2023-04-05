@@ -320,6 +320,7 @@ def extract_blocking_values_from_record(
     - state
     - zip
     - sex
+    - mrn
 
     Currently supported transformations on extracted fields:
     - first4: the first four characters of the value
@@ -366,7 +367,12 @@ def extract_blocking_values_from_record(
                         raise ValueError(
                             f"Transformation {transformations[block]} is not valid."
                         )
-                block_vals[block] = value
+                    block_vals[block] = {
+                        "value": value,
+                        "transformation": transformations[block],
+                    }
+                else:
+                    block_vals[block] = {"value": value}
 
         except KeyError:
             raise ValueError(f"Field {block} is not a supported extraction field.")
