@@ -67,7 +67,6 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 host=self.host,
                 port=self.port,
             ) as db_connection:
-
                 with db_connection.cursor() as db_cursor:
                     # Generate raw SQL query
                     query = self._generate_block_query(block_vals)
@@ -117,17 +116,15 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 host=self.host,
                 port=self.port,
             ) as db_connection:
-
                 with db_connection.cursor() as db_cursor:
-
                     # Match has been found
                     if person_id is not None:
                         # Insert into patient table
                         insert_patient_table = (
-                                f"INSERT INTO {self.patient_table} "
-                                + "(patient_id, person_id, patient_resource) "
-                                + f"""VALUES ('{patient_resource.get("id")}', '{person_id}', """
-                                + f"""'{json.dumps(patient_resource)}');"""
+                            f"INSERT INTO {self.patient_table} "
+                            + "(patient_id, person_id, patient_resource) "
+                            + f"""VALUES ('{patient_resource.get("id")}', '{person_id}', """
+                            + f"""'{json.dumps(patient_resource)}');"""
                         )
 
                     # Match has not been found
@@ -144,10 +141,10 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
                         # Insert into patient table
                         insert_patient_table = (
-                                f"INSERT INTO {self.patient_table} "
-                                + "(patient_id, person_id, patient_resource) "
-                                + f"VALUES ('{patient_resource.get('id')}','{person_id[0][0]}', "
-                                + f"'{json.dumps(patient_resource)}');"
+                            f"INSERT INTO {self.patient_table} "
+                            + "(patient_id, person_id, patient_resource) "
+                            + f"VALUES ('{patient_resource.get('id')}','{person_id[0][0]}', "
+                            + f"'{json.dumps(patient_resource)}');"
                         )
 
                     db_cursor.execute(insert_patient_table)
