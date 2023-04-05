@@ -71,18 +71,19 @@ def validate_schema(json_schema: dict) -> dict:
     """
 
     validation_results = {"valid": True, "errors": []}
-    valid_types = list(SCHEMA_TYPE_MAP.values())
+    valid_types = list(SCHEMA_TYPE_MAP.keys())
     for field, data_type in json_schema.items():
         if type(field) != str:
             validation_results["valid"] = False
             validation_results["errors"].append(
-                f"Invalid field {field}. Fields must be strings."
+                f"Invalid field name: {field}. Field names must be strings."
             )
 
         if data_type not in valid_types:
             validation_results["valid"] = False
             validation_results["errors"].append(
-                f"Invalid type {data_type} for field {field}. Valid types are {valid_types}."
+                f"Invalid type for field {field}: {data_type}. " 
+                f"Valid types are {valid_types}."
             )
 
     return validation_results
