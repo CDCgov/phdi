@@ -55,34 +55,34 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
+        if len(block_vals) == 0:
+            raise ValueError("`block_vals` cannot be empty.")
 
-        # TODO: Update with context manager
         # Connect to MPI
         try:
-            self.connection = psycopg2.connect(
+            with psycopg2.connect(
                 database=self.database,
                 user=self.user,
                 password=self.password,
                 host=self.host,
                 port=self.port,
-            )
-            self.cursor = self.connection.cursor()
+            ) as db_connection:
+
+                with db_connection.cursor() as db_cursor:
+                    # Generate raw SQL query
+                    query = self._generate_block_query(block_vals)
+
+                    # Execute query
+                    db_cursor.execute(query)
+                    blocked_data = [list(row) for row in db_cursor.fetchall()]
+
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
-        if len(block_vals) == 0:
-            raise ValueError("`block_vals` cannot be empty.")
-
-        # Generate raw SQL query
-        query = self._generate_block_query(block_vals)
-
-        # Execute query
-        self.cursor.execute(query)
-        blocked_data = [list(row) for row in self.cursor.fetchall()]
-
-        # Close cursor and connection
-        self.cursor.close()
-        self.connection.close()
+        finally:
+            # Close cursor and connection
+            db_cursor.close()
+            db_connection.close()
 
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
@@ -104,63 +104,63 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         inserts a new patient into the patient table and inserts a new person into the
         person table with a new personID, linking the new personID to the new patient.
 
-        :param patient_record: A FHIR patient resource.
+        :param patient_resource: A FHIR patient resource.
         :param person_id: The personID matching the patient record if a match has been
           found in the MPI, defaults to None.
         """
         # Connect to MPI
         try:
-            self.connection = psycopg2.connect(
+            with psycopg2.connect(
                 database=self.database,
                 user=self.user,
                 password=self.password,
                 host=self.host,
                 port=self.port,
-            )
-            self.cursor = self.connection.cursor()
+            ) as db_connection:
+
+                with db_connection.cursor() as db_cursor:
+
+                    # Match has been found
+                    if person_id is not None:
+                        # Insert into patient table
+                        insert_patient_table = (
+                                f"INSERT INTO {self.patient_table} "
+                                + "(patient_id, person_id, patient_resource) "
+                                + f"""VALUES ('{patient_resource.get("id")}', '{person_id}', """
+                                + f"""'{json.dumps(patient_resource)}');"""
+                        )
+
+                    # Match has not been found
+                    else:
+                        # Insert a new record into person table to generate new person_id
+                        db_cursor.execute(
+                            f"""INSERT INTO {self.person_table} """
+                            + """ (external_person_id) VALUES ('NULL') """
+                            + """ RETURNING person_id;"""
+                        )
+
+                        # Retrieve newly generated person_id
+                        person_id = db_cursor.fetchall()
+
+                        # Insert into patient table
+                        insert_patient_table = (
+                                f"INSERT INTO {self.patient_table} "
+                                + "(patient_id, person_id, patient_resource) "
+                                + f"VALUES ('{patient_resource.get('id')}','{person_id[0][0]}', "
+                                + f"'{json.dumps(patient_resource)}');"
+                        )
+
+                    db_cursor.execute(insert_patient_table)
+                    db_connection.commit()
+
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
-        # Match has been found
-        if person_id is not None:
-            # Insert into patient table
-            insert_patient_table = (
-                f"INSERT INTO {self.patient_table} "
-                + "(patient_id, person_id, patient_resource) "
-                + f"""VALUES ('{patient_resource.get("id")}', '{person_id}', """
-                + f"""'{json.dumps(patient_resource)}');"""
-            )
-            self.cursor.execute(insert_patient_table)
-            self.connection.commit()
-            self.cursor.close()
-            self.connection.close()
+        finally:
+            db_cursor.close()
+            db_connection.close()
 
-        # Match has not been found
-        else:
-            # Insert a new record into person table to generate new person_id
-            self.cursor.execute(
-                f"""INSERT INTO {self.person_table} """
-                + """ (external_person_id) VALUES ('NULL') """
-                + """ RETURNING person_id;"""
-            )
-
-            # Retrieve newly generated person_id
-            person_id = self.cursor.fetchall()
-
-            # Insert into patient table
-            insert_patient_table = (
-                f"INSERT INTO {self.patient_table} "
-                + "(patient_id, person_id, patient_resource) "
-                + f"VALUES ('{patient_resource.get('id')}','{person_id[0][0]}', "
-                + f"'{json.dumps(patient_resource)}');"
-            )
-            self.cursor.execute(insert_patient_table)
-            self.connection.commit()
-
-            self.cursor.close()
-            self.connection.close()
-
-            return person_id[0][0]
+        return person_id[0][0]
 
     def _generate_block_query(self, block_vals: dict) -> str:
         """
