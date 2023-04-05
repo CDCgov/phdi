@@ -3,6 +3,7 @@ from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
 import json
 
+
 class DIBBsConnectorClient(BaseMPIConnectorClient):
     """
     Represents a Postgres-specific Master Patient Index (MPI) connector client for the
