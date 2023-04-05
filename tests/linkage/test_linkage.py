@@ -1,7 +1,9 @@
 import json
 import os
 import pandas as pd
+import psycopg2
 import random
+import copy
 
 from phdi.linkage import (
     generate_hash_str,
@@ -26,11 +28,14 @@ from phdi.linkage import (
     extract_blocking_values_from_record,
     write_linkage_config,
     read_linkage_config,
+    link_record_against_mpi,
+    add_person_resource,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
     _map_matches_to_record_ids,
 )
+from phdi.linkage import DIBBsConnectorClient
 
 import pathlib
 import pytest
@@ -50,29 +55,33 @@ def test_extract_blocking_values_from_record():
     ][0]
     patient["name"][0]["family"] = "Shepard"
 
+    with pytest.raises(KeyError) as e:
+        extract_blocking_values_from_record(patient, {"invalid"})
+    assert "Input dictionary for block" in str(e.value)
+
     with pytest.raises(ValueError) as e:
-        extract_blocking_values_from_record(patient, {"invalid"}, {})
+        extract_blocking_values_from_record(patient, [{"value": "invalid"}])
     assert "is not a supported extraction field" in str(e.value)
 
     with pytest.raises(ValueError) as e:
         extract_blocking_values_from_record(
-            patient, {"first_name"}, {"first_name": "invalid_transform"}
+            patient, [{"value": "first_name", "transformation": "invalid_transform"}]
         )
     assert "Transformation invalid_transform is not valid" in str(e.value)
 
     blocking_fields = [
-        "first_name",
-        "last_name",
-        "zip",
-        "city",
-        "birthdate",
-        "sex",
-        "state",
-        "address",
+        {"value": "first_name", "transformation": "first4"},
+        {"value": "last_name", "transformation": "first4"},
+        {"value": "zip"},
+        {"value": "city"},
+        {"value": "birthdate"},
+        {"value": "sex"},
+        {"value": "state"},
+        {"value": "address", "transformation": "last4"},
     ]
-    transforms = {"first_name": "first4", "last_name": "first4", "address": "last4"}
     blocking_vals = extract_blocking_values_from_record(
-        patient, blocking_fields, transforms
+        patient,
+        blocking_fields,
     )
     assert blocking_vals == {
         "first_name": {"value": "John", "transformation": "first4"},
@@ -740,23 +749,29 @@ def test_algo_read():
         / "algorithms"
         / "dibbs_basic.json"
     )
-    assert dibbs_basic_algo.get("algorithm", []) == [
+    assert dibbs_basic_algo == [
         {
             "funcs": {
-                0: "feature_match_fuzzy_string",
-                2: "feature_match_fuzzy_string",
+                1: "feature_match_fuzzy_string",
                 3: "feature_match_fuzzy_string",
+                4: "feature_match_fuzzy_string",
             },
-            "blocks": ["MRN4", "ADDRESS4"],
+            "blocks": [
+                {"value": "mrn", "transformation": "last4"},
+                {"value": "address", "transformation": "first4"},
+            ],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9,
         },
         {
             "funcs": {
-                10: "feature_match_fuzzy_string",
-                16: "feature_match_fuzzy_string",
+                0: "feature_match_fuzzy_string",
+                2: "feature_match_fuzzy_string",
             },
-            "blocks": ["FIRST4", "LAST4"],
+            "blocks": [
+                {"value": "first_name", "transformation": "first4"},
+                {"value": "last_name", "transformation": "first4"},
+            ],
             "matching_rule": "eval_perfect_match",
             "cluster_ratio": 0.9,
         },
@@ -769,14 +784,17 @@ def test_algo_read():
         / "algorithms"
         / "dibbs_enhanced.json"
     )
-    assert dibbs_enhanced_algo.get("algorithm", []) == [
+    assert dibbs_enhanced_algo == [
         {
             "funcs": {
-                0: "feature_match_log_odds_fuzzy_compare",
-                2: "feature_match_log_odds_fuzzy_compare",
+                1: "feature_match_log_odds_fuzzy_compare",
                 3: "feature_match_log_odds_fuzzy_compare",
+                4: "feature_match_log_odds_fuzzy_compare",
             },
-            "blocks": ["MRN4", "ADDRESS4"],
+            "blocks": [
+                {"value": "mrn", "transformation": "last4"},
+                {"value": "address", "transformation": "first4"},
+            ],
             "matching_rule": "eval_log_odds_cutoff",
             "cluster_ratio": 0.9,
             "kwargs": {
@@ -787,10 +805,13 @@ def test_algo_read():
         },
         {
             "funcs": {
-                10: "feature_match_log_odds_fuzzy_compare",
-                16: "feature_match_log_odds_fuzzy_compare",
+                0: "feature_match_log_odds_fuzzy_compare",
+                2: "feature_match_log_odds_fuzzy_compare",
             },
-            "blocks": ["FIRST4", "LAST4"],
+            "blocks": [
+                {"value": "first_name", "transformation": "first4"},
+                {"value": "last_name", "transformation": "first4"},
+            ],
             "matching_rule": "eval_log_odds_cutoff",
             "cluster_ratio": 0.9,
             "kwargs": {
@@ -842,7 +863,7 @@ def test_algo_write():
     write_linkage_config(sample_algo, test_file_path)
 
     loaded_algo = read_linkage_config(test_file_path)
-    assert loaded_algo.get("algorithm", []) == [
+    assert loaded_algo == [
         {
             "funcs": {
                 8: "feature_match_fuzzy_string",
@@ -864,3 +885,194 @@ def test_algo_write():
         },
     ]
     os.remove("./" + test_file_path)
+
+
+# TODO: Move this to an integration test suite
+def test_link_record_against_mpi():
+    algorithm = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_basic.json"
+    )
+
+    postgres_client = DIBBsConnectorClient(
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Generate test tables
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create_patient": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
+            + "patient_resource JSONB);"
+        ),
+        "create_person": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
+            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
+            + "external_person_id VARCHAR(100));"
+        ),
+    }
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        matched, pid = link_record_against_mpi(
+            patient["resource"],
+            algorithm,
+            postgres_client,
+        )
+        matches.append(matched)
+        if pid not in mapped_patients:
+            mapped_patients[pid] = 0
+        mapped_patients[pid] += 1
+
+    # First patient inserted into empty MPI, no match
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    # Third patient is entirely new individual, no match
+    # Fourth patient fails blocking with first pass but catches on second, fuzzy matches
+    # Fifth patient: in first pass MRN blocks with one cluster but fails name,
+    #  in second pass name blocks with different cluster but fails address, no match
+    # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
+    #  in second pass name blocks on different cluster and address matches it,
+    #  finds greatest strength match and correctly assigns to larger cluster
+    assert matches == [False, True, False, True, False, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
+
+    # Re-open connection to check for all insertions
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Extract all data
+    postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
+    postgres_client.connection.commit()
+    data = postgres_client.cursor.fetchall()
+
+    assert len(data) == 6
+
+    # Re-open connection to check that num records for each person
+    # ID matches what we found to link on (i.e. links were made
+    # correctly)
+    for person_id in mapped_patients:
+        postgres_client.connection = psycopg2.connect(
+            database=postgres_client.database,
+            user=postgres_client.user,
+            password=postgres_client.password,
+            host=postgres_client.host,
+            port=postgres_client.port,
+        )
+        postgres_client.cursor = postgres_client.connection.cursor()
+        print(person_id)
+        postgres_client.cursor.execute(
+            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
+        )
+        postgres_client.connection.commit()
+        data = postgres_client.cursor.fetchall()
+        assert len(data) == mapped_patients[person_id]
+
+    # Clean up
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.close()
+    postgres_client.connection.close()
+
+
+def test_add_person_resource():
+    bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "tests"
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+    raw_bundle = copy.deepcopy(bundle)
+    patient_id = "TEST_PATIENT_ID"
+    person_id = "TEST_PERSON_ID"
+
+    returned_bundle = add_person_resource(
+        person_id=person_id, patient_id=patient_id, bundle=raw_bundle
+    )
+
+    # Assert returned_bundle has added element in "entry"
+    assert len(returned_bundle.get("entry")) == len(bundle.get("entry")) + 1
+
+    # Assert the added element is the person_resource bundle
+    assert (
+        returned_bundle.get("entry")[-1].get("resource").get("resourceType") == "Person"
+    )
+    assert (
+        returned_bundle.get("entry")[-1].get("request").get("url")
+        == "Person/TEST_PERSON_ID"
+    )

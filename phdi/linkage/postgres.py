@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
 import json
@@ -97,7 +97,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         self,
         patient_resource: Dict,
         person_id=None,
-    ) -> None:
+    ) -> Union[None, str]:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
         the patient table and updates the person table to link to the new patient; else
