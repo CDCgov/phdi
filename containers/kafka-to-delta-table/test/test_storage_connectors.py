@@ -53,6 +53,7 @@ def test_connect_to_adlsgen2(patched_get_secret):
     ]
 
     spark.conf.set.assert_has_calls(conf_set_calls)
+    assert len(conf_set_calls) == spark.conf.set.call_count
     assert (
         base_path
         == f"abfss://{container}@{storage_account}.dfs.core.windows.net/kafka/"
