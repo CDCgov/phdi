@@ -23,6 +23,7 @@ from phdi.linkage.link import (
     write_linkage_config,
     read_linkage_config,
     link_record_against_mpi,
+    add_person_resource,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -55,4 +56,5 @@ __all__ = [
     "read_linkage_config",
     "DIBBsConnectorClient",
     "link_record_against_mpi",
+    "add_person_resource",
 ]
