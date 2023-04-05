@@ -10,10 +10,10 @@ from pyspark.sql.types import (
     BooleanType,
     TimestampType,
     DateType,
-    DoubleType,
 )
 from pathlib import Path
-from icecream import ic
+
+# from icecream import ic
 
 
 # TODO - turn this function into a method of AzureCredentialManager
@@ -38,7 +38,6 @@ SCHEMA_TYPE_MAP = {
     "string": StringType(),
     "integer": IntegerType(),
     "float": FloatType(),
-    "double": DoubleType(),
     "boolean": BooleanType(),
     "date": DateType(),
     "timestamp": TimestampType(),
@@ -57,7 +56,7 @@ def get_spark_schema(json_schema: str) -> StructType:
     schema = StructType()
     json_schema = json.loads(json_schema)
     for field in json_schema:
-        schema.add(StructField(field, SCHEMA_TYPE_MAP[field], True))
+        schema.add(StructField(field, SCHEMA_TYPE_MAP[json_schema[field]], True))
     return schema
 
 
@@ -72,21 +71,21 @@ def validate_schema(json_schema: dict) -> dict:
         valid then the value of 'valid' will be False and 'errors' will contain all of
         validations errors that were found.
     """
+
     validation_results = {"valid": True, "errors": []}
-    valid_types = list(SCHEMA_TYPE_MAP.values())
-    ic(json_schema)
-    for field, type in json_schema.items():
-        ic(field)
-        if isinstance(field, str):
+    valid_types = list(SCHEMA_TYPE_MAP.keys())
+    for field, data_type in json_schema.items():
+        if type(field) != str:
             validation_results["valid"] = False
             validation_results["errors"].append(
-                f"Invalid field {field}. Fields must be strings."
+                f"Invalid field name: {field}. Field names must be strings."
             )
 
-        if type not in valid_types:
+        if data_type not in valid_types:
             validation_results["valid"] = False
             validation_results["errors"].append(
-                f"Invalid type {type} for field {field}. Valid types are {valid_types}."
+                f"Invalid type for field {field}: {data_type}. "
+                f"Valid types are {valid_types}."
             )
 
     return validation_results
