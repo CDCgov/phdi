@@ -123,13 +123,15 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                         insert_patient_table = (
                             f"INSERT INTO {self.patient_table} "
                             + "(patient_id, person_id, patient_resource) "
-                            + f"""VALUES ('{patient_resource.get("id")}', '{person_id}', """
+                            + f"""VALUES ('{patient_resource.get("id")}',
+                                '{person_id}', """
                             + f"""'{json.dumps(patient_resource)}');"""
                         )
 
                     # Match has not been found
                     else:
-                        # Insert a new record into person table to generate new person_id
+                        # Insert a new record into person table to generate new
+                        # person_id
                         db_cursor.execute(
                             f"""INSERT INTO {self.person_table} """
                             + """ (external_person_id) VALUES ('NULL') """
@@ -143,7 +145,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                         insert_patient_table = (
                             f"INSERT INTO {self.patient_table} "
                             + "(patient_id, person_id, patient_resource) "
-                            + f"VALUES ('{patient_resource.get('id')}','{person_id[0][0]}', "
+                            + f"VALUES ('{patient_resource.get('id')}',"
+                            f"'{person_id[0][0]}', "
                             + f"'{json.dumps(patient_resource)}');"
                         )
 
