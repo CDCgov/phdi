@@ -514,8 +514,3 @@ def test_insert_match_patient():
     postgres_client.connection.commit()
     postgres_client.cursor.close()
     postgres_client.connection.close()
-
-
-block_vals = {
-    "mrn": {"value": "3456", "transformation": "last4"},
-}

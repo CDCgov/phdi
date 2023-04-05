@@ -1,3 +1,4 @@
+import copy
 import hashlib
 import json
 import matplotlib.pyplot as plt
@@ -12,6 +13,19 @@ from typing import List, Callable, Dict, Union
 
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
+from phdi.linkage.core import BaseMPIConnectorClient
+
+LINKING_FIELDS_TO_FHIRPATHS = {
+    "first_name": "Patient.name.given",
+    "last_name": "Patient.name.family",
+    "birthdate": "Patient.birthDate",
+    "address": "Patient.address.line",
+    "zip": "Patient.address.postalCode",
+    "city": "Patient.address.city",
+    "state": "Patient.address.state",
+    "sex": "Patient.gender",
+    "mrn": "Patient.identifier.value",
+}
 
 
 def block_data(data: pd.DataFrame, blocks: List) -> dict:
@@ -303,7 +317,7 @@ def eval_log_odds_cutoff(feature_comparisons: List, **kwargs) -> bool:
 
 
 def extract_blocking_values_from_record(
-    record: dict, blocking_fields: List, transformations: dict[str, str]
+    record: dict, blocking_fields: List[dict]
 ) -> dict:
     """
     Extracts values from a given patient record for eventual use in database
@@ -327,36 +341,41 @@ def extract_blocking_values_from_record(
     - last4: the last four characters of the value
 
     :param record: A FHIR-formatted Patient record.
-    :param blocking_fields: A List of supported fields whose values to pull
-      from the patient record.
-    :param transformations: A dictionary mapping field names to any desired
-      transformations for those fields. If no transformation is desired for
-      a field, simply leave it out of the dictionary.
+    :param blocking_fields: A List of dictionaries giving the blocking
+      fields and any transformations that should be applied to them. Each
+      dictionary in the list should include a "value" key with one of the
+      supported blocking fields above, and may also optionally contain a
+      "transformation" key whose value is one of our supported transforms.
     """
 
-    # Pre-defined supported FHIR Path mappings and transformations
-    fields_to_fhirpaths = {
-        "first_name": "Patient.name.given",
-        "last_name": "Patient.name.family",
-        "birthdate": "Patient.birthDate",
-        "address": "Patient.address.line",
-        "zip": "Patient.address.postalCode",
-        "city": "Patient.address.city",
-        "state": "Patient.address.state",
-        "sex": "Patient.gender",
-    }
     transform_funcs = {
         "first4": lambda x: x[:4] if len(x) >= 4 else x,
         "last4": lambda x: x[-4:] if len(x) >= 4 else x,
     }
 
-    block_vals = dict.fromkeys(blocking_fields, "")
-    for block in blocking_fields:
+    for block_dict in blocking_fields:
+        if "value" not in block_dict:
+            raise KeyError(
+                f"Input dictionary for block {block_dict} must contain a 'value' key."
+            )
+
+    block_vals = dict.fromkeys([b.get("value") for b in blocking_fields], "")
+    transform_blocks = [b for b in blocking_fields if "transformation" in b]
+    transformations = dict(
+        zip(
+            [b.get("value") for b in transform_blocks],
+            [b.get("transformation") for b in transform_blocks],
+        )
+    )
+    for block_dict in blocking_fields:
+        block = block_dict.get("value")
         try:
             # Apply utility extractor for safe parsing
             value = str(
                 extract_value_with_resource_path(
-                    record, fields_to_fhirpaths[block], selection_criteria="first"
+                    record,
+                    LINKING_FIELDS_TO_FHIRPATHS[block],
+                    selection_criteria="first",
                 )
             )
             if value:
@@ -521,6 +540,101 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
     to_encode = (linking_identifier + salt_str).encode("utf-8")
     hash_obj.update(to_encode)
     return hash_obj.hexdigest()
+
+
+def link_record_against_mpi(
+    record: dict,
+    algo_config: List[dict],
+    db_client: BaseMPIConnectorClient,
+) -> tuple[bool, str]:
+    """
+    Runs record linkage on a single incoming record (extracted from a FHIR
+    bundle) using an existing database as an MPI. Uses a flexible algorithm
+    configuration to allow customization of the exact kind of linkage to
+    run. Linkage is assumed to run using cluster membership (i.e. the new
+    record must match a certain proportion of existing records all assigned
+    to a person in order to match), and if multiple persons are matched,
+    the new record is linked to the person with the strongest membership
+    percentage.
+
+    :param record: The FHIR-formatted patient resource to try to match to
+      other records in the MPI.
+    :param algo_config: An algorithm configuration consisting of a list
+      of dictionaries describing the algorithm to run. See
+      `read_linkage_config` and `write_linkage_config` for more details.
+    :param db_client: An instantiated connection to an MPI database.
+    :returns: A tuple consisting of a boolean indicating whether a match
+      was found for the new record in the MPI, followed by the ID of the
+      Person entity now associated with the incoming patient (either a
+      new Person ID or the ID of an existing matched Person).
+    """
+    flattened_record = _flatten_patient_resource(record)
+
+    # Need to bind function names back to their symbolic invocations
+    # in context of the module--i.e. turn the string of a function
+    # name back into the callable defined in link.py
+    algo_config = copy.deepcopy(algo_config)
+    algo_config = _bind_func_names_to_invocations(algo_config)
+
+    # Membership ratios need to persist across linkage passes so that we can
+    # find the highest scoring match across all trials
+    linkage_scores = {}
+    for linkage_pass in algo_config:
+        blocking_fields = linkage_pass["blocks"]
+        field_blocks = extract_blocking_values_from_record(record, blocking_fields)
+        data_block = db_client.block_data(field_blocks)
+
+        # TODO: First row of returned block is column headers for eventual
+        # mapping of indices to cols. Right now, just ignore the first element.
+        data_block = data_block[1:]
+
+        # TODO: Currently, some fields may be LoL (name, address) since they
+        # can contain historical values. For the MVP, take only the first
+        # element as the one that should be used with the record.
+        for i in range(len(data_block)):
+            blocked_record = data_block[i]
+            for j in range(len(blocked_record)):
+                while type(blocked_record[j]) == list:
+                    blocked_record[j] = blocked_record[j][0]
+
+        clusters = _group_patient_block_by_person(data_block)
+
+        # Check if incoming record should belong to one of the person clusters
+        kwargs = linkage_pass.get("kwargs", {})
+        for person in clusters:
+            num_matched_in_cluster = 0.0
+            for linked_patient in clusters[person]:
+                is_match = _compare_records(
+                    flattened_record,
+                    linked_patient,
+                    linkage_pass["funcs"],
+                    linkage_pass["matching_rule"],
+                    **kwargs,
+                )
+                if is_match:
+                    num_matched_in_cluster += 1.0
+
+            # Update membership score for this person cluster so that we can
+            # track best possible link across multiple passes
+            belongingness_ratio = num_matched_in_cluster / len(clusters[person])
+            if belongingness_ratio >= linkage_pass.get("cluster_ratio", 0):
+                if person in linkage_scores:
+                    linkage_scores[person] = max(
+                        [linkage_scores[person], belongingness_ratio]
+                    )
+                else:
+                    linkage_scores[person] = belongingness_ratio
+
+    # Didn't match any person in our database
+    if len(linkage_scores) == 0:
+        new_person_id = db_client.insert_match_patient(record, person_id=None)
+        return (False, new_person_id)
+
+    # Determine strongest match, upsert, then let the caller know
+    else:
+        best_person = _find_strongest_link(linkage_scores)
+        db_client.insert_match_patient(record, person_id=best_person)
+        return (True, best_person)
 
 
 def load_json_probs(path: pathlib.Path):
@@ -785,7 +899,7 @@ def read_linkage_config(config_file: pathlib.Path) -> List[dict]:
         # JSON serializes dict keys as strings
         for rl_pass in algo_config.get("algorithm"):
             rl_pass["funcs"] = {int(col): f for (col, f) in rl_pass["funcs"].items()}
-        return algo_config
+        return algo_config.get("algorithm", [])
     except FileNotFoundError:
         raise FileNotFoundError(f"No file exists at path {config_file}.")
     except json.decoder.JSONDecodeError as e:
@@ -939,6 +1053,21 @@ def write_linkage_config(linkage_algo: List[dict], file_to_write: pathlib.Path) 
         out.write(json.dumps(linkage_json))
 
 
+def _bind_func_names_to_invocations(algo_config: List[dict]):
+    """
+    Helper method that re-maps the string names of functions to their
+    callable invocations as defined within the `link.py` module.
+    """
+    for lp in algo_config:
+        feature_funcs = lp["funcs"]
+        for func in feature_funcs:
+            if type(feature_funcs[func]) == str:
+                feature_funcs[func] = globals()[feature_funcs[func]]
+        if type(lp["matching_rule"]) == str:
+            lp["matching_rule"] = globals()[lp["matching_rule"]]
+    return algo_config
+
+
 def _eval_record_in_cluster(
     block: List[List],
     i: int,
@@ -969,6 +1098,67 @@ def _eval_record_in_cluster(
     if (num_matched / len(cluster)) >= cluster_ratio:
         return True
     return False
+
+
+def _compare_records(
+    record: List,
+    mpi_patient: List,
+    feature_funcs: dict,
+    matching_rule: callable,
+    **kwargs,
+) -> bool:
+    """
+    Helper method that compares the flattened form of an incoming new
+    patient record to the flattened form of a patient record pulled
+    from the MPI.
+    """
+    # Format is patient_id, person_id, alphabetical list of FHIR keys
+    # Don't use the first two ID cols when linking
+    feature_comps = [
+        feature_funcs[x](record[2:], mpi_patient[2:], x, **kwargs)
+        for x in feature_funcs
+    ]
+    is_match = matching_rule(feature_comps, **kwargs)
+    return is_match
+
+
+def _find_strongest_link(linkage_scores: dict) -> str:
+    """
+    Helper method that determines the highest belongingness level that an
+    incoming record achieved against a set of clusers based on existing
+    patient records in the MPI. The cluster with the highest belongingness
+    ratio is chosen as the Person to link the new record to.
+    """
+    best_person = max(linkage_scores, key=linkage_scores.get)
+    return best_person
+
+
+def _flatten_patient_resource(resource: dict) -> List:
+    """
+    Helper method that flattens an incoming patient resource into a list whose
+    elements are the keys of the FHIR dictionary, reformatted and ordered
+    according to our "blocking fields extractor" dictionary.
+    """
+    flattened_record = [
+        extract_value_with_resource_path(resource, LINKING_FIELDS_TO_FHIRPATHS[f])
+        for f in sorted(LINKING_FIELDS_TO_FHIRPATHS.keys())
+    ]
+    flattened_record = [resource["id"], None] + flattened_record
+    return flattened_record
+
+
+def _group_patient_block_by_person(data_block: List[list]) -> dict[str, List]:
+    """
+    Helper method that partitions the block of patient data returned from the MPI
+    into clusters of records according to their linked Person ID.
+    """
+    clusters = {}
+    for mpi_patient in data_block:
+        # Format is patient_id, person_id, alphabetical list of FHIR keys
+        if mpi_patient[1] not in clusters:
+            clusters[mpi_patient[1]] = []
+        clusters[mpi_patient[1]].append(mpi_patient)
+    return clusters
 
 
 def _map_matches_to_record_ids(
