@@ -9,7 +9,7 @@ from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
 from app.utils import validate_schema, SCHEMA_TYPE_MAP, load_schema
 
-# from icecream import ic
+from icecream import ic
 
 # A map of the required values for all supported kafka and storage providers.
 REQUIRED_VALUES_MAP = {
@@ -189,7 +189,7 @@ async def kafka_to_delta_table(
         schema = input.json_schema
     schema_validation_results = validate_schema(schema)
 
-    if schema_validation_results["valid"]:
+    if schema_validation_results["valid"] is not True:
         response_body["status"] = "failed"
         response_body["message"] = " ".join(schema_validation_results["errors"])
         response.status_code = status.HTTP_400_BAD_REQUEST
@@ -219,7 +219,6 @@ async def kafka_to_delta_table(
             kafka_to_delta_command.append(input[value])
 
     kafka_to_delta_command = " ".join(kafka_to_delta_command)
-
     kafka_to_delta_result = subprocess.run(
         kafka_to_delta_command, shell=True, capture_output=True, text=True
     )

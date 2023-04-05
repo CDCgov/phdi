@@ -1,4 +1,9 @@
 version: "3.9"
+
+networks:
+  app-tier:
+    driver: bridge
+
 services:
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.8
@@ -8,6 +13,8 @@ services:
       - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - app-tier
   kafka:
     image: docker.io/bitnami/kafka:3.4
     ports:
@@ -19,12 +26,35 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
+    networks:
+      - app-tier
+  init-kafka:
+    image: confluentinc/cp-kafka:6.1.1
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:9092 --list
+
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic test --replication-factor 1 --partitions 1
+      
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      "
+    networks:
+      - app-tier
   kafka-to-delta-table:
     build: .
     ports:
       - "8080:8080"
     depends_on:
       - kafka
+    networks:
+      - app-tier
+
 volumes:
   zookeeper_data:
     driver: local
