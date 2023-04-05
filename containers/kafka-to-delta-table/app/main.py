@@ -48,13 +48,14 @@ class KafkaToDeltaTableInput(BaseModel):
     delta_table_name: str = Field(
         description="The name of the Delta table to write to."
     )
-    schema: dict = Field(
+    json_schema: dict = Field(
         description=f"A schema describing the format of messages to read from Kafka. "
         "Should be of the form { 'field_name': 'field_type' }. Field names must be "
         "strings and supported field types include: "
         f"{', '.join(list(SCHEMA_TYPE_MAP.keys()))}. If this is provided, then. "
         "'schema_name' must be empty.",
         default={},
+        alias="schema",
     )
     schema_name: str = Field(
         description="The name of a schema that was previously uploaded to the service"
@@ -130,7 +131,7 @@ class KafkaToDeltaTableInput(BaseModel):
 
     @root_validator
     def prohibit_schema_and_schema_name(cls, values):
-        if values.get("schema") != {} and values.get("schema_name") != "":
+        if values.get("json_schema") != {} and values.get("schema_name") != "":
             raise ValueError(
                 "Values for both 'schema' and 'schema_name' have been "
                 "provided. Only one of these values is permitted."
@@ -139,9 +140,9 @@ class KafkaToDeltaTableInput(BaseModel):
 
     @root_validator
     def require_schema_or_schema_name(cls, values):
-        if values.get("schema") == {} and values.get("schema_name") == "":
+        if values.get("json_schema") == {} and values.get("schema_name") == "":
             raise ValueError(
-                "Values for neither 'schema' now 'schema_name' have been "
+                "Values for neither 'schema' nor 'schema_name' have been "
                 "provided. One, but not both, of these values is required."
             )
         return values
@@ -183,11 +184,10 @@ async def kafka_to_delta_table(
     if input.schema_name != "":
         schema = load_schema(input.schema_name)
     else:
-        schema = input.schema
-
+        schema = input.json_schema
     schema_validation_results = validate_schema(schema)
 
-    if schema_validation_results["status"] == "failed":
+    if schema_validation_results["valid"]:
         response_body["status"] = "failed"
         response_body["message"] = schema_validation_results["message"]
         response.status_code = status.HTTP_400_BAD_REQUEST
@@ -205,7 +205,7 @@ async def kafka_to_delta_table(
         "--delta_table_name",
         input.delta_table_name,
         "--schema",
-        json.dumps(schema),
+        f"\'{json.dumps(schema)}\'",
     ]
 
     input = input.dict()
@@ -217,6 +217,7 @@ async def kafka_to_delta_table(
             kafka_to_delta_command.append(input[value])
 
     kafka_to_delta_command = " ".join(kafka_to_delta_command)
+
     kafka_to_delta_result = subprocess.run(
         kafka_to_delta_command, shell=True, capture_output=True, text=True
     )

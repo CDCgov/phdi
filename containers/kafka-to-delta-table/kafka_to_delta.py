@@ -146,10 +146,11 @@ if selection_flags["adlsgen2"]:
         arguments.key_vault_name,
     )
 
+schema = get_spark_schema(arguments.schema)
 if selection_flags["azure_event_hubs"]:
     kafka_data_frame = connect_to_azure_event_hubs(
         spark,
-        get_spark_schema(arguments.schema),
+        schema,
         arguments.event_hubs_namespace,
         arguments.event_hub,
         arguments.connection_string_secret_name,
