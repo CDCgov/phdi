@@ -45,8 +45,7 @@ class BaseService:
         async def health_check() -> dict:
             """
             Check service status. If an HTTP 200 status code is returned along with
-            '{"status": "OK"}' then the tabulation service is available and running
-            properly.
+            '{"status": "OK"}' then the service is available and running properly.
             """
             return {"status": "OK"}
 
