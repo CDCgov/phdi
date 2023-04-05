@@ -155,6 +155,6 @@ jobs:
         run: |
           pip install -r requirements.txt
       - name: Run unit tests for containers
-        working-directory: ./containers/${{matrix.container-to-test}}
+        working-directory: ./containers/${{matrix.container-to-test}}/tests
         run: |
           python -m pytest
