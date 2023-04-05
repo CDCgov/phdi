@@ -66,30 +66,30 @@ tables:
 
 **Table Name**: The *table name* defines a table the user wishes to extract data to. The name of the table _must_ be unique within the schema file.
 
-**Table Properties**: Each table in the schema must define one or more properties relating to the table. These properties range from metadata about this specific table to query parameters used to guide the FHIR search results. While the bullets below explain the details of some of the optional parameters that can be used, _all_ tables must define the required property `resource_type`. This field--which **must** match a FHIR resource such as Patient or Observation--defines the **anchor** type of the given table.
+**Table Properties**: Each table in the schema must define one or more properties relating to the table. These properties range from metadata about this specific table to query parameters used to guide the FHIR search results. While the bullets below explain the details of some of the optional parameters that can be used, _all_ tables must define the required property `resource_type`. This field—which **must** match a FHIR resource such as Patient or Observation—defines the **anchor** type of the given table.
 
 An anchor type has two functions:
 
-1) specify which resource type will generate rows in the table (for example, in a table about Patients, we would wish to have one row per patient returned from the FHIR server; in a table about physical exam observations, we would want a table where each observation of a particular category generated one row in the table); importantly, not every resource of this type _has_ to create a row in the table (in the case of resources like Observation which may have fields [`has_member` and `derived_from`] that point to other, non-related resources of the same type), but _no other_ types of resources besides the anchor can generate a row;
+1) Specify which resource type will generate rows in the table (for example, in a table about Patients, we would wish to have one row per patient returned from the FHIR server; in a table about physical exam observations, we would want a table where each observation of a particular category generated one row in the table); importantly, not every resource of this type _has_ to create a row in the table (in the case of resources like Observation which may have fields [`has_member` and `derived_from`] that point to other, non-related resources of the same type), but _no other_ types of resources besides the anchor can generate a row
 
-2) specify relative paths used when referencing other resource types (see "On Reference Resources" below for more details).
+2) Specify relative paths used when referencing other resource types (see "On Reference Resources" below for more details)
 
 A couple other property fields of interest are:
 
 * `earliest_updated_datetime`: A field used by the FHIR server to filter returned results by a given time window. If the value `2020-01-01T00:00:00` is supplied, for example, the returned results will consist only of resources created or updated on or after January 1 of 2020.
-* `query_params`: A field holding metadata values that that filter the resources we'd like to receive based upon specific criteria for elements within that resource. In our example, we want only Observation resources that have a `category` element value of `exam` (rather than, say `laboratory`).
+* `query_params`: A field holding metadata values that filter the resources we'd like to receive based upon specific criteria for elements within that resource. In our example, we want only Observation resources that have a `category` element value of `exam` (rather than, say `laboratory`).
 
-Once metadata is specified, the properties for a given table must also include the `columns` field, which describes the columns to-be-created in the output table using another set of keys and values. Within the `columns` dictionary, a table must have one or more **field names**.
+Once metadata is specified, the properties for a given table must also include the `columns` field, which describes the columns-to-be-created in the output table using another set of keys and values. Within the `columns` dictionary, a table must have one or more **field names**.
 
 **Field Name**: A *field name* defines a column of values that will exist in the table (such as as Patient First Name or Vaccine Administration Date). The value of *field name* must be unique in the context of a table, since it will serve as a column header in the output. The following properties determine how data will be extracted for this field.
-* **fhir_path**: The *fhir_path* defines where to find data for this field within the source FHIR data, i.e. it is the "dot notation" path that must be followed to find the requested data value in a given FHIR resource. It should be a [FHIRPath](http://hl7.org/fhir/fhirpath.html) expression. In addition to direct field path locations, this may include more complex FHIRPath expressions such as filters (see the `Phone Number` example) to allow more flexibility in field selection.
+* **fhir_path**: The *fhir_path* defines where to find data for this field within the source FHIR data, e.g., it is the "dot notation" path that must be followed to find the requested data value in a given FHIR resource. It should be a [FHIRPath](http://hl7.org/fhir/fhirpath.html) expression. In addition to direct field path locations, this may include more complex FHIRPath expressions such as filters (see the `Phone Number` example) to allow more flexibility in field selection.
 * **invalid_values**: A list specifying the values that are considered to be invalid for purposes of extracting and tabulating this field. A tabulated row containing one or more invalid values (which are determined per-column) is removed from the data prior to writing to output. Each invalid value should occur on its own bulleted line as shown above. Invalid values may include all data types as well as `null` (for `None`/`null` values) and "" for empty values.
-* **selection_criteria**: This defines the value to select field contents, and primarily applies when response data may have more than one element. However, even single-response fields must popoulate a value here. The options are:
+* **selection_criteria**: This defines the value to select field contents, and primarily applies when response data may have more than one element. However, even single-response fields must populate a value here. The options are:
   * **first**: Choose the first element in the FHIRPath response.
   * **last**: Choose the last element in the FHIRPath response.
   * **random**: Choose a random element in the FHIRPath response.
   * **all**: Use all of the elements in the FHIRPath response, if the value is a list (such as if multiple racial/ethnic identities are specified).
-* **reference_location**: For resources which reference/are referenced by an anchor type, the path that shows how the two resources are connected. See "On Reference Resources" below for more details about this optional property.
+* **reference_location**: For resources which reference/are referenced by an anchor type, the path shows how the two resources are connected. See "On Reference Resources" below for more details about this optional property.
 
 ### On Reference Resources
 For many types of queries and data tables, the data needed to extract a value will be contained directly within the anchor resource type. These kinds of queries are simple to compose and simple to tabulate, since the value can be pulled directly from the result resource. However, in other cases, the logic of where to find an appropriate value is more complicated, especially if the value is contained not in an anchor resource, but in a _reference resource_. There are two kinds of reference resources:
@@ -119,7 +119,7 @@ The process of collecting, extracting, and tabulating results follows the steps 
 4. Write the results. Each table is finally output to a user-specified destination in one of several supported file formats.
 
 ### Generating Query Strings and Search URLs
-Once you have created a schema file defining the target format for your table, the first step in extracting data from the FHIR server is the creation of search URLs which will be used to query the server. When working with available functionality at the building block level, this part of the tabulation process is automatic and operates using only the schema during the call to `extract_data_from_schema`. However, in some cases, it might be desirable to manually generate search URLs, such as during an interactive query session.
+Once you have created a schema file defining the target format for your table, the first step in extracting data from the FHIR server is the creation of search URLs which will be used to query the server. When working with available functionality at the Building Block level, this part of the tabulation process is automatic and operates using only the schema during the call to `extract_data_from_schema`. However, in some cases, it might be desirable to manually generate search URLs, such as during an interactive query session.
 
 The code below outlines how this can be done, using the schema defined at the top of this tutorial as an example:
 
@@ -140,7 +140,7 @@ print(search_urls)
 The result is given back as one search URL per table in the schema, containing all of the search criteria required by a user in the schema. 
 
 ### Extracting Data from the FHIR Server
-Once the search URLs are built, we can make an API call to the FHIR Server with them to extract our desired data. It is theoretically possible to treat any persistent data store as the source from which to extract, but the PHDI library treats a FHIR server as the centralized data repository. This process, too, is relatively schema-driven and can run largely outside manual interaction from a user.
+Once the search URLs are built, we can make an API call to the FHIR server with them to extract our desired data. It is theoretically possible to treat any persistent data store as the source from which to extract, but the PHDI library treats a FHIR server as the centralized data repository. This process, too, is relatively schema-driven and can run largely outside manual interaction from a user.
 
 ```python
 from pathlib import Path
@@ -200,7 +200,7 @@ results = extract_data_from_fhir_search(query_of_interest, cred_manager)
 ```
 
 ### Tabulating Results
-Once results are extracted from the FHIR server, we need to put them into an organized, ordered arrangement for downstream processing. This is where the tabulation algorithm comes in. Tabulation seeks to transform the list of bundle entries and result resources into a list of lists denoting desired values in a columnar format. Importantly, while search URL generaiton and data extraction can be run against all tables in the schema with a single function, the tabulation procedure must be executed _per table_. Furthermore, unlike in the previous two cases, where a user can replicate the functionality of creating search URLs or making their own API calls to the FHIR server, granular replication of this procedure is _not_ recommended due to its complexity. Invoking the function is simple, but the underlying mechanics of connecting resources to their references and extracting the desired values is not. Interested readers should consult the documentation in the code proper.
+Once results are extracted from the FHIR server, we need to put them into an organized, ordered arrangement for downstream processing. This is where the tabulation algorithm comes in. Tabulation seeks to transform the list of bundle entries and result resources into a list of lists denoting desired values in a columnar format. Importantly, while search URL generation and data extraction can be run against all tables in the schema with a single function, the tabulation procedure must be executed _per table_. Furthermore, unlike in the previous two cases, where a user can replicate the functionality of creating search URLs or making their own API calls to the FHIR server, granular replication of this procedure is _not_ recommended due to its complexity. Invoking the function is simple, but the underlying mechanics of connecting resources to their references and extracting the desired values is not. Interested readers should consult the documentation in the code proper.
 
 The example below shows a simple invocation of tabulation:
 
@@ -237,7 +237,7 @@ print(tabulated_results)
 For each set of tabulated values, the first entry is a list of the headers of the columns in the table (taken directly from the supplied schema). Each subsequent element in the list of lists denotes one row of the table.
 
 ### Writing Tabular Data
-Data that has been tabulated is now ready for writing to its output destination. This is the final step of the extraction and tabulation process. The building blocks currently support writing to three destination types: CSV files, Parquet files, and writing the data to a SQLite database file. All of these can be accessed using the same function with appropriate parameter settings:
+Data that has been tabulated is now ready for writing to its output destination. This is the final step of the extraction and tabulation process. The Building Blocks currently support writing to three destination types: CSV files, Parquet files, and writing the data to a SQLite database file. All of these can be accessed using the same function with appropriate parameter settings:
 
 ```python
 from pathlib import Path
@@ -268,7 +268,7 @@ write_data(tabulated_results, output_dir, output_type, db_file=db_file, db_table
 ```
 
 ### Performing Extract and Tabulate In One Function
-While it is possible to perform the component steps of collection, extraction, tabulation, and writing individually, for convenience and a streamlined approach, we have provided a building block to carry out the procedure for all tables in a given schema with minimal input from a user. The wrapper function handles all of the component steps and automatically passes the inputs and outputs to the appropriate calls.
+While it is possible to perform the component steps of collection, extraction, tabulation, and writing individually, for convenience and a streamlined approach, we have provided a Building Block to carry out the procedure for all tables in a given schema with minimal input from a user. The wrapper function handles all of the component steps and automatically passes the inputs and outputs to the appropriate calls.
 
 ```python
 from pathlib import Path
