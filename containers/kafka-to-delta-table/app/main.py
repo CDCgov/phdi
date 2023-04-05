@@ -8,6 +8,7 @@ from fastapi import Response, status
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
 from app.utils import validate_schema, SCHEMA_TYPE_MAP, load_schema
+from icecream import ic
 
 # A map of the required values for all supported kafka and storage providers.
 REQUIRED_VALUES_MAP = {
@@ -48,13 +49,14 @@ class KafkaToDeltaTableInput(BaseModel):
     delta_table_name: str = Field(
         description="The name of the Delta table to write to."
     )
-    schema: dict = Field(
+    schema_: dict = Field(
         description=f"A schema describing the format of messages to read from Kafka. "
         "Should be of the form { 'field_name': 'field_type' }. Field names must be "
         "strings and supported field types include: "
         f"{', '.join(list(SCHEMA_TYPE_MAP.keys()))}. If this is provided, then. "
         "'schema_name' must be empty.",
         default={},
+        alias="schema",
     )
     schema_name: str = Field(
         description="The name of a schema that was previously uploaded to the service"
@@ -183,13 +185,13 @@ async def kafka_to_delta_table(
     if input.schema_name != "":
         schema = load_schema(input.schema_name)
     else:
-        schema = input.schema
+        schema = input.schema_
 
     schema_validation_results = validate_schema(schema)
-
-    if schema_validation_results["status"] == "failed":
+    ic(schema_validation_results)
+    if schema_validation_results["valid"] is not True:
         response_body["status"] = "failed"
-        response_body["message"] = schema_validation_results["message"]
+        response_body["message"] = " ".join(schema_validation_results["errors"])
         response.status_code = status.HTTP_400_BAD_REQUEST
         return response_body
 
@@ -220,7 +222,7 @@ async def kafka_to_delta_table(
     kafka_to_delta_result = subprocess.run(
         kafka_to_delta_command, shell=True, capture_output=True, text=True
     )
-    
+
     response_body["spark_log"] = kafka_to_delta_result.stdout
 
     if kafka_to_delta_result.returncode != 0:

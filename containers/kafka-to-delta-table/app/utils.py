@@ -10,8 +10,10 @@ from pyspark.sql.types import (
     BooleanType,
     TimestampType,
     DateType,
+    DoubleType,
 )
 from pathlib import Path
+from icecream import ic
 
 
 # TODO - turn this function into a method of AzureCredentialManager
@@ -72,8 +74,10 @@ def validate_schema(json_schema: dict) -> dict:
     """
     validation_results = {"valid": True, "errors": []}
     valid_types = list(SCHEMA_TYPE_MAP.values())
+    ic(json_schema)
     for field, type in json_schema.items():
-        if type(field) != str:
+        ic(field)
+        if isinstance(field, str):
             validation_results["valid"] = False
             validation_results["errors"].append(
                 f"Invalid field {field}. Fields must be strings."
