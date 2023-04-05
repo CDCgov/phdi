@@ -22,6 +22,7 @@ from phdi.linkage.link import (
     extract_blocking_values_from_record,
     write_linkage_config,
     read_linkage_config,
+    add_person_resource,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -51,4 +52,5 @@ __all__ = [
     "extract_blocking_values_from_record",
     "write_linkage_config",
     "read_linkage_config",
+    "add_person_resource",
 ]
