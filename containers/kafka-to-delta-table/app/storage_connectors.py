@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from typing import Literal
-from app.utils import get_secret
+from phdi.cloud.azure import AzureCredentialManager
 
 
 STORAGE_PROVIDERS = Literal["local_storage", "adlsgen2"]
@@ -34,7 +34,8 @@ def connect_to_adlsgen2(
         registration.
     :param key_vault_name: The name of the Azure key vault where the secret is stored.
     """
-    client_secret = get_secret(
+    credential_manager = AzureCredentialManager()
+    client_secret = credential_manager.get_secret(
         secret_name=client_secret_name, key_vault_name=key_vault_name
     )
     spark.conf.set(

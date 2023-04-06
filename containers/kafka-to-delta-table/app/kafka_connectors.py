@@ -1,7 +1,7 @@
 from pyspark.sql.types import StructType
 from pyspark.sql.functions import from_json, col
 from pyspark.sql import SparkSession, DataFrame
-from app.utils import get_secret
+from phdi.cloud.azure import AzureCredentialManager
 from typing import Literal
 
 KAFKA_PROVIDERS = Literal["local_kafka", "azure_event_hubs"]
@@ -31,9 +31,11 @@ def connect_to_azure_event_hubs(
     :param key_vault_name: The name of of the Azure key vault containing the secret
         indicated by 'connection_string_secret_name'.
     """
-    connection_string = get_secret(
+    credential_manager = AzureCredentialManager()
+    connection_string = credential_manager.get_secret(
         secret_name=connection_string_secret_name, key_vault_name=key_vault_name
     )
+    
     eh_sasl = f'org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="{connection_string}";'
 
     kafka_server = f"{event_hubs_namespace}.servicebus.windows.net:9093"
