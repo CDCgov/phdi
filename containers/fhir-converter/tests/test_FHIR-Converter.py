@@ -2,7 +2,7 @@
 from unittest import mock
 from fastapi.testclient import TestClient
 
-from main import api
+from app.main import api
 
 client = TestClient(api)
 
@@ -178,10 +178,10 @@ def test_health_check():
     assert actual_response.json() == {"status": "OK"}
 
 
-@mock.patch("main.json.load")
-@mock.patch("main.open")
-@mock.patch("main.subprocess.run")
-@mock.patch("main.Path")
+@mock.patch("app.main.json.load")
+@mock.patch("app.main.open")
+@mock.patch("app.main.subprocess.run")
+@mock.patch("app.main.Path")
 def test_convert_valid_request(
     patched_file_path, patched_subprocess_run, patched_open, patched_json_load
 ):
@@ -196,10 +196,10 @@ def test_convert_valid_request(
     assert actual_response.json().get("response") == valid_response
 
 
-@mock.patch("main.json.load")
-@mock.patch("main.open")
-@mock.patch("main.subprocess.run")
-@mock.patch("main.Path")
+@mock.patch("app.main.json.load")
+@mock.patch("app.main.open")
+@mock.patch("app.main.subprocess.run")
+@mock.patch("app.main.Path")
 def test_convert_conversion_failure(
     patched_file_path, patched_subprocess_run, patched_open, patched_json_load
 ):
@@ -215,7 +215,7 @@ def test_convert_conversion_failure(
     assert actual_response.json().get("response") == conversion_failure_response
 
 
-@mock.patch("main.subprocess.run")
+@mock.patch("app.main.subprocess.run")
 def test_convert_missing_input_data(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
@@ -226,7 +226,7 @@ def test_convert_missing_input_data(patched_subprocess_run):
     assert actual_response.json() == missing_input_data_response
 
 
-@mock.patch("main.subprocess.run")
+@mock.patch("app.main.subprocess.run")
 def test_convert_invalid_input_type(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
@@ -237,7 +237,7 @@ def test_convert_invalid_input_type(patched_subprocess_run):
     assert actual_response.json() == invalid_input_type_response
 
 
-@mock.patch("main.subprocess.run")
+@mock.patch("app.main.subprocess.run")
 def test_convert_invalid_root_template(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(

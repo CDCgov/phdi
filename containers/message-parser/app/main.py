@@ -17,7 +17,9 @@ from app.config import get_settings
 get_settings()
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
 app = FastAPI(
     title="PHDI Message Parser",
     version="0.0.1",
