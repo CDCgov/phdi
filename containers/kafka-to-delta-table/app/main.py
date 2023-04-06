@@ -203,11 +203,12 @@ async def kafka_to_delta_table(
         schema = load_schema(input.schema_name)
     else:
         schema = input.json_schema
+
     schema_validation_results = validate_schema(schema)
 
-    if schema_validation_results["valid"] is not True:
+    if not schema_validation_results["valid"]:
         response_body["status"] = "failed"
-        response_body["message"] = " ".join(schema_validation_results["errors"])
+        response_body["message"] = schema_validation_results["errors"][0]
         response.status_code = status.HTTP_400_BAD_REQUEST
         return response_body
 
@@ -243,7 +244,7 @@ async def kafka_to_delta_table(
     response_body["spark_log"] = kafka_to_delta_result.stdout
 
     if kafka_to_delta_result.returncode != 0:
-        response_body["status"]: "failed"
-        response_body["spark_log"]: kafka_to_delta_result.stderr
+        response_body["status"] = "failed"
+        response_body["spark_log"] = kafka_to_delta_result.stderr
 
     return response_body

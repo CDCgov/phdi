@@ -1,6 +1,8 @@
 import json
-from app.utils import get_spark_schema, validate_schema
+from pathlib import Path
+from app.utils import get_spark_schema, validate_schema, load_schema
 from pyspark.sql.types import StructType, StructField, StringType
+import pytest
 
 
 def test_get_spark_schema():
@@ -26,3 +28,23 @@ def test_validate_schema():
             "['string', 'integer', 'float', 'boolean', 'date', 'timestamp'].",
         ],
     }
+
+
+def test_load_parsing_schema_success():
+    test_schema_path = (
+        Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
+    )
+    with open(test_schema_path, "r") as file:
+        test_schema = json.load(file)
+
+    schema = load_schema("test_schema.json")
+    assert schema == test_schema
+
+
+def test_load_parsing_schema_fail():
+    bad_schema_name = "schema-that-does-not-exist.json"
+    with pytest.raises(FileNotFoundError) as error:
+        load_schema(bad_schema_name)
+    assert error.value.args == (
+        f"A schema with the name '{bad_schema_name}' could not be found.",
+    )
