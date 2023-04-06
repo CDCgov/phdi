@@ -1,10 +1,9 @@
 # flake8: noqa
-import os
 from unittest import mock
 from fastapi.testclient import TestClient
 from types import SimpleNamespace
 
-from main import api
+from app.main import api
 
 client = TestClient(api)
 
@@ -15,11 +14,11 @@ def test_health_check():
     assert actual_response.json() == {"status": "OK"}
 
 
-@mock.patch("main.DefaultAzureCredential")
-@mock.patch("main.send_sms")
-@mock.patch("main.create_identity_and_get_token")
-@mock.patch("main.get_phone_number")
-@mock.patch("main.check_for_environment_variables")
+@mock.patch("app.main.DefaultAzureCredential")
+@mock.patch("app.main.send_sms")
+@mock.patch("app.main.create_identity_and_get_token")
+@mock.patch("app.main.get_phone_number")
+@mock.patch("app.main.check_for_environment_variables")
 def test_sms_alert(
     patched_check_for_environment_variables,
     patched_get_phone_number,
@@ -51,7 +50,7 @@ def test_sms_alert(
     assert actual_response.json() == valid_response
 
 
-@mock.patch("main.check_for_environment_variables")
+@mock.patch("app.main.check_for_environment_variables")
 def test_sms_alert_missing_communication_service_name(
     patched_check_for_environment_variables,
 ):
@@ -70,8 +69,8 @@ def test_sms_alert_missing_communication_service_name(
     )
 
 
-@mock.patch("main.WebClient")
-@mock.patch("main.check_for_environment_variables")
+@mock.patch("app.main.WebClient")
+@mock.patch("app.main.check_for_environment_variables")
 def test_slack_alert(patched_check_for_environment_variables, patched_web_client):
     valid_response = {"data": {"ok": True}}
     namespace = SimpleNamespace(**valid_response)
@@ -88,7 +87,7 @@ def test_slack_alert(patched_check_for_environment_variables, patched_web_client
     assert actual_response.json() == namespace.data
 
 
-@mock.patch("main.check_for_environment_variables")
+@mock.patch("app.main.check_for_environment_variables")
 def test_slack_alert_missing_slack_bot_token(patched_check_for_environment_variables):
     patched_check_for_environment_variables.return_value = {
         "slack_bot_token": None,
@@ -104,8 +103,8 @@ def test_slack_alert_missing_slack_bot_token(patched_check_for_environment_varia
     )
 
 
-@mock.patch("main.pymsteams")
-@mock.patch("main.check_for_environment_variables")
+@mock.patch("app.main.pymsteams")
+@mock.patch("app.main.check_for_environment_variables")
 def test_teams_alert(patched_check_for_environment_variables, patched_pymsteams):
     patched_check_for_environment_variables.return_value = {
         "teams_webhook_url": "test_teams_webhook",
@@ -119,7 +118,7 @@ def test_teams_alert(patched_check_for_environment_variables, patched_pymsteams)
     assert actual_response.json() == "Message sent"
 
 
-@mock.patch("main.check_for_environment_variables")
+@mock.patch("app.main.check_for_environment_variables")
 def test_teams_alert_missing_teams_webhook_url(patched_check_for_environment_variables):
     patched_check_for_environment_variables.return_value = {
         "teams_webhook_url": None,
