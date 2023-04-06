@@ -28,60 +28,80 @@ This repository is a part of the CDC/USDS [DIBBS project](https://cdcgov.github.
 
 The DIBBs Python package contains source code for a platform to help public health authorities (PHAs) ingest and report on public health data. This platform is composed of **Building Blocks**, which are modular software tools that, when composed together, can improve data quality and reduce data cleaning workloads by providing analysis-ready data to downstream public health surveillance systems and other analytical and reporting applications. 
 
-
-The PRIME Public Health Data Infrastructure projects are part of the Pandemic-Ready Interoperability Modernization Effort, a multi-year collaboration between CDC and the U.S. Digital Service (USDS) to strengthen data quality and information technology systems in state and local health departments.
-
-This repository contains source code for a platform to help state, tribal, local and territorial (STLT) public health departments ingest and report on public health data.  It contains the following components:
-
-- **Data Ingestion** - Data ingestion tools provide a common framework to prepare data for storage, and store the data in a common standard data model ([FHIR](https://hl7.org/FHIR/)). 
-  - __Harmonization__ - Data harmonization tools can operate on raw input data (HL7 version 2, CCDA) and convert to the common data model format (FHIR).
-  - __Geospatial__ - Geospatial tools provide a common interface for obtaining precise geographic locations based on street addresses from input data.
-  - __Linkage__ - Linkage tools assign a common identifier to patient records to link and deduplicate patients seen across data contributors.
-  - __Transport__ - Transport tools provide a mechanism to store and interact with data stored to a central repostory (FHIR server). 
-- **Reporting** - Reporting tools define a dynamic framework for building custom data models in an analysis-ready output format.
-  - __Tabulation__ - Tabulation provides tools to retrieve data dynamically-defined records and data fields from the common data platform (FHIR server), extract, convert it to a tabular representation, and store to a user-defined tabular storage file type (Parquet or CSV).
-- **Implementation Support** - Implemetnation resources support implementing STLTs to configure a PHDI-driven workflow to manage their data and analysis workflows.
-  - __Cloud-agnostic tools__ - A common PHDI programming interface supports STLTs interacting with cloud-based data storage (containers/buckets), and FHIR servers in a common way.
-  - __Examples and Tutorials__ - Example and tutorial materials help STLTs implement the PHDI solution more quickly by providing easy-to-follow examples and tutorials.
-
-The PRIME Public Health Data Infrastructure prototype a sibling project to [PRIME ReportStream](https://reportstream.cdc.gov), focusing on delivering COVID-19 test data to public health departments, and [PRIME SimpleReport](https://simplereport.gov), working on a better way to report COVID-19 rapid tests.
+DIBBs contains: 
+- Our SDK — the Python library containing Building Block source code
+  - [Repository](https://github.com/CDCgov/phdi/tree/main/phdi)
+  - [API documentation](https://cdcgov.github.io/phdi/sdk/phdi.html)
+- Containerized web services exposing Building Block functionality as HTTP endpoints
+  - [Repository](https://github.com/CDCgov/phdi/tree/main/containers)
+  - [User guide](https://cdcgov.github.io/phdi/) (under Building Blocks)
+- Cloud Starter Kit — Repositories that implement a complete cloud-based pipeline composed of Building Blocks
+  - [Azure](https://github.com/CDCgov/phdi-azure)
+  - [Google Cloud Platform](https://github.com/CDCgov/phdi-google-cloud)
 
 ### Problem Scope
 
-Long-term Vision: Current public health systems to digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective is to help the CDC best support STLTs in moving towards a modern public health data infrastructure.
+Current public health systems that digest, analyze, and respond to data are siloed. Lacking access to actionable data, our national, as well as state, local, and territorial infrastructure, isn’t pandemic-ready. Our objective is to help the CDC best support PHAs in moving towards a modern public health data infrastructure. See our [public website](https://cdcgov.github.io/phdi-site/) for more details.
+
+DIBBs is a sibling project to [PRIME ReportStream](https://reportstream.cdc.gov), which focuses on improving the delivery of COVID-19 test data to public health departments, and [PRIME SimpleReport](https://simplereport.gov), which provides a better way for organizations and testing facilities to report COVID-19 rapid tests to public health departments.
 
 ## Getting Started
 
-In order to use the PHDI Building Blocks library, you need [Python 3.9 or higher](https://www.python.org/downloads/) and [pip python package manager](https://pip.pypa.io/en/stable/installation/) (or any python package manager)
-
+In order to use the DIBBs library, you need [Python 3.9 or higher](https://www.python.org/downloads/) and [pip python package manager](https://pip.pypa.io/en/stable/installation/) (or any python package manager).
 
 To install using pip:
 ```
 pip install phdi
 ```
 
-### How to import PHDI
+## Main Features
 
-Our project is split up into two parts. Our FHIR supporting version and our generic version.
+Here are the current tools that DIBBs offers:
+- **Containerized Building Blocks**
+  -   **[Alerts](https://cdcgov.github.io/phdi/containers/alerts.html)** - Provides the ability to send alerts via SMS, Slack, or Microsoft Teams
+  -   **[FHIR Converter](https://cdcgov.github.io/phdi/containers/fhir-converter.html)** - Enables conversion of health data from legacy formats (e.g., HL7 version 2, CCDA) to FHIR, a standard for health care data exchange
+  -   **[Data Ingestion](https://cdcgov.github.io/phdi/containers/ingestion.html)** - Includes the entire pipeline of Building Blocks below
+    - **[Harmonization](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirharmonization)** - Standardizes input data (e.g., patient names and phone numbers) to streamline the process of cleaning data and improve data quality
+    - **[Geospatial](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirgeospatial)** - Provides a common interface for obtaining precise geographic locations based on street addresses from input data
+    - **[Linkage](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirlinkage)** - Assigns a common identifier to patient records in order to link and deduplicate patient records seen across data contributors
+    - **[Transport](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirtransport)**- Offers functionality for reading and writing data from storage resources (e.g,. FHIR servers)  
+  -   **[Message Parser](https://cdcgov.github.io/phdi/containers/message_parser.html)** - Extracts desired fields from a given message
+  -   **[Tabulation](https://cdcgov.github.io/phdi/containers/tabulation.html)** - Extracts data from a FHIR server, converts it to a tabular representation, and stores it to a user-defined tabular storage file type (e.g., Parquet or CSV)
+  -   **[Record Linkage](https://cdcgov.github.io/phdi/containers/record_linkage.html)** - Links new health care messages to existing records if a connection exists
+  -   **[Validation](https://cdcgov.github.io/phdi/containers/validation.html)** - Checks whether health care messages are in the proper format and contain user-defined fields of interest 
+- **Implementation Support** - Resources to help users implement DIBBs tools to manage their data and analysis workflows
+  - **[Examples](https://github.com/CDCgov/phdi/tree/main/examples)** - Sample data that simulates how a Building Block could be used 
+  - **[Tutorials](https://github.com/CDCgov/phdi/tree/main/tutorials0** - Step-by-step instructions to implement Building Blocks source code
 
-Example import for FHIR:
+## Where to Get DIBBs 
+
+The source code is hosted on GitHub at: https://github.com/CDCgov/phdi.
+
+The latest released version is available at the [Python Package Index (PyPI)](https://pypi.org/project/phdi/).
+
+**Python modules**
 ```
- from phdi.fhir.geospatial.census import CensusFhirGeocodeClient
+pip install phdi
 ```
 
-Example import for generic:
+**Containerized services**
 ```
- from phdi.geospatial.census import CensusGeocodeClient
+build from source
+build Docker locally
+pull down Docker images from GitHub
 ```
 
-Every building block has a FHIR counterpart that works well with FHIR bundles as inputs. The generic version is used for all other non-FHIR inputs.
+## Documentation
 
-For further information on the tutorial: [Geospatial Tutorial](tutorials/geospatial-tutorial.md)
+DIBBs documentation is currently hosted on GitHub Pages: https://cdcgov.github.io/phdi/ 
 
+There, you can find our: 
+- SDK API reference documentation
+- User guide for containerized Building Blocks
 
 ## Additional Acknowledgments 
 
-The compiled database mappings of root names to various nicknames was produced by the aggregation and synthesis of open source work from a number of projects. While we do not employ the packages and wrappers used by the various projects (merely their open source data), we do wish to give credit to their various works building collections of nickname mappings. These projects are:
+We mapped the rootnames of the DIBBs database to nicknames produced by the aggregation and synthesis of open source work from a number of projects. While we do not employ the packages and wrappers used by the various projects (merely their open source data), we wish to give credit to their various works building collections of nickname mappings. These projects are:
 
 * [Secure Enterprise Master Patient Index](https://github.com/MrCsabaToth/SOEMPI), based on OpenEMPI, conducted by Vanderbilt University
 * [Curated Nicknames](https://github.com/carltonnorthern/nicknames), scraped from genealogy webpages and run by Old Dominion University Web Science and Digital Libraries Research Group
