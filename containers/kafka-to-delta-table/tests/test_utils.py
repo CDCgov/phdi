@@ -29,6 +29,7 @@ def test_validate_schema():
         ],
     }
 
+
 def test_load_parsing_schema_success():
     test_schema_path = (
         Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"

@@ -49,7 +49,7 @@ def test_connect_to_adlsgen2(patched_get_secret):
             f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.core.windows.net",
             f"https://login.microsoftonline.com/{tenant_id}/oauth2/token",
         ),
-        mock.call("fs.azure.createRemoteFileSystemDuringInitialization", "false")
+        mock.call("fs.azure.createRemoteFileSystemDuringInitialization", "false"),
     ]
 
     spark.conf.set.assert_has_calls(conf_set_calls)
