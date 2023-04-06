@@ -206,7 +206,7 @@ async def kafka_to_delta_table(
         "--delta_table_name",
         input.delta_table_name,
         "--schema",
-        f"\'{json.dumps(schema)}\'",
+        f"'{json.dumps(schema)}'",
     ]
 
     input = input.dict()
@@ -222,11 +222,11 @@ async def kafka_to_delta_table(
     kafka_to_delta_result = subprocess.run(
         kafka_to_delta_command, shell=True, capture_output=True, text=True
     )
-    
+
     response_body["spark_log"] = kafka_to_delta_result.stdout
 
     if kafka_to_delta_result.returncode != 0:
         response_body["status"] = "failed"
         response_body["spark_log"] = kafka_to_delta_result.stderr
-        
+
     return response_body

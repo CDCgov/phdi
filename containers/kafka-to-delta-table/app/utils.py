@@ -82,7 +82,7 @@ def validate_schema(json_schema: dict) -> dict:
         if data_type not in valid_types:
             validation_results["valid"] = False
             validation_results["errors"].append(
-                f"Invalid type for field {field}: {data_type}. " 
+                f"Invalid type for field {field}: {data_type}. "
                 f"Valid types are {valid_types}."
             )
 
