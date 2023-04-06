@@ -19,7 +19,8 @@ def test_kafka_to_delta_invalid_schema():
     assert response.status_code == 400
     assert response.json() == {
         "status": "failed",
-        "message": "Invalid type for field last_name: unknown_type. Valid types are ['string', 'integer', 'float', 'boolean', 'date', 'timestamp'].",
+        "message": "Invalid type for field last_name: unknown_type. Valid types are"
+        + " ['string', 'integer', 'float', 'boolean', 'date', 'timestamp'].",
         "spark_log": "",
     }
 

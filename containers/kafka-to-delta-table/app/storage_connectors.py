@@ -14,7 +14,7 @@ def connect_to_adlsgen2(
     client_id: str,
     client_secret_name: str,
     key_vault_name: str,
-) -> (SparkSession, str):
+) -> tuple(SparkSession, str):
     """
     Add required configuration to a SparkSession object to allow it to connect to Azure
     Data Lake gen 2 (ADLS gen2) storage. Connection to ADLS gen2 requires an Azure App
@@ -28,7 +28,8 @@ def connect_to_adlsgen2(
     :param storage_account: The name of an ADLS gen2 storage account to connect to.
     :param container: The name of a container within the storage accound specified by
         'storage_account' that should be connected to.
-    :param tenant_id: The tenant id of the Azure tenant associate with the storage account.
+    :param tenant_id: The tenant id of the Azure tenant associate with the storage
+        account.
     :param client_id: The id of the app aegistration being used for authorization.
     :param client_secret_name: The name of secret in an Azure Key Vault for the app
         registration.
@@ -54,7 +55,8 @@ def connect_to_adlsgen2(
         client_secret,
     )
     spark.conf.set(
-        f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.core.windows.net",
+        f"fs.azure.account.oauth2.client.endpoint.{storage_account}"
+        + ".dfs.core.windows.net",
         f"https://login.microsoftonline.com/{tenant_id}/oauth2/token",
     )
     spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "false")

@@ -1,5 +1,4 @@
 from app.storage_connectors import connect_to_adlsgen2
-from pyspark.sql import SparkSession
 from unittest import mock
 
 
@@ -34,7 +33,8 @@ def test_connect_to_adlsgen2(patched_get_secret):
             "OAuth",
         ),
         mock.call(
-            f"fs.azure.account.oauth.provider.type.{storage_account}.dfs.core.windows.net",
+            f"fs.azure.account.oauth.provider.type.{storage_account}"
+            + ".dfs.core.windows.net",
             "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
         ),
         mock.call(
@@ -42,11 +42,13 @@ def test_connect_to_adlsgen2(patched_get_secret):
             client_id,
         ),
         mock.call(
-            f"fs.azure.account.oauth2.client.secret.{storage_account}.dfs.core.windows.net",
+            f"fs.azure.account.oauth2.client.secret.{storage_account}"
+            + ".dfs.core.windows.net",
             patched_get_secret(),
         ),
         mock.call(
-            f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.core.windows.net",
+            f"fs.azure.account.oauth2.client.endpoint.{storage_account}"
+            + ".dfs.core.windows.net",
             f"https://login.microsoftonline.com/{tenant_id}/oauth2/token",
         ),
         mock.call("fs.azure.createRemoteFileSystemDuringInitialization", "false"),
