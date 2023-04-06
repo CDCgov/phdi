@@ -4,6 +4,7 @@ import psycopg2
 import json
 
 
+# test change
 class DIBBsConnectorClient(BaseMPIConnectorClient):
     """
     Represents a Postgres-specific Master Patient Index (MPI) connector client for the
