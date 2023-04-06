@@ -71,7 +71,7 @@ Here are the current tools that DIBBs offers:
   -   **[Validation](https://cdcgov.github.io/phdi/containers/validation.html)** - Checks whether health care messages are in the proper format and contain user-defined fields of interest 
 - **Implementation Support** - Resources to help users implement DIBBs tools to manage their data and analysis workflows
   - **[Examples](https://github.com/CDCgov/phdi/tree/main/examples)** - Sample data that simulates how a Building Block could be used 
-  - **[Tutorials](https://github.com/CDCgov/phdi/tree/main/tutorials0** - Step-by-step instructions to implement Building Blocks source code
+  - **[Tutorials](https://github.com/CDCgov/phdi/tree/main/tutorials)** - Step-by-step instructions to implement Building Blocks source code
 
 ## Where to Get DIBBs 
 
