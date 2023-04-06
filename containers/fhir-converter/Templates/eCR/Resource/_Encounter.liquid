@@ -9,16 +9,27 @@
         {% if encounter.statusCode.code == null -%}
         "status":"unknown",
         {% endif -%}
-        "class":
-        {
-            {% assign translations = encounter.code.translation | to_array -%}
-            {% if translations.first -%}
-            {% include 'DataType/Coding' Coding: translations.first -%}
-            {% endif -%}
-            {% if translations.first == null -%}
-            {% include 'DataType/Coding' Coding: encounter.code -%}
-            {% endif -%}
-        },
+        "class": [{
+                "coding": [{
+                    {% assign translations = encounter.code.translation | to_array -%}
+                    {% if translations.first -%}
+                        {% if encounter.code.originalText.first._ -%}
+                        "text": "{{ encounter.code.originalText.first._ }}",
+                        {% assign translationText = encounter.code.originalText.first._ -%}
+                        {% else -%}
+                        {% assign translationText = "" -%}
+                        {% endif -%}
+                    {% include 'DataType/Coding' Coding: translations.first -%}
+                    {% endif -%}
+                    },
+                    {
+                    {% if encounter.code -%}
+                    "text": "{{encounter.code.displayName}} {{ translationText }}",
+                    {% include 'DataType/Coding' Coding: encounter.code -%}
+                    {% endif -%}
+                    },
+                ],
+        }],
         "identifier":
         [
             {% assign ids = encounter.id | to_array -%}
