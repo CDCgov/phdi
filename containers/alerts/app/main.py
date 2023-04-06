@@ -18,7 +18,9 @@ from slack_sdk.errors import SlackApiError
 from typing import Optional
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
 api = FastAPI(
     title="PHDI Alerts Service",
     version="0.0.1",

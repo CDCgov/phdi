@@ -17,17 +17,33 @@
                 {% assign templateIdString = entryRelationship.observation.templateId | to_json_string -%}
                 {% if  templateIdString  contains '"2.16.840.1.113883.10.20.22.4.5"' -%}
                     {% include 'DataType/CodeableConcept' CodeableConcept: entryRelationship.observation.value -%}
+                {% elsif templateIdString  contains '"2.16.840.1.113883.10.20.22.4.6"' -%}
+                    {% include 'DataType/CodeableConcept' CodeableConcept: entryRelationship.observation.value -%}
                 {% endif -%}
             {% endfor -%}
         },
+        "category": [
+        {
+            {% assign templateIds = conditionEntry.templateId | to_array -%}
+            {% if  templateIds.first.root == "2.16.840.1.113883.10.20.22.4.4" -%}
+                "codings": [
+                    {
+                        "code":"problem-item-list",
+                        "display": "Problem List Item",
+                        "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category",
+                    },
+                ],
+            {% endif -%}
+        },
+        ],
         "code":
         {
             {% assign translations = conditionEntry.value.translation | to_array -%}
-            {% if translations.first -%}
-            {% include 'DataType/CodeableConcept' CodeableConcept: translations.first -%}
+            {% if translations.first.code -%}
+                {% include 'DataType/CodeableConcept' CodeableConcept: translations.first -%}
             {% endif -%}
             {% if translations.first == null -%}
-            {% include 'DataType/CodeableConcept' CodeableConcept: conditionEntry.value -%}
+                {% include 'DataType/CodeableConcept' CodeableConcept: conditionEntry.value -%}
             {% endif -%}
         },
         {% if conditionEntry.effectiveTime.low.value -%}
