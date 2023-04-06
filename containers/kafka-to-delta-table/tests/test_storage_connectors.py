@@ -5,11 +5,10 @@ from unittest import mock
 
 @mock.patch("app.storage_connectors.AzureCredentialManager")
 def test_connect_to_adlsgen2(patched_cred_manager_class):
-    
     cred_manager = mock.Mock()
     cred_manager.get_secret.return_value = "some-secret"
     patched_cred_manager_class.return_value = cred_manager
-    
+
     spark = mock.Mock()
 
     storage_account = "some-storage-account"
