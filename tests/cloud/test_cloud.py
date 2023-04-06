@@ -161,14 +161,16 @@ def test_azure_need_new_token_without_token():
     cred_manager = AzureCredentialManager("https://some-url")
     assert cred_manager._need_new_token()
 
+
 @mock.patch("phdi.cloud.azure.SecretClient")
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
-def test_azure_credential_manager_get_secret(patched_az_creds, patched_az_secret_client):
-    
+def test_azure_credential_manager_get_secret(
+    patched_az_creds, patched_az_secret_client
+):
     # Set dummy values for key vault name and secret name.
     key_vault_name = "some-key-vault"
     secret_name = "some-secret"
-    
+
     # Mock SecretClient with appropriate return value.
     secret_object = mock.Mock()
     secret_object.value = "some-secret-value"
@@ -177,9 +179,8 @@ def test_azure_credential_manager_get_secret(patched_az_creds, patched_az_secret
     patched_az_secret_client.return_value = secret_client
     cred_manager = AzureCredentialManager()
     assert cred_manager.get_secret(key_vault_name, secret_name) == secret_object.value
-    
-    
-    
+
+
 @mock.patch("phdi.cloud.gcp.google.auth.transport.requests.Request")
 @mock.patch("phdi.cloud.gcp.google.auth.default")
 def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
