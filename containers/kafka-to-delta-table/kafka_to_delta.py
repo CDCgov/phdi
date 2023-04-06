@@ -1,6 +1,5 @@
 from app.storage_connectors import connect_to_adlsgen2
 from app.kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
-from pyspark.sql.types import StructType, StructField, StringType
 from pyspark.sql import SparkSession
 import argparse
 import sys
