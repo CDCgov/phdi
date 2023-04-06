@@ -48,7 +48,8 @@ def test_kafka_to_delta_spark_failure(patched_subprocess):
         "message": "",
         "spark_log": "Spark error",
     }
-    
+
+
 @mock.patch("app.main.subprocess")
 def test_kafka_to_delta_spark_success(patched_subprocess):
     request_body = {
