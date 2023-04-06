@@ -61,10 +61,10 @@ Here are the current tools that DIBBs offers:
   -   **[Alerts](https://cdcgov.github.io/phdi/containers/alerts.html)** - Provides the ability to send alerts via SMS, Slack, or Microsoft Teams
   -   **[FHIR Converter](https://cdcgov.github.io/phdi/containers/fhir-converter.html)** - Enables conversion of health data from legacy formats (e.g., HL7 version 2, CCDA) to FHIR, a standard for health care data exchange
   -   **[Data Ingestion](https://cdcgov.github.io/phdi/containers/ingestion.html)** - Includes the entire pipeline of Building Blocks below
-    - **[Harmonization](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirharmonization)** - Standardizes input data (e.g., patient names and phone numbers) to streamline the process of cleaning data and improve data quality
-    - **[Geospatial](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirgeospatial)** - Provides a common interface for obtaining precise geographic locations based on street addresses from input data
-    - **[Linkage](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirlinkage)** - Assigns a common identifier to patient records in order to link and deduplicate patient records seen across data contributors
-    - **[Transport](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirtransport)**- Offers functionality for reading and writing data from storage resources (e.g,. FHIR servers)  
+      -  **[Harmonization](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirharmonization)** - Standardizes input data (e.g., patient names and phone numbers) to streamline the process of cleaning data and improve data quality
+      - **[Geospatial](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirgeospatial)** - Provides a common interface for obtaining precise geographic locations based on street addresses from input data
+      - **[Linkage](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirlinkage)** - Assigns a common identifier to patient records in order to link and deduplicate patient records seen across data contributors
+      - **[Transport](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirtransport)**- Offers functionality for reading and writing data from storage resources (e.g,. FHIR servers)  
   -   **[Message Parser](https://cdcgov.github.io/phdi/containers/message_parser.html)** - Extracts desired fields from a given message
   -   **[Tabulation](https://cdcgov.github.io/phdi/containers/tabulation.html)** - Extracts data from a FHIR server, converts it to a tabular representation, and stores it to a user-defined tabular storage file type (e.g., Parquet or CSV)
   -   **[Record Linkage](https://cdcgov.github.io/phdi/containers/record_linkage.html)** - Links new health care messages to existing records if a connection exists
