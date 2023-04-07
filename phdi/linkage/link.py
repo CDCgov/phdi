@@ -1115,7 +1115,8 @@ def _compare_records(
     # Format is patient_id, person_id, alphabetical list of FHIR keys
     # Don't use the first two ID cols when linking
     feature_comps = [
-        feature_funcs[x](record, mpi_patient, x, **kwargs) for x in feature_funcs
+        feature_funcs[x](record[2:], mpi_patient[2:], x, **kwargs)
+        for x in feature_funcs
     ]
     is_match = matching_rule(feature_comps, **kwargs)
     return is_match
@@ -1134,8 +1135,8 @@ def _compare_address_elements(
     the MPI.
     """
 
-    for r in record[x]:
-        for m in mpi_patient[x]:
+    for r in record[2:][x]:
+        for m in mpi_patient[2:][x]:
             feature_comp = feature_func[x]([r], [m], 0, **kwargs)
             if feature_comp is True:
                 break
@@ -1157,8 +1158,8 @@ def _compare_name_elements(
     """
 
     feature_comp = feature_func[x](
-        [" ".join(n for n in record[x])],
-        [" ".join(n for n in mpi_patient[x])],
+        [" ".join(n for n in record[2:][x])],
+        [" ".join(n for n in mpi_patient[2:][x])],
         0,
         **kwargs,
     )

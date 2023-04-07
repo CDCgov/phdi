@@ -1082,9 +1082,9 @@ def test_add_person_resource():
 
 def test_compare_address_elements():
     feature_funcs = {
-        4: feature_match_four_char,
+        2: feature_match_four_char,
     }
-    x = 4
+    x = 2
     record = [
         ["123"],
         ["1"],
@@ -1131,8 +1131,8 @@ def test_compare_address_elements():
 
 
 def test_compare_name_elements():
-    feature_funcs = {2: feature_match_fuzzy_string}
-    x = 2
+    feature_funcs = {0: feature_match_fuzzy_string}
+    x = 0
     record = [
         ["123"],
         ["1"],
