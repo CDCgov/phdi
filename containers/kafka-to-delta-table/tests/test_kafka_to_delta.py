@@ -12,10 +12,9 @@ def _check_arguments(arguments_list: list, parsed_arguments: argparse.Namespace)
         argument = arguments_list[argument_index][2:]
         value = arguments_list[argument_index + 1]
         assert parsed_arguments.__getattribute__(argument) == value
-    
+
 
 def test_get_arguments_missing_arguments():
-
     arguments = []
     selection_flags = set_selection_flags(arguments)
     try:
@@ -25,9 +24,9 @@ def test_get_arguments_missing_arguments():
         exit_code = error.code
 
     assert exit_code == 2
-    
-def test_get_arguments_local_kafka_local_storage():
 
+
+def test_get_arguments_local_kafka_local_storage():
     arguments_list = [
         "--kafka_provider",
         "local_kafka",
@@ -46,8 +45,8 @@ def test_get_arguments_local_kafka_local_storage():
     parsed_arguments = get_arguments(arguments_list, selection_flags)
     _check_arguments(arguments_list, parsed_arguments)
 
+
 def test_get_arguments_azure_event_hubs_and_adlsgen2():
-    
     arguments_list = [
         "--kafka_provider",
         "azure_event_hubs",
@@ -74,7 +73,7 @@ def test_get_arguments_azure_event_hubs_and_adlsgen2():
         "--client_secret_name",
         "some-client-secret_name",
         "--schema",
-        "id:long,name:string", 
+        "id:long,name:string",
     ]
     selection_flags = set_selection_flags(arguments_list)
     parsed_arguments = get_arguments(arguments_list, selection_flags)
