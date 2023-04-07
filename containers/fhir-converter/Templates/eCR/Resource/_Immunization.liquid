@@ -21,8 +21,10 @@
 
         {% if immunization.effectiveTime.low -%}
             "occurrenceDateTime": "{{ immunization.effectiveTime.low.value | format_as_date_time }}",
-        {% else -%}
+        {% elsif immunization.effectiveTime.value -%}
             "occurrenceDateTime": "{{ immunization.effectiveTime.value | format_as_date_time }}",
+        {% else -%}
+            "occurrenceString": "Unknown",
         {% endif -%}
 
         {% assign consumables = immunization.consumable | to_array -%}
@@ -41,7 +43,12 @@
             {% endfor -%}
         {% endfor -%}
 
-        "status":"{{immunization.statusCode.code | get_property: 'ValueSet/ImmunizationStatus' }}",
+        {% if immunization.statusCode.code -%}
+            "status":"{{immunization.statusCode.code | get_property: 'ValueSet/ImmunizationStatus' }}",
+        {% else -%}
+            "status":"completed",
+        {% endif -%}
+        "primarySource": true,
         "route":{ {% include 'DataType/CodeableConcept' CodeableConcept: immunization.routeCode -%}},
         "site":{ {% include 'DataType/CodeableConcept' CodeableConcept: immunization.approachSiteCode -%} },      
     },

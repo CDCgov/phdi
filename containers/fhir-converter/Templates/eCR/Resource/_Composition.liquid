@@ -3,9 +3,12 @@
     "resource":{
         "resourceType": "Composition",
         "id":"{{ ID }}",
-        "profile": [
-            "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
-        ],
+         "meta" : {
+            "profile" : 
+            [
+                "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+            ]
+        },
         "identifier":
         [
             {
@@ -16,21 +19,11 @@
                     {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
                 },
                 "value":"{{ composition.id.root }}",
-                "assigner": "{{ composition.id.assigningAuthorityName }}"
+                "assigner": 
+                {
+                    "display": "{{ composition.id.assigningAuthorityName }}"
+                },
             },
-            {% if composition.section.code.code -%}
-                {% if composition.section.code.code == "88085-6" -%}
-                    {
-                        "use":"secondary",
-                        "type":
-                        {
-                            {% assign codes = composition.section.code | to_array -%}
-                            {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
-                        },
-                        "value":"{{ composition.section.id.root }}",
-                    },
-                {% endif -%}
-            {% endif -%}
         ],
         "extension":[
             {
@@ -165,19 +158,43 @@
                     "status": "generated",
                     "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>",
                 },
+                "extension":
+                [
+            
+                    {
+                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
+                        "valueIdentifier": 
+                        {
+                            "use":"official",
+                            "type":
+                            {
+                                {% assign codes = composition.section.code | to_array -%}
+                                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                            },
+                            "value":"{{ composition.section.id.root }}",
+                        },
+                    },
+                    {
+                        "url" : "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    {% assign rrentries = composition.section.entry | to_array -%}
+                                    {% for rrentry in rrentries -%}
+                                        {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
+                                            {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                        {% endif -%}
+                                    {% endfor -%}
+                                },
+                            ],
+                        }
+                    },
+                ],
                 "code": {
                     "coding": [
                         {
                             {% include 'DataType/Coding' Coding: composition.section.code -%}
-                        },
-                        {
-                            {% assign rrentries = composition.section.entry | to_array -%}
-                            {% for rrentry in rrentries -%}
-                                {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
-                                    {% include 'DataType/Coding' Coding: rrentry.act.code -%}
-                                {% endif -%}
-                            {% endfor -%}
-                        },
+                        }
                     ],
                 },
                 "entry": 
