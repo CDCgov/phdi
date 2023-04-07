@@ -1115,11 +1115,54 @@ def _compare_records(
     # Format is patient_id, person_id, alphabetical list of FHIR keys
     # Don't use the first two ID cols when linking
     feature_comps = [
-        feature_funcs[x](record[2:], mpi_patient[2:], x, **kwargs)
-        for x in feature_funcs
+        feature_funcs[x](record, mpi_patient, x, **kwargs) for x in feature_funcs
     ]
     is_match = matching_rule(feature_comps, **kwargs)
     return is_match
+
+
+def _compare_address_elements(
+    record: List,
+    mpi_patient: List,
+    feature_func: Callable,
+    x,
+    **kwargs,
+) -> bool:
+    """
+    Helper method that compares all elements from the flattened form of an incoming
+    new patient record to all elements of the flattened patient record pulled from
+    the MPI.
+    """
+
+    for r in record[x]:
+        for m in mpi_patient[x]:
+            feature_comp = feature_func[x]([r], [m], 0, **kwargs)
+            if feature_comp is True:
+                break
+        break
+    return feature_comp
+
+
+def _compare_given_name_elements(
+    record: List,
+    mpi_patient: List,
+    feature_func: Callable,
+    x,
+    **kwargs,
+) -> bool:
+    """
+    Helper method that compares all elements from the flattened form of an incoming
+    new patient record's given (first) name(s) to all elements of the flattened
+    patient's given (first) name(s) pulled from the MPI.
+    """
+
+    feature_comp = feature_func[x](
+        [" ".join(n for n in record[x])],
+        [" ".join(n for n in mpi_patient[x])],
+        0,
+        **kwargs,
+    )
+    return feature_comp
 
 
 def _find_strongest_link(linkage_scores: dict) -> str:
