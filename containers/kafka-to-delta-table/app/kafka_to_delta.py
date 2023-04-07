@@ -5,27 +5,38 @@ from pyspark.sql import SparkSession
 import argparse
 import sys
 from app.utils import get_spark_schema
+from app.kafka_connectors import KAFKA_PROVIDERS
+from app.storage_connectors import STORAGE_PROVIDERS
 
-SELECTION_FLAGS = {
-    "adlsgen2": False,
-    "local_storage": False,
-    "azure_event_hubs": False,
-    "local_kafka": False,
-}
+def set_selection_flags(arguments: list) -> dict:
+    """
+    Sets the value of the selection_flags dictionary to True if the corresponding
+    command line argument is present in the list of arguments.
 
+    :param arguments: A list of command line arguments.
+    :return: A dictionary containing values indicating which Kafka and storage providers
+        are selected.
+    """
+    selection_flags = {}
+    providers = KAFKA_PROVIDERS.__args__ + STORAGE_PROVIDERS.__args__
+    for flag in providers:
+        if flag in arguments:
+            selection_flags[flag] = True
+        else:
+            selection_flags[flag] = False
+            
+    return selection_flags
 
-def get_args(arguments: list) -> argparse.Namespace:
+def get_arguments(arguments: list, selection_flags: dict) -> argparse.Namespace:
     """
     Parses command line arguments.
 
     :param arguments: A list of command line arguments.
+    :param selection_flags: A dictionary containing values indicating which Kafka and 
+        storage providers are selected.
     :return: An argparse.Namespace object containing the parsed arguments.
     """
-
-    for flag in SELECTION_FLAGS:
-        if flag in sys.argv:
-            SELECTION_FLAGS[flag] = True
-
+    
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--storage_provider",
@@ -44,45 +55,45 @@ def get_args(arguments: list) -> argparse.Namespace:
     parser.add_argument(
         "--kafka_server",
         type=str,
-        required=SELECTION_FLAGS["local_kafka"],
+        required=selection_flags["local_kafka"],
         help="The URL of a Kafka server including port.",
     )
     parser.add_argument(
         "--event_hubs_namespace",
         type=str,
-        required=SELECTION_FLAGS["azure_event_hubs"],
+        required=selection_flags["azure_event_hubs"],
         help="The name of an Azure Event Hubs namespace.",
     )
     parser.add_argument(
         "--kafka_topic",
         type=str,
         default="",
-        required=SELECTION_FLAGS["local_kafka"],
+        required=selection_flags["local_kafka"],
         help="The name of a Kafka topic to read from.",
     )
     parser.add_argument(
         "--event_hub",
         type=str,
         default="",
-        required=SELECTION_FLAGS["azure_event_hubs"],
+        required=selection_flags["azure_event_hubs"],
         help="The name of an Azure Event Hub to read from.",
     )
     parser.add_argument(
         "--connection_string_secret_name",
         type=str,
-        required=SELECTION_FLAGS["azure_event_hubs"],
+        required=selection_flags["azure_event_hubs"],
         help="The connection string for the Azure Event Hubs namespace.",
     )
     parser.add_argument(
         "--storage_account",
         type=str,
-        required=SELECTION_FLAGS["adlsgen2"],
+        required=selection_flags["adlsgen2"],
         help="The name of an Azure Data Lake Storage Gen2 account.",
     )
     parser.add_argument(
         "--container",
         type=str,
-        required=SELECTION_FLAGS["adlsgen2"],
+        required=selection_flags["adlsgen2"],
         help="The name of a container in an Azure Storage account specified by "
         "'--storage_account'.",
     )
@@ -95,28 +106,28 @@ def get_args(arguments: list) -> argparse.Namespace:
     parser.add_argument(
         "--client_id",
         type=str,
-        required=SELECTION_FLAGS["adlsgen2"],
+        required=selection_flags["adlsgen2"],
         help="The client ID of a service principal with access to the Azure Storage account"
         " specified by '--storage_account'.",
     )
     parser.add_argument(
         "--tenant_id",
         type=str,
-        required=SELECTION_FLAGS["adlsgen2"],
+        required=selection_flags["adlsgen2"],
         help="The tenant ID of the service principal specified by '--client_id' with access"
         " to the Azure Storage account specified by '--storage_account'.",
     )
     parser.add_argument(
         "--key_vault_name",
         type=str,
-        required=(SELECTION_FLAGS["adlsgen2"] or SELECTION_FLAGS["azure_event_hubs"]),
+        required=(selection_flags["adlsgen2"] or selection_flags["azure_event_hubs"]),
         help="The name of an Azure Key Vault containing all required secrets for connection"
         " to all Azure storage and Kafka resources.",
     )
     parser.add_argument(
         "--client_secret_name",
         type=str,
-        required=SELECTION_FLAGS["adlsgen2"],
+        required=selection_flags["adlsgen2"],
         help="The name of the secret in the Azure Key Vault specified by '--key_vault_name'"
         " containing the client secret of the service principal specified by "
         "'--client_id'.",
@@ -128,6 +139,7 @@ def get_args(arguments: list) -> argparse.Namespace:
         help="The schema of the data to be written to the Delta table as a JSON string with"
         " the form '{'field1': 'type1', 'field2': 'type2'}'.",
     )
+
     return parser.parse_args(arguments)
 
 
@@ -136,8 +148,9 @@ def main():
     Submit a Spark job to read from a Kafka topic and write to a Delta table according
     to configuration provided by command line arguments.
     """
-
-    arguments = get_args(sys.argv[1:])
+    arguments_list = sys.argv[1:]
+    selection_flags = set_selection_flags(arguments_list)
+    arguments = get_arguments(arguments_list, selection_flags)
 
     kafka_topic_mappings = {
         "azure_event_hubs": arguments.event_hub,
@@ -153,7 +166,7 @@ def main():
     spark.sparkContext.setLogLevel("WARN")
     base_path = "./persistent_storage/kafka/"
 
-    if SELECTION_FLAGS["adlsgen2"]:
+    if selection_flags["adlsgen2"]:
         spark, base_path = connect_to_adlsgen2(
             spark,
             arguments.storage_account,
@@ -165,7 +178,7 @@ def main():
         )
 
     schema = get_spark_schema(arguments.schema)
-    if SELECTION_FLAGS["azure_event_hubs"]:
+    if selection_flags["azure_event_hubs"]:
         kafka_data_frame = connect_to_azure_event_hubs(
             spark,
             schema,
@@ -175,7 +188,7 @@ def main():
             arguments.key_vault_name,
         )
 
-    elif SELECTION_FLAGS["local_kafka"]:
+    elif selection_flags["local_kafka"]:
         kafka_data_frame = connect_to_local_kafka(
             spark, schema, arguments.kafka_server, arguments.kafka_topic
         )

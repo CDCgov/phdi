@@ -198,7 +198,7 @@ async def kafka_to_delta_table(
         "spark-submit",
         "--packages",
         "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2,org.apache.kafka:kafka-clients:3.4.0,io.delta:delta-core_2.12:2.1.0",
-        str(Path(__file__).parent.parent / "kafka_to_delta.py"),
+        str(Path(__file__).parent / "kafka_to_delta.py"),
         "--kafka_provider",
         input.kafka_provider,
         "--storage_provider",
