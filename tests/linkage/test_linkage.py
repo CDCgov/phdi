@@ -31,7 +31,7 @@ from phdi.linkage import (
     link_record_against_mpi,
     add_person_resource,
     _compare_address_elements,
-    _compare_given_name_elements,
+    _compare_name_elements,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
@@ -1130,7 +1130,7 @@ def test_compare_address_elements():
     assert different_address is False
 
 
-def test_compare_given_name_elements():
+def test_compare_name_elements():
     feature_funcs = {2: feature_match_fuzzy_string}
     x = 2
     record = [
@@ -1169,24 +1169,24 @@ def test_compare_given_name_elements():
         ["6 South St", "23 Main St", "9 North Ave"],
     ]
 
-    same_name = _compare_given_name_elements(
+    same_name = _compare_name_elements(
         record=record, mpi_patient=record2, feature_func=feature_funcs, x=x
     )
     assert same_name is True
 
     # Assert same first name with new middle name in record == true fuzzy match
-    add_middle_name = _compare_given_name_elements(
+    add_middle_name = _compare_name_elements(
         record=record3, mpi_patient=mpi_patient2, feature_func=feature_funcs, x=x
     )
     assert add_middle_name is True
 
-    add_middle_name = _compare_given_name_elements(
+    add_middle_name = _compare_name_elements(
         record=record, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
     )
     assert add_middle_name is True
 
     # Assert no match with different names
-    different_names = _compare_given_name_elements(
+    different_names = _compare_name_elements(
         record=record3, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
     )
     assert different_names is False

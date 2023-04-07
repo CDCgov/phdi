@@ -1143,7 +1143,7 @@ def _compare_address_elements(
     return feature_comp
 
 
-def _compare_given_name_elements(
+def _compare_name_elements(
     record: List,
     mpi_patient: List,
     feature_func: Callable,
@@ -1152,8 +1152,8 @@ def _compare_given_name_elements(
 ) -> bool:
     """
     Helper method that compares all elements from the flattened form of an incoming
-    new patient record's given (first) name(s) to all elements of the flattened
-    patient's given (first) name(s) pulled from the MPI.
+    new patient record's name(s) to all elements of the flattened
+    patient's name(s) pulled from the MPI.
     """
 
     feature_comp = feature_func[x](

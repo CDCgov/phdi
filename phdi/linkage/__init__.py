@@ -25,7 +25,7 @@ from phdi.linkage.link import (
     link_record_against_mpi,
     add_person_resource,
     _compare_address_elements,
-    _compare_given_name_elements,
+    _compare_name_elements,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -60,5 +60,5 @@ __all__ = [
     "link_record_against_mpi",
     "add_person_resource",
     "_compare_address_elements",
-    "_compare_given_name_elements",
+    "_compare_name_elements",
 ]
