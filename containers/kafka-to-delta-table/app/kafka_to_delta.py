@@ -8,6 +8,7 @@ from app.utils import get_spark_schema
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
 
+
 def set_selection_flags(arguments: list) -> dict:
     """
     Sets the value of the selection_flags dictionary to True if the corresponding
@@ -24,19 +25,20 @@ def set_selection_flags(arguments: list) -> dict:
             selection_flags[flag] = True
         else:
             selection_flags[flag] = False
-            
+
     return selection_flags
+
 
 def get_arguments(arguments: list, selection_flags: dict) -> argparse.Namespace:
     """
     Parses command line arguments.
 
     :param arguments: A list of command line arguments.
-    :param selection_flags: A dictionary containing values indicating which Kafka and 
+    :param selection_flags: A dictionary containing values indicating which Kafka and
         storage providers are selected.
     :return: An argparse.Namespace object containing the parsed arguments.
     """
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--storage_provider",
