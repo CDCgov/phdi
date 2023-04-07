@@ -2,6 +2,20 @@ from app.kafka_to_delta import get_arguments, main, set_selection_flags
 import argparse
 
 
+def test_set_selection_flags():
+    arguments = [
+        "--kafka_provider",
+        "local_kafka",
+        "--storage_provider",
+        "local_storage",
+    ]
+    selection_flags = set_selection_flags(arguments)
+    assert selection_flags["local_kafka"] is True
+    assert selection_flags["azure_event_hubs"] is False
+    assert selection_flags["local_storage"] is True
+    assert selection_flags["adlsgen2"] is False
+
+
 def _check_arguments(arguments_list: list, parsed_arguments: argparse.Namespace):
     """
     Helper function to confirm that arguments passed to the 'get_arguments()' function
