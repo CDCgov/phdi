@@ -34,6 +34,7 @@ detect-delimiter = "^0.1.1"
 psycopg2-binary = "^2.9.5" 
 sqlalchemy = "^2.0.0"
 matplotlib = "^3.7.1"
+azure-keyvault-secrets = "^4.7.0"
 
 [tool.poetry.dev-dependencies]
 pdoc = "^13.0.0"
