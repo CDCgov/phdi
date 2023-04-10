@@ -5,6 +5,7 @@ import random
 from random import randint
 from string import ascii_letters
 
+random.seed(410)
 
 df = pd.read_csv(
     # locally stord file of synthetic LAC synthea data; user must change
