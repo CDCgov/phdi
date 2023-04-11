@@ -9,9 +9,8 @@ from unittest import mock
 @mock.patch("app.kafka_connectors.from_json")
 @mock.patch("app.kafka_connectors.col")
 def test_connect_to_azure_event_hubs(
-    patched_col,
-    patched_from_json,
-    patched_cred_manager_class):
+    patched_col, patched_from_json, patched_cred_manager_class
+):
     # set the return value of the mock object
     cred_manager = mock.Mock()
     cred_manager.get_secret.return_value = "some-secret"
@@ -24,7 +23,7 @@ def test_connect_to_azure_event_hubs(
     # setup values for the function parameters
     event_hubs_namespace = "some-event-hubs-namespace"
     event_hub = "some-event-hub"
-    connection_string_secret_name = "some-connection-string-secret-name" 
+    connection_string_secret_name = "some-connection-string-secret-name"
     key_vault_name = "some-key-vault-name"
 
     # call the function with the mock objects
@@ -38,7 +37,7 @@ def test_connect_to_azure_event_hubs(
     )
 
     # assert that the mock object's 'get_secret' method was called once with
-    # connection_string_name and key_vault_name 
+    # connection_string_name and key_vault_name
     cred_manager.get_secret.assert_called_once_with(
         secret_name=connection_string_secret_name, key_vault_name=key_vault_name
     )
@@ -59,21 +58,24 @@ def test_connect_to_azure_event_hubs(
         .option("kafka.request.timeout.ms", "60000")
         .option("kafka.session.timeout.ms", "30000")
         .load()
-        .select(patched_from_json(patched_col("value").cast("string"), schema).alias("value"))
+        .select(
+            patched_from_json(patched_col("value").cast("string"), schema).alias(
+                "value"
+            )
+        )
         .select(patched_col("parsed_value.*"))
     )
-    
+
     # assert that the result of the function call is equal to the expected result
     assert result_kafka_data_frame == kafka_data_frame
+
 
 # test the connect_to_local_kafka function
 # mock the SparkSession and StructType objects
 # patch the from_json and col functions with the mock object
 @mock.patch("app.kafka_connectors.from_json")
 @mock.patch("app.kafka_connectors.col")
-def test_connect_to_local_kafka(
-    patched_from_json,
-    patched_col):
+def test_connect_to_local_kafka(patched_from_json, patched_col):
     # setup values for the mock objects for SparkSession and StructType
     spark = mock.Mock()
     schema = mock.Mock()
@@ -98,7 +100,11 @@ def test_connect_to_local_kafka(
         .option("subscribe", kafka_topic)
         .option("includeHeaders", "true")
         .load()
-        .select(patched_from_json(patched_col("value").cast("string"), schema).alias("value"))
+        .select(
+            patched_from_json(patched_col("value").cast("string"), schema).alias(
+                "value"
+            )
+        )
         .select(patched_col("parsed_value.*"))
     )
 
