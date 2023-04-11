@@ -95,7 +95,8 @@ class KafkaToDeltaTableInput(BaseModel):
     )
     container: str = Field(
         description="The name of a container in an Azure Storage account specified by "
-        "'storage_account'. Required when 'storage_provider' is 'azure_data_lake_gen2'.",
+        "'storage_account'. Required when 'storage_provider' is "
+        "'azure_data_lake_gen2'.",
         default="",
     )
     client_id: str = Field(

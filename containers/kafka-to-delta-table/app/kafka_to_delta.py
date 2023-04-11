@@ -1,6 +1,5 @@
 from app.storage_connectors import connect_to_adlsgen2
 from app.kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
-from pyspark.sql.types import StructType, StructField, StringType
 from pyspark.sql import SparkSession
 import argparse
 import sys
@@ -109,37 +108,37 @@ def get_arguments(arguments: list, selection_flags: dict) -> argparse.Namespace:
         "--client_id",
         type=str,
         required=selection_flags["adlsgen2"],
-        help="The client ID of a service principal with access to the Azure Storage account"
-        " specified by '--storage_account'.",
+        help="The client ID of a service principal with access to the Azure Storage "
+        "account specified by '--storage_account'.",
     )
     parser.add_argument(
         "--tenant_id",
         type=str,
         required=selection_flags["adlsgen2"],
-        help="The tenant ID of the service principal specified by '--client_id' with access"
-        " to the Azure Storage account specified by '--storage_account'.",
+        help="The tenant ID of the service principal specified by '--client_id' with "
+        "access to the Azure Storage account specified by '--storage_account'.",
     )
     parser.add_argument(
         "--key_vault_name",
         type=str,
         required=(selection_flags["adlsgen2"] or selection_flags["azure_event_hubs"]),
-        help="The name of an Azure Key Vault containing all required secrets for connection"
-        " to all Azure storage and Kafka resources.",
+        help="The name of an Azure Key Vault containing all required secrets for "
+        "connection to all Azure storage and Kafka resources.",
     )
     parser.add_argument(
         "--client_secret_name",
         type=str,
         required=selection_flags["adlsgen2"],
-        help="The name of the secret in the Azure Key Vault specified by '--key_vault_name'"
-        " containing the client secret of the service principal specified by "
-        "'--client_id'.",
+        help="The name of the secret in the Azure Key Vault specified by "
+        "'--key_vault_name' containing the client secret of the service principal "
+        "specified by '--client_id'.",
     )
     parser.add_argument(
         "--schema",
         type=str,
         required=True,
-        help="The schema of the data to be written to the Delta table as a JSON string with"
-        " the form '{'field1': 'type1', 'field2': 'type2'}'.",
+        help="The schema of the data to be written to the Delta table as a JSON string "
+        "with the form '{'field1': 'type1', 'field2': 'type2'}'.",
     )
 
     return parser.parse_args(arguments)

@@ -36,7 +36,8 @@ def connect_to_azure_event_hubs(
         secret_name=connection_string_secret_name, key_vault_name=key_vault_name
     )
 
-    eh_sasl = f'org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="{connection_string}";'
+    eh_sasl = "org.apache.kafka.common.security.plain.PlainLoginModule required "
+    f'username="$ConnectionString" password="{connection_string}";'
 
     kafka_server = f"{event_hubs_namespace}.servicebus.windows.net:9093"
     kafka_data_frame = (

@@ -1,5 +1,6 @@
+# flake8: noqa
+
 from app.storage_connectors import connect_to_adlsgen2
-from pyspark.sql import SparkSession
 from unittest import mock
 
 
