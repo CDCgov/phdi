@@ -42,7 +42,8 @@ def test_connect_to_azure_event_hubs(
         secret_name=connection_string_secret_name, key_vault_name=key_vault_name
     )
     # store the connection string secret in a variable
-    eh_sasl = f'org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="{cred_manager.get_secret()}";'
+    eh_sasl = "org.apache.kafka.common.security.plain.PlainLoginModule required "
+    f'username="$ConnectionString" password="{cred_manager.get_secret()}";'
 
     kafka_server = f"{event_hubs_namespace}.servicebus.windows.net:9093"
     # make sure to use patched from_json and col functions
