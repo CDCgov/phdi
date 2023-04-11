@@ -34,6 +34,11 @@ REQUIRED_VALUES_MAP = {
 }
 
 
+# class DataToKafka:
+#     main: json = Field(description="Data to upload")
+#     topic: str = Field(description="Name of topic to upload data to")
+
+
 class KafkaToDeltaTableInput(BaseModel):
     """
     The model for requests to the /kafka-to-delta-table endpoint.
@@ -248,3 +253,9 @@ async def kafka_to_delta_table(
         response_body["spark_log"] = kafka_to_delta_result.stderr
 
     return response_body
+
+
+# @app.post("/load-data-to-kafka", status_code=200)
+# async def kafka_to_delta_table(
+#     input: DataToKafka, response: Response
+# ) -> KafkaToDeltaTableOutput:
