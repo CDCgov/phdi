@@ -64,47 +64,63 @@ class KafkaToDeltaTableInput(BaseModel):
         default="",
     )
     kafka_server: str = Field(
-        description="The URL of a Kafka server including port. Required when 'kafka_provider' is 'local'.",
+        description="The URL of a Kafka server including port. Required when "
+        "'kafka_provider' is 'local'.",
         default="",
     )
     event_hubs_namespace: str = Field(
-        description="The name of an Azure Event Hubs namespace Required when 'kafka_provider' is 'azure_event_hubs'.",
+        description="The name of an Azure Event Hubs namespace Required when "
+        "'kafka_provider' is 'azure_event_hubs'.",
         default="",
     )
     kafka_topic: str = Field(
-        description="The name of a Kafka topic to read from. Required when 'kafka_provider' is 'local'.",
+        description="The name of a Kafka topic to read from. Required when "
+        "'kafka_provider' is 'local'.",
         default="",
     )
     event_hub: str = Field(
-        description="The name of an Azure Event Hub to read from. Required when 'kafka_provider' is 'azure_event_hubs'.",
+        description="The name of an Azure Event Hub to read from. Required when "
+        "'kafka_provider' is 'azure_event_hubs'.",
         default="",
     )
     connection_string_secret_name: str = Field(
-        description="The connection string for the Azure Event Hubs namespace. Required when 'kafka_provider' is 'azure_event_hubs'.",
+        description="The connection string for the Azure Event Hubs namespace. Required"
+        " when 'kafka_provider' is 'azure_event_hubs'.",
         default="",
     )
     storage_account: str = Field(
-        description="The name of an Azure Data Lake Storage Gen2 account. Required when 'storage_provider' is 'azure_data_lake_gen2'.",
+        description="The name of an Azure Data Lake Storage Gen2 account. Required when"
+        " 'storage_provider' is 'azure_data_lake_gen2'.",
         default="",
     )
     container: str = Field(
-        description="The name of a container in an Azure Storage account specified by 'storage_account'. Required when 'storage_provider' is 'azure_data_lake_gen2'.",
+        description="The name of a container in an Azure Storage account specified by "
+        "'storage_account'. Required when 'storage_provider' is 'azure_data_lake_gen2'.",
         default="",
     )
     client_id: str = Field(
-        description="The client ID of a service principal with access to the Azure Storage account specified by 'storage_account'. Required when 'storage_provider' is 'azure_data_lake_gen2'.",
+        description="The client ID of a service principal with access to the Azure "
+        "Storage account specified by 'storage_account'. Required when "
+        "'storage_provider' is 'azure_data_lake_gen2'.",
         default="",
     )
     client_secret_name: str = Field(
-        description="The client secret of a service principal with access to the Azure Storage account specified by 'storage_account'. Required when 'storage_provider' is 'azure_data_lake_gen2'.",
+        description="The client secret of a service principal with access to the Azure "
+        "Storage account specified by 'storage_account'. Required when "
+        "'storage_provider' is 'azure_data_lake_gen2'.",
         default="",
     )
     tenant_id: str = Field(
-        description="The tenant ID of a service principal with access to the Azure Storage account specified by 'storage_account'. Required when 'storage_provider' is 'azure_data_lake_gen2'.",
+        description="The tenant ID of a service principal with access to the Azure "
+        "Storage account specified by 'storage_account'. Required when "
+        "'storage_provider' is 'azure_data_lake_gen2'.",
         default="",
     )
     key_vault_name: str = Field(
-        description="The name of the Azure Key Vault containing the secrets specified by 'client_secret_secret_name' and 'connection_string_secret_name'. Required when 'storage_provider' is 'azure_data_lake_gen2' or 'kafka_provider' is 'azure_event_hubs'.",
+        description="The name of the Azure Key Vault containing the secrets specified "
+        "by 'client_secret_secret_name' and 'connection_string_secret_name'. Required "
+        "when 'storage_provider' is 'azure_data_lake_gen2' or 'kafka_provider' is "
+        "'azure_event_hubs'.",
         default="",
     )
 
@@ -125,7 +141,8 @@ class KafkaToDeltaTableInput(BaseModel):
 
             if len(missing_values) > 0:
                 raise ValueError(
-                    f"When the {provider_type} is '{provider}' then the following values must be specified: {', '.join(missing_values)}"
+                    f"When the {provider_type} is '{provider}' then the following "
+                    f"values must be specified: {', '.join(missing_values)}"
                 )
         return values
 
@@ -194,10 +211,16 @@ async def kafka_to_delta_table(
         response.status_code = status.HTTP_400_BAD_REQUEST
         return response_body
 
+    package_list = [
+        "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2",
+        "io.delta:delta-core_2.12:1.0.0",
+        "org.apache.kafka:kafka-clients:3.4.0",
+    ]
+
     kafka_to_delta_command = [
         "spark-submit",
         "--packages",
-        "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2,org.apache.kafka:kafka-clients:3.4.0,io.delta:delta-core_2.12:2.1.0",
+        ",".join(package_list),
         str(Path(__file__).parent / "kafka_to_delta.py"),
         "--kafka_provider",
         input.kafka_provider,
