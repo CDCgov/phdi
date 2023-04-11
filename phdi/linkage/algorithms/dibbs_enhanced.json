@@ -2,13 +2,19 @@
     "algorithm": [
         {
             "funcs": {
-                "0": "feature_match_log_odds_fuzzy_compare",
-                "2": "feature_match_log_odds_fuzzy_compare",
-                "3": "feature_match_log_odds_fuzzy_compare"
+                "1": "feature_match_log_odds_fuzzy_compare",
+                "3": "feature_match_log_odds_fuzzy_compare",
+                "4": "feature_match_log_odds_fuzzy_compare"
             },
             "blocks": [
-                "MRN4",
-                "ADDRESS4"
+                {
+                    "value": "mrn",
+                    "transformation": "last4"
+                },
+                {
+                    "value": "address",
+                    "transformation": "first4"
+                }
             ],
             "matching_rule": "eval_log_odds_cutoff",
             "cluster_ratio": 0.9,
@@ -20,12 +26,18 @@
         },
         {
             "funcs": {
-                "10": "feature_match_log_odds_fuzzy_compare",
-                "16": "feature_match_log_odds_fuzzy_compare"
+                "0": "feature_match_log_odds_fuzzy_compare",
+                "2": "feature_match_log_odds_fuzzy_compare"
             },
             "blocks": [
-                "FIRST4",
-                "LAST4"
+                {
+                    "value": "first_name",
+                    "transformation": "first4"
+                },
+                {
+                    "value": "last_name",
+                    "transformation": "first4"
+                }
             ],
             "matching_rule": "eval_log_odds_cutoff",
             "cluster_ratio": 0.9,
