@@ -5,7 +5,6 @@
   - [Overview](#overview)
     - [Problem Scope](#problem-scope)
   - [Getting Started](#getting-started)
-    - [How to import PHDI](#how-to-import-phdi)
   - [Main Features](#main-features)
   - [Where to Get PHDI](#where-to-get-phdi)
   - [Documentation](#documentation)
