@@ -1,10 +1,14 @@
+# flake8: noqa
+
 from app.storage_connectors import connect_to_adlsgen2
 from unittest import mock
 
 
-@mock.patch("app.storage_connectors.get_secret")
-def test_connect_to_adlsgen2(patched_get_secret):
-    patched_get_secret.return_value = "some-secret"
+@mock.patch("app.storage_connectors.AzureCredentialManager")
+def test_connect_to_adlsgen2(patched_cred_manager_class):
+    cred_manager = mock.Mock()
+    cred_manager.get_secret.return_value = "some-secret"
+    patched_cred_manager_class.return_value = cred_manager
 
     spark = mock.Mock()
 
@@ -24,7 +28,7 @@ def test_connect_to_adlsgen2(patched_get_secret):
         client_secret_name=client_secret_name,
         key_vault_name=key_vault_name,
     )
-    patched_get_secret.assert_called_once_with(
+    cred_manager.get_secret.assert_called_once_with(
         secret_name=client_secret_name, key_vault_name=key_vault_name
     )
     conf_set_calls = [
@@ -42,9 +46,8 @@ def test_connect_to_adlsgen2(patched_get_secret):
             client_id,
         ),
         mock.call(
-            f"fs.azure.account.oauth2.client.secret.{storage_account}"
-            + ".dfs.core.windows.net",
-            patched_get_secret(),
+            f"fs.azure.account.oauth2.client.secret.{storage_account}.dfs.core.windows.net",
+            cred_manager.get_secret(),
         ),
         mock.call(
             f"fs.azure.account.oauth2.client.endpoint.{storage_account}"

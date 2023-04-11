@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
-from typing import Literal, Tuple
-from app.utils import get_secret
+from typing import Literal
+from phdi.cloud.azure import AzureCredentialManager
 
 
 STORAGE_PROVIDERS = Literal["local_storage", "adlsgen2"]
@@ -35,7 +35,8 @@ def connect_to_adlsgen2(
         registration.
     :param key_vault_name: The name of the Azure key vault where the secret is stored.
     """
-    client_secret = get_secret(
+    credential_manager = AzureCredentialManager()
+    client_secret = credential_manager.get_secret(
         secret_name=client_secret_name, key_vault_name=key_vault_name
     )
     spark.conf.set(
@@ -55,8 +56,7 @@ def connect_to_adlsgen2(
         client_secret,
     )
     spark.conf.set(
-        f"fs.azure.account.oauth2.client.endpoint.{storage_account}"
-        + ".dfs.core.windows.net",
+        f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.core.windows.net",  # noqa
         f"https://login.microsoftonline.com/{tenant_id}/oauth2/token",
     )
     spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "false")
