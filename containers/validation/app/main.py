@@ -12,7 +12,9 @@ ecr_config = load_ecr_config()
 
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
 app = FastAPI(
     title="PHDI Validation Service",
     version="0.0.1",

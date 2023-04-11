@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from typing import Literal
+from typing import Literal, Tuple
 from app.utils import get_secret
 
 
@@ -14,7 +14,7 @@ def connect_to_adlsgen2(
     client_id: str,
     client_secret_name: str,
     key_vault_name: str,
-) -> tuple(SparkSession, str):
+) -> Tuple[SparkSession, str]:
     """
     Add required configuration to a SparkSession object to allow it to connect to Azure
     Data Lake gen 2 (ADLS gen2) storage. Connection to ADLS gen2 requires an Azure App
