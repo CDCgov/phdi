@@ -8,7 +8,7 @@ from string import ascii_letters
 random.seed(410)
 
 df = pd.read_csv(
-    # locally stord file of synthetic LAC synthea data; user must change
+    # locally stored file of synthetic LAC synthea data; user must change
     "~/20230106_LAC_10000_123_456/csv/patients.csv",
     usecols=[
         "Id",
@@ -126,4 +126,7 @@ df = df[
 ]
 
 # Save
-df.to_parquet("./df_parquet.gzip", compression="gzip")
+df.to_parquet(
+    "./examples/MPI-sample-data/synthetic_patient_mpi_seed_data.gzip",
+    compression="gzip",
+)
