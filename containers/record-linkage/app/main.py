@@ -1,23 +1,25 @@
-from fastapi import FastAPI
+from app.config import get_settings
+from fastapi import FastAPI, Response, status
 from pathlib import Path
+from phdi.linkage import (
+    add_person_resource,
+    link_record_against_mpi,
+    read_linkage_config,
+    DIBBsConnectorClient,
+)
 from pydantic import BaseModel, Field
 from psycopg2 import OperationalError, errors
+from typing import Optional
 import psycopg2
 import os
 import sys
 
 
-# from app.config import get_settings
-
-# Read settings immediately to fail fast in case there are invalid values.
-# get_settings()
-
-
 def run_migrations():
-    dbname = os.getenv("DB_NAME")
-    user = os.getenv("DB_USER")
-    password = os.getenv("DB_PASSWORD")
-    host = os.getenv("DB_HOST")
+    dbname = os.getenv("mpi_dbname")
+    user = os.getenv("mpi_user")
+    password = os.getenv("mpi_password")
+    host = os.getenv("mpi_host")
     try:
         connection = psycopg2.connect(
             dbname=dbname,
@@ -64,9 +66,21 @@ class LinkRecordInput(BaseModel):
     Schema for requests to the /link-record endpoint.
     """
 
-    fhir_bundle: dict = Field(
+    bundle: dict = Field(
         description="A FHIR bundle containing a patient resource to be checked "
         "for links to existing patient records"
+    )
+    algo_config: Optional[dict] = Field(
+        description="A JSON dictionary containing the specification for a "
+        "linkage algorithm, as defined in the SDK functions `read_algo_config` "
+        "and `write_algo_config`. Default value uses the DIBBS in-house basic "
+        "algorithm.",
+        default={},
+    )
+    db_type: Optional[str] = Field(
+        description="A database type of the particular "
+        "MPI to link against, such as postgres. Default is postgres.",
+        default="postgres",
     )
 
 
@@ -75,14 +89,20 @@ class LinkRecordResponse(BaseModel):
     The schema for responses from the /link-record endpoint.
     """
 
-    link_found: bool = Field(
-        description="A true value indicates linked record(s) were found."
+    found_match: bool = Field(
+        description="A true value indicates that one or more existing records "
+        "matched with the provided record, and these results have been linked."
     )
     updated_bundle: dict = Field(
         description="If link_found is true, returns the FHIR bundle with updated"
         " references to existing Personresource. If link_found is false, "
         "returns the FHIR bundle with a reference to a newly created "
         "Person resource."
+    )
+    message: Optional[str] = Field(
+        description="An optional message in the case that the linkage endpoint did "
+        "not run successfully containing a description of the error that happened.",
+        default="",
     )
 
 
@@ -104,14 +124,36 @@ async def health_check() -> HealthCheckResponse:
     Check the status of this service and its connection to Master Patient Index(MPI). If
     an HTTP 200 status code is returned along with '{"status": "OK"}' then the record
     linkage service is available and running properly. The mpi_connection_status field
-    contains a description of the connection health to the
-    MPI database.
+    contains a description of the connection health to the MPI database.
     """
-    return {"status": "OK", "mpi_connection_status": "Stubbed response"}
+    run_migrations()
+    try:
+        dbname = get_settings().get("mpi_dbname")
+        user = get_settings().get("mpi_user")
+        password = get_settings().get("mpi_password")
+        host = get_settings().get("mpi_host")
+        port = get_settings().get("mpi_port")
+        patient_table = get_settings().get("mpi_patient_table")
+        person_table = get_settings().get("mpi_person_table")
+        db_client = DIBBsConnectorClient(
+            dbname, user, password, host, port, patient_table, person_table
+        )
+        db_client.connection = psycopg2.connect(
+            dbname=db_client.database,
+            user=db_client.user,
+            password=db_client.password,
+            host=db_client.host,
+            port=db_client.port,
+        )
+    except OperationalError as err:
+        return {"status": "OK", "mpi_connection_status": str(err)}
+    except ValueError as err:
+        return {"status": "OK", "mpi_connection_status": str(err)}
+    return {"status": "OK", "mpi_connection_status": "OK"}
 
 
 @app.post("/link-record", status_code=200)
-async def link_record(input: LinkRecordInput) -> LinkRecordResponse:
+async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordResponse:
     """
     This is just a stub.
     Compare a FHIR bundle with records in the Master Patient Index (MPI) to
@@ -124,8 +166,75 @@ async def link_record(input: LinkRecordInput) -> LinkRecordResponse:
     """
 
     run_migrations()
+    input = dict(input)
 
-    return {"link_found": False, "updated_bundle": input.fhir_bundle}
+    # Determine which algorithm to use
+    # Default is DIBBS basic, which comes prepacked in the SDK
+    algo_config = input.get("algo_config", {}).get("algorithm", [])
+    if algo_config == []:
+        algo_config = read_linkage_config(
+            Path(__file__).parent.parent.parent.parent
+            / "phdi"
+            / "linkage"
+            / "algorithms"
+            / "dibbs_basic.json"
+        )
+
+    # Now extract the patient records we want to link
+    # Bundle most likely contains 1, but fetch them "all" just in case
+    input_bundle = input.get("bundle", {})
+    try:
+        record_to_link = [
+            r.get("resource")
+            for r in input_bundle.get("entry", [])
+            if r.get("resource", {}).get("resourceType", "") == "Patient"
+        ][0]
+    except IndexError:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "found_match": False,
+            "updated_bundle": input_bundle,
+            "message": f"Supplied bundle contains no Patient resource to link on.",
+        }
+
+    # Initialize a DB connection for use with the MPI
+    db_type = input.get("db_type")
+    if db_type == "postgres":
+        try:
+            dbname = get_settings().get("mpi_dbname")
+            user = get_settings().get("mpi_user")
+            password = get_settings().get("mpi_password")
+            host = get_settings().get("mpi_host")
+            port = get_settings().get("mpi_port")
+            patient_table = get_settings().get("mpi_patient_table")
+            person_table = get_settings().get("mpi_person_table")
+
+            # Link the record and add new person information
+            db_client = DIBBsConnectorClient(
+                dbname, user, password, host, port, patient_table, person_table
+            )
+            (found_match, new_person_id) = link_record_against_mpi(
+                record_to_link, algo_config, db_client
+            )
+            updated_bundle = add_person_resource(
+                new_person_id, record_to_link.get("id", ""), input_bundle
+            )
+            return {"found_match": found_match, "updated_bundle": updated_bundle}
+
+        except ValueError as err:
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return {
+                "found_match": False,
+                "updated_bundle": input_bundle,
+                "message": f"Could not connect to database: {err}",
+            }
+    else:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "found_match": False,
+            "updated_bundle": input_bundle,
+            "message": f"Unsupported database type {db_type} supplied.",
+        }
 
 
 # https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645

@@ -1,11 +1,16 @@
 from functools import lru_cache
 from pydantic import BaseSettings
+from typing import Optional
 
 
 class Settings(BaseSettings):
-    mpi_url: str
-    mpi_username: str
-    mpi_password: str
+    mpi_dbname: Optional[str]
+    mpi_host: Optional[str]
+    mpi_user: Optional[str]
+    mpi_password: Optional[str]
+    mpi_port: Optional[str]
+    mpi_patient_table: Optional[str]
+    mpi_person_table: Optional[str]
 
 
 @lru_cache()
