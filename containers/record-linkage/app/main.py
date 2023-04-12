@@ -194,7 +194,7 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
         return {
             "found_match": False,
             "updated_bundle": input_bundle,
-            "message": f"Supplied bundle contains no Patient resource to link on.",
+            "message": "Supplied bundle contains no Patient resource to link on.",
         }
 
     # Initialize a DB connection for use with the MPI

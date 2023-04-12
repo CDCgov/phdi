@@ -45,7 +45,7 @@ def test_health_check():
 def test_linkage_bundle_with_no_patient():
     bad_bundle = {"entry": []}
     expected_response = {
-        "message": f"Supplied bundle contains no Patient resource to link on.",
+        "message": "Supplied bundle contains no Patient resource to link on.",
         "found_match": False,
         "updated_bundle": bad_bundle,
     }
@@ -92,7 +92,7 @@ def test_linkage_success():
         for r in new_bundle["entry"]
         if r.get("resource").get("resourceType") == "Person"
     ][0]
-    assert resp_1.json()["found_match"] == False
+    assert not resp_1.json()["found_match"]
 
     bundle_2 = test_bundle
     bundle_2["entry"] = [entry_list[1]]
@@ -103,13 +103,13 @@ def test_linkage_success():
         for r in new_bundle["entry"]
         if r.get("resource").get("resourceType") == "Person"
     ][0]
-    assert resp_2.json()["found_match"] == True
+    assert resp_2.json()["found_match"]
     assert person_2.get("id") == person_1.get("id")
 
     bundle_3 = test_bundle
     bundle_3["entry"] = [entry_list[2]]
     resp_3 = client.post("/link-record", json={"bundle": bundle_3})
-    assert resp_3.json()["found_match"] == False
+    assert not resp_3.json()["found_match"]
 
     bundle_4 = test_bundle
     bundle_4["entry"] = [entry_list[3]]
@@ -120,13 +120,13 @@ def test_linkage_success():
         for r in new_bundle["entry"]
         if r.get("resource").get("resourceType") == "Person"
     ][0]
-    assert resp_4.json()["found_match"] == True
+    assert resp_4.json()["found_match"]
     assert person_4.get("id") == person_1.get("id")
 
     bundle_5 = test_bundle
     bundle_5["entry"] = [entry_list[4]]
     resp_5 = client.post("/link-record", json={"bundle": bundle_5})
-    assert resp_5.json()["found_match"] == False
+    assert not resp_5.json()["found_match"]
 
     bundle_6 = test_bundle
     bundle_6["entry"] = [entry_list[5]]
@@ -137,7 +137,7 @@ def test_linkage_success():
         for r in new_bundle["entry"]
         if r.get("resource").get("resourceType") == "Person"
     ][0]
-    assert resp_6.json()["found_match"] == True
+    assert resp_6.json()["found_match"]
     assert person_6.get("id") == person_1.get("id")
 
     # Clean up
@@ -145,9 +145,9 @@ def test_linkage_success():
         dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
     )
     cursor = dbconn.cursor()
-    cursor.execute(f"DROP TABLE IF EXISTS patient")
+    cursor.execute("DROP TABLE IF EXISTS patient")
     dbconn.commit()
-    cursor.execute(f"DROP TABLE IF EXISTS person")
+    cursor.execute("DROP TABLE IF EXISTS person")
     dbconn.commit()
     cursor.close()
     dbconn.close()
@@ -181,7 +181,7 @@ def test_linkage_invalid_postgres_settings():
 
         actual_response = client.post("/link-record", json={"bundle": test_bundle})
         assert actual_response.status_code == status.HTTP_400_BAD_REQUEST
-        assert f"Could not connect to database" in actual_response.json()["message"]
+        assert "Could not connect to database" in actual_response.json()["message"]
         os.environ[setting] = removed_setting
 
     os.environ.pop("mpi_dbname", None)
