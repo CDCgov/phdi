@@ -81,8 +81,6 @@ app = FastAPI(
     description=description,
 )
 
-run_migrations()
-
 
 # Request and and response models
 class LinkRecordInput(BaseModel):
@@ -168,6 +166,7 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
 
     input = dict(input)
     input_bundle = input.get("bundle", {})
+    run_migrations()
 
     # Check that DB type is appropriately set up as Postgres so
     # we can fail fast if it's not
