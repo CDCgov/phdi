@@ -24,8 +24,6 @@ from phdi.linkage.link import (
     read_linkage_config,
     link_record_against_mpi,
     add_person_resource,
-    _compare_address_elements,
-    _compare_name_elements,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -59,6 +57,4 @@ __all__ = [
     "DIBBsConnectorClient",
     "link_record_against_mpi",
     "add_person_resource",
-    "_compare_address_elements",
-    "_compare_name_elements",
 ]
