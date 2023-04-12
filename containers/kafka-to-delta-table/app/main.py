@@ -1,13 +1,11 @@
 from phdi.containers.base_service import BaseService
 from pathlib import Path
-import json
 from typing import Literal
 from pydantic import BaseModel, Field, root_validator
-import subprocess
-from fastapi import Response, status
+from fastapi import Response
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
-from app.utils import validate_schema, SCHEMA_TYPE_MAP, load_schema
+from app.utils import SCHEMA_TYPE_MAP
 
 # A map of the required values for all supported kafka and storage providers.
 REQUIRED_VALUES_MAP = {
