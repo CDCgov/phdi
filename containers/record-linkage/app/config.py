@@ -4,6 +4,7 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
+    mpi_db_type: Optional[str]
     mpi_dbname: Optional[str]
     mpi_host: Optional[str]
     mpi_user: Optional[str]

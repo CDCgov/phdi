@@ -5,21 +5,37 @@ from phdi.linkage import (
     add_person_resource,
     link_record_against_mpi,
     read_linkage_config,
-    DIBBsConnectorClient,
 )
 from pydantic import BaseModel, Field
 from psycopg2 import OperationalError, errors
 from typing import Optional
+from app.utils import connect_to_mpi_with_env_vars, load_mpi_env_vars_os
 import psycopg2
-import os
 import sys
 
 
+# https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
+def print_psycopg2_exception(err):
+    # get details about the exception
+    err_type, _, traceback = sys.exc_info()
+
+    # get the line number when exception occured
+    line_num = traceback.tb_lineno
+
+    # print the connect() error
+    print("\npsycopg2 ERROR:", err, "on line number:", line_num)
+    print("psycopg2 traceback:", traceback, "-- type:", err_type)
+
+    # psycopg2 extensions.Diagnostics object attribute
+    print("\nextensions.Diagnostics:", err.diag)
+
+    # print the pgcode and pgerror exceptions
+    print("pgerror:", err.pgerror)
+    print("pgcode:", err.pgcode, "\n")
+
+
 def run_migrations():
-    dbname = os.getenv("mpi_dbname")
-    user = os.getenv("mpi_user")
-    password = os.getenv("mpi_password")
-    host = os.getenv("mpi_host")
+    dbname, user, password, host = load_mpi_env_vars_os()
     try:
         connection = psycopg2.connect(
             dbname=dbname,
@@ -36,8 +52,12 @@ def run_migrations():
     if connection is not None:
         try:
             with connection.cursor() as cursor:
-                cursor.execute(open("./migrations/tables.ddl", "r").read())
-        except errors.InFailedSqlTranroughsaction as err:
+                cursor.execute(
+                    open(
+                        Path(__file__).parent.parent / "migrations" / "tables.ddl", "r"
+                    ).read()
+                )
+        except errors.InFailedSqlTransaction as err:
             # pass exception to function
             print_psycopg2_exception(err)
 
@@ -61,6 +81,8 @@ app = FastAPI(
     description=description,
 )
 
+run_migrations()
+
 
 # Request and and response models
 class LinkRecordInput(BaseModel):
@@ -78,11 +100,6 @@ class LinkRecordInput(BaseModel):
         "and `write_algo_config`. Default value uses the DIBBS in-house basic "
         "algorithm.",
         default={},
-    )
-    db_type: Optional[str] = Field(
-        description="A database type of the particular "
-        "MPI to link against, such as postgres. Default is postgres.",
-        default="postgres",
     )
 
 
@@ -130,26 +147,8 @@ async def health_check() -> HealthCheckResponse:
     """
     run_migrations()
     try:
-        dbname = get_settings().get("mpi_dbname")
-        user = get_settings().get("mpi_user")
-        password = get_settings().get("mpi_password")
-        host = get_settings().get("mpi_host")
-        port = get_settings().get("mpi_port")
-        patient_table = get_settings().get("mpi_patient_table")
-        person_table = get_settings().get("mpi_person_table")
-        db_client = DIBBsConnectorClient(
-            dbname, user, password, host, port, patient_table, person_table
-        )
-        db_client.connection = psycopg2.connect(
-            dbname=db_client.database,
-            user=db_client.user,
-            password=db_client.password,
-            host=db_client.host,
-            port=db_client.port,
-        )
-    except OperationalError as err:
-        return {"status": "OK", "mpi_connection_status": str(err)}
-    except ValueError as err:
+        connect_to_mpi_with_env_vars()
+    except Exception as err:
         return {"status": "OK", "mpi_connection_status": str(err)}
     return {"status": "OK", "mpi_connection_status": "OK"}
 
@@ -167,8 +166,21 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
         LinkRecordResponse model.
     """
 
-    run_migrations()
     input = dict(input)
+    input_bundle = input.get("bundle", {})
+
+    # Check that DB type is appropriately set up as Postgres so
+    # we can fail fast if it's not
+    db_type = get_settings().get("mpi_db_type", "")
+    if db_type != "postgres":
+        response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+        return {
+            "found_match": False,
+            "updated_bundle": input_bundle,
+            "message": f"Unsupported database type {db_type} supplied. "
+            + "Make sure your environment variables include an entry "
+            + "for `mpi_db_type` and that it is set to 'postgres'.",
+        }
 
     # Determine which algorithm to use
     # Default is DIBBS basic, which comes prepacked in the SDK
@@ -182,14 +194,12 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
             / "dibbs_basic.json"
         )
 
-    # Now extract the patient records we want to link
-    # Bundle most likely contains 1, but fetch them "all" just in case
-    input_bundle = input.get("bundle", {})
+    # Now extract the patient record we want to link
     try:
         record_to_link = [
-            r.get("resource")
-            for r in input_bundle.get("entry", [])
-            if r.get("resource", {}).get("resourceType", "") == "Patient"
+            entry.get("resource")
+            for entry in input_bundle.get("entry", [])
+            if entry.get("resource", {}).get("resourceType", "") == "Patient"
         ][0]
     except IndexError:
         response.status_code = status.HTTP_400_BAD_REQUEST
@@ -200,60 +210,21 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
         }
 
     # Initialize a DB connection for use with the MPI
-    db_type = input.get("db_type")
-    if db_type == "postgres":
-        try:
-            dbname = get_settings().get("mpi_dbname")
-            user = get_settings().get("mpi_user")
-            password = get_settings().get("mpi_password")
-            host = get_settings().get("mpi_host")
-            port = get_settings().get("mpi_port")
-            patient_table = get_settings().get("mpi_patient_table")
-            person_table = get_settings().get("mpi_person_table")
+    # Then, link away
+    try:
+        db_client = connect_to_mpi_with_env_vars()
+        (found_match, new_person_id) = link_record_against_mpi(
+            record_to_link, algo_config, db_client
+        )
+        updated_bundle = add_person_resource(
+            new_person_id, record_to_link.get("id", ""), input_bundle
+        )
+        return {"found_match": found_match, "updated_bundle": updated_bundle}
 
-            # Link the record and add new person information
-            db_client = DIBBsConnectorClient(
-                dbname, user, password, host, port, patient_table, person_table
-            )
-            (found_match, new_person_id) = link_record_against_mpi(
-                record_to_link, algo_config, db_client
-            )
-            updated_bundle = add_person_resource(
-                new_person_id, record_to_link.get("id", ""), input_bundle
-            )
-            return {"found_match": found_match, "updated_bundle": updated_bundle}
-
-        except ValueError as err:
-            response.status_code = status.HTTP_400_BAD_REQUEST
-            return {
-                "found_match": False,
-                "updated_bundle": input_bundle,
-                "message": f"Could not connect to database: {err}",
-            }
-    else:
+    except ValueError as err:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "found_match": False,
             "updated_bundle": input_bundle,
-            "message": f"Unsupported database type {db_type} supplied.",
+            "message": f"Could not connect to database: {err}",
         }
-
-
-# https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
-def print_psycopg2_exception(err):
-    # get details about the exception
-    err_type, err_obj, traceback = sys.exc_info()
-
-    # get the line number when exception occured
-    line_num = traceback.tb_lineno
-
-    # print the connect() error
-    print("\npsycopg2 ERROR:", err, "on line number:", line_num)
-    print("psycopg2 traceback:", traceback, "-- type:", err_type)
-
-    # psycopg2 extensions.Diagnostics object attribute
-    print("\nextensions.Diagnostics:", err.diag)
-
-    # print the pgcode and pgerror exceptions
-    print("pgerror:", err.pgerror)
-    print("pgcode:", err.pgcode, "\n")
