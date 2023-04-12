@@ -59,8 +59,6 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             raise ValueError("`block_vals` cannot be empty.")
 
         # Connect to MPI
-        db_cursor = None
-        db_connection = None
         try:
             with psycopg2.connect(
                 database=self.database,
@@ -82,10 +80,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
         finally:
             # Close cursor and connection
-            if db_cursor is not None:
-                db_cursor.close()
-            if db_connection is not None:
-                db_connection.close()
+            db_cursor.close()
+            db_connection.close()
 
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
@@ -112,8 +108,6 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
           found in the MPI, defaults to None.
         """
         # Connect to MPI
-        db_cursor = None
-        db_connection = None
         try:
             with psycopg2.connect(
                 database=self.database,
@@ -163,10 +157,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             raise ValueError(f"{error}")
 
         finally:
-            if db_cursor is not None:
-                db_cursor.close()
-            if db_connection is not None:
-                db_connection.close()
+            db_cursor.close()
+            db_connection.close()
 
         return person_id[0][0]
 
