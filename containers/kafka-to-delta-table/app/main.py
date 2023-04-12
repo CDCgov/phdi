@@ -8,6 +8,7 @@ from fastapi import Response, status
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
 from app.utils import validate_schema, SCHEMA_TYPE_MAP, load_schema
+from icecream import ic
 
 # A map of the required values for all supported kafka and storage providers.
 REQUIRED_VALUES_MAP = {
@@ -171,6 +172,10 @@ class KafkaToDeltaTableInput(BaseModel):
         return values
 
 
+class DataToKafkaInput(KafkaToDeltaTableInput):
+    kafka_data: dict = Field(description="Data to be uploaded to kafka")
+
+
 class KafkaToDeltaTableOutput(BaseModel):
     """
     The model for responses from the /kafka-to-delta-table endpoint.
@@ -260,7 +265,69 @@ async def kafka_to_delta_table(
     return response_body
 
 
-# @app.post("/load-data-to-kafka", status_code=200)
-# async def kafka_to_delta_table(
-#     input: DataToKafka, response: Response
-# ) -> KafkaToDeltaTableOutput:
+@app.post("/load-data-to-kafka", status_code=200)
+async def data_to_kafka(
+    input: DataToKafkaInput, response: Response
+) -> KafkaToDeltaTableOutput:
+    response_body = {
+        "status": "success",
+        "message": "",
+        "spark_log": "",
+    }
+
+    if input.schema_name != "":
+        schema = load_schema(input.schema_name)
+    else:
+        schema = input.json_schema
+
+    schema_validation_results = validate_schema(schema)
+
+    if not schema_validation_results["valid"]:
+        response_body["status"] = "failed"
+        response_body["message"] = schema_validation_results["errors"][0]
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response_body
+
+    package_list = [
+        "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2",
+        "io.delta:delta-core_2.12:1.0.0",
+        "org.apache.kafka:kafka-clients:3.4.0",
+    ]
+
+    data_to_kafka_command = [
+        "spark-submit",
+        "--packages",
+        ",".join(package_list),
+        str(Path(__file__).parent / "data_to_kafka.py"),
+        "--kafka_provider",
+        input.kafka_provider,
+        "--storage_provider",
+        input.storage_provider,
+        "--delta_table_name",
+        input.delta_table_name,
+        "--schema",
+        f"'{json.dumps(schema)}'",
+        "--data",
+        str(input.kafka_data),
+    ]
+    ic(data_to_kafka_command)
+    input = input.dict()
+    for provider_type in REQUIRED_VALUES_MAP:
+        provider = input[provider_type]
+        required_values = REQUIRED_VALUES_MAP.get(provider_type).get(provider)
+        for value in required_values:
+            data_to_kafka_command.append(f"--{value}")
+            data_to_kafka_command.append(input[value])
+
+    data_to_kafka_command = " ".join(data_to_kafka_command)
+    data_to_kafka_result = subprocess.run(
+        data_to_kafka_command, shell=True, capture_output=True, text=True
+    )
+
+    response_body["spark_log"] = data_to_kafka_result.stdout
+
+    if data_to_kafka_result.returncode != 0:
+        response_body["status"] = "failed"
+        response_body["spark_log"] = data_to_kafka_result.stderr
+
+    return response_body

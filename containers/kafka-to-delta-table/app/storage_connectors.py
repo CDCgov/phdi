@@ -14,7 +14,7 @@ def connect_to_adlsgen2(
     client_id: str,
     client_secret_name: str,
     key_vault_name: str,
-) -> Tuple[SparkSession, str]:
+) -> tuple[SparkSession, str]:
     """
     Add required configuration to a SparkSession object to allow it to connect to Azure
     Data Lake gen 2 (ADLS gen2) storage. Connection to ADLS gen2 requires an Azure App

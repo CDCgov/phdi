@@ -59,7 +59,10 @@ def connect_to_azure_event_hubs(
 
 
 def connect_to_local_kafka(
-    spark: SparkSession, schema: StructType, kafka_server: str, kafka_topic: str
+    spark: SparkSession,
+    schema: StructType,
+    kafka_server: str,
+    kafka_topic: str,
 ) -> DataFrame:
     """
     Given a SparkSession object and a schema (StructType) read JSON data from a Kafka
