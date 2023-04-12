@@ -38,7 +38,8 @@ We recommend running the Kafka to Delta table streaming service from a container
 4. Make a fresh virtual environment with `python -m venv .venv`.
 5. Activate the virtual environment with `source .venv/bin/activate` (MacOS and Linux), `venv\Scripts\activate` (Windows Command Prompt), or `.venv\Scripts\Activate.ps1` (Windows Power Shell).
 5. Install all of the Python dependencies for the Kafka to Delta table streaming service with `pip install -r requirements.txt` into your virtual environment.
-6. Run the FHIR Converter on `localhost:8080` with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8080`. 
+6. Install additional Spark dependencies for Hadoop with the following
+7. Run the Kafka to delta table streaming service on `localhost:8080` with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8080`. 
 
 ### Building the Docker Image
 
