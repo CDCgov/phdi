@@ -1,15 +1,22 @@
 from typing import List, Dict, Union
 from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
+from psycopg2.extensions import connection, cursor
 import json
 
 
 class DIBBsConnectorClient(BaseMPIConnectorClient):
     """
-    Represents a Postgres-specific Master Patient Index (MPI) connector client for the
-    DIBBs implementation of the record linkage building block. Callers should use the
-    provided interface functions (e.g., block_vals) to interact with the underlying
-    vendor-specific client property.
+    Represents a Postgres-specific Master Patient Index (MPI) connector
+    client for the DIBBs implementation of the record linkage building
+    block. Callers should use the provided interface functions (e.g.,
+    block_vals) to interact with the underlying vendor-specific client
+    property.
+
+    When instantiating a DIBBSConnectorClient, the connection to the
+    database is automatically tested using the provided parameters.
+    A refused, timed-out, or otherwise error-ed connection will raise
+    an immediate exception.
     """
 
     def __init__(
@@ -40,6 +47,27 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             "state": """$.address[*].state""",
             "zip": """$.address[*].postalCode""",
         }
+        db_conn = self.get_connection()
+        self._close_connections(db_conn=db_conn)
+
+    def get_connection(self) -> Union[connection, None]:
+        """
+        Simple method for initiating a connection to the database specified
+        by the parameters given to the class' instantiation.
+        """
+        db_conn = None
+        try:
+            db_conn = psycopg2.connect(
+                database=self.database,
+                user=self.user,
+                password=self.password,
+                host=self.host,
+                port=self.port,
+            )
+        except Exception as error:  # pragma: no cover
+            raise ValueError(f"{error}")
+        finally:
+            return db_conn
 
     def block_data(self, block_vals: Dict) -> List[list]:
         """
@@ -58,19 +86,14 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
-        # Connect to MPI
+        db_cursor = None
+        db_conn = None
         try:
-            with psycopg2.connect(
-                database=self.database,
-                user=self.user,
-                password=self.password,
-                host=self.host,
-                port=self.port,
-            ) as db_connection:
-                with db_connection.cursor() as db_cursor:
+            # Use context manager to handle commits and transactions
+            with self.get_connection() as db_conn:
+                with db_conn.cursor() as db_cursor:
                     # Generate raw SQL query
                     query = self._generate_block_query(block_vals)
-
                     # Execute query
                     db_cursor.execute(query)
                     blocked_data = [list(row) for row in db_cursor.fetchall()]
@@ -79,9 +102,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             raise ValueError(f"{error}")
 
         finally:
-            # Close cursor and connection
-            db_cursor.close()
-            db_connection.close()
+            self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
 
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
@@ -107,16 +128,12 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         :param person_id: The personID matching the patient record if a match has been
           found in the MPI, defaults to None.
         """
-        # Connect to MPI
+        db_cursor = None
+        db_conn = None
         try:
-            with psycopg2.connect(
-                database=self.database,
-                user=self.user,
-                password=self.password,
-                host=self.host,
-                port=self.port,
-            ) as db_connection:
-                with db_connection.cursor() as db_cursor:
+            # Use context manager to handle commits and transactions
+            with self.get_connection() as db_conn:
+                with db_conn.cursor() as db_cursor:
                     # Match has been found
                     if person_id is not None:
                         # Insert into patient table
@@ -151,14 +168,12 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                         )
 
                     db_cursor.execute(insert_patient_table)
-                    db_connection.commit()
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
         finally:
-            db_cursor.close()
-            db_connection.close()
+            self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
 
         return person_id[0][0]
 
@@ -228,3 +243,20 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
         query = select_query + f" FROM {self.patient_table}" + block_query + ";"
         return query
+
+    def _close_connections(
+        self,
+        db_conn: Union[connection, None] = None,
+        db_cursor: Union[cursor, None] = None,
+    ) -> None:
+        """
+        Simple helper method to close passed connections. If a context manager's
+        `with` block successfully executes, the connection will already be
+        committed and closed, so the resource will already be released. However,
+        if the `with` block terminates before safe execution, this function
+        allows a `finally` clause to succinctly clean up all open connections.
+        """
+        if db_cursor is not None:
+            db_cursor.close()
+        if db_conn is not None:
+            db_conn.close()
