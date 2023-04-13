@@ -3,9 +3,14 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    mpi_url: str
-    mpi_username: str
+    mpi_db_type: str
+    mpi_dbname: str
+    mpi_host: str
+    mpi_user: str
     mpi_password: str
+    mpi_port: str
+    mpi_patient_table: str
+    mpi_person_table: str
 
 
 @lru_cache()

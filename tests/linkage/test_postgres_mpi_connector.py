@@ -2,13 +2,12 @@ from phdi.linkage.postgres import DIBBsConnectorClient
 import pathlib
 import pytest
 import json
-import psycopg2
 import copy
 
 
 def test_postgres_connection():
     postgres_client = create_valid_mpi_client()
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     assert postgres_client.connection is not None
@@ -88,7 +87,7 @@ def test_block_data():
             '{json.dumps(patient_resource)}');"""
         ),
     }
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     for command, statement in funcs.items():
@@ -110,7 +109,7 @@ def test_block_data():
     assert type(blocked_data[1]) is list
 
     # Clean up
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
     postgres_client.cursor.execute(
         f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
@@ -182,7 +181,7 @@ def test_dibbs_blocking():
             '{json.dumps(patient_resource_2)}');"""
         ),
     }
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     for command, statement in funcs.items():
@@ -244,7 +243,7 @@ def test_dibbs_blocking():
 
 def test_insert_match_patient():
     postgres_client = create_valid_mpi_client()
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     raw_bundle = json.load(
@@ -328,7 +327,7 @@ def test_insert_match_patient():
         person_id=person_id,
     )
     # Re-open connection for next test
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     # Extract all data
@@ -346,7 +345,7 @@ def test_insert_match_patient():
     assert data[-1][1] == person_id
 
     # Re-open connection for next test
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.person_table}")
@@ -357,7 +356,7 @@ def test_insert_match_patient():
     assert len(data) == 3
 
     # Re-open connection for next test
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     # Match has not been found, i.e., new patient and person added, new person_id is
@@ -373,7 +372,7 @@ def test_insert_match_patient():
     )
 
     # Re-open connection for next test
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
@@ -385,7 +384,7 @@ def test_insert_match_patient():
     assert data[-1][-1]["address"] == patient_resource["address"]
 
     # Re-open connection for next test
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
     # Assert new patient record was added to person table with new person_id
@@ -396,7 +395,7 @@ def test_insert_match_patient():
     assert data[-1][0] is not None
 
     # Clean up
-    postgres_client.connection = open_mpi_connection(postgres_client)
+    postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
     postgres_client.cursor.execute(
         f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
@@ -419,14 +418,4 @@ def create_valid_mpi_client():
         port="5432",
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
-    )
-
-
-def open_mpi_connection(postgres_client: DIBBsConnectorClient):
-    return psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
     )
