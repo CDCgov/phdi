@@ -5,12 +5,13 @@ import uuid
 
 def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
     """
-    Converts a row of patient data into FHIR patient resource with a newly generated id.
+    Converts and returns a row of patient data into FHIR patient resource with a newly
+    generated id as well as a the `iris_id`.
 
     :param data: Dictionary of patient data that optionionally includes the following
       fields: mrn, ssn, first_name, middle_name, last_name, home_phone, cell-phone, sex,
       birthdate, address, city, state, zip.
-    :return: Tuple of newly generated patient_id and FHIR patient resource
+    :return: Tuple of the `iris_id` and FHIR patient resource
     """
 
     # Iterate through each patient and convert patient data to FHIR resource
@@ -73,4 +74,4 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
         ],
     }
 
-    return (patient_resource["id"], patient_resource)
+    return (data["iris_id"], patient_resource)
