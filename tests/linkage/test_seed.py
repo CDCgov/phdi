@@ -3,11 +3,10 @@ from phdi.linkage.seed import (
     _insert_patient_resource_id,
 )
 import pathlib
-from typing import List, Dict
 
 
 mpi_test_file_path = (
-    pathlib.Path(__file__).parent.parent.parent.parent
+    pathlib.Path(__file__).parent.parent.parent
     / "tests"
     / "assets"
     / "synthetic_patient_mpi_seed_data.gzip"
@@ -96,7 +95,7 @@ def test_insert_patient_resource_id():
 
 def test_convert_to_patient_fhir_resources():
     returned_fhir_resources = convert_to_patient_fhir_resources(mpi_test_file_path)
-    assert type(returned_fhir_resources) == List
-    assert type(returned_fhir_resources[0]) == Dict
+    assert type(returned_fhir_resources) == list
+    assert type(returned_fhir_resources[0]) == dict
     assert returned_fhir_resources[0]["resourceType"] == "Patient"
     assert returned_fhir_resources[0]["id"] != ""
