@@ -1,9 +1,16 @@
 {
-    "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
     "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
-    "eicr_id": "Bundle.entry.resource.where(resourceType = 'Composition').identifier.where(use = 'official').value",
+    "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "rr_id": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
+    "status": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension').valueCodeableConcept.coding.where(system='urn:oid:2.16.840.1.114222.4.5.274').code",
+    "conditions": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='64572001' and code.coding.first().system='http://snomed.info/sct').valueCodeableConcept.coding.display",
+    "eicr_id": "Bundle.entry.resource.where(resourceType= 'Composition').identifier.where(type.coding.code = '55751-2').where(use='official').value",
+    "eicr_version_number": "Bundle.entry.resource.where(resourceType= 'Composition' ).extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
     "authoring_datetime": "Bundle.entry.resource.where(resourceType = 'Composition').date",
-    "facility_id": "Bundle.entry.resource.where(resourceType = 'Location').identifier.system",
+    "provider_id": "Bundle.entry.resource.where(resourceType= 'Practitioner').where(extension.valueString = 'Responsible Party').identifier.value",
+    "facility_id_number": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].id",
+    "facility_name": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display",
+    "facility_type": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].extension.where(url = 'http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type').valueCodeableConcept.coding[0].display",
     "encounter_start_date": "Bundle.entry.resource.where(resourceType = 'Encounter').period.start",
     "encounter_end_date": "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
 }

@@ -13,8 +13,18 @@ fhir_bundle_path = (
     / "assets"
     / "patient_bundle.json"
 )
+
+ecr_fhir_bundle_path = (
+    Path(__file__).parent.parent.parent.parent
+    / "tests"
+    / "assets"
+    / "full_ecr_fhir.json"
+)
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
+
+with open(ecr_fhir_bundle_path, "r") as file:
+    ecr_fhir_bundle = json.load(file)
 
 expected_successful_response = {
     "message": "Parsing succeeded!",
@@ -29,8 +39,26 @@ def test_parse_message_success_internal_schema():
         "message": fhir_bundle,
     }
 
+    ecr_request = {
+        "message_format": "fhir",
+        "parsing_schema_name": "ecr.json",
+        "message": ecr_fhir_bundle,
+    }
+
+    actual_response = client.post("/parse_message", json=ecr_request)
+    assert actual_response.status_code == 200
+    print(actual_response.json())
+    assert actual_response.json() == expected_successful_response
+
     actual_response = client.post("/parse_message", json=request)
     assert actual_response.status_code == 200
+    print(actual_response.json())
+
+    assert actual_response.json() == expected_successful_response
+
+    actual_response = client.post("/parse_message", json=ecr_request)
+    assert actual_response.status_code == 200
+    print(actual_response.json())
     assert actual_response.json() == expected_successful_response
 
 

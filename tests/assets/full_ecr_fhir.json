@@ -1,0 +1,1041 @@
+{
+    "resourceType": "Bundle",
+    "type": "batch",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:040d5384-78da-bc55-a2bb-acaeedc875d3",
+            "resource": {
+                "resourceType": "Composition",
+                "id": "040d5384-78da-bc55-a2bb-acaeedc875d3",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "use": "official",
+                        "type": {
+                            "coding": [
+                                {
+                                    "code": "55751-2",
+                                    "display": "Public Health Case Report",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "value": "cc22a5e6-d51a-11ec-81e1-8465ad080d41"
+                    }
+                ],
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+                        "valueString": "46"
+                    }
+                ],
+                "status": "final",
+                "type": {
+                    "coding": [
+                        {
+                            "code": "55751-2",
+                            "display": "Public Health Case Report",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "date": "2022-05-16T09:19:00-04:00",
+                "title": "Initial Public Health Case Report",
+                "confidentiality": "N",
+                "section": [
+                    {
+                        "id": "b34c64cc-c174-dc12-7e03-16d791cdfc05",
+                        "title": "Care Teams",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Teams</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "85847-2",
+                                    "display": "Care team",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "19ee99ab-d348-2ce4-35b4-23fc371e7979",
+                        "title": "Reason for Visit",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason for Visit</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "29299-5",
+                                    "display": "Reason for Visit",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "7b1d6abb-cea5-12c2-6f6b-83e0c1c01b06",
+                        "title": "History of Present Illness",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">History of Present Illness</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "10164-2",
+                                    "display": "History Of Present Illness",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "539681b7-ca12-2fb1-967c-2acdbe5bb443",
+                        "title": "Social History",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Social History</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "29762-2",
+                                    "display": "Social History",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "3f99d9d7-fd85-32d6-f334-943fde1ec631",
+                        "title": "Problems",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Problems</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "11450-4",
+                                    "display": "PROBLEM LIST",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot",
+                        "entry": [
+                            {
+                                "display": "Problem - Infection due to severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)",
+                                "reference": "Condition/b28b2cd8-3a2e-bbfd-28e3-2f200514c84d"
+                            },
+                            {
+                                "display": "Problem - Anthrax",
+                                "reference": "Condition/832e7f28-f74e-8543-4f61-87ccc1b379d3"
+                            },
+                            {
+                                "display": "Problem - Measles",
+                                "reference": "Condition/3daff259-1091-7380-0d09-878903fabed2"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "254a600e-a394-5673-eb77-f1ba6c2155e4",
+                        "title": "Immunizations",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Immunizations</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "11369-6",
+                                    "display": "History of immunizations",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "b4dca430-0937-826b-5105-4c74964d84fe",
+                        "title": "Procedures",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Procedures</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "47519-4",
+                                    "display": "PROCEDURES",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "cb100e34-732f-7121-cf3b-57d896f73289",
+                        "title": "Relevant Diagnostic Tests and/or Laboratory Data",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Relevant Diagnostic Tests and/or Laboratory Data</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "30954-2",
+                                    "display": "RELEVANT DIAGNOSTIC TESTS AND/OR LABORATORY DATA",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "9ee15d5f-7a6b-3bcb-5fee-96e2f3b0200e",
+                        "title": "Vital Signs",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Vital Signs</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8716-3",
+                                    "display": "VITAL SIGNS",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "da89ca8b-0658-c748-895e-faad15d098b7",
+                        "title": "Administered Medications",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Administered Medications</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "29549-3",
+                                    "display": "MEDICATIONS ADMINISTERED",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "6976e6bc-4764-7fc6-a714-e78f672a7110",
+                        "title": "Encounters",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Encounters</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "46240-8",
+                                    "display": "History of encounters",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "135df885-b4a6-f836-0252-ed1a145d5966",
+                        "title": "Assessments",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Assessments</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "51848-0",
+                                    "display": "ASSESSMENTS",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "6b6c3865-d46a-3825-83cf-39081fa12be9",
+                        "title": "Plan of Treatment",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "18776-5",
+                                    "display": "Treatment plan",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "8623387b-3750-c825-6e4a-5531801731d2",
+                        "title": "Reportability Response Information Section",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>"
+                        },
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
+                                "valueIdentifier": {
+                                    "use": "official",
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "code": "88085-6",
+                                                "display": "Reportability response report Document Public health",
+                                                "system": "http://loinc.org"
+                                            }
+                                        ]
+                                    },
+                                    "value": "030e9e15-1775-400e-a7e5-d0d6464b6919"
+                                }
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "code": "RRVS19",
+                                            "display": "eICR processed",
+                                            "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "88085-6",
+                                    "display": "Reportability response report Document Public health",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "entry": [
+                            {
+                                "display": "Relevant Reportable Condition Observation - Measles (disorder)",
+                                "reference": "Observation/beac1d2b-21b3-4fb8-a281-d68a33764722"
+                            },
+                            {
+                                "display": "Relevant Reportable Condition Observation - Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+                                "reference": "Observation/69025b8d-0433-4b7b-ae8b-a5fbeec0aae7"
+                            },
+                            {
+                                "display": "Relevant Reportable Condition Observation - Anthrax (disorder)",
+                                "reference": "Observation/70e77f68-389f-40b1-a5a5-c19bb910537e"
+                            }
+                        ]
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/0a78c591-ae5a-a15e-ce45-c4a4a209204a"
+                },
+                "encounter": {
+                    "reference": "Encounter/028024e4-0a63-eac0-8232-73fdfbc07f5d"
+                },
+                "custodian": {
+                    "reference": "Organization/3dd0ab49-fb87-5165-5e2e-86d3fd09f39d"
+                },
+                "author": [
+                    {
+                        "reference": "Device/ab5d6bd5-5eeb-214c-0d3b-b8de1a8039d2"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Composition/040d5384-78da-bc55-a2bb-acaeedc875d3"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:028024e4-0a63-eac0-8232-73fdfbc07f5d",
+            "resource": {
+                "resourceType": "Encounter",
+                "id": "028024e4-0a63-eac0-8232-73fdfbc07f5d",
+                "status": "unknown",
+                "class": {
+                    "code": "IMP",
+                    "display": "inpatient encounter",
+                    "system": "urn:oid:2.16.840.1.113883.5.4"
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:0c81f9ed-b1c7-11ec-81e0-9e7eef92c510"
+                    },
+                    {
+                        "system": "urn:oid:1.3.6.1.4.1.24310",
+                        "value": "0000016933"
+                    }
+                ],
+                "period": {
+                    "start": "2022-03-31T12:06:00-04:00"
+                },
+                "subject": {
+                    "reference": "Patient/0a78c591-ae5a-a15e-ce45-c4a4a209204a"
+                },
+                "location": [
+                    {
+                        "id": "37192d1c-f526-5130-8219-6861a35f41e8",
+                        "location": {
+                            "reference": "Location/b732ff8a-cbe2-05db-660f-2c26c326e1ad",
+                            "display": "Meditech Facility Author"
+                        },
+                        "extension": [
+                            {
+                                "url": "http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "code": "GIM",
+                                            "display": "General internal medicine clinic",
+                                            "system": "urn:oid:2.16.840.1.113883.5.111"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "participant": [
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "ATND"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "reference": "Practitioner/57e9273b-3cfb-d144-0f14-cdd3eb9bcff4"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Encounter/028024e4-0a63-eac0-8232-73fdfbc07f5d"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:b732ff8a-cbe2-05db-660f-2c26c326e1ad",
+            "resource": {
+                "resourceType": "Location",
+                "id": "b732ff8a-cbe2-05db-660f-2c26c326e1ad",
+                "identifier": [
+                    {
+                        "value": "37192d1c-f526-5130-8219-6861a35f41e8"
+                    }
+                ],
+                "name": "Meditech Facility Author",
+                "address": {
+                    "use": "work",
+                    "line": [
+                        "1 Constitution Way"
+                    ],
+                    "city": "Foxboro",
+                    "state": "MA",
+                    "country": "USA",
+                    "postalCode": "05158"
+                },
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+1(508)945-6522",
+                        "use": "work"
+                    }
+                ],
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "code": "GIM",
+                                "display": "General internal medicine clinic",
+                                "system": "urn:oid:2.16.840.1.113883.5.111"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Location/b732ff8a-cbe2-05db-660f-2c26c326e1ad"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:57e9273b-3cfb-d144-0f14-cdd3eb9bcff4",
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "57e9273b-3cfb-d144-0f14-cdd3eb9bcff4",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+                        "valueString": "Responsible Party"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "http://hl7.org/fhir/sid/us-npi",
+                        "value": "1259954778"
+                    }
+                ],
+                "name": [
+                    {
+                        "use": "usual",
+                        "text": "CANTON MEDICAL CENTER OF MASSACHUSETTS-North Canton Facilit"
+                    }
+                ],
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "5001 North Mount Washington Circle Drive"
+                        ],
+                        "city": "North Canton",
+                        "state": "MA",
+                        "country": "USA",
+                        "postalCode": "02740-0001"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+1(781)821-3001",
+                        "use": "work"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Practitioner/57e9273b-3cfb-d144-0f14-cdd3eb9bcff4"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:beac1d2b-21b3-4fb8-a281-d68a33764722",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "beac1d2b-21b3-4fb8-a281-d68a33764722",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:beac1d2b-21b3-4fb8-a281-d68a33764722"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "64572001",
+                            "display": "Condition",
+                            "system": "http://snomed.info/sct"
+                        },
+                        {
+                            "code": "75323-6",
+                            "display": "Condition",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "14189004",
+                            "display": "Measles (disorder)",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/beac1d2b-21b3-4fb8-a281-d68a33764722"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:69025b8d-0433-4b7b-ae8b-a5fbeec0aae7",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "69025b8d-0433-4b7b-ae8b-a5fbeec0aae7",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:69025b8d-0433-4b7b-ae8b-a5fbeec0aae7"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "64572001",
+                            "display": "Condition",
+                            "system": "http://snomed.info/sct"
+                        },
+                        {
+                            "code": "75323-6",
+                            "display": "Condition",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "840539006",
+                            "display": "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/69025b8d-0433-4b7b-ae8b-a5fbeec0aae7"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:70e77f68-389f-40b1-a5a5-c19bb910537e",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "70e77f68-389f-40b1-a5a5-c19bb910537e",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:70e77f68-389f-40b1-a5a5-c19bb910537e"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "64572001",
+                            "display": "Condition",
+                            "system": "http://snomed.info/sct"
+                        },
+                        {
+                            "code": "75323-6",
+                            "display": "Condition",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "409498004",
+                            "display": "Anthrax (disorder)",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/70e77f68-389f-40b1-a5a5-c19bb910537e"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:3dd0ab49-fb87-5165-5e2e-86d3fd09f39d",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "3dd0ab49-fb87-5165-5e2e-86d3fd09f39d",
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:1.3.6.1.4.1.24310"
+                    }
+                ],
+                "name": "Meditech Facility Author",
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "101 Martine St"
+                        ],
+                        "city": "Fall River",
+                        "state": "MA",
+                        "country": "USA",
+                        "postalCode": "05125"
+                    },
+                    {
+                        "use": "work",
+                        "line": [
+                            "1 Constitution Way"
+                        ],
+                        "city": "Foxboro",
+                        "state": "MA",
+                        "country": "USA",
+                        "postalCode": "05158"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+1(508)947-5477",
+                        "use": "work"
+                    },
+                    {
+                        "system": "phone",
+                        "value": "+1(508)945-6522",
+                        "use": "work"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/3dd0ab49-fb87-5165-5e2e-86d3fd09f39d"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:ab5d6bd5-5eeb-214c-0d3b-b8de1a8039d2",
+            "resource": {
+                "resourceType": "Device",
+                "id": "ab5d6bd5-5eeb-214c-0d3b-b8de1a8039d2",
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:1.3.6.1.4.1.24310"
+                    }
+                ],
+                "type": {
+                    "coding": [
+                        {
+                            "display": "MEDITECH - Testing Release T5.6.7.MIS Interface Device"
+                        }
+                    ]
+                },
+                "manufacturer": "MEDITECH - Testing Release T5.6.7.MIS Interface Device",
+                "version": [
+                    {
+                        "value": "MEDITECH HCIS"
+                    }
+                ],
+                "owner": {
+                    "reference": "Organization/3dd0ab49-fb87-5165-5e2e-86d3fd09f39d"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Device/ab5d6bd5-5eeb-214c-0d3b-b8de1a8039d2"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:0a78c591-ae5a-a15e-ce45-c4a4a209204a",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "0a78c591-ae5a-a15e-ce45-c4a4a209204a",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.25.271342413802414176767384121859004435777",
+                        "value": "0000008849"
+                    },
+                    {
+                        "system": "urn:oid:2.25.271342413802414176767384121859004435777",
+                        "value": "9282"
+                    },
+                    {
+                        "system": "http://hl7.org/fhir/sid/us-ssn",
+                        "value": "785-85-6895"
+                    },
+                    {
+                        "system": "urn:oid:2.25.271342413802414176767384121859004435777",
+                        "value": "3af0c293-ac74-11ec-81e0-9e7eef92c510"
+                    }
+                ],
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "TEST",
+                        "given": [
+                            "CHARTIE7"
+                        ]
+                    }
+                ],
+                "birthDate": "1979-02-02",
+                "gender": "female",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                        "extension": [
+                            {
+                                "url": "ombCategory",
+                                "valueCoding": {
+                                    "code": "2028-9",
+                                    "display": "Asian"
+                                }
+                            },
+                            {
+                                "url": "detailed",
+                                "valueCoding": {
+                                    "code": "2108-9",
+                                    "display": "European"
+                                }
+                            },
+                            {
+                                "url": "text",
+                                "valueString": "Mixed"
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+                        "extension": [
+                            {
+                                "url": "ombCategory",
+                                "valueCoding": {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                                    "code": "UNK",
+                                    "display": "Unknown"
+                                }
+                            },
+                            {
+                                "url": "ombCategory",
+                                "valueCoding": {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                                    "code": "UNK",
+                                    "display": "Unknown"
+                                }
+                            },
+                            {
+                                "url": "text",
+                                "valueString": "Mixed"
+                            }
+                        ]
+                    }
+                ],
+                "address": [
+                    {
+                        "use": "home",
+                        "line": [
+                            "1"
+                        ],
+                        "city": "CITY",
+                        "state": "CA",
+                        "country": "US",
+                        "postalCode": "90201"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+1(789)859-8594",
+                        "use": "home"
+                    }
+                ],
+                "communication": [
+                    {
+                        "language": {
+                            "coding": [
+                                {
+                                    "system": "urn:ietf:bcp:47"
+                                }
+                            ]
+                        },
+                        "preferred": true
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Patient/0a78c591-ae5a-a15e-ce45-c4a4a209204a"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:16397c4a-d5b8-4b82-a861-aa676e0f1592",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "16397c4a-d5b8-4b82-a861-aa676e0f1592",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:4346ac13-9a08-4f00-aaa6-2f7041408ca1"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "social-history"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "72166-2",
+                            "display": "Tobacco smoking status NHIS",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "266927001",
+                            "display": "Unknown if ever smoked",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/0a78c591-ae5a-a15e-ce45-c4a4a209204a"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/16397c4a-d5b8-4b82-a861-aa676e0f1592"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:66a2cb9c-1110-407a-49fa-01fc2938a6be",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "66a2cb9c-1110-407a-49fa-01fc2938a6be",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:960abb3e-b6ce-4f45-a13b-99b18280acdd"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "social-history"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "76689-9",
+                            "display": "Sex Assigned At Birth",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "1979-02-02",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "F",
+                            "display": "Female",
+                            "system": "urn:oid:2.16.840.1.113883.5.1"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/0a78c591-ae5a-a15e-ce45-c4a4a209204a"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/66a2cb9c-1110-407a-49fa-01fc2938a6be"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:66b02ab1-f831-76ee-1c33-f4ba692f9b23",
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "66b02ab1-f831-76ee-1c33-f4ba692f9b23",
+                "type": {
+                    "coding": [
+                        {
+                            "code": "55751-2",
+                            "display": "Public Health Case Report",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "date": "2023-04-13T23:49:06.966Z",
+                "status": "current",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "data": "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",
+                            "hash": "NjYzZjBlYzlmNmNmM2NjMzZlYjU0ZWNlZjcwM2Q1YWUxNGIzNDZiNg=="
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "DocumentReference/66b02ab1-f831-76ee-1c33-f4ba692f9b23"
+            }
+        }
+    ]
+}
