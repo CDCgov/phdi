@@ -74,9 +74,9 @@
     {% else -%}
       {% evaluate authorOrgId using 'Utils/GenerateId' obj: author.assignedAuthor.representedOrganization -%}
       {% include 'Resource/Organization' organization: author.assignedAuthor.representedOrganization ID: authorOrgId -%}
-      {% assign fullAuthoerOrgId = AuthorOrgId | prepend: 'Organization/' -%}
+      {% assign fullAuthorOrgId = AuthorOrgId | prepend: 'Organization/' -%}
       {% if deviceId -%}
-        {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthoerOrgId -%}
+        {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthorOrgId -%}
       {% endif -%}
     {% endif -%}
   {% elsif author.assignedAuthor.assignedPerson and author.assignedAuthor.assignedPerson.name and author.assignedAuthor.assignedPerson.name.given.first._ -%}
