@@ -252,16 +252,16 @@ async def kafka_to_delta_table(
             kafka_to_delta_command.append(input[value])
 
     kafka_to_delta_command = " ".join(kafka_to_delta_command)
+    ic(kafka_to_delta_command)
     kafka_to_delta_result = subprocess.run(
         kafka_to_delta_command, shell=True, capture_output=True, text=True
     )
 
     response_body["spark_log"] = kafka_to_delta_result.stdout
-
+    ic(kafka_to_delta_result)
     if kafka_to_delta_result.returncode != 0:
         response_body["status"] = "failed"
         response_body["spark_log"] = kafka_to_delta_result.stderr
-
     return response_body
 
 
@@ -325,9 +325,8 @@ async def data_to_kafka(
     )
 
     response_body["spark_log"] = data_to_kafka_result.stdout
-
     if data_to_kafka_result.returncode != 0:
         response_body["status"] = "failed"
         response_body["spark_log"] = data_to_kafka_result.stderr
-
+    ic(response_body)
     return response_body

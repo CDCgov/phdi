@@ -2,7 +2,17 @@ version: "3.9"
 
 networks:
   app-tier:
+    name: "app-tier"
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.5.0.0/16
+          ip_range: 10.5.0.0/24
+          gateway: 10.5.0.1
+          aux_addresses:
+            kafka: 10.5.0.2
+            zookeeper: 10.5.0.3
 
 services:
   zookeeper:
@@ -24,38 +34,42 @@ services:
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-    
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.5.0.1:9092
     depends_on:
       - zookeeper
     networks:
       - app-tier
-  init-kafka:
-    image: confluentinc/cp-kafka:6.1.1
-    depends_on:
-      - kafka
-    entrypoint: [ '/bin/sh', '-c' ]
-    command: |
-      "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:9092 --list
-      
-      echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic test --replication-factor 1 --partitions 1
-      echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:9092 --list
-      "
-    networks:
-      - app-tier
+  # init-kafka:
+  #   image: confluentinc/cp-kafka:6.1.1
+  #   depends_on:
+  #     - kafka
+  #   entrypoint: [ '/bin/sh', '-c' ]
+  #   command: |
+  #     "
+  #     # blocks until kafka is reachable
+  #     kafka-topics --bootstrap-server kafka:9092 --list
+
+  #     echo -e 'Creating kafka topics'
+  #     kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic test --replication-factor 1 --partitions 1
+  #     kafka-console-producer --bootstrap-server kafka:9092 --topic test
+  #     echo -e 'Successfully created the following topics:'
+  #     kafka-topics --bootstrap-server kafka:9092 --list
+  #     "
+  #   networks:
+  #     - app-tier
   kafka-to-delta-table:
     build: .
     ports:
       - "8080:8080"
     depends_on:
       - kafka
-      - init-kafka
+      # - init-kafka
     networks:
       - app-tier
-
+    environment:
+      - KAFKA_LOCAL_SERVER=kafka:9092
 volumes:
   zookeeper_data:
     driver: local
