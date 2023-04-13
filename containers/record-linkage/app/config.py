@@ -4,14 +4,14 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    mpi_db_type: Optional[str]
-    mpi_dbname: Optional[str]
-    mpi_host: Optional[str]
-    mpi_user: Optional[str]
-    mpi_password: Optional[str]
-    mpi_port: Optional[str]
-    mpi_patient_table: Optional[str]
-    mpi_person_table: Optional[str]
+    mpi_db_type: str
+    mpi_dbname: str
+    mpi_host: str
+    mpi_user: str
+    mpi_password: str
+    mpi_port: str
+    mpi_patient_table: str
+    mpi_person_table: str
 
 
 @lru_cache()

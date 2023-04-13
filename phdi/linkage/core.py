@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from abc import ABC, abstractmethod
 
 
@@ -18,6 +18,18 @@ class BaseMPIConnectorClient(ABC):
         zip code is '90210', the resulting block of data would contain records that all
         have the same zip code of 90210.
 
+        """
+        pass  # pragma: no cover
+
+    @abstractmethod
+    def get_connection() -> Union[any, None]:
+        """
+        Creates a connection to the database associated with the connector class.
+        The connection is returned for use in other class methods as a context
+        manager, and should generally not be called externally to the client.
+        Also used for testing the validity of a connection when the client
+        connector is instantiated. The return type is set to any here since the
+        exact "class" of the client's connection is unknown in the abstract.
         """
         pass  # pragma: no cover
 

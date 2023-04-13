@@ -154,10 +154,10 @@ async def health_check() -> HealthCheckResponse:
 @app.post("/link-record", status_code=200)
 async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordResponse:
     """
-    This is just a stub.
     Compare a FHIR bundle with records in the Master Patient Index (MPI) to
     check for matches with existing patient records If matches are found,
     returns the bundle with updated references to existing patients.
+
     :param input: A JSON formatted request body with schema specified by the
         LinkRecordInput model.
     :return: A JSON formatted response body with schema specified by the

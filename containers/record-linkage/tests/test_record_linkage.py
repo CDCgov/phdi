@@ -2,12 +2,14 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from app.config import get_settings
 from app.main import app
+from pydantic import ValidationError
 
 import copy
 import json
 import os
 import pathlib
 import psycopg2
+import pytest
 
 client = TestClient(app)
 
@@ -20,7 +22,7 @@ test_bundle = json.load(
 )
 
 
-def test_health_check():
+def set_mpi_env_vars():
     os.environ["mpi_db_type"] = "postgres"
     os.environ["mpi_dbname"] = "testdb"
     os.environ["mpi_user"] = "postgres"
@@ -31,13 +33,8 @@ def test_health_check():
     os.environ["mpi_person_table"] = "person"
     get_settings.cache_clear()
 
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {
-        "status": "OK",
-        "mpi_connection_status": "OK",
-    }
 
+def pop_mpi_env_vars():
     os.environ.pop("mpi_db_type", None)
     os.environ.pop("mpi_dbname", None)
     os.environ.pop("mpi_user", None)
@@ -48,7 +45,19 @@ def test_health_check():
     os.environ.pop("mpi_person_table", None)
 
 
+def test_health_check():
+    set_mpi_env_vars()
+    actual_response = client.get("/")
+    assert actual_response.status_code == 200
+    assert actual_response.json() == {
+        "status": "OK",
+        "mpi_connection_status": "OK",
+    }
+    pop_mpi_env_vars()
+
+
 def test_linkage_bundle_with_no_patient():
+    set_mpi_env_vars()
     bad_bundle = {"entry": []}
     expected_response = {
         "message": "Supplied bundle contains no Patient resource to link on.",
@@ -61,12 +70,15 @@ def test_linkage_bundle_with_no_patient():
     )
     assert actual_response.json() == expected_response
     assert actual_response.status_code == status.HTTP_400_BAD_REQUEST
+    pop_mpi_env_vars()
 
 
 def test_linkage_invalid_db_type():
+    set_mpi_env_vars()
     invalid_db_type = "mssql"
     os.environ["mpi_db_type"] = invalid_db_type
     get_settings.cache_clear()
+
     expected_response = {
         "message": f"Unsupported database type {invalid_db_type} supplied. "
         + "Make sure your environment variables include an entry "
@@ -77,20 +89,13 @@ def test_linkage_invalid_db_type():
     actual_response = client.post("/link-record", json={"bundle": test_bundle})
     assert actual_response.json() == expected_response
     assert actual_response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
+    pop_mpi_env_vars()
     os.environ.pop("mpi_db_type", None)
 
 
 def test_linkage_success():
-    os.environ["mpi_db_type"] = "postgres"
-    os.environ["mpi_dbname"] = "testdb"
-    os.environ["mpi_user"] = "postgres"
-    os.environ["mpi_password"] = "pw"
-    os.environ["mpi_host"] = "localhost"
-    os.environ["mpi_port"] = "5432"
-    os.environ["mpi_patient_table"] = "patient"
-    os.environ["mpi_person_table"] = "person"
-    get_settings.cache_clear()
-
+    set_mpi_env_vars()
     entry_list = copy.deepcopy(test_bundle["entry"])
 
     bundle_1 = test_bundle
@@ -162,43 +167,33 @@ def test_linkage_success():
     cursor.close()
     dbconn.close()
 
-    os.environ.pop("mpi_db_type", None)
-    os.environ.pop("mpi_dbname", None)
-    os.environ.pop("mpi_user", None)
-    os.environ.pop("mpi_password", None)
-    os.environ.pop("mpi_host", None)
-    os.environ.pop("mpi_port", None)
-    os.environ.pop("mpi_patient_table", None)
-    os.environ.pop("mpi_person_table", None)
+    pop_mpi_env_vars()
 
 
 def test_linkage_invalid_postgres_settings():
-    os.environ["mpi_db_type"] = "postgres"
-    os.environ["mpi_dbname"] = "testdb"
-    os.environ["mpi_user"] = "postgres"
-    os.environ["mpi_password"] = "pw"
-    os.environ["mpi_host"] = "localhost"
-    os.environ["mpi_port"] = "5432"
-
+    set_mpi_env_vars()
     for setting in [
         "mpi_dbname",
         "mpi_user",
         "mpi_password",
         "mpi_host",
         "mpi_port",
+        "mpi_patient_table",
+        "mpi_person_table",
     ]:
         removed_setting = os.environ[setting]
-        os.environ[setting] = "invalid_value"
+        os.environ.pop(setting, None)
         get_settings.cache_clear()
 
+        with pytest.raises(ValidationError) as e:
+            client.post("/link-record", json={"bundle": test_bundle})
+            assert "validation errors for Settings" in str(e.value)
+
+        os.environ[setting] = "invalid_value"
+        get_settings.cache_clear()
         actual_response = client.post("/link-record", json={"bundle": test_bundle})
         assert actual_response.status_code == status.HTTP_400_BAD_REQUEST
         assert "Could not connect to database" in actual_response.json()["message"]
         os.environ[setting] = removed_setting
 
-    os.environ.pop("mpi_db_type", None)
-    os.environ.pop("mpi_dbname", None)
-    os.environ.pop("mpi_user", None)
-    os.environ.pop("mpi_password", None)
-    os.environ.pop("mpi_host", None)
-    os.environ.pop("mpi_port", None)
+    pop_mpi_env_vars()
