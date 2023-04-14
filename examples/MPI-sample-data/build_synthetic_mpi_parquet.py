@@ -2,10 +2,10 @@
 
 import pandas as pd
 import random
-from random import randint
-from string import ascii_letters
+from faker import Faker
 
 random.seed(410)
+Faker.seed(414)
 
 df = pd.read_csv(
     # locally stored file of synthetic LAC synthea data; user must change
@@ -28,22 +28,13 @@ df = pd.read_csv(
 
 def add_emails(data: pd.DataFrame) -> pd.DataFrame:
     """
-    Adds an "email" column with a synthetic email address for each row of data. The
-    email address domains are limited to the most common providers in the US (gmail,
-    yahoo, and hotmail).
+    Adds an "email" column with a synthetic email address for each row of data.
 
     :param data: A DataFrame object.
     :return: A DataFrame object with an EMAIL column of synthetic email addresses.
     """
-    emails = [
-        "".join(random.choice(ascii_letters) for x in range(10))
-        for _ in range(len(data))
-    ]
-    emails = [
-        (email + random.choice(["@gmail.com", "@yahoo.com", "@hotmail.com"]))
-        for email in emails
-    ]
-
+    fake = Faker()
+    emails = [fake.email() for _ in range(len(data))]
     data["email"] = emails
 
     return data
@@ -51,20 +42,14 @@ def add_emails(data: pd.DataFrame) -> pd.DataFrame:
 
 def add_phone_numbers(column_name: str, data: pd.DataFrame) -> pd.DataFrame:
     """
-    Adds a "EMAIL" column with a synthetic phone number for each row of data. The
-    phone number area codes are limited to the most common area codes in Los Angeles
-    county (213, 310, 424, 661, 818, and 323).
+    Adds a "phone" column with a synthetic phone number for each row of data.
 
     :param column_name: Column name.
     :param data: A DataFrame object.
     :return: A DataFrame object with a column of synthetic phone numbers.
     """
-    phones = ["".join(str(randint(0, 9)) for x in range(7)) for _ in range(len(data))]
-    phones = [
-        int((random.choice(["213", "310", "424", "661", "818", "323"]) + phone))
-        for phone in phones
-    ]
-
+    fake = Faker()
+    phones = [fake["en_US"].phone_number() for _ in range(len(data))]
     data[f"{column_name}"] = phones
 
     return data
