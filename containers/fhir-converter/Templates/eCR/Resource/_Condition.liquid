@@ -47,7 +47,9 @@
             {% endif -%}
         },
         {% if conditionEntry.effectiveTime.low.value -%}
-        "onsetDateTime":"{{ conditionEntry.effectiveTime.low.value | format_as_date_time }}",
+            "onsetDateTime":"{{ conditionEntry.effectiveTime.low.value | format_as_date_time }}",
+        {% elsif conditionEntry.author.time and conditionEntry.author.time.value -%}
+            "onsetDateTime":"{{ conditionEntry.author.time.value | format_as_date_time }}",
         {% endif -%}
         "onsetAge":
         {
