@@ -195,8 +195,7 @@ async def parse_message_endpoint(
     parsed_values = {}
     for field, parser in parsers.items():
         value = parser(input.message)
-        if len(value) == 1:
-            value = value[0]
+        value = ",".join(value)
         parsed_values[field] = value
 
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
