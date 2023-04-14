@@ -18,7 +18,7 @@ ecr_fhir_bundle_path = (
     Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
-    / "full_ecr_fhir.json"
+    / "example_eicr_with_rr_data_formatted.json"
 )
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)

@@ -1,0 +1,2894 @@
+{
+    "resourceType": "Bundle",
+    "type": "batch",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:1aecbf9a-3a75-5ca8-46e6-ddc394c74063",
+            "resource": {
+                "resourceType": "Composition",
+                "id": "1aecbf9a-3a75-5ca8-46e6-ddc394c74063",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "use": "official",
+                        "type": {
+                            "coding": [
+                                {
+                                    "code": "55751-2",
+                                    "display": "Initial Public Health Case Report",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "value": "8675309a-7754-r2d2-c3p0-973d9f777777"
+                    }
+                ],
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+                        "valueString": "2"
+                    }
+                ],
+                "status": "final",
+                "type": {
+                    "coding": [
+                        {
+                            "code": "55751-2",
+                            "display": "Initial Public Health Case Report",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "date": "2023-04-09T13:04:17-07:00",
+                "title": "Initial Public Health Case Report",
+                "confidentiality": "N",
+                "section": [
+                    {
+                        "id": "b7a7ed08-af88-4a31-cc4e-8dddd58b7fc8",
+                        "title": "Miscellaneous Notes",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Miscellaneous Notes</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "10164-2",
+                                    "display": "HISTORY OF PRESENT ILLNESS",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "BEB630CE-B12D-11EC-842B-C301D81100B2",
+                        "title": "Immunizations",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Immunizations</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "11369-6",
+                                    "display": "History of Immunization Narrative",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "BEB6D4DE-B12D-11EC-842B-C301D81100B2",
+                        "title": "Administered Medications",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Administered Medications</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "29549-3",
+                                    "display": "MEDICATIONS ADMINISTERED",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "c2281805-ec40-0a32-031b-1c709c70d1c1",
+                        "title": "Plan of Treatment",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "18776-5",
+                                    "display": "Plan of care note",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "2E345F58-7C25-11ED-B3EC-C301D81100B2",
+                        "title": "Problems",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Problems</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "11450-4",
+                                    "display": "Problem list - Reported",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot",
+                        "entry": [
+                            {
+                                "display": "Problem - Bilateral malignant neoplasm of lower outer quadrant of breast in female",
+                                "reference": "Condition/c95cdea1-565f-e53b-4da9-86e0a7a0c9c6"
+                            },
+                            {
+                                "display": "Problem - Malignant neoplasm of overlapping sites of pancreas",
+                                "reference": "Condition/9ade5fa1-1a7d-63e2-fde7-66c1aae14728"
+                            },
+                            {
+                                "display": "Problem - Malignant neoplasm of urinary bladder neck",
+                                "reference": "Condition/c82b6d7b-28a5-1438-f04d-90354dc650ed"
+                            },
+                            {
+                                "display": "Problem - Headache",
+                                "reference": "Condition/4f962a2f-db60-0b87-20cc-557e17124451"
+                            },
+                            {
+                                "display": "Problem - Backache",
+                                "reference": "Condition/9e465247-8dbb-f778-dd7f-4d56c59485b5"
+                            },
+                            {
+                                "display": "Problem - Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive",
+                                "reference": "Condition/80db768f-19ea-f1d0-f9e5-22d854d7acc5"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "eef25da4-bea1-2e77-4a0c-12f50e7be15e",
+                        "title": "Reason for Visit",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason for Visit</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "29299-5",
+                                    "display": "REASON FOR VISIT",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                "valueString": "Not on file"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "BEBC8CEE-B12D-11EC-842B-C301D81100B2",
+                        "title": "Results",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Results</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "30954-2",
+                                    "display": "Relevant diagnostic tests/laboratory data Narrative",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot",
+                        "entry": [
+                            {
+                                "display": "Campylobacter, NAAT",
+                                "reference": "Observation/fb09b47e-8d0d-da93-efa8-7a47b16a7160"
+                            },
+                            {
+                                "display": "C. Diff Toxin A/B, NAAT",
+                                "reference": "Observation/881b25ca-7bed-8901-a853-a385365425ae"
+                            },
+                            {
+                                "display": "Plesiomonas shigelloides, NAAT",
+                                "reference": "Observation/7bc2a15f-4d45-94e1-19e6-da5ab3c7626b"
+                            },
+                            {
+                                "display": "Salmonella, NAAT",
+                                "reference": "Observation/087b3b57-c13b-9381-2788-8d89acd6cddf"
+                            },
+                            {
+                                "display": "Vibrio, NAAT",
+                                "reference": "Observation/0f2abbe5-3345-e3b7-823a-8f1c312ccd45"
+                            },
+                            {
+                                "display": "Vibrio cholerae, NAAT",
+                                "reference": "Observation/356e31c0-d25c-90b0-6e7e-371a501c5487"
+                            },
+                            {
+                                "display": "Yersinia enterocolitica, NAAT",
+                                "reference": "Observation/24b44a1a-8e63-904e-0b75-33cabceccb6b"
+                            },
+                            {
+                                "display": "E. Coli O157, NAAT",
+                                "reference": "Observation/b3ac8de1-fe7d-96de-9a9d-b53282cb2944"
+                            },
+                            {
+                                "display": "E. Coli (EAEC), NAAT",
+                                "reference": "Observation/e8ca029e-79e3-d321-da20-508a088c121e"
+                            },
+                            {
+                                "display": "E. Coli (EPEC), NAAT",
+                                "reference": "Observation/3e9aa930-cb71-8510-1804-b4b686bcd0c2"
+                            },
+                            {
+                                "display": "E. Coli (ETEC), NAAT",
+                                "reference": "Observation/63b4564e-9a61-7ea5-9b7e-b461c1d2b945"
+                            },
+                            {
+                                "display": "Shiga-Like Toxin E. Coli (STEC), NAAT",
+                                "reference": "Observation/04a2c208-a10a-3140-80be-5dfea431f658"
+                            },
+                            {
+                                "display": "Shigella/EIEC, NAAT",
+                                "reference": "Observation/9c9c405b-f8b6-5f52-d8ff-a82dd2710520"
+                            },
+                            {
+                                "display": "Cryptosporidium, NAAT",
+                                "reference": "Observation/5ccc5dc4-b346-ee44-9b33-f1799b2380a9"
+                            },
+                            {
+                                "display": "Cyclospora cayetanensis, NAAT",
+                                "reference": "Observation/2ea066cd-a9c1-3630-4af8-3c8994f5c7e6"
+                            },
+                            {
+                                "display": "E. histolytica, NAAT",
+                                "reference": "Observation/e81da695-bd55-e66c-3e12-2e93ad74b565"
+                            },
+                            {
+                                "display": "Giardia lamblia, NAAT",
+                                "reference": "Observation/a997d510-8367-3ad5-b933-241daa80d1cb"
+                            },
+                            {
+                                "display": "Adenovirus F 40/41, NAAT",
+                                "reference": "Observation/9692f1db-8e70-3c78-fa41-d3008dea68a5"
+                            },
+                            {
+                                "display": "Astrovirus, NAAT",
+                                "reference": "Observation/93b66f86-4201-eab2-3f88-dd3922934258"
+                            },
+                            {
+                                "display": "Norovirus, NAAT",
+                                "reference": "Observation/b159112f-011d-bf96-92d4-297e2a982b4a"
+                            },
+                            {
+                                "display": "Rotavirus A, NAAT",
+                                "reference": "Observation/5268eef3-cd33-66cd-c431-44844144b0d4"
+                            },
+                            {
+                                "display": "Sapovirus, NAAT",
+                                "reference": "Observation/644e9428-6ffa-cf12-ed87-22edad72f951"
+                            },
+                            {
+                                "display": "Lab Interpretation",
+                                "reference": "Observation/871dfa80-44de-7e07-dca1-91480e5e9612"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "affee6f2-c522-1507-c344-e4fac9910de0",
+                        "title": "Social History",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Social History</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "29762-2",
+                                    "display": "Social history Narrative",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "4faab866-6387-d1a0-d6e5-3fabc9aac8cf",
+                        "title": "Encounter Details",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Encounter Details</div>"
+                        },
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "46240-8",
+                                    "display": "History of Hospitalizations+Outpatient visits Narrative",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "mode": "snapshot"
+                    },
+                    {
+                        "id": "67951fb2-5454-ea03-f74e-e35ede324d71",
+                        "title": "Reportability Response Information Section",
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>"
+                        },
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
+                                "valueIdentifier": {
+                                    "use": "official",
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "code": "88085-6",
+                                                "display": "Reportability response report Document Public health",
+                                                "system": "http://loinc.org"
+                                            }
+                                        ]
+                                    },
+                                    "value": "10d56082-be91-466f-8849-9c12c0a6edc0"
+                                }
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "code": "RRVS19",
+                                            "display": "eICR processed",
+                                            "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "88085-6",
+                                    "display": "Reportability response report Document Public health",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "entry": [
+                            {
+                                "display": "Relevant Reportable Condition Observation - Cyclosporiasis (disorder)",
+                                "reference": "Observation/f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+                            },
+                            {
+                                "display": "Relevant Reportable Condition Observation - Cyclosporiasis (disorder)",
+                                "reference": "Observation/ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc"
+                            }
+                        ]
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "encounter": {
+                    "reference": "Encounter/b99ed74e-acf4-992c-48e3-6d88d7414248"
+                },
+                "custodian": {
+                    "reference": "Organization/401e4e5a-69e1-bdf6-7016-6aa11dfdd01f"
+                },
+                "author": [
+                    {
+                        "reference": "Practitioner/80746d38-56d1-93cd-febe-13ad0807a14b"
+                    },
+                    {
+                        "reference": "Device/3cd5a00e-5ed8-c2a6-4be2-dbe915111561"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Composition/1aecbf9a-3a75-5ca8-46e6-ddc394c74063"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:b99ed74e-acf4-992c-48e3-6d88d7414248",
+            "resource": {
+                "resourceType": "Encounter",
+                "id": "b99ed74e-acf4-992c-48e3-6d88d7414248",
+                "status": "unknown",
+                "class": {
+                    "code": "AMB",
+                    "display": "Ambulatory",
+                    "system": "urn:oid:2.16.840.1.113883.5.4"
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.3.698084.8",
+                        "value": "555555547455"
+                    }
+                ],
+                "period": {
+                    "start": "2023-02-12",
+                    "end": "2023-02-12"
+                },
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "location": [
+                    {
+                        "id": "1.2.840.114350.1.13.297.3.7.2.686980",
+                        "location": {
+                            "reference": "Location/c32f95de-ab42-7854-3caf-a820a71322ec",
+                            "display": "PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY"
+                        },
+                        "extension": [
+                            {
+                                "url": "http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "code": "257622000",
+                                            "display": "Healthcare Facility",
+                                            "system": "http://snomed.info/sct"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "participant": [
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "ATND"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "reference": "Practitioner/d48741a4-3f35-4a35-614b-aa714f9b9f88"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Encounter/b99ed74e-acf4-992c-48e3-6d88d7414248"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:c32f95de-ab42-7854-3caf-a820a71322ec",
+            "resource": {
+                "resourceType": "Location",
+                "id": "c32f95de-ab42-7854-3caf-a820a71322ec",
+                "identifier": [
+                    {
+                        "value": "1.2.840.114350.1.13.297.3.7.2.686980"
+                    }
+                ],
+                "name": "PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY",
+                "address": {
+                    "use": "work",
+                    "line": [
+                        "2121 Santa Monica Blvd"
+                    ],
+                    "city": "Santa Monica",
+                    "state": "CA",
+                    "country": "USA",
+                    "postalCode": "90404-2303",
+                    "district": "LOS ANGELES"
+                },
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "code": "257622000",
+                                "display": "Healthcare Facility",
+                                "system": "http://snomed.info/sct"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Location/c32f95de-ab42-7854-3caf-a820a71322ec"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:d48741a4-3f35-4a35-614b-aa714f9b9f88",
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "d48741a4-3f35-4a35-614b-aa714f9b9f88",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+                        "valueString": "Responsible Party"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:787878-5656"
+                    }
+                ],
+                "name": [
+                    {
+                        "use": "usual",
+                        "text": "Providence California"
+                    }
+                ],
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "4733 TORRANCE BLVD #4400"
+                        ],
+                        "city": "TORRANCE",
+                        "state": "CA",
+                        "country": "USA",
+                        "postalCode": "90503",
+                        "district": "LOS ANGELES"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Practitioner/d48741a4-3f35-4a35-614b-aa714f9b9f88"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:f61d4bbc-d1d5-4bef-b2f6-d32e8db54596",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "f61d4bbc-d1d5-4bef-b2f6-d32e8db54596",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "64572001",
+                            "display": "Condition",
+                            "system": "http://snomed.info/sct"
+                        },
+                        {
+                            "code": "75323-6",
+                            "display": "Condition",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "240372001",
+                            "display": "Cyclosporiasis (disorder)",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "64572001",
+                            "display": "Condition",
+                            "system": "http://snomed.info/sct"
+                        },
+                        {
+                            "code": "75323-6",
+                            "display": "Condition",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "240372001",
+                            "display": "Cyclosporiasis (disorder)",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:401e4e5a-69e1-bdf6-7016-6aa11dfdd01f",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "401e4e5a-69e1-bdf6-7016-6aa11dfdd01f",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.696570",
+                        "value": "50"
+                    }
+                ],
+                "name": "Providence California",
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "4733 TORRANCE BLVD #4400"
+                        ],
+                        "city": "TORRANCE",
+                        "state": "CA",
+                        "country": "USA",
+                        "postalCode": "90503",
+                        "district": "LOS ANGELES"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+1-855-415-6179",
+                        "use": "work"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/401e4e5a-69e1-bdf6-7016-6aa11dfdd01f"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:80746d38-56d1-93cd-febe-13ad0807a14b",
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "80746d38-56d1-93cd-febe-13ad0807a14b",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.697780",
+                        "value": "LABBACKGROUND"
+                    }
+                ],
+                "name": [
+                    {
+                        "family": "Lab",
+                        "given": [
+                            "Background"
+                        ]
+                    },
+                    {
+                        "use": "usual",
+                        "text": "Providence California"
+                    }
+                ],
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "4733 TORRANCE BLVD #4400"
+                        ],
+                        "city": "TORRANCE",
+                        "state": "CA",
+                        "country": "USA",
+                        "postalCode": "90503",
+                        "district": "LOS ANGELES"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Practitioner/80746d38-56d1-93cd-febe-13ad0807a14b"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+            "resource": {
+                "resourceType": "Device",
+                "id": "3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.1",
+                        "value": "10.1"
+                    }
+                ],
+                "type": {
+                    "coding": [
+                        {
+                            "display": "Epic - Version 10.1"
+                        }
+                    ]
+                },
+                "manufacturer": "Epic - Version 10.1",
+                "version": [
+                    {
+                        "value": "Epic - Version 10.1"
+                    }
+                ],
+                "owner": {
+                    "reference": "Organization/401e4e5a-69e1-bdf6-7016-6aa11dfdd01f"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Device/3cd5a00e-5ed8-c2a6-4be2-dbe915111561"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:34080650-1e86-08fe-c2c9-faa37629edd3",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "34080650-1e86-08fe-c2c9-faa37629edd3",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.3.688884.100",
+                        "value": "MRN8675309"
+                    }
+                ],
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Girl",
+                        "given": [
+                            "Jessies"
+                        ]
+                    }
+                ],
+                "birthDate": "1981-02-14",
+                "gender": "female",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                        "extension": [
+                            {
+                                "url": "ombCategory",
+                                "valueCoding": {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                                    "code": "UNK",
+                                    "display": "Unknown"
+                                }
+                            },
+                            {
+                                "url": "text",
+                                "valueString": "Unknown"
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+                        "extension": [
+                            {
+                                "url": "ombCategory",
+                                "valueCoding": {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                                    "code": "UNK",
+                                    "display": "Unknown"
+                                }
+                            },
+                            {
+                                "url": "text",
+                                "valueString": "Unknown"
+                            }
+                        ]
+                    }
+                ],
+                "address": [
+                    {
+                        "use": "home",
+                        "line": [
+                            "123 FAKE ST"
+                        ],
+                        "city": "LOS ANGELES",
+                        "state": "CA",
+                        "country": "USA",
+                        "postalCode": "90062"
+                    }
+                ],
+                "communication": [
+                    {
+                        "language": {
+                            "coding": [
+                                {
+                                    "system": "urn:ietf:bcp:47"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:c95cdea1-565f-e53b-4da9-86e0a7a0c9c6",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "c95cdea1-565f-e53b-4da9-86e0a7a0c9c6",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+                        "value": "11257"
+                    }
+                ],
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "code": "55561003",
+                            "display": "Active",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "problem-item-list",
+                                "display": "Problem List Item",
+                                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "C50.511",
+                            "display": "Bilateral malignant neoplasm of lower outer quadrant of breast in female",
+                            "system": "urn:oid:2.16.840.1.113883.6.90"
+                        }
+                    ]
+                },
+                "onsetDateTime": "2017-02-27",
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/c95cdea1-565f-e53b-4da9-86e0a7a0c9c6"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:9ade5fa1-1a7d-63e2-fde7-66c1aae14728",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "9ade5fa1-1a7d-63e2-fde7-66c1aae14728",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+                        "value": "18792"
+                    }
+                ],
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "code": "55561003",
+                            "display": "Active",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "problem-item-list",
+                                "display": "Problem List Item",
+                                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "C25.8",
+                            "display": "Malignant neoplasm of overlapping sites of pancreas",
+                            "system": "urn:oid:2.16.840.1.113883.6.90"
+                        }
+                    ]
+                },
+                "onsetDateTime": "2017-09-18",
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/9ade5fa1-1a7d-63e2-fde7-66c1aae14728"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:c82b6d7b-28a5-1438-f04d-90354dc650ed",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "c82b6d7b-28a5-1438-f04d-90354dc650ed",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+                        "value": "79322"
+                    }
+                ],
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "code": "55561003",
+                            "display": "Active",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "problem-item-list",
+                                "display": "Problem List Item",
+                                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "C67.5",
+                            "display": "Malignant neoplasm of urinary bladder neck",
+                            "system": "urn:oid:2.16.840.1.113883.6.90"
+                        }
+                    ]
+                },
+                "onsetDateTime": "2021-11-05",
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/c82b6d7b-28a5-1438-f04d-90354dc650ed"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:4f962a2f-db60-0b87-20cc-557e17124451",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "4f962a2f-db60-0b87-20cc-557e17124451",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+                        "value": "95240"
+                    }
+                ],
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "code": "55561003",
+                            "display": "Active",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "problem-item-list",
+                                "display": "Problem List Item",
+                                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "R51.9",
+                            "display": "Headache",
+                            "system": "urn:oid:2.16.840.1.113883.6.90"
+                        }
+                    ]
+                },
+                "onsetDateTime": "2022-08-19",
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/4f962a2f-db60-0b87-20cc-557e17124451"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:9e465247-8dbb-f778-dd7f-4d56c59485b5",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "9e465247-8dbb-f778-dd7f-4d56c59485b5",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+                        "value": "95252"
+                    }
+                ],
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "code": "55561003",
+                            "display": "Active",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "problem-item-list",
+                                "display": "Problem List Item",
+                                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "M54.9",
+                            "display": "Backache",
+                            "system": "urn:oid:2.16.840.1.113883.6.90"
+                        }
+                    ]
+                },
+                "onsetDateTime": "2022-08-19",
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/9e465247-8dbb-f778-dd7f-4d56c59485b5"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:80db768f-19ea-f1d0-f9e5-22d854d7acc5",
+            "resource": {
+                "resourceType": "Condition",
+                "id": "80db768f-19ea-f1d0-f9e5-22d854d7acc5",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
+                        "value": "100952"
+                    }
+                ],
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "code": "55561003",
+                            "display": "Active",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "problem-item-list",
+                                "display": "Problem List Item",
+                                "system": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "C50.312",
+                            "display": "Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive",
+                            "system": "urn:oid:2.16.840.1.113883.6.90"
+                        }
+                    ]
+                },
+                "onsetDateTime": "2022-12-14",
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/80db768f-19ea-f1d0-f9e5-22d854d7acc5"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:eabd2fd6-66bd-7953-34e6-bb4b22a7c9e6",
+            "resource": {
+                "resourceType": "DiagnosticReport",
+                "id": "eabd2fd6-66bd-7953-34e6-bb4b22a7c9e6",
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+                        "value": "1546468"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "79381-0",
+                            "display": "Stool Pathogens, NAAT, 12 to 25 Targets",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectivePeriod": {
+                    "start": "2023-01-31T18:52:00Z",
+                    "end": "2022-01-31T18:52:00Z"
+                },
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "reference": "Organization/0e0189fd-d651-3e89-03fc-d94b0d48c462"
+                    }
+                ],
+                "result": [
+                    {
+                        "reference": "Observation/fb09b47e-8d0d-da93-efa8-7a47b16a7160"
+                    },
+                    {
+                        "reference": "Observation/881b25ca-7bed-8901-a853-a385365425ae"
+                    },
+                    {
+                        "reference": "Observation/7bc2a15f-4d45-94e1-19e6-da5ab3c7626b"
+                    },
+                    {
+                        "reference": "Observation/087b3b57-c13b-9381-2788-8d89acd6cddf"
+                    },
+                    {
+                        "reference": "Observation/0f2abbe5-3345-e3b7-823a-8f1c312ccd45"
+                    },
+                    {
+                        "reference": "Observation/356e31c0-d25c-90b0-6e7e-371a501c5487"
+                    },
+                    {
+                        "reference": "Observation/24b44a1a-8e63-904e-0b75-33cabceccb6b"
+                    },
+                    {
+                        "reference": "Observation/b3ac8de1-fe7d-96de-9a9d-b53282cb2944"
+                    },
+                    {
+                        "reference": "Observation/e8ca029e-79e3-d321-da20-508a088c121e"
+                    },
+                    {
+                        "reference": "Observation/3e9aa930-cb71-8510-1804-b4b686bcd0c2"
+                    },
+                    {
+                        "reference": "Observation/63b4564e-9a61-7ea5-9b7e-b461c1d2b945"
+                    },
+                    {
+                        "reference": "Observation/04a2c208-a10a-3140-80be-5dfea431f658"
+                    },
+                    {
+                        "reference": "Observation/9c9c405b-f8b6-5f52-d8ff-a82dd2710520"
+                    },
+                    {
+                        "reference": "Observation/5ccc5dc4-b346-ee44-9b33-f1799b2380a9"
+                    },
+                    {
+                        "reference": "Observation/2ea066cd-a9c1-3630-4af8-3c8994f5c7e6"
+                    },
+                    {
+                        "reference": "Observation/e81da695-bd55-e66c-3e12-2e93ad74b565"
+                    },
+                    {
+                        "reference": "Observation/a997d510-8367-3ad5-b933-241daa80d1cb"
+                    },
+                    {
+                        "reference": "Observation/9692f1db-8e70-3c78-fa41-d3008dea68a5"
+                    },
+                    {
+                        "reference": "Observation/93b66f86-4201-eab2-3f88-dd3922934258"
+                    },
+                    {
+                        "reference": "Observation/b159112f-011d-bf96-92d4-297e2a982b4a"
+                    },
+                    {
+                        "reference": "Observation/5268eef3-cd33-66cd-c431-44844144b0d4"
+                    },
+                    {
+                        "reference": "Observation/644e9428-6ffa-cf12-ed87-22edad72f951"
+                    },
+                    {
+                        "reference": "Observation/871dfa80-44de-7e07-dca1-91480e5e9612"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "DiagnosticReport/eabd2fd6-66bd-7953-34e6-bb4b22a7c9e6"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:0e0189fd-d651-3e89-03fc-d94b0d48c462",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "0e0189fd-d651-3e89-03fc-d94b0d48c462",
+                "name": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "2121 Santa Monica Blvd"
+                        ],
+                        "city": "Santa Monica",
+                        "state": "CA",
+                        "country": "USA",
+                        "postalCode": "90404",
+                        "district": "LOS ANGELES"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/0e0189fd-d651-3e89-03fc-d94b0d48c462"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:fb09b47e-8d0d-da93-efa8-7a47b16a7160",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "fb09b47e-8d0d-da93-efa8-7a47b16a7160",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.1"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82196-7",
+                            "display": "Campylobacter, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/fb09b47e-8d0d-da93-efa8-7a47b16a7160"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:459d7711-c2ec-cc26-7b4e-03f3964be6ea",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "459d7711-c2ec-cc26-7b4e-03f3964be6ea",
+                "name": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                "address": [
+                    {
+                        "line": [
+                            "2121 Santa Monica Blvd"
+                        ],
+                        "city": "Santa Monica",
+                        "state": "CA",
+                        "postalCode": "90404"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+1-310-829-8800"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:881b25ca-7bed-8901-a853-a385365425ae",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "881b25ca-7bed-8901-a853-a385365425ae",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.2"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82197-5",
+                            "display": "C. Diff Toxin A/B, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/881b25ca-7bed-8901-a853-a385365425ae"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:7bc2a15f-4d45-94e1-19e6-da5ab3c7626b",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "7bc2a15f-4d45-94e1-19e6-da5ab3c7626b",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.3"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82198-3",
+                            "display": "Plesiomonas shigelloides, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/7bc2a15f-4d45-94e1-19e6-da5ab3c7626b"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:087b3b57-c13b-9381-2788-8d89acd6cddf",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "087b3b57-c13b-9381-2788-8d89acd6cddf",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.4"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82199-1",
+                            "display": "Salmonella, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/087b3b57-c13b-9381-2788-8d89acd6cddf"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:0f2abbe5-3345-e3b7-823a-8f1c312ccd45",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "0f2abbe5-3345-e3b7-823a-8f1c312ccd45",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.5"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82200-7",
+                            "display": "Vibrio, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/0f2abbe5-3345-e3b7-823a-8f1c312ccd45"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:356e31c0-d25c-90b0-6e7e-371a501c5487",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "356e31c0-d25c-90b0-6e7e-371a501c5487",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.6"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82201-5",
+                            "display": "Vibrio cholerae, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/356e31c0-d25c-90b0-6e7e-371a501c5487"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:24b44a1a-8e63-904e-0b75-33cabceccb6b",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "24b44a1a-8e63-904e-0b75-33cabceccb6b",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.7"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82202-3",
+                            "display": "Yersinia enterocolitica, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/24b44a1a-8e63-904e-0b75-33cabceccb6b"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:b3ac8de1-fe7d-96de-9a9d-b53282cb2944",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "b3ac8de1-fe7d-96de-9a9d-b53282cb2944",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.8"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82204-9",
+                            "display": "E. Coli O157, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/b3ac8de1-fe7d-96de-9a9d-b53282cb2944"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:e8ca029e-79e3-d321-da20-508a088c121e",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "e8ca029e-79e3-d321-da20-508a088c121e",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.9"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "80349-4",
+                            "display": "E. Coli (EAEC), NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/e8ca029e-79e3-d321-da20-508a088c121e"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:3e9aa930-cb71-8510-1804-b4b686bcd0c2",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "3e9aa930-cb71-8510-1804-b4b686bcd0c2",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.10"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "80348-6",
+                            "display": "E. Coli (EPEC), NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/3e9aa930-cb71-8510-1804-b4b686bcd0c2"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:63b4564e-9a61-7ea5-9b7e-b461c1d2b945",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "63b4564e-9a61-7ea5-9b7e-b461c1d2b945",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.11"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "80351-0",
+                            "display": "E. Coli (ETEC), NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/63b4564e-9a61-7ea5-9b7e-b461c1d2b945"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:04a2c208-a10a-3140-80be-5dfea431f658",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "04a2c208-a10a-3140-80be-5dfea431f658",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.12"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82203-1",
+                            "display": "Shiga-Like Toxin E. Coli (STEC), NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/04a2c208-a10a-3140-80be-5dfea431f658"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:9c9c405b-f8b6-5f52-d8ff-a82dd2710520",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "9c9c405b-f8b6-5f52-d8ff-a82dd2710520",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.13"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "80350-2",
+                            "display": "Shigella/EIEC, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/9c9c405b-f8b6-5f52-d8ff-a82dd2710520"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:5ccc5dc4-b346-ee44-9b33-f1799b2380a9",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "5ccc5dc4-b346-ee44-9b33-f1799b2380a9",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.14"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "41434-2",
+                            "display": "Cryptosporidium, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/5ccc5dc4-b346-ee44-9b33-f1799b2380a9"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:2ea066cd-a9c1-3630-4af8-3c8994f5c7e6",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "2ea066cd-a9c1-3630-4af8-3c8994f5c7e6",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.15"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82206-4",
+                            "display": "Cyclospora cayetanensis, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "260373001",
+                            "display": "DETECTED",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "interpretation": [
+                    {
+                        "coding": [
+                            {
+                                "code": "AA",
+                                "display": "Abnormal Alert",
+                                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+                            }
+                        ]
+                    }
+                ],
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/2ea066cd-a9c1-3630-4af8-3c8994f5c7e6"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:e81da695-bd55-e66c-3e12-2e93ad74b565",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "e81da695-bd55-e66c-3e12-2e93ad74b565",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.16"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "6396-6",
+                            "display": "E. histolytica, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/e81da695-bd55-e66c-3e12-2e93ad74b565"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:a997d510-8367-3ad5-b933-241daa80d1cb",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "a997d510-8367-3ad5-b933-241daa80d1cb",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.17"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82208-0",
+                            "display": "Giardia lamblia, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/a997d510-8367-3ad5-b933-241daa80d1cb"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:9692f1db-8e70-3c78-fa41-d3008dea68a5",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "9692f1db-8e70-3c78-fa41-d3008dea68a5",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.18"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82209-8",
+                            "display": "Adenovirus F 40/41, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/9692f1db-8e70-3c78-fa41-d3008dea68a5"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:93b66f86-4201-eab2-3f88-dd3922934258",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "93b66f86-4201-eab2-3f88-dd3922934258",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.19"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82210-6",
+                            "display": "Astrovirus, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/93b66f86-4201-eab2-3f88-dd3922934258"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:b159112f-011d-bf96-92d4-297e2a982b4a",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "b159112f-011d-bf96-92d4-297e2a982b4a",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.20"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82211-4",
+                            "display": "Norovirus, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/b159112f-011d-bf96-92d4-297e2a982b4a"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:5268eef3-cd33-66cd-c431-44844144b0d4",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "5268eef3-cd33-66cd-c431-44844144b0d4",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.21"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82212-2",
+                            "display": "Rotavirus A, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/5268eef3-cd33-66cd-c431-44844144b0d4"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:644e9428-6ffa-cf12-ed87-22edad72f951",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "644e9428-6ffa-cf12-ed87-22edad72f951",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.6.798268.2000",
+                        "value": "1546468.22"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "82195-9",
+                            "display": "Sapovirus, NAAT",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Not Detected",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                },
+                "performer": [
+                    {
+                        "display": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+                        "reference": "Organization/459d7711-c2ec-cc26-7b4e-03f3964be6ea"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/644e9428-6ffa-cf12-ed87-22edad72f951"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:871dfa80-44de-7e07-dca1-91480e5e9612",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "871dfa80-44de-7e07-dca1-91480e5e9612",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
+                        "value": "1546468"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "56850-1",
+                            "display": "Lab Interpretation",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2023-01-31T20:04:16Z",
+                "valueString": "Abnormal",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen.html",
+                        "valueString": "Stool"
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/871dfa80-44de-7e07-dca1-91480e5e9612"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:06620f3f-52ed-4c23-8c08-28fe1af82384",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "06620f3f-52ed-4c23-8c08-28fe1af82384",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.2.840.114350.1.13.297.3.7.1.1040.1",
+                        "value": "Z36789^^72166-2"
+                    }
+                ],
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "social-history"
+                            }
+                        ]
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "code": "72166-2",
+                            "display": "Tobacco smoking status NHIS",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "code": "266927001",
+                            "display": "Tobacco smoking consumption unknown",
+                            "system": "http://snomed.info/sct"
+                        }
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
+                        "valueDateTime": "2023-01-31T18:52:00Z"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/06620f3f-52ed-4c23-8c08-28fe1af82384"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:aaf6f3ad-76f0-bb16-b243-3de0287a384e",
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "aaf6f3ad-76f0-bb16-b243-3de0287a384e",
+                "type": {
+                    "coding": [
+                        {
+                            "code": "55751-2",
+                            "display": "Initial Public Health Case Report",
+                            "system": "http://loinc.org"
+                        }
+                    ]
+                },
+                "date": "2023-04-14T22:54:10.255Z",
+                "status": "current",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "data": "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",
+                            "hash": "ZWQ0Yjc0NmNhODVhM2Q0MzdhNzQ4NGI0NTIwNTU2NDA4OTk1MjBhMQ=="
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "DocumentReference/aaf6f3ad-76f0-bb16-b243-3de0287a384e"
+            }
+        }
+    ]
+}

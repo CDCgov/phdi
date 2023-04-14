@@ -1,4 +1,6 @@
 {
+    "patient_id": "Bundle.entry.resource.where(resourceType='Patient').id",
+    "person_id": "Bundle.entry.resource.where(resourceType='Person').id",
     "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
     "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
     "rr_id": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
@@ -7,7 +9,7 @@
     "eicr_id": "Bundle.entry.resource.where(resourceType= 'Composition').identifier.where(type.coding.code = '55751-2').where(use='official').value",
     "eicr_version_number": "Bundle.entry.resource.where(resourceType= 'Composition' ).extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
     "authoring_datetime": "Bundle.entry.resource.where(resourceType = 'Composition').date",
-    "provider_id": "Bundle.entry.resource.where(resourceType= 'Practitioner').where(extension.valueString = 'Responsible Party').identifier.value",
+    "provider_id": "Bundle.entry.resource.where(resourceType='Practitioner').where(extension.valueString='Responsible Party').identifier.value",
     "facility_id_number": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].id",
     "facility_name": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display",
     "facility_type": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].extension.where(url = 'http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type').valueCodeableConcept.coding[0].display",
