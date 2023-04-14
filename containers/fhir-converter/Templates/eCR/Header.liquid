@@ -13,7 +13,7 @@
     {% assign locationId = msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility | to_json_string | generate_uuid -%}
     {% include 'Resource/LocationHealthCareFacility' location: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility ID: locationId -%}
     {% assign fullLocationId = locationId | prepend: 'Location/' -%}
-    {% include 'Reference/Encounter/Location_Location' ID: encounterId, REF: fullLocationId -%}
+    {% include 'Reference/Encounter/Location_Location' ID: encounterId, REF: fullLocationId, LOC: msg.ClinicalDocument.componentOf.encompassingEncounter.location.healthCareFacility -%}
   {% endif -%}
 {% endif -%}
 

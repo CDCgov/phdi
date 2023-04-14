@@ -21,6 +21,12 @@
                 "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
             ],
         },
+        "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+            "valueString": "Responsible Party"
+        },
+        ],
         "identifier":
         [
             {% assign ids = practitioner.id | to_array -%}
@@ -83,12 +89,6 @@
             {% endfor -%}
         ],
     },
-    "extension": [
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
-            "valueString": "Responsible Party"
-        },
-    ],
     "request":{
         "method":"PUT",
         "url":"Practitioner/{{ ID }}",
