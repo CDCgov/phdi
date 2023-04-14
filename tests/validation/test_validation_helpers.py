@@ -1,20 +1,12 @@
 import pathlib
 from phdi.validation.validation import (
     _organize_error_messages,
-    _match_nodes,
-    _validate_attribute,
-    _validate_text,
-    _check_field_matches,
     _response_builder,
-    _check_custom_message,
-    _get_xml_message_id,
-    _get_attributes_list,
-    _get_field_details_string,
-    RR_MSG_ID_XPATH,
-    EICR_MSG_ID_XPATH,
-    namespaces,
+    _append_error_message,
+    _add_message_ids,
+    _clear_all_errors_and_ids,
+    ERROR_MESSAGES,
 )
-from lxml import etree
 
 
 test_include_errors = ["fatal", "errors", "warnings", "information"]
@@ -43,6 +35,8 @@ config = open(
 
 
 def test_organize_error_messages():
+    # First just test a full set of messages
+    # and include them all
     fatal = ["foo"]
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
@@ -54,20 +48,48 @@ def test_organize_error_messages():
         "fatal": fatal,
         "errors": errors,
         "warnings": warns,
-        "information": infos,
+        "information": ["SOME"],
         "message_ids": msg_ids,
     }
+    _clear_all_errors_and_ids()
 
-    actual_result = _organize_error_messages(
-        fatal=fatal,
-        errors=errors,
-        warnings=warns,
-        information=infos,
-        message_ids=msg_ids,
-        include_error_types=test_include_errors,
-    )
-    assert actual_result == expected_result
+    _append_error_message("fatal", fatal)
+    _append_error_message("warnings", warns)
+    _append_error_message("errors", errors)
+    _append_error_message("information", infos)
+    _add_message_ids(msg_ids)
 
+    _organize_error_messages(include_error_types=test_include_errors)
+    assert ERROR_MESSAGES == expected_result
+
+    # Now, let's have full messages but only include 2 out of the 4
+    # Should keep fatal ALWAYS and then the other 2 (errors and warnings)
+    fatal = ["foo"]
+    errors = ["my error1", "my_error2"]
+    warns = ["my warn1"]
+    infos = ["", "SOME"]
+    test_include_errors = ["errors", "warnings"]
+    msg_ids = {}
+
+    expected_result = {
+        "fatal": fatal,
+        "errors": errors,
+        "warnings": warns,
+        "information": [],
+        "message_ids": msg_ids,
+    }
+    _clear_all_errors_and_ids()
+    _append_error_message("fatal", fatal)
+    _append_error_message("warnings", warns)
+    _append_error_message("errors", errors)
+    _append_error_message("information", infos)
+    _add_message_ids(msg_ids)
+
+    _organize_error_messages(include_error_types=test_include_errors)
+    assert ERROR_MESSAGES == expected_result
+
+    # Now let's ensure that just information supplied
+    # is picked up and filter out the '' message
     fatal = []
     test_include_errors = ["information"]
 
@@ -75,183 +97,22 @@ def test_organize_error_messages():
         "fatal": [],
         "errors": [],
         "warnings": [],
-        "information": infos,
+        "information": ["SOME"],
         "message_ids": msg_ids,
     }
+    _clear_all_errors_and_ids()
+    _append_error_message("fatal", [])
+    _append_error_message("warnings", [])
+    _append_error_message("information", infos)
+    _add_message_ids(msg_ids)
 
-    actual_result = _organize_error_messages(
-        fatal=fatal,
-        errors=errors,
-        warnings=warns,
-        information=infos,
-        message_ids=msg_ids,
-        include_error_types=test_include_errors,
-    )
+    _organize_error_messages(include_error_types=test_include_errors)
 
-    assert actual_result == expected_result
-
-
-def test_match_nodes():
-    namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/></foo>"
-    root = etree.fromstring(xml)
-
-    config = {"parent": "foo", "fieldName": "bar", "cdaPath": "//test:foo/test:bar"}
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-
-    config_biz = {
-        "parent": "baz",
-        "fieldName": "biz",
-        "cdaPath": "//test:foo/test:baz/test:biz",
-    }
-    xml_elements_biz = root.xpath(config_biz.get("cdaPath"), namespaces=namespace)
-
-    assert _match_nodes([], config) == []
-    assert _match_nodes(xml_elements, config) == [xml_elements[0]]
-    assert _match_nodes(xml_elements_biz, config_biz) == [xml_elements_biz[0]]
-    assert len(_match_nodes(xml_elements_biz, config_biz)) == 1
-
-
-def test_check_field_matches():
-    namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar/><baz><biz/></baz><biz/><taz/></foo>"
-    root = etree.fromstring(xml)
-
-    config = {"parent": "foo", "fieldName": "bar", "cdaPath": "//test:foo/test:bar"}
-    config_false_cda_path = {
-        "parent": "foo",
-        "fieldName": "biz",
-        "cdaPath": "//test:foo/test:biz",
-    }
-    config_false_attributes = {
-        "parent": "foo",
-        "fieldName": "bar",
-        "cdaPath": "//test:foo/test:bar",
-        "attributes": [{"attributeName": "test"}],
-    }
-
-    config_check_all = {
-        "parent": "foo",
-        "fieldName": "taz",
-        "cdaPath": "//test:foo/test:taz",
-        "attributes": [{"attributeName": "test"}],
-        "validateAll": "True",
-    }
-    config_dont_check_all = {
-        "parent": "foo",
-        "fieldName": "taz",
-        "cdaPath": "//test:foo/test:taz",
-        "attributes": [{"attributeName": "test"}],
-        "validateAll": "False",
-    }
-    config_dont_check_all_default = {
-        "parent": "foo",
-        "fieldName": "taz",
-        "cdaPath": "//test:foo/test:taz",
-        "attributes": [{"attributeName": "test"}],
-    }
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-    xml_elements_bar = root.xpath(
-        config_false_attributes.get("cdaPath"), namespaces=namespace
-    )
-    xml_elements_taz = root.xpath(config_check_all.get("cdaPath"), namespaces=namespace)
-
-    assert _check_field_matches(xml_elements[0], config)
-    assert not _check_field_matches(xml_elements[0], config_false_cda_path)
-    assert not _check_field_matches(xml_elements_bar[0], config_false_attributes)
-    assert _check_field_matches(xml_elements_taz[0], config_check_all)
-    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all)
-    assert not _check_field_matches(xml_elements_taz[0], config_dont_check_all_default)
-
-
-def test_validate_attribute():
-    namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar test='bat'/><baz><biz/></baz><biz/></foo>"
-    root = etree.fromstring(xml)
-
-    config = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-    }
-    config_attributes = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "fail"}],
-        "cdaPath": "//test:foo/test:bar",
-    }
-    config_reg_ex = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test", "regEx": "bar"}],
-        "cdaPath": "//test:foo/test:bar",
-    }
-
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-    assert _validate_attribute(xml_elements[0], config) == []
-    assert _validate_attribute(xml_elements[0], config_attributes) == [
-        "Could not find attribute fail. Field name: 'bar' Attributes: name: 'fail'"
-    ]
-    assert _validate_attribute(xml_elements[0], config_reg_ex) == [
-        "Attribute: 'test' not in expected format. Field name: 'bar' Attributes: name:"
-        + " 'test' RegEx: 'bar' value: 'bat'"
-    ]
-
-
-def test_validate_text():
-    namespace = {"test": "test"}
-    xml = "<foo xmlns='test'><bar>test</bar><baz><biz/></baz><biz>wrong</biz></foo>"
-    root = etree.fromstring(xml)
-
-    config = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-        "textRequired": "True",
-    }
-
-    xml_elements = root.xpath(config.get("cdaPath"), namespaces=namespace)
-    assert _validate_text(xml_elements[0], config) == []
-
-    config_no_text = {
-        "fieldName": "biz",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:baz/test:biz",
-        "textRequired": "True",
-    }
-
-    xml_elements = root.xpath(config_no_text.get("cdaPath"), namespaces=namespace)
-    assert _validate_text(xml_elements[0], config_no_text) == [
-        "Field does not have text. Field name: 'biz' value: '' Attributes: name: 'test'"
-    ]
-
-    config_text_matches_reg_ex = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-        "textRequired": "True",
-        "regEx": "test",
-    }
-    xml_elements = root.xpath(
-        config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
-    )
-    assert _validate_text(xml_elements[0], config_text_matches_reg_ex) == []
-
-    config_text_doesnt_match_reg_ex = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-        "textRequired": "True",
-        "regEx": "foo",
-    }
-    xml_elements = root.xpath(
-        config_text_doesnt_match_reg_ex.get("cdaPath"), namespaces=namespace
-    )
-    assert _validate_text(xml_elements[0], config_text_doesnt_match_reg_ex) == [
-        "Field does not match regEx: foo. Field name: 'bar' value: 'test' Attributes:"
-        + " name: 'test'"
-    ]
+    assert ERROR_MESSAGES == expected_result
 
 
 def test_response_builder():
+    # Test when the message is valid
     expected_response = {
         "message_valid": True,
         "validation_results": {
@@ -261,113 +122,138 @@ def test_response_builder():
             "information": ["Validation completed with no fatal errors!"],
             "message_ids": {},
         },
-        "validated_message": sample_file_good,
     }
-    result = _response_builder(
-        errors=expected_response["validation_results"],
-        msg=sample_file_good,
+    _clear_all_errors_and_ids()
+
+    actual_result = _response_builder(
         include_error_types=test_include_errors,
     )
+    assert actual_result == expected_response
 
-    assert result == expected_response
+    # Now let's test when there is a fatal message
+    #  should not be valid_message
+    #  NOTE: Always need to clear the global ERROR_MESSAGE by
+    #   calling the clear_all_errors_and_ids() function
+    _clear_all_errors_and_ids()
 
+    expected_response["validation_results"]["fatal"] = ["THIS IS A FATAL ERROR!"]
+    expected_response["validation_results"]["information"] = []
+    expected_response["message_valid"] = False
 
-def test_check_custom_message():
-    config_field_with_custom = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-        "textRequired": "True",
-        "regEx": "foo",
-        "customMessage": "this is a custom message",
-    }
-    result = _check_custom_message(
-        config_field_with_custom, "this is a default message"
+    _append_error_message("fatal", "THIS IS A FATAL ERROR!")
+
+    actual_result = _response_builder(
+        include_error_types=test_include_errors,
     )
-    assert result == "this is a custom message"
-
-    config_field_no_custom = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-        "textRequired": "True",
-        "regEx": "foo",
-    }
-    result = _check_custom_message(config_field_no_custom, "this is a default message")
-    assert result == "this is a default message"
+    assert actual_result == expected_response
 
 
-def test_get_xml_message_id():
-    # parse and prep data from example file
-    # for testing
-    xml = sample_file_good_RR.encode("utf-8")
-    parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
-    parsed_ecr = etree.fromstring(xml, parser=parser)
-
-    actual_result = _get_xml_message_id(
-        parsed_ecr.xpath(EICR_MSG_ID_XPATH, namespaces=namespaces)
-    )
+def test_append_error_message():
+    _clear_all_errors_and_ids()
+    # first let's test proper error message type
+    #  with just a str error message with no spaces
+    err_msg = "THIS IS AN ERROR"
+    msg_ids = {}
     expected_result = {
-        "root": "2.16.840.1.113883.9.9.9.9.9",
-        "extension": "db734647-fc99-424c-a864-7e3cda82e704",
+        "fatal": [],
+        "errors": [err_msg],
+        "warnings": [],
+        "information": [],
+        "message_ids": msg_ids,
     }
-    assert actual_result == expected_result
+    _append_error_message("errors", err_msg)
 
+    assert ERROR_MESSAGES == expected_result
+
+    _clear_all_errors_and_ids()
+    # now let's test with an improper error message type
+    # should all just be empty
+    expected_result["errors"] = []
+    _append_error_message("MY ERROR TYPE", err_msg)
+    assert ERROR_MESSAGES == expected_result
+
+    _clear_all_errors_and_ids()
+    # now let's test with a proper error message type
+    # and a message that is just spaces
+    # should just return an empty 'errors'
+    err_msg = "           "
+    _append_error_message("errors", err_msg)
+    assert ERROR_MESSAGES == expected_result
+
+    _clear_all_errors_and_ids()
+    # now let's test with a proper error message type
+    # and two messages, one correct, and another that is just
+    # spaces...should just return the correct one
+    expected_result["errors"] = ["MY PROPER ERROR!"]
+    err_msg = ["", "MY PROPER ERROR!", "     "]
+    _append_error_message("errors", err_msg)
+    assert ERROR_MESSAGES == expected_result
+
+    _clear_all_errors_and_ids()
+    # now let's test with a proper error message type
+    # and two messages - should return both errors
+    expected_result["errors"] = ["MY PROPER ERROR!", "YES AN ERROR!"]
+    err_msg = [" MY PROPER ERROR!", "YES AN ERROR! "]
+    _append_error_message("errors", err_msg)
+    assert ERROR_MESSAGES == expected_result
+
+
+def test_add_message_ids():
+    _clear_all_errors_and_ids()
+    # first let's test with a proper dict
+    msg_ids = {
+        "internal_message": {"id1": ["ID1"], "id2": "SecondID"},
+        "external_id": ["extID"],
+        "last_id": "123",
+    }
     expected_result = {
-        "root": "4efa0e5c-c34c-429f-b5de-f1a13aef4a28",
-        "extension": None,
+        "fatal": [],
+        "errors": [],
+        "warnings": [],
+        "information": [],
+        "message_ids": msg_ids,
     }
-    actual_result = _get_xml_message_id(
-        parsed_ecr.xpath(RR_MSG_ID_XPATH, namespaces=namespaces)
-    )
-    assert actual_result == expected_result
+    _add_message_ids(ids=msg_ids)
+    assert ERROR_MESSAGES == expected_result
 
-
-def test_get_field_details_string():
-    namespace = {"test": "test"}
-    xml = (
-        "<foo xmlns='test'><bar test='hello'>test</bar><baz><biz/></baz>"
-        + "<biz>wrong</biz></foo>"
-    )
-    root = etree.fromstring(xml)
-    config_text_matches_reg_ex = {
-        "fieldName": "bar",
-        "attributes": [{"attributeName": "test"}],
-        "cdaPath": "//test:foo/test:bar",
-        "textRequired": "True",
-        "regEx": "test",
+    _clear_all_errors_and_ids()
+    # now let's test with an empty dict
+    msg_ids = {}
+    expected_result = {
+        "fatal": [],
+        "errors": [],
+        "warnings": [],
+        "information": [],
+        "message_ids": msg_ids,
     }
-
-    xml_elements = root.xpath(
-        config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
-    )
-    assert (
-        _get_field_details_string(xml_elements[0], config_text_matches_reg_ex)
-        == "Field name: 'bar' value: 'test' Attributes: name: 'test' value: 'hello'"
-    )
+    _add_message_ids(ids=msg_ids)
+    assert ERROR_MESSAGES == expected_result
 
 
-def test_get_attributes_list():
-    namespace = {"test": "test"}
-    xml = (
-        "<foo xmlns='test'><bar test='hello'>test</bar><baz><biz/></baz>"
-        + "<biz>wrong</biz></foo>"
-    )
-    root = etree.fromstring(xml)
-    config_text_matches_reg_ex = {
-        "fieldName": "bar",
-        "attributes": [
-            {"attributeName": "test", "regEx": "test"},
-            {"attributeName": "foo"},
-        ],
-        "cdaPath": "//test:foo/test:bar",
-        "textRequired": "True",
-        "regEx": "test",
+def test_clear_all_errors_and_ids():
+    # first let's load up all errors and msg ids
+    #  and clear them out and make sure they are clear
+    msg_ids = {
+        "internal_message": {"id1": ["ID1"], "id2": "SecondID"},
+        "external_id": ["extID"],
+        "last_id": "123",
     }
-
-    xml_elements = root.xpath(
-        config_text_matches_reg_ex.get("cdaPath"), namespaces=namespace
-    )
-    assert _get_attributes_list(
-        config_text_matches_reg_ex.get("attributes"), xml_elements[0]
-    ) == ["name: 'test' RegEx: 'test' value: 'hello', name: 'foo'"]
+    fatal = ["foo"]
+    errors = ["my error1", "my_error2"]
+    warns = ["my warn1"]
+    infos = ["", "SOME"]
+    expected_result = {
+        "fatal": [],
+        "errors": [],
+        "warnings": [],
+        "information": [],
+        "message_ids": {},
+    }
+    _add_message_ids(ids=msg_ids)
+    _append_error_message("fatal", fatal)
+    _append_error_message("warnings", warns)
+    _append_error_message("errors", errors)
+    _append_error_message("information", infos)
+    assert ERROR_MESSAGES != expected_result
+    _clear_all_errors_and_ids()
+    assert ERROR_MESSAGES == expected_result

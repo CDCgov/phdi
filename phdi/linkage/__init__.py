@@ -15,7 +15,19 @@ from phdi.linkage.link import (
     calculate_u_probs,
     load_json_probs,
     calculate_log_odds,
+    feature_match_log_odds_exact,
+    feature_match_log_odds_fuzzy_compare,
+    profile_log_odds,
+    eval_log_odds_cutoff,
+    extract_blocking_values_from_record,
+    write_linkage_config,
+    read_linkage_config,
+    link_record_against_mpi,
+    add_person_resource,
 )
+
+from phdi.linkage.core import BaseMPIConnectorClient
+from phdi.linkage.postgres import DIBBsConnectorClient
 
 __all__ = [
     "generate_hash_str",
@@ -34,4 +46,15 @@ __all__ = [
     "calculate_u_probs",
     "load_json_probs",
     "calculate_log_odds",
+    "feature_match_log_odds_exact",
+    "feature_match_log_odds_fuzzy_compare",
+    "profile_log_odds",
+    "eval_log_odds_cutoff",
+    "BaseMPIConnectorClient",
+    "extract_blocking_values_from_record",
+    "write_linkage_config",
+    "read_linkage_config",
+    "DIBBsConnectorClient",
+    "link_record_against_mpi",
+    "add_person_resource",
 ]

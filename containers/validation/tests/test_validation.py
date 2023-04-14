@@ -53,7 +53,6 @@ def test_validate_ecr_invalid_xml():
             "information": [],
             "message_ids": {},
         },
-        "validated_message": None,
     }
     actual_result2 = validate_ecr_msg(
         message="my ecr contents", include_error_types=test_error_types
@@ -83,7 +82,6 @@ def test_validate_ecr_valid():
                 },
             },
         },
-        "validated_message": sample_file_good_with_RR,
     }
     assert actual_result1 == expected_result1
 
@@ -93,31 +91,35 @@ def test_validate_ecr_invalid():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'Status' Attributes: "
-                + "name: 'code' "
-                + "RegEx: 'RRVS19|RRVS20|RRVS21|RRVS22', name: 'codeSystem', "
-                + "name: 'displayName'",
+                "Could not find field. Field name: 'Status' "
+                + "Attributes: attribute #1: 'code' with the "
+                + "required value pattern: 'RRVS19|RRVS20|RRVS21|"
+                + "RRVS22', attribute #2: 'codeSystem', attribute #3: "
+                + "'displayName'",
                 "Could not find field. Field name: "
-                + "'Conditions' Attributes: name: 'code' RegEx: '[0-9]+', "
-                + "name: 'codeSystem'",
-                "Could not find field. Field name: "
-                + "'City' Parent element: 'addr' Parent attributes: name: "
-                + "'use' RegEx: 'H'",
-                "Field does not match regEx: "
-                + "[0-9]{5}(?:-[0-9]{4})?. Field name: 'Zip' value: '9999'",
+                + "'Conditions' Attributes: attribute #1: 'code' "
+                + "with the required value pattern: '[0-9]+',"
+                + " attribute #2: 'codeSystem'",
+                "Could not find field. Field name: 'City' Related"
+                + " elements: Field name: 'addr' Attributes: attribute"
+                + " #1: 'use' with the required value pattern: 'H'",
+                "The field value does not exist or doesn't match "
+                + "the following pattern: "
+                + "'[0-9]{5}(?:-[0-9]{4})?'. For the Field name: 'Zip' value: '9999'",
             ],
             "errors": [
-                "Could not find field. Field name: 'First Name' "
-                + "Parent element: 'name' Parent attributes: "
-                + "name: 'use' RegEx: 'L'"
+                "Could not find field. Field name: 'First Name' Related elements: "
+                + "Field name: 'name' Attributes: attribute #1: 'use' with the "
+                + "required value pattern: 'L'"
             ],
             "warnings": [
-                "Could not find field. Field name: 'eICR Version Number'"
-                + " Attributes: name: 'value'",
-                "Attribute: 'code' not "
-                + "in expected format. Field name: 'Sex' Attributes: name:"
-                + " 'code' RegEx: 'F|M|O|U' value: 't', name: 'codeSystem'"
-                + " value: '2.16.840.1.113883.5.1'",
+                "Could not find field. Field name: 'eICR Version Number' "
+                + "Attributes: attribute #1: 'value'",
+                "Attribute: 'code' "
+                + "not in expected format. Field name: 'Sex' Attributes: "
+                + "attribute #1: 'code' with the required value pattern: "
+                + "'F|M|O|U' actual value: 't', attribute #2: 'codeSystem'"
+                + " actual value: '2.16.840.1.113883.5.1'",
             ],
             "information": [],
             "message_ids": {
@@ -128,7 +130,6 @@ def test_validate_ecr_invalid():
                 "rr": {},
             },
         },
-        "validated_message": None,
     }
     actual_result3 = validate_ecr_msg(
         message=sample_file_bad, include_error_types=test_error_types
@@ -143,18 +144,17 @@ def test_validate_elr():
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None,
     }
 
 
 def test_validate_vxu():
-    assert validate_vxu_msg("my vxu contents", test_error_types) == {
+    result = validate_vxu_msg("my vxu contents", test_error_types)
+    assert result == {
         "message_valid": True,
         "validation_results": {
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None,
     }
 
 
@@ -162,11 +162,7 @@ def test_validate_vxu():
 def test_validate_endpoint_valid_vxu(patched_message_validators):
     for message_type in message_validators:
         # Prepare mocked validator function
-        validation_response = {
-            "message_valid": True,
-            "validation_results": {},
-            "validated_message": {},
-        }
+        validation_response = {"message_valid": True, "validation_results": {}}
         mocked_validator = mock.Mock()
         mocked_validator.return_value = validation_response
         message_validators_dict = {message_type: mocked_validator}

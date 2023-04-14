@@ -1,4 +1,72 @@
-from typing import Any, List
+import fhirpathpy
+import json
+import random
+from functools import cache
+from typing import Any, Callable, List, Literal, Union
+
+selection_criteria_types = Literal["first", "last", "random"]
+
+
+def apply_selection_criteria(
+    value: List[Any],
+    selection_criteria: selection_criteria_types,
+) -> str:
+    """
+    Returns value(s), according to the selection criteria, from a given list of values
+    parsed from a FHIR resource. A single string value is returned - if the selected
+    value is a complex structure (list or dict), it is converted to a string.
+    :param value: A list containing the values parsed from a FHIR resource.
+    :param selection_criteria: A string indicating which element(s) of a list to select.
+    :return: Value(s) parsed from a FHIR resource that conform to the selection
+      criteria.
+    """
+
+    if selection_criteria == "first":
+        value = value[0]
+    elif selection_criteria == "last":
+        value = value[-1]
+    elif selection_criteria == "random":
+        value = random.choice(value)
+    else:
+        raise ValueError(
+            f'Selection criteria {selection_criteria} is not a valid option. Must be one of "first", "last", or "random".'  # noqa
+        )
+
+    # Temporary hack to ensure no structured data is written using pyarrow.
+    # Currently Pyarrow does not support mixing non-structured and structured data.
+    # https://github.com/awslabs/aws-data-wrangler/issues/463
+    # Will need to consider other methods of writing to parquet if this is an essential
+    # feature.
+    if type(value) == dict:  # pragma: no cover
+        value = json.dumps(value)
+    elif type(value) == list:
+        value = ",".join(value)
+    return value
+
+
+def extract_value_with_resource_path(
+    resource: dict,
+    path: str,
+    selection_criteria: Literal["first", "last", "random"] = "first",
+) -> Union[Any, None]:
+    """
+    Yields a single value from a resource based on a provided `fhir_path`.
+    If the path doesn't map to an extant value in the first, returns
+    `None` instead.
+    :param resource: The FHIR resource to extract a value from.
+    :param path: The `fhir_path` at which the value can be found in the
+      resource.
+    :param selection_criteria: A string dictating which value to extract,
+      if multiple values exist at the path location.
+    :return: The extracted value, or `None` if the value doesn't exist.
+    """
+    parse_function = get_fhirpathpy_parser(path)
+    value = parse_function(resource)
+    if len(value) == 0:
+        return None
+    else:
+        value = apply_selection_criteria(value, selection_criteria)
+        return value
 
 
 def find_entries_by_resource_type(bundle: dict, resource_type: str) -> List[dict]:
@@ -70,6 +138,19 @@ def get_field(
     index = max(min(index, len(elements)) - 1, 0)
 
     return elements[index] if len(elements) > 0 else None
+
+
+@cache
+def get_fhirpathpy_parser(fhirpath_expression: str) -> Callable:
+    """
+    Accepts a FHIRPath expression, and returns a callable function
+    which returns the evaluated value at fhirpath_expression for
+    a specified FHIR resource.
+    :param fhirpath_expression: The FHIRPath expression to evaluate.
+    :return: A function that, when called passing in a FHIR resource,
+      will return value at `fhirpath_expression`.
+    """
+    return fhirpathpy.compile(fhirpath_expression)
 
 
 def get_one_line_address(address: dict) -> str:

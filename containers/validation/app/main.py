@@ -6,13 +6,15 @@ from phdi.validation.validation import validate_ecr
 from .utils import load_ecr_config, validate_error_types
 
 # TODO: Remove hard coded location for config path
-# and/or provide a mechanism to pass in coniguration
+# and/or provide a mechanism to pass in configuration
 #  via endpoint
 ecr_config = load_ecr_config()
 
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
 app = FastAPI(
     title="PHDI Validation Service",
     version="0.0.1",
@@ -29,7 +31,7 @@ app = FastAPI(
 )
 
 
-# Request and and respone models
+# Request and and response models
 class ValidateInput(BaseModel):
     """
     The schema for requests to the validate endpoint.
@@ -60,10 +62,6 @@ class ValidateResponse(BaseModel):
     validation_results: dict = Field(
         description="A JSON object containing details on the validation result."
     )
-    validated_message: dict = Field(
-        description="The returned message is returned if message_valid = true,"
-        + " otherwise it will be set to None"
-    )
 
 
 # Message type-specific validation
@@ -92,7 +90,6 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None,
     }
 
 
@@ -109,7 +106,6 @@ def validate_vxu_msg(message: str, include_error_types: list) -> ValidateRespons
             "details": "No validation was actually preformed. This endpoint only has "
             "stubbed functionality"
         },
-        "validated_message": None,
     }
 
 
@@ -133,12 +129,12 @@ async def health_check():
 @app.post("/validate", status_code=200)
 async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
     """
-    Check if the value presented in the 'message' key is a valid example of the type of
-    message specified in the 'message_type'.
-    :param input: A JSON formated request body with schema specified by the
+    Check if the value presented in the 'message' key is a valid example
+    of the type of message specified in the 'message_type'.
+    :param input: A JSON formatted request body with schema specified by the
         ValidateInput model.
-    :return: A JSON formated response body with schema specified by the ValidateResponse
-        model.
+    :return: A JSON formatted response body with schema specified
+        by the ValidateResponse model.
     """
 
     input = dict(input)

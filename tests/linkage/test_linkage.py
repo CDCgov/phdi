@@ -1,6 +1,9 @@
+import json
 import os
 import pandas as pd
+import psycopg2
 import random
+import copy
 
 from phdi.linkage import (
     generate_hash_str,
@@ -19,17 +22,79 @@ from phdi.linkage import (
     calculate_u_probs,
     calculate_log_odds,
     load_json_probs,
+    eval_log_odds_cutoff,
+    feature_match_log_odds_exact,
+    feature_match_log_odds_fuzzy_compare,
+    extract_blocking_values_from_record,
+    write_linkage_config,
+    read_linkage_config,
+    link_record_against_mpi,
+    add_person_resource,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
     _map_matches_to_record_ids,
+    _compare_address_elements,
+    _compare_name_elements,
 )
+from phdi.linkage import DIBBsConnectorClient
 
 import pathlib
 import pytest
 from random import seed
 from math import log
 from json.decoder import JSONDecodeError
+
+
+def test_extract_blocking_values_from_record():
+    bundle = json.load(
+        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+    )
+    patient = [
+        r.get("resource")
+        for r in bundle.get("entry")
+        if r.get("resource", {}).get("resourceType") == "Patient"
+    ][0]
+    patient["name"][0]["family"] = "Shepard"
+
+    with pytest.raises(KeyError) as e:
+        extract_blocking_values_from_record(patient, {"invalid"})
+    assert "Input dictionary for block" in str(e.value)
+
+    with pytest.raises(ValueError) as e:
+        extract_blocking_values_from_record(patient, [{"value": "invalid"}])
+    assert "is not a supported extraction field" in str(e.value)
+
+    with pytest.raises(ValueError) as e:
+        extract_blocking_values_from_record(
+            patient, [{"value": "first_name", "transformation": "invalid_transform"}]
+        )
+    assert "Transformation invalid_transform is not valid" in str(e.value)
+
+    blocking_fields = [
+        {"value": "first_name", "transformation": "first4"},
+        {"value": "last_name", "transformation": "first4"},
+        {"value": "zip"},
+        {"value": "city"},
+        {"value": "birthdate"},
+        {"value": "sex"},
+        {"value": "state"},
+        {"value": "address", "transformation": "last4"},
+    ]
+    blocking_vals = extract_blocking_values_from_record(
+        patient,
+        blocking_fields,
+    )
+    assert blocking_vals == {
+        "first_name": {"value": "John", "transformation": "first4"},
+        "last_name": {"value": "Shep", "transformation": "first4"},
+        "zip": {"value": "10001-0001"},
+        "city": {"value": "Faketon"},
+        "birthdate": {"value": "1983-02-01"},
+        "sex": {"value": "female"},
+        "state": {"value": "NY"},
+        "address": {"value": "e St", "transformation": "last4"},
+    }
 
 
 def test_generate_hash():
@@ -586,3 +651,542 @@ def test_load_json_probs_errors():
     assert "specified file is not valid JSON" in str(e.value)
 
     os.remove("not_valid_json.json")
+
+
+def test_eval_log_odds_cutoff():
+    with pytest.raises(KeyError) as e:
+        eval_log_odds_cutoff([])
+    assert "Cutoff threshold for true matches must be passed" in str(e.value)
+
+    assert not eval_log_odds_cutoff([], true_match_threshold=10.0)
+    assert not eval_log_odds_cutoff([1.0, 0.0, 6.0, 2.7], true_match_threshold=10.0)
+    assert eval_log_odds_cutoff([4.3, 6.1, 2.5], true_match_threshold=10.0)
+
+
+def test_feature_match_log_odds_exact():
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_exact([], [], 0)
+    assert "Mapping of indices to column names must be provided" in str(e.value)
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_exact([], [], 0, idx_to_col={})
+    assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
+
+    ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
+    rj = ["John", 6.0, None, "2345 Goldmoon Ave."]
+    idx_to_col = {0: "first", 1: "last", 2: "birthdate", 3: "address"}
+    log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
+
+    assert (
+        feature_match_log_odds_exact(
+            ri, rj, 0, idx_to_col=idx_to_col, log_odds=log_odds
+        )
+        == 4.0
+    )
+
+    for i in range(1, 4):
+        assert (
+            feature_match_log_odds_exact(
+                ri, rj, i, idx_to_col=idx_to_col, log_odds=log_odds
+            )
+            == 0.0
+        )
+
+
+def test_feature_match_log_odds_fuzzy():
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_fuzzy_compare([], [], 0)
+    assert "Mapping of indices to column names must be provided" in str(e.value)
+    with pytest.raises(KeyError) as e:
+        feature_match_log_odds_fuzzy_compare([], [], 0, idx_to_col={})
+    assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
+
+    ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
+    rj = ["John", "Sheperd", "06-08-2000", "asdfghjeki"]
+    idx_to_col = {0: "first", 1: "last", 2: "birthdate", 3: "address"}
+    log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
+
+    assert (
+        feature_match_log_odds_fuzzy_compare(
+            ri, rj, 0, idx_to_col=idx_to_col, log_odds=log_odds
+        )
+        == 4.0
+    )
+
+    assert (
+        round(
+            feature_match_log_odds_fuzzy_compare(
+                ri, rj, 1, idx_to_col=idx_to_col, log_odds=log_odds
+            ),
+            3,
+        )
+        == 6.129
+    )
+
+    assert (
+        round(
+            feature_match_log_odds_fuzzy_compare(
+                ri, rj, 2, idx_to_col=idx_to_col, log_odds=log_odds
+            ),
+            3,
+        )
+        == 5.227
+    )
+
+    assert (
+        round(
+            feature_match_log_odds_fuzzy_compare(
+                ri, rj, 3, idx_to_col=idx_to_col, log_odds=log_odds
+            ),
+            3,
+        )
+        == 0.987
+    )
+
+
+def test_algo_read():
+    dibbs_basic_algo = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_basic.json"
+    )
+    assert dibbs_basic_algo == [
+        {
+            "funcs": {
+                1: "feature_match_fuzzy_string",
+                3: "feature_match_fuzzy_string",
+                4: "feature_match_fuzzy_string",
+            },
+            "blocks": [
+                {"value": "mrn", "transformation": "last4"},
+                {"value": "address", "transformation": "first4"},
+            ],
+            "matching_rule": "eval_perfect_match",
+            "cluster_ratio": 0.9,
+        },
+        {
+            "funcs": {
+                0: "feature_match_fuzzy_string",
+                2: "feature_match_fuzzy_string",
+            },
+            "blocks": [
+                {"value": "first_name", "transformation": "first4"},
+                {"value": "last_name", "transformation": "first4"},
+            ],
+            "matching_rule": "eval_perfect_match",
+            "cluster_ratio": 0.9,
+        },
+    ]
+
+    dibbs_enhanced_algo = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_enhanced.json"
+    )
+    assert dibbs_enhanced_algo == [
+        {
+            "funcs": {
+                1: "feature_match_log_odds_fuzzy_compare",
+                3: "feature_match_log_odds_fuzzy_compare",
+                4: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": [
+                {"value": "mrn", "transformation": "last4"},
+                {"value": "address", "transformation": "first4"},
+            ],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {
+                "similarity_measure": "JaroWinkler",
+                "threshold": 0.7,
+                "true_match_threshold": 16.5,
+            },
+        },
+        {
+            "funcs": {
+                0: "feature_match_log_odds_fuzzy_compare",
+                2: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": [
+                {"value": "first_name", "transformation": "first4"},
+                {"value": "last_name", "transformation": "first4"},
+            ],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {
+                "similarity_measure": "JaroWinkler",
+                "threshold": 0.7,
+                "true_match_threshold": 7.0,
+            },
+        },
+    ]
+
+
+def test_read_algo_errors():
+    with pytest.raises(FileNotFoundError) as e:
+        read_linkage_config("invalid.json")
+    assert "No file exists at path invalid.json." in str(e.value)
+    with open("not_valid_json_test.json", "w") as fp:
+        fp.write("this is a random string that is not in json format\n")
+    with pytest.raises(JSONDecodeError) as e:
+        read_linkage_config("not_valid_json_test.json")
+    assert "The specified file is not valid JSON" in str(e.value)
+    os.remove("not_valid_json_test.json")
+
+
+def test_algo_write():
+    sample_algo = [
+        {
+            "funcs": {
+                8: feature_match_fuzzy_string,
+                12: feature_match_exact,
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": eval_perfect_match,
+        },
+        {
+            "funcs": {
+                10: feature_match_four_char,
+                16: feature_match_log_odds_exact,
+                22: feature_match_log_odds_fuzzy_compare,
+            },
+            "blocks": ["ZIP", "BIRTH_YEAR"],
+            "matching_rule": eval_log_odds_cutoff,
+            "cluster_ratio": 0.9,
+            "kwargs": {"similarity_measure": "Levenshtein", "threshold": 0.85},
+        },
+    ]
+    test_file_path = "algo_test_write.json"
+    if os.path.isfile("./" + test_file_path):  # pragma: no cover
+        os.remove("./" + test_file_path)
+    write_linkage_config(sample_algo, test_file_path)
+
+    loaded_algo = read_linkage_config(test_file_path)
+    assert loaded_algo == [
+        {
+            "funcs": {
+                8: "feature_match_fuzzy_string",
+                12: "feature_match_exact",
+            },
+            "blocks": ["MRN4", "ADDRESS4"],
+            "matching_rule": "eval_perfect_match",
+        },
+        {
+            "funcs": {
+                10: "feature_match_four_char",
+                16: "feature_match_log_odds_exact",
+                22: "feature_match_log_odds_fuzzy_compare",
+            },
+            "blocks": ["ZIP", "BIRTH_YEAR"],
+            "matching_rule": "eval_log_odds_cutoff",
+            "cluster_ratio": 0.9,
+            "kwargs": {"similarity_measure": "Levenshtein", "threshold": 0.85},
+        },
+    ]
+    os.remove("./" + test_file_path)
+
+
+# TODO: Move this to an integration test suite
+def test_link_record_against_mpi():
+    algorithm = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_basic.json"
+    )
+
+    postgres_client = DIBBsConnectorClient(
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Generate test tables
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create_patient": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
+            + "patient_resource JSONB);"
+        ),
+        "create_person": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
+            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
+            + "external_person_id VARCHAR(100));"
+        ),
+    }
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        matched, pid = link_record_against_mpi(
+            patient["resource"],
+            algorithm,
+            postgres_client,
+        )
+        matches.append(matched)
+        if pid not in mapped_patients:
+            mapped_patients[pid] = 0
+        mapped_patients[pid] += 1
+
+    # First patient inserted into empty MPI, no match
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    # Third patient is entirely new individual, no match
+    # Fourth patient fails blocking with first pass but catches on second, fuzzy matches
+    # Fifth patient: in first pass MRN blocks with one cluster but fails name,
+    #  in second pass name blocks with different cluster but fails address, no match
+    # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
+    #  in second pass name blocks on different cluster and address matches it,
+    #  finds greatest strength match and correctly assigns to larger cluster
+    assert matches == [False, True, False, True, False, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
+
+    # Re-open connection to check for all insertions
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Extract all data
+    postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
+    postgres_client.connection.commit()
+    data = postgres_client.cursor.fetchall()
+
+    assert len(data) == 6
+
+    # Re-open connection to check that num records for each person
+    # ID matches what we found to link on (i.e. links were made
+    # correctly)
+    for person_id in mapped_patients:
+        postgres_client.connection = psycopg2.connect(
+            database=postgres_client.database,
+            user=postgres_client.user,
+            password=postgres_client.password,
+            host=postgres_client.host,
+            port=postgres_client.port,
+        )
+        postgres_client.cursor = postgres_client.connection.cursor()
+        print(person_id)
+        postgres_client.cursor.execute(
+            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
+        )
+        postgres_client.connection.commit()
+        data = postgres_client.cursor.fetchall()
+        assert len(data) == mapped_patients[person_id]
+
+    # Clean up
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.close()
+    postgres_client.connection.close()
+
+
+def test_add_person_resource():
+    bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent.parent
+            / "tests"
+            / "assets"
+            / "patient_bundle.json"
+        )
+    )
+    raw_bundle = copy.deepcopy(bundle)
+    patient_id = "TEST_PATIENT_ID"
+    person_id = "TEST_PERSON_ID"
+
+    returned_bundle = add_person_resource(
+        person_id=person_id, patient_id=patient_id, bundle=raw_bundle
+    )
+
+    # Assert returned_bundle has added element in "entry"
+    assert len(returned_bundle.get("entry")) == len(bundle.get("entry")) + 1
+
+    # Assert the added element is the person_resource bundle
+    assert (
+        returned_bundle.get("entry")[-1].get("resource").get("resourceType") == "Person"
+    )
+    assert (
+        returned_bundle.get("entry")[-1].get("request").get("url")
+        == "Person/TEST_PERSON_ID"
+    )
+
+
+def test_compare_address_elements():
+    feature_funcs = {
+        2: feature_match_four_char,
+    }
+    x = 2
+    record = [
+        ["123"],
+        ["1"],
+        ["John", "Paul", "George"],
+        ["1980-01-01"],
+        ["123 Main St"],
+    ]
+    record2 = [
+        ["123"],
+        ["1"],
+        ["John", "Paul", "George"],
+        ["1980-01-01"],
+        ["123 Main St", "9 North Ave"],
+    ]
+    mpi_patient1 = [
+        ["456"],
+        ["2"],
+        ["John", "Paul", "George", "Ringo"],
+        ["1980-01-01"],
+        ["756 South St", "123 Main St", "489 North Ave"],
+    ]
+    mpi_patient2 = [
+        ["789"],
+        ["3"],
+        ["Pierre"],
+        ["1980-01-01"],
+        ["6 South St", "23 Main St", "9 North Ave"],
+    ]
+
+    same_address = _compare_address_elements(
+        record=record, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+    )
+    assert same_address is True
+
+    same_address = _compare_address_elements(
+        record=record2, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+    )
+    assert same_address is True
+
+    different_address = _compare_address_elements(
+        record=record, mpi_patient=mpi_patient2, feature_func=feature_funcs, x=x
+    )
+    assert different_address is False
+
+
+def test_compare_name_elements():
+    feature_funcs = {0: feature_match_fuzzy_string}
+    x = 0
+    record = [
+        ["123"],
+        ["1"],
+        ["John", "Paul", "George"],
+        ["1980-01-01"],
+        ["123 Main St"],
+    ]
+    record2 = [
+        ["123"],
+        ["1"],
+        ["John", "Paul", "George"],
+        ["1980-01-01"],
+        ["123 Main St", "9 North Ave"],
+    ]
+    record3 = [
+        ["123"],
+        ["1"],
+        ["Jean", "Pierre"],
+        ["1980-01-01"],
+        ["123 Main St", "9 North Ave"],
+    ]
+    mpi_patient1 = [
+        ["456"],
+        ["2"],
+        ["John", "Paul", "George", "Ringo"],
+        ["1980-01-01"],
+        ["756 South St", "123 Main St", "489 North Ave"],
+    ]
+    mpi_patient2 = [
+        ["789"],
+        ["3"],
+        ["Jean"],
+        ["1980-01-01"],
+        ["6 South St", "23 Main St", "9 North Ave"],
+    ]
+
+    same_name = _compare_name_elements(
+        record=record, mpi_patient=record2, feature_func=feature_funcs, x=x
+    )
+    assert same_name is True
+
+    # Assert same first name with new middle name in record == true fuzzy match
+    add_middle_name = _compare_name_elements(
+        record=record3, mpi_patient=mpi_patient2, feature_func=feature_funcs, x=x
+    )
+    assert add_middle_name is True
+
+    add_middle_name = _compare_name_elements(
+        record=record, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+    )
+    assert add_middle_name is True
+
+    # Assert no match with different names
+    different_names = _compare_name_elements(
+        record=record3, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+    )
+    assert different_names is False

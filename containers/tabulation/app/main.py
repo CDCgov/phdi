@@ -24,7 +24,9 @@ from app.utils import (
 get_settings()
 
 # Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
 app = FastAPI(
     title="PHDI Tabulation Service",
     version="0.0.1",
