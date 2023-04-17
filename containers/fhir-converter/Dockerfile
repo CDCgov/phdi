@@ -28,7 +28,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
+# Copy FastAPI app
 COPY app/main.py .
+
+# Copy eCR templates
+COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
 
 EXPOSE 8080
 CMD uvicorn main:api --host 0.0.0.0 --port 8080
