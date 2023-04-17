@@ -99,6 +99,14 @@
                                     "valueString" : "{{ component.section.text.content._ }}"
                                 },
                             ],
+                        {% elsif component.section.text and component.section.text.table.tbody.tr.td._ -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.table.tbody.tr.td._ }}"
+                                },
+                            ],
                         {% endif -%}
                     {% endif -%}
                     "entry": 
