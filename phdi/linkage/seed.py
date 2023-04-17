@@ -5,26 +5,25 @@ import uuid
 
 def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
     """
-    Converts and returns a row of patient data into FHIR patient resource with a newly
-    generated id as well as a the `iris_id`.
+    Converts and returns a row of patient data into patient resource in a FHIR bundle
+    with a newly generated id as well as the `iris_id`.
 
     :param data: Dictionary of patient data that optionionally includes the following
       fields: mrn, ssn, first_name, middle_name, last_name, home_phone, cell-phone, sex,
       birthdate, address, city, state, zip.
-    :return: Tuple of the `iris_id` and FHIR patient resource
+    :return: Tuple of the `iris_id` and FHIR bundle.
     """
 
     # Iterate through each patient and convert patient data to FHIR resource
     patient_resource = {
         "resourceType": "Patient",
-        "id": uuid.uuid4(),
+        "id": str(uuid.uuid4()),
         "identifier": [
             {
                 "type": {
                     "coding": [
                         {
-                            "system": """http://terminology.hl7.org
-                                /CodeSystem/v2-0203""",
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
                             "code": "MR",
                         }
                     ]
@@ -35,8 +34,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
                 "type": {
                     "coding": [
                         {
-                            "system": """http://terminology.hl7.org
-                                /CodeSystem/v2-0203""",
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
                             "code": "SS",
                         }
                     ]
@@ -74,4 +72,10 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
         ],
     }
 
-    return (data["iris_id"], patient_resource)
+    fhir_bundle = {
+        "resourceType": "Bundle",
+        "id": str(uuid.uuid4()),
+        "entry": [patient_resource],
+    }
+
+    return (data["iris_id"], fhir_bundle)
