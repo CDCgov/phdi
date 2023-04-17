@@ -26,19 +26,111 @@ with open(fhir_bundle_path, "r") as file:
 with open(ecr_fhir_bundle_path, "r") as file:
     ecr_fhir_bundle = json.load(file)
 
+
 expected_successful_response = {
     "message": "Parsing succeeded!",
     "parsed_values": {"first_name": "John ", "last_name": "doe"},
 }
 
 
-def test_parse_message_success_internal_schema():
-    request = {
-        "message_format": "fhir",
-        "parsing_schema_name": "ecr.json",
-        "message": fhir_bundle,
-    }
+expected_successful_response_full = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "patient_id": "34080650-1e86-08fe-c2c9-faa37629edd3",
+        "person_id": "8675309",
+        "last_name": "Girl",
+        "first_name": "Jessies",
+        "rr_id": "10d56082-be91-466f-8849-9c12c0a6edc0",
+        "status": "RRVS19",
+        "conditions": "Cyclosporiasis (disorder),Cyclosporiasis (disorder)",
+        "eicr_id": "8675309a-7754-r2d2-c3p0-973d9f777777",
+        "eicr_version_number": "2",
+        "authoring_datetime": "2023-04-09T13:04:17-07:00",
+        "provider_id": "urn:uuid:787878-5656",
+        "facility_id_number": "1.2.840.114350.1.13.297.3.7.2.686980",
+        "facility_name": "PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY",
+        "facility_type": "Healthcare Facility",
+        "encounter_type": "Ambulatory",
+        "encounter_start_date": "2023-02-12",
+        "encounter_end_date": "2023-02-12",
+        "active_problem_1": "Bilateral malignant neoplasm of lower outer quadrant of breast in female",
+        "active_problem_date_1": "2017-02-27",
+        "active_problem_2": "Malignant neoplasm of overlapping sites of pancreas",
+        "active_problem_date_2": "2017-09-18",
+        "active_problem_3": "Malignant neoplasm of urinary bladder neck",
+        "active_problem_date_3": "2021-11-05",
+        "active_problem_4": "Headache",
+        "active_problem_date_4": "2022-08-19",
+        "active_problem_5": "Backache",
+        "active_problem_date_5": "2022-08-19",
+        "reason_for_visit": "Not on file",
+        "test_type_1": "Campylobacter, NAAT",
+        "test_result_1": "Not Detected",
+        "test_result_interp_1": "",
+        "specimen_type_1": "Stool",
+        "performing_lab_1": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+        "specimen_collection_date_1": "2023-01-31T18:52:00Z",
+        "result_date_1": "2023-01-31T20:04:16Z",
+        "test_type_2": "C. Diff Toxin A/B, NAAT",
+        "test_result_2": "Not Detected",
+        "test_result_interp_2": "",
+        "specimen_type_2": "Stool",
+        "performing_lab_2": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+        "specimen_collection_date_2": "2023-01-31T18:52:00Z",
+        "result_date_2": "2023-01-31T20:04:16Z",
+    },
+}
 
+expected_successful_response_non_fhir = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "patient_id": "some-uuid",
+        "person_id": "",
+        "last_name": "doe",
+        "first_name": "John ",
+        "rr_id": "",
+        "status": "",
+        "conditions": "",
+        "eicr_id": "",
+        "eicr_version_number": "",
+        "authoring_datetime": "",
+        "provider_id": "",
+        "facility_id_number": "",
+        "facility_name": "",
+        "facility_type": "",
+        "encounter_type": "",
+        "encounter_start_date": "",
+        "encounter_end_date": "",
+        "active_problem_1": "",
+        "active_problem_date_1": "",
+        "active_problem_2": "",
+        "active_problem_date_2": "",
+        "active_problem_3": "",
+        "active_problem_date_3": "",
+        "active_problem_4": "",
+        "active_problem_date_4": "",
+        "active_problem_5": "",
+        "active_problem_date_5": "",
+        "reason_for_visit": "",
+        "test_type_1": "",
+        "test_result_1": "",
+        "test_result_interp_1": "",
+        "specimen_type_1": "",
+        "performing_lab_1": "",
+        "specimen_collection_date_1": "",
+        "result_date_1": "",
+        "test_type_2": "",
+        "test_result_2": "",
+        "test_result_interp_2": "",
+        "specimen_type_2": "",
+        "performing_lab_2": "",
+        "specimen_collection_date_2": "",
+        "result_date_2": "",
+    },
+}
+
+
+def test_parse_message_success_internal_schema():
     ecr_request = {
         "message_format": "fhir",
         "parsing_schema_name": "ecr.json",
@@ -46,20 +138,10 @@ def test_parse_message_success_internal_schema():
     }
 
     actual_response = client.post("/parse_message", json=ecr_request)
-    assert actual_response.status_code == 200
     print(actual_response.json())
-    assert actual_response.json() == expected_successful_response
-
-    actual_response = client.post("/parse_message", json=request)
+    print(expected_successful_response_full)
     assert actual_response.status_code == 200
-    print(actual_response.json())
-
-    assert actual_response.json() == expected_successful_response
-
-    actual_response = client.post("/parse_message", json=ecr_request)
-    assert actual_response.status_code == 200
-    print(actual_response.json())
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.json() == expected_successful_response_full
 
 
 def test_parse_message_success_external_schema():
@@ -100,8 +182,9 @@ def test_parse_message_success_non_fhir(
     patched_convert_to_fhir.return_value = convert_to_fhir_response
 
     actual_response = client.post("/parse_message", json=request)
+
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.json() == expected_successful_response_non_fhir
     patched_convert_to_fhir.assert_called_with(
         message="some-hl7v2-elr-message",
         message_type="elr",

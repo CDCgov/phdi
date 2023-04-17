@@ -2642,7 +2642,7 @@
     </component>
     <section>
         <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.1.2"/>
-        <id root="10d56082-be91-466f-8849-9c12c0a6edc0"/>
+        <id root="10123456-be91-4444-8888-9c12c0a6edc0"/>
         <code code="88085-6" codeSystem="2.16.840.1.113883.6.1" displayName="Reportability response report Document Public health"/>
         <title>Reportability Response</title>
         <effectiveTime value="20230131200915+0000"/>
