@@ -1350,11 +1350,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1441,11 +1446,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1504,11 +1514,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1567,11 +1582,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1630,11 +1650,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1693,11 +1718,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1756,11 +1786,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1819,11 +1854,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1882,11 +1922,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -1945,11 +1990,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2008,11 +2058,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2071,11 +2126,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2134,11 +2194,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2197,11 +2262,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2279,11 +2349,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2342,11 +2417,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2405,11 +2485,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2468,11 +2553,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2531,11 +2621,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2594,11 +2689,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2657,11 +2757,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2720,11 +2825,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2783,11 +2893,16 @@
                 "extension": [
                     {
                         "url": "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString": "Stool"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
+                        "extension": [
+                            {
+                                "url": "specimen source",
+                                "valueString": "Stool"
+                            },
+                            {
+                                "url": "specimen collection time",
+                                "valueDateTime": "2023-01-31T18:52:00Z"
+                            }
+                        ]
                     }
                 ],
                 "subject": {
@@ -2844,12 +2959,6 @@
                         }
                     ]
                 },
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime": "2023-01-31T18:52:00Z"
-                    }
-                ],
                 "subject": {
                     "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
                 }
@@ -2873,7 +2982,7 @@
                         }
                     ]
                 },
-                "date": "2023-04-14T22:54:10.255Z",
+                "date": "2023-04-17T15:52:57.812Z",
                 "status": "current",
                 "content": [
                     {
@@ -2888,6 +2997,30 @@
             "request": {
                 "method": "PUT",
                 "url": "DocumentReference/aaf6f3ad-76f0-bb16-b243-3de0287a384e"
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:8675309",
+            "resource": {
+                "resourceType": "Person",
+                "id": "8675309",
+                "identifier": [
+                    {
+                        "value": "external id - 555"
+                    }
+                ],
+                "link": [
+                    {
+                        "target": {
+                            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3",
+                            "display": "Jessies Girl"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Person/8675309"
             }
         }
     ]
