@@ -14,18 +14,8 @@ fhir_bundle_path = (
     / "patient_bundle.json"
 )
 
-ecr_fhir_bundle_path = (
-    Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "example_eicr_with_rr_data_formatted.json"
-)
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
-
-with open(ecr_fhir_bundle_path, "r") as file:
-    ecr_fhir_bundle = json.load(file)
-
 
 expected_successful_response = {
     "message": "Parsing succeeded!",
