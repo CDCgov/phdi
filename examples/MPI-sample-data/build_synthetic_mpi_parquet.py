@@ -111,7 +111,8 @@ df = df[
 ]
 
 # Save
-df.to_parquet(
-    "./examples/MPI-sample-data/synthetic_patient_mpi_seed_data.gzip",
-    compression="gzip",
-)
+df.to_parquet("./examples/MPI-sample-data/synthetic_patient_mpi_seed_data.parquet")
+
+# Save smaller sample for tests
+df = df.head(10)
+df.to_parquet("./tests/assets/synthetic_patient_mpi_seed_data.parquet")

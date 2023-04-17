@@ -6,7 +6,7 @@ mpi_test_file_path = (
     pathlib.Path(__file__).parent.parent.parent
     / "tests"
     / "assets"
-    / "synthetic_patient_mpi_seed_data.gzip"
+    / "synthetic_patient_mpi_seed_data.parquet"
 )
 
 
