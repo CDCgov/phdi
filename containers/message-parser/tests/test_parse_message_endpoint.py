@@ -53,7 +53,8 @@ expected_successful_response_full = {
         "encounter_type": "Ambulatory",
         "encounter_start_date": "2023-02-12",
         "encounter_end_date": "2023-02-12",
-        "active_problem_1": "Bilateral malignant neoplasm of lower outer quadrant of breast in female",
+        "active_problem_1": "Bilateral malignant neoplasm of lower outer quadrant"
+        + " of breast in female",
         "active_problem_date_1": "2017-02-27",
         "active_problem_2": "Malignant neoplasm of overlapping sites of pancreas",
         "active_problem_date_2": "2017-09-18",
@@ -68,14 +69,16 @@ expected_successful_response_full = {
         "test_result_1": "Not Detected",
         "test_result_interp_1": "",
         "specimen_type_1": "Stool",
-        "performing_lab_1": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+        "performing_lab_1": "PROVIDENCE SAINT JOHN'S HEALTH"
+        + " CENTER LAB (CLIA 05D0059345)",
         "specimen_collection_date_1": "2023-01-31T18:52:00Z",
         "result_date_1": "2023-01-31T20:04:16Z",
         "test_type_2": "C. Diff Toxin A/B, NAAT",
         "test_result_2": "Not Detected",
         "test_result_interp_2": "",
         "specimen_type_2": "Stool",
-        "performing_lab_2": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
+        "performing_lab_2": "PROVIDENCE SAINT JOHN'S HEALTH"
+        + " CENTER LAB (CLIA 05D0059345)",
         "specimen_collection_date_2": "2023-01-31T18:52:00Z",
         "result_date_2": "2023-01-31T20:04:16Z",
     },
