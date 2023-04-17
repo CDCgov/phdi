@@ -27,7 +27,7 @@ def test_get_specific_schema():
     with open(test_schema_path, "r") as file:
         test_schema = json.load(file)
 
-    response = client.get("/schemas/ecr.json")
+    response = client.get("/schemas/test_schema.json")
     assert response.status_code == 200
     assert response.json() == {
         "message": "Schema found!",
