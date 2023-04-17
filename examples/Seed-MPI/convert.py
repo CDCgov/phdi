@@ -5,6 +5,9 @@ from phdi.linkage.seed import convert_to_patient_fhir_resources
 import pyarrow.parquet as pq
 
 
+file_path = "C://Users/Marcelle/Desktop/synthetic_patient_mpi_seed_data.parquet"
+
+
 def convert():
     file_path = sys.argv[1]
     parquet_file = pq.ParquetFile(file_path)
