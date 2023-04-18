@@ -1122,6 +1122,50 @@ def _compare_records(
     return is_match
 
 
+def _compare_address_elements(
+    record: List,
+    mpi_patient: List,
+    feature_func: Callable,
+    x,
+    **kwargs,
+) -> bool:
+    """
+    Helper method that compares all elements from the flattened form of an incoming
+    new patient record to all elements of the flattened patient record pulled from
+    the MPI.
+    """
+
+    for r in record[2:][x]:
+        for m in mpi_patient[2:][x]:
+            feature_comp = feature_func[x]([r], [m], 0, **kwargs)
+            if feature_comp is True:
+                break
+        break
+    return feature_comp
+
+
+def _compare_name_elements(
+    record: List,
+    mpi_patient: List,
+    feature_func: Callable,
+    x,
+    **kwargs,
+) -> bool:
+    """
+    Helper method that compares all elements from the flattened form of an incoming
+    new patient record's name(s) to all elements of the flattened
+    patient's name(s) pulled from the MPI.
+    """
+
+    feature_comp = feature_func[x](
+        [" ".join(n for n in record[2:][x])],
+        [" ".join(n for n in mpi_patient[2:][x])],
+        0,
+        **kwargs,
+    )
+    return feature_comp
+
+
 def _find_strongest_link(linkage_scores: dict) -> str:
     """
     Helper method that determines the highest belongingness level that an

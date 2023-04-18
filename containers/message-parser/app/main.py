@@ -55,7 +55,7 @@ class ParseMessageInput(BaseModel):
     The schema for requests to the /extract endpoint.
     """
 
-    message_format: Literal["fhir", "hl7v2", "cda"] = Field(
+    message_format: Literal["fhir", "hl7v2", "ecr"] = Field(
         description="The format of the message."
     )
     message_type: Optional[Literal["ecr", "elr", "vxu"]] = Field(
@@ -142,7 +142,7 @@ async def parse_message_endpoint(
     input: ParseMessageInput, response: Response
 ) -> ParseMessageResponse:
     """
-    Extract the desired values values from a message. If the message is not already in
+    Extract the desired values from a message. If the message is not already in
     FHIR format convert it to FHIR first.
 
     :param input: A JSON formated request body with schema specified by the
@@ -195,8 +195,7 @@ async def parse_message_endpoint(
     parsed_values = {}
     for field, parser in parsers.items():
         value = parser(input.message)
-        if len(value) == 1:
-            value = value[0]
+        value = ",".join(value)
         parsed_values[field] = value
 
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
