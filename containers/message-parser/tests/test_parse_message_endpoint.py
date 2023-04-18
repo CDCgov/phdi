@@ -13,6 +13,7 @@ fhir_bundle_path = (
     / "assets"
     / "patient_bundle.json"
 )
+
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
 
@@ -21,17 +22,65 @@ expected_successful_response = {
     "parsed_values": {"first_name": "John ", "last_name": "doe"},
 }
 
+expected_successful_response_full = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "patient_id": "some-uuid",
+        "person_id": "",
+        "last_name": "doe",
+        "first_name": "John ",
+        "rr_id": "",
+        "status": "",
+        "conditions": "",
+        "eicr_id": "",
+        "eicr_version_number": "",
+        "authoring_datetime": "",
+        "provider_id": "",
+        "facility_id_number": "",
+        "facility_name": "",
+        "facility_type": "",
+        "encounter_type": "",
+        "encounter_start_date": "",
+        "encounter_end_date": "",
+        "active_problem_1": "",
+        "active_problem_date_1": "",
+        "active_problem_2": "",
+        "active_problem_date_2": "",
+        "active_problem_3": "",
+        "active_problem_date_3": "",
+        "active_problem_4": "",
+        "active_problem_date_4": "",
+        "active_problem_5": "",
+        "active_problem_date_5": "",
+        "reason_for_visit": "",
+        "test_type_1": "",
+        "test_result_1": "",
+        "test_result_interp_1": "",
+        "specimen_type_1": "",
+        "performing_lab_1": "",
+        "specimen_collection_date_1": "",
+        "result_date_1": "",
+        "test_type_2": "",
+        "test_result_2": "",
+        "test_result_interp_2": "",
+        "specimen_type_2": "",
+        "performing_lab_2": "",
+        "specimen_collection_date_2": "",
+        "result_date_2": "",
+    },
+}
+
 
 def test_parse_message_success_internal_schema():
-    request = {
+    test_request = {
         "message_format": "fhir",
         "parsing_schema_name": "ecr.json",
         "message": fhir_bundle,
     }
 
-    actual_response = client.post("/parse_message", json=request)
+    actual_response = client.post("/parse_message", json=test_request)
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.json() == expected_successful_response_full
 
 
 def test_parse_message_success_external_schema():
@@ -72,8 +121,9 @@ def test_parse_message_success_non_fhir(
     patched_convert_to_fhir.return_value = convert_to_fhir_response
 
     actual_response = client.post("/parse_message", json=request)
+
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.json() == expected_successful_response_full
     patched_convert_to_fhir.assert_called_with(
         message="some-hl7v2-elr-message",
         message_type="elr",
