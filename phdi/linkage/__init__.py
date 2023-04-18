@@ -28,6 +28,8 @@ from phdi.linkage.link import (
 
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.postgres import DIBBsConnectorClient
+from phdi.linkage.seed import convert_to_patient_fhir_resources
+
 
 __all__ = [
     "generate_hash_str",
@@ -57,4 +59,7 @@ __all__ = [
     "DIBBsConnectorClient",
     "link_record_against_mpi",
     "add_person_resource",
+    "_compare_address_elements",
+    "_compare_name_elements",
+    "convert_to_patient_fhir_resources",
 ]

@@ -10,14 +10,29 @@
             { {% include 'DataType/IdentifierRoot' Identifier: id -%} },
             {% endfor -%}
         ],
-        "name":"{{ location.location.name._ }}",
+        
+        {% if location.location.name and location.location.name._ -%}
+            "name":"{{ location.location.name._ }}",
+        {% elsif location.serviceProviderOrganization and location.serviceProviderOrganization.name and location.serviceProviderOrganization.name._ -%}
+            "name":"{{ location.serviceProviderOrganization.name._ }}",
+        {% endif -%}
+
+
         "address":
         {
-            {% include 'DataType/Address' Address: location.location.addr -%}
+            {% if location.location.addr and location.location.addr.state._ -%}
+                {% include 'DataType/Address' Address: location.location.addr -%}
+            {% elsif location.serviceProviderOrganization.addr and location.serviceProviderOrganization.addr.state._ -%}
+                {% include 'DataType/Address' Address: location.serviceProviderOrganization.addr -%}
+            {% endif -%}
         },
         "telecom":
         [
             {% assign telecoms = location.location.telecom | to_array -%}
+            {% if telecoms.first.value -%}
+            {% else -%}
+                {% assign telecoms = location.serviceProviderOrganization.telecom | to_array -%}
+            {% endif -%}
             {% for telecom in telecoms -%}
             { {% include 'DataType/ContactPoint' ContactPoint: telecom -%} },
             {% endfor -%}

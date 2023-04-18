@@ -371,13 +371,13 @@
         "code": "usual"
       },
       "L": {
-        "code": "usual"
+        "code": "official"
       },
       "P": {
         "code": "nickname"
       },
       "__default__": {
-        "code": ""
+        "code": "usual"
       }
     },
     "ValueSet/ObservationStatus": {
