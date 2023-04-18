@@ -97,20 +97,26 @@
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
         "extension":
-            [
-                {% if specimenValue and specimenValue != "None" -%}
-                    {
-                        "url" : "http://hl7.org/fhir/R4/specimen.html",
-                        "valueString" : "{{ specimenValue }}",
-                    },
+            [ {
+                {% if specimenValue and specimenValue != "None" or if collectTime -%}
+
+                    "url" : "http://hl7.org/fhir/R4/specimen.html",
+                    "extension": [
+                    {% if specimenValue and specimenValue != "None" -%}
+                        {
+                            "url" : "specimen source",
+                            "valueString" : "{{ specimenValue }}",
+                        },
+                    {% endif -%}
+                    {% if collectTime -%}
+                        {
+                            "url" : "specimen collection time",
+                            "valueDateTime" : "{{ collectTime | format_as_date_time }}",
+                        },
+                    {% endif -%}
+                    ],
                 {% endif -%}
-                {% if collectTime -%}
-                    {
-                        "url" : "http://hl7.org/fhir/R4/specimen-definitions.html#Specimen.collection.collected_x_",
-                        "valueDateTime" : "{{ collectTime | format_as_date_time }}",
-                    },
-                {% endif -%}
-            ],
+    },],
     },
     "request":{
         "method":"PUT",
