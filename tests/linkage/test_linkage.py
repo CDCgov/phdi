@@ -36,6 +36,8 @@ from phdi.linkage.link import (
     _map_matches_to_record_ids,
     _compare_address_elements,
     _compare_name_elements,
+    _flatten_patient_resource,
+    _condense_extract_address_from_resource,
 )
 from phdi.linkage import DIBBsConnectorClient
 
@@ -1021,7 +1023,6 @@ def test_link_record_against_mpi():
             port=postgres_client.port,
         )
         postgres_client.cursor = postgres_client.connection.cursor()
-        print(person_id)
         postgres_client.cursor.execute(
             f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
         )
@@ -1190,3 +1191,53 @@ def test_compare_name_elements():
         record=record3, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
     )
     assert different_names is False
+
+
+def test_condense_extracted_address():
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource", {})
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    patient = patients[2]
+    assert _condense_extract_address_from_resource(patient) == [
+        "PO Box 1 First Rock",
+        "Bay 16 Ward Sector 24",
+    ]
+
+
+def test_flatten_patient():
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource", {})
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    assert _flatten_patient_resource(patients[2]) == [
+        "2c6d5fd1-4a70-11eb-99fd-ad786a821574",
+        None,
+        ["PO Box 1 First Rock", "Bay 16 Ward Sector 24"],
+        "2060-05-14",
+        "Nar Raya",
+        ["Tali", "Zora", "Tali", "Zora", "Tali", "Zora"],
+        "Vas Normandy",
+        "7894561235",
+        "female",
+        "Ranoch",
+        "11111",
+    ]
