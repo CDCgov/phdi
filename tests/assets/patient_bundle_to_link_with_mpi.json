@@ -26,7 +26,8 @@
                     {
                         "family": "Shepard",
                         "given": [
-                            "John"
+                            "John",
+                            "Tiberius"
                         ],
                         "use": "official"
                     }
@@ -76,7 +77,8 @@
                     {
                         "family": "Sheperd",
                         "given": [
-                            "Jon"
+                            "Jon",
+                            "Tiberius"
                         ],
                         "use": "official"
                     }
@@ -86,7 +88,9 @@
                 "address": [
                     {
                         "line": [
-                            "1234 Silversun Strip"
+                            "1234 Silversun Strip",
+                            "Apartment 2A",
+                            "Building 3"
                         ],
                         "buildingNumber": "1234",
                         "city": "Zakera Ward",
@@ -130,6 +134,22 @@
                             "Zora"
                         ],
                         "use": "official"
+                    },
+                    {
+                        "family": "Vas Neema",
+                        "given": [
+                            "Tali",
+                            "Zora"
+                        ],
+                        "use": "official"
+                    },
+                    {
+                        "family": "Nar Raya",
+                        "given": [
+                            "Tali",
+                            "Zora"
+                        ],
+                        "use": "official"
                     }
                 ],
                 "birthDate": "2060-05-14",
@@ -144,6 +164,16 @@
                         "state": "Ranoch",
                         "postalCode": "11111",
                         "use": "home"
+                    },
+                    {
+                        "line": [
+                            "Bay 16",
+                            "Ward Sector 24"
+                        ],
+                        "city": "Liveship",
+                        "state": "The Neema",
+                        "postalCode": "11111",
+                        "use": "previous"
                     }
                 ]
             }
@@ -263,7 +293,8 @@
                     {
                         "family": "Shepard",
                         "given": [
-                            "John"
+                            "John",
+                            "Tiberia"
                         ],
                         "use": "official"
                     }
@@ -279,6 +310,16 @@
                         "state": "Ranoch",
                         "postalCode": "11111",
                         "use": "home"
+                    },
+                    {
+                        "line": [
+                            "Bay 16",
+                            "Ward Sector 24"
+                        ],
+                        "city": "Liveship",
+                        "state": "The Neema",
+                        "postalCode": "11111",
+                        "use": "previous"
                     }
                 ]
             }
