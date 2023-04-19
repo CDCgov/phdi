@@ -48,6 +48,86 @@ from math import log
 from json.decoder import JSONDecodeError
 
 
+def _set_up_postgres_client():
+    postgres_client = DIBBsConnectorClient(
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Generate test tables
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create_patient": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
+            + "patient_resource JSONB);"
+        ),
+        "create_person": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
+            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
+            + "external_person_id VARCHAR(100));"
+        ),
+    }
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    return postgres_client
+
+
+def _clean_up_postgres_client(postgres_client):
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.close()
+    postgres_client.connection.close()
+
+
 def test_extract_blocking_values_from_record():
     bundle = json.load(
         open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
@@ -901,60 +981,7 @@ def test_link_record_against_mpi():
         / "dibbs_basic.json"
     )
 
-    postgres_client = DIBBsConnectorClient(
-        database="testdb",
-        user="postgres",
-        password="pw",
-        host="localhost",
-        port="5432",
-        patient_table="test_patient_mpi",
-        person_table="test_person_mpi",
-    )
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
-
-    # Generate test tables
-    funcs = {
-        "drop tables": (
-            f"""
-        DROP TABLE IF EXISTS {postgres_client.patient_table};
-        DROP TABLE IF EXISTS {postgres_client.person_table};
-        """
-        ),
-        "create_patient": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
-            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
-            + "patient_resource JSONB);"
-        ),
-        "create_person": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
-            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
-            + "external_person_id VARCHAR(100));"
-        ),
-    }
-
-    for command, statement in funcs.items():
-        try:
-            postgres_client.cursor.execute(statement)
-            postgres_client.connection.commit()
-        except Exception as e:
-            print(f"{command} was unsuccessful")
-            print(e)
-            postgres_client.connection.rollback()
+    postgres_client = _set_up_postgres_client()
 
     patients = json.load(
         open(
@@ -1030,25 +1057,7 @@ def test_link_record_against_mpi():
         data = postgres_client.cursor.fetchall()
         assert len(data) == mapped_patients[person_id]
 
-    # Clean up
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.close()
-    postgres_client.connection.close()
+    _clean_up_postgres_client(postgres_client)
 
 
 def test_add_person_resource():
@@ -1241,3 +1250,40 @@ def test_flatten_patient():
         "Ranoch",
         "11111",
     ]
+
+
+def test_multi_element_blocking():
+    postgres_client = _set_up_postgres_client()
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource", {})
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+
+    # Insert multi-entry patient into DB
+    patient = patients[2]
+    algorithm = read_linkage_config(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "algorithms"
+        / "dibbs_basic.json"
+    )
+    link_record_against_mpi(patient, algorithm, postgres_client)
+
+    # Now check that we can block on either name
+    # First row of returned results is headers
+    found_records = postgres_client.block_data({"last_name": {"value": "Vas Neema"}})
+    assert len(found_records) == 2
+    found_records = postgres_client.block_data({"last_name": {"value": "Nar Raya"}})
+    assert len(found_records) == 2
+
+    _clean_up_postgres_client(postgres_client)
