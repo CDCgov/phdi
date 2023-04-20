@@ -40,6 +40,7 @@ from phdi.linkage.link import (
     _condense_extract_address_from_resource,
 )
 from phdi.linkage import DIBBsConnectorClient
+from phdi.linkage import DIBBS_BASIC
 
 import pathlib
 import pytest
@@ -973,13 +974,7 @@ def test_algo_write():
 
 # TODO: Move this to an integration test suite
 def test_link_record_against_mpi():
-    algorithm = read_linkage_config(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
-        / "linkage"
-        / "algorithms"
-        / "dibbs_basic.json"
-    )
+    algorithm = DIBBS_BASIC
 
     postgres_client = _set_up_postgres_client()
 
@@ -1270,13 +1265,7 @@ def test_multi_element_blocking():
 
     # Insert multi-entry patient into DB
     patient = patients[2]
-    algorithm = read_linkage_config(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
-        / "linkage"
-        / "algorithms"
-        / "dibbs_basic.json"
-    )
+    algorithm = DIBBS_BASIC
     link_record_against_mpi(patient, algorithm, postgres_client)
 
     # Now check that we can block on either name
