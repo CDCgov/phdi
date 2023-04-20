@@ -16,6 +16,8 @@
 {% endif -%}
 {% if entry.organizer.effectiveTime.low and entry.organizer.effectiveTime.low.value -%}
     {% assign collectTime = entry.organizer.effectiveTime.low.value -%}
+{% else -%}
+    {% assign collectTime = "None" -%}
 {% endif -%}
 {% assign comps = entry.organizer.component | to_array -%}
 {% for comp in comps -%}
