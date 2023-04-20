@@ -4,7 +4,7 @@ from pathlib import Path
 from phdi.linkage import (
     add_person_resource,
     link_record_against_mpi,
-    read_linkage_config,
+    DIBBS_BASIC,
 )
 from pydantic import BaseModel, Field
 from psycopg2 import OperationalError, errors
@@ -185,13 +185,7 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
     # Default is DIBBS basic, which comes prepacked in the SDK
     algo_config = input.get("algo_config", {}).get("algorithm", [])
     if algo_config == []:
-        algo_config = read_linkage_config(
-            Path(__file__).parent.parent.parent.parent
-            / "phdi"
-            / "linkage"
-            / "algorithms"
-            / "dibbs_basic.json"
-        )
+        algo_config = DIBBS_BASIC
 
     # Now extract the patient record we want to link
     try:
