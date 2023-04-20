@@ -828,11 +828,7 @@ def test_feature_match_log_odds_fuzzy():
 
 def test_algo_read():
     dibbs_basic_algo = read_linkage_config(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
-        / "linkage"
-        / "algorithms"
-        / "dibbs_basic.json"
+        pathlib.Path(__file__).parent.parent / "assets" / "dibbs_basic_algorithm.json"
     )
     assert dibbs_basic_algo == [
         {
@@ -863,11 +859,9 @@ def test_algo_read():
     ]
 
     dibbs_enhanced_algo = read_linkage_config(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
-        / "linkage"
-        / "algorithms"
-        / "dibbs_enhanced.json"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "dibbs_enhanced_algorithm.json"
     )
     assert dibbs_enhanced_algo == [
         {
