@@ -1,11 +1,11 @@
-from app.storage_connectors import connect_to_adlsgen2
-from app.kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
+from storage_connectors import connect_to_adlsgen2
+from kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
 from pyspark.sql import SparkSession
 import argparse
 import sys
-from app.utils import get_spark_schema
-from app.kafka_connectors import KAFKA_PROVIDERS
-from app.storage_connectors import STORAGE_PROVIDERS
+from utils import get_spark_schema
+from kafka_connectors import KAFKA_PROVIDERS
+from storage_connectors import STORAGE_PROVIDERS
 from icecream import ic
 
 
@@ -150,7 +150,7 @@ def main():
     Submit a Spark job to read from a Kafka topic and write to a Delta table according
     to configuration provided by command line arguments.
     """
-    ic("hello from kafka")
+    ic("hello from kafka to delta")
     arguments_list = sys.argv[1:]
     selection_flags = set_selection_flags(arguments_list)
     arguments = get_arguments(arguments_list, selection_flags)
@@ -166,7 +166,7 @@ def main():
         .config("spark.sql.debug.maxToStringFields", "100")
         .getOrCreate()
     )
-    spark.sparkContext.setLogLevel("WARN")
+    spark.sparkContext.setLogLevel("ALL")
     base_path = "./persistent_storage/kafka/"
 
     if selection_flags["adlsgen2"]:

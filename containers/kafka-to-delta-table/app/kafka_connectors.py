@@ -3,6 +3,7 @@ from pyspark.sql.functions import from_json, col
 from pyspark.sql import SparkSession, DataFrame
 from phdi.cloud.azure import AzureCredentialManager
 from typing import Literal
+from icecream import ic
 
 KAFKA_PROVIDERS = Literal["local_kafka", "azure_event_hubs"]
 
@@ -73,6 +74,8 @@ def connect_to_local_kafka(
     :param kafka_server: The URL of a Kafka server including port.
     :param kafka_topic: The name of a Kafka topic.
     """
+    ic(kafka_server)
+    ic(kafka_topic)
     kafka_data_frame = (
         spark.readStream.format("kafka")
         .option("kafka.bootstrap.servers", kafka_server)

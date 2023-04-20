@@ -1,4 +1,5 @@
 version: "3.9"
+name: "container"
 
 networks:
   app-tier:
@@ -25,9 +26,6 @@ services:
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-      # - KAFKA_BROKER_ID=1
-      # - KAFKA_LISTENERS=PLAINTEXT://:9092
-      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://10.5.0.1:9092
     depends_on:
       - zookeeper
     networks:
@@ -56,11 +54,9 @@ services:
       - "8080:8080"
     depends_on:
       - kafka
-      # - init-kafka
+      - init-kafka
     networks:
       - app-tier
-    environment:
-      - KAFKA_LOCAL_SERVER=kafka:9092
 volumes:
   zookeeper_data:
     driver: local

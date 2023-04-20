@@ -1,0 +1,15 @@
+KAFKA Server commands
+/opt/bitnami/kafka/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
+
+/opt/bitnami/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test
+
+/opt/bitnami/kafka/bin/kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server localhost:9092
+
+/opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092 --topic test
+
+Python commands
+python kafka_to_delta.py --storage_provider local_storage --kafka_provider local_kafka --kafka_server kafka:9092 --kafka_topic test --delta_table_name test --schema '{"first_name": "string"}'
+
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0,io.delta:delta-core_2.12:1.0.0,org.apache.kafka:kafka-clients:3.4.0  ./kafka_to_delta.py --kafka_provider local_kafka --storage_provider local_storage --delta_table_name test-kafka-to-delta-1 --schema '{"first_name": "string", "last_name": "string"}' --kafka_server kafka:9092 --kafka_topic test
+
+java.lang.NoSuchMethodError: 'void org.apache.spark.sql.execution.datasources.parquet.ParquetSchemaConverter$.checkFieldNames(scala.collection.Seq)

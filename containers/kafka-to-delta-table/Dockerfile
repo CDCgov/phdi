@@ -8,7 +8,24 @@ RUN apt-get update && \
     apt-get install -y wget && \
     apt-get install -y procps
 
-RUN apt-get install default-jdk -y
+RUN apt-get install -y gnupg && \
+    apt-get install -y ca-certificates && \
+    apt-get install -y software-properties-common
+
+# RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+#     add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+# RUN apt-get update && \
+#     apt-get install -y adoptopenjdk-17-hotspot
+# ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-17-hotspot-amd64
+
+
+# RUN apt-get install open-jdk-17-jdk -y
+RUN apt-get install openjdk-17-jdk openjdk-17-jre -y
+
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
+
+# Add Java binaries to the system path
+ENV PATH $JAVA_HOME/bin:$PATH
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
