@@ -1,0 +1,8 @@
+{% if entry.observation -%}
+    {% if entry.observation.code.nullFlavor or entry.observation.value.nullFlavor -%}
+    {% else -%}
+        {% assign observationId = entry.observation | to_json_string | generate_uuid -%}
+        {% include 'Resource/Observation' observationCategory: 'social-history', observationEntry: entry.observation, ID: observationId -%}
+        {% include 'Reference/Observation/Subject' ID: observationId, REF: fullPatientId -%}
+    {% endif -%}
+{% endif -%}

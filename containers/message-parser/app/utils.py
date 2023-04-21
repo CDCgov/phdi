@@ -116,7 +116,7 @@ def convert_to_fhir(
     conversion_settings = {
         "elr": {"input_type": "hl7v2", "root_template": "ORU_R01"},
         "vxu": {"input_type": "hl7v2", "root_template": "VXU_V04"},
-        "ecr": {"input_type": "ccda", "root_template": "CCD"},
+        "ecr": {"input_type": "ecr", "root_template": "EICR"},
     }
 
     data = {

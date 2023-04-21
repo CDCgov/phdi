@@ -1,0 +1,243 @@
+{
+    "fullUrl":"urn:uuid:{{ ID }}",
+    "resource":{
+        "resourceType": "Composition",
+        "id":"{{ ID }}",
+         "meta" : {
+            "profile" : 
+            [
+                "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+            ]
+        },
+        "identifier":
+        [
+            {
+                "use":"official",
+                "type":
+                {
+                    {% assign codes = composition.code | to_array -%}
+                    {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                },
+                "value":"{{ composition.id.root }}",
+                "assigner": 
+                {
+                    "display": "{{ composition.id.assigningAuthorityName }}"
+                },
+            },
+        ],
+        "extension":[
+            {
+                "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+                "valueString" : "{{ composition.versionNumber.value }}"
+            },
+        ],
+        "status":"final",
+        "type":
+        {
+            {% assign codes = composition.code | to_array -%}
+            {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+        },
+        "date":"{{ composition.effectiveTime.value | format_as_date_time }}",
+        "title":"{{ composition.title._ }}",
+        "confidentiality":"{{ composition.confidentialityCode.code }}",
+        "event":
+        [
+            {
+                "period":
+                {
+                    "start":"{{ composition.documentationOf.serviceEvent.effectiveTime.low.value | format_as_date_time }}",
+                    "end":"{{ composition.documentationOf.serviceEvent.effectiveTime.high.value | format_as_date_time }}",
+                },
+            },
+        ],
+        "section":
+        [
+            {% assign components = composition.component.structuredBody.component | to_array -%}
+            {% for component in components -%}
+            {   
+                {% if component.section -%}
+                    {% if component.section.id.root -%}
+                    "id": "{{ component.section.id.root }}",
+                    {% else -%}
+                    {% assign sectionId = component | to_json_string | generate_uuid -%}
+                    "id": "{{ sectionId }}",
+                    {% endif -%}
+                    {% if component.section.title._ -%}
+                    "title":"{{ component.section.title._ }}",
+                    {% endif -%}
+                    {% if component.section.title._ == null -%}
+                    "title":"{{ component.section.code.displayName }}",
+                    {% endif -%}
+                    "text":
+                    {
+                        "status":"generated",
+                        {% if component.section.title._ -%}
+                            "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.title._ | escape }}</div>",
+                        {% else -%}
+                            "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.code.displayName | escape }}</div>",
+                        {% endif -%}
+                    },
+                    "code":
+                    {
+                        {% include 'DataType/CodeableConcept' CodeableConcept: component.section.code -%}
+                    },
+                    "mode":"snapshot",
+                    {% if component.section.templateId.root and component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.12" -%}
+                        {% if component.section.text and component.section.text.content and component.section.text.content._ -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.content._ }}"
+                                },
+                            ],
+                        {% elsif component.section.text and component.section.text._ and component.section.text._ != null -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.content._ }}"
+                                },
+                            ],
+                        {% elsif component.section.text and component.section.text.table.tbody.tr.td._ -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text.table.tbody.tr.td._ }}"
+                                },
+                            ],
+                        {% endif -%}
+                    {% endif -%}
+                    "entry": 
+                    [                    
+                        {% assign entries = component.section.entry | to_array -%}
+                        {% for sectionEntry in entries -%}
+                            {% if sectionEntry.act.entryRelationship -%}
+                                {% assign ers = sectionEntry.act.entryRelationship | to_array -%}
+                                {% for er in ers -%}
+                                {% assign obsTemplates = er.observation.templateId | to_array -%}
+                                {% if er.observation and obsTemplates.first.root and obsTemplates.first.root == "2.16.840.1.113883.10.20.22.4.4" -%}
+                                        {% assign conditionId = er.observation | to_json_string | generate_uuid -%}
+                                        {% assign fullConditionId = conditionId | prepend: 'Condition/' -%}
+                                        {
+                                            {% if er.observation.value.displayName -%}
+                                                "display": "Problem - {{ er.observation.value.displayName }}",
+                                            {% elsif er.observation.value.translation -%}
+                                                {% assign translations = er.observation.value.translation | to_array -%}
+                                                "display": "Problem - {{translations.first.displayName}}",
+                                            {% endif -%}
+                                            "reference": "{{ fullConditionId }}",
+                                        },
+                                {% endif -%}
+                                {% endfor -%}
+                            {% elsif component.section.code.code and component.section.code.code == "30954-2" -%}                                
+                                {% assign orgComps = sectionEntry.organizer.component | to_array -%}
+                                {% for orgComp in orgComps -%}
+                                    {% if orgComp.observation -%}
+                                        {% if orgComp.observation.code.nullFlavor -%}
+                                        {% else -%}
+                                        {% assign observationId = orgComp.observation | to_json_string | generate_uuid -%}
+                                        {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                        {
+                                            {% if orgComp.observation.code.originalText._ -%}
+                                                "display": "{{orgComp.observation.code.originalText._ | strip}}",
+                                            {% elsif orgComp.observation.code.translation -%}
+                                                {% assign translations = orgComp.observation.code.translation | to_array -%}
+                                                "display": "{{translations.first.displayName | strip}}",
+                                            {% endif -%}
+                                            "reference": "{{ fullObservationId }}",
+                                        },
+                                        {% endif -%}
+                                    {% endif -%}
+                                {% endfor -%}
+                            {% endif -%}
+                        {% endfor -%}
+                    ],
+                {% endif -%}
+            },
+            {% endfor -%}
+            {
+                {% if composition.section.code.code and composition.section.code.code == "88085-6" -%}
+                {% assign sectionId = composition.section | to_json_string | generate_uuid -%}
+                "id": "{{ sectionId }}",
+                "title": "Reportability Response Information Section",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>",
+                },
+                "extension":
+                [
+            
+                    {
+                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
+                        "valueIdentifier": 
+                        {
+                            "use":"official",
+                            "type":
+                            {
+                                {% assign codes = composition.section.code | to_array -%}
+                                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                            },
+                            "value":"{{ composition.section.id.root }}",
+                        },
+                    },
+                    {
+                        "url" : "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    {% assign rrentries = composition.section.entry | to_array -%}
+                                    {% for rrentry in rrentries -%}
+                                        {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
+                                            {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                        {% endif -%}
+                                    {% endfor -%}
+                                },
+                            ],
+                        }
+                    },
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            {% include 'DataType/Coding' Coding: composition.section.code -%}
+                        }
+                    ],
+                },
+                "entry": 
+                [
+                    
+                    {% assign entries = composition.section.entry | to_array -%}
+                    {% for entry in entries -%}
+                        {% if entry.organizer.templateId.root and entry.organizer.templateId.root == "2.16.840.1.113883.10.20.15.2.3.34" -%}
+                            {% assign comps = entry.organizer.component | to_array -%}
+                            {% for comp in comps -%}
+                                {% assign obs = comp.observation | to_array -%}
+                                {% for ob in obs -%}
+                                    {% if ob.code.codeSystem == "2.16.840.1.113883.6.96" and ob.code.code == "64572001" and ob.value.code and ob.value.code != "NA" -%}
+                                        {% if ob.id and ob.id.root -%}
+                                            {% assign observationId = ob.id.root -%}
+                                        {% else -%}
+                                            {% assign observationId = ob.value | to_json_string | generate_uuid -%}
+                                        {% endif -%}
+                                        {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                        {
+                                            "display": "Relevant Reportable Condition Observation - {{ ob.value.displayName }}",
+                                            "reference": "{{ fullObservationId }}",
+                                        },
+                                    {% endif -%}
+                                {% endfor -%}
+                            {% endfor -%}
+                        {% endif -%}
+                    {% endfor -%}
+                ],
+                {% endif -%}
+            },
+        ],
+    },
+    "request":{
+        "method":"PUT",
+        "url":"Composition/{{ ID }}",
+    },
+},

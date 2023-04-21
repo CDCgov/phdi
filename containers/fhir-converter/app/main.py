@@ -75,6 +75,7 @@ class RootTemplate(str, Enum):
     SIU_S26 = "SIU_S26"
     VXU_V04 = "VXU_V04"
     CCD = "CCD"
+    EICR = "EICR"
     ConsultationNote = "ConsultationNote"
     DischargeSummary = "DischargeSummary"
     Header = "Header"
@@ -141,10 +142,10 @@ def convert_to_fhir(
     if input_type == "elr" or input_type == "vxu":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Hl7v2"
     elif input_type == "ecr":
-        template_directory_path = "/build/FHIR-Converter/data/Templates/Ccda"
+        template_directory_path = "/build/FHIR-Converter/data/Templates/eCR"
     else:
         raise ValueError(
-            f"Invalid input_type {input_type}. Valid values are 'hl7v2' and 'ccda'."
+            f"Invalid input_type {input_type}. Valid values are 'hl7v2' and 'ecr'."
         )
     output_data_file_path = "/tmp/output.json"
 
