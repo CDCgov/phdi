@@ -19,10 +19,14 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_NAME=testdb
-      - DB_USER=postgres
-      - DB_PASSWORD=pw
-      - DB_HOST=db
+      - MPI_DB_TYPE=postgres
+      - MPI_DBNAME=testdb
+      - MPI_HOST=db
+      - MPI_PORT=5432
+      - MPI_USER=postgres
+      - MPI_PASSWORD=pw
+      - MPI_PATIENT_TABLE=patient
+      - MPI_PERSON_TABLE=person
     depends_on:
       db:
         condition: service_healthy
