@@ -315,7 +315,6 @@ async def data_to_kafka(
             data_to_kafka_command.append(f"--{value}")
             data_to_kafka_command.append(input[value])
     data_to_kafka_command = " ".join(data_to_kafka_command)
-    print(data_to_kafka_command)
     data_to_kafka_result = subprocess.run(
         data_to_kafka_command, shell=True, capture_output=True, text=True
     )
