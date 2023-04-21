@@ -6,7 +6,6 @@ import sys
 from app.utils import get_spark_schema
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
-from icecream import ic
 
 
 def set_selection_flags(arguments: list) -> dict:
