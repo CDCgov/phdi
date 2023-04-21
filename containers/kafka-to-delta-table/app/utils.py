@@ -11,8 +11,6 @@ from pyspark.sql.types import (
 )
 from pathlib import Path
 
-# from icecream import ic
-
 
 SCHEMA_TYPE_MAP = {
     "string": StringType(),
