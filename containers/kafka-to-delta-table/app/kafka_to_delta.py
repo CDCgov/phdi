@@ -164,7 +164,7 @@ def main():
         .config("spark.sql.debug.maxToStringFields", "100")
         .getOrCreate()
     )
-    spark.sparkContext.setLogLevel("ALL")
+    spark.sparkContext.setLogLevel("WARN")
     base_path = "./persistent_storage/kafka/"
 
     if selection_flags["adlsgen2"]:
