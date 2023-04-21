@@ -22,8 +22,8 @@ RUN tar -xvzf spark-3.3.2-bin-hadoop3.tgz
 RUN mv spark-3.3.2-bin-hadoop3 /usr/local/spark
 
 COPY ./app /code/app
-COPY ./kafka_to_delta.py /code/kafka_to_delta.py
+COPY ./app/kafka_to_delta.py /code/kafka_to_delta.py
+COPY ./app/data_to_kafka.py /code/data_to_kafka.py
 COPY ./description.md /code/description.md
-
 EXPOSE 8080
 CMD uvicorn app.main:app --host 0.0.0.0 --port 8080

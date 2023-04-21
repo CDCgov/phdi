@@ -1,12 +1,12 @@
-from storage_connectors import STORAGE_PROVIDERS
+from app.storage_connectors import STORAGE_PROVIDERS
 from pyspark.sql.types import StructType
 from pyspark.sql import SparkSession, DataFrame
-from utils import get_spark_schema
+from app.utils import get_spark_schema
 import sys
 import argparse
 import json
 from pyspark.sql.functions import to_json, struct
-from kafka_connectors import KAFKA_PROVIDERS
+from app.kafka_connectors import KAFKA_PROVIDERS
 
 
 def set_selection_flags(arguments: list) -> dict:

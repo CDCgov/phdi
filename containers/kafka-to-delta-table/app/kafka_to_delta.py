@@ -1,11 +1,11 @@
-from storage_connectors import connect_to_adlsgen2
-from kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
+from app.storage_connectors import connect_to_adlsgen2
+from app.kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
 from pyspark.sql import SparkSession
 import argparse
 import sys
-from utils import get_spark_schema
-from kafka_connectors import KAFKA_PROVIDERS
-from storage_connectors import STORAGE_PROVIDERS
+from app.utils import get_spark_schema
+from app.kafka_connectors import KAFKA_PROVIDERS
+from app.storage_connectors import STORAGE_PROVIDERS
 
 
 def set_selection_flags(arguments: list) -> dict:

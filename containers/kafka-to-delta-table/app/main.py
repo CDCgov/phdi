@@ -231,7 +231,7 @@ async def kafka_to_delta_table(
         "spark-submit",
         "--packages",
         ",".join(package_list),
-        str(Path(__file__).parent / "kafka_to_delta.py"),
+        "kafka_to_delta.py",
         "--kafka_provider",
         input.kafka_provider,
         "--storage_provider",
@@ -251,9 +251,12 @@ async def kafka_to_delta_table(
             kafka_to_delta_command.append(input[value])
 
     kafka_to_delta_command = " ".join(kafka_to_delta_command)
-
     kafka_to_delta_result = subprocess.run(
-        kafka_to_delta_command, shell=True, capture_output=True, text=True
+        kafka_to_delta_command,
+        shell=True,
+        capture_output=True,
+        text=True,
+        cwd=str(Path(__file__).parent.parent),
     )
 
     response_body["spark_log"] = kafka_to_delta_result.stdout
@@ -295,7 +298,8 @@ async def data_to_kafka(
     data_to_kafka_command = [
         "spark-submit",
         "--packages",
-        ",".join(package_list) + ", " + str(Path(__file__).parent / "data_to_kafka.py"),
+        ",".join(package_list),
+        "data_to_kafka.py",
         "--kafka_provider",
         input.kafka_provider,
         "--storage_provider",
@@ -316,7 +320,11 @@ async def data_to_kafka(
             data_to_kafka_command.append(input[value])
     data_to_kafka_command = " ".join(data_to_kafka_command)
     data_to_kafka_result = subprocess.run(
-        data_to_kafka_command, shell=True, capture_output=True, text=True
+        data_to_kafka_command,
+        shell=True,
+        capture_output=True,
+        text=True,
+        cwd=str(Path(__file__).parent.parent),
     )
 
     response_body["spark_log"] = data_to_kafka_result.stdout
