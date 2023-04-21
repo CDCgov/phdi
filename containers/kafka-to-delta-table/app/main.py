@@ -5,10 +5,9 @@ from typing import Literal
 from pydantic import BaseModel, Field, root_validator
 import subprocess
 from fastapi import Response, status
-from app.kafka_connectors import KAFKA_PROVIDERS
+from app.kafka_connectors import KAFKA_PROVIDERS, KAFKA_WRITE_DATA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
 from app.utils import validate_schema, SCHEMA_TYPE_MAP, load_schema
-from icecream import ic
 
 # A map of the required values for all supported kafka and storage providers.
 REQUIRED_VALUES_MAP = {
@@ -33,11 +32,6 @@ REQUIRED_VALUES_MAP = {
         ],
     },
 }
-
-
-# class DataToKafka:
-#     main: json = Field(description="Data to upload")
-#     topic: str = Field(description="Name of topic to upload data to")
 
 
 class KafkaToDeltaTableInput(BaseModel):
@@ -173,7 +167,11 @@ class KafkaToDeltaTableInput(BaseModel):
 
 
 class DataToKafkaInput(KafkaToDeltaTableInput):
-    kafka_data: dict = Field(description="Data to be uploaded to kafka")
+    kafka_provider: KAFKA_WRITE_DATA_PROVIDERS = Field(
+        description="The type of kafka cluster to read from. Only local_kafka is "
+        "supported for writing data at this time."
+    )
+    kafka_data: list = Field(description="Data to be uploaded to kafka")
 
 
 class KafkaToDeltaTableOutput(BaseModel):
@@ -253,13 +251,12 @@ async def kafka_to_delta_table(
             kafka_to_delta_command.append(input[value])
 
     kafka_to_delta_command = " ".join(kafka_to_delta_command)
-    ic(kafka_to_delta_command)
+
     kafka_to_delta_result = subprocess.run(
         kafka_to_delta_command, shell=True, capture_output=True, text=True
     )
 
     response_body["spark_log"] = kafka_to_delta_result.stdout
-    ic(kafka_to_delta_result)
     if kafka_to_delta_result.returncode != 0:
         response_body["status"] = "failed"
         response_body["spark_log"] = kafka_to_delta_result.stderr
@@ -298,8 +295,7 @@ async def data_to_kafka(
     data_to_kafka_command = [
         "spark-submit",
         "--packages",
-        ",".join(package_list),
-        str(Path(__file__).parent / "data_to_kafka.py"),
+        ",".join(package_list) + ", " + str(Path(__file__).parent / "data_to_kafka.py"),
         "--kafka_provider",
         input.kafka_provider,
         "--storage_provider",
@@ -309,9 +305,8 @@ async def data_to_kafka(
         "--schema",
         f"'{json.dumps(schema)}'",
         "--data",
-        str(input.kafka_data),
+        f"'{json.dumps(input.kafka_data)}'",
     ]
-    ic(data_to_kafka_command)
     input = input.dict()
     for provider_type in REQUIRED_VALUES_MAP:
         provider = input[provider_type]
@@ -319,8 +314,8 @@ async def data_to_kafka(
         for value in required_values:
             data_to_kafka_command.append(f"--{value}")
             data_to_kafka_command.append(input[value])
-
     data_to_kafka_command = " ".join(data_to_kafka_command)
+    print(data_to_kafka_command)
     data_to_kafka_result = subprocess.run(
         data_to_kafka_command, shell=True, capture_output=True, text=True
     )
@@ -329,5 +324,4 @@ async def data_to_kafka(
     if data_to_kafka_result.returncode != 0:
         response_body["status"] = "failed"
         response_body["spark_log"] = data_to_kafka_result.stderr
-    ic(response_body)
     return response_body

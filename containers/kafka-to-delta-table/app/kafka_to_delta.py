@@ -6,7 +6,6 @@ import sys
 from utils import get_spark_schema
 from kafka_connectors import KAFKA_PROVIDERS
 from storage_connectors import STORAGE_PROVIDERS
-from icecream import ic
 
 
 def set_selection_flags(arguments: list) -> dict:
@@ -150,7 +149,6 @@ def main():
     Submit a Spark job to read from a Kafka topic and write to a Delta table according
     to configuration provided by command line arguments.
     """
-    ic("hello from kafka to delta")
     arguments_list = sys.argv[1:]
     selection_flags = set_selection_flags(arguments_list)
     arguments = get_arguments(arguments_list, selection_flags)
