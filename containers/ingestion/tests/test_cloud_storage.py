@@ -16,9 +16,7 @@ client_url = "/cloud/storage/write_blob_to_storage"
 
 @mock.patch("app.routers.cloud_storage.get_cloud_provider_storage_connection")
 @mock.patch("app.routers.cloud_storage.write_blob_to_cloud_storage_endpoint")
-def test_cloud_storage_params_success(
-    patched_time, patched_blob_write, patched_get_provider
-):
+def test_cloud_storage_params_success(patched_blob_write, patched_get_provider):
     test_request = {
         "blob": test_bundle,
         "cloud_provider": "azure",
@@ -29,7 +27,6 @@ def test_cloud_storage_params_success(
 
     patched_get_provider("azure").return_value = mock.Mock()
     cloud_response = mock.Mock()
-    patched_time.time().return_value = 1
     patched_blob_write.return_value = cloud_response
 
     patched_get_provider.return_value.upload_object.return_value = mock.Mock()
