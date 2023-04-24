@@ -6,7 +6,6 @@ import argparse
 import json
 from pyspark.sql.functions import to_json, struct
 from app.kafka_connectors import KAFKA_PROVIDERS, create_kafka_data_frame
-from icecream import ic
 
 
 def set_selection_flags(arguments: list) -> dict:
