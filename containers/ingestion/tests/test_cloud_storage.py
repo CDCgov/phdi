@@ -34,12 +34,12 @@ def test_cloud_storage_params_success(patched_blob_write, patched_get_provider):
     actual_response = client.post(client_url, json=test_request)
 
     patched_get_provider.return_value.upload_object.assert_called_with(
-        message=test_request, container_name="test_bucket", filename="test_file_name1"
+        message=test_request, container_name="test_bucket", filename="test_file_name"
     )
 
     expected_message = (
         "The data has successfully been stored in the azure cloud "
-        "in test_bucket container with the name test_file_name1."
+        "in test_bucket container with the name test_file_name."
     )
     expected_response = {
         "status_code": "201",
