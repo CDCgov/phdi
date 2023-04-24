@@ -85,3 +85,20 @@ def connect_to_local_kafka(
         .select(col("parsed_value.*"))
     )
     return kafka_data_frame
+
+
+def create_kafka_data_frame(
+    spark: SparkSession,
+    schema: StructType,
+    data: list[dict],
+) -> DataFrame:
+    """
+    Given a SparkSession object and a schema (StructType) return a dataframe for writing
+    data.
+
+    :param spark: A SparkSession object to use for streaming data from Kafka.
+    :param schema: A schema describing the JSON values read from the topic.
+    :param data: A list of the data to be written
+    """
+    kafka_data_frame = spark.createDataFrame(data, schema)
+    return kafka_data_frame

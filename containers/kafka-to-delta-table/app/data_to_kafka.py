@@ -1,12 +1,12 @@
 from app.storage_connectors import STORAGE_PROVIDERS
-from pyspark.sql.types import StructType
-from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql import SparkSession
 from app.utils import get_spark_schema
 import sys
 import argparse
 import json
 from pyspark.sql.functions import to_json, struct
-from app.kafka_connectors import KAFKA_PROVIDERS
+from app.kafka_connectors import KAFKA_PROVIDERS, create_kafka_data_frame
+from icecream import ic
 
 
 def set_selection_flags(arguments: list) -> dict:
@@ -151,23 +151,6 @@ def get_arguments(arguments: list, selection_flags: dict) -> argparse.Namespace:
     return parser.parse_args(arguments)
 
 
-def connect_to_local_kafka(
-    spark: SparkSession,
-    schema: StructType,
-    data: list[dict],
-) -> DataFrame:
-    """
-    Given a SparkSession object and a schema (StructType) read JSON data from a Kafka
-    topic.
-
-    :param spark: A SparkSession object to use for streaming data from Kafka.
-    :param schema: A schema describing the JSON values read from the topic.
-    :param data: A list of the data to be written
-    """
-    kafka_data_frame = spark.createDataFrame(data, schema)
-    return kafka_data_frame
-
-
 def main():
     """
     Upload data to kafka instance
@@ -187,12 +170,12 @@ def main():
     schema = get_spark_schema(arguments.schema)
 
     if selection_flags["local_kafka"]:
-        kafka_data_frame = connect_to_local_kafka(
+        kafka_data_frame = create_kafka_data_frame(
             spark,
             schema,
             data=json.loads(arguments.data),
         )
-
+    kafka_data_frame.method()
     df_json = kafka_data_frame.select(to_json(struct("*")).alias("value"))
 
     (
