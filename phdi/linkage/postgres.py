@@ -134,40 +134,31 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             # Use context manager to handle commits and transactions
             with self.get_connection() as db_conn:
                 with db_conn.cursor() as db_cursor:
-                    # Match has been found
-                    if person_id is not None:
-                        # Insert into patient table
-                        insert_patient_table = (
-                            f"INSERT INTO {self.patient_table} "
-                            + "(patient_id, person_id, patient_resource) "
-                            + f"""VALUES ('{patient_resource.get("id")}',
-                                '{person_id}', """
-                            + f"""'{json.dumps(patient_resource)}');"""
-                        )
-
                     # Match has not been found
-                    else:
+                    if person_id is None:
                         # Insert a new record into person table to generate new
                         # person_id
-                        db_cursor.execute(
-                            f"""INSERT INTO {self.person_table} """
-                            + """ (external_person_id) VALUES ('NULL') """
-                            + """ RETURNING person_id;"""
+                        insert_new_person = psycopg2.sql.SQL(
+                            "INSERT INTO {person_table} (external_person_id) VALUES ('NULL') RETURNING person_id;"
+                        ).format(
+                            person_table=psycopg2.sql.Identifier(self.person_table)
                         )
+
+                        db_cursor.execute(insert_new_person)
 
                         # Retrieve newly generated person_id
-                        person_id = db_cursor.fetchall()
+                        person_id = db_cursor.fetchall()[0][0]
 
-                        # Insert into patient table
-                        insert_patient_table = (
-                            f"INSERT INTO {self.patient_table} "
-                            + "(patient_id, person_id, patient_resource) "
-                            + f"VALUES ('{patient_resource.get('id')}',"
-                            f"'{person_id[0][0]}', "
-                            + f"'{json.dumps(patient_resource)}');"
-                        )
-
-                    db_cursor.execute(insert_patient_table)
+                    # Insert into patient table
+                    insert_new_patient = psycopg2.sql.SQL(
+                        "INSERT INTO {patient_table} (patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
+                    ).format(patient_table=psycopg2.sql.Identifier(self.patient_table))
+                    data = [
+                        patient_resource.get("id"),
+                        person_id,
+                        json.dumps(patient_resource),
+                    ]
+                    db_cursor.execute(insert_new_patient, data)
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
