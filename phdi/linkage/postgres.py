@@ -168,7 +168,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         finally:
             self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
 
-        return person_id[0][0]
+        return person_id
 
     def _generate_block_query(self, block_vals: dict) -> Tuple[SQL, list[str]]:
         """
