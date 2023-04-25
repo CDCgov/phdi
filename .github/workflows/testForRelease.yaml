@@ -1,0 +1,170 @@
+name: Test for Release
+on:
+  workflow_call:
+
+env:
+  TEST_RUNNER_PYTHON_VERSION: 3.9
+
+jobs:
+  postgres-tests:
+    runs-on: ubuntu-latest
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: poetry install
+      - name: test_postgres_connection
+        run: poetry run pytest tests/linkage/test_postgres_mpi_connector.py
+  unit-test-phdi-building-blocks-lib:
+    runs-on: ubuntu-latest
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${HOME}/.poetry/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: poetry install
+      - name: Run pytest with code coverage output
+        run: poetry run pytest --cov-report xml --cov=phdi tests/
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unit-tests
+
+  code-check-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install black flake8
+      - name: Check format (black)
+        run: |
+          black --check --verbose .
+      - name: Check style (flake8)
+        run: |
+          flake8
+
+  ensure-clean-notebooks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check notebook cleanliness
+        uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
+
+  list-containers:
+    # Get a list of all the directories within containers/.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./containers
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get install jq
+      - id: make-list
+        name: Generate list of directories within containers/
+        # use jq to produce json output and filter out the empty item caused by final newline
+        run: |
+          echo "::set-output name=containers::$(ls -d */ | jq -R -s -c 'split("\n")[:-1]')"
+    outputs:
+      container-dirs: ${{steps.make-list.outputs.containers}}
+
+  unit-test-python-containers:
+    needs: list-containers
+    runs-on: ubuntu-latest
+    services:
+      test-db:
+        image: postgres:13-alpine3.16
+        env:
+          POSTGRES_PASSWORD: pw
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name testdb
+        ports:
+          - 5432:5432
+    strategy:
+      matrix:
+        container-to-test: ${{fromJson(needs.list-containers.outputs.container-dirs)}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install Pytest
+        run: pip install pytest
+      - name: Install dependencies
+        working-directory: ./containers/${{matrix.container-to-test}}
+        run: |
+          pip install -r requirements.txt
+      - name: Run unit tests for containers
+        working-directory: ./containers/${{matrix.container-to-test}}/tests
+        run: |
+          python -m pytest

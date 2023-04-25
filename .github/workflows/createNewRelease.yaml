@@ -1,18 +1,20 @@
-name: Test, Tag, Document
+name: Create New Release
 on:
   workflow_dispatch:
     inputs:
       custom_tag:
+        name: Set Release Tag Version
         description: "Enter version number for release tag below. Don't forget the v! Example: v2.23.9"
         type: string
         required: true
-
+# Run all tests before making a release
 jobs:
-  test:
-    uses: ./.github/workflows/test.yaml
+  test-for-release:
+    uses: ./.github/workflows/testForRelease.yaml
 
-  create-tagged-release:
-    needs: test
+# Create new release tag based upon user input
+  create-tag:
+    needs: test-for-release
     permissions:
       contents: write
     runs-on: ubuntu-22.04
@@ -27,8 +29,35 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CUSTOM_TAG: ${{ github.event.inputs.custom_tag }}
 
+# Create new release based upon the latest created tag
+  build:
+    name: Create Release
+    needs: create-tag
+    permissions:
+      contents: write
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.custom_tag }}
+          release_name: Release ${{ github.event.inputs.custom_tag }}
+          body: |
+            Changes in this Release
+
+# Rebuild all containers for the new release
+  build-containers-for-release:
+    needs: build
+    uses: ./.github/workflows/buildReleaseContainers.yaml
+
+# Create updated docs for the latest release
   generate-and-update-docs:
-    needs: create-tagged-release
+    needs: build-containers-for-release
     permissions:
       contents: write
     runs-on: ubuntu-latest
