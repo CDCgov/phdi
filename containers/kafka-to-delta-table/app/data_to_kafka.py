@@ -174,7 +174,6 @@ def main():
             schema,
             data=json.loads(arguments.data),
         )
-    kafka_data_frame.method()
     df_json = kafka_data_frame.select(to_json(struct("*")).alias("value"))
 
     (
