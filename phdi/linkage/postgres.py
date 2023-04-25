@@ -1,6 +1,7 @@
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Tuple
 from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
+from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import connection, cursor
 import json
 
@@ -93,9 +94,11 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             with self.get_connection() as db_conn:
                 with db_conn.cursor() as db_cursor:
                     # Generate raw SQL query
-                    query = self._generate_block_query(block_vals)
+                    
+                    query, data = self._generate_block_query(block_vals)
+                    breakpoint()
                     # Execute query
-                    db_cursor.execute(query)
+                    db_cursor.execute(query, tuple(data))
                     blocked_data = [list(row) for row in db_cursor.fetchall()]
 
         except Exception as error:  # pragma: no cover
@@ -138,10 +141,10 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                     if person_id is None:
                         # Insert a new record into person table to generate new
                         # person_id
-                        insert_new_person = psycopg2.sql.SQL(
+                        insert_new_person = SQL(
                             "INSERT INTO {person_table} (external_person_id) VALUES ('NULL') RETURNING person_id;"
                         ).format(
-                            person_table=psycopg2.sql.Identifier(self.person_table)
+                            person_table=Identifier(self.person_table)
                         )
 
                         db_cursor.execute(insert_new_person)
@@ -150,9 +153,9 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                         person_id = db_cursor.fetchall()[0][0]
 
                     # Insert into patient table
-                    insert_new_patient = psycopg2.sql.SQL(
+                    insert_new_patient = SQL(
                         "INSERT INTO {patient_table} (patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
-                    ).format(patient_table=psycopg2.sql.Identifier(self.patient_table))
+                    ).format(patient_table= Identifier(self.patient_table))
                     data = [
                         patient_resource.get("id"),
                         person_id,
@@ -168,7 +171,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
         return person_id[0][0]
 
-    def _generate_block_query(self, block_vals: dict) -> str:
+    def _generate_block_query(self, block_vals: dict) -> Tuple[SQL, list[str]]:
         """
         Generates a query for selecting a block of data from the patient table per the
         block_vals parameters. Accepted blocking fields include: first_name, last_name,
@@ -180,7 +183,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
           e.g., {["ZIP"]: {"value": "90210"}} or
           {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
         :raises ValueError: If column key in `block_vals` is not supported.
-        :return: Query to select block of data base on `block_vals` parameters.
+        :return: A tuple containing a psycopg2.sql.SQL object representing the query as 
+            well as list of all data to be inserted into it.
 
         """
         # Check whether `block_vals` contains supported keys
@@ -194,46 +198,40 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
         # Generate select query to extract fields_to_jsonpaths keys
         select_query_stubs = []
+        select_query_stubs_data = []
         for key in self.fields_to_jsonpaths:
-            query = f"""jsonb_path_query_array(patient_resource,
-                '{self.fields_to_jsonpaths[key]}') as {key}"""
+            query = f"jsonb_path_query_array(patient_resource,%s) as {key}"
             select_query_stubs.append(query)
+            select_query_stubs_data.append(self.fields_to_jsonpaths[key])
         select_query = "SELECT patient_id, person_id, " + ", ".join(
             stub for stub in select_query_stubs
         )
 
         # Generate blocking query based on blocking criteria
         block_query_stubs = []
+        block_query_stubs_data = []
         for col_name, param in block_vals.items():
+            query = "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= '[true]'"
+            block_query_stubs.append(query)
             # Add appropriate transformations
             if "transformation" in param:
                 # first4 transformations
                 if block_vals[col_name]["transformation"] == "first4":
-                    query = f"""
-                        CAST(jsonb_path_query_array(patient_resource,
-                        '{self.fields_to_jsonpaths[col_name]} starts with
-                        "{block_vals[col_name]["value"]}"') as VARCHAR)
-                        = '[true]'"""
+                    block_query_stubs_data.append(f'{self.fields_to_jsonpaths[col_name]} starts with "{block_vals[col_name]["value"]}"')
                 # last4 transformations
                 else:
-                    query = f"""
-                        CAST(jsonb_path_query_array(patient_resource,
-                        '{self.fields_to_jsonpaths[col_name]} like_regex
-                        "{block_vals[col_name]["value"]}$$"') as VARCHAR)
-                        = '[true]'"""
-
+                    block_query_stubs_data.append(f'{self.fields_to_jsonpaths[col_name]} like_regex "{block_vals[col_name]["value"]}$$"')
             # Build query for columns without transformations
             else:
-                query = f"""CAST(jsonb_path_query_array(patient_resource,
-                        '{self.fields_to_jsonpaths[col_name]} like_regex
-                        "{block_vals[col_name]["value"]}"') as VARCHAR)
-                        = '[true]'"""
-            block_query_stubs.append(query)
-
+                block_query_stubs_data.append(f'{self.fields_to_jsonpaths[col_name]} like_regex "{block_vals[col_name]["value"]}"')
+            
         block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
 
-        query = select_query + f" FROM {self.patient_table}" + block_query + ";"
-        return query
+        query = select_query + " FROM {patient_table}" + block_query + ";"
+        query = SQL(query).format( patient_table=Identifier(self.patient_table))
+        data = select_query_stubs_data + block_query_stubs_data
+        
+        return query, data
 
     def _close_connections(
         self,
