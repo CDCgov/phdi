@@ -96,7 +96,6 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                     # Generate raw SQL query
                     
                     query, data = self._generate_block_query(block_vals)
-                    breakpoint()
                     # Execute query
                     db_cursor.execute(query, tuple(data))
                     blocked_data = [list(row) for row in db_cursor.fetchall()]
