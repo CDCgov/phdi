@@ -17,13 +17,20 @@ valid_response = {
     "FhirResource": {
         "resourceType": "Bundle",
         "type": "batch",
-        "timestamp": "1989-08-18T11:26:00+02:15",
+        "timestamp": "2021-08-18T11:26:00+02:15",
         "identifier": {"value": "MSG00001"},
         "id": "513a3d06-5e87-6fbc-ad1b-170ab430499f",
-        "entry": [{"resource": "FHIR_RESOURCE"}],
+        "entry": [
+            {
+                "fullUrl": "urn:uuid:9e909e52-61a1-be50-1878-a12ef8c36346",
+                "resource": {
+                    "resourceType": "Patient",
+                    "id": "02710678-32ab-4cea-b2f3-859b40a93ce3",
+                },
+            }
+        ],
     },
 }
-
 conversion_failure_response = {
     "_mock_call_args": None,
     "_mock_call_args_list": [],
