@@ -176,10 +176,13 @@ def convert_to_fhir(
         # Generate a new UUID for the patient resource.
         for entry in result["FhirResource"]["entry"]:
             if entry["resource"]["resourceType"] == "Patient":
-                new_id = str(uuid.uuid4())
-                entry["fullURL"] = f"urn:uuid:{new_id}"
-                entry["resource"]["id"] = new_id
+                old_id = entry["resource"]["id"]
                 break
+        new_id = str(uuid.uuid4())
+        result = json.dumps(result)
+        result = result.replace(old_id, new_id)
+        result = json.loads(result)
+        
     else:
         result = vars(converter_response)
         # Include original input data in the result.

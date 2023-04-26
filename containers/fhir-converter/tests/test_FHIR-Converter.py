@@ -1,7 +1,8 @@
 # flake8: noqa
 from unittest import mock
 from fastapi.testclient import TestClient
-
+import json
+import copy
 from app.main import api
 
 client = TestClient(api)
@@ -12,6 +13,7 @@ valid_request = {
     "root_template": "ADT_A01",
 }
 
+global valid_response 
 valid_response = {
     "Status": "OK",
     "FhirResource": {
@@ -22,7 +24,7 @@ valid_response = {
         "id": "513a3d06-5e87-6fbc-ad1b-170ab430499f",
         "entry": [
             {
-                "fullUrl": "urn:uuid:9e909e52-61a1-be50-1878-a12ef8c36346",
+                "fullUrl": "urn:uuid:02710678-32ab-4cea-b2f3-859b40a93ce3",
                 "resource": {
                     "resourceType": "Patient",
                     "id": "02710678-32ab-4cea-b2f3-859b40a93ce3",
@@ -191,9 +193,11 @@ def test_health_check():
 @mock.patch("app.main.subprocess.run")
 @mock.patch("app.main.Path")
 def test_convert_valid_request(
-    patched_file_path, patched_subprocess_run, patched_open, patched_json_load
+    patched_file_path, patched_subprocess_run, patched_open, patched_json_load,
 ):
+    global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
+    print(valid_response)
     patched_json_load.return_value = valid_response
     patched_file_path = mock.Mock()
     actual_response = client.post(
@@ -201,7 +205,13 @@ def test_convert_valid_request(
         json=valid_request,
     )
     assert actual_response.status_code == 200
-    assert actual_response.json().get("response") == valid_response
+    actual_response = actual_response.json().get("response")
+    new_id = actual_response["FhirResource"]["entry"][0]["resource"]["id"]
+    old_id = valid_response["FhirResource"]["entry"][0]["resource"]["id"]
+    valid_response = json.dumps(valid_response)
+    valid_response = valid_response.replace(old_id, new_id)
+    valid_response = json.loads(valid_response)
+    assert actual_response == valid_response
 
 
 @mock.patch("app.main.json.load")
