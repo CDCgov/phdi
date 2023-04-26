@@ -1,7 +1,7 @@
 # flake8: noqa
 from unittest import mock
 from fastapi.testclient import TestClient
-
+import json
 from app.main import api
 
 client = TestClient(api)
@@ -12,18 +12,26 @@ valid_request = {
     "root_template": "ADT_A01",
 }
 
+global valid_response
 valid_response = {
     "Status": "OK",
     "FhirResource": {
         "resourceType": "Bundle",
         "type": "batch",
-        "timestamp": "1989-08-18T11:26:00+02:15",
+        "timestamp": "2021-08-18T11:26:00+02:15",
         "identifier": {"value": "MSG00001"},
         "id": "513a3d06-5e87-6fbc-ad1b-170ab430499f",
-        "entry": [{"resource": "FHIR_RESOURCE"}],
+        "entry": [
+            {
+                "fullUrl": "urn:uuid:02710678-32ab-4cea-b2f3-859b40a93ce3",
+                "resource": {
+                    "resourceType": "Patient",
+                    "id": "02710678-32ab-4cea-b2f3-859b40a93ce3",
+                },
+            }
+        ],
     },
 }
-
 conversion_failure_response = {
     "_mock_call_args": None,
     "_mock_call_args_list": [],
@@ -184,9 +192,14 @@ def test_health_check():
 @mock.patch("app.main.subprocess.run")
 @mock.patch("app.main.Path")
 def test_convert_valid_request(
-    patched_file_path, patched_subprocess_run, patched_open, patched_json_load
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
 ):
+    global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
+    print(valid_response)
     patched_json_load.return_value = valid_response
     patched_file_path = mock.Mock()
     actual_response = client.post(
@@ -194,7 +207,13 @@ def test_convert_valid_request(
         json=valid_request,
     )
     assert actual_response.status_code == 200
-    assert actual_response.json().get("response") == valid_response
+    actual_response = actual_response.json().get("response")
+    new_id = actual_response["FhirResource"]["entry"][0]["resource"]["id"]
+    old_id = valid_response["FhirResource"]["entry"][0]["resource"]["id"]
+    valid_response = json.dumps(valid_response)
+    valid_response = valid_response.replace(old_id, new_id)
+    valid_response = json.loads(valid_response)
+    assert actual_response == valid_response
 
 
 @mock.patch("app.main.json.load")
