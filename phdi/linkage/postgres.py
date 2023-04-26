@@ -97,7 +97,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
                     query, data = self._generate_block_query(block_vals)
                     # Execute query
-                    db_cursor.execute(query, tuple(data))
+                    db_cursor.execute(query, data)
                     blocked_data = [list(row) for row in db_cursor.fetchall()]
 
         except Exception as error:  # pragma: no cover
