@@ -182,7 +182,7 @@ def convert_to_fhir(
         result = json.dumps(result)
         result = result.replace(old_id, new_id)
         result = json.loads(result)
-        
+
     else:
         result = vars(converter_response)
         # Include original input data in the result.

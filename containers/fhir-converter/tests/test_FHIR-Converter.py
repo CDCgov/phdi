@@ -13,7 +13,7 @@ valid_request = {
     "root_template": "ADT_A01",
 }
 
-global valid_response 
+global valid_response
 valid_response = {
     "Status": "OK",
     "FhirResource": {
@@ -193,7 +193,10 @@ def test_health_check():
 @mock.patch("app.main.subprocess.run")
 @mock.patch("app.main.Path")
 def test_convert_valid_request(
-    patched_file_path, patched_subprocess_run, patched_open, patched_json_load,
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
 ):
     global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
