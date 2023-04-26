@@ -8,13 +8,6 @@ repository = "https://github.com/CDCgov/phdi"
 documentation = "https://cdcgov.github.io/phdi/v0.1.0-dev/"
 readme = "README.md"
 
-[tool.poetry.repositories]
-# Use the "my-package-test" package name on TestPyPI
-testpypi = {
-    url = "https://test.pypi.org/legacy/",
-    package = "phdibb2"
-}
-
 [tool.poetry.dependencies]
 python = "^3.9"
 smartystreets-python-sdk = "^4.10.6"
