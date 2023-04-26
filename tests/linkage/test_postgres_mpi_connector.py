@@ -25,7 +25,7 @@ def test_generate_block_query():
     generated_query, generated_data = postgres_client._generate_block_query(block_vals)
     assert (
         generated_query.__str__()
-        == "Composed([SQL('SELECT patient_id, person_id, jsonb_path_query_array(patient_resource,%s) as address, jsonb_path_query_array(patient_resource,%s) as birthdate, jsonb_path_query_array(patient_resource,%s) as city, jsonb_path_query_array(patient_resource,%s) as first_name, jsonb_path_query_array(patient_resource,%s) as last_name, jsonb_path_query_array(patient_resource,%s) as mrn, jsonb_path_query_array(patient_resource,%s) as sex, jsonb_path_query_array(patient_resource,%s) as state, jsonb_path_query_array(patient_resource,%s) as zip FROM '), Identifier('test_patient_mpi'), SQL(\" WHERE CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= '[true]' AND CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= '[true]';\")])" #noqa
+        == "Composed([SQL('SELECT patient_id, person_id, jsonb_path_query_array(patient_resource,%s) as address, jsonb_path_query_array(patient_resource,%s) as birthdate, jsonb_path_query_array(patient_resource,%s) as city, jsonb_path_query_array(patient_resource,%s) as first_name, jsonb_path_query_array(patient_resource,%s) as last_name, jsonb_path_query_array(patient_resource,%s) as mrn, jsonb_path_query_array(patient_resource,%s) as sex, jsonb_path_query_array(patient_resource,%s) as state, jsonb_path_query_array(patient_resource,%s) as zip FROM '), Identifier('test_patient_mpi'), SQL(\" WHERE CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= '[true]' AND CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= '[true]';\")])"  # noqa
     )
     assert generated_data == [
         "$.address[*].line",

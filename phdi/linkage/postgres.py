@@ -210,27 +210,29 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         block_query_stubs = []
         block_query_stubs_data = []
         for col_name, param in block_vals.items():
-            query = "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= "\
+            query = (
+                "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= "
                 "'[true]'"
+            )
             block_query_stubs.append(query)
             # Add appropriate transformations
             if "transformation" in param:
                 # first4 transformations
                 if block_vals[col_name]["transformation"] == "first4":
                     block_query_stubs_data.append(
-                        f'{self.fields_to_jsonpaths[col_name]} starts with '
+                        f"{self.fields_to_jsonpaths[col_name]} starts with "
                         f'"{block_vals[col_name]["value"]}"'
                     )
                 # last4 transformations
                 else:
                     block_query_stubs_data.append(
-                        f'{self.fields_to_jsonpaths[col_name]} like_regex '
+                        f"{self.fields_to_jsonpaths[col_name]} like_regex "
                         f'"{block_vals[col_name]["value"]}$$"'
                     )
             # Build query for columns without transformations
             else:
                 block_query_stubs_data.append(
-                    f'{self.fields_to_jsonpaths[col_name]} like_regex '
+                    f"{self.fields_to_jsonpaths[col_name]} like_regex "
                     f'"{block_vals[col_name]["value"]}"'
                 )
 
