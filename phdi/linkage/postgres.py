@@ -141,7 +141,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                         # Insert a new record into person table to generate new
                         # person_id
                         insert_new_person = SQL(
-                            "INSERT INTO {person_table} (external_person_id) VALUES ('NULL') RETURNING person_id;"
+                            "INSERT INTO {person_table} (external_person_id) VALUES "
+                            "('NULL') RETURNING person_id;"
                         ).format(person_table=Identifier(self.person_table))
 
                         db_cursor.execute(insert_new_person)
@@ -151,7 +152,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
                     # Insert into patient table
                     insert_new_patient = SQL(
-                        "INSERT INTO {patient_table} (patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
+                        "INSERT INTO {patient_table} "
+                        "(patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
                     ).format(patient_table=Identifier(self.patient_table))
                     data = [
                         patient_resource.get("id"),
@@ -208,24 +210,28 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         block_query_stubs = []
         block_query_stubs_data = []
         for col_name, param in block_vals.items():
-            query = "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= '[true]'"
+            query = "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= "\
+                "'[true]'"
             block_query_stubs.append(query)
             # Add appropriate transformations
             if "transformation" in param:
                 # first4 transformations
                 if block_vals[col_name]["transformation"] == "first4":
                     block_query_stubs_data.append(
-                        f'{self.fields_to_jsonpaths[col_name]} starts with "{block_vals[col_name]["value"]}"'
+                        f'{self.fields_to_jsonpaths[col_name]} starts with '
+                        f'"{block_vals[col_name]["value"]}"'
                     )
                 # last4 transformations
                 else:
                     block_query_stubs_data.append(
-                        f'{self.fields_to_jsonpaths[col_name]} like_regex "{block_vals[col_name]["value"]}$$"'
+                        f'{self.fields_to_jsonpaths[col_name]} like_regex '
+                        f'"{block_vals[col_name]["value"]}$$"'
                     )
             # Build query for columns without transformations
             else:
                 block_query_stubs_data.append(
-                    f'{self.fields_to_jsonpaths[col_name]} like_regex "{block_vals[col_name]["value"]}"'
+                    f'{self.fields_to_jsonpaths[col_name]} like_regex '
+                    f'"{block_vals[col_name]["value"]}"'
                 )
 
         block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
