@@ -2,7 +2,6 @@
 from unittest import mock
 from fastapi.testclient import TestClient
 import json
-import copy
 from app.main import api
 
 client = TestClient(api)
