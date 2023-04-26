@@ -1410,7 +1410,7 @@ def add_person_resource(
         "resource": {
             "resourceType": "Person",
             "id": f"{person_id}",
-            "link": [{"target": {"Reference": f"Patient/{patient_id}"}}],
+            "link": [{"target": {"reference": f"Patient/{patient_id}"}}],
         },
         "request": {
             "method": "PUT",
