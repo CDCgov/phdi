@@ -1,7 +1,16 @@
-name: Build containers for Release
+name: Build Release Specific Containers
 
 on:
   workflow_call:
+    inputs:
+      container-tag:
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      container-tag:
+        type: string
+        required: true
 
 jobs:
   list-containers:
@@ -13,6 +22,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.container-tag }}
       - name: Install dependencies
         run: |
           sudo apt-get install jq
@@ -37,6 +49,9 @@ jobs:
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.container-tag }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -52,7 +67,16 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          ref: ${{ inputs.container-tag }}
           images: ghcr.io/${{ github.repository }}/${{matrix.container-to-build}}
+          # this sets the version for tags and labels for each of the containers to be
+          # be the same as the version/tag where the code was pulled from
+          tags: |
+            type=semver,pattern={{raw}},value=${{ inputs.container-tag }}
+            type=ref,event=branch
+            type=ref,event=tag,pattern={{raw}},value=${{ inputs.container-tag }}
+          labels: |
+            org.opencontainers.image.version=${{ inputs.container-tag }}
 
       - name: Build and push
         uses: docker/build-push-action@v3

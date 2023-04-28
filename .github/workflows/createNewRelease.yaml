@@ -7,13 +7,15 @@ on:
         description: "Enter version number for release tag below. Don't forget the v! Example: v2.23.9"
         type: string
         required: true
+
 # Run all tests before making a release
 jobs:
   test-for-release:
-    uses: ./.github/workflows/testForRelease.yaml
+    uses: ./.github/workflows/test.yaml
 
-# Create new release tag based upon user input
-  create-tag:
+
+  update-version-tag-release:
+    name: Update phdi init version number
     needs: test-for-release
     permissions:
       contents: write
@@ -22,23 +24,21 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
-
-      - name: Update version and push tag
-        uses: anothrNick/github-tag-action@1.55.0 # Don't use @master unless you're happy to test the latest version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CUSTOM_TAG: ${{ github.event.inputs.custom_tag }}
-
-# Create new release based upon the latest created tag
-  build:
-    name: Create Release
-    needs: create-tag
-    permissions:
-      contents: write
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+          ref: 'main'
+      - name: Install poetry and dependencies
+        run: |
+          pip install poetry
+      # update the version number in the phdi/__init.py__ file
+      - name: Update PHDI Version
+        run: |
+          poetry version ${{ github.event.inputs.custom_tag }}
+      # Create new release tag based upon user input
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: Create release ${{ github.event.inputs.custom_tag }}
+          add: pyproject.toml
+          tag: ${{ github.event.inputs.custom_tag }}
+      # Create new release based upon the latest created tag
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.1.4
@@ -46,14 +46,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.event.inputs.custom_tag }}
-          release_name: Release ${{ github.event.inputs.custom_tag }}
-          body: |
-            Changes in this Release
+          release_name: Release ${{ github.event.inputs.custom_tag }}    
 
 # Rebuild all containers for the new release
   build-containers-for-release:
-    needs: build
+    needs: update-version-tag-release
     uses: ./.github/workflows/buildReleaseContainers.yaml
+    with:
+      container-tag: ${{ github.event.inputs.custom_tag }}
 
 # Create updated docs for the latest release
   generate-and-update-docs:
@@ -65,6 +65,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
+          ref: ${{ github.event.inputs.custom_tag }}
 
       - name: Install poetry and dependencies
         run: |
@@ -78,7 +79,7 @@ jobs:
           rm -rf ./docs/latest
           cp -r ./docs/${{ github.event.inputs.custom_tag }} ./docs/latest
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: EndBug/add-and-commit@v9
         with:
-          commit_message: Automated update of API docs for ${{ github.event.inputs.custom_tag }} release.
-          branch: docs
+          message: Automated update of API docs for ${{ github.event.inputs.custom_tag }} release.
+          add: docs
