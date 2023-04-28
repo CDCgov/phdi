@@ -62,7 +62,7 @@ def run_migrations():
             print_psycopg2_exception(err)
 
 
-#Run MPI migrations on spin up
+# Run MPI migrations on spin up
 run_migrations()
 
 # Instantiate FastAPI and set metadata.
