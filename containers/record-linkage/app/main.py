@@ -152,7 +152,7 @@ async def health_check() -> HealthCheckResponse:
 
 
 @app.get("/run-mpi-migrations")
-async def run_mpi_migrations() -> HealthCheckResponse:
+async def run_mpi_migrations():
 
     try:
         run_migrations()
