@@ -17,7 +17,6 @@ test_bundle = json.load(
     open(
         pathlib.Path(__file__).parent
         / "assets"
-        / "linkage"
         / "patient_bundle_to_link_with_mpi.json"
     )
 )

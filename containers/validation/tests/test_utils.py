@@ -44,7 +44,6 @@ def test_validate_config_bad():
         / "tests"
         / "assets"
         / "validation"
-        / "ecr"
         / "sample_ecr_config_bad.yaml",
         "r",
     ) as file:
@@ -59,7 +58,6 @@ def test_validate_config_good():
         / "tests"
         / "assets"
         / "validation"
-        / "ecr"
         / "sample_ecr_config.yaml",
         "r",
     ) as file:
