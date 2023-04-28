@@ -19,7 +19,7 @@ from slack_sdk.errors import SlackApiError
 from typing import Optional
 
 # Instantiate FastAPI via PHDI's BaseService class
-app = BaseService(
+api = BaseService(
     "PHDI Alerts Service", Path(__file__).parent.parent / "description.md"
 ).start()
 
@@ -60,7 +60,7 @@ class TeamsAlertInput(BaseModel):
     message: str = Field(description="The message to send to the Teams channel.")
 
 
-@app.post("/sms-alert", status_code=200)
+@api.post("/sms-alert", status_code=200)
 async def sms_alert(input: SmsAlertInput, response: Response):
     """
     Send an SMS alert to a phone number.
@@ -87,7 +87,7 @@ async def sms_alert(input: SmsAlertInput, response: Response):
     )
 
 
-@app.post("/slack-alert", status_code=200)
+@api.post("/slack-alert", status_code=200)
 async def slack_alert(input: SlackAlertInput, response: Response):
     """
     Send a Slack alert to a channel.
@@ -114,7 +114,7 @@ async def slack_alert(input: SlackAlertInput, response: Response):
         return e.response
 
 
-@app.post("/teams-alert", status_code=200)
+@api.post("/teams-alert", status_code=200)
 async def teams_alert(input: TeamsAlertInput, response: Response):
     """
     Send a Teams alert to a channel.
