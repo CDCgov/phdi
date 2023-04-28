@@ -1,7 +1,7 @@
 from pathlib import Path
 import subprocess
 import json
-
+import uuid
 from enum import Enum
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel
@@ -173,6 +173,16 @@ def convert_to_fhir(
     # Process the response from FHIR Converter.
     if converter_response.returncode == 0:
         result = json.load(open(output_data_file_path))
+        # Generate a new UUID for the patient resource.
+        for entry in result["FhirResource"]["entry"]:
+            if entry["resource"]["resourceType"] == "Patient":
+                old_id = entry["resource"]["id"]
+                break
+        new_id = str(uuid.uuid4())
+        result = json.dumps(result)
+        result = result.replace(old_id, new_id)
+        result = json.loads(result)
+
     else:
         result = vars(converter_response)
         # Include original input data in the result.
