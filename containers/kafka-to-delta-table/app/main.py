@@ -332,3 +332,80 @@ async def data_to_kafka(
         response_body["status"] = "failed"
         response_body["spark_log"] = data_to_kafka_result.stderr
     return response_body
+
+
+@app.post("/delta-table", status_code=200)
+async def get_delta_table(
+    input: KafkaToDeltaTableInput, response: Response
+) -> KafkaToDeltaTableOutput:
+    """
+    Stream JSON data from Kafka to a Delta table.
+
+    :param input: A JSON formatted request body with schema specified by the
+        KafkaToDeltaTableInput model.
+    :return: A JSON formatted response body with schema specified by the
+        KafkaToDeltaTableOutput model.
+    """
+    response_body = {
+        "status": "success",
+        "message": "",
+        "spark_log": "",
+    }
+
+    if input.schema_name != "":
+        schema = load_schema(input.schema_name)
+    else:
+        schema = input.json_schema
+
+    schema_validation_results = validate_schema(schema)
+
+    if not schema_validation_results["valid"]:
+        response_body["status"] = "failed"
+        response_body["message"] = schema_validation_results["errors"][0]
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response_body
+
+    package_list = [
+        "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2",
+        "io.delta:delta-core_2.12:1.0.0",
+        "org.apache.kafka:kafka-clients:3.4.0",
+        "org.mongodb.spark:mongo-spark-connector_2.12:10.1.1",
+    ]
+
+    kafka_to_delta_command = [
+        "spark-submit",
+        "--packages",
+        ",".join(package_list),
+        "get_delta.py",
+        "--kafka_provider",
+        input.kafka_provider,
+        "--storage_provider",
+        input.storage_provider,
+        "--delta_table_name",
+        input.delta_table_name,
+        "--schema",
+        f"'{json.dumps(schema)}'",
+    ]
+
+    input = input.dict()
+    for provider_type in REQUIRED_VALUES_MAP:
+        provider = input[provider_type]
+        required_values = REQUIRED_VALUES_MAP.get(provider_type).get(provider)
+        for value in required_values:
+            kafka_to_delta_command.append(f"--{value}")
+            kafka_to_delta_command.append(input[value])
+
+    kafka_to_delta_command = " ".join(kafka_to_delta_command)
+    kafka_to_delta_result = subprocess.run(
+        kafka_to_delta_command,
+        shell=True,
+        capture_output=True,
+        text=True,
+        cwd=str(Path(__file__).parent.parent),
+    )
+
+    response_body["spark_log"] = kafka_to_delta_result.stdout
+    if kafka_to_delta_result.returncode != 0:
+        response_body["status"] = "failed"
+        response_body["spark_log"] = kafka_to_delta_result.stderr
+    return response_body

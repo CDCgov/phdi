@@ -153,68 +153,68 @@ def main():
     selection_flags = set_selection_flags(arguments_list)
     arguments = get_arguments(arguments_list, selection_flags)
 
-    kafka_topic_mappings = {
-        "azure_event_hubs": arguments.event_hub,
-        "local_kafka": arguments.kafka_topic,
-    }
+    # kafka_topic_mappings = {
+    #     "azure_event_hubs": arguments.event_hub,
+    #     "local_kafka": arguments.kafka_topic,
+    # }
+
+    # spark = (
+    #     SparkSession.builder.appName("ReadDataLakeTable").master("local").getOrCreate()
+    # )
 
     spark = (
         SparkSession.builder.master("local[*]")
         .appName("kafka-to-delta-table")
         .config("spark.sql.debug.maxToStringFields", "100")
-        .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
-        .config(
-            "spark.sql.catalog.spark_catalog",
-            "org.apache.spark.sql.delta.catalog.DeltaCatalog",
-        )
         .getOrCreate()
     )
     spark.sparkContext.setLogLevel("WARN")
     base_path = "./persistent_storage/kafka/"
+    df = spark.read.parquet(base_path + arguments.delta_table_name)
+    df.show(10)
+    # if selection_flags["adlsgen2"]:
+    #     spark, base_path = connect_to_adlsgen2(
+    #         spark,
+    #         arguments.storage_account,
+    #         arguments.container,
+    #         arguments.tenant_id,
+    #         arguments.client_id,
+    #         arguments.client_secret_name,
+    #         arguments.key_vault_name,
+    #     )
 
-    if selection_flags["adlsgen2"]:
-        spark, base_path = connect_to_adlsgen2(
-            spark,
-            arguments.storage_account,
-            arguments.container,
-            arguments.tenant_id,
-            arguments.client_id,
-            arguments.client_secret_name,
-            arguments.key_vault_name,
-        )
+    # schema = get_spark_schema(arguments.schema)
+    # if selection_flags["azure_event_hubs"]:
+    #     kafka_data_frame = connect_to_azure_event_hubs(
+    #         spark,
+    #         schema,
+    #         arguments.event_hubs_namespace,
+    #         arguments.event_hub,
+    #         arguments.connection_string_secret_name,
+    #         arguments.key_vault_name,
+    #     )
 
-    schema = get_spark_schema(arguments.schema)
-    if selection_flags["azure_event_hubs"]:
-        kafka_data_frame = connect_to_azure_event_hubs(
-            spark,
-            schema,
-            arguments.event_hubs_namespace,
-            arguments.event_hub,
-            arguments.connection_string_secret_name,
-            arguments.key_vault_name,
-        )
+    # elif selection_flags["local_kafka"]:
+    #     kafka_data_frame = connect_to_local_kafka(
+    #         spark, schema, arguments.kafka_server, arguments.kafka_topic
+    #     )
 
-    elif selection_flags["local_kafka"]:
-        kafka_data_frame = connect_to_local_kafka(
-            spark, schema, arguments.kafka_server, arguments.kafka_topic
-        )
+    # delta_table_path = (
+    #     base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
+    # )
+    # checkpoint_path = (
+    #     base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
+    # )
 
-    delta_table_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
-    )
-    checkpoint_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
-    )
+    # query = (
+    #     kafka_data_frame.writeStream.option("checkpointLocation", checkpoint_path)
+    #     .outputMode("append")
+    #     .format("delta")
+    #     .trigger(availableNow=True)
+    #     .start(delta_table_path)
+    # )
 
-    query = (
-        kafka_data_frame.writeStream.option("checkpointLocation", checkpoint_path)
-        .outputMode("append")
-        .format("delta")
-        .trigger(availableNow=True)
-        .start(delta_table_path)
-    )
-
-    query.awaitTermination(10)
+    # query.awaitTermination(10)
     sys.exit()
 
 
