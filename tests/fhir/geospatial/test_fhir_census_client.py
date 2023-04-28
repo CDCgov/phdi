@@ -27,6 +27,7 @@ def test_geocode_resource_census():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle_census.json"
         )
     )
@@ -92,6 +93,7 @@ def test_geocode_resource_census():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle_census_extension.json"
         )
     )
@@ -163,6 +165,7 @@ def test_geocode_bundle_census():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle_census.json"
         )
     )

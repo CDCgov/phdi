@@ -17,6 +17,8 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "validation"
+    / "ecr"
     / "ecr_sample_input_good.xml"
 ).read()
 
@@ -25,6 +27,8 @@ sample_file_bad = open(
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "validation"
+    / "ecr"
     / "ecr_sample_input_bad.xml"
 ).read()
 
@@ -33,6 +37,8 @@ sample_file_good_with_RR = open(
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "validation"
+    / "ecr"
     / "ecr_sample_input_good_with_RR.xml"
 ).read()
 

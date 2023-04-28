@@ -78,14 +78,19 @@ def test_standardize_hl7_datetimes():
     message_long_date = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
+        / "harmonization"
         / "FileSingleMessageLongDate.hl7"
     ).read()
     massage_timezone = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageLongTZ.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageLongTZ.hl7"
     ).read()
     massage_invalid_segments = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
+        / "harmonization"
         / "FileSingleMessageInvalidSegments.hl7"
     ).read()
 
@@ -129,6 +134,7 @@ def test_normalize_hl7_datetime_segment():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "harmonization"
             / "FileSingleMessageLongDate.hl7"
         )
         .read()
@@ -171,23 +177,36 @@ def test_normalize_hl7_datetime():
 
 def test_default_hl7_value():
     message_default_empty_field = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
 
     message_default_missing_field = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
 
     message_default_populated_field = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
     message_default_invalid_field = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
+        / "harmonization"
         / "FileSingleMessageInvalidSegments.hl7"
     ).read()
     message_default_invalid_segment = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
 
     message_default_empty_field = default_hl7_value(

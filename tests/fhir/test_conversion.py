@@ -10,7 +10,11 @@ from unittest import mock
 def test_get_fhir_conversion_settings():
     # HL7 case 1 (using the demo message from the HL7 API walkthrough)
     message = ""
-    with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
+    with open(pathlib.Path(__file__).parent.parent
+              / "assets"
+              / "fhir-converter"
+              / "hl7v2"
+              / "sample_hl7.hl7") as fp:
         message = fp.read()
     settings = _get_fhir_conversion_settings(message)
     assert settings == {
@@ -21,7 +25,11 @@ def test_get_fhir_conversion_settings():
     # HL7 case 2, when MSH[3] is set
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent / "assets" / "hl7_with_msh_3_set.hl7"
+        pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "fhir-converter"
+            / "hl7v2"
+            / "hl7_with_msh_3_set.hl7"
     ) as fp:
         message = fp.read()
     settings = _get_fhir_conversion_settings(message)
@@ -33,7 +41,11 @@ def test_get_fhir_conversion_settings():
     # CCDA case (using an example found at https://github.com/HL7/C-CDA-Examples)
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent / "assets" / "ccda_sample.xml"
+        pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "fhir-converter"
+            / "ccda"
+            / "ccda_sample.xml"
     ) as fp:
         message = fp.read()
     settings = _get_fhir_conversion_settings(message)
@@ -46,7 +58,11 @@ def test_get_fhir_conversion_settings():
     # https://github.com/HL7/C-CDA-Examples)
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent / "assets" / "ccda_sample_unknowntype.xml"
+        pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "fhir-converter"
+            / "ccda"
+            / "ccda_sample_unknowntype.xml"
     ) as fp:
         message = fp.read()
     with pytest.raises(KeyError):
@@ -73,7 +89,11 @@ def test_convert_to_fhir_success_cred_manager(mock_requests_session):
     mock_cred_manager.get_access_token.return_value = mock_access_token_value
 
     message = ""
-    with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
+    with open(pathlib.Path(__file__).parent.parent
+              / "assets"
+              / "fhir-converter"
+              / "hl7v2"
+              / "sample_hl7.hl7") as fp:
         message = fp.read()
     response = convert_to_fhir(
         message,
@@ -110,7 +130,11 @@ def test_convert_to_fhir_success_auth_header(mock_requests_session):
     headers = {"Authorization": "Basic dGVzdDp0ZXN0"}
 
     message = ""
-    with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
+    with open(pathlib.Path(__file__).parent.parent
+              / "assets"
+              / "fhir-converter"
+              / "hl7v2"
+              / "sample_hl7.hl7") as fp:
         message = fp.read()
     response = convert_to_fhir(
         message,
@@ -148,7 +172,11 @@ def test_convert_to_fhir_unrecognized_data(mock_requests_session):
     mock_cred_manager.get_access_token.return_value = mock_access_token
 
     message = ""
-    with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
+    with open(pathlib.Path(__file__).parent.parent
+              / "assets"
+              / "fhir-converter"
+              / "hl7v2"
+              / "sample_hl7.hl7") as fp:
         message = fp.read()
 
     message_without_types_parts = message.split("|")
@@ -196,7 +224,11 @@ def test_convert_to_fhir_failure(mock_requests_session):
     )
 
     message = ""
-    with open(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7") as fp:
+    with open(pathlib.Path(__file__).parent.parent
+              / "assets"
+              / "fhir-converter"
+              / "hl7v2"
+              / "sample_hl7.hl7") as fp:
         message = fp.read()
 
     # Most efficient way to verify that the function will raise an exception,

@@ -27,15 +27,27 @@ import pyarrow.parquet as pq
 
 def test_load_schema():
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "valid_schema.yaml"
     ) == yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "valid_schema.yaml")
     )
 
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "valid_schema.json"
     ) == json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "valid_schema.json")
     )
 
     # Invalid schema file path
@@ -45,22 +57,32 @@ def test_load_schema():
     # Invalid JSON
     with pytest.raises(json.decoder.JSONDecodeError):
         load_schema(
-            pathlib.Path(__file__).parent.parent / "assets" / "invalid_json.json"
+            pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "invalid_json.json"
         )
 
     # Invalid file format
     with pytest.raises(ValueError):
-        load_schema(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7")
+        load_schema(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "sample_hl7.hl7")
 
 
 def test_write_data_csv():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "tabulation_schema.yaml")
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -109,12 +131,16 @@ def test_write_data_csv():
 @mock.patch("phdi.tabulation.tables.pa.Table")
 def test_write_data_parquet(patched_pa_table, patched_writer):
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "tabulation_schema.yaml")
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -174,12 +200,16 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
 
 def test_write_data_parquet_with_schema():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "tabulation_schema.yaml")
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -297,12 +327,16 @@ def test_write_data_parquet_with_schema():
 
 def test_write_data_parquet_with_no_schema():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "tabulation_schema.yaml")
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -412,12 +446,16 @@ def test_write_data_parquet_with_no_schema():
 
 def test_write_data_sql():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "tabulation_schema.yaml")
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -480,7 +518,10 @@ def test_write_data_sql():
 
 def test_validate_schema():
     valid_schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "valid_schema.yaml")
     )
     first_name = valid_schema["tables"]["table 1A"]["columns"]["First Name"]
     patient_id = valid_schema["tables"]["table 1A"]["columns"]["Patient ID"]
@@ -549,12 +590,16 @@ def test_convert_list_to_string():
 
 def test_create_pa_schema_from_table_schema():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "tabulation_schema.yaml")
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -583,12 +628,16 @@ def test_create_from_arrays_data():
 
 def test_create_parquet_data():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "tabulation_schema.yaml")
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )

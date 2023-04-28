@@ -15,6 +15,7 @@ def test_standardize_names_in_resource():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -30,6 +31,7 @@ def test_standardize_phones_in_resource():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -44,6 +46,7 @@ def test_extract_countries_from_resource():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -66,6 +69,7 @@ def test_standardize_dob_in_resource():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )

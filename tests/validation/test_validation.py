@@ -8,23 +8,33 @@ test_include_errors = ["fatal", "errors", "warnings", "information"]
 
 # Test file with known errors
 sample_file_bad = open(
-    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "ecr_sample_input_bad.xml"
 ).read()
 
 # Test good file
 sample_file_good = open(
-    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "ecr_sample_input_good.xml"
 ).read()
 
 # Test file with error
 sample_file_error = open(
-    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_error.xml"
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "ecr_sample_input_error.xml"
 ).read()
 
 # Test good file with RR data
 sample_file_good_RR = open(
     pathlib.Path(__file__).parent.parent
     / "assets"
+    / "validation"
     / "ecr_sample_input_good_with_RR.xml"
 ).read()
 
@@ -32,6 +42,7 @@ sample_file_good_RR = open(
 with open(
     pathlib.Path(__file__).parent.parent
     / "assets"
+    / "validation"
     / "sample_ecr_config_custom_messages.yaml",
     "r",
 ) as file2:
@@ -39,13 +50,19 @@ with open(
 
 # standard config file
 with open(
-    pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml", "r"
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "sample_ecr_config.yaml", "r"
 ) as file:
     config = yaml.safe_load(file)
 
 # standard config file with correct RR Data
 with open(
-    pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config_with_rr.yaml",
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "sample_ecr_config_with_rr.yaml",
     "r",
 ) as file:
     config_rr = yaml.safe_load(file)

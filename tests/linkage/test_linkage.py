@@ -131,7 +131,12 @@ def _clean_up_postgres_client(postgres_client):
 
 def test_extract_blocking_values_from_record():
     bundle = json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
     )
     patient = [
         r.get("resource")
@@ -622,7 +627,10 @@ def test_blocking_data():
 
 def test_read_write_m_probs():
     data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent / "assets" / "patient_lol.csv",
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "linkage"
+        / "patient_lol.csv",
         index_col=False,
         dtype="object",
         keep_default_na=False,
@@ -661,7 +669,10 @@ def test_read_write_m_probs():
 def test_read_write_u_probs():
     seed(0)
     data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent / "assets" / "patient_lol.csv",
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "linkage"
+        / "patient_lol.csv",
         index_col=False,
         dtype="object",
         keep_default_na=False,
@@ -828,7 +839,10 @@ def test_feature_match_log_odds_fuzzy():
 
 def test_algo_read():
     dibbs_basic_algo = read_linkage_config(
-        pathlib.Path(__file__).parent.parent / "assets" / "dibbs_basic_algorithm.json"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "linkage"
+        / "dibbs_basic_algorithm.json"
     )
     assert dibbs_basic_algo == [
         {
@@ -861,6 +875,7 @@ def test_algo_read():
     dibbs_enhanced_algo = read_linkage_config(
         pathlib.Path(__file__).parent.parent
         / "assets"
+        / "linkage"
         / "dibbs_enhanced_algorithm.json"
     )
     assert dibbs_enhanced_algo == [
@@ -976,6 +991,7 @@ def test_link_record_against_mpi():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "linkage"
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
@@ -1056,6 +1072,7 @@ def test_add_person_resource():
             pathlib.Path(__file__).parent.parent.parent
             / "tests"
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -1197,6 +1214,7 @@ def test_condense_extracted_address():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "linkage"
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
@@ -1218,6 +1236,7 @@ def test_flatten_patient():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "linkage"
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
@@ -1248,6 +1267,7 @@ def test_multi_element_blocking():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "linkage"
             / "patient_bundle_to_link_with_mpi.json"
         )
     )

@@ -5,7 +5,10 @@ from pathlib import Path
 
 def test_base_service():
     service = BaseService(
-        "test_service", Path(__file__).parent.parent / "assets" / "test_description.md"
+        "test_service", Path(__file__).parent.parent
+        / "assets"
+        / "containers"
+        / "test_description.md"
     )
     assert service.app.title == "test_service"
     assert service.app.version == "0.0.1"
