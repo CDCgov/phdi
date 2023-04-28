@@ -4,10 +4,63 @@ import json
 import uuid
 from enum import Enum
 from fastapi import FastAPI, Response, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
 
-api = FastAPI()
+app = FastAPI(
+    title="PHDI FHIR Converter Service",
+    version="0.0.1",
+    contact={
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    },
+    license_info={
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    },
+    description=description,
+)
+
+input_example = "AAAAAAAAAAAAAAAAAAAAAA"
+
+successful_conversion_response_example = {
+    200: {
+        "description": "Success",
+        "content": {
+            "application/json": {
+                "examples": {
+                    "ecr": {
+                        "value": {
+                            "status": "OK",
+                            "FhirResource": {
+                                "resourceType": "Bundle",
+                                "type": "batch",
+                                "timestamp": "2021-08-18T11:26:00+02:15",
+                                "identifier": {"value": "MSG00001"},
+                                "id": "513a3d06-5e87-6fbc-ad1b-170ab430499f",
+                                "entry": [
+                                    {
+                                        "fullUrl": "urn:uuid:02710678-32ab"
+                                        "-4cea-b2f3-859b40a93ce3",
+                                        "resource": {
+                                            "resourceType": "Patient",
+                                            "id": "02710678-32ab-4cea-b2f3"
+                                            "-859b40a93ce3",
+                                        },
+                                    }
+                                ],
+                            },
+                        },
+                    }
+                }
+            }
+        },
+    }
+}
 
 
 class InputType(str, Enum):
@@ -92,18 +145,46 @@ class FhirConverterInput(BaseModel):
     Input parameters for the FHIR Converter.
     """
 
-    input_data: str
-    input_type: InputType
-    root_template: RootTemplate
+    input_data: str = Field(
+        description="The message to be " "converted as a string.", example=input_example
+    )
+    input_type: InputType = Field(
+        description="The type of message to be converted.", example="ecr"
+    )
+    root_template: RootTemplate = Field(
+        description="Name of the liquid template "
+        "within to be used for "
+        "conversion.",
+        example="EICR",
+    )
 
 
-@api.get("/")
+@app.get("/")
 async def health_check():
+    """
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the FHIR conversion service is available and running
+    properly.
+    """
     return {"status": "OK"}
 
 
-@api.post("/convert-to-fhir", status_code=200)
+@app.post(
+    "/convert-to-fhir",
+    status_code=200,
+    responses=successful_conversion_response_example,
+)
 async def convert(input: FhirConverterInput, response: Response):
+    """
+    Converts an HL7v2 or C-CDA message to FHIR format using the Microsoft FHIR
+    Converter CLI tool. When conversion is successful, a dictionary containing the
+    response from the FHIR Converter is returned.
+
+    In order to successfully call this function, the Microsoft FHIR Converter tool
+    must be installed. For information on how to do this, please refer to the
+    description.md file. The source code for the converter can be found at
+    https://github.com/microsoft/FHIR-Converter.
+    """
     result = convert_to_fhir(**dict(input))
     if "original_request" in result.get("response"):
         response.status_code = status.HTTP_400_BAD_REQUEST
