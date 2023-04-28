@@ -53,7 +53,8 @@ with open(
     pathlib.Path(__file__).parent.parent
     / "assets"
     / "validation"
-    / "sample_ecr_config.yaml", "r"
+    / "sample_ecr_config.yaml",
+    "r",
 ) as file:
     config = yaml.safe_load(file)
 

@@ -38,7 +38,7 @@ def test_tabulate_data_invalid_table_name():
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
-            / "assets"            
+            / "assets"
             / "general"
             / "FHIR_server_extracted_data.json"
         )

@@ -627,10 +627,7 @@ def test_blocking_data():
 
 def test_read_write_m_probs():
     data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent
-        / "assets"
-        / "linkage"
-        / "patient_lol.csv",
+        pathlib.Path(__file__).parent.parent / "assets" / "linkage" / "patient_lol.csv",
         index_col=False,
         dtype="object",
         keep_default_na=False,
@@ -669,10 +666,7 @@ def test_read_write_m_probs():
 def test_read_write_u_probs():
     seed(0)
     data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent
-        / "assets"
-        / "linkage"
-        / "patient_lol.csv",
+        pathlib.Path(__file__).parent.parent / "assets" / "linkage" / "patient_lol.csv",
         index_col=False,
         dtype="object",
         keep_default_na=False,
