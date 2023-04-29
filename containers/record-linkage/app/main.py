@@ -68,7 +68,7 @@ app = BaseService(
     service_name="DIBBs Record Linkage Service",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
-)
+).start()
 
 
 # Request and and response models
