@@ -24,7 +24,8 @@ from app.utils import (
 # Read settings from environmnent.
 get_settings()
 
-# Instantiate FastAPI and set metadata.
+
+# Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Tabulation Service",
     description_path=Path(__file__).parent.parent / "description.md",
