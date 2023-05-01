@@ -5,6 +5,7 @@ import uuid
 from enum import Enum
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel, Field
+from .doc_utils import vxu_sample_message, successful_conversion_response_example
 
 description = (Path(__file__).parent.parent / "description.md").read_text(
     encoding="utf-8"
@@ -24,43 +25,6 @@ app = FastAPI(
     },
     description=description,
 )
-
-input_example = "AAAAAAAAAAAAAAAAAAAAAA"
-
-successful_conversion_response_example = {
-    200: {
-        "description": "Success",
-        "content": {
-            "application/json": {
-                "examples": {
-                    "ecr": {
-                        "value": {
-                            "status": "OK",
-                            "FhirResource": {
-                                "resourceType": "Bundle",
-                                "type": "batch",
-                                "timestamp": "2021-08-18T11:26:00+02:15",
-                                "identifier": {"value": "MSG00001"},
-                                "id": "513a3d06-5e87-6fbc-ad1b-170ab430499f",
-                                "entry": [
-                                    {
-                                        "fullUrl": "urn:uuid:02710678-32ab"
-                                        "-4cea-b2f3-859b40a93ce3",
-                                        "resource": {
-                                            "resourceType": "Patient",
-                                            "id": "02710678-32ab-4cea-b2f3"
-                                            "-859b40a93ce3",
-                                        },
-                                    }
-                                ],
-                            },
-                        },
-                    }
-                }
-            }
-        },
-    }
-}
 
 
 class InputType(str, Enum):
@@ -146,16 +110,17 @@ class FhirConverterInput(BaseModel):
     """
 
     input_data: str = Field(
-        description="The message to be " "converted as a string.", example=input_example
+        description="The message to be " "converted as a string.",
+        example=vxu_sample_message(),
     )
     input_type: InputType = Field(
-        description="The type of message to be converted.", example="ecr"
+        description="The type of message to be converted.", example="vxu"
     )
     root_template: RootTemplate = Field(
         description="Name of the liquid template "
         "within to be used for "
         "conversion.",
-        example="EICR",
+        example="VXU_V04",
     )
 
 
@@ -172,7 +137,7 @@ async def health_check():
 @app.post(
     "/convert-to-fhir",
     status_code=200,
-    responses=successful_conversion_response_example,
+    responses=successful_conversion_response_example(),
 )
 async def convert(input: FhirConverterInput, response: Response):
     """
