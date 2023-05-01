@@ -1,13 +1,17 @@
+from phdi.containers.base_service import BaseService
 from pathlib import Path
 import subprocess
 import json
 import uuid
 from enum import Enum
-from fastapi import FastAPI, Response, status
+from fastapi import Response, status
 from pydantic import BaseModel
 
-
-api = FastAPI()
+# Instantiate FastAPI via PHDI's BaseService class
+api = BaseService(
+    service_name="PHDI FHIR Converter Service",
+    description_path=Path(__file__).parent.parent / "description.md",
+).start()
 
 
 class InputType(str, Enum):
@@ -95,11 +99,6 @@ class FhirConverterInput(BaseModel):
     input_data: str
     input_type: InputType
     root_template: RootTemplate
-
-
-@api.get("/")
-async def health_check():
-    return {"status": "OK"}
 
 
 @api.post("/convert-to-fhir", status_code=200)
