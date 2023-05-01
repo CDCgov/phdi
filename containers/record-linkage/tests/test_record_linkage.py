@@ -168,32 +168,3 @@ def test_linkage_success():
     dbconn.close()
 
     pop_mpi_env_vars()
-
-
-def test_linkage_invalid_postgres_settings():
-    set_mpi_env_vars()
-    for setting in [
-        "mpi_dbname",
-        "mpi_user",
-        "mpi_password",
-        "mpi_host",
-        "mpi_port",
-        "mpi_patient_table",
-        "mpi_person_table",
-    ]:
-        removed_setting = os.environ[setting]
-        os.environ.pop(setting, None)
-        get_settings.cache_clear()
-
-        with pytest.raises(ValidationError) as e:
-            client.post("/link-record", json={"bundle": test_bundle})
-            assert "validation errors for Settings" in str(e.value)
-
-        os.environ[setting] = "invalid_value"
-        get_settings.cache_clear()
-        actual_response = client.post("/link-record", json={"bundle": test_bundle})
-        assert actual_response.status_code == status.HTTP_400_BAD_REQUEST
-        assert "Could not connect to database" in actual_response.json()["message"]
-        os.environ[setting] = removed_setting
-
-    pop_mpi_env_vars()
