@@ -11,16 +11,6 @@ import pathlib
 import psycopg2
 import pytest
 
-client = TestClient(app)
-
-test_bundle = json.load(
-    open(
-        pathlib.Path(__file__).parent
-        / "assets"
-        / "patient_bundle_to_link_with_mpi.json"
-    )
-)
-
 
 def set_mpi_env_vars():
     os.environ["mpi_db_type"] = "postgres"
@@ -32,6 +22,20 @@ def set_mpi_env_vars():
     os.environ["mpi_patient_table"] = "patient"
     os.environ["mpi_person_table"] = "person"
     get_settings.cache_clear()
+
+
+set_mpi_env_vars()
+
+client = TestClient(app)
+
+
+test_bundle = json.load(
+    open(
+        pathlib.Path(__file__).parent
+        / "assets"
+        / "patient_bundle_to_link_with_mpi.json"
+    )
+)
 
 
 def pop_mpi_env_vars():
@@ -168,3 +172,6 @@ def test_linkage_success():
     dbconn.close()
 
     pop_mpi_env_vars()
+
+
+pop_mpi_env_vars()
