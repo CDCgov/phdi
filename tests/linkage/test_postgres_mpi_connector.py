@@ -33,7 +33,7 @@ def test_generate_block_query():
         "$.address[*].city",
         "$.name[*].given",
         "$.name[*].family",
-        "$.identifier.value",
+        '$.identifier ?(@.type.coding[0].code=="MR").value',
         "$.gender",
         "$.address[*].state",
         "$.address[*].postalCode",

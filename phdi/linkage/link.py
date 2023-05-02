@@ -24,7 +24,7 @@ LINKING_FIELDS_TO_FHIRPATHS = {
     "city": "Patient.address.city",
     "state": "Patient.address.state",
     "sex": "Patient.gender",
-    "mrn": "Patient.identifier.value",
+    "mrn": "Patient.identifier.where(type.coding.code='MR').value",
 }
 
 
