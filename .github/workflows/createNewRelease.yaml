@@ -51,6 +51,9 @@ jobs:
 # Rebuild all containers for the new release
   build-containers-for-release:
     needs: update-version-tag-release
+    permissions:
+      packages: write
+      id-token: write
     uses: ./.github/workflows/buildReleaseContainers.yaml
     with:
       container-tag: ${{ github.event.inputs.custom_tag }}
