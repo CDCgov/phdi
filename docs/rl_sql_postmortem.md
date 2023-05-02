@@ -8,28 +8,26 @@
 During an end-to-end run of the DIBBs pipeline with synthetic data, we discovered an error where a FHIR bundle [could not connect](https://skylight-hq.slack.com/archives/C03UF70CKGE/p1682360691930109?thread_ts=1682353411.011679&cid=C03UF70CKGE) to the MPI database for record linkage because the MRN contained an apostrophe, which early-terminated the SQL code used to retrieve blocking data from the MPI database. 
 
 ## Contributing Factors
-The queries to the MPI did not include any measures to prevent SQL injection attacks, even unintentional ones such as "Patient's Medical Record Number".
-
-When switching code contexts, i.e., from Python to SQL, we did not consider ramifications of using a different language and framework, such as externally connecting to PHI. 
+- The queries to the MPI did not include any measures to prevent SQL injection attacks, even unintentional ones such as "Patient's Medical Record Number".
+- When switching code contexts, i.e., from Python to SQL, we did not consider ramifications of using a different language and framework, such as externally connecting to PHI. 
+- The test data we used initially did not include any single quotes and the test data that uncovered this issue included a single quote by accident; we were lucky this was discovered at all!
 
 ## Resolution
-Include a description of what solved the problem. If there was a temporary fix in place, describe that along with the long-term solution.
+We added functionality to sanitize the SQL queries ([#512](https://app.zenhub.com/workspaces/dibbs-63f7aa3e1ecdbb0011edb299/issues/gh/cdcgov/phdi/512)), moving from raw SQL statements like "SELECT * FROM table;" to using [SQL composition](https://realpython.com/prevent-python-sql-injection/#passing-safe-query-parameters) to pass in parameters for the queries as [Literals](https://www.psycopg.org/docs/sql.html#psycopg2.sql.Literal). This took a little extra time because of the specifics of our queries, i.e., jsonb queries in necessitate a lot of single quotes. 
+
+Future resolutions/bigger picture items to consider:
+- How can we handle switching languages/contexts both in development and code review?
+- How can we develop more robust test data to potentially uncover issues like this earlier?
 
 ## Impact
-6+ hours debugging and implementing solution
+5+ hours debugging and implementing solution
 
 ## Timeline
-Some important times to include: 
-1. time the contributing factor began
-1. time of the page
-1. time that the status page was updated (i.e. when the incident became public)
-1. time of any significant actions
-1. time the SEV-2/1 ended
-1. links to tools/logs that show how the timestamp was arrived at.
-
 **Time (ET)**|**Event**
 :-----:|:-----:
-12-10-2021 12:31 PM|Description of an important event
+03-29-2023 12:31 PM|MPI query code implemented
+04-23-2023 12:31 PM|Problem discovered with end-to-end pipeline testing
+04-24-2023 12:31 PM|Resolution implemented
 
 
 ## How’d We Do?
