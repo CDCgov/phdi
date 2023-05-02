@@ -42,7 +42,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             "city": """$.address[*].city""",
             "first_name": """$.name[*].given""",
             "last_name": """$.name[*].family""",
-            "mrn": """$.identifier.value""",
+            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
             "sex": "$.gender",
             "state": """$.address[*].state""",
             "zip": """$.address[*].postalCode""",
