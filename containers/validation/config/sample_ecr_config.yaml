@@ -30,12 +30,12 @@ fields:
   errorType: "fatal"
   textRequired: 'True'
   validateOne: False
-  relatives:
-    - name: name
-      cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
-      attributes:
-      - attributeName: use
-        regEx: "L"
+  # relatives:
+  #   - name: name
+  #     cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name"
+  #     attributes:
+  #     - attributeName: use
+  #       regEx: "L"
 - fieldName: Middle Name
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:patient/hl7:name/hl7:given"
   errorType: "errors"
