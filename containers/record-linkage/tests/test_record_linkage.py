@@ -1,7 +1,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 from app.config import get_settings
-from app.config import run_migrations
+from app.main import run_migrations
 from app.main import app
 from pydantic import ValidationError
 
