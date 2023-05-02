@@ -11,6 +11,7 @@ from pydantic import BaseModel
 api = BaseService(
     service_name="PHDI FHIR Converter Service",
     description_path=Path(__file__).parent.parent / "description.md",
+    license_info={"name": "The MIT License", "url": "https://mit.license.org/"},
 ).start()
 
 
