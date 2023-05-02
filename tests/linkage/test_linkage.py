@@ -1007,6 +1007,7 @@ def test_link_record_against_mpi():
     # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
     #  in second pass name blocks on different cluster and address matches it,
     #  finds greatest strength match and correctly assigns to larger cluster
+
     assert matches == [False, True, False, True, False, True]
     assert sorted(list(mapped_patients.values())) == [1, 1, 4]
 

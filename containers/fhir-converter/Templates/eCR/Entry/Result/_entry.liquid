@@ -16,6 +16,12 @@
 {% endif -%}
 {% if entry.organizer.effectiveTime.low and entry.organizer.effectiveTime.low.value -%}
     {% assign collectTime = entry.organizer.effectiveTime.low.value -%}
+{% elsif entry.organizer.effectiveTime.high and entry.organizer.effectiveTime.high.value -%}
+    {% assign collectTime = entry.organizer.effectiveTime.high.value -%}
+{% elsif entry.organizer.effectiveTime and entry.organizer.effectiveTime.value and entry.organizer.effectiveTime.value != "UNK"-%}
+    {% assign collectTime = entry.organizer.effectiveTime.value -%}
+{% else -%}
+    {% assign collectTime = "None" -%}
 {% endif -%}
 {% assign comps = entry.organizer.component | to_array -%}
 {% for comp in comps -%}
