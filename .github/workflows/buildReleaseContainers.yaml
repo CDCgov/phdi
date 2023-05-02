@@ -58,6 +58,11 @@ jobs:
           labels: |
             org.opencontainers.image.version=${{ inputs.container-tag }}
 
+      - name: Target phdi release in requirements.txt
+        working-directory: ./containers/${{matrix.container-to-build}}
+        run: |
+          sed 's/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@main/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@${{ inputs.container-tag }}/g' requirements.txt > requirements_new.txt && mv requirements_new.txt requirements.txt
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
