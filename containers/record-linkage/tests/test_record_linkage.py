@@ -1,6 +1,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 from app.config import get_settings
+from app.config import run_migrations
 from app.main import app
 from pydantic import ValidationError
 
@@ -51,6 +52,7 @@ def pop_mpi_env_vars():
 
 def test_health_check():
     set_mpi_env_vars()
+    run_migrations()
     actual_response = client.get("/")
     assert actual_response.status_code == 200
     assert actual_response.json() == {
@@ -62,6 +64,7 @@ def test_health_check():
 
 def test_linkage_bundle_with_no_patient():
     set_mpi_env_vars()
+    run_migrations()
     bad_bundle = {"entry": []}
     expected_response = {
         "message": "Supplied bundle contains no Patient resource to link on.",
@@ -79,6 +82,7 @@ def test_linkage_bundle_with_no_patient():
 
 def test_linkage_invalid_db_type():
     set_mpi_env_vars()
+    run_migrations()
     invalid_db_type = "mssql"
     os.environ["mpi_db_type"] = invalid_db_type
     get_settings.cache_clear()
@@ -100,6 +104,7 @@ def test_linkage_invalid_db_type():
 
 def test_linkage_success():
     set_mpi_env_vars()
+    run_migrations()
     entry_list = copy.deepcopy(test_bundle["entry"])
 
     bundle_1 = test_bundle
