@@ -10,10 +10,10 @@ on:
 
 # Run all tests before making a release
 jobs:
+  list-containers:
+    uses: ./.github/workflows/listContainers.yaml
   test-for-release:
     uses: ./.github/workflows/test.yaml
-
-
   update-version-tag-release:
     name: Update phdi init version number
     needs: test-for-release
@@ -55,8 +55,8 @@ jobs:
     with:
       container-tag: ${{ github.event.inputs.custom_tag }}
 
-# Create updated docs for the latest release
-  generate-and-update-docs:
+# Create updated PHDI docs for the latest release
+  generate-and-update-phdi-docs:
     needs: build-containers-for-release
     permissions:
       contents: write
@@ -83,3 +83,38 @@ jobs:
         with:
           message: Automated update of API docs for ${{ github.event.inputs.custom_tag }} release.
           add: docs
+
+  # Create updated container docs for the latest release
+  generate-and-update-container-docs:
+    needs:
+      - build-containers-for-release
+      - list-containers
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ github.event.inputs.custom_tag }}
+
+      - name: Update Container Documenation
+        run: |
+          npm i -g redoc-cli
+          container_list=($(echo "${{needs.list-containers.outputs.containers}}" | sed 's/[][]//g' | sed 's/,/ /g'))
+          for CONTAINER in "${container_list[@]}"
+          do
+            cd $GITHUB_WORKSPACE/containers/$CONTAINER
+            cp $GITHUB_WORKSPACE/utils/make_openapi_json.py .
+            pip install -r requirements.txt
+            python make_openapi_json.py
+            redoc-cli build -o $GITHUB_WORKSPACE/docs/html/$CONTAINER.html openapi.json
+          done
+          cd $GITHUB_WORKSPACE
+          git checkout docs --
+
+      - name: Commit New Documentation
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '*.html'
+          message: Automated update of container docs for ${{ github.event.inputs.custom_tag }} release.
