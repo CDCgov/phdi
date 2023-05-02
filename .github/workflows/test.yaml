@@ -172,15 +172,15 @@ jobs:
         run: |
           pip install -r requirements.txt
       - name: Run unit tests for containers
-          env:
-            MPI_DBNAME: testdb
-            MPI_PASSWORD: pw
-            MPI_DB_TYPE: postgres
-            MPI_HOST: localhost
-            MPI_USER: postgres
-            MPI_PORT: 5432
-            MPI_PATIENT_TABLE: patient
-            MPI_PERSON_TABLE: person
+        env:
+          MPI_DBNAME: testdb
+          MPI_PASSWORD: pw
+          MPI_DB_TYPE: postgres
+          MPI_HOST: localhost
+          MPI_USER: postgres
+          MPI_PORT: 5432
+          MPI_PATIENT_TABLE: patient
+          MPI_PERSON_TABLE: person
         working-directory: ./containers/${{matrix.container-to-test}}/tests
         run: |
           python -m pytest
