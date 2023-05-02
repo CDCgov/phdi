@@ -120,24 +120,7 @@ jobs:
         uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
 
   list-containers:
-    # Get a list of all the directories within containers/.
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./containers
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          sudo apt-get install jq
-      - id: make-list
-        name: Generate list of directories within containers/
-        # use jq to produce json output and filter out the empty item caused by final newline
-        run: |
-          echo "::set-output name=containers::$(ls -d */ | jq -R -s -c 'split("\n")[:-1]')"
-    outputs:
-      container-dirs: ${{steps.make-list.outputs.containers}}
+    uses: ./.github/workflows/listContainers.yaml
 
   unit-test-python-containers:
     needs: list-containers
@@ -160,7 +143,7 @@ jobs:
           - 5432:5432
     strategy:
       matrix:
-        container-to-test: ${{fromJson(needs.list-containers.outputs.container-dirs)}}
+        container-to-test: ${{fromJson(needs.list-containers.outputs.containers)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3

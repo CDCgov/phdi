@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container-to-build: ${{fromJson(needs.list-containers.outputs.container-dirs)}}
+        container-to-build: ${{fromJson(needs.list-containers.outputs.containers)}}
     permissions:
       contents: "read"
       id-token: "write"
