@@ -13,7 +13,7 @@ During an end-to-end run of the DIBBs pipeline with synthetic data, we discovere
 - The test data we used initially did not include any single quotes and the test data that uncovered this issue included a single quote by accident; we were lucky this was discovered at all!
 
 ## Resolution
-We added functionality to sanitize the SQL queries ([#512](https://app.zenhub.com/workspaces/dibbs-63f7aa3e1ecdbb0011edb299/issues/gh/cdcgov/phdi/512)), moving from raw SQL statements like "SELECT * FROM table;" to using [SQL composition](https://realpython.com/prevent-python-sql-injection/#passing-safe-query-parameters) to pass in parameters for the queries as [Literals](https://www.psycopg.org/docs/sql.html#psycopg2.sql.Literal). This took a little extra time because of the specifics of our queries, i.e., jsonb queries in necessitate a lot of single quotes. 
+We added functionality to sanitize the SQL queries ([#512](https://app.zenhub.com/workspaces/dibbs-63f7aa3e1ecdbb0011edb299/issues/gh/cdcgov/phdi/512)), moving from raw SQL statements like "SELECT * FROM table;" to using [SQL composition](https://realpython.com/prevent-python-sql-injection/#passing-safe-query-parameters) to pass in parameters for the queries as [Literals](https://www.psycopg.org/docs/sql.html#psycopg2.sql.Literal). This took a little extra time because of the specifics of our queries, i.e., jsonb queries necessitate a lot of single quotes. 
 
 Future resolutions/bigger picture items to consider:
 - How can we handle switching languages/contexts both in development and code review?
@@ -25,9 +25,9 @@ Future resolutions/bigger picture items to consider:
 ## Timeline
 **Time (ET)**|**Event**
 :-----:|:-----:
-03-29-2023 12:31 PM|MPI query code implemented
-04-23-2023 12:31 PM|Problem discovered with end-to-end pipeline testing
-04-24-2023 12:31 PM|Resolution implemented
+03-29-2023|MPI query code implemented
+04-23-2023|Problem discovered with end-to-end pipeline testing
+04-24-2023|Resolution implemented
 
 
 ## How’d We Do?
