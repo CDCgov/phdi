@@ -52,6 +52,7 @@ jobs:
   build-containers-for-release:
     needs: update-version-tag-release
     permissions:
+      contents: read
       packages: write
       id-token: write
     uses: ./.github/workflows/buildReleaseContainers.yaml
