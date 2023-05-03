@@ -1,0 +1,85 @@
+name: Create New Release
+on:
+  workflow_dispatch:
+    inputs:
+      custom_tag:
+        name: Set Release Tag Version
+        description: "Enter version number for release tag below. Don't forget the v! Example: v2.23.9"
+        type: string
+        required: true
+
+# Run all tests before making a release
+jobs:
+  test-for-release:
+    uses: ./.github/workflows/test.yaml
+
+
+  update-version-tag-release:
+    name: Update phdi init version number
+    needs: test-for-release
+    permissions:
+      contents: write
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: 'main'
+      - name: Install poetry and dependencies
+        run: |
+          pip install poetry
+      # update the version number in the phdi/__init.py__ file
+      - name: Update PHDI Version
+        run: |
+          poetry version ${{ github.event.inputs.custom_tag }}
+      # Create new release tag based upon user input
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: Create release ${{ github.event.inputs.custom_tag }}
+          add: pyproject.toml
+          tag: ${{ github.event.inputs.custom_tag }}
+      # Create new release based upon the latest created tag
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.custom_tag }}
+          release_name: Release ${{ github.event.inputs.custom_tag }}    
+
+# Rebuild all containers for the new release
+  build-containers-for-release:
+    needs: update-version-tag-release
+    uses: ./.github/workflows/buildReleaseContainers.yaml
+    with:
+      container-tag: ${{ github.event.inputs.custom_tag }}
+
+# Create updated docs for the latest release
+  generate-and-update-docs:
+    needs: build-containers-for-release
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ github.event.inputs.custom_tag }}
+
+      - name: Install poetry and dependencies
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Generate docs and move to docs branch
+        run: |
+          poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}
+          git checkout docs --
+          rm -rf ./docs/latest
+          cp -r ./docs/${{ github.event.inputs.custom_tag }} ./docs/latest
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: Automated update of API docs for ${{ github.event.inputs.custom_tag }} release.
+          add: docs

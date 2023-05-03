@@ -1,5 +1,6 @@
 name: Test
 on:
+  workflow_call:
   workflow_dispatch:
   pull_request:
     branches:
@@ -7,6 +8,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore: 
+      - pyproject.toml
+
+
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.9

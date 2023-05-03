@@ -8,7 +8,7 @@ from azure.communication.phonenumbers import (
 )
 from azure.communication.sms import SmsClient
 from azure.identity import DefaultAzureCredential
-from fastapi import FastAPI, Response, status
+from fastapi import Response, status
 from pydantic import BaseModel, BaseSettings, Field
 import pymsteams
 from functools import lru_cache
@@ -16,25 +16,13 @@ from pathlib import Path
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from typing import Optional
+from phdi.containers.base_service import BaseService
+
 
 # Instantiate FastAPI and set metadata.
-description = (Path(__file__).parent.parent / "description.md").read_text(
-    encoding="utf-8"
-)
-api = FastAPI(
-    title="PHDI Alerts Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+api = BaseService(
+    "PHDI Alerts Service", Path(__file__).parent.parent / "description.md"
+).start()
 
 
 class Settings(BaseSettings):
