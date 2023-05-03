@@ -1,6 +1,10 @@
 # Getting started with the PHDI FHIR Conversion Service
 
-This service relies on Microsoft's FHIR converter to convert messages. To use the service, you'll need to both install the Microsoft FHIR Converter CLI and run the PHDI FHIR Converter Docker container.
+This service relies on Microsoft's FHIR converter to convert messages.
+
+If you plan to run the service via Docker, you can skip to [Running with Docker](#Running-with-docker-(recommended-for-production)). This container will automatically use the Microsoft FHIR converter without need for additional installation.
+
+If you plan to run the service locally via Python, you'll need to install both the Microsoft FHIR Converter CLI and run the PHDI FHIR Converter service. Read on for installation instructions for both.
 
 ## Microsoft FHIR Converter CLI Installation Guide
 This document provides a guide for installing the [Microsoft FHIR Converter](https://github.com/microsoft/FHIR-Converter) as a Command Line Interface (CLI) tool on Windows, MacOS, and Linux systems, as well as a brief introduction to using the converter.
