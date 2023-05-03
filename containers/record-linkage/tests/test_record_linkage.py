@@ -2,14 +2,12 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from app.config import get_settings
 from app.main import app
-from pydantic import ValidationError
 
 import copy
 import json
 import os
 import pathlib
 import psycopg2
-import pytest
 
 
 def set_mpi_env_vars():
@@ -23,8 +21,6 @@ def set_mpi_env_vars():
     os.environ["mpi_person_table"] = "person"
     get_settings.cache_clear()
 
-
-set_mpi_env_vars()
 
 client = TestClient(app)
 
@@ -172,6 +168,3 @@ def test_linkage_success():
     dbconn.close()
 
     pop_mpi_env_vars()
-
-
-pop_mpi_env_vars()
