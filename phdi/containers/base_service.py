@@ -13,6 +13,10 @@ class BaseService:
         service_name: str,
         description_path: str,
         include_health_check_endpoint: bool = True,
+        license_info: dict = {
+            "name": "Creative Commons Zero v1.0 Universal",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        },
     ):
         """
         Initialize a BaseService instance.
@@ -22,6 +26,8 @@ class BaseService:
             the service.
         :param include_health_check_endpoint: If True, the standard DIBBs health check
             endpoint will be added.
+        :param license_info: If empty, the standard DIBBs Creative Commons Zero v1.0
+            Universal license will be used.
         """
         description = Path(description_path).read_text(encoding="utf-8")
         self.include_health_check_endpoint = include_health_check_endpoint
@@ -33,10 +39,7 @@ class BaseService:
                 "url": "https://cdcgov.github.io/phdi-site/",
                 "email": "dmibuildingblocks@cdc.gov",
             },
-            license_info={
-                "name": "Creative Commons Zero v1.0 Universal",
-                "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-            },
+            license_info=license_info,
             description=description,
         )
 
