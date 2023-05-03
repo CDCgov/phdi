@@ -144,3 +144,4 @@ To build the Docker image for the FHIR conversion service from source code inste
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/fhir-converter/`.
 4. Run `docker build -t fhir-converter .`.
+5. Run the service with `docker run -p 8080:8080 fhir-converter`.

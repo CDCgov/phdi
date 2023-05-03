@@ -5,7 +5,20 @@ import uuid
 from enum import Enum
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel, Field
-from .doc_utils import vxu_sample_message, successful_conversion_response_example
+
+# Reading sample request & response files for docs
+raw_sample_response = json.load(
+    open(
+        Path(__file__).parent.parent
+        / "assets"
+        / "sample_vxu_fhir_conversion_response.json"
+    )
+)
+sample_response = {200: raw_sample_response}
+
+sample_request = open(
+    Path(__file__).parent.parent / "assets" / "sample_request.hl7"
+).read()
 
 description = (Path(__file__).parent.parent / "description.md").read_text(
     encoding="utf-8"
@@ -111,7 +124,7 @@ class FhirConverterInput(BaseModel):
 
     input_data: str = Field(
         description="The message to be converted as a string.",
-        example=vxu_sample_message(),
+        example=sample_request,
     )
     input_type: InputType = Field(
         description="The type of message to be converted.", example="vxu"
@@ -135,7 +148,7 @@ async def health_check():
 @app.post(
     "/convert-to-fhir",
     status_code=200,
-    responses=successful_conversion_response_example(),
+    responses=sample_response,
 )
 async def convert(input: FhirConverterInput, response: Response):
     """
