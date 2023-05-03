@@ -20,7 +20,7 @@ from phdi.containers.base_service import BaseService
 
 
 # Instantiate FastAPI and set metadata.
-api = BaseService(
+app = BaseService(
     "PHDI Alerts Service", Path(__file__).parent.parent / "description.md"
 ).start()
 
@@ -61,7 +61,7 @@ class TeamsAlertInput(BaseModel):
     message: str = Field(description="The message to send to the Teams channel.")
 
 
-@api.get("/")
+@app.get("/")
 async def health_check():
     """
     Check service status. If an HTTP 200 status code is returned along with
@@ -70,7 +70,7 @@ async def health_check():
     return {"status": "OK"}
 
 
-@api.post("/sms-alert", status_code=200)
+@app.post("/sms-alert", status_code=200)
 async def sms_alert(input: SmsAlertInput, response: Response):
     """
     Send an SMS alert to a phone number.
@@ -97,7 +97,7 @@ async def sms_alert(input: SmsAlertInput, response: Response):
     )
 
 
-@api.post("/slack-alert", status_code=200)
+@app.post("/slack-alert", status_code=200)
 async def slack_alert(input: SlackAlertInput, response: Response):
     """
     Send a Slack alert to a channel.
@@ -124,7 +124,7 @@ async def slack_alert(input: SlackAlertInput, response: Response):
         return e.response
 
 
-@api.post("/teams-alert", status_code=200)
+@app.post("/teams-alert", status_code=200)
 async def teams_alert(input: TeamsAlertInput, response: Response):
     """
     Send a Teams alert to a channel.
