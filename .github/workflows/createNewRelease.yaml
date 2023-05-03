@@ -79,6 +79,7 @@ jobs:
       - name: Generate docs and move to docs branch
         run: |
           poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}/sdk
+          mkdir -p ./docs/${{ github.event.inputs.custom_tag }}/containers
           git checkout docs --
           rm -rf ./docs/latest
           cp -r ./docs/${{ github.event.inputs.custom_tag }} ./docs/latest
