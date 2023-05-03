@@ -47,7 +47,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          ref: ${{ inputs.container-tag }}
           images: ghcr.io/${{ github.repository }}/${{matrix.container-to-build}}
           # this sets the version for tags and labels for each of the containers to be
           # be the same as the version/tag where the code was pulled from
