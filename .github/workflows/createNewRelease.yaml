@@ -3,17 +3,16 @@ on:
   workflow_dispatch:
     inputs:
       custom_tag:
-        name: Set Release Tag Version
         description: "Enter version number for release tag below. Don't forget the v! Example: v2.23.9"
         type: string
         required: true
 
 # Run all tests before making a release
 jobs:
+  list-containers:
+    uses: ./.github/workflows/listContainers.yaml
   test-for-release:
     uses: ./.github/workflows/test.yaml
-
-
   update-version-tag-release:
     name: Update phdi init version number
     needs: test-for-release
@@ -51,12 +50,16 @@ jobs:
 # Rebuild all containers for the new release
   build-containers-for-release:
     needs: update-version-tag-release
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     uses: ./.github/workflows/buildReleaseContainers.yaml
     with:
       container-tag: ${{ github.event.inputs.custom_tag }}
 
-# Create updated docs for the latest release
-  generate-and-update-docs:
+# Create updated PHDI docs for the latest release
+  generate-and-update-phdi-docs:
     needs: build-containers-for-release
     permissions:
       contents: write
@@ -74,12 +77,79 @@ jobs:
 
       - name: Generate docs and move to docs branch
         run: |
-          poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}
-          git checkout docs --
-          rm -rf ./docs/latest
-          cp -r ./docs/${{ github.event.inputs.custom_tag }} ./docs/latest
+          poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}/sdk
 
-      - uses: EndBug/add-and-commit@v9
+      - uses: actions/upload-artifact@v3
         with:
-          message: Automated update of API docs for ${{ github.event.inputs.custom_tag }} release.
+          name: phdi-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/sdk
+
+  # Create updated container docs for the latest release
+  generate-and-update-container-docs:
+    needs:
+      - list-containers
+      - generate-and-update-phdi-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: ${{fromJson(needs.list-containers.outputs.containers)}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ github.event.inputs.custom_tag }}
+
+      - name: Update Container Documenation
+        run: |
+          npm i -g redoc-cli
+          CONTAINER=${{ matrix.container }}
+          cd $GITHUB_WORKSPACE/containers/$CONTAINER
+          cp $GITHUB_WORKSPACE/utils/make_openapi_json.py .
+          pip install -r requirements.txt
+          python make_openapi_json.py
+          redoc-cli build -o $GITHUB_WORKSPACE/docs/${{ github.event.inputs.custom_tag }}/containers/$CONTAINER.html openapi.json
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: container-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/containers
+
+  commit-docs:
+    needs:
+      - generate-and-update-phdi-docs
+      - generate-and-update-container-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: docs
+
+      - name: Download phdi docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: phdi-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/sdk
+
+      - name: Download container docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: container-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/containers
+
+      - name: Copy to latest folder
+        run: |
+          rm -rf ./docs/latest
+          mkdir -p ./docs/latest/sdk
+          mkdir -p ./docs/latest/containers
+          cp -r ./docs/${{ github.event.inputs.custom_tag }}/sdk/* ./docs/latest/sdk
+          cp -r ./docs/${{ github.event.inputs.custom_tag }}/containers/* ./docs/latest/containers
+
+      - name: Commit New Documentation
+        uses: EndBug/add-and-commit@v9
+        with:
           add: docs
+          message: Automated update of docs for ${{ github.event.inputs.custom_tag }} release.
