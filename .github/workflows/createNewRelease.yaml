@@ -78,16 +78,11 @@ jobs:
       - name: Generate docs and move to docs branch
         run: |
           poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}/sdk
-          mkdir -p ./docs/${{ github.event.inputs.custom_tag }}/containers
-          touch ./docs/${{ github.event.inputs.custom_tag }}/containers/.gitkeep
-          git checkout docs --
-          rm -rf ./docs/latest
-          cp -r ./docs/${{ github.event.inputs.custom_tag }} ./docs/latest
 
-      - uses: EndBug/add-and-commit@v9
+      - uses: actions/upload-artifact@v3
         with:
-          message: Automated update of API docs for ${{ github.event.inputs.custom_tag }} release.
-          add: docs
+          name: phdi-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/sdk
 
   # Create updated container docs for the latest release
   generate-and-update-container-docs:
@@ -114,14 +109,47 @@ jobs:
           cp $GITHUB_WORKSPACE/utils/make_openapi_json.py .
           pip install -r requirements.txt
           python make_openapi_json.py
-          redoc-cli build -o $GITHUB_WORKSPACE/docs/latest/containers/$CONTAINER.html openapi.json
-          mkdir -p $GITHUB_WORKSPACE/docs/${{ github.event.inputs.custom_tag }}/containers
-          cp $GITHUB_WORKSPACE/docs/latest/containers/$CONTAINER.html $GITHUB_WORKSPACE/docs/${{ github.event.inputs.custom_tag }}/containers/$CONTAINER.html
-          cd $GITHUB_WORKSPACE
-          git checkout docs --
+          redoc-cli build -o $GITHUB_WORKSPACE/docs/${{ github.event.inputs.custom_tag }}/containers/$CONTAINER.html openapi.json
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: container-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/containers
+
+  commit-docs:
+    needs:
+      - generate-and-update-phdi-docs
+      - generate-and-update-container-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: docs
+
+      - name: Download phdi docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: phdi-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/sdk
+
+      - name: Download container docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: container-docs
+          path: ./docs/${{ github.event.inputs.custom_tag }}/containers
+
+      - name: Copy to latest folder
+        run: |
+          rm -rf ./docs/latest
+          mkdir -p ./docs/latest/sdk
+          mkdir -p ./docs/latest/containers
+          cp -r ./docs/${{ github.event.inputs.custom_tag }}/sdk/* ./docs/latest/sdk
+          cp -r ./docs/${{ github.event.inputs.custom_tag }}/containers/* ./docs/latest/containers
 
       - name: Commit New Documentation
         uses: EndBug/add-and-commit@v9
         with:
-          add: '*.html'
-          message: Automated update of container docs for ${{ github.event.inputs.custom_tag }} release.
+          add: docs
+          message: Automated update of docs for ${{ github.event.inputs.custom_tag }} release.
