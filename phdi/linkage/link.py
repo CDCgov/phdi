@@ -24,7 +24,7 @@ LINKING_FIELDS_TO_FHIRPATHS = {
     "city": "Patient.address.city",
     "state": "Patient.address.state",
     "sex": "Patient.gender",
-    "mrn": "Patient.identifier.value",
+    "mrn": "Patient.identifier.where(type.coding.code='MR').value",
 }
 
 
@@ -1410,7 +1410,7 @@ def add_person_resource(
         "resource": {
             "resourceType": "Person",
             "id": f"{person_id}",
-            "link": [{"target": {"Reference": f"Patient/{patient_id}"}}],
+            "link": [{"target": {"reference": f"Patient/{patient_id}"}}],
         },
         "request": {
             "method": "PUT",
