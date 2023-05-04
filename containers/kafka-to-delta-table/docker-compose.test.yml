@@ -55,10 +55,30 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - kafka
-      - init-kafka
+      init-kafka:
+        condition: service_completed_successfully
+      kafka:
+        condition: service_started
     networks:
       - app-tier
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  kafka-to-delta-table-test:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8081:8081"
+    depends_on:
+      kafka-to-delta-table:
+        condition: service_healthy
+    networks:
+      - app-tier
+    command: pytest ./integration
+
 volumes:
   zookeeper_data:
     driver: local
