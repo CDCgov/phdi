@@ -3,13 +3,14 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 session = requests.Session()
-retries = Retry(total=51, backoff_factor=1.0, status_forcelist=[500, 502, 503, 504])
+retries = Retry(total=10, backoff_factor=1.0, status_forcelist=[500, 502, 503, 504])
 adapter = HTTPAdapter(max_retries=retries)
 session.mount("http://", adapter)
 session.mount("https://", adapter)
 
 
 def test_kafka_flow():
+    print("starting test_kafka_flow")
     # Load data to kafka
     request_body = {
         "kafka_provider": "local_kafka",
@@ -25,7 +26,7 @@ def test_kafka_flow():
     }
 
     response = session.post(
-        "http://kafka-to-delta-table:8080/load-data-to-kafka", json=request_body
+        "http://localhost:8080/load-data-to-kafka", json=request_body
     )
     response_json = response.json()
     assert response.status_code == 200
@@ -42,7 +43,7 @@ def test_kafka_flow():
     }
 
     response = session.post(
-        "http://kafka-to-delta-table:8080/kafka-to-delta-table", json=request_body
+        "http://localhost:8080/kafka-to-delta-table", json=request_body
     )
     response_json = response.json()
     assert response.status_code == 200
@@ -52,9 +53,7 @@ def test_kafka_flow():
         "delta_table_name": "test-table",
     }
 
-    response = session.post(
-        "http://kafka-to-delta-table:8080/delta-table", json=request_body
-    )
+    response = session.post("http://localhost:8080/delta-table", json=request_body)
     response_json = response.json()
     assert response.status_code == 200
     assert response_json["status"] == "success"
