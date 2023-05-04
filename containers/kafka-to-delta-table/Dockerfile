@@ -4,8 +4,7 @@ WORKDIR /code
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git wget procps gcc && \
-    apt-get install curl -y
+    apt-get install -y git wget procps gcc
 
 RUN apt-get install -y gnupg ca-certificates software-properties-common  openjdk-11-jdk openjdk-11-jre -y
 
