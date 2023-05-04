@@ -20,7 +20,7 @@ Future resolutions/bigger picture items to consider:
 - How can we develop more robust test data to potentially uncover issues like this earlier?
 
 ## Impact
-5+ hours debugging and implementing solution
+10+ hours debugging and implementing solution for 1-3 engineers
 
 ## Timeline
 **Time (ET)**|**Event**
@@ -40,7 +40,6 @@ All the following sections should be filled out together as a team during the po
 
 ### Where Did We Get Lucky?
 - The test file happened to have an apostrophe; not all patient medical record numbers included them
--
 
 ### What Didn’t Go So Well?
 - List anything that could have gone better. The intent is that we should follow up on all points here to improve our processes.
@@ -59,10 +58,6 @@ Explore potential action items grouped by the themes discussed in What Didn’t 
 - Spike: Investigate other DB connection packages, e.g., SQLAlchemy vs. pyscopg
 - Adjusting error response to not include the entire bundle (when failing?) so that it is easier to see the error message OR return message before the FHIR bundle so it is easier to see the message contents
 
-Examples: 
-1. any fixes required to prevent the contributing factor in the future
-2. any preparedness tasks that could help mitigate the problem if it came up again
-3. any improvements to our incident response process (pages, alert thresholds, etc).
 
 ## Action Items
 The action items we are committing to from the potential action Items. Each action item should be in the form of a Zenhub ticket.
@@ -70,10 +65,3 @@ The action items we are committing to from the potential action Items. Each acti
 - Re-organizing response to include message earlier on
 - Wash your hands and your sql strings (sanitize)
 
-## Messaging
-
-### Internal
-This is a follow-up for employees. It should be sent out right after the postmortem meeting is over. It only needs a short paragraph summarizing the incident and a link to this wiki page.
-
-### External
-What are we telling customers, including an apology? (The apology should be genuine, not rote.)
