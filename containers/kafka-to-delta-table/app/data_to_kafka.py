@@ -41,14 +41,14 @@ def get_arguments(arguments: list, selection_flags: dict) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--storage_provider",
-        choices=["local_storage", "adlsgen2"],
+        choices=["local_storage"],
         type=str,
         required=True,
         help="The type of storage resource that will be written to",
     )
     parser.add_argument(
         "--kafka_provider",
-        choices=["local_kafka", "azure_event_hubs"],
+        choices=["local_kafka"],
         type=str,
         required=True,
         help="The type of kafka cluster to read from.",
@@ -59,12 +59,7 @@ def get_arguments(arguments: list, selection_flags: dict) -> argparse.Namespace:
         required=selection_flags["local_kafka"],
         help="The URL of a Kafka server including port.",
     )
-    parser.add_argument(
-        "--event_hubs_namespace",
-        type=str,
-        required=selection_flags["azure_event_hubs"],
-        help="The name of an Azure Event Hubs namespace.",
-    )
+
     parser.add_argument(
         "--kafka_topic",
         type=str,
@@ -72,67 +67,7 @@ def get_arguments(arguments: list, selection_flags: dict) -> argparse.Namespace:
         required=selection_flags["local_kafka"],
         help="The name of a Kafka topic to read from.",
     )
-    parser.add_argument(
-        "--event_hub",
-        type=str,
-        default="",
-        required=selection_flags["azure_event_hubs"],
-        help="The name of an Azure Event Hub to read from.",
-    )
-    parser.add_argument(
-        "--connection_string_secret_name",
-        type=str,
-        required=selection_flags["azure_event_hubs"],
-        help="The connection string for the Azure Event Hubs namespace.",
-    )
-    parser.add_argument(
-        "--storage_account",
-        type=str,
-        required=selection_flags["adlsgen2"],
-        help="The name of an Azure Data Lake Storage Gen2 account.",
-    )
-    parser.add_argument(
-        "--container",
-        type=str,
-        required=selection_flags["adlsgen2"],
-        help="The name of a container in an Azure Storage account specified by "
-        "'--storage_account'.",
-    )
-    parser.add_argument(
-        "--delta_table_name",
-        type=str,
-        required=True,
-        help="The name of the Delta table to write to.",
-    )
-    parser.add_argument(
-        "--client_id",
-        type=str,
-        required=selection_flags["adlsgen2"],
-        help="The client ID of a service principal with access to the Azure Storage "
-        "account specified by '--storage_account'.",
-    )
-    parser.add_argument(
-        "--tenant_id",
-        type=str,
-        required=selection_flags["adlsgen2"],
-        help="The tenant ID of the service principal specified by '--client_id' with "
-        "access to the Azure Storage account specified by '--storage_account'.",
-    )
-    parser.add_argument(
-        "--key_vault_name",
-        type=str,
-        required=(selection_flags["adlsgen2"] or selection_flags["azure_event_hubs"]),
-        help="The name of an Azure Key Vault containing all required secrets for "
-        "connection to all Azure storage and Kafka resources.",
-    )
-    parser.add_argument(
-        "--client_secret_name",
-        type=str,
-        required=selection_flags["adlsgen2"],
-        help="The name of the secret in the Azure Key Vault specified by "
-        "'--key_vault_name' containing the client secret of the service principal "
-        "specified by '--client_id'.",
-    )
+
     parser.add_argument(
         "--schema",
         type=str,
