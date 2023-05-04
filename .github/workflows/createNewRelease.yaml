@@ -27,11 +27,13 @@ jobs:
     needs: check-commit-message
     if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
     uses: ./.github/workflows/test.yaml
-  update-version-tag-release:
+  tag-release:
     name: Update phdi init version number
     needs: test-for-release
     permissions:
       contents: write
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -42,15 +44,15 @@ jobs:
         run: |
           pip install poetry
       # update the version number in the phdi/__init.py__ file
-      - name: Update PHDI Version
+      - name: Get PHDI Version
+        id: get_version
         run: |
-          poetry version ${{ github.event.inputs.custom_tag }}
-      # Create new release tag based upon user input
-      - uses: EndBug/add-and-commit@v9
+          echo "version=$(poetry version)" >> $GITHUB_OUTPUT
+      # Create new release tag
+      - name: Tag Release
+        uses: EndBug/latest-tag@latest
         with:
-          message: Create release ${{ github.event.inputs.custom_tag }}
-          add: pyproject.toml
-          tag: ${{ github.event.inputs.custom_tag }}
+          ref: ${{ steps.get_version.outputs.version }}
       # Create new release based upon the latest created tag
       - name: Create Release
         id: create_release
@@ -58,23 +60,25 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.event.inputs.custom_tag }}
-          release_name: Release ${{ github.event.inputs.custom_tag }}    
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}   
 
 # Rebuild all containers for the new release
   build-containers-for-release:
-    needs: update-version-tag-release
+    needs: tag-release
     permissions:
       contents: read
       packages: write
       id-token: write
     uses: ./.github/workflows/buildReleaseContainers.yaml
     with:
-      container-tag: ${{ github.event.inputs.custom_tag }}
+      container-tag: ${{ needs.tag-release.outputs.version }}
 
 # Create updated PHDI docs for the latest release
   generate-and-update-phdi-docs:
-    needs: build-containers-for-release
+    needs: 
+      - tag-release
+      - build-containers-for-release
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -82,7 +86,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
-          ref: ${{ github.event.inputs.custom_tag }}
+          ref: ${{ needs.tag-release.outputs.version }}
 
       - name: Install poetry and dependencies
         run: |
@@ -91,12 +95,12 @@ jobs:
 
       - name: Generate docs and move to docs branch
         run: |
-          poetry run pdoc ./phdi -o ./docs/${{ github.event.inputs.custom_tag }}/sdk
+          poetry run pdoc ./phdi -o ./docs/${{ needs.tag-release.outputs.version }}/sdk
 
       - uses: actions/upload-artifact@v3
         with:
           name: phdi-docs
-          path: ./docs/${{ github.event.inputs.custom_tag }}/sdk
+          path: ./docs/${{ needs.tag-release.outputs.version }}/sdk
 
   # Create updated container docs for the latest release
   list-containers:
@@ -105,6 +109,7 @@ jobs:
     uses: ./.github/workflows/listContainers.yaml
   generate-and-update-container-docs:
     needs:
+      - tag-release
       - list-containers
       - generate-and-update-phdi-docs
     permissions:
@@ -117,7 +122,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
-          ref: ${{ github.event.inputs.custom_tag }}
+          ref: ${{ needs.tag-release.outputs.version }}
 
       - name: Update Container Documenation
         run: |
@@ -127,15 +132,16 @@ jobs:
           cp $GITHUB_WORKSPACE/utils/make_openapi_json.py .
           pip install -r requirements.txt
           python make_openapi_json.py
-          redoc-cli build -o $GITHUB_WORKSPACE/docs/${{ github.event.inputs.custom_tag }}/containers/$CONTAINER.html openapi.json
+          redoc-cli build -o $GITHUB_WORKSPACE/docs/${{ needs.tag-release.outputs.version }}/containers/$CONTAINER.html openapi.json
 
       - uses: actions/upload-artifact@v3
         with:
           name: container-docs
-          path: ./docs/${{ github.event.inputs.custom_tag }}/containers
+          path: ./docs/${{ needs.tag-release.outputs.version }}/containers
 
   commit-docs:
     needs:
+      - tag-release
       - generate-and-update-phdi-docs
       - generate-and-update-container-docs
     permissions:
@@ -150,24 +156,24 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: phdi-docs
-          path: ./docs/${{ github.event.inputs.custom_tag }}/sdk
+          path: ./docs/${{ needs.tag-release.outputs.version }}/sdk
 
       - name: Download container docs from artifacts
         uses: actions/download-artifact@v2
         with:
           name: container-docs
-          path: ./docs/${{ github.event.inputs.custom_tag }}/containers
+          path: ./docs/${{ needs.tag-release.outputs.version }}/containers
 
       - name: Copy to latest folder
         run: |
           rm -rf ./docs/latest
           mkdir -p ./docs/latest/sdk
           mkdir -p ./docs/latest/containers
-          cp -r ./docs/${{ github.event.inputs.custom_tag }}/sdk/* ./docs/latest/sdk
-          cp -r ./docs/${{ github.event.inputs.custom_tag }}/containers/* ./docs/latest/containers
+          cp -r ./docs/${{ needs.tag-release.outputs.version }}/sdk/* ./docs/latest/sdk
+          cp -r ./docs/${{ needs.tag-release.outputs.version }}/containers/* ./docs/latest/containers
 
       - name: Commit New Documentation
         uses: EndBug/add-and-commit@v9
         with:
           add: docs
-          message: Automated update of docs for ${{ github.event.inputs.custom_tag }} release.
+          message: Automated update of docs for ${{ needs.tag-release.outputs.version }} release.
