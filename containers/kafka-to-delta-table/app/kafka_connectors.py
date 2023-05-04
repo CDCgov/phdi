@@ -4,7 +4,6 @@ from pyspark.sql import SparkSession, DataFrame
 from phdi.cloud.azure import AzureCredentialManager
 from typing import Literal
 import os
-from icecream import ic
 
 KAFKA_PROVIDERS = Literal["local_kafka", "azure_event_hubs"]
 KAFKA_WRITE_DATA_PROVIDERS = Literal["local_kafka"]
