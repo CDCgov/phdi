@@ -174,3 +174,28 @@ jobs:
         working-directory: ./containers/${{matrix.container-to-test}}/tests
         run: |
           python -m pytest
+  itegration-kafka-container:
+    if: ${{ github.event_name == 'push' && github.event.head_commit.modified | contains('kafka-to-delta-table/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+          cache: pip
+      - name: Install Pytest
+        run: pip install pytest
+      - name: Install dependencies
+        working-directory: ./containers/kafka-to-delta-table
+        run: |
+          pip install -r requirements.txt
+      - name: Build Docker Images
+        working-directory: ./containers/kafka-to-delta-table
+        run: docker-compose up --build
+      - name: Run integration tests
+        working-directory: ./containers/kafka-to-delta-table
+        run: pytest integration
+      
+      
