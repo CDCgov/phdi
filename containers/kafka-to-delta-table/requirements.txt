@@ -6,5 +6,4 @@ uvicorn
 httpx
 phdi @ git+https://github.com/CDCgov/phdi.git@main
 py4j==0.10.9.5
-icecream
 requests
