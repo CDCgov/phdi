@@ -1,8 +1,11 @@
+import json
+import pathlib
+
 from fastapi import APIRouter
 from pydantic import BaseModel, validator, Field
 from typing import Literal, Optional
 
-from app.utils import check_for_fhir, StandardResponse
+from app.utils import check_for_fhir, StandardResponse, read_json_from_assets
 
 from phdi.fhir.harmonization.standardization import (
     standardize_names,
@@ -10,15 +13,40 @@ from phdi.fhir.harmonization.standardization import (
     standardize_dob,
 )
 
-
 router = APIRouter(
     prefix="/fhir/harmonization/standardization",
     tags=["fhir/harmonization"],
 )
 
+# Sample request/response for name endpoint
+sample_name_request_data = json.load(
+    open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "sample_standardize_name_request_data.json"
+        )
+    )
+)
+
+raw_sample_name_response = json.load(
+    open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "sample_standardize_name_response.json"
+        )
+    )
+)
+
+sample_name_response = {200: raw_sample_name_response}
+
 
 class StandardizeNamesInput(BaseModel):
-    data: dict = Field(description="A FHIR resource or bundle in JSON format.")
+    data: dict = Field(
+        description="A FHIR resource or bundle in JSON format.",
+        example=sample_name_request_data,
+    )
     trim: Optional[bool] = Field(
         description="When true, leading and trailing spaces are removed", default=True
     )
@@ -39,20 +67,49 @@ class StandardizeNamesInput(BaseModel):
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
 
-@router.post("/standardize_names")
+@router.post("/standardize_names", responses=sample_name_response)
 async def standardize_names_endpoint(input: StandardizeNamesInput) -> StandardResponse:
     """
     Standardize the names in the provided FHIR bundle or resource.
+
     :param input: A dictionary with the schema specified by the StandardizeNamesInput
         model.
+
     :return: A FHIR bundle or resource with standardized names.
     """
     input = dict(input)
     return {"status_code": "200", "bundle": standardize_names(**input)}
 
 
+# Sample request/response for phone endpoint
+sample_phone_request_data = json.load(
+    open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "sample_standardize_phone_request_data.json"
+        )
+    )
+)
+
+raw_sample_phone_response = json.load(
+    open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "sample_standardize_phone_response.json"
+        )
+    )
+)
+
+sample_phone_response = {200: raw_sample_phone_response}
+
+
 class StandardizePhonesInput(BaseModel):
-    data: dict = Field(description="A FHIR resource or bundle in JSON format.")
+    data: dict = Field(
+        description="A FHIR resource or bundle in JSON format.",
+        example=sample_phone_request_data,
+    )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
         "modified and returned.",
@@ -62,22 +119,41 @@ class StandardizePhonesInput(BaseModel):
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
 
-@router.post("/standardize_phones")
+@router.post("/standardize_phones", responses=sample_phone_response)
 async def standardize_phones_endpoint(
     input: StandardizePhonesInput,
 ) -> StandardResponse:
     """
     Standardize the phone numbers in the provided FHIR bundle or resource.
+
+    Requires an address so that country code can be generated.
+
     :param input: A dictionary with the schema specified by the StandardizePhonesInput
         model.
+
     :return: A FHIR bundle with standardized phone numbers.
     """
     input = dict(input)
     return {"status_code": "200", "bundle": standardize_phones(**input)}
 
 
+# Sample request/response for date of birth endpoint
+sample_date_of_birth_request_data = read_json_from_assets(
+    "sample_standardize_date_of_birth_request_data.json"
+)
+
+raw_sample_date_of_birth_response = read_json_from_assets(
+    "sample_standardize_date_of_birth_response.json"
+)
+
+sample_date_of_birth_response = {200: raw_sample_date_of_birth_response}
+
+
 class StandardizeBirthDateInput(BaseModel):
-    data: dict = Field(description="A FHIR resource or bundle in JSON format.")
+    data: dict = Field(
+        description="A FHIR resource or bundle in JSON format.",
+        example=sample_date_of_birth_request_data,
+    )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
         "modified and returned.",
@@ -90,7 +166,7 @@ class StandardizeBirthDateInput(BaseModel):
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
 
-@router.post("/standardize_dob")
+@router.post("/standardize_dob", responses=sample_date_of_birth_response)
 async def standardize_dob_endpoint(
     input: StandardizeBirthDateInput,
 ) -> StandardResponse:

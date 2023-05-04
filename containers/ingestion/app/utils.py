@@ -1,3 +1,5 @@
+import json
+import pathlib
 from pydantic import BaseModel, Field, root_validator
 from typing import Optional, Union
 from app.config import get_settings
@@ -149,3 +151,7 @@ def get_cloud_provider_storage_connection(
         else:
             result = cloud_provider_class()
     return result
+
+
+def read_json_from_assets(filename: str):
+    json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
