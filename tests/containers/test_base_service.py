@@ -44,7 +44,7 @@ def test_base_service_alternate_license():
         license_info=alternate_app_license,
     )
     assert service.app.title == "test_service"
-    assert service.app.version == "0.0.1"
+    assert service.app.version == default_app_version
     assert service.app.contact == default_app_contact
     assert service.app.license_info == alternate_app_license
     assert service.app.description == "This is a test description."
