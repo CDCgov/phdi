@@ -1,6 +1,7 @@
 from phdi.containers.base_service import BaseService
 from fastapi.testclient import TestClient
 from pathlib import Path
+from importlib import metadata
 
 default_app_version = "0.0.1"
 default_app_contact = {
