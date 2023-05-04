@@ -84,6 +84,7 @@ def test_connect_to_local_kafka(patched_from_json, patched_col):
     # setup values for the function parameters
     kafka_server = "some-kafka-server"
     kafka_topic = "some-kafka-topic"
+    checkpoint_path = "./some/path/"
 
     # call the function with the mock objects
     result_kafka_data_frame = connect_to_local_kafka(
@@ -91,6 +92,7 @@ def test_connect_to_local_kafka(patched_from_json, patched_col):
         schema=schema,
         kafka_server=kafka_server,
         kafka_topic=kafka_topic,
+        checkpoint_path=checkpoint_path,
     )
 
     # create the expected result
@@ -100,6 +102,7 @@ def test_connect_to_local_kafka(patched_from_json, patched_col):
         .option("failOnDataLoss", "false")
         .option("subscribe", kafka_topic)
         .option("includeHeaders", "true")
+        .option("startingOffsets", "earliest")
         .load()
         .select(
             patched_from_json(patched_col("value").cast("string"), schema).alias(
