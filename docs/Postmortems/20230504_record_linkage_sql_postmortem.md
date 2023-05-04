@@ -35,18 +35,29 @@ All the following sections should be filled out together as a team during the po
 
 ### What Went Well?
 - List anything the team did well and want to call out.
+- Lots of pairing and collaboration
+- Fairly quick turnaround time (2 days) considering the change to the approach
 
 ### Where Did We Get Lucky?
-- List anything we got lucky on.
+- The test file happened to have an apostrophe; not all patient medical record numbers included them
+-
 
 ### What Didn’t Go So Well?
 - List anything that could have gone better. The intent is that we should follow up on all points here to improve our processes.
+- Error messages were not robust; the issue wasn't that we couldn't connect to the DB
 
 ### What Did We Learn?
 - List any findings that came out of the incident.
+- Using as close to real data when testing
+- More integration tests
 
 ## Potential Action Items
 Explore potential action items grouped by the themes discussed in What Didn’t Go So Well. 
+- Re-organize assets by what the data _is_, e.g., FHIR bundles that can be re-used for testing across BBs
+- Update RL error messages
+- Update call to RL endpoint such that there are 3 separate try/except blocks instead of 1 try/except with 3 SDK functions within the same block; more intentional about designing try/except blocks
+- Spike: Investigate other DB connection packages, e.g., SQLAlchemy vs. pyscopg
+- Adjusting error response to not include the entire bundle (when failing?) so that it is easier to see the error message OR return message before the FHIR bundle so it is easier to see the message contents
 
 Examples: 
 1. any fixes required to prevent the contributing factor in the future
@@ -55,6 +66,9 @@ Examples:
 
 ## Action Items
 The action items we are committing to from the potential action Items. Each action item should be in the form of a Zenhub ticket.
+- Error handling in RL endpoint
+- Re-organizing response to include message earlier on
+- Wash your hands and your sql strings (sanitize)
 
 ## Messaging
 
