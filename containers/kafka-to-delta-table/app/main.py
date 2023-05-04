@@ -8,6 +8,7 @@ from fastapi import Response, status
 from app.kafka_connectors import KAFKA_PROVIDERS, KAFKA_WRITE_DATA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
 from app.utils import validate_schema, SCHEMA_TYPE_MAP, load_schema
+from icecream import ic
 
 # A map of the required values for all supported kafka and storage providers.
 REQUIRED_VALUES_MAP = {
@@ -222,8 +223,8 @@ async def kafka_to_delta_table(
 
     package_list = [
         "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2",
-        "io.delta:delta-core_2.12:1.0.0",
-        "org.apache.kafka:kafka-clients:3.4.0",
+        "io.delta:delta-core_2.12:2.3.0",
+        "org.apache.kafka:kafka-clients:3.3.2",
         "org.mongodb.spark:mongo-spark-connector_2.12:10.1.1",
     ]
 
@@ -291,8 +292,8 @@ async def data_to_kafka(
 
     package_list = [
         "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2",
-        "io.delta:delta-core_2.12:1.0.0",
-        "org.apache.kafka:kafka-clients:3.4.0",
+        "io.delta:delta-core_2.12:2.3.0",
+        "org.apache.kafka:kafka-clients:3.3.2",
     ]
 
     data_to_kafka_command = [
@@ -367,8 +368,8 @@ async def get_delta_table(
 
     package_list = [
         "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2",
-        "io.delta:delta-core_2.12:1.0.0",
-        "org.apache.kafka:kafka-clients:3.4.0",
+        "io.delta:delta-core_2.12:2.3.0",
+        "org.apache.kafka:kafka-clients:3.3.2",
         "org.mongodb.spark:mongo-spark-connector_2.12:10.1.1",
     ]
 
@@ -404,7 +405,9 @@ async def get_delta_table(
         cwd=str(Path(__file__).parent.parent),
     )
 
+    table = kafka_to_delta_result.stdout.split("**ParquetTable**")
     response_body["spark_log"] = kafka_to_delta_result.stdout
+    response_body["message"] = table[1] if table[1] else ""
     if kafka_to_delta_result.returncode != 0:
         response_body["status"] = "failed"
         response_body["spark_log"] = kafka_to_delta_result.stderr

@@ -3,6 +3,8 @@ from pyspark.sql.functions import from_json, col
 from pyspark.sql import SparkSession, DataFrame
 from phdi.cloud.azure import AzureCredentialManager
 from typing import Literal
+import os
+from icecream import ic
 
 KAFKA_PROVIDERS = Literal["local_kafka", "azure_event_hubs"]
 KAFKA_WRITE_DATA_PROVIDERS = Literal["local_kafka"]
@@ -64,6 +66,7 @@ def connect_to_local_kafka(
     schema: StructType,
     kafka_server: str,
     kafka_topic: str,
+    checkpoint_path: str,
 ) -> DataFrame:
     """
     Given a SparkSession object and a schema (StructType) read JSON data from a Kafka
@@ -74,12 +77,15 @@ def connect_to_local_kafka(
     :param kafka_server: The URL of a Kafka server including port.
     :param kafka_topic: The name of a Kafka topic.
     """
+
+    offsets = "latest" if os.path.exists(checkpoint_path) else "earliest"
     kafka_data_frame = (
         spark.readStream.format("kafka")
         .option("kafka.bootstrap.servers", kafka_server)
         .option("failOnDataLoss", "false")
         .option("subscribe", kafka_topic)
         .option("includeHeaders", "true")
+        .option("startingOffsets", offsets)
         .load()
         .select(from_json(col("value").cast("string"), schema).alias("parsed_value"))
         .select(col("parsed_value.*"))

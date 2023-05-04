@@ -1,11 +1,10 @@
-from app.storage_connectors import connect_to_adlsgen2
-from app.kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
 from pyspark.sql import SparkSession
 import argparse
 import sys
 from app.utils import get_spark_schema
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
+from icecream import ic
 
 
 def set_selection_flags(arguments: list) -> dict:
@@ -170,51 +169,9 @@ def main():
     )
     spark.sparkContext.setLogLevel("WARN")
     base_path = "./persistent_storage/kafka/"
+    print("**ParquetTable**")
     df = spark.read.parquet(base_path + arguments.delta_table_name)
     df.show(10)
-    # if selection_flags["adlsgen2"]:
-    #     spark, base_path = connect_to_adlsgen2(
-    #         spark,
-    #         arguments.storage_account,
-    #         arguments.container,
-    #         arguments.tenant_id,
-    #         arguments.client_id,
-    #         arguments.client_secret_name,
-    #         arguments.key_vault_name,
-    #     )
-
-    # schema = get_spark_schema(arguments.schema)
-    # if selection_flags["azure_event_hubs"]:
-    #     kafka_data_frame = connect_to_azure_event_hubs(
-    #         spark,
-    #         schema,
-    #         arguments.event_hubs_namespace,
-    #         arguments.event_hub,
-    #         arguments.connection_string_secret_name,
-    #         arguments.key_vault_name,
-    #     )
-
-    # elif selection_flags["local_kafka"]:
-    #     kafka_data_frame = connect_to_local_kafka(
-    #         spark, schema, arguments.kafka_server, arguments.kafka_topic
-    #     )
-
-    # delta_table_path = (
-    #     base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
-    # )
-    # checkpoint_path = (
-    #     base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
-    # )
-
-    # query = (
-    #     kafka_data_frame.writeStream.option("checkpointLocation", checkpoint_path)
-    #     .outputMode("append")
-    #     .format("delta")
-    #     .trigger(availableNow=True)
-    #     .start(delta_table_path)
-    # )
-
-    # query.awaitTermination(10)
     sys.exit()
 
 

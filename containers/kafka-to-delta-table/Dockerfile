@@ -4,12 +4,12 @@ WORKDIR /code
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git wget procps gcc
+    apt-get install -y git wget procps gcc && \
+    apt-get install curl -y
 
 RUN apt-get install -y gnupg ca-certificates software-properties-common  openjdk-11-jdk openjdk-11-jre -y
 
 # Add Java binaries to the system path
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
 RUN pip install --upgrade pip
@@ -28,5 +28,6 @@ COPY ./app/kafka_to_delta.py /code/kafka_to_delta.py
 COPY ./app/data_to_kafka.py /code/data_to_kafka.py
 COPY ./app/get_delta.py /code/get_delta.py
 COPY ./description.md /code/description.md
+COPY ./integration /code/integration
 EXPOSE 8080
 CMD uvicorn app.main:app --host 0.0.0.0 --port 8080

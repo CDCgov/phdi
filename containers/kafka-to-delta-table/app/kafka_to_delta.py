@@ -184,6 +184,14 @@ def main():
         )
 
     schema = get_spark_schema(arguments.schema)
+
+    delta_table_path = (
+        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
+    )
+    checkpoint_path = (
+        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
+    )
+
     if selection_flags["azure_event_hubs"]:
         kafka_data_frame = connect_to_azure_event_hubs(
             spark,
@@ -196,15 +204,12 @@ def main():
 
     elif selection_flags["local_kafka"]:
         kafka_data_frame = connect_to_local_kafka(
-            spark, schema, arguments.kafka_server, arguments.kafka_topic
+            spark,
+            schema,
+            arguments.kafka_server,
+            arguments.kafka_topic,
+            checkpoint_path,
         )
-
-    delta_table_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
-    )
-    checkpoint_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
-    )
 
     query = (
         kafka_data_frame.writeStream.option("checkpointLocation", checkpoint_path)
