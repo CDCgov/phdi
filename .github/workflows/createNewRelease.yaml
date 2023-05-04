@@ -1,17 +1,31 @@
 name: Create New Release
 on:
-  workflow_dispatch:
-    inputs:
-      custom_tag:
-        description: "Enter version number for release tag below. Don't forget the v! Example: v2.23.9"
-        type: string
-        required: true
+  push:
+    branches:
+      - main
 
 # Run all tests before making a release
 jobs:
-  list-containers:
-    uses: ./.github/workflows/listContainers.yaml
+  # Only make a release if commit contains [RELEASE]
+  check-commit-message:
+    runs-on: ubuntu-latest
+    outputs:
+      contains_release: ${{ steps.commit_check.outputs.contains_release }}
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Check commit message for [RELEASE]
+      id: commit_check
+      run: |
+        if [[ "${{ github.event.head_commit.message }}" == *"[RELEASE]"* ]]; then
+          echo "contains_release=true" >> $GITHUB_OUTPUT
+        else
+          echo "contains_release=false" >> $GITHUB_OUTPUT
+        fi
   test-for-release:
+    needs: check-commit-message
+    if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
     uses: ./.github/workflows/test.yaml
   update-version-tag-release:
     name: Update phdi init version number
@@ -85,6 +99,10 @@ jobs:
           path: ./docs/${{ github.event.inputs.custom_tag }}/sdk
 
   # Create updated container docs for the latest release
+  list-containers:
+    needs: check-commit-message
+    if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
+    uses: ./.github/workflows/listContainers.yaml
   generate-and-update-container-docs:
     needs:
       - list-containers
