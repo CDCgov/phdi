@@ -51,6 +51,8 @@ jobs:
     name: Build and publish PHDI to PyPI
     needs: update-version-tag-release
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v3
         with:
