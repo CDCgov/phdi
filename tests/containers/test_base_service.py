@@ -1,6 +1,7 @@
 from phdi.containers.base_service import BaseService
 from fastapi.testclient import TestClient
 from pathlib import Path
+from importlib import metadata
 
 
 def test_base_service():
@@ -8,7 +9,7 @@ def test_base_service():
         "test_service", Path(__file__).parent.parent / "assets" / "test_description.md"
     )
     assert service.app.title == "test_service"
-    assert service.app.version == "0.0.1"
+    assert service.app.version == metadata.version("phdi")
     assert service.app.contact == {
         "name": "CDC Public Health Data Infrastructure",
         "url": "https://cdcgov.github.io/phdi-site/",
