@@ -25,6 +25,5 @@ COPY ./app/kafka_to_delta.py /code/kafka_to_delta.py
 COPY ./app/data_to_kafka.py /code/data_to_kafka.py
 COPY ./app/get_delta.py /code/get_delta.py
 COPY ./description.md /code/description.md
-COPY ./integration /code/integration
 EXPOSE 8080
 CMD uvicorn app.main:app --host 0.0.0.0 --port 8080

@@ -3,7 +3,6 @@ import argparse
 import sys
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
-from icecream import ic
 
 
 def set_selection_flags(arguments: list) -> dict:
@@ -66,10 +65,6 @@ def main():
     print("**ParquetTable**")
     df = spark.read.parquet(base_path + arguments.delta_table_name)
     df.show(10)
-<<<<<<< HEAD
-
-=======
->>>>>>> nick/kafka-integration-tests
     sys.exit()
 
 
