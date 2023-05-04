@@ -98,7 +98,7 @@
         ],
         "extension":
             [ {
-                {% if specimenValue and specimenValue != "None" or if collectTime -%}
+                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None"  -%}
 
                     "url" : "http://hl7.org/fhir/R4/specimen.html",
                     "extension": [
@@ -108,7 +108,7 @@
                             "valueString" : "{{ specimenValue }}",
                         },
                     {% endif -%}
-                    {% if collectTime -%}
+                    {% if collectTime and collectTime != None -%}
                         {
                             "url" : "specimen collection time",
                             "valueDateTime" : "{{ collectTime | format_as_date_time }}",
