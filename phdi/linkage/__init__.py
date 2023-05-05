@@ -1,3 +1,5 @@
+from phdi.linkage.algorithms import DIBBS_BASIC, DIBBS_ENHANCED
+
 from phdi.linkage.link import (
     generate_hash_str,
     block_data,
@@ -32,6 +34,8 @@ from phdi.linkage.seed import convert_to_patient_fhir_resources
 
 
 __all__ = [
+    "DIBBS_BASIC",
+    "DIBBS_ENHANCED",
     "generate_hash_str",
     "block_data",
     "match_within_block",

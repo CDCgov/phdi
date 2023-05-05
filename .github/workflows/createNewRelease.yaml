@@ -1,0 +1,218 @@
+name: Create New Release
+on:
+  push:
+    branches:
+      - main
+
+# Run all tests before making a release
+jobs:
+  # Only make a release if commit contains [RELEASE]
+  check-commit-message:
+    runs-on: ubuntu-latest
+    outputs:
+      contains_release: ${{ steps.commit_check.outputs.contains_release }}
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Check commit message for [RELEASE]
+      id: commit_check
+      run: |
+        if [[ "${{ github.event.head_commit.message }}" == *"[RELEASE]"* ]]; then
+          echo "contains_release=true" >> $GITHUB_OUTPUT
+        else
+          echo "contains_release=false" >> $GITHUB_OUTPUT
+        fi
+  test-for-release:
+    needs: check-commit-message
+    if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
+    uses: ./.github/workflows/test.yaml
+  tag-release:
+    name: Update phdi init version number
+    needs: test-for-release
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: 'main'
+      - name: Install poetry and dependencies
+        run: |
+          pip install poetry
+      # update the version number in the phdi/__init.py__ file
+      - name: Get PHDI Version
+        id: get_version
+        run: |
+          VERSION_WITH_PHDI=$(poetry version)
+          echo "version=${VERSION_WITH_PHDI:5}" >> $GITHUB_OUTPUT
+      # Create new release tag
+      - name: Set up Git user
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Tag Release
+        run: |
+          git tag ${{ steps.get_version.outputs.version }}
+          git push origin ${{ steps.get_version.outputs.version }}
+      # Create new release based upon the latest created tag
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }} 
+          
+  release-to-pypi:
+    name: Build and publish PHDI to PyPI
+    needs: tag-release
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ needs.tag-release.outputs.version }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install pypa/build
+        run: >-
+          python -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+          .
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+# Rebuild all containers for the new release
+  build-containers-for-release:
+    needs: tag-release
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    uses: ./.github/workflows/buildReleaseContainers.yaml
+    with:
+      container-tag: ${{ needs.tag-release.outputs.version }}
+
+# Create updated PHDI docs for the latest release
+  generate-and-update-phdi-docs:
+    needs: 
+      - tag-release
+      - build-containers-for-release
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ needs.tag-release.outputs.version }}
+
+      - name: Install poetry and dependencies
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Generate docs and move to docs branch
+        run: |
+          poetry run pdoc ./phdi -o ./docs/${{ needs.tag-release.outputs.version }}/sdk
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: phdi-docs
+          path: ./docs/${{ needs.tag-release.outputs.version }}/sdk
+
+  # Create updated container docs for the latest release
+  list-containers:
+    needs: check-commit-message
+    if: ${{ needs.check-commit-message.outputs.contains_release == 'true' }}
+    uses: ./.github/workflows/listContainers.yaml
+  generate-and-update-container-docs:
+    needs:
+      - tag-release
+      - list-containers
+      - generate-and-update-phdi-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: ${{fromJson(needs.list-containers.outputs.containers)}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ needs.tag-release.outputs.version }}
+
+      - name: Update Container Documenation
+        run: |
+          npm i -g redoc-cli
+          CONTAINER=${{ matrix.container }}
+          cd $GITHUB_WORKSPACE/containers/$CONTAINER
+          cp $GITHUB_WORKSPACE/utils/make_openapi_json.py .
+          pip install -r requirements.txt
+          python make_openapi_json.py
+          redoc-cli build -o $GITHUB_WORKSPACE/docs/${{ needs.tag-release.outputs.version }}/containers/$CONTAINER.html openapi.json
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: container-docs
+          path: ./docs/${{ needs.tag-release.outputs.version }}/containers
+
+  commit-docs:
+    needs:
+      - tag-release
+      - generate-and-update-phdi-docs
+      - generate-and-update-container-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: docs
+
+      - name: Download phdi docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: phdi-docs
+          path: ./docs/${{ needs.tag-release.outputs.version }}/sdk
+
+      - name: Download container docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: container-docs
+          path: ./docs/${{ needs.tag-release.outputs.version }}/containers
+
+      - name: Copy to latest folder
+        run: |
+          rm -rf ./docs/latest
+          mkdir -p ./docs/latest/sdk
+          mkdir -p ./docs/latest/containers
+          cp -r ./docs/${{ needs.tag-release.outputs.version }}/sdk/* ./docs/latest/sdk
+          cp -r ./docs/${{ needs.tag-release.outputs.version }}/containers/* ./docs/latest/containers
+
+      - name: Commit New Documentation
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: docs
+          message: Automated update of docs for ${{ needs.tag-release.outputs.version }} release.

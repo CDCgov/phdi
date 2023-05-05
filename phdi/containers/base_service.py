@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pathlib import Path
+from importlib import metadata
 
 
 class BaseService:
@@ -27,7 +28,7 @@ class BaseService:
         self.include_health_check_endpoint = include_health_check_endpoint
         self.app = FastAPI(
             title=service_name,
-            version="0.0.1",
+            version=metadata.version("phdi"),
             contact={
                 "name": "CDC Public Health Data Infrastructure",
                 "url": "https://cdcgov.github.io/phdi-site/",

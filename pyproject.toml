@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "phdi"
-version = "0.1.0.dev1"
+version = "v0.1.0.dev5"
 description = "Public health data infrastructure Building Blocks is a library to help public health departments work with their data"
 authors = ["Kenneth Chow <kenneth@skylight.digital>", "Brandon Mader <brandon@skylight.digital>", "Spencer Kathol <spencer@skylight.digital>"]
 homepage = "https://github.com/CDCgov/phdi"
 repository = "https://github.com/CDCgov/phdi"
-documentation = "https://cdcgov.github.io/phdi/v0.1.0-dev/"
+documentation = "https://cdcgov.github.io/phdi"
 readme = "README.md"
 
 [tool.poetry.dependencies]

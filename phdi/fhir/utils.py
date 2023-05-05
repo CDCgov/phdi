@@ -4,7 +4,7 @@ import random
 from functools import cache
 from typing import Any, Callable, List, Literal, Union
 
-selection_criteria_types = Literal["first", "last", "random"]
+selection_criteria_types = Literal["first", "last", "random", "all"]
 
 
 def apply_selection_criteria(
@@ -27,9 +27,11 @@ def apply_selection_criteria(
         value = value[-1]
     elif selection_criteria == "random":
         value = random.choice(value)
+    elif selection_criteria == "all":
+        return value
     else:
         raise ValueError(
-            f'Selection criteria {selection_criteria} is not a valid option. Must be one of "first", "last", or "random".'  # noqa
+            f'Selection criteria {selection_criteria} is not a valid option. Must be one of "first", "last", "random", or "all".'  # noqa
         )
 
     # Temporary hack to ensure no structured data is written using pyarrow.
@@ -47,7 +49,7 @@ def apply_selection_criteria(
 def extract_value_with_resource_path(
     resource: dict,
     path: str,
-    selection_criteria: Literal["first", "last", "random"] = "first",
+    selection_criteria: Literal["first", "last", "random", "all"] = "first",
 ) -> Union[Any, None]:
     """
     Yields a single value from a resource based on a provided `fhir_path`.
