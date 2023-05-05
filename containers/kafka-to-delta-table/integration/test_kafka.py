@@ -8,6 +8,7 @@ adapter = HTTPAdapter(max_retries=retries)
 session.mount("http://", adapter)
 session.mount("https://", adapter)
 
+
 def test_kafka_flow():
     print("starting test_kafka_flow")
     # Load data to kafka
