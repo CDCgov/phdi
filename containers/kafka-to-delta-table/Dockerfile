@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y git wget procps gcc
 
-RUN apt-get install -y gnupg ca-certificates software-properties-common  openjdk-11-jdk openjdk-11-jre -y
+RUN apt-get install -y gnupg ca-certificates software-properties-common  openjdk-11-jdk openjdk-11-jre
 
 # Add Java binaries to the system path
 ENV PATH $JAVA_HOME/bin:$PATH
