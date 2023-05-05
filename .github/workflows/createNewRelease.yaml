@@ -55,11 +55,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
       - name: Tag Release
-<<<<<<< Updated upstream
-        run: |
-          git tag ${{ steps.get_version.outputs.version }}
-          git push origin ${{ steps.get_version.outputs.version }}
-=======
         uses: EndBug/latest-tag@latest
         with:
           ref: ${{ steps.get_version.outputs.version }}
@@ -81,7 +76,6 @@ jobs:
           done
 
           echo "RELEASE_NOTES=$release_notes" >> $GITHUB_OUTPUT
->>>>>>> Stashed changes
       # Create new release based upon the latest created tag
       - name: Create Release
         id: create_release
