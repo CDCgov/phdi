@@ -176,7 +176,7 @@ jobs:
           python -m pytest
   itegration-kafka-container:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.event.head_commit.modified | contains('kafka-to-delta-table/') }}
+    if: ${{ github.event_name == 'push' && 'kafka-to-delta-table/' in github.event.head_commit.modified  }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
