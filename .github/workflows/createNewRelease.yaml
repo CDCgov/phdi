@@ -47,7 +47,8 @@ jobs:
       - name: Get PHDI Version
         id: get_version
         run: |
-          echo "version=$(poetry version)" >> $GITHUB_OUTPUT
+          VERSION_WITH_PHDI=$(poetry version)
+          echo "version=${VERSION_WITH_PHDI:5}" >> $GITHUB_OUTPUT
       # Create new release tag
       - name: Set up Git user
         run: |
@@ -65,7 +66,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: Release ${{ steps.get_version.outputs.version }}   
+          release_name: Release ${{ steps.get_version.outputs.version }} 
           
   release-to-pypi:
     name: Build and publish PHDI to PyPI
