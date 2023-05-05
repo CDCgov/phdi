@@ -1,19 +1,12 @@
-from phdi.containers.base_service import BaseService
+from phdi.containers.base_service import LicenseType, BaseService
 from fastapi.testclient import TestClient
 from pathlib import Path
 from importlib import metadata
 
 default_app_version = metadata.version("phdi")
-default_app_contact = {
-    "name": "CDC Public Health Data Infrastructure",
-    "url": "https://cdcgov.github.io/phdi-site/",
-    "email": "dmibuildingblocks@cdc.gov",
-}
-default_app_license = {
-    "name": "Creative Commons Zero v1.0 Universal",
-    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-}
-alternate_app_license = {"name": "The MIT License", "url": "https://mit-license.org/"}
+default_app_contact = BaseService.DIBBS_CONTACT
+default_app_license = LicenseType.CreativeCommonsZero
+alternate_app_license = LicenseType.MIT
 
 
 def test_base_service():
