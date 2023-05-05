@@ -50,10 +50,14 @@ jobs:
           VERSION_WITH_PHDI=$(poetry version)
           echo "version=${VERSION_WITH_PHDI:5}" >> $GITHUB_OUTPUT
       # Create new release tag
+      - name: Set up Git user
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
       - name: Tag Release
-        uses: EndBug/latest-tag@latest
-        with:
-          ref: ${{ steps.get_version.outputs.version }}
+        run: |
+          git tag ${{ steps.get_version.outputs.version }}
+          git push origin ${{ steps.get_version.outputs.version }}
       # Create new release based upon the latest created tag
       - name: Create Release
         id: create_release
