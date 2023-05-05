@@ -132,7 +132,7 @@ async def health_check() -> HealthCheckResponse:
     linkage service is available and running properly. The mpi_connection_status field
     contains a description of the connection health to the MPI database.
     """
-    run_migrations()
+
     try:
         connect_to_mpi_with_env_vars()
     except Exception as err:
@@ -155,7 +155,6 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
 
     input = dict(input)
     input_bundle = input.get("bundle", {})
-    run_migrations()
 
     # Check that DB type is appropriately set up as Postgres so
     # we can fail fast if it's not

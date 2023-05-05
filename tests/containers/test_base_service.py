@@ -1,6 +1,12 @@
-from phdi.containers.base_service import BaseService
+from phdi.containers.base_service import LicenseType, BaseService
 from fastapi.testclient import TestClient
 from pathlib import Path
+from importlib import metadata
+
+default_app_version = metadata.version("phdi")
+default_app_contact = BaseService.DIBBS_CONTACT
+default_app_license = LicenseType.CreativeCommonsZero
+alternate_app_license = LicenseType.MIT
 
 default_app_version = "0.0.1"
 default_app_contact = {
@@ -43,7 +49,7 @@ def test_base_service_alternate_license():
         license_info=alternate_app_license,
     )
     assert service.app.title == "test_service"
-    assert service.app.version == "0.0.1"
+    assert service.app.version == default_app_version
     assert service.app.contact == default_app_contact
     assert service.app.license_info == alternate_app_license
     assert service.app.description == "This is a test description."

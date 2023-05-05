@@ -1,4 +1,4 @@
-from phdi.containers.base_service import BaseService
+from phdi.containers.base_service import LicenseType, BaseService
 from pathlib import Path
 import subprocess
 import json
@@ -8,10 +8,10 @@ from fastapi import Response, status
 from pydantic import BaseModel
 
 # Instantiate FastAPI via PHDI's BaseService class
-api = BaseService(
+app = BaseService(
     service_name="PHDI FHIR Converter Service",
     description_path=Path(__file__).parent.parent / "description.md",
-    license_info={"name": "The MIT License", "url": "https://mit.license.org/"},
+    license_info=LicenseType.MIT,
 ).start()
 
 
@@ -102,7 +102,7 @@ class FhirConverterInput(BaseModel):
     root_template: RootTemplate
 
 
-@api.post("/convert-to-fhir", status_code=200)
+@app.post("/convert-to-fhir", status_code=200)
 async def convert(input: FhirConverterInput, response: Response):
     result = convert_to_fhir(**dict(input))
     if "original_request" in result.get("response"):

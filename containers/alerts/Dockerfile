@@ -13,4 +13,4 @@ COPY ./app /code/app
 COPY ./description.md /code/description.md
 
 EXPOSE 8080
-CMD uvicorn app.main:api --host 0.0.0.0 --port 8080
+CMD uvicorn app.main:app --host 0.0.0.0 --port 8080

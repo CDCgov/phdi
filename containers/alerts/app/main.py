@@ -1,4 +1,3 @@
-from phdi.containers.base_service import BaseService
 from azure.communication.identity import CommunicationIdentityClient
 from azure.communication.phonenumbers import (
     PhoneNumbersClient,
@@ -17,10 +16,13 @@ from pathlib import Path
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from typing import Optional
+from phdi.containers.base_service import BaseService
+
 
 # Instantiate FastAPI via PHDI's BaseService class
-api = BaseService(
-    "PHDI Alerts Service", Path(__file__).parent.parent / "description.md"
+app = BaseService(
+    service_name="PHDI Alerts Service",
+    description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
 
@@ -60,7 +62,7 @@ class TeamsAlertInput(BaseModel):
     message: str = Field(description="The message to send to the Teams channel.")
 
 
-@api.post("/sms-alert", status_code=200)
+@app.post("/sms-alert", status_code=200)
 async def sms_alert(input: SmsAlertInput, response: Response):
     """
     Send an SMS alert to a phone number.
@@ -87,7 +89,7 @@ async def sms_alert(input: SmsAlertInput, response: Response):
     )
 
 
-@api.post("/slack-alert", status_code=200)
+@app.post("/slack-alert", status_code=200)
 async def slack_alert(input: SlackAlertInput, response: Response):
     """
     Send a Slack alert to a channel.
@@ -114,7 +116,7 @@ async def slack_alert(input: SlackAlertInput, response: Response):
         return e.response
 
 
-@api.post("/teams-alert", status_code=200)
+@app.post("/teams-alert", status_code=200)
 async def teams_alert(input: TeamsAlertInput, response: Response):
     """
     Send a Teams alert to a channel.
