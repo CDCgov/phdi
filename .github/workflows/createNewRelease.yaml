@@ -47,16 +47,13 @@ jobs:
       - name: Get PHDI Version
         id: get_version
         run: |
-          echo "version=$(poetry version)" >> $GITHUB_OUTPUT
+          VERSION_WITH_PHDI=$(poetry version)
+          echo "version=${VERSION_WITH_PHDI:5}" >> $GITHUB_OUTPUT
       # Create new release tag
-      - name: Set up Git user
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
       - name: Tag Release
-        run: |
-          git tag ${{ steps.get_version.outputs.version }}
-          git push origin ${{ steps.get_version.outputs.version }}
+        uses: EndBug/latest-tag@latest
+        with:
+          ref: ${{ steps.get_version.outputs.version }}
       # Create new release based upon the latest created tag
       - name: Create Release
         id: create_release
@@ -66,40 +63,6 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
           release_name: Release ${{ steps.get_version.outputs.version }}   
-          
-  release-to-pypi:
-    name: Build and publish PHDI to PyPI
-    needs: tag-release
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: '0'
-          ref: ${{ needs.tag-release.outputs.version }}
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.x"
-      - name: Install pypa/build
-        run: >-
-          python -m
-          pip install
-          build
-          --user
-      - name: Build a binary wheel and a source tarball
-        run: >-
-          python -m
-          build
-          --sdist
-          --wheel
-          --outdir dist/
-          .
-      - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
 
 # Rebuild all containers for the new release
   build-containers-for-release:
