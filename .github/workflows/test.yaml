@@ -106,7 +106,7 @@ jobs:
           pip install black flake8
       - name: Check format (black)
         run: |
-          black --check --verbose .
+          black --check --verbose --diff .
       - name: Check style (flake8)
         run: |
           flake8
