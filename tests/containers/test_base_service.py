@@ -8,18 +8,6 @@ default_app_contact = BaseService.DIBBS_CONTACT
 default_app_license = LicenseType.CreativeCommonsZero
 alternate_app_license = LicenseType.MIT
 
-default_app_version = "0.0.1"
-default_app_contact = {
-    "name": "CDC Public Health Data Infrastructure",
-    "url": "https://cdcgov.github.io/phdi-site/",
-    "email": "dmibuildingblocks@cdc.gov",
-}
-default_app_license = {
-    "name": "Creative Commons Zero v1.0 Universal",
-    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-}
-alternate_app_license = {"name": "The MIT License", "url": "https://mit-license.org/"}
-
 
 def test_base_service():
     service = BaseService(
