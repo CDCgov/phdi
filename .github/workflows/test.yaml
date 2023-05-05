@@ -223,7 +223,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print modified files
-        run: echo "${{ github.event.head_commit.modified }}"
+        run: |
+          set -x
+          echo "${{ github.event.head_commit.modified }}"
       - name: print joined
         run: echo "${{ join(github.event.head_commit.modified, ', ') }}"
       - name: print conditional
