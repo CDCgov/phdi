@@ -4,7 +4,7 @@ from pathlib import Path
 from phdi.linkage import (
     add_person_resource,
     link_record_against_mpi,
-    read_linkage_config,
+    DIBBS_BASIC,
 )
 from pydantic import BaseModel, Field
 from psycopg2 import OperationalError, errors
@@ -61,6 +61,9 @@ def run_migrations():
             # pass exception to function
             print_psycopg2_exception(err)
 
+
+# Run MPI migrations on spin up
+run_migrations()
 
 # Instantiate FastAPI and set metadata.
 description = (Path(__file__).parent.parent / "description.md").read_text(
@@ -143,7 +146,7 @@ async def health_check() -> HealthCheckResponse:
     linkage service is available and running properly. The mpi_connection_status field
     contains a description of the connection health to the MPI database.
     """
-    run_migrations()
+
     try:
         connect_to_mpi_with_env_vars()
     except Exception as err:
@@ -166,7 +169,6 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
 
     input = dict(input)
     input_bundle = input.get("bundle", {})
-    run_migrations()
 
     # Check that DB type is appropriately set up as Postgres so
     # we can fail fast if it's not
@@ -185,13 +187,7 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
     # Default is DIBBS basic, which comes prepacked in the SDK
     algo_config = input.get("algo_config", {}).get("algorithm", [])
     if algo_config == []:
-        algo_config = read_linkage_config(
-            Path(__file__).parent.parent.parent.parent
-            / "phdi"
-            / "linkage"
-            / "algorithms"
-            / "dibbs_basic.json"
-        )
+        algo_config = DIBBS_BASIC
 
     # Now extract the patient record we want to link
     try:
