@@ -58,6 +58,7 @@ services:
       - init-kafka
     networks:
       - app-tier
+    hostname: kafka-to-delta-table
 volumes:
   zookeeper_data:
     driver: local

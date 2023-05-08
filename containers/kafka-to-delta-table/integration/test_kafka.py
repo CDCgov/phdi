@@ -26,7 +26,7 @@ def test_kafka_flow():
     }
 
     response = session.post(
-        "http://localhost:8080/load-data-to-kafka", json=request_body
+        "http://kafka-to-delta-table:8080/load-data-to-kafka", json=request_body
     )
     response_json = response.json()
     assert response.status_code == 200
@@ -43,7 +43,7 @@ def test_kafka_flow():
     }
 
     response = session.post(
-        "http://localhost:8080/kafka-to-delta-table", json=request_body
+        "http://kafka-to-delta-table:8080/kafka-to-delta-table", json=request_body
     )
     response_json = response.json()
     assert response.status_code == 200
@@ -53,7 +53,9 @@ def test_kafka_flow():
         "delta_table_name": "test-table",
     }
 
-    response = session.post("http://localhost:8080/delta-table", json=request_body)
+    response = session.post(
+        "http://kafka-to-delta-table:8080/delta-table", json=request_body
+    )
     response_json = response.json()
     assert response.status_code == 200
     assert response_json["status"] == "success"
