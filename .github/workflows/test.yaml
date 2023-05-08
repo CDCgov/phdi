@@ -189,7 +189,7 @@ jobs:
         id: check_file_changed
         run: |
           files=$(git diff --name-only HEAD^ HEAD)
-          if [[ $files =~ .*kafka-to-delta-table.* ]]; then
+          if [ -n "$(echo "$files" | grep "kafka-to-delta-table")" ]; then
             echo "It's there!"
             echo "::set-output name=run_job::true"
           else
