@@ -189,9 +189,11 @@ jobs:
         run: |
           files=$(git diff --name-only HEAD^ HEAD)
           if [[ $files =~ .*kafka-to-delta-table.* ]]; then
+            echo $files
             echo "It's there!"
             echo "::set-output name=run_job::true"
           else
+            echo $files
             echo "It's not there!"
             echo "::set-output name=run_job::false"
           fi
