@@ -1,0 +1,468 @@
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:cda="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:voc="http://www.lantanagroup.com/voc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../../schema/infrastructure/cda/CDA_SDTC.xsd">
+    <realmCode code="US"/>
+    <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.1.2"/>
+    <id root="10123456-be91-4444-8888-9c12c0a6edc0"/>
+    <code code="88085-6" codeSystem="2.16.840.1.113883.6.1" displayName="Reportability response report Document Public health"/>
+    <title>Reportability Response</title>
+    <effectiveTime value="20230131200915+0000"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="Normal"/>
+    <languageCode code="en-US"/>
+    <recordTarget>
+        <patientRole>
+            <id extension="MRN8675309" root="1.2.840.114350.1.13.297.3.7.3.688884.100"/>
+            <addr use="HP">
+                <streetAddressLine>123 FAKE ST</streetAddressLine>
+                <city>LOS ANGELES</city>
+                <state>CA</state>
+                <postalCode>90062</postalCode>
+                <country>USA</country>
+                <useablePeriod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IVL_TS">
+                    <low value="20181129"/>
+                    <high nullFlavor="NA"/>
+                </useablePeriod>
+            </addr>
+            <telecom nullFlavor="UNK"/>
+            <patient>
+                <name use="L">
+                    <given>Jessies</given>
+                    <family>Girl</family>
+                    <validTime>
+                        <low nullFlavor="NA"/>
+                        <high nullFlavor="NA"/>
+                    </validTime>
+                </name>
+                <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGenderCode" displayName="Female"/>
+                <birthTime value="19810214"/>
+                <maritalStatusCode code="M" codeSystem="2.16.840.1.113883.5.2" codeSystemName="MaritalStatusCode" displayName="Married"/>
+                <raceCode nullFlavor="UNK"/>
+                <ethnicGroupCode nullFlavor="UNK"/>
+                <birthplace>
+                    <place>
+                        <addr use="PST">
+                            <streetAddressLine nullFlavor="UNK"/>
+                            <city nullFlavor="UNK"/>
+                            <state>CA</state>
+                            <postalCode nullFlavor="UNK"/>
+                            <country>USA</country>
+                        </addr>
+                    </place>
+                </birthplace>
+                <languageCommunication>
+                    <languageCode nullFlavor="UNK"/>
+                </languageCommunication>
+            </patient>
+            <providerOrganization>
+                <id extension="50" root="1.2.840.114350.1.13.297.3.7.2.696570"/>
+                <name>Providence California</name>
+                <telecom use="WP" value="tel:+1-855-415-6179"/>
+                <addr use="WP">
+                    <streetAddressLine>4733 TORRANCE BLVD #4400</streetAddressLine>
+                    <county>LOS ANGELES</county>
+                    <city>TORRANCE</city>
+                    <state>CA</state>
+                    <postalCode>90503</postalCode>
+                    <country>USA</country>
+                </addr>
+            </providerOrganization>
+        </patientRole>
+    </recordTarget>
+    <author>
+        <time value="20161212100000-0700"/>
+        <assignedAuthor>
+            <id root="2.16.840.1.114222.4.1.217446"/>
+            <addr>
+                <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+                <city>Silver Spring</city>
+                <state>MD</state>
+                <postalCode>20910</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(844)836-8377"/>
+            <assignedAuthoringDevice>
+                <manufacturerModelName displayName="APHL"/>
+                <softwareName displayName="AIMS"/>
+            </assignedAuthoringDevice>
+        </assignedAuthor>
+    </author>
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id root="2.16.840.1.114222.4.1.217446"/>
+                <name>APHL | Association of Public Health Laboratories.</name>
+                <telecom use="WP" value="tel:+1(844)836-8377"/>
+                <addr>
+                    <streetAddressLine>8515 Georgia Avenue, Suite 700</streetAddressLine>
+                    <city>Silver Spring</city>
+                    <state>MD</state>
+                    <postalCode>20910</postalCode>
+                    <country>US</country>
+                </addr>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <informationRecipient typeCode="PRCP">
+        <intendedRecipient>
+            <id extension="6666666666666" root="2.16.840.1.113883.4.6"/>
+            <addr use="WP">
+                <streetAddressLine nullFlavor="UNK"/>
+                <city nullFlavor="UNK"/>
+                <state nullFlavor="UNK"/>
+                <postalCode nullFlavor="UNK"/>
+            </addr>
+            <telecom use="WP" value="tel:+1-555-555-1002"/>
+            <telecom use="WP" value="fax:+1-555-955-1002"/>
+            <telecom use="WP" value="mailto:henrysevenmd@email.net"/>
+            <informationRecipient>
+                <name>
+                    <given nullFlavor="UNK"/>
+                    <family nullFlavor="UNK"/>
+                </name>
+            </informationRecipient>
+            <receivedOrganization>
+                <name>Vanderbilt University Medical Center</name>
+                <addr use="WP">
+                    <streetAddressLine>3401 West End Ave</streetAddressLine>
+                    <county>DAVIDSON</county>
+                    <city>NASHVILLE</city>
+                    <state>TN</state>
+                    <postalCode>37203</postalCode>
+                    <country>USA</country>
+                </addr>
+            </receivedOrganization>
+        </intendedRecipient>
+    </informationRecipient>
+    <componentOf>
+        <encompassingEncounter>
+            <id extension="555555547455" root="1.2.840.114350.1.13.297.3.7.3.698084.8"/>
+            <code code="AMB" codeSystem="2.16.840.1.113883.5.4" displayName="Ambulatory" nullFlavor="UNK">
+                <originalText>Lab Requisition</originalText>
+                <translation code="4" codeSystem="1.2.840.114350.1.72.1.30.1"/>
+            </code>
+            <effectiveTime>
+                <low value="20230212"/>
+                <high value="20230212"/>
+            </effectiveTime>
+            <responsibleParty>
+                <assignedEntity>
+                    <id root="787878-5656"/>
+                    <addr use="WP">
+                        <streetAddressLine nullFlavor="UNK"/>
+                        <city nullFlavor="UNK"/>
+                        <state nullFlavor="UNK"/>
+                        <postalCode nullFlavor="UNK"/>
+                    </addr>
+                    <telecom nullFlavor="NA"/>
+                    <assignedPerson>
+                        <name>
+                            <given>Homer</given>
+                            <family>Simpson</family>
+                        </name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <name>Providence California</name>
+                        <addr use="WP">
+                            <streetAddressLine>4733 TORRANCE BLVD #4400</streetAddressLine>
+                            <county>LOS ANGELES</county>
+                            <city>TORRANCE</city>
+                            <state>CA</state>
+                            <postalCode>90503</postalCode>
+                            <country>USA</country>
+                        </addr>
+                    </representedOrganization>
+                </assignedEntity>
+            </responsibleParty>
+            <encounterParticipant typeCode="ATND">
+                <time value="20230131"/>
+                <assignedEntity>
+                    <id nullFlavor="UNK" root="2.16.840.1.113883.4.6"/>
+                    <addr use="WP">
+                        <streetAddressLine nullFlavor="UNK"/>
+                        <city nullFlavor="UNK"/>
+                        <state nullFlavor="UNK"/>
+                        <postalCode nullFlavor="UNK"/>
+                    </addr>
+                    <telecom nullFlavor="UNK"/>
+                    <assignedPerson>
+                        <name use="L">
+                            <given>Authorizing</given>
+                            <family>Provider</family>
+                            <validTime>
+                                <low nullFlavor="UNK"/>
+                                <high nullFlavor="UNK"/>
+                            </validTime>
+                        </name>
+                    </assignedPerson>
+                </assignedEntity>
+            </encounterParticipant>
+            <location>
+                <healthCareFacility>
+                    <id extension="5033333328" root="1.2.840.114350.1.13.297.3.7.2.686980"/>
+                    <code code="257622000" codeSystem="2.16.840.1.113883.6.96" displayName="Healthcare Facility">
+                        <originalText>Lab</originalText>
+                    </code>
+                    <location>
+                        <name>PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY</name>
+                        <addr use="WP">
+                            <streetAddressLine>2121 Santa Monica Blvd</streetAddressLine>
+                            <county>LOS ANGELES</county>
+                            <city>Santa Monica</city>
+                            <state>CA</state>
+                            <postalCode>90404-2303</postalCode>
+                            <country>USA</country>
+                        </addr>
+                    </location>
+                    <serviceProviderOrganization>
+                        <id extension="503777" root="1.2.840.114350.1.13.297.3.7.2.696570"/>
+                        <name>Providence Saint John's Health Center</name>
+                        <telecom nullFlavor="UNK"/>
+                        <addr use="WP">
+                            <streetAddressLine>2121 Santa Monica Blvd</streetAddressLine>
+                            <county>LOS ANGELES</county>
+                            <city>Santa Monica</city>
+                            <state>CA</state>
+                            <postalCode>90404-2303</postalCode>
+                            <country>USA</country>
+                        </addr>
+                        <asOrganizationPartOf>
+                            <wholeOrganization>
+                                <name>Providence California</name>
+                                <addr nullFlavor="NA"/>
+                            </wholeOrganization>
+                        </asOrganizationPartOf>
+                    </serviceProviderOrganization>
+                </healthCareFacility>
+            </location>
+        </encompassingEncounter>
+    </componentOf>
+    <component>
+        <structuredBody>
+            <component>
+                <section>
+                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.1"/>
+                    <code code="88084-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <title>.</title>
+                    <text>
+                        <br/>
+                        <paragraph>
+                            <content styleCode="Bold">Subject:</content>
+                        </paragraph>
+                        <paragraph>Public Health Reporting Communication: one or more conditions are reportable, or may be reportable, to public health.</paragraph>
+                        <paragraph/>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <act classCode="ACT" moodCode="INT">
+                            <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20"/>
+                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.7"/>
+                            <id root="c46f0855-662b-47f0-be5a-8d7f6d3e0f2f"/>
+                            <code code="131195008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Subject of information"/>
+                            <text>Public Health Reporting Communication: one or more conditions are reportable, or may be reportable, to public health.</text>
+                            <statusCode code="completed"/>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.3"/>
+                    <code code="88082-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Initial case report processing information Document"/>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.9"/>
+                            <id root="6bff7990-f218-4f9d-a5aa-eb7afa6e9a3c"/>
+                            <code code="RR5" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Received eICR Information"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="20220125155734-0600"/>
+                            <reference typeCode="REFR">
+                                <externalDocument classCode="DOCCLIN" moodCode="EVN">
+                                    <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.115"/>
+                                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.10"/>
+                                    <id assigningAuthorityName="EPC" root="1.2.840.114350.1.13.478.3.7.8.688883.204846"/>
+                                    <code code="55751-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Public Health Case Report (eICR)"/>
+                                    <setId assigningAuthorityName="EPC" extension="8675309a-7754-r2d2-c3p0-973d9f777777" root="1.2.840.114350.1.13.478.3.7.1.1"/>
+                                    <versionNumber value="1"/>
+                                </externalDocument>
+                            </reference>
+                        </act>
+                    </entry>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.29"/>
+                            <id root="8675309a-7754-r2d2-c3p0-973d9f777777"/>
+                            <code code="RRVS19" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="eICR processed"/>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.2.2"/>
+                    <code code="55112-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <title>.</title>
+                    <text>
+                    </text>
+                    <entry typeCode="DRIV">
+                        <act classCode="ACT" moodCode="INT">
+                            <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.4.20"/>
+                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.8"/>
+                            <id root="a72cfa6f-b622-408f-9a17-b8fa607ae103"/>
+                            <code code="304561000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Informing health care professional (procedure)"/>
+                            <text>Your organization electronically submitted an initial case report to determine if reporting to public health is needed for a patient. 
+ </text>
+                            <statusCode code="completed"/>
+                        </act>
+                    </entry>
+                    <entry typeCode="DRIV">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.30"/>
+                            <code code="RR9" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Reportability response priority"/>
+                            <value code="RRVS15" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Information Only" xsi:type="CD"/>
+                        </observation>
+                    </entry>
+                    <entry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" typeCode="DRIV">
+                        <organizer classCode="CLUSTER" moodCode="EVN">
+                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.34"/>
+                            <code code="RR11" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Reportability Response Coded Information"/>
+                            <statusCode code="completed"/>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.12"/>
+                                    <id root="f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"/>
+                                    <code code="64572001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED" displayName="Condition">
+                                        <translation code="75323-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Condition"/>
+                                    </code>
+                                    <value code="240372001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Cyclosporiasis (disorder)" />
+                                    <entryRelationship typeCode="COMP">
+                                        <organizer classCode="CLUSTER" moodCode="EVN">
+                                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.13"/>
+                                            <id root="4cabd3fd-ab23-4ae0-b47a-a2aa1cfd64b3"/>
+                                            <code code="RRVS7" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="Location Relevance" displayName="Both patient home address and provider facility address"/>
+                                            <statusCode code="completed"/>
+                                            <participant typeCode="LOC">
+                                                <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.3"/>
+                                                <participantRole>
+                                                    <id extension="ca" root="2.16.840.1.113883.4.6"/>
+                                                    <code code="RR12" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Rules Authoring Agency"/>
+                                                    <addr nullFlavor="NI"/>
+                                                    <telecom nullFlavor="NI"/>
+                                                    <playingEntity>
+                                                        <name>California Department of Public Health</name>
+                                                    </playingEntity>
+                                                </participantRole>
+                                            </participant>
+                                            <participant typeCode="LOC">
+                                                <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.1"/>
+                                                <participantRole>
+                                                    <id extension="ca" root="2.16.840.1.113883.4.6"/>
+                                                    <code code="RR7" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Routing Entity"/>
+                                                    <addr nullFlavor="NI"/>
+                                                    <telecom nullFlavor="NI"/>
+                                                    <playingEntity>
+                                                        <name>California Department of Public Health</name>
+                                                    </playingEntity>
+                                                </participantRole>
+                                            </participant>
+                                            <component typeCode="COMP">
+                                                <observation classCode="OBS" moodCode="EVN">
+                                                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.19"/>
+                                                    <id root="32de0d36-560d-4f1a-a8d0-cab4a023b5d6"/>
+                                                    <code code="RR1" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Determination of reportability"/>
+                                                    <value code="RRVS1" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Reportable" />
+                                                    <entryRelationship typeCode="RSON">
+                                                        <observation classCode="OBS" moodCode="EVN">
+                                                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.27"/>
+                                                            <id root="a36692f3-97aa-4896-b4c3-57ea9220e716"/>
+                                                            <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Determination of reportability rule"/>
+                                                            <value xsi:type="ST">Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method</value>
+                                                        </observation>
+                                                    </entryRelationship>
+                                                </observation>
+                                            </component>
+                                            <component typeCode="COMP">
+                                                <act classCode="ACT" moodCode="EVN">
+                                                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.20"/>
+                                                    <id root="ef40a133-a8fe-4e45-9682-2d5d35647fb3"/>
+                                                    <code code="RRVS12" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="PHA Contact Information"/>
+                                                    <priorityCode code="RRVS15" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Information only"/>
+                                                    <reference typeCode="REFR">
+                                                        <externalDocument classCode="DOC" moodCode="EVN">
+                                                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.17"/>
+                                                            <code nullFlavor="OTH">
+                                                                <originalText>Cyclosporiasis occurs in many countries but it is most common in tropical and subtropical regions. In the United States, foodborne outbreaks of cyclosporiasis have been linked to various types of fresh produce imported from Latin America, including raspberries, cilantro, basil, snow peas, and mixed salad.</originalText>
+                                                            </code>
+                                                            <text mediaType="text/html">
+                                                                <reference value="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Cyclosporiasis.aspx#"/>
+                                                            </text>
+                                                        </externalDocument>
+                                                    </reference>
+                                                </act>
+                                            </component>
+                                        </organizer>
+                                    </entryRelationship>
+                                </observation>
+                            </component>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.12"/>
+                                    <id root="ef6c19e4-cc1a-4c09-8c48-a8ae2da78dfc"/>
+                                    <code code="64572001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED" displayName="Condition">
+                                        <translation code="75323-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Condition"/>
+                                    </code>
+                                    <value code="240372001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Cyclosporiasis (disorder)" />
+                                    <entryRelationship typeCode="COMP">
+                                        <organizer classCode="CLUSTER" moodCode="EVN">
+                                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.13"/>
+                                            <id root="a880c758-0367-444e-804c-3f03f18beb7c"/>
+                                            <code code="RRVS7" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="Location Relevance" displayName="Both patient home address and provider facility address"/>
+                                            <statusCode code="completed"/>
+                                            <participant typeCode="LOC">
+                                                <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.3"/>
+                                                <participantRole>
+                                                    <id extension="lac" root="2.16.840.1.113883.4.6"/>
+                                                    <code code="RR12" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Rules Authoring Agency"/>
+                                                    <addr nullFlavor="NI"/>
+                                                    <telecom nullFlavor="NI"/>
+                                                    <playingEntity>
+                                                        <name>Los Angeles County Department of Public Health</name>
+                                                    </playingEntity>
+                                                </participantRole>
+                                            </participant>
+                                            <participant typeCode="LOC">
+                                                <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.4.1"/>
+                                                <participantRole>
+                                                    <id extension="lac" root="2.16.840.1.113883.4.6"/>
+                                                    <code code="RR7" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Routing Entity"/>
+                                                    <addr nullFlavor="NI"/>
+                                                    <telecom nullFlavor="NI"/>
+                                                    <playingEntity>
+                                                        <name>Los Angeles County Department of Public Health</name>
+                                                    </playingEntity>
+                                                </participantRole>
+                                            </participant>
+                                            <component typeCode="COMP">
+                                                <observation classCode="OBS" moodCode="EVN">
+                                                    <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.19"/>
+                                                    <id root="e62bd45f-cb72-4cef-970f-03bd0a1555e3"/>
+                                                    <code code="RR1" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Determination of reportability"/>
+                                                    <value code="RRVS1" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="Reportable" />
+                                                    <entryRelationship typeCode="RSON">
+                                                        <observation classCode="OBS" moodCode="EVN">
+                                                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.27"/>
+                                                            <id root="135bcbb4-6573-4aae-8e75-617e0ab04275"/>
+                                                            <code code="RR3" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Determination of reportability rule"/>
+                                                            <value xsi:type="ST">Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method</value>
+                                                        </observation>
+                                                    </entryRelationship>
+                                                </observation>
+                                            </component>
+                                        </organizer>
+                                    </entryRelationship>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>

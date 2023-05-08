@@ -11,10 +11,8 @@ alternate_app_license = LicenseType.MIT
 
 def test_base_service():
     service = BaseService(
-        service_name="test_service",
-        description_path=Path(__file__).parent.parent
-        / "assets"
-        / "test_description.md",
+        "test_service",
+        Path(__file__).parent.parent / "assets" / "containers" / "test_description.md",
     )
     assert service.app.title == "test_service"
     assert service.app.version == default_app_version
@@ -33,6 +31,7 @@ def test_base_service_alternate_license():
         service_name="test_service",
         description_path=Path(__file__).parent.parent
         / "assets"
+        / "containers"
         / "test_description.md",
         license_info=alternate_app_license,
     )

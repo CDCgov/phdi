@@ -60,6 +60,7 @@ def test_block_data():
             pathlib.Path(__file__).parent.parent.parent
             / "tests"
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -136,6 +137,7 @@ def test_dibbs_blocking():
             pathlib.Path(__file__).parent.parent.parent
             / "tests"
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -261,6 +263,7 @@ def test_insert_match_patient():
             pathlib.Path(__file__).parent.parent.parent
             / "tests"
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )

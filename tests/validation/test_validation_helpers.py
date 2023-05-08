@@ -13,24 +13,34 @@ test_include_errors = ["fatal", "errors", "warnings", "information"]
 
 # Test file with known errors
 sample_file_bad = open(
-    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_bad.xml"
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "ecr_sample_input_bad.xml"
 ).read()
 
 
 # Test good file
 sample_file_good = open(
-    pathlib.Path(__file__).parent.parent / "assets" / "ecr_sample_input_good.xml"
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "ecr_sample_input_good.xml"
 ).read()
 
 # Test good file with RR data
 sample_file_good_RR = open(
     pathlib.Path(__file__).parent.parent
     / "assets"
+    / "validation"
     / "ecr_sample_input_good_with_RR.xml"
 ).read()
 
 config = open(
-    pathlib.Path(__file__).parent.parent / "assets" / "sample_ecr_config.yaml"
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "validation"
+    / "sample_ecr_config.yaml"
 ).read()
 
 
