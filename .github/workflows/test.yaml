@@ -188,22 +188,14 @@ jobs:
         shell: pwsh
         id: check_file_changed
         run: |
-          echo "=============== list modified files ==============="
-          git diff --name-only HEAD^ HEAD
-          
-          echo "========== check paths of modified files =========="
-          git diff --name-only HEAD^ HEAD > files.txt
-
-          while (( IFS= read -r file )); do
-            echo $file
-            if [[ $file != kafka-to-delta-table/* ]]; then
-              echo "This modified file is not under the 'db' folder."
-              echo "::set-output name=run_job::false"
-              break
-            else
-              echo "::set-output name=run_job::true"
-            fi
-          done < files.txt
+          files= git diff --name-only HEAD^ HEAD
+          if [[ $files == *"kafka-to-detla-table"* ]]; then
+            echo "It's there!"
+            echo "::set-output name=run_job::true"
+          else
+            echo "It's not there!"
+            echo "::set-output name=run_job::false"
+          fi
   itegration-kafka-container:
     runs-on: ubuntu-latest
     needs: [ conditional_job_check_files ]

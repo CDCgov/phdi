@@ -10,7 +10,7 @@ from app.kafka_connectors import KAFKA_PROVIDERS, create_kafka_data_frame
 
 def set_selection_flags(arguments: list) -> dict:
     """
-    Sets the value of the selection_flags dictionary to True if the corresponding
+    Sets  the value of the selection_flags dictionary to True if the corresponding
     command line argument is present in the list of arguments.
 
     :param arguments: A list of command line arguments.
