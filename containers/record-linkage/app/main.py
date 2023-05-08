@@ -1,6 +1,7 @@
 from app.config import get_settings
-from fastapi import FastAPI, Response, status
+from fastapi import Response, status
 from pathlib import Path
+from phdi.containers.base_service import BaseService
 from phdi.linkage import (
     add_person_resource,
     link_record_against_mpi,
@@ -65,24 +66,12 @@ def run_migrations():
 # Run MPI migrations on spin up
 run_migrations()
 
-# Instantiate FastAPI and set metadata.
-description = (Path(__file__).parent.parent / "description.md").read_text(
-    encoding="utf-8"
-)
-app = FastAPI(
-    title="DIBBs Record Linkage Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+# Instantiate FastAPI via PHDI's BaseService class
+app = BaseService(
+    service_name="DIBBs Record Linkage Service",
+    description_path=Path(__file__).parent.parent / "description.md",
+    include_health_check_endpoint=False,
+).start()
 
 
 # Request and and response models
