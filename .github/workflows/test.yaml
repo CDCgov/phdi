@@ -185,11 +185,10 @@ jobs:
           # Checkout as many commits as needed for the diff
           fetch-depth: 2
       - name: Check file changes
-        shell: pwsh
         id: check_file_changed
         run: |
           files=$(git diff --name-only HEAD^ HEAD)
-          if [ -n "$(echo "$files" | grep "kafka-to-delta-table")" ]; then
+          if [[ $files =~ .*kafka-to-delta-table.* ]]; then
             echo "It's there!"
             echo "::set-output name=run_job::true"
           else
