@@ -33,6 +33,7 @@ def test_add_patient_identifier_by_bundle_overwrite():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "linkage"
             / "patient_with_linking_id_bundle.json"
         )
     )
@@ -63,6 +64,7 @@ def test_patient_identifier_overwrite():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "linkage"
             / "patient_with_linking_id_bundle.json"
         )
     )
@@ -94,6 +96,7 @@ def test_add_patient_identifier_by_bundle():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "linkage"
             / "patient_with_linking_id_bundle.json"
         )
     )
@@ -126,6 +129,7 @@ def test_add_patient_identifier():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "linkage"
             / "patient_with_linking_id_bundle.json"
         )
     )
