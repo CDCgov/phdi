@@ -226,16 +226,16 @@ jobs:
       - name: Run integration tests
         working-directory: ./containers/kafka-to-delta-table
         run: pytest integration
-  # debug:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Print modified files
-  #       run: |
-  #         set -x
-  #         echo "${{ github.event.head_commit.modified }}"
-  #     - name: print joined
-  #       run: echo "${{ join(github.event.head_commit.modified, ', ') }}"
-  #     - name: print conditional
-        # run: echo "${{ contains(join(github.event.head_commit.modified, ','), 'kafka-to-delta-table/') }}"
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print modified files
+        run: |
+          set -x
+          echo "${{ github.event.head_commit.modified }}"
+      - name: print joined
+        run: echo "${{ join(github.event.head_commit.modified, ', ') }}"
+      - name: print conditional
+        run: echo "${{ needs.conditional_job_check_files.outputs.run_job }}"
 
       
