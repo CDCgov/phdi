@@ -31,6 +31,7 @@ def test_base_service_alternate_license():
         service_name="test_service",
         description_path=Path(__file__).parent.parent
         / "assets"
+        / "containers"
         / "test_description.md",
         license_info=alternate_app_license,
     )
