@@ -33,6 +33,7 @@ def test_parse_census_result_success():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "geospatial"
             / "censusResponseFullAddress.json"
         )
     )
@@ -54,6 +55,7 @@ def test_parse_census_result_failure():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "geospatial"
             / "censusResponseFullAddress.json"
         )
     )
@@ -75,6 +77,7 @@ def test_geocode_from_str():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "geospatial"
             / "censusResponseFullAddress.json"
         )
     )
@@ -122,6 +125,7 @@ def test_geocode_from_dict():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "geospatial"
             / "censusResponseFullAddress.json"
         )
     )
