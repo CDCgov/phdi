@@ -191,7 +191,7 @@ jobs:
           # Diff HEAD with the previous commit
           $diff = git diff --name-only HEAD^ HEAD
 
-          while (IFS= read -r file)
+          while (IFS= read -r file
           do
             echo $file
             if [[ $file != db/* ]]; then
@@ -201,7 +201,7 @@ jobs:
             else
               echo "::set-output name=run_job::true"
             fi
-          done &lt; files.txt
+          done &lt; files.txt)
   itegration-kafka-container:
     runs-on: ubuntu-latest
     needs: [ conditional_job_check_files ]
