@@ -15,7 +15,7 @@ Jinja2
 MarkupSafe
 orjson
 packaging
-phdi
+phdi @ git+https://github.com/CDCgov/phdi.git@main
 pluggy
 py
 pydantic

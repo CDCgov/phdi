@@ -2,7 +2,7 @@ azure-communication-identity
 azure-communication-phonenumbers
 azure-communication-sms
 azure-identity
-phdi
+phdi @ git+https://github.com/CDCgov/phdi.git@main
 fastapi
 uvicorn
 httpx
