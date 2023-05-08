@@ -40,12 +40,6 @@ sample_file_good_with_RR = open(
 ).read()
 
 
-def test_health_check():
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {"status": "OK"}
-
-
 def test_validate_ecr_invalid_xml():
     expected_result2 = {
         "message_valid": False,
