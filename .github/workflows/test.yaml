@@ -215,13 +215,10 @@ jobs:
         working-directory: ./containers/kafka-to-delta-table
         run: |
           pip install -r requirements.txt
-      - name: Build Docker Images
-        working-directory: ./containers/kafka-to-delta-table
-        run: docker-compose build
       - name: Run integration tests
         working-directory: ./containers/kafka-to-delta-table
         run: |
-          docker-compose up --detach
+          docker-compose up --build --detach
           pytest integration
   debug:
     runs-on: ubuntu-latest
