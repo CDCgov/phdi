@@ -1,7 +1,7 @@
-from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import Literal
 from pathlib import Path
+from phdi.containers.base_service import BaseService
 from phdi.validation.validation import validate_ecr
 from .utils import load_ecr_config, validate_error_types
 
@@ -11,24 +11,11 @@ from .utils import load_ecr_config, validate_error_types
 ecr_config = load_ecr_config()
 
 
-# Instantiate FastAPI and set metadata.
-description = (Path(__file__).parent.parent / "description.md").read_text(
-    encoding="utf-8"
-)
-app = FastAPI(
-    title="PHDI Validation Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+# Instantiate FastAPI via PHDI's BaseService class
+app = BaseService(
+    service_name="PHDI Validation Service",
+    description_path=Path(__file__).parent.parent / "description.md",
+).start()
 
 
 # Request and and response models
@@ -117,15 +104,6 @@ message_validators = {
 
 
 # Endpoints
-@app.get("/")
-async def health_check():
-    """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the tabulation service is available and running properly.
-    """
-    return {"status": "OK"}
-
-
 @app.post("/validate", status_code=200)
 async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
     """
