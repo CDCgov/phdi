@@ -220,7 +220,7 @@ jobs:
         run: |
           docker-compose up --build --detach
           docker ps
-          docker inspect kafka-to-delta-table-kafka-to-delta-table
+          docker inspect kafka-to-delta-table_kafka-to-delta-table 
           pytest integration
   debug:
     runs-on: ubuntu-latest
