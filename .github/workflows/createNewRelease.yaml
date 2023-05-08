@@ -55,9 +55,27 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
       - name: Tag Release
+        uses: EndBug/latest-tag@latest
+        with:
+          ref: ${{ steps.get_version.outputs.version }}
+      # Generate release notes
+      - name: Generate release notes
+        id: release_notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git tag ${{ steps.get_version.outputs.version }}
-          git push origin ${{ steps.get_version.outputs.version }}
+          latest_release_date=$(gh release list --limit 1 --json createdAt -q ".[0].createdAt")
+          prs=$(gh pr list --base main --state closed --json title,number,url,closedAt -q ".[] | select(.closedAt > \"$latest_release_date\")")
+
+          release_notes="# Release Notes\n\n"
+          for pr in "$prs"; do
+            pr_title=$(echo "$pr" | jq -r ".title")
+            pr_number=$(echo "$pr" | jq -r ".number")
+            pr_url=$(echo "$pr" | jq -r ".url")
+            release_notes+="- $pr_title ([PR#$pr_number]($pr_url))\n"
+          done
+
+          echo "RELEASE_NOTES=$release_notes" >> $GITHUB_OUTPUT
       # Create new release based upon the latest created tag
       - name: Create Release
         id: create_release
@@ -66,7 +84,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: Release ${{ steps.get_version.outputs.version }} 
+          release_name: ${{ steps.get_version.outputs.version }} 
+          body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
           
   release-to-pypi:
     name: Build and publish PHDI to PyPI
@@ -164,6 +183,15 @@ jobs:
           ref: ${{ needs.tag-release.outputs.version }}
 
       - name: Update Container Documenation
+        env:
+          MPI_DBNAME: testdb
+          MPI_PASSWORD: pw
+          MPI_DB_TYPE: postgres
+          MPI_HOST: localhost
+          MPI_USER: postgres
+          MPI_PORT: 5432
+          MPI_PATIENT_TABLE: patient
+          MPI_PERSON_TABLE: person
         run: |
           npm i -g redoc-cli
           CONTAINER=${{ matrix.container }}
