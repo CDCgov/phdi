@@ -219,6 +219,7 @@ jobs:
         working-directory: ./containers/kafka-to-delta-table
         run: |
           docker-compose up --build --detach
+          docker ps
           pytest integration
   debug:
     runs-on: ubuntu-latest
