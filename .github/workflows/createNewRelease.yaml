@@ -126,7 +126,9 @@ jobs:
 
 # Rebuild all containers for the new release
   build-containers-for-release:
-    needs: tag-release
+    needs: 
+      - tag-release
+      - release-to-pypi
     permissions:
       contents: read
       packages: write
