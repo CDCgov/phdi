@@ -13,6 +13,7 @@ valid_schema_path = (
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "tabulation"
     / "valid_schema.json"
 )
 

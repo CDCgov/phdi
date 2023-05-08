@@ -29,6 +29,7 @@ def test_geocode_resource():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -86,6 +87,7 @@ def test_geocode_bundle():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )

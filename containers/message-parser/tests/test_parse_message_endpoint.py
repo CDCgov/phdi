@@ -11,6 +11,7 @@ fhir_bundle_path = (
     Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "general"
     / "patient_bundle.json"
 )
 
