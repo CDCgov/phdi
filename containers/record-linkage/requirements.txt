@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-phdi
+phdi @ git+https://github.com/CDCgov/phdi.git@main
 httpx
 pathlib
 pydantic
