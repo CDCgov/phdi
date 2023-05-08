@@ -191,7 +191,7 @@ jobs:
           # Diff HEAD with the previous commit
           $diff = git diff --name-only HEAD^ HEAD
 
-          while IFS= read -r file
+          while (IFS= read -r file)
           do
             echo $file
             if [[ $file != db/* ]]; then
