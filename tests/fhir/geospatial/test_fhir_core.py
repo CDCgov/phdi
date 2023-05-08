@@ -9,6 +9,7 @@ def test_store_lat_long():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )

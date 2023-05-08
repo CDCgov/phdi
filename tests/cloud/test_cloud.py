@@ -359,7 +359,8 @@ def test_azure_download_object_cp1252(mock_get_client):
     object_path = "output/path/some-bundle-type/some-filename-1.fhir"
 
     with open(
-        pathlib.Path(__file__).parent.parent / "assets" / "cp1252-sample.txt", "rb"
+        pathlib.Path(__file__).parent.parent / "assets" / "cloud" / "cp1252-sample.txt",
+        "rb",
     ) as cp1252file:
         object_content = cp1252file.read()
 

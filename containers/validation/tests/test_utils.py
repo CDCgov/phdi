@@ -43,6 +43,7 @@ def test_validate_config_bad():
         pathlib.Path(__file__).parent.parent.parent.parent
         / "tests"
         / "assets"
+        / "validation"
         / "sample_ecr_config_bad.yaml",
         "r",
     ) as file:
@@ -56,6 +57,7 @@ def test_validate_config_good():
         pathlib.Path(__file__).parent.parent.parent.parent
         / "tests"
         / "assets"
+        / "validation"
         / "sample_ecr_config.yaml",
         "r",
     ) as file:

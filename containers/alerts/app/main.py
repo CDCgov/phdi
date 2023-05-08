@@ -19,9 +19,10 @@ from typing import Optional
 from phdi.containers.base_service import BaseService
 
 
-# Instantiate FastAPI and set metadata.
+# Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
-    "PHDI Alerts Service", Path(__file__).parent.parent / "description.md"
+    service_name="PHDI Alerts Service",
+    description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
 
@@ -59,15 +60,6 @@ class TeamsAlertInput(BaseModel):
     """
 
     message: str = Field(description="The message to send to the Teams channel.")
-
-
-@app.get("/")
-async def health_check():
-    """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the alerts service is available and running properly.
-    """
-    return {"status": "OK"}
 
 
 @app.post("/sms-alert", status_code=200)
