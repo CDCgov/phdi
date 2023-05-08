@@ -194,7 +194,7 @@ jobs:
           echo "========== check paths of modified files =========="
           git diff --name-only HEAD^ HEAD &gt; files.txt
 
-          while [[ IFS= read -r file ]]; do
+          while (( IFS= read -r file )); do
             echo $file
             if [[ $file != kafka-to-delta-table/* ]]; then
               echo "This modified file is not under the 'db' folder."
