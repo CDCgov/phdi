@@ -37,7 +37,8 @@ def test_connect_to_adlsgen2(patched_cred_manager_class):
             "OAuth",
         ),
         mock.call(
-            f"fs.azure.account.oauth.provider.type.{storage_account}.dfs.core.windows.net",
+            f"fs.azure.account.oauth.provider.type.{storage_account}"
+            + ".dfs.core.windows.net",
             "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
         ),
         mock.call(
@@ -49,7 +50,8 @@ def test_connect_to_adlsgen2(patched_cred_manager_class):
             cred_manager.get_secret(),
         ),
         mock.call(
-            f"fs.azure.account.oauth2.client.endpoint.{storage_account}.dfs.core.windows.net",
+            f"fs.azure.account.oauth2.client.endpoint.{storage_account}"
+            + ".dfs.core.windows.net",
             f"https://login.microsoftonline.com/{tenant_id}/oauth2/token",
         ),
         mock.call("fs.azure.createRemoteFileSystemDuringInitialization", "false"),

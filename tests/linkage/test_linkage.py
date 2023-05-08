@@ -1240,6 +1240,8 @@ def test_flatten_patient():
         for p in patients
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
+
+    # Use patient with multiple identifiers to also test MRN-specific filter
     assert _flatten_patient_resource(patients[2]) == [
         "2c6d5fd1-4a70-11eb-99fd-ad786a821574",
         None,

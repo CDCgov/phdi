@@ -3,9 +3,9 @@ from unittest import mock
 from fastapi.testclient import TestClient
 from types import SimpleNamespace
 
-from app.main import api
+from app.main import app
 
-client = TestClient(api)
+client = TestClient(app)
 
 
 def test_health_check():

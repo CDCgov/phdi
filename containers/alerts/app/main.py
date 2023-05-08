@@ -8,7 +8,7 @@ from azure.communication.phonenumbers import (
 )
 from azure.communication.sms import SmsClient
 from azure.identity import DefaultAzureCredential
-from fastapi import FastAPI, Response, status
+from fastapi import Response, status
 from pydantic import BaseModel, BaseSettings, Field
 import pymsteams
 from functools import lru_cache
@@ -16,25 +16,13 @@ from pathlib import Path
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from typing import Optional
+from phdi.containers.base_service import BaseService
+
 
 # Instantiate FastAPI and set metadata.
-description = (Path(__file__).parent.parent / "description.md").read_text(
-    encoding="utf-8"
-)
-api = FastAPI(
-    title="PHDI Alerts Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+app = BaseService(
+    "PHDI Alerts Service", Path(__file__).parent.parent / "description.md"
+).start()
 
 
 class Settings(BaseSettings):
@@ -73,7 +61,7 @@ class TeamsAlertInput(BaseModel):
     message: str = Field(description="The message to send to the Teams channel.")
 
 
-@api.get("/")
+@app.get("/")
 async def health_check():
     """
     Check service status. If an HTTP 200 status code is returned along with
@@ -82,7 +70,7 @@ async def health_check():
     return {"status": "OK"}
 
 
-@api.post("/sms-alert", status_code=200)
+@app.post("/sms-alert", status_code=200)
 async def sms_alert(input: SmsAlertInput, response: Response):
     """
     Send an SMS alert to a phone number.
@@ -109,7 +97,7 @@ async def sms_alert(input: SmsAlertInput, response: Response):
     )
 
 
-@api.post("/slack-alert", status_code=200)
+@app.post("/slack-alert", status_code=200)
 async def slack_alert(input: SlackAlertInput, response: Response):
     """
     Send a Slack alert to a channel.
@@ -136,7 +124,7 @@ async def slack_alert(input: SlackAlertInput, response: Response):
         return e.response
 
 
-@api.post("/teams-alert", status_code=200)
+@app.post("/teams-alert", status_code=200)
 async def teams_alert(input: TeamsAlertInput, response: Response):
     """
     Send a Teams alert to a channel.

@@ -83,14 +83,14 @@ fields:
   textRequired: 'True'
 - fieldName: City
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:city"
-  errorType: "fatal"
+  errorType: "errors"
   textRequired: 'True'
-  relatives:
-    - name: addr
-      cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr"
-      attributes:
-      - attributeName: use
-        regEx: "H"
+  # relatives:
+  #   - name: addr
+  #     cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr"
+  #     attributes:
+  #     - attributeName: use
+  #       regEx: "H"
 - fieldName: State
   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:state"
   errorType: "errors"

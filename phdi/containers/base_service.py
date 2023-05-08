@@ -1,5 +1,17 @@
 from fastapi import FastAPI
 from pathlib import Path
+from enum import Enum
+from importlib import metadata
+
+
+# create a class with the DIBBs default Creative Commons Zero v1.0 and
+# MIT license to be used by the BaseService class
+class LicenseType(Enum):
+    CreativeCommonsZero = {
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    }
+    MIT = {"name": "The MIT License", "url": "https://mit-license.org/"}
 
 
 class BaseService:
@@ -8,11 +20,19 @@ class BaseService:
     metadata and optionally a health check endpoint.
     """
 
+    LICENSE_INFO = LicenseType.CreativeCommonsZero
+    DIBBS_CONTACT = {
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    }
+
     def __init__(
         self,
         service_name: str,
         description_path: str,
         include_health_check_endpoint: bool = True,
+        license_info: LicenseType = LICENSE_INFO,
     ):
         """
         Initialize a BaseService instance.
@@ -22,21 +42,17 @@ class BaseService:
             the service.
         :param include_health_check_endpoint: If True, the standard DIBBs health check
             endpoint will be added.
+        :param license_info: If empty, the standard DIBBs Creative Commons Zero v1.0
+            Universal license will be used. The other available option is to use the
+            MIT license.
         """
         description = Path(description_path).read_text(encoding="utf-8")
         self.include_health_check_endpoint = include_health_check_endpoint
         self.app = FastAPI(
             title=service_name,
-            version="0.0.1",
-            contact={
-                "name": "CDC Public Health Data Infrastructure",
-                "url": "https://cdcgov.github.io/phdi-site/",
-                "email": "dmibuildingblocks@cdc.gov",
-            },
-            license_info={
-                "name": "Creative Commons Zero v1.0 Universal",
-                "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-            },
+            version=metadata.version("phdi"),
+            contact=self.DIBBS_CONTACT,
+            license_info=license_info,
             description=description,
         )
 

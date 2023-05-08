@@ -35,4 +35,4 @@ COPY app/main.py .
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
 
 EXPOSE 8080
-CMD uvicorn main:api --host 0.0.0.0 --port 8080
+CMD uvicorn main:app --host 0.0.0.0 --port 8080
