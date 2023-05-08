@@ -9,7 +9,7 @@
             {% break -%}
         {% else -%}
             {% if obj.representedOrganization.name._ and obj.assignedPerson.name.given._ -%}
-                {{ obj.representedOrganization | to_json_string append: '|' | append: obj.assignedPerson | to_json_string | generate_uuid }}
+                {{ obj.representedOrganization.name._ | append: '|' | append: obj.assignedPerson.name.given._ | generate_uuid }}
                 {% break -%}
             {% elsif obj.representedOrganization.name._ -%}
                 {{ obj.representedOrganization | to_json_string | generate_uuid }}
