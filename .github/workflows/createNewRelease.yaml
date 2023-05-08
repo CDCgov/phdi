@@ -64,18 +64,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          latest_release_date=$(gh release list --limit 1 --json createdAt -q ".[0].createdAt")
-          prs=$(gh pr list --base main --state closed --json title,number,url,closedAt -q ".[] | select(.closedAt > \"$latest_release_date\")")
+          latest_release_date=$(gh api "/repos/$GITHUB_REPOSITORY/releases?per_page=1" | jq ".[0].created_at")
+          prs=$(gh pr list --base main --state closed --json title,number,url,closedAt -q ".[] | select(.closedAt > $latest_release_date) | select(.title | contains(\"RELEASE\") | not)")
 
-          release_notes="# Release Notes\n\n"
-          for pr in "$prs"; do
-            pr_title=$(echo "$pr" | jq -r ".title")
-            pr_number=$(echo "$pr" | jq -r ".number")
-            pr_url=$(echo "$pr" | jq -r ".url")
-            release_notes+="- $pr_title ([PR#$pr_number]($pr_url))\n"
-          done
+          echo "# Release Notes" > release-notes.md
+          echo "" >> release-notes.md
+          echo "" >> release-notes.md
 
-          echo "RELEASE_NOTES=$release_notes" >> $GITHUB_OUTPUT
+          while IFS= read -r pr; do
+              pr_title=$(echo "$pr" | jq -r ".title")
+              pr_number=$(echo "$pr" | jq -r ".number")
+              pr_url=$(echo "$pr" | jq -r ".url")
+              line_text="- $pr_title ([#$pr_number]($pr_url))"
+              echo $line_text >> release-notes.md
+          done < <(printf '%s' "$prs")
+
       # Create new release based upon the latest created tag
       - name: Create Release
         id: create_release
@@ -85,7 +88,7 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
           release_name: ${{ steps.get_version.outputs.version }} 
-          body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+          body_path: release-notes.md
           
   release-to-pypi:
     name: Build and publish PHDI to PyPI
