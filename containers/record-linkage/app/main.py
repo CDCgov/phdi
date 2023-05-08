@@ -63,6 +63,9 @@ def run_migrations():
             print_psycopg2_exception(err)
 
 
+# Run MPI migrations on spin up
+run_migrations()
+
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
