@@ -138,8 +138,24 @@ async def standardize_phones_endpoint(
 
 
 # Sample request/response for date of birth endpoint
-sample_date_of_birth_request_data = read_json_from_assets(
-    "sample_standardize_date_of_birth_request_data.json"
+# this read_from_assets thing isn't working yet - need to revisit
+# sample_date_of_birth_request_data = read_json_from_assets(
+#     "sample_standardize_date_of_birth_request_data.json"
+# )
+# TODO tomorrow:
+# 1. Finish the sample request (test with Insomnia to make sure it's valid)
+# 2. Create a sample response from the request
+# 3. Make sure all of those are working with the docs
+# 4. Try to get this utility function working to read from assets
+# 5. Push up the PR
+sample_date_of_birth_request_data = json.load(
+    open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "sample_standardize_date_of_birth_request_data.json"
+        )
+    )
 )
 
 raw_sample_date_of_birth_response = read_json_from_assets(
@@ -166,14 +182,17 @@ class StandardizeBirthDateInput(BaseModel):
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
 
-@router.post("/standardize_dob", responses=sample_date_of_birth_response)
+# , responses=sample_date_of_birth_response
+@router.post("/standardize_dob")
 async def standardize_dob_endpoint(
     input: StandardizeBirthDateInput,
 ) -> StandardResponse:
     """
     Standardize the birth date in the provided FHIR bundle or resource.
+
     :param input: A dictionary with the schema specified by the
         StandardizeBirthDateInput model.
+
     :return: A FHIR bundle with standardized birth dates.
     """
     input = dict(input)
