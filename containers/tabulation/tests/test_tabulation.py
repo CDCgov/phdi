@@ -13,6 +13,7 @@ valid_schema_path = (
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "tabulation"
     / "valid_schema.json"
 )
 
@@ -32,12 +33,6 @@ valid_validate_request = {"schema": valid_schema}
 invalid_validate_request = {"schema": {}}
 
 valid_response = {}
-
-
-def test_health_check():
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {"status": "OK"}
 
 
 def test_validate_schema_pass():

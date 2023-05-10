@@ -3,8 +3,10 @@ from pyspark.sql.functions import from_json, col
 from pyspark.sql import SparkSession, DataFrame
 from phdi.cloud.azure import AzureCredentialManager
 from typing import Literal
+import os
 
 KAFKA_PROVIDERS = Literal["local_kafka", "azure_event_hubs"]
+KAFKA_WRITE_DATA_PROVIDERS = Literal["local_kafka"]
 
 
 def connect_to_azure_event_hubs(
@@ -59,7 +61,11 @@ def connect_to_azure_event_hubs(
 
 
 def connect_to_local_kafka(
-    spark: SparkSession, schema: StructType, kafka_server: str, kafka_topic: str
+    spark: SparkSession,
+    schema: StructType,
+    kafka_server: str,
+    kafka_topic: str,
+    checkpoint_path: str,
 ) -> DataFrame:
     """
     Given a SparkSession object and a schema (StructType) read JSON data from a Kafka
@@ -70,14 +76,34 @@ def connect_to_local_kafka(
     :param kafka_server: The URL of a Kafka server including port.
     :param kafka_topic: The name of a Kafka topic.
     """
+
+    offsets = "latest" if os.path.exists(checkpoint_path) else "earliest"
     kafka_data_frame = (
         spark.readStream.format("kafka")
         .option("kafka.bootstrap.servers", kafka_server)
         .option("failOnDataLoss", "false")
         .option("subscribe", kafka_topic)
         .option("includeHeaders", "true")
+        .option("startingOffsets", offsets)
         .load()
         .select(from_json(col("value").cast("string"), schema).alias("parsed_value"))
         .select(col("parsed_value.*"))
     )
+    return kafka_data_frame
+
+
+def create_kafka_data_frame(
+    spark: SparkSession,
+    schema: StructType,
+    data: list[dict],
+) -> DataFrame:
+    """
+    Given a SparkSession object and a schema (StructType) return a dataframe for writing
+    data.
+
+    :param spark: A SparkSession object to use for streaming data from Kafka.
+    :param schema: A schema describing the JSON values read from the topic.
+    :param data: A list of the data to be written
+    """
+    kafka_data_frame = spark.createDataFrame(data, schema)
     return kafka_data_frame

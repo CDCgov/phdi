@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Response, status
+from phdi.containers.base_service import BaseService
+from fastapi import Response, status
 from pydantic import BaseModel, Field, root_validator
 from typing import Literal, Optional, Union
 from pathlib import Path
@@ -16,35 +17,11 @@ from app.config import get_settings
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
 
-# Instantiate FastAPI and set metadata.
-description = (Path(__file__).parent.parent / "description.md").read_text(
-    encoding="utf-8"
-)
-app = FastAPI(
-    title="PHDI Message Parser",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
-
-
-# /health_check endpoint #
-@app.get("/")
-async def health_check():
-    """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the extraction service is available and running properly.
-    """
-    return {"status": "OK"}
-
+# Instantiate FastAPI via PHDI's BaseService class
+app = BaseService(
+    service_name="PHDI Message Parser",
+    description_path=Path(__file__).parent.parent / "description.md",
+).start()
 
 # /parse_message endpoint #
 

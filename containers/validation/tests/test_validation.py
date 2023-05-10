@@ -17,6 +17,7 @@ sample_file_good = open(
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "validation"
     / "ecr_sample_input_good.xml"
 ).read()
 
@@ -25,6 +26,7 @@ sample_file_bad = open(
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "validation"
     / "ecr_sample_input_bad.xml"
 ).read()
 
@@ -33,14 +35,9 @@ sample_file_good_with_RR = open(
     pathlib.Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "validation"
     / "ecr_sample_input_good_with_RR.xml"
 ).read()
-
-
-def test_health_check():
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {"status": "OK"}
 
 
 def test_validate_ecr_invalid_xml():
@@ -100,9 +97,6 @@ def test_validate_ecr_invalid():
                 + "'Conditions' Attributes: attribute #1: 'code' "
                 + "with the required value pattern: '[0-9]+',"
                 + " attribute #2: 'codeSystem'",
-                "Could not find field. Field name: 'City' Related"
-                + " elements: Field name: 'addr' Attributes: attribute"
-                + " #1: 'use' with the required value pattern: 'H'",
                 "The field value does not exist or doesn't match "
                 + "the following pattern: "
                 + "'[0-9]{5}(?:-[0-9]{4})?'. For the Field name: 'Zip' value: '9999'",

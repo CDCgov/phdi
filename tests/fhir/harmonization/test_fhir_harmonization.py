@@ -18,6 +18,7 @@ def test_double_metaphone_bundle():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -56,6 +57,7 @@ def test_double_metaphone_patient():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -140,6 +142,7 @@ def test_standardize_names():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -178,6 +181,7 @@ def test_standardize_phones():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -228,6 +232,7 @@ def test_standardize_dob():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
