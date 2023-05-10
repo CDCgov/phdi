@@ -12,9 +12,6 @@ KAFKA_WRITE_DATA_PROVIDERS = Literal["local_kafka"]
 
 
 def adl_directory_exists(account_name: str, directory_path: str):
-    # Provide the necessary details for authentication
-    account_name = "your_account_name"
-    directory_path = "path_to_directory"
     credential = DefaultAzureCredential()
 
     directory_client = DataLakeDirectoryClient(
@@ -22,6 +19,9 @@ def adl_directory_exists(account_name: str, directory_path: str):
         credential=credential,
         file_system_name="your_file_system_name",
         directory_path=directory_path,
+    )
+    print(
+        f"Directory={directory_path}, accountName={account_name}, Exists={directory_client.exists()}"
     )
     return directory_client.exists()
 
