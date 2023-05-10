@@ -1,0 +1,38 @@
+name: Build Containers
+
+on:
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "containers/**"
+
+jobs:
+  list-containers:
+    uses: ./.github/workflows/listContainers.yaml
+  build:
+    name: Build containers
+    needs: list-containers
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container-to-build: ${{fromJson(needs.list-containers.outputs.containers)}}
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Target branch in requirements.txt
+        working-directory: ./containers/${{matrix.container-to-build}}
+        run: |
+          sed 's/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@main/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@${{ github.sha }}/g' requirements.txt > requirements_new.txt && mv requirements_new.txt requirements.txt
+
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          context: ./containers/${{matrix.container-to-build}}
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

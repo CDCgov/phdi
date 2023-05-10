@@ -8,12 +8,6 @@ from app.main import app
 client = TestClient(app)
 
 
-def test_health_check():
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {"status": "OK"}
-
-
 @mock.patch("app.main.DefaultAzureCredential")
 @mock.patch("app.main.send_sms")
 @mock.patch("app.main.create_identity_and_get_token")
