@@ -303,6 +303,8 @@ async def kafka_to_delta_table(
         "io.delta:delta-core_2.12:2.3.0",
         "org.apache.kafka:kafka-clients:3.3.2",
         "org.mongodb.spark:mongo-spark-connector_2.12:10.1.1",
+        "org.apache.hadoop:hadoop-azure:3.3.1",
+        "org.apache.commons:commons-pool2:2.11.1",
     ]
 
     kafka_to_delta_command = [

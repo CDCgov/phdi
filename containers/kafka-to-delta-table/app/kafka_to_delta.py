@@ -1,5 +1,9 @@
 from app.storage_connectors import connect_to_adlsgen2
-from app.kafka_connectors import connect_to_azure_event_hubs, connect_to_local_kafka
+from app.kafka_connectors import (
+    connect_to_azure_event_hubs,
+    connect_to_local_kafka,
+    adl_directory_exists,
+)
 from pyspark.sql import SparkSession
 import argparse
 import sys
@@ -193,6 +197,9 @@ def main():
     )
 
     if selection_flags["azure_event_hubs"]:
+        storage_exists = adl_directory_exists(
+            arguments.storage_account, checkpoint_path
+        )
         kafka_data_frame = connect_to_azure_event_hubs(
             spark,
             schema,
@@ -200,6 +207,7 @@ def main():
             arguments.event_hub,
             arguments.connection_string_secret_name,
             arguments.key_vault_name,
+            storage_exists=storage_exists,
         )
 
     elif selection_flags["local_kafka"]:

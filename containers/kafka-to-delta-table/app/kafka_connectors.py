@@ -2,6 +2,8 @@ from pyspark.sql.types import StructType
 from pyspark.sql.functions import from_json, col
 from pyspark.sql import SparkSession, DataFrame
 from phdi.cloud.azure import AzureCredentialManager
+from azure.storage.filedatalake import DataLakeDirectoryClient
+from azure.identity import DefaultAzureCredential
 from typing import Literal
 import os
 
@@ -9,13 +11,29 @@ KAFKA_PROVIDERS = Literal["local_kafka", "azure_event_hubs"]
 KAFKA_WRITE_DATA_PROVIDERS = Literal["local_kafka"]
 
 
+def adl_directory_exists(account_name: str, directory_path: str):
+    # Provide the necessary details for authentication
+    account_name = "your_account_name"
+    directory_path = "path_to_directory"
+    credential = DefaultAzureCredential()
+
+    directory_client = DataLakeDirectoryClient(
+        account_url=f"https://{account_name}.dfs.core.windows.net",
+        credential=credential,
+        file_system_name="your_file_system_name",
+        directory_path=directory_path,
+    )
+    return directory_client.exists()
+
+
 def connect_to_azure_event_hubs(
     spark: SparkSession,
     schema: StructType,
     event_hubs_namespace: str,
     event_hub: str,
-    connection_string_secret_name: str,
-    key_vault_name: str,
+    storage_exists: bool = False,
+    # connection_string_secret_name: str,
+    # key_vault_name: str,
 ) -> DataFrame:
     """
     Given a SparkSession object and a schema (StructType) read JSON data from a hub
@@ -33,14 +51,15 @@ def connect_to_azure_event_hubs(
     :param key_vault_name: The name of of the Azure key vault containing the secret
         indicated by 'connection_string_secret_name'.
     """
+
     credential_manager = AzureCredentialManager()
     connection_string = credential_manager.get_secret(
-        secret_name=connection_string_secret_name, key_vault_name=key_vault_name
+        secret_name="Eventhub-connection-string", key_vault_name="dev2vault9d194c64"
     )
 
     eh_sasl = "org.apache.kafka.common.security.plain.PlainLoginModule required "
     f'username="$ConnectionString" password="{connection_string}";'
-
+    starting_offsets = "latest" if storage_exists else "earliest"
     kafka_server = f"{event_hubs_namespace}.servicebus.windows.net:9093"
     kafka_data_frame = (
         spark.readStream.format("kafka")
@@ -53,6 +72,7 @@ def connect_to_azure_event_hubs(
         .option("kafka.sasl.jaas.config", eh_sasl)
         .option("kafka.request.timeout.ms", "60000")
         .option("kafka.session.timeout.ms", "30000")
+        .option("startingOffsets", starting_offsets)
         .load()
         .select(from_json(col("value").cast("string"), schema).alias("parsed_value"))
         .select(col("parsed_value.*"))
