@@ -1,8 +1,7 @@
-from app.storage_connectors import connect_to_adlsgen2
+from app.storage_connectors import connect_to_adlsgen2, adl_directory_exists
 from app.kafka_connectors import (
     connect_to_azure_event_hubs,
     connect_to_local_kafka,
-    adl_directory_exists,
 )
 from pyspark.sql import SparkSession
 import argparse
@@ -176,6 +175,13 @@ def main():
     spark.sparkContext.setLogLevel("WARN")
     base_path = "./persistent_storage/kafka/"
 
+    delta_table_path = (
+        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
+    )
+    checkpoint_path = (
+        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
+    )
+
     if selection_flags["adlsgen2"]:
         spark, base_path = connect_to_adlsgen2(
             spark,
@@ -186,20 +192,20 @@ def main():
             arguments.client_secret_name,
             arguments.key_vault_name,
         )
+        storage_directory_exists = adl_directory_exists(
+            location_url=arguments.storage_account,
+            container_name=arguments.container,
+            account_name=arguments.storage_account,
+            directory_path=checkpoint_path,
+            file_system_name=arguments.container,
+            name=f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint",
+        )
+    else:
+        storage_directory_exists = False
 
     schema = get_spark_schema(arguments.schema)
 
-    delta_table_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
-    )
-    checkpoint_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
-    )
-
     if selection_flags["azure_event_hubs"]:
-        storage_exists = adl_directory_exists(
-            arguments.storage_account, checkpoint_path
-        )
         kafka_data_frame = connect_to_azure_event_hubs(
             spark,
             schema,
@@ -207,7 +213,7 @@ def main():
             arguments.event_hub,
             arguments.connection_string_secret_name,
             arguments.key_vault_name,
-            storage_exists=storage_exists,
+            storage_exists=storage_directory_exists,
         )
 
     elif selection_flags["local_kafka"]:

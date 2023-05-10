@@ -2,28 +2,11 @@ from pyspark.sql.types import StructType
 from pyspark.sql.functions import from_json, col
 from pyspark.sql import SparkSession, DataFrame
 from phdi.cloud.azure import AzureCredentialManager
-from azure.storage.filedatalake import DataLakeDirectoryClient
-from azure.identity import DefaultAzureCredential
 from typing import Literal
 import os
 
 KAFKA_PROVIDERS = Literal["local_kafka", "azure_event_hubs"]
 KAFKA_WRITE_DATA_PROVIDERS = Literal["local_kafka"]
-
-
-def adl_directory_exists(account_name: str, directory_path: str):
-    credential = DefaultAzureCredential()
-
-    directory_client = DataLakeDirectoryClient(
-        account_url=f"https://{account_name}.dfs.core.windows.net",
-        credential=credential,
-        file_system_name="your_file_system_name",
-        directory_path=directory_path,
-    )
-    print(
-        f"Directory={directory_path}, accountName={account_name}, Exists={directory_client.exists()}"
-    )
-    return directory_client.exists()
 
 
 def connect_to_azure_event_hubs(

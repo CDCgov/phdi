@@ -7,6 +7,8 @@ RUN apt-get update && \
     apt-get install -y git wget procps gcc
 
 RUN apt-get install -y gnupg ca-certificates software-properties-common  openjdk-11-jdk openjdk-11-jre
+RUN apt-get install curl -y
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # Add Java binaries to the system path
 ENV PATH $JAVA_HOME/bin:$PATH

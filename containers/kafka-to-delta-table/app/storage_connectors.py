@@ -1,9 +1,22 @@
 from pyspark.sql import SparkSession
 from typing import Literal
 from phdi.cloud.azure import AzureCredentialManager
+from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
 
 
 STORAGE_PROVIDERS = Literal["local_storage", "adlsgen2"]
+
+
+def adl_directory_exists(
+    location_url: str, container_name: str, file_name: str = "metadata"
+):
+    cred_manager = AzureCredentialManager(resource_location=location_url)
+    cloud_container = AzureCloudContainerConnection(
+        storage_account_url=location_url, cred_manager=cred_manager
+    )
+    return cloud_container.blob_exists(
+        container_name=container_name, filename=file_name
+    )
 
 
 def connect_to_adlsgen2(
@@ -14,7 +27,7 @@ def connect_to_adlsgen2(
     client_id: str,
     client_secret_name: str,
     key_vault_name: str,
-) -> tuple[SparkSession, str, bool]:
+) -> tuple[SparkSession, str]:
     """
     Add required configuration to a SparkSession object to allow it to connect to Azure
     Data Lake gen 2 (ADLS gen2) storage. Connection to ADLS gen2 requires an Azure App
@@ -62,5 +75,4 @@ def connect_to_adlsgen2(
     spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "false")
 
     base_path = f"abfss://{container}@{storage_account}.dfs.core.windows.net/kafka/"
-    offset = Something(base_path)
-    return spark, base_path, offset
+    return spark, base_path
