@@ -3,9 +3,8 @@ import subprocess
 import json
 import uuid
 from enum import Enum
-from fastapi import Response, status
+from fastapi import FastAPI, Response, status
 from pydantic import BaseModel, Field
-from phdi.containers.base_service import BaseService
 
 # Reading sample request & response files for docs
 raw_sample_response = json.load(
@@ -21,11 +20,24 @@ sample_request = open(
     Path(__file__).parent.parent / "assets" / "sample_request.hl7"
 ).read()
 
-# Instantiate FastAPI via PHDI's BaseService class
-app = BaseService(
-    service_name="PHDI FHIR Converter Service",
-    description_path=Path(__file__).parent.parent / "description.md",
-).start()
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
+
+app = FastAPI(
+    title="PHDI FHIR Converter Service",
+    version="0.0.1",
+    contact={
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    },
+    license_info={
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    },
+    description=description,
+)
 
 
 class InputType(str, Enum):
