@@ -8,6 +8,7 @@ from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
 from typing import List, Union
 
+
 class AzureCredentialManager(BaseCredentialManager):
     """
     Defines a credential manager used for connecting to Azure.
@@ -230,9 +231,9 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
           with this value.
         :return: A boolean of true if the file exists and false if it does not.
         """
-        breakpoint()
+
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
         blob_client = container_client.get_blob_client(filename)
-        
+        print(blob_client.exists())
         return blob_client.exists()
