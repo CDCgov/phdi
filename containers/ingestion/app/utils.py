@@ -154,4 +154,4 @@ def get_cloud_provider_storage_connection(
 
 
 def read_json_from_assets(filename: str):
-    json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))

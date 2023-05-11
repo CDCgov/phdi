@@ -1,11 +1,8 @@
-import json
-import pathlib
-
 from fastapi import APIRouter
 from pydantic import BaseModel, validator, Field
 from typing import Literal, Optional
 
-from app.utils import check_for_fhir, StandardResponse
+from app.utils import check_for_fhir, StandardResponse, read_json_from_assets
 
 from phdi.fhir.harmonization.standardization import (
     standardize_names,
@@ -19,24 +16,12 @@ router = APIRouter(
 )
 
 # Sample request/response for name endpoint
-sample_name_request_data = json.load(
-    open(
-        (
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "sample_standardize_name_request_data.json"
-        )
-    )
+sample_name_request_data = read_json_from_assets(
+    "sample_standardize_name_request_data.json"
 )
 
-raw_sample_name_response = json.load(
-    open(
-        (
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "sample_standardize_name_response.json"
-        )
-    )
+raw_sample_name_response = read_json_from_assets(
+    "sample_standardize_name_response.json"
 )
 
 sample_name_response = {200: raw_sample_name_response}
@@ -48,7 +33,7 @@ class StandardizeNamesInput(BaseModel):
         example=sample_name_request_data,
     )
     trim: Optional[bool] = Field(
-        description="When true, leading and trailing spaces are removed", default=True
+        description="When true, leading and trailing spaces are removed.", default=True
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
@@ -82,24 +67,12 @@ async def standardize_names_endpoint(input: StandardizeNamesInput) -> StandardRe
 
 
 # Sample request/response for phone endpoint
-sample_phone_request_data = json.load(
-    open(
-        (
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "sample_standardize_phone_request_data.json"
-        )
-    )
+sample_phone_request_data = read_json_from_assets(
+    "sample_standardize_phone_request_data.json"
 )
 
-raw_sample_phone_response = json.load(
-    open(
-        (
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "sample_standardize_phone_response.json"
-        )
-    )
+raw_sample_phone_response = read_json_from_assets(
+    "sample_standardize_phone_response.json"
 )
 
 sample_phone_response = {200: raw_sample_phone_response}
@@ -148,24 +121,12 @@ async def standardize_phones_endpoint(
 # X. Make sure all of those are working with the docs
 # 4. Try to get this utility function working to read from assets
 # 5. Push up the PR
-sample_date_of_birth_request_data = json.load(
-    open(
-        (
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "sample_standardize_date_of_birth_request_data.json"
-        )
-    )
+sample_date_of_birth_request_data = read_json_from_assets(
+    "sample_standardize_date_of_birth_request_data.json"
 )
 
-raw_sample_date_of_birth_response = json.load(
-    open(
-        (
-            pathlib.Path(__file__).parent.parent.parent
-            / "assets"
-            / "sample_standardize_date_of_birth_response.json"
-        )
-    )
+raw_sample_date_of_birth_response = read_json_from_assets(
+    "sample_standardize_date_of_birth_response.json"
 )
 
 sample_date_of_birth_response = {200: raw_sample_date_of_birth_response}
