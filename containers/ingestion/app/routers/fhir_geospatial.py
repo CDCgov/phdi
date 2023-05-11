@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, Response, status, Body
 from pydantic import BaseModel, validator, Field
 from typing import Optional, Literal
 from phdi.fhir.geospatial import SmartyFhirGeocodeClient, CensusFhirGeocodeClient
@@ -7,6 +7,7 @@ from app.utils import (
     search_for_required_values,
     check_for_fhir_bundle,
     StandardResponse,
+    read_json_from_assets,
 )
 
 
@@ -24,6 +25,8 @@ license_types = Literal[
     "us-autocomplete-pro-cloud",
     "international-global-plus-cloud",
 ]
+
+geocoding_request_examples = read_json_from_assets("sample_geocode_request_data.json")
 
 
 class GeocodeAddressInBundleInput(BaseModel):
@@ -58,8 +61,11 @@ class GeocodeAddressInBundleInput(BaseModel):
 
 @router.post("/geocode_bundle", status_code=200)
 def geocode_bundle_endpoint(
-    input: GeocodeAddressInBundleInput, response: Response
+    input: GeocodeAddressInBundleInput,
+    response: Response = Body(..., examples=geocoding_request_examples),
 ) -> StandardResponse:
+    # TODO UPDATE THIS
+    # need to add details about the census
     """
     Given a FHIR bundle and a specified geocode method, with any required
     subsequent credentials (ie.. SmartyStreets auth id and auth token),
@@ -70,7 +76,8 @@ def geocode_bundle_endpoint(
     will be obtained via environment variables.  In the case where smarty is the geocode
     method and auth_id and/or auth_token are not supplied then an HTTP 400 status
     code will be returned.
-    :param input: A JSON formated request body with schema specified by the
+    :param response:
+    :param input: A JSON formatted request body with schema specified by the
         GeocodeAddressInBundleInput model.
     :return: A FHIR bundle where every patient resource address will now
     contain a geocoded value.
