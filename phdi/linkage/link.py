@@ -24,7 +24,7 @@ LINKING_FIELDS_TO_FHIRPATHS = {
     "city": "Patient.address.city",
     "state": "Patient.address.state",
     "sex": "Patient.gender",
-    "mrn": "Patient.identifier.value",
+    "mrn": "Patient.identifier.where(type.coding.code='MR').value",
 }
 
 
@@ -581,21 +581,29 @@ def link_record_against_mpi(
     linkage_scores = {}
     for linkage_pass in algo_config:
         blocking_fields = linkage_pass["blocks"]
+
+        # MPI will be able to find patients if *any* of their names or addresses
+        # contains extracted values, so minimally block on the first line
+        # if applicable
         field_blocks = extract_blocking_values_from_record(record, blocking_fields)
         data_block = db_client.block_data(field_blocks)
 
-        # TODO: First row of returned block is column headers for eventual
-        # mapping of indices to cols. Right now, just ignore the first element.
+        # First row of returned block is column headers
+        # Map idx to column name, not including patient/person IDs
+        idx_to_col = {k: v for k, v in enumerate(data_block[0][2:])}
         data_block = data_block[1:]
 
-        # TODO: Currently, some fields may be LoL (name, address) since they
-        # can contain historical values. For the MVP, take only the first
-        # element as the one that should be used with the record.
+        # Blocked fields are returned as LoLoL, but only name / address
+        # need to preserve multiple elements, so flatten other fields
         for i in range(len(data_block)):
             blocked_record = data_block[i]
             for j in range(len(blocked_record)):
-                while type(blocked_record[j]) == list:
-                    blocked_record[j] = blocked_record[j][0]
+                # patient_id, person_id not included in idx->col mapping
+                if j < 2:
+                    continue
+                if idx_to_col[j - 2] != "first_name" and idx_to_col[j - 2] != "address":
+                    while type(blocked_record[j]) == list:
+                        blocked_record[j] = blocked_record[j][0]
 
         clusters = _group_patient_block_by_person(data_block)
 
@@ -608,6 +616,7 @@ def link_record_against_mpi(
                     flattened_record,
                     linked_patient,
                     linkage_pass["funcs"],
+                    idx_to_col,
                     linkage_pass["matching_rule"],
                     **kwargs,
                 )
@@ -1104,6 +1113,7 @@ def _compare_records(
     record: List,
     mpi_patient: List,
     feature_funcs: dict,
+    idx_to_col: dict,
     matching_rule: callable,
     **kwargs,
 ) -> bool:
@@ -1115,17 +1125,37 @@ def _compare_records(
     # Format is patient_id, person_id, alphabetical list of FHIR keys
     # Don't use the first two ID cols when linking
     feature_comps = [
-        feature_funcs[x](record[2:], mpi_patient[2:], x, **kwargs)
+        _compare_records_field_helper(
+            record[2:], mpi_patient[2:], x, idx_to_col, feature_funcs, **kwargs
+        )
         for x in feature_funcs
     ]
     is_match = matching_rule(feature_comps, **kwargs)
     return is_match
 
 
+def _compare_records_field_helper(
+    record: List,
+    mpi_patient: List,
+    idx: int,
+    idx_to_col: dict,
+    feature_funcs: dict,
+    **kwargs,
+) -> bool:
+    if idx_to_col[idx] == "first_name":
+        return _compare_name_elements(record, mpi_patient, feature_funcs, idx, **kwargs)
+    elif idx_to_col[idx] == "address":
+        return _compare_address_elements(
+            record, mpi_patient, feature_funcs, idx, **kwargs
+        )
+    else:
+        return feature_funcs[idx](record, mpi_patient, idx, **kwargs)
+
+
 def _compare_address_elements(
     record: List,
     mpi_patient: List,
-    feature_func: Callable,
+    feature_func: dict,
     x,
     **kwargs,
 ) -> bool:
@@ -1134,7 +1164,7 @@ def _compare_address_elements(
     new patient record to all elements of the flattened patient record pulled from
     the MPI.
     """
-
+    feature_comp = False
     for r in record[2:][x]:
         for m in mpi_patient[2:][x]:
             feature_comp = feature_func[x]([r], [m], 0, **kwargs)
@@ -1147,7 +1177,7 @@ def _compare_address_elements(
 def _compare_name_elements(
     record: List,
     mpi_patient: List,
-    feature_func: Callable,
+    feature_func: dict,
     x,
     **kwargs,
 ) -> bool:
@@ -1164,6 +1194,25 @@ def _compare_name_elements(
         **kwargs,
     )
     return feature_comp
+
+
+def _condense_extract_address_from_resource(resource: dict):
+    """
+    Formatting function to account for patient resources that have multiple
+    associated addresses. Each address is a self-contained object, replete
+    with its own `line` property that can hold a list of strings. This
+    function condenses that `line` into a single concatenated string, for
+    each address object, and returns the result in a properly formatted
+    list.
+    """
+    expanded_address_fhirpath = LINKING_FIELDS_TO_FHIRPATHS["address"]
+    expanded_address_fhirpath = ".".join(expanded_address_fhirpath.split(".")[:-1])
+    list_of_address_objects = extract_value_with_resource_path(
+        resource, expanded_address_fhirpath, "all"
+    )
+    list_of_line_lists = [ao.get("line", []) for ao in list_of_address_objects]
+    list_of_usable_lines = [" ".join(line_obj) for line_obj in list_of_line_lists]
+    return list_of_usable_lines
 
 
 def _find_strongest_link(linkage_scores: dict) -> str:
@@ -1184,11 +1233,31 @@ def _flatten_patient_resource(resource: dict) -> List:
     according to our "blocking fields extractor" dictionary.
     """
     flattened_record = [
-        extract_value_with_resource_path(resource, LINKING_FIELDS_TO_FHIRPATHS[f])
+        _flatten_patient_field_helper(resource, f)
         for f in sorted(LINKING_FIELDS_TO_FHIRPATHS.keys())
     ]
     flattened_record = [resource["id"], None] + flattened_record
     return flattened_record
+
+
+def _flatten_patient_field_helper(resource: dict, field: str) -> any:
+    """
+    Helper function that determines the correct way to flatten a patient's
+    FHIR field based on the specific field in question. Names and Addresses,
+    because their lists can hold multiple objects, are fetched completely,
+    whereas other fields just have their first element used (since historical
+    information doesn't matter there).
+    """
+    if field == "first_name":
+        return extract_value_with_resource_path(
+            resource, LINKING_FIELDS_TO_FHIRPATHS[field], selection_criteria="all"
+        )
+    elif field == "address":
+        return _condense_extract_address_from_resource(resource)
+    else:
+        return extract_value_with_resource_path(
+            resource, LINKING_FIELDS_TO_FHIRPATHS[field], selection_criteria="first"
+        )
 
 
 def _group_patient_block_by_person(data_block: List[list]) -> dict[str, List]:
@@ -1341,7 +1410,7 @@ def add_person_resource(
         "resource": {
             "resourceType": "Person",
             "id": f"{person_id}",
-            "link": [{"target": {"Reference": f"Patient/{patient_id}"}}],
+            "link": [{"target": {"reference": f"Patient/{patient_id}"}}],
         },
         "request": {
             "method": "PUT",

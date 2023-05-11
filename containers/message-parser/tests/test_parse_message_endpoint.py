@@ -11,8 +11,10 @@ fhir_bundle_path = (
     Path(__file__).parent.parent.parent.parent
     / "tests"
     / "assets"
+    / "general"
     / "patient_bundle.json"
 )
+
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
 
@@ -21,17 +23,121 @@ expected_successful_response = {
     "parsed_values": {"first_name": "John ", "last_name": "doe"},
 }
 
+expected_successful_response_full = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "patient_id": "some-uuid",
+        "person_id": "",
+        "last_name": "doe",
+        "first_name": "John ",
+        "rr_id": "",
+        "status": "",
+        "conditions": "",
+        "eicr_id": "",
+        "eicr_version_number": "",
+        "authoring_datetime": "",
+        "provider_id": "",
+        "facility_id_number": "",
+        "facility_name": "",
+        "facility_type": "",
+        "encounter_type": "",
+        "encounter_start_date": "",
+        "encounter_end_date": "",
+        "active_problem_1": "",
+        "active_problem_date_1": "",
+        "active_problem_2": "",
+        "active_problem_date_2": "",
+        "active_problem_3": "",
+        "active_problem_date_3": "",
+        "active_problem_4": "",
+        "active_problem_date_4": "",
+        "active_problem_5": "",
+        "active_problem_date_5": "",
+        "reason_for_visit": "",
+        "test_type_1": "",
+        "test_result_1": "",
+        "test_result_interp_1": "",
+        "specimen_type_1": "",
+        "performing_lab_1": "",
+        "specimen_collection_date_1": "",
+        "result_date_1": "",
+        "test_type_2": "",
+        "test_result_2": "",
+        "test_result_interp_2": "",
+        "specimen_type_2": "",
+        "performing_lab_2": "",
+        "specimen_collection_date_2": "",
+        "result_date_2": "",
+        "test_type_3": "",
+        "test_result_3": "",
+        "test_result_interp_3": "",
+        "specimen_type_3": "",
+        "performing_lab_3": "",
+        "specimen_collection_date_3": "",
+        "result_date_3": "",
+        "test_type_4": "",
+        "test_result_4": "",
+        "test_result_interp_4": "",
+        "specimen_type_4": "",
+        "performing_lab_4": "",
+        "specimen_collection_date_4": "",
+        "result_date_4": "",
+        "test_type_5": "",
+        "test_result_5": "",
+        "test_result_interp_5": "",
+        "specimen_type_5": "",
+        "performing_lab_5": "",
+        "specimen_collection_date_5": "",
+        "result_date_5": "",
+        "test_type_6": "",
+        "test_result_6": "",
+        "test_result_interp_6": "",
+        "specimen_type_6": "",
+        "performing_lab_6": "",
+        "specimen_collection_date_6": "",
+        "result_date_6": "",
+        "test_type_7": "",
+        "test_result_7": "",
+        "test_result_interp_7": "",
+        "specimen_type_7": "",
+        "performing_lab_7": "",
+        "specimen_collection_date_7": "",
+        "result_date_7": "",
+        "test_type_8": "",
+        "test_result_8": "",
+        "test_result_interp_8": "",
+        "specimen_type_8": "",
+        "performing_lab_8": "",
+        "specimen_collection_date_8": "",
+        "result_date_8": "",
+        "test_type_9": "",
+        "test_result_9": "",
+        "test_result_interp_9": "",
+        "specimen_type_9": "",
+        "performing_lab_9": "",
+        "specimen_collection_date_9": "",
+        "result_date_9": "",
+        "test_type_10": "",
+        "test_result_10": "",
+        "test_result_interp_10": "",
+        "specimen_type_10": "",
+        "performing_lab_10": "",
+        "specimen_collection_date_10": "",
+        "result_date_10": "",
+    },
+}
+
 
 def test_parse_message_success_internal_schema():
-    request = {
+    test_request = {
         "message_format": "fhir",
         "parsing_schema_name": "ecr.json",
         "message": fhir_bundle,
     }
 
-    actual_response = client.post("/parse_message", json=request)
+    actual_response = client.post("/parse_message", json=test_request)
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.json() == expected_successful_response_full
 
 
 def test_parse_message_success_external_schema():
@@ -72,8 +178,9 @@ def test_parse_message_success_non_fhir(
     patched_convert_to_fhir.return_value = convert_to_fhir_response
 
     actual_response = client.post("/parse_message", json=request)
+
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.json() == expected_successful_response_full
     patched_convert_to_fhir.assert_called_with(
         message="some-hl7v2-elr-message",
         message_type="elr",

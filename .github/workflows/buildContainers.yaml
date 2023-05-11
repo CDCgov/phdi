@@ -1,45 +1,22 @@
-name: Build containers
+name: Build Containers
 
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
     branches:
-      - main
+      - "**"
     paths:
       - "containers/**"
-      - ".github/workflows/buildContainers.yaml"
 
 jobs:
   list-containers:
-    # Get a list of all the directories within containers/.
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./containers
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          sudo apt-get install jq
-      - id: make-list
-        name: Generate list of directories within containers/
-        # use jq to produce json output and filter out the empty item caused by final newline
-        run: |
-          echo "::set-output name=containers::$(ls -d * | jq -R -s -c 'split("\n")[:-1]')"
-    outputs:
-      container-dirs: ${{steps.make-list.outputs.containers}}
+    uses: ./.github/workflows/listContainers.yaml
   build:
     name: Build containers
     needs: list-containers
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container-to-build: ${{fromJson(needs.list-containers.outputs.container-dirs)}}
-    permissions:
-      contents: "read"
-      id-token: "write"
-      packages: "write"
+        container-to-build: ${{fromJson(needs.list-containers.outputs.containers)}}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
@@ -47,25 +24,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Target branch in requirements.txt
+        working-directory: ./containers/${{matrix.container-to-build}}
+        run: |
+          sed 's/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@main/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@${{ github.sha }}/g' requirements.txt > requirements_new.txt && mv requirements_new.txt requirements.txt
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ghcr.io/${{ github.repository }}/${{matrix.container-to-build}}
-
-      - name: Build and push
+      - name: Build
         uses: docker/build-push-action@v3
         with:
           context: ./containers/${{matrix.container-to-build}}
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max

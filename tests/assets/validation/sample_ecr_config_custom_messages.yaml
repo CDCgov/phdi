@@ -1,0 +1,8 @@
+---
+fields:
+- fieldName: Zip
+  cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:patientRole/hl7:addr/hl7:postalCode"
+  errorType: "error"
+  textRequired: 'True'
+  regEx: "[0-9]{5}(?:-[0-9]{4})?"
+  customMessage: "Invalid postal code"

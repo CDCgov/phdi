@@ -30,14 +30,17 @@ from phdi.linkage import (
     read_linkage_config,
     link_record_against_mpi,
     add_person_resource,
-    _compare_address_elements,
-    _compare_name_elements,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
     _map_matches_to_record_ids,
+    _compare_address_elements,
+    _compare_name_elements,
+    _flatten_patient_resource,
+    _condense_extract_address_from_resource,
 )
 from phdi.linkage import DIBBsConnectorClient
+from phdi.linkage import DIBBS_BASIC
 
 import pathlib
 import pytest
@@ -46,9 +49,94 @@ from math import log
 from json.decoder import JSONDecodeError
 
 
+def _set_up_postgres_client():
+    postgres_client = DIBBsConnectorClient(
+        database="testdb",
+        user="postgres",
+        password="pw",
+        host="localhost",
+        port="5432",
+        patient_table="test_patient_mpi",
+        person_table="test_person_mpi",
+    )
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Generate test tables
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.patient_table};
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create_patient": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
+            + "patient_resource JSONB);"
+        ),
+        "create_person": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
+            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
+            + "external_person_id VARCHAR(100));"
+        ),
+    }
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    return postgres_client
+
+
+def _clean_up_postgres_client(postgres_client):
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.close()
+    postgres_client.connection.close()
+
+
 def test_extract_blocking_values_from_record():
     bundle = json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
     )
     patient = [
         r.get("resource")
@@ -539,7 +627,7 @@ def test_blocking_data():
 
 def test_read_write_m_probs():
     data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent / "assets" / "patient_lol.csv",
+        pathlib.Path(__file__).parent.parent / "assets" / "linkage" / "patient_lol.csv",
         index_col=False,
         dtype="object",
         keep_default_na=False,
@@ -578,7 +666,7 @@ def test_read_write_m_probs():
 def test_read_write_u_probs():
     seed(0)
     data = pd.read_csv(
-        pathlib.Path(__file__).parent.parent / "assets" / "patient_lol.csv",
+        pathlib.Path(__file__).parent.parent / "assets" / "linkage" / "patient_lol.csv",
         index_col=False,
         dtype="object",
         keep_default_na=False,
@@ -745,11 +833,10 @@ def test_feature_match_log_odds_fuzzy():
 
 def test_algo_read():
     dibbs_basic_algo = read_linkage_config(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
         / "linkage"
-        / "algorithms"
-        / "dibbs_basic.json"
+        / "dibbs_basic_algorithm.json"
     )
     assert dibbs_basic_algo == [
         {
@@ -780,11 +867,10 @@ def test_algo_read():
     ]
 
     dibbs_enhanced_algo = read_linkage_config(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
         / "linkage"
-        / "algorithms"
-        / "dibbs_enhanced.json"
+        / "dibbs_enhanced_algorithm.json"
     )
     assert dibbs_enhanced_algo == [
         {
@@ -891,73 +977,15 @@ def test_algo_write():
 
 # TODO: Move this to an integration test suite
 def test_link_record_against_mpi():
-    algorithm = read_linkage_config(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
-        / "linkage"
-        / "algorithms"
-        / "dibbs_basic.json"
-    )
+    algorithm = DIBBS_BASIC
 
-    postgres_client = DIBBsConnectorClient(
-        database="testdb",
-        user="postgres",
-        password="pw",
-        host="localhost",
-        port="5432",
-        patient_table="test_patient_mpi",
-        person_table="test_person_mpi",
-    )
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
-
-    # Generate test tables
-    funcs = {
-        "drop tables": (
-            f"""
-        DROP TABLE IF EXISTS {postgres_client.patient_table};
-        DROP TABLE IF EXISTS {postgres_client.person_table};
-        """
-        ),
-        "create_patient": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
-            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
-            + "patient_resource JSONB);"
-        ),
-        "create_person": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
-            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
-            + "external_person_id VARCHAR(100));"
-        ),
-    }
-
-    for command, statement in funcs.items():
-        try:
-            postgres_client.cursor.execute(statement)
-            postgres_client.connection.commit()
-        except Exception as e:
-            print(f"{command} was unsuccessful")
-            print(e)
-            postgres_client.connection.rollback()
+    postgres_client = _set_up_postgres_client()
 
     patients = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "linkage"
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
@@ -989,6 +1017,7 @@ def test_link_record_against_mpi():
     # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
     #  in second pass name blocks on different cluster and address matches it,
     #  finds greatest strength match and correctly assigns to larger cluster
+
     assert matches == [False, True, False, True, False, True]
     assert sorted(list(mapped_patients.values())) == [1, 1, 4]
 
@@ -1021,7 +1050,6 @@ def test_link_record_against_mpi():
             port=postgres_client.port,
         )
         postgres_client.cursor = postgres_client.connection.cursor()
-        print(person_id)
         postgres_client.cursor.execute(
             f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
         )
@@ -1029,25 +1057,7 @@ def test_link_record_against_mpi():
         data = postgres_client.cursor.fetchall()
         assert len(data) == mapped_patients[person_id]
 
-    # Clean up
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.close()
-    postgres_client.connection.close()
+    _clean_up_postgres_client(postgres_client)
 
 
 def test_add_person_resource():
@@ -1056,6 +1066,7 @@ def test_add_person_resource():
             pathlib.Path(__file__).parent.parent.parent
             / "tests"
             / "assets"
+            / "general"
             / "patient_bundle.json"
         )
     )
@@ -1190,3 +1201,89 @@ def test_compare_name_elements():
         record=record3, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
     )
     assert different_names is False
+
+
+def test_condense_extracted_address():
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource", {})
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    patient = patients[2]
+    assert _condense_extract_address_from_resource(patient) == [
+        "PO Box 1 First Rock",
+        "Bay 16 Ward Sector 24",
+    ]
+
+
+def test_flatten_patient():
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource", {})
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+
+    # Use patient with multiple identifiers to also test MRN-specific filter
+    assert _flatten_patient_resource(patients[2]) == [
+        "2c6d5fd1-4a70-11eb-99fd-ad786a821574",
+        None,
+        ["PO Box 1 First Rock", "Bay 16 Ward Sector 24"],
+        "2060-05-14",
+        "Nar Raya",
+        ["Tali", "Zora", "Tali", "Zora", "Tali", "Zora"],
+        "Vas Normandy",
+        "7894561235",
+        "female",
+        "Ranoch",
+        "11111",
+    ]
+
+
+def test_multi_element_blocking():
+    postgres_client = _set_up_postgres_client()
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource", {})
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+
+    # Insert multi-entry patient into DB
+    patient = patients[2]
+    algorithm = DIBBS_BASIC
+    link_record_against_mpi(patient, algorithm, postgres_client)
+
+    # Now check that we can block on either name
+    # First row of returned results is headers
+    found_records = postgres_client.block_data({"last_name": {"value": "Vas Neema"}})
+    assert len(found_records) == 2
+    found_records = postgres_client.block_data({"last_name": {"value": "Nar Raya"}})
+    assert len(found_records) == 2
+
+    _clean_up_postgres_client(postgres_client)

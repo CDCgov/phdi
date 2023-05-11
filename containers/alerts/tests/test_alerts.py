@@ -3,15 +3,9 @@ from unittest import mock
 from fastapi.testclient import TestClient
 from types import SimpleNamespace
 
-from app.main import api
+from app.main import app
 
-client = TestClient(api)
-
-
-def test_health_check():
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {"status": "OK"}
+client = TestClient(app)
 
 
 @mock.patch("app.main.DefaultAzureCredential")

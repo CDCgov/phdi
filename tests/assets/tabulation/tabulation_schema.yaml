@@ -1,0 +1,50 @@
+metadata:
+  results_per_page: 1000
+  schema_name: "validation_schema"
+tables:
+  Patients:
+    resource_type: Patient
+    earliest_update_datetime: "2020-01-01T00:00:00"
+    columns:
+      Patient ID:
+        fhir_path: Patient.id
+        invalid_values:
+          - null
+          - ""
+        selection_criteria: first
+      First Name:
+        fhir_path: Patient.name.given
+        invalid_values:
+          - null
+          - ""
+          - "Unknown"
+        selection_criteria: first
+        data_type: string
+      Last Name:
+        fhir_path: Patient.name.family
+        selection_criteria: first
+        data_type: string
+      Phone Number:
+        fhir_path: Patient.telecom.where(system = 'phone').value
+        selection_criteria: first
+      Building Number:
+        fhir_path: Patient.address.buildingNumber
+        selection_criteria: first
+        data_type: number
+  Physical Exams:
+    resource_type: Patient
+    columns:
+      Last Name:
+        fhir_path: Patient.name.family
+        selection_criteria: first
+      City:
+        fhir_path: Patient.address.city
+        selection_criteria: first
+      Exam ID:
+        fhir_path: Observation.id
+        selection_criteria: first
+        reference_location: "reverse:Observation:subject"
+      General Practitioner:
+        fhir_path: Practitioner.name
+        selection_criteria: first
+        reference_location: "forward:Patient:generalPractitioner"

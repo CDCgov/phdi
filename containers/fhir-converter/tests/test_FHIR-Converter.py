@@ -1,10 +1,10 @@
 # flake8: noqa
 from unittest import mock
 from fastapi.testclient import TestClient
+import json
+from app.main import app
 
-from app.main import api
-
-client = TestClient(api)
+client = TestClient(app)
 
 valid_request = {
     "input_data": "VALID_INPUT_DATA",
@@ -12,18 +12,26 @@ valid_request = {
     "root_template": "ADT_A01",
 }
 
+global valid_response
 valid_response = {
     "Status": "OK",
     "FhirResource": {
         "resourceType": "Bundle",
         "type": "batch",
-        "timestamp": "1989-08-18T11:26:00+02:15",
+        "timestamp": "2021-08-18T11:26:00+02:15",
         "identifier": {"value": "MSG00001"},
         "id": "513a3d06-5e87-6fbc-ad1b-170ab430499f",
-        "entry": [{"resource": "FHIR_RESOURCE"}],
+        "entry": [
+            {
+                "fullUrl": "urn:uuid:02710678-32ab-4cea-b2f3-859b40a93ce3",
+                "resource": {
+                    "resourceType": "Patient",
+                    "id": "02710678-32ab-4cea-b2f3-859b40a93ce3",
+                },
+            }
+        ],
     },
 }
-
 conversion_failure_response = {
     "_mock_call_args": None,
     "_mock_call_args_list": [],
@@ -94,7 +102,7 @@ invalid_root_template_response = {
     "detail": [
         {
             "loc": ["body", "root_template"],
-            "msg": "value is not a valid enumeration member; permitted: 'ADT_A01', 'ADT_A02', 'ADT_A03', 'ADT_A04', 'ADT_A05', 'ADT_A06', 'ADT_A07', 'ADT_A08', 'ADT_A09', 'ADT_A10', 'ADT_A11', 'ADT_A13', 'ADT_A14', 'ADT_A15', 'ADT_A16', 'ADT_A25', 'ADT_A26', 'ADT_A27', 'ADT_A28', 'ADT_A29', 'ADT_A31', 'ADT_A40', 'ADT_A41', 'ADT_A45', 'ADT_A47', 'ADT_A60', 'BAR_P01', 'BAR_P02', 'BAR_P12', 'DFT_P03', 'DFT_P11', 'MDM_T01', 'MDM_T02', 'MDM_T05', 'MDM_T06', 'MDM_T09', 'MDM_T10', 'OMG_O19', 'OML_O21', 'ORM_O01', 'ORU_R01', 'OUL_R22', 'OUL_R23', 'OUL_R24', 'RDE_O11', 'RDE_O25', 'RDS_O13', 'REF_I12', 'REF_I14', 'SIU_S12', 'SIU_S13', 'SIU_S14', 'SIU_S15', 'SIU_S16', 'SIU_S17', 'SIU_S26', 'VXU_V04', 'CCD', 'ConsultationNote', 'DischargeSummary', 'Header', 'HistoryandPhysical', 'OperativeNote', 'ProcedureNote', 'ProgressNote', 'ReferralNote', 'TransferSummary'",
+            "msg": "value is not a valid enumeration member; permitted: 'ADT_A01', 'ADT_A02', 'ADT_A03', 'ADT_A04', 'ADT_A05', 'ADT_A06', 'ADT_A07', 'ADT_A08', 'ADT_A09', 'ADT_A10', 'ADT_A11', 'ADT_A13', 'ADT_A14', 'ADT_A15', 'ADT_A16', 'ADT_A25', 'ADT_A26', 'ADT_A27', 'ADT_A28', 'ADT_A29', 'ADT_A31', 'ADT_A40', 'ADT_A41', 'ADT_A45', 'ADT_A47', 'ADT_A60', 'BAR_P01', 'BAR_P02', 'BAR_P12', 'DFT_P03', 'DFT_P11', 'MDM_T01', 'MDM_T02', 'MDM_T05', 'MDM_T06', 'MDM_T09', 'MDM_T10', 'OMG_O19', 'OML_O21', 'ORM_O01', 'ORU_R01', 'OUL_R22', 'OUL_R23', 'OUL_R24', 'RDE_O11', 'RDE_O25', 'RDS_O13', 'REF_I12', 'REF_I14', 'SIU_S12', 'SIU_S13', 'SIU_S14', 'SIU_S15', 'SIU_S16', 'SIU_S17', 'SIU_S26', 'VXU_V04', 'CCD', 'EICR', 'ConsultationNote', 'DischargeSummary', 'Header', 'HistoryandPhysical', 'OperativeNote', 'ProcedureNote', 'ProgressNote', 'ReferralNote', 'TransferSummary'",
             "type": "type_error.enum",
             "ctx": {
                 "enum_values": [
@@ -156,6 +164,7 @@ invalid_root_template_response = {
                     "SIU_S26",
                     "VXU_V04",
                     "CCD",
+                    "EICR",
                     "ConsultationNote",
                     "DischargeSummary",
                     "Header",
@@ -172,20 +181,19 @@ invalid_root_template_response = {
 }
 
 
-def test_health_check():
-    actual_response = client.get("/")
-    assert actual_response.status_code == 200
-    assert actual_response.json() == {"status": "OK"}
-
-
 @mock.patch("app.main.json.load")
 @mock.patch("app.main.open")
 @mock.patch("app.main.subprocess.run")
 @mock.patch("app.main.Path")
 def test_convert_valid_request(
-    patched_file_path, patched_subprocess_run, patched_open, patched_json_load
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
 ):
+    global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
+    print(valid_response)
     patched_json_load.return_value = valid_response
     patched_file_path = mock.Mock()
     actual_response = client.post(
@@ -193,7 +201,13 @@ def test_convert_valid_request(
         json=valid_request,
     )
     assert actual_response.status_code == 200
-    assert actual_response.json().get("response") == valid_response
+    actual_response = actual_response.json().get("response")
+    new_id = actual_response["FhirResource"]["entry"][0]["resource"]["id"]
+    old_id = valid_response["FhirResource"]["entry"][0]["resource"]["id"]
+    valid_response = json.dumps(valid_response)
+    valid_response = valid_response.replace(old_id, new_id)
+    valid_response = json.loads(valid_response)
+    assert actual_response == valid_response
 
 
 @mock.patch("app.main.json.load")

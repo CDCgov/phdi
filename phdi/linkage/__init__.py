@@ -1,3 +1,5 @@
+from phdi.linkage.algorithms import DIBBS_BASIC, DIBBS_ENHANCED
+
 from phdi.linkage.link import (
     generate_hash_str,
     block_data,
@@ -24,14 +26,16 @@ from phdi.linkage.link import (
     read_linkage_config,
     link_record_against_mpi,
     add_person_resource,
-    _compare_address_elements,
-    _compare_name_elements,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.postgres import DIBBsConnectorClient
+from phdi.linkage.seed import convert_to_patient_fhir_resources
+
 
 __all__ = [
+    "DIBBS_BASIC",
+    "DIBBS_ENHANCED",
     "generate_hash_str",
     "block_data",
     "match_within_block",
@@ -61,4 +65,5 @@ __all__ = [
     "add_person_resource",
     "_compare_address_elements",
     "_compare_name_elements",
+    "convert_to_patient_fhir_resources",
 ]
