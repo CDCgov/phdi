@@ -1,293 +1,293 @@
 {
-    "resourceType": "Bundle",
-    "identifier": {
-        "value": "a very contrived FHIR bundle"
+  "resourceType": "Bundle",
+  "identifier": {
+    "value": "a very contrived FHIR bundle"
+  },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "f6a16ff7-4a31-11eb-be7b-8344edc8f36b",
+        "identifier": [
+          {
+            "value": "1234567890",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Shepard",
+            "given": [
+              "John"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2053-11-07",
+        "gender": "male",
+        "address": [
+          {
+            "line": [
+              "1234 Silversun Strip"
+            ],
+            "buildingNumber": "1234",
+            "city": "Zakera Ward",
+            "state": "Citadel",
+            "postalCode": "99999",
+            "use": "home"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone",
+            "value": "123-456-7890"
+          }
+        ]
+      }
     },
-    "entry": [
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "f6a16ff7-4a31-11eb-be7b-8344edc8f36b",
-                "identifier": [
-                    {
-                        "value": "1234567890",
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "MR",
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "display": "Medical record number"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "Shepard",
-                        "given": [
-                            "John"
-                        ],
-                        "use": "official"
-                    }
-                ],
-                "birthDate": "2053-11-07",
-                "gender": "male",
-                "address": [
-                    {
-                        "line": [
-                            "1234 Silversun Strip"
-                        ],
-                        "buildingNumber": "1234",
-                        "city": "Zakera Ward",
-                        "state": "Citadel",
-                        "postalCode": "99999",
-                        "use": "home"
-                    }
-                ],
-                "telecom": [
-                    {
-                        "use": "home",
-                        "system": "phone",
-                        "value": "123-456-7890"
-                    }
-                ]
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "2fdd0b8b-4a70-11eb-99fd-ad786a821574",
+        "identifier": [
+          {
+            "value": "1234567890",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
             }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "2fdd0b8b-4a70-11eb-99fd-ad786a821574",
-                "identifier": [
-                    {
-                        "value": "1234567890",
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "MR",
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "display": "Medical record number"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "Sheperd",
-                        "given": [
-                            "Jon"
-                        ],
-                        "use": "official"
-                    }
-                ],
-                "birthDate": "2053-11-07",
-                "gender": "male",
-                "address": [
-                    {
-                        "line": [
-                            "1234 Silversun Strip"
-                        ],
-                        "buildingNumber": "1234",
-                        "city": "Zakera Ward",
-                        "state": "Citadel",
-                        "postalCode": "99999",
-                        "use": "home"
-                    }
-                ],
-                "telecom": [
-                    {
-                        "use": "home",
-                        "system": "phone",
-                        "value": "123-456-7890"
-                    }
-                ]
+          }
+        ],
+        "name": [
+          {
+            "family": "Sheperd",
+            "given": [
+              "Jon"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2053-11-07",
+        "gender": "male",
+        "address": [
+          {
+            "line": [
+              "1234 Silversun Strip"
+            ],
+            "buildingNumber": "1234",
+            "city": "Zakera Ward",
+            "state": "Citadel",
+            "postalCode": "99999",
+            "use": "home"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone",
+            "value": "123-456-7890"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "2c6d5fd1-4a70-11eb-99fd-ad786a821574",
+        "identifier": [
+          {
+            "value": "7894561235",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
             }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "2c6d5fd1-4a70-11eb-99fd-ad786a821574",
-                "identifier": [
-                    {
-                        "value": "7894561235",
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "MR",
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "display": "Medical record number"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "Vas Normandy",
-                        "given": [
-                            "Tali",
-                            "Zora"
-                        ],
-                        "use": "official"
-                    }
-                ],
-                "birthDate": "2060-05-14",
-                "gender": "female",
-                "address": [
-                    {
-                        "line": [
-                            "PO Box 1",
-                            "First Rock"
-                        ],
-                        "city": "Nar Raya",
-                        "state": "Ranoch",
-                        "postalCode": "11111",
-                        "use": "home"
-                    }
-                ]
+          }
+        ],
+        "name": [
+          {
+            "family": "Vas Normandy",
+            "given": [
+              "Tali",
+              "Zora"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2060-05-14",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "PO Box 1",
+              "First Rock"
+            ],
+            "city": "Nar Raya",
+            "state": "Ranoch",
+            "postalCode": "11111",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "fd645c21-4a6f-11eb-99fd-ad786a821574",
+        "identifier": [
+          {
+            "value": "7845451380",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
             }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "fd645c21-4a6f-11eb-99fd-ad786a821574",
-                "identifier": [
-                    {
-                        "value": "7845451380",
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "MR",
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "display": "Medical record number"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "Shepard",
-                        "given": [
-                            "John"
-                        ],
-                        "use": "official"
-                    }
-                ],
-                "birthDate": "2053-11-07",
-                "gender": "male",
-                "address": [
-                    {
-                        "line": [
-                            "1234 Silversun Strip"
-                        ],
-                        "buildingNumber": "1234",
-                        "city": "Zakera Ward",
-                        "state": "Citadel",
-                        "postalCode": "99999",
-                        "use": "home"
-                    }
-                ],
-                "telecom": [
-                    {
-                        "use": "home",
-                        "system": "phone",
-                        "value": "123-456-7890"
-                    }
-                ]
+          }
+        ],
+        "name": [
+          {
+            "family": "Shepard",
+            "given": [
+              "John"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2053-11-07",
+        "gender": "male",
+        "address": [
+          {
+            "line": [
+              "1234 Silversun Strip"
+            ],
+            "buildingNumber": "1234",
+            "city": "Zakera Ward",
+            "state": "Citadel",
+            "postalCode": "99999",
+            "use": "home"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone",
+            "value": "123-456-7890"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a81bc81b-dead-4e5d-abff-90865d1e13b1",
+        "identifier": [
+          {
+            "value": "7894561235",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
             }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "a81bc81b-dead-4e5d-abff-90865d1e13b1",
-                "identifier": [
-                    {
-                        "value": "7894561235",
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "MR",
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "display": "Medical record number"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "Shepard",
-                        "given": [
-                            "John"
-                        ],
-                        "use": "official"
-                    }
-                ],
-                "birthDate": "2053-11-07",
-                "gender": "female",
-                "address": [
-                    {
-                        "line": [
-                            "PO Box 1",
-                            "First Rock"
-                        ],
-                        "city": "Nar Raya",
-                        "state": "Ranoch",
-                        "postalCode": "11111",
-                        "use": "home"
-                    }
-                ]
+          }
+        ],
+        "name": [
+          {
+            "family": "Shepard",
+            "given": [
+              "John"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2053-11-07",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "PO Box 1",
+              "First Rock"
+            ],
+            "city": "Nar Raya",
+            "state": "Ranoch",
+            "postalCode": "11111",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+        "identifier": [
+          {
+            "value": "1234567890",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
             }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
-                "identifier": [
-                    {
-                        "value": "1234567890",
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "MR",
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "display": "Medical record number"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "Shepard",
-                        "given": [
-                            "John"
-                        ],
-                        "use": "official"
-                    }
-                ],
-                "birthDate": "2053-11-07",
-                "gender": "female",
-                "address": [
-                    {
-                        "line": [
-                            "1234 Silversun Strip"
-                        ],
-                        "city": "Nar Raya",
-                        "state": "Ranoch",
-                        "postalCode": "11111",
-                        "use": "home"
-                    }
-                ]
-            }
-        },
-        {
-            "request": {
-                "method": "GET",
-                "url": "testing for entry with no resource"
-            }
-        }
-    ]
+          }
+        ],
+        "name": [
+          {
+            "family": "Shepard",
+            "given": [
+              "John"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2053-11-07",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "1234 Silversun Strip"
+            ],
+            "city": "Nar Raya",
+            "state": "Ranoch",
+            "postalCode": "11111",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "testing for entry with no resource"
+      }
+    }
+  ]
 }

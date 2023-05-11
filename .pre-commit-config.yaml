@@ -12,7 +12,7 @@ repos:
     hooks:
       - id: pretty-format-json
         args: [ --autofix, --no-sort-keys ]
-        always_run: true
+        exclude: ".*valid.*"
   - repo: local
     hooks:
       # run `terraform fmt` if tf files are modified and terraform is installed
