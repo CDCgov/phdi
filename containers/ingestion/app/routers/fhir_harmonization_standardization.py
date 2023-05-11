@@ -111,16 +111,6 @@ async def standardize_phones_endpoint(
 
 
 # Sample request/response for date of birth endpoint
-# this read_from_assets thing isn't working yet - need to revisit
-# sample_date_of_birth_request_data = read_json_from_assets(
-#     "sample_standardize_date_of_birth_request_data.json"
-# )
-# TODO tomorrow:
-# X. Finish the sample request (test with Insomnia to make sure it's valid)
-# X. Create a sample response from the request
-# X. Make sure all of those are working with the docs
-# 4. Try to get this utility function working to read from assets
-# 5. Push up the PR
 sample_date_of_birth_request_data = read_json_from_assets(
     "sample_standardize_date_of_birth_request_data.json"
 )
