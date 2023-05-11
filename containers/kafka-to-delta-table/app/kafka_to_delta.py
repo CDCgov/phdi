@@ -193,12 +193,8 @@ def main():
             arguments.key_vault_name,
         )
         storage_directory_exists = adl_directory_exists(
-            location_url=arguments.storage_account,
+            location_url=f"https://{arguments.storage_account}.dfs.core.windows.net",
             container_name=arguments.container,
-            account_name=arguments.storage_account,
-            directory_path=checkpoint_path,
-            file_system_name=arguments.container,
-            name=f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint",
         )
     else:
         storage_directory_exists = False

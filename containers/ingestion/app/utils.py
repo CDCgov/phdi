@@ -112,7 +112,7 @@ def get_cred_manager(
     :return: Either a Google Cloud Credential Manager or an Azure Credential Manager
     depending upon the value passed in.
     """
-    cred_manager_class = cred_managers.get(cred_manager)
+    cred_manager_class = cred_managers.get("azure")
     result = None
     # if the cred_manager_class is not none then instantiate an instance of it
     if cred_manager_class is not None:
@@ -135,7 +135,7 @@ def get_cloud_provider_storage_connection(
     :return: Either a Google Cloud Storage Connection or an Azure Storage
     Connection depending upon the value passed in.
     """
-    cloud_provider_class = cloud_providers.get(cloud_provider)
+    cloud_provider_class = cloud_providers.get("azure")
     result = None
     # if the cloud_provider_class is not none then instantiate an instance of it
     if cloud_provider_class is not None:
