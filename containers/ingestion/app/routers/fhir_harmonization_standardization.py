@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel, validator, Field
 from typing import Literal, Optional
 
-from app.utils import check_for_fhir, StandardResponse, read_json_from_assets
+from app.utils import check_for_fhir, StandardResponse
 
 from phdi.fhir.harmonization.standardization import (
     standardize_names,
@@ -52,7 +52,7 @@ class StandardizeNamesInput(BaseModel):
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
-        "modified and returned.",
+        "is modified and returned.",
         default=True,
     )
     case: Optional[Literal["upper", "lower", "title"]] = Field(
@@ -112,7 +112,7 @@ class StandardizePhonesInput(BaseModel):
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
-        "modified and returned.",
+        "is modified and returned.",
         default=True,
     )
 
@@ -143,9 +143,9 @@ async def standardize_phones_endpoint(
 #     "sample_standardize_date_of_birth_request_data.json"
 # )
 # TODO tomorrow:
-# 1. Finish the sample request (test with Insomnia to make sure it's valid)
-# 2. Create a sample response from the request
-# 3. Make sure all of those are working with the docs
+# X. Finish the sample request (test with Insomnia to make sure it's valid)
+# X. Create a sample response from the request
+# X. Make sure all of those are working with the docs
 # 4. Try to get this utility function working to read from assets
 # 5. Push up the PR
 sample_date_of_birth_request_data = json.load(
@@ -158,8 +158,14 @@ sample_date_of_birth_request_data = json.load(
     )
 )
 
-raw_sample_date_of_birth_response = read_json_from_assets(
-    "sample_standardize_date_of_birth_response.json"
+raw_sample_date_of_birth_response = json.load(
+    open(
+        (
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "sample_standardize_date_of_birth_response.json"
+        )
+    )
 )
 
 sample_date_of_birth_response = {200: raw_sample_date_of_birth_response}
@@ -172,28 +178,28 @@ class StandardizeBirthDateInput(BaseModel):
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
-        "modified and returned.",
+        "is modified and returned.",
         default=True,
     )
     format: Optional[str] = Field(
-        descripton="The date format that the dob is supplied in.", default="Y%-m%-d%"
+        descripton="The date format that the input DOB is supplied in.",
+        default="Y%-m%-d%",
+        example="%m/%d/%Y",
     )
 
     _check_for_fhir = validator("data", allow_reuse=True)(check_for_fhir)
 
 
-# , responses=sample_date_of_birth_response
-@router.post("/standardize_dob")
+@router.post("/standardize_dob", responses=sample_date_of_birth_response)
 async def standardize_dob_endpoint(
     input: StandardizeBirthDateInput,
 ) -> StandardResponse:
     """
-    Standardize the birth date in the provided FHIR bundle or resource.
+    Standardize the patient date of birth in the provided FHIR bundle or resource.
 
-    :param input: A dictionary with the schema specified by the
-        StandardizeBirthDateInput model.
+    Dates are changed to the FHIR standard of YYYY-MM-DD.
 
-    :return: A FHIR bundle with standardized birth dates.
+    Returns a FHIR bundle with standardized birth dates.
     """
     input = dict(input)
     result = {}
