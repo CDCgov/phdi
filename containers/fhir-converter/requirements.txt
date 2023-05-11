@@ -8,7 +8,9 @@ dnspython==2.2.1
 email-validator==1.2.1
 fastapi==0.92.0
 h11==0.13.0
+httpcore==0.17.0
 httptools==0.4.0
+httpx==0.24.0
 idna==3.3
 iniconfig==1.1.1
 itsdangerous==2.1.2
