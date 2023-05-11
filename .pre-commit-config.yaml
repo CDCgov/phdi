@@ -11,6 +11,7 @@ repos:
     rev: v4.4.0
     hooks:
       - id: pretty-format-json
+        args: [ --autofix, --no-sort-keys ]
   - repo: local
     hooks:
       # run `terraform fmt` if tf files are modified and terraform is installed
