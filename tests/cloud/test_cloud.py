@@ -476,7 +476,7 @@ def test_azure_blob_exists(mock_get_client):
     exists = phdi_container_client.blob_exists(object_container, filename)
 
     mock_get_client.assert_called_with(f"{object_storage_account}/{object_container}")
-    assert exists == True
+    assert exists is True
 
 
 def test_gcp_storage_connect_init():
