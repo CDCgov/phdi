@@ -476,6 +476,8 @@ def test_azure_blob_exists(mock_get_client):
     exists = phdi_container_client.blob_exists(object_container, filename)
 
     mock_get_client.assert_called_with(f"{object_storage_account}/{object_container}")
+    mocked_container_client.get_blob_client.assert_called_with(filename)
+    mocked_blob_client.exists.assert_called()
     assert exists is True
 
 

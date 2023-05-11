@@ -235,5 +235,4 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
         blob_client = container_client.get_blob_client(filename)
-        print(blob_client.exists())
         return blob_client.exists()
