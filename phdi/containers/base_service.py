@@ -1,3 +1,5 @@
+import json
+import pathlib
 from fastapi import FastAPI
 from pathlib import Path
 from importlib import metadata
@@ -19,6 +21,9 @@ DIBBS_CONTACT = {
     "url": "https://cdcgov.github.io/phdi-site/",
     "email": "dmibuildingblocks@cdc.gov",
 }
+
+
+STATUS_OK = {"status": "OK"}
 
 
 class BaseService:
@@ -52,13 +57,13 @@ class BaseService:
         )
 
     def add_health_check_endpoint(self):
-        @self.app.get("/")
+        @self.app.get("/", responses={200: STATUS_OK})
         async def health_check() -> dict:
             """
             Check service status. If an HTTP 200 status code is returned along with
             '{"status": "OK"}' then the service is available and running properly.
             """
-            return {"status": "OK"}
+            return STATUS_OK
 
     def start(self) -> FastAPI:
         """
@@ -71,3 +76,7 @@ class BaseService:
         if self.include_health_check_endpoint:
             self.add_health_check_endpoint()
         return self.app
+
+
+def read_json_from_assets(filename: str):
+    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
