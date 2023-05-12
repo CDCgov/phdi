@@ -220,19 +220,19 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
         return blob_name_list
 
-    def blob_exists(
-        self, container_name: str, filename: str, prefix: str = ""
-    ) -> List[str]:
+    def blob_exists(self, container_name: str, filename: str) -> bool:
         """
-        Checks if filename exists in blob storage.
+        Check if a blob exists within a container given its name and the name of the
+        container.
 
-        :param container_name: The name of the container to look for objects.
-        :param filename: The name of the file being checked.
+        :param container_name: The name of the container to look for the blob in.
+        :param filename: The name of the blob to check the existence of.
         :param prefix: Filter the objects returned to filenames beginning
           with this value.
-        :return: A boolean of true if the file exists and false if it doesn't.
+        :return: A boolean of true if the file exists and false if it does not.
         """
+
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
         blob_client = container_client.get_blob_client(filename)
-        return blob_client.exists
+        return blob_client.exists()

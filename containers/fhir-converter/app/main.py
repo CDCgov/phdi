@@ -4,10 +4,40 @@ import json
 import uuid
 from enum import Enum
 from fastapi import FastAPI, Response, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-# Instantiate FastAPI via PHDI's BaseService class
-app = FastAPI()
+# Reading sample request & response files for docs
+raw_sample_response = json.load(
+    open(
+        Path(__file__).parent.parent
+        / "assets"
+        / "sample_vxu_fhir_conversion_response.json"
+    )
+)
+sample_response = {200: raw_sample_response}
+
+sample_request = open(
+    Path(__file__).parent.parent / "assets" / "sample_request.hl7"
+).read()
+
+description = (Path(__file__).parent.parent / "description.md").read_text(
+    encoding="utf-8"
+)
+
+app = FastAPI(
+    title="PHDI FHIR Converter Service",
+    version="0.0.1",
+    contact={
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    },
+    license_info={
+        "name": "Creative Commons Zero v1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    },
+    description=description,
+)
 
 
 class InputType(str, Enum):
@@ -92,18 +122,45 @@ class FhirConverterInput(BaseModel):
     Input parameters for the FHIR Converter.
     """
 
-    input_data: str
-    input_type: InputType
-    root_template: RootTemplate
+    input_data: str = Field(
+        description="The message to be converted as a string.",
+        example=sample_request,
+    )
+    input_type: InputType = Field(
+        description="The type of message to be converted.", example="vxu"
+    )
+    root_template: RootTemplate = Field(
+        description="Name of the liquid template within to be used for conversion.",
+        example="VXU_V04",
+    )
 
 
 @app.get("/")
 async def health_check():
+    """
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the FHIR conversion service is available and running
+    properly.
+    """
     return {"status": "OK"}
 
 
-@app.post("/convert-to-fhir", status_code=200)
+@app.post(
+    "/convert-to-fhir",
+    status_code=200,
+    responses=sample_response,
+)
 async def convert(input: FhirConverterInput, response: Response):
+    """
+    Converts an HL7v2 or C-CDA message to FHIR format using the Microsoft FHIR
+    Converter CLI tool. When conversion is successful, a dictionary containing the
+    response from the FHIR Converter is returned.
+
+    In order to successfully call this function, the Microsoft FHIR Converter tool
+    must be installed. For information on how to do this, please refer to the
+    description.md file. The source code for the converter can be found at
+    https://github.com/microsoft/FHIR-Converter.
+    """
     result = convert_to_fhir(**dict(input))
     if "original_request" in result.get("response"):
         response.status_code = status.HTTP_400_BAD_REQUEST
