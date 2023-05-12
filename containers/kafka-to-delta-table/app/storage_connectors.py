@@ -1,15 +1,12 @@
 from pyspark.sql import SparkSession
 from typing import Literal
-from phdi.cloud.azure import AzureCredentialManager
-from phdi.cloud.azure import AzureCloudContainerConnection, AzureCredentialManager
+from phdi.cloud.azure import AzureCredentialManager, AzureCloudContainerConnection
 
 
 STORAGE_PROVIDERS = Literal["local_storage", "adlsgen2"]
 
 
-def adl_directory_exists(
-    location_url: str, container_name: str, file_name: str = "metadata"
-):
+def adl_directory_exists(location_url: str, container_name: str, file_name: str):
     cred_manager = AzureCredentialManager(resource_location=location_url)
     cloud_container = AzureCloudContainerConnection(
         storage_account_url=location_url, cred_manager=cred_manager

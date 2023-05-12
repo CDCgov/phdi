@@ -4,11 +4,12 @@ from app.kafka_connectors import (
     connect_to_local_kafka,
 )
 from pyspark.sql import SparkSession
-import argparse
-import sys
-from app.utils import get_spark_schema
+from app.utils import get_spark_schema, make_storage_paths
 from app.kafka_connectors import KAFKA_PROVIDERS
 from app.storage_connectors import STORAGE_PROVIDERS
+import argparse
+import sys
+import os
 
 
 def set_selection_flags(arguments: list) -> dict:
@@ -173,14 +174,6 @@ def main():
         .getOrCreate()
     )
     spark.sparkContext.setLogLevel("WARN")
-    base_path = "./persistent_storage/kafka/"
-
-    delta_table_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-table"
-    )
-    checkpoint_path = (
-        base_path + f"{kafka_topic_mappings[arguments.kafka_provider]}-checkpoint"
-    )
 
     if selection_flags["adlsgen2"]:
         spark, base_path = connect_to_adlsgen2(
@@ -195,9 +188,18 @@ def main():
         storage_directory_exists = adl_directory_exists(
             location_url=f"https://{arguments.storage_account}.dfs.core.windows.net",
             container_name=arguments.container,
+            file_name=f"kafka/{arguments.event_hub}-checkpoint/offsets/0",
+        )
+        print(f"Storage Directory Exists = {storage_directory_exists}")
+        delta_table_path, checkpoint_path = make_storage_paths(
+            kafka_topic_mappings[arguments.kafka_provider], base_path
         )
     else:
-        storage_directory_exists = False
+        base_path = "./persistent_storage/kafka/"
+        delta_table_path, checkpoint_path = make_storage_paths(
+            kafka_topic_mappings[arguments.kafka_provider], base_path
+        )
+        storage_directory_exists = os.path.exists(checkpoint_path)
 
     schema = get_spark_schema(arguments.schema)
 
@@ -218,7 +220,7 @@ def main():
             schema,
             arguments.kafka_server,
             arguments.kafka_topic,
-            checkpoint_path,
+            storage_exists=storage_directory_exists,
         )
 
     query = (

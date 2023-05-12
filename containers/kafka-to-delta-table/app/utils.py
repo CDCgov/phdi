@@ -10,6 +10,7 @@ from pyspark.sql.types import (
     DateType,
 )
 from pathlib import Path
+from typing import Tuple
 
 
 SCHEMA_TYPE_MAP = {
@@ -94,3 +95,16 @@ def load_schema(schema_name: str) -> dict:
                 f"A schema with the name '{schema_name}' could not be found."
             )
     return extraction_schema
+
+
+def make_storage_paths(kafka_topic: str, base_path: str) -> Tuple[str, str]:
+    """
+    Create paths to storage location table and checkpoint directories.
+    :param kafka_topic: A string of the topic name used for storage.
+    :base_path: A string of the directory path to storage.
+    :return: A tuple of two strings, path to delta table directory and path to
+      checkpoint directory
+    """
+    delta_table_path = base_path + f"{kafka_topic}-table"
+    checkpoint_path = base_path + f"{kafka_topic}-checkpoint"
+    return (delta_table_path, checkpoint_path)
