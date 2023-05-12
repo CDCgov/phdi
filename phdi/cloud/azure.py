@@ -226,7 +226,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         container.
 
         :param container_name: The name of the container to look for the blob in.
-        :param filename: The name of the blob to check to check the existence of.
+        :param filename: The name of the blob to check the existence of.
         :param prefix: Filter the objects returned to filenames beginning
           with this value.
         :return: A boolean of true if the file exists and false if it does not.
