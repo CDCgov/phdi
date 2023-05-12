@@ -2,37 +2,25 @@ from fastapi import FastAPI
 from pathlib import Path
 from enum import Enum
 from importlib import metadata
+from typing import Literal
 
 
 # create a class with the DIBBs default Creative Commons Zero v1.0 and
 # MIT license to be used by the BaseService class
-class LicenseType(Enum):
-    CreativeCommonsZero = {
+LICENSES = {"CreativeCommonsZero":{
         "name": "Creative Commons Zero v1.0 Universal",
         "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    }
-    MIT = {"name": "The MIT License", "url": "https://mit-license.org/"}
-
+    },
+    "MIT": {"name": "The MIT License", "url": "https://mit-license.org/"}
+}
 
 class BaseService:
-    """
-    Base class for all DIBBs services. This class provides a FastAPI instance with DIBBs
-    metadata and optionally a health check endpoint.
-    """
-
-    LICENSE_INFO = LicenseType.CreativeCommonsZero
-    DIBBS_CONTACT = {
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    }
-
     def __init__(
         self,
         service_name: str,
         description_path: str,
         include_health_check_endpoint: bool = True,
-        license_info: LicenseType = LICENSE_INFO,
+        license_info: Literal["CreativeCommonsZero", "MIT"] = "CreativeCommonsZero",
     ):
         """
         Initialize a BaseService instance.
@@ -52,7 +40,7 @@ class BaseService:
             title=service_name,
             version=metadata.version("phdi"),
             contact=self.DIBBS_CONTACT,
-            license_info=license_info,
+            license_info=LICENSES[license_info],
             description=description,
         )
 
