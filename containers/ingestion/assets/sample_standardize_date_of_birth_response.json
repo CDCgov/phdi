@@ -1,29 +1,29 @@
 {
-	"description": "Success",
-	"content": {
-		"application/json": {
-			"examples": {
-				"success": {
-					"value": {
-                        "status_code": "200",
-                        "message": null,
-                        "bundle": {
-                            "resourceType": "Patient",
-                            "id": "c53f9ad8-34c1-ce05-c0f6-7a0ea7bd8483",
-                            "name": [
-                                {
-                                    "family": "Doe",
-                                    "given": [
-                                        "Jane"
-                                    ],
-                                    "use": "official"
-                                }
-                            ],
-                            "birthDate": "1955-05-30"
-                        }
-                  }
-				}
-			}
-		}
-	}
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "success": {
+          "value": {
+            "status_code": "200",
+            "message": null,
+            "bundle": {
+              "resourceType": "Patient",
+              "id": "c53f9ad8-34c1-ce05-c0f6-7a0ea7bd8483",
+              "name": [
+                {
+                  "family": "Doe",
+                  "given": [
+                    "Jane"
+                  ],
+                  "use": "official"
+                }
+              ],
+              "birthDate": "1955-05-30"
+            }
+          }
+        }
+      }
+    }
+  }
 }
