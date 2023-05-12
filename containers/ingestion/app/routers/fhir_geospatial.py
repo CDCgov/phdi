@@ -1,3 +1,4 @@
+from typing import Annotated
 from fastapi import APIRouter, Response, status, Body
 from pydantic import BaseModel, validator, Field
 from typing import Optional, Literal
@@ -10,12 +11,10 @@ from app.utils import (
     read_json_from_assets,
 )
 
-
 router = APIRouter(
     prefix="/fhir/geospatial/geocode",
     tags=["fhir/geospatial"],
 )
-
 
 license_types = Literal[
     "us-standard-cloud",
@@ -36,13 +35,15 @@ class GeocodeAddressInBundleInput(BaseModel):
     )
     auth_id: Optional[str] = Field(
         description="Authentication ID for the geocoding service. Must be provided in "
-        "the request body or set as an environment variable of the service if "
+        "the request body or set as an environment variable of the "
+        "service if "
         "'geocode_method' is 'smarty'.",
         default="",
     )
     auth_token: Optional[str] = Field(
         description="Authentication Token for the geocoding service. Must be provided "
-        "in the request body or set as an environment variable of the service if "
+        "in the request body or set as an environment variable of the "
+        "service if "
         "'geocode_method' is 'smarty'.",
         default="",
     )
@@ -61,8 +62,7 @@ class GeocodeAddressInBundleInput(BaseModel):
 
 @router.post("/geocode_bundle", status_code=200)
 def geocode_bundle_endpoint(
-    input: GeocodeAddressInBundleInput,
-    response: Response = Body(..., examples=geocoding_request_examples),
+    input: Annotated[GeocodeAddressInBundleInput, Body(examples={})], response: Response
 ) -> StandardResponse:
     # TODO UPDATE THIS
     # need to add details about the census

@@ -72,7 +72,7 @@
         ]
       },
       "geocode_method": "census",
-      "overwrite": true
+      "overwrite": "true"
     }
   }
 }
