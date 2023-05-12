@@ -1,0 +1,35 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "success": {
+          "value": {
+            "status_code": "200",
+            "message": null,
+            "bundle": {
+              "resourceType": "Patient",
+              "id": "c53f9ad8-34c1-ce05-c0f6-7a0ea7bd8483",
+              "address": [
+                {
+                  "line": "1600 Pennsylvania Ave",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": "12345",
+                  "use": "home"
+                }
+              ],
+              "telecom": [
+                {
+                  "system": "phone",
+                  "value": "+15558675309",
+                  "use": "home"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

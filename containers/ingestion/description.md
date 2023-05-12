@@ -1,13 +1,13 @@
 ## Getting Started with the PHDI Ingestion Service
 
 ### Introduction
-The PHDI ingestion service offers a REST API with endpoints for each step of the ingestion pipeline implemented in the PHDI Cloud Starter Kits ([Azure](https://github.com/CDCgov/phdi-azure), [GCP](https://github.com/CDCgov/phdi-google-cloud)) with the exception of conversion to FHIR. Conversion to FHIR is handled by a [separate service](https://github.com/CDCgov/phdi/tree/main/containers/fhir-converter).
+The PHDI ingestion service offers a REST API with endpoints for standardization and harmonization of FHIR messages. It offers name standardization, date of birth standardization, phone number standardization, geocoding, and several utilities for working with FHIR servers.
 
 ### Running the Ingestion Service
 
 The ingestion service can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
 
-#### Running with Docker (Recommended)
+#### Running with Docker (Recommended for production)
 
 To run the ingestion service with Docker follow these steps.
 1. Confirm that you have Docker installed by running `docker -v`. If you do not see a response similar to what is shown below, follow [these instructions](https://docs.docker.com/get-docker/) to install Docker.
@@ -15,8 +15,8 @@ To run the ingestion service with Docker follow these steps.
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
 ``` 
-2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/ingestion:main`.
-3. Run the service with ` docker run -p 8080:8080 ghcr.io/cdcgov/phdi/ingestion:main`.
+2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/ingestion:latest`.
+3. Run the service with ` docker run -p 8080:8080 ghcr.io/cdcgov/phdi/ingestion:latest`.
 
 Congratulations, the ingestion service should now be running on `localhost:8080`!
 
@@ -42,4 +42,4 @@ To build the Docker image for the ingestion service from source code instead of 
 
 ### The API 
 
-When viewing these docs from the `/redoc` endpoint on a running instance of the ingestion service or the PHDI website, detailed documentation on the API will be avaiable below. 
+When viewing these docs from the `/redoc` endpoint on a running instance of the ingestion service or the PHDI website, detailed documentation on the API will be available below. 
