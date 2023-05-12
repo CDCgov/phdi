@@ -4,7 +4,7 @@
     "application/json": {
       "examples": {
         "smarty": {
-          "summary": "API response with Smarty provider",
+          "summary": "Smarty Geocode Response",
           "value": {
             "status_code": "200",
             "message": null,
@@ -55,7 +55,7 @@
           }
         },
         "census": {
-          "summary": "API response with Census provider",
+          "summary": "Census Geocode Response",
           "value": {
             "status_code": "200",
             "message": null,

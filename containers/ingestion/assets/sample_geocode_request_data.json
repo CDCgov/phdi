@@ -1,7 +1,7 @@
 {
   "smarty": {
-    "summary": "Smarty Geocoding",
-    "description": "Geocoding using the Smarty geocoding provider. You must provide the authentication id and token.",
+    "summary": "Smarty Geocode",
+    "description": "Geocode using the Smarty geocode provider. You must provide the authentication id and token. For more information, see https://www.smarty.com/products/us-rooftop-geocoding.",
     "value": {
       "bundle": {
         "resourceType": "Bundle",
@@ -39,8 +39,8 @@
     }
   },
   "census": {
-    "summary": "Census Geocoding",
-    "description": "Geocoding using the US Census geocoding provider. For more information about usage, see [XYZ].",
+    "summary": "Census Geocode",
+    "description": "Geocode using the US Census geocode provider. For more information, see https://geocoding.geo.census.gov/geocoder/.",
     "value": {
       "bundle": {
         "resourceType": "Bundle",

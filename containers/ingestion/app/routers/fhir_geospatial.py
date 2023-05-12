@@ -25,11 +25,16 @@ license_types = Literal[
     "international-global-plus-cloud",
 ]
 
-geocoding_request_examples = read_json_from_assets("sample_geocode_request_data.json")
+# Sample request/response for the geocode endpoint
+geocode_request_examples = read_json_from_assets("sample_geocode_request_data.json")
+
+raw_geocode_response_data = read_json_from_assets("sample_geocode_responses.json")
+
+sample_geocode_response = {200: raw_geocode_response_data}
 
 
 class GeocodeAddressInBundleInput(BaseModel):
-    bundle: dict = Field(description="A FHIR bundle")
+    bundle: dict = Field(description="A FHIR resource or bundle in JSON format.")
     geocode_method: Literal["smarty", "census"] = Field(
         description="The geocoding service to be used."
     )
@@ -37,19 +42,22 @@ class GeocodeAddressInBundleInput(BaseModel):
         description="Authentication ID for the geocoding service. Must be provided in "
         "the request body or set as an environment variable of the "
         "service if "
-        "'geocode_method' is 'smarty'.",
+        "`geocode_method` is `smarty`.",
         default="",
     )
     auth_token: Optional[str] = Field(
         description="Authentication Token for the geocoding service. Must be provided "
         "in the request body or set as an environment variable of the "
         "service if "
-        "'geocode_method' is 'smarty'.",
+        "`geocode_method` is `smarty`.",
         default="",
     )
     license_type: Optional[license_types] = Field(
-        description="The license type for the geocoding service.",
-        default="",
+        description="License type for the geocoding service. Must be provided "
+        "in the request body or set as an environment variable of the "
+        "service if "
+        "`geocode_method` is `smarty`.",
+        default="us-rooftop-geocoding-enterprise-cloud",
     )
     overwrite: Optional[bool] = Field(
         description="If true, `data` is modified in-place; if false, a copy of `data` "
@@ -60,29 +68,25 @@ class GeocodeAddressInBundleInput(BaseModel):
     _check_for_fhir = validator("bundle", allow_reuse=True)(check_for_fhir_bundle)
 
 
-@router.post("/geocode_bundle", status_code=200)
+@router.post("/geocode_bundle", status_code=200, responses=sample_geocode_response)
 def geocode_bundle_endpoint(
-    input: Annotated[GeocodeAddressInBundleInput, Body(examples={})], response: Response
+    input: Annotated[
+        GeocodeAddressInBundleInput, Body(examples=geocode_request_examples)
+    ],
+    response: Response,
 ) -> StandardResponse:
-    # TODO UPDATE THIS
-    # need to add details about the census
     """
-    Given a FHIR bundle and a specified geocode method, with any required
-    subsequent credentials (ie.. SmartyStreets auth id and auth token),
-    geocode all patient addresses across all patient resources in the bundle.
+    Given a FHIR bundle and a specified geocode method, geocode all patient addresses
+    across all patient resources in the bundle.
 
-    If the geocode method is smarty then the auth_id and auth_token parameter
-    values will be used.  If they are not provided in the request then the values
-    will be obtained via environment variables.  In the case where smarty is the geocode
-    method and auth_id and/or auth_token are not supplied then an HTTP 400 status
-    code will be returned.
-    :param response:
-    :param input: A JSON formatted request body with schema specified by the
-        GeocodeAddressInBundleInput model.
-    :return: A FHIR bundle where every patient resource address will now
-    contain a geocoded value.
+    Two geocode methods are currently supported - Smarty and the U.S. Census.
+
+    If using the Smarty provider, an auth_id, auth_token and license_type must be
+    provided. If they are not provided as request parameters, then the service will
+    attempt to obtain them through environment variables. If they cannot be found in
+    either the request parameters or environment variables, an HTTP 400 status will be
+    returned.
     """
-
     input = dict(input)
 
     if input.get("geocode_method") == "smarty":
