@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from pathlib import Path
-from enum import Enum
 from importlib import metadata
 from typing import Literal
 
