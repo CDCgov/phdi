@@ -14,6 +14,12 @@ LICENSES = {"CreativeCommonsZero":{
     "MIT": {"name": "The MIT License", "url": "https://mit-license.org/"}
 }
 
+DIBBS_CONTACT = {
+        "name": "CDC Public Health Data Infrastructure",
+        "url": "https://cdcgov.github.io/phdi-site/",
+        "email": "dmibuildingblocks@cdc.gov",
+    }
+
 class BaseService:
     def __init__(
         self,
@@ -39,7 +45,7 @@ class BaseService:
         self.app = FastAPI(
             title=service_name,
             version=metadata.version("phdi"),
-            contact=self.DIBBS_CONTACT,
+            contact=DIBBS_CONTACT,
             license_info=LICENSES[license_info],
             description=description,
         )
