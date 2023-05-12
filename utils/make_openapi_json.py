@@ -12,7 +12,7 @@ HTML version of the API documentation served by a FastAPI applications at the /d
 endpoint.
 """
 
-with open("openapi.json", "w") as f:
+with open("openapi.json", "w") as file:
     json.dump(
         get_openapi(
             title=app.title,
@@ -20,6 +20,8 @@ with open("openapi.json", "w") as f:
             openapi_version=app.openapi_version,
             description=app.description,
             routes=app.routes,
+            license_info=app.license_info,
+            contact=app.contact,
         ),
-        f,
+        file,
     )
