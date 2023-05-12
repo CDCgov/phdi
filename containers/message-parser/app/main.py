@@ -1,5 +1,6 @@
+from typing import Annotated
 from phdi.containers.base_service import BaseService
-from fastapi import Response, status
+from fastapi import Response, status, Body
 from pydantic import BaseModel, Field, root_validator
 from typing import Literal, Optional, Union
 from pathlib import Path
@@ -11,6 +12,7 @@ from app.utils import (
     convert_to_fhir,
     get_credential_manager,
     search_for_required_values,
+    read_json_from_assets,
 )
 from app.config import get_settings
 
@@ -24,6 +26,13 @@ app = BaseService(
 ).start()
 
 # /parse_message endpoint #
+parse_message_request_examples = read_json_from_assets(
+    "sample_parse_message_requests.json"
+)
+raw_parse_message_response_examples = read_json_from_assets(
+    "sample_parse_message_responses.json"
+)
+parse_message_response_examples = {200: raw_parse_message_response_examples}
 
 
 # Request and response models
@@ -114,18 +123,15 @@ class ParseMessageResponse(BaseModel):
     )
 
 
-@app.post("/parse_message", status_code=200)
+@app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
 async def parse_message_endpoint(
-    input: ParseMessageInput, response: Response
+    input: Annotated[ParseMessageInput, Body(examples=parse_message_request_examples)],
+    response: Response,
 ) -> ParseMessageResponse:
     """
     Extract the desired values from a message. If the message is not already in
-    FHIR format convert it to FHIR first.
-
-    :param input: A JSON formated request body with schema specified by the
-        ParseMessageInput model.
-    :return: A JSON formated response body with schema specified by the
-        ParseMessageResponse model.
+    FHIR format, convert it to FHIR first. You can either provide a parsing schema
+    or the name of a previously loaded parsing schema.
     """
     # 1. Load schema.
     if input.parsing_schema != {}:
@@ -179,6 +185,10 @@ async def parse_message_endpoint(
 
 
 # /schemas endpoint #
+raw_list_schemas_response = read_json_from_assets("sample_list_schemas_response.json")
+sample_list_schemas_response = {200: raw_list_schemas_response}
+
+
 class ListSchemasResponse(BaseModel):
     """
     The schema for responses from the /schemas endpoint.
@@ -193,15 +203,12 @@ class ListSchemasResponse(BaseModel):
     )
 
 
-@app.get("/schemas", status_code=200)
+@app.get("/schemas", responses=sample_list_schemas_response)
 async def list_schemas() -> ListSchemasResponse:
     """
     Get a list of all the parsing schemas currently available. Default schemas are ones
     that are packaged by default with this service. Custom schemas are any additional
     schema that users have chosen to upload to this service.
-
-    :return: A JSON formated response body with schema specified by the
-        ListSchemasResponse model.
     """
     default_schemas = os.listdir(Path(__file__).parent / "default_schemas")
     custom_schemas = os.listdir(Path(__file__).parent / "custom_schemas")
@@ -226,13 +233,19 @@ class GetSchemaResponse(BaseModel):
     )
 
 
-@app.get("/schemas/{parsing_schema_name}", status_code=200)
+# /schemas/{parsing_schema_name} endpoint #
+raw_get_schema_response = read_json_from_assets("sample_get_schema_response.json")
+sample_get_schema_response = {200: raw_get_schema_response}
+
+
+@app.get(
+    "/schemas/{parsing_schema_name}",
+    status_code=200,
+    responses=sample_get_schema_response,
+)
 async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaResponse:
     """
     Get the schema specified by 'parsing_schema_name'.
-
-    :return: A JSON formated response body with schema specified by the
-        GetSchemaResponse model.
     """
     try:
         parsing_schema = load_parsing_schema(parsing_schema_name)

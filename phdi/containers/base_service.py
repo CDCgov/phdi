@@ -1,5 +1,3 @@
-import json
-import pathlib
 from fastapi import FastAPI
 from pydantic import BaseModel
 from pathlib import Path
@@ -85,7 +83,3 @@ class BaseService:
         if self.include_health_check_endpoint:
             self.add_health_check_endpoint()
         return self.app
-
-
-def read_json_from_assets(filename: str):
-    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
