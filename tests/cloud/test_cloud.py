@@ -453,6 +453,34 @@ def test_azure_list_objects(mock_get_client):
     assert blob_list == ["blob1", "blob2"]
 
 
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_azure_blob_exists(mock_get_client):
+    mocked_blob_client = mock.Mock()
+    mocked_blob_client.exists.return_value = True
+
+    mocked_container_client = mock.Mock()
+    mocked_container_client.get_blob_client.return_value = mocked_blob_client
+
+    mock_get_client.return_value = mocked_container_client
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container-name"
+    filename = "some-file-name"
+
+    mock_cred_manager = mock.Mock()
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    exists = phdi_container_client.blob_exists(object_container, filename)
+
+    mock_get_client.assert_called_with(f"{object_storage_account}/{object_container}")
+    mocked_container_client.get_blob_client.assert_called_with(filename)
+    mocked_blob_client.exists.assert_called()
+    assert exists is True
+
+
 def test_gcp_storage_connect_init():
     phdi_container_client = GcpCloudStorageConnection()
     assert phdi_container_client._GcpCloudStorageConnection__storage_client is None
