@@ -97,7 +97,9 @@ def load_schema(schema_name: str) -> dict:
     return extraction_schema
 
 
-def make_storage_paths(kafka_topic: str, base_path: str) -> Tuple[str, str]:
+def make_storage_paths(
+    kafka_topic: str, base_path: str, delta_table_name: str
+) -> Tuple[str, str]:
     """
     Create paths to storage location table and checkpoint directories.
     :param kafka_topic: A string of the topic name used for storage.
@@ -105,6 +107,6 @@ def make_storage_paths(kafka_topic: str, base_path: str) -> Tuple[str, str]:
     :return: A tuple of two strings, path to delta table directory and path to
       checkpoint directory
     """
-    delta_table_path = base_path + f"{kafka_topic}-table"
-    checkpoint_path = base_path + f"{kafka_topic}-checkpoint"
+    delta_table_path = base_path + f"{delta_table_name}/{kafka_topic}-table"
+    checkpoint_path = base_path + f"{delta_table_name}/{kafka_topic}-checkpoint"
     return (delta_table_path, checkpoint_path)

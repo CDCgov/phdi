@@ -188,16 +188,21 @@ def main():
         storage_directory_exists = adl_directory_exists(
             location_url=f"https://{arguments.storage_account}.dfs.core.windows.net",
             container_name=arguments.container,
-            file_name=f"kafka/{arguments.event_hub}-checkpoint/offsets/0",
+            file_name=f"kafka/{arguments.delta_table_name}/{arguments.event_hub}"
+            + "-checkpoint/offsets/0",
         )
         print(f"Storage Directory Exists = {storage_directory_exists}")
         delta_table_path, checkpoint_path = make_storage_paths(
-            kafka_topic_mappings[arguments.kafka_provider], base_path
+            kafka_topic_mappings[arguments.kafka_provider],
+            base_path,
+            arguments.delta_table_name,
         )
     else:
         base_path = "./persistent_storage/kafka/"
         delta_table_path, checkpoint_path = make_storage_paths(
-            kafka_topic_mappings[arguments.kafka_provider], base_path
+            kafka_topic_mappings[arguments.kafka_provider],
+            base_path,
+            arguments.delta_table_name,
         )
         storage_directory_exists = os.path.exists(checkpoint_path)
 
@@ -222,7 +227,7 @@ def main():
             arguments.kafka_topic,
             storage_exists=storage_directory_exists,
         )
-
+    kafka_data_frame.printSchema()
     query = (
         kafka_data_frame.writeStream.option("checkpointLocation", checkpoint_path)
         .outputMode("append")
