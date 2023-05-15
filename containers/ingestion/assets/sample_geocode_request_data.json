@@ -1,0 +1,78 @@
+{
+  "smarty": {
+    "summary": "Smarty Geocode",
+    "description": "Geocode using the Smarty geocode provider. You must provide the authentication id and token. For more information, see https://www.smarty.com/products/us-rooftop-geocoding.",
+    "value": {
+      "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Patient",
+              "name": [
+                {
+                  "family": "DOE",
+                  "given": [
+                    "JANE"
+                  ]
+                }
+              ],
+              "address": [
+                {
+                  "line": [
+                    "1600 Pennsylvania Av NW"
+                  ],
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": "",
+                  "country": "USA"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "geocode_method": "smarty",
+      "auth_id": "$SMARTY_AUTH_ID",
+      "auth_token": "$SMARTY_AUTH_TOKEN",
+      "license_type": "us-rooftop-geocoding-enterprise-cloud"
+    }
+  },
+  "census": {
+    "summary": "Census Geocode",
+    "description": "Geocode using the US Census geocode provider. For more information, see https://geocoding.geo.census.gov/geocoder/.",
+    "value": {
+      "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Patient",
+              "name": [
+                {
+                  "family": "DOE",
+                  "given": [
+                    "JANE"
+                  ]
+                }
+              ],
+              "address": [
+                {
+                  "line": [
+                    "1600 Pennsylvania Av NW"
+                  ],
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": "",
+                  "country": "USA"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "geocode_method": "census",
+      "overwrite": "true"
+    }
+  }
+}
