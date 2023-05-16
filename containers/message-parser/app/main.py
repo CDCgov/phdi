@@ -208,7 +208,8 @@ async def list_schemas() -> ListSchemasResponse:
     """
     Get a list of all the parsing schemas currently available. Default schemas are ones
     that are packaged by default with this service. Custom schemas are any additional
-    schema that users have chosen to upload to this service.
+    schema that users have chosen to upload to this service (this feature is not yet
+    implemented)
     """
     default_schemas = os.listdir(Path(__file__).parent / "default_schemas")
     custom_schemas = os.listdir(Path(__file__).parent / "custom_schemas")
