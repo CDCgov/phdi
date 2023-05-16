@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 from pathlib import Path
 from importlib import metadata
 from typing import Literal
@@ -19,6 +20,17 @@ DIBBS_CONTACT = {
     "url": "https://cdcgov.github.io/phdi-site/",
     "email": "dmibuildingblocks@cdc.gov",
 }
+
+
+STATUS_OK = {"status": "OK"}
+
+
+class StatusResponse(BaseModel):
+    """
+    The schema for the response from the health check endpoint.
+    """
+
+    status: Literal["OK"]
 
 
 class BaseService:
@@ -53,12 +65,12 @@ class BaseService:
 
     def add_health_check_endpoint(self):
         @self.app.get("/")
-        async def health_check() -> dict:
+        async def health_check() -> StatusResponse:
             """
             Check service status. If an HTTP 200 status code is returned along with
             '{"status": "OK"}' then the service is available and running properly.
             """
-            return {"status": "OK"}
+            return STATUS_OK
 
     def start(self) -> FastAPI:
         """

@@ -1,0 +1,69 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "simple_custom_schema": {
+          "summary": "Simple custom schema response",
+          "value": {
+            "message": "Parsing succeeded!",
+            "parsed_values": {
+              "last_name": "DOE",
+              "first_name": "JANE"
+            }
+          }
+        },
+        "ecr.json": {
+          "summary": "ECR schema response",
+          "value": {
+            "message": "Parsing succeeded!",
+            "parsed_values": {
+              "patient_id": "987d9cdd-9f99-4fac-a50d-2fe6b2f0c369",
+              "person_id": "626ec016-9a3b-4b81-ba34-2bca377b4dd9",
+              "last_name": "EVERYMAN",
+              "first_name": "ADAM",
+              "rr_id": "",
+              "status": "",
+              "conditions": "",
+              "eicr_id": "",
+              "eicr_version_number": "",
+              "authoring_datetime": "",
+              "provider_id": "",
+              "facility_id_number": "",
+              "facility_name": "",
+              "facility_type": "",
+              "encounter_type": "",
+              "encounter_start_date": "2015-02-08T10:24:19Z",
+              "encounter_end_date": "",
+              "active_problem_1": "",
+              "active_problem_date_1": "",
+              "active_problem_2": "",
+              "active_problem_date_2": "",
+              "active_problem_3": "",
+              "active_problem_date_3": "",
+              "active_problem_4": "",
+              "active_problem_date_4": "",
+              "active_problem_5": "",
+              "active_problem_date_5": "",
+              "reason_for_visit": "",
+              "test_type_1": "",
+              "test_result_1": "",
+              "test_result_interp_1": "",
+              "specimen_type_1": "",
+              "performing_lab_1": "",
+              "specimen_collection_date_1": "",
+              "result_date_1": "",
+              "test_type_2": "",
+              "test_result_2": "",
+              "test_result_interp_2": "",
+              "specimen_type_2": "",
+              "performing_lab_2": "",
+              "specimen_collection_date_2": "",
+              "result_date_2": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}
