@@ -71,7 +71,7 @@ def write_blob_to_cloud_storage_endpoint(
 
     full_file_name = input["file_name"]
     cloud_provider_connection.upload_object(
-        message=input,
+        message=input["blob"],
         container_name=input["bucket_name"],
         filename=full_file_name,
     )
