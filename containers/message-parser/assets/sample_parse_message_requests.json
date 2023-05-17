@@ -1,0 +1,665 @@
+{
+  "simple_custom_schema": {
+    "summary": "Simple Custom Schema",
+    "description": "This is a simple custom schema that can be used to parse a FHIR Patient resource.",
+    "value": {
+      "parsing_schema": {
+        "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+        "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family"
+      },
+      "message_format": "fhir",
+      "message": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Patient",
+              "name": [
+                {
+                  "family": "DOE",
+                  "given": [
+                    "JANE"
+                  ]
+                }
+              ],
+              "address": [
+                {
+                  "line": [
+                    "1600 Pennsylvania Av NW"
+                  ],
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": "",
+                  "country": "USA"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "ecr.json": {
+    "summary": "Parsing Schema for ECR",
+    "description": "This is the default parsing schema for the ECR message format stored in ecr.json.",
+    "value": {
+      "parsing_schema_name": "ecr.json",
+      "message_format": "fhir",
+      "message": {
+        "resourceType": "Bundle",
+        "type": "batch",
+        "timestamp": "2021-08-18T09:11:00Z",
+        "identifier": {
+          "value": "MSG00001"
+        },
+        "id": "513a3d06-5e87-6fbc-ad1b-170ab430499f",
+        "entry": [
+          {
+            "fullUrl": "urn:uuid:987d9cdd-9f99-4fac-a50d-2fe6b2f0c369",
+            "resource": {
+              "resourceType": "Patient",
+              "id": "987d9cdd-9f99-4fac-a50d-2fe6b2f0c369",
+              "identifier": [
+                {
+                  "value": "1234567",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "MR",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "display": "Medical record number"
+                      }
+                    ]
+                  },
+                  "system": "http://example.com/v2-to-fhir-converter/Identifier/test",
+                  "period": {
+                    "start": "1924-10-11",
+                    "end": "1924-10-12"
+                  }
+                },
+                {
+                  "value": "PATID1234",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "MR",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "display": "Medical record number"
+                      }
+                    ]
+                  },
+                  "system": "http://example.com/v2-to-fhir-converter/Identifier/HCD",
+                  "assigner": {
+                    "reference": "Organization/b3ad3a9f-d4f6-4638-0a09-2da771733488"
+                  }
+                },
+                {
+                  "value": "123456789",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "SS",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "display": "Social Security number"
+                      }
+                    ]
+                  },
+                  "system": "http://example.com/v2-to-fhir-converter/Identifier/USSSA"
+                },
+                {
+                  "value": "PATID567",
+                  "system": "http://example.com/v2-to-fhir-converter/Identifier/test2"
+                },
+                {
+                  "value": "PSSN123121234",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "SB",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                      }
+                    ]
+                  },
+                  "system": "http://hl7.org/fhir/sid/us-ssn"
+                },
+                {
+                  "value": "DLN-123",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "DL"
+                      }
+                    ]
+                  },
+                  "system": "http://example.com/v2-to-fhir-converter/CodeSystem/US",
+                  "period": {
+                    "end": "2001-01-23"
+                  }
+                },
+                {
+                  "value": "Medicare-12345",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "MC",
+                        "display": "Patient's Medicare number",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                      }
+                    ]
+                  },
+                  "system": "http://hl7.org/fhir/sid/us-medicare"
+                },
+                {
+                  "value": "MCN-008",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "MA",
+                        "display": "Patient Medicaid number",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                      }
+                    ]
+                  },
+                  "system": "http://example.com/v2-to-fhir-converter/sid/us-medicaid"
+                },
+                {
+                  "value": "MI-12345",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "MI",
+                        "display": "Military ID number",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203"
+                      }
+                    ]
+                  },
+                  "system": "http://example.com/v2-to-fhir-converter/sid/us-military"
+                },
+                {
+                  "value": "PNM1234",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "MR",
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "display": "Medical record number"
+                      }
+                    ]
+                  },
+                  "system": "http://example.com/v2-to-fhir-converter/Identifier/HCD",
+                  "assigner": {
+                    "reference": "Organization/1fca4c8f-7562-b755-9a05-5f0f49096e5b"
+                  },
+                  "period": {
+                    "start": "1924-10-11",
+                    "end": "1924-10-12"
+                  }
+                }
+              ],
+              "name": [
+                {
+                  "family": "EVERYMAN",
+                  "given": [
+                    "ADAM",
+                    "A",
+                    "ADDSM"
+                  ],
+                  "suffix": [
+                    "III",
+                    "MD",
+                    "PF"
+                  ],
+                  "prefix": [
+                    "Dr."
+                  ],
+                  "use": "usual",
+                  "period": {
+                    "start": "1924-10-12"
+                  }
+                },
+                {
+                  "family": "JOSH",
+                  "given": [
+                    "STANLEY"
+                  ],
+                  "use": "official",
+                  "period": {
+                    "start": "1924-10-10",
+                    "end": "1924-10-15"
+                  }
+                },
+                {
+                  "family": "ELBERT",
+                  "given": [
+                    "SON"
+                  ]
+                },
+                {
+                  "family": "JACK",
+                  "given": [
+                    "ADAM",
+                    "A",
+                    "ADDSM"
+                  ],
+                  "suffix": [
+                    "III",
+                    "MD",
+                    "PF"
+                  ],
+                  "prefix": [
+                    "Dr."
+                  ],
+                  "use": "usual",
+                  "period": {
+                    "start": "1924-10-12"
+                  }
+                }
+              ],
+              "birthDate": "1988-08-18",
+              "_birthDate": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
+                    "valueDateTime": "1988-08-18T09:11:00Z"
+                  }
+                ]
+              },
+              "gender": "male",
+              "address": [
+                {
+                  "line": [
+                    "1000",
+                    "Hospital Lane",
+                    "Ste. 123",
+                    "Near Highway"
+                  ],
+                  "city": "Ann Arbor ",
+                  "state": "MI",
+                  "postalCode": "99999",
+                  "country": "USA",
+                  "type": "postal",
+                  "district": "W",
+                  "period": {
+                    "start": "2000-01-10",
+                    "end": "2000-01-20"
+                  }
+                }
+              ],
+              "telecom": [
+                {
+                  "value": "",
+                  "system": "phone",
+                  "period": {
+                    "start": "2001-01-10",
+                    "end": "2002-01-10"
+                  },
+                  "rank": 18,
+                  "use": "home"
+                },
+                {
+                  "value": "",
+                  "system": "phone",
+                  "use": "home"
+                },
+                {
+                  "value": "",
+                  "system": "phone",
+                  "use": "work"
+                },
+                {
+                  "value": "1111",
+                  "system": "other",
+                  "use": "work"
+                },
+                {
+                  "value": "89898989",
+                  "use": "work",
+                  "system": "email"
+                }
+              ],
+              "communication": [
+                {
+                  "language": {
+                    "coding": [
+                      {
+                        "code": "ar",
+                        "display": "Arabic",
+                        "system": "urn:ietf:bcp:47",
+                        "version": "v2"
+                      },
+                      {
+                        "code": "en",
+                        "display": "English",
+                        "system": "urn:ietf:bcp:47",
+                        "version": "v2.1"
+                      }
+                    ],
+                    "text": "TextInEnglish"
+                  },
+                  "preferred": true
+                }
+              ],
+              "maritalStatus": {
+                "coding": [
+                  {
+                    "code": "M",
+                    "display": "Married",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"
+                  }
+                ]
+              },
+              "multipleBirthInteger": 2,
+              "deceasedDateTime": "2008-08-25T10:01:30Z",
+              "meta": {
+                "lastUpdated": "2005-01-09T22:35:14Z"
+              },
+              "generalPractitioner": [
+                {
+                  "reference": "Organization/719266ca-c272-9569-a797-c0b3fe3b2c91"
+                },
+                {
+                  "reference": "Practitioner/76aaad38-1077-6a5c-0c5c-102ec160a60d"
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                  "extension": [
+                    {
+                      "url": "ombCategory",
+                      "valueCoding": {
+                        "code": "2106-3",
+                        "display": "White",
+                        "system": "urn:oid:2.16.840.1.113883.6.238"
+                      }
+                    },
+                    {
+                      "url": "ombCategory",
+                      "valueCoding": {
+                        "code": "2028-9",
+                        "display": "Asian",
+                        "system": "urn:oid:2.16.840.1.113883.6.238"
+                      }
+                    },
+                    {
+                      "url": "text",
+                      "valueString": "White+Asian"
+                    }
+                  ]
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+                  "valueString": "SMITH--Angela--L"
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                  "valueAddress": {
+                    "text": "St. Francis Community Hospital of Lower South Side"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-religion",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "1002",
+                        "display": "African Religions",
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ReligiousAffiliation"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+                  "extension": [
+                    {
+                      "url": "ombCategory",
+                      "valueCoding": {
+                        "code": "2186-5",
+                        "display": "Non Hispanic or Latino",
+                        "system": "urn:oid:2.16.840.1.113883.6.238"
+                      }
+                    },
+                    {
+                      "url": "text",
+                      "valueString": "Non Hispanic or Latino"
+                    }
+                  ]
+                },
+                {
+                  "url": "http://example.com/v2-to-fhir-converter/StructureDefinition/VeteranMilitaryStatus",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "Vet123",
+                        "display": "retired",
+                        "system": "http://example.com/v2-to-fhir-converter/CodeSystem/ART"
+                      }
+                    ],
+                    "text": "retired"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-animal",
+                  "extension": [
+                    {
+                      "url": "species",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "code": "125097000",
+                            "display": "Goat",
+                            "system": "http://snomed.info/sct"
+                          }
+                        ],
+                        "text": "Goat"
+                      }
+                    },
+                    {
+                      "url": "breed",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "code": "4880003",
+                            "display": "Beagle",
+                            "system": "http://snomed.info/sct"
+                          }
+                        ],
+                        "text": "Beagle"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-citizenship",
+                  "extension": [
+                    {
+                      "url": "code",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "code": "US",
+                            "display": "United States of America",
+                            "system": "urn:iso:std:iso:3166"
+                          }
+                        ],
+                        "text": "United States of America"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-citizenship",
+                  "extension": [
+                    {
+                      "url": "code",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "code": "CA",
+                            "display": "Canada",
+                            "system": "urn:iso:std:iso:3166"
+                          }
+                        ],
+                        "text": "Canada"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-nationality",
+                  "extension": [
+                    {
+                      "url": "code",
+                      "valueCodeableConcept": {
+                        "coding": [
+                          {
+                            "code": "BT",
+                            "display": "Bhutan",
+                            "system": "urn:iso:std:iso:3166"
+                          }
+                        ],
+                        "text": "Bhutan"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-congregation",
+                  "valueString": "Methodist Church"
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/patient-importance",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "VIP",
+                        "display": "Very Important Person",
+                        "system": "http://example.com/v2-to-fhir-converter/CodeSystem/L",
+                        "version": "v1.1"
+                      },
+                      {
+                        "code": "IMP",
+                        "system": "http://example.com/v2-to-fhir-converter/CodeSystem/DCM",
+                        "version": "v1.2"
+                      }
+                    ],
+                    "text": "Inportant Person"
+                  }
+                }
+              ],
+              "contact": [
+                {
+                  "organization": {
+                    "reference": "Organization/4daacabc-aa82-39ea-ba95-253719088e5b"
+                  }
+                },
+                {
+                  "name": {
+                    "family": "Evan",
+                    "given": [
+                      "ADAM",
+                      "A"
+                    ],
+                    "suffix": [
+                      "III",
+                      "MD"
+                    ],
+                    "prefix": [
+                      "Dr."
+                    ],
+                    "use": "usual"
+                  },
+                  "address": {
+                    "line": [
+                      "2222",
+                      "HOME",
+                      "STREET",
+                      "Highway"
+                    ],
+                    "city": "GREENSBORO",
+                    "state": "NC",
+                    "postalCode": "27401-1020",
+                    "country": "US",
+                    "use": "billing",
+                    "district": "test",
+                    "period": {
+                      "start": "2000-01-10",
+                      "end": "2005-01-11"
+                    }
+                  },
+                  "telecom": [
+                    {
+                      "value": "5555",
+                      "use": "work",
+                      "system": "email",
+                      "period": {
+                        "start": "2001-01-10",
+                        "end": "2002-01-10"
+                      },
+                      "rank": 18
+                    },
+                    {
+                      "value": "121111",
+                      "use": "home",
+                      "system": "phone"
+                    },
+                    {
+                      "value": "878777",
+                      "use": "home",
+                      "system": "phone",
+                      "period": {
+                        "start": "2001-01-10",
+                        "end": "2002-01-10"
+                      },
+                      "rank": 18
+                    },
+                    {
+                      "value": "6666666",
+                      "system": "pager",
+                      "use": "work"
+                    },
+                    {
+                      "value": "777",
+                      "use": "work",
+                      "system": "phone",
+                      "period": {
+                        "start": "2001-01-10",
+                        "end": "2002-01-10"
+                      },
+                      "rank": 1
+                    },
+                    {
+                      "value": "444444",
+                      "system": "phone"
+                    }
+                  ],
+                  "relationship": [
+                    {
+                      "coding": [
+                        {
+                          "code": "O",
+                          "display": "Other",
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0131"
+                        }
+                      ]
+                    }
+                  ],
+                  "period": {
+                    "start": "2021-08-18",
+                    "end": "2021-12-18"
+                  },
+                  "gender": "female"
+                }
+              ]
+            },
+            "request": {
+              "method": "PUT",
+              "url": "Patient/987d9cdd-9f99-4fac-a50d-2fe6b2f0c369"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

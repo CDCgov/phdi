@@ -1,9 +1,10 @@
 from pydantic import BaseModel, Field
-from typing import Literal
+from typing import Literal, Annotated
+from fastapi import Body
 from pathlib import Path
 from phdi.containers.base_service import BaseService
 from phdi.validation.validation import validate_ecr
-from .utils import load_ecr_config, validate_error_types
+from .utils import load_ecr_config, validate_error_types, read_json_from_assets
 
 # TODO: Remove hard coded location for config path
 # and/or provide a mechanism to pass in configuration
@@ -74,7 +75,7 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
     return {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually preformed. This endpoint only has "
+            "details": "No validation was actually performed. This endpoint only has "
             "stubbed functionality"
         },
     }
@@ -90,7 +91,7 @@ def validate_vxu_msg(message: str, include_error_types: list) -> ValidateRespons
     return {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually preformed. This endpoint only has "
+            "details": "No validation was actually performed. This endpoint only has "
             "stubbed functionality"
         },
     }
@@ -103,16 +104,19 @@ message_validators = {
 }
 
 
+# Sample requests and responses for docs
+sample_validate_requests = read_json_from_assets("sample_validate_requests.json")
+sample_validate_responses = read_json_from_assets("sample_validate_responses.json")
+
+
 # Endpoints
-@app.post("/validate", status_code=200)
-async def validate_endpoint(input: ValidateInput) -> ValidateResponse:
+@app.post("/validate", status_code=200, responses={200: sample_validate_responses})
+async def validate_endpoint(
+    input: Annotated[ValidateInput, Body(examples=sample_validate_requests)]
+) -> ValidateResponse:
     """
     Check if the value presented in the 'message' key is a valid example
     of the type of message specified in the 'message_type'.
-    :param input: A JSON formatted request body with schema specified by the
-        ValidateInput model.
-    :return: A JSON formatted response body with schema specified
-        by the ValidateResponse model.
     """
 
     input = dict(input)
