@@ -1,3 +1,4 @@
+import json
 import pathlib
 import yaml
 import re
@@ -98,3 +99,7 @@ def validate_config(config: dict):
         if "attributes" not in field and "textRequired" not in field:
             return False
     return True
+
+
+def read_json_from_assets(filename: str):
+    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
