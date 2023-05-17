@@ -1,0 +1,36 @@
+{
+    "description": "Success",
+    "content": {
+        "application/json": {
+            "examples": {
+                "ecr": {
+                    "summary": "Valid ECR message",
+                    "value": {
+                        "message_valid": "True",
+                        "validation_results": {
+                            "details": "Validation completed with no fatal errors!"
+                        }
+                    }
+                },
+                "elr": {
+                    "summary": "Valid ELR message",
+                    "value": {
+                        "message_valid": "True",
+                        "validation_results": {
+                            "details": "No validation was actually performed. This endpoint only has stubbed functionality"
+                        }
+                    }
+                },
+                "vxu": {
+                    "summary": "Valid VXU message",
+                    "value": {
+                        "message_valid": "True",
+                        "validation_results": {
+                            "details": "No validation was actually performed. This endpoint only has stubbed functionality"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
