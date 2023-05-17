@@ -4,6 +4,7 @@ import psycopg2
 from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import connection, cursor
 import json
+import logging
 
 
 class DIBBsConnectorClient(BaseMPIConnectorClient):
@@ -160,7 +161,13 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                         person_id,
                         json.dumps(patient_resource),
                     ]
-                    db_cursor.execute(insert_new_patient, data)
+                    try:
+                        db_cursor.execute(insert_new_patient, data)
+                    except psycopg2.errors.UniqueViolation:
+                        logging.warning(
+                            f"Patient with ID {patient_resource.get('id')} already "
+                            "exists in the MPI. The patient table was not updated."
+                        )
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
