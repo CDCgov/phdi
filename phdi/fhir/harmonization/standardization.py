@@ -6,6 +6,7 @@ from phdi.harmonization import (
     standardize_name,
     standardize_country_code,
     standardize_phone,
+    standardize_birth_date,
 )
 
 
@@ -134,8 +135,8 @@ def standardize_names(
 def standardize_phones(data: dict, overwrite=True) -> dict:
     """
     Standardizes all phone numbers in a given FHIR bundle or a FHIR resource.
-    Standardization is done according to the underlying `standardize_phone` function in
-    `phdi.harmonization`.
+    Standardization is done according to the underlying `standardize_phone`
+    function in `phdi.harmonization`.
 
     :param data: A FHIR bundle or FHIR-formatted JSON dict.
     :param overwrite: If true, `data` is modified in-place;
@@ -180,9 +181,11 @@ def _standardize_names_in_resource(
     that function.
 
     :param resource: A FHIR-formatted JSON dictionary.
-    :param trim: Whether leading/trailing whitespace should be removed. Default: `True`
+    :param trim: Whether leading/trailing whitespace should be removed.
+      Default: `True`
     :param case: The type of casing that should be used. Default: `upper`
-    :param remove_numbers: Whether to delete numeric characters. Default: `True`
+    :param remove_numbers: Whether to delete numeric characters.
+      Default: `True`
     :param overwrite: Whether to replace the original names in the input
       data with the standardized names. Default: `True`
     :return: The resource with appropriately standardized names.
@@ -193,7 +196,6 @@ def _standardize_names_in_resource(
 
     if resource.get("resourceType", "") == "Patient":
         for name in resource.get("name", []):
-
             # Handle family names
             if "family" in name:
                 transformed_name = standardize_name(
@@ -215,7 +217,6 @@ def _standardize_names_in_resource(
 def _standardize_phones_in_resource(
     resource: dict, overwrite=True
 ) -> Union[dict, None]:
-
     if not overwrite:
         resource = copy.deepcopy(resource)
 
@@ -256,3 +257,48 @@ def _extract_countries_from_resource(
             if country:
                 countries.append(standardize_country_code(country, code_type))
     return countries
+
+
+def _standardize_dob_in_resource(
+    resource: dict, format: str = "%Y-%m-%d", overwrite=True
+) -> Union[dict, None]:
+    if not overwrite:
+        resource = copy.deepcopy(resource)
+
+    if resource.get("resourceType", "") == "Patient":
+        birth_date = resource.get("birthDate")
+        transformed_birth_date = standardize_birth_date(birth_date, format)
+        resource["birthDate"] = transformed_birth_date
+    return resource
+
+
+def standardize_dob(data: dict, format: str = "%Y-%m-%d", overwrite=True) -> dict:
+    """
+    Standardizes all birth dates in a given FHIR bundle or a FHIR resource.
+    Standardization is done according to the underlying `standardize_dob` function in
+    `phdi.harmonization`.  The final birthDate will follow the FHIR STu3/R4 format
+    of YYYY-MM-DD which will be stored in the Patient resource.
+
+    :param data: A FHIR bundle or FHIR-formatted JSON dict.
+    :param format: A python DateTime format used to parse the birthDate within
+      the Patient resource.  Default: `%Y-%m-%d` (also known as YYYY-MM-DD)
+    :param overwrite: If true, `data` is modified in-place;
+      if false, a copy of `data` modified and returned.  Default: `True`
+    :return: The bundle or resource with bith dates appropriately standardized.
+    """
+
+    if not overwrite:
+        data = copy.deepcopy(data)
+
+    # Allow users to pass in either a resource or a bundle
+    bundle = data
+    if "entry" not in data:
+        bundle = {"entry": [{"resource": data}]}
+
+    for entry in bundle.get("entry"):
+        resource = entry.get("resource", {})
+        resource = _standardize_dob_in_resource(resource, format, overwrite)
+
+    if "entry" not in data:
+        return bundle.get("entry", [{}])[0].get("resource", {})
+    return bundle

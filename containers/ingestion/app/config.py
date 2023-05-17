@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     fhir_url: Optional[str]
     auth_id: Optional[str]
     auth_token: Optional[str]
+    license_type: Optional[str]
     cloud_provider: Optional[Literal["azure", "gcp"]]
     bucket_name: Optional[str]
     storage_account_url: Optional[str]

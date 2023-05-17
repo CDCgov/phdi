@@ -8,7 +8,6 @@ from unittest import mock
 @mock.patch.object(Session, "post")
 @mock.patch("phdi.transport.http.Retry")
 def test_http_request_with_retry_post(mock_retry_strategy, mock_post):
-
     http_url = "https://some-url"
     http_action = "POST"
     http_header = {"some-header": "some-header-value"}
@@ -41,7 +40,6 @@ def test_http_request_with_retry_post(mock_retry_strategy, mock_post):
 @mock.patch.object(Session, "get")
 @mock.patch("phdi.transport.http.Retry")
 def test_http_request_with_retry_get(mock_retry_strategy, mock_get):
-
     http_url = "https://some-url"
     http_action = "GET"
     http_header = {"some-header": "some-header-value"}
@@ -70,7 +68,6 @@ def test_http_request_with_retry_get(mock_retry_strategy, mock_get):
 
 
 def test_http_request_with_retry_unsupported_action():
-
     http_url = "https://some-url"
     http_action = "BADACTION"
     http_header = {"some-header": "some-header-value"}

@@ -1,10 +1,11 @@
-from fastapi import FastAPI, Response, status
+from fastapi import Response, status
 from pydantic import BaseModel, Field, validator
 from typing import Optional, Literal
 import urllib.parse
 import datetime
 import jsonschema
 from pathlib import Path
+from phdi.containers.base_service import BaseService
 from phdi.cloud.core import BaseCredentialManager
 from phdi.tabulation import validate_schema
 from phdi.tabulation.tables import write_data
@@ -23,22 +24,12 @@ from app.utils import (
 # Read settings from environmnent.
 get_settings()
 
-# Instantiate FastAPI and set metadata.
-description = Path("description.md").read_text(encoding="utf-8")
-app = FastAPI(
-    title="PHDI Tabulation Service",
-    version="0.0.1",
-    contact={
-        "name": "CDC Public Health Data Infrastructure",
-        "url": "https://cdcgov.github.io/phdi-site/",
-        "email": "dmibuildingblocks@cdc.gov",
-    },
-    license_info={
-        "name": "Creative Commons Zero v1.0 Universal",
-        "url": "https://creativecommons.org/publicdomain/zero/1.0/",
-    },
-    description=description,
-)
+
+# Instantiate FastAPI via PHDI's BaseService class
+app = BaseService(
+    service_name="PHDI Tabulation Service",
+    description_path=Path(__file__).parent.parent / "description.md",
+).start()
 
 
 class SchemaValidationInput(BaseModel):
@@ -75,15 +66,6 @@ class TabulateInput(BaseModel):
     _check_schema_validity = validator("schema_", allow_reuse=True)(
         check_schema_validity
     )
-
-
-@app.get("/")
-async def health_check():
-    """
-    Check service status. If an HTTP 200 status code is returned along with
-    '{"status": "OK"}' then the tabulation service is available and running properly.
-    """
-    return {"status": "OK"}
 
 
 @app.post("/validate-schema", status_code=200)

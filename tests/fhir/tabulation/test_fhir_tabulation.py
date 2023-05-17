@@ -11,7 +11,6 @@ from unittest import mock
 from requests.models import Response
 
 from phdi.fhir.tabulation.tables import (
-    _apply_selection_criteria,
     drop_invalid,
     tabulate_data,
     generate_tables,
@@ -27,24 +26,12 @@ from phdi.fhir.tabulation.tables import (
 )
 
 
-def test_apply_selection_criteria():
-    selection_criteria_test_list = ["one", "two", "three"]
-    assert _apply_selection_criteria(selection_criteria_test_list, "first") == "one"
-    assert _apply_selection_criteria(selection_criteria_test_list, "last") == "three"
-    assert (
-        _apply_selection_criteria(selection_criteria_test_list, "random")
-        in selection_criteria_test_list
-    )
-    assert _apply_selection_criteria(selection_criteria_test_list, "all") == ",".join(
-        selection_criteria_test_list
-    )
-
-
 def test_tabulate_data_invalid_table_name():
     schema = yaml.safe_load(
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulation_schema.yaml"
         )
     )
@@ -52,6 +39,7 @@ def test_tabulate_data_invalid_table_name():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -67,6 +55,7 @@ def test_tabulate_data():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulation_schema.yaml"
         )
     )
@@ -74,6 +63,7 @@ def test_tabulate_data():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -155,6 +145,7 @@ def test_tabulate_data():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "observation_reference_schema.yaml"
         )
     )
@@ -162,6 +153,7 @@ def test_tabulate_data():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_observation_data.json"
         )
     )
@@ -196,6 +188,7 @@ def test_get_reference_directions():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulation_schema.yaml"
         )
     )
@@ -216,6 +209,7 @@ def test_build_reference_dicts():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulation_schema.yaml"
         )
     )
@@ -225,6 +219,7 @@ def test_build_reference_dicts():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -258,6 +253,7 @@ def test_dereference_included_resource():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulation_schema.yaml"
         )
     )
@@ -265,6 +261,7 @@ def test_dereference_included_resource():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -406,7 +403,10 @@ def test_generate_search_urls(patch_generate_search_url):
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation"
+            / "valid_schema.yaml"
         )
     )
 
@@ -419,11 +419,11 @@ def test_generate_search_urls(patch_generate_search_url):
 
 
 def test_generate_search_urls_invalid():
-
     schema = yaml.safe_load(
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "invalid_schema.yaml"
         )
     )
@@ -437,6 +437,7 @@ def test_merge_include_query_params():
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulation_schema.yaml"
         )
     )
@@ -463,10 +464,12 @@ def test_merge_include_query_params_invalid():
 
 
 def test_drop_invalid():
-
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation"
+            / "valid_schema.yaml"
         )
     )
 
@@ -548,11 +551,11 @@ def test_drop_invalid():
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search_incremental(patch_query):
-
     fhir_server_responses = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_query_response_200_example.json"
         )
     )
@@ -660,11 +663,11 @@ def test_extract_data_from_fhir_search_incremental_auth(patch_query):
 
 @mock.patch("phdi.fhir.tabulation.tables.http_request_with_reauth")
 def test_extract_data_from_fhir_search(patch_query):
-
     fhir_server_responses = json.load(
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_query_response_200_example.json"
         )
     )
@@ -716,7 +719,10 @@ def test_extract_data_from_schema(patch_search, patch_gen_urls):
 
     schema = yaml.safe_load(
         open(
-            pathlib.Path(__file__).parent.parent.parent / "assets" / "valid_schema.yaml"
+            pathlib.Path(__file__).parent.parent.parent
+            / "assets"
+            / "tabulation"
+            / "valid_schema.yaml"
         )
     )
 
@@ -775,6 +781,7 @@ def test_generate_tables(patch_search_incremental):
     schema_path = (
         pathlib.Path(__file__).parent.parent.parent
         / "assets"
+        / "tabulation"
         / "tabulation_schema.yaml"
     )
 
@@ -782,6 +789,7 @@ def test_generate_tables(patch_search_incremental):
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulation_schema_output_data.json"
         )
     )
@@ -792,6 +800,7 @@ def test_generate_tables(patch_search_incremental):
         open(
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -823,6 +832,7 @@ def test_generate_tables(patch_search_incremental):
         (
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulated_patients.csv"
         ),
         "r",
@@ -855,6 +865,7 @@ def test_generate_tables(patch_search_incremental):
         (
             pathlib.Path(__file__).parent.parent.parent
             / "assets"
+            / "tabulation"
             / "tabulated_physical_exam.csv"
         ),
         "r",

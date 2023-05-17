@@ -1,0 +1,78 @@
+{
+  "resourceType": "Bundle",
+  "identifier": {
+    "value": "a very contrived FHIR bundle"
+  },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "id": "some-org-we-dont-care-about"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "some-uuid",
+        "identifier": [
+          {
+            "value": "123456",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            },
+            "system": "urn...no idea"
+          }
+        ],
+        "name": [
+          {
+            "family": "doe",
+            "given": [
+              "John ",
+              " Danger "
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "1983-02-01",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "239 Greene St",
+              "Apt 4L"
+            ],
+            "BuildingNumber": "239",
+            "city": "New York",
+            "state": "NY",
+            "postalCode": "10003",
+            "country": "USA",
+            "use": "home"
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone",
+            "value": "123-456-7890"
+          },
+          {
+            "value": "johndanger@doe.net",
+            "system": "email"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "testing for entry with no resource"
+      }
+    }
+  ]
+}

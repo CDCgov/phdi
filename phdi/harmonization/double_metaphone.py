@@ -92,7 +92,6 @@ class DoubleMetaphone(object):
         elif buffer[position : position + 4] == "CHIA":
             self.next = ("K", 2)
         elif buffer[position : position + 2] == "CH":
-
             # e.g. 'michael'
             if position > start_index and buffer[position : position + 4] == "CHAE":
                 self.next = ("K", "X", 2)
@@ -149,7 +148,6 @@ class DoubleMetaphone(object):
         elif buffer[position : position + 2] == "CC" and not (
             position == (start_index + 1) and buffer[start_index] == "M"
         ):
-
             # 'bellocchio' but not 'bacchus'
             if (
                 buffer[position + 2] in ["I", "E", "H"]
@@ -170,14 +168,12 @@ class DoubleMetaphone(object):
         elif buffer[position : position + 2] in ["CK", "CG", "CQ"]:
             self.next = ("K", 2)
         elif buffer[position : position + 2] in ["CI", "CE", "CY"]:
-
             # Italian vs. English
             if buffer[position : position + 3] in ["CIO", "CIE", "CIA"]:
                 self.next = ("S", "X", 2)
             else:
                 self.next = ("S", 2)
         else:
-
             # Name set in 'mac caffrey', 'mac gregor'
             if buffer[position + 1 : position + 3] in [" C", " Q", " G"]:
                 self.next = ("K", 3)
@@ -217,7 +213,6 @@ class DoubleMetaphone(object):
             if position > start_index and buffer[position - 1] not in VOWELS:
                 self.next = ("K", 2)
             elif position < (start_index + 3):
-
                 # 'Ghislane', 'Ghiradelli'
                 if position == start_index:
                     if buffer[position + 2] == "I":
@@ -299,7 +294,6 @@ class DoubleMetaphone(object):
         elif buffer[position + 1] in ["E", "I", "Y"] or buffer[
             position - 1 : position + 3
         ] in ["AGGI", "OGGI"]:
-
             # Germanic
             if (
                 buffer[start_index : start_index + 4] in ["VON ", "VAN "]
@@ -528,7 +522,6 @@ class DoubleMetaphone(object):
                     "ED",
                     "EM",
                 ]:
-
                     # 'Schermerhorn', 'Schenker'
                     if buffer[position + 3 : position + 5] in ["ER", "EN"]:
                         self.next = ("X", "SK", 3)
@@ -573,7 +566,6 @@ class DoubleMetaphone(object):
             buffer[position : position + 2] == "TH"
             or buffer[position : position + 3] == "TTH"
         ):
-
             # 'Thomas', 'Thames' or hard-sound Germanic
             if (
                 buffer[position + 2 : position + 4] in ["OM", "AM"]
@@ -605,7 +597,6 @@ class DoubleMetaphone(object):
         elif position == start_index and (
             buffer[position + 1] in VOWELS or buffer[position : position + 2] == "WH"
         ):
-
             # Wasserman should match Vasserman
             if buffer[position + 1] in VOWELS:
                 self.next = ("A", "F", 1)

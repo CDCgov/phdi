@@ -1,0 +1,20 @@
+{
+  "resourceType": "Patient",
+  "id": "c53f9ad8-34c1-ce05-c0f6-7a0ea7bd8483",
+  "address": [
+    {
+      "line": "1600 Pennsylvania Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "12345",
+      "use": "home"
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "(555) 867-5309",
+      "use": "home"
+    }
+  ]
+}

@@ -77,6 +77,7 @@ def test_check_schema_validity_valid_schema():
         pathlib.Path(__file__).parent.parent.parent.parent
         / "tests"
         / "assets"
+        / "tabulation"
         / "valid_schema.json"
     )
     valid_schema = json.load(open(valid_schema_path))

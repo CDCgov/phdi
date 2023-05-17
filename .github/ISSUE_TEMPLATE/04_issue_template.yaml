@@ -1,0 +1,39 @@
+name: Issue Template
+description: "Tickets to track work for the DIBBs team - for internal use."
+labels: ["triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting a ticket, search for existing tickets in the [issues](https://github.com/CDCgov/phdi/issues).
+        
+        ---
+  - type: textarea
+    id: description
+    attributes:
+      label: Why are we doing this?
+      description: "What's the background for this body of work? What value will be delivered (to the team, stakeholders, end users, etc) once the work is complete?"
+    validations:
+      required: true
+  - type: textarea
+    id: action
+    attributes:
+      label: Action Requested
+      description: "What is being requested?"
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance Criteria
+      description: "How will we know when this work is completed? What artifacts or deliverables will be created as a result of this work?"
+      placeholder: "GIVEN...WHEN...THEN"
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: "What does someone else picking up this ticket need to know? This could be related issues, meeting notes, design specs, architecture diagrams, etc."
+    validations:
+      required: false

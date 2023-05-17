@@ -1,103 +1,103 @@
 {
-    "type": "object",
-    "properties": {
-        "metadata": {
-            "type": "object",
-            "properties": {
-                "schema_name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "schema_name"
-            ]
-        },
-        "tables": {
-            "$ref": "#/$defs/tables"
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "schema_name": {
+          "type": "string"
         }
+      },
+      "required": [
+        "schema_name"
+      ]
     },
-    "required": [
-        "tables"
-    ],
-    "$defs": {
-        "tables": {
-            "type": "object",
-            "patternProperties": {
-                ".": {
-                    "description": "The user's table name",
-                    "type": "object",
-                    "properties": {
-                        "resource_type": {
-                            "type": "string"
-                        },
-                        "earliest_update_datetime": {
-                            "type": "string"
-                        },
-                        "columns": {
-                            "$ref": "#/$defs/columns"
-                        }
-                    },
-                    "required": [
-                        "resource_type",
-                        "columns"
-                    ]
-                }
-            }
-        },
-        "columns": {
-            "type": "object",
-            "patternProperties": {
-                ".": {
-                    "$ref": "#/$defs/single_column"
-                }
-            }
-        },
-        "single_column": {
-            "description": "The user's column name",
-            "type": "object",
-            "properties": {
-                "fhir_path": {
-                    "type": "string"
-                },
-                "invalid_values": {
-                    "type": "array",
-                    "items": {
-                        "type": [
-                            "string",
-                            "boolean",
-                            "null",
-                            "number"
-                        ],
-                        "uniqueItems": true
-                    }
-                },
-                "selection_criteria": {
-                    "type": "string",
-                    "enum": [
-                        "first",
-                        "last",
-                        "random",
-                        "all"
-                    ]
-                },
-                "data_type": {
-                    "type": "string",
-                    "enum": [
-                        "string",
-                        "number",
-                        "boolean"
-                    ]
-                }
-            },
-            "patternProperties": {
-                "reference_location": {
-                    "type": "string",
-                    "pattern": "^forward|^reverse"
-                }
-            },
-            "required": [
-                "fhir_path"
-            ]
-        }
+    "tables": {
+      "$ref": "#/$defs/tables"
     }
+  },
+  "required": [
+    "tables"
+  ],
+  "$defs": {
+    "tables": {
+      "type": "object",
+      "patternProperties": {
+        ".": {
+          "description": "The user's table name",
+          "type": "object",
+          "properties": {
+            "resource_type": {
+              "type": "string"
+            },
+            "earliest_update_datetime": {
+              "type": "string"
+            },
+            "columns": {
+              "$ref": "#/$defs/columns"
+            }
+          },
+          "required": [
+            "resource_type",
+            "columns"
+          ]
+        }
+      }
+    },
+    "columns": {
+      "type": "object",
+      "patternProperties": {
+        ".": {
+          "$ref": "#/$defs/single_column"
+        }
+      }
+    },
+    "single_column": {
+      "description": "The user's column name",
+      "type": "object",
+      "properties": {
+        "fhir_path": {
+          "type": "string"
+        },
+        "invalid_values": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "boolean",
+              "null",
+              "number"
+            ],
+            "uniqueItems": true
+          }
+        },
+        "selection_criteria": {
+          "type": "string",
+          "enum": [
+            "first",
+            "last",
+            "random",
+            "all"
+          ]
+        },
+        "data_type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      },
+      "patternProperties": {
+        "reference_location": {
+          "type": "string",
+          "pattern": "^forward|^reverse"
+        }
+      },
+      "required": [
+        "fhir_path"
+      ]
+    }
+  }
 }

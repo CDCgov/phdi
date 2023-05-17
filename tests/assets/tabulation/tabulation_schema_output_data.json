@@ -1,0 +1,14 @@
+{
+  "Patients": {
+    "directory": "./",
+    "output_type": "csv",
+    "filename": "patients.csv"
+  },
+  "Physical Exams": {
+    "directory": "./",
+    "filename": "physical_exam.csv",
+    "output_type": "csv",
+    "db_file": "db_file",
+    "db_tablename": "table 2A"
+  }
+}

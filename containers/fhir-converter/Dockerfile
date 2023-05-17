@@ -20,7 +20,7 @@ COPY --from=build /build/FHIR-Converter/data/Templates /build/FHIR-Converter/dat
 
 # Install python/pip
 ENV PYTHONUNBUFFERED=1
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get install -y python3 python3-pip git
 RUN pip3 install --no-cache --upgrade pip setuptools
 
 # Install requirements
@@ -28,7 +28,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
-COPY main.py .
+# Copy FastAPI app
+COPY app/main.py .
+
+# Copy eCR templates
+COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
 
 EXPOSE 8080
-CMD uvicorn main:api --host 0.0.0.0 --port 8080
+CMD uvicorn main:app --host 0.0.0.0 --port 8080

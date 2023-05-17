@@ -3,14 +3,30 @@ import pathlib
 import pytest
 
 from phdi.fhir.utils import (
+    apply_selection_criteria,
     find_entries_by_resource_type,
     get_field,
     get_one_line_address,
 )
 
 
-def test_find_resource_by_type():
+def test_apply_selection_criteria():
+    with pytest.raises(ValueError) as e:
+        apply_selection_criteria([], "invalid")
+        assert (
+            'is not a valid option. Must be one of "first", "last", or "random"'
+            in str(e.value)
+        )
+    selection_criteria_test_list = ["one", "two", "three"]
+    assert apply_selection_criteria(selection_criteria_test_list, "first") == "one"
+    assert apply_selection_criteria(selection_criteria_test_list, "last") == "three"
+    assert (
+        apply_selection_criteria(selection_criteria_test_list, "random")
+        in selection_criteria_test_list
+    )
 
+
+def test_find_resource_by_type():
     # Empty dictionary case, with no key for entries
     bundle = {}
     found_patients = find_entries_by_resource_type(bundle, "Patient")
@@ -23,7 +39,12 @@ def test_find_resource_by_type():
 
     # Regular use case: entry exists and has resources of given type
     bundle = json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
     )
     found_patients = find_entries_by_resource_type(bundle, "Patient")
     assert len(found_patients) == 1
@@ -32,7 +53,12 @@ def test_find_resource_by_type():
 
 def test_get_field_valid_inputs():
     bundle = json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
     )
     patient = bundle["entry"][1]["resource"]
 
@@ -54,7 +80,12 @@ def test_get_field_valid_inputs():
 
 def test_get_field_invalid_inputs():
     bundle = json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
     )
     patient = bundle["entry"][1]["resource"]
 
@@ -73,7 +104,12 @@ def test_get_field_invalid_inputs():
 
 def test_get_field_indexes():
     bundle = json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "patient_bundle.json")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
     )
     patient = bundle["entry"][1]["resource"]
 

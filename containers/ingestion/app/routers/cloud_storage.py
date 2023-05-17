@@ -1,4 +1,3 @@
-import time
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, Field
 from typing import Literal, Optional
@@ -70,9 +69,9 @@ def write_blob_to_cloud_storage_endpoint(
         storage_account_url=input["storage_account_url"],
     )
 
-    full_file_name = input["file_name"] + str(int(time.time()))
+    full_file_name = input["file_name"]
     cloud_provider_connection.upload_object(
-        message=input,
+        message=input["blob"],
         container_name=input["bucket_name"],
         filename=full_file_name,
     )

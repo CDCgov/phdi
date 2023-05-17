@@ -67,3 +67,5 @@ data/
 
 # VS Code
 /.vscode/settings.json
+
+persistent_storage/

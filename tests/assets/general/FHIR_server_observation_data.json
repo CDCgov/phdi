@@ -1,0 +1,115 @@
+{
+  "resourceType": "Bundle",
+  "id": "06644b6371b61344be86600f2d0f4cd7",
+  "meta": {
+    "lastUpdated": "2022-06-07T14:13:02.511737+00:00"
+  },
+  "entry": [
+    {
+      "fullUrl": "some-url-1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs1",
+        "category": "vital-signs",
+        "value": {
+          "valueCodeableConcept": "BMI",
+          "valueInteger": 26
+        },
+        "hasMember": {
+          "reference": "obs3",
+          "type": "Observation"
+        },
+        "derivedFrom": {
+          "reference": "obs5",
+          "type": "Observation"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "some-url-2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs2",
+        "category": "vital-signs",
+        "value": {
+          "valueCodeableConcept": "BMI",
+          "valueInteger": 34
+        },
+        "hasMember": {
+          "reference": "obs4",
+          "type": "Observation"
+        },
+        "derivedFrom": {
+          "reference": "obs6",
+          "type": "Observation"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "some-url-3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs3",
+        "category": "vital-signs",
+        "value": {
+          "valueCodeableConcept": "Height",
+          "valueInteger": 70
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "some-url-4",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs4",
+        "category": "vital-signs",
+        "value": {
+          "valueCodeableConcept": "Height",
+          "valueInteger": 63
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "some-url-5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs5",
+        "category": "vital-signs",
+        "value": {
+          "valueCodeableConcept": "Weight",
+          "valueInteger": 187
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "some-url-6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs6",
+        "category": "vital-signs",
+        "value": {
+          "valueCodeableConcept": "Weight",
+          "valueInteger": 132
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    }
+  ]
+}

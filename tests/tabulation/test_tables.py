@@ -17,20 +17,41 @@ from phdi.tabulation import (
 from phdi.fhir.tabulation import tabulate_data
 from phdi.tabulation.tables import (
     _convert_list_to_string,
+    _create_pa_schema_from_table_schema,
+    _create_from_arrays_data,
+    _create_parquet_data,
 )
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 
 def test_load_schema():
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "valid_schema.yaml"
     ) == yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "valid_schema.yaml"
+        )
     )
 
     assert load_schema(
-        pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "tabulation"
+        / "valid_schema.json"
     ) == json.load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.json")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "valid_schema.json"
+        )
     )
 
     # Invalid schema file path
@@ -40,22 +61,36 @@ def test_load_schema():
     # Invalid JSON
     with pytest.raises(json.decoder.JSONDecodeError):
         load_schema(
-            pathlib.Path(__file__).parent.parent / "assets" / "invalid_json.json"
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "invalid_json.json"
         )
 
     # Invalid file format
     with pytest.raises(ValueError):
-        load_schema(pathlib.Path(__file__).parent.parent / "assets" / "sample_hl7.hl7")
+        load_schema(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "sample_hl7.hl7"
+        )
 
 
 def test_write_data_csv():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "tabulation_schema.yaml"
+        )
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -103,14 +138,19 @@ def test_write_data_csv():
 @mock.patch("phdi.tabulation.tables.pq.ParquetWriter")
 @mock.patch("phdi.tabulation.tables.pa.Table")
 def test_write_data_parquet(patched_pa_table, patched_writer):
-
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "tabulation_schema.yaml"
+        )
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -124,8 +164,22 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
     file_format = "parquet"
 
     # Batch 1 tests creating a new parquet file and returning a writer
-    pq_writer = write_data(batch_1, file_location, file_format, output_file_name)
-    patched_pa_table.from_arrays.assert_called_with(batch_1[1:], names=batch_1[0])
+    pq_writer = write_data(
+        batch_1,
+        file_location,
+        file_format,
+        output_file_name,
+        schema=schema,
+        table_name="Physical Exams",
+    )
+    assert pq_writer is not None
+
+    pq_schema = _create_pa_schema_from_table_schema(
+        schema, batch_1[0], "Physical Exams"
+    )
+    patched_pa_table.from_arrays.assert_called_with(
+        _create_from_arrays_data(batch_1[1:]), schema=pq_schema
+    )
     table = patched_pa_table.from_arrays(table_to_use[1:], table_to_use[0])
     patched_writer.assert_called_with(file_location + output_file_name, table.schema)
     patched_writer(
@@ -134,9 +188,17 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
 
     # Batch 2 tests appending to existing parquet using previous writer
     write_data(
-        batch_2, file_location, file_format, output_file_name, pq_writer=pq_writer
+        batch_2,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        schema=schema,
+        table_name="Physical Exams",
     )
-    patched_pa_table.from_arrays.assert_called_with(batch_2[1:], names=batch_2[0])
+    patched_pa_table.from_arrays.assert_called_with(
+        _create_from_arrays_data(batch_2[1:]), schema=pq_schema
+    )
     table = patched_pa_table.from_arrays(batch_2[1:], batch_2[0])
     pq_writer.write_table.assert_called_with(table=table)
 
@@ -146,14 +208,270 @@ def test_write_data_parquet(patched_pa_table, patched_writer):
     assert patched_writer.call_count == 2
 
 
-def test_write_data_sql():
+def test_write_data_parquet_with_schema():
     schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "tabulation_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "tabulation_schema.yaml"
+        )
     )
     extracted_data = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "general"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    extracted_data = extracted_data.get("entry", {})
+    table_name = "Patients"
+    table_to_use = tabulate_data(extracted_data, schema, table_name)
+    batch_1 = table_to_use[:2]
+    batch_2 = [table_to_use[0]] + [table_to_use[2]]
+    # Batch 3 has null defined in certain columns, which should be accounted for by the
+    #  schema file
+    batch_3 = [table_to_use[0]] + table_to_use[3:]
+    file_location = "./"
+    output_file_name = "new_parquet.parquet"
+    file_format = "parquet"
+
+    # Batch 1 tests creating a new parquet file and returning a writer
+    pq_writer = write_data(
+        batch_1,
+        file_location,
+        file_format,
+        output_file_name,
+        None,
+        None,
+        None,
+        schema,
+        table_name,
+    )
+    # Batch 2 tests appending to existing parquet using previous writer
+    write_data(
+        batch_2,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        schema=schema,
+        table_name=table_name,
+    )
+
+    # Batch 3 tests appending to existing parquet using previous writer
+    write_data(
+        batch_3,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        schema=schema,
+        table_name=table_name,
+    )
+    pq_writer.close()
+    if os.path.isfile(file_location + output_file_name):  # pragma: no cover
+        patient_id = pa.array(
+            [
+                "907844f6-7c99-eabc-f68e-d92189729a55",
+                "65489-asdf5-6d8w2-zz5g8",
+                "some-uuid",
+            ]
+        )
+        first_name = pa.array(
+            [
+                "Kimberley248",
+                "John",
+                "John ",
+            ]
+        )
+        last_name = pa.array(
+            [
+                "Price929",
+                "Shepard",
+                "None",
+            ]
+        )
+        phone = pa.array(
+            [
+                "555-690-3898",
+                "None",
+                "123-456-7890",
+            ]
+        )
+        bulding_number = pa.array(
+            [
+                float(165),
+                float(1234),
+                float(123),
+            ]
+        )
+
+        names = [
+            "Patient ID",
+            "First Name",
+            "Last Name",
+            "Phone Number",
+            "Building Number",
+        ]
+        table_from_arrays = pa.Table.from_arrays(
+            [patient_id, first_name, last_name, phone, bulding_number], names=names
+        )
+        table_parquet_read = pq.read_table(
+            file_location + output_file_name, columns=names
+        )
+        for i, elm in enumerate(table_parquet_read):
+            for n, el in enumerate(elm):
+                parquet_data = table_parquet_read[i][n]
+                array_data = table_from_arrays[i][n]
+
+                # if the number types are the correct type, convert to strings to
+                #   compare.
+                if isinstance(array_data, pa.DoubleScalar):
+                    array_data = str(array_data)
+                if isinstance(parquet_data, pa.FloatScalar):
+                    parquet_data = str(parquet_data)
+                assert parquet_data == array_data
+
+        os.remove(file_location + output_file_name)
+
+
+def test_write_data_parquet_with_no_schema():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "tabulation_schema.yaml"
+        )
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    extracted_data = extracted_data.get("entry", {})
+    table_name = "Patients"
+    table_to_use = tabulate_data(extracted_data, schema, table_name)
+    batch_1 = table_to_use[:2]
+    batch_2 = [table_to_use[0]] + [table_to_use[2]]
+    batch_3 = [table_to_use[0]] + table_to_use[3:]
+    file_location = "./"
+    output_file_name = "new_parquet.parquet"
+    file_format = "parquet"
+
+    # Batch 1 tests creating a new parquet file and returning a writer
+    pq_writer = write_data(
+        batch_1,
+        file_location,
+        file_format,
+        output_file_name,
+        table_name=table_name,
+    )
+    # Batch 2 tests appending to existing parquet using previous writer
+    write_data(
+        batch_2,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        table_name=table_name,
+    )
+
+    # Batch 3 tests appending to existing parquet using previous writer
+    write_data(
+        batch_3,
+        file_location,
+        file_format,
+        output_file_name,
+        pq_writer=pq_writer,
+        table_name=table_name,
+    )
+    pq_writer.close()
+    if os.path.isfile(file_location + output_file_name):  # pragma: no cover
+        patient_id = pa.array(
+            [
+                "907844f6-7c99-eabc-f68e-d92189729a55",
+                "65489-asdf5-6d8w2-zz5g8",
+                "some-uuid",
+            ]
+        )
+        first_name = pa.array(
+            [
+                "Kimberley248",
+                "John",
+                "John ",
+            ]
+        )
+        last_name = pa.array(
+            [
+                "Price929",
+                "Shepard",
+                "",
+            ]
+        )
+        phone = pa.array(
+            [
+                "555-690-3898",
+                "",
+                "123-456-7890",
+            ]
+        )
+        bulding_number = pa.array(
+            [
+                "165",
+                "1234",
+                "123",
+            ]
+        )
+
+        names = [
+            "Patient ID",
+            "First Name",
+            "Last Name",
+            "Phone Number",
+            "Building Number",
+        ]
+        table_from_arrays = pa.Table.from_arrays(
+            [patient_id, first_name, last_name, phone, bulding_number], names=names
+        )
+        table_parquet_read = pq.read_table(
+            file_location + output_file_name, columns=names
+        )
+        for i, elm in enumerate(table_parquet_read):
+            for n, el in enumerate(elm):
+                parquet_data = table_parquet_read[i][n]
+                array_data = table_from_arrays[i][n]
+
+                # if the number types are the correct type, convert to strings to
+                #   compare.
+                if isinstance(array_data, pa.DoubleScalar):
+                    array_data = str(array_data)
+                if isinstance(parquet_data, pa.FloatScalar):
+                    parquet_data = str(parquet_data)
+                assert parquet_data == array_data
+
+        os.remove(file_location + output_file_name)
+
+
+def test_write_data_sql():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "tabulation_schema.yaml"
+        )
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
             / "FHIR_server_extracted_data.json"
         )
     )
@@ -215,9 +533,13 @@ def test_write_data_sql():
 
 
 def test_validate_schema():
-
     valid_schema = yaml.safe_load(
-        open(pathlib.Path(__file__).parent.parent / "assets" / "valid_schema.yaml")
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "valid_schema.yaml"
+        )
     )
     first_name = valid_schema["tables"]["table 1A"]["columns"]["First Name"]
     patient_id = valid_schema["tables"]["table 1A"]["columns"]["Patient ID"]
@@ -282,3 +604,72 @@ def test_convert_list_to_string():
         + ",array-array-1-2,2,{'foo': 'bar'}"
     )
     assert _convert_list_to_string(array_source) == array_result
+
+
+def test_create_pa_schema_from_table_schema():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "tabulation_schema.yaml"
+        )
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    extracted_data = extracted_data.get("entry", {})
+
+    table_to_use = tabulate_data(extracted_data, schema, "Patients")
+    names = table_to_use[0] + ["test"]
+    schema["tables"]["Patients"]["columns"]["Last Name"]["data_type"] = "boolean"
+    pq_schema = _create_pa_schema_from_table_schema(schema, names, "Patients")
+    assert pq_schema == pa.schema(
+        [
+            ("Patient ID", pa.string()),
+            ("First Name", pa.string()),
+            ("Last Name", pa.bool_()),
+            ("Phone Number", pa.string()),
+            ("Building Number", pa.float32()),
+            ("test", pa.string()),
+        ]
+    )
+
+
+def test_create_from_arrays_data():
+    result = _create_from_arrays_data([["foo", "bar", "baz"], ["biz", "taz", "laz"]])
+    assert result == [["foo", "biz"], ["bar", "taz"], ["baz", "laz"]]
+
+
+def test_create_parquet_data():
+    schema = yaml.safe_load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "tabulation"
+            / "tabulation_schema.yaml"
+        )
+    )
+    extracted_data = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "FHIR_server_extracted_data.json"
+        )
+    )
+    extracted_data = extracted_data.get("entry", {})
+    table_to_use = tabulate_data(extracted_data, schema, "Patients")
+    batch_1 = [table_to_use[0]] + table_to_use[3:]
+
+    pq_schema = _create_pa_schema_from_table_schema(schema, table_to_use[0], "Patients")
+    result = _create_parquet_data(batch_1, pq_schema)
+    assert result == [
+        ["Patient ID", "First Name", "Last Name", "Phone Number", "Building Number"],
+        ["some-uuid", "John ", "None", "123-456-7890", 123.0],
+    ]

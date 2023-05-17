@@ -15,7 +15,6 @@ from phdi.cloud.gcp import GcpCloudStorageConnection, GcpCredentialManager
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
     az_scope = "some-scope"
@@ -39,7 +38,6 @@ def test_azure_credential_manager(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_default_scope(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -65,7 +63,6 @@ def test_azure_credential_manager_default_scope(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_reuse_token(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -98,7 +95,6 @@ def test_azure_credential_manager_reuse_token(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_refresh_token(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -131,7 +127,6 @@ def test_azure_credential_manager_refresh_token(mock_az_creds):
 
 @mock.patch("phdi.cloud.azure.DefaultAzureCredential")
 def test_azure_credential_manager_force_refresh_token(mock_az_creds):
-
     mock_az_creds_instance = mock_az_creds.return_value
     az_resource_location = "https://some-url"
 
@@ -167,10 +162,28 @@ def test_azure_need_new_token_without_token():
     assert cred_manager._need_new_token()
 
 
+@mock.patch("phdi.cloud.azure.SecretClient")
+@mock.patch("phdi.cloud.azure.DefaultAzureCredential")
+def test_azure_credential_manager_get_secret(
+    patched_az_creds, patched_az_secret_client
+):
+    # Set dummy values for key vault name and secret name.
+    key_vault_name = "some-key-vault"
+    secret_name = "some-secret"
+
+    # Mock SecretClient with appropriate return value.
+    secret_object = mock.Mock()
+    secret_object.value = "some-secret-value"
+    secret_client = mock.Mock()
+    secret_client.get_secret.return_value = secret_object
+    patched_az_secret_client.return_value = secret_client
+    cred_manager = AzureCredentialManager()
+    assert cred_manager.get_secret(key_vault_name, secret_name) == secret_object.value
+
+
 @mock.patch("phdi.cloud.gcp.google.auth.transport.requests.Request")
 @mock.patch("phdi.cloud.gcp.google.auth.default")
 def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
-
     # Set dummy project ID, access token, and scope values.
     project_id = "some-project"
     token = "some-token"
@@ -201,7 +214,6 @@ def test_gcp_credential_manager(mock_gcp_creds, mock_gcp_requests):
 @mock.patch("phdi.cloud.gcp.google.auth.transport.requests.Request")
 @mock.patch("phdi.cloud.gcp.google.auth.default")
 def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_requests):
-
     # Set dummy project ID, access token, and scope values.
     project_id = "some-project"
     token = "some-token"
@@ -230,7 +242,6 @@ def test_gcp_credential_manager_handle_expired_token(mock_gcp_creds, mock_gcp_re
 def test_gcp_credential_manager_handle_expired_credentials(
     mock_gcp_creds,
 ):
-
     # Set dummy project ID, access token, and scope values.
     project_id = "some-project"
     token = "some-token"
@@ -348,7 +359,8 @@ def test_azure_download_object_cp1252(mock_get_client):
     object_path = "output/path/some-bundle-type/some-filename-1.fhir"
 
     with open(
-        pathlib.Path(__file__).parent.parent / "assets" / "cp1252-sample.txt", "rb"
+        pathlib.Path(__file__).parent.parent / "assets" / "cloud" / "cp1252-sample.txt",
+        "rb",
     ) as cp1252file:
         object_content = cp1252file.read()
 
@@ -439,6 +451,34 @@ def test_azure_list_objects(mock_get_client):
     mock_client.list_blobs.assert_called_with(name_starts_with=object_prefix)
 
     assert blob_list == ["blob1", "blob2"]
+
+
+@mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
+def test_azure_blob_exists(mock_get_client):
+    mocked_blob_client = mock.Mock()
+    mocked_blob_client.exists.return_value = True
+
+    mocked_container_client = mock.Mock()
+    mocked_container_client.get_blob_client.return_value = mocked_blob_client
+
+    mock_get_client.return_value = mocked_container_client
+
+    object_storage_account = "some-resource-location"
+    object_container = "some-container-name"
+    filename = "some-file-name"
+
+    mock_cred_manager = mock.Mock()
+
+    phdi_container_client = AzureCloudContainerConnection(
+        object_storage_account, mock_cred_manager
+    )
+
+    exists = phdi_container_client.blob_exists(object_container, filename)
+
+    mock_get_client.assert_called_with(f"{object_storage_account}/{object_container}")
+    mocked_container_client.get_blob_client.assert_called_with(filename)
+    mocked_blob_client.exists.assert_called()
+    assert exists is True
 
 
 def test_gcp_storage_connect_init():

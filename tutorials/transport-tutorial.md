@@ -44,7 +44,7 @@ print(f"The response received is: {response.json()}")
 
 
 ### FHIR Bundle Uploads
-When converting source data from HL7, CCDA or some other format to FHIR using the `phdi.fhir.conversion` module, the resulting FHIR resources are wrapped
+When converting source data from HL7, CCDA, or some other format to FHIR using the `phdi.fhir.conversion` module, the resulting FHIR resources are wrapped
 in a bundle that can be directly submitted to the FHIR server using the `upload_bundle_to_fhir_server` function.
 
 ```python
@@ -76,7 +76,7 @@ print(f"The response received is: {response.json()}")
 ```
 
 ### FHIR Bulk Exports
-[FHIR's bulk export](http://hl7.org/fhir/uv/bulkdata/export/index.html) specification provides an efficient way to excute long-running export operations. A few functions are available to support FHIR bulk exports, described below.
+[FHIR's bulk export](http://hl7.org/fhir/uv/bulkdata/export/index.html) specification provides an efficient way to execute long-running export operations. A few functions are available to support FHIR bulk exports, described below.
 
 You can synchronously execute a full FHIR export using the `phdi.fhir.transport` module. An example script appears below.
 

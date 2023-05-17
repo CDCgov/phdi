@@ -1,6 +1,6 @@
 import hl7
 import pathlib
-
+import pytest
 from phdi.harmonization import (
     convert_hl7_batch_messages_to_list,
     default_hl7_value,
@@ -12,18 +12,17 @@ from phdi.harmonization import (
     standardize_hl7_datetimes,
     standardize_name,
     standardize_phone,
+    standardize_birth_date,
 )
 
 from phdi.harmonization.utils import compare_strings
 
 
 def test_double_metaphone_string():
-
     # Two test conditions: one in which dmeta is created within each
     # function call, and another where it's initiated outside the call
     # and passed in repeatedly to simulate bulk processing
     for dmeta in [None, DoubleMetaphone()]:
-
         # Test 1: phonetically similar names (i.e. names that sound
         # the same) should map to the same encoding
         assert double_metaphone_string("John", dmeta) == double_metaphone_string(
@@ -79,14 +78,19 @@ def test_standardize_hl7_datetimes():
     message_long_date = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
+        / "harmonization"
         / "FileSingleMessageLongDate.hl7"
     ).read()
     massage_timezone = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageLongTZ.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageLongTZ.hl7"
     ).read()
     massage_invalid_segments = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
+        / "harmonization"
         / "FileSingleMessageInvalidSegments.hl7"
     ).read()
 
@@ -130,6 +134,7 @@ def test_normalize_hl7_datetime_segment():
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
+            / "harmonization"
             / "FileSingleMessageLongDate.hl7"
         )
         .read()
@@ -172,23 +177,36 @@ def test_normalize_hl7_datetime():
 
 def test_default_hl7_value():
     message_default_empty_field = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
 
     message_default_missing_field = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
 
     message_default_populated_field = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
     message_default_invalid_field = open(
         pathlib.Path(__file__).parent.parent
         / "assets"
+        / "harmonization"
         / "FileSingleMessageInvalidSegments.hl7"
     ).read()
     message_default_invalid_segment = open(
-        pathlib.Path(__file__).parent.parent / "assets" / "FileSingleMessageSimple.hl7"
+        pathlib.Path(__file__).parent.parent
+        / "assets"
+        / "harmonization"
+        / "FileSingleMessageSimple.hl7"
     ).read()
 
     message_default_empty_field = default_hl7_value(
@@ -404,3 +422,68 @@ def test_compare_strings():
         )
         == 0.0
     )
+
+
+def test_standardize_birth_date_success():
+    # Working examples of "real" birth dates
+    assert standardize_birth_date("1977-11-21") == "1977-11-21"
+    assert standardize_birth_date("1980-01-31") == "1980-01-31"
+
+    # Now supply format information
+    assert standardize_birth_date("1977/11/21", "%Y/%m/%d") == "1977-11-21"
+    assert standardize_birth_date("1980/01/31", "%Y/%m/%d") == "1980-01-31"
+    assert standardize_birth_date("01/1980/31", "%m/%Y/%d") == "1980-01-31"
+    assert standardize_birth_date("11-1977-21", "%m-%Y-%d") == "1977-11-21"
+
+
+def test_standardize_birth_date_missing_dob():
+    # Make sure we catch edge cases and bad inputs
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("", None)
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("", "")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date(None)
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("     ")
+        assert "Date of Birth must be supplied!" in str(e.value)
+        assert standardize_dob_response is None
+
+
+def test_standardize_birth_date_invalid_format():
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("blah")
+        assert "Invalid date supplied: blah" in str(e.value)
+        assert standardize_dob_response is None
+
+    # format doesn't match date passed in
+    assert standardize_birth_date("11-1977-21", "%m/%Y/%d") == "1977-11-21"
+
+
+def test_standardize_birth_date_invalid_dob():
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("blah-ha-no")
+        assert "Invalid birth date supplied: blah-ha-no" in str(e.value)
+        assert standardize_dob_response is None
+
+    # just an invalid date
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("1980-02-30")
+        assert "Invalid birth date supplied: 1980-02-30" in str(e.value)
+        assert standardize_dob_response is None
+
+    # future date
+    with pytest.raises(ValueError) as e:
+        standardize_dob_response = standardize_birth_date("3030-02-01")
+        assert "Invalid birth date supplied: 3030-02-01" in str(e.value)
+        assert standardize_dob_response is None

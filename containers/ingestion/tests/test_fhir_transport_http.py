@@ -247,7 +247,6 @@ def test_upload_bundle_to_fhir_server_partial_success(
 
 @mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
 def test_upload_bundle_to_fhir_missing_bundle(patched_bundle_upload):
-
     test_request = {}
 
     actual_response = client.post(

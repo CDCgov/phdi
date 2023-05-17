@@ -1,0 +1,41 @@
+{
+  "algorithm": [
+    {
+      "funcs": {
+        "1": "feature_match_fuzzy_string",
+        "3": "feature_match_fuzzy_string",
+        "4": "feature_match_fuzzy_string"
+      },
+      "blocks": [
+        {
+          "value": "mrn",
+          "transformation": "last4"
+        },
+        {
+          "value": "address",
+          "transformation": "first4"
+        }
+      ],
+      "matching_rule": "eval_perfect_match",
+      "cluster_ratio": 0.9
+    },
+    {
+      "funcs": {
+        "0": "feature_match_fuzzy_string",
+        "2": "feature_match_fuzzy_string"
+      },
+      "blocks": [
+        {
+          "value": "first_name",
+          "transformation": "first4"
+        },
+        {
+          "value": "last_name",
+          "transformation": "first4"
+        }
+      ],
+      "matching_rule": "eval_perfect_match",
+      "cluster_ratio": 0.9
+    }
+  ]
+}

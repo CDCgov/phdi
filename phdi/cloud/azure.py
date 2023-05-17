@@ -2,6 +2,7 @@ import json
 
 from phdi.cloud.core import BaseCredentialManager, BaseCloudStorageConnection
 from azure.core.credentials import AccessToken
+from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
@@ -25,7 +26,7 @@ class AzureCredentialManager(BaseCredentialManager):
     def access_token(self) -> AccessToken:
         return self.__access_token
 
-    def __init__(self, resource_location: str, scope: str = None):
+    def __init__(self, resource_location: str = None, scope: str = None):
         """
         Creates a new AzureCredentialManager object.
 
@@ -78,6 +79,23 @@ class AzureCredentialManager(BaseCredentialManager):
         except AttributeError:
             # access_token not set
             return True
+
+    def get_secret(self, secret_name: str, key_vault_name: str) -> str:
+        """
+        Get the value of a secret from an Azure key vault given the names of the vault
+        and the secret.
+
+        :param secret_name: The name of the secret whose value should be retrieved from
+            the key vault.
+        :param key_vault_name: The name of the key vault where the secret is stored.
+        :return: The value of the secret specified by secret_name.
+        """
+
+        vault_url = f"https://{key_vault_name}.vault.azure.net"
+        secret_client = SecretClient(
+            vault_url=vault_url, credential=self.get_credential_object()
+        )
+        return secret_client.get_secret(secret_name).value
 
 
 class AzureCloudContainerConnection(BaseCloudStorageConnection):
@@ -201,3 +219,20 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
             blob_name_list.append(blob_propreties.name)
 
         return blob_name_list
+
+    def blob_exists(self, container_name: str, filename: str) -> bool:
+        """
+        Check if a blob exists within a container given its name and the name of the
+        container.
+
+        :param container_name: The name of the container to look for the blob in.
+        :param filename: The name of the blob to check the existence of.
+        :param prefix: Filter the objects returned to filenames beginning
+          with this value.
+        :return: A boolean of true if the file exists and false if it does not.
+        """
+
+        container_location = f"{self.storage_account_url}/{container_name}"
+        container_client = self._get_container_client(container_location)
+        blob_client = container_client.get_blob_client(filename)
+        return blob_client.exists()

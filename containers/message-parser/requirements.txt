@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+phdi @ git+https://github.com/CDCgov/phdi.git@main
+httpx
+pytest
+frozendict
