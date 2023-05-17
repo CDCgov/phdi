@@ -13,10 +13,10 @@
         "status":"{{ diagnosticReport.statusCode.code | get_property: 'ValueSet/DiagnosticReportStatus' }}",
         "code":
         {
-            {% if diagReport.code.translation -%}
+            {% if diagnosticReport.code.translation -%}
             {% include 'DataType/CodeableConcept' CodeableConcept: diagnosticReport.code.translation -%}
             {% endif -%}
-            {% if diagReport.code.translation == null -%}
+            {% if diagnosticReport.code.translation == null and diagnosticReport.code -%}
             {% include 'DataType/CodeableConcept' CodeableConcept: diagnosticReport.code -%}
             {% endif -%}
         },
