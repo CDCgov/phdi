@@ -28,8 +28,8 @@ To run the record linkage service with Docker follow these steps.
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
 ``` 
-2. Download a copy of the Docker image from the DIBBs repository by running `docker pull ghcr.io/cdcgov/phdi/record-linkage:main`.
-3. Run the service with ` docker run -p 8080:8080 record-linkage:main`.
+2. Download a copy of the Docker image from the DIBBs repository by running `docker pull ghcr.io/cdcgov/phdi/record-linkage:latest`.
+3. Run the service with ` docker run -p 8080:8080 record-linkage:latest`.
 
 Congratulations, the record linkage service should now be running on `localhost:8080`!
 
