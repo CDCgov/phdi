@@ -135,7 +135,7 @@ def test_validate_elr():
     assert validate_elr_msg("my elr contents", test_error_types) == {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually preformed. This endpoint only has "
+            "details": "No validation was actually performed. This endpoint only has "
             "stubbed functionality"
         },
     }
@@ -146,7 +146,7 @@ def test_validate_vxu():
     assert result == {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually preformed. This endpoint only has "
+            "details": "No validation was actually performed. This endpoint only has "
             "stubbed functionality"
         },
     }
