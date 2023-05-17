@@ -2,15 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /code
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y git
-
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
-
-RUN apt-get remove -y git && \
-    apt-get autoremove -y
 
 COPY ./app /code/app
 COPY ./assets /code/assets
