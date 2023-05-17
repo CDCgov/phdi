@@ -13,6 +13,7 @@ RUN apt-get remove -y git && \
     apt-get autoremove -y
 
 COPY ./app /code/app
+COPY ./assets /code/assets
 COPY ./description.md /code/description.md
 
 EXPOSE 8080
