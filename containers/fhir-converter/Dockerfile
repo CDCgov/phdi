@@ -30,6 +30,7 @@ RUN pip3 install -r requirements.txt
 
 # Copy FastAPI app
 COPY app/main.py .
+COPY assets /assets
 
 # Copy eCR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
