@@ -603,6 +603,10 @@ def link_record_against_mpi(
                     continue
                 if idx_to_col[j - 2] != "first_name" and idx_to_col[j - 2] != "address":
                     while type(blocked_record[j]) == list:
+                        # Handle empty list edge case.
+                        if len(blocked_record[j]) == 0:
+                            blocked_record[j] = ""
+                            break
                         blocked_record[j] = blocked_record[j][0]
 
         clusters = _group_patient_block_by_person(data_block)
