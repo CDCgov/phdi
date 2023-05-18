@@ -37,9 +37,10 @@ class BaseMPIConnectorClient(ABC):
     def insert_match_patient() -> None:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
-        the patient table and updates the person table to link to the new patient; else
-        inserts a new patient into the patient table and inserts a new person into the
-        person table with a new personID, linking the new personID to the new patient.
+        the patient table, including the matched person id, to link the new patient
+        and matched person ID; else inserts a new patient into the patient table and
+        inserts a new person into the person table with a new person ID, linking the
+        new person ID to the new patient.
 
         """
         pass  # pragma: no cover
@@ -50,5 +51,21 @@ class BaseMPIConnectorClient(ABC):
         Generates a query for selecting a block of data from the patient table per the
         block_vals parameters. Accepted blocking fields include: first_name, last_name,
         birthdate, addess, city, state, zip, mrn, and sex.
+        """
+        pass  # pragma: no cover
+
+    @abstractmethod
+    def _insert_person() -> None:
+        """
+        If person id is not supplied and external person id is not supplied
+        then insert a new person record with an auto-generated person id (UUID)
+        with a Null external person id and return that new person id. If the
+        person id is not supplied but an external person id is supplied try
+        to find an existing person record with the external person id and
+        return that person id; otherwise add a new person record with an
+        auto-generated person id (UUID) with the supplied external person id
+        and return the new person id.  If person id and external person id are
+        both supplied then update the person records external person id if it
+        is Null and return the person id.
         """
         pass  # pragma: no cover
