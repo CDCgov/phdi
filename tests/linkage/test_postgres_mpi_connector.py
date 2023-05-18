@@ -507,7 +507,8 @@ def test_insert_person():
     )
 
     postgres_client.cursor.execute(
-        f"SELECT * from {postgres_client.person_table} WHERE person_id = {new_person_id}"
+        f"SELECT * from {postgres_client.person_table} "
+        "WHERE person_id = {new_person_id}"
     )
     postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
@@ -526,7 +527,8 @@ def test_insert_person():
     )
 
     postgres_client.cursor.execute(
-        f"SELECT * from {postgres_client.person_table} WHERE external_person_id = {new_external_person_id}"
+        f"SELECT * from {postgres_client.person_table} "
+        "WHERE external_person_id = {new_external_person_id}"
     )
     postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
