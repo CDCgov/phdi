@@ -146,7 +146,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                     # or query to get an existing person record
                     # then use the returned person_id to link
                     #  to the newly create patient
-                    person_id = self._insert_person(
+                    matched, person_id = self._insert_person(
                         db_cursor=db_cursor,
                         person_id=person_id,
                         external_person_id=external_person_id,
@@ -274,7 +274,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         db_cursor: Union[cursor, None] = None,
         person_id: str = None,
         external_person_id: str = None,
-    ) -> Union[None, str]:
+    ) -> tuple:
         """
         If person id is not supplied and external person id is not supplied
         then insert a new person record with an auto-generated person id (UUID)
@@ -291,13 +291,14 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
           or updated, defaults to None.
         :param external_person_id: The external person id for the person record
           to be inserted or updated, defaults to None.
-        :return: The person id either supplied or auto-generated
+        :return: A tuple of two values; the person id either supplied or
+          auto-generated and a boolean that indicates if there was a match
+          found within the person table or not based upon the external person id
         """
-
+        matched = False
         try:
             if external_person_id is None:
                 external_person_id = "'NULL'"
-                found_person_id = None
             else:
                 # if external person id is supplied then find if there is already
                 #  a person with that external person id already within the MPI
@@ -311,7 +312,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 found_person_id = db_cursor.fetchall()[0][0]
 
                 if found_person_id and found_person_id is not None:
-                    return found_person_id
+                    matched = True
+                    return matched, found_person_id
 
             if person_id is None:
                 # Insert a new record into person table to generate new
@@ -330,7 +332,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             # otherwise if person id is supplied and the external person id is supplied
             # and not none and a record with the external person id was not found
             #  then update the person record with the supplied external person id
-            elif found_person_id is not None:
+            elif external_person_id != "'NULL'":
+                matched = True
                 update_person_query = SQL(
                     "UPDATE {person_table} SET external_person_id = %s "
                     "WHERE external_person_id = 'NULL'"
@@ -340,4 +343,4 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
-        return person_id
+        return matched, person_id
