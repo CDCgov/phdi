@@ -24,16 +24,17 @@ RUN apt-get update && apt-get install -y python3 python3-pip git
 RUN pip3 install --no-cache --upgrade pip setuptools
 
 # Install requirements
-WORKDIR /app
+WORKDIR /code
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # Copy FastAPI app
-COPY app/main.py .
-COPY assets /assets
+COPY app /code/app
+COPY assets /code/assets
+COPY description.md /code/description.md
 
 # Copy eCR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
 
 EXPOSE 8080
-CMD uvicorn main:app --host 0.0.0.0 --port 8080
+CMD uvicorn app.main:app --host 0.0.0.0 --port 8080
