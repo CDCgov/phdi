@@ -498,6 +498,9 @@ def test_insert_person():
     )
 
     # Assert existing person_id from MPI
+    print("HERE")
+    print(actual_result)
+    print(actual_person_id)
     assert actual_result
     assert actual_person_id == expected_person_id
 
