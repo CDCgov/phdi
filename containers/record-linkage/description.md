@@ -18,7 +18,7 @@ Docker version 20.10.21, build baeda1f
 
 2. Navigate to the `containers/record-linkage` folder and start the service by running `docker compose up --build`
 
-Congratulations the FHIR Converter should now be running on `localhost:8080`!
+Congratulations the record-linkage should now be running on `localhost:8080`!
 
 #### Running with Docker
 

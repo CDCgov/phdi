@@ -439,19 +439,6 @@ def test_insert_person():
     postgres_client.connection = postgres_client.get_connection()
     postgres_client.cursor = postgres_client.connection.cursor()
 
-    raw_bundle = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent.parent
-            / "tests"
-            / "assets"
-            / "general"
-            / "patient_bundle.json"
-        )
-    )
-
-    patient_resource = raw_bundle.get("entry")[1].get("resource")
-    patient_resource["id"] = "4d88cd35-5ee7-4419-a847-2818fdfeec50"
-
     # Generate test tables
     # Create test table and insert data
     funcs = {
@@ -489,7 +476,7 @@ def test_insert_person():
             postgres_client.connection.rollback()
 
     # Find the person based upon the external person id
-    external_person_id_test = "4d88cd35-5ee7-4419-a847-2818fdfeec88"
+    external_person_id_test = "4d88cd35-5ee7-4419-a847-2818fdfeec38"
     expected_person_id = "ce02326f-7ecd-47ea-83eb-71e8d7c39131"
 
     # send in null person_id and external_person_id populated and get back a person_id
