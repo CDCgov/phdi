@@ -121,7 +121,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         patient_resource: Dict,
         person_id=None,
         external_person_id=None,
-    ) -> Union[None, str]:
+    ) -> Union[None, tuple]:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
         the patient table, including the matched person id, to link the new patient
@@ -136,6 +136,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
+        matched = False
         db_cursor = None
         db_conn = None
         try:
@@ -176,7 +177,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         finally:
             self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
 
-        return person_id
+        return (matched, person_id)
 
     def _generate_block_query(self, block_vals: dict) -> Tuple[SQL, list[str]]:
         """

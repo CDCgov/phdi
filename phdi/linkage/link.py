@@ -640,8 +640,10 @@ def link_record_against_mpi(
 
     # Didn't match any person in our database
     if len(linkage_scores) == 0:
-        new_person_id = db_client.insert_match_patient(record, person_id=None)
-        return (False, new_person_id)
+        (matched, new_person_id) = db_client.insert_match_patient(
+            record, person_id=None
+        )
+        return (matched, new_person_id)
 
     # Determine strongest match, upsert, then let the caller know
     else:

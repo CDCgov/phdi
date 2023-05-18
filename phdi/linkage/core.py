@@ -55,7 +55,7 @@ class BaseMPIConnectorClient(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def _insert_person() -> None:
+    def _insert_person() -> tuple:
         """
         If person id is not supplied and external person id is not supplied
         then insert a new person record with an auto-generated person id (UUID)
