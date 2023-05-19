@@ -120,36 +120,38 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         self,
         patient_resource: Dict,
         person_id=None,
-    ) -> Union[None, str]:
+        external_person_id=None,
+    ) -> Union[None, tuple]:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
-        the patient table and updates the person table to link to the new patient; else
-        inserts a new patient into the patient table and inserts a new person into the
-        person table with a new personID, linking the new personID to the new patient.
+        the patient table, including the matched person id, to link the new patient
+        and matched person ID; else inserts a new patient into the patient table and
+        inserts a new person into the person table with a new person ID, linking the
+        new person ID to the new patient.
 
         :param patient_resource: A FHIR patient resource.
-        :param person_id: The personID matching the patient record if a match has been
+        :param person_id: The person ID matching the patient record if a match has been
           found in the MPI, defaults to None.
+        :param external_person_id: The external person id for the person that matches
+          the patient record if a match has been found in the MPI, defaults to None.
+        :return: the person id
         """
+        matched = False
         db_cursor = None
         db_conn = None
         try:
             # Use context manager to handle commits and transactions
             with self.get_connection() as db_conn:
                 with db_conn.cursor() as db_cursor:
-                    # Match has not been found
-                    if person_id is None:
-                        # Insert a new record into person table to generate new
-                        # person_id
-                        insert_new_person = SQL(
-                            "INSERT INTO {person_table} (external_person_id) VALUES "
-                            "('NULL') RETURNING person_id;"
-                        ).format(person_table=Identifier(self.person_table))
-
-                        db_cursor.execute(insert_new_person)
-
-                        # Retrieve newly generated person_id
-                        person_id = db_cursor.fetchall()[0][0]
+                    # handle all logic whether to insert, update
+                    # or query to get an existing person record
+                    # then use the returned person_id to link
+                    #  to the newly create patient
+                    matched, person_id = self._insert_person(
+                        db_cursor=db_cursor,
+                        person_id=person_id,
+                        external_person_id=external_person_id,
+                    )
 
                     # Insert into patient table
                     insert_new_patient = SQL(
@@ -175,7 +177,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         finally:
             self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
 
-        return person_id
+        return (matched, person_id)
 
     def _generate_block_query(self, block_vals: dict) -> Tuple[SQL, list[str]]:
         """
@@ -267,3 +269,80 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             db_cursor.close()
         if db_conn is not None:
             db_conn.close()
+
+    def _insert_person(
+        self,
+        db_cursor: Union[cursor, None] = None,
+        person_id: str = None,
+        external_person_id: str = None,
+    ) -> tuple:
+        """
+        If person id is not supplied and external person id is not supplied
+        then insert a new person record with an auto-generated person id (UUID)
+        with a Null external person id and return that new person id. If the
+        person id is not supplied but an external person id is supplied try
+        to find an existing person record with the external person id and
+        return that person id; otherwise add a new person record with an
+        auto-generated person id (UUID) with the supplied external person id
+        and return the new person id.  If person id and external person id are
+        both supplied then update the person records external person id if it
+        is Null and return the person id.
+
+        :param person_id: The person id for the person record to be inserted
+          or updated, defaults to None.
+        :param external_person_id: The external person id for the person record
+          to be inserted or updated, defaults to None.
+        :return: A tuple of two values; the person id either supplied or
+          auto-generated and a boolean that indicates if there was a match
+          found within the person table or not based upon the external person id
+        """
+        matched = False
+        try:
+            if external_person_id is None:
+                external_person_id = "'NULL'"
+            else:
+                # if external person id is supplied then find if there is already
+                #  a person with that external person id already within the MPI
+                #  - if so, return that person id
+                person_query = SQL(
+                    "SELECT person_id FROM {person_table} WHERE external_person_id = %s"
+                ).format(person_table=Identifier(self.person_table))
+                query_data = [external_person_id]
+                db_cursor.execute(person_query, query_data)
+                # Retrieve person_id that has the supplied external_person_id
+                returned_data = db_cursor.fetchall()
+
+                if returned_data is not None and len(returned_data) > 0:
+                    found_person_id = returned_data[0][0]
+                    matched = True
+                    return matched, found_person_id
+
+            if person_id is None:
+                # Insert a new record into person table to generate new
+                # person_id with either the supplied external person id
+                #  or a null external person id
+                insert_new_person = SQL(
+                    "INSERT INTO {person_table} (external_person_id) VALUES "
+                    "(%s) RETURNING person_id;"
+                ).format(person_table=Identifier(self.person_table))
+                person_data = [external_person_id]
+
+                db_cursor.execute(insert_new_person, person_data)
+
+                # Retrieve newly generated person_id
+                person_id = db_cursor.fetchall()[0][0]
+            # otherwise if person id is supplied and the external person id is supplied
+            # and not none and a record with the external person id was not found
+            #  then update the person record with the supplied external person id
+            elif person_id is not None and external_person_id != "'NULL'":
+                matched = True
+                update_person_query = SQL(
+                    "UPDATE {person_table} SET external_person_id = %s "
+                    "WHERE person_id = %s AND external_person_id = 'NULL' "
+                ).format(person_table=Identifier(self.person_table))
+                update_data = [external_person_id, person_id]
+                db_cursor.execute(update_person_query, update_data)
+
+        except Exception as error:  # pragma: no cover
+            raise ValueError(f"{error}")
+        return matched, person_id

@@ -91,6 +91,11 @@ class LinkRecordInput(BaseModel):
         "algorithm.",
         default={},
     )
+    external_person_id: Optional[str] = Field(
+        description="The External Identifier, provided by the client,"
+        " for a unique patient/person that is linked to patient(s)",
+        default=None,
+    )
 
 
 class LinkRecordResponse(BaseModel):
@@ -158,6 +163,9 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
 
     input = dict(input)
     input_bundle = input.get("bundle", {})
+    # TODO: Once the code that includes the external_person_id in
+    # the sdk is merged, then bring back the external_id code here
+    # external_id = input.get("external_person_id", None)
 
     # Check that DB type is appropriately set up as Postgres so
     # we can fail fast if it's not
@@ -195,10 +203,12 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
 
     # Initialize a DB connection for use with the MPI
     # Then, link away
+    # TODO: Once the code that includes the external_person_id in
+    # the sdk is merged, then bring back the external_id code here
     try:
         db_client = connect_to_mpi_with_env_vars()
         (found_match, new_person_id) = link_record_against_mpi(
-            record_to_link, algo_config, db_client
+            record_to_link, algo_config, db_client  # , external_id
         )
         updated_bundle = add_person_resource(
             new_person_id, record_to_link.get("id", ""), input_bundle
