@@ -495,10 +495,9 @@ def test_insert_person():
     actual_result, new_person_id = postgres_client._insert_person(
         postgres_client.cursor, None, None
     )
-
+    query_data = [new_person_id]
     postgres_client.cursor.execute(
-        f"SELECT * from {postgres_client.person_table} "
-        "WHERE person_id = {new_person_id}"
+        f"SELECT * from {postgres_client.person_table} " "WHERE person_id = %s", data
     )
     postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
@@ -516,15 +515,19 @@ def test_insert_person():
         postgres_client.cursor, valid_person_id, new_external_person_id
     )
 
+    query_data = [valid_person_id]
+
     postgres_client.cursor.execute(
-        f"SELECT * from {postgres_client.person_table} "
-        "WHERE external_person_id = {new_external_person_id}"
+        f"SELECT external_person_id from {postgres_client.person_table} "
+        "WHERE person_id = %s",
+        query_data,
     )
     postgres_client.connection.commit()
-    data = postgres_client.cursor.fetchall()
+    data = postgres_client.cursor.fetchall()[0][0]
 
     # Assert record was updated in table
     assert len(data) == 1
+    assert data == new_external_person_id
 
     # Clean up
     postgres_client.connection = postgres_client.get_connection()
