@@ -204,7 +204,7 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
     try:
         db_client = connect_to_mpi_with_env_vars()
         (found_match, new_person_id) = link_record_against_mpi(
-            record_to_link, algo_config, db_client, external_person_id=external_id
+            record_to_link, algo_config, db_client, external_id
         )
         updated_bundle = add_person_resource(
             new_person_id, record_to_link.get("id", ""), input_bundle
