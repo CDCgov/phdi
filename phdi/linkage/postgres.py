@@ -342,9 +342,9 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 matched = True
                 update_person_query = SQL(
                     "UPDATE {person_table} SET external_person_id = %s "
-                    "WHERE external_person_id = 'NULL'"
+                    "WHERE person_id = %s AND external_person_id = 'NULL'"
                 ).format(person_table=Identifier(self.person_table))
-                update_data = [external_person_id]
+                update_data = [external_person_id, person_id]
                 db_cursor.execute(update_person_query, update_data)
 
         except Exception as error:  # pragma: no cover
