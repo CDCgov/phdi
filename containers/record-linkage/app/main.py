@@ -201,8 +201,6 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
 
     # Initialize a DB connection for use with the MPI
     # Then, link away
-    # TODO: Once the code that includes the external_person_id in
-    # the sdk is merged, then bring back the external_id code here
     try:
         db_client = connect_to_mpi_with_env_vars()
         (found_match, new_person_id) = link_record_against_mpi(
