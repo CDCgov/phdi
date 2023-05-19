@@ -17,7 +17,7 @@
             {% if codeTranslations.first -%}
                 {% include 'DataType/CodeableConcept' CodeableConcept: codeTranslations.first -%}
             {% endif -%}
-            {% if diagnosticReport.code.translation == null and diagnosticReport.code and not diagnosticReport.code.nullFlavor -%}
+            {% if diagnosticReport.code.translation == null and diagnosticReport.code -%}
                 {% include 'DataType/CodeableConcept' CodeableConcept: diagnosticReport.code -%}
             {% endif -%}
         },
