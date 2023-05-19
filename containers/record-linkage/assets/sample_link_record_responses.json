@@ -1,0 +1,115 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "found_match": {
+          "summary": "Matches an existing Patient",
+          "value": {
+            "found_match": true,
+            "updated_bundle": {
+              "resourceType": "Bundle",
+              "entry": [
+                {
+                  "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                      {
+                        "family": "DOE",
+                        "given": [
+                          "JANE"
+                        ]
+                      }
+                    ],
+                    "address": [
+                      {
+                        "line": [
+                          "1600 Pennsylvania Av NW"
+                        ],
+                        "city": "Washington",
+                        "state": "DC",
+                        "postalCode": "",
+                        "country": "USA"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "fullUrl": "urn:uuid:{person_id}",
+                  "resource": {
+                    "resourceType": "Person",
+                    "id": "{person_id}",
+                    "link": [
+                      {
+                        "target": {
+                          "reference": "Patient/{patient_id}"
+                        }
+                      }
+                    ]
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "url": "Person/{person_id}"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "did_not_find_match": {
+          "summary": "Does not match an existing Patient",
+          "value": {
+            "found_match": false,
+            "updated_bundle": {
+              "resourceType": "Bundle",
+              "entry": [
+                {
+                  "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                      {
+                        "family": "DOE",
+                        "given": [
+                          "JOHN"
+                        ]
+                      }
+                    ],
+                    "address": [
+                      {
+                        "line": [
+                          "1600 Pennsylvania Av NW"
+                        ],
+                        "city": "Washington",
+                        "state": "DC",
+                        "postalCode": "",
+                        "country": "USA"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "fullUrl": "urn:uuid:{person_id}",
+                  "resource": {
+                    "resourceType": "Person",
+                    "id": "{person_id}",
+                    "link": [
+                      {
+                        "target": {
+                          "reference": "Patient/{patient_id}"
+                        }
+                      }
+                    ]
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "url": "Person/{person_id}"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

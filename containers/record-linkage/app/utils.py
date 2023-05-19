@@ -1,3 +1,5 @@
+import json
+import pathlib
 from app.config import get_settings
 from phdi.linkage import DIBBsConnectorClient
 
@@ -29,3 +31,7 @@ def load_mpi_env_vars_os():
     password = get_settings().get("mpi_password")
     host = get_settings().get("mpi_host")
     return dbname, user, password, host
+
+
+def read_json_from_assets(filename: str):
+    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
