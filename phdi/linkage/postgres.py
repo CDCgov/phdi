@@ -310,7 +310,10 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 query_data = [external_person_id]
                 db_cursor.execute(person_query, query_data)
                 # Retrieve person_id that has the supplied external_person_id
-                found_person_id = db_cursor.fetchall()[0][0]
+                returned_data = db_cursor.fetchall()
+
+                if returned_data is not None and len(returned_data) > 0:
+                    found_person_id = returned_data[0][0]
 
                 if found_person_id and found_person_id is not None:
                     matched = True
