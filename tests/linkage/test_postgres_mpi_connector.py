@@ -510,7 +510,7 @@ def test_insert_person():
     # should update the person record with the new external person id
     valid_person_id = "cb9dc379-38a9-4ed6-b3a7-a8a3db0e9e6c"
     new_external_person_id = "bbbbbbbb-38a9-4ed6-b3a7-a8a3db0e9e6c"
-    postgres_client._insert_person(
+    update_matched, update_person_id = postgres_client._insert_person(
         postgres_client.cursor, valid_person_id, new_external_person_id
     )
 
@@ -525,6 +525,8 @@ def test_insert_person():
     data = postgres_client.cursor.fetchall()[0][0]
 
     # Assert record was updated in table
+    assert update_matched
+    assert update_person_id == valid_person_id
     assert data == new_external_person_id
 
     # Clean up
