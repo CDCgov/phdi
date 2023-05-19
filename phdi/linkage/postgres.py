@@ -338,7 +338,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             # otherwise if person id is supplied and the external person id is supplied
             # and not none and a record with the external person id was not found
             #  then update the person record with the supplied external person id
-            elif external_person_id != "'NULL'":
+            elif person_id is not None and external_person_id != "'NULL'":
                 matched = True
                 update_person_query = SQL(
                     "UPDATE {person_table} SET external_person_id = %s "
