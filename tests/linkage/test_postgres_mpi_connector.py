@@ -509,7 +509,7 @@ def test_insert_person():
     # for a person record where the external person id is null
     # should update the person record with the new external person id
     valid_person_id = "cb9dc379-38a9-4ed6-b3a7-a8a3db0e9e6c"
-    new_external_person_id = "'bbbbbbbb-38a9-4ed6-b3a7-a8a3db0e9e6c'"
+    new_external_person_id = "bbbbbbbb-38a9-4ed6-b3a7-a8a3db0e9e6c"
     postgres_client._insert_person(
         postgres_client.cursor, valid_person_id, new_external_person_id
     )
