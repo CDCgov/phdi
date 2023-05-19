@@ -318,7 +318,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 if returned_data is not None and len(returned_data) > 0:
                     found_person_id = returned_data[0][0]
                     matched = True
-                return matched, found_person_id
+                    return matched, found_person_id
 
             if person_id is None:
                 # Insert a new record into person table to generate new
