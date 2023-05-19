@@ -297,6 +297,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
           found within the person table or not based upon the external person id
         """
         matched = False
+        found_person_id = None
         try:
             if external_person_id is None:
                 external_person_id = "'NULL'"
@@ -314,12 +315,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
                 if returned_data is not None and len(returned_data) > 0:
                     found_person_id = returned_data[0][0]
-                else:
-                    found_person_id = None
-
-                if found_person_id is not None:
                     matched = True
-                    return matched, found_person_id
+                return matched, found_person_id
 
             if person_id is None:
                 # Insert a new record into person table to generate new
