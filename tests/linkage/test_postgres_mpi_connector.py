@@ -497,7 +497,8 @@ def test_insert_person():
     )
     query_data = [new_person_id]
     postgres_client.cursor.execute(
-        f"SELECT * from {postgres_client.person_table} " "WHERE person_id = %s", data
+        f"SELECT * from {postgres_client.person_table} " "WHERE person_id = %s",
+        query_data,
     )
     postgres_client.connection.commit()
     data = postgres_client.cursor.fetchall()
