@@ -527,7 +527,6 @@ def test_insert_person():
     data = postgres_client.cursor.fetchall()[0][0]
 
     # Assert record was updated in table
-    assert len(data) == 1
     assert data == new_external_person_id
 
     # Clean up
