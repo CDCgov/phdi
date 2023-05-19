@@ -91,7 +91,7 @@ class LinkRecordInput(BaseModel):
         "algorithm.",
         default={},
     )
-    external_person_id: str = Field(
+    external_person_id: Optional[str] = Field(
         description="The External Identifier, provided by the client,"
         " for a unique patient/person that is linked to patient(s)",
         default=None,
@@ -163,7 +163,7 @@ async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordR
 
     input = dict(input)
     input_bundle = input.get("bundle", {})
-    external_id = input.get("external_person_id")
+    external_id = input.get("external_person_id", None)
 
     # Check that DB type is appropriately set up as Postgres so
     # we can fail fast if it's not
