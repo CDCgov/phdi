@@ -314,8 +314,10 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
 
                 if returned_data is not None and len(returned_data) > 0:
                     found_person_id = returned_data[0][0]
+                else:
+                    found_person_id = None
 
-                if found_person_id and found_person_id is not None:
+                if found_person_id is not None:
                     matched = True
                     return matched, found_person_id
 
