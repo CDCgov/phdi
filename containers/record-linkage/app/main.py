@@ -1,5 +1,6 @@
 from app.config import get_settings
-from fastapi import Response, status
+from typing import Annotated
+from fastapi import Response, status, Body
 from pathlib import Path
 from phdi.containers.base_service import BaseService
 from phdi.linkage import (
@@ -10,7 +11,11 @@ from phdi.linkage import (
 from pydantic import BaseModel, Field
 from psycopg2 import OperationalError, errors
 from typing import Optional
-from app.utils import connect_to_mpi_with_env_vars, load_mpi_env_vars_os
+from app.utils import (
+    connect_to_mpi_with_env_vars,
+    load_mpi_env_vars_os,
+    read_json_from_assets,
+)
 import psycopg2
 import sys
 
@@ -148,17 +153,24 @@ async def health_check() -> HealthCheckResponse:
     return {"status": "OK", "mpi_connection_status": "OK"}
 
 
-@app.post("/link-record", status_code=200)
-async def link_record(input: LinkRecordInput, response: Response) -> LinkRecordResponse:
+# Sample requests and responses for docs
+sample_link_record_requests = read_json_from_assets("sample_link_record_requests.json")
+sample_link_record_responses = read_json_from_assets(
+    "sample_link_record_responses.json"
+)
+
+
+@app.post(
+    "/link-record", status_code=200, responses={200: sample_link_record_responses}
+)
+async def link_record(
+    input: Annotated[LinkRecordInput, Body(examples=sample_link_record_requests)],
+    response: Response,
+) -> LinkRecordResponse:
     """
     Compare a FHIR bundle with records in the Master Patient Index (MPI) to
     check for matches with existing patient records If matches are found,
     returns the bundle with updated references to existing patients.
-
-    :param input: A JSON formatted request body with schema specified by the
-        LinkRecordInput model.
-    :return: A JSON formatted response body with schema specified by the
-        LinkRecordResponse model.
     """
 
     input = dict(input)
