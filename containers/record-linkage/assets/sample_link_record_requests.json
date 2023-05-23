@@ -1,0 +1,72 @@
+{
+  "found_match": {
+    "summary": "Matches an existing Patient",
+    "description": "Matches an existing Patient",
+    "value": {
+      "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Patient",
+              "name": [
+                {
+                  "family": "DOE",
+                  "given": [
+                    "JANE"
+                  ]
+                }
+              ],
+              "address": [
+                {
+                  "line": [
+                    "1600 Pennsylvania Av NW"
+                  ],
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": "",
+                  "country": "USA"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "did_not_find_match": {
+    "summary": "Does not match an existing Patient",
+    "description": "Does not match an existing Patient",
+    "value": {
+      "bundle": {
+        "resourceType": "Bundle",
+        "entry": [
+          {
+            "resource": {
+              "resourceType": "Patient",
+              "name": [
+                {
+                  "family": "DOE",
+                  "given": [
+                    "JOHN"
+                  ]
+                }
+              ],
+              "address": [
+                {
+                  "line": [
+                    "1600 Pennsylvania Av NW"
+                  ],
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": "",
+                  "country": "USA"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
