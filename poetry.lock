@@ -2064,7 +2064,7 @@ files = [
 ]
 
 [package.dependencies]
-typing-extensions = ">=4.2.0"
+typing-extensions = "=4.5.0"
 
 [package.extras]
 dotenv = ["python-dotenv (>=0.10.4)"]
