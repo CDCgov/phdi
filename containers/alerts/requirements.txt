@@ -2,9 +2,9 @@ azure-communication-identity
 azure-communication-phonenumbers
 azure-communication-sms
 azure-identity
-phdi
 pydantic==1.9.0
-fastapi
+fastapi==0.95.0
+phdi
 uvicorn
 httpx
 slack_sdk
