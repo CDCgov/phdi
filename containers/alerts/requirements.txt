@@ -3,10 +3,9 @@ azure-communication-phonenumbers
 azure-communication-sms
 azure-identity
 phdi
-fastapi
+pydantic==1.9.0
 uvicorn
 httpx
 slack_sdk
 pymsteams
 pytest
-pydantic==1.10.6

@@ -1,6 +1,5 @@
-fastapi
 uvicorn
 phdi @ git+https://github.com/CDCgov/phdi@main
+pydantic==1.9.0
 httpx
 pathlib
-pydantic==1.10.6

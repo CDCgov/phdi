@@ -1,7 +1,6 @@
-fastapi
-uvicorn
 phdi
+pydantic==1.9.0
+uvicorn
 httpx
 pytest
 jsonschema
-pydantic==1.10.6
