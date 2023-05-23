@@ -7,7 +7,7 @@ import pyarrow.parquet as pq
 import sqlite3 as sql
 import yaml
 from typing_extensions import Literal
-from typing importList, Union
+from typing import List, Union
 from jsonschema import validate
 import importlib.resources
 
