@@ -3,4 +3,4 @@ uvicorn
 phdi @ git+https://github.com/CDCgov/phdi@main
 httpx
 pathlib
-pydantic
+pydantic == 1.10.6
