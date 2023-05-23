@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel, Field
-from typing import Literal, Optional
+from typing_extensions import Literal
+from typing import Optional
 
 from app.utils import (
     search_for_required_values,

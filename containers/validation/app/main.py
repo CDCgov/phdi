@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
-from typing import Literal, Annotated
+from typing_extensions import Literal
+from typing import Annotated
 from fastapi import Body
 from pathlib import Path
 from phdi.containers.base_service import BaseService

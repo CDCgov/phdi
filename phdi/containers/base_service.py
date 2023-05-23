@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from pathlib import Path
 from importlib import metadata
-from typing import Literal
+from typing_extensions import Literal
 
 
 # create a class with the DIBBs default Creative Commons Zero v1.0 and

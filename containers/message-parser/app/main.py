@@ -2,7 +2,8 @@ from typing import Annotated
 from phdi.containers.base_service import BaseService
 from fastapi import Response, status, Body
 from pydantic import BaseModel, Field, root_validator
-from typing import Literal, Optional, Union
+from typing_extensions import Literal
+from typing import Optional, Union
 from pathlib import Path
 from frozendict import frozendict
 import os
