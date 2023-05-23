@@ -4,8 +4,7 @@ import pycountry
 import datetime
 from detect_delimiter import detect
 from phdi.harmonization.double_metaphone import DoubleMetaphone
-from typing_extensions import Literal
-from typing import List, Union
+from typing import Literal, List, Union
 
 
 FHIR_DATE_FORMAT = "%Y-%m-%d"

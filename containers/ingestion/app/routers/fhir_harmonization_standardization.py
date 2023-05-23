@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel, validator, Field
-from typing_extensions import Literal
-from typing import Optional
+from typing import Literal, Optional
 
 from app.utils import check_for_fhir, StandardResponse, read_json_from_assets
 

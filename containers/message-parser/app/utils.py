@@ -5,7 +5,7 @@ from functools import cache
 from pathlib import Path
 from frozendict import frozendict
 from app.config import get_settings
-from typing_extensions import Literal
+from typing import Literal
 import requests
 from phdi.fhir.transport import http_request_with_reauth
 from phdi.transport.http import http_request_with_retry
