@@ -2,3 +2,4 @@ fastapi
 uvicorn
 phdi
 httpx
+pydantic==1.10.6

@@ -4,3 +4,4 @@ phdi
 httpx
 pytest
 jsonschema
+pydantic==1.10.6

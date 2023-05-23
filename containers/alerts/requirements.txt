@@ -9,3 +9,4 @@ httpx
 slack_sdk
 pymsteams
 pytest
+pydantic==1.10.6
