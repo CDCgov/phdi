@@ -1,6 +1,7 @@
 import logging
 from typing import List, Literal
 import requests
+import copy
 
 from phdi.cloud.core import BaseCredentialManager
 from phdi.transport import http_request_with_retry
@@ -64,7 +65,7 @@ def http_request_with_reauth(
 
 
 def upload_bundle_to_fhir_server(
-    bundle: dict, cred_manager: BaseCredentialManager, fhir_url: str
+    bundle: dict, cred_manager: BaseCredentialManager, fhir_url: str, max_bundle_size: int = 500
 ) -> requests.Response:
     """
     Uploads a FHIR resource bundle to the FHIR server.
@@ -76,46 +77,58 @@ def upload_bundle_to_fhir_server(
       bundles.
     :param cred_manager: The credential manager used to authenticate to the FHIR server.
     :param fhir_url: The url of the FHIR server to upload to.
-    :return: A `requests.Request` object containing the response from the FHIR server.
+    :param max_bundle_size: The maximum number of resources per bundle to upload to
+      the FHIR server.
+    :return: A `requests.Response` object containing the response from the FHIR server.
     """
 
     access_token = cred_manager.get_access_token()
 
-    response = http_request_with_reauth(
-        cred_manager=cred_manager,
-        url=fhir_url,
-        retry_count=3,
-        request_type="POST",
-        allowed_methods=["POST"],
-        headers={
-            "Authorization": f"Bearer {access_token}",
-            "Accept": "application/fhir+json",
-            "Content-Type": "application/fhir+json",
-        },
-        data=bundle,
-    )
+    # ensure that bundles are below the set maximum size of resources
+    split_bundles = _split_bundle_resources(bundle, max_bundle_size)
+    previous_response_status = 200
 
-    # FHIR uploads are sent as a batch.  Although the batch succeeds,
-    # individual entries within the batch may fail, so we log them here
-    if response.status_code == 200:
-        response_json = response.json()
-        entries = response_json.get("entry", [])
-        for entry_index, entry in enumerate(entries):
-            entry_response = entry.get("response", {})
+    for single_bundle in split_bundles:
+        response = http_request_with_reauth(
+            cred_manager=cred_manager,
+            url=fhir_url,
+            retry_count=3,
+            request_type="POST",
+            allowed_methods=["POST"],
+            headers={
+                "Authorization": f"Bearer {access_token}",
+                "Accept": "application/fhir+json",
+                "Content-Type": "application/fhir+json",
+            },
+            data=single_bundle,
+        )
+        # FHIR uploads are sent as a batch.  Although the batch succeeds,
+        # individual entries within the batch may fail, so we log them here
+        if response.status_code == 200:
+            response_json = response.json()
+            
+            entries = response_json.get("entry", [])
+            for entry_index, entry in enumerate(entries):
+                entry_response = entry.get("response", {})
 
-            # FHIR bundle.entry.response.status is string type - integer status code
-            # plus may inlude a message
-            if entry_response and not entry_response.get("status", "").startswith(
-                "200"
-            ):
-                _log_fhir_server_error(
-                    status_code=int(entry_response["status"][0:3]),
-                    batch_entry_index=entry_index,
-                )
-
-    else:
-        _log_fhir_server_error(response.status_code)
-
+                # FHIR bundle.entry.response.status is string type - integer status code
+                # plus may inlude a message
+                if entry_response and not entry_response.get("status", "").startswith(
+                    "200"
+                ):
+                    _log_fhir_server_error(
+                        status_code=int(entry_response["status"][0:3]),
+                        batch_entry_index=entry_index,
+                    )
+            if previous_response_status != response.status_code:
+                response.status_code = previous_response_status
+        else:
+            _log_fhir_server_error(response.status_code)
+            previous_response_status = response.status_code
+    #TODO: Find a way to return ALL of the Response.json()
+    #  For each of the split bundles instead of just the last 
+    #  One, however, we are able to pass the proper status_code 
+    #  witht he logic above.
     return response
 
 
@@ -187,3 +200,35 @@ def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> N
             f"FHIR SERVER ERROR {batch_decorator}- Status code {status_code}"
         )
         logging.error(error_message)
+
+
+def _split_bundle_resources(bundle: dict, max_bundle_size: int = 500) -> list:
+    """
+    Receives a FHIR bundle and splits up the resources in the bundle
+    if there are more than 500 resources.  Otherwise it just returns the
+    orginal bundle unmodified.
+
+    :param bundle: A FHIR bundle containing a number of FHIR resources.
+    :param max_bundle_size: The maximum number of resources per bundle to
+      determine where the split of large FHIR bundles should occur.
+    :return: A list of FHIR bundles; if the bundle has <= 500 resources
+    then the list will have only one element.
+    """
+    resources = bundle.get("entry")
+    resource_count = len(resources)
+    split_bundles = []
+    bundle_prefix = {"resourceType": "Bundle", "type": "batch", "entry": []}
+ 
+    entry_index = 0
+    while entry_index <= resource_count:
+        # create a 'new' basic bundle using the bundle_prefix above
+        #  We may need to tweak this if there are additional fields 
+        #  the client wants at the Bundle level in their FHIR messages
+        new_bundle = copy.deepcopy(bundle_prefix)
+        # grab all the resources and place them in the entry list within 
+        # the new bundle dictionary up to the maximum number specified
+        new_bundle["entry"] = resources[entry_index:entry_index+max_bundle_size]
+        # add the new split bundle to the list to be returned
+        split_bundles.append(new_bundle)
+        entry_index = entry_index+max_bundle_size
+    return split_bundles
