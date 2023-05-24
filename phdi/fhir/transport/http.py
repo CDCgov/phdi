@@ -65,7 +65,10 @@ def http_request_with_reauth(
 
 
 def upload_bundle_to_fhir_server(
-    bundle: dict, cred_manager: BaseCredentialManager, fhir_url: str, max_bundle_size: int = 500
+    bundle: dict,
+    cred_manager: BaseCredentialManager,
+    fhir_url: str,
+    max_bundle_size: int = 500,
 ) -> requests.Response:
     """
     Uploads a FHIR resource bundle to the FHIR server.
@@ -106,7 +109,7 @@ def upload_bundle_to_fhir_server(
         # individual entries within the batch may fail, so we log them here
         if response.status_code == 200:
             response_json = response.json()
-            
+
             entries = response_json.get("entry", [])
             for entry_index, entry in enumerate(entries):
                 entry_response = entry.get("response", {})
@@ -125,9 +128,9 @@ def upload_bundle_to_fhir_server(
         else:
             _log_fhir_server_error(response.status_code)
             previous_response_status = response.status_code
-    #TODO: Find a way to return ALL of the Response.json()
-    #  For each of the split bundles instead of just the last 
-    #  One, however, we are able to pass the proper status_code 
+    # TODO: Find a way to return ALL of the Response.json()
+    #  For each of the split bundles instead of just the last
+    #  One, however, we are able to pass the proper status_code
     #  witht he logic above.
     return response
 
@@ -218,17 +221,17 @@ def _split_bundle_resources(bundle: dict, max_bundle_size: int = 500) -> list:
     resource_count = len(resources)
     split_bundles = []
     bundle_prefix = {"resourceType": "Bundle", "type": "batch", "entry": []}
- 
+
     entry_index = 0
     while entry_index <= resource_count:
         # create a 'new' basic bundle using the bundle_prefix above
-        #  We may need to tweak this if there are additional fields 
+        #  We may need to tweak this if there are additional fields
         #  the client wants at the Bundle level in their FHIR messages
         new_bundle = copy.deepcopy(bundle_prefix)
-        # grab all the resources and place them in the entry list within 
+        # grab all the resources and place them in the entry list within
         # the new bundle dictionary up to the maximum number specified
-        new_bundle["entry"] = resources[entry_index:entry_index+max_bundle_size]
+        new_bundle["entry"] = resources[entry_index : entry_index + max_bundle_size]
         # add the new split bundle to the list to be returned
         split_bundles.append(new_bundle)
-        entry_index = entry_index+max_bundle_size
+        entry_index = entry_index + max_bundle_size
     return split_bundles

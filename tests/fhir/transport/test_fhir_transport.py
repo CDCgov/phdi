@@ -543,4 +543,3 @@ def test_split_bundle_resources():
     split_bundles = _split_bundle_resources(bundle=bundle)
     assert len(split_bundles) == 1
     assert len(split_bundles[0].get("entry")) == 0
-
