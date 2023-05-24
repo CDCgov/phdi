@@ -432,3 +432,109 @@ def create_valid_mpi_client():
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
     )
+
+
+def test_insert_person():
+    postgres_client = create_valid_mpi_client()
+    postgres_client.connection = postgres_client.get_connection()
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Generate test tables
+    # Create test table and insert data
+    funcs = {
+        "drop tables": (
+            f"""
+        DROP TABLE IF EXISTS {postgres_client.person_table};
+        """
+        ),
+        "create_person": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
+            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
+            + "external_person_id VARCHAR(100));"
+        ),
+        "insert_person": (
+            f"""INSERT INTO {postgres_client.person_table} (person_id, """
+            + "external_person_id) "
+            + """VALUES ('ce02326f-7ecd-47ea-83eb-71e8d7c39131',
+            '4d88cd35-5ee7-4419-a847-2818fdfeec38'),
+             ('cb9dc379-38a9-4ed6-b3a7-a8a3db0e9e6c',
+             'NULL');"""
+        ),
+    }
+
+    for command, statement in funcs.items():
+        try:
+            postgres_client.cursor.execute(statement)
+            postgres_client.connection.commit()
+        except Exception as e:
+            print(f"{command} was unsuccessful")
+            print(e)
+            postgres_client.connection.rollback()
+
+    # Find the person based upon the external person id
+    external_person_id_test = "4d88cd35-5ee7-4419-a847-2818fdfeec38"
+    expected_person_id = "ce02326f-7ecd-47ea-83eb-71e8d7c39131"
+
+    # send in null person_id and external_person_id populated and get back a person_id
+    actual_result, actual_person_id = postgres_client._insert_person(
+        postgres_client.cursor, None, external_person_id_test
+    )
+
+    # Assert existing person_id from MPI
+
+    assert actual_result
+    assert actual_person_id == expected_person_id
+
+    # Now we will insert a new person with a null external id
+    actual_result, new_person_id = postgres_client._insert_person(
+        postgres_client.cursor, None, None
+    )
+    query_data = [new_person_id]
+    postgres_client.cursor.execute(
+        f"SELECT * from {postgres_client.person_table} " "WHERE person_id = %s",
+        query_data,
+    )
+    postgres_client.connection.commit()
+    data = postgres_client.cursor.fetchall()
+
+    # Assert record was added to the table
+    assert len(data) == 1
+    assert new_person_id is not None
+
+    # Send in a valid person id and a new external person id
+    # for a person record where the external person id is null
+    # should update the person record with the new external person id
+    valid_person_id = "cb9dc379-38a9-4ed6-b3a7-a8a3db0e9e6c"
+    new_external_person_id = "bbbbbbbb-38a9-4ed6-b3a7-a8a3db0e9e6c"
+    update_matched, update_person_id = postgres_client._insert_person(
+        postgres_client.cursor, valid_person_id, new_external_person_id
+    )
+
+    query_data = [valid_person_id]
+
+    postgres_client.cursor.execute(
+        f"SELECT external_person_id from {postgres_client.person_table} "
+        "WHERE person_id = %s",
+        query_data,
+    )
+    postgres_client.connection.commit()
+    data = postgres_client.cursor.fetchall()[0][0]
+
+    # Assert record was updated in table
+    assert update_matched
+    assert update_person_id == valid_person_id
+    assert data == new_external_person_id
+
+    # Clean up
+    postgres_client.connection = postgres_client.get_connection()
+    postgres_client.cursor = postgres_client.connection.cursor()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.close()
+    postgres_client.connection.close()
