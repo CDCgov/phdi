@@ -220,18 +220,16 @@ def _split_bundle_resources(bundle: dict, max_bundle_size: int = 500) -> list:
     resources = bundle.get("entry")
     resource_count = len(resources)
     split_bundles = []
-    bundle_prefix = {"resourceType": "Bundle", "type": "batch", "entry": []}
 
     entry_index = 0
     while entry_index <= resource_count:
-        # create a 'new' basic bundle using the bundle_prefix above
-        #  We may need to tweak this if there are additional fields
-        #  the client wants at the Bundle level in their FHIR messages
-        new_bundle = copy.deepcopy(bundle_prefix)
+
         # grab all the resources and place them in the entry list within
         # the new bundle dictionary up to the maximum number specified
-        new_bundle["entry"] = resources[entry_index : entry_index + max_bundle_size]
+        #new_bundle["entry"] = resources[entry_index : entry_index + max_bundle_size]
+        partial_bundle = {"resourceType": "Bundle", "type": "batch", "entry": []}
+        partial_bundle["entry"] = resources[entry_index : entry_index + max_bundle_size]
         # add the new split bundle to the list to be returned
-        split_bundles.append(new_bundle)
+        split_bundles.append(partial_bundle)
         entry_index = entry_index + max_bundle_size
     return split_bundles
