@@ -181,10 +181,10 @@ def test_upload_bundle_to_fhir_server_bad_response_from_server(
             "fhir_server_response": {
                 "fhir_server_status_code": [400],
                 "fhir_server_response_body": {
-                "entry": [],
-                "resourceType": "Bundle",
-                "type": "transaction-response",
-            },
+                    "entry": [],
+                    "resourceType": "Bundle",
+                    "type": "transaction-response",
+                },
             }
         },
         "bundle": None,
@@ -221,9 +221,6 @@ def test_upload_bundle_to_fhir_server_partial_success(
         cred_manager=patched_azure_cred_manager(),
         fhir_url=test_request["fhir_url"],
     )
-    
-    print("HERE:")
-    print(actual_response.json())
     assert actual_response.status_code == 400
     assert actual_response.json() == {
         "status_code": "400",
@@ -267,4 +264,138 @@ def test_upload_bundle_to_fhir_missing_bundle(patched_bundle_upload):
                 "type": "value_error.missing",
             }
         ]
+    }
+
+
+@mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
+@mock.patch("app.routers.fhir_transport_http.get_cred_manager")
+def test_upload_bundle_to_fhir_server_request_params_success_500(
+    patched_azure_cred_manager, patched_bundle_upload
+):
+    bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent
+            / "assets"
+            / "example_eicr_with_rr_data_with_person.json"
+        )
+    )
+    single_resource = bundle.get("entry")[0]
+    # add 500 resources to bundle and then pass to function
+    for x in range(500):
+        bundle["entry"].append(single_resource)
+
+    my_count = len(bundle.get("entry"))
+    assert my_count == 545
+    manager = "azure"
+    fhir_url = "some-FHIR-server-URL"
+    test_request = {
+        "bundle": bundle,
+        "cred_manager": manager,
+        "fhir_url": fhir_url,
+    }
+
+    patched_azure_cred_manager.return_value = mock.Mock()
+
+    fhir_server_response = [mock.Mock(), mock.Mock()]
+    fhir_server_response[0].status_code = 200
+    fhir_server_response[0].json.return_value = fhir_server_response_body
+    fhir_server_response[1].status_code = 200
+    fhir_server_response[1].json.return_value = fhir_server_response_body
+    patched_bundle_upload.return_value = fhir_server_response
+
+    actual_response = client.post(
+        "/fhir/transport/http/upload_bundle_to_fhir_server", json=test_request
+    )
+
+    patched_bundle_upload.assert_called_with(
+        bundle=bundle,
+        cred_manager=patched_azure_cred_manager(),
+        fhir_url=test_request["fhir_url"],
+    )
+    assert actual_response.status_code == 200
+    assert actual_response.json() == {
+        "status_code": "200",
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": [200, 200],
+                "fhir_server_response_body": {
+                    "entry": [],
+                    "resourceType": "Bundle",
+                    "type": "transaction-response",
+                },
+            }
+        },
+        "bundle": None,
+    }
+
+
+@mock.patch("app.routers.fhir_transport_http.upload_bundle_to_fhir_server")
+@mock.patch("app.routers.fhir_transport_http.get_cred_manager")
+def test_upload_bundle_to_fhir_server_partial_success_500(
+    patched_azure_cred_manager, patched_bundle_upload
+):
+    bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent
+            / "assets"
+            / "example_eicr_with_rr_data_with_person.json"
+        )
+    )
+    single_resource = bundle.get("entry")[0]
+    # add 500 resources to bundle and then pass to function
+    for x in range(500):
+        bundle["entry"].append(single_resource)
+
+    my_count = len(bundle.get("entry"))
+    assert my_count == 545
+    test_request = {
+        "bundle": bundle,
+        "cred_manager": "azure",
+        "fhir_url": "some-FHIR-server-URL",
+    }
+
+    patched_azure_cred_manager.return_value = mock.Mock()
+
+    partial_success_response_body = copy.deepcopy(fhir_server_response_body)
+    partial_success_response_body["entry"][0]["response"]["status"] = "some issue"
+
+    fhir_server_response = [mock.Mock(), mock.Mock()]
+    fhir_server_response[0].status_code = 200
+    fhir_server_response[0].json.return_value = partial_success_response_body
+    fhir_server_response[1].status_code = 400
+    fhir_server_response[1].json.return_value = partial_success_response_body
+    patched_bundle_upload.return_value = fhir_server_response
+
+    actual_response = client.post(
+        "/fhir/transport/http/upload_bundle_to_fhir_server", json=test_request
+    )
+
+    patched_bundle_upload.assert_called_with(
+        bundle=bundle,
+        cred_manager=patched_azure_cred_manager(),
+        fhir_url=test_request["fhir_url"],
+    )
+    assert actual_response.status_code == 400
+    assert actual_response.json() == {
+        "status_code": "400",
+        "message": {
+            "fhir_server_response": {
+                "fhir_server_status_code": [200, 400],
+                "fhir_server_response_body": {
+                    "entry": [
+                        {
+                            "response": {
+                                "etag": 'W/"MTY2Mjc0NTkxNDY4NTAxNTAwMA"',
+                                "lastModified": "2022-09-09T17:51:54.685015+00:00",
+                                "location": "https://somefhirstore.com",
+                                "status": "some issue",
+                            }
+                        }
+                    ],
+                    "resourceType": "Bundle",
+                    "type": "transaction-response",
+                },
+            }
+        },
+        "bundle": None,
     }

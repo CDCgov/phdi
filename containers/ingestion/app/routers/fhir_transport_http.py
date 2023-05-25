@@ -61,10 +61,10 @@ def upload_bundle_to_fhir_server_endpoint(
 
     fhir_server_responses = upload_bundle_to_fhir_server(**input)
     full_fhir_server_response_body = {
-                "entry": [],
-                "resourceType": "Bundle",
-                "type": "transaction-response",
-            }
+        "entry": [],
+        "resourceType": "Bundle",
+        "type": "transaction-response",
+    }
     full_response_status = "200"
     status_codes = []
 
@@ -87,7 +87,9 @@ def upload_bundle_to_fhir_server_endpoint(
 
             if failed_resources != []:
                 fhir_server_response.status_code = 400
-                full_fhir_server_response_body["entry"].extend(failed_resources[0:len(failed_resources)])
+                full_fhir_server_response_body["entry"].extend(
+                    failed_resources[0 : len(failed_resources)]
+                )
 
         if fhir_server_response.status_code != 200:
             response.status_code = status.HTTP_400_BAD_REQUEST
