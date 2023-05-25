@@ -1,7 +1,6 @@
 import logging
 from typing import List, Literal
 import requests
-import copy
 
 from phdi.cloud.core import BaseCredentialManager
 from phdi.transport import http_request_with_retry
