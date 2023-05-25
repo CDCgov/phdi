@@ -223,10 +223,8 @@ def _split_bundle_resources(bundle: dict, max_bundle_size: int = 500) -> list:
 
     entry_index = 0
     while entry_index <= resource_count:
-
         # grab all the resources and place them in the entry list within
         # the new bundle dictionary up to the maximum number specified
-        #new_bundle["entry"] = resources[entry_index : entry_index + max_bundle_size]
         partial_bundle = {"resourceType": "Bundle", "type": "batch", "entry": []}
         partial_bundle["entry"] = resources[entry_index : entry_index + max_bundle_size]
         # add the new split bundle to the list to be returned
