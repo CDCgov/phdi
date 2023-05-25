@@ -34,9 +34,9 @@ def test_upload_bundle_to_fhir_server_request_params_success(
 
     patched_azure_cred_manager.return_value = mock.Mock()
 
-    fhir_server_response = mock.Mock()
-    fhir_server_response.status_code = 200
-    fhir_server_response.json.return_value = fhir_server_response_body
+    fhir_server_response = [mock.Mock()]
+    fhir_server_response[0].status_code = 200
+    fhir_server_response[0].json.return_value = fhir_server_response_body
     patched_bundle_upload.return_value = fhir_server_response
 
     actual_response = client.post(
@@ -53,7 +53,7 @@ def test_upload_bundle_to_fhir_server_request_params_success(
         "status_code": "200",
         "message": {
             "fhir_server_response": {
-                "fhir_server_status_code": 200,
+                "fhir_server_status_code": [200],
                 "fhir_server_response_body": {
                     "entry": [],
                     "resourceType": "Bundle",
@@ -80,9 +80,9 @@ def test_upload_bundle_to_fhir_server_env_params_success(
     os.environ["FHIR_URL"] = "some-FHIR-server-URL"
     get_settings.cache_clear()
 
-    fhir_server_response = mock.Mock()
-    fhir_server_response.status_code = 200
-    fhir_server_response.json.return_value = fhir_server_response_body
+    fhir_server_response = [mock.Mock()]
+    fhir_server_response[0].status_code = 200
+    fhir_server_response[0].json.return_value = fhir_server_response_body
     patched_bundle_upload.return_value = fhir_server_response
 
     actual_response = client.post(
@@ -102,7 +102,7 @@ def test_upload_bundle_to_fhir_server_env_params_success(
         "status_code": "200",
         "message": {
             "fhir_server_response": {
-                "fhir_server_status_code": 200,
+                "fhir_server_status_code": [200],
                 "fhir_server_response_body": {
                     "entry": [],
                     "resourceType": "Bundle",
@@ -166,9 +166,8 @@ def test_upload_bundle_to_fhir_server_bad_response_from_server(
 
     patched_azure_cred_manager.return_value = mock.Mock()
 
-    fhir_server_response = mock.Mock()
-    fhir_server_response.status_code = 400
-    fhir_server_response.json.return_value = "some bad response from FHIR server"
+    fhir_server_response = [mock.Mock()]
+    fhir_server_response[0].status_code = 400
     patched_bundle_upload.return_value = fhir_server_response
 
     actual_response = client.post(
@@ -180,8 +179,12 @@ def test_upload_bundle_to_fhir_server_bad_response_from_server(
         "status_code": "400",
         "message": {
             "fhir_server_response": {
-                "fhir_server_status_code": 400,
-                "fhir_server_response_body": "some bad response from FHIR server",
+                "fhir_server_status_code": [400],
+                "fhir_server_response_body": {
+                "entry": [],
+                "resourceType": "Bundle",
+                "type": "transaction-response",
+            },
             }
         },
         "bundle": None,
@@ -204,9 +207,9 @@ def test_upload_bundle_to_fhir_server_partial_success(
     partial_success_response_body = copy.deepcopy(fhir_server_response_body)
     partial_success_response_body["entry"][0]["response"]["status"] = "some issue"
 
-    fhir_server_response = mock.Mock()
-    fhir_server_response.status_code = 200
-    fhir_server_response.json.return_value = partial_success_response_body
+    fhir_server_response = [mock.Mock()]
+    fhir_server_response[0].status_code = 200
+    fhir_server_response[0].json.return_value = partial_success_response_body
     patched_bundle_upload.return_value = fhir_server_response
 
     actual_response = client.post(
@@ -218,13 +221,15 @@ def test_upload_bundle_to_fhir_server_partial_success(
         cred_manager=patched_azure_cred_manager(),
         fhir_url=test_request["fhir_url"],
     )
-
+    
+    print("HERE:")
+    print(actual_response.json())
     assert actual_response.status_code == 400
     assert actual_response.json() == {
         "status_code": "400",
         "message": {
             "fhir_server_response": {
-                "fhir_server_status_code": 400,
+                "fhir_server_status_code": [200],
                 "fhir_server_response_body": {
                     "entry": [
                         {

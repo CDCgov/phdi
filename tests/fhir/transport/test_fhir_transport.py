@@ -126,8 +126,8 @@ def test_upload_bundle_to_fhir_server(patch_http_request):
         bundle=bundle, cred_manager=cred_manager, fhir_url=fhir_url
     )
 
-    assert response.status_code == 200
-    assert response.json() == mock_response
+    assert response[0].status_code == 200
+    assert response[0].json() == mock_response
 
 
 @mock.patch("phdi.fhir.transport.http.http_request_with_reauth")
@@ -148,7 +148,7 @@ def test_upload_bundle_to_fhir_server_failure(patch_log_error, patch_http_reques
         bundle=bundle, cred_manager=cred_manager, fhir_url=fhir_url
     )
 
-    assert response.status_code == 400
+    assert response[0].status_code == 400
 
     assert patch_log_error.called_with(400)
 
@@ -182,8 +182,8 @@ def test_upload_bundle_to_fhir_server_embedded_failure(
         bundle=bundle, cred_manager=cred_manager, fhir_url=fhir_url
     )
 
-    assert response.status_code == 200
-    assert response.json() == mock_response
+    assert response[0].status_code == 200
+    assert response[0].json() == mock_response
 
     patch_log_error.assert_called_with(status_code=400, batch_entry_index=0)
 

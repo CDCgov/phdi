@@ -68,7 +68,7 @@ def upload_bundle_to_fhir_server(
     cred_manager: BaseCredentialManager,
     fhir_url: str,
     max_bundle_size: int = 500,
-) -> requests.Response:
+) -> list[requests.Response]:
     """
     Uploads a FHIR resource bundle to the FHIR server.
 
@@ -85,10 +85,10 @@ def upload_bundle_to_fhir_server(
     """
 
     access_token = cred_manager.get_access_token()
+    responses = []
 
     # ensure that bundles are below the set maximum size of resources
     split_bundles = _split_bundle_resources(bundle, max_bundle_size)
-    previous_response_status = 200
 
     for single_bundle in split_bundles:
         response = http_request_with_reauth(
@@ -122,16 +122,11 @@ def upload_bundle_to_fhir_server(
                         status_code=int(entry_response["status"][0:3]),
                         batch_entry_index=entry_index,
                     )
-            if previous_response_status != response.status_code:
-                response.status_code = previous_response_status
         else:
             _log_fhir_server_error(response.status_code)
-            previous_response_status = response.status_code
-    # TODO: Find a way to return ALL of the Response.json()
-    #  For each of the split bundles instead of just the last
-    #  One, however, we are able to pass the proper status_code
-    #  witht he logic above.
-    return response
+        responses.append(response)
+
+    return responses
 
 
 def fhir_server_get(url: str, cred_manager: BaseCredentialManager) -> requests.Response:
