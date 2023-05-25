@@ -74,8 +74,8 @@ def upload_bundle_to_fhir_server_endpoint(
         fhir_server_response_body = fhir_server_response.json()
         status_codes.append(fhir_server_response.status_code)
 
-        # If the FHIR store responds with a 200 check if any individual resources failed to
-        # upload.
+        # If the FHIR store responds with a 200 check if
+        # any individual resources failed to upload.
         failed_resources = []
         if fhir_server_response.status_code == 200:
             failed_resources = [
