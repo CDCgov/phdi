@@ -77,10 +77,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
     fhir_bundle = {
         "resourceType": "Bundle",
         "id": str(uuid.uuid4()),
-        "entry": [{
-            "fullUrl": f"urn:uuid:{patient_id}",
-            "resource": patient_resource
-        }],
+        "entry": [{"fullUrl": f"urn:uuid:{patient_id}", "resource": patient_resource}],
     }
 
     return (data["iris_id"], fhir_bundle)
