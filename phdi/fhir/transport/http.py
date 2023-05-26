@@ -115,7 +115,12 @@ def upload_bundle_to_fhir_server(
 
                 # FHIR bundle.entry.response.status is string type - integer status code
                 # plus may inlude a message
-                if entry_response and entry_response.get("status", "") not in ["200 OK", "201 Created", "200", "201"]:
+                if entry_response and entry_response.get("status", "") not in [
+                    "200 OK",
+                    "201 Created",
+                    "200",
+                    "201",
+                ]:
                     _log_fhir_server_error(
                         status_code=int(entry_response["status"][0:3]),
                         batch_entry_index=entry_index,

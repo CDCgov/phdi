@@ -61,9 +61,9 @@ def upload_bundle_to_fhir_server_endpoint(
 
     fhir_server_responses = upload_bundle_to_fhir_server(**input)
     full_fhir_server_response_body = {
-        "entry": [],
         "resourceType": "Bundle",
         "type": "transaction-response",
+        "entry": [],
     }
     full_response_status = "200"
     status_codes = []
