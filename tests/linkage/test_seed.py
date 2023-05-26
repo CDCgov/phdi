@@ -18,6 +18,7 @@ def test_convert_to_patient_fhir_resources():
         (iris_id, returned_fhir_bundle) = convert_to_patient_fhir_resources(data)
         assert type(returned_fhir_bundle) == dict
         assert returned_fhir_bundle["resourceType"] == "Bundle"
-        assert returned_fhir_bundle["entry"][0]["resourceType"] == "Patient"
+        assert returned_fhir_bundle["entry"][0]["resource"]["resourceType"] == "Patient"
         assert returned_fhir_bundle["id"] != ""
         assert iris_id == data["iris_id"]
+        assert "urn:uuid:"+returned_fhir_bundle["entry"][0]["resource"]["id"] == returned_fhir_bundle["entry"][0]["fullUrl"]
