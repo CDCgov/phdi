@@ -159,6 +159,10 @@ def _log_fhir_server_error(status_code: int, batch_entry_index: int = None) -> N
     Logs the error for a given an HTTP status code from a FHIR server's response.
 
     :param status_code: The status code returned by a FHIR server.
+    :param batch_entry_index: A zero-based index used to determine
+        which FHIR resource recieved the error.  If set to None
+        then the error was from the overall request to upload
+        the bundle to the FHIR server.  Defaults to None.
     """
     # TODO: We may dedcide to remove logging, and instead report errors back to
     # calling function as raised exceptions.
