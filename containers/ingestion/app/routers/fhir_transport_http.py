@@ -59,40 +59,48 @@ def upload_bundle_to_fhir_server_endpoint(
         cred_manager=input["cred_manager"], location_url=input["fhir_url"]
     )
 
-    fhir_server_response = upload_bundle_to_fhir_server(**input)
-    fhir_server_response_body = fhir_server_response.json()
+    fhir_server_responses = upload_bundle_to_fhir_server(**input)
+    full_fhir_server_response_body = {
+        "resourceType": "Bundle",
+        "type": "transaction-response",
+        "entry": [],
+    }
+    full_response_status = "200"
+    status_codes = []
 
-    # If the FHIR store responds with a 200 check if any individual resources failed to
-    # upload.
-    failed_resources = []
-    if fhir_server_response.status_code == 200:
-        failed_resources = [
-            entry
-            for entry in fhir_server_response_body["entry"]
-            if entry["response"]["status"]
-            not in ["200 OK", "201 Created", "200", "201"]
-        ]
+    # getting a list of responses back, loop through them and
+    #  process them accordinly and return a composite response
+    for fhir_server_response in fhir_server_responses:
+        fhir_server_response_body = fhir_server_response.json()
+        status_codes.append(fhir_server_response.status_code)
 
-        fhir_server_response_body = {
-            "entry": failed_resources,
-            "resourceType": "Bundle",
-            "type": "transaction-response",
-        }
+        # If the FHIR store responds with a 200 check if
+        # any individual resources failed to upload.
+        failed_resources = []
+        if fhir_server_response.status_code == 200:
+            failed_resources = [
+                entry
+                for entry in fhir_server_response_body["entry"]
+                if entry["response"]["status"]
+                not in ["200 OK", "201 Created", "200", "201"]
+            ]
 
-        if failed_resources != []:
-            fhir_server_response.status_code = 400
+            if failed_resources != []:
+                fhir_server_response.status_code = 400
+                full_fhir_server_response_body["entry"].extend(
+                    failed_resources[0 : len(failed_resources)]
+                )
 
-    status_code = "200"
-    if fhir_server_response.status_code != 200:
-        response.status_code = status.HTTP_400_BAD_REQUEST
-        status_code = "400"
+        if fhir_server_response.status_code != 200:
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            full_response_status = "400"
 
     return {
-        "status_code": status_code,
+        "status_code": full_response_status,
         "message": {
             "fhir_server_response": {
-                "fhir_server_status_code": fhir_server_response.status_code,
-                "fhir_server_response_body": fhir_server_response_body,
+                "fhir_server_status_code": status_codes,
+                "fhir_server_response_body": full_fhir_server_response_body,
             }
         },
     }
