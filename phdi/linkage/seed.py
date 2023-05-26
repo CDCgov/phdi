@@ -14,10 +14,12 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
     :return: Tuple of the `iris_id` and FHIR bundle.
     """
 
+    patient_id = str(uuid.uuid4())
+
     # Iterate through each patient and convert patient data to FHIR resource
     patient_resource = {
         "resourceType": "Patient",
-        "id": str(uuid.uuid4()),
+        "id": f"{patient_id}",
         "identifier": [
             {
                 "type": {
@@ -75,7 +77,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
     fhir_bundle = {
         "resourceType": "Bundle",
         "id": str(uuid.uuid4()),
-        "entry": [patient_resource],
+        "entry": [{"fullUrl": f"urn:uuid:{patient_id}", "resource": patient_resource}],
     }
 
     return (data["iris_id"], fhir_bundle)
