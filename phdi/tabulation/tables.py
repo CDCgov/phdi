@@ -6,7 +6,6 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import sqlite3 as sql
 import yaml
-
 from typing import Literal, List, Union
 from jsonschema import validate
 import importlib.resources

@@ -244,20 +244,6 @@
       "resource": {
         "resourceType": "Patient",
         "id": "a81bc81b-dead-4e5d-abff-90865d1e13b1",
-        "identifier": [
-          {
-            "value": "7894561235",
-            "type": {
-              "coding": [
-                {
-                  "code": "MR",
-                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                  "display": "Medical record number"
-                }
-              ]
-            }
-          }
-        ],
         "name": [
           {
             "family": "Shepard",

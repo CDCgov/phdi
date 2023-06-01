@@ -23,8 +23,8 @@ To run the message parser with Docker, follow these steps.
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
 ``` 
-2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/message-parser:main`.
-3. Run the service with ` docker run -p 8080:8080 message-parser:main`.
+2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/message-parser:latest`.
+3. Run the service with ` docker run -p 8080:8080 message-parser:latest`.
 
 Congratulations, the message parser should now be running on `localhost:8080`!
 

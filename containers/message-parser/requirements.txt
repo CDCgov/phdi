@@ -1,6 +1,8 @@
-fastapi
+typing_extensions==4.5.0
+pydantic==1.9.0
+fastapi==0.95.0
+phdi
 uvicorn
-phdi @ git+https://github.com/CDCgov/phdi.git@main
 httpx
 pytest
 frozendict

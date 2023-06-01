@@ -362,8 +362,38 @@
       "aborted": {
         "code": "stopped"
       },
+      "active": {
+        "code": "active"
+      },
+      "completed": {
+        "code": "completed"
+      },
+      "entered-in-error": {
+        "code": "entered-in-error"
+      },
+      "intended": {
+        "code": "intended"
+      },
+      "stopped": {
+        "code": "stopped"
+      },
+      "on-hold": {
+        "code": "on-hold"
+      },
+      "unknown": {
+        "code": "unknown"
+      },
+      "not-taken": {
+        "code": "not-taken"
+      },
+      "draft": {
+        "code": "draft"
+      },
+      "recorded": {
+        "code": "recorded"
+      },
       "__default__": {
-        "code": ""
+        "code": "unknown"
       }
     },
     "ValueSet/NameUse": {

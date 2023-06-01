@@ -546,6 +546,7 @@ def link_record_against_mpi(
     record: dict,
     algo_config: List[dict],
     db_client: BaseMPIConnectorClient,
+    external_person_id: str = None,
 ) -> tuple[bool, str]:
     """
     Runs record linkage on a single incoming record (extracted from a FHIR
@@ -603,6 +604,10 @@ def link_record_against_mpi(
                     continue
                 if idx_to_col[j - 2] != "first_name" and idx_to_col[j - 2] != "address":
                     while type(blocked_record[j]) == list:
+                        # Handle empty list edge case.
+                        if len(blocked_record[j]) == 0:
+                            blocked_record[j] = ""
+                            break
                         blocked_record[j] = blocked_record[j][0]
 
         clusters = _group_patient_block_by_person(data_block)
@@ -636,13 +641,17 @@ def link_record_against_mpi(
 
     # Didn't match any person in our database
     if len(linkage_scores) == 0:
-        new_person_id = db_client.insert_match_patient(record, person_id=None)
-        return (False, new_person_id)
+        (matched, new_person_id) = db_client.insert_match_patient(
+            record, person_id=None, external_person_id=external_person_id
+        )
+        return (matched, new_person_id)
 
     # Determine strongest match, upsert, then let the caller know
     else:
         best_person = _find_strongest_link(linkage_scores)
-        db_client.insert_match_patient(record, person_id=best_person)
+        db_client.insert_match_patient(
+            record, person_id=best_person, external_person_id=external_person_id
+        )
         return (True, best_person)
 
 
