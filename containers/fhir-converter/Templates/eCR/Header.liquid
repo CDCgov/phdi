@@ -64,12 +64,12 @@
 
   {% if author.assignedAuthor.representedOrganization and author.assignedAuthor.representedOrganization.name and author.assignedAuthor.representedOrganization.name._ -%}
     {% if author.assignedAuthor.assignedPerson and author.assignedAuthor.assignedPerson.name and author.assignedAuthor.assignedPerson.name.given.first._  -%}
-      {% evaluate authorId using 'Utils/GenerateId' obj: author.assignedAuthor -%}
-      {% include 'Resource/Practitioner' practitioner: author.assignedAuthor ID: authorId -%}
-      {% assign fullAuthorId = authorId | prepend: 'Practitioner/' -%}
-      {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthorId -%}
+      {% evaluate authorOrgAndPersonId using 'Utils/GenerateId' obj: author.assignedAuthor -%}
+      {% include 'Resource/Practitioner' practitioner: author.assignedAuthor ID: authorOrgAndPersonId -%}
+      {% assign fullAuthorOrgPersonId = authorOrgAndPersonId | prepend: 'Practitioner/' -%}
+      {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthorOrgPersonId -%}
       {% if deviceId -%}
-        {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthorId -%}
+        {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthorOrgPersonId -%}
       {% endif -%}
     {% else -%}
       {% evaluate authorOrgId using 'Utils/GenerateId' obj: author.assignedAuthor.representedOrganization -%}
