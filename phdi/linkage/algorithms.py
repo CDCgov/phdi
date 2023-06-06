@@ -1,3 +1,31 @@
+# Predefined columns that map to the DIBBs MPI
+IDX_TO_COL = {
+    0: "address",
+    1: "birthdate",
+    2: "city",
+    3: "first_name",
+    4: "last_name",
+    5: "mrn",
+    6: "sex",
+    7: "state",
+    8: "zip",
+}
+
+# Pre-computed log-odds points values for each of the DIBBs MPI
+# supported columns (derived from representative synthetic data)
+LOG_ODDS_SCORES = {
+    "birthdate": 9.944142836217619,
+    "first_name": 8.009121400325398,
+    "last_name": 5.327681398982514,
+    "sex": 0.6964525713514773,
+    "address": 5.769942276960749,
+    "city": 1.8002552875091014,
+    "state": 0.0,
+    "zip": 4.909466232098861,
+    "mrn": 1.464232660081324,
+}
+
+
 DIBBS_BASIC = [
     {
         "funcs": {
@@ -44,6 +72,8 @@ DIBBS_ENHANCED = [
             "similarity_measure": "JaroWinkler",
             "threshold": 0.7,
             "true_match_threshold": 16.5,
+            "idx_to_col": IDX_TO_COL,
+            "log_odds": LOG_ODDS_SCORES,
         },
     },
     {
@@ -61,6 +91,8 @@ DIBBS_ENHANCED = [
             "similarity_measure": "JaroWinkler",
             "threshold": 0.7,
             "true_match_threshold": 7.0,
+            "idx_to_col": IDX_TO_COL,
+            "log_odds": LOG_ODDS_SCORES,
         },
     },
 ]
