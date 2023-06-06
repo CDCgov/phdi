@@ -1,6 +1,7 @@
 import pathlib
 
 import yaml
+from test_data_generator import generate_ecr_msg_ids, generate_eicr_results
 from phdi.validation.validation import validate_ecr
 
 
@@ -211,10 +212,7 @@ def test_custom_error_messages():
 
 
 def test_validate_good_with_rr_data():
-    eicr_result = {
-        "root": "2.16.840.1.113883.9.9.9.9.9",
-        "extension": "db734647-fc99-424c-a864-7e3cda82e704",
-    }
+    eicr_result = generate_eicr_results()
     rr_result = {
         "root": "4efa0e5c-c34c-429f-b5de-f1a13aef4a28",
         "extension": None,
@@ -238,10 +236,7 @@ def test_validate_good_with_rr_data():
 
 
 def test_validate_with_rr_data_missing_rr():
-    eicr_result = {
-        "root": "2.16.840.1.113883.9.9.9.9.9",
-        "extension": "db734647-fc99-424c-a864-7e3cda82e704",
-    }
+    eicr_result = generate_eicr_results()
 
     expected_response = {
         "message_valid": False,
