@@ -15,6 +15,7 @@ ERROR_MESSAGES = {
     "warnings": [],
     "information": [],
     "message_ids": {},
+    "test": [],
 }
 
 
