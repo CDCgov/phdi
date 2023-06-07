@@ -15,13 +15,11 @@ ERROR_MESSAGES = {
     "warnings": [],
     "information": [],
     "message_ids": {},
-    "test": [],
 }
 
 
 def validate_ecr(ecr_message: str, config: dict, include_error_types: list) -> dict:
     """
-    s
     Receives an ecr message (a combined RR and eICR), a configuration of
     what fields are to be validated and how they are to be validated, as
     well as a list of error message types to include (default is all fatal
