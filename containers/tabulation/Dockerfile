@@ -8,6 +8,8 @@ RUN apt-get -y update && \
     apt-get upgrade -y && \
     apt-get -y install gcc
 
+RUN apt-get install -y git
+
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
