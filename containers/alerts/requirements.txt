@@ -3,9 +3,9 @@ azure-communication-phonenumbers
 azure-communication-sms
 azure-identity
 typing_extensions==4.5.0
-pydantic==1.9.0
-fastapi==0.95.0
-phdi @ git+https://github.com/CDCgov/phdi@updatepython
+pydantic==1.10.9
+fastapi==0.96.0
+phdi @ git+https://github.com/CDCgov/phdi/tree/kenneth/update-python
 uvicorn
 httpx
 slack_sdk
