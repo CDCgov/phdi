@@ -1,7 +1,7 @@
 import pathlib
 
 import yaml
-from test_data_generator import generate_ecr_msg_ids, generate_eicr_results
+from tests.test_data_generator import generate_eicr_results
 from phdi.validation.validation import validate_ecr
 
 

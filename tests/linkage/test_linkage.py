@@ -48,8 +48,6 @@ from random import seed
 from math import log
 from json.decoder import JSONDecodeError
 from tests.test_data_generator import (
-    generate_address_records,
-    generate_address_mpi_patients,
     generate_list_patients_contact,
 )
 

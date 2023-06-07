@@ -7,7 +7,7 @@ from phdi.validation.validation import (
     _clear_all_errors_and_ids,
     ERROR_MESSAGES,
 )
-from test_data_generator import generate_ecr_msg_ids
+from tests.test_data_generator import generate_ecr_msg_ids
 
 test_include_errors = ["fatal", "errors", "warnings", "information"]
 
