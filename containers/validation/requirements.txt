@@ -1,7 +1,7 @@
 typing_extensions==4.5.0
 pydantic==1.9.0
 fastapi==0.95.0
-phdi
+phdi @ git+https://github.com/CDCgov/phdi@updatepython
 uvicorn
 httpx
 pytest
