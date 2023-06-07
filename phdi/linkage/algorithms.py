@@ -1,16 +1,3 @@
-# Predefined columns that map to the DIBBs MPI
-IDX_TO_COL = {
-    0: "address",
-    1: "birthdate",
-    2: "city",
-    3: "first_name",
-    4: "last_name",
-    5: "mrn",
-    6: "sex",
-    7: "state",
-    8: "zip",
-}
-
 # Pre-computed log-odds points values for each of the DIBBs MPI
 # supported columns (derived from representative synthetic data)
 LOG_ODDS_SCORES = {
@@ -29,9 +16,9 @@ LOG_ODDS_SCORES = {
 DIBBS_BASIC = [
     {
         "funcs": {
-            1: "feature_match_fuzzy_string",
-            3: "feature_match_fuzzy_string",
-            4: "feature_match_fuzzy_string",
+            "first_name": "feature_match_fuzzy_string",
+            "last_name": "feature_match_fuzzy_string",
+            "birthdate": "feature_match_fuzzy_string",
         },
         "blocks": [
             {"value": "mrn", "transformation": "last4"},
@@ -42,8 +29,8 @@ DIBBS_BASIC = [
     },
     {
         "funcs": {
-            0: "feature_match_fuzzy_string",
-            2: "feature_match_fuzzy_string",
+            "address": "feature_match_fuzzy_string",
+            "city": "feature_match_fuzzy_string",
         },
         "blocks": [
             {"value": "first_name", "transformation": "first4"},
@@ -58,9 +45,9 @@ DIBBS_BASIC = [
 DIBBS_ENHANCED = [
     {
         "funcs": {
-            1: "feature_match_log_odds_fuzzy_compare",
-            3: "feature_match_log_odds_fuzzy_compare",
-            4: "feature_match_log_odds_fuzzy_compare",
+            "birthdate": "feature_match_log_odds_fuzzy_compare",
+            "first_name": "feature_match_log_odds_fuzzy_compare",
+            "last_name": "feature_match_log_odds_fuzzy_compare",
         },
         "blocks": [
             {"value": "mrn", "transformation": "last4"},
@@ -72,14 +59,13 @@ DIBBS_ENHANCED = [
             "similarity_measure": "JaroWinkler",
             "threshold": 0.7,
             "true_match_threshold": 16.5,
-            "idx_to_col": IDX_TO_COL,
             "log_odds": LOG_ODDS_SCORES,
         },
     },
     {
         "funcs": {
-            0: "feature_match_log_odds_fuzzy_compare",
-            2: "feature_match_log_odds_fuzzy_compare",
+            "address": "feature_match_log_odds_fuzzy_compare",
+            "city": "feature_match_log_odds_fuzzy_compare",
         },
         "blocks": [
             {"value": "first_name", "transformation": "first4"},
@@ -91,7 +77,6 @@ DIBBS_ENHANCED = [
             "similarity_measure": "JaroWinkler",
             "threshold": 0.7,
             "true_match_threshold": 7.0,
-            "idx_to_col": IDX_TO_COL,
             "log_odds": LOG_ODDS_SCORES,
         },
     },
