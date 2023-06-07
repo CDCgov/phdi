@@ -2,7 +2,9 @@ FROM python:3.10-slim
 
 WORKDIR /code
 
-RUN apt-get install -y git
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
