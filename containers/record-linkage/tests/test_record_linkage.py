@@ -168,3 +168,91 @@ def test_linkage_success():
     dbconn.close()
 
     pop_mpi_env_vars()
+
+
+def test_use_enhanced_algo():
+    set_mpi_env_vars()
+    entry_list = copy.deepcopy(test_bundle["entry"])
+
+    bundle_1 = test_bundle
+    bundle_1["entry"] = [entry_list[0]]
+    resp_1 = client.post(
+        "/link-record", json={"bundle": bundle_1, "use_enhanced": True}
+    )
+    new_bundle = resp_1.json()["updated_bundle"]
+    person_1 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert not resp_1.json()["found_match"]
+
+    bundle_2 = test_bundle
+    bundle_2["entry"] = [entry_list[1]]
+    resp_2 = client.post(
+        "/link-record", json={"bundle": bundle_2, "use_enhanced": True}
+    )
+    new_bundle = resp_2.json()["updated_bundle"]
+    person_2 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert resp_2.json()["found_match"]
+    assert person_2.get("id") == person_1.get("id")
+
+    bundle_3 = test_bundle
+    bundle_3["entry"] = [entry_list[2]]
+    resp_3 = client.post(
+        "/link-record", json={"bundle": bundle_3, "use_enhanced": True}
+    )
+    assert not resp_3.json()["found_match"]
+
+    bundle_4 = test_bundle
+    bundle_4["entry"] = [entry_list[3]]
+    resp_4 = client.post(
+        "/link-record", json={"bundle": bundle_4, "use_enhanced": True}
+    )
+    new_bundle = resp_4.json()["updated_bundle"]
+    person_4 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert resp_4.json()["found_match"]
+    assert person_4.get("id") == person_1.get("id")
+
+    bundle_5 = test_bundle
+    bundle_5["entry"] = [entry_list[4]]
+    resp_5 = client.post(
+        "/link-record", json={"bundle": bundle_5, "use_enhanced": True}
+    )
+    assert not resp_5.json()["found_match"]
+
+    bundle_6 = test_bundle
+    bundle_6["entry"] = [entry_list[5]]
+    resp_6 = client.post(
+        "/link-record", json={"bundle": bundle_6, "use_enhanced": True}
+    )
+    new_bundle = resp_6.json()["updated_bundle"]
+    person_6 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert resp_6.json()["found_match"]
+    assert person_6.get("id") == person_1.get("id")
+
+    # Clean up
+    dbconn = psycopg2.connect(
+        dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
+    )
+    cursor = dbconn.cursor()
+    cursor.execute("DROP TABLE IF EXISTS patient")
+    dbconn.commit()
+    cursor.execute("DROP TABLE IF EXISTS person")
+    dbconn.commit()
+    cursor.close()
+    dbconn.close()
+
+    pop_mpi_env_vars()
