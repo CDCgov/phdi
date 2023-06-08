@@ -2,6 +2,6 @@ typing_extensions==4.5.0
 uvicorn
 pydantic==1.9.0
 fastapi==0.95.0
-phdi @ git+https://github.com/CDCgov/phdi@main
+phdi @ git+https://github.com/CDCgov/phdi@sdk-linkage-indexing
 httpx
 pathlib
