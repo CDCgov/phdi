@@ -40,7 +40,7 @@ from phdi.linkage.link import (
     _condense_extract_address_from_resource,
 )
 from phdi.linkage import DIBBsConnectorClient
-from phdi.linkage import DIBBS_BASIC
+from phdi.linkage import DIBBS_BASIC, DIBBS_ENHANCED
 
 import pathlib
 import pytest
@@ -1025,6 +1025,90 @@ def test_link_record_against_mpi():
     #  in second pass name blocks on different cluster and address matches it,
     #  finds greatest strength match and correctly assigns to larger cluster
 
+    assert matches == [False, True, False, True, False, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
+
+    # Re-open connection to check for all insertions
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Extract all data
+    postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
+    postgres_client.connection.commit()
+    data = postgres_client.cursor.fetchall()
+
+    assert len(data) == 6
+
+    # Re-open connection to check that num records for each person
+    # ID matches what we found to link on (i.e. links were made
+    # correctly)
+    for person_id in mapped_patients:
+        postgres_client.connection = psycopg2.connect(
+            database=postgres_client.database,
+            user=postgres_client.user,
+            password=postgres_client.password,
+            host=postgres_client.host,
+            port=postgres_client.port,
+        )
+        postgres_client.cursor = postgres_client.connection.cursor()
+        postgres_client.cursor.execute(
+            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
+        )
+        postgres_client.connection.commit()
+        data = postgres_client.cursor.fetchall()
+        assert len(data) == mapped_patients[person_id]
+
+    _clean_up_postgres_client(postgres_client)
+
+
+def test_link_record_against_mpi_enhanced_algo():
+    algorithm = DIBBS_ENHANCED
+
+    postgres_client = _set_up_postgres_client()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        print(patient["resource"].get("id"))
+        matched, pid = link_record_against_mpi(
+            patient["resource"],
+            algorithm,
+            postgres_client,
+        )
+        matches.append(matched)
+        if pid not in mapped_patients:
+            mapped_patients[pid] = 0
+        mapped_patients[pid] += 1
+
+    # First patient inserted into empty MPI, no match
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    # Third patient is entirely new individual, no match
+    # Fourth patient fails blocking with first pass but catches on second, fuzzy matches
+    # Fifth patient: in first pass MRN blocks with one cluster but fails name,
+    #  in second pass name blocks with different cluster but fails address, no match
+    # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
+    #  in second pass name blocks on different cluster and address matches it,
+    #  finds greatest strength match and correctly assigns to larger cluster
     assert matches == [False, True, False, True, False, True]
     assert sorted(list(mapped_patients.values())) == [1, 1, 4]
 
