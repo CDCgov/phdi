@@ -220,8 +220,8 @@ def test_convert_conversion_failure(
         "/convert-to-fhir",
         json=valid_request,
     )
-    assert actual_response.status_code == 400
     assert actual_response.json().get("response") == conversion_failure_response
+    assert actual_response.status_code == 400
 
 
 @mock.patch("app.main.subprocess.run")
