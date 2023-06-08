@@ -102,9 +102,9 @@ def test_linkage_success():
         dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
     )
     cursor = dbconn.cursor()
-    cursor.execute("DROP TABLE IF EXISTS patient")
+    cursor.execute("DELETE IGNORE FROM patient;")
     dbconn.commit()
-    cursor.execute("DROP TABLE IF EXISTS person")
+    cursor.execute("DELETE IGNORE FROM person;")
     dbconn.commit()
     cursor.close()
     dbconn.close()
