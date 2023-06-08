@@ -1224,7 +1224,7 @@ def _compare_address_elements(
     for r in record[2:][idx]:
         for m in mpi_patient[2:][idx]:
             feature_comp = feature_funcs[feature_col](
-                [r], [m], "eval_col", {"eval_col": 0}, **kwargs
+                [r], [m], feature_col, {feature_col: 0}, **kwargs
             )
             if feature_comp is True:
                 break
@@ -1249,8 +1249,8 @@ def _compare_name_elements(
     feature_comp = feature_funcs[feature_col](
         [" ".join(n for n in record[2:][idx])],
         [" ".join(n for n in mpi_patient[2:][idx])],
-        "eval_col",
-        {"eval_col": 0},
+        feature_col,
+        {feature_col: 0},
         **kwargs,
     )
     return feature_comp
