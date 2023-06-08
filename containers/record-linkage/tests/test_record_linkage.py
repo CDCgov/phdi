@@ -97,17 +97,17 @@ def test_linkage_invalid_db_type():
 def test_linkage_success():
     set_mpi_env_vars()
 
-    # Clear MPI ahead of testing
-    dbconn = psycopg2.connect(
-        dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
-    )
-    cursor = dbconn.cursor()
-    cursor.execute("DROP TABLE IF EXISTS patient")
-    dbconn.commit()
-    cursor.execute("DROP TABLE IF EXISTS person")
-    dbconn.commit()
-    cursor.close()
-    dbconn.close()
+    # # Clear MPI ahead of testing
+    # dbconn = psycopg2.connect(
+    #     dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
+    # )
+    # cursor = dbconn.cursor()
+    # cursor.execute("DROP TABLE IF EXISTS patient")
+    # dbconn.commit()
+    # cursor.execute("DROP TABLE IF EXISTS person")
+    # dbconn.commit()
+    # cursor.close()
+    # dbconn.close()
 
     entry_list = copy.deepcopy(test_bundle["entry"])
 
