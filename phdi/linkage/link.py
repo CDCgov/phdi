@@ -1226,7 +1226,7 @@ def _compare_address_elements(
             feature_comp = feature_funcs[feature_col](
                 [r], [m], feature_col, {feature_col: 0}, **kwargs
             )
-            if feature_comp is True:
+            if feature_comp:
                 break
         break
     return feature_comp
