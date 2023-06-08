@@ -55,6 +55,11 @@ conversion_failure_response = {
     "_spec_set": None,
     "_spec_signature": None,
     "method_calls": [],
+    "original_request": {
+        "input_data": "VALID_INPUT_DATA",
+        "input_type": "elr",
+        "root_template": "ADT_A01",
+    },
     "returncode": 1,
 }
 
