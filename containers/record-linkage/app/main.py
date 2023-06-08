@@ -95,7 +95,8 @@ class LinkRecordInput(BaseModel):
         "DIBBs enhanced algorithm (with statistical correction) for record linkage. "
         "If `False` and no optional `algo_config` is provided, the service will use "
         "the DIBBs basic algorithm. If this parameter is set to `True`, the enhanced "
-        "algorithm will be used in place of any configuration supplied in `algo_config`.",
+        "algorithm will be used in place of any configuration supplied in "
+        "`algo_config`.",
         default=False,
     )
     algo_config: Optional[dict] = Field(
