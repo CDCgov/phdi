@@ -81,11 +81,11 @@ def geocode_bundle_endpoint(
 
     Two geocode methods are currently supported - Smarty and the U.S. Census.
 
-    If using the Smarty provider, an smarty_auth_id, smarty_auth_token and license_type must be
-    provided. If they are not provided as request parameters, then the service will
-    attempt to obtain them through environment variables. If they cannot be found in
-    either the request parameters or environment variables, an HTTP 400 status will be
-    returned.
+    If using the Smarty provider, an smarty_auth_id, smarty_auth_token and license_type
+    must be provided. If they are not provided as request parameters, then the service
+    will attempt to obtain them through environment variables. If they cannot be found
+    in either the request parameters or environment variables, an HTTP 400 status will
+    be returned.
     """
     input = dict(input)
 
