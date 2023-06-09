@@ -1,7 +1,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 from app.config import get_settings
-from app.main import app
+from app.main import app, run_migrations
 
 import copy
 import json
@@ -25,13 +25,15 @@ def set_mpi_env_vars():
 client = TestClient(app)
 
 
-test_bundle = json.load(
-    open(
-        pathlib.Path(__file__).parent
-        / "assets"
-        / "patient_bundle_to_link_with_mpi.json"
+def load_test_bundle():
+    test_bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent
+            / "assets"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
     )
-)
+    return test_bundle
 
 
 def pop_mpi_env_vars():
@@ -43,6 +45,19 @@ def pop_mpi_env_vars():
     os.environ.pop("mpi_port", None)
     os.environ.pop("mpi_patient_table", None)
     os.environ.pop("mpi_person_table", None)
+
+
+def clean_up_db():
+    dbconn = psycopg2.connect(
+        dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
+    )
+    cursor = dbconn.cursor()
+    cursor.execute("DROP TABLE IF EXISTS patient")
+    dbconn.commit()
+    cursor.execute("DROP TABLE IF EXISTS person")
+    dbconn.commit()
+    cursor.close()
+    dbconn.close()
 
 
 def test_health_check():
@@ -79,6 +94,8 @@ def test_linkage_invalid_db_type():
     os.environ["mpi_db_type"] = invalid_db_type
     get_settings.cache_clear()
 
+    test_bundle = load_test_bundle()
+
     expected_response = {
         "message": f"Unsupported database type {invalid_db_type} supplied. "
         + "Make sure your environment variables include an entry "
@@ -95,7 +112,13 @@ def test_linkage_invalid_db_type():
 
 
 def test_linkage_success():
+    # Clear MPI ahead of testing
+    clean_up_db()
+    run_migrations()
+    test_bundle = load_test_bundle()
+
     set_mpi_env_vars()
+
     entry_list = copy.deepcopy(test_bundle["entry"])
 
     bundle_1 = test_bundle
@@ -156,15 +179,6 @@ def test_linkage_success():
     assert person_6.get("id") == person_1.get("id")
 
     # Clean up
-    dbconn = psycopg2.connect(
-        dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
-    )
-    cursor = dbconn.cursor()
-    cursor.execute("DROP TABLE IF EXISTS patient")
-    dbconn.commit()
-    cursor.execute("DROP TABLE IF EXISTS person")
-    dbconn.commit()
-    cursor.close()
-    dbconn.close()
+    clean_up_db()
 
     pop_mpi_env_vars()
