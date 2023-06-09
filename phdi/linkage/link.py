@@ -946,12 +946,15 @@ def read_linkage_config(config_file: pathlib.Path) -> List[dict]:
       various parts of linkage pass function.
     """
     try:
-        algo_config = json.load(open(config_file))
-        # Need to convert function keys back to column indices, since
-        # JSON serializes dict keys as strings
-        for rl_pass in algo_config.get("algorithm"):
-            rl_pass["funcs"] = {int(col): f for (col, f) in rl_pass["funcs"].items()}
-        return algo_config.get("algorithm", [])
+        with open(config_file) as f:
+            algo_config = json.load(f)
+            # Need to convert function keys back to column indices, since
+            # JSON serializes dict keys as strings
+            for rl_pass in algo_config.get("algorithm"):
+                rl_pass["funcs"] = {
+                    int(col): f for (col, f) in rl_pass["funcs"].items()
+                }
+            return algo_config.get("algorithm", [])
     except FileNotFoundError:
         raise FileNotFoundError(f"No file exists at path {config_file}.")
     except json.decoder.JSONDecodeError as e:
