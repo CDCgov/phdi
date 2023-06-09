@@ -45,6 +45,19 @@ def pop_mpi_env_vars():
     os.environ.pop("mpi_person_table", None)
 
 
+def clean_up_db():
+    dbconn = psycopg2.connect(
+        dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
+    )
+    cursor = dbconn.cursor()
+    cursor.execute("DROP TABLE IF EXISTS patient")
+    dbconn.commit()
+    cursor.execute("DROP TABLE IF EXISTS person")
+    dbconn.commit()
+    cursor.close()
+    dbconn.close()
+
+
 def test_health_check():
     set_mpi_env_vars()
     actual_response = client.get("/")
@@ -95,19 +108,10 @@ def test_linkage_invalid_db_type():
 
 
 def test_linkage_success():
-    set_mpi_env_vars()
-
     # Clear MPI ahead of testing
-    dbconn = psycopg2.connect(
-        dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
-    )
-    cursor = dbconn.cursor()
-    cursor.execute("DELETE FROM patient;")
-    dbconn.commit()
-    cursor.execute("DELETE FROM person;")
-    dbconn.commit()
-    cursor.close()
-    dbconn.close()
+    clean_up_db()
+
+    set_mpi_env_vars()
 
     entry_list = copy.deepcopy(test_bundle["entry"])
 
