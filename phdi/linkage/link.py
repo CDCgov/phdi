@@ -400,7 +400,11 @@ def extract_blocking_values_from_record(
 
 
 def feature_match_exact(
-    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+    record_i: List,
+    record_j: List,
+    feature_col: str,
+    col_to_idx: dict[str, int],
+    **kwargs: dict,
 ) -> bool:
     """
     Determines whether a single feature in a given pair of records
@@ -408,15 +412,21 @@ def feature_match_exact(
 
     :param record_i: One of the records in the candidate pair to evaluate.
     :param record_j: The second record in the candidate pair.
-    :param feature_x: A number representing the index of the feature to
-      compare for equality.
+    :param feature_col: The name of the column being evaluated (e.g. "city").
+    :param col_to_idx: A dictionary mapping column names to the numeric index
+      in which they occur in order in the data.
     :return: A boolean indicating whether the features are an exact match.
     """
-    return record_i[feature_x] == record_j[feature_x]
+    idx = col_to_idx[feature_col]
+    return record_i[idx] == record_j[idx]
 
 
 def feature_match_four_char(
-    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+    record_i: List,
+    record_j: List,
+    feature_col: str,
+    col_to_idx: dict[str, int],
+    **kwargs: dict,
 ) -> bool:
     """
     Determines whether a string feature in a pair of records exactly matches
@@ -424,17 +434,23 @@ def feature_match_four_char(
 
     :param record_i: One of the records in the candidate pair to evaluate.
     :param record_j: The second record in the candidate pair.
-    :param feature_x: A number representing the index of the feature to
-      compare.
+    :param feature_col: The name of the column being evaluated (e.g. "city").
+    :param col_to_idx: A dictionary mapping column names to the numeric index
+      in which they occur in order in the data.
     :return: A boolean indicating whether the features are a match.
     """
-    first_four_i = record_i[feature_x][: min(4, len(record_i[feature_x]))]
-    first_four_j = record_j[feature_x][: min(4, len(record_j[feature_x]))]
+    idx = col_to_idx[feature_col]
+    first_four_i = record_i[idx][: min(4, len(record_i[idx]))]
+    first_four_j = record_j[idx][: min(4, len(record_j[idx]))]
     return first_four_i == first_four_j
 
 
 def feature_match_fuzzy_string(
-    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+    record_i: List,
+    record_j: List,
+    feature_col: str,
+    col_to_idx: dict[str, int],
+    **kwargs: dict,
 ) -> bool:
     """
     Determines whether two strings in a given pair of records are close
@@ -445,18 +461,21 @@ def feature_match_fuzzy_string(
 
     :param record_i: One of the records in the candidate pair to evaluate.
     :param record_j: The second record in the candidate pair.
-    :param feature_x: A number representing the index of the feature to
-      compare for a partial match.
+    :param feature_col: The name of the column being evaluated (e.g. "city").
+    :param col_to_idx: A dictionary mapping column names to the numeric index
+      in which they occur in order in the data.
     :param **kwargs: Optionally, a dictionary including specifications for
       the string comparison metric to use, as well as the cutoff score
       beyond which to classify the strings as a partial match.
     :return: A boolean indicating whether the features are a fuzzy match.
     """
+    idx = col_to_idx[feature_col]
+
     # Special case for two empty strings, since we don't want vacuous
     # equality (or in-) to penalize the score
-    if record_i[feature_x] == "" and record_j[feature_x] == "":
+    if record_i[idx] == "" and record_j[idx] == "":
         return True
-    if record_i[feature_x] is None and record_j[feature_x] is None:
+    if record_i[idx] is None and record_j[idx] is None:
         return True
 
     similarity_measure = "JaroWinkler"
@@ -465,14 +484,16 @@ def feature_match_fuzzy_string(
     threshold = 0.7
     if "threshold" in kwargs:
         threshold = kwargs["threshold"]
-    score = compare_strings(
-        record_i[feature_x], record_j[feature_x], similarity_measure
-    )
+    score = compare_strings(record_i[idx], record_j[idx], similarity_measure)
     return score >= threshold
 
 
 def feature_match_log_odds_exact(
-    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+    record_i: List,
+    record_j: List,
+    feature_col: str,
+    col_to_idx: dict[str, int],
+    **kwargs: dict,
 ) -> float:
     """
     Determines whether two feature values in two records should earn the full
@@ -482,24 +503,27 @@ def feature_match_log_odds_exact(
 
     :param record_i: One of the records in the candidate pair to evaluate.
     :param record_j: The second record in the candidate pair.
-    :param feature_x: A number representing the index of the feature to
-      compare for a partial match.
+    :param feature_col: The name of the column being evaluated (e.g. "city").
+    :param col_to_idx: A dictionary mapping column names to the numeric index
+      in which they occur in order in the data.
     :return: A float of the score the feature comparison earned.
     """
-    if "idx_to_col" not in kwargs:
-        raise KeyError("Mapping of indices to column names must be provided.")
     if "log_odds" not in kwargs:
         raise KeyError("Mapping of columns to m/u log-odds must be provided.")
-    col = kwargs["idx_to_col"][feature_x]
-    col_odds = kwargs["log_odds"][col]
-    if record_i[feature_x] == record_j[feature_x]:
+    col_odds = kwargs["log_odds"][feature_col]
+    idx = col_to_idx[feature_col]
+    if record_i[idx] == record_j[idx]:
         return col_odds
     else:
         return 0.0
 
 
 def feature_match_log_odds_fuzzy_compare(
-    record_i: List, record_j: List, feature_x: int, **kwargs: dict
+    record_i: List,
+    record_j: List,
+    feature_col: str,
+    col_to_idx: dict[str, int],
+    **kwargs: dict,
 ) -> float:
     """
     Determines the weighted string-odds similarly score earned by two
@@ -511,17 +535,16 @@ def feature_match_log_odds_fuzzy_compare(
 
     :param record_i: One of the records in the candidate pair to evaluate.
     :param record_j: The second record in the candidate pair.
-    :param feature_x: A number representing the index of the feature to
-      compare for a partial match.
+    :param feature_col: The name of the column being evaluated (e.g. "city").
+    :param col_to_idx: A dictionary mapping column names to the numeric index
+      in which they occur in order in the data.
     :return: A float of the score the feature comparison earned.
     """
-    if "idx_to_col" not in kwargs:
-        raise KeyError("Mapping of indices to column names must be provided.")
     if "log_odds" not in kwargs:
         raise KeyError("Mapping of columns to m/u log-odds must be provided.")
-    col = kwargs["idx_to_col"][feature_x]
-    col_odds = kwargs["log_odds"][col]
-    score = compare_strings(record_i[feature_x], record_j[feature_x], "JaroWinkler")
+    col_odds = kwargs["log_odds"][feature_col]
+    idx = col_to_idx[feature_col]
+    score = compare_strings(record_i[idx], record_j[idx], "JaroWinkler")
     return score * col_odds
 
 
@@ -590,8 +613,8 @@ def link_record_against_mpi(
         data_block = db_client.block_data(field_blocks)
 
         # First row of returned block is column headers
-        # Map idx to column name, not including patient/person IDs
-        idx_to_col = {k: v for k, v in enumerate(data_block[0][2:])}
+        # Map column name to idx, not including patient/person IDs
+        col_to_idx = {v: k for k, v in enumerate(data_block[0][2:])}
         data_block = data_block[1:]
 
         # Blocked fields are returned as LoLoL, but only name / address
@@ -599,16 +622,21 @@ def link_record_against_mpi(
         for i in range(len(data_block)):
             blocked_record = data_block[i]
             for j in range(len(blocked_record)):
-                # patient_id, person_id not included in idx->col mapping
+                # patient_id, person_id not included in col->idx mapping
                 if j < 2:
                     continue
-                if idx_to_col[j - 2] != "first_name" and idx_to_col[j - 2] != "address":
+                if col_to_idx["first_name"] != (j - 2) and col_to_idx["address"] != (
+                    j - 2
+                ):
                     while type(blocked_record[j]) == list:
                         # Handle empty list edge case.
                         if len(blocked_record[j]) == 0:
                             blocked_record[j] = ""
                             break
                         blocked_record[j] = blocked_record[j][0]
+                # Name / address come back as lists of one more depth than they should
+                else:
+                    blocked_record[j] = blocked_record[j][0]
 
         clusters = _group_patient_block_by_person(data_block)
 
@@ -621,7 +649,7 @@ def link_record_against_mpi(
                     flattened_record,
                     linked_patient,
                     linkage_pass["funcs"],
-                    idx_to_col,
+                    col_to_idx,
                     linkage_pass["matching_rule"],
                     **kwargs,
                 )
@@ -683,7 +711,8 @@ def load_json_probs(path: pathlib.Path):
 
 def match_within_block(
     block: List[List],
-    feature_funcs: dict[int, Callable],
+    feature_funcs: dict[str, Callable],
+    col_to_idx: dict[str, int],
     match_eval: Callable,
     **kwargs,
 ) -> List[tuple]:
@@ -713,6 +742,8 @@ def match_within_block(
       record must be an "id" for the record.
     :param feature_funcs: A dictionary mapping feature indices to functions
       used to evaluate those features for a match.
+    :param col_to_idx: A dictionary mapping column names to the numeric index
+      in which they occur in order in the data.
     :param match_eval: A function for determining whether a given set of
       feature comparisons constitutes a match for linkage.
     :return: A list of 2-tuples of the form (i,j), where i,j give the indices
@@ -726,9 +757,10 @@ def match_within_block(
         for j in range(i + 1, len(block)):
             record_j = block[j]
             feature_comps = [
-                feature_funcs[x](record_i, record_j, x, **kwargs)
-                for x in range(len(record_i))
-                if x in feature_funcs
+                feature_funcs[feature_col](
+                    record_i, record_j, feature_col, col_to_idx, **kwargs
+                )
+                for feature_col in feature_funcs
             ]
 
             # If it's a match, store the result
@@ -746,7 +778,7 @@ def match_within_block(
 def perform_linkage_pass(
     data: pd.DataFrame,
     blocks: List,
-    feature_funcs: dict[int, Callable],
+    feature_funcs: dict[str, Callable],
     matching_rule: Callable,
     cluster_ratio: Union[float, None] = None,
     **kwargs,
@@ -770,6 +802,10 @@ def perform_linkage_pass(
     :return: A dictionary mapping each block found in the pass to the matches
       discovered within that block.
     """
+    # Retrieve indices of columns
+    cols = list(data.columns.values)
+    col_to_idx = dict(zip(cols, range(len(cols))))
+
     blocked_data = block_data(data, blocks)
     matches = {}
     for block in blocked_data:
@@ -778,12 +814,13 @@ def perform_linkage_pass(
                 blocked_data[block],
                 cluster_ratio,
                 feature_funcs,
+                col_to_idx,
                 matching_rule,
                 **kwargs,
             )
         else:
             matches_in_block = match_within_block(
-                blocked_data[block], feature_funcs, matching_rule, **kwargs
+                blocked_data[block], feature_funcs, col_to_idx, matching_rule, **kwargs
             )
         matches_in_block = _map_matches_to_record_ids(
             matches_in_block, blocked_data[block], cluster_ratio is not None
@@ -1091,7 +1128,8 @@ def _eval_record_in_cluster(
     i: int,
     cluster: set,
     cluster_ratio: float,
-    feature_funcs: dict[int, Callable],
+    feature_funcs: dict[str, Callable],
+    col_to_idx: dict[str, int],
     match_eval: Callable,
     **kwargs,
 ):
@@ -1105,9 +1143,10 @@ def _eval_record_in_cluster(
     for j in cluster:
         record_j = block[j]
         feature_comps = [
-            feature_funcs[x](record_i, record_j, x, **kwargs)
-            for x in range(len(record_i))
-            if x in feature_funcs
+            feature_funcs[feature_col](
+                record_i, record_j, feature_col, col_to_idx, **kwargs
+            )
+            for feature_col in feature_funcs
         ]
 
         is_match = match_eval(feature_comps)
@@ -1122,7 +1161,7 @@ def _compare_records(
     record: List,
     mpi_patient: List,
     feature_funcs: dict,
-    idx_to_col: dict,
+    col_to_idx: dict[str, int],
     matching_rule: callable,
     **kwargs,
 ) -> bool:
@@ -1135,9 +1174,14 @@ def _compare_records(
     # Don't use the first two ID cols when linking
     feature_comps = [
         _compare_records_field_helper(
-            record[2:], mpi_patient[2:], x, idx_to_col, feature_funcs, **kwargs
+            record[2:],
+            mpi_patient[2:],
+            feature_col,
+            col_to_idx,
+            feature_funcs,
+            **kwargs,
         )
-        for x in feature_funcs
+        for feature_col in feature_funcs
     ]
     is_match = matching_rule(feature_comps, **kwargs)
     return is_match
@@ -1146,26 +1190,31 @@ def _compare_records(
 def _compare_records_field_helper(
     record: List,
     mpi_patient: List,
-    idx: int,
-    idx_to_col: dict,
+    feature_col: str,
+    col_to_idx: dict[str, int],
     feature_funcs: dict,
     **kwargs,
 ) -> bool:
-    if idx_to_col[idx] == "first_name":
-        return _compare_name_elements(record, mpi_patient, feature_funcs, idx, **kwargs)
-    elif idx_to_col[idx] == "address":
+    if feature_col == "first_name":
+        return _compare_name_elements(
+            record, mpi_patient, feature_funcs, feature_col, col_to_idx, **kwargs
+        )
+    elif feature_col == "address":
         return _compare_address_elements(
-            record, mpi_patient, feature_funcs, idx, **kwargs
+            record, mpi_patient, feature_funcs, feature_col, col_to_idx, **kwargs
         )
     else:
-        return feature_funcs[idx](record, mpi_patient, idx, **kwargs)
+        return feature_funcs[feature_col](
+            record, mpi_patient, feature_col, col_to_idx, **kwargs
+        )
 
 
 def _compare_address_elements(
     record: List,
     mpi_patient: List,
-    feature_func: dict,
-    x,
+    feature_funcs: dict,
+    feature_col: str,
+    col_to_idx: dict[str, int],
     **kwargs,
 ) -> bool:
     """
@@ -1174,10 +1223,13 @@ def _compare_address_elements(
     the MPI.
     """
     feature_comp = False
-    for r in record[2:][x]:
-        for m in mpi_patient[2:][x]:
-            feature_comp = feature_func[x]([r], [m], 0, **kwargs)
-            if feature_comp is True:
+    idx = col_to_idx[feature_col]
+    for r in record[idx]:
+        for m in mpi_patient[idx]:
+            feature_comp = feature_funcs[feature_col](
+                [r], [m], feature_col, {feature_col: 0}, **kwargs
+            )
+            if feature_comp:
                 break
         break
     return feature_comp
@@ -1186,8 +1238,9 @@ def _compare_address_elements(
 def _compare_name_elements(
     record: List,
     mpi_patient: List,
-    feature_func: dict,
-    x,
+    feature_funcs: dict,
+    feature_col: str,
+    col_to_idx: dict[str, int],
     **kwargs,
 ) -> bool:
     """
@@ -1195,11 +1248,12 @@ def _compare_name_elements(
     new patient record's name(s) to all elements of the flattened
     patient's name(s) pulled from the MPI.
     """
-
-    feature_comp = feature_func[x](
-        [" ".join(n for n in record[2:][x])],
-        [" ".join(n for n in mpi_patient[2:][x])],
-        0,
+    idx = col_to_idx[feature_col]
+    feature_comp = feature_funcs[feature_col](
+        [" ".join(n for n in record[idx])],
+        [" ".join(n for n in mpi_patient[idx])],
+        feature_col,
+        {feature_col: 0},
         **kwargs,
     )
     return feature_comp
@@ -1311,7 +1365,8 @@ def _map_matches_to_record_ids(
 def _match_within_block_cluster_ratio(
     block: List[List],
     cluster_ratio: float,
-    feature_funcs: dict[int, Callable],
+    feature_funcs: dict[str, Callable],
+    col_to_idx: dict[str, int],
     match_eval: Callable,
     **kwargs,
 ) -> List[set]:
@@ -1334,6 +1389,8 @@ def _match_within_block_cluster_ratio(
       to qualify for membership in the cluster.
     :param feature_funcs: A dictionary mapping feature indices to functions
       used to evaluate those features for a match.
+    :param col_to_idx: A dictionary mapping column names to the numeric index
+      in which they occur in order in the data.
     :param match_eval: A function for determining whether a given set of
       feature comparisons constitutes a match for linkage.
     :return: A list of 2-tuples of the form (i,j), where i,j give the indices
@@ -1350,7 +1407,14 @@ def _match_within_block_cluster_ratio(
         # Iterate through clusters to find one that we match with
         for cluster in clusters:
             belongs = _eval_record_in_cluster(
-                block, i, cluster, cluster_ratio, feature_funcs, match_eval, **kwargs
+                block,
+                i,
+                cluster,
+                cluster_ratio,
+                feature_funcs,
+                col_to_idx,
+                match_eval,
+                **kwargs,
             )
             if belongs:
                 found_master_cluster = True

@@ -40,7 +40,7 @@ from phdi.linkage.link import (
     _condense_extract_address_from_resource,
 )
 from phdi.linkage import DIBBsConnectorClient
-from phdi.linkage import DIBBS_BASIC
+from phdi.linkage import DIBBS_BASIC, DIBBS_ENHANCED
 
 import pathlib
 import pytest
@@ -202,30 +202,37 @@ def test_feature_match_exact():
     record_j = [1, 0, -1, "blah", "", True]
     record_k = [2, 10, -10, "no match", "null", False]
 
+    cols = {"col_1": 0, "col_2": 1, "col_3": 2, "col_4": 3, "col_5": 4, "col_6": 5}
+
     # Simultaneously test matches and non-matches of different data types
-    for i in range(len(record_i)):
-        assert feature_match_exact(record_i, record_j, i)
-        assert not feature_match_exact(record_i, record_k, i)
+    for c in cols:
+        assert feature_match_exact(record_i, record_j, c, cols)
+        assert not feature_match_exact(record_i, record_k, c, cols)
 
     # Special case for matching None--None == None is vacuous
-    assert feature_match_exact([None], [None], 0)
+    assert feature_match_exact([None], [None], "col_7", {"col_7": 0})
 
 
 def test_feature_match_fuzzy_string():
     record_i = ["string1", "John", "John", "", None]
     record_j = ["string2", "Jhon", "Jon", "", None]
-    for i in range(len(record_i)):
+
+    cols = {"col_1": 0, "col_2": 1, "col_3": 2, "col_4": 3}
+
+    for c in cols:
         assert feature_match_fuzzy_string(
             record_i,
             record_j,
-            i,
+            c,
+            cols,
             similarity_measure="JaroWinkler",
             threshold=0.7,
         )
     assert not feature_match_fuzzy_string(
         ["no match"],
         ["dont match me bro"],
-        0,
+        "col_5",
+        {"col_5": 0},
         similarity_measure="JaroWinkler",
         threshold=0.7,
     )
@@ -256,21 +263,22 @@ def test_match_within_block_cluster_ratio():
 
     eval_rule = eval_perfect_match
     funcs = {
-        1: feature_match_fuzzy_string,
-        2: feature_match_fuzzy_string,
-        3: feature_match_exact,
-        4: feature_match_exact,
+        "first": feature_match_fuzzy_string,
+        "last": feature_match_fuzzy_string,
+        "dob": feature_match_exact,
+        "zip": feature_match_exact,
     }
+    col_to_idx = {"first": 1, "last": 2, "dob": 3, "zip": 4}
 
     # Do a test run requiring total membership match
     matches = _match_within_block_cluster_ratio(
-        data, 1.0, funcs, eval_rule, threshold=0.8
+        data, 1.0, funcs, col_to_idx, eval_rule, threshold=0.8
     )
     assert matches == [{0, 1, 2}, {3}, {4}, {5}, {6}, {7, 8, 10}, {9}, {11}]
 
     # Now do a test showing different cluster groupings
     matches = _match_within_block_cluster_ratio(
-        data, 0.6, funcs, eval_rule, threshold=0.8
+        data, 0.6, funcs, col_to_idx, eval_rule, threshold=0.8
     )
     assert matches == [{0, 1, 2, 3}, {4}, {5}, {6}, {7, 8, 10, 11}, {9}]
 
@@ -294,26 +302,32 @@ def test_match_within_block():
     # First, require exact matches on everything to match
     # Expect 0 pairs
     funcs = {
-        1: feature_match_exact,
-        2: feature_match_exact,
-        3: feature_match_exact,
-        4: feature_match_exact,
+        "first": feature_match_exact,
+        "last": feature_match_exact,
+        "dob": feature_match_exact,
+        "zip": feature_match_exact,
     }
-    match_pairs = match_within_block(data, funcs, eval_rule)
+    col_to_idx = {"first": 1, "last": 2, "dob": 3, "zip": 4}
+    match_pairs = match_within_block(data, funcs, col_to_idx, eval_rule)
     assert len(match_pairs) == 0
 
     # Now, require exact on DOB and zip, but allow fuzzy on first and last
     # Expect 6 matches
-    funcs[1] = feature_match_fuzzy_string
-    funcs[2] = feature_match_fuzzy_string
-    match_pairs = match_within_block(data, funcs, eval_rule)
+    funcs["first"] = feature_match_fuzzy_string
+    funcs["last"] = feature_match_fuzzy_string
+    match_pairs = match_within_block(data, funcs, col_to_idx, eval_rule)
     assert match_pairs == [(0, 1), (0, 2), (1, 2), (5, 6), (5, 8), (6, 8)]
 
     # As above, but let's be explicit about string comparison and threshold
     # Expect three matches, but none with the "Johns"
     # Note the difference in returned results by changing distance function
     match_pairs = match_within_block(
-        data, funcs, eval_rule, similarity_measure="Levenshtein", threshold=0.8
+        data,
+        funcs,
+        col_to_idx,
+        eval_rule,
+        similarity_measure="Levenshtein",
+        threshold=0.8,
     )
     assert match_pairs == [(5, 6), (5, 8), (6, 8)]
 
@@ -382,18 +396,18 @@ def test_compile_match_lists():
         ],
     )
     funcs = {
-        1: feature_match_four_char,
-        2: feature_match_four_char,
-        3: feature_match_exact,
+        "FIRST": feature_match_four_char,
+        "LAST": feature_match_four_char,
+        "GENDER": feature_match_exact,
     }
     matches_1 = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match)
     funcs = {
-        1: feature_match_four_char,
-        2: feature_match_four_char,
-        4: feature_match_four_char,
+        "FIRST": feature_match_four_char,
+        "LAST": feature_match_four_char,
+        "ADDRESS": feature_match_four_char,
     }
     matches_2 = perform_linkage_pass(data, ["BIRTHDATE"], funcs, eval_perfect_match)
-    funcs = {3: feature_match_exact}
+    funcs = {"GENDER": feature_match_exact}
     matches_3 = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match)
     assert compile_match_lists([matches_1, matches_2, matches_3], False) == {
         1: {5, 11, 12, 13},
@@ -411,10 +425,12 @@ def test_feature_match_four_char():
     record_j = ["John", "Sheperd"]
     record_k = ["Jhon", "Sehpard"]
 
+    cols = {"first": 0, "last": 1}
+
     # Simultaneously test matches and non-matches of different data types
-    for i in range(len(record_i)):
-        assert feature_match_four_char(record_i, record_j, i)
-        assert not feature_match_four_char(record_i, record_k, i)
+    for c in cols:
+        assert feature_match_four_char(record_i, record_j, c, cols)
+        assert not feature_match_four_char(record_i, record_k, c, cols)
 
 
 def test_map_matches_to_ids():
@@ -506,9 +522,9 @@ def test_perform_linkage_pass():
         ],
     )
     funcs = {
-        1: feature_match_four_char,
-        2: feature_match_four_char,
-        3: feature_match_exact,
+        "FIRST": feature_match_four_char,
+        "LAST": feature_match_four_char,
+        "GENDER": feature_match_exact,
     }
     matches = perform_linkage_pass(data, ["ZIP"], funcs, eval_perfect_match, None)
     assert matches == {
@@ -753,49 +769,40 @@ def test_eval_log_odds_cutoff():
 
 def test_feature_match_log_odds_exact():
     with pytest.raises(KeyError) as e:
-        feature_match_log_odds_exact([], [], 0)
-    assert "Mapping of indices to column names must be provided" in str(e.value)
-    with pytest.raises(KeyError) as e:
-        feature_match_log_odds_exact([], [], 0, idx_to_col={})
+        feature_match_log_odds_exact([], [], "c", {})
     assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
 
     ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
     rj = ["John", 6.0, None, "2345 Goldmoon Ave."]
-    idx_to_col = {0: "first", 1: "last", 2: "birthdate", 3: "address"}
+    col_to_idx = {"first": 0, "last": 1, "birthdate": 2, "address": 3}
     log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
 
     assert (
-        feature_match_log_odds_exact(
-            ri, rj, 0, idx_to_col=idx_to_col, log_odds=log_odds
-        )
+        feature_match_log_odds_exact(ri, rj, "first", col_to_idx, log_odds=log_odds)
         == 4.0
     )
 
-    for i in range(1, 4):
-        assert (
-            feature_match_log_odds_exact(
-                ri, rj, i, idx_to_col=idx_to_col, log_odds=log_odds
+    for c in col_to_idx:
+        if c != "first":
+            assert (
+                feature_match_log_odds_exact(ri, rj, c, col_to_idx, log_odds=log_odds)
+                == 0.0
             )
-            == 0.0
-        )
 
 
 def test_feature_match_log_odds_fuzzy():
     with pytest.raises(KeyError) as e:
-        feature_match_log_odds_fuzzy_compare([], [], 0)
-    assert "Mapping of indices to column names must be provided" in str(e.value)
-    with pytest.raises(KeyError) as e:
-        feature_match_log_odds_fuzzy_compare([], [], 0, idx_to_col={})
+        feature_match_log_odds_fuzzy_compare([], [], "c", {})
     assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
 
     ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
     rj = ["John", "Sheperd", "06-08-2000", "asdfghjeki"]
-    idx_to_col = {0: "first", 1: "last", 2: "birthdate", 3: "address"}
+    col_to_idx = {"first": 0, "last": 1, "birthdate": 2, "address": 3}
     log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
 
     assert (
         feature_match_log_odds_fuzzy_compare(
-            ri, rj, 0, idx_to_col=idx_to_col, log_odds=log_odds
+            ri, rj, "first", col_to_idx, log_odds=log_odds
         )
         == 4.0
     )
@@ -803,7 +810,7 @@ def test_feature_match_log_odds_fuzzy():
     assert (
         round(
             feature_match_log_odds_fuzzy_compare(
-                ri, rj, 1, idx_to_col=idx_to_col, log_odds=log_odds
+                ri, rj, "last", col_to_idx, log_odds=log_odds
             ),
             3,
         )
@@ -813,7 +820,7 @@ def test_feature_match_log_odds_fuzzy():
     assert (
         round(
             feature_match_log_odds_fuzzy_compare(
-                ri, rj, 2, idx_to_col=idx_to_col, log_odds=log_odds
+                ri, rj, "birthdate", col_to_idx, log_odds=log_odds
             ),
             3,
         )
@@ -823,7 +830,7 @@ def test_feature_match_log_odds_fuzzy():
     assert (
         round(
             feature_match_log_odds_fuzzy_compare(
-                ri, rj, 3, idx_to_col=idx_to_col, log_odds=log_odds
+                ri, rj, "address", col_to_idx, log_odds=log_odds
             ),
             3,
         )
@@ -1060,6 +1067,90 @@ def test_link_record_against_mpi():
     _clean_up_postgres_client(postgres_client)
 
 
+def test_link_record_against_mpi_enhanced_algo():
+    algorithm = DIBBS_ENHANCED
+
+    postgres_client = _set_up_postgres_client()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        print(patient["resource"].get("id"))
+        matched, pid = link_record_against_mpi(
+            patient["resource"],
+            algorithm,
+            postgres_client,
+        )
+        matches.append(matched)
+        if pid not in mapped_patients:
+            mapped_patients[pid] = 0
+        mapped_patients[pid] += 1
+
+    # First patient inserted into empty MPI, no match
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    # Third patient is entirely new individual, no match
+    # Fourth patient fails blocking with first pass but catches on second, fuzzy matches
+    # Fifth patient: in first pass MRN blocks with one cluster but fails name,
+    #  in second pass name blocks with different cluster but fails address, no match
+    # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
+    #  in second pass name blocks on different cluster and address matches it,
+    #  finds greatest strength match and correctly assigns to larger cluster
+    assert matches == [False, True, False, True, False, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
+
+    # Re-open connection to check for all insertions
+    postgres_client.connection = psycopg2.connect(
+        database=postgres_client.database,
+        user=postgres_client.user,
+        password=postgres_client.password,
+        host=postgres_client.host,
+        port=postgres_client.port,
+    )
+    postgres_client.cursor = postgres_client.connection.cursor()
+
+    # Extract all data
+    postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
+    postgres_client.connection.commit()
+    data = postgres_client.cursor.fetchall()
+
+    assert len(data) == 6
+
+    # Re-open connection to check that num records for each person
+    # ID matches what we found to link on (i.e. links were made
+    # correctly)
+    for person_id in mapped_patients:
+        postgres_client.connection = psycopg2.connect(
+            database=postgres_client.database,
+            user=postgres_client.user,
+            password=postgres_client.password,
+            host=postgres_client.host,
+            port=postgres_client.port,
+        )
+        postgres_client.cursor = postgres_client.connection.cursor()
+        postgres_client.cursor.execute(
+            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
+        )
+        postgres_client.connection.commit()
+        data = postgres_client.cursor.fetchall()
+        assert len(data) == mapped_patients[person_id]
+
+    _clean_up_postgres_client(postgres_client)
+
+
 def test_add_person_resource():
     bundle = json.load(
         open(
@@ -1093,9 +1184,9 @@ def test_add_person_resource():
 
 def test_compare_address_elements():
     feature_funcs = {
-        2: feature_match_four_char,
+        "address": feature_match_four_char,
     }
-    x = 2
+    col_to_idx = {"address": 2}
     record = [
         ["123"],
         ["1"],
@@ -1126,24 +1217,24 @@ def test_compare_address_elements():
     ]
 
     same_address = _compare_address_elements(
-        record=record, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+        record, mpi_patient1, feature_funcs, "address", col_to_idx
     )
     assert same_address is True
 
     same_address = _compare_address_elements(
-        record=record2, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+        record2, mpi_patient1, feature_funcs, "address", col_to_idx
     )
     assert same_address is True
 
     different_address = _compare_address_elements(
-        record=record, mpi_patient=mpi_patient2, feature_func=feature_funcs, x=x
+        record, mpi_patient2, feature_funcs, "address", col_to_idx
     )
     assert different_address is False
 
 
 def test_compare_name_elements():
-    feature_funcs = {0: feature_match_fuzzy_string}
-    x = 0
+    feature_funcs = {"first": feature_match_fuzzy_string}
+    col_to_idx = {"first": 0}
     record = [
         ["123"],
         ["1"],
@@ -1181,24 +1272,24 @@ def test_compare_name_elements():
     ]
 
     same_name = _compare_name_elements(
-        record=record, mpi_patient=record2, feature_func=feature_funcs, x=x
+        record[2:], record2[2:], feature_funcs, "first", col_to_idx
     )
     assert same_name is True
 
     # Assert same first name with new middle name in record == true fuzzy match
     add_middle_name = _compare_name_elements(
-        record=record3, mpi_patient=mpi_patient2, feature_func=feature_funcs, x=x
+        record3[2:], mpi_patient2[2:], feature_funcs, "first", col_to_idx
     )
     assert add_middle_name is True
 
     add_middle_name = _compare_name_elements(
-        record=record, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+        record[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
     )
     assert add_middle_name is True
 
     # Assert no match with different names
     different_names = _compare_name_elements(
-        record=record3, mpi_patient=mpi_patient1, feature_func=feature_funcs, x=x
+        record3[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
     )
     assert different_names is False
 
