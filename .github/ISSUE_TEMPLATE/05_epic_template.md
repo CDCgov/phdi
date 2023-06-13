@@ -1,3 +1,12 @@
+---
+name: Epic
+about: a body of work that can be broken down into specific tasks
+title: ''
+labels: Epic
+assignees: ''
+
+---
+
 ## Why are we doing this work?
 
 <!-- 
