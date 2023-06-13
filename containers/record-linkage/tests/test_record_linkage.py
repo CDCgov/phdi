@@ -260,6 +260,6 @@ def test_use_enhanced_algo():
     ][0]
     assert resp_6.json()["found_match"]
     assert person_6.get("id") == person_1.get("id")
-    
+
     clean_up_db()
     pop_mpi_env_vars()
