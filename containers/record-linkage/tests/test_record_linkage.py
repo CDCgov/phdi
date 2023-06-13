@@ -112,6 +112,11 @@ def test_linkage_invalid_db_type():
 
 
 def test_linkage_success():
+    # Clear MPI ahead of testing
+    clean_up_db()
+    run_migrations()
+    test_bundle = load_test_bundle()
+
     set_mpi_env_vars()
     clean_up_db()
     run_migrations()
@@ -255,6 +260,6 @@ def test_use_enhanced_algo():
     ][0]
     assert resp_6.json()["found_match"]
     assert person_6.get("id") == person_1.get("id")
-
+    
     clean_up_db()
     pop_mpi_env_vars()
