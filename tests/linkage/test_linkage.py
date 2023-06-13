@@ -1272,24 +1272,24 @@ def test_compare_name_elements():
     ]
 
     same_name = _compare_name_elements(
-        record, record2, feature_funcs, "first", col_to_idx
+        record[2:], record2[2:], feature_funcs, "first", col_to_idx
     )
     assert same_name is True
 
     # Assert same first name with new middle name in record == true fuzzy match
     add_middle_name = _compare_name_elements(
-        record3, mpi_patient2, feature_funcs, "first", col_to_idx
+        record3[2:], mpi_patient2[2:], feature_funcs, "first", col_to_idx
     )
     assert add_middle_name is True
 
     add_middle_name = _compare_name_elements(
-        record, mpi_patient1, feature_funcs, "first", col_to_idx
+        record[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
     )
     assert add_middle_name is True
 
     # Assert no match with different names
     different_names = _compare_name_elements(
-        record3, mpi_patient1, feature_funcs, "first", col_to_idx
+        record3[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
     )
     assert different_names is False
 
