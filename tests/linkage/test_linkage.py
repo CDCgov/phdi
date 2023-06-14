@@ -47,6 +47,9 @@ import pytest
 from random import seed
 from math import log
 from json.decoder import JSONDecodeError
+from tests.test_data_generator import (
+    generate_list_patients_contact,
+)
 
 
 def _set_up_postgres_client():
@@ -367,20 +370,7 @@ def test_block_parquet_data():
 
 
 def test_compile_match_lists():
-    data = [
-        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
-        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
-        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
-        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
-        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
-        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
-        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
-        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
-        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
-        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
-        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
-        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
-    ]
+    data = generate_list_patients_contact()
     data = pd.DataFrame(
         data,
         columns=[
@@ -434,20 +424,7 @@ def test_feature_match_four_char():
 
 
 def test_map_matches_to_ids():
-    data = [
-        ["11-7-2153", "John", "Shepard", "", "", "", "", "90909", 1],
-        ["11-7-2153", "Jhon", "Sheperd", "", "", "", "", "90909", 5],
-        ["11-7-2153", "Jon", "Shepherd", "", "", "", "", "90909", 11],
-        ["11-7-2153", "Johnathan", "Shepard", "", "", "", "", "90909", 12],
-        ["11-7-2153", "Nathan", "Shepard", "", "", "", "", "90909", 13],
-        ["01-10-1986", "Jane", "Smith", "", "", "", "", "12345", 14],
-        ["12-12-1992", "Daphne", "Walker", "", "", "", "", "23456", 18],
-        ["1-1-1980", "Alejandro", "Villanueve", "", "", "", "", "15935", 23],
-        ["1-1-1980", "Alejandro", "Villanueva", "", "", "", "", "15935", 24],
-        ["2-2-1990", "Philip", "", "", "", "", "", "64873", 27],
-        ["1-1-1980", "Alejandr", "Villanueve", "", "", "", "", "15935", 31],
-        ["1-1-1980", "Aelxdrano", "Villanueve", "", "", "", "", "15935", 32],
-    ]
+    data = generate_list_patients_contact()
     data = pd.DataFrame(
         data,
         columns=[
@@ -1272,24 +1249,24 @@ def test_compare_name_elements():
     ]
 
     same_name = _compare_name_elements(
-        record, record2, feature_funcs, "first", col_to_idx
+        record[2:], record2[2:], feature_funcs, "first", col_to_idx
     )
     assert same_name is True
 
     # Assert same first name with new middle name in record == true fuzzy match
     add_middle_name = _compare_name_elements(
-        record3, mpi_patient2, feature_funcs, "first", col_to_idx
+        record3[2:], mpi_patient2[2:], feature_funcs, "first", col_to_idx
     )
     assert add_middle_name is True
 
     add_middle_name = _compare_name_elements(
-        record, mpi_patient1, feature_funcs, "first", col_to_idx
+        record[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
     )
     assert add_middle_name is True
 
     # Assert no match with different names
     different_names = _compare_name_elements(
-        record3, mpi_patient1, feature_funcs, "first", col_to_idx
+        record3[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
     )
     assert different_names is False
 
