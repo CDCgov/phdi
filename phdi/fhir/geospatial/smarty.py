@@ -15,9 +15,12 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
     """
 
     def __init__(
-        self, auth_id: str, auth_token: str, licenses: list[str] = ["us-standard-cloud"]
+        self,
+        smarty_auth_id: str,
+        smarty_auth_token: str,
+        licenses: list[str] = ["us-standard-cloud"],
     ):
-        self.__client = SmartyGeocodeClient(auth_id, auth_token, licenses)
+        self.__client = SmartyGeocodeClient(smarty_auth_id, smarty_auth_token, licenses)
 
     @property
     def geocode_client(self) -> us_street.Client:

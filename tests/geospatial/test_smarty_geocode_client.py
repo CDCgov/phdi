@@ -61,9 +61,9 @@ def test_parse_smarty_result_failure():
 
 
 def test_geocode_from_str():
-    auth_id = mock.Mock()
-    auth_token = mock.Mock()
-    smarty_client = SmartyGeocodeClient(auth_id, auth_token)
+    smarty_auth_id = mock.Mock()
+    smarty_auth_token = mock.Mock()
+    smarty_client = SmartyGeocodeClient(smarty_auth_id, smarty_auth_token)
     assert smarty_client.client is not None
 
     candidate = Candidate({})
@@ -107,9 +107,9 @@ def test_geocode_from_str():
 
 
 def test_geocode_from_dict():
-    auth_id = mock.Mock()
-    auth_token = mock.Mock()
-    smarty_client = SmartyGeocodeClient(auth_id, auth_token)
+    smarty_auth_id = mock.Mock()
+    smarty_auth_token = mock.Mock()
+    smarty_client = SmartyGeocodeClient(smarty_auth_id, smarty_auth_token)
     assert smarty_client.client is not None
 
     candidate = Candidate({})
@@ -157,9 +157,9 @@ def test_geocode_from_dict():
 
 
 def test_blank_geocode_inputs():
-    auth_id = mock.Mock()
-    auth_token = mock.Mock()
-    smarty_client = SmartyGeocodeClient(auth_id, auth_token)
+    smarty_auth_id = mock.Mock()
+    smarty_auth_token = mock.Mock()
+    smarty_client = SmartyGeocodeClient(smarty_auth_id, smarty_auth_token)
     assert smarty_client.client is not None
 
     geocoded_response = None

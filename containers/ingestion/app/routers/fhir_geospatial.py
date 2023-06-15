@@ -38,14 +38,14 @@ class GeocodeAddressInBundleInput(BaseModel):
     geocode_method: Literal["smarty", "census"] = Field(
         description="The geocoding service to be used."
     )
-    auth_id: Optional[str] = Field(
+    smarty_auth_id: Optional[str] = Field(
         description="Authentication ID for the geocoding service. Must be provided in "
         "the request body or set as an environment variable of the "
         "service if "
         "`geocode_method` is `smarty`.",
         default="",
     )
-    auth_token: Optional[str] = Field(
+    smarty_auth_token: Optional[str] = Field(
         description="Authentication Token for the geocoding service. Must be provided "
         "in the request body or set as an environment variable of the "
         "service if "
@@ -81,16 +81,16 @@ def geocode_bundle_endpoint(
 
     Two geocode methods are currently supported - Smarty and the U.S. Census.
 
-    If using the Smarty provider, an auth_id, auth_token and license_type must be
-    provided. If they are not provided as request parameters, then the service will
-    attempt to obtain them through environment variables. If they cannot be found in
-    either the request parameters or environment variables, an HTTP 400 status will be
-    returned.
+    If using the Smarty provider, an smarty_auth_id, smarty_auth_token and license_type
+    must be provided. If they are not provided as request parameters, then the service
+    will attempt to obtain them through environment variables. If they cannot be found
+    in either the request parameters or environment variables, an HTTP 400 status will
+    be returned.
     """
     input = dict(input)
 
     if input.get("geocode_method") == "smarty":
-        required_values = ["auth_id", "auth_token"]
+        required_values = ["smarty_auth_id", "smarty_auth_token"]
         search_result = search_for_required_values(input, required_values)
         if search_result != "All values were found.":
             response.status_code = status.HTTP_400_BAD_REQUEST
@@ -98,14 +98,14 @@ def geocode_bundle_endpoint(
         license_type = input.get("license_type") or get_settings().get("license_type")
         if license_type:
             geocode_client = SmartyFhirGeocodeClient(
-                auth_id=input.get("auth_id"),
-                auth_token=input.get("auth_token"),
+                smarty_auth_id=input.get("smarty_auth_id"),
+                smarty_auth_token=input.get("smarty_auth_token"),
                 licenses=[license_type],
             )
         else:
             geocode_client = SmartyFhirGeocodeClient(
-                auth_id=input.get("auth_id"),
-                auth_token=input.get("auth_token"),
+                smarty_auth_id=input.get("smarty_auth_id"),
+                smarty_auth_token=input.get("smarty_auth_token"),
             )
 
     elif input.get("geocode_method") == "census":
@@ -114,8 +114,8 @@ def geocode_bundle_endpoint(
     # Here we need to remove the parameters that are used here
     #   but are not required in the PHDI function in the SDK
     input.pop("geocode_method", None)
-    input.pop("auth_id", None)
-    input.pop("auth_token", None)
+    input.pop("smarty_auth_id", None)
+    input.pop("smarty_auth_token", None)
     input.pop("license_type", None)
     result = {}
     try:
