@@ -8,9 +8,9 @@ from phdi.geospatial.core import GeocodeResult
 
 
 def test_geocode_resource():
-    auth_id = mock.Mock()
-    auth_token = mock.Mock()
-    smarty_client = SmartyFhirGeocodeClient(auth_id, auth_token)
+    smarty_auth_id = mock.Mock()
+    smarty_auth_token = mock.Mock()
+    smarty_client = SmartyFhirGeocodeClient(smarty_auth_id, smarty_auth_token)
     assert smarty_client.geocode_client is not None
 
     geocoded_response = GeocodeResult(
@@ -66,9 +66,9 @@ def test_geocode_resource():
 
 
 def test_geocode_bundle():
-    auth_id = mock.Mock()
-    auth_token = mock.Mock()
-    smarty_client = SmartyFhirGeocodeClient(auth_id, auth_token)
+    smarty_auth_id = mock.Mock()
+    smarty_auth_token = mock.Mock()
+    smarty_client = SmartyFhirGeocodeClient(smarty_auth_id, smarty_auth_token)
     assert smarty_client.geocode_client is not None
 
     geocoded_response = GeocodeResult(
