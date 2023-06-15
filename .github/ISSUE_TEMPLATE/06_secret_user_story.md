@@ -10,7 +10,7 @@ assignees: ''
 ## Action Requested
 What is being requested? 
 
-AS a $USER, I want...
+AS a $USER, I want... SO THAT...
 
 ## Acceptance Criteria
 When can we call this done?
