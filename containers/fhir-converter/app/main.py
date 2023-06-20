@@ -162,7 +162,7 @@ async def convert(input: FhirConverterInput, response: Response):
     https://github.com/microsoft/FHIR-Converter.
     """
     result = convert_to_fhir(**dict(input))
-    if "original_request" in result.get("response"):
+    if "fhir_conversion_failed" in result.get("response"):
         response.status_code = status.HTTP_400_BAD_REQUEST
 
     return result
@@ -242,5 +242,6 @@ def convert_to_fhir(
 
     else:
         result = vars(converter_response)
+        result["fhir_conversion_failed"] = "true"
 
     return {"response": result}
