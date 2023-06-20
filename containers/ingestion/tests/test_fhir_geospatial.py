@@ -21,8 +21,8 @@ def test_geocode_bundle_returns_errors_from_smarty(patched_smarty_client):
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
-        "auth_id": "test_id",
-        "auth_token": "test_token",
+        "smarty_auth_id": "test_id",
+        "smarty_auth_token": "test_token",
     }
 
     expected_response = {
@@ -57,8 +57,8 @@ def test_geocode_bundle_success_smarty(patched_client):
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
-        "auth_id": "test_id",
-        "auth_token": "test_token",
+        "smarty_auth_id": "test_id",
+        "smarty_auth_token": "test_token",
     }
 
     client.post("/fhir/geospatial/geocode/geocode_bundle", json=test_request)
@@ -90,14 +90,14 @@ def test_geocode_bundle_smarty_no_auth_id():
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
-        "auth_id": None,
-        "auth_token": "test_token",
+        "smarty_auth_id": None,
+        "smarty_auth_token": "test_token",
     }
     expected_message = (
         "The following values are required, but "
         "were not included in the request and could not be read from the environment."
         " Please resubmit the request including these values or add them as "
-        "environment variables to this service. missing values: auth_id."
+        "environment variables to this service. missing values: smarty_auth_id."
     )
     expected_response = {
         "status_code": "400",
@@ -105,7 +105,7 @@ def test_geocode_bundle_smarty_no_auth_id():
         "bundle": None,
     }
     get_settings.cache_clear()
-    os.environ.pop("AUTH_ID", None)
+    os.environ.pop("SMARTY_AUTH_ID", None)
     actual_response = client.post(
         "/fhir/geospatial/geocode/geocode_bundle", json=test_request
     )
@@ -116,14 +116,14 @@ def test_geocode_bundle_smarty_no_auth_token():
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
-        "auth_id": "test_id",
-        "auth_token": None,
+        "smarty_auth_id": "test_id",
+        "smarty_auth_token": None,
     }
     expected_message = (
         "The following values are required, but were not included "
         "in the request and could not be read from the environment. Please "
         "resubmit the request including these values or add them as "
-        "environment variables to this service. missing values: auth_token."
+        "environment variables to this service. missing values: smarty_auth_token."
     )
     expected_response = {
         "status_code": "400",
@@ -145,11 +145,11 @@ def test_geocode_bundle_bad_smarty_creds_env(patched_geocode, patched_smarty_cli
     test_request = {
         "bundle": test_bundle,
         "geocode_method": "smarty",
-        "auth_id": "",
-        "auth_token": "",
+        "smarty_auth_id": "",
+        "smarty_auth_token": "",
     }
-    os.environ["AUTH_ID"] = "test_id"
-    os.environ["AUTH_TOKEN"] = "test_token"
+    os.environ["SMARTY_AUTH_ID"] = "test_id"
+    os.environ["SMARTY_AUTH_TOKEN"] = "test_token"
     get_settings.cache_clear()
     error = ""
     expected_response = Response
@@ -162,5 +162,5 @@ def test_geocode_bundle_bad_smarty_creds_env(patched_geocode, patched_smarty_cli
     )
 
     assert actual_response.status_code == expected_response.status_code
-    os.environ.pop("AUTH_ID", None)
-    os.environ.pop("AUTH_TOKEN", None)
+    os.environ.pop("SMARTY_AUTH_ID", None)
+    os.environ.pop("SMARTY_AUTH_TOKEN", None)
