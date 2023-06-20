@@ -55,6 +55,7 @@ conversion_failure_response = {
     "_spec_set": None,
     "_spec_signature": None,
     "method_calls": [],
+    "fhir_conversion_failed": "true",
     "returncode": 1,
 }
 
