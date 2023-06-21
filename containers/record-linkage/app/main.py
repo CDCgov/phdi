@@ -7,6 +7,7 @@ from phdi.linkage import (
     add_person_resource,
     link_record_against_mpi,
     DIBBS_BASIC,
+    DIBBS_ENHANCED,
 )
 from pydantic import BaseModel, Field
 from psycopg2 import OperationalError, errors
@@ -88,6 +89,15 @@ class LinkRecordInput(BaseModel):
     bundle: dict = Field(
         description="A FHIR bundle containing a patient resource to be checked "
         "for links to existing patient records"
+    )
+    use_enhanced: Optional[bool] = Field(
+        description="Optionally, a boolean flag indicating whether to use the "
+        "DIBBs enhanced algorithm (with statistical correction) for record linkage. "
+        "If `False` and no optional `algo_config` is provided, the service will use "
+        "the DIBBs basic algorithm. If this parameter is set to `True`, the enhanced "
+        "algorithm will be used in place of any configuration supplied in "
+        "`algo_config`.",
+        default=False,
     )
     algo_config: Optional[dict] = Field(
         description="A JSON dictionary containing the specification for a "
@@ -190,11 +200,15 @@ async def link_record(
             + "for `mpi_db_type` and that it is set to 'postgres'.",
         }
 
-    # Determine which algorithm to use
-    # Default is DIBBS basic, which comes prepacked in the SDK
-    algo_config = input.get("algo_config", {}).get("algorithm", [])
-    if algo_config == []:
-        algo_config = DIBBS_BASIC
+    # Determine which algorithm to use; default is DIBBS basic
+    # Check for enhanced algo before checking custom algo
+    use_enhanced = input.get("use_enhanced", False)
+    if use_enhanced:
+        algo_config = DIBBS_ENHANCED
+    else:
+        algo_config = input.get("algo_config", {}).get("algorithm", [])
+        if algo_config == []:
+            algo_config = DIBBS_BASIC
 
     # Now extract the patient record we want to link
     try:

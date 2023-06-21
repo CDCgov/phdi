@@ -634,6 +634,9 @@ def link_record_against_mpi(
                             blocked_record[j] = ""
                             break
                         blocked_record[j] = blocked_record[j][0]
+                # Name / address come back as lists of one more depth than they should
+                else:
+                    blocked_record[j] = blocked_record[j][0]
 
         clusters = _group_patient_block_by_person(data_block)
 
@@ -946,12 +949,15 @@ def read_linkage_config(config_file: pathlib.Path) -> List[dict]:
       various parts of linkage pass function.
     """
     try:
-        algo_config = json.load(open(config_file))
-        # Need to convert function keys back to column indices, since
-        # JSON serializes dict keys as strings
-        for rl_pass in algo_config.get("algorithm"):
-            rl_pass["funcs"] = {int(col): f for (col, f) in rl_pass["funcs"].items()}
-        return algo_config.get("algorithm", [])
+        with open(config_file) as f:
+            algo_config = json.load(f)
+            # Need to convert function keys back to column indices, since
+            # JSON serializes dict keys as strings
+            for rl_pass in algo_config.get("algorithm"):
+                rl_pass["funcs"] = {
+                    int(col): f for (col, f) in rl_pass["funcs"].items()
+                }
+            return algo_config.get("algorithm", [])
     except FileNotFoundError:
         raise FileNotFoundError(f"No file exists at path {config_file}.")
     except json.decoder.JSONDecodeError as e:
@@ -1221,8 +1227,8 @@ def _compare_address_elements(
     """
     feature_comp = False
     idx = col_to_idx[feature_col]
-    for r in record[2:][idx]:
-        for m in mpi_patient[2:][idx]:
+    for r in record[idx]:
+        for m in mpi_patient[idx]:
             feature_comp = feature_funcs[feature_col](
                 [r], [m], feature_col, {feature_col: 0}, **kwargs
             )
@@ -1247,8 +1253,8 @@ def _compare_name_elements(
     """
     idx = col_to_idx[feature_col]
     feature_comp = feature_funcs[feature_col](
-        [" ".join(n for n in record[2:][idx])],
-        [" ".join(n for n in mpi_patient[2:][idx])],
+        [" ".join(n for n in record[idx])],
+        [" ".join(n for n in mpi_patient[idx])],
         feature_col,
         {feature_col: 0},
         **kwargs,
