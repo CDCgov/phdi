@@ -11,9 +11,9 @@
     {% endif -%}
     
     {% if entry.organizer.component.observation.author.assignedAuthor -%}
-        {% evaluate practitionerId using 'Utils/GenerateId' obj: entry.organizer.component.observation.author.assignedAuthor -%}
-        {% include 'Resource/Practitioner' practitioner: entry.organizer.component.observation.author.assignedAuthor, ID: practitionerId -%}
-        {% assign fullPractitionerId = practitionerId | prepend: 'Practitioner/' -%}
-        {% include 'Reference/Consent/Performer' ID: organizationId, REF: fullPractitionerId -%}
+        {% evaluate practitionerADId using 'Utils/GenerateId' obj: entry.organizer.component.observation.author.assignedAuthor -%}
+        {% include 'Resource/Practitioner' practitioner: entry.organizer.component.observation.author.assignedAuthor, ID: practitionerADId -%}
+        {% assign fullPractitionerADId = practitionerADId | prepend: 'Practitioner/' -%}
+        {% include 'Reference/Consent/Performer' ID: organizationId, REF: fullPractitionerADId -%}
     {% endif -%}
 {% endif -%}
