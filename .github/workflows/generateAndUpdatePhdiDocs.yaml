@@ -1,0 +1,126 @@
+name: Create updated PHDI docs for the latest release
+
+on:
+  workflow_call:
+    inputs:
+      container-tag:
+        type: string
+        required: true
+      contains-release:
+        type: boolean
+        required: true
+  workflow_dispatch:
+    inputs:
+      container-tag:
+        type: string
+        required: true
+      contains-release:
+        type: boolean
+        required: true
+
+jobs:
+  generate-and-update-phdi-docs:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ inputs.container-tag }}
+
+      - name: Install poetry and dependencies
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Generate docs and move to docs branch
+        run: |
+          poetry run pdoc ./phdi -o ./docs/${{ inputs.container-tag }}/sdk
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: phdi-docs
+          path: ./docs/${{ inputs.container-tag }}/sdk
+
+  # Create updated container docs for the latest release
+  list-containers:
+    if: ${{ inputs.contains-release }}
+    uses: ./.github/workflows/listContainers.yaml
+  generate-and-update-container-docs:
+    needs:
+      - list-containers
+      - generate-and-update-phdi-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: ${{fromJson(needs.list-containers.outputs.containers)}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+          ref: ${{ inputs.container-tag }}
+
+      - name: Update Container Documenation
+        env:
+          MPI_DBNAME: testdb
+          MPI_PASSWORD: pw
+          MPI_DB_TYPE: postgres
+          MPI_HOST: localhost
+          MPI_USER: postgres
+          MPI_PORT: 5432
+          MPI_PATIENT_TABLE: patient
+          MPI_PERSON_TABLE: person
+        run: |
+          npm i -g redoc-cli
+          CONTAINER=${{ matrix.container }}
+          cd $GITHUB_WORKSPACE/containers/$CONTAINER
+          cp $GITHUB_WORKSPACE/utils/make_openapi_json.py .
+          pip install -r requirements.txt
+          python make_openapi_json.py
+          redoc-cli build -o $GITHUB_WORKSPACE/docs/${{ inputs.container-tag }}/containers/$CONTAINER.html openapi.json
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: container-docs
+          path: ./docs/${{ inputs.container-tag }}/containers
+
+  commit-docs:
+    needs:
+      - generate-and-update-phdi-docs
+      - generate-and-update-container-docs
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: docs
+
+      - name: Download phdi docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: phdi-docs
+          path: ./docs/${{ inputs.container-tag }}/sdk
+
+      - name: Download container docs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: container-docs
+          path: ./docs/${{ inputs.container-tag }}/containers
+
+      - name: Copy to latest folder
+        run: |
+          rm -rf ./docs/latest
+          mkdir -p ./docs/latest/sdk
+          mkdir -p ./docs/latest/containers
+          cp -r ./docs/${{ inputs.container-tag }}/sdk/* ./docs/latest/sdk
+          cp -r ./docs/${{ inputs.container-tag }}/containers/* ./docs/latest/containers
+
+      - name: Commit New Documentation
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: docs
+          message: Automated update of docs for ${{ inputs.container-tag }} release.
