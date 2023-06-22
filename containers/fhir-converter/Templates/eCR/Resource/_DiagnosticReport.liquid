@@ -16,8 +16,7 @@
             {% assign codeTranslations = diagnosticReport.code.translation | to_array -%}
             {% if codeTranslations.first -%}
                 {% include 'DataType/CodeableConcept' CodeableConcept: codeTranslations.first -%}
-            {% endif -%}
-            {% if diagnosticReport.code.translation == null and diagnosticReport.code -%}
+            {% elsif diagnosticReport.code and diagnosticReport.code.code -%}
                 {% include 'DataType/CodeableConcept' CodeableConcept: diagnosticReport.code -%}
             {% endif -%}
         },

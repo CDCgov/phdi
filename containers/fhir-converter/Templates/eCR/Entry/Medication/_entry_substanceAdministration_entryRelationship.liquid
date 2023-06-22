@@ -6,8 +6,8 @@
 {% endif -%}
 
 {% if relationship.supply.author.assignedAuthor -%}
-    {% evaluate practitionerId using 'Utils/GenerateId' obj: relationship.supply.author.assignedAuthor -%}
-    {% include 'Resource/Practitioner' practitioner: relationship.supply.author.assignedAuthor, ID: practitionerId -%}
-    {% assign fullPractitionerId = practitionerId | prepend: 'Practitioner/' -%}
-    {% include 'Reference/MedicationRequest/Requester' ID: medicationRequestId, REF: fullPractitionerId -%}
+    {% evaluate practitionerMedId using 'Utils/GenerateId' obj: relationship.supply.author.assignedAuthor -%}
+    {% include 'Resource/Practitioner' practitioner: relationship.supply.author.assignedAuthor, ID: practitionerMedId -%}
+    {% assign fullPractitionerMedId = practitionerMedId | prepend: 'Practitioner/' -%}
+    {% include 'Reference/MedicationRequest/Requester' ID: medicationRequestId, REF: fullPractitionerMedId -%}
 {% endif -%}
