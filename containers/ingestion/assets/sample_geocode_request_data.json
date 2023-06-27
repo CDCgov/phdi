@@ -33,8 +33,8 @@
         ]
       },
       "geocode_method": "smarty",
-      "auth_id": "$SMARTY_AUTH_ID",
-      "auth_token": "$SMARTY_AUTH_TOKEN",
+      "smarty_auth_id": "$SMARTY_AUTH_ID",
+      "smarty_auth_token": "$SMARTY_AUTH_TOKEN",
       "license_type": "us-rooftop-geocoding-enterprise-cloud"
     }
   },

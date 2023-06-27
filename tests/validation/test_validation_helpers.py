@@ -7,7 +7,7 @@ from phdi.validation.validation import (
     _clear_all_errors_and_ids,
     ERROR_MESSAGES,
 )
-
+from tests.test_data_generator import generate_ecr_msg_ids
 
 test_include_errors = ["fatal", "errors", "warnings", "information"]
 
@@ -211,11 +211,7 @@ def test_append_error_message():
 def test_add_message_ids():
     _clear_all_errors_and_ids()
     # first let's test with a proper dict
-    msg_ids = {
-        "internal_message": {"id1": ["ID1"], "id2": "SecondID"},
-        "external_id": ["extID"],
-        "last_id": "123",
-    }
+    msg_ids = generate_ecr_msg_ids()
     expected_result = {
         "fatal": [],
         "errors": [],
@@ -243,11 +239,7 @@ def test_add_message_ids():
 def test_clear_all_errors_and_ids():
     # first let's load up all errors and msg ids
     #  and clear them out and make sure they are clear
-    msg_ids = {
-        "internal_message": {"id1": ["ID1"], "id2": "SecondID"},
-        "external_id": ["extID"],
-        "last_id": "123",
-    }
+    msg_ids = generate_ecr_msg_ids()
     fatal = ["foo"]
     errors = ["my error1", "my_error2"]
     warns = ["my warn1"]
