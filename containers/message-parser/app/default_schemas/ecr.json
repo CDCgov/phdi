@@ -4,7 +4,7 @@
   "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
   "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
   "birth_date": "Bundle.entry.resource.where(resourceType = 'Patient').birthDate",
-  "gender_identity": "Bundle.entry.resource.where(resourceType = 'Patient').gender",
+  "gender": "Bundle.entry.resource.where(resourceType = 'Patient').gender",
   "race": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
   "ethnicity": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
   "rr_id": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
