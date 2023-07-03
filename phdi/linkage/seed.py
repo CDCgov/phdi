@@ -44,11 +44,13 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
                 "value": f"{data.get('ssn',None)}",
             },
         ],
-        "name": {
-            "family": f"{data.get('last_name',None)}",
-            "given": data.get("first_name", None).split()
-            + data.get("middle_name", None).split(),
-        },
+        "name": [
+            {
+                "family": f"{data.get('last_name',None)}",
+                "given": data.get("first_name", None).split()
+                + data.get("middle_name", None).split(),
+            }
+        ],
         "telecom": [
             {
                 "system": "phone",
