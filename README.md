@@ -30,7 +30,7 @@ The PHDI Python package contains source code for a platform to help public healt
 PHDI contains: 
 - Our SDK — the Python library containing Building Block source code
   - [Repository](https://github.com/CDCgov/phdi/tree/main/phdi)
-  - [API documentation](https://cdcgov.github.io/phdi/sdk/phdi.html)
+  - [API documentation](https://cdcgov.github.io/phdi/latest/sdk/phdi.html)
 - Containerized web services exposing Building Block functionality as HTTP endpoints
   - [Repository](https://github.com/CDCgov/phdi/tree/main/containers)
   - [User guide](https://cdcgov.github.io/phdi/) (under Building Blocks)
@@ -57,17 +57,17 @@ pip install phdi
 
 Here are the current tools that PHDI offers:
 - **Containerized Building Blocks**
-  -   **[Alerts](https://cdcgov.github.io/phdi/containers/alerts.html)** - Provides the ability to send alerts via SMS, Slack, or Microsoft Teams
-  -   **[FHIR Converter](https://cdcgov.github.io/phdi/containers/fhir-converter.html)** - Enables conversion of health data from legacy formats (e.g., HL7 version 2, CCDA) to [FHIR](https://hl7.org/FHIR/), a standard for health care data exchange
-  -   **[Data Ingestion](https://cdcgov.github.io/phdi/containers/ingestion.html)** - Includes the entire pipeline of Building Blocks below
-      -  **[Harmonization](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirharmonization)** - Standardizes input data (e.g., patient names and phone numbers) to streamline the process of cleaning data and improve data quality
-      - **[Geospatial](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirgeospatial)** - Provides a common interface for obtaining precise geographic locations based on street addresses from input data
-      - **[Linkage](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirlinkage)** - Assigns a common identifier to patient records in order to link and deduplicate patient records seen across data contributors
-      - **[Transport](https://cdcgov.github.io/phdi/containers/ingestion.html#tag/fhirtransport)** - Offers functionality for reading and writing data from storage resources (e.g,. FHIR servers)  
-  -   **[Message Parser](https://cdcgov.github.io/phdi/containers/message_parser.html)** - Extracts desired fields from a given message
-  -   **[Tabulation](https://cdcgov.github.io/phdi/containers/tabulation.html)** - Extracts data from a FHIR server, converts it to a tabular representation, and stores it to a user-defined tabular storage file type (e.g., Parquet or CSV)
-  -   **[Record Linkage](https://cdcgov.github.io/phdi/containers/record_linkage.html)** - Links new health care messages to existing records if a connection exists
-  -   **[Validation](https://cdcgov.github.io/phdi/containers/validation.html)** - Checks whether health care messages are in the proper format and contain user-defined fields of interest 
+  -   **[Alerts](https://cdcgov.github.io/phdi/latest/containers/alerts.html)** - Provides the ability to send alerts via SMS, Slack, or Microsoft Teams
+  -   **[FHIR Converter](https://cdcgov.github.io/phdi/latest/containers/fhir-converter.html)** - Enables conversion of health data from legacy formats (e.g., HL7 version 2, CCDA) to [FHIR](https://hl7.org/FHIR/), a standard for health care data exchange
+  -   **[Data Ingestion](https://cdcgov.github.io/phdi/latest/containers/ingestion.html)** - Includes the entire pipeline of Building Blocks below
+      -  **[Harmonization](https://cdcgov.github.io/phdi/latest/containers/ingestion.html#tag/fhirharmonization)** - Standardizes input data (e.g., patient names and phone numbers) to streamline the process of cleaning data and improve data quality
+      - **[Geospatial](https://cdcgov.github.io/phdi/latest/containers/ingestion.html#tag/fhirgeospatial)** - Provides a common interface for obtaining precise geographic locations based on street addresses from input data
+      - **[Linkage](https://cdcgov.github.io/phdi/latest/containers/ingestion.html#tag/fhirlinkage)** - Assigns a common identifier to patient records in order to link and deduplicate patient records seen across data contributors
+      - **[Transport](https://cdcgov.github.io/phdi/latest/containers/ingestion.html#tag/fhirtransport)** - Offers functionality for reading and writing data from storage resources (e.g,. FHIR servers)  
+  -   **[Message Parser](https://cdcgov.github.io/phdi/latest/containers/message-parser.html)** - Extracts desired fields from a given message
+  -   **[Tabulation](https://cdcgov.github.io/phdi/latest/containers/tabulation.html)** - Extracts data from a FHIR server, converts it to a tabular representation, and stores it to a user-defined tabular storage file type (e.g., Parquet or CSV)
+  -   **[Record Linkage](https://cdcgov.github.io/phdi/latest/containers/record-linkage.html)** - Links new health care messages to existing records if a connection exists
+  -   **[Validation](https://cdcgov.github.io/phdi/latest/containers/validation.html)** - Checks whether health care messages are in the proper format and contain user-defined fields of interest 
 - **Implementation Support** - Resources to help users implement PHDI tools to manage their data and analysis workflows
   - **[Examples](https://github.com/CDCgov/phdi/tree/main/examples)** - Sample data that simulates how a Building Block could be used 
   - **[Tutorials](https://github.com/CDCgov/phdi/tree/main/tutorials)** - Step-by-step instructions to implement Building Blocks source code
