@@ -1,12 +1,12 @@
 # Deploying Validation to Kubernetes Azure
 
-Deploying to Azure Kubernetes requires Azure CLI and KubeCTL already installed. If you do not have them installed install Azure CLI, then run `az aks install-cli`
+Deploying to Azure Kubernetes requires Azure Command Line Interface (Azure CLI) and kubectl already installed. If you do not have them installed install Azure CLI, then run `az aks install-cli`
 
 After, run `az login` and log into the desired Azure account
 
 ## Creating a Kubernetes Cluster
 
-To create a Kuberentes cluster in AKS, you can use the `az aks create` command in your command line to create a cluster. Replace `yourresourcegroup` and `yourclusternamehere` with your resource group and cluster name
+To create a Kuberentes cluster in Azure Kubernetes Service (AKS), you can use the `az aks create` command in your command line to create a cluster. Replace `yourresourcegroup` and `yourclusternamehere` with your resource group and cluster name
 
 ```azurecli
 az aks create -g yourresourcegroup -n yourclusternamehere --enable-managed-identity --node-count 1 --enable-addons monitoring --enable-msi-auth-for-monitoring  --generate-ssh-keys
@@ -80,11 +80,11 @@ spec:
 
 ```
 
-Note that the container port needs to match the port defined in the Dockerfile. And the service port also matches the `containerPort`. Create and name the manifest file as a `.yaml` file 
+Note that the container port needs to match the port defined in the Dockerfile. The service port also matches the `containerPort`. If you are using a different container, you must edit the `-image` tag on the containers section. Create and name the manifest file as a `.yml` file.
 
 Then run the apply command with your manifest file
 
-`kubectl apply -f yourmanifesthere.yaml`
+`kubectl apply -f yourmanifesthere.yml`
 
 Once the apply runs successfully, you can view the LoadBalancer by running
 
@@ -92,4 +92,4 @@ Once the apply runs successfully, you can view the LoadBalancer by running
 
 Once the `EXTERNAL-IP` is finished you can copy that IP address and append `:8080/validate` to the end of the url and run a validation request through it. So an example url would be `12.34.567.9:8080/validate`
 
-Using postman or any API endpoint tester, you can run a validation message through the endpoint and get a message back. 
+Using Postman or any API endpoint tester, you can run a validation message through the endpoint and get a message back. 
