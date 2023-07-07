@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: adfTestingApp
+    app: fhir-converter-app
   name: fhir-converter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adfTestingApp
+      app: fhir-converter-app
   template:
     metadata:
       labels:
-        app: adfTestingApp
+        app: fhir-converter-app
     spec:
       containers:
         - name: fhir-converter
@@ -26,17 +26,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: adfTestingApp
+    app: ingestion-app
   name: ingestion
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adfTestingApp
+      app: ingestion-app
   template:
     metadata:
       labels:
-        app: adfTestingApp
+        app: ingestion-app
     spec:
       containers:
         - name: ingestion
@@ -50,17 +50,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: adfTestingApp
+    app: tabulation-app
   name: tabulation
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adfTestingApp
+      app: tabulation-app
   template:
     metadata:
       labels:
-        app: adfTestingApp
+        app: tabulation-app
     spec:
       containers:
         - name: tabulation
@@ -74,17 +74,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: adfTestingApp
+    app: alerts-app
   name: alerts
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adfTestingApp
+      app: alerts-app
   template:
     metadata:
       labels:
-        app: adfTestingApp
+        app: alerts-app
     spec:
       containers:
         - name: alerts
@@ -98,17 +98,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: adfTestingApp
+    app: validation-app
   name: validation
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adfTestingApp
+      app: validation-app
   template:
     metadata:
       labels:
-        app: adfTestingApp
+        app: validation-app
     spec:
       containers:
         - name: validation
@@ -122,17 +122,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: adfTestingApp
+    app: message-parser-app
   name: message-parser
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adfTestingApp
+      app: message-parser-app
   template:
     metadata:
       labels:
-        app: adfTestingApp
+        app: message-parser-app
     spec:
       containers:
         - name: message-parser
@@ -141,46 +141,22 @@ spec:
           ports:
             - containerPort: 8080
               name: message-parser
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   labels:
-#     app: adfTestingApp
-#   name: record-linkage
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: adfTestingApp
-#   template:
-#     metadata:
-#       labels:
-#         app: adfTestingApp
-#     spec:
-#       containers:
-#         - name: record-linkage
-#           image: ghcr.io/cdcgov/phdi/record-linkage:v1.0.7
-#           imagePullPolicy: Always
-#           ports:
-#             - containerPort: 8080
-#               name: record-linkage
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: adfTestingApp
+    app: kafka-to-delta-app
   name: kafka-to-delta
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adfTestingApp
+      app: kafka-to-delta-app
   template:
     metadata:
       labels:
-        app: adfTestingApp
+        app: kafka-to-delta-app
     spec:
       containers:
         - name: kafka-to-delta
@@ -189,64 +165,3 @@ spec:
           ports:
             - containerPort: 8080
               name: kafka-to-delta
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   labels:
-#     app: adfTestingApp
-#   name: read-source
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: adfTestingApp
-#   template:
-#     metadata:
-#       labels:
-#         app: adfTestingApp
-#     spec:
-#       containers:
-#         - name: read-source
-#           image: ghcr.io/cdcgov/adfTestingApp/read-source-data:v1.0.7
-#           imagePullPolicy: Always
-#           ports:
-#             - containerPort: 8080
-#               name: read-source
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: v2-test-load-balancer
-# spec:
-#   type: LoadBalancer
-#   ports:
-#     - name: fhir-converter
-#       port: 80
-#       targetPort: 8080
-#     - name: ingestion
-#       port: 81
-#       targetPort: 8080
-#     - name: tabulation
-#       port: 82
-#       targetPort: 8080
-#     - name: alerts
-#       port: 83
-#       targetPort: 8080
-#     - name: validation
-#       port: 84
-#       targetPort: 8080
-#     - name: message-parser
-#       port: 85
-#       targetPort: 8080
-#     - name: kafka-to-delta
-#       port: 86
-#       targetPort: 8080
-#     # - name: record-linkage
-#     #   port: 86
-#     #   targetPort: 8080
-#     # - name: read-source
-#     #   port: 88
-#     #   targetPort: 8080
-#   selector:
-#     app: adfTestingApp
