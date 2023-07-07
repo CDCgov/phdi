@@ -9,7 +9,7 @@ documentation = "https://cdcgov.github.io/phdi"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11.3"
+python = "^3.10"
 smartystreets-python-sdk = "^4.10.6"
 pydantic = "^1.10.9"
 fastapi = "^0.96.0"
