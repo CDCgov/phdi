@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: testing-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /fhir-converter(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: fhir-converter-service
+                port:
+                  number: 8080
+          - path: /ingestion(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: ingestion-service
+                port:
+                  number: 8080
