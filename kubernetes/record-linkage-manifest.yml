@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: record-linkage-app
+  name: record-linkage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: record-linkage-app
+  template:
+    metadata:
+      labels:
+        app: record-linkage-app
+    spec:
+      containers:
+      - name: record-linkage-app
+        image: ghcr.io/cdcgov/phdi/record-linkage:v1.0.7
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MPI_DB_TYPE
+          value: "postgres"
+        - name: MPI_PASSWORD
+          value: "$password"
+        - name: MPI_USER
+          value: "postgres"
+        - name: MPI_PORT
+          value: "5432"
+        - name: MPI_HOST
+          value: "$fqdn"
+        - name: MPI_DBNAME
+          value: "$dbName"
+        - name: MPI_PATIENT_TABLE
+          value: "patient"
+        - name: MPI_PERSON_TABLE
+          value: "person"
+#          AT THIS POINT
+# Need to figure out what this Affinity thing is, then update the Service to match
+# the other load balancer definitions. Then run the manifest in K8s and test connectivity
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            - labelSelector:
+#                matchExpressions:
+#                  - key: "app"
+#                    operator: In
+#                    values:
+#                    - django-app
+#              topologyKey: "kubernetes.io/hostname"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: record-linkage-service
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: record-linkage-app
