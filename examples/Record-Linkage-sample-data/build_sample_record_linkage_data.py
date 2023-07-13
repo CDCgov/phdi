@@ -289,6 +289,82 @@ def scramble_data(
     return data
 
 
+def format_to_LAC_MPI_parquet_schema(df):
+    df = df[
+        [
+            "FIRST",
+            "LAST",
+            "SSN",
+            "BIRTHDATE",
+            "GENDER",
+            "MRN",
+            "ADDRESS",
+            "CITY",
+            "STATE",
+            "ZIP",
+            "EMAIL",
+        ]
+    ]
+
+    df = add_phone_numbers(df)
+    df["MIDDLE"] = "MIDDLE"
+    df["GENDER"] = np.where(df.GENDER == "M", "Male", "Female")
+
+    df.rename(
+        columns={
+            "FIRST": "first_name",
+            "MIDDLE": "middle_name",
+            "LAST": "last_name",
+            "GENDER": "sex",
+        },
+        inplace=True,
+    )
+    df.columns = [x.lower() for x in df.columns]
+
+    df = df[
+        [
+            "first_name",
+            "middle_name",
+            "last_name",
+            "ssn",
+            "birthdate",
+            "sex",
+            "mrn",
+            "address",
+            "city",
+            "state",
+            "zip",
+            "home_phone",
+            "cell_phone",
+            "email",
+        ]
+    ]
+    return df
+
+
+def add_phone_numbers(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds "home_phone" column  and a "cell_phone" column, each with a synthetic phone
+    number. dress for each row of data.
+
+    :param data: A DataFrame object.
+    :return: A DataFrame object with home_phone and cell_phone columns of synthetic
+      phone numbers.
+
+    """
+
+    home_phone_numbers = [
+        "".join(str(random.randint(0, 9)) for x in range(10)) for _ in range(len(data))
+    ]
+    cell_phone_numbers = [
+        "".join(str(random.randint(0, 9)) for x in range(10)) for _ in range(len(data))
+    ]
+    data["home_phone"] = home_phone_numbers
+    data["cell_phone"] = cell_phone_numbers
+
+    return data
+
+
 # Get nicknames
 names_to_nicknames = {}
 with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
@@ -319,7 +395,20 @@ scrambled_data = scramble_data(
     names_to_nicknames=names_to_nicknames,
     missingness=lac_missingness,
 )
+
+
 scrambled_data.to_csv(
     "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.csv",
     index=False,
+)
+
+# Format and save data in LAC MPI file format
+lac_formatted_data = format_to_LAC_MPI_parquet_schema(scrambled_data)
+file_location = (
+    "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.parquet"
+)
+lac_formatted_data.to_parquet(
+    file_location,
+    index=False,
+    engine="pyarrow",
 )
