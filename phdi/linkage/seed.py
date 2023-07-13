@@ -62,6 +62,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
                 "value": f"{data.get('cell_phone',None)}",
                 "use": "mobile",
             },
+            {"value": f"{data.get('email',None)}", "system": "email"},
         ],
         "gender": f"{data.get('sex',None)}",
         "birthDate": f"{data.get('birthdate',None)}",
