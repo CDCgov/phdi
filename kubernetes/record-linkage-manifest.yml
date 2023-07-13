@@ -21,34 +21,45 @@ spec:
         - containerPort: 8000
         env:
         - name: MPI_DB_TYPE
-          value: "postgres"
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: db_type
         - name: MPI_PASSWORD
-          value: "$password"
-        - name: MPI_USER
-          value: "postgres"
-        - name: MPI_PORT
-          value: "5432"
-        - name: MPI_HOST
-          value: "$fqdn"
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: db_password
         - name: MPI_DBNAME
-          value: "$dbName"
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: db_name
+        - name: MPI_HOST
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: db_host
+        - name: MPI_USER
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: db_user
+        - name: MPI_PORT
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: db_port
         - name: MPI_PATIENT_TABLE
-          value: "patient"
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: patient_table
         - name: MPI_PERSON_TABLE
-          value: "person"
-#          AT THIS POINT
-# Need to figure out what this Affinity thing is, then update the Service to match
-# the other load balancer definitions. Then run the manifest in K8s and test connectivity
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#            - labelSelector:
-#                matchExpressions:
-#                  - key: "app"
-#                    operator: In
-#                    values:
-#                    - django-app
-#              topologyKey: "kubernetes.io/hostname"
+          valueFrom:
+            secretKeyRef:
+              name: mpi-secrets
+              key: person_table
 ---
 apiVersion: v1
 kind: Service
