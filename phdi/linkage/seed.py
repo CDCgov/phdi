@@ -83,4 +83,5 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
         "entry": [{"fullUrl": f"urn:uuid:{patient_id}", "resource": patient_resource}],
     }
 
-    return (data["iris_id"], fhir_bundle)
+    iris_id = data.get("iris_id", None)
+    return (iris_id, fhir_bundle)
