@@ -328,7 +328,7 @@ def format_to_LAC_MPI_parquet_schema(df):
     df["mrn"] = df["SSN"]
     df["SSN"] = "123-456-7890"
     df["MIDDLE"] = "MIDDLE"
-    df["GENDER"] = np.where(df.GENDER == "M", "Male", "Female")
+    df["GENDER"] = np.where(df.GENDER == "M", "male", "female")
 
     df.rename(
         columns={
