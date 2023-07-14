@@ -8,6 +8,7 @@ import random
 from random import shuffle
 from string import ascii_letters
 import numpy as np
+from faker import Faker
 
 # Set up proportions of scramble
 
@@ -23,8 +24,9 @@ PROPORTION_MISSING_ADDRESS_LAC = 0.06
 PROPORTION_MISSING_EMAIL_LAC = 0.79
 PROPORTION_MISSING_MRN_LAC = 0.48
 
-# Set seed
+# Set seeds
 seed = 123
+Faker.seed(414)
 
 # Functions
 
@@ -289,6 +291,21 @@ def scramble_data(
     return data
 
 
+def add_phone_numbers(column_name: str, data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds a "phone" column with a synthetic phone number for each row of data.
+
+    :param column_name: Column name.
+    :param data: A DataFrame object.
+    :return: A DataFrame object with a column of synthetic phone numbers.
+    """
+    fake = Faker()
+    phones = [fake["en_US"].phone_number() for _ in range(len(data))]
+    data[f"{column_name}"] = phones
+
+    return data
+
+
 def format_to_LAC_MPI_parquet_schema(df):
     df = df[
         [
@@ -297,7 +314,6 @@ def format_to_LAC_MPI_parquet_schema(df):
             "SSN",
             "BIRTHDATE",
             "GENDER",
-            "MRN",
             "ADDRESS",
             "CITY",
             "STATE",
@@ -306,7 +322,11 @@ def format_to_LAC_MPI_parquet_schema(df):
         ]
     ]
 
-    df = add_phone_numbers(df)
+    df = add_phone_numbers(column_name="home_phone", data=df)
+    df = add_phone_numbers(column_name="cell_phone", data=df)
+    # Add "MRN"
+    df["mrn"] = df["SSN"]
+    df["SSN"] = "123-456-7890"
     df["MIDDLE"] = "MIDDLE"
     df["GENDER"] = np.where(df.GENDER == "M", "Male", "Female")
 
@@ -340,29 +360,6 @@ def format_to_LAC_MPI_parquet_schema(df):
         ]
     ]
     return df
-
-
-def add_phone_numbers(data: pd.DataFrame) -> pd.DataFrame:
-    """
-    Adds "home_phone" column  and a "cell_phone" column, each with a synthetic phone
-    number. dress for each row of data.
-
-    :param data: A DataFrame object.
-    :return: A DataFrame object with home_phone and cell_phone columns of synthetic
-      phone numbers.
-
-    """
-
-    home_phone_numbers = [
-        "".join(str(random.randint(0, 9)) for x in range(10)) for _ in range(len(data))
-    ]
-    cell_phone_numbers = [
-        "".join(str(random.randint(0, 9)) for x in range(10)) for _ in range(len(data))
-    ]
-    data["home_phone"] = home_phone_numbers
-    data["cell_phone"] = cell_phone_numbers
-
-    return data
 
 
 # Get nicknames
@@ -407,8 +404,4 @@ lac_formatted_data = format_to_LAC_MPI_parquet_schema(scrambled_data)
 file_location = (
     "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.parquet"
 )
-lac_formatted_data.to_parquet(
-    file_location,
-    index=False,
-    engine="pyarrow",
-)
+lac_formatted_data.to_parquet(file_location, index=False, engine="pyarrow")
