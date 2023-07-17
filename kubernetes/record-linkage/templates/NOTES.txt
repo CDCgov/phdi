@@ -1,0 +1,4 @@
+ NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+       You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ .Release.Name }}-record-linkage'
+export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ .Release.Name }}-record-linkage)
+echo http://$SERVICE_IP:{{ .Values.service.port }}
