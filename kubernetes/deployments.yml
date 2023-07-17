@@ -176,3 +176,66 @@ spec:
           ports:
             - containerPort: 8080
               name: kafka-to-delta
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: record-linkage-app
+  name: record-linkage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: record-linkage-app
+  template:
+    metadata:
+      labels:
+        app: record-linkage-app
+    spec:
+      containers:
+      - name: record-linkage
+        image: "ghcr.io/cdcgov/phdi/record-linkage:latest"
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MPI_DB_TYPE
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-db-type-key
+        - name: MPI_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-password-key
+        - name: MPI_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-dbname-key
+        - name: MPI_HOST
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-host-key
+        - name: MPI_USER
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-user-key
+        - name: MPI_PORT
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-port-key
+        - name: MPI_PATIENT_TABLE
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-patient-table-key
+        - name: MPI_PERSON_TABLE
+          valueFrom:
+            secretKeyRef:
+              name: record-linkage-secrets
+              key: mpi-person-table-key
