@@ -99,3 +99,7 @@ To test the URL, go to the URL defined in `host` and ensure that the page displa
 Now your AKS pod has a friendly URL that is exposed for external use.
 
 ## Further Reading
+
+- [Adding Custom URL to Microservices running in Kubernetes](https://www.programmingwithwolfgang.com/configure-custom-urls-to-access-microservices-running-in-kubernetes/)
+- [Exposing Services via EKS (Amazon's version of AKS)](https://aws.amazon.com/blogs/compute/enabling-dns-resolution-for-amazon-eks-cluster-endpoints/)
+- [Exposing Services via GKE (Google Cloud's Version of AKS)](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip)
