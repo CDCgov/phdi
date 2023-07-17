@@ -45,6 +45,17 @@ spec:
           ports:
             - containerPort: 8080
               name: ingestion
+          env:
+            - name: SMARTY_AUTH_ID
+              valueFrom:
+                secretKeyRef:
+                  name: geocoding-secrets
+                  key: auth-id
+            - name: SMARTY_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: geocoding-secrets
+                  key: token
 ---
 apiVersion: apps/v1
 kind: Deployment
