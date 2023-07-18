@@ -1,0 +1,15 @@
+apiVersion: v1
+entries:
+  record-linkage-chart:
+  - apiVersion: v2
+    appVersion: 1.0.8
+    created: "2023-07-18T11:22:01.884108-07:00"
+    description: A Helm Chart for the DIBBs Record Linkage Service
+    digest: 7b5f9889ac3cde61bd4ec328948ca8288c732f394860c55e4446ccc41c01f3fd
+    icon: https://commons.wikimedia.org/wiki/File:US_CDC_logo.svg
+    name: record-linkage-chart
+    type: application
+    urls:
+    - record-linkage-chart-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-07-18T11:22:01.882512-07:00"
