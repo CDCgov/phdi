@@ -8,6 +8,7 @@ import random
 from random import shuffle
 from string import ascii_letters
 import numpy as np
+from faker import Faker
 
 # Set up proportions of scramble
 
@@ -23,8 +24,9 @@ PROPORTION_MISSING_ADDRESS_LAC = 0.06
 PROPORTION_MISSING_EMAIL_LAC = 0.79
 PROPORTION_MISSING_MRN_LAC = 0.48
 
-# Set seed
+# Set seeds
 seed = 123
+Faker.seed(414)
 
 # Functions
 
@@ -289,6 +291,77 @@ def scramble_data(
     return data
 
 
+def add_phone_numbers(column_name: str, data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds a "phone" column with a synthetic phone number for each row of data.
+
+    :param column_name: Column name.
+    :param data: A DataFrame object.
+    :return: A DataFrame object with a column of synthetic phone numbers.
+    """
+    fake = Faker()
+    phones = [fake["en_US"].phone_number() for _ in range(len(data))]
+    data[f"{column_name}"] = phones
+
+    return data
+
+
+def format_to_LAC_MPI_parquet_schema(df):
+    df = df[
+        [
+            "FIRST",
+            "LAST",
+            "SSN",
+            "BIRTHDATE",
+            "GENDER",
+            "ADDRESS",
+            "CITY",
+            "STATE",
+            "ZIP",
+            "EMAIL",
+        ]
+    ]
+
+    df = add_phone_numbers(column_name="home_phone", data=df)
+    df = add_phone_numbers(column_name="cell_phone", data=df)
+    # Add "MRN"
+    df["mrn"] = df["SSN"]
+    df["SSN"] = "123-456-7890"
+    df["MIDDLE"] = "MIDDLE"
+    df["GENDER"] = np.where(df.GENDER == "M", "male", "female")
+
+    df.rename(
+        columns={
+            "FIRST": "first_name",
+            "MIDDLE": "middle_name",
+            "LAST": "last_name",
+            "GENDER": "sex",
+        },
+        inplace=True,
+    )
+    df.columns = [x.lower() for x in df.columns]
+
+    df = df[
+        [
+            "first_name",
+            "middle_name",
+            "last_name",
+            "ssn",
+            "birthdate",
+            "sex",
+            "mrn",
+            "address",
+            "city",
+            "state",
+            "zip",
+            "home_phone",
+            "cell_phone",
+            "email",
+        ]
+    ]
+    return df
+
+
 # Get nicknames
 names_to_nicknames = {}
 with open("./phdi/harmonization/phdi_nicknames.csv", "r") as fp:
@@ -319,7 +392,16 @@ scrambled_data = scramble_data(
     names_to_nicknames=names_to_nicknames,
     missingness=lac_missingness,
 )
+
+
 scrambled_data.to_csv(
     "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.csv",
     index=False,
 )
+
+# Format and save data in LAC MPI file format
+lac_formatted_data = format_to_LAC_MPI_parquet_schema(scrambled_data)
+file_location = (
+    "./examples/Record-Linkage-sample-data/sample_record_linkage_data_scrambled.parquet"
+)
+lac_formatted_data.to_parquet(file_location, index=False, engine="pyarrow")
