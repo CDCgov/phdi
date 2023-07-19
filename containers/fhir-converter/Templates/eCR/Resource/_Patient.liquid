@@ -30,6 +30,8 @@
         [
             { {% include 'Extension/Race' Race: patientRole.patient -%} },
             { {% include 'Extension/Ethnicity' Ethnicity: patientRole.patient -%} },
+            { {% include 'Extension/BirthSex' birthSObs: birthSObs -%} },
+            { {% include 'Extension/GenderIdentity' gendIdObsObs: gendIdObsObs -%} },
         ],
         "address":
         [

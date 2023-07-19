@@ -1,0 +1,13 @@
+{% if gendIdObs -%}
+    "url" : "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension",
+    "extension" : [
+        {
+          "url" : "value",
+          "valueCodeableConcept" : {
+            "coding" : [
+              { {% include 'DataType/Coding' Coding: gendIdObs.value -%} },
+            ]
+          },
+        },
+      ],
+{% endif -%}
