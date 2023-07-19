@@ -10,7 +10,7 @@ selection_criteria_types = Literal["first", "last", "random", "all"]
 def apply_selection_criteria(
     value: List[Any],
     selection_criteria: selection_criteria_types,
-) -> str|List:
+) -> str | List:
     """
     Returns value(s), according to the selection criteria, from a given list of values
     parsed from a FHIR resource. A single string value is returned - if the selected
