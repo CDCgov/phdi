@@ -69,3 +69,5 @@ data/
 /.vscode/settings.json
 
 persistent_storage/
+
+/kubernetes/secrets.yaml

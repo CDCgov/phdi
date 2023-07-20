@@ -1,0 +1,178 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fhir-converter-app
+  name: fhir-converter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fhir-converter-app
+  template:
+    metadata:
+      labels:
+        app: fhir-converter-app
+    spec:
+      containers:
+        - name: fhir-converter
+          image: ghcr.io/cdcgov/phdi/fhir-converter:v1.0.7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: fhir-converter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ingestion-app
+  name: ingestion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingestion-app
+  template:
+    metadata:
+      labels:
+        app: ingestion-app
+    spec:
+      containers:
+        - name: ingestion
+          image: ghcr.io/cdcgov/phdi/ingestion:v1.0.7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: ingestion
+          env:
+            - name: SMARTY_AUTH_ID
+              valueFrom:
+                secretKeyRef:
+                  name: geocoding-secrets
+                  key: auth-id
+            - name: SMARTY_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: geocoding-secrets
+                  key: token
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tabulation-app
+  name: tabulation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tabulation-app
+  template:
+    metadata:
+      labels:
+        app: tabulation-app
+    spec:
+      containers:
+        - name: tabulation
+          image: ghcr.io/cdcgov/phdi/tabulation:v1.0.7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: tabulation
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: alerts-app
+  name: alerts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alerts-app
+  template:
+    metadata:
+      labels:
+        app: alerts-app
+    spec:
+      containers:
+        - name: alerts
+          image: ghcr.io/cdcgov/phdi/alerts:v1.0.7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: alerts
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: validation-app
+  name: validation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: validation-app
+  template:
+    metadata:
+      labels:
+        app: validation-app
+    spec:
+      containers:
+        - name: validation
+          image: ghcr.io/cdcgov/phdi/validation:v1.0.7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: validation
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: message-parser-app
+  name: message-parser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-parser-app
+  template:
+    metadata:
+      labels:
+        app: message-parser-app
+    spec:
+      containers:
+        - name: message-parser
+          image: ghcr.io/cdcgov/phdi/message-parser:v1.0.7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: message-parser
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-to-delta-app
+  name: kafka-to-delta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-to-delta-app
+  template:
+    metadata:
+      labels:
+        app: kafka-to-delta-app
+    spec:
+      containers:
+        - name: kafka-to-delta
+          image: ghcr.io/cdcgov/phdi/kafka-to-delta-table:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: kafka-to-delta

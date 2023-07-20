@@ -21,7 +21,11 @@ def test_convert_to_patient_fhir_resources():
         assert returned_fhir_bundle["entry"][0]["resource"]["resourceType"] == "Patient"
         assert returned_fhir_bundle["id"] != ""
         assert iris_id == data["iris_id"]
+        assert type(returned_fhir_bundle["entry"][0]["resource"]["name"]) == list
         assert (
             "urn:uuid:" + returned_fhir_bundle["entry"][0]["resource"]["id"]
             == returned_fhir_bundle["entry"][0]["fullUrl"]
+        )
+        assert (
+            "@" in returned_fhir_bundle["entry"][0]["resource"]["telecom"][2]["value"]
         )

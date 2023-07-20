@@ -44,11 +44,13 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
                 "value": f"{data.get('ssn',None)}",
             },
         ],
-        "name": {
-            "family": f"{data.get('last_name',None)}",
-            "given": data.get("first_name", None).split()
-            + data.get("middle_name", None).split(),
-        },
+        "name": [
+            {
+                "family": f"{data.get('last_name',None)}",
+                "given": data.get("first_name", None).split()
+                + data.get("middle_name", None).split(),
+            }
+        ],
         "telecom": [
             {
                 "system": "phone",
@@ -60,6 +62,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
                 "value": f"{data.get('cell_phone',None)}",
                 "use": "mobile",
             },
+            {"value": f"{data.get('email',None)}", "system": "email"},
         ],
         "gender": f"{data.get('sex',None)}",
         "birthDate": f"{data.get('birthdate',None)}",
@@ -76,8 +79,16 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
 
     fhir_bundle = {
         "resourceType": "Bundle",
+        "type": "batch",
         "id": str(uuid.uuid4()),
-        "entry": [{"fullUrl": f"urn:uuid:{patient_id}", "resource": patient_resource}],
+        "entry": [
+            {
+                "fullUrl": f"urn:uuid:{patient_id}",
+                "resource": patient_resource,
+                "request": {"method": "PUT", "url": f"Patient/{patient_id}"},
+            },
+        ],
     }
 
-    return (data["iris_id"], fhir_bundle)
+    iris_id = data.get("iris_id", None)
+    return (iris_id, fhir_bundle)
