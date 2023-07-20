@@ -371,12 +371,10 @@ def extract_blocking_values_from_record(
         block = block_dict.get("value")
         try:
             # Apply utility extractor for safe parsing
-            value = str(
-                extract_value_with_resource_path(
-                    record,
-                    LINKING_FIELDS_TO_FHIRPATHS[block],
-                    selection_criteria="first",
-                )
+            value = extract_value_with_resource_path(
+                record,
+                LINKING_FIELDS_TO_FHIRPATHS[block],
+                selection_criteria="first",
             )
             if value:
                 if block in transformations:
@@ -395,6 +393,15 @@ def extract_blocking_values_from_record(
 
         except KeyError:
             raise ValueError(f"Field {block} is not a supported extraction field.")
+
+    # Account for any incoming FHIR resources that return no data
+    # for a field--don't count this against records to-block
+    keys_to_pop = []
+    for field in block_vals:
+        if _is_empty_extraction_field(block_vals, field):
+            keys_to_pop.append(field)
+    for k in keys_to_pop:
+        block_vals.pop(k)
 
     return block_vals
 
@@ -1313,17 +1320,26 @@ def _flatten_patient_field_helper(resource: dict, field: str) -> any:
     because their lists can hold multiple objects, are fetched completely,
     whereas other fields just have their first element used (since historical
     information doesn't matter there).
+
+    For any field for which the value would be `None`, instead use an empty string
+    (if the field isn't first_name or address) or a list with one element, the
+    empty string (if the field is first_name or address). This ensures that
+    future loops over the elements don't disrupt the flow of the matching
+    algorithm.
     """
     if field == "first_name":
-        return extract_value_with_resource_path(
+        vals = extract_value_with_resource_path(
             resource, LINKING_FIELDS_TO_FHIRPATHS[field], selection_criteria="all"
         )
+        return vals if vals is not None else [""]
     elif field == "address":
-        return _condense_extract_address_from_resource(resource)
+        vals = _condense_extract_address_from_resource(resource)
+        return vals if vals is not None else [""]
     else:
-        return extract_value_with_resource_path(
+        val = extract_value_with_resource_path(
             resource, LINKING_FIELDS_TO_FHIRPATHS[field], selection_criteria="first"
         )
+        return val if val is not None else ""
 
 
 def _group_patient_block_by_person(data_block: List[list]) -> dict[str, List]:
@@ -1450,6 +1466,29 @@ def _generate_block_query(table_name: str, block_data: Dict) -> str:
     )
     query = query_stub + block_query
     return query
+
+
+def _is_empty_extraction_field(block_vals: dict, field: str):
+    """
+    Helper method that determines when a field extracted from an incoming
+    record should be considered "empty" for the purpose of blocking.
+    Fields whose values are either `None` or the empty string should not
+    be used when retrieving blocked records from the MPI, since that
+    would impose an artificial constraint (e.g. if an incoming record
+    has no `last_name` field, we don't want to retrieve only records
+    from the MPI that also have no `last_name`).
+    """
+    # Means the value extractor found no data in the FHIR resource
+    if block_vals[field] == "":
+        return True
+    # Alternatively, there was "data" there, but it's empty
+    elif (
+        block_vals[field].get("value") is None
+        or block_vals[field].get("value") == ""
+        or block_vals[field].get("value") == [""]
+    ):
+        return True
+    return False
 
 
 def _write_prob_file(prob_dict: dict, file_to_write: Union[pathlib.Path, None]):

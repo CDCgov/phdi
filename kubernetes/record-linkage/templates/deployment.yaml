@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: record-linkage-app
+  name: {{ .Release.Name }}-record-linkage
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: record-linkage-app
+  template:
+    metadata:
+      labels:
+        app: record-linkage-app
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "ghcr.io/cdcgov/phdi/record-linkage:"{{.Values.image.tag}}
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MPI_DB_TYPE
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: db_type
+        - name: MPI_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: db_password
+        - name: MPI_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: db_name
+        - name: MPI_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: db_host
+        - name: MPI_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: db_user
+        - name: MPI_PORT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: db_port
+        - name: MPI_PATIENT_TABLE
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: patient_table
+        - name: MPI_PERSON_TABLE
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name}}-mpi-secrets
+              key: person_table
