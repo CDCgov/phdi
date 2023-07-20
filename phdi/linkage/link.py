@@ -398,17 +398,8 @@ def extract_blocking_values_from_record(
     # for a field--don't count this against records to-block
     keys_to_pop = []
     for field in block_vals:
-        # Means the value extractor found no data in the FHIR resource
-        if block_vals[field] == "":
+        if _is_empty_extraction_field(block_vals, field):
             keys_to_pop.append(field)
-        # Alternatively, there was "data" there, but it's empty
-        elif (
-            block_vals[field].get("value") is None
-            or block_vals[field].get("value") == ""
-            or block_vals[field].get("value") == [""]
-        ):
-            keys_to_pop.append(field)
-
     for k in keys_to_pop:
         block_vals.pop(k)
 
@@ -1475,6 +1466,29 @@ def _generate_block_query(table_name: str, block_data: Dict) -> str:
     )
     query = query_stub + block_query
     return query
+
+
+def _is_empty_extraction_field(block_vals: dict, field: str):
+    """
+    Helper method that determines when a field extracted from an incoming
+    record should be considered "empty" for the purpose of blocking.
+    Fields whose values are either `None` or the empty string should not
+    be used when retrieving blocked records from the MPI, since that
+    would impose an artificial constraint (e.g. if an incoming record
+    has no `last_name` field, we don't want to retrieve only records
+    from the MPI that also have no `last_name`).
+    """
+    # Means the value extractor found no data in the FHIR resource
+    if block_vals[field] == "":
+        return True
+    # Alternatively, there was "data" there, but it's empty
+    elif (
+        block_vals[field].get("value") is None
+        or block_vals[field].get("value") == ""
+        or block_vals[field].get("value") == [""]
+    ):
+        return True
+    return False
 
 
 def _write_prob_file(prob_dict: dict, file_to_write: Union[pathlib.Path, None]):
