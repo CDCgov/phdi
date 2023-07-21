@@ -187,6 +187,22 @@ def test_extract_blocking_values_from_record():
         "address": {"value": "e St", "transformation": "last4"},
     }
 
+    patient["birthDate"] = ""
+    patient["name"][0]["family"] = None
+
+    blocking_vals = extract_blocking_values_from_record(
+        patient,
+        blocking_fields,
+    )
+    assert blocking_vals == {
+        "first_name": {"value": "John", "transformation": "first4"},
+        "zip": {"value": "10001-0001"},
+        "city": {"value": "Faketon"},
+        "sex": {"value": "female"},
+        "state": {"value": "NY"},
+        "address": {"value": "e St", "transformation": "last4"},
+    }
+
 
 def test_generate_hash():
     salt_str = "super-legit-salt"
@@ -957,6 +973,49 @@ def test_algo_write():
         },
     ]
     os.remove("./" + test_file_path)
+
+
+def test_link_record_against_mpi_none_record():
+    algorithm = DIBBS_BASIC
+
+    postgres_client = _set_up_postgres_client()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource")
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ][:2]
+    # Test various null data values in incoming record
+    patients[1]["name"][0]["given"] = None
+    patients[1]["birthDate"] = ""
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        matched, pid = link_record_against_mpi(
+            patient,
+            algorithm,
+            postgres_client,
+        )
+        matches.append(matched)
+        if pid not in mapped_patients:
+            mapped_patients[pid] = 0
+        mapped_patients[pid] += 1
+
+    # First patient inserted into empty MPI, no match
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    assert matches == [False, True]
+    assert sorted(list(mapped_patients.values())) == [2]
+
+    _clean_up_postgres_client(postgres_client)
 
 
 # TODO: Move this to an integration test suite
