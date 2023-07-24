@@ -1,27 +1,39 @@
+---
 repos:
-  - repo: https://github.com/psf/black
-    rev: 23.3.0
-    hooks:
-      - id: black
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-      - id: pretty-format-json
-        args: [ --autofix, --no-sort-keys ]
-        exclude: ".*valid.*"
-  - repo: local
-    hooks:
+    - repo: https://github.com/psf/black
+      rev: 23.3.0
+      hooks:
+          - id: black
+    - repo: https://github.com/pycqa/flake8
+      rev: 6.0.0
+      hooks:
+          - id: flake8
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.4.0
+      hooks:
+          - id: pretty-format-json
+            args: [--autofix, --no-sort-keys]
+            exclude: .*valid.*
+    - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+      rev: 0.2.3
+      hooks:
+          - id: yamlfmt
+            args: [--width, '80']
+    - repo: https://github.com/adrienverge/yamllint.git
+      rev: v1.32.0
+      hooks:
+          - id: yamllint
+            args: [-d relaxed]
+    - repo: local
+      hooks:
       # run `terraform fmt` if tf files are modified and terraform is installed
       # when terraform is not installed, this check will succeed even if tf files
       # would not pass the format check
-      - id: terraform-fmt
-        name: terraform-fmt
-        entry: bash -c 'if command -v terraform >/dev/null 2>&1; then terraform fmt -recursive -check operations; else exit 0; fi'
-        language: system
-        types:
-          - terraform
-        pass_filenames: false
+          - id: terraform-fmt
+            name: terraform-fmt
+            entry: bash -c 'if command -v terraform >/dev/null 2>&1; then terraform
+                fmt -recursive -check operations; else exit 0; fi'
+            language: system
+            types:
+                - terraform
+            pass_filenames: false
