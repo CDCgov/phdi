@@ -1,21 +1,22 @@
+---
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+    repository: nginx
+    pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+    tag: ''
 
 service:
-  port: 80
+    port: 80
 
 # Will not work as written.
 # These will need to be replaced by the equivalent Azure Key Vault values
-databaseType: "postgres"
-databasePassword: "$password"
-databaseName: "$dbName"
-databaseHost: "$fqdn"
-databaseUser: "postgres"
-databasePort: "5432"
-patientTable: "patient"
-personTable: "person"
+databaseType: postgres
+databasePassword: $password
+databaseName: $dbName
+databaseHost: $fqdn
+databaseUser: postgres
+databasePort: '5432'
+patientTable: patient
+personTable: person

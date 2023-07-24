@@ -1,71 +1,79 @@
+---
 name: Bug Report
-description: "File a bug report to help us improve PHDI."
+description: File a bug report to help us improve PHDI.
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Before opening a bug report, search for the behavior in the existing [issues](https://github.com/CDCgov/phdi/issues).
+    - type: markdown
+      attributes:
+          value: |
+              Before opening a bug report, search for the behavior in the existing [issues](https://github.com/CDCgov/phdi/issues).
 
-        ---
-        
-        Thank you for taking the time to file a bug report. To address this bug as quickly as possible, we need some information.
-  - type: textarea
-    id: environment
-    attributes:
-      label: Environment
-      description: "Let us know about your environment."
-      value: |
-        Operating System and Version:
-        Python Version:
-        Additional Environmental Information:
-    validations:
-      required: true
-  - type: textarea
-    id: description
-    attributes:
-      label: Description
-      description: "Provide a clear and concise description of what feature isn't working."
-      placeholder: "Example: The geocode_from_str() function in the geospatial.smarty module is returning a 401 error even though I've provided my license."
-    validations:
-      required: true
-  - type: textarea
-    id: impact
-    attributes:
-      label: Impact
-      description: "Describe the impact this bug is causing to you and/or your organization."
-      placeholder: "Example: We're at risk of failing to meet our reporting requirements because we're unable to add the necessary lat/long data."
-    validations:
-      required: false
-  - type: textarea
-    id: replication
-    attributes:
-      label: Steps to Reproduce
-      description: "Provide the steps to reproduce the behavior."
-      placeholder: |
-        Example:
-        1. Import the geocoding functionality by running "import phdi.geospatial"
-        2. Create a new variable called address and set it to "123 Main St Washington, DC"
-        3. Create a new CensusGeocodeClient by running "client = CensusGeocodeClient(auth_id=..., auth_token=...)"
-        4. Attempt to geocode the address by running "client.geocode_from_str(address)"
-        5. Observe that it doesn't complete the request
-    validations:
-      required: true
-  - type: textarea
-    id: expectation
-    attributes:
-      label: Expected Behavior
-      description: "Provide a clear and concise description of what you expected to happen."
-      placeholder: "Example: The function should return a standardized address with lat and long."
-    validations:
-      required: true
-  - type: textarea
-    id: context
-    attributes:
-      label: Additional Context
-      description: |
-        Add any other context about the problem here.
+              ---
 
-        Tip: You can attach images and other supported file types by selecting this text box, and dragging and dropping or pasting files into it."
-      placeholder: "Example: This was working yesterday and just started acting up today."
-    validations:
-      required: false
+              Thank you for taking the time to file a bug report. To address this bug as quickly as possible, we need some information.
+    - type: textarea
+      id: environment
+      attributes:
+          label: Environment
+          description: Let us know about your environment.
+          value: |
+              Operating System and Version:
+              Python Version:
+              Additional Environmental Information:
+      validations:
+          required: true
+    - type: textarea
+      id: description
+      attributes:
+          label: Description
+          description: Provide a clear and concise description of what feature isn't
+              working.
+          placeholder: "Example: The geocode_from_str() function in the geospatial.smarty\
+              \ module is returning a 401 error even though I've provided my license."
+      validations:
+          required: true
+    - type: textarea
+      id: impact
+      attributes:
+          label: Impact
+          description: Describe the impact this bug is causing to you and/or your
+              organization.
+          placeholder: "Example: We're at risk of failing to meet our reporting requirements\
+              \ because we're unable to add the necessary lat/long data."
+      validations:
+          required: false
+    - type: textarea
+      id: replication
+      attributes:
+          label: Steps to Reproduce
+          description: Provide the steps to reproduce the behavior.
+          placeholder: |
+              Example:
+              1. Import the geocoding functionality by running "import phdi.geospatial"
+              2. Create a new variable called address and set it to "123 Main St Washington, DC"
+              3. Create a new CensusGeocodeClient by running "client = CensusGeocodeClient(auth_id=..., auth_token=...)"
+              4. Attempt to geocode the address by running "client.geocode_from_str(address)"
+              5. Observe that it doesn't complete the request
+      validations:
+          required: true
+    - type: textarea
+      id: expectation
+      attributes:
+          label: Expected Behavior
+          description: Provide a clear and concise description of what you expected
+              to happen.
+          placeholder: 'Example: The function should return a standardized address
+              with lat and long.'
+      validations:
+          required: true
+    - type: textarea
+      id: context
+      attributes:
+          label: Additional Context
+          description: |
+              Add any other context about the problem here.
+
+              Tip: You can attach images and other supported file types by selecting this text box, and dragging and dropping or pasting files into it."
+          placeholder: 'Example: This was working yesterday and just started acting
+              up today.'
+      validations:
+          required: false

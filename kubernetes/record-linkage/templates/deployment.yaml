@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: record-linkage-app
+
     spec:
       containers:
       - name: {{ .Chart.Name }}

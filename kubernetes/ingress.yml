@@ -2,215 +2,209 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fhir-converter-service
+    name: fhir-converter-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: fhir-converter-app
+    type: ClusterIP
+    ports:
+        - port: 8080
+    selector:
+        app: fhir-converter-app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: fhir-converter-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    name: fhir-converter-ingress
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  rules:
-  - host: fhir-converter.7cde46e98e7e4eff8e80.centralus.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: fhir-converter-service
-            port: 
-              number: 8080
-              
+    rules:
+        - host: fhir-converter.7cde46e98e7e4eff8e80.centralus.aksapp.io
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: fhir-converter-service
+                            port:
+                                number: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ingestion-service
+    name: ingestion-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: ingestion-app
+    type: ClusterIP
+    ports:
+        - port: 8080
+    selector:
+        app: ingestion-app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingestion-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    name: ingestion-ingress
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  rules:
-  - host: ingestion.7cde46e98e7e4eff8e80.centralus.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: ingestion-service
-            port: 
-              number: 8080
-
+    rules:
+        - host: ingestion.7cde46e98e7e4eff8e80.centralus.aksapp.io
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: ingestion-service
+                            port:
+                                number: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tabulation-service
+    name: tabulation-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: tabulation-app
+    type: ClusterIP
+    ports:
+        - port: 8080
+    selector:
+        app: tabulation-app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tabulation-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    name: tabulation-ingress
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  rules:
-  - host: tabulation.7cde46e98e7e4eff8e80.centralus.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: tabulation-service
-            port: 
-              number: 8080
-
+    rules:
+        - host: tabulation.7cde46e98e7e4eff8e80.centralus.aksapp.io
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: tabulation-service
+                            port:
+                                number: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: alerts-service
+    name: alerts-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: alerts-app
+    type: ClusterIP
+    ports:
+        - port: 8080
+    selector:
+        app: alerts-app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: alerts-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    name: alerts-ingress
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  rules:
-  - host: alerts.7cde46e98e7e4eff8e80.centralus.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: alerts-service
-            port: 
-              number: 8080
-
+    rules:
+        - host: alerts.7cde46e98e7e4eff8e80.centralus.aksapp.io
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: alerts-service
+                            port:
+                                number: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: validation-service
+    name: validation-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: validation-app
+    type: ClusterIP
+    ports:
+        - port: 8080
+    selector:
+        app: validation-app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: validation-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    name: validation-ingress
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  rules:
-  - host: validation.7cde46e98e7e4eff8e80.centralus.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: validation-service
-            port: 
-              number: 8080
-
+    rules:
+        - host: validation.7cde46e98e7e4eff8e80.centralus.aksapp.io
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: validation-service
+                            port:
+                                number: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: message-parser-service
+    name: message-parser-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: message-parser-app
+    type: ClusterIP
+    ports:
+        - port: 8080
+    selector:
+        app: message-parser-app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: message-parser-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    name: message-parser-ingress
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  rules:
-  - host: message-parser.7cde46e98e7e4eff8e80.centralus.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: message-parser-service
-            port: 
-              number: 8080
-
+    rules:
+        - host: message-parser.7cde46e98e7e4eff8e80.centralus.aksapp.io
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: message-parser-service
+                            port:
+                                number: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-to-delta-service
+    name: kafka-to-delta-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: kafka-to-delta-app
+    type: ClusterIP
+    ports:
+        - port: 8080
+    selector:
+        app: kafka-to-delta-app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kafka-to-delta-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    name: kafka-to-delta-ingress
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  rules:
-  - host: kafka-to-delta.7cde46e98e7e4eff8e80.centralus.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: kafka-to-delta-service
-            port: 
-              number: 8080
+    rules:
+        - host: kafka-to-delta.7cde46e98e7e4eff8e80.centralus.aksapp.io
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: kafka-to-delta-service
+                            port:
+                                number: 8080

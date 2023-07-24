@@ -1,102 +1,97 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: fhir-converter-load-balancer
+    name: fhir-converter-load-balancer
 spec:
-  type: LoadBalancer
-  ports:
-    - name: fhir-converter
-      port: 80
-      targetPort: 8080
-  selector:
-    app: fhir-converter-app
-
---- 
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: ingestion-load-balancer
-spec:
-  type: LoadBalancer
-  ports:
-    - name: ingestion
-      port: 80
-      targetPort: 8080
-  selector:
-    app: ingestion-app
-
---- 
+    type: LoadBalancer
+    ports:
+        - name: fhir-converter
+          port: 80
+          targetPort: 8080
+    selector:
+        app: fhir-converter-app
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: tabulation-load-balancer
+    name: ingestion-load-balancer
 spec:
-  type: LoadBalancer
-  ports:
-    - name: tabulation
-      port: 80
-      targetPort: 8080
-  selector:
-    app: tabulation-app
-
---- 
+    type: LoadBalancer
+    ports:
+        - name: ingestion
+          port: 80
+          targetPort: 8080
+    selector:
+        app: ingestion-app
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: alerts-load-balancer
+    name: tabulation-load-balancer
 spec:
-  type: LoadBalancer
-  ports:
-    - name: alerts
-      port: 80
-      targetPort: 8080
-  selector:
-    app: alerts-app
-
---- 
+    type: LoadBalancer
+    ports:
+        - name: tabulation
+          port: 80
+          targetPort: 8080
+    selector:
+        app: tabulation-app
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: validation-load-balancer
+    name: alerts-load-balancer
 spec:
-  type: LoadBalancer
-  ports:
-    - name: validation
-      port: 80
-      targetPort: 8080
-  selector:
-    app: validation-app
-
---- 
+    type: LoadBalancer
+    ports:
+        - name: alerts
+          port: 80
+          targetPort: 8080
+    selector:
+        app: alerts-app
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: message-parser-load-balancer
+    name: validation-load-balancer
 spec:
-  type: LoadBalancer
-  ports:
-    - name: message-parser
-      port: 80
-      targetPort: 8080
-  selector:
-    app: message-parser-app
-
---- 
+    type: LoadBalancer
+    ports:
+        - name: validation
+          port: 80
+          targetPort: 8080
+    selector:
+        app: validation-app
+---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-to-delta-load-balancer
+    name: message-parser-load-balancer
 spec:
-  type: LoadBalancer
-  ports:
-    - name: kafka-to-delta
-      port: 80
-      targetPort: 8080
-  selector:
-    app: kafka-to-delta-app
+    type: LoadBalancer
+    ports:
+        - name: message-parser
+          port: 80
+          targetPort: 8080
+    selector:
+        app: message-parser-app
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: kafka-to-delta-load-balancer
+spec:
+    type: LoadBalancer
+    ports:
+        - name: kafka-to-delta
+          port: 80
+          targetPort: 8080
+    selector:
+        app: kafka-to-delta-app
