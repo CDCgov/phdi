@@ -8,7 +8,7 @@ fields:
           - attributeName: code
 # - fieldName: Conditions
 #   cdaPath: "//hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry/hl7:organizer/hl7:component/hl7:observation/hl7:value/hl7:code"
-#   errorType: "errors" 
+#   errorType: "errors"
 #   textRequired: 'True'
     - fieldName: eICR
       cdaPath: //hl7:ClinicalDocument/hl7:id
@@ -22,7 +22,7 @@ fields:
           - attributeName: value
 # - fieldName: Authoring date
 #   cdaPath: "//hl7:ClinicalDocument/hl7:recordTarget/hl7:author/hl7:time"
-#   errorType: "errors"   
+#   errorType: "errors"
 #   attributes:
 #   - attributeName: value
     - fieldName: First Name

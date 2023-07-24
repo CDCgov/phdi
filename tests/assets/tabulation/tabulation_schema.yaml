@@ -10,13 +10,11 @@ tables:
             Patient ID:
                 fhir_path: Patient.id
                 invalid_values:
-                    - 
                     - ''
                 selection_criteria: first
             First Name:
                 fhir_path: Patient.name.given
                 invalid_values:
-                    - 
                     - ''
                     - Unknown
                 selection_criteria: first

@@ -19,11 +19,13 @@ repos:
       hooks:
           - id: yamlfmt
             args: [--width, '80']
+            exclude: .*/templates
     - repo: https://github.com/adrienverge/yamllint.git
       rev: v1.32.0
       hooks:
           - id: yamllint
             args: [-d relaxed]
+            exclude: .*/templates
     - repo: local
       hooks:
       # run `terraform fmt` if tf files are modified and terraform is installed
