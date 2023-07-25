@@ -7,7 +7,7 @@
         {
             "profile":
             [
-                "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-characteristics-of-home-environment",
+                "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-disability-status",
             ],
         },
         "identifier":
@@ -61,13 +61,7 @@
                 {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.value -%}
             },
         {% elsif observationEntry.value.value -%}
-            "valueQuantity":
-            {
-                "value":{{ observationEntry.value.value }},
-                "unit":"{{ observationEntry.value.unit }}",
-            },
-        {% else -%}
-            "valueString":"{{ observationEntry.value._ }}",
+            "valueBoolean": {{ observationEntry.value.value }},
         {% endif -%}
     },
     "request":{
