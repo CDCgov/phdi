@@ -34,10 +34,10 @@
             },
         ],
         "status":
-             {% if observationEntry.statusCode._ -%}
-                "{{ observationEntry.statusCode._}}",
-            {% else -%}
+            {% if observationEntry.statusCode.code -%}
                 "{{ observationEntry.statusCode.code | get_property: 'ValueSet/ObservationStatus' }}",
+            {% else -%}
+                "final",
             {% endif -%}
         "code":
         {
