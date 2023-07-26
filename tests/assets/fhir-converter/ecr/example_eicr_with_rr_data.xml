@@ -2583,6 +2583,185 @@
                             <value xsi:type="BL" value="false"/>
                         </observation>
                     </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.212" extension="2017-11-30" />
+                            <templateId root="2.16.840.1.113883.10.20.22.4.212" extension="2017-11-30 " />
+                            <id root="c1e39467-4b79-474e-9c75-927b45e8616a" />
+                            <code code="74165-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="History of Employment Status"/>
+                            <statusCode code="completed" />
+                            <effectiveTime xsi:type="IVL_TS">
+                                <low value="20170116154714"/>
+                                <high value="20180616154714"/>
+                            </effectiveTime>
+                            <value xsi:type="CD" code="Employed" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="HL7ObservationValue" displayName="Employed" />
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.221" extension="2017-11-30" />
+                            <id root="4b0149ce-45c3-4c29-97a1-951ecc415aac" />
+                            <code code="21843-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="History of Usual Occupation"/>
+                            <statusCode code="completed" />
+                            <effectiveTime xsi:type="IVL_TS">
+                                <low value="20171216"/>
+                                <high />
+                            </effectiveTime>
+                            <value xsi:type="CD" code="3600" codeSystem="2.16.840.1.113883.6.240" codeSystemName="U.S. Census Occupation Code (2010)" displayName="Nursing, psychiatric, and home health aides" />
+                            <translation code="31-1014.00.007136" codeSystem="urn:oid:2.16.840.1.114222.4.5.327" codeSystemName="Occupation Data for Health (ODH) " displayName="Certified Nursing Assistant (CNA) [Nursing Assistants]" />
+                            <subject>
+                                <relatedSubject classCode="PRS">
+                                    <code code="PRN" codeSystem="RoleCode" />
+                                </relatedSubject>
+                            </subject>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.220" extension="2017-11-30" />
+                                    <id root="af6ec728-d61c-4402-8683-9f3499efad95" />
+                                    <code code="74163-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="Usual Occupation Duration"/>
+                                    <statusCode code="completed" />
+                                    <value xsi:type="PQ" value="15" unit="a" />
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.219" extension="2017-11-30" />
+                                    <id root="6da60b5a-1447-4685-bb05-8721f25714b2" />
+                                    <code code="21844-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="Usual Industry"/>
+                                    <statusCode code="completed" />
+                                    <value xsi:type="CD" code="8270" codeSystem="2.16.840.1.114222.4.5.315" codeSystemName="Industry CDC Census 2010" displayName="Nursing care facilities"/>
+                                    <translation code="621610.008495" codeSystem="2.16.840.1.114222.4.5.327" codeSystemName="Occupaional Data for Health (ODH)" displayName="Home nursing services " />
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.213" extension="2017-11-30" />
+                            <id root="86cbdd4a-a738-4252-93d4-455dc247c6ed" />
+                            <code code="87511-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="Combat zone and or hazardous duty work dates"/>
+                            <statusCode code="completed" />
+                            <value xsi:type="IVL_TS">
+                                <low value="20170616"/>
+                                <high value="20171216"/>
+                            </value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.217" extension="2017-11-30" />
+                            <id root="5aff7416-7a1f-4922-a9a9-cb04338b25a5" />
+                            <code code="11341-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="History of Occupation"/>
+                            <statusCode>active</statusCode>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <low value="20171216"/>
+                                <high />
+                            </effectiveTime>
+                            <value xsi:type="CD" code="3600" codeSystem="2.16.840.1.113883.6.240" codeSystemName="U.S. Census Occupation Code (2010)" displayName="Nursing, psychiatric, and home health aides" />
+                            <translation code="31-1014.00.007136" codeSystem="urn:oid:2.16.840.1.114222.4.5.327" codeSystemName="Occupation ONETSOC Detail (ODH) " displayName="Certified Nursing Assistant (CNA) [Nursing Assistants]" />
+                            <subject>
+                                <relatedSubject classCode="PRS">
+                                    <code />
+                                </relatedSubject>
+                            </subject>
+                            <participant typeCode="IND">
+                                <participantRole classCode="ROL">
+                                    <id root="9a5c5314-0571-4a44-b23e-89c527743e9f" />
+                                    <addr>
+                                        <state>CT</state>
+                                        <city>Wallingford</city>
+                                        <postalCode>06492</postalCode>
+                                    </addr>
+                                    <playingEntity>
+                                        <name>Sandy Hill Nursing Home</name>
+                                    </playingEntity>
+                                </participantRole>
+                            </participant>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.223" extension="2016-11-30" />
+                                    <id root="ee326532-2b64-4e8f-a996-1084b42e4c41" />
+                                    <code code="74159-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName= "Work Schedule"/>
+                                    <statusCode code="completed" />
+                                    <value xsi:type="CD" code="NS" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="HL7ObservationValue" displayName="Night Shift"/>
+                                    <entryRelationship typeCode="REFR">
+                                        <observation classCode="OBS" moodCode="EVN">
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.211" extension="2017-11-30" />
+                                            <id root="a8f66113-516e-4896-b646-4795944177e4" />
+                                            <code code="87512-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="Work Hours per Day"/>
+                                            <statusCode code="completed" />
+                                            <value xsi:type="PQ" value="8" unit="h/d" />
+                                        </observation>
+                                    </entryRelationship>
+                                    <entryRelationship typeCode="REFR">
+                                        <observation classCode="OBS" moodCode="EVN">
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.222" extension="2017-11-30" />
+                                            <id root="7d70fe5c-1719-42e2-bfc8-d8f6503de1a0" />
+                                            <code code="74160-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="Work Days per Week"/>
+                                            <statusCode code="completed" />
+                                            <value xsi:type="PQ" value="5" unit="d" />
+                                        </observation>
+                                    </entryRelationship>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.214" extension="2017-11-30" />
+                                    <id root="72cc317f-d130-46e5-a26d-4762022ed92f" />
+                                    <code code="63761-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="What were your main activities or duties for this job"/>
+                                    <statusCode code="completed" />
+                                    <value xsi:type="ST">Patient care</value>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.215" extension="2017-11-30" />
+                                    <id root="93f5b9bf-b9f6-4311-aab7-fd33478598e8" />
+                                    <code code="87729-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="History of Occupational Hazard" />
+                                    <statusCode code="completed" />
+                                    <value xsi:type="ST">Infectious Disease</value>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.224" extension="2017-11-30" />
+                                    <id root="0e4993e7-8a64-461d-ba6d-c9241aabdbd1" />
+                                    <code code="87707-6" codeSystem="2.16.840.1.113883.6.1" displayName="Job supervisory level or pay grade"/>
+                                    <statusCode code="completed" />
+                                    <value xsi:type="CD" code="C-6" codeSystem="2.16.840.1.114222.4.5.327" codeSystemName="Occupational Data for Health (ODH)" displayName="C6 - Manager" />
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.216" extension="2017-11-30" />
+                                    <id root="7629541c-e01d-4834-98c7-6d77e79206fd" />
+                                    <code code="86188-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="History of Occupation Industry"/>
+                                    <statusCode code="completed" />
+                                    <value xsi:type="CD" code="8270" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Nursing care facilities"/>
+                                    <translation code="621610.008495" codeSystem="2.16.840.1.114222.4.5.327" codeSystemName="Occupational Data for Health (ODH)" displayName="Home nursing services " />
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="REFR">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.210" extension="2017-11-30" />
+                                    <id root="97c81ddf-0187-4c10-9ac1-dea9eab979bd" />
+                                    <code code="85104-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="Compensation and Sector Employment Type"/>
+                                    <statusCode code="completed" />
+                                    <value xsi:type="CD" code="PWNSE" codeSystem="2.16.840.1.113883.5.1139" codeSystemName="workClassificationODH" displayName="Paid non-governmental work, not self-employed"/>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.218" extension="2017-11-30" />
+                            <templateId root="2.16.840.1.113883.10.20.22.4.218" extension="2017-11-30 " />
+                            <id root="7916c040-f9a4-447d-95e7-3e4877582959" />
+                            <code code="87510-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="Logical Observation Identifiers, Names and Codes" displayName="Date of Retirement"/>
+                            <statusCode code="completed" />
+                            <value xsi:type="TS" value="20171216"/>
+                        </observation>
+                    </entry>
                 </section>
             </component>
             <component>

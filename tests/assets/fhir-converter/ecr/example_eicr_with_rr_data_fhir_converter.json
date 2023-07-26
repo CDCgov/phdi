@@ -5,10 +5,10 @@
     "type": "batch",
     "entry": [
       {
-        "fullUrl": "urn:uuid:0ba33aad-9d76-6be3-4719-5157b6d19a77",
+        "fullUrl": "urn:uuid:55dae689-9cf7-05ab-818f-c02e9b19f13f",
         "resource": {
           "resourceType": "Composition",
-          "id": "0ba33aad-9d76-6be3-4719-5157b6d19a77",
+          "id": "55dae689-9cf7-05ab-818f-c02e9b19f13f",
           "meta": {
             "profile": [
               "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
@@ -302,7 +302,7 @@
               ]
             },
             {
-              "id": "43acaa4f-b9a0-4929-fee8-3ddb3a1f1b9b",
+              "id": "cb8db2c4-37ce-7454-d230-c292da011ca0",
               "title": "Social History",
               "text": {
                 "status": "generated",
@@ -433,7 +433,7 @@
         },
         "request": {
           "method": "PUT",
-          "url": "Composition/0ba33aad-9d76-6be3-4719-5157b6d19a77"
+          "url": "Composition/55dae689-9cf7-05ab-818f-c02e9b19f13f"
         }
       },
       {
@@ -956,6 +956,414 @@
         "request": {
           "method": "PUT",
           "url": "Observation/a29f2ac5-0e14-8f4c-e99b-77ac6faf177c"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:e05af7a8-4865-3471-9905-8f35a6a1243b",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "e05af7a8-4865-3471-9905-8f35a6a1243b",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:c1e39467-4b79-474e-9c75-927b45e8616a"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "74165-2",
+                "display": "History of Employment Status",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectivePeriod": {
+            "start": "2017-01-16T15:47:14-07:00",
+            "end": "2018-06-16T15:47:14-06:00"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "Employed",
+                "display": "Employed",
+                "system": "urn:oid:2.16.840.1.113883.5.1063"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/e05af7a8-4865-3471-9905-8f35a6a1243b"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:346c9384-3a39-38e2-1ee0-2a20b7412ee2",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "346c9384-3a39-38e2-1ee0-2a20b7412ee2",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:4b0149ce-45c3-4c29-97a1-951ecc415aac"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "21843-8",
+                "display": "History of Usual Occupation",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectivePeriod": {
+            "start": "2017-12-16"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "3600",
+                "display": "Nursing, psychiatric, and home health aides",
+                "system": "urn:oid:2.16.840.1.113883.6.240"
+              }
+            ]
+          },
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "74163-7",
+                    "display": "Usual Occupation Duration",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueQuantity": {
+                "value": 15,
+                "unit": "a"
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "21844-6",
+                    "display": "Usual Industry",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "8270",
+                    "display": "Nursing care facilities",
+                    "system": "urn:oid:2.16.840.1.114222.4.5.315"
+                  }
+                ]
+              }
+            }
+          ],
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/346c9384-3a39-38e2-1ee0-2a20b7412ee2"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:94f56729-14e8-8e95-a1dc-96be0b07c565",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "94f56729-14e8-8e95-a1dc-96be0b07c565",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:86cbdd4a-a738-4252-93d4-455dc247c6ed"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "87511-2",
+                "display": "Combat zone and or hazardous duty work dates",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/94f56729-14e8-8e95-a1dc-96be0b07c565"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:965db622-e821-a004-71b9-f6959814516f",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "965db622-e821-a004-71b9-f6959814516f",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:5aff7416-7a1f-4922-a9a9-cb04338b25a5"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "active",
+          "code": {
+            "coding": [
+              {
+                "code": "11341-5",
+                "display": "History of Occupation",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectivePeriod": {
+            "start": "2017-12-16"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "3600",
+                "display": "Nursing, psychiatric, and home health aides",
+                "system": "urn:oid:2.16.840.1.113883.6.240"
+              }
+            ]
+          },
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "74159-5",
+                    "display": "Work Schedule",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "NS",
+                    "display": "Night Shift",
+                    "system": "urn:oid:2.16.840.1.113883.5.1063"
+                  }
+                ]
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "63761-1",
+                    "display": "What were your main activities or duties for this job",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueString": "Patient care"
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "87729-0",
+                    "display": "History of Occupational Hazard",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueString": "Infectious Disease"
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "87707-6",
+                    "display": "Job supervisory level or pay grade",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "C-6",
+                    "display": "C6 - Manager",
+                    "system": "urn:oid:2.16.840.1.114222.4.5.327"
+                  }
+                ]
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "86188-0",
+                    "display": "History of Occupation Industry",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "8270",
+                    "display": "Nursing care facilities",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "85104-8",
+                    "display": "Compensation and Sector Employment Type",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "PWNSE",
+                    "display": "Paid non-governmental work, not self-employed",
+                    "system": "urn:oid:2.16.840.1.113883.5.1139"
+                  }
+                ]
+              }
+            }
+          ],
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/965db622-e821-a004-71b9-f6959814516f"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:51487854-3257-0685-a4cf-f191347b317e",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "51487854-3257-0685-a4cf-f191347b317e",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:7916c040-f9a4-447d-95e7-3e4877582959"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "87510-4",
+                "display": "Date of Retirement",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "valueQuantity": {
+            "value": 20171216
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/51487854-3257-0685-a4cf-f191347b317e"
         }
       },
       {
