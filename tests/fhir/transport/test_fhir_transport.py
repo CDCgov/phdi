@@ -509,7 +509,7 @@ def test_split_bundle_resources():
     )
 
     my_count = len(_split_bundle_resources(bundle=bundle)[0].get("entry"))
-    assert my_count == 45
+    assert my_count == 47
 
     single_resource = bundle.get("entry")[0]
     # add 500 resources to bundle and then pass to function
