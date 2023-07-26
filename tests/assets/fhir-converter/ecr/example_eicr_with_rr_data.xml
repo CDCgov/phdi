@@ -54,7 +54,8 @@
                     </place>
                 </birthplace>
                 <languageCommunication>
-                    <languageCode nullFlavor="UNK"/>
+                    <languageCode code="en"/>
+                    <preferenceInd value="true"/>
                 </languageCommunication>
             </patient>
             <providerOrganization>
