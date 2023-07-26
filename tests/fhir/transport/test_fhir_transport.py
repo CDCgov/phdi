@@ -509,7 +509,7 @@ def test_split_bundle_resources():
     )
 
     my_count = len(_split_bundle_resources(bundle=bundle)[0].get("entry"))
-    assert my_count == 47
+    assert my_count == 52
 
     single_resource = bundle.get("entry")[0]
     # add 500 resources to bundle and then pass to function
@@ -517,13 +517,13 @@ def test_split_bundle_resources():
         bundle["entry"].append(single_resource)
 
     my_count = len(bundle.get("entry"))
-    assert my_count == 547
+    assert my_count == 552
 
     split_bundles = _split_bundle_resources(bundle=bundle)
     assert len(split_bundles) == 2
 
     assert len(split_bundles[0].get("entry")) == 500
-    assert len(split_bundles[1].get("entry")) == 47
+    assert len(split_bundles[1].get("entry")) == 52
 
     # add an additional 500 resources to bundle and then pass to function
     for x in range(500):
@@ -537,7 +537,7 @@ def test_split_bundle_resources():
 
     assert len(split_bundles[0].get("entry")) == 500
     assert len(split_bundles[1].get("entry")) == 500
-    assert len(split_bundles[2].get("entry")) == 47
+    assert len(split_bundles[2].get("entry")) == 52
 
     bundle["entry"] = []
     split_bundles = _split_bundle_resources(bundle=bundle)
