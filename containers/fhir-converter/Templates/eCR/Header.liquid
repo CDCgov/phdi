@@ -88,9 +88,12 @@
 {% endfor -%}
 
 {% if msg.ClinicalDocument.recordTarget.patientRole -%}
+  {% assign patientSectionObservations = true -%}
   {% include 'Section/SocialHistory' -%}
-  {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId SOCIALOBS: socialObs BIRTHSEX: birthSObs -%}
+  {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId SOCIALOBS: socialObs -%}
 {% endif -%}
+{% assign patientSectionObservations = false -%}
+
 
 {% if msg.ClinicalDocument.recordTarget.patientRole.patient.guardian -%}
   {% assign relatedPersonId = msg.ClinicalDocument.recordTarget.patientRole.patient.guardian | to_json_string | generate_uuid -%}
