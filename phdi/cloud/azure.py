@@ -3,10 +3,10 @@ import json
 from phdi.cloud.core import BaseCredentialManager, BaseCloudStorageConnection
 from azure.core.credentials import AccessToken
 from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
+from azure.identity import DefaultAzureCredential, ClientSecretCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
-from typing import List, Union
+from typing import List, Union, Literal
 
 
 class AzureCredentialManager(BaseCredentialManager):
@@ -26,7 +26,7 @@ class AzureCredentialManager(BaseCredentialManager):
     def access_token(self) -> AccessToken:
         return self.__access_token
 
-    def __init__(self, resource_location: str = None, scope: str = None):
+    def __init__(self, resource_location: str = None, scope: str = None, credential_type: Literal["default-credential", "service-principle"] = "default-credential", client_id: str = None, client_secret: str = None, tenant_id: str = None):
         """
         Creates a new AzureCredentialManager object.
 
@@ -37,9 +37,21 @@ class AzureCredentialManager(BaseCredentialManager):
         self.__resource_location = resource_location
         self.__scope = scope
         self.__access_token = None
+        self.__credential_type = credential_type
+        self.__client_id = client_id
+        self.__client_secret = client_secret
+        self.__tenant_id = tenant_id
 
         if self.scope is None:
             self.__scope = f"{self.resource_location}/.default"
+        
+        if self.__credential_type == "service-principle":
+            if self.__client_id is None:
+                raise ValueError("client_id must be specified when using service-principle authentication")
+            if self.__client_secret is None:
+                raise ValueError("client_secret must be specified when using service-principle authentication")
+            if self.__tenant_id is None:
+                raise ValueError("tenant_id must be specified when using service-principle authentication")
 
     def get_credential_object(self) -> object:
         """
@@ -48,7 +60,16 @@ class AzureCredentialManager(BaseCredentialManager):
         :return: An instance of one of the \\*Credential objects from the
           `azure.identity` package.
         """
-        return DefaultAzureCredential()
+
+        if self.__credential_type == "default-credential":
+            credential = DefaultAzureCredential()
+        elif self.__credential_type == "service-principle":
+            credential = ClientSecretCredential(
+                client_id=self.__client_id,
+                client_secret=self.__client_secret,
+                tenant_id=self.__tenant_id
+            )    
+        return credential 
 
     def get_access_token(self, force_refresh: bool = False) -> str:
         """
