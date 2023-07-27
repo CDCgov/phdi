@@ -3,7 +3,7 @@ Thank you for your interest in contributing to the Public Health Data Infrastruc
 
 Before contributing, we encourage you to also read our [LICENSE](LICENSE.md),
 [README](README.md), and
-[code-of-conduct](code-of-conduct.md)
+[code-of-conduct](docs/code-of-conduct.md)
 files, also found in this repository. If you have any questions that aren't
 answered in this repository, feel free to [contact us](mailto:prime@cdc.gov).
 
