@@ -30,6 +30,16 @@
         [
             { {% include 'Extension/Race' Race: patientRole.patient -%} },
             { {% include 'Extension/Ethnicity' Ethnicity: patientRole.patient -%} },
+            {% for socialObservation in SOCIALOBS -%}
+                {% if socialObservation.observation.templateId and socialObservation.observation.templateId.root and socialObservation.observation.templateId.root == '2.16.840.1.113883.10.20.34.3.45' -%}
+                    { {% include 'Extension/GenderIdentity' gendIdOb: socialObservation.observation -%} },
+                {% elsif socialObservation.observation.templateId and socialObservation.observation.templateId.root and socialObservation.observation.templateId.root == '2.16.840.1.113883.10.20.15.2.3.48' -%}
+                    { {% include 'Extension/TribalAffiliation' tribeAOb: socialObservation.observation -%} },
+                {% elsif socialObservation.observation.templateId and socialObservation.observation.templateId.root and socialObservation.observation.templateId.root == '2.16.840.1.113883.10.20.22.4.200' -%}
+                     { {% include 'Extension/BirthSex' birthSObs: socialObservation.observation -%} },
+                {% endif -%}
+            {% endfor -%}
+
         ],
         "address":
         [
