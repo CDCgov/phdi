@@ -617,6 +617,13 @@ def link_record_against_mpi(
         # contains extracted values, so minimally block on the first line
         # if applicable
         field_blocks = extract_blocking_values_from_record(record, blocking_fields)
+
+        # We don't enforce blocking if an extracted value is empty, so if all
+        # values come back blank, skip the pass because the only alt is comparing
+        # to all found records
+        if len(field_blocks == 0):
+            continue
+
         data_block = db_client.block_data(field_blocks)
 
         # First row of returned block is column headers
@@ -1040,9 +1047,9 @@ def score_linkage_vs_truth(
         total_possible_matches - true_positives - false_positives - false_negatives
     )
 
-    print("True Positives Found:", true_positives)
-    print("False Positives Misidentified:", false_positives)
-    print("False Negatives Missed:", false_negatives)
+    print("True Positives:", true_positives)
+    print("False Positives:", false_positives)
+    print("False Negatives:", false_negatives)
 
     sensitivity = round(true_positives / (true_positives + false_negatives), 3)
     specificity = round(true_negatives / (true_negatives + false_positives), 3)
