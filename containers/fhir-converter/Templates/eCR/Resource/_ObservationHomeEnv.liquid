@@ -7,7 +7,7 @@
         {
             "profile":
             [
-                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults",
+                "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-characteristics-of-home-environment",
             ],
         },
         "identifier":
@@ -53,10 +53,6 @@
         {% if observationEntry.effectiveTime.low.value == null -%}
         "effectiveDateTime":"{{ observationEntry.effectiveTime.value | format_as_date_time }}",
         {% endif -%}
-        "bodySite":
-        {
-            {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.targetSiteCode -%}
-        },
         {% if observationEntry.value.code -%}
             "valueCodeableConcept":
             {
@@ -71,50 +67,6 @@
         {% else -%}
             "valueString":"{{ observationEntry.value._ }}",
         {% endif -%}
-        "referenceRange":
-        [
-            {
-                {% if observationEntry.referenceRange.observationRange.value.low.value -%}
-                    "low":
-                    {
-                        "value":{{ observationEntry.referenceRange.observationRange.value.low.value }},
-                        "unit":"{{ observationEntry.referenceRange.observationRange.value.low.unit }}",
-                    },
-                {% endif -%}
-                {% if observationEntry.referenceRange.observationRange.value.high.value -%}
-                    "high":
-                    {
-                        "value":{{ observationEntry.referenceRange.observationRange.value.high.value }},
-                        "unit":"{{ observationEntry.referenceRange.observationRange.value.high.unit }}",
-                    },
-                {% endif -%}
-            },
-        ],
-        "interpretation":
-        [
-            { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
-        ],
-        "extension":
-            [ {
-                {% if specimenValue and specimenValue != "None" or collectTime and collectTime != "None"  -%}
-
-                    "url" : "http://hl7.org/fhir/R4/specimen.html",
-                    "extension": [
-                    {% if specimenValue and specimenValue != "None" -%}
-                        {
-                            "url" : "specimen source",
-                            "valueString" : "{{ specimenValue }}",
-                        },
-                    {% endif -%}
-                    {% if collectTime and collectTime != None -%}
-                        {
-                            "url" : "specimen collection time",
-                            "valueDateTime" : "{{ collectTime | format_as_date_time }}",
-                        },
-                    {% endif -%}
-                    ],
-                {% endif -%}
-            },],
     },
     "request":{
         "method":"PUT",
