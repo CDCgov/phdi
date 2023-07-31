@@ -170,3 +170,71 @@ def get_one_line_address(address: dict) -> str:
     if address.get("postalCode", ""):
         raw_one_line += f" {address['postalCode']}"
     return raw_one_line
+
+
+def is_response_fhirresource(bundle: dict) -> bool:
+    """
+    Check if the FHIR bundle being passed as an argument is a
+    response.FhirResource and that its status is "200 OK".
+
+    :param bundle: The FHIR bundle to check for status "200 OK"
+      and that it is a response.FhirResource.
+    :return: A boolean indicating if the FHIR bundle is a
+      response.FhirResource (True) or not (False).
+    """
+    if (
+        "response" in bundle
+        and "status" in bundle["response"]
+        and bundle["response"]["status"] == "200 OK"
+        and "FhirResource" in bundle["response"]
+        and "resourceType" in bundle["response"]["FhirResource"]
+    ):
+        return bundle["response"]["FhirResource"]["resourceType"] == "Bundle"
+    return False
+
+
+def add_data_source_to_bundle(bundle: dict) -> dict:
+    """
+    This function will search the FHIR bundle being passed as
+    an argument for specific LOINC codes that indicate a minimum
+    level of provenance for the source of the data, e.g., ELR,
+    eICR, RR, and VXU.
+
+    :param bundle: The response.FhirResource FHIR bundle to check
+      for minimum provenance.
+    :return: The entire FHIR bundle with the new field Meta.source
+    """
+    if is_response_fhirresource(bundle):
+        # Define the specific LOINC codes
+        loinc_ecr = "55751-2"
+        loinc_rr = "88085-6"
+        loinc_elr = "11502-2"
+        loinc_vxu = "60484-3"
+
+        # Iterate through the "entry" list in the FHIR bundle
+        for entry in bundle["response"]["FhirResource"]["entry"]:
+            resource = entry["resource"]
+            if (
+                "type" in resource
+                and "coding" in resource["type"]
+                and len(resource["type"]["coding"]) > 0
+            ):
+                loinc_code = resource["type"]["coding"][0].get("code")
+                if loinc_code == loinc_ecr:
+                    # Insert the new field Meta.source
+                    resource["meta"] = {
+                        "source": "eICR_55751-2_public-health-case-report"
+                    }
+                elif loinc_code == loinc_rr:
+                    # Insert the new field Meta.source
+                    resource["meta"] = {
+                        "source": "RR_88085-6_reportability-response-report"
+                    }
+                elif loinc_code == loinc_elr:
+                    # Insert the new field Meta.source
+                    resource["meta"] = {"source": "ELR_11502-2_laboratory-report"}
+                elif loinc_code == loinc_vxu:
+                    # Insert the new field Meta.source
+                    resource["meta"] = {"source": "VXU_60484-3_cdc-immunization-panel"}
+
+    return bundle
