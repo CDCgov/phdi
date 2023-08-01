@@ -7,6 +7,8 @@ from phdi.fhir.utils import (
     find_entries_by_resource_type,
     get_field,
     get_one_line_address,
+    is_response_fhirresource,
+    add_data_source_to_bundle,
 )
 
 
@@ -156,3 +158,30 @@ def test_get_one_line_address():
         get_one_line_address(address)
         == "1234 Silversun Strip Zakera Ward, Citadel 99999"
     )
+
+
+def test_is_response_fhirresource():
+    # load example response.FhirResource bundle
+    response_fhirresource = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "examples"
+            / "eCR-sample-data"
+            / "ecr_sample_results.json"
+        )
+    )
+    # load example FHIR bundle
+    bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+
+    response_fhirresource_result = is_response_fhirresource(response_fhirresource)
+    assert response_fhirresource_result == True
+
+    bundle_result = is_response_fhirresource(bundle)
+    assert bundle_result == False
