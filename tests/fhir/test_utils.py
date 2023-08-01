@@ -7,7 +7,6 @@ from phdi.fhir.utils import (
     find_entries_by_resource_type,
     get_field,
     get_one_line_address,
-    is_response_fhirresource,
     add_data_source_to_bundle,
 )
 
@@ -160,28 +159,23 @@ def test_get_one_line_address():
     )
 
 
-def test_is_response_fhirresource():
-    # load example response.FhirResource bundle
-    response_fhirresource = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent
-            / "examples"
-            / "eCR-sample-data"
-            / "ecr_sample_results.json"
-        )
-    )
+def test_add_data_source_to_bundle():
     # load example FHIR bundle
     bundle = json.load(
         open(
             pathlib.Path(__file__).parent.parent
             / "assets"
-            / "general"
-            / "patient_bundle.json"
+            / "fhir-converter"
+            / "ecr"
+            / "example_eicr_with_rr_data_with_person.json"
         )
     )
 
-    response_fhirresource_result = is_response_fhirresource(response_fhirresource)
-    assert response_fhirresource_result == True
+    expected_data_source = "ecr"
 
-    bundle_result = is_response_fhirresource(bundle)
-    assert bundle_result == False
+    bundle_result = add_data_source_to_bundle(bundle, "ecr")
+
+    for entry in bundle_result.get("entry", []):
+        resource = entry.get("resource", {})
+        assert expected_data_source in resource["meta"]["source"]
+
