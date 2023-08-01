@@ -196,7 +196,7 @@ def _convert_list_to_string(val: list) -> str:
             val[i] = _convert_list_to_string(v)
         elif isinstance(v, dict):
             val[i] = str(v)
-        elif type(v) != str:
+        elif type(v) is not str:
             val[i] = str(v)
     return (",").join(val)
 
