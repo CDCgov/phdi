@@ -192,9 +192,13 @@ def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
         resource = entry.get("resource", {})
         if "meta" in resource:
             meta = resource["meta"]
-            if "source" in meta:
-                meta["source"].append(data_source)
-            else:
-                meta["source"] = [data_source]
+        else:
+            meta = {}
+            resource["meta"] = meta
+
+        if "source" in meta:
+            meta["source"].append(data_source)
+        else:
+            meta["source"] = [data_source]
 
     return bundle

@@ -173,7 +173,7 @@ def test_add_data_source_to_bundle():
 
     expected_data_source = "ecr"
 
-    bundle_result = add_data_source_to_bundle(bundle, "ecr")
+    bundle_result = add_data_source_to_bundle(bundle, expected_data_source)
 
     for entry in bundle_result.get("entry", []):
         resource = entry.get("resource", {})
