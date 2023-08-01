@@ -621,7 +621,7 @@ def link_record_against_mpi(
         # We don't enforce blocking if an extracted value is empty, so if all
         # values come back blank, skip the pass because the only alt is comparing
         # to all found records
-        if len(field_blocks == 0):
+        if len(field_blocks) == 0:
             continue
 
         data_block = db_client.block_data(field_blocks)
