@@ -172,69 +172,29 @@ def get_one_line_address(address: dict) -> str:
     return raw_one_line
 
 
-def is_response_fhirresource(bundle: dict) -> bool:
+def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
     """
-    Check if the FHIR bundle being passed as an argument is a
-    response.FhirResource and that its status is "200 OK".
+    Given a FHIR bundle and a a data source parameter the function
+    will loop through the bundle and add a Meta.source entry for
+    every resource in the bundle.
 
-    :param bundle: The FHIR bundle to check for status "200 OK"
-      and that it is a response.FhirResource.
-    :return: A boolean indicating if the FHIR bundle is a
-      response.FhirResource (True) or not (False).
+    :param bundle: The FHIR bundle to add minimum provenance to.
+    :param data_source: The data source of the FHIR bundle.
+    :return: The FHIR bundle with the a Meta.source entry for each
+      FHIR resource in the bunle
     """
-    if (
-        "response" in bundle
-        and "status" in bundle["response"]
-        and bundle["response"]["status"] == "200 OK"
-        and "FhirResource" in bundle["response"]
-        and "resourceType" in bundle["response"]["FhirResource"]
-    ):
-        return bundle["response"]["FhirResource"]["resourceType"] == "Bundle"
-    return False
+    if data_source == "":
+        raise ValueError(
+            "The data_source parameter must be a defined, non-empty string."
+        )
 
-
-def add_data_source_to_bundle(bundle: dict) -> dict:
-    """
-    This function will search the FHIR bundle being passed as
-    an argument for specific LOINC codes that indicate a minimum
-    level of provenance for the source of the data, e.g., ELR,
-    eICR, RR, and VXU.
-
-    :param bundle: The response.FhirResource FHIR bundle to check
-      for minimum provenance.
-    :return: The entire FHIR bundle with the new field Meta.source
-    """
-    if is_response_fhirresource(bundle):
-        # Define the specific LOINC codes
-        loinc_ecr = "55751-2"
-        loinc_rr = "88085-6"
-        loinc_elr = "11502-2"
-        loinc_vxu = "60484-3"
-
-        # Iterate through the "entry" list in the FHIR bundle
-        for entry in bundle["response"]["FhirResource"]["entry"]:
-            resource = entry["resource"]
-            if (
-                "type" in resource
-                and "coding" in resource["type"]
-                and len(resource["type"]["coding"]) > 0
-            ):
-                loinc_code = resource["type"]["coding"][0].get("code")
-                if loinc_code == loinc_ecr:
-                    # Insert the new field Meta.source
-                    resource["meta"] = {
-                        "source": "eICR_55751-2_public-health-case-report"
-                    }
-                elif loinc_code == loinc_rr:
-                    # Insert the new field Meta.source
-                    resource["meta"] = {
-                        "source": "RR_88085-6_reportability-response-report"
-                    }
-                elif loinc_code == loinc_elr:
-                    # Insert the new field Meta.source
-                    resource["meta"] = {"source": "ELR_11502-2_laboratory-report"}
-                elif loinc_code == loinc_vxu:
-                    # Insert the new field Meta.source
-                    resource["meta"] = {"source": "VXU_60484-3_cdc-immunization-panel"}
-
+    for entry in bundle.get("entry", []):
+        resource = entry.get("resource", {})
+        if "meta" in resource:
+            meta = resource["meta"]
+            if "source" in meta:
+                meta["source"].append(data_source)
+            else:
+                meta["source"] = [data_source]
+    
     return bundle
