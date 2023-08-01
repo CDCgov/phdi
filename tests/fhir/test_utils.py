@@ -178,3 +178,27 @@ def test_add_data_source_to_bundle():
     for entry in bundle_result.get("entry", []):
         resource = entry.get("resource", {})
         assert expected_data_source in resource["meta"]["source"]
+
+
+def test_add_data_source_to_bundle_missing_arg():
+    # load example FHIR bundle
+    bundle = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "fhir-converter"
+            / "ecr"
+            / "example_eicr_with_rr_data_with_person.json"
+        )
+    )
+
+    expected_error_message = (
+        "The data_source parameter must be a defined, non-empty string."
+    )
+
+    with pytest.raises(ValueError) as excinfo:
+        add_data_source_to_bundle(bundle, "")
+
+    result_error_message = str(excinfo.value)
+
+    assert expected_error_message in result_error_message
