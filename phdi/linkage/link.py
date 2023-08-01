@@ -642,7 +642,7 @@ def link_record_against_mpi(
                 if col_to_idx["first_name"] != (j - 2) and col_to_idx["address"] != (
                     j - 2
                 ):
-                    while type(blocked_record[j]) == list:
+                    while type(blocked_record[j]) is list:
                         # Handle empty list edge case.
                         if len(blocked_record[j]) == 0:
                             blocked_record[j] = ""
@@ -1133,9 +1133,9 @@ def _bind_func_names_to_invocations(algo_config: List[dict]):
     for lp in algo_config:
         feature_funcs = lp["funcs"]
         for func in feature_funcs:
-            if type(feature_funcs[func]) == str:
+            if type(feature_funcs[func]) is str:
                 feature_funcs[func] = globals()[feature_funcs[func]]
-        if type(lp["matching_rule"]) == str:
+        if type(lp["matching_rule"]) is str:
             lp["matching_rule"] = globals()[lp["matching_rule"]]
     return algo_config
 
@@ -1467,7 +1467,7 @@ def _generate_block_query(table_name: str, block_data: Dict) -> str:
     query_stub = f"SELECT * FROM {table_name} WHERE "
     block_query = " AND ".join(
         [
-            key + f" = '{value}'" if type(value) == str else (key + f" = {value}")
+            key + f" = '{value}'" if type(value) is str else (key + f" = {value}")
             for key, value in block_data.items()
         ]
     )
