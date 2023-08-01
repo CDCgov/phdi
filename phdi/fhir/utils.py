@@ -39,9 +39,9 @@ def apply_selection_criteria(
     # https://github.com/awslabs/aws-data-wrangler/issues/463
     # Will need to consider other methods of writing to parquet if this is an essential
     # feature.
-    if type(value) == dict:  # pragma: no cover
+    if type(value) is dict:  # pragma: no cover
         value = json.dumps(value)
-    elif type(value) == list:
+    elif type(value) is list:
         value = ",".join(value)
     return value
 
