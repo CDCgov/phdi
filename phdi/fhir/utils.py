@@ -196,5 +196,5 @@ def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
                 meta["source"].append(data_source)
             else:
                 meta["source"] = [data_source]
-    
+
     return bundle

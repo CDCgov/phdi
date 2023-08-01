@@ -178,4 +178,3 @@ def test_add_data_source_to_bundle():
     for entry in bundle_result.get("entry", []):
         resource = entry.get("resource", {})
         assert expected_data_source in resource["meta"]["source"]
-
