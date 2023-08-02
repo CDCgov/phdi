@@ -170,35 +170,3 @@ def get_one_line_address(address: dict) -> str:
     if address.get("postalCode", ""):
         raw_one_line += f" {address['postalCode']}"
     return raw_one_line
-
-
-def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
-    """
-    Given a FHIR bundle and a a data source parameter the function
-    will loop through the bundle and add a Meta.source entry for
-    every resource in the bundle.
-
-    :param bundle: The FHIR bundle to add minimum provenance to.
-    :param data_source: The data source of the FHIR bundle.
-    :return: The FHIR bundle with the a Meta.source entry for each
-      FHIR resource in the bunle
-    """
-    if data_source == "":
-        raise ValueError(
-            "The data_source parameter must be a defined, non-empty string."
-        )
-
-    for entry in bundle.get("entry", []):
-        resource = entry.get("resource", {})
-        if "meta" in resource:
-            meta = resource["meta"]
-        else:
-            meta = {}
-            resource["meta"] = meta
-
-        if "source" in meta:
-            meta["source"].append(data_source)
-        else:
-            meta["source"] = [data_source]
-
-    return bundle
