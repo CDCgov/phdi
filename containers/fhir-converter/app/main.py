@@ -271,7 +271,7 @@ def convert_to_fhir(
         result = json.dumps(result)
         result = result.replace(old_id, new_id)
         result = json.loads(result)
-        result = add_data_source_to_bundle(result, input_type)
+        add_data_source_to_bundle(result["FhirResource"], input_type)
 
     else:
         result = vars(converter_response)

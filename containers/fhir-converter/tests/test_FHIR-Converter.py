@@ -190,7 +190,6 @@ def test_convert_valid_request(
 ):
     global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
-    print(valid_response)
     patched_json_load.return_value = valid_response
     patched_file_path = mock.Mock()
     actual_response = client.post(
@@ -204,7 +203,7 @@ def test_convert_valid_request(
     valid_response = json.dumps(valid_response)
     valid_response = valid_response.replace(old_id, new_id)
     valid_response = json.loads(valid_response)
-    valid_response = add_data_source_to_bundle(valid_response["FhirResource"], "elr")
+    add_data_source_to_bundle(valid_response["FhirResource"], "elr")
     assert actual_response == valid_response
 
 
