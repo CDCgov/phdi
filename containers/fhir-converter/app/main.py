@@ -170,7 +170,7 @@ async def convert(input: FhirConverterInput, response: Response):
 
 def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
     """
-    Given a FHIR bundle and a a data source parameter the function
+    Given a FHIR bundle and a data source parameter the function
     will loop through the bundle and add a Meta.source entry for
     every resource in the bundle.
 
