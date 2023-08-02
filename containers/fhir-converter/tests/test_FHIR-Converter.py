@@ -2,7 +2,8 @@
 from unittest import mock
 from fastapi.testclient import TestClient
 import json
-from app.main import app
+import pytest
+from app.main import app, add_data_source_to_bundle
 
 client = TestClient(app)
 
@@ -189,7 +190,6 @@ def test_convert_valid_request(
 ):
     global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
-    print(valid_response)
     patched_json_load.return_value = valid_response
     patched_file_path = mock.Mock()
     actual_response = client.post(
@@ -203,6 +203,7 @@ def test_convert_valid_request(
     valid_response = json.dumps(valid_response)
     valid_response = valid_response.replace(old_id, new_id)
     valid_response = json.loads(valid_response)
+    add_data_source_to_bundle(valid_response["FhirResource"], "elr")
     assert actual_response == valid_response
 
 
@@ -256,3 +257,21 @@ def test_convert_invalid_root_template(patched_subprocess_run):
     )
     assert actual_response.status_code == 422
     assert actual_response.json() == invalid_root_template_response
+
+
+def test_add_data_source_to_bundle():
+    expected_data_source = "ecr"
+    bundle_result = add_data_source_to_bundle(valid_response, expected_data_source)
+    for entry in bundle_result.get("entry", []):
+        resource = entry.get("resource", {})
+        assert expected_data_source in resource["meta"]["source"]
+
+
+def test_add_data_source_to_bundle_missing_arg():
+    expected_error_message = (
+        "The data_source parameter must be a defined, non-empty string."
+    )
+    with pytest.raises(ValueError) as excinfo:
+        add_data_source_to_bundle(valid_response, "")
+    result_error_message = str(excinfo.value)
+    assert expected_error_message in result_error_message
