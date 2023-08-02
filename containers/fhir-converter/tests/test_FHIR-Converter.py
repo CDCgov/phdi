@@ -178,19 +178,6 @@ invalid_root_template_response = {
 }
 
 
-bundle = {
-    "resourceType": "Bundle",
-    "entry": [
-        {
-            "resource": {"resourceType": "Patient", "id": "patient-1"},
-        },
-        {
-            "resource": {"resourceType": "Observation", "id": "obs-1"},
-        },
-    ],
-}
-
-
 @mock.patch("app.main.json.load")
 @mock.patch("app.main.open")
 @mock.patch("app.main.subprocess.run")
@@ -274,7 +261,7 @@ def test_convert_invalid_root_template(patched_subprocess_run):
 
 def test_add_data_source_to_bundle():
     expected_data_source = "ecr"
-    bundle_result = add_data_source_to_bundle(bundle, expected_data_source)
+    bundle_result = add_data_source_to_bundle(valid_response, expected_data_source)
     for entry in bundle_result.get("entry", []):
         resource = entry.get("resource", {})
         assert expected_data_source in resource["meta"]["source"]
@@ -285,6 +272,6 @@ def test_add_data_source_to_bundle_missing_arg():
         "The data_source parameter must be a defined, non-empty string."
     )
     with pytest.raises(ValueError) as excinfo:
-        add_data_source_to_bundle(bundle, "")
+        add_data_source_to_bundle(valid_response, "")
     result_error_message = str(excinfo.value)
     assert expected_error_message in result_error_message
