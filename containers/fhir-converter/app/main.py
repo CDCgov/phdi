@@ -168,6 +168,38 @@ async def convert(input: FhirConverterInput, response: Response):
     return result
 
 
+def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
+    """
+    Given a FHIR bundle and a data source parameter the function
+    will loop through the bundle and add a Meta.source entry for
+    every resource in the bundle.
+
+    :param bundle: The FHIR bundle to add minimum provenance to.
+    :param data_source: The data source of the FHIR bundle.
+    :return: The FHIR bundle with the a Meta.source entry for each
+      FHIR resource in the bunle
+    """
+    if data_source == "":
+        raise ValueError(
+            "The data_source parameter must be a defined, non-empty string."
+        )
+
+    for entry in bundle.get("entry", []):
+        resource = entry.get("resource", {})
+        if "meta" in resource:
+            meta = resource["meta"]
+        else:
+            meta = {}
+            resource["meta"] = meta
+
+        if "source" in meta:
+            meta["source"].append(data_source)
+        else:
+            meta["source"] = [data_source]
+
+    return bundle
+
+
 def convert_to_fhir(
     input_data: str,
     input_type: str,
@@ -239,6 +271,7 @@ def convert_to_fhir(
         result = json.dumps(result)
         result = result.replace(old_id, new_id)
         result = json.loads(result)
+        add_data_source_to_bundle(result["FhirResource"], input_type)
 
     else:
         result = vars(converter_response)
