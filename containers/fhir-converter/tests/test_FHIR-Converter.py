@@ -204,6 +204,7 @@ def test_convert_valid_request(
     valid_response = json.dumps(valid_response)
     valid_response = valid_response.replace(old_id, new_id)
     valid_response = json.loads(valid_response)
+    valid_response = add_data_source_to_bundle(valid_response["FhirResource"], "elr")
     assert actual_response == valid_response
 
 
