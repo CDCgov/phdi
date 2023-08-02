@@ -2,7 +2,7 @@
 from unittest import mock
 from fastapi.testclient import TestClient
 import json
-from app.main import app
+from app.main import app, add_data_source_to_bundle
 
 client = TestClient(app)
 
@@ -262,10 +262,8 @@ def test_add_data_source_to_bundle():
     # load example FHIR bundle
     bundle = json.load(
         open(
-            pathlib.Path(__file__).parent.parent
+            pathlib.Path(__file__).parent
             / "assets"
-            / "fhir-converter"
-            / "ecr"
             / "example_eicr_with_rr_data_with_person.json"
         )
     )
@@ -283,10 +281,8 @@ def test_add_data_source_to_bundle_missing_arg():
     # load example FHIR bundle
     bundle = json.load(
         open(
-            pathlib.Path(__file__).parent.parent
+            pathlib.Path(__file__).parent
             / "assets"
-            / "fhir-converter"
-            / "ecr"
             / "example_eicr_with_rr_data_with_person.json"
         )
     )

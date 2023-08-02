@@ -7,7 +7,6 @@ from phdi.fhir.utils import (
     find_entries_by_resource_type,
     get_field,
     get_one_line_address,
-    add_data_source_to_bundle,
 )
 
 
