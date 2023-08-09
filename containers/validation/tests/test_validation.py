@@ -7,6 +7,7 @@ from app.main import (
     validate_ecr_msg,
     validate_elr_msg,
     validate_vxu_msg,
+    validate_fhir_bundle,
 )
 
 client = TestClient(app)
@@ -132,11 +133,12 @@ def test_validate_ecr_invalid():
 
 
 def test_validate_elr():
-    assert validate_elr_msg("my elr contents", test_error_types) == {
+    result = validate_elr_msg("my elr contents", test_error_types)
+    assert result == {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually performed. This endpoint only has "
-            "stubbed functionality"
+            "details": "No validation was actually performed. Validation for ELR is "
+            "only stubbed currently."
         },
     }
 
@@ -146,8 +148,19 @@ def test_validate_vxu():
     assert result == {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually performed. This endpoint only has "
-            "stubbed functionality"
+            "details": "No validation was actually performed. Validation for VXU is "
+            "only stubbed currently."
+        },
+    }
+
+
+def test_validate_fhir_bundle():
+    result = validate_fhir_bundle("my fhir bundle contents", test_error_types)
+    assert result == {
+        "message_valid": True,
+        "validation_results": {
+            "details": "No validation was actually performed. Validation for FHIR is "
+            "only stubbed currently."
         },
     }
 
