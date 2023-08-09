@@ -190,5 +190,17 @@
   "specimen_type_20": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')[19].extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen source').valueString",
   "performing_lab_20": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')[19].performer.display",
   "specimen_collection_date_20": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')[19].extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
-  "result_date_20": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')[19].effectiveDateTime"
+  "result_date_20": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')[19].effectiveDateTime",
+  "birth_sex": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').extension.value.coding.display",
+  "gender_identity": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display",
+  "homelessness_status": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='75274-1').where(category.coding.code='social-history').valueCodeableConcept.coding.display",
+  "disabilities": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-disability-status').where(category.coding.code='social-history').where(valueBoolean).code.coding.display",
+  "tribal_affiliation": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='TribeName').value.display",
+  "tribal_enrollment_status": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='EnrolledTribeMember').value",
+  "current_job_title": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http://hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob').where(effectivePeriod.end.exists().not()).valueCodeableConcept.coding.display",
+  "current_job_industry": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob').where(effectivePeriod.end.exists().not()).component.where(code.coding.code='86188-0').value.coding.display",
+  "usual_occupation": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork').valueCodeableConcept.coding.display",
+  "usual_industry": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork').component.where(code.coding.code='21844-6').value.coding.display",
+  "preferred_language": "Bundle.entry.resource.where(resourceType = 'Patient').communication.where(preferred).language.coding.display",
+  "pregnancy_status": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-pregnancy-status-observation').value.coding.display"
 }
