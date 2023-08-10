@@ -25,7 +25,7 @@ class ValidateInput(BaseModel):
     The schema for requests to the validate endpoint.
     """
 
-    message_type: Literal["ecr", "elr", "vxu"] = Field(
+    message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
         description="The type of message to be validated."
     )
     include_error_types: str = Field(
@@ -75,8 +75,8 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
     return {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually performed. This endpoint only has "
-            "stubbed functionality"
+            "details": "No validation was actually performed. Validation for ELR is "
+            "only stubbed currently."
         },
     }
 
@@ -91,8 +91,24 @@ def validate_vxu_msg(message: str, include_error_types: list) -> ValidateRespons
     return {
         "message_valid": True,
         "validation_results": {
-            "details": "No validation was actually performed. This endpoint only has "
-            "stubbed functionality"
+            "details": "No validation was actually performed. Validation for VXU is "
+            "only stubbed currently."
+        },
+    }
+
+
+def validate_fhir_bundle(message: str, include_error_types: list) -> ValidateResponse:
+    """
+    Validate a FHIR bundle.
+    :param message: A string representation of a FHIR bundle to be validated.
+    :return: A dictionary with keys and values described by the ValidateResponse class.
+    """
+
+    return {
+        "message_valid": True,
+        "validation_results": {
+            "details": "No validation was actually performed. Validation for FHIR is "
+            "only stubbed currently."
         },
     }
 
@@ -101,6 +117,7 @@ message_validators = {
     "ecr": validate_ecr_msg,
     "elr": validate_elr_msg,
     "vxu": validate_vxu_msg,
+    "fhir": validate_fhir_bundle,
 }
 
 
