@@ -115,12 +115,12 @@
      "nullable":true,
      "secondary_schema":{
         "problem":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list').code.coding.display",
+           "fhir_path":"Condition.code.coding.display",
            "data_type":"string",
            "nullable":true
         },
         "problem_date":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list').onsetDateTime",
+           "fhir_path":"Condition.onsetDateTime",
            "data_type":"datetime",
            "nullable":true
         }
@@ -132,37 +132,37 @@
      "nullable":true,
      "secondary_schema":{
         "test_type":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory').code.coding.display",
+           "fhir_path":"Observation.code.coding.display",
            "data_type":"string",
            "nullable":true
         },
         "test_type_code":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory').code.coding.code",
+           "fhir_path":"Observation.code.coding.code",
            "data_type":"string",
            "nullable":true
         },
         "test_result":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory').valueString",
+           "fhir_path":"Observation.valueString",
            "data_type":"string",
            "nullable":true
         },
         "test_result_interp":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory').interpretation.coding.display",
+           "fhir_path":"Observation.interpretation.coding.display",
            "data_type":"string",
            "nullable":true
         },
         "specimen_type":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory').extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen source').valueString",
+           "fhir_path":"Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen source').valueString",
            "data_type":"string",
            "nullable":true
         },
         "performing_lab":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory').performer.display",
+           "fhir_path":"Observation.performer.display",
            "data_type":"string",
            "nullable":true
         },
         "specimen_collection_date":{
-           "fhir_path":"Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory').extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
+           "fhir_path":"Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
            "data_type":"datetime",
            "nullable":true
         }

@@ -13,6 +13,7 @@ from app.utils import (
     get_credential_manager,
     search_for_required_values,
     read_json_from_assets,
+    freeze_parsing_schema,
 )
 from app.config import get_settings
 
@@ -142,7 +143,7 @@ async def parse_message_endpoint(
         except FileNotFoundError as error:
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"message": error.__str__(), "parsed_values": {}}
-
+    
     # 2. Convert to FHIR, if necessary.
     if input.message_format != "fhir":
         if input.credential_manager is not None:
@@ -172,14 +173,26 @@ async def parse_message_endpoint(
             }
 
     # 3. Generate parsers for FHIRpaths specified in schema.
-    parsers = get_parsers(frozendict(parsing_schema))
+    parsers = get_parsers(parsing_schema)
 
     # 4. Extract desired fields from message by applying each parser.
     parsed_values = {}
     for field, parser in parsers.items():
-        value = parser(input.message)
-        value = ",".join(value)
-        parsed_values[field] = value
+        if "secondary_parsers" not in parser:
+            value = parser["primary_parser"](input.message)
+            value = ",".join(value)
+            parsed_values[field] = value
+        else:
+            inital_values = parser["primary_parser"](input.message)
+            values = []
+            for initial_value in inital_values:
+                value = {}
+                for secondary_field, secondary_parser in parser[
+                    "secondary_parsers"
+                ].items():
+                    value[secondary_field] = ",".join(secondary_parser(initial_value))
+                values.append(value)
+            parsed_values[field] = values
 
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
