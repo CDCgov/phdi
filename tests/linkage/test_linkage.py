@@ -61,6 +61,8 @@ def _set_up_postgres_client():
         port="5432",
         patient_table="test_patient_mpi",
         person_table="test_person_mpi",
+        external_person_id_table="test_external_id_mpi",
+        external_source_table="test_external_source_mpi",
     )
     postgres_client.connection = psycopg2.connect(
         database=postgres_client.database,
@@ -94,8 +96,28 @@ def _set_up_postgres_client():
 
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
-            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
-            + "external_person_id VARCHAR(100));"
+            + "(person_id UUID DEFAULT uuid_generate_v4 ());"
+        ),
+        "create_external_sources": (
+            """
+            BEGIN;
+
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.external_source_table} "
+            + "(external_source_key UUID DEFAULT uuid_generate_v4 (), "
+            + "external_source_name VARCHAR(100), "
+            + "external_source_description VARCHAR(500));"
+        ),
+        "create_external_ids": (
+            """
+            BEGIN;
+            
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            + f"CREATE TABLE IF NOT EXISTS {postgres_client.external_person_id_table} "
+            + "(external_id_key UUID DEFAULT uuid_generate_v4 (), "
+            + "person_id UUID, "
+            + "external_person_id VARCHAR(100), "
+            + "external_source_key UUID);"
         ),
     }
 
@@ -121,11 +143,19 @@ def _clean_up_postgres_client(postgres_client):
     )
     postgres_client.cursor = postgres_client.connection.cursor()
     postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
+        f"DROP TABLE IF EXISTS {postgres_client.external_person_id_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.external_source_table}"
     )
     postgres_client.connection.commit()
     postgres_client.cursor.execute(
         f"DROP TABLE IF EXISTS {postgres_client.person_table}"
+    )
+    postgres_client.connection.commit()
+    postgres_client.cursor.execute(
+        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
     )
     postgres_client.connection.commit()
     postgres_client.cursor.close()

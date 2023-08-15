@@ -30,6 +30,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         port: str,
         patient_table: str,
         person_table: str,
+        external_person_id_table: str,
+        external_source_table: str,
     ) -> None:
         self.database = database
         self.user = user
@@ -38,6 +40,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         self.port = port
         self.patient_table = patient_table
         self.person_table = person_table
+        self.external_person_id_table = external_person_id_table
+        self.external_source_table = external_source_table
         self.fields_to_jsonpaths = {
             "address": """$.address[*].line""",
             "birthdate": "$.birthDate",
@@ -121,6 +125,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         patient_resource: Dict,
         person_id=None,
         external_person_id=None,
+        external_source_name=None,
     ) -> Union[None, tuple]:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
@@ -134,6 +139,9 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
           found in the MPI, defaults to None.
         :param external_person_id: The external person id for the person that matches
           the patient record if a match has been found in the MPI, defaults to None.
+        :param external_source_name: An optional string indicating the name of the
+          external system that generated the external ID supplied with the incoming
+          record. Defaults to None.
         :return: the person id
         """
         matched = False
@@ -151,6 +159,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                         db_cursor=db_cursor,
                         person_id=person_id,
                         external_person_id=external_person_id,
+                        external_source_name=external_source_name,
                     )
 
                     # Insert into patient table
@@ -275,73 +284,148 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         db_cursor: Union[cursor, None] = None,
         person_id: str = None,
         external_person_id: str = None,
+        external_source_name: str = None,
     ) -> tuple:
         """
-        If person id is not supplied and external person id is not supplied
-        then insert a new person record with an auto-generated person id (UUID)
-        with a Null external person id and return that new person id. If the
-        person id is not supplied but an external person id is supplied try
-        to find an existing person record with the external person id and
-        return that person id; otherwise add a new person record with an
-        auto-generated person id (UUID) with the supplied external person id
-        and return the new person id.  If person id and external person id are
-        both supplied then update the person records external person id if it
-        is Null and return the person id.
+        Manages person insertions into the MPI, taking account of supplied
+        external information (IDs and sources). This function is called when
+        deciding how to link a new, incoming patient to previously created
+        person clusters.
+
+        First, if a call is made in which external_person_id and external_source_name
+        are both provided, the function queries the MPI to see if there exists
+        a person we've already seen that possess this unique combination of
+        ID and source. If yes, the incoming patient is assumed to link directly
+        to this previously-seen person (due to external linkage or identifiers),
+        so the person_id from this combination is automatically assigned.
+
+        Second, if the supplied combination of external_person_id and
+        source_name didn't match to a known combination--or if none were
+        provided--the function moves to manual person_id handling. If a person_id
+        is supplied by the caller (meaning the incoming record matched against
+        a person cluster in the `link_against_mpi` function), this function
+        uses that person_id. If an ID is not supplied, the function creates a
+        new person in the MPI and uses its newly-generated person_id.
+
+        Finally, if external information was provided but didn't match a known
+        signature, a new external_source is created (if needed) to accomodate
+        the passed-in external_source_name. Then, the function creates a new
+        row in the external_person_ids table that combines the newly-created
+        external_source, the passed-in or determined person_id, and the passed-in
+        external_person_id.
 
         :param person_id: The person id for the person record to be inserted
           or updated, defaults to None.
         :param external_person_id: The external person id for the person record
           to be inserted or updated, defaults to None.
+        :param external_source_name: An optional string indicating the name of
+          the external system that generated the external ID supplied with the
+          incoming record. Defaults to None.
         :return: A tuple of two values; the person id either supplied or
           auto-generated and a boolean that indicates if there was a match
           found within the person table or not based upon the external person id
         """
         matched = False
         try:
-            if external_person_id is None:
+            # Require both pieces of information to process an external identifier
+            if external_person_id is None or external_source_name is None:
                 external_person_id = "'NULL'"
+                external_source_name = "'NULL'"
+
+            # Step 1: check whether an incoming patient maps to a person we've
+            # processed that has the same external ID and source of that ID--if yes,
+            # use that mapped person ID and we're done
             else:
-                # if external person id is supplied then find if there is already
-                #  a person with that external person id already within the MPI
-                #  - if so, return that person id
                 person_query = SQL(
-                    "SELECT person_id FROM {person_table} WHERE external_person_id = %s"
-                ).format(person_table=Identifier(self.person_table))
+                    "SELECT person_id, external_source_key FROM {external_person_id_table} WHERE external_person_id = %s"  # pragma: no cover
+                ).format(
+                    external_person_id_table=Identifier(self.external_person_id_table)
+                )
                 query_data = [external_person_id]
+
+                # First query gets the person_id and key of this external ID's source
                 db_cursor.execute(person_query, query_data)
-                # Retrieve person_id that has the supplied external_person_id
                 returned_data = db_cursor.fetchall()
 
+                # Second query verifies that source of external ID in the MPI
+                # matches source of external ID passed with incoming patient
                 if returned_data is not None and len(returned_data) > 0:
                     found_person_id = returned_data[0][0]
-                    matched = True
-                    return matched, found_person_id
+                    found_external_source_key = returned_data[0][1]
 
+                    # Build the query using the previously found primary key of the external
+                    # source to look up its name in the MPI
+                    source_query = SQL(
+                        "SELECT external_source_name FROM {external_source_table} WHERE external_source_key = %s"  # pragma: no cover
+                    ).format(
+                        external_source_table=Identifier(self.external_source_table)
+                    )
+                    query_data = [found_external_source_key]
+                    db_cursor.execute(source_query, query_data)
+                    returned_data = db_cursor.fetchall()
+
+                    # Now compare this found name to the name we were passed
+                    # If they agree, this is a case 1 match and we use the person
+                    if returned_data is not None and len(returned_data) > 0:
+                        found_source_name = returned_data[0][0]
+                        if found_source_name == external_source_name:
+                            matched = True
+                            return matched, found_person_id
+
+            # Step 2: we couldn't match the incoming patient to a processed person
+            # with matching external info, so we'll need to use a different
+            # person_id
             if person_id is None:
-                # Insert a new record into person table to generate new
-                # person_id with either the supplied external person id
-                #  or a null external person id
+                # We'll use a newly created person_id if the incoming patient wasn't
+                # passed with an existing person_id (meaning it had no matches)
                 insert_new_person = SQL(
-                    "INSERT INTO {person_table} (external_person_id) VALUES "
-                    "(%s) RETURNING person_id;"
+                    "INSERT INTO {person_table} VALUES (default) RETURNING person_id;"
                 ).format(person_table=Identifier(self.person_table))
-                person_data = [external_person_id]
-
-                db_cursor.execute(insert_new_person, person_data)
+                db_cursor.execute(insert_new_person)
 
                 # Retrieve newly generated person_id
                 person_id = db_cursor.fetchall()[0][0]
-            # otherwise if person id is supplied and the external person id is supplied
-            # and not none and a record with the external person id was not found
-            #  then update the person record with the supplied external person id
-            elif person_id is not None and external_person_id != "'NULL'":
+
+            # Or, if a person_id was passed, then we'll use that instead
+            else:
+                # No need to change person_id or update any other records
                 matched = True
-                update_person_query = SQL(
-                    "UPDATE {person_table} SET external_person_id = %s "
-                    "WHERE person_id = %s AND external_person_id = 'NULL' "
-                ).format(person_table=Identifier(self.person_table))
-                update_data = [external_person_id, person_id]
-                db_cursor.execute(update_person_query, update_data)
+
+            # Step 3: if external info (ID + source name) was passed and we
+            # got here, we didn't find any other patients with that same
+            # combination of external ID and source, so write a new row in
+            # the external tables to track this
+            if external_person_id != "'NULL'" and external_source_name != "'NULL'":
+                # Check if we need to create a new external source
+                source_query = SQL(
+                    "SELECT external_source_key FROM {external_source_table} WHERE external_source_name = %s"  # pragma: no cover
+                ).format(external_source_table=Identifier(self.external_source_table))
+                query_data = [external_source_name]
+                db_cursor.execute(source_query, query_data)
+                returned_data = db_cursor.fetchall()
+
+                # Add new source row if none exists
+                if returned_data is None or len(returned_data) == 0:
+                    insert_new_source = SQL(
+                        "INSERT INTO {external_source_table} (external_source_name) VALUES (%s) RETURNING external_source_key;"  # pragma: no cover
+                    ).format(
+                        external_source_table=Identifier(self.external_source_table)
+                    )
+                    source_data = [external_source_name]
+                    db_cursor.execute(insert_new_source, source_data)
+                    source_key = db_cursor.fetchall()[0][0]
+
+                # Otherwise grab the UUID of this external source to reference it
+                else:
+                    source_key = returned_data[0][0]
+
+                # Now insert a row into the table of external_ids representing
+                # this unique combination of person, external id, and source
+                insert_new_external_id = SQL(
+                    "INSERT INTO {external_ids_table} (person_id, external_person_id, external_source_key) VALUES (%s, %s, %s);"  # pragma: no cover
+                ).format(external_ids_table=Identifier(self.external_person_id_table))
+                external_data = [person_id, external_person_id, source_key]
+                db_cursor.execute(insert_new_external_id, external_data)
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
