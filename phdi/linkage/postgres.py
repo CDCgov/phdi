@@ -353,8 +353,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                     found_person_id = returned_data[0][0]
                     found_external_source_key = returned_data[0][1]
 
-                    # Build the query using the previously found primary key of the external
-                    # source to look up its name in the MPI
+                    # Build the query using the previously found primary key of the
+                    # external source to look up its name in the MPI
                     source_query = SQL(
                         "SELECT external_source_name FROM {external_source_table} WHERE external_source_key = %s"  # noqa
                     ).format(
