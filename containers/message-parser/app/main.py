@@ -143,7 +143,7 @@ async def parse_message_endpoint(
         except FileNotFoundError as error:
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"message": error.__str__(), "parsed_values": {}}
-    
+
     # 2. Convert to FHIR, if necessary.
     if input.message_format != "fhir":
         if input.credential_manager is not None:
