@@ -28,36 +28,48 @@ Using this schema on a message about a patient named John Doe yield a result lik
 ```
 ### Nested Data
 
-Sometimes healthcare messages can be large and complex. A single message might contain several lab results that all must be extracted. We could do this by mapping each lab to its own column, `"lab_result_1", "lab_result_2", "lab_result_3"` and so on. However, this is cumbersome and often a poor solution if the possible number of labs is unknown or very large. To address this the message parser can return multiple values found in equivalent locations in a FHIR bundle as an array. To do this use add the `"secondary_schema"` key to the field of a parsing schema that should contain multiple values. The schema below demonstrates extracting a patient's first name, last name, as well as all of their labs.
+Sometimes healthcare messages can be large and complex. A single message might contain several lab results that all must be extracted. We could do this by mapping each lab to its own column, `"lab_result_1", "lab_result_2", "lab_result_3"` and so on. However, this is cumbersome and often a poor solution if the possible number of labs is unknown or very large. To address this the message parser can return multiple values found in equivalent locations in a FHIR bundle as an array. To do this we can add the `"secondary_schema"` key to the field of a parsing schema that should contain multiple values. The schema below demonstrates extracting a patient's first name, last name, as well as all of their labs.
 
 ```
-"labs": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')",
-      "data_type": "array",
-      "nullable": true,
-      "secondary_schema": {
-         "test_type": {
-            "fhir_path": "Observation.code.coding.display",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_type_code": {
-            "fhir_path": "Observation.code.coding.code",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result": {
-            "fhir_path": "Observation.valueString",
-            "data_type": "string",
-            "nullable": true
-         },
-         "specimen_collection_date": {
-            "fhir_path": "Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
-            "data_type": "datetime",
-            "nullable": true
-         }
-      }
-   }
+{
+  "first_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "data_type": "string",
+    "nullable": true
+  },
+  "last_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "data_type": "string",
+    "nullable": true
+  },
+  "labs": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+          "test_type": {
+              "fhir_path": "Observation.code.coding.display",
+              "data_type": "string",
+              "nullable": true
+          },
+          "test_type_code": {
+              "fhir_path": "Observation.code.coding.code",
+              "data_type": "string",
+              "nullable": true
+          },
+          "test_result": {
+              "fhir_path": "Observation.valueString",
+              "data_type": "string",
+              "nullable": true
+          },
+          "specimen_collection_date": {
+              "fhir_path": "Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
+              "data_type": "datetime",
+              "nullable": true
+          }
+        }
+    }
+}
 ```
 
 If this parsing schema is used on a message about a patient named Jane Doe with two labs the service would a return a result like this.
