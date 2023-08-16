@@ -171,7 +171,7 @@
             "data_type": "string",
             "nullable": true
          },
-         "test_result_system": {
+         "test_result_code_system": {
             "fhir_path": "Observation.valueCodeableConcept.coding.system",
             "data_type": "number",
             "nullable": true
@@ -179,6 +179,36 @@
          "test_result_interp": {
             "fhir_path": "Observation.interpretation.coding.display",
             "data_type": "string",
+            "nullable": true
+         },
+         "test_result_interp_code": {
+            "fhir_path": "Observation.interpretation.coding.code",
+            "data_type": "string",
+            "nullable": true
+         },
+         "test_result_interp_system": {
+            "fhir_path": "Observation.interpretation.coding.system",
+            "data_type": "string",
+            "nullable": true
+         },
+         "test_result_ref_range_low": {
+            "fhir_path": "Observation.refereneceRange.low.value",
+            "data_type": "number",
+            "nullable": true
+         },
+         "test_result_ref_range_low_units": {
+            "fhir_path": "Observation.refereneceRange.low.unit",
+            "data_type": "number",
+            "nullable": true
+         },
+         "test_result_ref_range_high": {
+            "fhir_path": "Observation.refereneceRange.high.value",
+            "data_type": "number",
+            "nullable": true
+         },
+         "test_result_ref_range_high_units": {
+            "fhir_path": "Observation.refereneceRange.high.unit",
+            "data_type": "number",
             "nullable": true
          },
          "specimen_type": {
