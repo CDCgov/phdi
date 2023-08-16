@@ -10,8 +10,10 @@ from app.utils import (
     get_credential_manager,
     search_for_required_values,
     convert_to_fhir,
+    freeze_parsing_schema,
 )
 from app.config import get_settings
+from copy import deepcopy
 
 
 def test_load_parsing_schema_success():
@@ -148,3 +150,16 @@ def test_convert_fhir_no_cred_manager(patched_requests_with_retryh):
             "root_template": "ORU_R01",
         },
     )
+
+def test_freeze_parsing_schema():
+    test_schema_path = (
+        Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
+    )
+    with open(test_schema_path, "r") as file:
+        test_schema = json.load(file)
+        
+    frozen_schema = freeze_parsing_schema(test_schema)
+
+    for key in test_schema:
+        for subkey in test_schema[key]:
+            assert test_schema[key][subkey] == frozen_schema[key][subkey]
