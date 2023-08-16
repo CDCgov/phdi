@@ -67,8 +67,8 @@ def freeze_parsing_schema(parsing_schema: dict) -> frozendict:
 
 
 # Using frozendict here to have an immutable that can be hashed for caching purposes.
-# Caching the parsers reduces parsing time by over 60% after the first request for a 
-# given schema. 
+# Caching the parsers reduces parsing time by over 60% after the first request for a
+# given schema.
 @cache
 def get_parsers(extraction_schema: frozendict) -> frozendict:
     """

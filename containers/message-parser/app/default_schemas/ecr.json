@@ -171,7 +171,7 @@
             "data_type": "string",
             "nullable": true
          },
-         "test_result_system": {
+         "test_result_code_system": {
             "fhir_path": "Observation.valueCodeableConcept.coding.system",
             "data_type": "number",
             "nullable": true
