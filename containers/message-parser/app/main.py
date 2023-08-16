@@ -4,7 +4,6 @@ from fastapi import Response, status, Body
 from pydantic import BaseModel, Field, root_validator
 from typing import Literal, Optional, Union
 from pathlib import Path
-from frozendict import frozendict
 import os
 from app.utils import (
     load_parsing_schema,
