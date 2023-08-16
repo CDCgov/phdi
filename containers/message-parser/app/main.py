@@ -136,7 +136,7 @@ async def parse_message_endpoint(
     """
     # 1. Load schema.
     if input.parsing_schema != {}:
-        parsing_schema = input.parsing_schema
+        parsing_schema = freeze_parsing_schema(input.parsing_schema)
     else:
         try:
             parsing_schema = load_parsing_schema(input.parsing_schema_name)
