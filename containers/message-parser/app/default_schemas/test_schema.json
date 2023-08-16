@@ -1,12 +1,12 @@
 {
- "first_name":{
-    "fhir_path":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-    "data_type":"string",
-    "nullable":true
- },
- "last_name":{
-  "fhir_path":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
-  "data_type":"string",
-  "nullable":true
-}
+  "first_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "data_type": "string",
+    "nullable": true
+  },
+  "last_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "data_type": "string",
+    "nullable": true
+  }
 }
