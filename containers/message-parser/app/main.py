@@ -4,7 +4,6 @@ from fastapi import Response, status, Body
 from pydantic import BaseModel, Field, root_validator
 from typing import Literal, Optional, Union
 from pathlib import Path
-from frozendict import frozendict
 import os
 from app.utils import (
     load_parsing_schema,
@@ -136,14 +135,14 @@ async def parse_message_endpoint(
     """
     # 1. Load schema.
     if input.parsing_schema != {}:
-        parsing_schema = input.parsing_schema
+        parsing_schema = freeze_parsing_schema(input.parsing_schema)
     else:
         try:
             parsing_schema = load_parsing_schema(input.parsing_schema_name)
         except FileNotFoundError as error:
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"message": error.__str__(), "parsed_values": {}}
-    
+
     # 2. Convert to FHIR, if necessary.
     if input.message_format != "fhir":
         if input.credential_manager is not None:
