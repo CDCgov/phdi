@@ -612,9 +612,7 @@ def link_record_against_mpi(
     if (external_person_id is None and external_source_name is not None) or (
         external_person_id is not None and external_source_name is None
     ):
-        raise ValueError(
-            f"Both `external` variables must either be provided or `None`."
-        )
+        raise ValueError("Both `external` variables must either be provided or `None`.")
 
     flattened_record = _flatten_patient_resource(record)
 

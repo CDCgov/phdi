@@ -62,13 +62,13 @@ def _create_tables(postgres_client=None):
         "create_external_ids": (
             """
             BEGIN;
-            
+
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + f"CREATE TABLE IF NOT EXISTS {postgres_client.external_person_id_table} "
             + "(external_id_key UUID DEFAULT uuid_generate_v4 (), "
             + "person_id UUID, "
             + "external_person_id VARCHAR(100), "
-            + f"external_source_key UUID);"
+            + "external_source_key UUID);"
         ),
     }
 
@@ -466,7 +466,7 @@ def test_insert_person():
             + " (external_id_key, person_id, external_person_id, "
             + "external_source_key) "
             + """VALUES ('2fdd0b8b-4a70-11eb-99fd-ad786a821574',
-            'ce02326f-7ecd-47ea-83eb-71e8d7c39131', 
+            'ce02326f-7ecd-47ea-83eb-71e8d7c39131',
             'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
             'f6a16ff7-4a31-11eb-be7b-8344edc8f36b');"""
         ),

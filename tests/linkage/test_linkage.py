@@ -111,7 +111,7 @@ def _set_up_postgres_client():
         "create_external_ids": (
             """
             BEGIN;
-            
+
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + f"CREATE TABLE IF NOT EXISTS {postgres_client.external_person_id_table} "
             + "(external_id_key UUID DEFAULT uuid_generate_v4 (), "

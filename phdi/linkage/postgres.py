@@ -337,7 +337,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             # use that mapped person ID and we're done
             else:
                 person_query = SQL(
-                    "SELECT person_id, external_source_key FROM {external_person_id_table} WHERE external_person_id = %s"  # pragma: no cover
+                    "SELECT person_id, external_source_key FROM {external_person_id_table} WHERE external_person_id = %s"  # noqa
                 ).format(
                     external_person_id_table=Identifier(self.external_person_id_table)
                 )
@@ -356,7 +356,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                     # Build the query using the previously found primary key of the external
                     # source to look up its name in the MPI
                     source_query = SQL(
-                        "SELECT external_source_name FROM {external_source_table} WHERE external_source_key = %s"  # pragma: no cover
+                        "SELECT external_source_name FROM {external_source_table} WHERE external_source_key = %s"  # noqa
                     ).format(
                         external_source_table=Identifier(self.external_source_table)
                     )
@@ -398,7 +398,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             if external_person_id != "'NULL'" and external_source_name != "'NULL'":
                 # Check if we need to create a new external source
                 source_query = SQL(
-                    "SELECT external_source_key FROM {external_source_table} WHERE external_source_name = %s"  # pragma: no cover
+                    "SELECT external_source_key FROM {external_source_table} WHERE external_source_name = %s"  # noqa
                 ).format(external_source_table=Identifier(self.external_source_table))
                 query_data = [external_source_name]
                 db_cursor.execute(source_query, query_data)
@@ -407,7 +407,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 # Add new source row if none exists
                 if returned_data is None or len(returned_data) == 0:
                     insert_new_source = SQL(
-                        "INSERT INTO {external_source_table} (external_source_name) VALUES (%s) RETURNING external_source_key;"  # pragma: no cover
+                        "INSERT INTO {external_source_table} (external_source_name) VALUES (%s) RETURNING external_source_key;"  # noqa
                     ).format(
                         external_source_table=Identifier(self.external_source_table)
                     )
@@ -422,7 +422,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
                 # Now insert a row into the table of external_ids representing
                 # this unique combination of person, external id, and source
                 insert_new_external_id = SQL(
-                    "INSERT INTO {external_ids_table} (person_id, external_person_id, external_source_key) VALUES (%s, %s, %s);"  # pragma: no cover
+                    "INSERT INTO {external_ids_table} (person_id, external_person_id, external_source_key) VALUES (%s, %s, %s);"  # noqa
                 ).format(external_ids_table=Identifier(self.external_person_id_table))
                 external_data = [person_id, external_person_id, source_key]
                 db_cursor.execute(insert_new_external_id, external_data)
