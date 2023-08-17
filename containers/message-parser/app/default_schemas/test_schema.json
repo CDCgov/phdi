@@ -1,4 +1,29 @@
 {
-  "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-  "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family"
+  "first_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "data_type": "string",
+    "nullable": true
+  },
+  "last_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "data_type": "string",
+    "nullable": true
+  },
+  "active_problems": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list')",
+    "data_type": "array",
+    "nullable": true,
+    "secondary_schema": {
+       "problem": {
+          "fhir_path": "Condition.code.coding.display",
+          "data_type": "string",
+          "nullable": true
+       },
+       "problem_date": {
+          "fhir_path": "Condition.onsetDateTime",
+          "data_type": "datetime",
+          "nullable": true
+       }
+    }
+ }
 }
