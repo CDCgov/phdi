@@ -39,6 +39,36 @@
       "data_type": "string",
       "nullable": true
    },
+   "street_address1": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[0]",
+      "data_type": "string",
+      "nullable": true
+   },
+   "street_address2": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[1]",
+      "data_type": "string",
+      "nullable": true
+   },
+   "state": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.state",
+      "data_type": "string",
+      "nullable": true
+   },
+   "zip": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.postalCode",
+      "data_type": "string",
+      "nullable": true
+   },
+   "lat": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
+      "data_type": "number",
+      "nullable": true
+   },
+   "long": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
+      "data_type": "number",
+      "nullable": true
+   },
    "rr_id": {
       "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
       "data_type": "string",
