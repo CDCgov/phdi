@@ -1,13 +1,97 @@
 ## Getting Started with the DIBBs Message Parser
 
 ### Introduction
-The PHDI message parser offers a REST API for extracting desired fields from a given message. The service natively supports extracting values from the FHIR bundles, but it can support parsing Hl7v2 (eLR, VXU, ADT, etc.) and CDA(eCR) messages by first using the DIBBs FHIR converter to convert them to FHIR. Fields are extracted using a "parsing schema" which is simply a mapping in key:value format between desired field names (keys) and the FHIR paths inside a FHIR bundle where the values can be found. A simple example of a schema for extracting a patient's first and last name from messages is shown below.
-
+The PHDI message parser offers a REST API for extracting desired fields from a given message. The service natively supports extracting values from FHIR bundles, but it can support parsing Hl7v2 (eLR, VXU, ADT, etc.) and CDA(eCR) messages by first using the [DIBBs FHIR converter](https://cdcgov.github.io/phdi/latest/containers/fhir-converter.html) to convert them to FHIR. Fields are extracted using a "parsing schema" which is simply a mapping in key:value format between desired field names (keys) and the [FHIRPaths](https://build.fhir.org/fhirpath.html) within the bundle to the values. In addition the data type of value (string, integer, float, boolean, date, timestamp) as well as whether the value can be null (`true`, `false`) must be specified. A simple example of a schema for extracting a patient's first and last name from messages is shown below.
 
 ```
 {
-    "first_name":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-    "last_name":"Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+  "first_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "data_type": "string",
+    "nullable": true
+  },
+  "last_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "data_type": "string",
+    "nullable": true
+  }
+}
+```
+
+Using this schema on a message about a patient named John Doe yield a result like this.
+
+```
+{
+  "first_name": "John",
+  "last_name": "Doe"
+}
+```
+### Nested Data
+
+Sometimes healthcare messages can be large and complex. A single message might contain several lab results that all must be extracted. We could do this by mapping each lab to its own column, `"lab_result_1", "lab_result_2", "lab_result_3"` and so on. However, this is cumbersome and often a poor solution if the possible number of labs is unknown or very large. To address this the message parser can return multiple values found in equivalent locations in a FHIR bundle as an array. To do this we can add the `"secondary_schema"` key to the field of a parsing schema that should contain multiple values. The schema below demonstrates extracting a patient's first name, last name, as well as all of their labs.
+
+```
+{
+  "first_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "data_type": "string",
+    "nullable": true
+  },
+  "last_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "data_type": "string",
+    "nullable": true
+  },
+  "labs": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+          "test_type": {
+              "fhir_path": "Observation.code.coding.display",
+              "data_type": "string",
+              "nullable": true
+          },
+          "test_type_code": {
+              "fhir_path": "Observation.code.coding.code",
+              "data_type": "string",
+              "nullable": true
+          },
+          "test_result": {
+              "fhir_path": "Observation.valueString",
+              "data_type": "string",
+              "nullable": true
+          },
+          "specimen_collection_date": {
+              "fhir_path": "Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
+              "data_type": "datetime",
+              "nullable": true
+          }
+        }
+    }
+}
+```
+
+If this parsing schema is used on a message about a patient named Jane Doe with two labs the service would a return a result like this.
+
+```
+{
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "labs": [
+    {
+      "test_type": "Campylobacter, NAAT",
+      "test_type_code": "82196-7",
+      "test_result": "Not Detected",
+      "specimen_collection_date": "2023-01-31T18:52:00Z"
+    },
+    {
+      "test_type": "C. Diff Toxin A/B, NAAT",
+      "test_type_code": "82197-5",
+      "test_result": "Not Detected",
+      "specimen_collection_date": "2023-01-31T18:52:00Z"
+    }
+  ]
 }
 ```
 
