@@ -59,7 +59,7 @@
       "data_type": "string",
       "nullable": true
    },
-   "lat": {
+   "latitude": {
       "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
       "data_type": "number",
       "nullable": true
