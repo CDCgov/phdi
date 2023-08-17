@@ -64,7 +64,7 @@
       "data_type": "number",
       "nullable": true
    },
-   "long": {
+   "longitude": {
       "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
       "data_type": "number",
       "nullable": true
