@@ -1,4 +1,8 @@
-from phdi.linkage.seed import convert_to_patient_fhir_resources
+from phdi.linkage.seed import (
+    convert_to_patient_fhir_resources,
+    adjust_birthdate,
+    extract_given_name,
+)
 import pathlib
 import pyarrow.parquet as pq
 
@@ -29,3 +33,37 @@ def test_convert_to_patient_fhir_resources():
         assert (
             "@" in returned_fhir_bundle["entry"][0]["resource"]["telecom"][2]["value"]
         )
+
+
+def test_adjust_birthdate():
+    # test failure
+    data = {"birthdate": None}
+    new_birthdate = adjust_birthdate(data)
+    assert new_birthdate is None
+
+    # test adjustment
+    data = {"birthdate": "26JUL1976:00:00:00.000"}
+    new_birthdate = adjust_birthdate(data)
+    assert new_birthdate == "1976-07-26"
+
+    # test correctly formatted dates are not adjusted
+    data = {"birthdate": "1976-07-26"}
+    new_birthdate = adjust_birthdate(data)
+    assert new_birthdate == "1976-07-26"
+
+
+def test_extract_given_name():
+    # test all non-null values are included
+    data = {"first_name": "John", "middle_name": "Jacob Jingleheimer"}
+    given_name = extract_given_name(data)
+    assert given_name == "John Jacob Jingleheimer"
+
+    # test null values are excluded
+    data = {"first_name": "John", "middle_name": None}
+    given_name = extract_given_name(data)
+    assert given_name == "John"
+
+    # test full null values return null
+    data = {"first_name": None, "middle_name": None}
+    given_name = extract_given_name(data)
+    assert given_name is None
