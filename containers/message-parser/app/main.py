@@ -284,7 +284,7 @@ class ParsingSchemaFieldModel(BaseModel):
     fhir_path: str
     data_type: PARSING_SCHEMA_DATA_TYPES
     nullable: bool
-    secondary_schema: Optional[Dict[str, ParsingSchemaSecondaryFieldModel]]
+    secondary_schema: Dict[str, ParsingSchemaSecondaryFieldModel]
 
 
 class ParsingSchemaModel(BaseModel):
@@ -299,12 +299,16 @@ class ParsingSchemaModel(BaseModel):
         default=False,
     )
 
+
 class PutSchemaResponse(BaseModel):
     """
     The schema for responses from the /schemas endpoint when a schema is uploaded.
     """
-    message: str = Field("A message describing the result of a request to "
-        "upload a parsing schema.")
+
+    message: str = Field(
+        "A message describing the result of a request to " "upload a parsing schema."
+    )
+
 
 @app.put("/schemas/{parsing_schema_name}", status_code=200)
 async def put_schema(
@@ -315,7 +319,7 @@ async def put_schema(
     """
 
     file_path = Path(__file__).parent / "custom_schemas" / parsing_schema_name
-    schema_exists = file_path.exists() 
+    schema_exists = file_path.exists()
     if schema_exists and not input.overwrite:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
@@ -323,15 +327,16 @@ async def put_schema(
             "To proceed submit a new request with a different schema name or set the "
             "'overwrite' field to 'true'."
         }
+
+    # Convert Pydantic models to dicts so they can be serialized to JSON.
     for field in input.parsing_schema:
         input.parsing_schema[field] = input.parsing_schema[field].dict()
-        if input.parsing_schema[field]["secondary_schema"] not in [None, {}]:
-            input.parsing_schema[field]["secondary_schema"] = input.parsing_schema[field]["secondary_schema"].dict()
+
     with open(file_path, "w") as file:
-        json.dump(input.parsing_schema, file, indent = 4)
-        
+        json.dump(input.parsing_schema, file, indent=4)
+
     if schema_exists:
-        return  {"message": "Schema updated successfully!"}
+        return {"message": "Schema updated successfully!"}
     else:
         response.status_code = status.HTTP_201_CREATED
         return {"message": "Schema uploaded successfully!"}
