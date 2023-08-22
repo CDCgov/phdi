@@ -201,7 +201,6 @@ async def parse_message_endpoint(
 raw_list_schemas_response = read_json_from_assets("sample_list_schemas_response.json")
 sample_list_schemas_response = {200: raw_list_schemas_response}
 
-
 class ListSchemasResponse(BaseModel):
     """
     The schema for responses from the /schemas endpoint.
@@ -309,10 +308,14 @@ class PutSchemaResponse(BaseModel):
         "A message describing the result of a request to " "upload a parsing schema."
     )
 
+upload_schema_request_examples = read_json_from_assets(
+    "sample_upload_schema_requests.json"
+)
+
 
 @app.put("/schemas/{parsing_schema_name}", status_code=200)
-async def put_schema(
-    parsing_schema_name: str, input: ParsingSchemaModel, response: Response
+async def upload_schema(
+    parsing_schema_name: str, input: Annotated[ParsingSchemaModel, Body(examples=upload_schema_request_examples)], response: Response
 ) -> PutSchemaResponse:
     """
     Upload a schema to the service.
