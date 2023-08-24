@@ -321,11 +321,13 @@ upload_schema_response_examples = {
 }
 for status_code, file_name in upload_schema_response_examples.items():
     upload_schema_response_examples[status_code] = read_json_from_assets(file_name)
+    upload_schema_response_examples[status_code]["model"] = PutSchemaResponse
 
 
 @app.put(
     "/schemas/{parsing_schema_name}",
     status_code=200,
+    response_model=PutSchemaResponse,
     responses=upload_schema_response_examples,
 )
 async def upload_schema(
