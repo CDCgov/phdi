@@ -10,6 +10,7 @@ from app.utils import (
     get_credential_manager,
     search_for_required_values,
     convert_to_fhir,
+    freeze_parsing_schema,
 )
 from app.config import get_settings
 
@@ -39,7 +40,14 @@ def test_get_parsers(patched_fhirpathpy):
     parsing_schema = load_parsing_schema("test_schema.json")
     get_parsers.cache_clear()
     get_parsers(frozendict(parsing_schema))
-    assert len(patched_fhirpathpy.compile.call_args_list) == len(parsing_schema)
+
+    expected_number_of_calls = 0
+    for field, field_definition in parsing_schema.items():
+        expected_number_of_calls += 1
+        if "secondary_schema" in field_definition:
+            expected_number_of_calls += len(field_definition["secondary_schema"])
+
+    assert len(patched_fhirpathpy.compile.call_args_list) == expected_number_of_calls
 
 
 def test_search_for_required_values_success():
@@ -148,3 +156,17 @@ def test_convert_fhir_no_cred_manager(patched_requests_with_retryh):
             "root_template": "ORU_R01",
         },
     )
+
+
+def test_freeze_parsing_schema():
+    test_schema_path = (
+        Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
+    )
+    with open(test_schema_path, "r") as file:
+        test_schema = json.load(file)
+
+    frozen_schema = freeze_parsing_schema(test_schema)
+
+    for key in test_schema:
+        for subkey in test_schema[key]:
+            assert test_schema[key][subkey] == frozen_schema[key][subkey]
