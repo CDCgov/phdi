@@ -201,6 +201,7 @@ async def parse_message_endpoint(
 raw_list_schemas_response = read_json_from_assets("sample_list_schemas_response.json")
 sample_list_schemas_response = {200: raw_list_schemas_response}
 
+
 class ListSchemasResponse(BaseModel):
     """
     The schema for responses from the /schemas endpoint.
@@ -308,17 +309,32 @@ class PutSchemaResponse(BaseModel):
         "A message describing the result of a request to " "upload a parsing schema."
     )
 
+
 upload_schema_request_examples = read_json_from_assets(
     "sample_upload_schema_requests.json"
 )
 
+upload_schema_response_examples = {
+    200: "sample_upload_schema_response.json",
+    201: "sample_update_schema_response.json",
+    400: "sample_upload_schema_failure_response.json",
+}
+for status_code, file_name in upload_schema_response_examples.items():
+    upload_schema_response_examples[status_code] = read_json_from_assets(file_name)
 
-@app.put("/schemas/{parsing_schema_name}", status_code=200)
+
+@app.put(
+    "/schemas/{parsing_schema_name}",
+    status_code=200,
+    responses=upload_schema_response_examples,
+)
 async def upload_schema(
-    parsing_schema_name: str, input: Annotated[ParsingSchemaModel, Body(examples=upload_schema_request_examples)], response: Response
+    parsing_schema_name: str,
+    input: Annotated[ParsingSchemaModel, Body(examples=upload_schema_request_examples)],
+    response: Response,
 ) -> PutSchemaResponse:
     """
-    Upload a schema to the service.
+    Upload a new parsing schema to the service or update an existing schema.
     """
 
     file_path = Path(__file__).parent / "custom_schemas" / parsing_schema_name
