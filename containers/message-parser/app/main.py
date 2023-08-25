@@ -1,8 +1,7 @@
-from typing import Annotated
 from phdi.containers.base_service import BaseService
 from fastapi import Response, status, Body
 from pydantic import BaseModel, Field, root_validator
-from typing import Literal, Optional, Union
+from typing import Literal, Optional, Union, Annotated, Dict
 from pathlib import Path
 import os
 from app.utils import (
@@ -15,6 +14,7 @@ from app.utils import (
     freeze_parsing_schema,
 )
 from app.config import get_settings
+import json
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -266,3 +266,97 @@ async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaR
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": error.__str__(), "parsing_schema": {}}
     return {"message": "Schema found!", "parsing_schema": parsing_schema}
+
+
+PARSING_SCHEMA_DATA_TYPES = Literal[
+    "string", "integer", "float", "boolean", "date", "timestamp"
+]
+
+
+class ParsingSchemaSecondaryFieldModel(BaseModel):
+    fhir_path: str
+    data_type: PARSING_SCHEMA_DATA_TYPES
+    nullable: bool
+
+
+class ParsingSchemaFieldModel(BaseModel):
+    fhir_path: str
+    data_type: PARSING_SCHEMA_DATA_TYPES
+    nullable: bool
+    secondary_schema: Dict[str, ParsingSchemaSecondaryFieldModel]
+
+
+class ParsingSchemaModel(BaseModel):
+    parsing_schema: Dict[str, ParsingSchemaFieldModel] = Field(
+        description="A JSON formatted parsing schema to upload."
+    )
+    overwrite: Optional[bool] = Field(
+        description="When `true` if a schema already exists for the provided name it "
+        "will be replaced. When `false` no action will be taken and the response will "
+        "indicate that a schema for the given name already exists. To proceed submit a "
+        "new request with a different schema name or set this field to `true`.",
+        default=False,
+    )
+
+
+class PutSchemaResponse(BaseModel):
+    """
+    The schema for responses from the /schemas endpoint when a schema is uploaded.
+    """
+
+    message: str = Field(
+        "A message describing the result of a request to " "upload a parsing schema."
+    )
+
+
+upload_schema_request_examples = read_json_from_assets(
+    "sample_upload_schema_requests.json"
+)
+
+upload_schema_response_examples = {
+    200: "sample_upload_schema_response.json",
+    201: "sample_update_schema_response.json",
+    400: "sample_upload_schema_failure_response.json",
+}
+for status_code, file_name in upload_schema_response_examples.items():
+    upload_schema_response_examples[status_code] = read_json_from_assets(file_name)
+    upload_schema_response_examples[status_code]["model"] = PutSchemaResponse
+
+
+@app.put(
+    "/schemas/{parsing_schema_name}",
+    status_code=200,
+    response_model=PutSchemaResponse,
+    responses=upload_schema_response_examples,
+)
+async def upload_schema(
+    parsing_schema_name: str,
+    input: Annotated[ParsingSchemaModel, Body(examples=upload_schema_request_examples)],
+    response: Response,
+) -> PutSchemaResponse:
+    """
+    Upload a new parsing schema to the service or update an existing schema.
+    """
+
+    file_path = Path(__file__).parent / "custom_schemas" / parsing_schema_name
+    schema_exists = file_path.exists()
+    if schema_exists and not input.overwrite:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": f"A schema for the name '{parsing_schema_name}' already exists. "
+            "To proceed submit a new request with a different schema name or set the "
+            "'overwrite' field to 'true'."
+        }
+
+    # Convert Pydantic models to dicts so they can be serialized to JSON.
+    for field in input.parsing_schema:
+        input.parsing_schema[field] = input.parsing_schema[field].dict()
+
+    with open(file_path, "w") as file:
+        json.dump(input.parsing_schema, file, indent=4)
+
+    if schema_exists:
+        return {"message": "Schema updated successfully!"}
+    else:
+        response.status_code = status.HTTP_201_CREATED
+        return {"message": "Schema uploaded successfully!"}

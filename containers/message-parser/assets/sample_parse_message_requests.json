@@ -4,8 +4,16 @@
     "description": "This is a simple custom schema that can be used to parse a FHIR Patient resource.",
     "value": {
       "parsing_schema": {
-        "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-        "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family"
+        "first_name": {
+          "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+          "data_type": "string",
+          "nullable": true
+        },
+        "last_name": {
+          "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+          "data_type": "string",
+          "nullable": true
+        }
       },
       "message_format": "fhir",
       "message": {
