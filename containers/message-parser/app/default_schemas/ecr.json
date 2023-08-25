@@ -203,7 +203,7 @@
          },
          "test_result_code_system": {
             "fhir_path": "Observation.valueCodeableConcept.coding.system",
-            "data_type": "float",
+            "data_type": "string",
             "nullable": true
          },
          "test_result_interp": {
@@ -228,7 +228,7 @@
          },
          "test_result_ref_range_low_units": {
             "fhir_path": "Observation.refereneceRange.low.unit",
-            "data_type": "float",
+            "data_type": "string",
             "nullable": true
          },
          "test_result_ref_range_high": {
@@ -238,7 +238,7 @@
          },
          "test_result_ref_range_high_units": {
             "fhir_path": "Observation.refereneceRange.high.unit",
-            "data_type": "float",
+            "data_type": "string",
             "nullable": true
          },
          "specimen_type": {
