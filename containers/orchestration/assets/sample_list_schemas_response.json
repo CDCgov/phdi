@@ -1,0 +1,18 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "success": {
+          "value": {
+            "default_schemas": [
+              "ecr.json",
+              "test_schema.json"
+            ],
+            "custom_schemas": []
+          }
+        }
+      }
+    }
+  }
+}
