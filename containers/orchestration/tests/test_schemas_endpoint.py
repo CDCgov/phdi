@@ -84,9 +84,9 @@ def test_upload_schema():
     print(
         str(
             {
-                "message": f"A schema for the name '{test_schema_name}' already exists. "
-                "To proceed submit a new request with a different schema name or set the "
-                "'overwrite' field to 'true'."
+                "message": f"A schema for the name '{test_schema_name}' already exists."
+                " To proceed submit a new request with a different schema name or set "
+                "the 'overwrite' field to 'true'."
             }
         )
     )

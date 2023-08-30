@@ -1,7 +1,6 @@
 from fastapi.testclient import TestClient
 import json
 from pathlib import Path
-from unittest import mock
 from app.main import app
 
 
