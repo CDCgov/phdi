@@ -104,6 +104,11 @@
       "data_type": "string",
       "nullable": true
    },
+   "replaced_eicr_version": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
+      "data_type": "string",
+      "nullable": true
+   },
    "authoring_datetime": {
       "fhir_path": "Bundle.entry.resource.where(resourceType = 'Composition').date",
       "data_type": "datetime",

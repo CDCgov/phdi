@@ -423,9 +423,6 @@
             "targetReference": {
               "reference": "Composition/1.2.840.114350.1.13.297.3.7.8.688883.473906"
             },
-            "targetIdentifier": {
-              "value": "be774a08-b12d-11ec-954f-c301d81100b2"
-            },
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",

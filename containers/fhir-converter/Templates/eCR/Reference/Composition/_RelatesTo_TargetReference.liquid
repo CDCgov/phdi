@@ -16,14 +16,6 @@
                             "reference":"Composition/{{ relatedDOC.parentDocument.id.root }}",
                         },
                     {% endif -%}
-
-                    {% if relatedDOC.parentDocument.setId and relatedDOC.parentDocument.setId.extension -%}
-
-                        "targetIdentifier":
-                        {
-                            "value": "{{ relatedDOC.parentDocument.setId.extension }}",
-                        },
-                    {% endif -%}
                     "extension":[
                         {
                             "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
