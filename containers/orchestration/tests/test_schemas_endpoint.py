@@ -31,7 +31,7 @@ def test_get_specific_schema():
     assert response.status_code == 200
     assert response.json() == {
         "message": "Schema found!",
-        "parsing_schema": test_schema,
+        "processing_schema": test_schema,
     }
 
 
@@ -41,13 +41,13 @@ def test_schema_not_found():
     assert response.json() == {
         "message": "A schema with the name 'some-schema-that-does-not-exist.json' "
         "could not be found.",
-        "parsing_schema": {},
+        "processing_schema": {},
     }
 
 
 def test_upload_schema():
     request_body = {
-        "parsing_schema": {
+        "processing_schema": {
             "my_field": {
                 "fhir_path": "some-path",
                 "data_type": "string",
@@ -79,6 +79,17 @@ def test_upload_schema():
 
     # Attempt to upload a schema with name that already exists.
     assert response.status_code == 400
+    print("*******")
+    print(str(response.json()))
+    print(
+        str(
+            {
+                "message": f"A schema for the name '{test_schema_name}' already exists. "
+                "To proceed submit a new request with a different schema name or set the "
+                "'overwrite' field to 'true'."
+            }
+        )
+    )
     assert response.json() == {
         "message": f"A schema for the name '{test_schema_name}' already exists. "
         "To proceed submit a new request with a different schema name or set the "
@@ -95,7 +106,7 @@ def test_upload_schema():
     assert response.json() == {"message": "Schema updated successfully!"}
 
     # Delete the test schema to avoid conflicts with other tests.
-    parsing_schema = (
+    processing_schema = (
         Path(__file__).parent.parent / "app" / "custom_schemas" / test_schema_name
     )
-    parsing_schema.unlink()
+    processing_schema.unlink()

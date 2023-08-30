@@ -3,7 +3,7 @@
     "summary": "Simple Custom Schema",
     "description": "This is a simple custom schema that can be used to parse a FHIR Patient resource.",
     "value": {
-      "parsing_schema": {
+      "processing_schema": {
         "first_name": {
           "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
           "data_type": "string",
@@ -51,7 +51,7 @@
     "summary": "Parsing Schema for ECR",
     "description": "This is the default parsing schema for the ECR message format stored in ecr.json.",
     "value": {
-      "parsing_schema_name": "ecr.json",
+      "processing_schema_name": "all.json",
       "message_format": "fhir",
       "message": {
         "resourceType": "Bundle",

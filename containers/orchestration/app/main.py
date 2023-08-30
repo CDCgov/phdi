@@ -231,7 +231,7 @@ async def upload_schema(
     if schema_exists and not input.overwrite:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
-            "message": f"A schema for the name '{processing_schema_name}' already"
+            "message": f"A schema for the name '{processing_schema_name}' already "
             "exists. To proceed submit a new request with a different schema name or "
             "set the 'overwrite' field to 'true'."
         }
