@@ -179,10 +179,10 @@ invalid_root_template_response = {
 }
 
 
-@mock.patch("app.main.json.load")
-@mock.patch("app.main.open")
+@mock.patch("app.service.json.load")
+@mock.patch("app.service.open")
 @mock.patch("app.service.subprocess.run")
-@mock.patch("app.main.Path")
+@mock.patch("app.service.Path")
 def test_convert_valid_request(
     patched_file_path,
     patched_subprocess_run,
@@ -208,10 +208,10 @@ def test_convert_valid_request(
     assert actual_response == valid_response
 
 
-@mock.patch("app.main.json.load")
-@mock.patch("app.main.open")
+@mock.patch("app.service.json.load")
+@mock.patch("app.service.open")
 @mock.patch("app.service.subprocess.run")
-@mock.patch("app.main.Path")
+@mock.patch("app.service.Path")
 def test_convert_conversion_failure(
     patched_file_path, patched_subprocess_run, patched_open, patched_json_load
 ):
