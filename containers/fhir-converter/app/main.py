@@ -1,6 +1,6 @@
 from pathlib import Path
 from fastapi import FastAPI, Response, status
-from app.api_contract import (
+from app.constants import (
     sample_response,
     FhirConverterInput,
 )

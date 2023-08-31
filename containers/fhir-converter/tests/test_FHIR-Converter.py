@@ -3,7 +3,8 @@ from unittest import mock
 from fastapi.testclient import TestClient
 import json
 import pytest
-from app.main import app, add_data_source_to_bundle
+from app.main import app
+from app.service import add_data_source_to_bundle
 
 client = TestClient(app)
 
