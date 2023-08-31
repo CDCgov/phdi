@@ -5,7 +5,7 @@ from phdi.fhir.conversion import convert_to_fhir
 from phdi.fhir.conversion.convert import (
     ConversionError,
     _get_fhir_conversion_settings,
-    rr_to_ecr,
+    add_rr_data_to_eicr,
 )
 from phdi.harmonization import standardize_hl7_datetimes
 from unittest import mock
@@ -285,7 +285,7 @@ def test_add_rr_to_ecr():
         ecr = f.read()
 
     # extract rr fields, insert to ecr
-    ecr = rr_to_ecr(rr, ecr)
+    ecr = add_rr_data_to_eicr(rr, ecr)
 
     # confirm root tag added
     ecr_root = ecr.splitlines()[0]

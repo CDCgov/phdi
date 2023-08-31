@@ -23,7 +23,7 @@ CCDA_CODES_TO_CONVERSION_RESOURCE = {
 }
 
 
-def rr_to_ecr(rr, ecr):
+def add_rr_data_to_eicr(rr, ecr):
     """
     Extracts relevant fields from an RR document, and inserts them into a
     given eICR document. Ensures that the eICR contains properly formatted
