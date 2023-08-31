@@ -278,11 +278,23 @@ def test_conversion_error():
 
 
 def test_add_rr_to_ecr():
-    with open("../../assets/fhir-converter/rr_extraction/CDA_RR.xml", "r") as f:
-        rr = f.read()
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "CDA_RR.xml"
+    ) as fp:
+        rr = fp.read()
 
-    with open("../../assets/fhir-converter/rr_extraction/CDA_eICR.xml", "r") as f:
-        ecr = f.read()
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "CDA_eICR.xml"
+    ) as fp:
+        ecr = fp.read()
 
     # extract rr fields, insert to ecr
     ecr = add_rr_data_to_eicr(rr, ecr)
