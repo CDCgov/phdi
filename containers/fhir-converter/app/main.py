@@ -1,7 +1,6 @@
 from pathlib import Path
 from fastapi import FastAPI, Response, status
-
-# from phdi.fhir.conversion import add_rr_data_to_eicr
+from phdi.fhir.conversion import add_rr_data_to_eicr
 from app.constants import (
     sample_response,
     FhirConverterInput,
@@ -56,10 +55,13 @@ async def convert(input: FhirConverterInput, response: Response):
     """
     indexable_input = dict(input)
 
+    # do more checking here to validate the input before sending it to MS?
+
     if indexable_input.get("rr_data") is None:
         print("No RR data present!")
     else:
         print("Ladies and gentleman, we have RR")
+        add_rr_data_to_eicr(input.get("ecr_data", "rr_data"))
 
     result = convert_to_fhir(**dict(input))
     if "fhir_conversion_failed" in result.get("response"):
