@@ -181,7 +181,7 @@ invalid_root_template_response = {
 
 @mock.patch("app.main.json.load")
 @mock.patch("app.main.open")
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 @mock.patch("app.main.Path")
 def test_convert_valid_request(
     patched_file_path,
@@ -210,7 +210,7 @@ def test_convert_valid_request(
 
 @mock.patch("app.main.json.load")
 @mock.patch("app.main.open")
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 @mock.patch("app.main.Path")
 def test_convert_conversion_failure(
     patched_file_path, patched_subprocess_run, patched_open, patched_json_load
@@ -227,7 +227,7 @@ def test_convert_conversion_failure(
     assert actual_response.json().get("response") == conversion_failure_response
 
 
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 def test_convert_missing_input_data(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
@@ -238,7 +238,7 @@ def test_convert_missing_input_data(patched_subprocess_run):
     assert actual_response.json() == missing_input_data_response
 
 
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 def test_convert_invalid_input_type(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
@@ -249,7 +249,7 @@ def test_convert_invalid_input_type(patched_subprocess_run):
     assert actual_response.json() == invalid_input_type_response
 
 
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 def test_convert_invalid_root_template(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
