@@ -52,7 +52,6 @@ async def convert(input: FhirConverterInput, response: Response):
     description.md file. The source code for the converter can be found at
     https://github.com/microsoft/FHIR-Converter.
     """
-    # need to update the dictionary to pass only the main data, not rr too
     result = convert_to_fhir(**dict(input))
     if "fhir_conversion_failed" in result.get("response"):
         response.status_code = status.HTTP_400_BAD_REQUEST
