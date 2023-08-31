@@ -16,7 +16,7 @@ def test_get_fhir_conversion_settings():
     # HL7 case 1 (using the demo message from the HL7 API walkthrough)
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "hl7v2"
@@ -32,7 +32,7 @@ def test_get_fhir_conversion_settings():
     # HL7 case 2, when MSH[3] is set
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "hl7v2"
@@ -48,7 +48,7 @@ def test_get_fhir_conversion_settings():
     # CCDA case (using an example found at https://github.com/HL7/C-CDA-Examples)
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "ccda"
@@ -65,7 +65,7 @@ def test_get_fhir_conversion_settings():
     # https://github.com/HL7/C-CDA-Examples)
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "ccda"
@@ -97,7 +97,7 @@ def test_convert_to_fhir_success_cred_manager(mock_requests_session):
 
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "hl7v2"
@@ -140,7 +140,7 @@ def test_convert_to_fhir_success_auth_header(mock_requests_session):
 
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "hl7v2"
@@ -184,7 +184,7 @@ def test_convert_to_fhir_unrecognized_data(mock_requests_session):
 
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "hl7v2"
@@ -238,7 +238,7 @@ def test_convert_to_fhir_failure(mock_requests_session):
 
     message = ""
     with open(
-        pathlib.Path(__file__).parent.parent
+        pathlib.Path(__file__).parent.parent.parent
         / "assets"
         / "fhir-converter"
         / "hl7v2"
