@@ -1,4 +1,3 @@
-from app.config import get_settings
 from typing import Annotated
 from fastapi import Response, status, Body
 from pathlib import Path
@@ -9,68 +8,13 @@ from phdi.linkage import (
     DIBBS_BASIC,
     DIBBS_ENHANCED,
 )
+from phdi.linkage.mpi.core import BaseMPIConnectorClient
 from pydantic import BaseModel, Field
-from psycopg2 import OperationalError, errors
 from typing import Optional
 from app.utils import (
-    connect_to_mpi_with_env_vars,
-    load_mpi_env_vars_os,
     read_json_from_assets,
 )
-import psycopg2
-import sys
 
-
-# https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
-def print_psycopg2_exception(err):
-    # get details about the exception
-    err_type, _, traceback = sys.exc_info()
-
-    # get the line number when exception occured
-    line_num = traceback.tb_lineno
-
-    # print the connect() error
-    print("\npsycopg2 ERROR:", err, "on line number:", line_num)
-    print("psycopg2 traceback:", traceback, "-- type:", err_type)
-
-    # psycopg2 extensions.Diagnostics object attribute
-    print("\nextensions.Diagnostics:", err.diag)
-
-    # print the pgcode and pgerror exceptions
-    print("pgerror:", err.pgerror)
-    print("pgcode:", err.pgcode, "\n")
-
-
-def run_migrations():
-    dbname, user, password, host = load_mpi_env_vars_os()
-    try:
-        connection = psycopg2.connect(
-            dbname=dbname,
-            user=user,
-            password=password,
-            host=host,
-        )
-    except OperationalError as err:
-        # pass exception to function
-        print_psycopg2_exception(err)
-
-        # set the connection to 'None' in case of error
-        connection = None
-    if connection is not None:
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    open(
-                        Path(__file__).parent.parent / "migrations" / "tables.ddl", "r"
-                    ).read()
-                )
-        except errors.InFailedSqlTransaction as err:
-            # pass exception to function
-            print_psycopg2_exception(err)
-
-
-# Run MPI migrations on spin up
-run_migrations()
 
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
@@ -157,7 +101,7 @@ async def health_check() -> HealthCheckResponse:
     """
 
     try:
-        connect_to_mpi_with_env_vars()
+        BaseMPIConnectorClient.get_connection()
     except Exception as err:
         return {"status": "OK", "mpi_connection_status": str(err)}
     return {"status": "OK", "mpi_connection_status": "OK"}
@@ -228,7 +172,7 @@ async def link_record(
     # Initialize a DB connection for use with the MPI
     # Then, link away
     try:
-        db_client = connect_to_mpi_with_env_vars()
+        db_client = BaseMPIConnectorClient.get_connection()
         (found_match, new_person_id) = link_record_against_mpi(
             record_to_link, algo_config, db_client, external_id
         )

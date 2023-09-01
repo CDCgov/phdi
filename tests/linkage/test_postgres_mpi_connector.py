@@ -1,4 +1,4 @@
-from phdi.linkage.postgres import DIBBsConnectorClient
+from phdi.linkage.mpi.postgres import DIBBsConnectorClient
 import pathlib
 import pytest
 import json

@@ -9,7 +9,6 @@ class BaseMPIConnectorClient(ABC):
     Callers should use the provided interface functions (e.g., block_data)
     to interact with the underlying vendor-specific client property.
     """
-
     @abstractmethod
     def block_data() -> List[list]:
         """

@@ -28,8 +28,8 @@ from phdi.linkage.link import (
     add_person_resource,
 )
 
-from phdi.linkage.core import BaseMPIConnectorClient
-from phdi.linkage.postgres import DIBBsConnectorClient
+from phdi.linkage.mpi.core import BaseMPIConnectorClient
+from phdi.linkage.mpi.postgres import DIBBsConnectorClient
 from phdi.linkage.seed import convert_to_patient_fhir_resources
 
 
