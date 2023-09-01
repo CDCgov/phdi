@@ -61,7 +61,16 @@ async def convert(input: FhirConverterInput, response: Response):
         print("No RR data present!")
     else:
         print("Ladies and gentleman, we have RR")
-        add_rr_data_to_eicr(input.get("ecr_data", "rr_data"))
+        rr_data = indexable_input.get("rr_data")
+        print(type(rr_data))
+        print(rr_data)
+        # landing point Thursday - the rr method is expecting an XML doc, not a string.
+        # Probably need to alter the source method to accept string-ified XML instead.
+
+        merged_ecr = add_rr_data_to_eicr(
+            indexable_input.get("ecr_data"), indexable_input.get("rr_data")
+        )
+        print(merged_ecr)
 
     result = convert_to_fhir(**dict(input))
     if "fhir_conversion_failed" in result.get("response"):

@@ -18,20 +18,23 @@ FROM mcr.microsoft.com/dotnet/runtime:3.1 as runtime
 COPY --from=build /build/FHIR-Converter/output /build/FHIR-Converter/output
 COPY --from=build /build/FHIR-Converter/data/Templates /build/FHIR-Converter/data/Templates
 
-# Install python/pip
 ENV PYTHONUNBUFFERED=1
-RUN apt-get update && apt-get install -y python3 python3-pip git
-RUN pip3 install --no-cache --upgrade pip setuptools
 
 # Install requirements
+FROM python:3.10-slim
+
 WORKDIR /code
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
+
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install -r requirements.txt
 
 # Copy FastAPI app
-COPY app /code/app
-COPY assets /code/assets
-COPY description.md /code/description.md
+COPY ./app /code/app
+COPY ./assets /code/assets
+COPY ./description.md /code/description.md
 
 # Copy eCR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
