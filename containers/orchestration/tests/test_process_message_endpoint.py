@@ -6,12 +6,12 @@ from app.main import app
 
 client = TestClient(app)
 
-test_schema_path = (
-    Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
+test_config_path = (
+    Path(__file__).parent.parent / "app" / "default_configs" / "test_config.json"
 )
 
-with open(test_schema_path, "r") as file:
-    test_schema = json.load(file)
+with open(test_config_path, "r") as file:
+    test_config = json.load(file)
 
 expected_successful_response = {
     "message": "Parsing succeeded!",
@@ -21,7 +21,7 @@ expected_successful_response = {
 
 def test_process_message():
     request = {
-        "processing_schema": test_schema,
+        "processing_config": test_config,
         "message": {"foo": "bar"},
     }
 
@@ -31,7 +31,7 @@ def test_process_message():
 
 def test_process_message_failure():
     request = {
-        "processing_schema": test_schema,
+        "processing_config": test_config,
     }
 
     actual_response = client.post("/process", json=request)
