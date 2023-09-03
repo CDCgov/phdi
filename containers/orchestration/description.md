@@ -15,8 +15,8 @@ To run the Orchestration app with Docker, follow these steps.
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
 ``` 
-2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/message-parser:latest`.
-3. Run the service with ` docker run -p 8080:8080 message-parser:latest`.
+2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/orchestration:latest`.
+3. Run the service with ` docker run -p 8080:8080 orchestration:latest`.
 
 Congratulations, the Orchestration app should now be running on `localhost:8080`!
 
@@ -37,8 +37,8 @@ We recommend running the Orchestration app from a container, but if that is not 
 To build the Docker image for the Orchestration app from source instead of downloading it from the PHDI repository follow these steps.
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
-3. Navigate to `/phdi/containers/message-parser/`.
-4. Run `docker build -t message-parser .`.
+3. Navigate to `/phdi/containers/orchestration/`.
+4. Run `docker build -t orchestration .`.
 
 ### The API 
 
