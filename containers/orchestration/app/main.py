@@ -140,20 +140,20 @@ async def get_config(
     return {"message": "Config found!", "processing_config": processing_config}
 
 
-PARSING_CONFIG_DATA_TYPES = Literal[
+PROCESSING_CONFIG_DATA_TYPES = Literal[
     "string", "integer", "float", "boolean", "date", "timestamp"
 ]
 
 
 class ProcessingConfigSecondaryFieldModel(BaseModel):
     fhir_path: str
-    data_type: PARSING_CONFIG_DATA_TYPES
+    data_type: PROCESSING_CONFIG_DATA_TYPES
     nullable: bool
 
 
 class ProcessingConfigFieldModel(BaseModel):
     fhir_path: str
-    data_type: PARSING_CONFIG_DATA_TYPES
+    data_type: PROCESSING_CONFIG_DATA_TYPES
     nullable: bool
     secondary_config: Dict[str, ProcessingConfigSecondaryFieldModel]
 
