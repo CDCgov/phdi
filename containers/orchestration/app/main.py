@@ -177,7 +177,8 @@ class PutConfigResponse(BaseModel):
     """
 
     message: str = Field(
-        "A message describing the result of a request to " "upload a processing config."
+        'A message describing the result of a request to "/configs/"upload a processing'
+        + "config."
     )
 
 
