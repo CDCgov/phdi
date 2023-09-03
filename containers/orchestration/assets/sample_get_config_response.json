@@ -5,10 +5,9 @@
       "examples": {
         "success": {
           "value": {
-            "message": "Schema found!",
-            "processing_schema": {
-              "first_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-              "last_name": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family"
+            "message": "Config found!",
+            "processing_config": {
+              "foo": "bar"
             }
           }
         }
