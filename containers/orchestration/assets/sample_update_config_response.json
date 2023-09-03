@@ -1,15 +1,15 @@
 {
-    "description": "Successful update existing schema response",
-    "content": {
-      "application/json": {
-        "examples": {
-          "upade_existing_schema": {
-            "summary": "Successful update of existing schema response",
-            "value": {
-              "message": "Schema updated successfully!"
-            }
+  "description": "Successful update existing config response",
+  "content": {
+    "application/json": {
+      "examples": {
+        "upade_existing_config": {
+          "summary": "Successful update of existing config response",
+          "value": {
+            "message": "Config updated successfully!"
           }
         }
       }
     }
   }
+}
