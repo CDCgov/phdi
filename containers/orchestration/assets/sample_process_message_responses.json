@@ -3,7 +3,7 @@
   "content": {
     "application/json": {
       "examples": {
-        "simple_custom_schema": {
+        "simple_custom_config": {
           "summary": "Simple custom config response",
           "value": {
             "message": "Processing succeeded!",

@@ -3,10 +3,10 @@
   "content": {
     "application/json": {
       "examples": {
-        "upload_new_schema": {
-          "summary": "Failed to upload new schema",
+        "upload_new_config": {
+          "summary": "Failed to upload new config",
           "value": {
-            "message": "A schema for the name <MY-SCHEMA-NAME> already exists. To proceed submit a new request with a different schema name or set the 'overwrite' field to 'true'."
+            "message": "A config for the name <MY-SCHEMA-NAME> already exists. To proceed submit a new request with a different config name or set the 'overwrite' field to 'true'."
           }
         }
       }

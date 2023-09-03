@@ -9,7 +9,7 @@
               "all.json",
               "test_config.json"
             ],
-            "custom_schemas": []
+            "custom_configs": []
           }
         }
       }

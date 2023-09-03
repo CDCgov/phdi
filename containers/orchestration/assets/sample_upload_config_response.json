@@ -3,7 +3,7 @@
   "content": {
     "application/json": {
       "examples": {
-        "upload_new_schema": {
+        "upload_new_config": {
           "summary": "Successful new config upload response",
           "value": {
             "message": "Config uploaded successfully!"

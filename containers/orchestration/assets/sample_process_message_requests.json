@@ -3,7 +3,7 @@
     "summary": "Simple Custom config",
     "description": "This is a simple custom config",
     "value": {
-      "processing_schema": {
+      "processing_config": {
         "foo": "bar"
       }
     }

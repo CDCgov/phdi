@@ -1,18 +1,18 @@
 {
-  "Uploading a simple parsing schema ": {
+  "Uploading a simple parsing config ": {
     "summary": "Upload a simple processing config",
     "description": "This is an example of uploading a simple processing config.",
     "value": {
-      "processing_schema": {
+      "processing_config": {
         "foo": "bar"
       }
     }
   },
-  "Overwriting a processing schema": {
+  "Overwriting a processing config": {
     "summary": "Overwriting a processing config ",
     "value": {
       "overwrite": true,
-      "processing_schema": {
+      "processing_config": {
         "foo": "bar"
       }
     }
