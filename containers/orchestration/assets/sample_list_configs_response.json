@@ -5,9 +5,9 @@
       "examples": {
         "success": {
           "value": {
-            "default_schemas": [
-              "ecr.json",
-              "test_schema.json"
+            "default_configs": [
+              "all.json",
+              "test_config.json"
             ],
             "custom_schemas": []
           }
