@@ -14,8 +14,12 @@ with open(test_config_path, "r") as file:
     test_config = json.load(file)
 
 expected_successful_response = {
-    "message": "Parsing succeeded!",
-    "parsed_values": {"first_name": "John ", "last_name": "doe", "active_problems": []},
+    "message": "Processing succeeded!",
+    "processed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "active_problems": [],
+    },
 }
 
 
