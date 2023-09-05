@@ -53,26 +53,23 @@ async def convert(input: FhirConverterInput, response: Response):
     description.md file. The source code for the converter can be found at
     https://github.com/microsoft/FHIR-Converter.
     """
-    indexable_input = dict(input)
+    fhir_converter_input = dict(input)
+    fhir_converter_input.pop("rr_data")
 
-    # do more checking here to validate the input before sending it to MS?
+    # If RR is present, also need input data and conversion type eICR
+    if input.rr_data is not None:
+        if input.root_template != "EICR" or input.input_type != "ecr":
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            result = {
+                "message": "Reportability Response (RR) data is only accepted "
+                "for eCR conversion requests."
+            }
+            return result
 
-    if indexable_input.get("rr_data") is None:
-        print("No RR data present!")
-    else:
-        print("Ladies and gentleman, we have RR")
-        rr_data = indexable_input.get("rr_data")
-        print(type(rr_data))
-        print(rr_data)
-        # landing point Thursday - the rr method is expecting an XML doc, not a string.
-        # Probably need to alter the source method to accept string-ified XML instead.
+        merged_ecr = add_rr_data_to_eicr(input.rr_data, input.input_data)
+        fhir_converter_input.update({"input_data": merged_ecr})
 
-        merged_ecr = add_rr_data_to_eicr(
-            indexable_input.get("ecr_data"), indexable_input.get("rr_data")
-        )
-        print(merged_ecr)
-
-    result = convert_to_fhir(**dict(input))
+    result = convert_to_fhir(**fhir_converter_input)
     if "fhir_conversion_failed" in result.get("response"):
         response.status_code = status.HTTP_400_BAD_REQUEST
 
