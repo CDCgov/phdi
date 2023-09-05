@@ -59,7 +59,10 @@ def convert_to_fhir(
     :param root_template: Name of the liquid template within to be used for conversion.
         Options are listed in the FHIR-Converter README.md.
     """
-
+    print("made it into conversion")
+    print(input_data)
+    print(input_type)
+    print(root_template)
     # Setup path variables
     converter_project_path = (
         "/build/FHIR-Converter/output/Microsoft.Health.Fhir.Liquid.Converter.Tool.dll"
