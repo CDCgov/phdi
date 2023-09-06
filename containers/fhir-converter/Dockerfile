@@ -29,6 +29,8 @@ RUN eval "$(pyenv init -)"
 RUN /root/.pyenv/bin/pyenv install 3.10.13
 RUN /root/.pyenv/bin/pyenv global 3.10.13
 
+RUN /root/.pyenv/shims/pip install --no-cache --upgrade pip setuptools
+
 # Install requirements
 WORKDIR /code
 COPY requirements.txt .
