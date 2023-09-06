@@ -1,0 +1,17 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "success": {
+          "value": {
+            "message": "Config found!",
+            "processing_config": {
+              "foo": "bar"
+            }
+          }
+        }
+      }
+    }
+  }
+}
