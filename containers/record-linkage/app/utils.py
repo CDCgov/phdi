@@ -2,6 +2,8 @@ import json
 import pathlib
 from app.config import get_settings
 from phdi.linkage import DIBBsConnectorClient
+import subprocess
+from typing import Literal
 
 
 def connect_to_mpi_with_env_vars():
@@ -35,3 +37,33 @@ def load_mpi_env_vars_os():
 
 def read_json_from_assets(filename: str):
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def run_pyway(
+    pyway_command: Literal["info", "validate", "migrate", "import"]
+) -> subprocess.CompletedProcess:
+    """
+    Helper function to run the pyway CLI from Python.
+
+    :param pyway_command: The specific pyway command to run.
+    :return: A subprocess.CompletedProcess object containing the results of the pyway
+        command.
+    """
+
+    migrations_dir = str(pathlib.Path(__file__).parent.parent / "migrations")
+    settings = get_settings()
+    pyway_args = [
+        f"--database-migration-dir {migrations_dir}",
+        f"--database-type {settings['mpi_db_type']}",
+        f"--database-host {settings['mpi_host']}",
+        f"--database-port {settings['mpi_port']}",
+        f"--database-name {settings['mpi_dbname']}",
+        f"--database-username {settings['mpi_user']}",
+        f"--database-password {settings['mpi_password']}",
+    ]
+    full_command = ["pyway", pyway_command] + pyway_args
+    pyway_response = subprocess.run(
+        full_command, shell=True, check=True, capture_output=True
+    )
+
+    return pyway_response
