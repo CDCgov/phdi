@@ -6,6 +6,7 @@ from pathlib import Path
 import os
 from app.utils import load_processing_config, read_json_from_assets
 from app.config import get_settings
+import requests
 import json
 
 # Read settings immediately to fail fast in case there are invalid values.
@@ -33,7 +34,17 @@ class ProcessMessageInput(BaseModel):
     The config for requests to the /extract endpoint.
     """
 
-    message: Union[str, dict] = Field(description="The message to be processed.")
+    message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
+        description="The type of message to be validated."
+    )
+    include_error_types: str = Field(
+        description=(
+            "A comma separated list of the types of errors that should be"
+            + " included in the return response."
+            + " Valid types are fatal, errors, warnings, information"
+        )
+    )
+    message: str = Field(description="The message to be validated.")
 
 
 class ProcessMessageResponse(BaseModel):
@@ -61,10 +72,28 @@ async def process_message_endpoint(
     """
     Process message through a series of microservices
     """
-    return {
-        "message": "Processing succeeded!",
-        "processed_values": process_message_response_examples,
+    print("hello process endpoint")
+    input = dict(input)
+    api_url = "http://localhost:8081/validate"
+    data = {
+        "message_type": "ecr",
+        "include_error_types": "errors",
+        "message": str(input["message"]),
     }
+    response = requests.post(api_url, json=data)
+
+    if response.status_code == 200:
+        # Parse and work with the API response data (JSON, XML, etc.)
+        api_data = response.json()  # Assuming the response is in JSON format
+        return {
+            "message": "Processing succeeded!",
+            "processed_values": api_data,
+        }
+    else:
+        return {
+            "message": f"Request failed with status code {response.status_code}",
+            "processed_values": "",
+        }
 
 
 # /configs endpoint #

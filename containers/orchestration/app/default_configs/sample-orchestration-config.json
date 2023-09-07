@@ -1,0 +1,21 @@
+{
+  "configurations": {
+    "validation": {
+      "include_error_types": "error"
+    },
+    "convert_to_fhir": {
+      "root_template": "EICR"
+    },
+    "standardization_and_geocoding": {
+      "geocode_method": "smarty",
+      "overwrite": "true",
+      "dob_format": ""
+    },
+    "message_parser": {
+      "message_format": "fhir",
+      "parsing_schema": "",
+      "parsing_schema_name": "",
+      "credential_manager": "azure"
+    }
+  }
+}

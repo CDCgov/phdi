@@ -6,3 +6,4 @@ uvicorn
 httpx
 pytest
 frozendict
+requests
