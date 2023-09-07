@@ -70,7 +70,7 @@ def run_migrations():
 
 
 # Run MPI migrations on spin up
-run_migrations()
+# run_migrations()
 
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(

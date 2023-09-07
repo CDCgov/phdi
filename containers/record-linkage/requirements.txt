@@ -5,3 +5,4 @@ fastapi==0.96.0
 phdi @ git+https://github.com/CDCgov/phdi@main
 httpx
 pathlib
+pyway
