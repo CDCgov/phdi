@@ -24,6 +24,7 @@ py==1.11.0
 pydantic==1.10.9
 pyparsing==3.0.9
 pytest==7.1.2
+pytest-docker-compose==3.2.1
 python-dotenv==0.20.0
 python-multipart==0.0.5
 PyYAML==6.0
