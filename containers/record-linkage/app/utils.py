@@ -4,6 +4,7 @@ from app.config import get_settings
 from phdi.linkage import DIBBsConnectorClient
 import subprocess
 from typing import Literal
+import logging
 
 
 def connect_to_mpi_with_env_vars():
@@ -49,7 +50,10 @@ def run_pyway(
     :return: A subprocess.CompletedProcess object containing the results of the pyway
         command.
     """
+    
+    logger = logging.getLogger(__name__)
 
+    # Prepare the pyway command.
     migrations_dir = str(pathlib.Path(__file__).parent.parent / "migrations")
     settings = get_settings()
     pyway_args = [
@@ -61,9 +65,58 @@ def run_pyway(
         f"--database-username {settings['mpi_user']}",
         f"--database-password {settings['mpi_password']}",
     ]
+
     full_command = ["pyway", pyway_command] + pyway_args
-    pyway_response = subprocess.run(
-        full_command, shell=True, check=True, capture_output=True
-    )
+    full_command = " ".join(full_command)
+
+    # Attempt to run the pyway command.
+    try:
+        pyway_response = subprocess.run(
+            full_command, shell=True, check=True, capture_output=True
+        )
+    except subprocess.CalledProcessError as error:
+        error_message = error.output.decode("utf-8")
+        if (
+            "ERROR: no migrations applied yet, no validation necessary."
+            in error_message
+        ):
+            logger.warning(error_message)
+            return subprocess.CompletedProcess(
+                args= full_command,
+                returncode=0,
+                stdout=None,
+                stderr=error_message,
+            )
+        else:
+            logger.error(error_message)
+            raise error
+
+    logger.info(pyway_response.stdout.decode("utf-8"))
 
     return pyway_response
+
+
+def run_migrations():
+    """
+    Use the pyway CLI to ensure that the MPI database is up to date with the latest
+    migrations.
+    """
+    logger = logging.getLogger(__name__)
+    logger.info("Validating MPI database schema...")
+    validation_response = run_pyway("validate")
+    
+    if validation_response.returncode == 0:
+        logger.info("MPI database schema validations successful.")
+        
+        logger.info("Migrating MPI database...")
+        migrations_response = run_pyway("migrate")
+        
+        if migrations_response.returncode == 0:
+            logger.info("MPI database migrations successful.")
+        else:
+            logger.error("MPI database migrations failed.")
+            raise Exception(migrations_response.stderr.decode("utf-8"))
+        
+    else:
+        logger.error("MPI database schema validations failed.")
+        raise Exception(validation_response.stderr.decode("utf-8"))

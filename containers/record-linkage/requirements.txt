@@ -6,3 +6,5 @@ phdi @ git+https://github.com/CDCgov/phdi@main
 httpx
 pathlib
 pyway
+psycopg2-binary==2.9.7
+tabulate
