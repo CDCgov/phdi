@@ -18,7 +18,7 @@ def test_run_pyway(patched_subprocess, patched_get_settings):
     run_pyway("info")
     migrations_dir = str(pathlib.Path(__file__).parent.parent / "migrations")
     patched_subprocess.assert_called_once_with(
-        [
+        " ".join([
             "pyway",
             "info",
             f"--database-migration-dir {migrations_dir}",
@@ -28,7 +28,7 @@ def test_run_pyway(patched_subprocess, patched_get_settings):
             "--database-name testdb",
             "--database-username postgres",
             "--database-password pw",
-        ],
+        ]),
         shell=True,
         check=True,
         capture_output=True,
