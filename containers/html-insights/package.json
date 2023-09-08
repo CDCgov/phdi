@@ -1,0 +1,15 @@
+{
+  "name": "html-insights",
+  "version": "1.0.0",
+  "description": "The PHDI HTML Insights app offers a REST API for processing FHIR messages into an HTML page with key insights.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "nclyde@skylight.digital",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mustache-express": "^1.3.2"
+  }
+}
