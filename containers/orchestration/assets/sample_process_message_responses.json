@@ -1,0 +1,27 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "simple_custom_config": {
+          "summary": "Simple custom config response",
+          "value": {
+            "message": "Processing succeeded!",
+            "content": {
+              "foo": "bar"
+            }
+          }
+        },
+        "all.json": {
+          "summary": "All config response",
+          "value": {
+            "message": "Processing succeeded!",
+            "content": {
+              "foo": "bar"
+            }
+          }
+        }
+      }
+    }
+  }
+}

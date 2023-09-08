@@ -1,0 +1,20 @@
+{
+  "Uploading a simple processing config ": {
+    "summary": "Upload a simple processing config",
+    "description": "This is an example of uploading a simple processing config.",
+    "value": {
+      "processing_config": {
+        "foo": "bar"
+      }
+    }
+  },
+  "Overwriting a processing config": {
+    "summary": "Overwriting a processing config ",
+    "value": {
+      "overwrite": true,
+      "processing_config": {
+        "foo": "bar"
+      }
+    }
+  }
+}
