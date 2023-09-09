@@ -113,6 +113,7 @@ def test_run_pyway_no_migrations(patched_subprocess, patched_get_settings):
         capture_output=True,
     )
 
+
 @mock.patch("app.utils.run_pyway")
 def test_run_migrations_success(patched_run_pyway):
     """
