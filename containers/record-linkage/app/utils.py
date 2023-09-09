@@ -77,8 +77,8 @@ def run_pyway(
     except subprocess.CalledProcessError as error:
         error_message = error.output.decode("utf-8")
 
-        # Pyway validate returns an error if no migrations have been applied yet. 
-        # This is expected behavior, so we can ignore this error and continue onto 
+        # Pyway validate returns an error if no migrations have been applied yet.
+        # This is expected behavior, so we can ignore this error and continue onto
         # the migrations with pyway migrate. We'll encounter this error when we
         # first deploy the service with a fresh database.
         if (

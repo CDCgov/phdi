@@ -1,4 +1,4 @@
-from app.utils import run_pyway
+from app.utils import run_pyway, run_migrations
 from unittest import mock
 import pathlib
 from typing import Literal
@@ -112,3 +112,16 @@ def test_run_pyway_no_migrations(patched_subprocess, patched_get_settings):
         check=True,
         capture_output=True,
     )
+
+@mock.patch("app.utils.run_pyway")
+def test_run_migrations_success(patched_run_pyway):
+    """
+    Test the happy path in run_migrations()
+    """
+    validation_response = mock.Mock()
+    validation_response.returncode = 0
+    migration_response = mock.Mock()
+    migration_response.returncode = 0
+    patched_run_pyway.side_effect = [validation_response, migration_response]
+    run_migrations()
+    patched_run_pyway.assert_has_calls([mock.call("validate"), mock.call("migrate")])

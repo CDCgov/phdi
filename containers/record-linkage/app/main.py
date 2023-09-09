@@ -18,7 +18,7 @@ from app.utils import (
     run_migrations,
 )
 
-
+# Ensure MPI is configured as expected.
 run_migrations()
 
 # Instantiate FastAPI via PHDI's BaseService class
@@ -29,7 +29,7 @@ app = BaseService(
 ).start()
 
 
-# Request and and response models
+# Request and response models
 class LinkRecordInput(BaseModel):
     """
     Schema for requests to the /link-record endpoint.
