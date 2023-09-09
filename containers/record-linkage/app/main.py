@@ -13,7 +13,6 @@ from pydantic import BaseModel, Field
 from typing import Optional
 from app.utils import (
     connect_to_mpi_with_env_vars,
-    load_mpi_env_vars_os,
     read_json_from_assets,
     run_migrations,
 )
