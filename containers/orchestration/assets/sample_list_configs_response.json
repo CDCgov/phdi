@@ -1,0 +1,18 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "success": {
+          "value": {
+            "default_configs": [
+              "all.json",
+              "test_config.json"
+            ],
+            "custom_configs": []
+          }
+        }
+      }
+    }
+  }
+}
