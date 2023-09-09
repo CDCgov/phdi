@@ -9,6 +9,7 @@ class BaseMPIConnectorClient(ABC):
     Callers should use the provided interface functions (e.g., block_data)
     to interact with the underlying vendor-specific client property.
     """
+
     @abstractmethod
     def block_data() -> List[list]:
         """
@@ -21,7 +22,7 @@ class BaseMPIConnectorClient(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def get_connection() -> Union[any, None]:
+    def _get_connection() -> Union[any, None]:
         """
         Creates a connection to the database associated with the connector class.
         The connection is returned for use in other class methods as a context

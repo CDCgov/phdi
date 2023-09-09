@@ -1,0 +1,1981 @@
+{
+    "resourceType": "Bundle",
+    "id": "cdb0ee6b-6b37-46fc-91ad-a9a9a32d8aed",
+    "type": "searchset",
+    "link": [
+        {
+            "relation": "self",
+            "url": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation?patient=12846634"
+        }
+    ],
+    "entry": [
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/VS-PO-197323275",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "VS-PO-197323275",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:30:25.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: SpO2</p><p><b>Result</b>: 99 %</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs"
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "3623994",
+                            "display": "SpO2",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "2708-6"
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "59408-5"
+                        }
+                    ],
+                    "text": "SpO2"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:30:25.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": 99,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                },
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/VS-PO-197323275"
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323277",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323277",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:30:25.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: SpO2 Location</p><p><b>Result</b>: Right hand</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323277-2023090115302500"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323277"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs",
+                                "userSelected": false
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "22831122",
+                            "display": "SpO2 Location",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "20081-6",
+                            "userSelected": false
+                        }
+                    ],
+                    "text": "SpO2 Location"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:30:25.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueCodeableConcept": {
+                    "text": "Right hand"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323273",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323273",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:23:01.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Weight Z-Score</p><p><b>Result</b>: -0.12</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323273-2023090115225900"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323273"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs",
+                                "userSelected": false
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "2571601133",
+                            "display": "Weight Z-Score",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Weight Z-Score"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:59.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/1"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": -0.12,
+                    "_system": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    },
+                    "_code": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                },
+                "note": [
+                    {
+                        "authorReference": {
+                            "reference": "Practitioner/1"
+                        },
+                        "time": "2023-09-01T15:22:59Z",
+                        "text": "^~:!ZScore Source -CDC-WHO"
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323271",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323271",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:23:00.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Weight Percentile</p><p><b>Result</b>: 45.32</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323271-2023090115225900"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323271"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs",
+                                "userSelected": false
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "2571601129",
+                            "display": "Weight Percentile",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8336-0",
+                            "userSelected": false
+                        }
+                    ],
+                    "text": "Weight Percentile"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:59.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/1"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": 45.32,
+                    "_system": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    },
+                    "_code": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                },
+                "note": [
+                    {
+                        "authorReference": {
+                            "reference": "Practitioner/1"
+                        },
+                        "time": "2023-09-01T15:22:59Z",
+                        "text": "^~:!Percentile Source -CDC-WHO"
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323269",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323269",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:22:59.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Height Z-Score</p><p><b>Result</b>: -0.17</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323269-2023090115225900"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323269"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs",
+                                "userSelected": false
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "2571601141",
+                            "display": "Height Z-Score",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Height Z-Score"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:58.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/1"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": -0.17,
+                    "_system": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    },
+                    "_code": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                },
+                "note": [
+                    {
+                        "authorReference": {
+                            "reference": "Practitioner/1"
+                        },
+                        "time": "2023-09-01T15:22:58Z",
+                        "text": "^~:!ZScore Source -CDC-WHO"
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323267",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323267",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:22:58.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Height Percentile</p><p><b>Result</b>: 43.16</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323267-2023090115225800"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323267"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs",
+                                "userSelected": false
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "2571601137",
+                            "display": "Height Percentile",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8303-0",
+                            "userSelected": false
+                        }
+                    ],
+                    "text": "Height Percentile"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:58.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/1"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": 43.16,
+                    "_system": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    },
+                    "_code": {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                },
+                "note": [
+                    {
+                        "authorReference": {
+                            "reference": "Practitioner/1"
+                        },
+                        "time": "2023-09-01T15:22:58Z",
+                        "text": "^~:!Percentile Source -CDC-WHO"
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323265",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323265",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:22:57.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Cumulative Weight Gain</p><p><b>Result</b>: 1 kg</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323265-2023090115225700"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323265"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs",
+                                "userSelected": false
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "711303",
+                            "display": "Cumulative Weight Gain",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "363805003",
+                            "display": "Weight gain (amount) (observable entity)",
+                            "userSelected": false
+                        }
+                    ],
+                    "text": "Cumulative Weight Gain"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:57.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": 1,
+                    "unit": "kg",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "kg"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323263",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323263",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:22:57.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Pre-Pregnancy Weight</p><p><b>Result</b>: 2.3 kg</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323263-2023090115225700"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323263"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs",
+                                "userSelected": false
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "711300",
+                            "display": "Pre-Pregnancy Weight",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "29463-7",
+                            "userSelected": false
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8348-5",
+                            "userSelected": false
+                        }
+                    ],
+                    "text": "Pre-Pregnancy Weight"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:57.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": 2.3,
+                    "unit": "kg",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "kg"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/VS-197323261",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "VS-197323261",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:22:57.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Weight Measured</p><p><b>Result</b>: 3.2 kg</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323261-2023090115225700"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/VS-197323261"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs"
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "4154120",
+                            "display": "Weight Measured",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "29463-7"
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "3141-9"
+                        }
+                    ],
+                    "text": "Weight Measured"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:57.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueQuantity": {
+                    "extension": [
+                        {
+                            "valueQuantity": {
+                                "value": 3200000000000.0,
+                                "unit": "ng",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "ng"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 3200000000.0,
+                                "unit": "mcg",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "ug"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 3200000.0,
+                                "unit": "mg",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "mg"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 320000.0,
+                                "unit": "cg",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "cg"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 32000.0,
+                                "unit": "dgm",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "dg"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 3200.0,
+                                "unit": "g",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "g"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 112.877,
+                                "unit": "oz",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "[oz_av]"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 7.055,
+                                "unit": "lb",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "[lb_av]"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        }
+                    ],
+                    "value": 3.2,
+                    "unit": "kg",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "kg"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/VS-197323259",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "VS-197323259",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:22:57.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Categories</b>: Vital Signs</p><p><b>Code</b>: Height/Length Measured</p><p><b>Result</b>: 49.5 cm</p><p><b>Effective Date</b>: Sep  1, 2023 10:21 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323259-2023090115225700"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/VS-197323259"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs"
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "4154126",
+                            "display": "Height/Length Measured",
+                            "userSelected": true
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "3137-7"
+                        },
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8302-2"
+                        }
+                    ],
+                    "text": "Height/Length Measured"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:21:00.000Z",
+                "issued": "2023-09-01T15:22:57.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueQuantity": {
+                    "extension": [
+                        {
+                            "valueQuantity": {
+                                "value": 495.0,
+                                "unit": "mm",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "mm"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 4.95,
+                                "unit": "dm",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "dm"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 0.5,
+                                "unit": "m",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "m"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 19.49,
+                                "unit": "in",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "[in_i]"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        },
+                        {
+                            "valueQuantity": {
+                                "value": 1.62,
+                                "unit": "ft",
+                                "system": "http://unitsofmeasure.org",
+                                "code": "[ft_i]"
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-PQ-translation"
+                        }
+                    ],
+                    "value": 49.5,
+                    "unit": "cm",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "cm"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323257",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323257",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:18:19.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Code</b>: Audiological Referral Date</p><p><b>Result</b>: Sep 23, 2023</p><p><b>Effective Date</b>: Sep  1, 2023 10:17 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323257-2023090115182000"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323257"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "2568875925",
+                            "display": "Audiological Referral Date",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Audiological Referral Date"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:17:00.000Z",
+                "issued": "2023-09-01T15:18:19.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueDateTime": "2023-09-23"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323255",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323255",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:18:19.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Code</b>: Audiological Referral Scheduled</p><p><b>Result</b>: Yes</p><p><b>Effective Date</b>: Sep  1, 2023 10:17 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323255-2023090115182000"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323255"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "2568875915",
+                            "display": "Audiological Referral Scheduled",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Audiological Referral Scheduled"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:17:00.000Z",
+                "issued": "2023-09-01T15:18:19.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueCodeableConcept": {
+                    "text": "Yes"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323253",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323253",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:18:19.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Code</b>: Parent, Guardian Notified of Result</p><p><b>Result</b>: Yes</p><p><b>Effective Date</b>: Sep  1, 2023 10:17 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323253-2023090115182000"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323253"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "18752033",
+                            "display": "Parent, Guardian Notified of Result",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Parent, Guardian Notified of Result"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:17:00.000Z",
+                "issued": "2023-09-01T15:18:19.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueCodeableConcept": {
+                    "text": "Yes"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323251",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323251",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:18:19.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Code</b>: Hearing Test Performed Date, Time</p><p><b>Result</b>: Sep  1, 2023 10:18 A.M. CDT</p><p><b>Effective Date</b>: Sep  1, 2023 10:17 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323251-2023090115182000"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323251"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "2568875905",
+                            "display": "Hearing Test Performed Date, Time",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Hearing Test Performed Date, Time"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:17:00.000Z",
+                "issued": "2023-09-01T15:18:19.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueDateTime": "2023-09-01T10:18:00-05:00"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323249",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323249",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:18:19.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Code</b>: Able to complete hearing test</p><p><b>Result</b>: Yes</p><p><b>Effective Date</b>: Sep  1, 2023 10:17 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323249-2023090115182000"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323249"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "27782121",
+                            "display": "Able to complete hearing test",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Able to complete hearing test"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:17:00.000Z",
+                "issued": "2023-09-01T15:18:19.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueCodeableConcept": {
+                    "text": "Yes"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323247",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323247",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:18:19.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Code</b>: Otoacoustic Emissions Result</p><p><b>Result</b>: Pass left, Fail right</p><p><b>Effective Date</b>: Sep  1, 2023 10:17 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323247-2023090115182000"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323247"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "18752019",
+                            "display": "Otoacoustic Emissions Result",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Otoacoustic Emissions Result"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:17:00.000Z",
+                "issued": "2023-09-01T15:18:19.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                                    "code": "18752019",
+                                    "display": "Otoacoustic Emissions Result",
+                                    "userSelected": true
+                                }
+                            ],
+                            "text": "Otoacoustic Emissions Result"
+                        },
+                        "valueCodeableConcept": {
+                            "text": "Pass left"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                                    "code": "18752019",
+                                    "display": "Otoacoustic Emissions Result",
+                                    "userSelected": true
+                                }
+                            ],
+                            "text": "Otoacoustic Emissions Result"
+                        },
+                        "valueCodeableConcept": {
+                            "text": "Fail right"
+                        }
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/Observation/L-197323245",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "L-197323245",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2023-09-01T15:18:19.000Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Observation</b></p><p><b>Patient Id</b>: 12846634</p><p><b>Status</b>: Final</p><p><b>Code</b>: Newborn Hearing Test Type</p><p><b>Result</b>: Otoacoustic emissions</p><p><b>Effective Date</b>: Sep  1, 2023 10:17 A.M. CDT</p></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.cerner.com/ceuuid",
+                        "value": "CE87caf4b7-9397-4667-9897-702218017c9e-197323245-2023090115182000"
+                    },
+                    {
+                        "use": "usual",
+                        "type": {
+                            "text": "Target responder resource fullUrl"
+                        },
+                        "system": "https://ehealthexchange.org/hub/internal/targetResponderFullUrl",
+                        "value": "https://fhir-ehr.cerner.com/r4/e8a84236-c258-4952-98b7-a6ff8a9c587a/Observation/L-197323245"
+                    }
+                ],
+                "status": "final",
+                "category": [
+                    {
+                        "extension": [
+                            {
+                                "valueCode": "unknown",
+                                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.cerner.com/e8a84236-c258-4952-98b7-a6ff8a9c587a/codeSet/72",
+                            "code": "18752012",
+                            "display": "Newborn Hearing Test Type",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "Newborn Hearing Test Type"
+                },
+                "subject": {
+                    "reference": "Patient/12846634"
+                },
+                "encounter": {
+                    "reference": "Encounter/97991794"
+                },
+                "effectiveDateTime": "2023-09-01T15:17:00.000Z",
+                "issued": "2023-09-01T15:18:19.000Z",
+                "performer": [
+                    {
+                        "extension": [
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "PPRF",
+                                            "display": "primary performer"
+                                        }
+                                    ],
+                                    "text": "primary performer"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            },
+                            {
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                            "code": "LA",
+                                            "display": "legal authenticator"
+                                        }
+                                    ],
+                                    "text": "legal authenticator"
+                                },
+                                "url": "http://hl7.org/fhir/StructureDefinition/event-performerFunction"
+                            }
+                        ],
+                        "reference": "Practitioner/683925"
+                    }
+                ],
+                "valueCodeableConcept": {
+                    "text": "Otoacoustic emissions"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        }
+    ]
+}

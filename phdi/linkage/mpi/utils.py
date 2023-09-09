@@ -1,4 +1,6 @@
-from config import get_settings
+import sys
+from phdi.linkage.mpi.config import get_settings
+
 
 def load_mpi_env_vars_os():
     """
@@ -10,7 +12,8 @@ def load_mpi_env_vars_os():
         "user": get_settings().get("mpi_user"),
         "password": get_settings().get("mpi_password"),
         "host": get_settings().get("mpi_host"),
-        "port": get_settings().get("mpi_port")
+        "port": get_settings().get("mpi_port"),
+        "db_type": get_settings().get("mpi_db_type"),
     }
     return dbsettings
 

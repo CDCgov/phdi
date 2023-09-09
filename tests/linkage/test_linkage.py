@@ -53,30 +53,23 @@ from tests.test_data_generator import (
 
 
 def _set_up_postgres_client():
-    postgres_client = DIBBsConnectorClient(
-        database="testdb",
-        user="postgres",
-        password="pw",
-        host="localhost",
-        port="5432",
-        patient_table="test_patient_mpi",
-        person_table="test_person_mpi",
-    )
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+    postgres_client = DIBBsConnectorClient()
+    pg_connection = postgres_client.get_connection()
 
     # Generate test tables
     funcs = {
         "drop tables": (
-            f"""
-        DROP TABLE IF EXISTS {postgres_client.patient_table};
-        DROP TABLE IF EXISTS {postgres_client.person_table};
+            """
+        DROP TABLE IF EXISTS patient;
+        DROP TABLE IF EXISTS person;
         """
         ),
         "create_patient": (
@@ -84,7 +77,7 @@ def _set_up_postgres_client():
             BEGIN;
 
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
+            + "CREATE TABLE IF NOT EXISTS patient "
             + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
             + "patient_resource JSONB);"
         ),
@@ -93,7 +86,7 @@ def _set_up_postgres_client():
             BEGIN;
 
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
+            + "CREATE TABLE IF NOT EXISTS person "
             + "(person_id UUID DEFAULT uuid_generate_v4 (), "
             + "external_person_id VARCHAR(100));"
         ),
@@ -101,35 +94,34 @@ def _set_up_postgres_client():
 
     for command, statement in funcs.items():
         try:
-            postgres_client.cursor.execute(statement)
-            postgres_client.connection.commit()
+            with pg_connection.begin():
+                pg_connection.execute(statement)
+                pg_connection.commit()
         except Exception as e:
             print(f"{command} was unsuccessful")
             print(e)
-            postgres_client.connection.rollback()
+            pg_connection.rollback()
 
     return postgres_client
 
 
 def _clean_up_postgres_client(postgres_client):
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.close()
-    postgres_client.connection.close()
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+    postgres_client = DIBBsConnectorClient()
+    pg_connection = postgres_client.get_connection()
+
+    with pg_connection.begin():
+        pg_connection.execute("DROP TABLE IF EXISTS patient")
+        pg_connection.execute("DROP TABLE IF EXISTS person")
+        pg_connection.commit()
+        pg_connection.close()
 
 
 def test_extract_blocking_values_from_record():

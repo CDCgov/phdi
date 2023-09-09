@@ -1,15 +1,12 @@
 from typing import List, Dict, Union, Tuple
 from phdi.linkage.mpi.core import BaseMPIConnectorClient
 import psycopg2
-from psycopg2 import errors
 from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import connection, cursor
-from pathlib import Path
 import json
 import logging
-from utils import load_mpi_env_vars_os, print_psycopg2_exception
-from sqlalchemy import create_engine
-import pyway
+from phdi.linkage.mpi.utils import load_mpi_env_vars_os
+from sqlalchemy import MetaData, create_engine, Table
 
 
 class DIBBsConnectorClient(BaseMPIConnectorClient):
@@ -54,10 +51,8 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
     #         "zip": """$.address[*].postalCode""",
     #     }
 
-
-        # db_conn = self.get_connection()
-        # self._close_connections(db_conn=db_conn)
-
+    # db_conn = self.get_connection()
+    # self._close_connections(db_conn=db_conn)
 
     def get_connection(self) -> Union[connection, None]:
         """
@@ -71,20 +66,24 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         dbhost = dbsettings.get("host")
         dbport = dbsettings.get("port")
 
+        # create engine/connection
         engine = create_engine(
             f"postgresql+psycopg2://{dbuser}:{dbpwd}@{dbhost}:{dbport}/{dbname}",
             client_encoding="utf8",
-            pool_reset_on_return=None
+            pool_reset_on_return=None,
         )
-        
+        # create a metadata object to access the DB to ORM
+        mpi_metadata = MetaData(engine)
+        patient_table = Table("patient", metadata=mpi_metadata, autoload_with=engine)
+
         db_conn = None
         try:
-            db_conn = engine.connect()
+            with engine.connect() as db_conn:
+                return db_conn
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
         finally:
             return db_conn
-
 
     def block_data(self, block_vals: Dict) -> List[list]:
         """
@@ -103,16 +102,14 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
-        db_cursor = None
         db_conn = self.get_connection()
         try:
             # Use context manager to handle commits and transactions
-            with db_conn.cursor() as db_cursor:
+            with db_conn.begin():
                 # Generate raw SQL query
-
                 query, data = self._generate_block_query(block_vals)
                 # Execute query
-                db_cursor.execute(query, data)
+                db_conn.execute(query, data)
                 blocked_data = [list(row) for row in db_cursor.fetchall()]
 
         except Exception as error:  # pragma: no cover
@@ -313,7 +310,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         matched = False
         try:
             if external_person_id is None:
-                external_person_id = "'NULL'"
+                external_person_id = ""
             else:
                 # if external person id is supplied then find if there is already
                 #  a person with that external person id already within the MPI
@@ -348,11 +345,11 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             # otherwise if person id is supplied and the external person id is supplied
             # and not none and a record with the external person id was not found
             #  then update the person record with the supplied external person id
-            elif person_id is not None and external_person_id != "'NULL'":
+            elif person_id is not None and external_person_id != "":
                 matched = True
                 update_person_query = SQL(
                     "UPDATE {person_table} SET external_person_id = %s "
-                    "WHERE person_id = %s AND external_person_id = 'NULL' "
+                    "WHERE person_id = %s AND external_person_id = null "
                 ).format(person_table=Identifier(self.person_table))
                 update_data = [external_person_id, person_id]
                 db_cursor.execute(update_person_query, update_data)
