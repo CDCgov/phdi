@@ -1,7 +1,8 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 from app.config import get_settings
-from app.main import app, run_migrations
+from app.main import app
+from app.utils import run_migrations
 
 import copy
 import json
