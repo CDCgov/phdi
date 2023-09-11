@@ -3,6 +3,6 @@ version: '3.3'
 services:
   fhir-converter-service:
     build:
-      context: ../../
+      context: ../..
     ports:
           - "8080:8080"
