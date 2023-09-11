@@ -1,0 +1,11 @@
+{
+  "simple_custom_config": {
+    "summary": "Simple Custom config",
+    "description": "This is a simple custom config",
+    "value": {
+      "processing_config": {
+        "foo": "bar"
+      }
+    }
+  }
+}
