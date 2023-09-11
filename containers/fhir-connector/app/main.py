@@ -19,7 +19,6 @@ app = BaseService(
 async def new_born_screening(earliest_dob: str):
     fhir_host = "https://concept01.ehealthexchange.org:52780/fhirproxy/r4/"
     newborn_query = f"{fhir_host}Patient?birthdate=ge{earliest_dob}"
-    #fhir_query = f"{fhir_host}Patient?_id=erXuFYUfucBZaryVksYEcMg3"
     username = "svc_skylight"
     password = "TendingTired7Leaves"
 
@@ -65,3 +64,15 @@ async def new_born_screening(earliest_dob: str):
         
     return newborn_screening_results
 
+# async def make_fhir_request(url :str, session: aiohttp.ClientSession):
+#     response = await session.get(url=url)
+#     fhir_bundle = await json.loads(response.text)
+#     return fhir_bundle
+    
+# async def main(urls):
+#     async with aiohttp.ClientSession() as session:
+#    	 tasks = []
+#    	 for url in urls:
+#    		 tasks.append(get_url_data(url=url, session=session))
+#    	 results = await asyncio.gather(*tasks, return_exceptions=True)
+#     return results
