@@ -8,7 +8,6 @@ def setup(request):
     print("Setting up tests...")
     compose_path = os.path.join(os.path.dirname(__file__), "./")
     compose_file_name = "docker-compose.yaml"
-    print(compose_path)
     fhir_converter = DockerCompose(compose_path, compose_file_name=compose_file_name)
     converter_url = "http://0.0.0.0:8080"
 
