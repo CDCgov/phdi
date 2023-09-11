@@ -176,30 +176,3 @@ jobs:
         working-directory: ./containers/${{matrix.container-to-test}}/tests
         run: |
           python -m pytest -m "integration"
-
-  integration-test-python-containers:
-    needs: list-containers, unit-test-python-containers
-    runs-on: ubuntu-latest
-    # Only run integration tests if unit tests are successful
-    if: unit-test-python-containers == 'success' | unit-test-python-containers == 'skipped'
-    strategy:
-      matrix:
-        container-to-test: ${{fromJson(needs.list-containers.outputs.containers)}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install Pytest
-        run: pip install pytest
-      - name: Install dependencies
-        working-directory: ./containers/${{matrix.container-to-test}}
-        run: |
-          pip install -r requirements.txt
-      - name: Run integration tests for containers
-        working-directory: ./containers/${{matrix.container-to-test}}/tests
-        run: |
-          python -m pytest -m "integration"
