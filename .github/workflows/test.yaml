@@ -176,7 +176,7 @@ jobs:
 # TODO tomorrow: update this action to only run on directories with /integration
 # Also update unit tests to NOT run integration tests
   integration-test-python-containers:
-    needs: list-containers, unit-test-python-containers
+    needs: list-containers
     runs-on: ubuntu-latest
     strategy:
       matrix:
