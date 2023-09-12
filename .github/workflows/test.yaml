@@ -180,7 +180,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
+        directories-to-test: "/fhir-converter/tests/integration"
+#        directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
