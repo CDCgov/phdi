@@ -14,6 +14,13 @@ valid_request = {
     "root_template": "ADT_A01",
 }
 
+valid_request_with_rr = {
+    "input_data": "VALID_INPUT_DATA",
+    "input_type": "ecr",
+    "root_template": "EICR",
+    "rr_data": "RR",
+}
+
 global valid_response
 valid_response = {
     "Status": "OK",
@@ -258,6 +265,51 @@ def test_convert_invalid_root_template(patched_subprocess_run):
     )
     assert actual_response.status_code == 422
     assert actual_response.json() == invalid_root_template_response
+
+
+@mock.patch("app.service.json.load")
+@mock.patch("app.service.open")
+@mock.patch("app.service.subprocess.run")
+@mock.patch("app.service.Path")
+@mock.patch("app.main.add_rr_data_to_eicr")
+def test_convert_valid_request_with_rr_data(
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
+    patched_add_rr_data_to_eicr,
+):
+    patched_subprocess_run.return_value = mock.Mock(returncode=0)
+    patched_json_load.return_value = valid_response
+    patched_file_path = mock.Mock()
+    patched_add_rr_data_to_eicr = mock.Mock()
+    actual_response = client.post(
+        "/convert-to-fhir",
+        json=valid_request_with_rr,
+    )
+    assert actual_response.status_code == 200
+    # global valid_response
+    # patched_subprocess_run.return_value = mock.Mock(returncode=0)
+    # patched_json_load.return_value = valid_response
+    # patched_file_path = mock.Mock()
+    # actual_response = client.post(
+    #     "/convert-to-fhir",
+    #     json=valid_request,
+    # )
+    # assert actual_response.status_code == 200
+    # actual_response = actual_response.json().get("response")
+    # new_id = actual_response["FhirResource"]["entry"][0]["resource"]["id"]
+    # old_id = valid_response["FhirResource"]["entry"][0]["resource"]["id"]
+    # valid_response = json.dumps(valid_response)
+    # valid_response = valid_response.replace(old_id, new_id)
+    # valid_response = json.loads(valid_response)
+    # add_data_source_to_bundle(valid_response["FhirResource"], "elr")
+    # assert actual_response == valid_response
+
+
+@mock.patch("app.service.subprocess.run")
+def test_conversion_fails_with_invalid_rr_request(patched_subprocess_run):
+    pass
 
 
 def test_add_data_source_to_bundle():
