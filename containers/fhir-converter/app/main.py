@@ -56,8 +56,6 @@ async def convert(input: FhirConverterInput, response: Response):
     """
     fhir_converter_input = dict(input)
     fhir_converter_input.pop("rr_data")
-    print("we're converting!")
-    print("input=", input)
 
     # If RR is present, also need input data and conversion type eICR
     if input.rr_data is not None:
@@ -70,7 +68,6 @@ async def convert(input: FhirConverterInput, response: Response):
             return result
 
         merged_ecr = add_rr_data_to_eicr(input.rr_data, input.input_data)
-        print("merged ecr:", merged_ecr)
         fhir_converter_input.update({"input_data": merged_ecr})
 
     result = convert_to_fhir(**fhir_converter_input)
