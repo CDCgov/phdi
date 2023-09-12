@@ -225,7 +225,7 @@ def test_convert_conversion_failure(
     )
     assert actual_response.status_code == 400
     assert actual_response.json().get("response") == conversion_failure_response
-    assert "blue" == "yellow"
+    assert "blue" == "red"
     # let's make sure a failure here stops integration tests from running
 
 
