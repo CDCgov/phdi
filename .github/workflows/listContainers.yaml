@@ -37,5 +37,6 @@ jobs:
         name: Generate list of integration test directories within containers/
         working-directory: ./containers
         run: |
+          echo "$(find . -name "integration" -type d)"
           echo "dirs=$(find . -name "integration" -type d)" >> $GITHUB_OUTPUT
           echo "dirs=$(dirs)"
