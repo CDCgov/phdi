@@ -5,6 +5,8 @@ on:
     outputs:
       containers: 
         value: ${{ jobs.list-containers.outputs.container-dirs }}
+      integration-dirs:
+        value: ${{ jobs.list-integration-test-directories.outputs.integration-dirs }}
 
 jobs:
   list-containers:
@@ -24,3 +26,15 @@ jobs:
         run: |
           ls -d * | jq -R -s -c 'split("\n")[:-1]'
           echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+  list-integration-test-directories:
+    runs-on: ubuntu-latest
+    outputs:
+      integration-dirs: ${{steps.generate-integration-list.outputs.dirs}}
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v3
+      - id: generate-integration-list
+        name: Generate list of integration test directories within containers/
+        working-directory: ./containers
+        run: |
+          echo "dirs=$(find . -name "integration" -type d)" >> $GITHUB_OUTPUT

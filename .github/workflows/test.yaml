@@ -180,7 +180,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container-to-test: ${{fromJson(needs.list-containers.outputs.containers)}}
+        directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -192,10 +192,10 @@ jobs:
       - name: Install Pytest
         run: pip install pytest
       - name: Install dependencies
-        working-directory: ./containers/${{matrix.container-to-test}}
+        working-directory: ./containers/${{matrix.directories-to-test}}
         run: |
           pip install -r requirements.txt
       - name: Run integration tests for containers
-        working-directory: ./containers/${{matrix.container-to-test}}/tests
+        working-directory: ./containers/${{matrix.directories-to-test}}
         run: |
           python -m pytest -m "integration"
