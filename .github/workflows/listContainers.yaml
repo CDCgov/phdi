@@ -33,10 +33,12 @@ jobs:
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get install jq
       - id: generate-integration-list
         name: Generate list of integration test directories within containers/
         working-directory: ./containers
         run: |
-          echo "$(find . -name "integration" -type d)"
-          echo "dirs=$(find . -name "integration" -type d)" >> $GITHUB_OUTPUT
-          echo "dirs=$(dirs)"
+          echo "dirs=$(find . -name "integration" -type d | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1]' )" >> $GITHUB_OUTPUT
+          echo "dirs=$($dirs)"

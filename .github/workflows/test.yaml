@@ -180,8 +180,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directories-to-test: [/fhir-converter/tests/integration]
-#        directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
+        # TODO tomorrow: fix this to actually be dynamic (list containers with integration dirs?)
+#        directories-to-test: [/fhir-converter/tests/integration]
+        directories-to-test: ${{fromJson(needs.list-containers.outputs.integration-dirs)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -193,10 +194,10 @@ jobs:
       - name: Install Pytest
         run: pip install pytest
       - name: Install dependencies
-        working-directory: ./containers/fhir-converter
+        working-directory: ./containers/${{matrix.container-to-test}}
         run: |
           pip install -r requirements.txt
       - name: Run integration tests for containers
-        working-directory: ./containers/${{matrix.directories-to-test}}
+        working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
         run: |
           python -m pytest -m "integration"
