@@ -11,4 +11,4 @@ fi
 # Orchestration
 # docker build -t orchestration ./
 # docker run -d -p 8080:8080 orchestration
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload --env-file local-dev.env

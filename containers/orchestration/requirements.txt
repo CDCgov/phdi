@@ -7,3 +7,4 @@ httpx
 pytest
 frozendict
 requests
+python-dotenv

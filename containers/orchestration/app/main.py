@@ -27,9 +27,13 @@ raw_process_message_response_examples = read_json_from_assets(
 )
 process_message_response_examples = {200: raw_process_message_response_examples}
 
+message_parser_url = os.environ.get("MESSAGE_PARSER_URL")
+validation_url = os.environ.get("VALIDATION_URL")
+fhir_converter_url = os.environ.get("FHIR_CONVERTER_URL")
+ingestion_url = os.environ.get("INGESTION_URL")
 
 # Request and response models
-class ProcessMessageInput(BaseModel):
+class ProcessMessageRequest(BaseModel):
     """
     The config for requests to the /extract endpoint.
     """
@@ -62,25 +66,63 @@ class ProcessMessageResponse(BaseModel):
     )
 
 
+def call_validation(message, message_type)-> dict:
+    data = {
+        "message_type": "ecr",
+        "include_error_types": "errors",
+        "message": str(input["message"]),
+    }
+    validation_response = requests.post(validation_url, json=data)
+    return validation_response
+
+
+def call_fhir_converter(message)-> dict:
+    data = {
+        "input_data": "",
+        "input_type": "",
+        "root_template": ""
+    }
+    fhir_conversion_response = requests.post(fhir_converter_url, json=data)
+    return fhir_conversion_response
+
+
+def call_ingestion(message)-> dict:
+    data = {
+        "data": "",
+        "trim": "",
+        "overwrite": "",
+        "case": "",
+        "remove_numbers": ""
+    }
+    ingestion_response = requests.post(ingestion_url, json=data)
+    return ingestion_response
+
+
+def call_message_parser(message)-> dict:
+    data = {
+        "message": "",
+        "message_type": "",
+        "parsing_schema": "",
+        "parsing_schema_name": "",
+        "fhir_converter_url": fhir_converter_url
+    }
+    message_parser_response = requests.post(message_parser_url, json=data)
+    return message_parser_response
+
+
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
     input: Annotated[
-        ProcessMessageInput, Body(examples=process_message_request_examples)
+        ProcessMessageRequest, Body(examples=process_message_request_examples)
     ],
     response: Response,
 ) -> ProcessMessageResponse:
     """
     Process message through a series of microservices
     """
-    print("hello process endpoint")
+    order = ["validation", "fhir_converter"]
     input = dict(input)
-    api_url = "http://localhost:8081/validate"
-    data = {
-        "message_type": "ecr",
-        "include_error_types": "errors",
-        "message": str(input["message"]),
-    }
-    response = requests.post(api_url, json=data)
+
 
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)
@@ -91,7 +133,7 @@ async def process_message_endpoint(
         }
     else:
         return {
-            "message": f"Request failed with status code {response.status_code}",
+            "message": "Request failed with status code {response.status_code}",
             "processed_values": "",
         }
 
