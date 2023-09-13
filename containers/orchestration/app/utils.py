@@ -3,6 +3,7 @@ import pathlib
 from functools import cache
 from pathlib import Path
 from frozendict import frozendict
+from icecream import ic
 
 
 @cache
@@ -31,30 +32,7 @@ def load_processing_config(config_name: str) -> dict:
                 f"A config with the name '{config_name}' could not be found."
             )
 
-    return freeze_processing_config(processing_config)
-
-
-def freeze_processing_config(processing_config: dict) -> frozendict:
-    """
-    Given a processing config dictionary, freeze it and all of its nested dictionaries
-    into a single immutable dictionary.
-
-    :param processing_config: A dictionary containing a processing config.
-    :return: A frozen dictionary containing the processing config.
-    """
-    for field, field_definition in processing_config.items():
-        if "secondary_config" in field_definition:
-            for secondary_field, secondary_field_definition in field_definition[
-                "secondary_config"
-            ].items():
-                field_definition["secondary_config"][secondary_field] = frozendict(
-                    secondary_field_definition
-                )
-            field_definition["secondary_config"] = frozendict(
-                field_definition["secondary_config"]
-            )
-        processing_config[field] = frozendict(field_definition)
-    return frozendict(processing_config)
+    return processing_config
 
 
 def read_json_from_assets(filename: str):

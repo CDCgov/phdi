@@ -8,6 +8,7 @@ from app.utils import load_processing_config, read_json_from_assets
 from app.config import get_settings
 import requests
 import json
+from icecream import ic
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -31,6 +32,8 @@ message_parser_url = os.environ.get("MESSAGE_PARSER_URL")
 validation_url = os.environ.get("VALIDATION_URL")
 fhir_converter_url = os.environ.get("FHIR_CONVERTER_URL")
 ingestion_url = os.environ.get("INGESTION_URL")
+stan_name_url = os.environ.get("STANDARDIZE_NAME_URL")
+
 
 # Request and response models
 class ProcessMessageRequest(BaseModel):
@@ -66,7 +69,67 @@ class ProcessMessageResponse(BaseModel):
     )
 
 
-def call_validation(message, message_type)-> dict:
+def call_validation(input, response, step) -> dict:
+    data = {
+        "message_type": "ecr",
+        "include_error_types": "errors",
+        "message": str(input["message"]),
+    }
+    validation_response = requests.post(validation_url + step["endpoint"], json=data)
+    return validation_response
+
+
+def call_fhir_converter(input, response, step) -> dict:
+    ic(fhir_converter_url)
+    data = {
+        "input_data": str(input["message"]),
+        "input_type": "ecr",
+        "root_template": "EICR",
+    }
+    fhir_conversion_response = requests.post(
+        fhir_converter_url + step["endpoint"], json=data
+    )
+    return fhir_conversion_response
+
+
+def call_ingestion(input, response, step) -> dict:
+    #     {
+    #     "data": @{activity('convert_to_fhir').output.response.FhirResource}
+    # }
+    ic("CALLING INGESTION")
+    r = response.json()
+
+    if "standardize_names" not in step["endpoint"]:
+        ic(r["bundle"])
+        data = {"data": r["bundle"]}
+    else:
+        data = {"data": r["response"]["FhirResource"]}
+    ingestion_response = requests.post(ingestion_url + step["endpoint"], json=data)
+    ic(ingestion_response)
+    ic(ingestion_response.json())
+    return ingestion_response
+
+
+def call_stan_name(input, response) -> dict:
+    ic(response.json())
+    data = {"data": str(response.response["FhirResource"])}
+    stan_name_response = requests.post(stan_name_url, json=data)
+    return stan_name_response
+
+
+def call_message_parser(message) -> dict:
+    data = {
+        "message": "",
+        "message_type": "",
+        "parsing_schema": "",
+        "parsing_schema_name": "",
+        "fhir_converter_url": fhir_converter_url,
+    }
+    message_parser_response = requests.post(message_parser_url, json=data)
+    return message_parser_response
+
+
+def call_endpoint(input, response, step, config) -> dict:
     data = {
         "message_type": "ecr",
         "include_error_types": "errors",
@@ -74,40 +137,6 @@ def call_validation(message, message_type)-> dict:
     }
     validation_response = requests.post(validation_url, json=data)
     return validation_response
-
-
-def call_fhir_converter(message)-> dict:
-    data = {
-        "input_data": "",
-        "input_type": "",
-        "root_template": ""
-    }
-    fhir_conversion_response = requests.post(fhir_converter_url, json=data)
-    return fhir_conversion_response
-
-
-def call_ingestion(message)-> dict:
-    data = {
-        "data": "",
-        "trim": "",
-        "overwrite": "",
-        "case": "",
-        "remove_numbers": ""
-    }
-    ingestion_response = requests.post(ingestion_url, json=data)
-    return ingestion_response
-
-
-def call_message_parser(message)-> dict:
-    data = {
-        "message": "",
-        "message_type": "",
-        "parsing_schema": "",
-        "parsing_schema_name": "",
-        "fhir_converter_url": fhir_converter_url
-    }
-    message_parser_response = requests.post(message_parser_url, json=data)
-    return message_parser_response
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
@@ -120,9 +149,25 @@ async def process_message_endpoint(
     """
     Process message through a series of microservices
     """
-    order = ["validation", "fhir_converter"]
+    # order = ["validation", "fhir_converter", "stan_name"]
+    # order = ["validation", "fhir_converter", "stan_name", "stan_phone", "geocode"]
+    processing_config = load_processing_config("sample-orchestration-config.json")
+    ic(processing_config["steps"])
     input = dict(input)
+    response = input
+    responses = {}
+    for step in processing_config["steps"]:
+        # response = call_endpoint(input, response, step, processing_config)
+        # response[step["service"]] = response
+        service = step["service"]
+        endpoint = step["endpoint"]
+        f = f"call_{service}"
+        if f in globals() and callable(globals()[f]):
+            function_to_call = globals()[f]
+            response = function_to_call(input, response, step)
+            responses[endpoint] = response
 
+    ic(responses)
 
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)
@@ -133,7 +178,7 @@ async def process_message_endpoint(
         }
     else:
         return {
-            "message": "Request failed with status code {response.status_code}",
+            "message": f"Request failed with status code {response.status_code}",
             "processed_values": "",
         }
 

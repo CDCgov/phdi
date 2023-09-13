@@ -1,10 +1,15 @@
 {
   "configurations": {
     "validation": {
-      "include_error_types": "error"
+      "include_error_types": "error",
+      "url": "http://localhost:8081"
     },
     "convert_to_fhir": {
-      "root_template": "EICR"
+      "root_template": "EICR",
+      "url": "http://localhost:8082"
+    },
+    "ingestion": {
+      "url": "http://localhost:8084"
     },
     "standardization_and_geocoding": {
       "geocode_method": "smarty",
@@ -17,5 +22,27 @@
       "parsing_schema_name": "",
       "credential_manager": "azure"
     }
-  }
+  },
+  "steps": [
+    {
+      "service": "validation",
+      "endpoint": "/validate"
+    },
+    {
+      "service": "fhir_converter",
+      "endpoint": "/convert-to-fhir"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_names"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob"
+    }
+  ]
 }
