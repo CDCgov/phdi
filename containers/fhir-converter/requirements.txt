@@ -31,6 +31,7 @@ requests==2.31.0
 six==1.16.0
 sniffio==1.2.0
 starlette==0.27.0
+testcontainers[compose]==3.7.1
 tomli==2.0.1
 typing_extensions==4.3.0
 ujson==5.4.0
