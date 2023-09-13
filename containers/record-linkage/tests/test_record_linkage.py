@@ -56,6 +56,8 @@ def clean_up_db():
     dbconn.commit()
     cursor.execute("DROP TABLE IF EXISTS person")
     dbconn.commit()
+    cursor.execute("DROP TABLE IF EXISTS pyway")
+    dbconn.commit()
     cursor.close()
     dbconn.close()
 
@@ -113,9 +115,9 @@ def test_linkage_invalid_db_type():
 
 def test_linkage_success():
     # Clear MPI ahead of testing
-    clean_up_db()
-    run_migrations()
-    test_bundle = load_test_bundle()
+    # clean_up_db()
+    # run_migrations()
+    # test_bundle = load_test_bundle()
 
     set_mpi_env_vars()
     clean_up_db()
