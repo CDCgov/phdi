@@ -194,7 +194,7 @@ jobs:
       - name: Install Pytest
         run: pip install pytest
       - name: Install dependencies
-        working-directory: ./containers/${{matrix.container-to-test}}
+        working-directory: ./containers/${{matrix.directories-to-test}}
         run: |
           pwd
           pip install -r requirements.txt
