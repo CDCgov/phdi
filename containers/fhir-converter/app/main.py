@@ -60,7 +60,7 @@ async def convert(input: FhirConverterInput, response: Response):
     # If RR is present, also need input data and conversion type eICR
     if input.rr_data is not None:
         if input.root_template != "EICR" or input.input_type != "ecr":
-            response.status_code = status.HTTP_400_BAD_REQUEST
+            response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
             result = {
                 "message": "Reportability Response (RR) data is only accepted "
                 "for eCR conversion requests."
