@@ -6,7 +6,8 @@ from psycopg2.extensions import connection, cursor
 import json
 import logging
 from phdi.linkage.mpi.utils import load_mpi_env_vars_os
-from sqlalchemy import MetaData, create_engine, Table, Connection
+from sqlalchemy import select
+from phdi.linkage.mpi.postgres_dal import PGDataAccessLayer
 
 
 class PGMPIConnectorClient(BaseMPIConnectorClient):
@@ -17,58 +18,28 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
     block_vals) to interact with the underlying vendor-specific client
     property.
 
-    When instantiating a Client, the connection to the
-    database is automatically tested using the environment variables.
-    A refused, timed-out, or otherwise error-ed connection will raise
-    an immediate exception.
     """
 
-    PATIENT_TABLE = Table()
-    PERSON_TABLE = Table()
-    DB_CONN = Connection()
-
-    def _get_connection(self) -> Union[connection, None]:
-        """
-        Simple method for initiating a connection to the database specified
-        by the parameters defined in environment variables.
-        This also provides an ORM for the underlying data structures
-        """
+    def __init__(self):
         dbsettings = load_mpi_env_vars_os()
         dbuser = dbsettings.get("user")
         dbname = dbsettings.get("dbname")
         dbpwd = dbsettings.get("password")
         dbhost = dbsettings.get("host")
         dbport = dbsettings.get("port")
-
-        # create engine/connection
-        engine = create_engine(
-            f"postgresql+psycopg2://{dbuser}:{dbpwd}@{dbhost}:{dbport}/{dbname}",
-            client_encoding="utf8",
-            pool_reset_on_return=None,
+        self.dal = PGDataAccessLayer()
+        self.dal.get_connection(
+            engine_url=f"postgresql+psycopg2://{dbuser}:{dbpwd}@{dbhost}:{dbport}/{dbname}"
         )
+        print("CALLED1:")
+        self.dal.initialize_schema
 
-        db_conn = None
-        try:
-            with engine.connect() as db_conn:
-                # set the search path to the public schema to take
-                # advantage of db reflection to build the ORM using
-                # existing objects
-                db_conn.execute("SET search_path TO public")
-
-                # create a metadata object to access the DB to ORM
-                mpi_metadata = MetaData(engine)
-                self.PATIENT_TABLE = Table(
-                    "patient", metadata=mpi_metadata, autoload_with=engine
-                )
-                self.PERSON_TABLE = Table(
-                    "person", metadata=mpi_metadata, autoload_with=engine
-                )
-                self.DB_CONN = db_conn
-                return db_conn
-        except Exception as error:  # pragma: no cover
-            raise ValueError(f"{error}")
-        finally:
-            return db_conn
+    def initialize_schema(self):
+        print("MPI INIT:")
+        self.dal.initialize_schema()
+        print("COLS:")
+        for c in self.dal.PATIENT_TABLE.c:
+            print(c)
 
     def block_data(self, block_vals: Dict) -> List[list]:
         """
@@ -87,21 +58,29 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
-        db_conn = self._get_connection()
+        session = self.dal.get_session()
         try:
             # Use context manager to handle commits and transactions
-            with db_conn.begin():
-                # Generate raw SQL query
-                query, data = self._generate_block_query(block_vals)
-                # Execute query
-                db_conn.execute(query, data)
-                blocked_data = [list(row) for row in db_cursor.fetchall()]
+            # with db_conn.begin():
+            # Generate ORM query using block_vals as criteria
+            patient = self.dal.get_patient_table()
+            stmt = select(patient)
+            print("HERE:")
+            print(stmt)
+
+            for k, v in block_vals.items():
+                print(f"KEY:{k} VAL:{v}")
+                stmt = stmt.where(f"patient.{k} == {v}")
+            print("HERE3:")
+            print(stmt.whereclause)
+            blocked_data = [list(row) for row in session.query(stmt).all()]
 
         except Exception as error:  # pragma: no cover
+            print(f"ERROR: {error}")
             raise ValueError(f"{error}")
 
         finally:
-            self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
+            session.close()
 
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability

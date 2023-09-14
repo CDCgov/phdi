@@ -1,14 +1,20 @@
-def _set_up_postgres_client():
+import os
+
+from sqlalchemy import text
+from phdi.linkage.mpi.postgres_mpi import PGMPIConnectorClient
+
+
+def _init_db() -> PGMPIConnectorClient:
     os.environ = {
         "mpi_dbname": "testdb",
         "mpi_user": "postgres",
         "mpi_password": "pw",
         "mpi_host": "localhost",
         "mpi_port": "5432",
+        "mpi_db_type": "postgres",
     }
-    postgres_client = DIBBsConnectorClient()
-    pg_connection = postgres_client.get_connection()
-    pg_cursor = pg_connection.cursor
+
+    eng = PGMPIConnectorClient()
 
     # Generate test tables
     funcs = {
@@ -19,13 +25,10 @@ def _set_up_postgres_client():
         """
         ),
         "create_patient": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
+            """CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + "CREATE TABLE IF NOT EXISTS patient "
             + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
-            + "patient_resource JSONB);"
+            + "zip VARCHAR(5), city VARCHAR(100));"
         ),
         "create_person": (
             """
@@ -40,31 +43,25 @@ def _set_up_postgres_client():
 
     for command, statement in funcs.items():
         try:
-            pg_cursor.execute(statement)
-            pg_connection.commit()
+            with eng.dal.engine.connect() as db_conn:
+                db_conn.execute(text(statement))
+                db_conn.commit()
+                print(f"{command} WORKED!")
         except Exception as e:
             print(f"{command} was unsuccessful")
             print(e)
-            pg_connection.rollback()
+            with eng.dal.engine.connect() as db_conn:
+                db_conn.rollback()
+    eng.initialize_schema()
+    return eng
 
-    return postgres_client
 
-
-def _clean_up_postgres_client(postgres_client):
-    os.environ = {
-        "mpi_dbname": "testdb",
-        "mpi_user": "postgres",
-        "mpi_password": "pw",
-        "mpi_host": "localhost",
-        "mpi_port": "5432",
-    }
-    postgres_client = DIBBsConnectorClient()
-    pg_connection = postgres_client.get_connection()
-    pg_cursor = pg_connection.cursor
-
-    pg_cursor.execute("DROP TABLE IF EXISTS patient")
-    pg_connection.commit()
-    pg_cursor.execute("DROP TABLE IF EXISTS person")
-    pg_connection.commit()
-    pg_cursor.close()
-    pg_connection.close()
+def test_block_data():
+    PGDAL = _init_db()
+    data_requested = {"zip": "90210", "city": "Los Angeles"}
+    test_data = [data_requested]
+    PGDAL.dal.bulk_insert(test_data)
+    blocked_data = PGDAL.block_data(data_requested)
+    print("HERE2:")
+    print(blocked_data)
+    assert 1 == 2

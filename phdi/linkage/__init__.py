@@ -30,6 +30,7 @@ from phdi.linkage.link import (
 
 from phdi.linkage.mpi.core import BaseMPIConnectorClient
 from phdi.linkage.mpi.postgres import DIBBsConnectorClient
+from phdi.linkage.mpi.postgres_mpi import PGMPIConnectorClient
 from phdi.linkage.seed import convert_to_patient_fhir_resources
 
 
@@ -66,4 +67,5 @@ __all__ = [
     "_compare_address_elements",
     "_compare_name_elements",
     "convert_to_patient_fhir_resources",
+    "PGMPIConnectorClient",
 ]
