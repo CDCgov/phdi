@@ -2,7 +2,6 @@ from contextlib import contextmanager
 import psycopg2
 from sqlalchemy import MetaData, create_engine, Table
 from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy.ext.automap import automap_base
 
 
 class PGDataAccessLayer(object):
@@ -47,7 +46,6 @@ class PGDataAccessLayer(object):
 
     def initialize_schema(self) -> None:
         # create a metadata object to access the DB to ORM
-        print("DAL INIT:")
         self.PATIENT_TABLE = Table("patient", self.Meta, autoload_with=self.engine)
         self.PERSON_TABLE = Table("person", self.Meta, autoload_with=self.engine)
 
@@ -76,15 +74,9 @@ class PGDataAccessLayer(object):
             records {list} -- obj records in list of dicts format
         """
         with self.transaction() as session:
-            # values = []
             for record in records:
                 stmt = table_object.insert().values(record)
-                print("WE ARE CLOSE2:")
-                print(stmt)
                 session.execute(stmt)
-            #     for key, value in record.items():
-            #         values.append(key=value)
-            # session.bulk_save_objects(records) # this doesn't work AT ALL
 
     def safe_append(self, records, keep_errors=True):
         """Performs a 'safe append' of an object where integrity errors are

@@ -6,7 +6,6 @@ from psycopg2.extensions import connection, cursor
 import json
 import logging
 from phdi.linkage.mpi.utils import load_mpi_env_vars_os
-from sqlalchemy import select
 from phdi.linkage.mpi.postgres_dal import PGDataAccessLayer
 
 
@@ -29,17 +28,13 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         dbport = dbsettings.get("port")
         self.dal = PGDataAccessLayer()
         self.dal.get_connection(
-            engine_url=f"postgresql+psycopg2://{dbuser}:{dbpwd}@{dbhost}:{dbport}/{dbname}"
+            engine_url=f"postgresql+psycopg2://{dbuser}:"
+            + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
         )
-        print("CALLED1:")
         self.dal.initialize_schema
 
     def initialize_schema(self):
-        print("MPI INIT:")
         self.dal.initialize_schema()
-        print("COLS:")
-        for c in self.dal.PATIENT_TABLE.c:
-            print(c)
 
     def get_connection(self) -> Union[any, None]:
         return self.dal.get_session()
@@ -67,15 +62,11 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             # with db_conn.begin():
             # Generate ORM query using block_vals as criteria
             query = session.query(self.dal.PATIENT_TABLE)
-            print("HERE:")
-            print(query)
 
             for key, value in block_vals.items():
                 print(f"KEY:{key} VAL:{value}")
                 if hasattr(self.dal.PATIENT_TABLE, key):
                     query = query.filter(getattr(self.dal.PATIENT_TABLE, key) == value)
-            print("HERE3:")
-            print(query)
             blocked_data = [list(row) for row in query.all()]
 
         except Exception as error:  # pragma: no cover

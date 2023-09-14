@@ -1,12 +1,10 @@
 from typing import List, Dict, Union, Tuple
-from phdi.linkage.mpi.core import BaseMPIConnectorClient
+from phdi.linkage.core import BaseMPIConnectorClient
 import psycopg2
 from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import connection, cursor
 import json
 import logging
-from phdi.linkage.mpi.utils import load_mpi_env_vars_os
-from sqlalchemy import MetaData, create_engine, Table
 
 
 class DIBBsConnectorClient(BaseMPIConnectorClient):
@@ -23,63 +21,51 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
     an immediate exception.
     """
 
-    # TODO: Move this into a DAL Input Class that is passed into the Main Class
-    # Handle the user, pwd, db, host, port, etc... all in env variables
-    #  All that code/logistics should be in the core.py
-    # def __init__(
-    #     self,
-    #     database: str,
-    #     user: str,
-    #     password: str,
-    #     host: str,
-    #     port: str
-    # ) -> None:
-    #     self.database = database
-    #     self.user = user
-    #     self.password = password
-    #     self.host = host
-    #     self.port = port
-    #     self.fields_to_jsonpaths = {
-    #         "address": """$.address[*].line""",
-    #         "birthdate": "$.birthDate",
-    #         "city": """$.address[*].city""",
-    #         "first_name": """$.name[*].given""",
-    #         "last_name": """$.name[*].family""",
-    #         "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
-    #         "sex": "$.gender",
-    #         "state": """$.address[*].state""",
-    #         "zip": """$.address[*].postalCode""",
-    #     }
-
-    # db_conn = self.get_connection()
-    # self._close_connections(db_conn=db_conn)
+    def __init__(
+        self,
+        database: str,
+        user: str,
+        password: str,
+        host: str,
+        port: str,
+        patient_table: str,
+        person_table: str,
+    ) -> None:
+        self.database = database
+        self.user = user
+        self.password = password
+        self.host = host
+        self.port = port
+        self.patient_table = patient_table
+        self.person_table = person_table
+        self.fields_to_jsonpaths = {
+            "address": """$.address[*].line""",
+            "birthdate": "$.birthDate",
+            "city": """$.address[*].city""",
+            "first_name": """$.name[*].given""",
+            "last_name": """$.name[*].family""",
+            "mrn": """$.identifier ?(@.type.coding[0].code=="MR").value""",
+            "sex": "$.gender",
+            "state": """$.address[*].state""",
+            "zip": """$.address[*].postalCode""",
+        }
+        db_conn = self.get_connection()
+        self._close_connections(db_conn=db_conn)
 
     def get_connection(self) -> Union[connection, None]:
         """
         Simple method for initiating a connection to the database specified
-        by the parameters defined in environment variables.
+        by the parameters given to the class' instantiation.
         """
-        dbsettings = load_mpi_env_vars_os()
-        dbuser = dbsettings.get("user")
-        dbname = dbsettings.get("dbname")
-        dbpwd = dbsettings.get("password")
-        dbhost = dbsettings.get("host")
-        dbport = dbsettings.get("port")
-
-        # create engine/connection
-        engine = create_engine(
-            f"postgresql+psycopg2://{dbuser}:{dbpwd}@{dbhost}:{dbport}/{dbname}",
-            client_encoding="utf8",
-            pool_reset_on_return=None,
-        )
-        # create a metadata object to access the DB to ORM
-        mpi_metadata = MetaData(engine)
-        patient_table = Table("patient", metadata=mpi_metadata, autoload_with=engine)
-
         db_conn = None
         try:
-            with engine.connect() as db_conn:
-                return db_conn
+            db_conn = psycopg2.connect(
+                database=self.database,
+                user=self.user,
+                password=self.password,
+                host=self.host,
+                port=self.port,
+            )
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
         finally:
@@ -102,15 +88,18 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
-        db_conn = self.get_connection()
+        db_cursor = None
+        db_conn = None
         try:
             # Use context manager to handle commits and transactions
-            with db_conn.begin():
-                # Generate raw SQL query
-                query, data = self._generate_block_query(block_vals)
-                # Execute query
-                db_conn.execute(query, data)
-                blocked_data = [list(row) for row in db_cursor.fetchall()]
+            with self.get_connection() as db_conn:
+                with db_conn.cursor() as db_cursor:
+                    # Generate raw SQL query
+
+                    query, data = self._generate_block_query(block_vals)
+                    # Execute query
+                    db_cursor.execute(query, data)
+                    blocked_data = [list(row) for row in db_cursor.fetchall()]
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
@@ -149,38 +138,38 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         """
         matched = False
         db_cursor = None
-        db_conn = self.get_connection()
-
+        db_conn = None
         try:
             # Use context manager to handle commits and transactions
-            with db_conn.cursor() as db_cursor:
-                # handle all logic whether to insert, update
-                # or query to get an existing person record
-                # then use the returned person_id to link
-                #  to the newly create patient
-                matched, person_id = self._insert_person(
-                    db_cursor=db_cursor,
-                    person_id=person_id,
-                    external_person_id=external_person_id,
-                )
-
-                # Insert into patient table
-                insert_new_patient = SQL(
-                    "INSERT INTO {patient_table} "
-                    "(patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
-                ).format(patient_table=Identifier(self.patient_table))
-                data = [
-                    patient_resource.get("id"),
-                    person_id,
-                    json.dumps(patient_resource),
-                ]
-                try:
-                    db_cursor.execute(insert_new_patient, data)
-                except psycopg2.errors.UniqueViolation:
-                    logging.warning(
-                        f"Patient with ID {patient_resource.get('id')} already "
-                        "exists in the MPI. The patient table was not updated."
+            with self.get_connection() as db_conn:
+                with db_conn.cursor() as db_cursor:
+                    # handle all logic whether to insert, update
+                    # or query to get an existing person record
+                    # then use the returned person_id to link
+                    #  to the newly create patient
+                    matched, person_id = self._insert_person(
+                        db_cursor=db_cursor,
+                        person_id=person_id,
+                        external_person_id=external_person_id,
                     )
+
+                    # Insert into patient table
+                    insert_new_patient = SQL(
+                        "INSERT INTO {patient_table} "
+                        "(patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
+                    ).format(patient_table=Identifier(self.patient_table))
+                    data = [
+                        patient_resource.get("id"),
+                        person_id,
+                        json.dumps(patient_resource),
+                    ]
+                    try:
+                        db_cursor.execute(insert_new_patient, data)
+                    except psycopg2.errors.UniqueViolation:
+                        logging.warning(
+                            f"Patient with ID {patient_resource.get('id')} already "
+                            "exists in the MPI. The patient table was not updated."
+                        )
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
@@ -310,7 +299,7 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         matched = False
         try:
             if external_person_id is None:
-                external_person_id = ""
+                external_person_id = "'NULL'"
             else:
                 # if external person id is supplied then find if there is already
                 #  a person with that external person id already within the MPI
@@ -345,11 +334,11 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             # otherwise if person id is supplied and the external person id is supplied
             # and not none and a record with the external person id was not found
             #  then update the person record with the supplied external person id
-            elif person_id is not None and external_person_id != "":
+            elif person_id is not None and external_person_id != "'NULL'":
                 matched = True
                 update_person_query = SQL(
                     "UPDATE {person_table} SET external_person_id = %s "
-                    "WHERE person_id = %s AND external_person_id = null "
+                    "WHERE person_id = %s AND external_person_id = 'NULL' "
                 ).format(person_table=Identifier(self.person_table))
                 update_data = [external_person_id, person_id]
                 db_cursor.execute(update_person_query, update_data)
