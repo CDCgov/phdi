@@ -75,6 +75,7 @@ def _clean_up_postgres_client(postgres_client):
 
 def test_block_data():
     PGDAL = _init_db()
+    block_data = {"zip": {"value": "90210"}, "city": {"value": "Los Angeles"}}
     data_requested = {"zip": "90210", "city": "Los Angeles"}
     test_data = []
     test_data.append(data_requested)
@@ -87,3 +88,28 @@ def test_block_data():
     assert len(blocked_data) == 2
     assert blocked_data[1][1] is None
     assert blocked_data[1][2] == data_requested.get("zip")
+
+
+# def test_block_data_with_transform():
+#     PGDAL = _init_db()
+#     data_requested = {
+#         "first_name": {"value": "John", "transformation": "first4"},
+#         "last_name": {"value": "Shep", "transformation": "first4"},
+#         "zip": {"value": "10001-0001"},
+#         "city": {"value": "Faketon"},
+#         "birthdate": {"value": "1983-02-01"},
+#         "sex": {"value": "female"},
+#         "state": {"value": "NY"},
+#         "address": {"value": "e St", "transformation": "last4"},
+#     }
+#     test_data = []
+#     test_data.append(data_requested)
+#     PGDAL.dal.bulk_insert(PGDAL.dal.PATIENT_TABLE, test_data)
+#     blocked_data = PGDAL.block_data(data_requested)
+
+#     _clean_up_postgres_client(PGDAL)
+
+#     # ensure blocked data has two rows, headers and data
+#     assert len(blocked_data) == 2
+#     assert blocked_data[1][1] is None
+#     assert blocked_data[1][2] == data_requested.get("zip")

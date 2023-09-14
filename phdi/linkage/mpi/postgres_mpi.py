@@ -76,10 +76,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             session.close()
 
         # Set up blocked data by adding column headers as 1st row of LoL
-        # TODO: Replace indices with column names for reability
-        blocked_data_cols = ["patient_id", "person_id"]
-        for key in sorted(list(block_vals.keys())):
-            blocked_data_cols.append(key)
+        blocked_data_cols = [self.dal.PATIENT_TABLE.columns]
         blocked_data.insert(0, blocked_data_cols)
 
         return blocked_data
@@ -109,6 +106,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         db_conn = self.get_connection()
 
         try:
+            # TODO: use this function from the DAL instead of
+            # doing manual insert - see commented out code example below
+            # self.dal.bulk_insert(self.dal.PATIENT_TABLE, patient_record_dict)
+
             # Use context manager to handle commits and transactions
             with db_conn.cursor() as db_cursor:
                 # handle all logic whether to insert, update
@@ -149,6 +150,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
     def _generate_block_query(self, block_vals: dict) -> Tuple[SQL, list[str]]:
         """
+        TODO: This may not be needed anymore as we aren't generating a query anymore
+
+
         Generates a query for selecting a block of data from the patient table per the
         block_vals parameters. Accepted blocking fields include: first_name, last_name,
         birthdate, addess, city, state, zip, mrn, and sex.
@@ -221,22 +225,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         return query, data
 
-    def _close_connections(
-        self,
-        db_conn: Union[connection, None] = None,
-        db_cursor: Union[cursor, None] = None,
-    ) -> None:
+    def _close_connections(self) -> None:
         """
-        Simple helper method to close passed connections. If a context manager's
-        `with` block successfully executes, the connection will already be
-        committed and closed, so the resource will already be released. However,
-        if the `with` block terminates before safe execution, this function
-        allows a `finally` clause to succinctly clean up all open connections.
+        this is not needed anymore
         """
-        if db_cursor is not None:
-            db_cursor.close()
-        if db_conn is not None:
-            db_conn.close()
 
     def _insert_person(
         self,
@@ -264,6 +256,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           auto-generated and a boolean that indicates if there was a match
           found within the person table or not based upon the external person id
         """
+        # TODO: use the DAL to perform this going forward
         matched = False
         try:
             if external_person_id is None:
