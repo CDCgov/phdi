@@ -118,6 +118,7 @@ def test_block_data():
 
     # Assert returned data are LoL
     assert type(blocked_data[1]) is list
+    assert 1 == 2
 
     # Clean up
     postgres_client.connection = postgres_client.get_connection()

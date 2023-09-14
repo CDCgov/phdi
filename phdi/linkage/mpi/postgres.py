@@ -215,6 +215,9 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
             stub for stub in select_query_stubs
         )
 
+        print("HERE STUB:")
+        print(select_query)
+        print(select_query_stubs)
         # Generate blocking query based on blocking criteria
         block_query_stubs = []
         block_query_stubs_data = []

@@ -64,7 +64,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             query = session.query(self.dal.PATIENT_TABLE)
 
             for key, value in block_vals.items():
-                print(f"KEY:{key} VAL:{value}")
                 if hasattr(self.dal.PATIENT_TABLE, key):
                     query = query.filter(getattr(self.dal.PATIENT_TABLE, key) == value)
             blocked_data = [list(row) for row in query.all()]

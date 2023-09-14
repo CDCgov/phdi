@@ -86,10 +86,12 @@ class PGDataAccessLayer(object):
             records {list} -- obj records in list of dict format
 
         Keyword Arguments:
-            keep_errors {bool} -- will keep any error records for the user (default: {True})
+            keep_errors {bool} -- will keep any error
+            records for the user (default: {True})
 
         Returns:
-            error_records, error_messages -- a tuple of lists with errors from the append
+            error_records, error_messages -- a tuple of
+            lists with errors from the append
         """
 
         error_messages = []
@@ -98,7 +100,6 @@ class PGDataAccessLayer(object):
         for rec in records:
             try:
                 with self.transaction() as session:
-                    # l.info("inserting record: {}".format(r))
                     session.add(rec)
 
             except psycopg2.IntegrityError as err:
@@ -111,9 +112,3 @@ class PGDataAccessLayer(object):
     def get_session(self):
         """returns a session to the caller"""
         return self.Session()
-
-    def get_patient_table(self):
-        return self.PATIENT_TABLE
-
-    def get_person_table(self):
-        return self.PERSON_TABLE
