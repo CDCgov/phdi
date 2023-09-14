@@ -1,5 +1,5 @@
 from typing import List, Dict, Union, Tuple
-from phdi.linkage.core import BaseMPIConnectorClient
+from phdi.linkage.mpi.core import BaseMPIConnectorClient
 import psycopg2
 from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import connection, cursor
