@@ -56,12 +56,34 @@ def _init_db() -> PGMPIConnectorClient:
     return eng
 
 
+def _clean_up_postgres_client(postgres_client):
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+
+    with postgres_client.dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person;"""))
+        pg_connection.commit()
+        pg_connection.close()
+
+
 def test_block_data():
     PGDAL = _init_db()
     data_requested = {"zip": "90210", "city": "Los Angeles"}
-    test_data = [data_requested]
-    PGDAL.dal.bulk_insert(test_data)
+    test_data = []
+    test_data.append(data_requested)
+    PGDAL.dal.bulk_insert(PGDAL.dal.PATIENT_TABLE, test_data)
     blocked_data = PGDAL.block_data(data_requested)
-    print("HERE2:")
-    print(blocked_data)
-    assert 1 == 2
+
+    _clean_up_postgres_client(PGDAL)
+
+    # ensure blocked data has two rows, headers and data
+    assert len(blocked_data) == 2
+    assert blocked_data[1][1] is None
+    assert blocked_data[1][2] == data_requested.get("zip")

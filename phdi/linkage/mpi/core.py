@@ -21,17 +21,17 @@ class BaseMPIConnectorClient(ABC):
         """
         pass  # pragma: no cover
 
-    # @abstractmethod
-    # def get_connection() -> Union[any, None]:
-    #     """
-    #     Creates a connection to the database associated with the connector class.
-    #     The connection is returned for use in other class methods as a context
-    #     manager, and should generally not be called externally to the client.
-    #     Also used for testing the validity of a connection when the client
-    #     connector is instantiated. The return type is set to any here since the
-    #     exact "class" of the client's connection is unknown in the abstract.
-    #     """
-    #     pass  # pragma: no cover
+    @abstractmethod
+    def get_connection() -> Union[any, None]:
+        """
+        Creates a connection to the database associated with the connector class.
+        The connection is returned for use in other class methods as a context
+        manager, and should generally not be called externally to the client.
+        Also used for testing the validity of a connection when the client
+        connector is instantiated. The return type is set to any here since the
+        exact "class" of the client's connection is unknown in the abstract.
+        """
+        pass  # pragma: no cover
 
     @abstractmethod
     def insert_match_patient() -> None:

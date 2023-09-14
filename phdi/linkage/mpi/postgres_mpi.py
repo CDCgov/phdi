@@ -41,6 +41,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         for c in self.dal.PATIENT_TABLE.c:
             print(c)
 
+    def get_connection(self) -> Union[any, None]:
+        return self.dal.get_session()
+
     def block_data(self, block_vals: Dict) -> List[list]:
         """
         Returns a list of lists containing records from the database that match on the
@@ -63,17 +66,17 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             # Use context manager to handle commits and transactions
             # with db_conn.begin():
             # Generate ORM query using block_vals as criteria
-            patient = self.dal.get_patient_table()
-            stmt = select(patient)
+            query = session.query(self.dal.PATIENT_TABLE)
             print("HERE:")
-            print(stmt)
+            print(query)
 
-            for k, v in block_vals.items():
-                print(f"KEY:{k} VAL:{v}")
-                stmt = stmt.where(f"patient.{k} == {v}")
+            for key, value in block_vals.items():
+                print(f"KEY:{key} VAL:{value}")
+                if hasattr(self.dal.PATIENT_TABLE, key):
+                    query = query.filter(getattr(self.dal.PATIENT_TABLE, key) == value)
             print("HERE3:")
-            print(stmt.whereclause)
-            blocked_data = [list(row) for row in session.query(stmt).all()]
+            print(query)
+            blocked_data = [list(row) for row in query.all()]
 
         except Exception as error:  # pragma: no cover
             print(f"ERROR: {error}")
@@ -85,7 +88,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # Set up blocked data by adding column headers as 1st row of LoL
         # TODO: Replace indices with column names for reability
         blocked_data_cols = ["patient_id", "person_id"]
-        for key in sorted(list(self.fields_to_jsonpaths.keys())):
+        for key in sorted(list(block_vals.keys())):
             blocked_data_cols.append(key)
         blocked_data.insert(0, blocked_data_cols)
 
