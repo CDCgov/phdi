@@ -19,6 +19,7 @@ MarkupSafe==2.1.1
 orjson==3.7.11
 packaging==21.3
 pluggy==1.0.0
+phdi @ git+https://github.com/CDCgov/phdi@main
 py==1.11.0
 pydantic==1.10.9
 pyparsing==3.0.9
@@ -30,6 +31,7 @@ requests==2.31.0
 six==1.16.0
 sniffio==1.2.0
 starlette==0.27.0
+testcontainers[compose]==3.7.1
 tomli==2.0.1
 typing_extensions==4.3.0
 ujson==5.4.0

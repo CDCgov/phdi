@@ -1,3 +1,4 @@
+from app.config import get_settings
 from typing import Annotated
 from fastapi import Response, status, Body
 from pathlib import Path
@@ -8,13 +9,16 @@ from phdi.linkage import (
     DIBBS_BASIC,
     DIBBS_ENHANCED,
 )
-from phdi.linkage.mpi.core import BaseMPIConnectorClient
 from pydantic import BaseModel, Field
 from typing import Optional
 from app.utils import (
+    connect_to_mpi_with_env_vars,
     read_json_from_assets,
+    run_migrations,
 )
 
+# Ensure MPI is configured as expected.
+run_migrations()
 
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
@@ -24,7 +28,7 @@ app = BaseService(
 ).start()
 
 
-# Request and and response models
+# Request and response models
 class LinkRecordInput(BaseModel):
     """
     Schema for requests to the /link-record endpoint.
@@ -101,7 +105,7 @@ async def health_check() -> HealthCheckResponse:
     """
 
     try:
-        BaseMPIConnectorClient.get_connection()
+        connect_to_mpi_with_env_vars()
     except Exception as err:
         return {"status": "OK", "mpi_connection_status": str(err)}
     return {"status": "OK", "mpi_connection_status": "OK"}
@@ -172,7 +176,7 @@ async def link_record(
     # Initialize a DB connection for use with the MPI
     # Then, link away
     try:
-        db_client = BaseMPIConnectorClient.get_connection()
+        db_client = connect_to_mpi_with_env_vars()
         (found_match, new_person_id) = link_record_against_mpi(
             record_to_link, algo_config, db_client, external_id
         )
