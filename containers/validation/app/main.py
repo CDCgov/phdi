@@ -1,16 +1,15 @@
-from pydantic import BaseModel, Field
-from typing import Literal, Annotated
+from typing import Annotated
 from fastapi import Body
 from pathlib import Path
 from phdi.containers.base_service import BaseService
 from phdi.validation.validation import validate_ecr
 from .utils import load_ecr_config, validate_error_types, read_json_from_assets
+from .constants import ValidateInput, ValidateResponse
 
 # TODO: Remove hard coded location for config path
 # and/or provide a mechanism to pass in configuration
 #  via endpoint
 ecr_config = load_ecr_config()
-
 
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
@@ -19,49 +18,21 @@ app = BaseService(
 ).start()
 
 
-# Request and and response models
-class ValidateInput(BaseModel):
-    """
-    The schema for requests to the validate endpoint.
-    """
-
-    message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
-        description="The type of message to be validated."
-    )
-    include_error_types: str = Field(
-        description=(
-            "A comma separated list of the types of errors that should be"
-            + " included in the return response."
-            + " Valid types are fatal, errors, warnings, information"
-        )
-    )
-    message: str = Field(description="The message to be validated.")
-
-
-class ValidateResponse(BaseModel):
-    """
-    The schema for response from the validate endpoint.
-    """
-
-    message_valid: bool = Field(
-        description="A true value indicates a valid message while false means that the "
-        "message was found to be invalid."
-    )
-    validation_results: dict = Field(
-        description="A JSON object containing details on the validation result."
-    )
-
-
 # Message type-specific validation
 def validate_ecr_msg(message: str, include_error_types: list) -> ValidateResponse:
     """
     Validate an XML-formatted CDA eCR message.
     :param message: A string representation of an eCR in XML format to be validated.
+    :param include_error_types: A list of the error types to include in validation.
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return validate_ecr(
+    response_dict = validate_ecr(
         ecr_message=message, config=ecr_config, include_error_types=include_error_types
+    )
+    return ValidateResponse(
+        message_valid=response_dict.get("message_valid"),
+        validation_results=response_dict.get("validation_results"),
     )
 
 
@@ -72,13 +43,11 @@ def validate_elr_msg(message: str, include_error_types: list) -> ValidateRespons
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return {
-        "message_valid": True,
-        "validation_results": {
-            "details": "No validation was actually performed. Validation for ELR is "
-            "only stubbed currently."
-        },
+    details = {
+        "details": "No validation was actually performed. Validation for ELR is "
+        "only stubbed currently."
     }
+    return ValidateResponse(message_valid=True, validation_results=details)
 
 
 def validate_vxu_msg(message: str, include_error_types: list) -> ValidateResponse:
@@ -88,13 +57,11 @@ def validate_vxu_msg(message: str, include_error_types: list) -> ValidateRespons
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return {
-        "message_valid": True,
-        "validation_results": {
-            "details": "No validation was actually performed. Validation for VXU is "
-            "only stubbed currently."
-        },
+    details = {
+        "details": "No validation was actually performed. Validation for VXU is "
+        "only stubbed currently."
     }
+    return ValidateResponse(message_valid=True, validation_results=details)
 
 
 def validate_fhir_bundle(message: str, include_error_types: list) -> ValidateResponse:
@@ -104,13 +71,11 @@ def validate_fhir_bundle(message: str, include_error_types: list) -> ValidateRes
     :return: A dictionary with keys and values described by the ValidateResponse class.
     """
 
-    return {
-        "message_valid": True,
-        "validation_results": {
-            "details": "No validation was actually performed. Validation for FHIR is "
-            "only stubbed currently."
-        },
+    details = {
+        "details": "No validation was actually performed. Validation for FHIR is "
+        "only stubbed currently."
     }
+    return ValidateResponse(message_valid=True, validation_results=details)
 
 
 message_validators = {
@@ -119,7 +84,6 @@ message_validators = {
     "vxu": validate_vxu_msg,
     "fhir": validate_fhir_bundle,
 }
-
 
 # Sample requests and responses for docs
 sample_validate_requests = read_json_from_assets("sample_validate_requests.json")
