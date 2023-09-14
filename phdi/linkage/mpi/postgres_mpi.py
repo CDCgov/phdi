@@ -2,7 +2,7 @@ from typing import List, Dict, Union, Tuple
 from phdi.linkage.mpi.core import BaseMPIConnectorClient
 import psycopg2
 from psycopg2.sql import Identifier, SQL
-from psycopg2.extensions import connection, cursor
+from psycopg2.extensions import cursor
 import json
 import logging
 from phdi.linkage.mpi.utils import load_mpi_env_vars_os
@@ -33,7 +33,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         )
         self.dal.initialize_schema
 
-    def initialize_schema(self):
+    def _initialize_schema(self):
         self.dal.initialize_schema()
 
     def get_connection(self) -> Union[any, None]:
@@ -224,11 +224,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         data = select_query_stubs_data + block_query_stubs_data
 
         return query, data
-
-    def _close_connections(self) -> None:
-        """
-        this is not needed anymore
-        """
 
     def _insert_person(
         self,

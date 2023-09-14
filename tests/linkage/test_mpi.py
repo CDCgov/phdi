@@ -52,7 +52,7 @@ def _init_db() -> PGMPIConnectorClient:
             print(e)
             with eng.dal.engine.connect() as db_conn:
                 db_conn.rollback()
-    eng.initialize_schema()
+    eng._initialize_schema()
     return eng
 
 
@@ -80,7 +80,7 @@ def test_block_data():
     test_data = []
     test_data.append(data_requested)
     PGDAL.dal.bulk_insert(PGDAL.dal.PATIENT_TABLE, test_data)
-    blocked_data = PGDAL.block_data(data_requested)
+    blocked_data = PGDAL.block_data(block_data)
 
     _clean_up_postgres_client(PGDAL)
 
