@@ -6,7 +6,7 @@ from psycopg2.extensions import cursor
 import json
 import logging
 from phdi.linkage.mpi.utils import load_mpi_env_vars_os
-from phdi.linkage.mpi.postgres_dal import PGDataAccessLayer
+from phdi.linkage.mpi.dal import PGDataAccessLayer
 
 
 class PGMPIConnectorClient(BaseMPIConnectorClient):
