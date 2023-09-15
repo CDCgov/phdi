@@ -1,4 +1,3 @@
-import sys
 from phdi.linkage.config import get_settings
 
 
