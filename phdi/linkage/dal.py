@@ -29,10 +29,10 @@ class PGDataAccessLayer(object):
         Establish a connection to the database
 
         this method initiates a connection to the database specified
-        by the parameters defined in environment variables. Builds 
-        engine and Session class for app layer 'if_drop==True' then 
+        by the parameters defined in environment variables. Builds
+        engine and Session class for app layer 'if_drop==True' then
         drop existing tables and rebuild schema
-        
+
         :param engine_url: The URL of the database engine
         :param engine_echo: If True, print SQL statements to stdout
         :return: None
@@ -102,7 +102,7 @@ class PGDataAccessLayer(object):
                 stmt = table_object.insert().values(record)
                 session.execute(stmt)
 
-    def safe_append(self, records: list[dict], keep_errors: bool =True):
+    def safe_append(self, records: list[dict], keep_errors: bool = True):
         """
         Performs a 'safe append' of an object where integrity errors are
         caught and the db is rolled back.
