@@ -1,7 +1,10 @@
 import os
+import pytest
 
 from sqlalchemy import text
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
+from phdi.linkage.dal import PGDataAccessLayer
+from sqlalchemy.orm import Session
 
 
 def _init_db() -> PGMPIConnectorClient:
@@ -90,6 +93,34 @@ def test_block_data():
     assert blocked_data[1][2] == data_requested.get("zip")
 
 
+def test_block_data_failures():
+    PGDAL = _init_db()
+    block_data = {}
+    blocked_data = None
+    with pytest.raises(ValueError) as e:
+        blocked_data = PGDAL.block_data(block_data)
+        assert "`block_data` cannot be empty." in str(e.value)
+
+    block_data = {
+        "zip": {"value": "90210"},
+        "city": {"value": "Los Angeles"},
+        "MYADDR": {"value": "BLAH"},
+    }
+    data_requested = {"zip": "90210", "city": "Los Angeles"}
+    test_data = []
+    test_data.append(data_requested)
+    PGDAL.dal.bulk_insert(PGDAL.dal.PATIENT_TABLE, test_data)
+    blocked_data = PGDAL.block_data(block_data)
+
+    _clean_up_postgres_client(PGDAL)
+
+    # ensure blocked data has two rows, headers and data
+    assert len(blocked_data) == 2
+    assert blocked_data[1][1] is None
+    assert blocked_data[1][2] == data_requested.get("zip")
+    assert len(blocked_data[1]) == 4
+
+
 def test_pgmpi_connector():
     PDAL = _init_db()
     assert PDAL is not None
@@ -110,7 +141,9 @@ def test_init():
     eng = PGMPIConnectorClient()
 
     assert eng is not None
+    assert isinstance(eng, PGMPIConnectorClient)
     assert eng.dal is not None
+    assert isinstance(eng.dal, PGDataAccessLayer)
 
 
 def test_get_connection():
@@ -127,8 +160,11 @@ def test_get_connection():
     db_conn = eng.get_connection()
 
     assert eng is not None
+    assert isinstance(eng, PGMPIConnectorClient)
     assert eng.dal is not None
+    assert isinstance(eng.dal, PGDataAccessLayer)
     assert db_conn is not None
+    assert isinstance(db_conn, Session)
 
 
 # def test_block_data_with_transform():

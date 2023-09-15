@@ -104,48 +104,48 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         db_cursor = None
         db_conn = self.get_connection()
 
-        try:
-            # TODO: use this function from the DAL instead of
-            # doing manual insert - see commented out code example below
-            # self.dal.bulk_insert(self.dal.PATIENT_TABLE, patient_record_dict)
+        # try:
+        #     # TODO: use this function from the DAL instead of
+        #     # doing manual insert - see commented out code example below
+        #     # self.dal.bulk_insert(self.dal.PATIENT_TABLE, patient_record_dict)
 
-            # Use context manager to handle commits and transactions
-            with db_conn.cursor() as db_cursor:
-                # handle all logic whether to insert, update
-                # or query to get an existing person record
-                # then use the returned person_id to link
-                #  to the newly create patient
-                matched, person_id = self._insert_person(
-                    db_cursor=db_cursor,
-                    person_id=person_id,
-                    external_person_id=external_person_id,
-                )
+        #     # Use context manager to handle commits and transactions
+        #     with db_conn.cursor() as db_cursor:
+        #         # handle all logic whether to insert, update
+        #         # or query to get an existing person record
+        #         # then use the returned person_id to link
+        #         #  to the newly create patient
+        #         matched, person_id = self._insert_person(
+        #             db_cursor=db_cursor,
+        #             person_id=person_id,
+        #             external_person_id=external_person_id,
+        #         )
 
-                # Insert into patient table
-                insert_new_patient = SQL(
-                    "INSERT INTO {patient_table} "
-                    "(patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
-                ).format(patient_table=Identifier(self.patient_table))
-                data = [
-                    patient_resource.get("id"),
-                    person_id,
-                    json.dumps(patient_resource),
-                ]
-                try:
-                    db_cursor.execute(insert_new_patient, data)
-                except psycopg2.errors.UniqueViolation:
-                    logging.warning(
-                        f"Patient with ID {patient_resource.get('id')} already "
-                        "exists in the MPI. The patient table was not updated."
-                    )
+        #         # Insert into patient table
+        #         insert_new_patient = SQL(
+        #             "INSERT INTO {patient_table} "
+        #             "(patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
+        #         ).format(patient_table=Identifier(self.patient_table))
+        #         data = [
+        #             patient_resource.get("id"),
+        #             person_id,
+        #             json.dumps(patient_resource),
+        #         ]
+        #         try:
+        #             db_cursor.execute(insert_new_patient, data)
+        #         except psycopg2.errors.UniqueViolation:
+        #             logging.warning(
+        #                 f"Patient with ID {patient_resource.get('id')} already "
+        #                 "exists in the MPI. The patient table was not updated."
+        #             )
 
-        except Exception as error:  # pragma: no cover
-            raise ValueError(f"{error}")
+        # except Exception as error:  # pragma: no cover
+        #     raise ValueError(f"{error}")
 
-        finally:
-            self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
+        # finally:
+        #     self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
 
-        return (matched, person_id)
+        return None
 
     def _generate_block_query(self, block_vals: dict) -> Tuple[SQL, list[str]]:
         """
@@ -166,63 +166,63 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             well as list of all data to be inserted into it.
 
         """
-        # Check whether `block_vals` contains supported keys
-        for key in block_vals:
-            if key not in self.fields_to_jsonpaths:
-                raise ValueError(
-                    f"""`{key}` not supported for blocking at this time. Supported
-                    columns include first_name, last_name, birthdate, address, city,
-                    state, zip, mrn, and sex."""
-                )
+        # # Check whether `block_vals` contains supported keys
+        # for key in block_vals:
+        #     if key not in self.fields_to_jsonpaths:
+        #         raise ValueError(
+        #             f"""`{key}` not supported for blocking at this time. Supported
+        #             columns include first_name, last_name, birthdate, address, city,
+        #             state, zip, mrn, and sex."""
+        #         )
 
-        # Generate select query to extract fields_to_jsonpaths keys
-        select_query_stubs = []
-        select_query_stubs_data = []
-        for key in self.fields_to_jsonpaths:
-            query = f"jsonb_path_query_array(patient_resource,%s) as {key}"
-            select_query_stubs.append(query)
-            select_query_stubs_data.append(self.fields_to_jsonpaths[key])
-        select_query = "SELECT patient_id, person_id, " + ", ".join(
-            stub for stub in select_query_stubs
-        )
+        # # Generate select query to extract fields_to_jsonpaths keys
+        # select_query_stubs = []
+        # select_query_stubs_data = []
+        # for key in self.fields_to_jsonpaths:
+        #     query = f"jsonb_path_query_array(patient_resource,%s) as {key}"
+        #     select_query_stubs.append(query)
+        #     select_query_stubs_data.append(self.fields_to_jsonpaths[key])
+        # select_query = "SELECT patient_id, person_id, " + ", ".join(
+        #     stub for stub in select_query_stubs
+        # )
 
-        # Generate blocking query based on blocking criteria
-        block_query_stubs = []
-        block_query_stubs_data = []
-        for col_name, param in block_vals.items():
-            query = (
-                "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= "
-                "'[true]'"
-            )
-            block_query_stubs.append(query)
-            # Add appropriate transformations
-            if "transformation" in param:
-                # first4 transformations
-                if block_vals[col_name]["transformation"] == "first4":
-                    block_query_stubs_data.append(
-                        f"{self.fields_to_jsonpaths[col_name]} starts with "
-                        f'"{block_vals[col_name]["value"]}"'
-                    )
-                # last4 transformations
-                else:
-                    block_query_stubs_data.append(
-                        f"{self.fields_to_jsonpaths[col_name]} like_regex "
-                        f'"{block_vals[col_name]["value"]}$$"'
-                    )
-            # Build query for columns without transformations
-            else:
-                block_query_stubs_data.append(
-                    f"{self.fields_to_jsonpaths[col_name]} like_regex "
-                    f'"{block_vals[col_name]["value"]}"'
-                )
+        # # Generate blocking query based on blocking criteria
+        # block_query_stubs = []
+        # block_query_stubs_data = []
+        # for col_name, param in block_vals.items():
+        #     query = (
+        #         "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= "
+        #         "'[true]'"
+        #     )
+        #     block_query_stubs.append(query)
+        #     # Add appropriate transformations
+        #     if "transformation" in param:
+        #         # first4 transformations
+        #         if block_vals[col_name]["transformation"] == "first4":
+        #             block_query_stubs_data.append(
+        #                 f"{self.fields_to_jsonpaths[col_name]} starts with "
+        #                 f'"{block_vals[col_name]["value"]}"'
+        #             )
+        #         # last4 transformations
+        #         else:
+        #             block_query_stubs_data.append(
+        #                 f"{self.fields_to_jsonpaths[col_name]} like_regex "
+        #                 f'"{block_vals[col_name]["value"]}$$"'
+        #             )
+        #     # Build query for columns without transformations
+        #     else:
+        #         block_query_stubs_data.append(
+        #             f"{self.fields_to_jsonpaths[col_name]} like_regex "
+        #             f'"{block_vals[col_name]["value"]}"'
+        #         )
 
-        block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
+        # block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
 
-        query = select_query + " FROM {patient_table}" + block_query + ";"
-        query = SQL(query).format(patient_table=Identifier(self.patient_table))
-        data = select_query_stubs_data + block_query_stubs_data
+        # query = select_query + " FROM {patient_table}" + block_query + ";"
+        # query = SQL(query).format(patient_table=Identifier(self.patient_table))
+        # data = select_query_stubs_data + block_query_stubs_data
 
-        return query, data
+        return Tuple[SQL, list[str]]
 
     def _insert_person(
         self,
