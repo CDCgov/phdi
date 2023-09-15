@@ -1,7 +1,6 @@
 import os
 
 from sqlalchemy import text
-from sqlalchemy.orm import Session
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 
