@@ -1,10 +1,12 @@
 from typing import List, Dict, Union, Tuple
 from phdi.linkage.core import BaseMPIConnectorClient
-import psycopg2
+
+# import psycopg2
 from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import cursor
-import json
-import logging
+
+# import json
+# import logging
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import PGDataAccessLayer
 
