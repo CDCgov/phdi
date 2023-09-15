@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Literal
+from typing import Literal, Optional
 
 
 # Request and and response models
@@ -19,6 +19,11 @@ class ValidateInput(BaseModel):
         )
     )
     message: str = Field(description="The message to be validated.")
+    rr_data: Optional[str] = Field(
+        description="If validating an eICR message, the accompanying Reportability "
+        "Response data.",
+        default=None,
+    )
 
 
 class ValidateResponse(BaseModel):

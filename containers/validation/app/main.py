@@ -3,7 +3,12 @@ from fastapi import Body
 from pathlib import Path
 from phdi.containers.base_service import BaseService
 from phdi.validation.validation import validate_ecr
-from .utils import load_ecr_config, validate_error_types, read_json_from_assets
+from .utils import (
+    load_ecr_config,
+    validate_error_types,
+    read_json_from_assets,
+    check_for_and_extract_rr_data,
+)
 from .constants import ValidateInput, ValidateResponse
 
 # TODO: Remove hard coded location for config path
@@ -100,9 +105,15 @@ async def validate_endpoint(
     of the type of message specified in the 'message_type'.
     """
 
+    # TODO tomorrow:
+    # Find some good sample input and run a successful message with
+    # eICR/RR data combined
+    # Write tests (unit and integration) for rr_data
+    # Add exception handling to the FHIR converter
     input = dict(input)
     message_validator = message_validators[input["message_type"]]
     include_error_types = validate_error_types(input["include_error_types"])
-    msg = input["message"]
+    input_to_validate = check_for_and_extract_rr_data(input)
+    msg = input_to_validate["message"]
 
     return message_validator(message=msg, include_error_types=include_error_types)

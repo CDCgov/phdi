@@ -13,14 +13,6 @@ from app.main import (
 client = TestClient(app)
 test_error_types = ["errors", "warnings", "information"]
 
-# Test good file
-sample_file_good = open(
-    pathlib.Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "validation"
-    / "ecr_sample_input_good.xml"
-).read()
 
 # Test bad file
 sample_file_bad = open(

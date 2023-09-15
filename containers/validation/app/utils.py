@@ -2,6 +2,8 @@ import json
 import pathlib
 import yaml
 import re
+from fastapi import HTTPException, status
+from phdi.fhir.conversion import add_rr_data_to_eicr
 
 
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]
@@ -99,6 +101,29 @@ def validate_config(config: dict):
         if "attributes" not in field and "textRequired" not in field:
             return False
     return True
+
+
+def check_for_and_extract_rr_data(input: dict):
+    # eCR is the only message type that should have accompanying RR
+    if input["rr_data"] is not None:
+        if input["message_type"] != "ecr":
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Reportability Response (RR) data is only "
+                "accepted for eCR validation requests.",
+            )
+
+        try:
+            merged_ecr = add_rr_data_to_eicr(input["rr_data"], input["message"])
+            input["message"] = merged_ecr
+        except Exception:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Reportability Response and eICR message both "
+                "must be valid XML messages.",
+            )
+
+    return input
 
 
 def read_json_from_assets(filename: str):
