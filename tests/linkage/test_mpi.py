@@ -167,6 +167,13 @@ def test_get_connection():
     assert isinstance(db_conn, Session)
 
 
+def test_insert_match_patient():
+    eng = PGMPIConnectorClient()
+    patient = {"zip": "90210", "city": "Los Angeles"}
+    result = eng.insert_match_patient(patient)
+    assert result is None
+
+
 # def test_block_data_with_transform():
 #     PGDAL = _init_db()
 #     data_requested = {

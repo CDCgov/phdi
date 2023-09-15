@@ -102,9 +102,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
-        matched = False
-        db_cursor = None
-        db_conn = self.get_connection()
+        # matched = False
+        # db_cursor = None
+        # db_conn = self.get_connection()
 
         # try:
         #     # TODO: use this function from the DAL instead of
