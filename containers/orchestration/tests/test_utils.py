@@ -3,7 +3,6 @@ from pathlib import Path
 import pytest
 from app.utils import (
     load_processing_config,
-    freeze_processing_config,
 )
 
 
@@ -25,17 +24,3 @@ def test_load_processing_config_fail():
     assert error.value.args == (
         f"A config with the name '{bad_config_name}' could not be found.",
     )
-
-
-def test_freeze_processing_config():
-    test_config_path = (
-        Path(__file__).parent.parent / "app" / "default_configs" / "test_config.json"
-    )
-    with open(test_config_path, "r") as file:
-        test_config = json.load(file)
-
-    frozen_config = freeze_processing_config(test_config)
-
-    for key in test_config:
-        for subkey in test_config[key]:
-            assert test_config[key][subkey] == frozen_config[key][subkey]

@@ -1,14 +1,13 @@
 from phdi.containers.base_service import BaseService
 from fastapi import Response, status, Body
 from pydantic import BaseModel, Field
-from typing import Literal, Optional, Union, Annotated, Dict
+from typing import Literal, Optional, Annotated, Dict
 from pathlib import Path
 import os
 from app.utils import load_processing_config, read_json_from_assets
 from app.config import get_settings
 import requests
 import json
-from icecream import ic
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -102,10 +101,12 @@ def call_ingestion(input, response, step) -> dict:
     elif "geocode" in step["endpoint"]:
         data = {
             "bundle": r["bundle"],
-            "geocode_method": processing_config['configurations']['standardization_and_geocoding']["geocode_method"],
+            "geocode_method": processing_config["configurations"][
+                "standardization_and_geocoding"
+            ]["geocode_method"],
             "smarty_auth_id": os.environ.get("SMARTY_AUTH_ID"),
             "smarty_auth_token": os.environ.get("SMARTY_AUTH_TOKEN"),
-            "license_type": os.environ.get("LICENSE_TYPE")
+            "license_type": os.environ.get("LICENSE_TYPE"),
         }
     else:
         data = {"data": r["bundle"]}
@@ -117,12 +118,14 @@ def call_ingestion(input, response, step) -> dict:
 def call_message_parser(input, response, step) -> dict:
     r = response.json()
     data = {
-            "message_format": processing_config['configurations']['message_parser']["message_format"],
-            "parsing_schema_name": processing_config['configurations']['message_parser']["parsing_schema_name"],
-            "message": r["bundle"]
+        "message_format": processing_config["configurations"]["message_parser"][
+            "message_format"
+        ],
+        "parsing_schema_name": processing_config["configurations"]["message_parser"][
+            "parsing_schema_name"
+        ],
+        "message": r["bundle"],
     }
-
-    ic("MP response input ", r)
 
     message_parser_response = requests.post(
         message_parser_url + step["endpoint"], json=data
@@ -134,7 +137,8 @@ def call_message_parser(input, response, step) -> dict:
 async def process_message_endpoint(
     input: Annotated[
         ProcessMessageRequest, Body(examples=process_message_request_examples)
-    ]) -> ProcessMessageResponse:
+    ]
+) -> ProcessMessageResponse:
     """
     Process message through a series of microservices
     """
@@ -145,16 +149,13 @@ async def process_message_endpoint(
     responses = {}
 
     for step in processing_config["steps"]:
-        ic("Step is ", step)
         service = step["service"]
         endpoint = step["endpoint"]
         f = f"call_{service}"
         if f in globals() and callable(globals()[f]):
             function_to_call = globals()[f]
-            response = function_to_call(input, response, step)
+            response = function_to_call(input=input, response=response, step=step)
             responses[endpoint] = response
-
-    ic(responses)
 
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)
