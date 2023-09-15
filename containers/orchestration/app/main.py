@@ -28,11 +28,14 @@ raw_process_message_response_examples = read_json_from_assets(
 )
 process_message_response_examples = {200: raw_process_message_response_examples}
 
+processing_config = load_processing_config("sample-orchestration-config.json")
+
 message_parser_url = os.environ.get("MESSAGE_PARSER_URL")
 validation_url = os.environ.get("VALIDATION_URL")
 fhir_converter_url = os.environ.get("FHIR_CONVERTER_URL")
 ingestion_url = os.environ.get("INGESTION_URL")
 stan_name_url = os.environ.get("STANDARDIZE_NAME_URL")
+geocode_url = os.environ.get("GEOCODE_URL")
 
 
 # Request and response models
@@ -80,7 +83,6 @@ def call_validation(input, response, step) -> dict:
 
 
 def call_fhir_converter(input, response, step) -> dict:
-    ic(fhir_converter_url)
     data = {
         "input_data": str(input["message"]),
         "input_type": "ecr",
@@ -93,72 +95,57 @@ def call_fhir_converter(input, response, step) -> dict:
 
 
 def call_ingestion(input, response, step) -> dict:
-    #     {
-    #     "data": @{activity('convert_to_fhir').output.response.FhirResource}
-    # }
-    ic("CALLING INGESTION")
     r = response.json()
 
-    if "standardize_names" not in step["endpoint"]:
-        ic(r["bundle"])
-        data = {"data": r["bundle"]}
-    else:
+    if "standardize_names" in step["endpoint"]:
         data = {"data": r["response"]["FhirResource"]}
+    elif "geocode" in step["endpoint"]:
+        data = {
+            "bundle": r["bundle"],
+            "geocode_method": processing_config['configurations']['standardization_and_geocoding']["geocode_method"],
+            "smarty_auth_id": os.environ.get("SMARTY_AUTH_ID"),
+            "smarty_auth_token": os.environ.get("SMARTY_AUTH_TOKEN"),
+            "license_type": os.environ.get("LICENSE_TYPE")
+        }
+    else:
+        data = {"data": r["bundle"]}
+
     ingestion_response = requests.post(ingestion_url + step["endpoint"], json=data)
-    ic(ingestion_response)
-    ic(ingestion_response.json())
     return ingestion_response
 
 
-def call_stan_name(input, response) -> dict:
-    ic(response.json())
-    data = {"data": str(response.response["FhirResource"])}
-    stan_name_response = requests.post(stan_name_url, json=data)
-    return stan_name_response
-
-
-def call_message_parser(message) -> dict:
+def call_message_parser(input, response, step) -> dict:
+    r = response.json()
     data = {
-        "message": "",
-        "message_type": "",
-        "parsing_schema": "",
-        "parsing_schema_name": "",
-        "fhir_converter_url": fhir_converter_url,
+            "message_format": processing_config['configurations']['message_parser']["message_format"],
+            "parsing_schema_name": processing_config['configurations']['message_parser']["parsing_schema_name"],
+            "message": r["bundle"]
     }
-    message_parser_response = requests.post(message_parser_url, json=data)
+
+    ic("MP response input ", r)
+
+    message_parser_response = requests.post(
+        message_parser_url + step["endpoint"], json=data
+    )
     return message_parser_response
-
-
-def call_endpoint(input, response, step, config) -> dict:
-    data = {
-        "message_type": "ecr",
-        "include_error_types": "errors",
-        "message": str(input["message"]),
-    }
-    validation_response = requests.post(validation_url, json=data)
-    return validation_response
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
     input: Annotated[
         ProcessMessageRequest, Body(examples=process_message_request_examples)
-    ],
-    response: Response,
-) -> ProcessMessageResponse:
+    ]) -> ProcessMessageResponse:
     """
     Process message through a series of microservices
     """
-    # order = ["validation", "fhir_converter", "stan_name"]
-    # order = ["validation", "fhir_converter", "stan_name", "stan_phone", "geocode"]
+    # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")
-    ic(processing_config["steps"])
     input = dict(input)
     response = input
     responses = {}
+
     for step in processing_config["steps"]:
-        # response = call_endpoint(input, response, step, processing_config)
-        # response[step["service"]] = response
+        ic("Step is ", step)
         service = step["service"]
         endpoint = step["endpoint"]
         f = f"call_{service}"

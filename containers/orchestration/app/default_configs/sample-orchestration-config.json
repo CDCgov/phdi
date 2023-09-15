@@ -19,7 +19,7 @@
     "message_parser": {
       "message_format": "fhir",
       "parsing_schema": "",
-      "parsing_schema_name": "",
+      "parsing_schema_name": "ecr.json",
       "credential_manager": "azure"
     }
   },
@@ -43,6 +43,14 @@
     {
       "service": "ingestion",
       "endpoint": "/fhir/harmonization/standardization/standardize_dob"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/geospatial/geocode/geocode_bundle"
+    },
+    {
+      "service": "message_parser",
+      "endpoint": "/parse_message"
     }
   ]
 }
