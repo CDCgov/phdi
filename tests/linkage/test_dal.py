@@ -1,5 +1,6 @@
 from phdi.linkage.dal import PGDataAccessLayer
-from sqlalchemy import text
+from sqlalchemy import Engine, Table, text
+from sqlalchemy.orm import scoped_session
 
 
 def test_init_dal():
@@ -18,7 +19,9 @@ def test_get_connection():
     )
 
     assert dal.engine is not None
+    assert isinstance(dal.engine, Engine)
     assert dal.Session is not None
+    assert isinstance(dal.Session, scoped_session)
     assert dal.PATIENT_TABLE is None
     assert dal.PERSON_TABLE is None
 
@@ -68,9 +71,13 @@ def test_initialize_schema():
     dal.initialize_schema()
 
     assert dal.engine is not None
+    assert isinstance(dal.engine, Engine)
     assert dal.Session is not None
+    assert isinstance(dal.Session, scoped_session)
     assert dal.PATIENT_TABLE is not None
+    assert isinstance(dal.PATIENT_TABLE, Table)
     assert dal.PERSON_TABLE is not None
+    assert isinstance(dal.PERSON_TABLE, Table)
 
 
 def test_bulk_insert_and_transactions():
@@ -124,12 +131,24 @@ def test_bulk_insert_and_transactions():
 
     query = dal.Session.query(dal.PATIENT_TABLE)
     results = query.all()
-    dal.Session.close()
 
-    assert dal.engine is not None
-    assert dal.Session is not None
-    assert dal.PATIENT_TABLE is not None
-    assert dal.PERSON_TABLE is not None
     assert len(results) == 1
     assert results[0].zip == "90210"
     assert results[0].city == "Los Angeles"
+
+    data_requested = {"MY ADDR": "BLAH", "zip": "90277", "city": "Bakerfield"}
+    test_data = []
+    error_msg = ""
+    test_data.append(data_requested)
+    try:
+        dal.bulk_insert(dal.PATIENT_TABLE, test_data)
+    except Exception as error:
+        error_msg = error
+    finally:
+        assert error_msg != ""
+        query = dal.Session.query(dal.PATIENT_TABLE)
+        results = query.all()
+        dal.Session.close()
+        assert len(results) == 1
+        assert results[0].zip == "90210"
+        assert results[0].city == "Los Angeles"

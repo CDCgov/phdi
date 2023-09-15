@@ -78,36 +78,39 @@ class PGDataAccessLayer(object):
                 stmt = table_object.insert().values(record)
                 session.execute(stmt)
 
-    def safe_append(self, records, keep_errors=True):
-        """Performs a 'safe append' of an object where integrity errors are
-        caught and the db rolled back.
+    # TODO:  Modify this to work for our current use cases if necessary
+    # we also need to add an update function here
 
-        Arguments:
-            records {list} -- obj records in list of dict format
+    # def safe_append(self, records, keep_errors=True):
+    #     """Performs a 'safe append' of an object where integrity errors are
+    #     caught and the db rolled back.
 
-        Keyword Arguments:
-            keep_errors {bool} -- will keep any error
-            records for the user (default: {True})
+    #     Arguments:
+    #         records {list} -- obj records in list of dict format
 
-        Returns:
-            error_records, error_messages -- a tuple of
-            lists with errors from the append
-        """
+    #     Keyword Arguments:
+    #         keep_errors {bool} -- will keep any error
+    #         records for the user (default: {True})
 
-        error_messages = []
-        error_records = []
+    #     Returns:
+    #         error_records, error_messages -- a tuple of
+    #         lists with errors from the append
+    #     """
 
-        for rec in records:
-            try:
-                with self.transaction() as session:
-                    session.add(rec)
+    #     error_messages = []
+    #     error_records = []
 
-            except psycopg2.IntegrityError as err:
-                error_messages.append(err.message)  # append message and errors
-                error_records += [rec]
-                continue
+    #     for rec in records:
+    #         try:
+    #             with self.transaction() as session:
+    #                 session.add(rec)
 
-        return error_records, error_messages
+    #         except psycopg2.IntegrityError as err:
+    #             error_messages.append(err.message)  # append message and errors
+    #             error_records += [rec]
+    #             continue
+
+    #     return error_records, error_messages
 
     def get_session(self):
         """returns a session to the caller"""
