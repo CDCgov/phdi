@@ -18,21 +18,21 @@ def load_mpi_env_vars_os():
     return dbsettings
 
 
-# https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
-def print_psycopg2_exception(err):
-    # get details about the exception
-    err_type, _, traceback = sys.exc_info()
+# # https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
+# def print_psycopg2_exception(err):
+#     # get details about the exception
+#     err_type, _, traceback = sys.exc_info()
 
-    # get the line number when exception occured
-    line_num = traceback.tb_lineno
+#     # get the line number when exception occured
+#     line_num = traceback.tb_lineno
 
-    # print the connect() error
-    print("\npsycopg2 ERROR:", err, "on line number:", line_num)
-    print("psycopg2 traceback:", traceback, "-- type:", err_type)
+#     # print the connect() error
+#     print("\npsycopg2 ERROR:", err, "on line number:", line_num)
+#     print("psycopg2 traceback:", traceback, "-- type:", err_type)
 
-    # psycopg2 extensions.Diagnostics object attribute
-    print("\nextensions.Diagnostics:", err.diag)
+#     # psycopg2 extensions.Diagnostics object attribute
+#     print("\nextensions.Diagnostics:", err.diag)
 
-    # print the pgcode and pgerror exceptions
-    print("pgerror:", err.pgerror)
-    print("pgcode:", err.pgcode, "\n")
+#     # print the pgcode and pgerror exceptions
+#     print("pgerror:", err.pgerror)
+#     print("pgcode:", err.pgcode, "\n")
