@@ -1,6 +1,7 @@
 import os
 
 from sqlalchemy import text
+from sqlalchemy.orm import Session
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 
@@ -88,6 +89,13 @@ def test_block_data():
     assert len(blocked_data) == 2
     assert blocked_data[1][1] is None
     assert blocked_data[1][2] == data_requested.get("zip")
+
+
+def test_pgmpi_connector():
+    PDAL = _init_db()
+    assert PDAL is not None
+    session = PDAL.get_connection()
+    assert session is not None
 
 
 # def test_block_data_with_transform():
