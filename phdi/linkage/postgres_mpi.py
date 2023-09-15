@@ -31,7 +31,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             engine_url=f"postgresql+psycopg2://{dbuser}:"
             + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
         )
-        self.dal.initialize_schema
 
     def _initialize_schema(self):
         self.dal.initialize_schema()

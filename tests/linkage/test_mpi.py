@@ -97,6 +97,40 @@ def test_pgmpi_connector():
     assert session is not None
 
 
+def test_init():
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+
+    eng = PGMPIConnectorClient()
+
+    assert eng is not None
+    assert eng.dal is not None
+
+
+def test_get_connection():
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+
+    eng = PGMPIConnectorClient()
+    db_conn = eng.get_connection()
+
+    assert eng is not None
+    assert eng.dal is not None
+    assert db_conn is not None
+
+
 # def test_block_data_with_transform():
 #     PGDAL = _init_db()
 #     data_requested = {

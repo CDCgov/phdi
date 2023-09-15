@@ -17,7 +17,8 @@ def load_mpi_env_vars_os():
     return dbsettings
 
 
-# # https://kb.objectrocket.com/postgresql/python-error-handling-with-the-psycopg2-postgresql-adapter-645
+# # https://kb.objectrocket.com/postgresql
+# /python-error-handling-with-the-psycopg2-postgresql-adapter-645
 # def print_psycopg2_exception(err):
 #     # get details about the exception
 #     err_type, _, traceback = sys.exc_info()
