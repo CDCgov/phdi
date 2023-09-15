@@ -1,7 +1,7 @@
 import os
 
 from sqlalchemy import text
-from phdi.linkage.mpi.postgres_mpi import PGMPIConnectorClient
+from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 
 def _init_db() -> PGMPIConnectorClient:
