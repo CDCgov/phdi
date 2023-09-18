@@ -618,7 +618,7 @@ def test_blocking_data():
     # Assert data is returned
     assert len(blocked_data) > 0
     # Assert returned data is in the correct format
-    assert type(blocked_data[0]) == list
+    assert type(blocked_data[0]) is list
     # Assert returned data match the block_data parameters
     assert (
         blocked_data[random.randint(0, len(blocked_data) - 1)][11] == block_data["City"]

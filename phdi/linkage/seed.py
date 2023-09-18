@@ -1,17 +1,47 @@
 # This script converts patient data from parquet to patient FHIR resources.
 from typing import Dict, Tuple
 import uuid
+import datetime
+
+
+def extract_given_name(data: Dict):
+    first_name = data.get("first_name", None)
+    middle_name = data.get("middle_name", None)
+
+    given_names = []
+
+    for name in [first_name, middle_name]:
+        if name is not None:
+            given_names.append(" ".join(n for n in name.split()))
+
+    given_name = " ".join(name for name in given_names)
+
+    if given_name != "":
+        return given_name
+    else:
+        return None
+
+
+def adjust_birthdate(data: Dict):
+    # TODO: remove this function and pass in the `format` parameter to dob
+    # standardization in ReadSourceData for LAC
+    format = "%d%b%Y:00:00:00.000"
+    dob = data.get("birthdate", None)
+    if dob is not None and ":" in dob:
+        datetime_str = datetime.datetime.strptime(dob, format)
+        dob = datetime_str.strftime("%Y-%m-%d")
+    return dob
 
 
 def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
     """
-    Converts and returns a row of patient data into patient resource in a FHIR bundle
-    with a newly generated id as well as the `iris_id`.
+    Converts and returns a row of patient data into patient resource in a FHIR-formatted
+    patient resouce with a newly generated patient id as well as the `iris_id`.
 
     :param data: Dictionary of patient data that optionionally includes the following
       fields: mrn, ssn, first_name, middle_name, last_name, home_phone, cell-phone, sex,
       birthdate, address, city, state, zip.
-    :return: Tuple of the `iris_id` and FHIR bundle.
+    :return: Tuple of the `iris_id` and FHIR-formatted patient resource.
     """
 
     patient_id = str(uuid.uuid4())
@@ -47,8 +77,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
         "name": [
             {
                 "family": f"{data.get('last_name',None)}",
-                "given": data.get("first_name", None).split()
-                + data.get("middle_name", None).split(),
+                "given": extract_given_name(data),
             }
         ],
         "telecom": [
@@ -65,7 +94,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
             {"value": f"{data.get('email',None)}", "system": "email"},
         ],
         "gender": f"{data.get('sex',None)}",
-        "birthDate": f"{data.get('birthdate',None)}",
+        "birthDate": adjust_birthdate(data),
         "address": [
             {
                 "use": "home",
@@ -90,5 +119,5 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
         ],
     }
 
-    iris_id = data.get("iris_id", None)
+    iris_id = data.get("person_id", None)
     return (iris_id, fhir_bundle)

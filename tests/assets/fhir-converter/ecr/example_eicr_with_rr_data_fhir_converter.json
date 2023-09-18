@@ -5,10 +5,10 @@
     "type": "batch",
     "entry": [
       {
-        "fullUrl": "urn:uuid:9ff73818-324a-0422-ada2-638d44296652",
+        "fullUrl": "urn:uuid:8675309a-7754-r2d2-c3p0-973d9f777777",
         "resource": {
           "resourceType": "Composition",
-          "id": "9ff73818-324a-0422-ada2-638d44296652",
+          "id": "8675309a-7754-r2d2-c3p0-973d9f777777",
           "meta": {
             "profile": [
               "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
@@ -26,7 +26,10 @@
                   }
                 ]
               },
-              "value": "8675309a-7754-r2d2-c3p0-973d9f777777"
+              "value": "8675309a-7754-r2d2-c3p0-973d9f777777",
+              "assigner": {
+                "display": "EPC"
+              }
             }
           ],
           "extension": [
@@ -302,7 +305,7 @@
               ]
             },
             {
-              "id": "affee6f2-c522-1507-c344-e4fac9910de0",
+              "id": "cb8db2c4-37ce-7454-d230-c292da011ca0",
               "title": "Social History",
               "text": {
                 "status": "generated",
@@ -313,6 +316,24 @@
                   {
                     "code": "29762-2",
                     "display": "Social history Narrative",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "mode": "snapshot"
+            },
+            {
+              "id": "1c9d174a-453f-95be-898b-9b19b64a31ec",
+              "title": "Pregnancy Section",
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Pregnancy Section</div>"
+              },
+              "code": {
+                "coding": [
+                  {
+                    "code": "90767-5",
+                    "display": "Pregnancy summary Document",
                     "system": "http://loinc.org"
                   }
                 ]
@@ -338,7 +359,7 @@
               "mode": "snapshot"
             },
             {
-              "id": "715f2881-d58d-89c5-6073-8ab8a8023840",
+              "id": "3a7c8ad4-466f-ae5f-2e55-05bf5c8860e1",
               "title": "Reportability Response Information Section",
               "text": {
                 "status": "generated",
@@ -398,6 +419,20 @@
           "subject": {
             "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
           },
+          "relatesTo": [
+            {
+              "code": "replaces",
+              "targetReference": {
+                "reference": "Composition/1.2.840.114350.1.13.297.3.7.8.688883.473906"
+              },
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+                  "valueString": "1"
+                }
+              ]
+            }
+          ],
           "encounter": {
             "reference": "Encounter/b99ed74e-acf4-992c-48e3-6d88d7414248"
           },
@@ -415,7 +450,7 @@
         },
         "request": {
           "method": "PUT",
-          "url": "Composition/9ff73818-324a-0422-ada2-638d44296652"
+          "url": "Composition/8675309a-7754-r2d2-c3p0-973d9f777777"
         }
       },
       {
@@ -845,6 +880,74 @@
                   "valueString": "Unknown"
                 }
               ]
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+              "extension": [
+                {
+                  "url": "value",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "M",
+                        "display": "Male",
+                        "system": "urn:oid:2.16.840.1.113883.5.1"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension",
+              "extension": [
+                {
+                  "url": "value",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "446141000124107",
+                        "display": "Identifies as female gender (finding)",
+                        "system": "http://snomed.info/sct"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension",
+              "extension": [
+                {
+                  "url": "TribeName",
+                  "valueCoding": {
+                    "code": "91",
+                    "display": "Fort Mojave Indian Tribe of Arizona, California",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-TribalEntityUS"
+                  }
+                },
+                {
+                  "url": "EnrolledTribeMember",
+                  "valueBoolean": true
+                }
+              ]
+            },
+            {
+              "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension",
+              "extension": [
+                {
+                  "url": "TribeName",
+                  "valueCoding": {
+                    "code": "338",
+                    "display": "Native Village of Afognak",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-TribalEntityUS"
+                  }
+                },
+                {
+                  "url": "EnrolledTribeMember",
+                  "valueBoolean": false
+                }
+              ]
             }
           ],
           "address": [
@@ -864,10 +967,13 @@
               "language": {
                 "coding": [
                   {
-                    "system": "urn:ietf:bcp:47"
+                    "system": "urn:ietf:bcp:47",
+                    "code": "en",
+                    "display": "English"
                   }
                 ]
-              }
+              },
+              "preferred": true
             }
           ]
         },
@@ -1177,6 +1283,62 @@
         }
       },
       {
+        "fullUrl": "urn:uuid:9352e206-8f8f-fa9c-4f40-2e8a6dc6795a",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "9352e206-8f8f-fa9c-4f40-2e8a6dc6795a",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-pregnancy-status-observation"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:beee38ad-68a4-45fd-9a8b-2d2c4ab4bb6a"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "exam"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "ASSERTION",
+                "system": "urn:oid:2.16.840.1.113883.5.4"
+              }
+            ]
+          },
+          "effectivePeriod": {
+            "start": "2017-08-26"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "77386006",
+                "display": "Pregnant",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/9352e206-8f8f-fa9c-4f40-2e8a6dc6795a"
+        }
+      },
+      {
         "fullUrl": "urn:uuid:eabd2fd6-66bd-7953-34e6-bb4b22a7c9e6",
         "resource": {
           "resourceType": "DiagnosticReport",
@@ -1191,9 +1353,9 @@
           "code": {
             "coding": [
               {
-                "code": "79381-0",
-                "display": "Stool Pathogens, NAAT, 12 to 25 Targets",
-                "system": "http://loinc.org"
+                "code": "LAB10082",
+                "display": "STOOL PATHOGENS, NAAT, 12 TO 25 TARGETS",
+                "system": "http://www.ama-assn.org/go/cpt"
               }
             ]
           },
@@ -2971,34 +3133,513 @@
         }
       },
       {
-        "fullUrl": "urn:uuid:684644c7-22c9-2829-9ea3-a51aef24b77c",
+        "fullUrl": "urn:uuid:cfdf3db5-8b75-a572-9845-ebe5cdcba5a8",
         "resource": {
-          "resourceType": "DocumentReference",
-          "id": "684644c7-22c9-2829-9ea3-a51aef24b77c",
-          "type": {
+          "resourceType": "Observation",
+          "id": "cfdf3db5-8b75-a572-9845-ebe5cdcba5a8",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-characteristics-of-home-environment"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:37f76c51-6411-4e1d-8a37-957fd49d2ceg"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
             "coding": [
               {
-                "code": "55751-2",
-                "display": "Initial Public Health Case Report",
+                "code": "75274-1",
+                "display": "Characteristics of residence",
                 "system": "http://loinc.org"
               }
             ]
           },
-          "date": "2023-04-17T17:36:33.698Z",
-          "status": "current",
-          "content": [
-            {
-              "attachment": {
-                "contentType": "text/plain",
-                "data": "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",
-                "hash": "N2EzNjNjYTU1MTQ2MWQ2MTg4NjRhYzA0YTNjNDVhYTk1NzZkNTliOA=="
+          "effectiveDateTime": "2013-03-12",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "308899009",
+                "display": "unsatisfactory living conditions (finding)",
+                "system": "http://snomed.info/sct"
               }
-            }
-          ]
+            ]
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
         },
         "request": {
           "method": "PUT",
-          "url": "DocumentReference/684644c7-22c9-2829-9ea3-a51aef24b77c"
+          "url": "Observation/cfdf3db5-8b75-a572-9845-ebe5cdcba5a8"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:a29f2ac5-0e14-8f4c-e99b-77ac6faf177c",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "a29f2ac5-0e14-8f4c-e99b-77ac6faf177c",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-disability-status"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:c09ac074-605e-47bd-8b1c-735e7321fbc2"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "69856-3",
+                "display": "Are you deaf, or do you have serious difficulty hearing [HHS.ACA Section 4302]",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectiveDateTime": "2020-11-09",
+          "valueBoolean": true,
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/a29f2ac5-0e14-8f4c-e99b-77ac6faf177c"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:e05af7a8-4865-3471-9905-8f35a6a1243b",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "e05af7a8-4865-3471-9905-8f35a6a1243b",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:c1e39467-4b79-474e-9c75-927b45e8616a"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "74165-2",
+                "display": "History of Employment Status",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectivePeriod": {
+            "start": "2017-01-16T15:47:14-07:00",
+            "end": "2018-06-16T15:47:14-06:00"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "Employed",
+                "display": "Employed",
+                "system": "urn:oid:2.16.840.1.113883.5.1063"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/e05af7a8-4865-3471-9905-8f35a6a1243b"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:346c9384-3a39-38e2-1ee0-2a20b7412ee2",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "346c9384-3a39-38e2-1ee0-2a20b7412ee2",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:4b0149ce-45c3-4c29-97a1-951ecc415aac"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "21843-8",
+                "display": "History of Usual Occupation",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectivePeriod": {
+            "start": "2017-12-16"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "3600",
+                "display": "Nursing, psychiatric, and home health aides",
+                "system": "urn:oid:2.16.840.1.113883.6.240"
+              }
+            ]
+          },
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "74163-7",
+                    "display": "Usual Occupation Duration",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueQuantity": {
+                "value": 15,
+                "unit": "a"
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "21844-6",
+                    "display": "Usual Industry",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "8270",
+                    "display": "Nursing care facilities",
+                    "system": "urn:oid:2.16.840.1.114222.4.5.315"
+                  }
+                ]
+              }
+            }
+          ],
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/346c9384-3a39-38e2-1ee0-2a20b7412ee2"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:94f56729-14e8-8e95-a1dc-96be0b07c565",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "94f56729-14e8-8e95-a1dc-96be0b07c565",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:86cbdd4a-a738-4252-93d4-455dc247c6ed"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "87511-2",
+                "display": "Combat zone and or hazardous duty work dates",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/94f56729-14e8-8e95-a1dc-96be0b07c565"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:965db622-e821-a004-71b9-f6959814516f",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "965db622-e821-a004-71b9-f6959814516f",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:5aff7416-7a1f-4922-a9a9-cb04338b25a5"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "11341-5",
+                "display": "History of Occupation",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectivePeriod": {
+            "start": "2017-12-16"
+          },
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "3600",
+                "display": "Nursing, psychiatric, and home health aides",
+                "system": "urn:oid:2.16.840.1.113883.6.240"
+              }
+            ]
+          },
+          "component": [
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "74159-5",
+                    "display": "Work Schedule",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "NS",
+                    "display": "Night Shift",
+                    "system": "urn:oid:2.16.840.1.113883.5.1063"
+                  }
+                ]
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "63761-1",
+                    "display": "What were your main activities or duties for this job",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueString": "Patient care"
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "87729-0",
+                    "display": "History of Occupational Hazard",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueString": "Infectious Disease"
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "87707-6",
+                    "display": "Job supervisory level or pay grade",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "C-6",
+                    "display": "C6 - Manager",
+                    "system": "urn:oid:2.16.840.1.114222.4.5.327"
+                  }
+                ]
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "86188-0",
+                    "display": "History of Occupation Industry",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "8270",
+                    "display": "Nursing care facilities",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              }
+            },
+            {
+              "code": {
+                "coding": [
+                  {
+                    "code": "85104-8",
+                    "display": "Compensation and Sector Employment Type",
+                    "system": "http://loinc.org"
+                  }
+                ]
+              },
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "code": "PWNSE",
+                    "display": "Paid non-governmental work, not self-employed",
+                    "system": "urn:oid:2.16.840.1.113883.5.1139"
+                  }
+                ]
+              }
+            }
+          ],
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/965db622-e821-a004-71b9-f6959814516f"
+        }
+      },
+      {
+        "fullUrl": "urn:uuid:51487854-3257-0685-a4cf-f191347b317e",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "51487854-3257-0685-a4cf-f191347b317e",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:uuid:7916c040-f9a4-447d-95e7-3e4877582959"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "87510-4",
+                "display": "Date of Retirement",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "valueQuantity": {
+            "value": 20171216
+          },
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/51487854-3257-0685-a4cf-f191347b317e"
         }
       }
     ]

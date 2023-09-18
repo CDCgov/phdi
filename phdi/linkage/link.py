@@ -617,6 +617,13 @@ def link_record_against_mpi(
         # contains extracted values, so minimally block on the first line
         # if applicable
         field_blocks = extract_blocking_values_from_record(record, blocking_fields)
+
+        # We don't enforce blocking if an extracted value is empty, so if all
+        # values come back blank, skip the pass because the only alt is comparing
+        # to all found records
+        if len(field_blocks) == 0:
+            continue
+
         data_block = db_client.block_data(field_blocks)
 
         # First row of returned block is column headers
@@ -635,7 +642,7 @@ def link_record_against_mpi(
                 if col_to_idx["first_name"] != (j - 2) and col_to_idx["address"] != (
                     j - 2
                 ):
-                    while type(blocked_record[j]) == list:
+                    while type(blocked_record[j]) is list:
                         # Handle empty list edge case.
                         if len(blocked_record[j]) == 0:
                             blocked_record[j] = ""
@@ -1040,9 +1047,9 @@ def score_linkage_vs_truth(
         total_possible_matches - true_positives - false_positives - false_negatives
     )
 
-    print("True Positives Found:", true_positives)
-    print("False Positives Misidentified:", false_positives)
-    print("False Negatives Missed:", false_negatives)
+    print("True Positives:", true_positives)
+    print("False Positives:", false_positives)
+    print("False Negatives:", false_negatives)
 
     sensitivity = round(true_positives / (true_positives + false_negatives), 3)
     specificity = round(true_negatives / (true_negatives + false_positives), 3)
@@ -1126,9 +1133,9 @@ def _bind_func_names_to_invocations(algo_config: List[dict]):
     for lp in algo_config:
         feature_funcs = lp["funcs"]
         for func in feature_funcs:
-            if type(feature_funcs[func]) == str:
+            if type(feature_funcs[func]) is str:
                 feature_funcs[func] = globals()[feature_funcs[func]]
-        if type(lp["matching_rule"]) == str:
+        if type(lp["matching_rule"]) is str:
             lp["matching_rule"] = globals()[lp["matching_rule"]]
     return algo_config
 
@@ -1460,7 +1467,7 @@ def _generate_block_query(table_name: str, block_data: Dict) -> str:
     query_stub = f"SELECT * FROM {table_name} WHERE "
     block_query = " AND ".join(
         [
-            key + f" = '{value}'" if type(value) == str else (key + f" = {value}")
+            key + f" = '{value}'" if type(value) is str else (key + f" = {value}")
             for key, value in block_data.items()
         ]
     )

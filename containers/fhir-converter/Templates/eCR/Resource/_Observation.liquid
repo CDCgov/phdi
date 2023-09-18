@@ -24,10 +24,8 @@
                 [
                     {
                         {% if observationCategory -%}
-                        "system":"http://terminology.hl7.org/CodeSystem/observation-category",
-                        {% endif -%}
-                        {% if observationCategory -%}
-                        "code":"{{ observationCategory }}",
+                            "system":"http://terminology.hl7.org/CodeSystem/observation-category",
+                            "code":"{{ observationCategory }}",
                         {% endif -%}
                     },
                 ],

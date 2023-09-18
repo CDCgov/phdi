@@ -2,7 +2,9 @@
 from unittest import mock
 from fastapi.testclient import TestClient
 import json
+import pytest
 from app.main import app
+from app.service import add_data_source_to_bundle
 
 client = TestClient(app)
 
@@ -10,6 +12,13 @@ valid_request = {
     "input_data": "VALID_INPUT_DATA",
     "input_type": "elr",
     "root_template": "ADT_A01",
+}
+
+valid_request_with_rr = {
+    "input_data": "VALID_INPUT_DATA",
+    "input_type": "ecr",
+    "root_template": "EICR",
+    "rr_data": "RR",
 }
 
 global valid_response
@@ -176,11 +185,23 @@ invalid_root_template_response = {
     ]
 }
 
+invalid_rr_data_request = {
+    "input_data": "VALID_INPUT_DATA",
+    "input_type": "vxu",
+    "root_template": "EICR",
+    "rr_data": "RR",
+}
 
-@mock.patch("app.main.json.load")
-@mock.patch("app.main.open")
-@mock.patch("app.main.subprocess.run")
-@mock.patch("app.main.Path")
+invalid_rr_data_response = {
+    "message": "Reportability Response (RR) data is only accepted for eCR "
+    "conversion requests."
+}
+
+
+@mock.patch("app.service.json.load")
+@mock.patch("app.service.open")
+@mock.patch("app.service.subprocess.run")
+@mock.patch("app.service.Path")
 def test_convert_valid_request(
     patched_file_path,
     patched_subprocess_run,
@@ -189,7 +210,6 @@ def test_convert_valid_request(
 ):
     global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
-    print(valid_response)
     patched_json_load.return_value = valid_response
     patched_file_path = mock.Mock()
     actual_response = client.post(
@@ -203,13 +223,37 @@ def test_convert_valid_request(
     valid_response = json.dumps(valid_response)
     valid_response = valid_response.replace(old_id, new_id)
     valid_response = json.loads(valid_response)
+    add_data_source_to_bundle(valid_response["FhirResource"], "elr")
     assert actual_response == valid_response
 
 
-@mock.patch("app.main.json.load")
-@mock.patch("app.main.open")
-@mock.patch("app.main.subprocess.run")
-@mock.patch("app.main.Path")
+@mock.patch("app.service.json.load")
+@mock.patch("app.service.open")
+@mock.patch("app.service.subprocess.run")
+@mock.patch("app.service.Path")
+@mock.patch("app.main.add_rr_data_to_eicr")
+def test_convert_valid_request_with_rr_data(
+    patched_add_rr_data_to_eicr,
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
+):
+    patched_subprocess_run.return_value = mock.Mock(returncode=0)
+    patched_json_load.return_value = valid_response
+    patched_file_path = mock.Mock()
+    patched_add_rr_data_to_eicr.return_value = "VALID_INPUT_DATA + RR"
+    actual_response = client.post(
+        "/convert-to-fhir",
+        json=valid_request_with_rr,
+    )
+    assert actual_response.status_code == 200
+
+
+@mock.patch("app.service.json.load")
+@mock.patch("app.service.open")
+@mock.patch("app.service.subprocess.run")
+@mock.patch("app.service.Path")
 def test_convert_conversion_failure(
     patched_file_path, patched_subprocess_run, patched_open, patched_json_load
 ):
@@ -225,7 +269,7 @@ def test_convert_conversion_failure(
     assert actual_response.json().get("response") == conversion_failure_response
 
 
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 def test_convert_missing_input_data(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
@@ -236,7 +280,7 @@ def test_convert_missing_input_data(patched_subprocess_run):
     assert actual_response.json() == missing_input_data_response
 
 
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 def test_convert_invalid_input_type(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
@@ -247,7 +291,7 @@ def test_convert_invalid_input_type(patched_subprocess_run):
     assert actual_response.json() == invalid_input_type_response
 
 
-@mock.patch("app.main.subprocess.run")
+@mock.patch("app.service.subprocess.run")
 def test_convert_invalid_root_template(patched_subprocess_run):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     actual_response = client.post(
@@ -256,3 +300,30 @@ def test_convert_invalid_root_template(patched_subprocess_run):
     )
     assert actual_response.status_code == 422
     assert actual_response.json() == invalid_root_template_response
+
+
+def test_conversion_fails_with_invalid_rr_request():
+    actual_response = client.post(
+        "/convert-to-fhir",
+        json=invalid_rr_data_request,
+    )
+    assert actual_response.status_code == 422
+    assert actual_response.json() == invalid_rr_data_response
+
+
+def test_add_data_source_to_bundle():
+    expected_data_source = "ecr"
+    bundle_result = add_data_source_to_bundle(valid_response, expected_data_source)
+    for entry in bundle_result.get("entry", []):
+        resource = entry.get("resource", {})
+        assert expected_data_source in resource["meta"]["source"]
+
+
+def test_add_data_source_to_bundle_missing_arg():
+    expected_error_message = (
+        "The data_source parameter must be a defined, non-empty string."
+    )
+    with pytest.raises(ValueError) as excinfo:
+        add_data_source_to_bundle(valid_response, "")
+    result_error_message = str(excinfo.value)
+    assert expected_error_message in result_error_message

@@ -27,7 +27,7 @@ with open(test_schema_path, "r") as file:
 
 expected_successful_response = {
     "message": "Parsing succeeded!",
-    "parsed_values": {"first_name": "John ", "last_name": "doe"},
+    "parsed_values": {"first_name": "John ", "last_name": "doe", "active_problems": []},
 }
 
 

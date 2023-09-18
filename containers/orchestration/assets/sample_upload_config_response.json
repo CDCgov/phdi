@@ -1,0 +1,15 @@
+{
+  "description": "Successful new config upload response",
+  "content": {
+    "application/json": {
+      "examples": {
+        "upload_new_config": {
+          "summary": "Successful new config upload response",
+          "value": {
+            "message": "Config uploaded successfully!"
+          }
+        }
+      }
+    }
+  }
+}

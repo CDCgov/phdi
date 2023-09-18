@@ -1,7 +1,15 @@
 {% evaluate practitionerId using 'Utils/GenerateId' obj: msg.ClinicalDocument.componentOf.encompassingEncounter.responsibleParty.assignedEntity -%}
-{% assign compositionId = msg.ClinicalDocument | to_json_string | generate_uuid -%}
+{% if msg.ClinicalDocument.id and msg.ClinicalDocument.id.root -%}
+  {% assign compositionId = msg.ClinicalDocument.id.root -%}
+{% else -%}
+  {% assign compositionId = msg.ClinicalDocument | to_json_string | generate_uuid -%}
+{% endif -%}
 {% include 'Resource/Composition' composition: msg.ClinicalDocument, practitionerId: practitionerId, ID: compositionId -%}
 {% include 'Reference/Composition/Subject' ID: compositionId, REF: fullPatientId -%}
+
+{% if msg.ClinicalDocument.relatedDocument -%}
+  {% include 'Reference/Composition/RelatesTo_TargetReference' ID: compositionId, relatedDOC: msg.ClinicalDocument.relatedDocument -%}
+{% endif -%}
 
 {% if msg.ClinicalDocument.componentOf.encompassingEncounter -%}
   {% assign encounterId = msg.ClinicalDocument.componentOf.encompassingEncounter | to_json_string | generate_uuid -%}
@@ -88,8 +96,12 @@
 {% endfor -%}
 
 {% if msg.ClinicalDocument.recordTarget.patientRole -%}
-  {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId -%}
+  {% assign patientSectionObservations = true -%}
+  {% include 'Section/SocialHistory' -%}
+  {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId SOCIALOBS: socialObs -%}
 {% endif -%}
+{% assign patientSectionObservations = false -%}
+
 
 {% if msg.ClinicalDocument.recordTarget.patientRole.patient.guardian -%}
   {% assign relatedPersonId = msg.ClinicalDocument.recordTarget.patientRole.patient.guardian | to_json_string | generate_uuid -%}
