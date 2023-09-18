@@ -1,5 +1,4 @@
-import inspect
-from typing import List, Dict, Union, Tuple
+from typing import List, Dict, Union  # , Tuple
 
 from sqlalchemy import Table, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -7,7 +6,7 @@ from phdi.linkage.core import BaseMPIConnectorClient
 # import psycopg2
 from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import cursor
-from sqlalchemy.orm import Query, registry
+from sqlalchemy.orm import Query
 
 # import json
 # import logging

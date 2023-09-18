@@ -1,6 +1,6 @@
 from contextlib import contextmanager
-from sqlalchemy import MetaData, create_engine, Table, insert
-from sqlalchemy.orm import sessionmaker, scoped_session, registry
+from sqlalchemy import MetaData, create_engine, Table
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 class PGDataAccessLayer(object):
