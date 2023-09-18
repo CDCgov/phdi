@@ -1,6 +1,6 @@
 from contextlib import contextmanager
-from sqlalchemy import MetaData, create_engine, Table
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import MetaData, create_engine, Table, insert
+from sqlalchemy.orm import sessionmaker, scoped_session, registry
 
 
 class PGDataAccessLayer(object):
@@ -18,19 +18,20 @@ class PGDataAccessLayer(object):
 
     def __init__(self) -> None:
         self.engine = None
-        self.Session = None
+        self.session = None
         self.Meta = MetaData()
+        # self.PATIENT_TABLE_ORM = None
+        # self.PERSON_TABLE_ORM = None
         self.PATIENT_TABLE = None
         self.PERSON_TABLE = None
 
-    def get_connection(self, engine_url: str, engine_echo: bool = True) -> None:
+    def get_connection(self, engine_url: str, engine_echo: bool = False) -> None:
         """
         Establish a connection to the database
 
         this method initiates a connection to the database specified
         by the parameters defined in environment variables. Builds
-        engine and Session class for app layer 'if_drop==True' then
-        drop existing tables and rebuild schema
+        engine and Session class for app layer
 
         :param engine_url: The URL of the database engine
         :param engine_echo: If True, print SQL statements to stdout
@@ -41,11 +42,10 @@ class PGDataAccessLayer(object):
         self.engine = create_engine(
             engine_url,
             client_encoding="utf8",
-            pool_reset_on_return=None,
             echo=engine_echo,
         )
 
-        self.Session = scoped_session(
+        self.session = scoped_session(
             sessionmaker(bind=self.engine)
         )  # NOTE extra config can be implemented in this call to sessionmaker factory
 
@@ -59,6 +59,25 @@ class PGDataAccessLayer(object):
         :return: None
         """
         # create a metadata object to access the DB to ORM
+        # pt_table = Table("patient", self.Meta, autoload_with=self.engine)
+        # ps_table = Table("person", self.Meta, autoload_with=self.engine)
+
+        # mapper_registry = registry()
+
+        # class PATIENT_TABLE:
+        #     pass
+
+        # class PERSON_TABLE:
+        #     pass
+
+        # mapper_registry.map_imperatively(PATIENT_TABLE, pt_table)
+        # mapper_registry.map_imperatively(PERSON_TABLE, ps_table)
+
+        # self.PERSON_TABLE_ORM = PERSON_TABLE()
+        # self.PATIENT_TABLE_ORM = PATIENT_TABLE()
+        # self.PATIENT_TABLE = pt_table
+        # self.PERSON_TABLE = ps_table
+
         self.PATIENT_TABLE = Table("patient", self.Meta, autoload_with=self.engine)
         self.PERSON_TABLE = Table("person", self.Meta, autoload_with=self.engine)
 
@@ -73,7 +92,7 @@ class PGDataAccessLayer(object):
         :yield: SQLAlchemy session object
         :raises ValueError: if an error occurs during the transaction
         """
-        session = self.Session()
+        session = self.session()
 
         try:
             yield session
@@ -86,7 +105,7 @@ class PGDataAccessLayer(object):
         finally:
             session.close()
 
-    def bulk_insert(self, table_object: Table, records: list[dict]) -> None:
+    def bulk_insert(self, table: Table, records: list[dict]) -> None:
         """
         Perform a bulk insert operation on a table
 
@@ -98,7 +117,7 @@ class PGDataAccessLayer(object):
         """
         with self.transaction() as session:
             for record in records:
-                stmt = table_object.insert().values(record)
+                stmt = table.insert().values(record)
                 session.execute(stmt)
 
     # TODO:  Modify this to work for our current use cases if necessary
@@ -135,4 +154,25 @@ class PGDataAccessLayer(object):
 
         :return: SQLAlchemy scoped session
         """
-        return self.Session()
+        new_session = self.session()
+        return new_session
+
+    def get_patient_table(self) -> Table:
+        """
+        Get a session object
+
+        this method returns a session object to the caller
+
+        :return: SQLAlchemy scoped session
+        """
+        return self.PATIENT_TABLE
+
+    def get_person_table(self) -> Table:
+        """
+        Get a session object
+
+        this method returns a session object to the caller
+
+        :return: SQLAlchemy scoped session
+        """
+        return self.PERSON_TABLE

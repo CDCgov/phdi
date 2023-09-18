@@ -1,9 +1,13 @@
+import inspect
 from typing import List, Dict, Union, Tuple
+
+from sqlalchemy import Table, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 
 # import psycopg2
 from psycopg2.sql import Identifier, SQL
 from psycopg2.extensions import cursor
+from sqlalchemy.orm import Query, registry
 
 # import json
 # import logging
@@ -57,17 +61,23 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
-        session = self.dal.get_session()
+        session = self.get_connection()
         try:
             # Use context manager to handle commits and transactions
             # with db_conn.begin():
             # Generate ORM query using block_vals as criteria
-            query = session.query(self.dal.PATIENT_TABLE)
-
-            for key, value in block_vals.items():
-                if hasattr(self.dal.PATIENT_TABLE, key):
-                    query = query.filter(getattr(self.dal.PATIENT_TABLE, key) == value)
-            blocked_data = [list(row) for row in query.all()]
+            # query = session.query(self.dal.PATIENT_TABLE)
+            query = select(self.dal.PATIENT_TABLE)
+            # query = select(self.dal.PATIENT_TABLE)
+            # now tack on the where criteria using the block_vals
+            # while ensuring they exist in the table structure ORM
+            query = self._generate_block_query(
+                block_vals=block_vals,
+                query=query,
+                table=self.dal.PATIENT_TABLE,
+            )
+            results = session.execute(query)
+            blocked_data = [list(row) for row in results]
 
         except Exception as error:  # pragma: no cover
             print(f"ERROR: {error}")
@@ -77,7 +87,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             session.close()
 
         # Set up blocked data by adding column headers as 1st row of LoL
-        blocked_data_cols = [self.dal.PATIENT_TABLE.columns]
+        blocked_data_cols = results.keys()
         blocked_data.insert(0, blocked_data_cols)
 
         return blocked_data
@@ -149,7 +159,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         return None
 
-    def _generate_block_query(self, block_vals: dict) -> Tuple[SQL, list[str]]:
+    def _generate_block_query(
+        self, block_vals: dict, query: Query, table: Table
+    ) -> Query:
         """
         TODO: This may not be needed anymore as we aren't generating a query anymore
 
@@ -224,7 +236,76 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # query = SQL(query).format(patient_table=Identifier(self.patient_table))
         # data = select_query_stubs_data + block_query_stubs_data
 
-        return Tuple[SQL, list[str]]
+        # TODO:  This code SHOULD work and not sure why the hasattr is not working
+        # against the orm table object, but this is failing time and again
+        #  will use a more brute force method to make this work
+        # for key, value in block_vals.items():
+        #     if hasattr(table, key):
+        #         print("YES!")
+        #         for key2, value2 in value.items():
+        #             if key2 == "value":
+        #                 print("CRIT:")
+        #                 print(getattr(table, key) == value2)
+        #                 query.filter(getattr(self.dal.PATIENT_TABLE, key) == value2)
+        #     else:
+        #         continue
+        # print(inspect.getmembers(table_orm))
+        # for key, value in block_vals.items():
+        #     if hasattr(table_orm, key):
+        #         for key2, value2 in value.items():
+        #             print("YES2")
+        #             if key2 == "value":
+        #                 print("YES3")
+        #                 print(key)
+        #                 print(table_orm.__getattribute__(key))
+        #                 query.filter(key == value2)
+        #     else:
+        #         continue
+        # # print("FILTERS")
+        # # print(query_filter)
+        # # print(text(",".join(query_filter)))
+        # # if len(query_filter) > 0:
+        # #     query.filter(", ".join(query_filter))
+        # print("FILTER:")
+        # print(query)
+        # print(query.statement)
+        new_query = None
+        where_criteria = []
+        table_columns = self._get_table_columns(table)
+        for key, value in block_vals.items():
+            try:
+                col_index = table_columns.index(key)
+                print("YES")
+                for key2, value2 in value.items():
+                    print("YES2")
+                    if key2 == "value":
+                        print("YES3")
+                        print(key)
+                        print(
+                            text(
+                                f"{table.name}.{table_columns[col_index]} = '{value2}'"
+                            )
+                        )
+                        where_criteria.append(
+                            f"{table.name}.{table_columns[col_index]} = '{value2}'"
+                        )
+            except ValueError as err:
+                print(err)
+                continue
+
+        print("STMNT: ")
+        print(query)
+        new_query = query.where(text(" AND ".join(where_criteria)))
+        print(new_query)
+
+        return new_query
+
+    def _get_table_columns(self, table: Table) -> List:
+        columns = []
+        for col in table.c:
+            columns.append(str(col).split(".")[1])
+
+        return columns
 
     def _insert_person(
         self,

@@ -7,7 +7,7 @@ def test_init_dal():
     dal = PGDataAccessLayer()
 
     assert dal.engine is None
-    assert dal.Session is None
+    assert dal.session is None
     assert dal.PATIENT_TABLE is None
     assert dal.PERSON_TABLE is None
 
@@ -20,8 +20,8 @@ def test_get_connection():
 
     assert dal.engine is not None
     assert isinstance(dal.engine, Engine)
-    assert dal.Session is not None
-    assert isinstance(dal.Session, scoped_session)
+    assert dal.session is not None
+    assert isinstance(dal.session, scoped_session)
     assert dal.PATIENT_TABLE is None
     assert dal.PERSON_TABLE is None
 
@@ -44,7 +44,7 @@ def test_initialize_schema():
             """CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + "CREATE TABLE IF NOT EXISTS patient "
             + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
-            + "zip VARCHAR(5), city VARCHAR(100));"
+            + "zip VARCHAR(5), city VARCHAR(100), PRIMARY KEY(patient_id));"
         ),
         "create_person": (
             """
@@ -53,7 +53,7 @@ def test_initialize_schema():
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + "CREATE TABLE IF NOT EXISTS person "
             + "(person_id UUID DEFAULT uuid_generate_v4 (), "
-            + "external_person_id VARCHAR(100));"
+            + "external_person_id VARCHAR(100), PRIMARY KEY(person_id));"
         ),
     }
 
@@ -72,12 +72,10 @@ def test_initialize_schema():
 
     assert dal.engine is not None
     assert isinstance(dal.engine, Engine)
-    assert dal.Session is not None
-    assert isinstance(dal.Session, scoped_session)
-    assert dal.PATIENT_TABLE is not None
-    assert isinstance(dal.PATIENT_TABLE, Table)
-    assert dal.PERSON_TABLE is not None
-    assert isinstance(dal.PERSON_TABLE, Table)
+    assert dal.session is not None
+    assert isinstance(dal.session, scoped_session)
+    assert isinstance(dal.get_patient_table(), Table)
+    assert isinstance(dal.get_person_table(), Table)
 
 
 def test_bulk_insert_and_transactions():
@@ -98,7 +96,7 @@ def test_bulk_insert_and_transactions():
             """CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + "CREATE TABLE IF NOT EXISTS patient "
             + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
-            + "zip VARCHAR(5), city VARCHAR(100));"
+            + "zip VARCHAR(5), city VARCHAR(100), PRIMARY KEY(patient_id));"
         ),
         "create_person": (
             """
@@ -107,7 +105,7 @@ def test_bulk_insert_and_transactions():
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
             + "CREATE TABLE IF NOT EXISTS person "
             + "(person_id UUID DEFAULT uuid_generate_v4 (), "
-            + "external_person_id VARCHAR(100));"
+            + "external_person_id VARCHAR(100), PRIMARY KEY(person_id));"
         ),
     }
 
@@ -129,7 +127,7 @@ def test_bulk_insert_and_transactions():
     test_data.append(data_requested)
     dal.bulk_insert(dal.PATIENT_TABLE, test_data)
 
-    query = dal.Session.query(dal.PATIENT_TABLE)
+    query = dal.session.query(dal.PATIENT_TABLE)
     results = query.all()
 
     assert len(results) == 1
@@ -146,9 +144,9 @@ def test_bulk_insert_and_transactions():
         error_msg = error
     finally:
         assert error_msg != ""
-        query = dal.Session.query(dal.PATIENT_TABLE)
+        query = dal.session.query(dal.PATIENT_TABLE)
         results = query.all()
-        dal.Session.close()
+        dal.session.close()
         assert len(results) == 1
         assert results[0].zip == "90210"
         assert results[0].city == "Los Angeles"
