@@ -4,8 +4,8 @@ from sqlalchemy import Table, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 
 # import psycopg2
-from psycopg2.sql import Identifier, SQL
-from psycopg2.extensions import cursor
+# from psycopg2.sql import Identifier, SQL
+# from psycopg2.extensions import cursor
 from sqlalchemy.orm import Query
 
 # import json
@@ -341,7 +341,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         #         #  a person with that external person id already within the MPI
         #         #  - if so, return that person id
         #         person_query = SQL(
-        #             "SELECT person_id FROM {person_table} WHERE external_person_id = %s"
+        #             "SELECT person_id FROM {person_table}
+        #               WHERE external_person_id = %s"
         #         ).format(person_table=Identifier(self.person_table))
         #         query_data = [external_person_id]
         #         db_cursor.execute(person_query, query_data)
@@ -367,7 +368,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         #         # Retrieve newly generated person_id
         #         person_id = db_cursor.fetchall()[0][0]
-        #     # otherwise if person id is supplied and the external person id is supplied
+        #     # otherwise if person id is supplied and the external
+        #     # person id is supplied
         #     # and not none and a record with the external person id was not found
         #     #  then update the person record with the supplied external person id
         #     elif person_id is not None and external_person_id != "":
