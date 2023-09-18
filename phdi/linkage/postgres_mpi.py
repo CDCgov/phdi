@@ -308,7 +308,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
     def _insert_person(
         self,
-        db_cursor: Union[cursor, None] = None,
         person_id: str = None,
         external_person_id: str = None,
     ) -> tuple:
@@ -332,54 +331,55 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           auto-generated and a boolean that indicates if there was a match
           found within the person table or not based upon the external person id
         """
-        # TODO: use the DAL to perform this going forward
-        matched = False
-        try:
-            if external_person_id is None:
-                external_person_id = ""
-            else:
-                # if external person id is supplied then find if there is already
-                #  a person with that external person id already within the MPI
-                #  - if so, return that person id
-                person_query = SQL(
-                    "SELECT person_id FROM {person_table} WHERE external_person_id = %s"
-                ).format(person_table=Identifier(self.person_table))
-                query_data = [external_person_id]
-                db_cursor.execute(person_query, query_data)
-                # Retrieve person_id that has the supplied external_person_id
-                returned_data = db_cursor.fetchall()
+        # # TODO: use the DAL to perform this going forward
+        # matched = False
+        # try:
+        #     if external_person_id is None:
+        #         external_person_id = ""
+        #     else:
+        #         # if external person id is supplied then find if there is already
+        #         #  a person with that external person id already within the MPI
+        #         #  - if so, return that person id
+        #         person_query = SQL(
+        #             "SELECT person_id FROM {person_table} WHERE external_person_id = %s"
+        #         ).format(person_table=Identifier(self.person_table))
+        #         query_data = [external_person_id]
+        #         db_cursor.execute(person_query, query_data)
+        #         # Retrieve person_id that has the supplied external_person_id
+        #         returned_data = db_cursor.fetchall()
 
-                if returned_data is not None and len(returned_data) > 0:
-                    found_person_id = returned_data[0][0]
-                    matched = True
-                    return matched, found_person_id
+        #         if returned_data is not None and len(returned_data) > 0:
+        #             found_person_id = returned_data[0][0]
+        #             matched = True
+        #             return matched, found_person_id
 
-            if person_id is None:
-                # Insert a new record into person table to generate new
-                # person_id with either the supplied external person id
-                #  or a null external person id
-                insert_new_person = SQL(
-                    "INSERT INTO {person_table} (external_person_id) VALUES "
-                    "(%s) RETURNING person_id;"
-                ).format(person_table=Identifier(self.person_table))
-                person_data = [external_person_id]
+        #     if person_id is None:
+        #         # Insert a new record into person table to generate new
+        #         # person_id with either the supplied external person id
+        #         #  or a null external person id
+        #         insert_new_person = SQL(
+        #             "INSERT INTO {person_table} (external_person_id) VALUES "
+        #             "(%s) RETURNING person_id;"
+        #         ).format(person_table=Identifier(self.person_table))
+        #         person_data = [external_person_id]
 
-                db_cursor.execute(insert_new_person, person_data)
+        #         db_cursor.execute(insert_new_person, person_data)
 
-                # Retrieve newly generated person_id
-                person_id = db_cursor.fetchall()[0][0]
-            # otherwise if person id is supplied and the external person id is supplied
-            # and not none and a record with the external person id was not found
-            #  then update the person record with the supplied external person id
-            elif person_id is not None and external_person_id != "":
-                matched = True
-                update_person_query = SQL(
-                    "UPDATE {person_table} SET external_person_id = %s "
-                    "WHERE person_id = %s AND external_person_id = null "
-                ).format(person_table=Identifier(self.person_table))
-                update_data = [external_person_id, person_id]
-                db_cursor.execute(update_person_query, update_data)
+        #         # Retrieve newly generated person_id
+        #         person_id = db_cursor.fetchall()[0][0]
+        #     # otherwise if person id is supplied and the external person id is supplied
+        #     # and not none and a record with the external person id was not found
+        #     #  then update the person record with the supplied external person id
+        #     elif person_id is not None and external_person_id != "":
+        #         matched = True
+        #         update_person_query = SQL(
+        #             "UPDATE {person_table} SET external_person_id = %s "
+        #             "WHERE person_id = %s AND external_person_id = null "
+        #         ).format(person_table=Identifier(self.person_table))
+        #         update_data = [external_person_id, person_id]
+        #         db_cursor.execute(update_person_query, update_data)
 
-        except Exception as error:  # pragma: no cover
-            raise ValueError(f"{error}")
-        return matched, person_id
+        # except Exception as error:  # pragma: no cover
+        #     raise ValueError(f"{error}")
+        # return matched, person_id
+        return None

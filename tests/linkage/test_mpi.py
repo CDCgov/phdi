@@ -205,6 +205,12 @@ def test_insert_match_patient():
     assert result is None
 
 
+def test_insert_person():
+    eng = PGMPIConnectorClient()
+    result = eng._insert_person(person_id="PID1", external_person_id="EXTPID2")
+    assert result is None
+
+
 # def test_block_data_with_transform():
 #     PGDAL = _init_db()
 #     data_requested = {
