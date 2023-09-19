@@ -54,29 +54,10 @@ class PGDataAccessLayer(object):
         Initialize the database schema
 
         This method initializes the patient and person tables using SQLAlchemy's
-        MetaData object
+        Table object
 
         :return: None
         """
-        # create a metadata object to access the DB to ORM
-        # pt_table = Table("patient", self.Meta, autoload_with=self.engine)
-        # ps_table = Table("person", self.Meta, autoload_with=self.engine)
-
-        # mapper_registry = registry()
-
-        # class PATIENT_TABLE:
-        #     pass
-
-        # class PERSON_TABLE:
-        #     pass
-
-        # mapper_registry.map_imperatively(PATIENT_TABLE, pt_table)
-        # mapper_registry.map_imperatively(PERSON_TABLE, ps_table)
-
-        # self.PERSON_TABLE_ORM = PERSON_TABLE()
-        # self.PATIENT_TABLE_ORM = PATIENT_TABLE()
-        # self.PATIENT_TABLE = pt_table
-        # self.PERSON_TABLE = ps_table
 
         self.PATIENT_TABLE = Table("patient", self.Meta, autoload_with=self.engine)
         self.PERSON_TABLE = Table("person", self.Meta, autoload_with=self.engine)
@@ -154,8 +135,8 @@ class PGDataAccessLayer(object):
 
         :return: SQLAlchemy scoped session
         """
-        new_session = self.session()
-        return new_session
+
+        return self.session()
 
     def get_patient_table(self) -> Table:
         """

@@ -1,15 +1,7 @@
-from typing import List, Dict, Union  # , Tuple
-
+from typing import List, Dict, Union
 from sqlalchemy import Table, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
-
-# import psycopg2
-# from psycopg2.sql import Identifier, SQL
-# from psycopg2.extensions import cursor
 from sqlalchemy.orm import Query
-
-# import json
-# import logging
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import PGDataAccessLayer
 
@@ -40,10 +32,14 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
     def _initialize_schema(self):
         self.dal.initialize_schema()
 
+    # TODO: remove this from here and from core, it shouldn't be needed
+    # it is here now just to satisfy the interface of core.py
     def get_connection(self) -> Union[any, None]:
         return self.dal.get_session()
 
     def block_data(self, block_vals: Dict) -> List[list]:
+        # TODO: This comment may need to be updated with the changes made
+
         """
         Returns a list of lists containing records from the database that match on the
         incoming record's block values. If blocking on 'ZIP' and the incoming record's
@@ -59,15 +55,13 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         """
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
-
+        # TODO: Move the query execution and session into DAL
+        # as well as the grabbing of the data columns
         session = self.get_connection()
         try:
-            # Use context manager to handle commits and transactions
-            # with db_conn.begin():
             # Generate ORM query using block_vals as criteria
-            # query = session.query(self.dal.PATIENT_TABLE)
             query = select(self.dal.PATIENT_TABLE)
-            # query = select(self.dal.PATIENT_TABLE)
+
             # now tack on the where criteria using the block_vals
             # while ensuring they exist in the table structure ORM
             query = self._generate_block_query(
@@ -75,6 +69,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 query=query,
                 table=self.dal.PATIENT_TABLE,
             )
+            # TODO: Move the query execution and session into DAL
+            # as well as the grabbing of the data columns
             results = session.execute(query)
             blocked_data = [list(row) for row in results]
 
@@ -86,6 +82,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             session.close()
 
         # Set up blocked data by adding column headers as 1st row of LoL
+        # TODO: Move the query execution and session into DAL
+        # as well as the grabbing of the data columns
         blocked_data_cols = results.keys()
         blocked_data.insert(0, blocked_data_cols)
 
@@ -97,6 +95,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         person_id=None,
         external_person_id=None,
     ) -> Union[None, tuple]:
+        # TODO: This comment may need to be updated with the changes made
+
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
         the patient table, including the matched person id, to link the new patient
@@ -111,60 +111,19 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
-        # matched = False
-        # db_cursor = None
-        # db_conn = self.get_connection()
 
         # try:
         #     # TODO: use this function from the DAL instead of
         #     # doing manual insert - see commented out code example below
         #     # self.dal.bulk_insert(self.dal.PATIENT_TABLE, patient_record_dict)
 
-        #     # Use context manager to handle commits and transactions
-        #     with db_conn.cursor() as db_cursor:
-        #         # handle all logic whether to insert, update
-        #         # or query to get an existing person record
-        #         # then use the returned person_id to link
-        #         #  to the newly create patient
-        #         matched, person_id = self._insert_person(
-        #             db_cursor=db_cursor,
-        #             person_id=person_id,
-        #             external_person_id=external_person_id,
-        #         )
-
-        #         # Insert into patient table
-        #         insert_new_patient = SQL(
-        #             "INSERT INTO {patient_table} "
-        #             "(patient_id, person_id, patient_resource) VALUES (%s, %s, %s);"
-        #         ).format(patient_table=Identifier(self.patient_table))
-        #         data = [
-        #             patient_resource.get("id"),
-        #             person_id,
-        #             json.dumps(patient_resource),
-        #         ]
-        #         try:
-        #             db_cursor.execute(insert_new_patient, data)
-        #         except psycopg2.errors.UniqueViolation:
-        #             logging.warning(
-        #                 f"Patient with ID {patient_resource.get('id')} already "
-        #                 "exists in the MPI. The patient table was not updated."
-        #             )
-
-        # except Exception as error:  # pragma: no cover
-        #     raise ValueError(f"{error}")
-
-        # finally:
-        #     self._close_connections(db_conn=db_conn, db_cursor=db_cursor)
-
         return None
 
     def _generate_block_query(
         self, block_vals: dict, query: Query, table: Table
     ) -> Query:
+        # TODO: This comment may need to be updated with the changes made
         """
-        TODO: This may not be needed anymore as we aren't generating a query anymore
-
-
         Generates a query for selecting a block of data from the patient table per the
         block_vals parameters. Accepted blocking fields include: first_name, last_name,
         birthdate, addess, city, state, zip, mrn, and sex.
@@ -175,96 +134,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           e.g., {["ZIP"]: {"value": "90210"}} or
           {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
         :raises ValueError: If column key in `block_vals` is not supported.
-        :return: A tuple containing a psycopg2.sql.SQL object representing the query as
-            well as list of all data to be inserted into it.
+        :return: A 'Select' statement built by the sqlalchemy ORM
 
         """
-        # # Check whether `block_vals` contains supported keys
-        # for key in block_vals:
-        #     if key not in self.fields_to_jsonpaths:
-        #         raise ValueError(
-        #             f"""`{key}` not supported for blocking at this time. Supported
-        #             columns include first_name, last_name, birthdate, address, city,
-        #             state, zip, mrn, and sex."""
-        #         )
 
-        # # Generate select query to extract fields_to_jsonpaths keys
-        # select_query_stubs = []
-        # select_query_stubs_data = []
-        # for key in self.fields_to_jsonpaths:
-        #     query = f"jsonb_path_query_array(patient_resource,%s) as {key}"
-        #     select_query_stubs.append(query)
-        #     select_query_stubs_data.append(self.fields_to_jsonpaths[key])
-        # select_query = "SELECT patient_id, person_id, " + ", ".join(
-        #     stub for stub in select_query_stubs
-        # )
-
-        # # Generate blocking query based on blocking criteria
-        # block_query_stubs = []
-        # block_query_stubs_data = []
-        # for col_name, param in block_vals.items():
-        #     query = (
-        #         "CAST(jsonb_path_query_array(patient_resource, %s) as VARCHAR)= "
-        #         "'[true]'"
-        #     )
-        #     block_query_stubs.append(query)
-        #     # Add appropriate transformations
-        #     if "transformation" in param:
-        #         # first4 transformations
-        #         if block_vals[col_name]["transformation"] == "first4":
-        #             block_query_stubs_data.append(
-        #                 f"{self.fields_to_jsonpaths[col_name]} starts with "
-        #                 f'"{block_vals[col_name]["value"]}"'
-        #             )
-        #         # last4 transformations
-        #         else:
-        #             block_query_stubs_data.append(
-        #                 f"{self.fields_to_jsonpaths[col_name]} like_regex "
-        #                 f'"{block_vals[col_name]["value"]}$$"'
-        #             )
-        #     # Build query for columns without transformations
-        #     else:
-        #         block_query_stubs_data.append(
-        #             f"{self.fields_to_jsonpaths[col_name]} like_regex "
-        #             f'"{block_vals[col_name]["value"]}"'
-        #         )
-
-        # block_query = " WHERE " + " AND ".join(stub for stub in block_query_stubs)
-
-        # query = select_query + " FROM {patient_table}" + block_query + ";"
-        # query = SQL(query).format(patient_table=Identifier(self.patient_table))
-        # data = select_query_stubs_data + block_query_stubs_data
-
-        # TODO:  This code SHOULD work and not sure why the hasattr is not working
-        # against the orm table object, but this is failing time and again
-        #  will use a more brute force method to make this work
-        # for key, value in block_vals.items():
-        #     if hasattr(table, key):
-        #
-        #         for key2, value2 in value.items():
-        #             if key2 == "value":
-        #
-        #                 query.filter(getattr(self.dal.PATIENT_TABLE, key) == value2)
-        #     else:
-        #         continue
-        #
-        # for key, value in block_vals.items():
-        #     if hasattr(table_orm, key):
-        #         for key2, value2 in value.items():
-        #
-        #             if key2 == "value":
-        #
-        #                 print(key)
-        #                 print(table_orm.__getattribute__(key))
-        #                 query.filter(key == value2)
-        #     else:
-        #         continue
-        # #
-        # # if len(query_filter) > 0:
-        # #     query.filter(", ".join(query_filter))
-        # print("FILTER:")
-        # print(query)
-        # print(query.statement)
         new_query = None
         where_criteria = []
         table_columns = self._get_table_columns(table)
@@ -295,6 +168,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         person_id: str = None,
         external_person_id: str = None,
     ) -> tuple:
+        # TODO: This comment may need to be updated with the changes made
+
         """
         If person id is not supplied and external person id is not supplied
         then insert a new person record with an auto-generated person id (UUID)
@@ -316,56 +191,5 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           found within the person table or not based upon the external person id
         """
         # # TODO: use the DAL to perform this going forward
-        # matched = False
-        # try:
-        #     if external_person_id is None:
-        #         external_person_id = ""
-        #     else:
-        #         # if external person id is supplied then find if there is already
-        #         #  a person with that external person id already within the MPI
-        #         #  - if so, return that person id
-        #         person_query = SQL(
-        #             "SELECT person_id FROM {person_table}
-        #               WHERE external_person_id = %s"
-        #         ).format(person_table=Identifier(self.person_table))
-        #         query_data = [external_person_id]
-        #         db_cursor.execute(person_query, query_data)
-        #         # Retrieve person_id that has the supplied external_person_id
-        #         returned_data = db_cursor.fetchall()
 
-        #         if returned_data is not None and len(returned_data) > 0:
-        #             found_person_id = returned_data[0][0]
-        #             matched = True
-        #             return matched, found_person_id
-
-        #     if person_id is None:
-        #         # Insert a new record into person table to generate new
-        #         # person_id with either the supplied external person id
-        #         #  or a null external person id
-        #         insert_new_person = SQL(
-        #             "INSERT INTO {person_table} (external_person_id) VALUES "
-        #             "(%s) RETURNING person_id;"
-        #         ).format(person_table=Identifier(self.person_table))
-        #         person_data = [external_person_id]
-
-        #         db_cursor.execute(insert_new_person, person_data)
-
-        #         # Retrieve newly generated person_id
-        #         person_id = db_cursor.fetchall()[0][0]
-        #     # otherwise if person id is supplied and the external
-        #     # person id is supplied
-        #     # and not none and a record with the external person id was not found
-        #     #  then update the person record with the supplied external person id
-        #     elif person_id is not None and external_person_id != "":
-        #         matched = True
-        #         update_person_query = SQL(
-        #             "UPDATE {person_table} SET external_person_id = %s "
-        #             "WHERE person_id = %s AND external_person_id = null "
-        #         ).format(person_table=Identifier(self.person_table))
-        #         update_data = [external_person_id, person_id]
-        #         db_cursor.execute(update_person_query, update_data)
-
-        # except Exception as error:  # pragma: no cover
-        #     raise ValueError(f"{error}")
-        # return matched, person_id
         return None
