@@ -179,7 +179,10 @@ async def parse_message_endpoint(
     for field, parser in parsers.items():
         if "secondary_parsers" not in parser:
             value = parser["primary_parser"](input.message)
-            value = ",".join(value)
+            if len(value) == 0:
+                value = None
+            else:
+                value = ",".join(value)
             parsed_values[field] = value
         else:
             inital_values = parser["primary_parser"](input.message)
@@ -189,7 +192,12 @@ async def parse_message_endpoint(
                 for secondary_field, secondary_parser in parser[
                     "secondary_parsers"
                 ].items():
-                    value[secondary_field] = ",".join(secondary_parser(initial_value))
+                    if len(secondary_parser(initial_value)) == 0:
+                        value[secondary_field] = None
+                    else:
+                        value[secondary_field] = ",".join(
+                            secondary_parser(initial_value)
+                        )
                 values.append(value)
             parsed_values[field] = values
 
