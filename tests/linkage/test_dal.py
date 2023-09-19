@@ -1,12 +1,12 @@
 import os
-from phdi.linkage.dal import PGDataAccessLayer
+from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy import Engine, Table, select, text
 from sqlalchemy.orm import scoped_session
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 
 def test_init_dal():
-    dal = PGDataAccessLayer()
+    dal = DataAccessLayer()
 
     assert dal.engine is None
     assert dal.session is None
@@ -15,7 +15,7 @@ def test_init_dal():
 
 
 def test_get_connection():
-    dal = PGDataAccessLayer()
+    dal = DataAccessLayer()
     dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
@@ -29,7 +29,7 @@ def test_get_connection():
 
 
 def test_initialize_schema():
-    dal = PGDataAccessLayer()
+    dal = DataAccessLayer()
     dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
@@ -81,7 +81,7 @@ def test_initialize_schema():
 
 
 def test_bulk_insert_and_transactions():
-    dal = PGDataAccessLayer()
+    dal = DataAccessLayer()
     dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
@@ -154,8 +154,8 @@ def test_bulk_insert_and_transactions():
         assert results[0].city == "Los Angeles"
 
 
-def _init_db() -> PGDataAccessLayer:
-    dal = PGDataAccessLayer()
+def _init_db() -> DataAccessLayer:
+    dal = DataAccessLayer()
     dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )

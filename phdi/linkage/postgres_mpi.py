@@ -3,7 +3,7 @@ from sqlalchemy import Table, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 from sqlalchemy.orm import Query
 from phdi.linkage.utils import load_mpi_env_vars_os
-from phdi.linkage.dal import PGDataAccessLayer
+from phdi.linkage.dal import DataAccessLayer
 
 
 class PGMPIConnectorClient(BaseMPIConnectorClient):
@@ -23,7 +23,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         dbpwd = dbsettings.get("password")
         dbhost = dbsettings.get("host")
         dbport = dbsettings.get("port")
-        self.dal = PGDataAccessLayer()
+        self.dal = DataAccessLayer()
         self.dal.get_connection(
             engine_url=f"postgresql+psycopg2://{dbuser}:"
             + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"

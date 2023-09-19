@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
 
 
-class PGDataAccessLayer(object):
+class DataAccessLayer(object):
     """
     Base class for Database API objects - manages transactions,
     sessions and holds a reference to the engine.

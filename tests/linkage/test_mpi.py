@@ -3,7 +3,7 @@ import pytest
 
 from sqlalchemy import text
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
-from phdi.linkage.dal import PGDataAccessLayer
+from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy.orm import Session
 
 
@@ -167,7 +167,7 @@ def test_init():
     assert eng is not None
     assert isinstance(eng, PGMPIConnectorClient)
     assert eng.dal is not None
-    assert isinstance(eng.dal, PGDataAccessLayer)
+    assert isinstance(eng.dal, DataAccessLayer)
 
 
 def test_get_connection():
@@ -186,7 +186,7 @@ def test_get_connection():
     assert eng is not None
     assert isinstance(eng, PGMPIConnectorClient)
     assert eng.dal is not None
-    assert isinstance(eng.dal, PGDataAccessLayer)
+    assert isinstance(eng.dal, DataAccessLayer)
     assert db_conn is not None
     assert isinstance(db_conn, Session)
 
