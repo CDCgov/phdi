@@ -144,46 +144,43 @@ async def process_message_endpoint(
     """
     Process message through a series of microservices
     """
-    # Unzip file
-    # with ZipFile(io.BytesIO(upload_file.file.read()), 'r') as zip:
-    #   pass
+
     my_zipfile = ZipFile(upload_file.file)
-    print(my_zipfile.namelist())
     f = my_zipfile.open("f1ef2b9d-9af3-4228-bb28-d3a5a1c5cd9d/CDA_eICR.xml")
-    content = f.read()
-    print(content)
-    return {
-            "message": "Request failed with status code",
+    content = f.read().decode('utf-8')
+
+    # Change below to grab from uploaded configs once we've got them
+    processing_config = load_processing_config("sample-orchestration-config.json")
+    input = {
+        'message_type': message_type,
+        'include_error_types': include_error_types,
+        'message': content
+    }
+    print(input)
+    response = input
+    responses = {}
+
+    for step in processing_config["steps"]:
+        service = step["service"]
+        endpoint = step["endpoint"]
+        f = f"call_{service}"
+        if f in globals() and callable(globals()[f]):
+            function_to_call = globals()[f]
+            response = function_to_call(input=input, response=response, step=step)
+            responses[endpoint] = response
+
+    if response.status_code == 200:
+        # Parse and work with the API response data (JSON, XML, etc.)
+        api_data = response.json()  # Assuming the response is in JSON format
+        return {
+            "message": "Processing succeeded!",
+            "processed_values": api_data,
+        }
+    else:
+        return {
+            "message": f"Request failed with status code {response.status_code}",
             "processed_values": "",
         }
-
-    # # Change below to grab from uploaded configs once we've got them
-    # processing_config = load_processing_config("sample-orchestration-config.json")
-    # input = dict(input)
-    # response = input
-    # responses = {}
-
-    # for step in processing_config["steps"]:
-    #     service = step["service"]
-    #     endpoint = step["endpoint"]
-    #     f = f"call_{service}"
-    #     if f in globals() and callable(globals()[f]):
-    #         function_to_call = globals()[f]
-    #         response = function_to_call(input=input, response=response, step=step)
-    #         responses[endpoint] = response
-
-    # if response.status_code == 200:
-    #     # Parse and work with the API response data (JSON, XML, etc.)
-    #     api_data = response.json()  # Assuming the response is in JSON format
-    #     return {
-    #         "message": "Processing succeeded!",
-    #         "processed_values": api_data,
-    #     }
-    # else:
-    #     return {
-    #         "message": f"Request failed with status code {response.status_code}",
-    #         "processed_values": "",
-    #     }
 
 
 # /configs endpoint #
