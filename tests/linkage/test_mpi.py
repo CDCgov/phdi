@@ -138,17 +138,10 @@ def test_generate_block_query():
     expected_result = "patient.zip = '90210' AND patient.city = 'Los Angeles'"
     patient = PGDAL.dal.PATIENT_TABLE
     my_query = db_conn.query(patient)
-    print("ATTEMPTED:")
     my_query = PGDAL._generate_block_query(block_data, my_query, patient)
 
     _clean_up_postgres_client(PGDAL)
-    print("HOMER:")
-    print(my_query._where_criteria)
-    print(my_query.where())
-    print(my_query.whereclause)
-    print(my_query.filter())
-    print(my_query.filter_by())
-    # ensure blocked data has two rows, headers and data
+    # ensure query has the proper where clause added
     assert str(my_query.whereclause) == expected_result
 
 

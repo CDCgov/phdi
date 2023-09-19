@@ -240,29 +240,26 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         #  will use a more brute force method to make this work
         # for key, value in block_vals.items():
         #     if hasattr(table, key):
-        #         print("YES!")
+        #
         #         for key2, value2 in value.items():
         #             if key2 == "value":
-        #                 print("CRIT:")
-        #                 print(getattr(table, key) == value2)
+        #
         #                 query.filter(getattr(self.dal.PATIENT_TABLE, key) == value2)
         #     else:
         #         continue
-        # print(inspect.getmembers(table_orm))
+        #
         # for key, value in block_vals.items():
         #     if hasattr(table_orm, key):
         #         for key2, value2 in value.items():
-        #             print("YES2")
+        #
         #             if key2 == "value":
-        #                 print("YES3")
+        #
         #                 print(key)
         #                 print(table_orm.__getattribute__(key))
         #                 query.filter(key == value2)
         #     else:
         #         continue
-        # # print("FILTERS")
-        # # print(query_filter)
-        # # print(text(",".join(query_filter)))
+        # #
         # # if len(query_filter) > 0:
         # #     query.filter(", ".join(query_filter))
         # print("FILTER:")
@@ -274,28 +271,15 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         for key, value in block_vals.items():
             try:
                 col_index = table_columns.index(key)
-                print("YES")
                 for key2, value2 in value.items():
-                    print("YES2")
                     if key2 == "value":
-                        print("YES3")
-                        print(key)
-                        print(
-                            text(
-                                f"{table.name}.{table_columns[col_index]} = '{value2}'"
-                            )
-                        )
                         where_criteria.append(
                             f"{table.name}.{table_columns[col_index]} = '{value2}'"
                         )
             except ValueError as err:
                 print(err)
                 continue
-
-        print("STMNT: ")
-        print(query)
         new_query = query.where(text(" AND ".join(where_criteria)))
-        print(new_query)
 
         return new_query
 
