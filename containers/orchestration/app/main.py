@@ -1,8 +1,10 @@
 from phdi.containers.base_service import BaseService
-from fastapi import Response, status, Body
+from fastapi import Response, status, Body, UploadFile, Form
 from pydantic import BaseModel, Field
 from typing import Literal, Optional, Annotated, Dict
 from pathlib import Path
+from zipfile import ZipFile
+import io
 import os
 from app.utils import load_processing_config, read_json_from_assets
 from app.config import get_settings
@@ -53,7 +55,7 @@ class ProcessMessageRequest(BaseModel):
             + " Valid types are fatal, errors, warnings, information"
         )
     )
-    message: str = Field(description="The message to be validated.")
+    upload_file: UploadFile = Field(description="The ZIP file with ECR")
 
 
 class ProcessMessageResponse(BaseModel):
@@ -135,40 +137,53 @@ def call_message_parser(input, response, step) -> dict:
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
-    input: Annotated[
-        ProcessMessageRequest, Body(examples=process_message_request_examples)
-    ]
+    message_type: Annotated[str, Form()],
+    include_error_types: Annotated[str, Form()],
+    upload_file: UploadFile
 ) -> ProcessMessageResponse:
     """
     Process message through a series of microservices
     """
-    # Change below to grab from uploaded configs once we've got them
-    processing_config = load_processing_config("sample-orchestration-config.json")
-    input = dict(input)
-    response = input
-    responses = {}
-
-    for step in processing_config["steps"]:
-        service = step["service"]
-        endpoint = step["endpoint"]
-        f = f"call_{service}"
-        if f in globals() and callable(globals()[f]):
-            function_to_call = globals()[f]
-            response = function_to_call(input=input, response=response, step=step)
-            responses[endpoint] = response
-
-    if response.status_code == 200:
-        # Parse and work with the API response data (JSON, XML, etc.)
-        api_data = response.json()  # Assuming the response is in JSON format
-        return {
-            "message": "Processing succeeded!",
-            "processed_values": api_data,
-        }
-    else:
-        return {
-            "message": f"Request failed with status code {response.status_code}",
+    # Unzip file
+    # with ZipFile(io.BytesIO(upload_file.file.read()), 'r') as zip:
+    #   pass
+    my_zipfile = ZipFile(upload_file.file)
+    print(my_zipfile.namelist())
+    f = my_zipfile.open("f1ef2b9d-9af3-4228-bb28-d3a5a1c5cd9d/CDA_eICR.xml")
+    content = f.read()
+    print(content)
+    return {
+            "message": "Request failed with status code",
             "processed_values": "",
         }
+
+    # # Change below to grab from uploaded configs once we've got them
+    # processing_config = load_processing_config("sample-orchestration-config.json")
+    # input = dict(input)
+    # response = input
+    # responses = {}
+
+    # for step in processing_config["steps"]:
+    #     service = step["service"]
+    #     endpoint = step["endpoint"]
+    #     f = f"call_{service}"
+    #     if f in globals() and callable(globals()[f]):
+    #         function_to_call = globals()[f]
+    #         response = function_to_call(input=input, response=response, step=step)
+    #         responses[endpoint] = response
+
+    # if response.status_code == 200:
+    #     # Parse and work with the API response data (JSON, XML, etc.)
+    #     api_data = response.json()  # Assuming the response is in JSON format
+    #     return {
+    #         "message": "Processing succeeded!",
+    #         "processed_values": api_data,
+    #     }
+    # else:
+    #     return {
+    #         "message": f"Request failed with status code {response.status_code}",
+    #         "processed_values": "",
+    #     }
 
 
 # /configs endpoint #

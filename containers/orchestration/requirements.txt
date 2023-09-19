@@ -8,3 +8,4 @@ pytest
 frozendict
 requests
 python-dotenv
+python-multipart
