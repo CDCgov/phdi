@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS patient (
     patient_id  UUID DEFAULT uuid_generate_v4 ()
     person_id   UUID
     dob         DATE
-    gender      VARCHAR(3)     
+    sex      VARCHAR(3)     
     race        VARCHAR(100) 
     ethnicity   VARCHAR(100)
     PRIMARY KEY (patient_id)
@@ -31,6 +31,17 @@ CREATE TABLE IF NOT EXISTS name (
     CONSTRAINT fk_name_to_patient
         FOREIGN KEY(patient_id)
             REFERENCES patient(patient_id)
+);
+
+CREATE TABLE IF NOT EXISTS give_name (
+    given_name_id     UUID DEFAULT uuid_generate_v4 () 
+    name_id   UUID
+    given_names VARCHAR(255)
+    last_name   VARCHAR(255)
+    PRIMARY KEY (given_name_id)
+    CONSTRAINT fk_given_to_name
+        FOREIGN KEY(name_id)
+            REFERENCES name(name_id)
 );
 
 CREATE TABLE IF NOT EXISTS identifier (

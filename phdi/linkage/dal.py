@@ -23,6 +23,13 @@ class DataAccessLayer(object):
         self.Meta = MetaData()
         self.PATIENT_TABLE = None
         self.PERSON_TABLE = None
+        self.NAME_TABLE = None
+        self.GIVEN_NAME_TABLE = None
+        self.ID_TABLE = None
+        self.PHONE_TABLE = None
+        self.ADDRESS_TABLE = None
+        self.EXT_PERSON_TABLE = None
+        self.EXT_SOURCE_TABLE = None
 
     def get_connection(self, engine_url: str, engine_echo: bool = False) -> None:
         """
@@ -60,6 +67,17 @@ class DataAccessLayer(object):
 
         self.PATIENT_TABLE = Table("patient", self.Meta, autoload_with=self.engine)
         self.PERSON_TABLE = Table("person", self.Meta, autoload_with=self.engine)
+        self.NAME_TABLE = Table("name", self.Meta, autoload_with=self.engine)
+        self.GIVEN_NAME_TABLE = Table("give_name", self.Meta, autoload_with=self.engine)
+        self.ID_TABLE = Table("identifier", self.Meta, autoload_with=self.engine)
+        self.PHONE_TABLE = Table("phone_number", self.Meta, autoload_with=self.engine)
+        self.ADDRESS_TABLE = Table("address", self.Meta, autoload_with=self.engine)
+        self.EXT_PERSON_TABLE = Table(
+            "external_person", self.Meta, autoload_with=self.engine
+        )
+        self.EXT_SOURCE_TABLE = Table(
+            "external_source", self.Meta, autoload_with=self.engine
+        )
 
     @contextmanager
     def transaction(self) -> None:
@@ -120,31 +138,7 @@ class DataAccessLayer(object):
                 list_results.insert(0, results.keys())
         return list_results
 
-    # TODO:  Modify this to work for our current use cases if necessary
-    # we also need to add an update function here
-    #    """
-    #     Performs a 'safe append' of an object where integrity errors are
-    #     caught and the db is rolled back.
-
-    #     :param records: a list of records as a dictionary
-    #     :param keep_errors: default is true; if true, will keep any error
-    #     :return: a tuple containing error_records
-    #     """
-
-    #     error_messages = []
-    #     error_records = []
-
-    #     for rec in records:
-    #         try:
-    #             with self.transaction() as session:
-    #                 session.add(rec)
-
-    #         except psycopg2.IntegrityError as err:
-    #             error_messages.append(err.message)  # append message and errors
-    #             error_records += [rec]
-    #             continue
-
-    #     return error_records, error_messages
+    # TODO:  add an update section here
 
     def get_session(self) -> scoped_session:
         """
@@ -156,23 +150,3 @@ class DataAccessLayer(object):
         """
 
         return self.session()
-
-    def get_patient_table(self) -> Table:
-        """
-        Get a session object
-
-        this method returns a session object to the caller
-
-        :return: SQLAlchemy scoped session
-        """
-        return self.PATIENT_TABLE
-
-    def get_person_table(self) -> Table:
-        """
-        Get a session object
-
-        this method returns a session object to the caller
-
-        :return: SQLAlchemy scoped session
-        """
-        return self.PERSON_TABLE

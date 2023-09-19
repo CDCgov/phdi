@@ -108,7 +108,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         """
         Generates a query for selecting a block of data from the patient table per the
         block_vals parameters. Accepted blocking fields include: first_name, last_name,
-        birthdate, addess, city, state, zip, mrn, and sex.
+        birthdate, address, city, state, zip, mrn, and sex.
 
         :param table_name: Table name.
         :param block_vals: Dictionary containing key value pairs for the column name for
@@ -175,3 +175,34 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # # TODO: use the DAL to perform this going forward
 
         return None
+
+    def _get_blocking_tables(self, block_fields: dict) -> List[Table]:
+        # Accepted blocking fields include: first_name, last_name,
+        # birthdate, address line 1, city, state, zip, mrn, and sex.
+        blocking_tables = []
+        address_fields = ["line_1", "city", "state", "zip"]
+        patient_fields = ["dob", "sex"]
+        name_fields = ["last_name"]
+        given_name_fields = ["given_name"]
+
+        for field_key, field_value in block_fields.items():
+            if (
+                field_key in address_fields
+                and self.dal.ADDRESS_TABLE not in blocking_tables
+            ):
+                blocking_tables.append(self.dal.ADDRESS_TABLE)
+            elif (
+                field_key in patient_fields
+                and self.dal.PATIENT_TABLE not in blocking_tables
+            ):
+                blocking_tables.append(self.dal.PATIENT_TABLE)
+            elif (
+                field_key in name_fields and self.dal.NAME_TABLE not in blocking_tables
+            ):
+                blocking_tables.append(self.dal.NAME_TABLE)
+            elif (
+                field_key in given_name_fields
+                and self.dal.GIVEN_NAME_TABLE not in blocking_tables
+            ):
+                blocking_tables.append(self.dal.GIVEN_NAME_TABLE)
+        return blocking_tables
