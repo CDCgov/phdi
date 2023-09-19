@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS give_name (
     given_name_id       UUID DEFAULT uuid_generate_v4 (), 
     name_id             UUID,
     given_names         VARCHAR(255),
-    last_name           VARCHAR(255),
     PRIMARY KEY (given_name_id),
     CONSTRAINT fk_given_to_name
         FOREIGN KEY(name_id)

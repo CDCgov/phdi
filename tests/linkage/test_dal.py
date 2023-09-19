@@ -1,3 +1,4 @@
+import datetime
 import os
 import pathlib
 from phdi.linkage.dal import DataAccessLayer
@@ -55,38 +56,55 @@ def test_initialize_schema():
     assert isinstance(dal.EXT_SOURCE_TABLE, Table)
 
 
-# def test_bulk_insert_and_transactions():
-#     dal = _init_db()
-#     dal.initialize_schema()
+def test_bulk_insert_and_transactions():
+    dal = _init_db()
+    dal.initialize_schema()
 
-#     data_requested = {"zip": "90210", "city": "Los Angeles"}
-#     test_data = []
-#     test_data.append(data_requested)
-#     dal.bulk_insert(dal.PATIENT_TABLE, test_data)
+    data_requested = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "M",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    test_data = []
+    test_data.append(data_requested)
+    dal.bulk_insert(dal.PATIENT_TABLE, test_data)
 
-#     query = dal.session.query(dal.PATIENT_TABLE)
-#     results = query.all()
+    query = dal.session.query(dal.PATIENT_TABLE)
+    results = query.all()
 
-#     assert len(results) == 1
-#     assert results[0].zip == "90210"
-#     assert results[0].city == "Los Angeles"
+    assert len(results) == 1
+    assert results[0].dob == datetime.date(1977, 11, 11)
+    assert results[0].sex == "M"
+    assert results[0].patient_id is not None
 
-#     data_requested = {"MY ADDR": "BLAH", "zip": "90277", "city": "Bakerfield"}
-#     test_data = []
-#     error_msg = ""
-#     test_data.append(data_requested)
-#     try:
-#         dal.bulk_insert(dal.PATIENT_TABLE, test_data)
-#     except Exception as error:
-#         error_msg = error
-#     finally:
-#         assert error_msg != ""
-#         query = dal.session.query(dal.PATIENT_TABLE)
-#         results = query.all()
-#         dal.session.close()
-#         assert len(results) == 1
-#         assert results[0].zip == "90210"
-#         assert results[0].city == "Los Angeles"
+    data_requested = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "F",
+        "race": "UNK",
+        "ethnicity": "UNK",
+        "MY ADDR": "BLAH",
+    }
+    test_data = []
+    error_msg = ""
+    test_data.append(data_requested)
+    try:
+        dal.bulk_insert(dal.PATIENT_TABLE, test_data)
+    except Exception as error:
+        error_msg = error
+    finally:
+        assert error_msg != ""
+        query = dal.session.query(dal.PATIENT_TABLE)
+        results = query.all()
+        dal.session.close()
+        assert len(results) == 1
+        assert results[0].dob == datetime.date(1977, 11, 11)
+        assert results[0].sex == "M"
+        assert results[0].patient_id is not None
+
+    _clean_up(dal)
 
 
 def _init_db() -> DataAccessLayer:
@@ -94,6 +112,7 @@ def _init_db() -> DataAccessLayer:
     dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
+    _clean_up(dal)
     # load ddl
     schema_ddl = open(
         pathlib.Path(__file__).parent.parent.parent
@@ -116,15 +135,15 @@ def _init_db() -> DataAccessLayer:
 
 def _clean_up(dal):
     with dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
         pg_connection.commit()
         pg_connection.close()
 
