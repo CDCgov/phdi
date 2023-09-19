@@ -55,37 +55,19 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         """
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
-        # TODO: Move the query execution and session into DAL
-        # as well as the grabbing of the data columns
-        session = self.get_connection()
-        try:
-            # Generate ORM query using block_vals as criteria
-            query = select(self.dal.PATIENT_TABLE)
 
-            # now tack on the where criteria using the block_vals
-            # while ensuring they exist in the table structure ORM
-            query = self._generate_block_query(
-                block_vals=block_vals,
-                query=query,
-                table=self.dal.PATIENT_TABLE,
-            )
-            # TODO: Move the query execution and session into DAL
-            # as well as the grabbing of the data columns
-            results = session.execute(query)
-            blocked_data = [list(row) for row in results]
+        # Generate ORM query using block_vals as criteria
+        query = select(self.dal.PATIENT_TABLE)
 
-        except Exception as error:  # pragma: no cover
-            print(f"ERROR: {error}")
-            raise ValueError(f"{error}")
+        # now tack on the where criteria using the block_vals
+        # while ensuring they exist in the table structure ORM
+        query = self._generate_block_query(
+            block_vals=block_vals,
+            query=query,
+            table=self.dal.PATIENT_TABLE,
+        )
 
-        finally:
-            session.close()
-
-        # Set up blocked data by adding column headers as 1st row of LoL
-        # TODO: Move the query execution and session into DAL
-        # as well as the grabbing of the data columns
-        blocked_data_cols = results.keys()
-        blocked_data.insert(0, blocked_data_cols)
+        blocked_data = self.dal.select_results(select_stmt=query)
 
         return blocked_data
 

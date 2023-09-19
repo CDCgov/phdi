@@ -17,7 +17,7 @@ def _init_db() -> PGMPIConnectorClient:
         "mpi_db_type": "postgres",
     }
 
-    eng = PGMPIConnectorClient()
+    mpi = PGMPIConnectorClient()
 
     # Generate test tables
     funcs = {
@@ -46,17 +46,17 @@ def _init_db() -> PGMPIConnectorClient:
 
     for command, statement in funcs.items():
         try:
-            with eng.dal.engine.connect() as db_conn:
+            with mpi.dal.engine.connect() as db_conn:
                 db_conn.execute(text(statement))
                 db_conn.commit()
                 print(f"{command} WORKED!")
         except Exception as e:
             print(f"{command} was unsuccessful")
             print(e)
-            with eng.dal.engine.connect() as db_conn:
+            with mpi.dal.engine.connect() as db_conn:
                 db_conn.rollback()
-    eng._initialize_schema()
-    return eng
+    mpi._initialize_schema()
+    return mpi
 
 
 def _clean_up_postgres_client(postgres_client):
@@ -77,17 +77,17 @@ def _clean_up_postgres_client(postgres_client):
 
 
 def test_block_data():
-    PGDAL = _init_db()
+    MPI = _init_db()
     block_data = {"zip": {"value": "90210"}, "city": {"value": "Los Angeles"}}
     pt1 = {"zip": "83642", "city": "Meridian"}
     pt2 = {"zip": "90210", "city": "Los Angeles"}
     test_data = []
     test_data.append(pt1)
     test_data.append(pt2)
-    PGDAL.dal.bulk_insert(PGDAL.dal.PATIENT_TABLE, test_data)
-    blocked_data = PGDAL.block_data(block_data)
+    MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
+    blocked_data = MPI.block_data(block_data)
 
-    _clean_up_postgres_client(PGDAL)
+    _clean_up_postgres_client(MPI)
 
     # ensure blocked data has two rows, headers and data
     assert len(blocked_data) == 2
@@ -96,11 +96,11 @@ def test_block_data():
 
 
 def test_block_data_failures():
-    PGDAL = _init_db()
+    MPI = _init_db()
     block_data = {}
     blocked_data = None
     with pytest.raises(ValueError) as e:
-        blocked_data = PGDAL.block_data(block_data)
+        blocked_data = MPI.block_data(block_data)
         assert "`block_data` cannot be empty." in str(e.value)
 
     block_data = {
@@ -111,10 +111,10 @@ def test_block_data_failures():
     data_requested = {"zip": "90210", "city": "Los Angeles"}
     test_data = []
     test_data.append(data_requested)
-    PGDAL.dal.bulk_insert(PGDAL.dal.PATIENT_TABLE, test_data)
-    blocked_data = PGDAL.block_data(block_data)
+    MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
+    blocked_data = MPI.block_data(block_data)
 
-    _clean_up_postgres_client(PGDAL)
+    _clean_up_postgres_client(MPI)
 
     # ensure blocked data has two rows, headers and data
     assert len(blocked_data) == 2
@@ -124,23 +124,23 @@ def test_block_data_failures():
 
 
 def test_get_table_columns():
-    PGDAL = _init_db()
-    patient = PGDAL.dal.PATIENT_TABLE
-    results = PGDAL._get_table_columns(patient)
+    MPI = _init_db()
+    patient = MPI.dal.PATIENT_TABLE
+    results = MPI._get_table_columns(patient)
     expected_result = ["patient_id", "person_id", "zip", "city"]
     assert results == expected_result
 
 
 def test_generate_block_query():
-    PGDAL = _init_db()
+    MPI = _init_db()
     block_data = {"zip": {"value": "90210"}, "city": {"value": "Los Angeles"}}
-    db_conn = PGDAL.get_connection()
+    db_conn = MPI.get_connection()
     expected_result = "patient.zip = '90210' AND patient.city = 'Los Angeles'"
-    patient = PGDAL.dal.PATIENT_TABLE
+    patient = MPI.dal.PATIENT_TABLE
     my_query = db_conn.query(patient)
-    my_query = PGDAL._generate_block_query(block_data, my_query, patient)
+    my_query = MPI._generate_block_query(block_data, my_query, patient)
 
-    _clean_up_postgres_client(PGDAL)
+    _clean_up_postgres_client(MPI)
     # ensure query has the proper where clause added
     assert str(my_query.whereclause) == expected_result
 
@@ -205,7 +205,7 @@ def test_insert_person():
 
 
 # def test_block_data_with_transform():
-#     PGDAL = _init_db()
+#     MPI = _init_db()
 #     data_requested = {
 #         "first_name": {"value": "John", "transformation": "first4"},
 #         "last_name": {"value": "Shep", "transformation": "first4"},
@@ -218,10 +218,10 @@ def test_insert_person():
 #     }
 #     test_data = []
 #     test_data.append(data_requested)
-#     PGDAL.dal.bulk_insert(PGDAL.dal.PATIENT_TABLE, test_data)
-#     blocked_data = PGDAL.block_data(data_requested)
+#     MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
+#     blocked_data = MPI.block_data(data_requested)
 
-#     _clean_up_postgres_client(PGDAL)
+#     _clean_up_postgres_client(MPI)
 
 #     # ensure blocked data has two rows, headers and data
 #     assert len(blocked_data) == 2

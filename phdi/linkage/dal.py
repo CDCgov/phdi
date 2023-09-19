@@ -1,6 +1,7 @@
 from contextlib import contextmanager
-from sqlalchemy import MetaData, create_engine, Table
+from sqlalchemy import MetaData, create_engine, Table, select
 from sqlalchemy.orm import sessionmaker, scoped_session
+from typing import List
 
 
 class PGDataAccessLayer(object):
@@ -20,8 +21,6 @@ class PGDataAccessLayer(object):
         self.engine = None
         self.session = None
         self.Meta = MetaData()
-        # self.PATIENT_TABLE_ORM = None
-        # self.PERSON_TABLE_ORM = None
         self.PATIENT_TABLE = None
         self.PERSON_TABLE = None
 
@@ -100,6 +99,26 @@ class PGDataAccessLayer(object):
             for record in records:
                 stmt = table.insert().values(record)
                 session.execute(stmt)
+
+    def select_results(
+        self, select_stmt: select, include_col_names: bool = True
+    ) -> List[list]:
+        """
+        Perform a select query and add the results to a
+        list of lists.  Then add the column names as the
+        first row, as header, in the list of lists
+
+
+        :param select_stmt: the select statment to execute
+        :param records: a list of records as a dictionary
+        :return: None
+        """
+        with self.transaction() as session:
+            results = session.execute(select_stmt)
+            list_results = [list(row) for row in results]
+            if include_col_names:
+                list_results.insert(0, results.keys())
+        return list_results
 
     # TODO:  Modify this to work for our current use cases if necessary
     # we also need to add an update function here
