@@ -12,8 +12,10 @@ app.get('/', (req, res) => {
 });
 
 app.post('/generate-html', (req, res) => {
-    const { data } = req.body
+    const data  = req.body
     res.render('index', { data }, function (err, html) {
+        console.log(req);
+        console.log(data);
         if (err) {
             res.status(500).json({ error: err });
         } else {
