@@ -135,7 +135,7 @@ class DataAccessLayer(object):
             results = session.execute(select_stmt)
             list_results = [list(row) for row in results]
             if include_col_names:
-                list_results.insert(0, results.keys())
+                list_results.insert(0, list(results.keys()))
         return list_results
 
     # TODO:  add an update section here

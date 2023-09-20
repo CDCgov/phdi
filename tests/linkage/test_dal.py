@@ -148,32 +148,50 @@ def _clean_up(dal):
         pg_connection.close()
 
 
-# def test_select_results():
-#     os.environ = {
-#         "mpi_dbname": "testdb",
-#         "mpi_user": "postgres",
-#         "mpi_password": "pw",
-#         "mpi_host": "localhost",
-#         "mpi_port": "5432",
-#         "mpi_db_type": "postgres",
-#     }
-#     dal = _init_db()
-#     block_data = {"zip": {"value": "90210"}, "city": {"value": "Los Angeles"}}
-#     pt1 = {"zip": "83642", "city": "Meridian"}
-#     pt2 = {"zip": "90210", "city": "Los Angeles"}
-#     test_data = []
-#     test_data.append(pt1)
-#     test_data.append(pt2)
-#     dal.bulk_insert(dal.PATIENT_TABLE, test_data)
-#     mpi = PGMPIConnectorClient()
-#     blocked_data_query = mpi._generate_block_query(
-#         block_data, select(dal.PATIENT_TABLE), dal.PATIENT_TABLE
-#     )
-#     results = dal.select_results(select_stmt=blocked_data_query)
+def test_select_results():
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+    dal = _init_db()
+    block_data = {
+        "dob": {"value": "1977-11-11"},
+        "sex": {"value": "M"},
+    }
 
-#     _clean_up(dal)
+    pt1 = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "M",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pt2 = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "F",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    test_data = []
+    test_data.append(pt1)
+    test_data.append(pt2)
+    dal.bulk_insert(dal.PATIENT_TABLE, test_data)
+    mpi = PGMPIConnectorClient()
+    blocked_data_query = mpi._generate_block_query(
+        block_data, select(dal.PATIENT_TABLE), dal.PATIENT_TABLE
+    )
+    results = dal.select_results(select_stmt=blocked_data_query)
 
-#     # ensure blocked data has two rows, headers and data
-#     assert len(results) == 2
-#     assert results[1][1] is None
-#     assert results[1][2] == pt2.get("zip")
+    _clean_up(dal)
+
+    # ensure blocked data has two rows, headers and data
+    assert len(results) == 2
+    assert results[0][2] == "dob"
+    assert results[1][2] == datetime.date(1977, 11, 11)
+    assert results[0][3] == "sex"
+    assert results[1][3] == "M"
