@@ -120,6 +120,14 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         """
 
+        # Accepted blocking fields include: first_name, last_name,
+        # birthdate, address line 1, city, state, zip, mrn, and sex.
+        blocking_tables = []
+        address_fields = ["line_1", "city", "state", "zip"]
+        patient_fields = ["dob", "sex"]
+        name_fields = ["last_name"]
+        given_name_fields = ["given_name"]
+
         new_query = None
         where_criteria = []
         table_columns = self._get_table_columns(table)
@@ -206,3 +214,59 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             ):
                 blocking_tables.append(self.dal.GIVEN_NAME_TABLE)
         return blocking_tables
+
+    def _get_base_query(self) -> select:
+        name_sub_query = (
+            select(
+                self.dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
+                self.dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
+            )
+            .where(self.dal.GIVEN_NAME_TABLE.c.given_name_index == 0)
+            .subquery()
+        )
+
+        id_sub_query = (
+            select(
+                self.dal.ID_TABLE.c.value.label("mrn"),
+                self.dal.ID_TABLE.c.patient_id.label("patient_id"),
+            )
+            .where(self.dal.ID_TABLE.c.type_code == "MR")
+            .subquery()
+        )
+
+        phone_sub_query = (
+            select(
+                self.dal.PHONE_TABLE.c.phone_number.label("phone_number"),
+                self.dal.PHONE_TABLE.c.type.label("phone_type"),
+                self.dal.PHONE_TABLE.c.patient_id.label("patient_id"),
+            )
+            .where(self.dal.PHONE_TABLE.c.type.in_(["home", "cell"]))
+            .subquery()
+        )
+
+        query = (
+            select(
+                self.dal.PATIENT_TABLE.c.patient_id,
+                self.dal.PERSON_TABLE.c.person_id,
+                self.dal.PATIENT_TABLE.c.dob,
+                self.dal.PATIENT_TABLE.c.sex,
+                id_sub_query.c.mrn,
+                self.dal.NAME_TABLE.c.last_name,
+                name_sub_query.c.given_name,
+                phone_sub_query.c.phone_number,
+                phone_sub_query.c.phone_type,
+                self.dal.ADDRESS_TABLE.c.line_1.label("address_line_1"),
+                self.dal.ADDRESS_TABLE.c.zip_code,
+                self.dal.ADDRESS_TABLE.c.city,
+                self.dal.ADDRESS_TABLE.c.state,
+            )
+            .outerjoin(
+                id_sub_query,
+            )
+            .outerjoin(self.dal.NAME_TABLE)
+            .outerjoin(name_sub_query)
+            .outerjoin(phone_sub_query)
+            .outerjoin(self.dal.ADDRESS_TABLE)
+            .outerjoin(self.dal.PERSON_TABLE)
+        )
+        return query

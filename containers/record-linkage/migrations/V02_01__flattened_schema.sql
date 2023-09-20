@@ -30,10 +30,11 @@ CREATE TABLE IF NOT EXISTS name (
             REFERENCES patient(patient_id)
 );
 
-CREATE TABLE IF NOT EXISTS give_name (
+CREATE TABLE IF NOT EXISTS given_name (
     given_name_id       UUID DEFAULT uuid_generate_v4 (), 
     name_id             UUID,
-    given_names         VARCHAR(255),
+    given_name          VARCHAR(255),
+    given_name_index    INTEGER,
     PRIMARY KEY (given_name_id),
     CONSTRAINT fk_given_to_name
         FOREIGN KEY(name_id)

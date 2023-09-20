@@ -7,6 +7,69 @@ from sqlalchemy.orm import scoped_session
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 
+# [
+#     [
+#         "patient_id",
+#         "dob",
+#         "sex",
+#         "mrn",
+#         "last_name",
+#         "given_name" "phone_number",
+#         "phone_type",
+#         "address_line_1",
+#         "zip_code",
+#         "city",
+#         "state",
+#         "person_id",
+#     ],
+#     [
+#         UUID("80009abc-79d8-4e26-9d36-386edfcecdfa"),
+#         datetime.date(1977, 11, 11),
+#         "M",
+#         "MRN-1234",
+#         "Cat",
+#         "Thomas",
+#         "+14087775533",
+#         "home",
+#         "1313 Mocking Bird Lane",
+#         "84607",
+#         "Roy",
+#         "UT",
+#         UUID("80009abc-79d8-4e26-9d36-386edf979797"),
+#     ],
+#     [
+#         UUID("80009abc-79d8-4e26-9d36-386edfcecdfa"),
+#         datetime.date(1977, 11, 11),
+#         "M",
+#         "MRN-1234",
+#         "Cat",
+#         "Thomas",
+#         "+18015553333",
+#         "cell",
+#         "1313 Mocking Bird Lane",
+#         "84607",
+#         "Roy",
+#         "UT",
+#         UUID("80009abc-79d8-4e26-9d36-386edf979797"),
+#     ],
+#     [
+#         UUID("f85cfa46-9799-4f1a-ba3e-e97cca550138"),
+#         datetime.date(1988, 1, 1),
+#         "F",
+#         "MRN-7788",
+#         "Mouse",
+#         "Jerry",
+#         None,
+#         None,
+#         "8375 Jessie Lane",
+#         "83642",
+#         "Meridian",
+#         "ID",
+#         UUID("f85cfa46-9799-4f1a-ba3e-e97555599987"),
+#     ],
+# ]
+
+
 def test_init_dal():
     dal = DataAccessLayer()
 
@@ -140,6 +203,7 @@ def _clean_up(dal):
         pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
@@ -186,6 +250,66 @@ def test_select_results():
         block_data, select(dal.PATIENT_TABLE), dal.PATIENT_TABLE
     )
     results = dal.select_results(select_stmt=blocked_data_query)
+
+    # name_sub_query = (
+    #     select(
+    #         dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
+    #         dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
+    #     )
+    #     .where(dal.GIVEN_NAME_TABLE.c.given_name_index == 0)
+    #     .subquery()
+    # )
+
+    # id_sub_query = (
+    #     select(
+    #         dal.ID_TABLE.c.value.label("mrn"),
+    #         dal.ID_TABLE.c.patient_id.label("patient_id"),
+    #     )
+    #     .where(dal.ID_TABLE.c.type_code == "MR")
+    #     .subquery()
+    # )
+
+    # phone_sub_query = (
+    #     select(
+    #         dal.PHONE_TABLE.c.phone_number.label("phone_number"),
+    #         dal.PHONE_TABLE.c.type.label("phone_type"),
+    #         dal.PHONE_TABLE.c.patient_id.label("patient_id"),
+    #     )
+    #     .where(dal.PHONE_TABLE.c.type.in_(["home", "cell"]))
+    #     .subquery()
+    # )
+
+    # query = (
+    #     select(
+    #         dal.PATIENT_TABLE.c.patient_id,
+    #         dal.PATIENT_TABLE.c.dob,
+    #         dal.PATIENT_TABLE.c.sex,
+    #         id_sub_query.c.mrn,
+    #         dal.NAME_TABLE.c.last_name,
+    #         name_sub_query.c.given_name,
+    #         phone_sub_query.c.phone_number,
+    #         phone_sub_query.c.phone_type,
+    #         dal.ADDRESS_TABLE.c.line_1.label("address_line_1"),
+    #         dal.ADDRESS_TABLE.c.zip_code,
+    #         dal.ADDRESS_TABLE.c.city,
+    #         dal.ADDRESS_TABLE.c.state,
+    #         dal.PERSON_TABLE.c.person_id,
+    #     )
+    #     .outerjoin(
+    #         id_sub_query,
+    #     )
+    #     .outerjoin(dal.NAME_TABLE)
+    #     .outerjoin(name_sub_query)
+    #     .outerjoin(phone_sub_query)
+    #     .outerjoin(dal.ADDRESS_TABLE)
+    #     .outerjoin(dal.PERSON_TABLE)
+    # )
+
+    # full_results = dal.select_results(select_stmt=query)
+    # print("FULL:")
+    # print(query)
+    # print("RESULTS:")
+    # print(full_results)
 
     _clean_up(dal)
 

@@ -68,7 +68,9 @@ class DataAccessLayer(object):
         self.PATIENT_TABLE = Table("patient", self.Meta, autoload_with=self.engine)
         self.PERSON_TABLE = Table("person", self.Meta, autoload_with=self.engine)
         self.NAME_TABLE = Table("name", self.Meta, autoload_with=self.engine)
-        self.GIVEN_NAME_TABLE = Table("give_name", self.Meta, autoload_with=self.engine)
+        self.GIVEN_NAME_TABLE = Table(
+            "given_name", self.Meta, autoload_with=self.engine
+        )
         self.ID_TABLE = Table("identifier", self.Meta, autoload_with=self.engine)
         self.PHONE_TABLE = Table("phone_number", self.Meta, autoload_with=self.engine)
         self.ADDRESS_TABLE = Table("address", self.Meta, autoload_with=self.engine)
