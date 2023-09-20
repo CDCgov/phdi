@@ -3,7 +3,7 @@ from fastapi import Response, status, Body, UploadFile, Form
 from pydantic import BaseModel, Field
 from typing import Literal, Optional, Annotated, Dict
 from pathlib import Path
-from zipfile import ZipFile
+from zipfile import ZipFile, is_zipfile
 import os
 from app.utils import load_processing_config, read_json_from_assets
 from app.config import get_settings
@@ -134,6 +134,13 @@ def call_message_parser(input, response, step) -> dict:
     return message_parser_response
 
 
+def unzip(zipped_file) -> Dict:
+    my_zipfile = ZipFile(zipped_file.file)
+    file_to_open = [file for file in my_zipfile.namelist() if "/CDA_eICR.xml" in file][0]
+    f = my_zipfile.open(file_to_open)
+    return f.read().decode('utf-8')
+
+
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
     message_type: Annotated[str, Form()],
@@ -143,10 +150,9 @@ async def process_message_endpoint(
     """
     Process message through a series of microservices
     """
-
-    my_zipfile = ZipFile(upload_file.file)
-    f = my_zipfile.open("f1ef2b9d-9af3-4228-bb28-d3a5a1c5cd9d/CDA_eICR.xml")
-    content = f.read().decode('utf-8')
+    content = ''
+    if is_zipfile(upload_file.file):
+        content = unzip(upload_file)
 
     # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")
