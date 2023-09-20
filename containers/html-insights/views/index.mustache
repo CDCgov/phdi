@@ -6,7 +6,22 @@
 
 <body>
     <h1>HTML Insights</h1>
-    <p>{{ data }}</p>
+    <div>
+        <p>PatientName</p>
+        <p>{{ patientName }}</p>
+    </div>
+    <div>
+        <p>DOB</p>
+        <p>{{ dob }}</p>
+    </div>
+    <ul>
+        {{#conditions}}
+        <li>
+            <div>{{conditionName}}</div>
+            <div>{{dateAdded}}</div>
+        </li>
+        {{/conditions}}
+    </ul>
 </body>
 
 </html>

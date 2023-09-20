@@ -13,9 +13,10 @@ app.get('/', (req, res) => {
 
 app.post('/generate-html', (req, res) => {
     const data  = req.body
-    res.render('index', { data }, function (err, html) {
-        console.log(req);
-        console.log(data);
+    const patientName = data.patientName
+    const dob = data.DOB
+    const conditions = data.activeConditions
+    res.render('index', { patientName, dob, conditions }, function (err, html) {
         if (err) {
             res.status(500).json({ error: err });
         } else {
