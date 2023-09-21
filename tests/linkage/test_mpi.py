@@ -1,7 +1,6 @@
 import os
 import pathlib
 import re
-import string
 import pytest
 
 from sqlalchemy import Select, select, text
