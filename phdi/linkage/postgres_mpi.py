@@ -1,5 +1,5 @@
 from typing import List, Dict, Union
-from sqlalchemy import select, text
+from sqlalchemy import and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 from sqlalchemy.orm import Query
 from phdi.linkage.utils import load_mpi_env_vars_os
@@ -70,6 +70,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             block_vals=organized_block_vals, query=query
         )
 
+        print(f"QUERY: {query_w_ctes}")
         blocked_data = self.dal.select_results(select_stmt=query_w_ctes)
 
         return blocked_data
@@ -104,12 +105,13 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         return None
 
-    def _generate_where_criteria(self, block_vals: dict, table_name: str) -> []:
+    def _generate_where_criteria(self, block_vals: dict, table_name: str) -> list:
         where_criteria = []
         for key, value in block_vals.items():
             for key2, value2 in value.items():
                 if key2 == "value":
                     where_criteria.append(f"{table_name}.{key} = '{value2}'")
+        return where_criteria
 
     def _generate_block_query(self, block_vals: dict, query: select) -> Query:
         # TODO: This comment may need to be updated with the changes made
@@ -132,64 +134,74 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         name_cte = None
         new_query = query
 
-        if block_vals["patient"] is not None:
+        if len(block_vals["patient"]) > 0:
             patient_criteria = self._generate_where_criteria(
                 block_vals["patient"], "patient"
             )
-            patient_cte = (
-                select(self.dal.PATIENT_TABLE.c.patient_id)
-                .where(text(" AND ".join(patient_criteria)))
-                .cte("patient_cte")
-            )
+            if patient_criteria is not None and len(patient_criteria) > 0:
+                patient_cte = (
+                    select(self.dal.PATIENT_TABLE.c.patient_id.label("patient_id"))
+                    .where(text(" AND ".join(patient_criteria)))
+                    .cte("patient_cte")
+                )
+                new_query = new_query.join(
+                    patient_cte,
+                    and_(
+                        patient_cte.c.patient_id == self.dal.PATIENT_TABLE.c.patient_id
+                    ),
+                )
 
-            new_query = new_query.where(
-                self.dal.PATIENT_TABLE.c.patient_id.in_(select(patient_cte))
-            )
-
-        if block_vals["address"] is not None:
+        if len(block_vals["address"]) > 0:
             address_criteria = self._generate_where_criteria(
                 block_vals["address"], "address"
             )
-            address_cte = (
-                select(self.dal.ADDRESS_TABLE.c.patient_id)
-                .where(text(" AND ".join(address_criteria)))
-                .cte("address_cte")
-            )
+            if address_criteria is not None and len(address_criteria) > 0:
+                address_cte = (
+                    select(self.dal.ADDRESS_TABLE.c.patient_id.label("patient_id"))
+                    .where(text(" AND ".join(address_criteria)))
+                    .cte("address_cte")
+                )
 
-            new_query = new_query.where(
-                self.dal.PATIENT_TABLE.c.patient_id.in_(select(address_cte))
-            )
+                new_query = new_query.join(
+                    address_cte,
+                    and_(
+                        address_cte.c.patient_id == self.dal.PATIENT_TABLE.c.patient_id
+                    ),
+                )
 
-        if block_vals["name"] is not None:
+        if len(block_vals["name"]) > 0:
             name_criteria = self._generate_where_criteria(block_vals["name"], "name")
-            name_cte = (
-                select(self.dal.NAME_TABLE.c.patient_id)
-                .where(text(" AND ".join(name_criteria)))
-                .cte("name_cte")
-            )
+            if name_criteria is not None and len(name_criteria) > 0:
+                name_cte = (
+                    select(self.dal.NAME_TABLE.c.patient_id.label("patient_id"))
+                    .where(text(" AND ".join(name_criteria)))
+                    .cte("name_cte")
+                )
 
-        if block_vals["given_name"] is not None:
+        if len(block_vals["given_name"]) > 0:
             gname_criteria = self._generate_where_criteria(
                 block_vals["given_name"], "given_name"
             )
-            given_name_subq = (
-                select(self.dal.GIVEN_NAME_TABLE.c.name_id)
-                .where(text(" AND ".join(gname_criteria)))
-                .subquery()
-            )
-
-            if name_cte is None:
-                name_cte = (
-                    select(self.dal.NAME_TABLE.c.patient_id)
-                    .join(given_name_subq)
-                    .cte("name_cte")
+            if gname_criteria is not None and len(gname_criteria) > 0:
+                given_name_subq = (
+                    select(self.dal.GIVEN_NAME_TABLE.c.name_id)
+                    .where(text(" AND ".join(gname_criteria)))
+                    .subquery()
                 )
-            else:
-                name_cte = name_cte.join(given_name_subq)
+
+                if name_cte is None:
+                    name_cte = (
+                        select(self.dal.NAME_TABLE.c.patient_id.label("patient_id"))
+                        .join(given_name_subq)
+                        .cte("name_cte")
+                    )
+                else:
+                    name_cte = name_cte.join(given_name_subq)
 
         if name_cte is not None:
-            new_query = new_query.where(
-                self.dal.PATIENT_TABLE.c.patient_id.in_(select(name_cte))
+            new_query = new_query.join(
+                name_cte,
+                and_(name_cte.c.patient_id == self.dal.PATIENT_TABLE.c.patient_id),
             )
 
         return new_query

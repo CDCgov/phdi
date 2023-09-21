@@ -223,8 +223,13 @@ def test_select_results():
     }
     dal = _init_db()
     block_data = {
-        "dob": {"value": "1977-11-11"},
-        "sex": {"value": "M"},
+        "patient": {
+            "dob": {"value": "1977-11-11"},
+            "sex": {"value": "M"},
+        },
+        "address": {},
+        "name": {},
+        "given_name": {},
     }
 
     pt1 = {
@@ -246,11 +251,15 @@ def test_select_results():
     test_data.append(pt2)
     dal.bulk_insert(dal.PATIENT_TABLE, test_data)
     mpi = PGMPIConnectorClient()
+    mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(
-        block_data, select(dal.PATIENT_TABLE), dal.PATIENT_TABLE
+        block_data, select(dal.PATIENT_TABLE)
     )
     results = dal.select_results(select_stmt=blocked_data_query)
 
+    # TODO: saving this query here so it can be used in more robust tests
+    # in the near future:
+    #
     # name_sub_query = (
     #     select(
     #         dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
