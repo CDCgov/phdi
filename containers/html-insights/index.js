@@ -1,5 +1,11 @@
 const express = require('express');
 const mustacheExpress = require('mustache-express');
+const multer  = require('multer');
+const os  = require('os');
+const fs = require('fs');
+const csv=require('csvtojson');
+
+const upload = multer({ dest: os.tmpdir() });
 
 const app = express();
 app.use(express.json())
@@ -11,18 +17,21 @@ app.get('/', (req, res) => {
     res.json({ status: "OK" });
 });
 
-app.post('/generate-html', (req, res) => {
-    const data  = req.body
-    const patientName = data.patientName
-    const dob = data.DOB
-    const conditions = data.activeConditions
-    res.render('index', { patientName, dob, conditions }, function (err, html) {
-        if (err) {
-            res.status(500).json({ error: err });
-        } else {
-            res.send(html);
-        }
-    });
+app.post('/generate-html', upload.single('file'), (req, res) => {
+    csv()
+        .fromFile(req.file.path)
+        .then((csv_data) => {
+            res.render('index', { csv_data }, function (err, html) {
+                if (err) {
+                    res.status(500).json({ error: err });
+                } else {
+                    res.send(html);
+                }
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({ error: 'Error parsing CSV file' });
+        });
 });
 
 app.listen(port, () => {

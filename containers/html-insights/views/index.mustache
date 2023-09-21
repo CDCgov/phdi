@@ -6,22 +6,42 @@
 
 <body>
     <h1>HTML Insights</h1>
-    <div>
-        <p>PatientName</p>
-        <p>{{ patientName }}</p>
-    </div>
-    <div>
-        <p>DOB</p>
-        <p>{{ dob }}</p>
-    </div>
-    <ul>
-        {{#conditions}}
-        <li>
-            <div>{{conditionName}}</div>
-            <div>{{dateAdded}}</div>
-        </li>
-        {{/conditions}}
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Patient ID</th>
+          <th>Person ID</th>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Birth Date</th>
+          <th>Gender</th>
+          <th>Race</th>
+          <th>Ethnicity</th>
+          <th>Status</th>
+          <th>Conditions</th>
+          <th>EICR ID</th>
+          <th>EICR Version Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#csv_data}}
+        <tr>
+          <td>{{patient_id}}</td>
+          <td>{{person_id}}</td>
+          <td>{{last_name}}</td>
+          <td>{{first_name}}</td>
+          <td>{{birth_date}}</td>
+          <td>{{gender}}</td>
+          <td>{{race}}</td>
+          <td>{{ethnicity}}</td>
+          <td>{{status}}</td>
+          <td>{{conditions}}</td>
+          <td>{{eicr_id}}</td>
+          <td>{{eicr_version_number}}</td>
+        </tr>
+        {{/csv_data}}
+      </tbody>
+    </table>
 </body>
 
 </html>
