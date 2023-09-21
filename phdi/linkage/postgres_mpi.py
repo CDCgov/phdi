@@ -56,15 +56,18 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if len(block_vals) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
-        # Generate ORM query using block_vals as criteria
-        query = select(self.dal.PATIENT_TABLE)
+        # Get the base query that will select all necessary
+        # columns for linkage with some basic filtering
+        query = self._get_base_query()
+        # now get the criteria organized by table so the
+        # CTE queries can be constructed and then added
+        # to the base query
+        organized_block_vals = self._organize_block_criteria(block_vals)
 
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
-        query = self._generate_block_query(
-            block_vals=block_vals,
-            query=query,
-            table=self.dal.PATIENT_TABLE,
+        query_w_ctes = self._generate_block_query(
+            block_vals=organized_block_vals, query=query
         )
 
         blocked_data = self.dal.select_results(select_stmt=query)
@@ -100,10 +103,17 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         #     # self.dal.bulk_insert(self.dal.PATIENT_TABLE, patient_record_dict)
 
         return None
+    
+    def _generate_where_criteria(self, block_vals: dict, table_name: str) -> []:
+        where_criteria = []
+        for key, value in block_vals.items():
+            for key2, value2 in value.items():
+                if key2 == "value":
+                    where_criteria.append(
+                            f"{table_name}.{key} = '{value2}'"
+                        )
 
-    def _generate_block_query(
-        self, block_vals: dict, query: Query, table: Table
-    ) -> Query:
+    def _generate_block_query(self, block_vals: dict, query: select) -> Query:
         # TODO: This comment may need to be updated with the changes made
         """
         Generates a query for selecting a block of data from the patient table per the
@@ -119,39 +129,27 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         :return: A 'Select' statement built by the sqlalchemy ORM
 
         """
+        patient_cte = None
+        address_cte = None
+        name_cte = None
 
-        # Accepted blocking fields include: first_name, last_name,
-        # birthdate, address line 1, city, state, zip, mrn, and sex.
-        blocking_tables = []
-        address_fields = ["line_1", "city", "state", "zip"]
-        patient_fields = ["dob", "sex"]
-        name_fields = ["last_name"]
-        given_name_fields = ["given_name"]
+        if block_vals["patient"] is not None:
+            patient_criteria = self._generate_where_criteria(block_vals["patient"],"patient")
+            patient_cte = select(self.dal.PATIENT_TABLE.c.patient_id).where(text(" AND ".join(patient_criteria))).cte("patient_cte")
+
+        if block_vals["address"] is not None:
+            address_criteria = self._generate_where_criteria(block_vals["address"],"address")
+            address_cte = select(self.dal.ADDRESS_TABLE.c.patient_id).where(text(" AND ".join(address_criteria))).cte("address_cte")
+
+        if block_vals["name"] is not None:
+            name_criteria = self._generate_where_criteria(block_vals["name"],"name")
+            name_cte = select(self.dal.NAME_TABLE.c.patient_id).where(text(" AND ".join(name_criteria))).cte("name_cte")
+
+        for key, value in block_vals["patient"].items():
+
 
         new_query = None
-        where_criteria = []
-        table_columns = self._get_table_columns(table)
-        for key, value in block_vals.items():
-            try:
-                col_index = table_columns.index(key)
-                for key2, value2 in value.items():
-                    if key2 == "value":
-                        where_criteria.append(
-                            f"{table.name}.{table_columns[col_index]} = '{value2}'"
-                        )
-            except ValueError as err:
-                print(err)
-                continue
-        new_query = query.where(text(" AND ".join(where_criteria)))
-
         return new_query
-
-    def _get_table_columns(self, table: Table) -> List:
-        columns = []
-        for col in table.c:
-            columns.append(str(col).split(".")[1])
-
-        return columns
 
     def _insert_person(
         self,
@@ -184,36 +182,33 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         return None
 
-    def _get_blocking_tables(self, block_fields: dict) -> List[Table]:
+    def _organize_block_criteria(self, block_fields: dict) -> dict:
         # Accepted blocking fields include: first_name, last_name,
         # birthdate, address line 1, city, state, zip, mrn, and sex.
-        blocking_tables = []
+        organized_block_vals = {}
+        patient_section = {}
+        address_section = {}
+        name_section = {}
         address_fields = ["line_1", "city", "state", "zip"]
         patient_fields = ["dob", "sex"]
-        name_fields = ["last_name"]
-        given_name_fields = ["given_name"]
+        name_fields = ["last_name", "given_name"]
+        sub_dict = {}
 
-        for field_key, field_value in block_fields.items():
-            if (
-                field_key in address_fields
-                and self.dal.ADDRESS_TABLE not in blocking_tables
-            ):
-                blocking_tables.append(self.dal.ADDRESS_TABLE)
-            elif (
-                field_key in patient_fields
-                and self.dal.PATIENT_TABLE not in blocking_tables
-            ):
-                blocking_tables.append(self.dal.PATIENT_TABLE)
-            elif (
-                field_key in name_fields and self.dal.NAME_TABLE not in blocking_tables
-            ):
-                blocking_tables.append(self.dal.NAME_TABLE)
-            elif (
-                field_key in given_name_fields
-                and self.dal.GIVEN_NAME_TABLE not in blocking_tables
-            ):
-                blocking_tables.append(self.dal.GIVEN_NAME_TABLE)
-        return blocking_tables
+        for block_key, block_value in block_fields.items():
+            sub_dict.clear()
+            sub_dict[block_key] = block_value
+            if block_key in address_fields:
+                address_section.update(sub_dict)
+            elif block_key in patient_fields:
+                patient_section.update(sub_dict)
+            elif block_key in name_fields:
+                name_section.update(sub_dict)
+
+        organized_block_vals["patient"] = patient_section
+        organized_block_vals["address"] = address_section
+        organized_block_vals["name"] = name_section
+
+        return organized_block_vals
 
     def _get_base_query(self) -> select:
         name_sub_query = (
