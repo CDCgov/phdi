@@ -1,13 +1,16 @@
 import os
+import pathlib
+import re
+import string
 import pytest
 
-from sqlalchemy import text
+from sqlalchemy import Select, select, text
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy.orm import Session
 
 
-def _init_db() -> PGMPIConnectorClient:
+def _init_db() -> DataAccessLayer:
     os.environ = {
         "mpi_dbname": "testdb",
         "mpi_user": "postgres",
@@ -16,133 +19,231 @@ def _init_db() -> PGMPIConnectorClient:
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
+    MPI = PGMPIConnectorClient()
+    MPI.dal.get_connection(
+        engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
+    )
+    _clean_up(MPI.dal)
 
-    mpi = PGMPIConnectorClient()
+    # load ddl
+    schema_ddl = open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "new_tables.ddl"
+    ).read()
 
-    # Generate test tables
-    funcs = {
-        "drop tables": (
-            """
-        DROP TABLE IF EXISTS patient;
-        DROP TABLE IF EXISTS person;
-        """
-        ),
-        "create_patient": (
-            """CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + "CREATE TABLE IF NOT EXISTS patient "
-            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
-            + "zip VARCHAR(5), city VARCHAR(100), PRIMARY KEY(patient_id));"
-        ),
-        "create_person": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + "CREATE TABLE IF NOT EXISTS person "
-            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
-            + "external_person_id VARCHAR(100), PRIMARY KEY(person_id));"
-        ),
-    }
-
-    for command, statement in funcs.items():
-        try:
-            with mpi.dal.engine.connect() as db_conn:
-                db_conn.execute(text(statement))
-                db_conn.commit()
-                print(f"{command} WORKED!")
-        except Exception as e:
-            print(f"{command} was unsuccessful")
-            print(e)
-            with mpi.dal.engine.connect() as db_conn:
-                db_conn.rollback()
-    mpi._initialize_schema()
-    return mpi
+    try:
+        with MPI.dal.engine.connect() as db_conn:
+            db_conn.execute(text(schema_ddl))
+            db_conn.commit()
+    except Exception as e:
+        print(e)
+        with MPI.dal.engine.connect() as db_conn:
+            db_conn.rollback()
+    MPI.dal.initialize_schema()
+    return MPI
 
 
-def _clean_up_postgres_client(postgres_client):
-    os.environ = {
-        "mpi_dbname": "testdb",
-        "mpi_user": "postgres",
-        "mpi_password": "pw",
-        "mpi_host": "localhost",
-        "mpi_port": "5432",
-        "mpi_db_type": "postgres",
-    }
-
-    with postgres_client.dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person;"""))
+def _clean_up(dal):
+    with dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
         pg_connection.commit()
         pg_connection.close()
 
 
 def test_block_data():
     MPI = _init_db()
-    block_data = {"zip": {"value": "90210"}, "city": {"value": "Los Angeles"}}
-    pt1 = {"zip": "83642", "city": "Meridian"}
-    pt2 = {"zip": "90210", "city": "Los Angeles"}
+    block_data = {
+        "dob": {"value": "1977-11-11"},
+        "sex": {"value": "M"},
+    }
+
+    pt1 = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "M",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pt2 = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "F",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
     test_data = []
     test_data.append(pt1)
     test_data.append(pt2)
     MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
     blocked_data = MPI.block_data(block_data)
 
-    _clean_up_postgres_client(MPI)
+    _clean_up(MPI.dal)
 
     # ensure blocked data has two rows, headers and data
     assert len(blocked_data) == 2
+    assert blocked_data[1][0] is not None
+    assert blocked_data[0][0] == "patient_id"
     assert blocked_data[1][1] is None
-    assert blocked_data[1][2] == pt2.get("zip")
+    assert blocked_data[0][1] == "person_id"
+    assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
+    assert blocked_data[0][2] == "dob"
+    assert len(blocked_data[0]) == 13
 
 
 def test_block_data_failures():
     MPI = _init_db()
     block_data = {}
     blocked_data = None
+    # test empty block vals
     with pytest.raises(ValueError) as e:
         blocked_data = MPI.block_data(block_data)
         assert "`block_data` cannot be empty." in str(e.value)
 
     block_data = {
-        "zip": {"value": "90210"},
-        "city": {"value": "Los Angeles"},
+        "dob": {"value": "1977-11-11"},
+        "sex": {"value": "M"},
         "MYADDR": {"value": "BLAH"},
     }
-    data_requested = {"zip": "90210", "city": "Los Angeles"}
+
+    pt1 = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "M",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pt2 = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "F",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
     test_data = []
-    test_data.append(data_requested)
+    test_data.append(pt1)
+    test_data.append(pt2)
     MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
     blocked_data = MPI.block_data(block_data)
 
-    _clean_up_postgres_client(MPI)
+    _clean_up(MPI.dal)
 
     # ensure blocked data has two rows, headers and data
+    # testing to ensure that invalid block vals are skipped
+    #  and not used in the filtering of the query
     assert len(blocked_data) == 2
+    assert blocked_data[1][0] is not None
+    assert blocked_data[0][0] == "patient_id"
     assert blocked_data[1][1] is None
-    assert blocked_data[1][2] == data_requested.get("zip")
-    assert len(blocked_data[1]) == 4
+    assert blocked_data[0][1] == "person_id"
+    assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
+    assert blocked_data[0][2] == "dob"
+    assert len(blocked_data[0]) == 13
 
 
-def test_get_table_columns():
+def test_get_base_query():
+    MPI: PGMPIConnectorClient = _init_db()
+    base_query = MPI._get_base_query()
+    assert base_query is not None
+    assert isinstance(base_query, Select)
+    _clean_up(MPI.dal)
+
+
+def test_organize_block_criteria():
+    MPI: PGMPIConnectorClient = _init_db()
+    block_data = {
+        "dob": {"value": "1977-11-11"},
+        "sex": {"value": "M"},
+        "MYADDR": {"value": "BLAH"},
+    }
+
+    expected_block_data = {
+        "patient": {
+            "dob": {"value": "1977-11-11"},
+            "sex": {"value": "M"},
+        },
+        "address": {},
+        "name": {},
+        "given_name": {},
+    }
+
+    result_block = MPI._organize_block_criteria(block_data)
+    assert result_block == expected_block_data
+
+    block_data = {
+        "dob": {"value": "1977-11-11"},
+        "sex": {"value": "M"},
+        "line_1": {"value": "BLAH"},
+    }
+
+    expected_block_data = {
+        "patient": {
+            "dob": {"value": "1977-11-11"},
+            "sex": {"value": "M"},
+        },
+        "address": {"line_1": {"value": "BLAH"}},
+        "name": {},
+        "given_name": {},
+    }
+
+    result_block = MPI._organize_block_criteria(block_data)
+    _clean_up(MPI.dal)
+    assert result_block == expected_block_data
+
+
+def test_generate_where_criteria():
     MPI = _init_db()
-    patient = MPI.dal.PATIENT_TABLE
-    results = MPI._get_table_columns(patient)
-    expected_result = ["patient_id", "person_id", "zip", "city"]
-    assert results == expected_result
+    block_data = {
+        "dob": {"value": "1977-11-11"},
+        "sex": {"value": "M"},
+    }
+
+    where_crit = MPI._generate_where_criteria(
+        block_vals=block_data, table_name="patient"
+    )
+    expected_result = ["patient.dob = '1977-11-11'", "patient.sex = 'M'"]
+
+    assert where_crit == expected_result
 
 
 def test_generate_block_query():
     MPI = _init_db()
-    block_data = {"zip": {"value": "90210"}, "city": {"value": "Los Angeles"}}
-    db_conn = MPI.get_connection()
-    expected_result = "patient.zip = '90210' AND patient.city = 'Los Angeles'"
-    patient = MPI.dal.PATIENT_TABLE
-    my_query = db_conn.query(patient)
-    my_query = MPI._generate_block_query(block_data, my_query, patient)
+    block_data = {
+        "patient": {
+            "dob": {"value": "1977-11-11"},
+            "sex": {"value": "M"},
+        },
+        "address": {},
+        "name": {},
+        "given_name": {},
+    }
 
-    _clean_up_postgres_client(MPI)
+    base_query = select(MPI.dal.PATIENT_TABLE)
+    my_query = MPI._generate_block_query(block_data, base_query)
+
+    _clean_up(MPI.dal)
+    expected_result = (
+        "WITH patient_cte AS"
+        + "(SELECT patient.patient_id AS patient_id"
+        + "FROM patient"
+        + "WHERE patient.dob = '1977-11-11' AND patient.sex = 'M')"
+        + "SELECT patient.patient_id, patient.person_id, patient.dob,"
+        + "patient.sex, patient.race, patient.ethnicity"
+        + "FROM patient JOIN patient_cte ON "
+        + "patient_cte.patient_id = patient.patient_id"
+    )
     # ensure query has the proper where clause added
-    assert str(my_query.whereclause) == expected_result
+    assert re.sub(r"\s+", "", str(my_query)) == re.sub(r"\s+", "", expected_result)
 
 
 def test_pgmpi_connector():
@@ -193,7 +294,13 @@ def test_get_connection():
 
 def test_insert_match_patient():
     eng = PGMPIConnectorClient()
-    patient = {"zip": "90210", "city": "Los Angeles"}
+    patient = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "M",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
     result = eng.insert_match_patient(patient)
     assert result is None
 
@@ -204,6 +311,7 @@ def test_insert_person():
     assert result is None
 
 
+# TODO: Update this test once we have transformations included
 # def test_block_data_with_transform():
 #     MPI = _init_db()
 #     data_requested = {

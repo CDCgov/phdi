@@ -1,7 +1,6 @@
 from typing import List, Dict, Union
-from sqlalchemy import and_, select, text
+from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
-from sqlalchemy.orm import Query
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 
@@ -67,10 +66,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
         query_w_ctes = self._generate_block_query(
-            block_vals=organized_block_vals, query=query
+            organized_block_vals=organized_block_vals, query=query
         )
-
-        print(f"QUERY: {query_w_ctes}")
         blocked_data = self.dal.select_results(select_stmt=query_w_ctes)
 
         return blocked_data
@@ -113,7 +110,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     where_criteria.append(f"{table_name}.{key} = '{value2}'")
         return where_criteria
 
-    def _generate_block_query(self, block_vals: dict, query: select) -> Query:
+    def _generate_block_query(
+        self, organized_block_vals: dict, query: Select
+    ) -> Select:
         # TODO: This comment may need to be updated with the changes made
         """
         Generates a query for selecting a block of data from the patient table per the
@@ -134,9 +133,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         name_cte = None
         new_query = query
 
-        if len(block_vals["patient"]) > 0:
+        if len(organized_block_vals["patient"]) > 0:
             patient_criteria = self._generate_where_criteria(
-                block_vals["patient"], "patient"
+                organized_block_vals["patient"], "patient"
             )
             if patient_criteria is not None and len(patient_criteria) > 0:
                 patient_cte = (
@@ -151,9 +150,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     ),
                 )
 
-        if len(block_vals["address"]) > 0:
+        if len(organized_block_vals["address"]) > 0:
             address_criteria = self._generate_where_criteria(
-                block_vals["address"], "address"
+                organized_block_vals["address"], "address"
             )
             if address_criteria is not None and len(address_criteria) > 0:
                 address_cte = (
@@ -169,8 +168,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     ),
                 )
 
-        if len(block_vals["name"]) > 0:
-            name_criteria = self._generate_where_criteria(block_vals["name"], "name")
+        if len(organized_block_vals["name"]) > 0:
+            name_criteria = self._generate_where_criteria(
+                organized_block_vals["name"], "name"
+            )
             if name_criteria is not None and len(name_criteria) > 0:
                 name_cte = (
                     select(self.dal.NAME_TABLE.c.patient_id.label("patient_id"))
@@ -178,9 +179,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     .cte("name_cte")
                 )
 
-        if len(block_vals["given_name"]) > 0:
+        if len(organized_block_vals["given_name"]) > 0:
             gname_criteria = self._generate_where_criteria(
-                block_vals["given_name"], "given_name"
+                organized_block_vals["given_name"], "given_name"
             )
             if gname_criteria is not None and len(gname_criteria) > 0:
                 given_name_subq = (
