@@ -81,27 +81,6 @@ def block_data_from_db(db_name: str, table_name: str, block_data: Dict) -> List[
     return block
 
 
-def block_parquet_data(path: str, blocks: List) -> Dict:
-    """
-    Generates dictionary of blocked data where each key is a block and each value is a
-    distinct list of lists containing the data for a given block.
-
-    :param path: Path to parquet file containing data that needs to be linked.
-    :param blocks: List of columns to be used in blocking.
-    :return: A dictionary of with the keys as the blocks and the values as the data
-    within each block, stored as a list of lists.
-    """
-    data = pd.read_parquet(path, engine="pyarrow")
-    blocked_data_tuples = tuple(data.groupby(blocks))
-
-    # Convert data to list of lists within dict
-    blocked_data = dict()
-    for block, df in blocked_data_tuples:
-        blocked_data[block] = df.values.tolist()
-
-    return blocked_data
-
-
 def calculate_log_odds(
     m_probs: dict,
     u_probs: dict,
@@ -599,7 +578,6 @@ def link_record_against_mpi(
       Person entity now associated with the incoming patient (either a
       new Person ID or the ID of an existing matched Person).
     """
-    flattened_record = _flatten_patient_resource(record)
 
     # Need to bind function names back to their symbolic invocations
     # in context of the module--i.e. turn the string of a function
@@ -631,26 +609,7 @@ def link_record_against_mpi(
         col_to_idx = {v: k for k, v in enumerate(data_block[0][2:])}
         data_block = data_block[1:]
 
-        # Blocked fields are returned as LoLoL, but only name / address
-        # need to preserve multiple elements, so flatten other fields
-        for i in range(len(data_block)):
-            blocked_record = data_block[i]
-            for j in range(len(blocked_record)):
-                # patient_id, person_id not included in col->idx mapping
-                if j < 2:
-                    continue
-                if col_to_idx["first_name"] != (j - 2) and col_to_idx["address"] != (
-                    j - 2
-                ):
-                    while type(blocked_record[j]) is list:
-                        # Handle empty list edge case.
-                        if len(blocked_record[j]) == 0:
-                            blocked_record[j] = ""
-                            break
-                        blocked_record[j] = blocked_record[j][0]
-                # Name / address come back as lists of one more depth than they should
-                else:
-                    blocked_record[j] = blocked_record[j][0]
+        flattened_record = _flatten_patient_resource(record, col_to_idx)
 
         clusters = _group_patient_block_by_person(data_block)
 
@@ -1216,7 +1175,7 @@ def _compare_records_field_helper(
         return _compare_name_elements(
             record, mpi_patient, feature_funcs, feature_col, col_to_idx, **kwargs
         )
-    elif feature_col == "address":
+    elif feature_col in ["address", "city", "state", "zip"]:
         return _compare_address_elements(
             record, mpi_patient, feature_funcs, feature_col, col_to_idx, **kwargs
         )
@@ -1242,12 +1201,11 @@ def _compare_address_elements(
     feature_comp = False
     idx = col_to_idx[feature_col]
     for r in record[idx]:
-        for m in mpi_patient[idx]:
-            feature_comp = feature_funcs[feature_col](
-                [r], [m], feature_col, {feature_col: 0}, **kwargs
-            )
-            if feature_comp:
-                break
+        feature_comp = feature_funcs[feature_col](
+            [r], [mpi_patient[idx]], feature_col, {feature_col: 0}, **kwargs
+        )
+        if feature_comp:
+            break
         break
     return feature_comp
 
@@ -1268,7 +1226,7 @@ def _compare_name_elements(
     idx = col_to_idx[feature_col]
     feature_comp = feature_funcs[feature_col](
         [" ".join(n for n in record[idx])],
-        [" ".join(n for n in mpi_patient[idx])],
+        [mpi_patient[idx]],
         feature_col,
         {feature_col: 0},
         **kwargs,
@@ -1306,15 +1264,14 @@ def _find_strongest_link(linkage_scores: dict) -> str:
     return best_person
 
 
-def _flatten_patient_resource(resource: dict) -> List:
+def _flatten_patient_resource(resource: dict, col_to_idx: dict) -> List:
     """
     Helper method that flattens an incoming patient resource into a list whose
     elements are the keys of the FHIR dictionary, reformatted and ordered
     according to our "blocking fields extractor" dictionary.
     """
     flattened_record = [
-        _flatten_patient_field_helper(resource, f)
-        for f in sorted(LINKING_FIELDS_TO_FHIRPATHS.keys())
+        _flatten_patient_field_helper(resource, f) for f in col_to_idx.keys()
     ]
     flattened_record = [resource["id"], None] + flattened_record
     return flattened_record
