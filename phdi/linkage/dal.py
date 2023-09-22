@@ -30,6 +30,7 @@ class DataAccessLayer(object):
         self.ADDRESS_TABLE = None
         self.EXT_PERSON_TABLE = None
         self.EXT_SOURCE_TABLE = None
+        self.TABLE_LIST = []
 
     def get_connection(self, engine_url: str, engine_echo: bool = False) -> None:
         """
@@ -80,6 +81,16 @@ class DataAccessLayer(object):
         self.EXT_SOURCE_TABLE = Table(
             "external_source", self.Meta, autoload_with=self.engine
         )
+
+        self.TABLE_LIST.append(self.PATIENT_TABLE)
+        self.TABLE_LIST.append(self.PERSON_TABLE)
+        self.TABLE_LIST.append(self.NAME_TABLE)
+        self.TABLE_LIST.append(self.GIVEN_NAME_TABLE)
+        self.TABLE_LIST.append(self.ID_TABLE)
+        self.TABLE_LIST.append(self.PHONE_TABLE)
+        self.TABLE_LIST.append(self.ADDRESS_TABLE)
+        self.TABLE_LIST.append(self.EXT_PERSON_TABLE)
+        self.TABLE_LIST.append(self.EXT_SOURCE_TABLE)
 
     @contextmanager
     def transaction(self) -> None:
@@ -152,3 +163,26 @@ class DataAccessLayer(object):
         """
 
         return self.session()
+
+    def get_table_by_name(self, table_name: str) -> Table:
+        if len(self.TABLE_LIST) == 0:
+            self.initialize_schema()
+
+        # TODO: I am sure there is an easier way to do this
+        for table in self.TABLE_LIST:
+            if table.name == table_name:
+                return table
+        return None
+
+    def get_table_by_column(self, column_name: str) -> Table:
+        if len(self.TABLE_LIST) == 0:
+            self.initialize_schema()
+
+        # TODO: I am sure there is an easier way to do this
+        for table in self.TABLE_LIST:
+            if column_name in table.c:
+                return table
+        return None
+
+    def does_table_have_column(self, table: Table, column_name: str) -> bool:
+        return column_name in table.c

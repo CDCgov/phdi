@@ -224,12 +224,12 @@ def test_select_results():
     dal = _init_db()
     block_data = {
         "patient": {
-            "dob": {"value": "1977-11-11"},
-            "sex": {"value": "M"},
-        },
-        "address": {},
-        "name": {},
-        "given_name": {},
+            "table": dal.PATIENT_TABLE,
+            "criteria": {
+                "dob": {"value": "1977-11-11"},
+                "sex": {"value": "M"},
+            },
+        }
     }
 
     pt1 = {
@@ -255,6 +255,7 @@ def test_select_results():
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
+    print(f"QUERY: {blocked_data_query}")
     results = dal.select_results(select_stmt=blocked_data_query)
 
     # TODO: saving this query here so it can be used in more robust tests
@@ -323,8 +324,49 @@ def test_select_results():
     _clean_up(dal)
 
     # ensure blocked data has two rows, headers and data
+
     assert len(results) == 2
     assert results[0][2] == "dob"
     assert results[1][2] == datetime.date(1977, 11, 11)
     assert results[0][3] == "sex"
     assert results[1][3] == "M"
+
+
+def test_get_table_by_name():
+    dal = _init_db()
+    table = dal.get_table_by_column("zip_code")
+    print(f"TABLE: {table}")
+    assert table.name == "address"
+    assert table.c is not None
+    _clean_up(dal)
+
+    dal2 = _init_db()
+    dal2.initialize_schema()
+
+    table = dal2.get_table_by_column("zip_code")
+    assert table.name == "address"
+    assert table.c is not None
+    _clean_up(dal2)
+
+
+def test_get_table_by_column():
+    dal = _init_db()
+    table = dal.get_table_by_column("zip_code")
+    assert table.name == "address"
+    assert table.c is not None
+    _clean_up(dal)
+
+    dal2 = _init_db()
+    dal2.initialize_schema()
+
+    table = dal2.get_table_by_column("zip_code")
+    assert table.name == "address"
+    assert table.c is not None
+    _clean_up(dal2)
+
+
+def test_does_table_have_column():
+    dal = _init_db()
+    assert dal.does_table_have_column(dal.GIVEN_NAME_TABLE, "patient_id") is False
+    assert dal.does_table_have_column(dal.NAME_TABLE, "patient_id") is True
+    _clean_up(dal)

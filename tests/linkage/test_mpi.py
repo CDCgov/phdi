@@ -167,16 +167,14 @@ def test_organize_block_criteria():
     }
 
     expected_block_data = {
-        "patient": {
-            "dob": {"value": "1977-11-11"},
-            "sex": {"value": "M"},
-        },
-        "address": {},
-        "name": {},
-        "given_name": {},
+        "patient": {"criteria": {"dob": {"value": "1977-11-11"}, "sex": {"value": "M"}}}
     }
+    expected_table = MPI.dal.PATIENT_TABLE
 
     result_block = MPI._organize_block_criteria(block_data)
+    result_table = result_block["patient"]["table"]
+    del result_block["patient"]["table"]
+    assert expected_table == result_table
     assert result_block == expected_block_data
 
     block_data = {
@@ -187,16 +185,19 @@ def test_organize_block_criteria():
 
     expected_block_data = {
         "patient": {
-            "dob": {"value": "1977-11-11"},
-            "sex": {"value": "M"},
+            "criteria": {"dob": {"value": "1977-11-11"}, "sex": {"value": "M"}}
         },
-        "address": {"line_1": {"value": "BLAH"}},
-        "name": {},
-        "given_name": {},
+        "address": {"criteria": {"line_1": {"value": "BLAH"}}},
     }
 
     result_block = MPI._organize_block_criteria(block_data)
+    result_table = result_block["address"]["table"]
+    expected_table = MPI.dal.ADDRESS_TABLE
+    del result_block["patient"]["table"]
+    del result_block["address"]["table"]
+
     _clean_up(MPI.dal)
+    assert expected_table == result_table
     assert result_block == expected_block_data
 
 
@@ -219,18 +220,17 @@ def test_generate_block_query():
     MPI = _init_db()
     block_data = {
         "patient": {
-            "dob": {"value": "1977-11-11"},
-            "sex": {"value": "M"},
-        },
-        "address": {},
-        "name": {},
-        "given_name": {},
+            "table": MPI.dal.PATIENT_TABLE,
+            "criteria": {
+                "dob": {"value": "1977-11-11"},
+                "sex": {"value": "M"},
+            },
+        }
     }
 
     base_query = select(MPI.dal.PATIENT_TABLE)
     my_query = MPI._generate_block_query(block_data, base_query)
 
-    _clean_up(MPI.dal)
     expected_result = (
         "WITH patient_cte AS"
         + "(SELECT patient.patient_id AS patient_id"
@@ -243,6 +243,24 @@ def test_generate_block_query():
     )
     # ensure query has the proper where clause added
     assert re.sub(r"\s+", "", str(my_query)) == re.sub(r"\s+", "", expected_result)
+
+    MPI = _init_db()
+    block_data2 = {
+        "given_name": {
+            "table": MPI.dal.GIVEN_NAME_TABLE,
+            "criteria": {"given_name": {"value": "Homer"}},
+        },
+        "name": {
+            "table": MPI.dal.NAME_TABLE,
+            "criteria": {"last_name": {"value": "Simpson"}},
+        },
+    }
+
+    base_query2 = select(MPI.dal.PATIENT_TABLE)
+    my_query2 = MPI._generate_block_query(block_data2, base_query2)
+
+    _clean_up(MPI.dal)
+    assert re.sub(r"\s+", "", str(my_query2)) == re.sub(r"\s+", "", expected_result)
 
 
 def test_pgmpi_connector():
