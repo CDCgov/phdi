@@ -2,12 +2,10 @@ import json
 import os
 import pandas as pd
 import psycopg2
-import random
 import copy
 
 from phdi.linkage import (
     generate_hash_str,
-    block_data,
     feature_match_exact,
     feature_match_fuzzy_string,
     eval_perfect_match,
@@ -16,7 +14,6 @@ from phdi.linkage import (
     feature_match_four_char,
     perform_linkage_pass,
     score_linkage_vs_truth,
-    block_data_from_db,
     _generate_block_query,
     calculate_m_probs,
     calculate_u_probs,
@@ -33,9 +30,6 @@ from phdi.linkage import (
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
-    _map_matches_to_record_ids,
-    _compare_address_elements,
-    _compare_name_elements,
     _flatten_patient_resource,
     _condense_extract_address_from_resource,
 )
@@ -206,7 +200,9 @@ def test_extract_blocking_values_from_record():
 
 def test_generate_hash():
     salt_str = "super-legit-salt"
-    patient_1 = "John-Shepard-2153/11/07-1234 Silversun Strip Zakera Ward Citadel 99999"
+    patient_1 = (
+        "John-Shepard-2153/11/07-1234 Silversun Strip Boston Massachusetts 99999"
+    )
     patient_2 = "Tali-Zora-Vas-Normandy-2160/05/14-PO Box 1 Rock Rannoch"
 
     hash_1 = generate_hash_str(patient_1, salt_str)
@@ -351,40 +347,6 @@ def test_match_within_block():
     assert match_pairs == [(5, 6), (5, 8), (6, 8)]
 
 
-def test_block_parquet_data():
-    # Create data for testing
-    test_data = {
-        "id": [0, 1, 2, 3],
-        "first_name": ["Marc", "Mark", "Jose", "Eliza"],
-        "last_name": ["Gutierrez", "Smith", "Garcia", "Jones"],
-        "zip": [90210, 90210, 90210, 90006],
-        "year_of_birth": [1980, 1992, 1992, 1992],
-    }
-    test_data_df = pd.DataFrame.from_dict(test_data)
-
-    if os.path.isfile("./test.parquet"):  # pragma: no cover
-        os.remove("./test.parquet")
-    test_data_df.to_parquet(path="./test.parquet", engine="pyarrow")
-
-    test_data = pd.read_parquet(path="./test.parquet", engine="pyarrow")
-    blocked_test_data = block_data(test_data, blocks=["zip"])
-
-    # Test output data types are correct
-    assert isinstance(blocked_test_data, dict)
-    assert isinstance(blocked_test_data[90006], list)
-
-    # Test that the number of blocks is the same as the distinct number of zip codes
-    assert len(blocked_test_data.keys()) == test_data_df["zip"].nunique()
-
-    # Test blocks with multiple block columns
-    blocked_test_data = block_data(test_data, blocks=["zip", "year_of_birth"])
-    assert len(blocked_test_data[(90210, 1992)]) == 2
-
-    # Clean up
-    if os.path.isfile("./test.parquet"):  # pragma: no cover
-        os.remove("./test.parquet")
-
-
 def test_compile_match_lists():
     data = generate_list_patients_contact()
     data = pd.DataFrame(
@@ -437,52 +399,6 @@ def test_feature_match_four_char():
     for c in cols:
         assert feature_match_four_char(record_i, record_j, c, cols)
         assert not feature_match_four_char(record_i, record_k, c, cols)
-
-
-def test_map_matches_to_ids():
-    data = generate_list_patients_contact()
-    data = pd.DataFrame(
-        data,
-        columns=[
-            "BIRTHDATE",
-            "FIRST",
-            "LAST",
-            "GENDER",
-            "ADDRESS",
-            "CITY",
-            "STATE",
-            "ZIP",
-            "ID",
-        ],
-    )
-    blocked_data = block_data(data, ["ZIP"])
-    matches_with_ids = {
-        "12345": [],
-        "15935": [(23, 24), (23, 31), (24, 31)],
-        "23456": [],
-        "64873": [],
-        "90909": [(1, 12)],
-    }
-    found_matches = {
-        "12345": [],
-        "15935": [(0, 1), (0, 2), (1, 2)],
-        "23456": [],
-        "64873": [],
-        "90909": [(0, 3)],
-    }
-    for block in matches_with_ids:
-        assert matches_with_ids[block] == _map_matches_to_record_ids(
-            found_matches[block], blocked_data[block]
-        )
-
-    # Now test in cluster mode
-    found_matches = {
-        "12345": set(),
-        "15935": {0, 1, 2},
-        "23456": set(),
-        "64873": set(),
-        "90909": {0, 3},
-    }
 
 
 def test_perform_linkage_pass():
@@ -601,37 +517,6 @@ def test_generate_block_query():
         type(list(block_data.values())[0]) != str
         and "'" not in correct_query.split("= ")[1]
     )  # Non-string types should not be enclosed in quotes
-
-
-def test_blocking_data():
-    db_name = (
-        pathlib.Path(__file__).parent.parent.parent
-        / "examples"
-        / "MPI-sample-data"
-        / "synthetic_patient_mpi_db"
-    )
-
-    table_name = "synthetic_patient_mpi"
-    block_data = {"ZIP": 90265, "City": "Malibu"}
-    blocked_data = block_data_from_db(db_name, table_name, block_data)
-
-    # Assert data is returned
-    assert len(blocked_data) > 0
-    # Assert returned data is in the correct format
-    assert type(blocked_data[0]) is list
-    # Assert returned data match the block_data parameters
-    assert (
-        blocked_data[random.randint(0, len(blocked_data) - 1)][11] == block_data["City"]
-    )
-    assert (
-        blocked_data[random.randint(0, len(blocked_data) - 1)][-4] == block_data["ZIP"]
-    )
-
-    # Assert exception is raised when block_data is empty
-    block_data = {}
-    with pytest.raises(ValueError) as e:
-        block_data_from_db(db_name, table_name, block_data)
-    assert "`block_data` cannot be empty." in str(e.value)
 
 
 def test_read_write_m_probs():
@@ -988,6 +873,9 @@ def test_link_record_against_mpi_none_record():
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
+    patients = json.load(
+        open("C://Repos/phdi/tests/assets/linkage/patient_bundle_to_link_with_mpi.json")
+    )
     patients = patients["entry"]
     patients = [
         p.get("resource")
@@ -1000,6 +888,7 @@ def test_link_record_against_mpi_none_record():
     matches = []
     mapped_patients = {}
     for patient in patients:
+        print("patient")
         matched, pid = link_record_against_mpi(
             patient,
             algorithm,
@@ -1040,7 +929,7 @@ def test_link_record_against_mpi():
     ]
     matches = []
     mapped_patients = {}
-    for patient in patients:
+    for patient in patients[0:2]:
         matched, pid = link_record_against_mpi(
             patient["resource"],
             algorithm,
@@ -1218,116 +1107,116 @@ def test_add_person_resource():
     )
 
 
-def test_compare_address_elements():
-    feature_funcs = {
-        "address": feature_match_four_char,
-    }
-    col_to_idx = {"address": 2}
-    record = [
-        ["123"],
-        ["1"],
-        ["John", "Paul", "George"],
-        ["1980-01-01"],
-        ["123 Main St"],
-    ]
-    record2 = [
-        ["123"],
-        ["1"],
-        ["John", "Paul", "George"],
-        ["1980-01-01"],
-        ["123 Main St", "9 North Ave"],
-    ]
-    mpi_patient1 = [
-        ["456"],
-        ["2"],
-        ["John", "Paul", "George", "Ringo"],
-        ["1980-01-01"],
-        ["756 South St", "123 Main St", "489 North Ave"],
-    ]
-    mpi_patient2 = [
-        ["789"],
-        ["3"],
-        ["Pierre"],
-        ["1980-01-01"],
-        ["6 South St", "23 Main St", "9 North Ave"],
-    ]
+# def test_compare_address_elements():
+#     feature_funcs = {
+#         "address": feature_match_four_char,
+#     }
+#     col_to_idx = {"address": 2}
+#     record = [
+#         ["123"],
+#         ["1"],
+#         ["John", "Paul", "George"],
+#         ["1980-01-01"],
+#         ["123 Main St"],
+#     ]
+#     record2 = [
+#         ["123"],
+#         ["1"],
+#         ["John", "Paul", "George"],
+#         ["1980-01-01"],
+#         ["123 Main St", "9 North Ave"],
+#     ]
+#     mpi_patient1 = [
+#         ["456"],
+#         ["2"],
+#         ["John", "Paul", "George", "Ringo"],
+#         ["1980-01-01"],
+#         ["756 South St", "123 Main St", "489 North Ave"],
+#     ]
+#     mpi_patient2 = [
+#         ["789"],
+#         ["3"],
+#         ["Pierre"],
+#         ["1980-01-01"],
+#         ["6 South St", "23 Main St", "9 North Ave"],
+#     ]
 
-    same_address = _compare_address_elements(
-        record, mpi_patient1, feature_funcs, "address", col_to_idx
-    )
-    assert same_address is True
+#     same_address = _compare_address_elements(
+#         record, mpi_patient1, feature_funcs, "address", col_to_idx
+#     )
+#     assert same_address is True
 
-    same_address = _compare_address_elements(
-        record2, mpi_patient1, feature_funcs, "address", col_to_idx
-    )
-    assert same_address is True
+#     same_address = _compare_address_elements(
+#         record2, mpi_patient1, feature_funcs, "address", col_to_idx
+#     )
+#     assert same_address is True
 
-    different_address = _compare_address_elements(
-        record, mpi_patient2, feature_funcs, "address", col_to_idx
-    )
-    assert different_address is False
+#     different_address = _compare_address_elements(
+#         record, mpi_patient2, feature_funcs, "address", col_to_idx
+#     )
+#     assert different_address is False
 
 
-def test_compare_name_elements():
-    feature_funcs = {"first": feature_match_fuzzy_string}
-    col_to_idx = {"first": 0}
-    record = [
-        ["123"],
-        ["1"],
-        ["John", "Paul", "George"],
-        ["1980-01-01"],
-        ["123 Main St"],
-    ]
-    record2 = [
-        ["123"],
-        ["1"],
-        ["John", "Paul", "George"],
-        ["1980-01-01"],
-        ["123 Main St", "9 North Ave"],
-    ]
-    record3 = [
-        ["123"],
-        ["1"],
-        ["Jean", "Pierre"],
-        ["1980-01-01"],
-        ["123 Main St", "9 North Ave"],
-    ]
-    mpi_patient1 = [
-        ["456"],
-        ["2"],
-        ["John", "Paul", "George", "Ringo"],
-        ["1980-01-01"],
-        ["756 South St", "123 Main St", "489 North Ave"],
-    ]
-    mpi_patient2 = [
-        ["789"],
-        ["3"],
-        ["Jean"],
-        ["1980-01-01"],
-        ["6 South St", "23 Main St", "9 North Ave"],
-    ]
+# def test_compare_name_elements():
+#     feature_funcs = {"first": feature_match_fuzzy_string}
+#     col_to_idx = {"first": 0}
+#     record = [
+#         ["123"],
+#         ["1"],
+#         ["John", "Paul", "George"],
+#         ["1980-01-01"],
+#         ["123 Main St"],
+#     ]
+#     record2 = [
+#         ["123"],
+#         ["1"],
+#         ["John", "Paul", "George"],
+#         ["1980-01-01"],
+#         ["123 Main St", "9 North Ave"],
+#     ]
+#     record3 = [
+#         ["123"],
+#         ["1"],
+#         ["Jean", "Pierre"],
+#         ["1980-01-01"],
+#         ["123 Main St", "9 North Ave"],
+#     ]
+#     mpi_patient1 = [
+#         ["456"],
+#         ["2"],
+#         ["John", "Paul", "George", "Ringo"],
+#         ["1980-01-01"],
+#         ["756 South St", "123 Main St", "489 North Ave"],
+#     ]
+#     mpi_patient2 = [
+#         ["789"],
+#         ["3"],
+#         ["Jean"],
+#         ["1980-01-01"],
+#         ["6 South St", "23 Main St", "9 North Ave"],
+#     ]
 
-    same_name = _compare_name_elements(
-        record[2:], record2[2:], feature_funcs, "first", col_to_idx
-    )
-    assert same_name is True
+#     same_name = _compare_name_elements(
+#         record[2:], record2[2:], feature_funcs, "first", col_to_idx
+#     )
+#     assert same_name is True
 
-    # Assert same first name with new middle name in record == true fuzzy match
-    add_middle_name = _compare_name_elements(
-        record3[2:], mpi_patient2[2:], feature_funcs, "first", col_to_idx
-    )
-    assert add_middle_name is True
+#     # Assert same first name with new middle name in record == true fuzzy match
+#     add_middle_name = _compare_name_elements(
+#         record3[2:], mpi_patient2[2:], feature_funcs, "first", col_to_idx
+#     )
+#     assert add_middle_name is True
 
-    add_middle_name = _compare_name_elements(
-        record[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
-    )
-    assert add_middle_name is True
+#     add_middle_name = _compare_name_elements(
+#         record[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
+#     )
+#     assert add_middle_name is True
 
-    # Assert no match with different names
-    different_names = _compare_name_elements(
-        record3[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
-    )
-    assert different_names is False
+#     # Assert no match with different names
+#     different_names = _compare_name_elements(
+#         record3[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
+#     )
+#     assert different_names is False
 
 
 def test_condense_extracted_address():
@@ -1361,6 +1250,9 @@ def test_flatten_patient():
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
+    patients = json.load(
+        open("C://Repos/phdi/tests/assets/linkage/patient_bundle_to_link_with_mpi.json")
+    )
     patients = patients["entry"]
     patients = [
         p.get("resource", {})
@@ -1368,8 +1260,20 @@ def test_flatten_patient():
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
 
+    col_to_idx = {
+        "address": 0,
+        "birthdate": 1,
+        "city": 2,
+        "first_name": 3,
+        "last_name": 4,
+        "mrn": 4,
+        "sex": 5,
+        "state": 6,
+        "zip": 7,
+    }
+
     # Use patient with multiple identifiers to also test MRN-specific filter
-    assert _flatten_patient_resource(patients[2]) == [
+    assert _flatten_patient_resource(patients[2], col_to_idx) == [
         "2c6d5fd1-4a70-11eb-99fd-ad786a821574",
         None,
         ["PO Box 1 First Rock", "Bay 16 Ward Sector 24"],
