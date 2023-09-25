@@ -2,6 +2,8 @@ import json
 import pathlib
 from functools import cache
 from pathlib import Path
+from zipfile import ZipFile
+from typing import Dict
 
 
 @cache
@@ -35,3 +37,12 @@ def load_processing_config(config_name: str) -> dict:
 
 def read_json_from_assets(filename: str):
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def unzip(zipped_file) -> Dict:
+    my_zipfile = ZipFile(zipped_file.file)
+    file_to_open = [file for file in my_zipfile.namelist() if "/CDA_eICR.xml" in file][
+        0
+    ]
+    f = my_zipfile.open(file_to_open)
+    return f.read().decode("utf-8")
