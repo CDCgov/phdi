@@ -45,10 +45,6 @@
       "endpoint": "/fhir/harmonization/standardization/standardize_dob"
     },
     {
-      "service": "ingestion",
-      "endpoint": "/fhir/geospatial/geocode/geocode_bundle"
-    },
-    {
       "service": "message_parser",
       "endpoint": "/parse_message"
     }

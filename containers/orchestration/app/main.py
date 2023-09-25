@@ -1,5 +1,5 @@
 from phdi.containers.base_service import BaseService
-from fastapi import Response, status, Body, UploadFile, Form
+from fastapi import Response, status, Body
 from typing import Annotated
 from pathlib import Path
 from zipfile import is_zipfile
@@ -24,6 +24,7 @@ from app.constants import (
     process_message_request_examples,
 )
 import json
+from icecream import ic
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -49,15 +50,26 @@ for status_code, file_name in upload_config_response_examples.items():
 async def process_message_endpoint(
     input: Annotated[
         ProcessMessageRequest, Body(examples=process_message_request_examples)
-    ]
+    ],
+    request,
 ) -> ProcessMessageResponse:
     """
     Process message through a series of microservices
     """
+    content_type = request.headers.get("content-type")
+    ic(content_type)
+    ic(input)
+    # input = dict(input)
     upload_file = input["upload_file"]
+    message_type = input["message_type"]
+    include_error_types = input["include_error_types"]
+    message = input["message"]
+
     content = ""
-    if is_zipfile(upload_file.file):
+    if upload_file and is_zipfile(upload_file.file):
         content = unzip(upload_file)
+    else:
+        content = message
 
     # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")
@@ -76,8 +88,9 @@ async def process_message_endpoint(
             "processed_values": api_data,
         }
     else:
+        ic(responses)
         return {
-            "message": f"Request failed with status code {response.status_code}",
+            "message": f"Request failed with status code HELLO {response.status_code}",
             "responses": f"{responses}",
             "processed_values": "",
         }

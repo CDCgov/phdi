@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, root_validator
 from typing import Literal, Optional, Dict
 from fastapi import UploadFile
 from app.constants import PROCESSING_CONFIG_DATA_TYPES
@@ -7,7 +7,7 @@ from app.constants import PROCESSING_CONFIG_DATA_TYPES
 # Request and response models
 class ProcessMessageRequest(BaseModel):
     """
-    The config for requests to the /extract endpoint.
+    The config for requests to the /process endpoint.
     """
 
     message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
@@ -20,7 +20,27 @@ class ProcessMessageRequest(BaseModel):
             + " Valid types are fatal, errors, warnings, information"
         )
     )
-    upload_file: UploadFile = Field(description="The ZIP file with ECR")
+
+    upload_file: Optional[UploadFile] = Field(description="The ZIP file with ECR")
+
+    message: Optional[str] = Field(description="The message to be validated.")
+
+    @root_validator(pre=True, allow_reuse=True)
+    def validate_fields(cls, values):
+        upload_file = values.get("upload_file")
+        message = values.get("message")
+
+        if upload_file is None and message is None:
+            raise ValueError(
+                "At least one of 'upload_file' or 'message' must be provided"
+            )
+
+        if upload_file is not None and message is not None:
+            raise ValueError(
+                "Only one of 'upload_file' or 'message' should be provided"
+            )
+
+        return values
 
 
 class ProcessMessageResponse(BaseModel):

@@ -1,5 +1,7 @@
 import os
 import requests
+import json
+from icecream import ic
 
 
 service_urls = {
@@ -82,7 +84,9 @@ def call_apis(
         f = f"{service}_payload"
         if f in globals() and callable(globals()[f]) and service_urls[service]:
             function_to_call = globals()[f]
-            payload = function_to_call(input=input, response=response, step=step)
+            payload = function_to_call(
+                input=input, response=response, step=step, config=config
+            )
             url = service_urls[service] + step["endpoint"]
             response = post_request(url, payload)
             responses[endpoint] = response
