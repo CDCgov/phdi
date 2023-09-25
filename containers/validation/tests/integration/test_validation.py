@@ -5,6 +5,8 @@ from pathlib import Path
 VALIDATION_URL = "http://0.0.0.0:8080"
 VALIDATE = VALIDATION_URL + "/validate"
 
+test_error_types = ["errors", "warnings", "information"]
+
 
 @pytest.mark.integration
 def test_health_check(setup):
@@ -114,8 +116,58 @@ def test_validation_fails_with_invalid_xml(setup):
     }
 
     validation_response = httpx.post(VALIDATE, json=request)
-    print(validation_response.json()["detail"])
     assert validation_response.status_code == 422
     assert validation_response.json()["detail"] == (
-        "Reportability Response and eICR message both" " must be valid XML messages."
+        "Reportability Response and eICR message both must be valid XML messages."
+    )
+
+
+@pytest.mark.integration
+def test_validate_elr():
+    request = {
+        "message_type": "elr",
+        "message": "my elr contents",
+        "include_error_types": str(test_error_types),
+    }
+    validation_response = httpx.post(VALIDATE, json=request)
+    validation_response_body = validation_response.json()
+    assert validation_response.status_code == 200
+    assert validation_response_body["message_valid"] is True
+    assert validation_response_body["validation_results"]["details"] == (
+        "No validation "
+        "was actually performed. Validation for ELR is only stubbed currently."
+    )
+
+
+@pytest.mark.integration
+def test_validate_vxu():
+    request = {
+        "message_type": "vxu",
+        "message": "my vxu contents",
+        "include_error_types": str(test_error_types),
+    }
+    validation_response = httpx.post(VALIDATE, json=request)
+    validation_response_body = validation_response.json()
+    assert validation_response.status_code == 200
+    assert validation_response_body["message_valid"] is True
+    assert validation_response_body["validation_results"]["details"] == (
+        "No validation "
+        "was actually performed. Validation for VXU is only stubbed currently."
+    )
+
+
+@pytest.mark.integration
+def test_validate_fhir():
+    request = {
+        "message_type": "fhir",
+        "message": "my fhir contents",
+        "include_error_types": str(test_error_types),
+    }
+    validation_response = httpx.post(VALIDATE, json=request)
+    validation_response_body = validation_response.json()
+    assert validation_response.status_code == 200
+    assert validation_response_body["message_valid"] is True
+    assert validation_response_body["validation_results"]["details"] == (
+        "No validation "
+        "was actually performed. Validation for FHIR is only stubbed currently."
     )

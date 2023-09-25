@@ -105,11 +105,6 @@ async def validate_endpoint(
     of the type of message specified in the 'message_type'.
     """
 
-    # TODO tomorrow:
-    # Find some good sample input and run a successful message with
-    # eICR/RR data combined
-    # Write tests (unit and integration) for rr_data
-    # Add exception handling to the FHIR converter
     input = dict(input)
     message_validator = message_validators[input["message_type"]]
     include_error_types = validate_error_types(input["include_error_types"])
