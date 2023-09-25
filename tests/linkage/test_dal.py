@@ -255,7 +255,6 @@ def test_select_results():
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
-    print(f"QUERY: {blocked_data_query}")
     results = dal.select_results(select_stmt=blocked_data_query)
 
     # TODO: saving this query here so it can be used in more robust tests
@@ -335,7 +334,6 @@ def test_select_results():
 def test_get_table_by_name():
     dal = _init_db()
     table = dal.get_table_by_column("zip_code")
-    print(f"TABLE: {table}")
     assert table.name == "address"
     assert table.c is not None
     _clean_up(dal)

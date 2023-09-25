@@ -149,51 +149,28 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 else:
                     fk_info = cte_query_table.foreign_keys.pop()
                     fk_table = fk_info.column.table
-                    fk_column = fk_info.column.name
-                    print(f"CRIT: {query_criteria}")
+                    fk_column = fk_info.column)
                     sub_query = (
-                        select(table_key)
+                        select(cte_query_table)
                         .where(text(" AND ".join(query_criteria)))
                         .subquery()
                     )
-                    print(sub_query)
 
                     cte_query = (
-                        select(fk_table.c.patient_id.label("patient_id")).join(
-                            sub_query
+                        select(fk_table.c.patient_id.label("patient_id"))
+                        .join(sub_query)
+                        .where(
+                            text(
+                                f"{fk_table.name}.{fk_column.name} = {cte_query_table.name}.{fk_column.name}"
+                            )
                         )
                     ).cte(f"{table_key}_cte")
+                    
             if cte_query is not None:
                 new_query = new_query.join(
                     cte_query,
                     and_(cte_query.c.patient_id == self.dal.PATIENT_TABLE.c.patient_id),
                 )
-
-        #    if len(organized_block_vals["given_name"]) > 0:
-        #         gname_criteria = self._generate_where_criteria(
-        #             organized_block_vals["given_name"], "given_name"
-        #         )
-        #         if gname_criteria is not None and len(gname_criteria) > 0:
-        #             given_name_subq = (
-        #                 select(self.dal.GIVEN_NAME_TABLE.c.name_id)
-        #                 .where(text(" AND ".join(gname_criteria)))
-        #                 .subquery()
-        #             )
-
-        #             if name_cte is None:
-        #                 name_cte = (
-        #                     select(self.dal.NAME_TABLE.c.patient_id.label("patient_id"))
-        #                     .join(given_name_subq)
-        #                     .cte("name_cte")
-        #                 )
-        #             else:
-        #                 name_cte = name_cte.join(given_name_subq)
-
-        #     if name_cte is not None:
-        #         new_query = new_query.join(
-        #             name_cte,
-        #             and_(name_cte.c.patient_id == self.dal.PATIENT_TABLE.c.patient_id),
-        #         )
 
         return new_query
 
