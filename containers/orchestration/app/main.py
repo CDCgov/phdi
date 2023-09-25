@@ -1,6 +1,15 @@
 from phdi.containers.base_service import BaseService
-from fastapi import Response, status, Body
-from typing import Annotated
+from fastapi import (
+    Response,
+    status,
+    Body,
+    UploadFile,
+    Form,
+    Request,
+    File,
+    HTTPException,
+)
+from typing import Annotated, Optional
 from pathlib import Path
 from zipfile import is_zipfile
 import os
@@ -23,7 +32,7 @@ from app.constants import (
     sample_list_configs_response,
     process_message_request_examples,
 )
-import json
+from json import JSONDecodeError
 from icecream import ic
 
 # Read settings immediately to fail fast in case there are invalid values.
@@ -39,37 +48,28 @@ for status_code, file_name in upload_config_response_examples.items():
     upload_config_response_examples[status_code] = read_json_from_assets(file_name)
     upload_config_response_examples[status_code]["model"] = PutConfigResponse
 
-# async def process_message_endpoint(
-#     input: Annotated[
-#         ProcessMessageRequest, Body(examples=process_message_request_examples)
-#     ]
-# ) -> ProcessMessageResponse:
-
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
-    input: Annotated[
-        ProcessMessageRequest, Body(examples=process_message_request_examples)
-    ],
-    request,
+    request: ProcessMessageRequest,
+    message_type: Optional[str] = Form(None),
+    include_error_types: Optional[str] = Form(None),
+    upload_file: Optional[UploadFile] = File(None),
 ) -> ProcessMessageResponse:
     """
     Process message through a series of microservices
     """
-    content_type = request.headers.get("content-type")
-    ic(content_type)
-    ic(input)
-    # input = dict(input)
-    upload_file = input["upload_file"]
-    message_type = input["message_type"]
-    include_error_types = input["include_error_types"]
-    message = input["message"]
-
     content = ""
     if upload_file and is_zipfile(upload_file.file):
         content = unzip(upload_file)
     else:
-        content = message
+        try:
+            data = await request.json()
+            content = data["message"]
+            message_type = data["message_type"]
+            include_error_types = data["include_error_types"]
+        except JSONDecodeError:
+            raise HTTPException(status_code=400, detail="Invalid JSON data")
 
     # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")
