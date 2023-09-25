@@ -161,7 +161,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                         .join(sub_query)
                         .where(
                             text(
-                                f"{fk_table.name}.{fk_column.name} = {cte_query_table.name}.{fk_column.name}"
+                                f"{fk_table.name}.{fk_column.name} = "
+                                + f"{cte_query_table.name}.{fk_column.name}"
                             )
                         )
                     ).cte(f"{table_key}_cte")
