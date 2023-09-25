@@ -13,6 +13,7 @@ from app.models import (
     PutConfigResponse,
     ProcessMessageResponse,
     ListConfigsResponse,
+    ProcessMessageRequest,
 )
 from app.constants import (
     upload_config_response_examples,
@@ -20,6 +21,7 @@ from app.constants import (
     sample_get_config_response,
     process_message_response_examples,
     sample_list_configs_response,
+    process_message_request_examples,
 )
 import json
 
@@ -36,16 +38,23 @@ for status_code, file_name in upload_config_response_examples.items():
     upload_config_response_examples[status_code] = read_json_from_assets(file_name)
     upload_config_response_examples[status_code]["model"] = PutConfigResponse
 
+# async def process_message_endpoint(
+#     input: Annotated[
+#         ProcessMessageRequest, Body(examples=process_message_request_examples)
+#     ]
+# ) -> ProcessMessageResponse:
+
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
-    message_type: Annotated[str, Form()],
-    include_error_types: Annotated[str, Form()],
-    upload_file: UploadFile,
+    input: Annotated[
+        ProcessMessageRequest, Body(examples=process_message_request_examples)
+    ]
 ) -> ProcessMessageResponse:
     """
     Process message through a series of microservices
     """
+    upload_file = input["upload_file"]
     content = ""
     if is_zipfile(upload_file.file):
         content = unzip(upload_file)
