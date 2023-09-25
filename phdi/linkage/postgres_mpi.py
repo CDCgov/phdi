@@ -149,7 +149,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 else:
                     fk_info = cte_query_table.foreign_keys.pop()
                     fk_table = fk_info.column.table
-                    fk_column = fk_info.column)
+                    fk_column = fk_info.column
                     sub_query = (
                         select(cte_query_table)
                         .where(text(" AND ".join(query_criteria)))
@@ -165,7 +165,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                             )
                         )
                     ).cte(f"{table_key}_cte")
-                    
+
             if cte_query is not None:
                 new_query = new_query.join(
                     cte_query,
