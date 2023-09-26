@@ -47,7 +47,10 @@ def test_process_message(patched_post_request):
     }
     call_post_request = mock.Mock()
     call_post_request.status_code = 200
-    call_post_request.json.return_value = {"FhirResource": {"foo": "bar"}}
+    call_post_request.json.return_value = {
+        "response": {"FhirResource": {"foo": "bar"}},
+        "bundle": {"foo": "bundle"},
+    }
     patched_post_request.return_value = call_post_request
 
     # call_fhir_converter_response = mock.Mock()
@@ -81,4 +84,4 @@ def test_process_message_failure():
     }
 
     actual_response = client.post("/process", json=request)
-    assert actual_response.status_code == 422
+    assert actual_response.status_code == 400

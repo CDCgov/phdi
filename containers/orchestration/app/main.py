@@ -12,7 +12,6 @@ from fastapi import (
 from typing import Annotated, Optional
 from pathlib import Path
 from zipfile import is_zipfile
-import os
 from app.utils import load_processing_config, unzip, read_json_from_assets
 from app.config import get_settings
 from app.services import call_apis
@@ -22,7 +21,6 @@ from app.models import (
     PutConfigResponse,
     ProcessMessageResponse,
     ListConfigsResponse,
-    ProcessMessageRequest,
 )
 from app.constants import (
     upload_config_response_examples,
@@ -30,10 +28,10 @@ from app.constants import (
     sample_get_config_response,
     process_message_response_examples,
     sample_list_configs_response,
-    process_message_request_examples,
 )
-from json import JSONDecodeError
 from icecream import ic
+import json
+import os
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -68,8 +66,13 @@ async def process_message_endpoint(
             content = data["message"]
             message_type = data["message_type"]
             include_error_types = data["include_error_types"]
-        except JSONDecodeError:
+        except json.JSONDecodeError:
             raise HTTPException(status_code=400, detail="Invalid JSON data")
+        except KeyError as e:
+            error_message = str(e)
+            raise HTTPException(
+                status_code=400, detail=f"Missing JSON data: {error_message}"
+            )
 
     # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")
@@ -88,9 +91,8 @@ async def process_message_endpoint(
             "processed_values": api_data,
         }
     else:
-        ic(responses)
         return {
-            "message": f"Request failed with status code HELLO {response.status_code}",
+            "message": f"Request failed with status code {response.status_code}",
             "responses": f"{responses}",
             "processed_values": "",
         }

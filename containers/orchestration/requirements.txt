@@ -9,3 +9,4 @@ frozendict
 requests
 python-dotenv
 python-multipart
+pytest-env

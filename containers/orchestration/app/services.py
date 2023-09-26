@@ -1,6 +1,5 @@
 import os
 import requests
-import json
 from icecream import ic
 
 
@@ -35,10 +34,10 @@ def ingestion_payload(**kwargs) -> dict:
     step = kwargs["step"]
     config = kwargs["config"]
     r = response.json()
-
-    if "standardize_names" in step["endpoint"]:
+    endpoint = step["endpoint"] if "endpoint" in step else ""
+    if "standardize_names" in endpoint:
         data = {"data": r["response"]["FhirResource"]}
-    elif "geocode" in step["endpoint"]:
+    elif "geocode" in endpoint:
         data = {
             "bundle": r["bundle"],
             "geocode_method": config["configurations"]["standardization_and_geocoding"][
@@ -77,7 +76,6 @@ def call_apis(
 ) -> tuple:
     response = input
     responses = {}
-
     for step in config["steps"]:
         service = step["service"]
         endpoint = step["endpoint"]
@@ -89,5 +87,6 @@ def call_apis(
             )
             url = service_urls[service] + step["endpoint"]
             response = post_request(url, payload)
+            ic(response)
             responses[endpoint] = response
     return (response, responses)
