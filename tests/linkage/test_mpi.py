@@ -350,27 +350,31 @@ def test_insert_person():
     assert result is None
 
 
-# TODO: Update this test once we have transformations included
-# def test_block_data_with_transform():
-#     MPI = _init_db()
-#     data_requested = {
-#         "first_name": {"value": "John", "transformation": "first4"},
-#         "last_name": {"value": "Shep", "transformation": "first4"},
-#         "zip": {"value": "10001-0001"},
-#         "city": {"value": "Faketon"},
-#         "birthdate": {"value": "1983-02-01"},
-#         "sex": {"value": "female"},
-#         "state": {"value": "NY"},
-#         "address": {"value": "e St", "transformation": "last4"},
-#     }
-#     test_data = []
-#     test_data.append(data_requested)
-#     MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
-#     blocked_data = MPI.block_data(data_requested)
+def test_block_data_with_transform():
+    MPI = _init_db()
+    data_requested = {
+        "first_name": {"value": "John", "transformation": "first4"},
+        "last_name": {"value": "Shep", "transformation": "first4"},
+        "zip": {"value": "10001-0001"},
+        "city": {"value": "Faketon"},
+        "birthdate": {"value": "1983-02-01"},
+        "sex": {"value": "female"},
+        "state": {"value": "NY"},
+        "address": {"value": "e St", "transformation": "last4"},
+    }
+    test_data = []
+    pt1 = {"person_id": None, "dob": "1983-02-01", "sex": "female"}
+    gn1 = {"given_name": "Johnathon", "given_name_index": 0}
+    gn2 = {"given_name": "Maurice", "given_name_index": 1}
+    ln1 = {}
 
-#     _clean_up_postgres_client(MPI)
+    test_data.append(data_requested)
+    MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
+    blocked_data = MPI.block_data(data_requested)
 
-#     # ensure blocked data has two rows, headers and data
-#     assert len(blocked_data) == 2
-#     assert blocked_data[1][1] is None
-#     assert blocked_data[1][2] == data_requested.get("zip")
+    _clean_up(MPI.dal)
+
+    # ensure blocked data has two rows, headers and data
+    assert len(blocked_data) == 2
+    assert blocked_data[1][1] is None
+    assert blocked_data[1][2] == data_requested.get("zip")

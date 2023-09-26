@@ -116,7 +116,31 @@ class DataAccessLayer(object):
         finally:
             session.close()
 
-    def bulk_insert(self, table: Table, records: list[dict]) -> None:
+    def single_insert(
+        self, table: Table, record: dict, return_pk: bool = True
+    ) -> list:
+        """
+        Perform a single insert operation on a table
+
+        this method inserts a list of records into the specified table
+
+        :param table_object: the SQLAlchemy table object to insert into
+        :param records: a list of records as a dictionary
+        :return: None
+        """
+        new_pk = None
+        with self.transaction() as session:
+            if return_pk:
+                stmt = table.insert().values(record).returning(table.primary_key)
+                new_pk = session.execute(stmt)
+            else:
+                stmt = table.insert().values(record)
+        return new_pk
+
+
+    def bulk_insert_list(
+        self, table: Table, records: list[dict], return_pk: bool = True
+    ) -> list:
         """
         Perform a bulk insert operation on a table
 
@@ -126,10 +150,39 @@ class DataAccessLayer(object):
         :param records: a list of records as a dictionary
         :return: None
         """
+        new_pks = []
         with self.transaction() as session:
             for record in records:
-                stmt = table.insert().values(record)
-                session.execute(stmt)
+                if return_pk:
+                    stmt = table.insert().values(record).returning(table.primary_key)
+                    new_pk = session.execute(stmt)
+                    new_pks.append(new_pk)
+                else:
+                    stmt = table.insert().values(record)
+        return new_pks
+
+    def bulk_insert_dict(self, records_with_table: dict, return_pks: bool = True) -> dict:
+        """
+        Perform a bulk insert operation on a table as defined
+            by the 'table' element in the dict along with the record
+
+        this method inserts a list of records into the specified table
+
+        :param table_object: the SQLAlchemy table object to insert into
+        :param records: a list of records as a dictionary
+        :return: None
+        """
+        return_results = {}
+        for key, value in records_with_table.items():
+            new_pks = []
+            table = value.get("table")
+            records = value.get("records"):
+            new_pks = self.bulk_insert_list(table,records)
+            return_results[key] = {
+                "results": new_pks
+            }
+        return return_results
+
 
     def select_results(
         self, select_stmt: select, include_col_names: bool = True
