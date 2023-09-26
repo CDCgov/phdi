@@ -51,7 +51,7 @@ for status_code, file_name in upload_config_response_examples.items():
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
-    request: ProcessMessageRequest,
+    request: Request,
     message_type: Optional[str] = Form(None),
     include_error_types: Optional[str] = Form(None),
     upload_file: Optional[UploadFile] = File(None),

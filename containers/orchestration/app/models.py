@@ -10,10 +10,10 @@ class ProcessMessageRequest(BaseModel):
     The config for requests to the /process endpoint.
     """
 
-    message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
+    message_type: Optional[Literal["ecr", "elr", "vxu", "fhir"]] = Field(
         description="The type of message to be validated."
     )
-    include_error_types: str = Field(
+    include_error_types: Optional[str] = Field(
         description=(
             "A comma separated list of the types of errors that should be"
             + " included in the return response."
