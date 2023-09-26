@@ -650,7 +650,10 @@ def link_record_against_mpi(
                         blocked_record[j] = blocked_record[j][0]
                 # Name / address come back as lists of one more depth than they should
                 else:
-                    blocked_record[j] = blocked_record[j][0]
+                    if len(blocked_record[j]) == 0:
+                        blocked_record[j] = ""
+                    else:                    
+                        blocked_record[j] = blocked_record[j][0]
 
         clusters = _group_patient_block_by_person(data_block)
 
