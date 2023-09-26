@@ -1,12 +1,12 @@
 from pathlib import Path
 from fastapi import FastAPI, Response, status, HTTPException
-
 from phdi.fhir.conversion import add_rr_data_to_eicr
 from app.constants import (
     sample_response,
     FhirConverterInput,
 )
 from app.service import convert_to_fhir
+from lxml.etree import XMLSyntaxError
 
 description = (Path(__file__).parent.parent / "description.md").read_text(
     encoding="utf-8"
@@ -70,7 +70,7 @@ async def convert(input: FhirConverterInput, response: Response):
         try:
             merged_ecr = add_rr_data_to_eicr(input.rr_data, input.input_data)
             fhir_converter_input.update({"input_data": merged_ecr})
-        except Exception:
+        except XMLSyntaxError:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="Reportability Response and eICR message both "
