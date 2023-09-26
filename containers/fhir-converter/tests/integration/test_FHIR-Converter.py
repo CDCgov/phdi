@@ -98,7 +98,7 @@ def test_invalid_rr_format(setup):
 
     assert ecr_conversion_response.status_code == 422
     assert (
-        ecr_conversion_response.json()
+        ecr_conversion_response.json()["detail"]
         == "Reportability Response and eICR message both "
         "must be valid XML messages."
     )
