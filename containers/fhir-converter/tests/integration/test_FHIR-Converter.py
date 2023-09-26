@@ -84,8 +84,6 @@ def test_ecr_conversion_with_rr(setup):
     )
 
 
-# This is returning a 500
-# Shouldn't be doing that
 @pytest.mark.integration
 def test_invalid_rr_format(setup):
     request = {
