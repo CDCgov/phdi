@@ -652,7 +652,7 @@ def link_record_against_mpi(
                 else:
                     if len(blocked_record[j]) == 0:
                         blocked_record[j] = ""
-                    else:                    
+                    else:
                         blocked_record[j] = blocked_record[j][0]
 
         clusters = _group_patient_block_by_person(data_block)
