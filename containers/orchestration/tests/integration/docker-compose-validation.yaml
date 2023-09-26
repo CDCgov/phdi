@@ -1,16 +1,16 @@
-version: '3.3'
-
-services:
+#version: '3.3'
+#
+#services:
 #  orchestration-service:
 #    build:
 #      context: ../..
 #    ports:
 #      - "8080:8080"
-  validation-service:
-    build:
-      context: ../../../validation
-    ports:
-      - "8081:8080"
+#  validation-service:
+#    build:
+#      context: ../../../validation
+#    ports:
+#      - "8081:8080"
 #  fhir-converter-service:
 #    build:
 #      context: ../../../fhir-converter
