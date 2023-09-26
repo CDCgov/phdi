@@ -107,7 +107,7 @@ def test_successful_ecr_conversion_with_rr_data(setup):
 
 
 @pytest.mark.integration
-def test_validation_fails_with_invalid_xml(setup):
+def test_ecr_validation_fails_with_invalid_xml(setup):
     request = {
         "message_type": "ecr",
         "include_error_types": "errors",

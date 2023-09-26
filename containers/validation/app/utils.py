@@ -3,8 +3,8 @@ import pathlib
 import yaml
 import re
 from fastapi import HTTPException, status
+from lxml.etree import XMLSyntaxError
 from phdi.fhir.conversion import add_rr_data_to_eicr
-
 
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]
 # TODO: remove the hard coding of the location of the config file
@@ -116,7 +116,7 @@ def check_for_and_extract_rr_data(input: dict):
         try:
             merged_ecr = add_rr_data_to_eicr(input["rr_data"], input["message"])
             input["message"] = merged_ecr
-        except Exception:
+        except XMLSyntaxError:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="Reportability Response and eICR message both "
