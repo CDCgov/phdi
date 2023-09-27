@@ -191,13 +191,13 @@ jobs:
       - name: Install Pytest
         run: pip install pytest
       - name: Install dependencies
-        if: matrix.container-to-test != 'html-converter'
+        if: matrix.directories-to-test != 'html-converter'
         working-directory: ./containers/${{matrix.directories-to-test}}
         run: |
           pwd
           pip install -r requirements.txt
       - name: Run integration tests for containers
-        if: matrix.container-to-test != 'html-converter'
+        if: matrix.directories-to-test != 'html-converter'
         working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
         run: |
           python -m pytest -m "integration"
