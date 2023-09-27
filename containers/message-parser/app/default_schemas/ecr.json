@@ -39,6 +39,36 @@
       "data_type": "string",
       "nullable": true
    },
+   "street_address1": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[0]",
+      "data_type": "string",
+      "nullable": true
+   },
+   "street_address2": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[1]",
+      "data_type": "string",
+      "nullable": true
+   },
+   "state": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.state",
+      "data_type": "string",
+      "nullable": true
+   },
+   "zip": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.postalCode",
+      "data_type": "string",
+      "nullable": true
+   },
+   "latitude": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
+      "data_type": "float",
+      "nullable": true
+   },
+   "longitude": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
+      "data_type": "float",
+      "nullable": true
+   },
    "rr_id": {
       "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
       "data_type": "string",
@@ -54,8 +84,13 @@
       "data_type": "string",
       "nullable": true
    },
-   "eicr_id": {
+   "eicr_set_id": {
       "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').identifier.where(type.coding.code = '55751-2').where(use='official').value",
+      "data_type": "string",
+      "nullable": true
+   },
+   "eicr_id": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').id",
       "data_type": "string",
       "nullable": false
    },
@@ -63,6 +98,16 @@
       "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition' ).extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
       "data_type": "string",
       "nullable": false
+   },
+   "replaced_eicr_id": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').targetReference.reference",
+      "data_type": "string",
+      "nullable": true
+   },
+   "replaced_eicr_version": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
+      "data_type": "string",
+      "nullable": true
    },
    "authoring_datetime": {
       "fhir_path": "Bundle.entry.resource.where(resourceType = 'Composition').date",
@@ -153,7 +198,7 @@
          },
          "test_result_quantitative": {
             "fhir_path": "Observation.valueQuantity.value",
-            "data_type": "number",
+            "data_type": "float",
             "nullable": true
          },
          "test_result_units": {
@@ -173,7 +218,7 @@
          },
          "test_result_code_system": {
             "fhir_path": "Observation.valueCodeableConcept.coding.system",
-            "data_type": "number",
+            "data_type": "string",
             "nullable": true
          },
          "test_result_interp": {
@@ -193,22 +238,22 @@
          },
          "test_result_ref_range_low": {
             "fhir_path": "Observation.refereneceRange.low.value",
-            "data_type": "number",
+            "data_type": "float",
             "nullable": true
          },
          "test_result_ref_range_low_units": {
             "fhir_path": "Observation.refereneceRange.low.unit",
-            "data_type": "number",
+            "data_type": "string",
             "nullable": true
          },
          "test_result_ref_range_high": {
             "fhir_path": "Observation.refereneceRange.high.value",
-            "data_type": "number",
+            "data_type": "float",
             "nullable": true
          },
          "test_result_ref_range_high_units": {
             "fhir_path": "Observation.refereneceRange.high.unit",
-            "data_type": "number",
+            "data_type": "string",
             "nullable": true
          },
          "specimen_type": {
