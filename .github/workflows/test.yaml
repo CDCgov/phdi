@@ -197,3 +197,20 @@ jobs:
         working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
         run: |
           python -m pytest -m "integration"
+          python -m pytest
+
+  test-node-containers:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14  # Adjust the Node.js version as needed
+    - name: Install dependencies
+      working-directory: ./containers/html-converter  # Navigate to your Node.js app directory
+      run: npm install
+    - name: Run tests
+      working-directory: ./containers/html-converter  # Navigate to your Node.js app directory
+      run: npm test
