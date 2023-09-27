@@ -156,6 +156,7 @@ jobs:
       - name: Install Pytest
         run: pip install pytest
       - name: Install dependencies
+        if: matrix.container-to-test != 'html-converter'
         working-directory: ./containers/${{matrix.container-to-test}}
         run: |
           pip install -r requirements.txt
