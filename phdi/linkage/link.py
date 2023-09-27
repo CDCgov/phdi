@@ -1252,9 +1252,21 @@ def _condense_extract_address_from_resource(resource: dict, field: str):
     list_of_address_objects = extract_value_with_resource_path(
         resource, expanded_address_fhirpath, "all"
     )
-    list_of_line_lists = [ao.get("line", []) for ao in list_of_address_objects]
-    list_of_usable_lines = [" ".join(line_obj) for line_obj in list_of_line_lists]
-    return list_of_usable_lines
+    if field == "address":
+        list_of_address_lists = [
+            ao.get(LINKING_FIELDS_TO_FHIRPATHS[field].split(".")[-1], [])
+            for ao in list_of_address_objects
+        ]
+        list_of_usable_address_elements = [
+            " ".join(obj) for obj in list_of_address_lists
+        ]
+    else:
+        list_of_usable_address_elements = []
+        for address_object in list_of_address_objects:
+            list_of_usable_address_elements.append(
+                address_object.get(LINKING_FIELDS_TO_FHIRPATHS[field].split(".")[-1])
+            )
+    return list_of_usable_address_elements
 
 
 def _find_strongest_link(linkage_scores: dict) -> str:
@@ -1300,8 +1312,8 @@ def _flatten_patient_field_helper(resource: dict, field: str) -> any:
             resource, LINKING_FIELDS_TO_FHIRPATHS[field], selection_criteria="all"
         )
         return vals if vals is not None else [""]
-    elif field in ["address", "city", "zip"]:
-        vals = _condense_extract_address_from_resource(resource)
+    elif field in ["address", "city", "zip", "state"]:
+        vals = _condense_extract_address_from_resource(resource, field)
         return vals if vals is not None else [""]
     else:
         val = extract_value_with_resource_path(
