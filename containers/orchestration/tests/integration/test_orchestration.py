@@ -1,6 +1,8 @@
+import time
 import httpx
 import pytest
 from pathlib import Path
+from icecream import ic
 
 ORCHESTRATION_URL = "http://0.0.0.0:8080"
 PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
@@ -18,8 +20,8 @@ def test_process_endpoint_with_message(setup):
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
         / "assets"
-        / "validation"
-        / "ecr_sample_input_good_with_RR.xml"
+        / "orchestration"
+        / "CDA_eICR.xml"
     ).read()
     request = {
     "message_type": "ecr",
@@ -28,8 +30,9 @@ def test_process_endpoint_with_message(setup):
     }
     orchestration_response = httpx.post(PROCESS_ENDPOINT, json=request)
 
-    validation_response_body = orchestration_response.json()
+    validation_response_body = orchestration_response
 
+    ic(validation_response_body)
 
     assert validation_response_body is "cheese"
 

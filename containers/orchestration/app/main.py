@@ -83,6 +83,8 @@ async def process_message_endpoint(
     }
     response, responses = call_apis(config=processing_config, input=input)
 
+    ic(response)
+
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)
         api_data = response.json()  # Assuming the response is in JSON format

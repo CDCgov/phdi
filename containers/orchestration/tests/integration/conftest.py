@@ -29,7 +29,7 @@ def setup(request):
         print("\nContainer output: ")
         print(orchestration_service.get_logs())
         print("Tests finished! Tearing down.")
-        orchestration_service.stop()
+        # orchestration_service.stop()
         # validation_service.stop()
 
     request.addfinalizer(teardown)
