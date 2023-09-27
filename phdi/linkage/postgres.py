@@ -214,7 +214,6 @@ class DIBBsConnectorClient(BaseMPIConnectorClient):
         select_query = "SELECT patient_id, person_id, " + ", ".join(
             stub for stub in select_query_stubs
         )
-
         # Generate blocking query based on blocking criteria
         block_query_stubs = []
         block_query_stubs_data = []
