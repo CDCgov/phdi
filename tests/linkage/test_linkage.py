@@ -921,6 +921,9 @@ def test_link_record_against_mpi():
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
+    patients = json.load(
+        open("C://Repos/phdi/tests/assets/linkage/patient_bundle_to_link_with_mpi.json")
+    )
     patients = patients["entry"]
     patients = [
         p
@@ -929,7 +932,7 @@ def test_link_record_against_mpi():
     ]
     matches = []
     mapped_patients = {}
-    for patient in patients[0:2]:
+    for patient in patients:
         matched, pid = link_record_against_mpi(
             patient["resource"],
             algorithm,

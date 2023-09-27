@@ -582,6 +582,10 @@ def link_record_against_mpi(
     # Need to bind function names back to their symbolic invocations
     # in context of the module--i.e. turn the string of a function
     # name back into the callable defined in link.py
+    # record = patient["resource"]
+    # algo_config = algorithm
+    # db_client = postgres_client
+
     algo_config = copy.deepcopy(algo_config)
     algo_config = _bind_func_names_to_invocations(algo_config)
 
@@ -1234,7 +1238,7 @@ def _compare_name_elements(
     return feature_comp
 
 
-def _condense_extract_address_from_resource(resource: dict):
+def _condense_extract_address_from_resource(resource: dict, field: str):
     """
     Formatting function to account for patient resources that have multiple
     associated addresses. Each address is a self-contained object, replete
@@ -1243,7 +1247,7 @@ def _condense_extract_address_from_resource(resource: dict):
     each address object, and returns the result in a properly formatted
     list.
     """
-    expanded_address_fhirpath = LINKING_FIELDS_TO_FHIRPATHS["address"]
+    expanded_address_fhirpath = LINKING_FIELDS_TO_FHIRPATHS[field]
     expanded_address_fhirpath = ".".join(expanded_address_fhirpath.split(".")[:-1])
     list_of_address_objects = extract_value_with_resource_path(
         resource, expanded_address_fhirpath, "all"
@@ -1296,7 +1300,7 @@ def _flatten_patient_field_helper(resource: dict, field: str) -> any:
             resource, LINKING_FIELDS_TO_FHIRPATHS[field], selection_criteria="all"
         )
         return vals if vals is not None else [""]
-    elif field == "address":
+    elif field in ["address", "city", "zip"]:
         vals = _condense_extract_address_from_resource(resource)
         return vals if vals is not None else [""]
     else:
