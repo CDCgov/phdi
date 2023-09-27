@@ -84,8 +84,13 @@
       "data_type": "string",
       "nullable": true
    },
-   "eicr_id": {
+   "eicr_set_id": {
       "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').identifier.where(type.coding.code = '55751-2').where(use='official').value",
+      "data_type": "string",
+      "nullable": true
+   },
+   "eicr_id": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').id",
       "data_type": "string",
       "nullable": false
    },
@@ -93,6 +98,16 @@
       "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition' ).extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
       "data_type": "string",
       "nullable": false
+   },
+   "replaced_eicr_id": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').targetReference.reference",
+      "data_type": "string",
+      "nullable": true
+   },
+   "replaced_eicr_version": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
+      "data_type": "string",
+      "nullable": true
    },
    "authoring_datetime": {
       "fhir_path": "Bundle.entry.resource.where(resourceType = 'Composition').date",
