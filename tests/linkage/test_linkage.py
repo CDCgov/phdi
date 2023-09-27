@@ -34,6 +34,10 @@ from phdi.linkage.link import (
     _condense_extract_address_from_resource,
 )
 from phdi.linkage import DIBBsConnectorClient
+from phdi.linkage.postgres_mpi import PGMPIConnectorClient
+from phdi.linkage.dal import DataAccessLayer
+from sqlalchemy import text
+
 from phdi.linkage import DIBBS_BASIC, DIBBS_ENHANCED
 
 import pathlib
@@ -44,6 +48,58 @@ from json.decoder import JSONDecodeError
 from tests.test_data_generator import (
     generate_list_patients_contact,
 )
+
+
+def _init_db() -> DataAccessLayer:
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+    MPI = PGMPIConnectorClient()
+    MPI.dal.get_connection(
+        engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
+    )
+    _clean_up(MPI.dal)
+
+    # load ddl
+    # schema_ddl = open(
+    #     pathlib.Path(__file__).parent.parent.parent
+    #     / "phdi"
+    #     / "linkage"
+    #     / "new_tables.ddl"
+    # ).read()
+    schema_ddl = open("C://Repos/phdi/phdi/linkage/new_tables.ddl").read()
+
+    try:
+        with MPI.dal.engine.connect() as db_conn:
+            db_conn.execute(text(schema_ddl))
+            db_conn.commit()
+    except Exception as e:
+        print(e)
+        with MPI.dal.engine.connect() as db_conn:
+            db_conn.rollback()
+    MPI.dal.initialize_schema()
+    return MPI
+
+
+def _clean_up(dal):
+    with dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.commit()
+        pg_connection.close()
 
 
 def _set_up_postgres_client():
