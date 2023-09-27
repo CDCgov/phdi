@@ -15,8 +15,8 @@ To run the HTML Insights app with Docker, follow these steps.
 ❯ docker -v
 Docker version 20.10.21, build baeda1f
 ``` 
-2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/html-insights:latest`.
-3. Run the service with `docker run -p 8080:8080 html-insights:latest`.
+2. Download a copy of the Docker image from the PHDI repository by running `docker pull ghcr.io/cdcgov/phdi/html-converter:latest`.
+3. Run the service with `docker run -p 8080:8080 html-converter:latest`.
 
 Congratulations, the HTML Insights app should now be running on `localhost:8080`!
 
@@ -26,7 +26,7 @@ We recommend running the HTML Insights app from a container, but if that is not 
 
 1. Ensure that both Git and Node 18.x or higher are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
-3. Navigate to `/phdi/containers/html-insights/`.
+3. Navigate to `/phdi/containers/html-converter/`.
 5. Install all of the Node dependencies for the HTML Insights app with `npm install`.
 6. Run the HTML Insights app on `localhost:8080` with `npm start`. 
 
@@ -35,8 +35,8 @@ We recommend running the HTML Insights app from a container, but if that is not 
 To build the Docker image for the HTML Insights app from source instead of downloading it from the PHDI repository follow these steps.
 1. Ensure that both [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker](https://docs.docker.com/get-docker/) are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
-3. Navigate to `/phdi/containers/html-insights/`.
-4. Run `docker build -t html-insights .`.
+3. Navigate to `/phdi/containers/html-converter/`.
+4. Run `docker build -t html-converter .`.
 
 ### The API 
 

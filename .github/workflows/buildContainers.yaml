@@ -25,7 +25,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Target branch in requirements.txt
-        if: matrix.container-to-build != 'html-insights'
+        if: matrix.container-to-build != 'html-converter'
         working-directory: ./containers/${{matrix.container-to-build}}
         run: |
           sed 's/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@main/phdi @ git+https:\/\/github.com\/CDCgov\/phdi.git@${{ github.sha }}/g' requirements.txt > requirements_new.txt && mv requirements_new.txt requirements.txt
