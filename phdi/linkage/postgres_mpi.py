@@ -238,30 +238,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         person_id: str = None,
         external_person_id: str = None,
     ) -> tuple:
-        # TODO: This comment may need to be updated with the changes made
-
-        """
-        If person id is not supplied and external person id is not supplied
-        then insert a new person record with an auto-generated person id (UUID)
-        with a Null external person id and return that new person id. If the
-        person id is not supplied but an external person id is supplied try
-        to find an existing person record with the external person id and
-        return that person id; otherwise add a new person record with an
-        auto-generated person id (UUID) with the supplied external person id
-        and return the new person id.  If person id and external person id are
-        both supplied then update the person records external person id if it
-        is Null and return the person id.
-
-        :param person_id: The person id for the person record to be inserted
-          or updated, defaults to None.
-        :param external_person_id: The external person id for the person record
-          to be inserted or updated, defaults to None.
-        :return: A tuple of two values; the person id either supplied or
-          auto-generated and a boolean that indicates if there was a match
-          found within the person table or not based upon the external person id
-        """
-        # # TODO: use the DAL to perform this going forward
-
         return None
 
     def _organize_block_criteria(self, block_fields: dict) -> dict:
@@ -410,6 +386,26 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         self,
         external_person_id: str,
     ) -> dict:
+        """
+        If person id is not supplied and external person id is not supplied
+        then insert a new person record with an auto-generated person id (UUID)
+        with a Null external person id and return that new person id. If the
+        person id is not supplied but an external person id is supplied try
+        to find an existing person record with the external person id and
+        return that person id; otherwise add a new person record with an
+        auto-generated person id (UUID) with the supplied external person id
+        and return the new person id.  If person id and external person id are
+        both supplied then update the person records external person id if it
+        is Null and return the person id.
+
+        :param person_id: The person id for the person record to be inserted
+          or updated, defaults to None.
+        :param external_person_id: The external person id for the person record
+          to be inserted or updated, defaults to None.
+        :return: A tuple of two values; the person id either supplied or
+          auto-generated and a boolean that indicates if there was a match
+          found within the person table or not based upon the external person id
+        """
         return_record = {}
         if external_person_id is None:
             return None
