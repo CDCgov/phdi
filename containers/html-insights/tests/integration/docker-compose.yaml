@@ -1,0 +1,8 @@
+version: '3.3'
+
+services:
+  html-insights:
+    build:
+      context: ../..
+    ports:
+          - "8080:8080"
