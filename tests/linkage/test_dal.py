@@ -70,6 +70,48 @@ from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 # ]
 
 
+def _init_db() -> DataAccessLayer:
+    dal = DataAccessLayer()
+    dal.get_connection(
+        engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
+    )
+    _clean_up(dal)
+    # load ddl
+    schema_ddl = open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "new_tables.ddl"
+    ).read()
+
+    try:
+        with dal.engine.connect() as db_conn:
+            db_conn.execute(text(schema_ddl))
+            db_conn.commit()
+    except Exception as e:
+        print(e)
+        with dal.engine.connect() as db_conn:
+            db_conn.rollback()
+    dal.initialize_schema()
+    return dal
+
+
+def _clean_up(dal):
+    with dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.commit()
+        pg_connection.close()
+
+
 def test_init_dal():
     dal = DataAccessLayer()
 
@@ -119,42 +161,47 @@ def test_initialize_schema():
     assert isinstance(dal.EXT_SOURCE_TABLE, Table)
 
 
-def test_bulk_insert_and_transactions():
+def test_bulk_insert_dict():
     dal = _init_db()
-    dal.initialize_schema()
 
     data_requested = {
-        "person_id": None,
-        "dob": "1977-11-11",
-        "sex": "M",
-        "race": "UNK",
-        "ethnicity": "UNK",
+        "patient": {
+            "table": dal.PATIENT_TABLE,
+            "records": [
+                {
+                    "person_id": None,
+                    "dob": "1977-11-11",
+                    "sex": "male",
+                    "race": "UNK",
+                    "ethnicity": "UNK",
+                }
+            ],
+        },
     }
-    test_data = []
-    test_data.append(data_requested)
-    dal.bulk_insert(dal.PATIENT_TABLE, test_data)
+    insert_result = dal.bulk_insert_dict(data_requested, False)
 
-    query = dal.session.query(dal.PATIENT_TABLE)
-    results = query.all()
+    assert insert_result == {"patient": {"results": []}}
 
-    assert len(results) == 1
-    assert results[0].dob == datetime.date(1977, 11, 11)
-    assert results[0].sex == "M"
-    assert results[0].patient_id is not None
+    results = dal.select_results(select(dal.PATIENT_TABLE))
+    assert len(results) == 2
+    assert results[1][2] == datetime.date(1977, 11, 11)
+    assert results[1][3] == "male"
+    assert results[1][0] is not None
 
     data_requested = {
+        "patient_id": None,
         "person_id": None,
         "dob": "1988-01-01",
-        "sex": "F",
+        "sex": "female",
         "race": "UNK",
         "ethnicity": "UNK",
         "MY ADDR": "BLAH",
     }
-    test_data = []
+    data_req = []
+    data_req.append(data_requested)
     error_msg = ""
-    test_data.append(data_requested)
     try:
-        dal.bulk_insert(dal.PATIENT_TABLE, test_data)
+        dal.bulk_insert_list(dal.PATIENT_TABLE, data_req, False)
     except Exception as error:
         error_msg = error
     finally:
@@ -164,171 +211,93 @@ def test_bulk_insert_and_transactions():
         dal.session.close()
         assert len(results) == 1
         assert results[0].dob == datetime.date(1977, 11, 11)
-        assert results[0].sex == "M"
+        assert results[0].sex == "male"
         assert results[0].patient_id is not None
-
-    _clean_up(dal)
-
-
-def _init_db() -> DataAccessLayer:
-    dal = DataAccessLayer()
-    dal.get_connection(
-        engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
-    )
-    _clean_up(dal)
-    # load ddl
-    schema_ddl = open(
-        pathlib.Path(__file__).parent.parent.parent
-        / "phdi"
-        / "linkage"
-        / "new_tables.ddl"
-    ).read()
-
-    try:
-        with dal.engine.connect() as db_conn:
-            db_conn.execute(text(schema_ddl))
-            db_conn.commit()
-    except Exception as e:
-        print(e)
-        with dal.engine.connect() as db_conn:
-            db_conn.rollback()
-    dal.initialize_schema()
-    return dal
-
-
-def _clean_up(dal):
-    with dal.engine.connect() as pg_connection:
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
-        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
-        pg_connection.commit()
-        pg_connection.close()
-
-
-def test_select_results():
-    os.environ = {
-        "mpi_dbname": "testdb",
-        "mpi_user": "postgres",
-        "mpi_password": "pw",
-        "mpi_host": "localhost",
-        "mpi_port": "5432",
-        "mpi_db_type": "postgres",
-    }
-    dal = _init_db()
-    block_data = {
-        "patient": {
-            "table": dal.PATIENT_TABLE,
-            "criteria": {
-                "dob": {"value": "1977-11-11"},
-                "sex": {"value": "M"},
-            },
-        }
-    }
 
     pt1 = {
         "person_id": None,
-        "dob": "1977-11-11",
-        "sex": "M",
+        "dob": "1985-11-11",
+        "sex": "male",
         "race": "UNK",
         "ethnicity": "UNK",
     }
     pt2 = {
         "person_id": None,
         "dob": "1988-01-01",
-        "sex": "F",
+        "sex": "female",
         "race": "UNK",
         "ethnicity": "UNK",
     }
-    test_data = []
-    test_data.append(pt1)
-    test_data.append(pt2)
-    dal.bulk_insert(dal.PATIENT_TABLE, test_data)
-    mpi = PGMPIConnectorClient()
-    mpi._initialize_schema()
-    blocked_data_query = mpi._generate_block_query(
-        block_data, select(dal.PATIENT_TABLE)
-    )
-    results = dal.select_results(select_stmt=blocked_data_query)
-
-    # TODO: saving this query here so it can be used in more robust tests
-    # in the near future:
-    #
-    # name_sub_query = (
-    #     select(
-    #         dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
-    #         dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
-    #     )
-    #     .where(dal.GIVEN_NAME_TABLE.c.given_name_index == 0)
-    #     .subquery()
-    # )
-
-    # id_sub_query = (
-    #     select(
-    #         dal.ID_TABLE.c.value.label("mrn"),
-    #         dal.ID_TABLE.c.patient_id.label("patient_id"),
-    #     )
-    #     .where(dal.ID_TABLE.c.type_code == "MR")
-    #     .subquery()
-    # )
-
-    # phone_sub_query = (
-    #     select(
-    #         dal.PHONE_TABLE.c.phone_number.label("phone_number"),
-    #         dal.PHONE_TABLE.c.type.label("phone_type"),
-    #         dal.PHONE_TABLE.c.patient_id.label("patient_id"),
-    #     )
-    #     .where(dal.PHONE_TABLE.c.type.in_(["home", "cell"]))
-    #     .subquery()
-    # )
-
-    # query = (
-    #     select(
-    #         dal.PATIENT_TABLE.c.patient_id,
-    #         dal.PATIENT_TABLE.c.dob,
-    #         dal.PATIENT_TABLE.c.sex,
-    #         id_sub_query.c.mrn,
-    #         dal.NAME_TABLE.c.last_name,
-    #         name_sub_query.c.given_name,
-    #         phone_sub_query.c.phone_number,
-    #         phone_sub_query.c.phone_type,
-    #         dal.ADDRESS_TABLE.c.line_1.label("address_line_1"),
-    #         dal.ADDRESS_TABLE.c.zip_code,
-    #         dal.ADDRESS_TABLE.c.city,
-    #         dal.ADDRESS_TABLE.c.state,
-    #         dal.PERSON_TABLE.c.person_id,
-    #     )
-    #     .outerjoin(
-    #         id_sub_query,
-    #     )
-    #     .outerjoin(dal.NAME_TABLE)
-    #     .outerjoin(name_sub_query)
-    #     .outerjoin(phone_sub_query)
-    #     .outerjoin(dal.ADDRESS_TABLE)
-    #     .outerjoin(dal.PERSON_TABLE)
-    # )
-
-    # full_results = dal.select_results(select_stmt=query)
-    # print("FULL:")
-    # print(query)
-    # print("RESULTS:")
-    # print(full_results)
+    test_data2 = []
+    test_data2.append(pt1)
+    test_data2.append(pt2)
+    data_requested2 = {
+        "patient": {"table": dal.PATIENT_TABLE, "records": test_data2},
+    }
+    pks = dal.bulk_insert_dict(data_requested2, True)
+    assert len(pks.get("patient").get("results")) == 2
+    results = dal.select_results(select(dal.PATIENT_TABLE))
+    assert len(results) == 4
 
     _clean_up(dal)
 
-    # ensure blocked data has two rows, headers and data
 
-    assert len(results) == 2
-    assert results[0][2] == "dob"
-    assert results[1][2] == datetime.date(1977, 11, 11)
-    assert results[0][3] == "sex"
-    assert results[1][3] == "M"
+#     # TODO: saving this query here so it can be used in more robust tests
+#     # in the near future:
+#     #
+#     # name_sub_query = (
+#     #     select(
+#     #         dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
+#     #         dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
+#     #     )
+#     #     .where(dal.GIVEN_NAME_TABLE.c.given_name_index == 0)
+#     #     .subquery()
+#     # )
+
+#     # id_sub_query = (
+#     #     select(
+#     #         dal.ID_TABLE.c.value.label("mrn"),
+#     #         dal.ID_TABLE.c.patient_id.label("patient_id"),
+#     #     )
+#     #     .where(dal.ID_TABLE.c.type_code == "MR")
+#     #     .subquery()
+#     # )
+
+#     # phone_sub_query = (
+#     #     select(
+#     #         dal.PHONE_TABLE.c.phone_number.label("phone_number"),
+#     #         dal.PHONE_TABLE.c.type.label("phone_type"),
+#     #         dal.PHONE_TABLE.c.patient_id.label("patient_id"),
+#     #     )
+#     #     .where(dal.PHONE_TABLE.c.type.in_(["home", "cell"]))
+#     #     .subquery()
+#     # )
+
+#     # query = (
+#     #     select(
+#     #         dal.PATIENT_TABLE.c.patient_id,
+#     #         dal.PATIENT_TABLE.c.dob,
+#     #         dal.PATIENT_TABLE.c.sex,
+#     #         id_sub_query.c.mrn,
+#     #         dal.NAME_TABLE.c.last_name,
+#     #         name_sub_query.c.given_name,
+#     #         phone_sub_query.c.phone_number,
+#     #         phone_sub_query.c.phone_type,
+#     #         dal.ADDRESS_TABLE.c.line_1.label("address_line_1"),
+#     #         dal.ADDRESS_TABLE.c.zip_code,
+#     #         dal.ADDRESS_TABLE.c.city,
+#     #         dal.ADDRESS_TABLE.c.state,
+#     #         dal.PERSON_TABLE.c.person_id,
+#     #     )
+#     #     .outerjoin(
+#     #         id_sub_query,
+#     #     )
+#     #     .outerjoin(dal.NAME_TABLE)
+#     #     .outerjoin(name_sub_query)
+#     #     .outerjoin(phone_sub_query)
+#     #     .outerjoin(dal.ADDRESS_TABLE)
+#     #     .outerjoin(dal.PERSON_TABLE)
+#     # )
 
 
 def test_get_table_by_name():
@@ -367,4 +336,143 @@ def test_does_table_have_column():
     dal = _init_db()
     assert dal.does_table_have_column(dal.GIVEN_NAME_TABLE, "patient_id") is False
     assert dal.does_table_have_column(dal.NAME_TABLE, "patient_id") is True
+    _clean_up(dal)
+
+
+def test_single_insert():
+    dal = _init_db()
+
+    pt1 = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "male",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+
+    pt2 = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "female",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+
+    pk = dal.single_insert(dal.PATIENT_TABLE, pt1, True)
+    assert pk is not None
+
+    pk2 = dal.single_insert(dal.PATIENT_TABLE, pt2, False)
+    assert pk2 is None
+
+    results = dal.select_results(select(dal.PATIENT_TABLE))
+    assert len(results) == 3
+    assert results[0][0] == "patient_id"
+    assert results[1][0] == pk
+    assert results[0][3] == "sex"
+    assert results[1][3] == "male"
+    assert results[2][3] == "female"
+
+    _clean_up(dal)
+
+
+def test_select_results():
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
+    }
+    dal = _init_db()
+    block_data = {
+        "patient": {
+            "table": dal.PATIENT_TABLE,
+            "criteria": {
+                "dob": {"value": "1977-11-11"},
+                "sex": {"value": "male"},
+            },
+        }
+    }
+
+    pt1 = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "male",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pt2 = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "female",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pk = dal.single_insert(dal.PATIENT_TABLE, pt1, True)
+    dal.single_insert(dal.PATIENT_TABLE, pt2, False)
+    mpi = PGMPIConnectorClient()
+    mpi._initialize_schema()
+    blocked_data_query = mpi._generate_block_query(
+        block_data, select(dal.PATIENT_TABLE)
+    )
+    results = dal.select_results(select_stmt=blocked_data_query)
+
+    # ensure blocked data has two rows, headers and data
+    assert len(results) == 2
+    assert results[0][0] == "patient_id"
+    assert results[1][0] == pk
+    assert results[0][2] == "dob"
+    assert results[1][2] == datetime.date(1977, 11, 11)
+    assert results[0][3] == "sex"
+    assert results[1][3] == "male"
+
+    results2 = dal.select_results(
+        select_stmt=blocked_data_query, include_col_header=False
+    )
+
+    # ensure blocked data has one row, just the data
+    assert len(results2) == 1
+    assert results2[0][0] == pk
+    assert results2[0][2] == datetime.date(1977, 11, 11)
+    assert results2[0][3] == "male"
+
+    _clean_up(dal)
+
+
+def test_bulk_insert_list():
+    dal = _init_db()
+    pt1 = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "male",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pt2 = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "female",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pat_data = [pt1, pt2]
+    pk_list = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data, True)
+
+    assert len(pk_list) == 2
+
+    results = dal.select_results(select(dal.PATIENT_TABLE))
+    assert len(results) == 3
+    assert results[0][0] == "patient_id"
+    assert results[1][0] == pk_list[0]
+    assert results[2][0] == pk_list[1]
+    assert results[0][3] == "sex"
+    assert results[1][3] == "male"
+    assert results[2][3] == "female"
+
+    pat_data2 = [pt1, pt2]
+    pk_list2 = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data2, False)
+    print(pk_list2)
+    assert len(pk_list2) == 0
+
     _clean_up(dal)

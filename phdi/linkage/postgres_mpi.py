@@ -68,7 +68,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         query_w_ctes = self._generate_block_query(
             organized_block_vals=organized_block_vals, query=query
         )
-        blocked_data = self.dal.select_results(select_stmt=query_w_ctes)
+        blocked_data = self.dal.select_results_as_list(select_stmt=query_w_ctes)
 
         return blocked_data
 
@@ -99,11 +99,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # matching person_id based upon the exernal person id, if supplied
         #  we have to get a person or insert a new person
         #  first to satisfy the link between the person and patient
-        if person_id is None:
-            external_person_record = self._get_external_person(
-                external_person_id=external_person_id
-            )
-            person_id = external_person_id.get("person_id")
+        external_person_record = self._get_external_person(
+            person_id=person_id, external_person_id=external_person_id
+        )
+        person_id = external_person_id.get("person_id")
 
         # store it in a friendly location in the patient dict for access later
         if person_id is not None:
@@ -384,6 +383,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
     def _get_external_person(
         self,
+        person_id: str,
         external_person_id: str,
     ) -> dict:
         """
@@ -394,12 +394,11 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         to find an existing person record with the external person id and
         return that person id; otherwise add a new person record with an
         auto-generated person id (UUID) with the supplied external person id
-        and return the new person id.  If person id and external person id are
+        and return the new external person record that will include the
+        new person id and new external person id.  If person id and external person id are
         both supplied then update the person records external person id if it
         is Null and return the person id.
 
-        :param person_id: The person id for the person record to be inserted
-          or updated, defaults to None.
         :param external_person_id: The external person id for the person record
           to be inserted or updated, defaults to None.
         :return: A tuple of two values; the person id either supplied or
@@ -410,17 +409,20 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if external_person_id is None:
             return None
         else:
-            # if external person id is supplied then find if there is already
-            #  a person with that external person id already within the MPI
-            #  - if so, return that person id
-            person_query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
-                text(
-                    f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
-                    + f" = '{external_person_id}'"
+            # if we have an external person id as well
+            # as a person id then we need to ensure they are correlated together
+            if person_id is not None:
+                # if external person id is supplied then find if there is already
+                #  a person with that external person id already within the MPI
+                #  - if so, return that person id
+                person_query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
+                    text(
+                        f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
+                        + f" = '{external_person_id}'"
+                    )
                 )
-            )
 
-            ext_person_record = self.dal.select_results(person_query)
+                ext_person_record = self.dal.select_results(person_query)
 
         # if a person was found based upon the external
         # person id then return that full person record
