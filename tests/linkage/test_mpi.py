@@ -402,8 +402,8 @@ def test_generate_dict_record_from_results():
 
     records = MPI._generate_dict_record_from_results(results)
 
-    assert len(records.keys()) == 2
-    assert records["ROW1"]["patient_id"] == pk_list[0]
-    assert records["ROW2"]["patient_id"] == pk_list[1]
+    assert len(records) == 2
+    assert records[0]["patient_id"] == pk_list[0]
+    assert records[1]["patient_id"] == pk_list[1]
 
     _clean_up(MPI.dal)

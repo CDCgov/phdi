@@ -76,6 +76,7 @@ def _init_db() -> DataAccessLayer:
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
     _clean_up(dal)
+
     # load ddl
     schema_ddl = open(
         pathlib.Path(__file__).parent.parent.parent
@@ -436,7 +437,6 @@ def test_select_results():
         return_full=False,
     )
     mpi = PGMPIConnectorClient()
-    mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
