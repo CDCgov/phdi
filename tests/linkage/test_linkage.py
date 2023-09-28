@@ -66,13 +66,13 @@ def _init_db() -> DataAccessLayer:
     _clean_up(MPI.dal)
 
     # load ddl
-    # schema_ddl = open(
-    #     pathlib.Path(__file__).parent.parent.parent
-    #     / "phdi"
-    #     / "linkage"
-    #     / "new_tables.ddl"
-    # ).read()
-    schema_ddl = open("C://Repos/phdi/phdi/linkage/new_tables.ddl").read()
+    schema_ddl = open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "new_tables.ddl"
+    ).read()
+    # schema_ddl = open("C://Repos/phdi/phdi/linkage/new_tables.ddl").read()
 
     try:
         with MPI.dal.engine.connect() as db_conn:
@@ -919,7 +919,7 @@ def test_algo_write():
 def test_link_record_against_mpi_none_record():
     algorithm = DIBBS_BASIC
 
-    postgres_client = _set_up_postgres_client()
+    postgres_client = _init_db()
 
     patients = json.load(
         open(
@@ -944,11 +944,14 @@ def test_link_record_against_mpi_none_record():
     matches = []
     mapped_patients = {}
     for patient in patients:
-        print("patient")
+        # matched, pid = link_record_against_mpi(
+        #     patient,
+        #     algorithm,
+        #     postgres_client,
+        # )
         matched, pid = link_record_against_mpi(
             patient,
             algorithm,
-            postgres_client,
         )
         matches.append(matched)
         if pid not in mapped_patients:
@@ -967,7 +970,8 @@ def test_link_record_against_mpi_none_record():
 def test_link_record_against_mpi():
     algorithm = DIBBS_BASIC
 
-    postgres_client = _set_up_postgres_client()
+    # postgres_client = _set_up_postgres_client()
+    postgres_client = _init_db()
 
     patients = json.load(
         open(
@@ -1008,7 +1012,6 @@ def test_link_record_against_mpi():
     # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
     #  in second pass name blocks on different cluster and address matches it,
     #  finds greatest strength match and correctly assigns to larger cluster
-
     assert matches == [False, True, False, True, False, True]
     assert sorted(list(mapped_patients.values())) == [1, 1, 4]
 
@@ -1294,7 +1297,7 @@ def test_condense_extracted_address():
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
     patient = patients[2]
-    assert _condense_extract_address_from_resource(patient) == [
+    assert _condense_extract_address_from_resource(patient, "address") == [
         "PO Box 1 First Rock",
         "Bay 16 Ward Sector 24",
     ]
@@ -1337,13 +1340,13 @@ def test_flatten_patient():
         None,
         ["PO Box 1 First Rock", "Bay 16 Ward Sector 24"],
         "2060-05-14",
-        "Nar Raya",
+        ["Nar Raya", "Liveship"],
         ["Tali", "Zora", "Tali", "Zora", "Tali", "Zora"],
         "Vas Normandy",
         "7894561235",
         "female",
-        "Ranoch",
-        "11111",
+        ["Ranoch", "The Neema"],
+        ["11111", "11111"],
     ]
 
 

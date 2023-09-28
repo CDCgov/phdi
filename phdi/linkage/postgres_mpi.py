@@ -27,9 +27,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             engine_url=f"postgresql+psycopg2://{dbuser}:"
             + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
         )
-
-    def _initialize_schema(self):
         self.dal.initialize_schema()
+
+    # def _initialize_schema(self):
+    #     self.dal.initialize_schema()
 
     # TODO: remove this from here and from core, it shouldn't be needed
     # it is here now just to satisfy the interface of core.py

@@ -13,7 +13,9 @@ from typing import List, Callable, Dict, Union
 
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
-from phdi.linkage.core import BaseMPIConnectorClient
+
+# from phdi.linkage.core import BaseMPIConnectorClient
+from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 LINKING_FIELDS_TO_FHIRPATHS = {
     "first_name": "Patient.name.given",
@@ -554,7 +556,7 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
 def link_record_against_mpi(
     record: dict,
     algo_config: List[dict],
-    db_client: BaseMPIConnectorClient,
+    # db_client: BaseMPIConnectorClient,
     external_person_id: str = None,
 ) -> tuple[bool, str]:
     """
@@ -582,9 +584,10 @@ def link_record_against_mpi(
     # Need to bind function names back to their symbolic invocations
     # in context of the module--i.e. turn the string of a function
     # name back into the callable defined in link.py
-    # record = patient["resource"]
+    # record = patient
     # algo_config = algorithm
     # db_client = postgres_client
+    db_client = PGMPIConnectorClient()
 
     algo_config = copy.deepcopy(algo_config)
     algo_config = _bind_func_names_to_invocations(algo_config)
@@ -607,6 +610,50 @@ def link_record_against_mpi(
             continue
 
         data_block = db_client.block_data(field_blocks)
+
+        # data_block = [
+        #     [
+        #         "patient_id",
+        #         "person_id",
+        #         "first_name",
+        #         "last_name",
+        #         "address",
+        #         "birthdate",
+        #         "city",
+        #         "mrn",
+        #         "state",
+        #         "zip",
+        #         "sex",
+        #     ],
+        #     [
+        #         "f6a16ff7-4a31-11eb-be7b-8344edc8f36b",
+        #         "b2bccafa-0c97-46bc-95fc-d33192d49929",
+        #         "John",
+        #         "Shepard",
+        #         "1234 Silversun Strip",
+        #         "2053-11-07",
+        #         "Boston",
+        #         "1234567890",
+        #         "Massachusetts",
+        #         "99999",
+        #         "male",
+        #     ],
+        # ]
+
+        # unnested_data_block = []
+        # for r in data_block:
+        #     unnested_record = []
+        #     for field in r:
+        #         if isinstance(field, list):
+        #             if isinstance(field[0], list):
+        #                 unnested_record.append(field[0][0])
+        #             else:
+        #                 unnested_record.append(field[0])
+        #         else:
+        #             unnested_record.append(field)
+        #     unnested_data_block.append(unnested_record)
+
+        # data_block = unnested_data_block
 
         # First row of returned block is column headers
         # Map column name to idx, not including patient/person IDs
