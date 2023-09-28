@@ -358,10 +358,22 @@ def test_single_insert():
         "ethnicity": "UNK",
     }
 
-    pk = dal.single_insert(dal.PATIENT_TABLE, pt1, True)
+    pk = dal.single_insert(
+        table=dal.PATIENT_TABLE,
+        record=pt1,
+        cte_query=None,
+        return_pk=True,
+        return_full=False,
+    )
     assert pk is not None
 
-    pk2 = dal.single_insert(dal.PATIENT_TABLE, pt2, False)
+    pk2 = dal.single_insert(
+        table=dal.PATIENT_TABLE,
+        record=pt2,
+        cte_query=None,
+        return_pk=False,
+        return_full=False,
+    )
     assert pk2 is None
 
     results = dal.select_results(select(dal.PATIENT_TABLE))
@@ -409,8 +421,20 @@ def test_select_results():
         "race": "UNK",
         "ethnicity": "UNK",
     }
-    pk = dal.single_insert(dal.PATIENT_TABLE, pt1, True)
-    dal.single_insert(dal.PATIENT_TABLE, pt2, False)
+    pk = dal.single_insert(
+        table=dal.PATIENT_TABLE,
+        record=pt1,
+        cte_query=None,
+        return_pk=True,
+        return_full=False,
+    )
+    dal.single_insert(
+        table=dal.PATIENT_TABLE,
+        record=pt2,
+        cte_query=None,
+        return_pk=False,
+        return_full=False,
+    )
     mpi = PGMPIConnectorClient()
     mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(

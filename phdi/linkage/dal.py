@@ -1,5 +1,14 @@
 from contextlib import contextmanager
-from sqlalchemy import MetaData, create_engine, Table, select
+from sqlalchemy import (
+    MetaData,
+    create_engine,
+    Table,
+    cte,
+    exists,
+    insert,
+    select,
+    update,
+)
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
 
@@ -116,8 +125,20 @@ class DataAccessLayer(object):
         finally:
             session.close()
 
+    def create_insert_cte(self, table: Table, record: dict) -> insert:
+        pk_column = table.primary_key.c[0]
+        stmt = (
+            table.insert().values(record).returning(pk_column).cte(f"cte_{table.name}")
+        )
+        return stmt
+
     def single_insert(
-        self, table: Table, record: dict, return_pk: bool = False
+        self,
+        table: Table,
+        record: dict,
+        cte_query: cte = None,
+        return_pk: bool = False,
+        return_full: bool = False,
     ) -> list:
         """
         Perform a single insert operation on a table for a record.
@@ -133,14 +154,25 @@ class DataAccessLayer(object):
         new_pk = None
         pk_column = table.primary_key.c[0]
         with self.transaction() as session:
-            if return_pk:
-                stmt = table.insert().values(record).returning(pk_column)
+            if return_pk or return_full:
+                if cte_query is None:
+                    stmt = table.insert().values(record).returning(pk_column)
+                else:
+                    stmt = (
+                        table.insert()
+                        .values(record)
+                        .where(~exists(cte_query.select()))
+                        .returning(pk_column)
+                    )
                 pk = session.execute(stmt)
                 # TODO: I don't like this, but seems to
                 # be one of the only ways to get this to work
                 #  I have tried using the column name from the
                 # PK defined in the table and that doesn't work
-                new_pk = pk.first()[0]
+                if return_full:
+                    new_pk = pk.first()
+                elif return_pk:
+                    new_pk = pk.first()[0]
             else:
                 stmt = table.insert().values(record)
                 session.execute(stmt)
@@ -195,15 +227,11 @@ class DataAccessLayer(object):
         """
         return_results = {}
         for key, value in records_with_table.items():
-            print(f"KEY: {key}")
             new_pks = []
             table = value.get("table")
             records = value.get("records")
-            print(f"BI TABLE: {table.name}")
-            print(f"BI RECS: {records}")
             if table is not None and records is not None and len(records) > 0:
                 new_pks = self.bulk_insert_list(table, records, return_pks)
-                print(f"BI PKS: {new_pks}")
                 return_results[key] = {"results": new_pks}
         return return_results
 
@@ -229,7 +257,9 @@ class DataAccessLayer(object):
                 list_results.insert(0, list(results.keys()))
         return list_results
 
-    # TODO:  add an update section here
+    def update_table(self, update_stmt: update) -> None:
+        with self.transaction() as session:
+            session.execute(update_stmt)
 
     # TODO: Remove this as this shouldn't be needed
     def get_session(self) -> scoped_session:

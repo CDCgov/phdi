@@ -1,5 +1,5 @@
 from typing import List, Dict, Union
-from sqlalchemy import Select, and_, select, text
+from sqlalchemy import Select, and_, exists, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
@@ -99,52 +99,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # matching person_id based upon the exernal person id, if supplied
         #  we have to get a person or insert a new person
         #  first to satisfy the link between the person and patient
-        external_person_record = self._get_external_person(
+        external_person_records = self._insert_person(
             person_id=person_id, external_person_id=external_person_id
         )
-        person_id = external_person_id.get("person_id")
-
-        # store it in a friendly location in the patient dict for access later
-        if person_id is not None:
-            patient_resource["person"] = person_id
-
-        # try:
-        #     # TODO: use this function from the DAL instead of
-        #     # doing manual insert - see commented out code example below
-        #     # self.dal.bulk_insert(self.dal.PATIENT_TABLE, patient_record_dict)
-
-        {
-            "resourceType": "Patient",
-            "id": "fd645c21-4a6f-11eb-99fd-ad786a821574",
-            "identifier": [
-                {
-                    "value": "7845451380",
-                    "type": {
-                        "coding": [
-                            {
-                                "code": "MR",
-                                "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                "display": "Medical record number",
-                            }
-                        ]
-                    },
-                }
-            ],
-            "name": [{"family": "Shepard", "given": ["John"], "use": "official"}],
-            "birthDate": "2053-11-07",
-            "gender": "male",
-            "address": [
-                {
-                    "line": ["1234 Silversun Strip"],
-                    "buildingNumber": "1234",
-                    "city": "Zakera Ward",
-                    "state": "Citadel",
-                    "postalCode": "99999",
-                    "use": "home",
-                }
-            ],
-            "telecom": [{"use": "home", "system": "phone", "value": "123-456-7890"}],
-        }
 
         return None
 
@@ -231,13 +188,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 )
 
         return new_query
-
-    def _insert_person(
-        self,
-        person_id: str = None,
-        external_person_id: str = None,
-    ) -> tuple:
-        return None
 
     def _organize_block_criteria(self, block_fields: dict) -> dict:
         # Accepted blocking fields include: first_name, last_name,
@@ -381,7 +331,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             "telecom": [{"use": "home", "system": "phone", "value": "123-456-7890"}],
         }
 
-    def _get_external_person(
+    def _insert_person(
         self,
         person_id: str,
         external_person_id: str,
@@ -401,59 +351,81 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         :param external_person_id: The external person id for the person record
           to be inserted or updated, defaults to None.
-        :return: A tuple of two values; the person id either supplied or
-          auto-generated and a boolean that indicates if there was a match
-          found within the person table or not based upon the external person id
+        :return: A dictionary that contains all the rows from the returned
+            either queried or inserted external patient record
         """
         return_record = {}
         if external_person_id is None:
             return None
         else:
-            # if we have an external person id as well
-            # as a person id then we need to ensure they are correlated together
-            if person_id is not None:
-                # if external person id is supplied then find if there is already
-                #  a person with that external person id already within the MPI
-                #  - if so, return that person id
-                person_query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
-                    text(
-                        f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
-                        + f" = '{external_person_id}'"
-                    )
+            # if external person id is supplied then find if there is already
+            #  a person with that external person id already within the MPI
+            #  - if so, return that person id
+            ext_person_query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
+                text(
+                    f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
+                    + f" = '{external_person_id}'"
                 )
-
-                ext_person_record = self.dal.select_results(person_query)
-
-        # if a person was found based upon the external
-        # person id then return that full person record
-        # for reference
-        if len(ext_person_record) > 0 and len(ext_person_record[0]) > 0:
-            return_record = {
-                "external_id": ext_person_record[0][0],
-                "person_id": ext_person_record[0][1],
-                "external_person_id": external_person_id,
-                "external_source_id": ext_person_record[0][3],
-            }
-        # otherwise, insert a new person and a new external person
-        # record with the external_person_id
-        else:
-            new_person_record = {"person_id": None}
-            person_id = self.dal.single_insert(self.dal.PERSON_TABLE, new_person_record)
-            new_ext_person_record = {
-                "external_id": None,
-                "person_id": person_id,
-                "external_person_id": external_person_id,
-                "external_source_id": None,
-            }
-            ext_person_id = self.dal.single_insert(
-                self.dal.EXT_PERSON_TABLE, new_ext_person_record
             )
+            ext_person_record = self.dal.select_results(ext_person_query, True)
 
-            return_record = {
-                "external_id": ext_person_id,
-                "person_id": person_id,
-                "external_person_id": external_person_id,
-                "external_source_id": None,
-            }
+            # if a person was found based upon the external
+            # person id then return that full person record
+            # for reference
+            # otherwise, insert a new person and a new external person
+            # record with the external_person_id
+            if len(ext_person_record) == 0:
+                new_person_record = {"person_id": None}
+                person_cte = self.dal.create_insert_cte(
+                    self.dal.PERSON_TABLE, new_person_record
+                )
+                new_ext_person_record = {
+                    "external_id": None,
+                    "person_id": person_cte.c.person_id,
+                    "external_person_id": external_person_id,
+                    "external_source_id": None,
+                }
+                ext_person_record = self.dal.single_insert(
+                    table=self.dal.EXT_PERSON_TABLE,
+                    record=new_ext_person_record,
+                    cte_query=person_cte,
+                    return_pk=False,
+                    return_full=True,
+                )
+            # in the case where an external person id and a person id are both
+            # supplied, but there isn't a link between these two records in
+            # their respective tables, then we need to add a new external_person record
+            # with the supplied person_id
+            else:
+                new_ext_person_record = {
+                    "external_id": None,
+                    "person_id": person_id,
+                    "external_person_id": external_person_id,
+                    "external_source_id": None,
+                }
+                ext_person_record = self.dal.single_insert(
+                    table=self.dal.EXT_PERSON_TABLE,
+                    record=new_ext_person_record,
+                    cte_query=None,
+                    return_pk=False,
+                    return_full=True,
+                )
+            return_record = self._generate_dict_record_from_results(ext_person_record)
+        return return_record
 
+    def _generate_dict_record_from_results(self, results_list: List[list]) -> dict:
+        return_record = {}
+        # we must ensure that there is a header AND at least
+        # one record or there is much of a point in moving forward
+        if len(results_list) > 1 and len(results_list[0]) > 0:
+            for row_index, record in enumerate(results_list):
+                if row_index > 0:
+                    row_name = f"ROW{row_index}"
+                    return_record[row_name] = {}
+                    columns_and_values = {}
+                    for col_index, row_header in enumerate(results_list[0]):
+                        columns_and_values[row_header] = record[col_index]
+                    return_record[row_name].update(columns_and_values)
+        else:
+            return_record = {"NO ROWS"}
         return return_record

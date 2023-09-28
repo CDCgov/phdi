@@ -378,3 +378,32 @@ def test_block_data_with_transform():
     assert len(blocked_data) == 2
     assert blocked_data[1][1] is None
     assert blocked_data[1][2] == data_requested.get("zip")
+
+
+def test_generate_dict_record_from_results():
+    MPI = _init_db()
+    pt1 = {
+        "person_id": None,
+        "dob": "1977-11-11",
+        "sex": "male",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pt2 = {
+        "person_id": None,
+        "dob": "1988-01-01",
+        "sex": "female",
+        "race": "UNK",
+        "ethnicity": "UNK",
+    }
+    pat_data = [pt1, pt2]
+    pk_list = MPI.dal.bulk_insert_list(MPI.dal.PATIENT_TABLE, pat_data, True)
+    results = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
+
+    records = MPI._generate_dict_record_from_results(results)
+
+    assert len(records.keys()) == 2
+    assert records["ROW1"]["patient_id"] == pk_list[0]
+    assert records["ROW2"]["patient_id"] == pk_list[1]
+
+    _clean_up(MPI.dal)
