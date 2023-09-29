@@ -1,7 +1,15 @@
 from typing import List, Dict, Union
 from sqlalchemy import Select, and_, select, text
 from phdi.linkage.new_core import BaseMPIConnectorClient
-from phdi.linkage.utils import load_mpi_env_vars_os
+from phdi.linkage.utils import (
+    get_address_lines,
+    get_patient_addresses,
+    get_patient_phones,
+    load_mpi_env_vars_os,
+    get_patient_ethnicity,
+    get_patient_race,
+    get_patient_identifiers,
+)
 from phdi.linkage.dal import DataAccessLayer
 
 
@@ -296,18 +304,62 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if patient_resource["resourceType"] != "Patient":
             return records
 
-        # let's start with the patient record
         patient = {
             "patient_id": None,
             "person_id": patient_resource.get("person"),
             "dob": patient_resource.get("birthdate"),
             "sex": patient_resource.get("gender"),
-            # TODO: find a way to get race and
-            # ethnicity included here           #
-            # "race": patient_resource.get("extension"),
-            # "ethnicity": patient_resource.get("extension"),
+            "race": get_patient_race(patient_resource),
+            "ethnicity": get_patient_ethnicity(patient_resource),
         }
-        records["patient"] = {"table": self.dal.PATIENT_TABLE, "records": [patient]}
+        new_patient_id = self.dal.single_insert(
+            table=self.dal.PATIENT_TABLE,
+            record=patient,
+            return_pk=True,
+            return_full=False,
+        )
+
+        patient_ids = []
+        for pat_id in get_patient_identifiers(patient_resource):
+            ident = {
+                "identifier_id": None,
+                "patient_id": new_patient_id,
+                "value": pat_id.get("value"),
+                "type_code": pat_id.get("type").get("coding").get("code"),
+                "type_display": pat_id.get("type").get("coding").get("display"),
+                "type_system": pat_id.get("type").get("coding").get("system"),
+            }
+            patient_ids.append(ident)
+        records["identifier"] = {"table": self.dal.ID_TABLE, "records": patient_ids}
+
+        phones = []
+        for pat_phone in get_patient_phones(patient_resource):
+            phn = {
+                "phone_number_id": None,
+                "patient_id": new_patient_id,
+                "phone_number": pat_phone.get("value"),
+                "type": pat_phone.get("use"),
+                "start_date": pat_phone.get("period").get("start"),
+                "end_date": pat_phone.get("period").get("end"),
+            }
+            phones.append(phn)
+        records["phone_number"] = {"table": self.dal.PHONE_TABLE, "records": phones}
+
+        addresses = []
+        for pat_addr in get_patient_addresses(patient_resource):
+            addr_lines = get_address_lines({"address": pat_addr})
+            addr = {
+                "address_id": None,
+                "patient_id": new_patient_id,
+                "line_1": addr_lines[0],
+                "line_2": addr_lines[1],
+                "city": addr.get("city"),
+                "zip_code": addr.get("state"),
+                "country": addr.get("country"),
+                "latitude": addr.get()
+                "start_date": pat_phone.get("period").get("start"),
+                "end_date": pat_phone.get("period").get("end"),
+            }
 
         # {
         #     "resourceType": "Patient",
