@@ -15,8 +15,19 @@ fhir_bundle_path = (
     / "patient_bundle.json"
 )
 
+fhir_bundle_path_w_float = (
+    Path(__file__).parent.parent.parent.parent
+    / "tests"
+    / "assets"
+    / "general"
+    / "patient_bundle_w_floats.json"
+)
+
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
+
+with open(fhir_bundle_path_w_float, "r") as file:
+    fhir_bundle_w_float = json.load(file)
 
 test_schema_path = (
     Path(__file__).parent.parent / "app" / "default_schemas" / "test_schema.json"
@@ -27,7 +38,24 @@ with open(test_schema_path, "r") as file:
 
 expected_successful_response = {
     "message": "Parsing succeeded!",
-    "parsed_values": {"first_name": "John ", "last_name": "doe", "active_problems": []},
+    "parsed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "latitude": None,
+        "longitude": None,
+        "active_problems": [],
+    },
+}
+
+expected_successful_response_floats = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "latitude": "34.58002",
+        "longitude": "-118.08925",
+        "active_problems": [],
+    },
 }
 
 
@@ -41,6 +69,17 @@ def test_parse_message_success_internal_schema():
     actual_response = client.post("/parse_message", json=test_request)
     assert actual_response.status_code == 200
     assert actual_response.json() == expected_successful_response
+
+    test_request2 = {
+        "message_format": "fhir",
+        "parsing_schema_name": "test_schema.json",
+        "message": fhir_bundle_w_float,
+    }
+
+    actual_response2 = client.post("/parse_message", json=test_request2)
+    assert actual_response2.status_code == 200
+    print(actual_response2.json())
+    assert actual_response2.json() == expected_successful_response_floats
 
 
 def test_parse_message_success_external_schema():
