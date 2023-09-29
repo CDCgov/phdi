@@ -165,13 +165,14 @@ class DataAccessLayer(object):
                         .returning(pk_column)
                     )
                 pk = session.execute(stmt)
-                # TODO: I don't like this, but seems to
-                # be one of the only ways to get this to work
-                #  I have tried using the column name from the
-                # PK defined in the table and that doesn't work
+
                 if return_full:
                     new_pk = pk.first()
                 elif return_pk:
+                    # TODO: I don't like this, but seems to
+                    # be one of the only ways to get this to work
+                    #  I have tried using the column name from the
+                    # PK defined in the table and that doesn't work
                     new_pk = pk.first()[0]
             else:
                 stmt = table.insert().values(record)
@@ -200,6 +201,10 @@ class DataAccessLayer(object):
                 if return_pks:
                     stmt = table.insert().values(record).returning(pk_column)
                     new_pk = session.execute(stmt)
+                    # TODO: I don't like this, but seems to
+                    # be one of the only ways to get this to work
+                    #  I have tried using the column name from the
+                    # PK defined in the table and that doesn't work
                     new_pks.append(new_pk.first()[0])
                 else:
                     stmt = table.insert().values(record)

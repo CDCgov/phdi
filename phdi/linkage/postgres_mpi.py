@@ -27,6 +27,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             engine_url=f"postgresql+psycopg2://{dbuser}:"
             + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
         )
+
+    def _initialize_schema(self):
         self.dal.initialize_schema()
 
     def get_block_data(self, block_vals: Dict) -> List[list]:
@@ -51,6 +53,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # Get the base query that will select all necessary
         # columns for linkage with some basic filtering
         query = self._get_base_query()
+
         # now get the criteria organized by table so the
         # CTE queries can be constructed and then added
         # to the base query
@@ -61,6 +64,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         query_w_ctes = self._generate_block_query(
             organized_block_vals=organized_block_vals, query=query
         )
+
         blocked_data = self.dal.select_results(
             select_stmt=query_w_ctes, include_col_header=True
         )
@@ -94,7 +98,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # matching person_id based upon the exernal person id, if supplied
         #  we have to get a person or insert a new person
         #  first to satisfy the link between the person and patient
-        external_person_records = self._insert_person(
+        external_person_records = self._get_person(
             person_id=person_id, external_person_id=external_person_id
         )
 
@@ -115,7 +119,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     )
                 elif criteria_transform == "last4":
                     where_criteria.append(
-                        f"RIGHT({table_name}.{key},4) = '{criteria_value}$$'"
+                        f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
                     )
         return where_criteria
 
@@ -162,7 +166,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     sub_query = (
                         select(cte_query_table)
                         .where(text(" AND ".join(query_criteria)))
-                        .subquery()
+                        .subquery(f"{cte_query_table.name}_cte_subq")
                     )
 
                     cte_query = (
@@ -171,7 +175,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                         .where(
                             text(
                                 f"{fk_table.name}.{fk_column.name} = "
-                                + f"{cte_query_table.name}.{fk_column.name}"
+                                + f"{sub_query.name}.{fk_column.name}"
                             )
                         )
                     ).cte(f"{table_key}_cte")
@@ -226,7 +230,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 self.dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
             )
             .where(self.dal.GIVEN_NAME_TABLE.c.given_name_index == 0)
-            .subquery()
+            .subquery("gname_subq")
         )
 
         id_sub_query = (
@@ -235,10 +239,14 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 self.dal.ID_TABLE.c.patient_id.label("patient_id"),
             )
             .where(self.dal.ID_TABLE.c.type_code == "MR")
-            .subquery()
+            .subquery("ident_subq")
         )
 
-        # phone_sub_query = (
+        # TODO: keeping this here for the time
+        # when we decide to add phone numbers into
+        # the blocking data
+        #
+        #  phone_sub_query = (
         #     select(
         #         self.dal.PHONE_TABLE.c.phone_number.label("phone_number"),
         #         self.dal.PHONE_TABLE.c.type.label("phone_type"),
@@ -257,6 +265,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 id_sub_query.c.mrn,
                 self.dal.NAME_TABLE.c.last_name,
                 name_sub_query.c.given_name.label("first_name"),
+                # TODO: keeping this here for the time
+                # when we decide to add phone numbers into
+                # the blocking data
+                #
                 # phone_sub_query.c.phone_number,
                 # phone_sub_query.c.phone_type,
                 self.dal.ADDRESS_TABLE.c.line_1.label("address"),
@@ -269,6 +281,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             )
             .outerjoin(self.dal.NAME_TABLE)
             .outerjoin(name_sub_query)
+            # TODO: keeping this here for the time
+            # when we decide to add phone numbers into
+            # the blocking data
+            #
             # .outerjoin(phone_sub_query)
             .outerjoin(self.dal.ADDRESS_TABLE)
             .outerjoin(self.dal.PERSON_TABLE)
@@ -293,38 +309,38 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         }
         records["patient"] = {"table": self.dal.PATIENT_TABLE, "records": [patient]}
 
-        {
-            "resourceType": "Patient",
-            "id": "fd645c21-4a6f-11eb-99fd-ad786a821574",
-            "identifier": [
-                {
-                    "value": "7845451380",
-                    "type": {
-                        "coding": [
-                            {
-                                "code": "MR",
-                                "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                "display": "Medical record number",
-                            }
-                        ]
-                    },
-                }
-            ],
-            "name": [{"family": "Shepard", "given": ["John"], "use": "official"}],
-            "birthDate": "2053-11-07",
-            "gender": "male",
-            "address": [
-                {
-                    "line": ["1234 Silversun Strip"],
-                    "buildingNumber": "1234",
-                    "city": "Zakera Ward",
-                    "state": "Citadel",
-                    "postalCode": "99999",
-                    "use": "home",
-                }
-            ],
-            "telecom": [{"use": "home", "system": "phone", "value": "123-456-7890"}],
-        }
+        # {
+        #     "resourceType": "Patient",
+        #     "id": "fd645c21-4a6f-11eb-99fd-ad786a821574",
+        #     "identifier": [
+        #         {
+        #             "value": "7845451380",
+        #             "type": {
+        #                 "coding": [
+        #                     {
+        #                         "code": "MR",
+        #               "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        #                         "display": "Medical record number",
+        #                     }
+        #                 ]
+        #             },
+        #         }
+        #     ],
+        #     "name": [{"family": "Shepard", "given": ["John"], "use": "official"}],
+        #     "birthDate": "2053-11-07",
+        #     "gender": "male",
+        #     "address": [
+        #         {
+        #             "line": ["1234 Silversun Strip"],
+        #             "buildingNumber": "1234",
+        #             "city": "Zakera Ward",
+        #             "state": "Citadel",
+        #             "postalCode": "99999",
+        #             "use": "home",
+        #         }
+        #     ],
+        #     "telecom": [{"use": "home", "system": "phone", "value": "123-456-7890"}],
+        # }
 
     def _get_person(
         self,
@@ -341,8 +357,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         auto-generated person id (UUID) with the supplied external person id
         and return the new external person record that will include the
         new person id and new external person id.  If person id and
-        external person id are both supplied then update the person records external person id if it
-        is Null and return the person id.
+        external person id are both supplied then update the person records
+        external person id if it is Null and return the person id.
 
         :param external_person_id: The external person id for the person record
           to be inserted or updated, defaults to None.
@@ -356,9 +372,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             # if external person id is supplied then find if there is already
             #  a person with that external person id already within the MPI
             #  - if so, return that person id
-            ext_person_query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
+            ext_person_query = select(self.dal.EXT_PERSON_TABLE).where(
                 text(
-                    f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
+                    f"{self.dal.EXT_PERSON_TABLE.name}.external_person_id"
                     + f" = '{external_person_id}'"
                 )
             )

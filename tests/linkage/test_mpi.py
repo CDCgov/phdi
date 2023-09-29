@@ -1,3 +1,4 @@
+import datetime
 import os
 import pathlib
 import re
@@ -6,7 +7,6 @@ import pytest
 from sqlalchemy import Select, select, text
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
-from sqlalchemy.orm import Session
 
 
 def _init_db() -> DataAccessLayer:
@@ -40,7 +40,7 @@ def _init_db() -> DataAccessLayer:
         print(e)
         with MPI.dal.engine.connect() as db_conn:
             db_conn.rollback()
-    MPI.dal.initialize_schema()
+    MPI._initialize_schema()
     return MPI
 
 
@@ -84,20 +84,24 @@ def test_block_data():
     test_data = []
     test_data.append(pt1)
     test_data.append(pt2)
-    MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
-    blocked_data = MPI.block_data(block_data)
+    pks = MPI.dal.bulk_insert_list(
+        table=MPI.dal.PATIENT_TABLE, records=test_data, return_pks=True
+    )
+    assert len(pks) == 2
+
+    blocked_data = MPI.get_block_data(block_data)
 
     _clean_up(MPI.dal)
 
     # ensure blocked data has two rows, headers and data
     assert len(blocked_data) == 2
-    assert blocked_data[1][0] is not None
+    assert blocked_data[1][0] == pks[0]
     assert blocked_data[0][0] == "patient_id"
     assert blocked_data[1][1] is None
     assert blocked_data[0][1] == "person_id"
     assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
-    assert blocked_data[0][2] == "dob"
-    assert len(blocked_data[0]) == 13
+    assert blocked_data[0][2] == "birthdate"
+    assert len(blocked_data[0]) == 11
 
 
 def test_block_data_failures():
@@ -106,7 +110,7 @@ def test_block_data_failures():
     blocked_data = None
     # test empty block vals
     with pytest.raises(ValueError) as e:
-        blocked_data = MPI.block_data(block_data)
+        blocked_data = MPI.get_block_data(block_data)
         assert "`block_data` cannot be empty." in str(e.value)
 
     block_data = {
@@ -132,8 +136,11 @@ def test_block_data_failures():
     test_data = []
     test_data.append(pt1)
     test_data.append(pt2)
-    MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
-    blocked_data = MPI.block_data(block_data)
+    pks = MPI.dal.bulk_insert_list(
+        table=MPI.dal.PATIENT_TABLE, records=test_data, return_pks=True
+    )
+    blocked_data = MPI.get_block_data(block_data)
+    assert len(pks) == 2
 
     _clean_up(MPI.dal)
 
@@ -141,21 +148,41 @@ def test_block_data_failures():
     # testing to ensure that invalid block vals are skipped
     #  and not used in the filtering of the query
     assert len(blocked_data) == 2
-    assert blocked_data[1][0] is not None
+    assert blocked_data[1][0] == pks[0]
     assert blocked_data[0][0] == "patient_id"
     assert blocked_data[1][1] is None
     assert blocked_data[0][1] == "person_id"
     assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
-    assert blocked_data[0][2] == "dob"
-    assert len(blocked_data[0]) == 13
+    assert blocked_data[0][2] == "birthdate"
+    assert len(blocked_data[0]) == 11
 
 
 def test_get_base_query():
     MPI: PGMPIConnectorClient = _init_db()
     base_query = MPI._get_base_query()
+    expected_query = (
+        "SELECT patient.patient_id, person.person_id, patient.dob AS"
+        + " birthdate, patient.sex, ident_subq.mrn, name.last_name, "
+        + "gname_subq.given_name AS first_name, address.line_1 AS "
+        + "address, address.zip_code AS zip, address.city, address.state"
+        + "FROM patient LEFT OUTER JOIN (SELECT identifier.value AS mrn,"
+        + " identifier.patient_id AS patient_id"
+        + "FROM identifier"
+        + "WHERE identifier.type_code = :type_code_1) AS ident_subq ON "
+        + "patient.patient_id = ident_subq.patient_id LEFT OUTER JOIN "
+        + "name ON patient.patient_id = name.patient_id LEFT OUTER "
+        + "JOIN (SELECT given_name.given_name AS given_name, "
+        + "given_name.name_id AS name_id"
+        + "FROM given_name"
+        + "WHERE given_name.given_name_index = :given_name_index_1)"
+        + " AS gname_subq ON name.name_id = gname_subq.name_id LEFT OUTER JOIN"
+        + " address ON patient.patient_id = address.patient_id LEFT OUTER"
+        + " JOIN person ON person.person_id = patient.person_id"
+    )
     assert base_query is not None
     assert isinstance(base_query, Select)
     _clean_up(MPI.dal)
+    assert re.sub(r"\s+", "", str(base_query)) == re.sub(r"\s+", "", expected_query)
 
 
 def test_organize_block_criteria():
@@ -265,8 +292,8 @@ def test_generate_block_query():
         + "given_name.given_name_index AS given_name_index"
         + "FROM given_name"
         + "WHERE given_name.given_name = 'Homer') "
-        + "AS anon_1 ON name.name_id = anon_1.name_id"
-        + "WHERE name.name_id = given_name.name_id),"
+        + "AS given_name_cte_subq ON name.name_id = given_name_cte_subq.name_id"
+        + "WHERE name.name_id = given_name_cte_subq.name_id),"
         + "name_cte AS"
         + "(SELECT name.patient_id AS patient_id"
         + "FROM name"
@@ -285,13 +312,6 @@ def test_generate_block_query():
     assert re.sub(r"\s+", "", str(my_query2)) == re.sub(r"\s+", "", expected_result2)
 
 
-def test_pgmpi_connector():
-    PDAL = _init_db()
-    assert PDAL is not None
-    session = PDAL.get_connection()
-    assert session is not None
-
-
 def test_init():
     os.environ = {
         "mpi_dbname": "testdb",
@@ -302,37 +322,16 @@ def test_init():
         "mpi_db_type": "postgres",
     }
 
-    eng = PGMPIConnectorClient()
+    MPI = PGMPIConnectorClient()
 
-    assert eng is not None
-    assert isinstance(eng, PGMPIConnectorClient)
-    assert eng.dal is not None
-    assert isinstance(eng.dal, DataAccessLayer)
-
-
-def test_get_connection():
-    os.environ = {
-        "mpi_dbname": "testdb",
-        "mpi_user": "postgres",
-        "mpi_password": "pw",
-        "mpi_host": "localhost",
-        "mpi_port": "5432",
-        "mpi_db_type": "postgres",
-    }
-
-    eng = PGMPIConnectorClient()
-    db_conn = eng.get_connection()
-
-    assert eng is not None
-    assert isinstance(eng, PGMPIConnectorClient)
-    assert eng.dal is not None
-    assert isinstance(eng.dal, DataAccessLayer)
-    assert db_conn is not None
-    assert isinstance(db_conn, Session)
+    assert MPI is not None
+    assert isinstance(MPI, PGMPIConnectorClient)
+    assert MPI.dal is not None
+    assert isinstance(MPI.dal, DataAccessLayer)
 
 
-def test_insert_match_patient():
-    eng = PGMPIConnectorClient()
+def test_insert_matched_patient():
+    MPI = PGMPIConnectorClient()
     patient = {
         "person_id": None,
         "dob": "1977-11-11",
@@ -340,14 +339,14 @@ def test_insert_match_patient():
         "race": "UNK",
         "ethnicity": "UNK",
     }
-    result = eng.insert_match_patient(patient)
+    result = MPI.insert_matched_patient(patient)
     assert result is None
 
 
-def test_insert_person():
-    eng = PGMPIConnectorClient()
-    result = eng._insert_person(person_id="PID1", external_person_id="EXTPID2")
-    assert result is None
+# def test_get_person():
+#     MPI = PGMPIConnectorClient()
+#     result = MPI._get_person(person_id="PID1", external_person_id="EXTPID2")
+#     assert result is None
 
 
 def test_block_data_with_transform():
@@ -355,29 +354,54 @@ def test_block_data_with_transform():
     data_requested = {
         "first_name": {"value": "John", "transformation": "first4"},
         "last_name": {"value": "Shep", "transformation": "first4"},
-        "zip": {"value": "10001-0001"},
-        "city": {"value": "Faketon"},
-        "birthdate": {"value": "1983-02-01"},
-        "sex": {"value": "female"},
-        "state": {"value": "NY"},
+        # "zip": {"value": "10001-0001"},
+        # "city": {"value": "Faketon"},
+        # "birthdate": {"value": "1983-02-01"},
+        # "sex": {"value": "male"},
+        # "state": {"value": "NY"},
         "address": {"value": "e St", "transformation": "last4"},
     }
     test_data = []
-    pt1 = {"person_id": None, "dob": "1983-02-01", "sex": "female"}
-    gn1 = {"given_name": "Johnathon", "given_name_index": 0}
-    gn2 = {"given_name": "Maurice", "given_name_index": 1}
-    ln1 = {}
+    pt1 = {"person_id": None, "dob": "1983-02-01", "sex": "male"}
 
-    test_data.append(data_requested)
-    MPI.dal.bulk_insert(MPI.dal.PATIENT_TABLE, test_data)
-    blocked_data = MPI.block_data(data_requested)
+    test_data.append(pt1)
+    pks_pt = MPI.dal.bulk_insert_list(MPI.dal.PATIENT_TABLE, test_data, True)
+    ln1 = [{"patient_id": pks_pt[0], "last_name": "Shepard"}]
+    pks_ln = MPI.dal.bulk_insert_list(MPI.dal.NAME_TABLE, ln1, True)
+
+    gn1 = {"name_id": pks_ln[0], "given_name": "Johnathon", "given_name_index": 0}
+    gn2 = {"name_id": pks_ln[0], "given_name": "Maurice", "given_name_index": 1}
+    test_data_gn = [gn1, gn2]
+    MPI.dal.bulk_insert_list(MPI.dal.GIVEN_NAME_TABLE, test_data_gn, False)
+
+    add1 = [
+        {
+            "patient_id": pks_pt[0],
+            "line_1": "1313 e St",
+            "city": "Fakeville",
+            "state": "NY",
+            "zip_code": "10001-0001",
+            "type": "home",
+        }
+    ]
+    MPI.dal.bulk_insert_list(MPI.dal.ADDRESS_TABLE, add1, False)
+
+    pt2 = [{"person_id": None, "dob": "1973-03-17", "sex": "male"}]
+    pks_pt2 = MPI.dal.bulk_insert_list(MPI.dal.PATIENT_TABLE, pt2, True)
+
+    blocked_data = MPI.get_block_data(data_requested)
 
     _clean_up(MPI.dal)
 
     # ensure blocked data has two rows, headers and data
     assert len(blocked_data) == 2
     assert blocked_data[1][1] is None
-    assert blocked_data[1][2] == data_requested.get("zip")
+    assert blocked_data[1][0] == pks_pt[0]
+    assert blocked_data[1][0] != pks_pt2[0]
+    assert blocked_data[1][2] == datetime.date(1983, 2, 1)
+    assert blocked_data[1][3] == "male"
+    assert blocked_data[1][7] == add1[0].get("line_1")
+    assert blocked_data[1][8] == add1[0].get("zip_code")
 
 
 def test_generate_dict_record_from_results():
