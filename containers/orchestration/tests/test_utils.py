@@ -19,6 +19,7 @@ def test_load_processing_config_fail():
     bad_config_name = "config-that-does-not-exist.json"
     with pytest.raises(FileNotFoundError) as error:
         load_processing_config(bad_config_name)
-    assert error.value.args == (
-        f"A config with the name '{bad_config_name}' could not be found."
+    response = error.value.args
+    assert response == (
+        f"A config with the name '{bad_config_name}' could not be found.",
     )
