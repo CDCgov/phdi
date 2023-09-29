@@ -1,6 +1,5 @@
 import os
 import requests
-from icecream import ic
 from fastapi import HTTPException
 
 
@@ -88,10 +87,11 @@ def call_apis(
             )
             url = service_urls[service] + step["endpoint"]
             response = post_request(url, payload)
-            ic(response)
             responses[endpoint] = response
         else:
             raise HTTPException(
-                status_code=422, detail=f"The Building Block you are attempting to call does not exist: {service}"
+                status_code=422,
+                detail="The Building Block you are attempting to call does not exist:"
+                + f" {service}",
             )
     return (response, responses)

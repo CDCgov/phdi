@@ -29,9 +29,9 @@ from app.constants import (
     process_message_response_examples,
     sample_list_configs_response,
 )
-from icecream import ic
 import json
 import os
+
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -58,6 +58,7 @@ async def process_message_endpoint(
     Process message through a series of microservices
     """
     content = ""
+
     if upload_file and is_zipfile(upload_file.file):
         content = unzip(upload_file)
     else:
@@ -82,8 +83,6 @@ async def process_message_endpoint(
         "message": content,
     }
     response, responses = call_apis(config=processing_config, input=input)
-
-    ic(response)
 
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)

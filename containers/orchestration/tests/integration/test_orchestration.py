@@ -1,8 +1,7 @@
-import time
 import httpx
 import pytest
 from pathlib import Path
-from icecream import ic
+
 
 ORCHESTRATION_URL = "http://0.0.0.0:8080"
 PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
@@ -24,18 +23,33 @@ def test_process_endpoint_with_message(setup):
         / "CDA_eICR.xml"
     ).read()
     request = {
-    "message_type": "ecr",
-    "include_error_types": "errors",
-    "message": message,
+        "message_type": "ecr",
+        "include_error_types": "errors",
+        "message": message,
     }
     orchestration_response = httpx.post(PROCESS_ENDPOINT, json=request)
 
-    validation_response_body = orchestration_response
+    assert orchestration_response.status_code == 200
+    assert orchestration_response.json()["message"] == "Processing succeeded!"
 
-    ic(validation_response_body)
 
-    assert validation_response_body is "cheese"
-
-# @pytest.mark.integration
-# def test_process_endpoint_with_zipfile(setup):
-
+@pytest.mark.integration
+def test_process_endpoint_with_zip(setup):
+    with open(
+        Path(__file__).parent.parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "orchestration"
+        / "test_zip.zip",
+        "rb",
+    ) as file:
+        form_data = {
+            "message_type": "ecr",
+            "include_error_types": "errors",
+        }
+        files = {"upload_file": ("file.zip", file)}
+        orchestration_response = httpx.post(
+            PROCESS_ENDPOINT, data=form_data, files=files
+        )
+        assert orchestration_response.status_code == 200
+        assert orchestration_response.json()["message"] == "Processing succeeded!"
