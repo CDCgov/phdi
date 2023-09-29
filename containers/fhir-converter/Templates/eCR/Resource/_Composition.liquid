@@ -18,10 +18,10 @@
                     {% assign codes = composition.code | to_array -%}
                     {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
                 },
-                "value":"{{ composition.id.root }}",
+                "value":"{{ composition.setId.extension }}",
                 "assigner": 
                 {
-                    "display": "{{ composition.id.assigningAuthorityName }}"
+                    "display": "{{ composition.setId.assigningAuthorityName }}"
                 },
             },
         ],

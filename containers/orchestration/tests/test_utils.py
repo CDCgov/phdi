@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import pytest
 from app.utils import (
-    load_processing_config,
+    load_processing_config
 )
 
 
@@ -24,3 +24,4 @@ def test_load_processing_config_fail():
     assert error.value.args == (
         f"A config with the name '{bad_config_name}' could not be found.",
     )
+

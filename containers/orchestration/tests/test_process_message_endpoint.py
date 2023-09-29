@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 import json
 from pathlib import Path
 from unittest import mock
+
 from app.main import app
 
 
@@ -53,27 +54,6 @@ def test_process_message(patched_post_request):
     }
     patched_post_request.return_value = call_post_request
 
-    # call_fhir_converter_response = mock.Mock()
-    # call_fhir_converter_response.status_code = 200
-    # call_fhir_converter_response.json.return_value = {"FhirResource": fhir_bundle}
-    # patched_call_fhir_converter.return_value = call_fhir_converter_response
-
-    # call_ingestion_response = mock.Mock()
-    # call_ingestion_response.status_code = 200
-    # call_ingestion_response.json.return_value = {
-    #     "FhirResource": fhir_bundle,
-    #     "bundle": fhir_bundle,
-    # }
-    # patched_call_ingestion.return_value = call_ingestion_response
-
-    # call_message_parser_response = mock.Mock()
-    # call_message_parser_response.status_code = 200
-    # call_message_parser_response.json.return_value = {
-    #     "FhirResource": fhir_bundle,
-    #     "bundle": fhir_bundle,
-    # }
-    # patched_call_message_parser.return_value = call_message_parser_response
-
     actual_response = client.post("/process", json=request)
     assert actual_response.status_code == 200
 
@@ -85,3 +65,4 @@ def test_process_message_failure():
 
     actual_response = client.post("/process", json=request)
     assert actual_response.status_code == 400
+

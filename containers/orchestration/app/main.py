@@ -32,7 +32,6 @@ from app.constants import (
 import json
 import os
 
-
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
 
@@ -45,6 +44,7 @@ app = BaseService(
 for status_code, file_name in upload_config_response_examples.items():
     upload_config_response_examples[status_code] = read_json_from_assets(file_name)
     upload_config_response_examples[status_code]["model"] = PutConfigResponse
+
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
@@ -113,7 +113,6 @@ async def list_configs() -> ListConfigsResponse:
     configs = {"default_configs": default_configs, "custom_configs": custom_configs}
     return configs
 
-
 @app.get(
     "/configs/{processing_config_name}",
     status_code=200,
@@ -131,6 +130,7 @@ async def get_config(
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": error.__str__(), "processing_config": {}}
     return {"message": "Config found!", "processing_config": processing_config}
+
 
 
 @app.put(
