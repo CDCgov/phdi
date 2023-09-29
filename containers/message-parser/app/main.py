@@ -182,7 +182,7 @@ async def parse_message_endpoint(
             if len(value) == 0:
                 value = None
             else:
-                value = ",".join(value)
+                value = ",".join(map(str, value))
             parsed_values[field] = value
         else:
             inital_values = parser["primary_parser"](input.message)
@@ -196,7 +196,7 @@ async def parse_message_endpoint(
                         value[secondary_field] = None
                     else:
                         value[secondary_field] = ",".join(
-                            secondary_parser(initial_value)
+                            map(str, secondary_parser(initial_value))
                         )
                 values.append(value)
             parsed_values[field] = values
