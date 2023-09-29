@@ -16,6 +16,8 @@ def setup(request):
     print("FHIR Converter ready to test!")
 
     def teardown():
+        print("Service logs...\n")
+        print(fhir_converter.get_logs())
         print("Tests finished! Tearing down.")
         fhir_converter.stop()
 
