@@ -65,4 +65,3 @@ def test_process_message_failure():
 
     actual_response = client.post("/process", json=request)
     assert actual_response.status_code == 400
-
