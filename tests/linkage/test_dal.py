@@ -437,6 +437,7 @@ def test_select_results():
         return_full=False,
     )
     mpi = PGMPIConnectorClient()
+    mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
@@ -496,7 +497,6 @@ def test_bulk_insert_list():
 
     pat_data2 = [pt1, pt2]
     pk_list2 = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data2, False)
-    print(pk_list2)
     assert len(pk_list2) == 0
 
     _clean_up(dal)

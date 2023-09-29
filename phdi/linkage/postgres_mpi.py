@@ -152,6 +152,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             query_criteria = self._generate_where_criteria(
                 table_info["criteria"], table_key
             )
+
             if query_criteria is not None and len(query_criteria) > 0:
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
@@ -179,7 +180,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                             )
                         )
                     ).cte(f"{table_key}_cte")
-
             if cte_query is not None:
                 new_query = new_query.join(
                     cte_query,
