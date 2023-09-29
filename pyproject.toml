@@ -1,8 +1,21 @@
 [tool.poetry]
 name = "phdi"
-version = "v1.0.11"
+version = "v1.0.13"
 description = "Public health data infrastructure Building Blocks is a library to help public health departments work with their data"
-authors = ["Kenneth Chow <kenneth@skylight.digital>", "Brandon Mader <brandon@skylight.digital>", "Spencer Kathol <spencer@skylight.digital>", "Nick Clyde <nclyde@skylight.digital", "Dan Paseltiner <dan@skylight.digital>", "Brady Fausett <brady@skylight.digital>", "Marcelle Goggins <marcelle@skylight.digital", "Nick Bristow <nick@skylight.digital>", "Bryan Britten <bryan@skylight.digital>", "Emma Stephenson <emma@skylight.digital>" , "Gordon Farrell <gordon@skylight.digital>", "Robert Mitchell <rmitchell@skylight.digital>"]
+authors = [
+    "Kenneth Chow <kenneth@skylight.digital>",
+    "Brandon Mader <brandon@skylight.digital>",
+    "Spencer Kathol <spencer@skylight.digital>",
+    "Nick Clyde <nclyde@skylight.digital",
+    "Dan Paseltiner <dan@skylight.digital>",
+    "Brady Fausett <brady@skylight.digital>",
+    "Marcelle Goggins <marcelle@skylight.digital",
+    "Nick Bristow <nick@skylight.digital>",
+    "Bryan Britten <bryan@skylight.digital>",
+    "Emma Stephenson <emma@skylight.digital>",
+    "Gordon Farrell <gordon@skylight.digital>",
+    "Robert Mitchell <rmitchell@skylight.digital>",
+]
 homepage = "https://github.com/CDCgov/phdi"
 repository = "https://github.com/CDCgov/phdi"
 documentation = "https://cdcgov.github.io/phdi"
@@ -31,7 +44,7 @@ jsonschema = "4.16.0"
 rapidfuzz = "^2.13.6"
 lxml = "^4.9.2"
 detect-delimiter = "^0.1.1"
-psycopg2-binary = "^2.9.5" 
+psycopg2-binary = "^2.9.5"
 sqlalchemy = "^2.0.0"
 matplotlib = "^3.7.1"
 azure-keyvault-secrets = "^4.7.0"
