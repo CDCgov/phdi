@@ -41,7 +41,8 @@ def test_config_not_found():
     print(
         str(
             {
-                "message": "A config with the name 'some-config-that-does-not-exist.json' "
+                "message": "A config with the name "
+                + "'some-config-that-does-not-exist.json' "
                 "could not be found.",
                 "processing_config": {},
             }
