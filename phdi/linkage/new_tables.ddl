@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS name (
     name_id         UUID DEFAULT uuid_generate_v4 (),
     patient_id      UUID,
     last_name       VARCHAR(255),
+    type            VARCHAR(100),
     PRIMARY KEY (name_id),
     CONSTRAINT fk_name_to_patient
         FOREIGN KEY(patient_id)

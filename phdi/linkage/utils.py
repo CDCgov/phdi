@@ -71,6 +71,12 @@ def get_patient_phones(patient_resource: dict) -> list:
     return phones
 
 
+def get_patient_names(patient_resource: dict) -> list:
+    parse_function = _get_fhirpathpy_parser("where(resourceType = 'Patient').name")
+    names = parse_function(patient_resource)
+    return names
+
+
 def get_patient_addresses(patient_resource: dict) -> list:
     parse_function = _get_fhirpathpy_parser("where(resourceType = 'Patient').address")
     addresses = parse_function(patient_resource)
@@ -81,6 +87,26 @@ def get_address_lines(address_resource: dict) -> list:
     parse_function = _get_fhirpathpy_parser("address.line")
     lines = parse_function(address_resource)
     return lines
+
+
+def get_geo_latitude(address_resource: dict) -> float:
+    parse_function = _get_fhirpathpy_parser(
+        "address.extension.where(url='http://hl7.org/"
+        + "fhir/StructureDefinition/geolocation')."
+        + "extension.where(url='latitude').valueDecimal"
+    )
+    geo_lat = parse_function(address_resource)
+    return geo_lat[0]
+
+
+def get_geo_longitude(address_resource: dict) -> float:
+    parse_function = _get_fhirpathpy_parser(
+        "address.extension.where(url='http://hl7.org/"
+        + "fhir/StructureDefinition/geolocation')."
+        + "extension.where(url='longitude').valueDecimal"
+    )
+    geo_lat = parse_function(address_resource)
+    return geo_lat[0]
 
 
 # TODO:  Not sure if we will need this or not

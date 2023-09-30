@@ -141,7 +141,22 @@
       "state": "NY",
       "postalCode": "10001-0001",
       "country": "USA",
-      "use": "home"
+      "use": "home",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
+          "extension": [
+            {
+              "url": "latitude",
+              "valueDecimal": 34.58002
+            },
+            {
+              "url": "longitude",
+              "valueDecimal": -118.08925
+            }
+          ]
+        }
+      ]
     }
   ],
   "telecom": [

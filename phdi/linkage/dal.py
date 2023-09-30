@@ -233,7 +233,7 @@ class DataAccessLayer(object):
         return_results = {}
         for key, value in records_with_table.items():
             new_pks = []
-            table = value.get("table")
+            table = self.get_table_by_name(key)
             records = value.get("records")
             if table is not None and records is not None and len(records) > 0:
                 new_pks = self.bulk_insert_list(table, records, return_pks)

@@ -167,7 +167,6 @@ def test_bulk_insert_dict():
 
     data_requested = {
         "patient": {
-            "table": dal.PATIENT_TABLE,
             "records": [
                 {
                     "person_id": None,

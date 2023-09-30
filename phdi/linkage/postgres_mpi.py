@@ -3,7 +3,10 @@ from sqlalchemy import Select, and_, select, text
 from phdi.linkage.new_core import BaseMPIConnectorClient
 from phdi.linkage.utils import (
     get_address_lines,
+    get_geo_latitude,
+    get_geo_longitude,
     get_patient_addresses,
+    get_patient_names,
     get_patient_phones,
     load_mpi_env_vars_os,
     get_patient_ethnicity,
@@ -22,6 +25,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
     property.
 
     """
+
+    matched: bool = False
 
     def __init__(self):
         dbsettings = load_mpi_env_vars_os()
@@ -101,16 +106,26 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
+        try:
+            # First, if person_id is not supplied, see if we can find a
+            # matching person_id based upon the exernal person id.
+            # If  external person id is supplied then
+            #  we have to get a person_id that is linked or insert a new person
+            #  that is linked to an external person record and then use that
+            # found or new person_id to link to the patient
+            correct_person_id = self._get_person_id(
+                person_id=person_id, external_person_id=external_person_id
+            )
+            patient_resource["person"] = correct_person_id
 
-        # First, if person_id is not supplied, see if we can find a
-        # matching person_id based upon the exernal person id, if supplied
-        #  we have to get a person or insert a new person
-        #  first to satisfy the link between the person and patient
-        external_person_records = self._get_person(
-            person_id=person_id, external_person_id=external_person_id
-        )
+            mpi_records = self._get_mpi_records(patient_resource)
 
-        return None
+            self.dal.bulk_insert_dict(records_with_table=mpi_records, return_pks=False)
+
+        except Exception as error:  # pragma: no cover
+            raise ValueError(f"{error}")
+
+        return (self.matched, correct_person_id)
 
     def _generate_where_criteria(self, block_vals: dict, table_name: str) -> list:
         where_criteria = []
@@ -330,7 +345,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 "type_system": pat_id.get("type").get("coding").get("system"),
             }
             patient_ids.append(ident)
-        records["identifier"] = {"table": self.dal.ID_TABLE, "records": patient_ids}
+        records["identifier"] = {"records": patient_ids}
 
         phones = []
         for pat_phone in get_patient_phones(patient_resource):
@@ -343,101 +358,106 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 "end_date": pat_phone.get("period").get("end"),
             }
             phones.append(phn)
-        records["phone_number"] = {"table": self.dal.PHONE_TABLE, "records": phones}
+        records["phone_number"] = {"records": phones}
 
         addresses = []
         for pat_addr in get_patient_addresses(patient_resource):
-            addr_lines = get_address_lines({"address": pat_addr})
+            addr_dict = {"address": pat_addr}
+            addr_lines = get_address_lines(addr_dict)
             addr = {
                 "address_id": None,
                 "patient_id": new_patient_id,
                 "line_1": addr_lines[0],
                 "line_2": addr_lines[1],
-                "city": addr.get("city"),
-                "zip_code": addr.get("state"),
-                "country": addr.get("country"),
-                "latitude": addr.get()
-                "start_date": pat_phone.get("period").get("start"),
-                "end_date": pat_phone.get("period").get("end"),
+                "city": pat_addr.get("city"),
+                "zip_code": pat_addr.get("state"),
+                "country": pat_addr.get("country"),
+                "latitude": get_geo_latitude(addr_dict),
+                "longitude": get_geo_longitude(addr_dict),
+                "start_date": pat_addr.get("period").get("start"),
+                "end_date": pat_addr.get("period").get("end"),
+                "type": pat_addr.get("use"),
             }
+            addresses.append(addr)
+        records["address"] = {"records": addresses}
 
-        # {
-        #     "resourceType": "Patient",
-        #     "id": "fd645c21-4a6f-11eb-99fd-ad786a821574",
-        #     "identifier": [
-        #         {
-        #             "value": "7845451380",
-        #             "type": {
-        #                 "coding": [
-        #                     {
-        #                         "code": "MR",
-        #               "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-        #                         "display": "Medical record number",
-        #                     }
-        #                 ]
-        #             },
-        #         }
-        #     ],
-        #     "name": [{"family": "Shepard", "given": ["John"], "use": "official"}],
-        #     "birthDate": "2053-11-07",
-        #     "gender": "male",
-        #     "address": [
-        #         {
-        #             "line": ["1234 Silversun Strip"],
-        #             "buildingNumber": "1234",
-        #             "city": "Zakera Ward",
-        #             "state": "Citadel",
-        #             "postalCode": "99999",
-        #             "use": "home",
-        #         }
-        #     ],
-        #     "telecom": [{"use": "home", "system": "phone", "value": "123-456-7890"}],
-        # }
+        given_names = []
+        for pat_name in get_patient_names(patient_resource):
+            given_names = []
+            name_rec = {
+                "name_id": None,
+                "patient_id": new_patient_id,
+                "last_name": pat_name.get("family"),
+                "type": pat_name.get("use"),
+            }
+            new_name_id = self.dal.single_insert(
+                table=self.dal.NAME_TABLE,
+                record=name_rec,
+                return_pk=True,
+                return_full=False,
+            )
+            for name_index, gname in enumerate(pat_name.get("given")):
+                gname_rec = {
+                    "given_name_id": None,
+                    "name_id": new_name_id,
+                    "given_name": gname,
+                    "given_name_index": name_index,
+                }
+                given_names.append(gname_rec)
+        records["given_name"] = {"records": given_names}
+        return records
 
-    def _get_person(
+    def _get_person_id(
         self,
         person_id: str,
         external_person_id: str,
-    ) -> List[dict]:
+    ) -> str:
         """
         If person id is not supplied and external person id is not supplied
         then insert a new person record with an auto-generated person id (UUID)
-        with a Null external person id and return that new person id. If the
-        person id is not supplied but an external person id is supplied try
-        to find an existing person record with the external person id and
-        return that person id; otherwise add a new person record with an
-        auto-generated person id (UUID) with the supplied external person id
-        and return the new external person record that will include the
-        new person id and new external person id.  If person id and
-        external person id are both supplied then update the person records
-        external person id if it is Null and return the person id.
+        and there won't be any external_person record associated with the new
+        person record and return that new person_id.
+        If the person_id is not supplied but an external_person_id is supplied try
+        to find an existing person record using the external_person_id.
+        If a person record is found then return the found person_id.
+        Otherwise add a new person record with an auto-generated person_id (UUID)
+        and link it with the supplied external person id
+        and return the new person_id.
+        If person id and external person id are both supplied then
+        ensure there is an external person record that is linked to the
+        person_id, if not then add one and return the person_id.
 
-        :param external_person_id: The external person id for the person record
-          to be inserted or updated, defaults to None.
-        :return: A dictionary that contains all the rows from the returned
-            either queried or inserted external patient record
+        :param external_person_id: The external person id
+        :param person_id: The person id
+        :return: The found or newly created person id
         """
-        return_record = {}
-        if external_person_id is None:
-            return None
-        else:
+        new_person_id = None
+        if external_person_id is None and person_id is None:
+            new_person_record = {"person_id": None}
+            new_person_id = self.dal.single_insert(
+                table=self.dal.PERSON_TABLE,
+                record=new_person_record,
+                cte_query=None,
+                return_pk=True,
+                return_full=False,
+            )
+        elif external_person_id is not None:
             # if external person id is supplied then find if there is already
-            #  a person with that external person id already within the MPI
-            #  - if so, return that person id
-            ext_person_query = select(self.dal.EXT_PERSON_TABLE).where(
+            #  a person associated with that external person id already
+            # within the MPI - if so, return that person id
+            ext_person_query = select(self.dal.EXT_PERSON_TABLE.c.person_id).where(
                 text(
                     f"{self.dal.EXT_PERSON_TABLE.name}.external_person_id"
                     + f" = '{external_person_id}'"
                 )
             )
-            ext_person_record = self.dal.select_results(ext_person_query, True)
+            person_record = self.dal.select_results(ext_person_query, True)
 
             # if a person was found based upon the external
-            # person id then return that full person record
-            # for reference
+            # person id then return that person id
             # otherwise, insert a new person and a new external person
-            # record with the external_person_id
-            if len(ext_person_record) == 0:
+            # and link them together
+            if len(person_record) == 0:
                 new_person_record = {"person_id": None}
                 person_cte = self.dal.create_insert_cte(
                     self.dal.PERSON_TABLE, new_person_record
@@ -455,26 +475,32 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     return_pk=False,
                     return_full=True,
                 )
-            # in the case where an external person id and a person id are both
-            # supplied, but there isn't a link between these two records in
-            # their respective tables, then we need to add a new external_person record
-            # with the supplied person_id
+                new_person_id = self._generate_dict_record_from_results(
+                    ext_person_record
+                ).get("person_id")
+                # its a match because an external person id was supplied
+                self.matched = True
             else:
-                new_ext_person_record = {
-                    "external_id": None,
-                    "person_id": person_id,
-                    "external_person_id": external_person_id,
-                    "external_source_id": None,
-                }
-                ext_person_record = self.dal.single_insert(
-                    table=self.dal.EXT_PERSON_TABLE,
-                    record=new_ext_person_record,
-                    cte_query=None,
-                    return_pk=False,
-                    return_full=True,
-                )
-            return_record = self._generate_dict_record_from_results(ext_person_record)
-        return return_record
+                found_person_id = person_record[0][0]
+                if person_id is not None:
+                    # its a match because an person id was supplied
+                    self.matched = True
+                    if found_person_id != person_id:
+                        new_ext_person_record = {
+                            "external_id": None,
+                            "person_id": person_id,
+                            "external_person_id": external_person_id,
+                            "external_source_id": None,
+                        }
+                        self.dal.single_insert(
+                            table=self.dal.EXT_PERSON_TABLE,
+                            record=new_ext_person_record,
+                            cte_query=None,
+                            return_pk=False,
+                            return_full=False,
+                        )
+                    new_person_id = person_id
+        return new_person_id
 
     def _generate_dict_record_from_results(
         self, results_list: List[list]

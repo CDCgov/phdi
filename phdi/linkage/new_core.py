@@ -53,7 +53,7 @@ class BaseMPIConnectorClient(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def _get_person() -> List[dict]:
+    def _get_person_id() -> List[dict]:
         """
         If person id is not supplied and external person id is not supplied
         then insert a new person record with an auto-generated person id (UUID)
