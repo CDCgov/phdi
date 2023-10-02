@@ -209,5 +209,7 @@ jobs:
         run: docker logs integration-validation-service-1
       - name: View Container Logs - orchestration-service
         run: docker logs integration-orchestration-service-1
+      - name: Show JSON Log path
+        run: pwd
       - name: kill containers
         run: docker kill $(docker ps -q)
