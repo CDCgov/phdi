@@ -9,7 +9,7 @@
       "url": "http://localhost:8082"
     },
     "ingestion": {
-      "url": "http://localhost:8084"
+      "url": "http://localhost:8083"
     },
     "standardization_and_geocoding": {
       "geocode_method": "smarty",
@@ -20,7 +20,8 @@
       "message_format": "fhir",
       "parsing_schema": "",
       "parsing_schema_name": "ecr.json",
-      "credential_manager": "azure"
+      "credential_manager": "azure",
+      "url": "http://localhost:8084"
     }
   },
   "steps": [

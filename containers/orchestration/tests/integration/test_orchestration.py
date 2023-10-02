@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 
 
-ORCHESTRATION_URL = "http://localhost:8080"
+ORCHESTRATION_URL = "http://0.0.0.0:8080"
 PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
 
 
