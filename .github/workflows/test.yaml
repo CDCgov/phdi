@@ -196,4 +196,4 @@ jobs:
       - name: Run integration tests for containers
         working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
         run: |
-          python -m pytest -m "integration"
+          python -m pytest -m "integration" -v -s
