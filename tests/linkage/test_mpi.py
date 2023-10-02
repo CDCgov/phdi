@@ -343,10 +343,11 @@ def test_insert_matched_patient():
     assert result is None
 
 
-# def test_get_person():
-#     MPI = PGMPIConnectorClient()
-#     result = MPI._get_person(person_id="PID1", external_person_id="EXTPID2")
-#     assert result is None
+def test_get_person():
+    MPI = PGMPIConnectorClient()
+    result = MPI._get_person_id(person_id=None, external_person_id=None)
+    print(f"RESULT: {result}")
+    assert result is None
 
 
 def test_block_data_with_transform():
@@ -354,11 +355,6 @@ def test_block_data_with_transform():
     data_requested = {
         "first_name": {"value": "John", "transformation": "first4"},
         "last_name": {"value": "Shep", "transformation": "first4"},
-        # "zip": {"value": "10001-0001"},
-        # "city": {"value": "Faketon"},
-        # "birthdate": {"value": "1983-02-01"},
-        # "sex": {"value": "male"},
-        # "state": {"value": "NY"},
         "address": {"value": "e St", "transformation": "last4"},
     }
     test_data = []

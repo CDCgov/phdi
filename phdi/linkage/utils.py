@@ -1,8 +1,6 @@
 import fhirpathpy
-import json
-import random
 from functools import cache
-from typing import Any, Callable, List, Literal, Union
+from typing import Callable
 from phdi.linkage.config import get_settings
 
 
@@ -42,6 +40,8 @@ def get_patient_race(patient_resource: dict) -> str:
         + "us-core-race').extension.valueCoding.display"
     )
     patient_race = parse_function(patient_resource)
+    if len(patient_race) == 0:
+        return None
     return patient_race[0]
 
 
@@ -52,6 +52,8 @@ def get_patient_ethnicity(patient_resource: dict) -> str:
         + "us-core-ethnicity').extension.valueCoding.display"
     )
     patient_ethnicity = parse_function(patient_resource)
+    if len(patient_ethnicity) == 0:
+        return None
     return patient_ethnicity[0]
 
 
@@ -96,6 +98,8 @@ def get_geo_latitude(address_resource: dict) -> float:
         + "extension.where(url='latitude').valueDecimal"
     )
     geo_lat = parse_function(address_resource)
+    if len(geo_lat) == 0:
+        return None
     return geo_lat[0]
 
 
@@ -105,8 +109,10 @@ def get_geo_longitude(address_resource: dict) -> float:
         + "fhir/StructureDefinition/geolocation')."
         + "extension.where(url='longitude').valueDecimal"
     )
-    geo_lat = parse_function(address_resource)
-    return geo_lat[0]
+    geo_lon = parse_function(address_resource)
+    if len(geo_lon) == 0:
+        return None
+    return geo_lon[0]
 
 
 # TODO:  Not sure if we will need this or not
