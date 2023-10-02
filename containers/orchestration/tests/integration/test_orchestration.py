@@ -28,7 +28,7 @@ def test_process_endpoint_with_message(setup):
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_ENDPOINT, json=request)
-
+    print(f"orchestration_response: {orchestration_response}")
     assert orchestration_response.status_code == 200
     assert orchestration_response.json()["message"] == "Processing succeeded!"
 
