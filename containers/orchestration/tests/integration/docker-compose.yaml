@@ -28,4 +28,4 @@ services:
     build:
       context: ../../../message-parser
     ports:
-      - "8084:8080"
+      - "8085:8080"

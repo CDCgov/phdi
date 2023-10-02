@@ -25,7 +25,7 @@ else
     echo "message-parser Container does not exist, building and running..."
     # Build and run your Docker container here
     docker build --no-cache -t message-parser ../message-parser/
-    docker run -d -p 8084:8080 message-parser
+    docker run -d -p 8085:8080 message-parser
 fi
 
 # Ingestion

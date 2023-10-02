@@ -21,7 +21,7 @@
       "parsing_schema": "",
       "parsing_schema_name": "ecr.json",
       "credential_manager": "azure",
-      "url": "http://localhost:8084"
+      "url": "http://localhost:8085"
     }
   },
   "steps": [
