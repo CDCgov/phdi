@@ -81,6 +81,8 @@ async def process_message_endpoint(
         "include_error_types": include_error_types,
         "message": content,
     }
+    print(input)
+
     response, responses = call_apis(config=processing_config, input=input)
 
     if response.status_code == 200:
