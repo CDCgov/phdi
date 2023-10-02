@@ -198,12 +198,12 @@ jobs:
         run: |
           python -m pytest -m "integration" -v -s --tb=long
       - name: View Container Logs - message-parser-service
-        run: docker logs message-parser-service
+        run: docker logs integration_message-parser-service_1
       - name: View Container Logs - ingestion-service
-        run: docker logs ingestion-service
+        run: docker logs integration_ingestion-service_1
       - name: View Container Logs - fhir-converter-service
-        run: docker logs fhir-converter-service
+        run: docker logs integration_fhir-converter-service_1
       - name: View Container Logs - validation-service
-        run: docker logs validation-service
+        run: docker logs integration_validation-service_1
       - name: View Container Logs - orchestration-service
-        run: docker logs orchestration-service
+        run: docker logs integration_orchestration-service_1
