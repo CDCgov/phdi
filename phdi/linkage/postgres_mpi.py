@@ -52,12 +52,13 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         block of data would contain records that all
         have the same zip code of 90210.
 
-        :param block_criteria: Dictionary containing key value pairs for the column name for
-          blocking and the data for the incoming record as well as any transformations,
+        :param block_criteria: Dictionary containing key value pairs
+            for the column name for blocking and the data for the
+            incoming record as well as any transformations,
           e.g., {"ZIP": {"value": "90210"}} or
           {"ZIP": {"value": "90210",}, "transformation":"first4"}.
-        :return: A list of records that are within the block, e.g., records that all
-          have 90210 as their ZIP.
+        :return: A list of records that are within the block, e.g.,
+            records that all have 90210 as their ZIP.
         """
         if len(block_criteria) == 0:
             raise ValueError("`block_vals` cannot be empty.")
@@ -232,10 +233,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # Accepted blocking fields include: first_name, last_name,
         # birthdate, address line 1, city, state, zip, mrn, and sex.
         organized_block_vals = {}
-
-        count = 0
         for block_key, block_value in block_fields.items():
-            count += 1
             sub_dict = {}
             # TODO: we may find a better way to handle this, but for now
             # just convert the known fields into their proper column counterparts
