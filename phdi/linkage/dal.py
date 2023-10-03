@@ -60,7 +60,7 @@ class DataAccessLayer(object):
         """
         Initialize the database schema
 
-        This method initializes the patient and person tables using SQLAlchemy's
+        This method initializes all the MPI Database tables using SQLAlchemy's
         Table object
 
         :return: None
@@ -126,13 +126,17 @@ class DataAccessLayer(object):
         """
         Perform a single insert operation on a table for a record.
          One can have the primary key for the insert returned by
-         using the return_pk parameter.
+         using the return_pk parameter or return the full newly
+         created record.
 
-        :param table_object: the SQLAlchemy table object to insert into
+        :param table_name: the name of the table, that will
+            retrieve the SQLAlchemy table object, to insert into
         :param record: a record as a dictionary
         :param return_pk: boolean indicating if you want the inserted
             primary key for the table returned or not, defaults to False
-        :return: a primary key or None
+        :param return_full: boolean indicating if you want the newly
+            inserted record for the table returned or not, defaults to False
+        :return: a primary key or the full new record or None
         """
 
         new_pk = None
@@ -239,7 +243,8 @@ class DataAccessLayer(object):
         """
         Perform a select query and add the results to a
         list of lists.  Then add the column header as the
-        first row, in the list of lists
+        first row, in the list of lists if the
+        'include_col_header' parameter is True.
 
         :param select_stmt: the select statment to execute
         :param include_col_header: boolean value to indicate if
@@ -267,6 +272,13 @@ class DataAccessLayer(object):
         return self.session()
 
     def get_table_by_name(self, table_name: str) -> Table:
+        """
+        Get an SqlAlchemy ORM Table Object based upon the table
+        name passed in.
+
+        :param table_name: the name of the table you want to get.
+        :return: SqlAlchemy ORM Table Object.
+        """
         if len(self.TABLE_LIST) == 0:
             self.initialize_schema()
 
@@ -278,6 +290,13 @@ class DataAccessLayer(object):
         return None
 
     def get_table_by_column(self, column_name: str) -> Table:
+        """
+        Finds a table in the MPI based upon the column name.
+
+        :param column_name: the column name you want to find the
+            table it belongs to.
+        :return: SqlAlchemy ORM Table Object.
+        """
         if len(self.TABLE_LIST) == 0:
             self.initialize_schema()
 
