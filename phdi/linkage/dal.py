@@ -3,8 +3,7 @@ from sqlalchemy import (
     MetaData,
     create_engine,
     Table,
-    select,
-    update,
+    select
 )
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
