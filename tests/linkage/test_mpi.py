@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import pathlib
 import re
@@ -7,6 +8,16 @@ import pytest
 from sqlalchemy import Select, select, text
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
+
+patient_resource = json.load(
+    open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "tests"
+        / "assets"
+        / "general"
+        / "patient_resource_w_extensions.json"
+    )
+)
 
 
 def _init_db() -> DataAccessLayer:
@@ -331,23 +342,71 @@ def test_init():
 
 
 def test_insert_matched_patient():
-    MPI = PGMPIConnectorClient()
-    patient = {
-        "person_id": None,
-        "dob": "1977-11-11",
-        "sex": "M",
-        "race": "UNK",
-        "ethnicity": "UNK",
-    }
-    result = MPI.insert_matched_patient(patient)
-    assert result is None
+    MPI = _init_db()
+
+    result = MPI.insert_matched_patient(patient_resource)
+    print(f"RESULT: {result}")
+    assert result is not None
+    assert not result[0]
+    assert result[1] is not None
+
+    person_rec = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE), False)
+    patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE), False)
+    name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE), False)
+    given_name_rec = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE), False)
+    address_rec = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE), False)
+    phone_rec = MPI.dal.select_results(select(MPI.dal.PHONE_TABLE), False)
+    id_rec = MPI.dal.select_results(select(MPI.dal.ID_TABLE), False)
+
+    assert len(person_rec) > 0
+    assert len(patient_rec) > 0
+    assert len(name_rec) > 0
+    assert len(given_name_rec) > 0
+    assert len(address_rec) > 0
+    assert len(phone_rec) > 0
+    assert len(id_rec) > 0
+
+    _clean_up(MPI.dal)
 
 
 def test_get_person():
-    MPI = PGMPIConnectorClient()
+    MPI = _init_db()
     result = MPI._get_person_id(person_id=None, external_person_id=None)
-    print(f"RESULT: {result}")
-    assert result is None
+    assert result is not None
+
+    results = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
+    assert results[1][0] == result
+
+    result2 = MPI._get_person_id(person_id=result, external_person_id=None)
+    assert result2 == result
+    results2 = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE))
+    assert len(results2) == 1
+    assert results2[0][0] == "external_id"
+
+    result3 = MPI._get_person_id(person_id=result, external_person_id="MYEXTID-123")
+    assert result3 == result
+    results3 = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE))
+    print(f"RES3: {results3}")
+    assert len(results3) == 2
+    assert results3[0][0] == "external_id"
+    assert results3[1][0] is not None
+    assert results3[1][1] == result3
+    assert results3[1][2] == "MYEXTID-123"
+
+    result4 = MPI._get_person_id(person_id=None, external_person_id="MYEXTID-789")
+    assert result4 is not None
+    assert result4 != result
+    query = select(MPI.dal.EXT_PERSON_TABLE).where(
+        text(f"{MPI.dal.EXT_PERSON_TABLE.name}.external_person_id = 'MYEXTID-789'")
+    )
+    results4 = MPI.dal.select_results(query)
+    assert len(results4) == 2
+    assert results4[0][0] == "external_id"
+    assert results4[1][0] is not None
+    assert results4[1][1] == result4
+    assert results4[1][2] == "MYEXTID-789"
+
+    _clean_up(MPI.dal)
 
 
 def test_block_data_with_transform():

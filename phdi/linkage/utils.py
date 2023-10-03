@@ -57,7 +57,7 @@ def get_patient_ethnicity(patient_resource: dict) -> str:
     return patient_ethnicity[0]
 
 
-def get_patient_identifiers(patient_resource: dict) -> list:
+def get_patient_identifiers(patient_resource: dict) -> list[dict]:
     parse_function = _get_fhirpathpy_parser(
         "where(resourceType = 'Patient').identifier"
     )

@@ -1,6 +1,16 @@
 from typing import List, Union
 from abc import ABC, abstractmethod
 
+from sqlalchemy import Select
+
+# TODO: Rename this to just core once
+# we do the switch over to the new schema
+# MPI and DAL - renaming some of the functions
+# to be a bit more clear with the updated functionality
+# Also some functionality isn't needed anymore
+#
+# TODO: Also we need to update all the doc comments to be correct
+
 
 class BaseMPIConnectorClient(ABC):
     """
@@ -11,7 +21,7 @@ class BaseMPIConnectorClient(ABC):
     """
 
     @abstractmethod
-    def block_data() -> List[list]:
+    def get_block_data() -> List[list]:
         """
         Returns a list of lists containing records from the database that match on the
         incoming record's block values. If blocking on 'ZIP' and the incoming record's
@@ -22,19 +32,7 @@ class BaseMPIConnectorClient(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def get_connection() -> Union[any, None]:
-        """
-        Creates a connection to the database associated with the connector class.
-        The connection is returned for use in other class methods as a context
-        manager, and should generally not be called externally to the client.
-        Also used for testing the validity of a connection when the client
-        connector is instantiated. The return type is set to any here since the
-        exact "class" of the client's connection is unknown in the abstract.
-        """
-        pass  # pragma: no cover
-
-    @abstractmethod
-    def insert_match_patient() -> None:
+    def insert_matched_patient() -> None:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
         the patient table, including the matched person id, to link the new patient
@@ -46,7 +44,7 @@ class BaseMPIConnectorClient(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def _generate_block_query(self, block_vals: dict) -> str:
+    def _generate_block_query(self, block_vals: dict) -> Select:
         """
         Generates a query for selecting a block of data from the patient table per the
         block_vals parameters. Accepted blocking fields include: first_name, last_name,
@@ -55,7 +53,7 @@ class BaseMPIConnectorClient(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def _insert_person() -> tuple:
+    def _get_person_id() -> List[dict]:
         """
         If person id is not supplied and external person id is not supplied
         then insert a new person record with an auto-generated person id (UUID)
