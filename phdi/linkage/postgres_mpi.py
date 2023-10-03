@@ -75,7 +75,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
         query_w_ctes = self._generate_block_query(
-            organized_block_vals=organized_block_vals, query=query
+            organized_block_criteria=organized_block_vals, query=query
         )
 
         blocked_data = self.dal.select_results(
@@ -90,14 +90,13 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         person_id=None,
         external_person_id=None,
     ) -> Union[None, tuple]:
-        # TODO: This comment may need to be updated with the changes made
-
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
-        the patient table, including the matched person id, to link the new patient
-        and matched person ID; else inserts a new patient into the patient table and
-        inserts a new person into the person table with a new person ID, linking the
-        new person ID to the new patient.
+        the patient table and all other subsequent MPI tables, including the
+        matched person id, to link the new patient and matched person ID;
+        else inserts a new patient into the patient table, as well as all other
+        subsequent MPI tables, and inserts a new person into the person table
+        linking the new person to the new patient.
 
         :param patient_resource: A FHIR patient resource.
         :param person_id: The person ID matching the patient record if a match has been
@@ -123,9 +122,18 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         return (self.matched, correct_person_id, return_results)
 
-    def _generate_where_criteria(self, block_vals: dict, table_name: str) -> list:
+    def _generate_where_criteria(self, block_criteria: dict, table_name: str) -> list:
+        """
+        Generates a list of where criteria leveraging the blocking criteria,
+        including transformations such as 'first 4' or 'last 4'.  This
+        function leverages the ORM to determine the table and columns.
+
+        :param block_criteria: a dictionary that contains the blocking criteria.
+        :return: A list of where criteria used to append to the end of a query.
+
+        """
         where_criteria = []
-        for key, value in block_vals.items():
+        for key, value in block_criteria.items():
             criteria_value = value["value"]
             criteria_transform = value.get("transformation", None)
 
@@ -143,26 +151,23 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         return where_criteria
 
     def _generate_block_query(
-        self, organized_block_vals: dict, query: Select
+        self, organized_block_criteria: dict, query: Select
     ) -> Select:
-        # TODO: This comment may need to be updated with the changes made
         """
-        Generates a query for selecting a block of data from the patient table per the
-        block_vals parameters. Accepted blocking fields include: first_name, last_name,
-        birthdate, address, city, state, zip, mrn, and sex.
+        Generates a query for selecting a block of data from the MPI tables per the
+        block field criteria.  The block field criteria should be a dictionary
+        organized by MPI table name, with the ORM table object, and the blocking
+        criteria.
 
-        :param table_name: Table name.
-        :param block_vals: Dictionary containing key value pairs for the column name for
-          blocking and the data for the incoming record as well as any transformations,
-          e.g., {["ZIP"]: {"value": "90210"}} or
-          {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
-        :raises ValueError: If column key in `block_vals` is not supported.
-        :return: A 'Select' statement built by the sqlalchemy ORM
+        :param organized_block_vals: a dictionary organized by MPI table name,
+            with the ORM table object, and the blocking criteria.
+        :return: A 'Select' statement built by the sqlalchemy ORM utilizing
+            the blocking criteria.
 
         """
         new_query = query
 
-        for table_key, table_info in organized_block_vals.items():
+        for table_key, table_info in organized_block_criteria.items():
             query_criteria = None
             cte_query = None
             sub_query = None
@@ -208,6 +213,23 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         return new_query
 
     def _organize_block_criteria(self, block_fields: dict) -> dict:
+        """
+        Creates a dictionary with the MPI Table Names as keys
+        that also stores the ORM Table Object, for each table,
+        as well as the blocking criteria for each of the tables.
+        The Table is discovered based upon the blocking columns.
+        There is some transformation that occurs between certain
+        blocking column criteria and the actual column names.
+        Accepted blocking fields include: first_name, last_name,
+        birthdate, address line 1, city, state, zip, mrn, and sex.
+
+        :param block_fields: A dictionary that contains the
+            configured block fields along with the criteria
+            and values for blocking.
+        :return: A dictionary organized by table name that
+            has the ORM Table Object and all blocking
+            criteria and values.
+        """
         # Accepted blocking fields include: first_name, last_name,
         # birthdate, address line 1, city, state, zip, mrn, and sex.
         organized_block_vals = {}
@@ -243,6 +265,14 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         return organized_block_vals
 
     def _get_base_query(self) -> Select:
+        """
+        Generates a select query that pulls all the relevant
+        MPI records from the MPI tables, using an ORM, for
+        Patient Matching/Blocking.
+
+        :return: A single select statement queries all relevant
+            blocking columns and tables from the MPI.
+        """
         name_sub_query = (
             select(
                 self.dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
@@ -311,6 +341,23 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         return query
 
     def _get_mpi_records(self, patient_resource: dict) -> dict:
+        """
+        Generates a dictionary with the different MPI Table
+        Name as keys along with the records for each of the
+        MPI Tables, based upon the FHIR Patient Resource data
+        passed in.
+        There are cases where a direct insert occurs to get
+        the primary key, that will be used as a foreign key
+        in another MPI Table record.  ie. patient_id is used
+        in almost every table, so a patient insert must occur
+        first to get the Patient primary key for the other
+        MPI table foreign keys.
+
+
+        :param patient_resource: The FHIR Patient Resource that
+            contains patient data to create new MPI records.
+        :return: A dictionary of MPI Table names and records.
+        """
         records = {}
         if patient_resource["resourceType"] != "Patient":
             return records
@@ -407,19 +454,21 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         external_person_id: str,
     ) -> str:
         """
-        If person id is not supplied and external person id is not supplied
-        then insert a new person record with an auto-generated person id (UUID)
-        and there won't be any external_person record associated with the new
-        person record and return that new person_id.
-        If the person_id is not supplied but an external_person_id is supplied try
-        to find an existing person record using the external_person_id.
-        If a person record is found then return the found person_id.
-        Otherwise add a new person record with an auto-generated person_id (UUID)
-        and link it with the supplied external person id
-        and return the new person_id.
-        If person id and external person id are both supplied then
-        ensure there is an external person record that is linked to the
-        person_id, if not then add one and return the person_id.
+        If person id is not supplied then generate a new person record
+        with a new person id.
+        If an external person id is not supplied then just return the new
+        person id.
+        If an external person id is supplied then check if there is an
+        external person record created for this external person id.
+        If the external person record exists then verify that the person id,
+        either supplied or newly created, exists in the external person record.
+        If the person id supplied, or newly created, does not exist then create
+        a new external person record with a link to the person id.
+        If the external person record does exist and matches the person id,
+        either supplied or newly created, then just return the person id.
+        If the external person record does not exist, then create a new
+        external person record linked to the person id, either supplied or
+        newly created.  Then return the person id.
 
         :param external_person_id: The external person id
         :param person_id: The person id
@@ -458,6 +507,18 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
     def _generate_dict_record_from_results(
         self, results_list: List[list]
     ) -> List[dict]:
+        """
+        Converts a list of list of records into a
+        dictionary using the column name header, in the
+        first row (first list) along with the values in
+        the rest of the rows (lists).
+
+
+        :param results_list: a list of list containing mpi
+            records.
+        :return: A dictionary that has the key value pairs
+            of the results list.
+        """
         return_records = []
         # we must ensure that there is a header AND at least
         # one record or there is much of a point in moving forward
@@ -471,6 +532,12 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         return return_records
 
     def _insert_person(self) -> str:
+        """
+        Simple insert of a new person record, which contains
+        a new id (pk)
+
+        :return: The newly created person id.
+        """
         person_record = {"person_id": None}
         person_id = self.dal.single_insert(
             table_name="person",
