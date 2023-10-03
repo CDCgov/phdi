@@ -107,26 +107,21 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         :return: the person id
         """
         try:
-            # First, if person_id is not supplied, see if we can find a
-            # matching person_id based upon the exernal person id.
-            # If  external person id is supplied then
-            #  we have to get a person_id that is linked or insert a new person
-            #  that is linked to an external person record and then use that
-            # found or new person_id to link to the patient
             correct_person_id = self._get_person_id(
                 person_id=person_id, external_person_id=external_person_id
             )
-            print(f"CPERSON_ID: {correct_person_id}")
             patient_resource["person"] = correct_person_id
 
             mpi_records = self._get_mpi_records(patient_resource)
 
-            self.dal.bulk_insert_dict(records_with_table=mpi_records, return_pks=False)
+            return_results = self.dal.bulk_insert_dict(
+                records_with_table=mpi_records, return_pks=True
+            )
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
-        return (self.matched, correct_person_id)
+        return (self.matched, correct_person_id, return_results)
 
     def _generate_where_criteria(self, block_vals: dict, table_name: str) -> list:
         where_criteria = []
@@ -333,11 +328,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             return_pk=True,
             return_full=False,
         )
-        print(f"NEW PATID: {new_patient_id}")
         patient_ids = []
         for pat_id in get_patient_identifiers(patient_resource):
-            print(f"PATID: {pat_id}")
-            print(pat_id.get("value"))
             ident = {
                 "patient_id": new_patient_id,
                 "value": pat_id.get("value"),
@@ -345,13 +337,11 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 "type_display": pat_id.get("type").get("coding")[0].get("display"),
                 "type_system": pat_id.get("type").get("coding")[0].get("system"),
             }
-            print(f"IDENT: {ident}")
             patient_ids.append(ident)
         records["identifier"] = {"records": patient_ids}
 
         phones = []
         for pat_phone in get_patient_phones(patient_resource):
-            print(f"PHONE: {pat_phone}")
             pat_phone_period = pat_phone.get("period")
             phn = {
                 "patient_id": new_patient_id,
@@ -361,18 +351,15 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             if pat_phone_period is not None:
                 phn["start_date"] = pat_phone_period.get("start")
                 phn["end_date"] = pat_phone_period.get("end")
-            print(f"PHN: {phn}")
 
             phones.append(phn)
         records["phone_number"] = {"records": phones}
 
         addresses = []
         for pat_addr in get_patient_addresses(patient_resource):
-            print(f"ADDRESS: {pat_addr}")
             addr_period = pat_addr.get("period")
             addr_dict = {"address": pat_addr}
             addr_lines = get_address_lines(addr_dict)
-            print(f"ADDR LINES: {addr_lines}")
             addr = {
                 "patient_id": new_patient_id,
                 "line_1": addr_lines[0],
@@ -388,7 +375,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 addr["start_date"] = addr_period.get("start")
                 addr["end_date"] = addr_period.get("end")
             addresses.append(addr)
-            print(f"ADDR REC: {addr}")
         records["address"] = {"records": addresses}
 
         given_names = []
@@ -454,7 +440,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             )
         )
         external_person_record = self.dal.select_results(query, False)
-        print(external_person_record)
 
         if len(external_person_record) > 0:
             found_person_id = external_person_record[0][1]

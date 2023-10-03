@@ -143,12 +143,8 @@ class DataAccessLayer(object):
 
         new_pk = None
         table = self.get_table_by_name(table_name)
-        print(f"REC LEN: {len(record.items())}")
-        print(f"TABLE: {table_name}")
         if len(record.items()) > 0 and table is not None:
-            print("GOOD TABLE AND REC")
             pk_column = table.primary_key.c[0]
-            print(f"PK COL: {pk_column}")
             with self.transaction() as session:
                 if table_name == "person":
                     record = {}

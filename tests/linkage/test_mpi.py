@@ -345,26 +345,54 @@ def test_insert_matched_patient():
     MPI = _init_db()
 
     result = MPI.insert_matched_patient(patient_resource)
-    print(f"RESULT: {result}")
     assert result is not None
     assert not result[0]
     assert result[1] is not None
+    person_rec = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
+    patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
+    name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
+    given_name_rec = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE))
+    address_rec = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE))
+    phone_rec = MPI.dal.select_results(select(MPI.dal.PHONE_TABLE))
+    id_rec = MPI.dal.select_results(select(MPI.dal.ID_TABLE))
 
-    person_rec = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE), False)
-    patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE), False)
-    name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE), False)
-    given_name_rec = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE), False)
-    address_rec = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE), False)
-    phone_rec = MPI.dal.select_results(select(MPI.dal.PHONE_TABLE), False)
-    id_rec = MPI.dal.select_results(select(MPI.dal.ID_TABLE), False)
+    assert len(person_rec) == 2
+    assert len(patient_rec) == 2
+    assert len(name_rec) == 2
+    assert len(given_name_rec) == 3
+    assert len(address_rec) == 2
+    assert len(phone_rec) == 2
+    assert len(id_rec) == 2
 
-    assert len(person_rec) > 0
-    assert len(patient_rec) > 0
-    assert len(name_rec) > 0
-    assert len(given_name_rec) > 0
-    assert len(address_rec) > 0
-    assert len(phone_rec) > 0
-    assert len(id_rec) > 0
+    _clean_up(MPI.dal)
+
+    MPI = _init_db()
+
+    result = MPI.insert_matched_patient(
+        patient_resource=patient_resource,
+        person_id=None,
+        external_person_id="EXT-1233456",
+    )
+    assert result is not None
+    assert not result[0]
+    assert result[1] is not None
+    ext_person_rec = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE))
+    person_rec = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
+    patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
+    name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
+    given_name_rec = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE))
+    address_rec = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE))
+    phone_rec = MPI.dal.select_results(select(MPI.dal.PHONE_TABLE))
+    id_rec = MPI.dal.select_results(select(MPI.dal.ID_TABLE))
+
+    assert len(person_rec) == 2
+    assert len(ext_person_rec) == 2
+    assert len(patient_rec) == 2
+    assert len(name_rec) == 2
+    assert len(given_name_rec) == 3
+    assert len(address_rec) == 2
+    assert len(phone_rec) == 2
+    assert len(id_rec) == 2
 
     _clean_up(MPI.dal)
 
@@ -386,7 +414,6 @@ def test_get_person():
     result3 = MPI._get_person_id(person_id=result, external_person_id="MYEXTID-123")
     assert result3 == result
     results3 = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE))
-    print(f"RES3: {results3}")
     assert len(results3) == 2
     assert results3[0][0] == "external_id"
     assert results3[1][0] is not None
