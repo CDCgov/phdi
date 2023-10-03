@@ -197,19 +197,3 @@ jobs:
         working-directory: ./containers/orchestration/tests/integration
         run: |
           python -m pytest -m "integration" -v -s --tb=long
-      - name: List containers
-        run: docker ps
-      - name: View Container Logs - message-parser-service
-        run: docker logs integration-message-parser-service-1
-      - name: View Container Logs - ingestion-service
-        run: docker logs integration-ingestion-service-1
-      - name: View Container Logs - fhir-converter-service
-        run: docker logs integration-fhir-converter-service-1
-      - name: View Container Logs - validation-service
-        run: docker logs integration-validation-service-1
-      - name: View Container Logs - orchestration-service
-        run: docker logs integration-orchestration-service-1
-      - name: Show JSON Log path
-        run: pwd
-      - name: kill containers
-        run: docker kill $(docker ps -q)
