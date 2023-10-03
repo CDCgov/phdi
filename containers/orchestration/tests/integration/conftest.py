@@ -16,12 +16,16 @@ def setup(request):
 
     orchestration_service.start()
     orchestration_service.wait_for(orchestration_url)
+    orchestration_service.wait_for("http://0.0.0.0:8081")
+    orchestration_service.wait_for("http://0.0.0.0:8082")
+    orchestration_service.wait_for("http://0.0.0.0:8083")
+    orchestration_service.wait_for("http://0.0.0.0:8085")
     print("Orchestration etc. services ready to test!")
 
     def teardown():
         print("\nContainer output: ")
         print(orchestration_service.get_logs())
         print("Tests finished! Tearing down.")
-        # orchestration_service.stop()
+        orchestration_service.stop()
 
     request.addfinalizer(teardown)
