@@ -44,23 +44,22 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
     def _initialize_schema(self):
         self.dal.initialize_schema()
 
-    def get_block_data(self, block_vals: Dict) -> List[list]:
-        # TODO: This comment may need to be updated with the changes made
-
+    def get_block_data(self, block_criteria: Dict) -> List[list]:
         """
-        Returns a list of lists containing records from the database that match on the
-        incoming record's block values. If blocking on 'ZIP' and the incoming record's
-        zip code is '90210', the resulting block of data would contain records that all
+        Returns a list of lists containing records from the MPI database that
+        match on the incoming record's block criteria and values. If blocking
+        on 'ZIP' and the incoming record's ip code is '90210', the resulting
+        block of data would contain records that all
         have the same zip code of 90210.
 
-        :param block_vals: Dictionary containing key value pairs for the column name for
+        :param block_criteria: Dictionary containing key value pairs for the column name for
           blocking and the data for the incoming record as well as any transformations,
           e.g., {"ZIP": {"value": "90210"}} or
           {"ZIP": {"value": "90210",}, "transformation":"first4"}.
         :return: A list of records that are within the block, e.g., records that all
           have 90210 as their ZIP.
         """
-        if len(block_vals) == 0:
+        if len(block_criteria) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
         # Get the base query that will select all necessary
@@ -70,7 +69,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         # now get the criteria organized by table so the
         # CTE queries can be constructed and then added
         # to the base query
-        organized_block_vals = self._organize_block_criteria(block_vals)
+        organized_block_vals = self._organize_block_criteria(block_criteria)
 
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
