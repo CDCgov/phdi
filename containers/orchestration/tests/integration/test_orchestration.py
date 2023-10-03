@@ -1,5 +1,6 @@
 import httpx
 import pytest
+import os
 from pathlib import Path
 
 
@@ -9,24 +10,24 @@ PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
 
 @pytest.mark.integration
 def test_health_check(setup):
-    health_check_response = httpx.get(ORCHESTRATION_URL)
-    assert health_check_response.status_code == 200
+    port_number_strings = [
+        "ORCHESTRATION_PORT_NUMBER",
+        "VALIDATION_PORT_NUMBER",
+        "FHIR_CONVERTER_PORT_NUMBER",
+        "INGESTION_PORT_NUMBER",
+        "MESSAGE_PARSER_PORT_NUMBER",
+    ]
 
-    validation_response = httpx.get("http://localhost:8081")
-    print("Validation response is:", validation_response)
-    assert validation_response.status_code == 200
-
-    fhir_converter_response = httpx.get("http://localhost:8082")
-    print("FHIR Converter response is:", fhir_converter_response)
-    assert fhir_converter_response.status_code == 200
-
-    ingestion_response = httpx.get("http://localhost:8083")
-    print("Ingestion response is:", ingestion_response)
-    assert ingestion_response.status_code == 200
-
-    message_parser_response = httpx.get("http://localhost:8085")
-    print("Message Parser response is:", message_parser_response)
-    assert message_parser_response.status_code == 200
+    for port_number in port_number_strings:
+        port = os.getenv(port_number)
+        service_response = httpx.get(f"http://0.0.0.0:{port}")
+        print(
+            "Health check response for",
+            port_number.replace("_PORT_NUMBER", ""),
+            ":",
+            service_response,
+        )
+        assert service_response.status_code == 200
 
 
 @pytest.mark.integration
@@ -44,7 +45,6 @@ def test_process_endpoint_with_message(setup):
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_ENDPOINT, json=request)
-    print(f"orchestration_response: {orchestration_response}")
     assert orchestration_response.status_code == 200
     assert orchestration_response.json()["message"] == "Processing succeeded!"
 

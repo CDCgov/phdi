@@ -6,7 +6,7 @@ services:
       context: ../..
     depends_on: [validation-service, fhir-converter-service, ingestion-service, message-parser-service]
     ports:
-      - "8080:8080"
+      - "${ORCHESTRATION_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
     env_file:
@@ -15,27 +15,27 @@ services:
     build:
       context: ../../../validation
     ports:
-      - "8081:8080"
+      - "${VALIDATION_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
   fhir-converter-service:
     build:
       context: ../../../fhir-converter
     ports:
-      - "8082:8080"
+      - "${FHIR_CONVERTER_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
   ingestion-service:
     build:
       context: ../../../ingestion
     ports:
-      - "8083:8080"
+      - "${INGESTION_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
   message-parser-service:
     build:
       context: ../../../message-parser
     ports:
-      - "8085:8080"
+      - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"

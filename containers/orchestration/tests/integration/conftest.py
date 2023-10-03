@@ -1,30 +1,35 @@
 import pytest
 import os
 from testcontainers.compose import DockerCompose
+from dotenv import load_dotenv
 
 
 @pytest.fixture(scope="session")
 def setup(request):
     print("Setting up tests...")
+    load_dotenv(dotenv_path="test.env")
     compose_path = os.path.join(os.path.dirname(__file__), "./")
     compose_file_name = "docker-compose.yaml"
     orchestration_service = DockerCompose(
         compose_path, compose_file_name=compose_file_name
     )
 
-    orchestration_url = "http://0.0.0.0:8080"
-
     orchestration_service.start()
-    orchestration_service.wait_for(orchestration_url)
-    orchestration_service.wait_for("http://0.0.0.0:8081")
-    orchestration_service.wait_for("http://0.0.0.0:8082")
-    orchestration_service.wait_for("http://0.0.0.0:8083")
-    orchestration_service.wait_for("http://0.0.0.0:8085")
+
+    port_number_strings = [
+        "ORCHESTRATION_PORT_NUMBER",
+        "VALIDATION_PORT_NUMBER",
+        "FHIR_CONVERTER_PORT_NUMBER",
+        "INGESTION_PORT_NUMBER",
+        "MESSAGE_PARSER_PORT_NUMBER",
+    ]
+    for port_number in port_number_strings:
+        port = os.getenv(port_number)
+        orchestration_service.wait_for(f"http://0.0.0.0:{port}")
+
     print("Orchestration etc. services ready to test!")
 
     def teardown():
-        print("\nContainer output: ")
-        print(orchestration_service.get_logs())
         print("Tests finished! Tearing down.")
         orchestration_service.stop()
 
