@@ -1,10 +1,5 @@
 from contextlib import contextmanager
-from sqlalchemy import (
-    MetaData,
-    create_engine,
-    Table,
-    select
-)
+from sqlalchemy import MetaData, create_engine, Table, select
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
 
