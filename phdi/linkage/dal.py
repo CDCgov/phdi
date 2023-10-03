@@ -308,6 +308,14 @@ class DataAccessLayer(object):
         return None
 
     def does_table_have_column(self, table: Table, column_name: str) -> bool:
+        """
+        Verifies if a column exists in a particular table
+
+        :param table: the table object to verify if column exists
+            within.
+        :param column_name: the column name you want to verify.
+        :return: True or False.
+        """
         if table is None or column_name is None or column_name == "":
             return False
         else:

@@ -247,7 +247,7 @@ def test_generate_where_criteria():
     }
 
     where_crit = MPI._generate_where_criteria(
-        block_vals=block_data, table_name="patient"
+        block_criteria=block_data, table_name="patient"
     )
     expected_result = ["patient.dob = '1977-11-11'", "patient.sex = 'M'"]
 
