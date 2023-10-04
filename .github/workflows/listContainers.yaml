@@ -41,5 +41,4 @@ jobs:
         name: Generate list of integration test directories within containers/
         working-directory: ./containers
         run: |
-          echo "containers_to_test=$(find . -name "integration" -type d | cut -d "/" -f2 | jq -R -s -c 'split("\n")[:-1]' )"
-          echo "containers_to_test=$(echo "$containers_to_test" | jq -r 'map(select(. != "html-converter"))')">> $GITHUB_OUTPUT
+          echo "containers_to_test=$(find . -name "integration" -type d | cut -d "/" -f2 | jq -R -s -c 'split("\n")[:-1] | map(select(. != "html-converter"))' )" >> $GITHUB_OUTPUT
