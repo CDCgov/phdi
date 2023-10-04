@@ -240,7 +240,7 @@ class DataAccessLayer(object):
                 new_primary_keys = self.bulk_insert_list(
                     table, records, return_primary_keys
                 )
-                return_results[table] = {"results": new_primary_keys}
+                return_results[table.name] = {"results": new_primary_keys}
         return return_results
 
     def select_results(

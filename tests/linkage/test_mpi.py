@@ -96,7 +96,7 @@ def test_block_data():
     test_data.append(pt1)
     test_data.append(pt2)
     pks = MPI.dal.bulk_insert_list(
-        table=MPI.dal.PATIENT_TABLE, records=test_data, return_pks=True
+        table=MPI.dal.PATIENT_TABLE, records=test_data, return_primary_keys=True
     )
     assert len(pks) == 2
 
@@ -148,7 +148,7 @@ def test_block_data_failures():
     test_data.append(pt1)
     test_data.append(pt2)
     pks = MPI.dal.bulk_insert_list(
-        table=MPI.dal.PATIENT_TABLE, records=test_data, return_pks=True
+        table=MPI.dal.PATIENT_TABLE, records=test_data, return_primary_keys=True
     )
     blocked_data = MPI.get_block_data(block_data)
     assert len(pks) == 2
@@ -376,7 +376,7 @@ def test_insert_matched_patient():
     assert result is not None
     assert not result[0]
     assert result[1] is not None
-    ext_person_rec = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE))
+    EXTERNAL_PERSON_rec = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
     person_rec = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
     patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
     name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
@@ -386,7 +386,7 @@ def test_insert_matched_patient():
     id_rec = MPI.dal.select_results(select(MPI.dal.ID_TABLE))
 
     assert len(person_rec) == 2
-    assert len(ext_person_rec) == 2
+    assert len(EXTERNAL_PERSON_rec) == 2
     assert len(patient_rec) == 2
     assert len(name_rec) == 2
     assert len(given_name_rec) == 3
@@ -407,13 +407,13 @@ def test_get_person():
 
     result2 = MPI._get_person_id(person_id=result, external_person_id=None)
     assert result2 == result
-    results2 = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE))
+    results2 = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
     assert len(results2) == 1
     assert results2[0][0] == "external_id"
 
     result3 = MPI._get_person_id(person_id=result, external_person_id="MYEXTID-123")
     assert result3 == result
-    results3 = MPI.dal.select_results(select(MPI.dal.EXT_PERSON_TABLE))
+    results3 = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
     assert len(results3) == 2
     assert results3[0][0] == "external_id"
     assert results3[1][0] is not None
@@ -423,8 +423,8 @@ def test_get_person():
     result4 = MPI._get_person_id(person_id=None, external_person_id="MYEXTID-789")
     assert result4 is not None
     assert result4 != result
-    query = select(MPI.dal.EXT_PERSON_TABLE).where(
-        text(f"{MPI.dal.EXT_PERSON_TABLE.name}.external_person_id = 'MYEXTID-789'")
+    query = select(MPI.dal.EXTERNAL_PERSON_TABLE).where(
+        text(f"{MPI.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id = 'MYEXTID-789'")
     )
     results4 = MPI.dal.select_results(query)
     assert len(results4) == 2
