@@ -12,7 +12,7 @@ from fastapi import (
 from typing import Annotated, Optional
 from pathlib import Path
 from zipfile import is_zipfile
-from app.utils import load_processing_config, unzip, read_json_from_assets
+from app.utils import load_processing_config, unzip, load_config_assets
 from app.config import get_settings
 from app.services import call_apis
 from app.models import (
@@ -24,7 +24,6 @@ from app.models import (
 )
 from app.constants import (
     upload_config_response_examples,
-    upload_config_request_examples,
     sample_get_config_response,
     process_message_response_examples,
     sample_list_configs_response,
@@ -41,9 +40,10 @@ app = BaseService(
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
-for status_code, file_name in upload_config_response_examples.items():
-    upload_config_response_examples[status_code] = read_json_from_assets(file_name)
-    upload_config_response_examples[status_code]["model"] = PutConfigResponse
+
+upload_config_response = load_config_assets(
+    upload_config_response_examples, PutConfigResponse
+)
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
@@ -54,7 +54,8 @@ async def process_message_endpoint(
     upload_file: Optional[UploadFile] = File(None),
 ) -> ProcessMessageResponse:
     """
-    Process message through a series of microservices
+    Processes a message either as a message parameter or an uploaded zip file
+      through a series of microservices
     """
     content = ""
 
@@ -81,7 +82,6 @@ async def process_message_endpoint(
         "include_error_types": include_error_types,
         "message": content,
     }
-    print(input)
 
     response, responses = call_apis(config=processing_config, input=input)
 
@@ -138,13 +138,11 @@ async def get_config(
     "/configs/{processing_config_name}",
     status_code=200,
     response_model=PutConfigResponse,
-    responses=upload_config_response_examples,
+    responses=upload_config_response,
 )
 async def upload_config(
     processing_config_name: str,
-    input: Annotated[
-        ProcessingConfigModel, Body(examples=upload_config_request_examples)
-    ],
+    input: Annotated[ProcessingConfigModel, Body(examples=upload_config_response)],
     response: Response,
 ) -> PutConfigResponse:
     """
