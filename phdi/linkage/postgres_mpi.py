@@ -79,7 +79,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         )
 
         blocked_data = self.dal.select_results(
-            select_stmt=query_w_ctes, include_col_header=True
+            select_statement=query_w_ctes, include_col_header=True
         )
 
         return blocked_data
@@ -114,7 +114,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             mpi_records = self._get_mpi_records(patient_resource)
 
             return_results = self.dal.bulk_insert_dict(
-                records_with_table=mpi_records, return_pks=True
+                records_with_table=mpi_records, return_primary_keys=True
             )
 
         except Exception as error:  # pragma: no cover
@@ -369,7 +369,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         new_patient_id = self.dal.single_insert(
             table_name="patient",
             record=patient,
-            return_pk=True,
+            return_primary_key=True,
             return_full=False,
         )
         patient_ids = []
@@ -432,7 +432,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             new_name_id = self.dal.single_insert(
                 table_name="name",
                 record=name_rec,
-                return_pk=True,
+                return_primary_key=True,
                 return_full=False,
             )
             for name_index, gname in enumerate(pat_name.get("given")):
@@ -537,7 +537,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         person_id = self.dal.single_insert(
             table_name="person",
             record=person_record,
-            return_pk=True,
+            return_primary_key=True,
             return_full=False,
         )
         return person_id

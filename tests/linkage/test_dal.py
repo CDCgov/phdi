@@ -261,7 +261,7 @@ def test_single_insert():
     pk = dal.single_insert(
         table_name="patient",
         record=pt1,
-        return_pk=True,
+        return_primary_key=True,
         return_full=False,
     )
     assert pk is not None
@@ -269,7 +269,7 @@ def test_single_insert():
     pk2 = dal.single_insert(
         table_name="patient",
         record=pt2,
-        return_pk=False,
+        return_primary_key=False,
         return_full=False,
     )
     assert pk2 is None
@@ -282,9 +282,9 @@ def test_single_insert():
     assert results[1][3] == "male"
     assert results[2][3] == "female"
 
-    pk3 = dal.single_insert(table_name="phone", record={}, return_pk=True)
+    pk3 = dal.single_insert(table_name="phone", record={}, return_primary_key=True)
     assert pk3 is None
-    pk4 = dal.single_insert(table_name=None, record={}, return_pk=True)
+    pk4 = dal.single_insert(table_name=None, record={}, return_primary_key=True)
     assert pk4 is None
 
     _clean_up(dal)
@@ -327,13 +327,13 @@ def test_select_results():
     pk = dal.single_insert(
         table_name="patient",
         record=pt1,
-        return_pk=True,
+        return_primary_key=True,
         return_full=False,
     )
     pk2 = dal.single_insert(
         table_name="patient",
         record=pt2,
-        return_pk=True,
+        return_primary_key=True,
         return_full=False,
     )
     mpi = PGMPIConnectorClient()
@@ -341,7 +341,7 @@ def test_select_results():
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
-    results = dal.select_results(select_stmt=blocked_data_query)
+    results = dal.select_results(select_statement=blocked_data_query)
     # ensure blocked data has two rows, headers and data
     assert len(results) == 2
     assert results[0][0] == "patient_id"
@@ -353,7 +353,7 @@ def test_select_results():
     assert results[1][3] == "male"
 
     results2 = dal.select_results(
-        select_stmt=blocked_data_query, include_col_header=False
+        select_statement=blocked_data_query, include_col_header=False
     )
 
     # ensure blocked data has one row, just the data

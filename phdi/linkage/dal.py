@@ -120,7 +120,7 @@ class DataAccessLayer(object):
         self,
         table_name: str,
         record: dict,
-        return_pk: bool = False,
+        return_primary_key: bool = False,
         return_full: bool = False,
     ) -> list:
         """
@@ -132,22 +132,24 @@ class DataAccessLayer(object):
         :param table_name: the name of the table, that will
             retrieve the SQLAlchemy table object, to insert into
         :param record: a record as a dictionary
-        :param return_pk: boolean indicating if you want the inserted
+        :param return_primary_key: boolean indicating if you want the inserted
             primary key for the table returned or not, defaults to False
         :param return_full: boolean indicating if you want the newly
             inserted record for the table returned or not, defaults to False
         :return: a primary key or the full new record or None
         """
 
-        new_pk = None
+        new_primary_key = None
         table = self.get_table_by_name(table_name)
         if len(record.items()) > 0 and table is not None:
-            pk_column = table.primary_key.c[0]
+            primary_key_column = table.primary_key.c[0]
             with self.transaction() as session:
                 if table_name == "person":
                     record = {}
-                if return_pk or return_full:
-                    stmt = table.insert().values(record).returning(pk_column)
+                if return_primary_key or return_full:
+                    statement = (
+                        table.insert().values(record).returning(primary_key_column)
+                    )
                     # TODO: leaving this logic here
                     # as we may be able to leverage ctes
                     # for inserts in the future to insert
@@ -160,23 +162,23 @@ class DataAccessLayer(object):
                     #         .where(~exists(cte_query.select()))
                     #         .returning(pk_column)
                     #     )
-                    pk = session.execute(stmt)
+                    primary_key = session.execute(statement)
 
                     if return_full:
-                        new_pk = pk.first()
-                    elif return_pk:
+                        new_primary_key = primary_key.first()
+                    elif return_primary_key:
                         # TODO: I don't like this, but seems to
                         # be one of the only ways to get this to work
                         #  I have tried using the column name from the
                         # PK defined in the table and that doesn't work
-                        new_pk = pk.first()[0]
+                        new_primary_key = primary_key.first()[0]
                 else:
-                    stmt = table.insert().values(record)
-                    session.execute(stmt)
-        return new_pk
+                    statement = table.insert().values(record)
+                    session.execute(statement)
+        return new_primary_key
 
     def bulk_insert_list(
-        self, table: Table, records: list[dict], return_pks: bool = True
+        self, table: Table, records: list[dict], return_primary_keys: bool = True
     ) -> list:
         """
         Perform a bulk insert operation on a table.  A list of records
@@ -186,30 +188,32 @@ class DataAccessLayer(object):
 
         :param table_object: the SQLAlchemy table object to insert into
         :param records: a list of records as a dictionaries
-        :param return_pk: boolean indicating if you want the inserted
+        :param return_primary_key: boolean indicating if you want the inserted
             primary keys for the table returned or not, defaults to False
         :return: a list of primary keys or an empty list
         """
-        new_pks = []
+        new_primary_keys = []
         if len(records) > 0 and table is not None:
-            pk_column = table.primary_key.c[0]
+            primary_key_column = table.primary_key.c[0]
             with self.transaction() as session:
                 for record in records:
-                    if return_pks:
-                        stmt = table.insert().values(record).returning(pk_column)
-                        new_pk = session.execute(stmt)
+                    if return_primary_keys:
+                        statement = (
+                            table.insert().values(record).returning(primary_key_column)
+                        )
+                        new_primary_key = session.execute(statement)
                         # TODO: I don't like this, but seems to
                         # be one of the only ways to get this to work
                         #  I have tried using the column name from the
                         # PK defined in the table and that doesn't work
-                        new_pks.append(new_pk.first()[0])
+                        new_primary_keys.append(new_primary_key.first()[0])
                     else:
-                        stmt = table.insert().values(record)
-                        session.execute(stmt)
-        return new_pks
+                        statement = table.insert().values(record)
+                        session.execute(statement)
+        return new_primary_keys
 
     def bulk_insert_dict(
-        self, records_with_table: dict, return_pks: bool = False
+        self, records_with_table: dict, return_primary_keys: bool = False
     ) -> dict:
         """
         Perform a bulk insert operation on a table as defined
@@ -222,23 +226,25 @@ class DataAccessLayer(object):
             the SQLAlchemy table object 'table' to insert into
             along with a list of dictionaries as records to
             insert into the specified table
-        :param return_pks: boolean indicating if you want the inserted
+        :param return_primary_keys: boolean indicating if you want the inserted
             primary keys for the table returned or not, defaults to False
         :return: a dictionary that contains table names as keys
             along with a list of the primary keys, if requested.
         """
         return_results = {}
-        for key, value in records_with_table.items():
-            new_pks = []
-            table = self.get_table_by_name(key)
-            records = value.get("records")
+        for table, records in records_with_table.items():
+            new_primary_keys = []
+            table = self.get_table_by_name(table)
+            records = records.get("records")
             if table is not None and records is not None and len(records) > 0:
-                new_pks = self.bulk_insert_list(table, records, return_pks)
-                return_results[key] = {"results": new_pks}
+                new_primary_keys = self.bulk_insert_list(
+                    table, records, return_primary_keys
+                )
+                return_results[table] = {"results": new_primary_keys}
         return return_results
 
     def select_results(
-        self, select_stmt: select, include_col_header: bool = True
+        self, select_statement: select, include_col_header: bool = True
     ) -> List[list]:
         """
         Perform a select query and add the results to a
@@ -246,7 +252,7 @@ class DataAccessLayer(object):
         first row, in the list of lists if the
         'include_col_header' parameter is True.
 
-        :param select_stmt: the select statment to execute
+        :param select_statement: the select statment to execute
         :param include_col_header: boolean value to indicate if
             one wants to include a top row of the column headers
             or not, defaults to True
@@ -254,7 +260,7 @@ class DataAccessLayer(object):
         """
         list_results = [[]]
         with self.transaction() as session:
-            results = session.execute(select_stmt)
+            results = session.execute(select_statement)
             list_results = [list(row) for row in results]
             if include_col_header:
                 list_results.insert(0, list(results.keys()))
