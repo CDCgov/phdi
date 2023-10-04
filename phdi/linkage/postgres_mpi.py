@@ -477,9 +477,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if external_person_id is None:
             return new_person_id
 
-        query = select(self.dal.EXT_PERSON_TABLE).where(
+        query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
             text(
-                f"{self.dal.EXT_PERSON_TABLE.name}.external_person_id"
+                f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
                 + f" = '{external_person_id}'"
             )
         )

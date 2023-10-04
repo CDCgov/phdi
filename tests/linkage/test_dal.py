@@ -76,8 +76,8 @@ def test_get_connection():
     assert dal.ID_TABLE is None
     assert dal.PHONE_TABLE is None
     assert dal.ADDRESS_TABLE is None
-    assert dal.EXT_PERSON_TABLE is None
-    assert dal.EXT_SOURCE_TABLE is None
+    assert dal.EXTERNAL_PERSON_TABLE is None
+    assert dal.EXTERNAL_SOURCE_TABLE is None
 
 
 def test_initialize_schema():
@@ -95,8 +95,8 @@ def test_initialize_schema():
     assert isinstance(dal.ID_TABLE, Table)
     assert isinstance(dal.PHONE_TABLE, Table)
     assert isinstance(dal.ADDRESS_TABLE, Table)
-    assert isinstance(dal.EXT_PERSON_TABLE, Table)
-    assert isinstance(dal.EXT_SOURCE_TABLE, Table)
+    assert isinstance(dal.EXTERNAL_PERSON_TABLE, Table)
+    assert isinstance(dal.EXTERNAL_SOURCE_TABLE, Table)
 
 
 def test_bulk_insert_dict():

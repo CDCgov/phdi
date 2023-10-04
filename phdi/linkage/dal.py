@@ -28,8 +28,8 @@ class DataAccessLayer(object):
         self.ID_TABLE = None
         self.PHONE_TABLE = None
         self.ADDRESS_TABLE = None
-        self.EXT_PERSON_TABLE = None
-        self.EXT_SOURCE_TABLE = None
+        self.EXTERNAL_PERSON_TABLE = None
+        self.EXTERNAL_SOURCE_TABLE = None
         self.TABLE_LIST = []
 
     def get_connection(self, engine_url: str, engine_echo: bool = False) -> None:
@@ -75,10 +75,10 @@ class DataAccessLayer(object):
         self.ID_TABLE = Table("identifier", self.Meta, autoload_with=self.engine)
         self.PHONE_TABLE = Table("phone_number", self.Meta, autoload_with=self.engine)
         self.ADDRESS_TABLE = Table("address", self.Meta, autoload_with=self.engine)
-        self.EXT_PERSON_TABLE = Table(
+        self.EXTERNAL_PERSON_TABLE = Table(
             "external_person", self.Meta, autoload_with=self.engine
         )
-        self.EXT_SOURCE_TABLE = Table(
+        self.EXTERNAL_SOURCE_TABLE = Table(
             "external_source", self.Meta, autoload_with=self.engine
         )
 
@@ -89,8 +89,8 @@ class DataAccessLayer(object):
         self.TABLE_LIST.append(self.ID_TABLE)
         self.TABLE_LIST.append(self.PHONE_TABLE)
         self.TABLE_LIST.append(self.ADDRESS_TABLE)
-        self.TABLE_LIST.append(self.EXT_PERSON_TABLE)
-        self.TABLE_LIST.append(self.EXT_SOURCE_TABLE)
+        self.TABLE_LIST.append(self.EXTERNAL_PERSON_TABLE)
+        self.TABLE_LIST.append(self.EXTERNAL_SOURCE_TABLE)
 
     @contextmanager
     def transaction(self) -> None:
