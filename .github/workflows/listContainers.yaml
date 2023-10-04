@@ -27,6 +27,7 @@ jobs:
           ls -d * | jq -R -s -c 'split("\n")[:-1]'
           echo "containers_list=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1]')" 
           echo containers_list=$(echo "$containers_list" | jq 'map(select(. != "html-converter"))')
+          echo "$containers_list"
           echo "containers=$containers_list">> $GITHUB_OUTPUT
   list-integration-test-directories:
     runs-on: ubuntu-latest
@@ -44,4 +45,5 @@ jobs:
         run: |
           echo "containers_to_test=$(find . -name "integration" -type d | cut -d "/" -f2 | jq -R -s -c 'split("\n")[:-1]' )" 
           echo containers_to_test=$(echo "$containers_to_test" | jq 'map(select(. != "html-converter"))')
+          echo "$containers_to_test"
           echo "containers_to_test=$containers_to_test">> $GITHUB_OUTPUT
