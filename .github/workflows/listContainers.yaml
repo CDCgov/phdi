@@ -24,8 +24,9 @@ jobs:
         working-directory: ./containers
         # use jq to produce json output and filter out the empty item caused by final newline
         run: |
-          ls -d * | jfq -R -s -c 'split("\n")[:-1]'
-          echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1]'| jq -R -s -c 'map(select(. != "html-converter"))')" >> $GITHUB_OUTPUT
+          ls -d * | jq -R -s -c 'split("\n")[:-1]'
+          echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1]')" 
+          echo "containers=$(echo "$containers" | jq 'map(select(. != "html-converter"))')" >> $GITHUB_OUTPUT
   list-integration-test-directories:
     runs-on: ubuntu-latest
     outputs:
