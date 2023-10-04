@@ -1,14 +1,5 @@
 from contextlib import contextmanager
-from sqlalchemy import (
-    MetaData,
-    create_engine,
-    Table,
-    cte,
-    exists,
-    insert,
-    select,
-    update,
-)
+from sqlalchemy import MetaData, create_engine, Table, select
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
 
@@ -69,7 +60,7 @@ class DataAccessLayer(object):
         """
         Initialize the database schema
 
-        This method initializes the patient and person tables using SQLAlchemy's
+        This method initializes all the MPI Database tables using SQLAlchemy's
         Table object
 
         :return: None
@@ -125,57 +116,63 @@ class DataAccessLayer(object):
         finally:
             session.close()
 
-    def create_insert_cte(self, table: Table, record: dict) -> insert:
-        pk_column = table.primary_key.c[0]
-        stmt = (
-            table.insert().values(record).returning(pk_column).cte(f"cte_{table.name}")
-        )
-        return stmt
-
     def single_insert(
         self,
-        table: Table,
+        table_name: str,
         record: dict,
-        cte_query: cte = None,
         return_pk: bool = False,
         return_full: bool = False,
     ) -> list:
         """
         Perform a single insert operation on a table for a record.
          One can have the primary key for the insert returned by
-         using the return_pk parameter.
+         using the return_pk parameter or return the full newly
+         created record.
 
-        :param table_object: the SQLAlchemy table object to insert into
+        :param table_name: the name of the table, that will
+            retrieve the SQLAlchemy table object, to insert into
         :param record: a record as a dictionary
         :param return_pk: boolean indicating if you want the inserted
             primary key for the table returned or not, defaults to False
-        :return: a primary key or None
+        :param return_full: boolean indicating if you want the newly
+            inserted record for the table returned or not, defaults to False
+        :return: a primary key or the full new record or None
         """
+
         new_pk = None
-        pk_column = table.primary_key.c[0]
-        with self.transaction() as session:
-            if return_pk or return_full:
-                if cte_query is None:
+        table = self.get_table_by_name(table_name)
+        if len(record.items()) > 0 and table is not None:
+            pk_column = table.primary_key.c[0]
+            with self.transaction() as session:
+                if table_name == "person":
+                    record = {}
+                if return_pk or return_full:
                     stmt = table.insert().values(record).returning(pk_column)
+                    # TODO: leaving this logic here
+                    # as we may be able to leverage ctes
+                    # for inserts in the future to insert
+                    # multiple records in different tables at once
+                    # and get the pk back to be used as the fk
+                    # in the folllowing insert statement
+                    #     stmt = (
+                    #         table.insert()
+                    #         .values(record)
+                    #         .where(~exists(cte_query.select()))
+                    #         .returning(pk_column)
+                    #     )
+                    pk = session.execute(stmt)
+
+                    if return_full:
+                        new_pk = pk.first()
+                    elif return_pk:
+                        # TODO: I don't like this, but seems to
+                        # be one of the only ways to get this to work
+                        #  I have tried using the column name from the
+                        # PK defined in the table and that doesn't work
+                        new_pk = pk.first()[0]
                 else:
-                    stmt = (
-                        table.insert()
-                        .values(record)
-                        .where(~exists(cte_query.select()))
-                        .returning(pk_column)
-                    )
-                pk = session.execute(stmt)
-                # TODO: I don't like this, but seems to
-                # be one of the only ways to get this to work
-                #  I have tried using the column name from the
-                # PK defined in the table and that doesn't work
-                if return_full:
-                    new_pk = pk.first()
-                elif return_pk:
-                    new_pk = pk.first()[0]
-            else:
-                stmt = table.insert().values(record)
-                session.execute(stmt)
+                    stmt = table.insert().values(record)
+                    session.execute(stmt)
         return new_pk
 
     def bulk_insert_list(
@@ -194,16 +191,21 @@ class DataAccessLayer(object):
         :return: a list of primary keys or an empty list
         """
         new_pks = []
-        pk_column = table.primary_key.c[0]
-        with self.transaction() as session:
-            for record in records:
-                if return_pks:
-                    stmt = table.insert().values(record).returning(pk_column)
-                    new_pk = session.execute(stmt)
-                    new_pks.append(new_pk.first()[0])
-                else:
-                    stmt = table.insert().values(record)
-                    session.execute(stmt)
+        if len(records) > 0 and table is not None:
+            pk_column = table.primary_key.c[0]
+            with self.transaction() as session:
+                for record in records:
+                    if return_pks:
+                        stmt = table.insert().values(record).returning(pk_column)
+                        new_pk = session.execute(stmt)
+                        # TODO: I don't like this, but seems to
+                        # be one of the only ways to get this to work
+                        #  I have tried using the column name from the
+                        # PK defined in the table and that doesn't work
+                        new_pks.append(new_pk.first()[0])
+                    else:
+                        stmt = table.insert().values(record)
+                        session.execute(stmt)
         return new_pks
 
     def bulk_insert_dict(
@@ -228,7 +230,7 @@ class DataAccessLayer(object):
         return_results = {}
         for key, value in records_with_table.items():
             new_pks = []
-            table = value.get("table")
+            table = self.get_table_by_name(key)
             records = value.get("records")
             if table is not None and records is not None and len(records) > 0:
                 new_pks = self.bulk_insert_list(table, records, return_pks)
@@ -241,7 +243,8 @@ class DataAccessLayer(object):
         """
         Perform a select query and add the results to a
         list of lists.  Then add the column header as the
-        first row, in the list of lists
+        first row, in the list of lists if the
+        'include_col_header' parameter is True.
 
         :param select_stmt: the select statment to execute
         :param include_col_header: boolean value to indicate if
@@ -257,11 +260,6 @@ class DataAccessLayer(object):
                 list_results.insert(0, list(results.keys()))
         return list_results
 
-    def update_table(self, update_stmt: update) -> None:
-        with self.transaction() as session:
-            session.execute(update_stmt)
-
-    # TODO: Remove this as this shouldn't be needed
     def get_session(self) -> scoped_session:
         """
         Get a session object
@@ -274,24 +272,51 @@ class DataAccessLayer(object):
         return self.session()
 
     def get_table_by_name(self, table_name: str) -> Table:
+        """
+        Get an SqlAlchemy ORM Table Object based upon the table
+        name passed in.
+
+        :param table_name: the name of the table you want to get.
+        :return: SqlAlchemy ORM Table Object.
+        """
         if len(self.TABLE_LIST) == 0:
             self.initialize_schema()
 
-        # TODO: I am sure there is an easier way to do this
-        for table in self.TABLE_LIST:
-            if table.name == table_name:
-                return table
+        if table_name is not None and table_name != "":
+            # TODO: I am sure there is an easier way to do this
+            for table in self.TABLE_LIST:
+                if table.name == table_name:
+                    return table
         return None
 
     def get_table_by_column(self, column_name: str) -> Table:
+        """
+        Finds a table in the MPI based upon the column name.
+
+        :param column_name: the column name you want to find the
+            table it belongs to.
+        :return: SqlAlchemy ORM Table Object.
+        """
         if len(self.TABLE_LIST) == 0:
             self.initialize_schema()
 
-        # TODO: I am sure there is an easier way to do this
-        for table in self.TABLE_LIST:
-            if column_name in table.c:
-                return table
+        if column_name is not None and column_name != "":
+            # TODO: I am sure there is an easier way to do this
+            for table in self.TABLE_LIST:
+                if column_name in table.c:
+                    return table
         return None
 
     def does_table_have_column(self, table: Table, column_name: str) -> bool:
-        return column_name in table.c
+        """
+        Verifies if a column exists in a particular table
+
+        :param table: the table object to verify if column exists
+            within.
+        :param column_name: the column name you want to verify.
+        :return: True or False.
+        """
+        if table is None or column_name is None or column_name == "":
+            return False
+        else:
+            return column_name in table.c

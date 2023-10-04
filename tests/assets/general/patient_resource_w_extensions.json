@@ -1,0 +1,173 @@
+{
+  "resourceType": "Patient",
+  "id": "some-uuid",
+  "identifier": [
+    {
+      "value": "123456",
+      "type": {
+        "coding": [
+          {
+            "code": "MR",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "display": "Medical record number"
+          }
+        ]
+      },
+      "system": "urn...no idea"
+    }
+  ],
+  "name": [
+    {
+      "family": "doe",
+      "given": [
+        "John ",
+        " Danger "
+      ],
+      "use": "official"
+    }
+  ],
+  "birthDate": "1983-02-01",
+  "gender": "female",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+      "extension": [
+        {
+          "url": "ombCategory",
+          "valueCoding": {
+            "code": "2106-3",
+            "display": "White"
+          }
+        },
+        {
+          "url": "text",
+          "valueString": "White"
+        }
+      ]
+    },
+    {
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+      "extension": [
+        {
+          "url": "ombCategory",
+          "valueCoding": {
+            "code": "2135-2",
+            "display": "Hispanic or Latino"
+          }
+        },
+        {
+          "url": "text",
+          "valueString": "Hispanic or Latino"
+        }
+      ]
+    },
+    {
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+      "extension": [
+        {
+          "url": "value",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "M",
+                "display": "Male",
+                "system": "urn:oid:2.16.840.1.113883.5.1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension",
+      "extension": [
+        {
+          "url": "value",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "code": "446141000124107",
+                "display": "Identifies as female gender (finding)",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension",
+      "extension": [
+        {
+          "url": "TribeName",
+          "valueCoding": {
+            "code": "91",
+            "display": "Fort Mojave Indian Tribe of Arizona, California",
+            "system": "http://terminology.hl7.org/CodeSystem/v3-TribalEntityUS"
+          }
+        },
+        {
+          "url": "EnrolledTribeMember",
+          "valueBoolean": true
+        }
+      ]
+    },
+    {
+      "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension",
+      "extension": [
+        {
+          "url": "TribeName",
+          "valueCoding": {
+            "code": "338",
+            "display": "Native Village of Afognak",
+            "system": "http://terminology.hl7.org/CodeSystem/v3-TribalEntityUS"
+          }
+        },
+        {
+          "url": "EnrolledTribeMember",
+          "valueBoolean": false
+        }
+      ]
+    }
+  ],
+  "address": [
+    {
+      "line": [
+        "123 Fake St",
+        "Unit #F"
+      ],
+      "BuildingNumber": "123",
+      "city": "Faketon",
+      "state": "NY",
+      "postalCode": "10001-0001",
+      "country": "USA",
+      "use": "home",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
+          "extension": [
+            {
+              "url": "latitude",
+              "valueDecimal": 34.58002
+            },
+            {
+              "url": "longitude",
+              "valueDecimal": -118.08925
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "use": "home",
+      "system": "phone",
+      "value": "123-456-7890"
+    },
+    {
+      "value": "johndanger@doe.net",
+      "system": "email"
+    }
+  ]
+}

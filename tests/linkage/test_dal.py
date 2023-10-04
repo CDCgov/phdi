@@ -7,75 +7,13 @@ from sqlalchemy.orm import scoped_session
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 
-# [
-#     [
-#         "patient_id",
-#         "dob",
-#         "sex",
-#         "mrn",
-#         "last_name",
-#         "given_name" "phone_number",
-#         "phone_type",
-#         "address_line_1",
-#         "zip_code",
-#         "city",
-#         "state",
-#         "person_id",
-#     ],
-#     [
-#         UUID("80009abc-79d8-4e26-9d36-386edfcecdfa"),
-#         datetime.date(1977, 11, 11),
-#         "M",
-#         "MRN-1234",
-#         "Cat",
-#         "Thomas",
-#         "+14087775533",
-#         "home",
-#         "1313 Mocking Bird Lane",
-#         "84607",
-#         "Roy",
-#         "UT",
-#         UUID("80009abc-79d8-4e26-9d36-386edf979797"),
-#     ],
-#     [
-#         UUID("80009abc-79d8-4e26-9d36-386edfcecdfa"),
-#         datetime.date(1977, 11, 11),
-#         "M",
-#         "MRN-1234",
-#         "Cat",
-#         "Thomas",
-#         "+18015553333",
-#         "cell",
-#         "1313 Mocking Bird Lane",
-#         "84607",
-#         "Roy",
-#         "UT",
-#         UUID("80009abc-79d8-4e26-9d36-386edf979797"),
-#     ],
-#     [
-#         UUID("f85cfa46-9799-4f1a-ba3e-e97cca550138"),
-#         datetime.date(1988, 1, 1),
-#         "F",
-#         "MRN-7788",
-#         "Mouse",
-#         "Jerry",
-#         None,
-#         None,
-#         "8375 Jessie Lane",
-#         "83642",
-#         "Meridian",
-#         "ID",
-#         UUID("f85cfa46-9799-4f1a-ba3e-e97555599987"),
-#     ],
-# ]
-
-
 def _init_db() -> DataAccessLayer:
     dal = DataAccessLayer()
     dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
     _clean_up(dal)
+
     # load ddl
     schema_ddl = open(
         pathlib.Path(__file__).parent.parent.parent
@@ -166,7 +104,6 @@ def test_bulk_insert_dict():
 
     data_requested = {
         "patient": {
-            "table": dal.PATIENT_TABLE,
             "records": [
                 {
                     "person_id": None,
@@ -242,77 +179,27 @@ def test_bulk_insert_dict():
     _clean_up(dal)
 
 
-#     # TODO: saving this query here so it can be used in more robust tests
-#     # in the near future:
-#     #
-#     # name_sub_query = (
-#     #     select(
-#     #         dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
-#     #         dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
-#     #     )
-#     #     .where(dal.GIVEN_NAME_TABLE.c.given_name_index == 0)
-#     #     .subquery()
-#     # )
-
-#     # id_sub_query = (
-#     #     select(
-#     #         dal.ID_TABLE.c.value.label("mrn"),
-#     #         dal.ID_TABLE.c.patient_id.label("patient_id"),
-#     #     )
-#     #     .where(dal.ID_TABLE.c.type_code == "MR")
-#     #     .subquery()
-#     # )
-
-#     # phone_sub_query = (
-#     #     select(
-#     #         dal.PHONE_TABLE.c.phone_number.label("phone_number"),
-#     #         dal.PHONE_TABLE.c.type.label("phone_type"),
-#     #         dal.PHONE_TABLE.c.patient_id.label("patient_id"),
-#     #     )
-#     #     .where(dal.PHONE_TABLE.c.type.in_(["home", "cell"]))
-#     #     .subquery()
-#     # )
-
-#     # query = (
-#     #     select(
-#     #         dal.PATIENT_TABLE.c.patient_id,
-#     #         dal.PATIENT_TABLE.c.dob,
-#     #         dal.PATIENT_TABLE.c.sex,
-#     #         id_sub_query.c.mrn,
-#     #         dal.NAME_TABLE.c.last_name,
-#     #         name_sub_query.c.given_name,
-#     #         phone_sub_query.c.phone_number,
-#     #         phone_sub_query.c.phone_type,
-#     #         dal.ADDRESS_TABLE.c.line_1.label("address_line_1"),
-#     #         dal.ADDRESS_TABLE.c.zip_code,
-#     #         dal.ADDRESS_TABLE.c.city,
-#     #         dal.ADDRESS_TABLE.c.state,
-#     #         dal.PERSON_TABLE.c.person_id,
-#     #     )
-#     #     .outerjoin(
-#     #         id_sub_query,
-#     #     )
-#     #     .outerjoin(dal.NAME_TABLE)
-#     #     .outerjoin(name_sub_query)
-#     #     .outerjoin(phone_sub_query)
-#     #     .outerjoin(dal.ADDRESS_TABLE)
-#     #     .outerjoin(dal.PERSON_TABLE)
-#     # )
-
-
 def test_get_table_by_name():
     dal = _init_db()
-    table = dal.get_table_by_column("zip_code")
-    assert table.name == "address"
+    table = dal.get_table_by_name("patient")
+    assert isinstance(table, Table)
+    assert table.name == "patient"
     assert table.c is not None
     _clean_up(dal)
 
     dal2 = _init_db()
     dal2.initialize_schema()
 
-    table = dal2.get_table_by_column("zip_code")
+    table = dal2.get_table_by_name("address")
+    assert isinstance(table, Table)
     assert table.name == "address"
     assert table.c is not None
+
+    table = dal2.get_table_by_name(None)
+    assert table is None
+
+    table = dal2.get_table_by_name("customer")
+    assert table is None
     _clean_up(dal2)
 
 
@@ -326,9 +213,19 @@ def test_get_table_by_column():
     dal2 = _init_db()
     dal2.initialize_schema()
 
-    table = dal2.get_table_by_column("zip_code")
-    assert table.name == "address"
+    table = dal2.get_table_by_column("sex")
+    assert table.name == "patient"
     assert table.c is not None
+
+    table = dal2.get_table_by_column("")
+    assert table is None
+
+    table = dal2.get_table_by_column(None)
+    assert table is None
+
+    table = dal2.get_table_by_column("my_column")
+    assert table is None
+
     _clean_up(dal2)
 
 
@@ -336,6 +233,9 @@ def test_does_table_have_column():
     dal = _init_db()
     assert dal.does_table_have_column(dal.GIVEN_NAME_TABLE, "patient_id") is False
     assert dal.does_table_have_column(dal.NAME_TABLE, "patient_id") is True
+    assert dal.does_table_have_column(None, None) is False
+    assert dal.does_table_have_column(dal.PATIENT_TABLE, None) is False
+    assert dal.does_table_have_column(dal.PATIENT_TABLE, "") is False
     _clean_up(dal)
 
 
@@ -359,18 +259,16 @@ def test_single_insert():
     }
 
     pk = dal.single_insert(
-        table=dal.PATIENT_TABLE,
+        table_name="patient",
         record=pt1,
-        cte_query=None,
         return_pk=True,
         return_full=False,
     )
     assert pk is not None
 
     pk2 = dal.single_insert(
-        table=dal.PATIENT_TABLE,
+        table_name="patient",
         record=pt2,
-        cte_query=None,
         return_pk=False,
         return_full=False,
     )
@@ -383,6 +281,11 @@ def test_single_insert():
     assert results[0][3] == "sex"
     assert results[1][3] == "male"
     assert results[2][3] == "female"
+
+    pk3 = dal.single_insert(table_name="phone", record={}, return_pk=True)
+    assert pk3 is None
+    pk4 = dal.single_insert(table_name=None, record={}, return_pk=True)
+    assert pk4 is None
 
     _clean_up(dal)
 
@@ -422,17 +325,15 @@ def test_select_results():
         "ethnicity": "UNK",
     }
     pk = dal.single_insert(
-        table=dal.PATIENT_TABLE,
+        table_name="patient",
         record=pt1,
-        cte_query=None,
         return_pk=True,
         return_full=False,
     )
-    dal.single_insert(
-        table=dal.PATIENT_TABLE,
+    pk2 = dal.single_insert(
+        table_name="patient",
         record=pt2,
-        cte_query=None,
-        return_pk=False,
+        return_pk=True,
         return_full=False,
     )
     mpi = PGMPIConnectorClient()
@@ -446,6 +347,7 @@ def test_select_results():
     assert len(results) == 2
     assert results[0][0] == "patient_id"
     assert results[1][0] == pk
+    assert results[1][0] != pk2
     assert results[0][2] == "dob"
     assert results[1][2] == datetime.date(1977, 11, 11)
     assert results[0][3] == "sex"
@@ -496,7 +398,6 @@ def test_bulk_insert_list():
 
     pat_data2 = [pt1, pt2]
     pk_list2 = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data2, False)
-    print(pk_list2)
     assert len(pk_list2) == 0
 
     _clean_up(dal)

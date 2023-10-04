@@ -1,7 +1,18 @@
 from typing import List, Dict, Union
 from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
-from phdi.linkage.utils import load_mpi_env_vars_os
+from phdi.linkage.utils import (
+    get_address_lines,
+    get_geo_latitude,
+    get_geo_longitude,
+    get_patient_addresses,
+    get_patient_names,
+    get_patient_phones,
+    load_mpi_env_vars_os,
+    get_patient_ethnicity,
+    get_patient_race,
+    get_patient_identifiers,
+)
 from phdi.linkage.dal import DataAccessLayer
 
 
@@ -14,6 +25,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
     property.
 
     """
+
+    matched: bool = False
 
     def __init__(self):
         dbsettings = load_mpi_env_vars_os()
@@ -29,64 +42,59 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         )
         self.dal.initialize_schema()
 
-    # def _initialize_schema(self):
-    #     self.dal.initialize_schema()
-
-    # TODO: remove this from here and from core, it shouldn't be needed
-    # it is here now just to satisfy the interface of core.py
-    def get_connection(self) -> Union[any, None]:
-        return self.dal.get_session()
-
-    def block_data(self, block_vals: Dict) -> List[list]:
-        # TODO: This comment may need to be updated with the changes made
-
+    def get_block_data(self, block_criteria: Dict) -> List[list]:
         """
-        Returns a list of lists containing records from the database that match on the
-        incoming record's block values. If blocking on 'ZIP' and the incoming record's
-        zip code is '90210', the resulting block of data would contain records that all
+        Returns a list of lists containing records from the MPI database that
+        match on the incoming record's block criteria and values. If blocking
+        on 'ZIP' and the incoming record's ip code is '90210', the resulting
+        block of data would contain records that all
         have the same zip code of 90210.
 
-        :param block_vals: Dictionary containing key value pairs for the column name for
-          blocking and the data for the incoming record as well as any transformations,
+        :param block_criteria: Dictionary containing key value pairs
+            for the column name for blocking and the data for the
+            incoming record as well as any transformations,
           e.g., {"ZIP": {"value": "90210"}} or
           {"ZIP": {"value": "90210",}, "transformation":"first4"}.
-        :return: A list of records that are within the block, e.g., records that all
-          have 90210 as their ZIP.
+        :return: A list of records that are within the block, e.g.,
+            records that all have 90210 as their ZIP.
         """
-        if len(block_vals) == 0:
+        if len(block_criteria) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
         # Get the base query that will select all necessary
         # columns for linkage with some basic filtering
         query = self._get_base_query()
+
         # now get the criteria organized by table so the
         # CTE queries can be constructed and then added
         # to the base query
-        organized_block_vals = self._organize_block_criteria(block_vals)
+        organized_block_vals = self._organize_block_criteria(block_criteria)
 
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
         query_w_ctes = self._generate_block_query(
-            organized_block_vals=organized_block_vals, query=query
+            organized_block_criteria=organized_block_vals, query=query
         )
-        blocked_data = self.dal.select_results(select_stmt=query_w_ctes)
+
+        blocked_data = self.dal.select_results(
+            select_stmt=query_w_ctes, include_col_header=True
+        )
 
         return blocked_data
 
-    def insert_match_patient(
+    def insert_matched_patient(
         self,
         patient_resource: Dict,
         person_id=None,
         external_person_id=None,
     ) -> Union[None, tuple]:
-        # TODO: This comment may need to be updated with the changes made
-
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
-        the patient table, including the matched person id, to link the new patient
-        and matched person ID; else inserts a new patient into the patient table and
-        inserts a new person into the person table with a new person ID, linking the
-        new person ID to the new patient.
+        the patient table and all other subsequent MPI tables, including the
+        matched person id, to link the new patient and matched person ID;
+        else inserts a new patient into the patient table, as well as all other
+        subsequent MPI tables, and inserts a new person into the person table
+        linking the new person to the new patient.
 
         :param patient_resource: A FHIR patient resource.
         :param person_id: The person ID matching the patient record if a match has been
@@ -95,20 +103,35 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
+        try:
+            correct_person_id = self._get_person_id(
+                person_id=person_id, external_person_id=external_person_id
+            )
+            patient_resource["person"] = correct_person_id
 
-        # First, if person_id is not supplied, see if we can find a
-        # matching person_id based upon the exernal person id, if supplied
-        #  we have to get a person or insert a new person
-        #  first to satisfy the link between the person and patient
-        # external_person_records = self._insert_person(
-        #     person_id=person_id, external_person_id=external_person_id
-        # )
+            mpi_records = self._get_mpi_records(patient_resource)
 
-        return None
+            return_results = self.dal.bulk_insert_dict(
+                records_with_table=mpi_records, return_pks=True
+            )
 
-    def _generate_where_criteria(self, block_vals: dict, table_name: str) -> list:
+        except Exception as error:  # pragma: no cover
+            raise ValueError(f"{error}")
+
+        return (self.matched, correct_person_id, return_results)
+
+    def _generate_where_criteria(self, block_criteria: dict, table_name: str) -> list:
+        """
+        Generates a list of where criteria leveraging the blocking criteria,
+        including transformations such as 'first 4' or 'last 4'.  This
+        function leverages the ORM to determine the table and columns.
+
+        :param block_criteria: a dictionary that contains the blocking criteria.
+        :return: A list of where criteria used to append to the end of a query.
+
+        """
         where_criteria = []
-        for key, value in block_vals.items():
+        for key, value in block_criteria.items():
             criteria_value = value["value"]
             criteria_transform = value.get("transformation", None)
 
@@ -118,34 +141,33 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 if criteria_transform == "first4":
                     where_criteria.append(
                         f"LEFT({table_name}.{key},4) = '{criteria_value}'"
+                        f"LEFT({table_name}.{key},4) = '{criteria_value}'"
                     )
                 elif criteria_transform == "last4":
                     where_criteria.append(
+                        f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
                         f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
                     )
         return where_criteria
 
     def _generate_block_query(
-        self, organized_block_vals: dict, query: Select
+        self, organized_block_criteria: dict, query: Select
     ) -> Select:
-        # TODO: This comment may need to be updated with the changes made
         """
-        Generates a query for selecting a block of data from the patient table per the
-        block_vals parameters. Accepted blocking fields include: first_name, last_name,
-        birthdate, address, city, state, zip, mrn, and sex.
+        Generates a query for selecting a block of data from the MPI tables per the
+        block field criteria.  The block field criteria should be a dictionary
+        organized by MPI table name, with the ORM table object, and the blocking
+        criteria.
 
-        :param table_name: Table name.
-        :param block_vals: Dictionary containing key value pairs for the column name for
-          blocking and the data for the incoming record as well as any transformations,
-          e.g., {["ZIP"]: {"value": "90210"}} or
-          {["ZIP"]: {"value": "90210",}, "transformation":"first4"}.
-        :raises ValueError: If column key in `block_vals` is not supported.
-        :return: A 'Select' statement built by the sqlalchemy ORM
+        :param organized_block_vals: a dictionary organized by MPI table name,
+            with the ORM table object, and the blocking criteria.
+        :return: A 'Select' statement built by the sqlalchemy ORM utilizing
+            the blocking criteria.
 
         """
         new_query = query
 
-        for table_key, table_info in organized_block_vals.items():
+        for table_key, table_info in organized_block_criteria.items():
             query_criteria = None
             cte_query = None
             sub_query = None
@@ -154,6 +176,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             query_criteria = self._generate_where_criteria(
                 table_info["criteria"], table_key
             )
+
             if query_criteria is not None and len(query_criteria) > 0:
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
@@ -168,7 +191,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     sub_query = (
                         select(cte_query_table)
                         .where(text(" AND ".join(query_criteria)))
-                        .subquery()
+                        .subquery(f"{cte_query_table.name}_cte_subq")
                     )
 
                     cte_query = (
@@ -177,11 +200,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                         .where(
                             text(
                                 f"{fk_table.name}.{fk_column.name} = "
-                                + f"{cte_query_table.name}.{fk_column.name}"
+                                + f"{sub_query.name}.{fk_column.name}"
                             )
                         )
                     ).cte(f"{table_key}_cte")
-
             if cte_query is not None:
                 new_query = new_query.join(
                     cte_query,
@@ -191,13 +213,27 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         return new_query
 
     def _organize_block_criteria(self, block_fields: dict) -> dict:
+        """
+        Creates a dictionary with the MPI Table Names as keys
+        that also stores the ORM Table Object, for each table,
+        as well as the blocking criteria for each of the tables.
+        The Table is discovered based upon the blocking columns.
+        There is some transformation that occurs between certain
+        blocking column criteria and the actual column names.
+        Accepted blocking fields include: first_name, last_name,
+        birthdate, address line 1, city, state, zip, mrn, and sex.
+
+        :param block_fields: A dictionary that contains the
+            configured block fields along with the criteria
+            and values for blocking.
+        :return: A dictionary organized by table name that
+            has the ORM Table Object and all blocking
+            criteria and values.
+        """
         # Accepted blocking fields include: first_name, last_name,
         # birthdate, address line 1, city, state, zip, mrn, and sex.
         organized_block_vals = {}
-
-        count = 0
         for block_key, block_value in block_fields.items():
-            count += 1
             sub_dict = {}
             # TODO: we may find a better way to handle this, but for now
             # just convert the known fields into their proper column counterparts
@@ -225,14 +261,22 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 continue
         return organized_block_vals
 
-    def _get_base_query(self) -> select:
+    def _get_base_query(self) -> Select:
+        """
+        Generates a select query that pulls all the relevant
+        MPI records from the MPI tables, using an ORM, for
+        Patient Matching/Blocking.
+
+        :return: A single select statement queries all relevant
+            blocking columns and tables from the MPI.
+        """
         name_sub_query = (
             select(
                 self.dal.GIVEN_NAME_TABLE.c.given_name.label("given_name"),
                 self.dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
             )
             .where(self.dal.GIVEN_NAME_TABLE.c.given_name_index == 0)
-            .subquery()
+            .subquery("gname_subq")
         )
 
         id_sub_query = (
@@ -241,10 +285,14 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 self.dal.ID_TABLE.c.patient_id.label("patient_id"),
             )
             .where(self.dal.ID_TABLE.c.type_code == "MR")
-            .subquery()
+            .subquery("ident_subq")
         )
 
-        # phone_sub_query = (
+        # TODO: keeping this here for the time
+        # when we decide to add phone numbers into
+        # the blocking data
+        #
+        #  phone_sub_query = (
         #     select(
         #         self.dal.PHONE_TABLE.c.phone_number.label("phone_number"),
         #         self.dal.PHONE_TABLE.c.type.label("phone_type"),
@@ -263,6 +311,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 id_sub_query.c.mrn,
                 self.dal.NAME_TABLE.c.last_name,
                 name_sub_query.c.given_name.label("first_name"),
+                # TODO: keeping this here for the time
+                # when we decide to add phone numbers into
+                # the blocking data
+                #
                 # phone_sub_query.c.phone_number,
                 # phone_sub_query.c.phone_type,
                 self.dal.ADDRESS_TABLE.c.line_1.label("address"),
@@ -275,6 +327,10 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             )
             .outerjoin(self.dal.NAME_TABLE)
             .outerjoin(name_sub_query)
+            # TODO: keeping this here for the time
+            # when we decide to add phone numbers into
+            # the blocking data
+            #
             # .outerjoin(phone_sub_query)
             .outerjoin(self.dal.ADDRESS_TABLE)
             .outerjoin(self.dal.PERSON_TABLE)
@@ -282,153 +338,208 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         return query
 
     def _get_mpi_records(self, patient_resource: dict) -> dict:
+        """
+        Generates a dictionary with the different MPI Table
+        Name as keys along with the records for each of the
+        MPI Tables, based upon the FHIR Patient Resource data
+        passed in.
+        There are cases where a direct insert occurs to get
+        the primary key, that will be used as a foreign key
+        in another MPI Table record.  ie. patient_id is used
+        in almost every table, so a patient insert must occur
+        first to get the Patient primary key for the other
+        MPI table foreign keys.
+
+
+        :param patient_resource: The FHIR Patient Resource that
+            contains patient data to create new MPI records.
+        :return: A dictionary of MPI Table names and records.
+        """
         records = {}
         if patient_resource["resourceType"] != "Patient":
             return records
 
-        # let's start with the patient record
         patient = {
-            "patient_id": None,
             "person_id": patient_resource.get("person"),
             "dob": patient_resource.get("birthdate"),
             "sex": patient_resource.get("gender"),
-            # TODO: find a way to get race and
-            # ethnicity included here           #
-            # "race": patient_resource.get("extension"),
-            # "ethnicity": patient_resource.get("extension"),
+            "race": get_patient_race(patient_resource),
+            "ethnicity": get_patient_ethnicity(patient_resource),
         }
-        records["patient"] = {"table": self.dal.PATIENT_TABLE, "records": [patient]}
+        new_patient_id = self.dal.single_insert(
+            table_name="patient",
+            record=patient,
+            return_pk=True,
+            return_full=False,
+        )
+        patient_ids = []
+        for pat_id in get_patient_identifiers(patient_resource):
+            ident = {
+                "patient_id": new_patient_id,
+                "value": pat_id.get("value"),
+                "type_code": pat_id.get("type").get("coding")[0].get("code"),
+                "type_display": pat_id.get("type").get("coding")[0].get("display"),
+                "type_system": pat_id.get("type").get("coding")[0].get("system"),
+            }
+            patient_ids.append(ident)
+        records["identifier"] = {"records": patient_ids}
 
-        # {
-        #     "resourceType": "Patient",
-        #     "id": "fd645c21-4a6f-11eb-99fd-ad786a821574",
-        #     "identifier": [
-        #         {
-        #             "value": "7845451380",
-        #             "type": {
-        #                 "coding": [
-        #                     {
-        #                         "code": "MR",
-        #                         "system":
-        # "http://terminology.hl7.org/CodeSystem/v2-0203",
-        #                         "display": "Medical record number",
-        #                     }
-        #                 ]
-        #             },
-        #         }
-        #     ],
-        #     "name": [{"family": "Shepard", "given": ["John"], "use": "official"}],
-        #     "birthDate": "2053-11-07",
-        #     "gender": "male",
-        #     "address": [
-        #         {
-        #             "line": ["1234 Silversun Strip"],
-        #             "buildingNumber": "1234",
-        #             "city": "Zakera Ward",
-        #             "state": "Citadel",
-        #             "postalCode": "99999",
-        #             "use": "home",
-        #         }
-        #     ],
-        #     "telecom": [{"use": "home", "system": "phone", "value": "123-456-7890"}],
-        # }
+        phones = []
+        for pat_phone in get_patient_phones(patient_resource):
+            pat_phone_period = pat_phone.get("period")
+            phn = {
+                "patient_id": new_patient_id,
+                "phone_number": pat_phone.get("value"),
+                "type": pat_phone.get("use"),
+            }
+            if pat_phone_period is not None:
+                phn["start_date"] = pat_phone_period.get("start")
+                phn["end_date"] = pat_phone_period.get("end")
 
-    def _insert_person(
+            phones.append(phn)
+        records["phone_number"] = {"records": phones}
+
+        addresses = []
+        for pat_addr in get_patient_addresses(patient_resource):
+            addr_period = pat_addr.get("period")
+            addr_dict = {"address": pat_addr}
+            addr_lines = get_address_lines(addr_dict)
+            addr = {
+                "patient_id": new_patient_id,
+                "line_1": addr_lines[0],
+                "line_2": addr_lines[1],
+                "city": pat_addr.get("city"),
+                "zip_code": pat_addr.get("state"),
+                "country": pat_addr.get("country"),
+                "latitude": get_geo_latitude(addr_dict),
+                "longitude": get_geo_longitude(addr_dict),
+                "type": pat_addr.get("use"),
+            }
+            if pat_phone_period is not None:
+                addr["start_date"] = addr_period.get("start")
+                addr["end_date"] = addr_period.get("end")
+            addresses.append(addr)
+        records["address"] = {"records": addresses}
+
+        given_names = []
+        for pat_name in get_patient_names(patient_resource):
+            given_names = []
+            name_rec = {
+                "patient_id": new_patient_id,
+                "last_name": pat_name.get("family"),
+                "type": pat_name.get("use"),
+            }
+            new_name_id = self.dal.single_insert(
+                table_name="name",
+                record=name_rec,
+                return_pk=True,
+                return_full=False,
+            )
+            for name_index, gname in enumerate(pat_name.get("given")):
+                gname_rec = {
+                    "name_id": new_name_id,
+                    "given_name": gname,
+                    "given_name_index": name_index,
+                }
+                given_names.append(gname_rec)
+        records["given_name"] = {"records": given_names}
+        return records
+
+    def _get_person_id(
         self,
         person_id: str,
         external_person_id: str,
-    ) -> dict:
+    ) -> str:
         """
-        If person id is not supplied and external person id is not supplied
-        then insert a new person record with an auto-generated person id (UUID)
-        with a Null external person id and return that new person id. If the
-        person id is not supplied but an external person id is supplied try
-        to find an existing person record with the external person id and
-        return that person id; otherwise add a new person record with an
-        auto-generated person id (UUID) with the supplied external person id
-        and return the new external person record that will include the
-        new person id and new external person id.  If person id and external person
-        id are
-        both supplied then update the person records external person id if it
-        is Null and return the person id.
+        If person id is not supplied then generate a new person record
+        with a new person id.
+        If an external person id is not supplied then just return the new
+        person id.
+        If an external person id is supplied then check if there is an
+        external person record created for this external person id.
+        If the external person record exists then verify that the person id,
+        either supplied or newly created, exists in the external person record.
+        If the person id supplied, or newly created, does not exist then create
+        a new external person record with a link to the person id.
+        If the external person record does exist and matches the person id,
+        either supplied or newly created, then just return the person id.
+        If the external person record does not exist, then create a new
+        external person record linked to the person id, either supplied or
+        newly created.  Then return the person id.
 
-        :param external_person_id: The external person id for the person record
-          to be inserted or updated, defaults to None.
-        :return: A dictionary that contains all the rows from the returned
-            either queried or inserted external patient record
+        :param external_person_id: The external person id
+        :param person_id: The person id
+        :return: The found or newly created person id
         """
-        return_record = {}
-        if external_person_id is None:
-            return None
+        if person_id is None:
+            new_person_id = self._insert_person()
         else:
-            # if external person id is supplied then find if there is already
-            #  a person with that external person id already within the MPI
-            #  - if so, return that person id
-            ext_person_query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
-                text(
-                    f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
-                    + f" = '{external_person_id}'"
-                )
+            new_person_id = person_id
+
+        if external_person_id is None:
+            return new_person_id
+
+        query = select(self.dal.EXT_PERSON_TABLE).where(
+            text(
+                f"{self.dal.EXT_PERSON_TABLE.name}.external_person_id"
+                + f" = '{external_person_id}'"
             )
-            ext_person_record = self.dal.select_results(ext_person_query, True)
+        )
+        external_person_record = self.dal.select_results(query, False)
 
-            # if a person was found based upon the external
-            # person id then return that full person record
-            # for reference
-            # otherwise, insert a new person and a new external person
-            # record with the external_person_id
-            if len(ext_person_record) == 0:
-                new_person_record = {"person_id": None}
-                person_cte = self.dal.create_insert_cte(
-                    self.dal.PERSON_TABLE, new_person_record
-                )
-                new_ext_person_record = {
-                    "external_id": None,
-                    "person_id": person_cte.c.person_id,
-                    "external_person_id": external_person_id,
-                    "external_source_id": None,
-                }
-                ext_person_record = self.dal.single_insert(
-                    table=self.dal.EXT_PERSON_TABLE,
-                    record=new_ext_person_record,
-                    cte_query=person_cte,
-                    return_pk=False,
-                    return_full=True,
-                )
-            # in the case where an external person id and a person id are both
-            # supplied, but there isn't a link between these two records in
-            # their respective tables, then we need to add a new external_person record
-            # with the supplied person_id
-            else:
-                new_ext_person_record = {
-                    "external_id": None,
-                    "person_id": person_id,
-                    "external_person_id": external_person_id,
-                    "external_source_id": None,
-                }
-                ext_person_record = self.dal.single_insert(
-                    table=self.dal.EXT_PERSON_TABLE,
-                    record=new_ext_person_record,
-                    cte_query=None,
-                    return_pk=False,
-                    return_full=True,
-                )
-            return_record = self._generate_dict_record_from_results(ext_person_record)
-        return return_record
+        if len(external_person_record) > 0:
+            found_person_id = external_person_record[0][1]
+        else:
+            found_person_id = None
 
-    def _generate_dict_record_from_results(self, results_list: List[list]) -> dict:
-        return_record = {}
+        if found_person_id is None or found_person_id != new_person_id:
+            new_external_person_record = {
+                "person_id": new_person_id,
+                "external_person_id": external_person_id,
+                "external_source_id": None,
+            }
+            self.dal.single_insert("external_person", new_external_person_record)
+        return new_person_id
+
+    def _generate_dict_record_from_results(
+        self, results_list: List[list]
+    ) -> List[dict]:
+        """
+        Converts a list of list of records into a
+        dictionary using the column name header, in the
+        first row (first list) along with the values in
+        the rest of the rows (lists).
+
+
+        :param results_list: a list of list containing mpi
+            records.
+        :return: A dictionary that has the key value pairs
+            of the results list.
+        """
+        return_records = []
         # we must ensure that there is a header AND at least
         # one record or there is much of a point in moving forward
         if len(results_list) > 1 and len(results_list[0]) > 0:
             for row_index, record in enumerate(results_list):
                 if row_index > 0:
-                    row_name = f"ROW{row_index}"
-                    return_record[row_name] = {}
                     columns_and_values = {}
                     for col_index, row_header in enumerate(results_list[0]):
                         columns_and_values[row_header] = record[col_index]
-                    return_record[row_name].update(columns_and_values)
-        else:
-            return_record = {"NO ROWS"}
-        return return_record
+                    return_records.append(columns_and_values)
+        return return_records
+
+    def _insert_person(self) -> str:
+        """
+        Simple insert of a new person record, which contains
+        a new id (pk)
+
+        :return: The newly created person id.
+        """
+        person_record = {"person_id": None}
+        person_id = self.dal.single_insert(
+            table_name="person",
+            record=person_record,
+            return_pk=True,
+            return_full=False,
+        )
+        return person_id
