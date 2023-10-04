@@ -17,7 +17,7 @@ class BaseMPIConnectorClient(ABC):
         """
         Returns a list of lists containing records from the MPI database that
         match on the incoming record's block criteria and values. If blocking
-        on 'ZIP' and the incoming record's ip code is '90210', the resulting
+        on 'ZIP' and the incoming record's zip code is '90210', the resulting
         block of data would contain records that all
         have the same zip code of 90210.
 
