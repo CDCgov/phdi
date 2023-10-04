@@ -458,18 +458,16 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         If an external person id is supplied then check if there is an
         external person record created for this external person id.
         If the external person record exists then verify that the person id,
-        either supplied or newly created, exists in the external person record.
-        If the person id supplied, or newly created, does not exist then create
-        a new external person record with a link to the person id.
-        If the external person record does exist and matches the person id,
+        either supplied or newly created, is linked to the external person record.
+        If the person id supplied, or newly created, is not linked in the found
+        external person record then create a new external person record using
+        the supplied external person id and the person id (either supplied
+        or newly created).
+        If the external person record does exist and is linked to the person id,
         either supplied or newly created, then just return the person id.
-        If the external person record does not exist, then create a new
-        external person record linked to the person id, either supplied or
-        newly created.  Then return the person id.
-
-        :param external_person_id: The external person id
-        :param person_id: The person id
-        :return: The found or newly created person id
+        If an external person record does not exist with the supplied external
+        person id then create a new external person record and link it to the
+        the person id, either supplied or newly created.  Then return the person id.
         """
         if person_id is None:
             new_person_id = self._insert_person()

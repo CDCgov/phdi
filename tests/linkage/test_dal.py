@@ -342,7 +342,6 @@ def test_select_results():
         block_data, select(dal.PATIENT_TABLE)
     )
     results = dal.select_results(select_stmt=blocked_data_query)
-
     # ensure blocked data has two rows, headers and data
     assert len(results) == 2
     assert results[0][0] == "patient_id"
@@ -373,28 +372,35 @@ def test_bulk_insert_list():
         "dob": "1977-11-11",
         "sex": "male",
         "race": "UNK",
-        "ethnicity": "UNK",
+        "ethnicity": "Pacific Islander",
     }
     pt2 = {
-        "person_id": None,
+        "person_id": "028b16d9-3055-40a8-a87f-f2bcf8c21a56",
         "dob": "1988-01-01",
         "sex": "female",
-        "race": "UNK",
+        "race": "White",
         "ethnicity": "UNK",
     }
+    dal.bulk_insert_list(
+        dal.PERSON_TABLE, [{"person_id": "028b16d9-3055-40a8-a87f-f2bcf8c21a56"}]
+    )
     pat_data = [pt1, pt2]
     pk_list = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data, True)
 
     assert len(pk_list) == 2
 
     results = dal.select_results(select(dal.PATIENT_TABLE))
+    print(results)
     assert len(results) == 3
     assert results[0][0] == "patient_id"
     assert results[1][0] == pk_list[0]
     assert results[2][0] == pk_list[1]
     assert results[0][3] == "sex"
-    assert results[1][3] == "male"
-    assert results[2][3] == "female"
+    assert results[1][3] == pt1.get("sex")
+    assert results[2][3] == pt2.get("sex")
+    assert str(results[2][1]) == pt2.get("person_id")
+    assert results[2][4] == pt2.get("race")
+    assert results[1][5] == pt1.get("ethnicity")
 
     pat_data2 = [pt1, pt2]
     pk_list2 = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data2, False)
