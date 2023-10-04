@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+
 import psycopg2
 import copy
 
@@ -334,12 +335,12 @@ def test_match_within_block_cluster_ratio():
 
     eval_rule = eval_perfect_match
     funcs = {
-        "first": feature_match_fuzzy_string,
-        "last": feature_match_fuzzy_string,
-        "dob": feature_match_exact,
+        "first_name": feature_match_fuzzy_string,
+        "last_name": feature_match_fuzzy_string,
+        "birthdate": feature_match_exact,
         "zip": feature_match_exact,
     }
-    col_to_idx = {"first": 1, "last": 2, "dob": 3, "zip": 4}
+    col_to_idx = {"first_name": 1, "last_name": 2, "birthdate": 3, "zip": 4}
 
     # Do a test run requiring total membership match
     matches = _match_within_block_cluster_ratio(
@@ -373,19 +374,19 @@ def test_match_within_block():
     # First, require exact matches on everything to match
     # Expect 0 pairs
     funcs = {
-        "first": feature_match_exact,
-        "last": feature_match_exact,
-        "dob": feature_match_exact,
+        "first_name": feature_match_exact,
+        "last_name": feature_match_exact,
+        "birthdate": feature_match_exact,
         "zip": feature_match_exact,
     }
-    col_to_idx = {"first": 1, "last": 2, "dob": 3, "zip": 4}
+    col_to_idx = {"first_name": 1, "last_name": 2, "birthdate": 3, "zip": 4}
     match_pairs = match_within_block(data, funcs, col_to_idx, eval_rule)
     assert len(match_pairs) == 0
 
     # Now, require exact on DOB and zip, but allow fuzzy on first and last
     # Expect 6 matches
-    funcs["first"] = feature_match_fuzzy_string
-    funcs["last"] = feature_match_fuzzy_string
+    funcs["first_name"] = feature_match_fuzzy_string
+    funcs["last_name"] = feature_match_fuzzy_string
     match_pairs = match_within_block(data, funcs, col_to_idx, eval_rule)
     assert match_pairs == [(0, 1), (0, 2), (1, 2), (5, 6), (5, 8), (6, 8)]
 

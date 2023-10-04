@@ -610,6 +610,8 @@ def link_record_against_mpi(
             continue
 
         data_block = db_client.block_data(field_blocks)
+        print("DATA BLOCK")
+        print(data_block)
 
         # data_block = [
         #     [

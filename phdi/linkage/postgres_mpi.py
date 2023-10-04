@@ -69,7 +69,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         query_w_ctes = self._generate_block_query(
             organized_block_vals=organized_block_vals, query=query
         )
-        blocked_data = self.dal.select_results_as_list(select_stmt=query_w_ctes)
+        blocked_data = self.dal.select_results(select_stmt=query_w_ctes)
 
         return blocked_data
 
@@ -117,11 +117,11 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             else:
                 if criteria_transform == "first4":
                     where_criteria.append(
-                        f"{table_name}.{key} starts with '{criteria_value}'"
+                        f"LEFT({table_name}.{key},4) = '{criteria_value}'"
                     )
                 elif criteria_transform == "last4":
                     where_criteria.append(
-                        f"{table_name}.{key} like_regex '{criteria_value}$$'"
+                        f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
                     )
         return where_criteria
 
@@ -244,29 +244,29 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             .subquery()
         )
 
-        phone_sub_query = (
-            select(
-                self.dal.PHONE_TABLE.c.phone_number.label("phone_number"),
-                self.dal.PHONE_TABLE.c.type.label("phone_type"),
-                self.dal.PHONE_TABLE.c.patient_id.label("patient_id"),
-            )
-            .where(self.dal.PHONE_TABLE.c.type.in_(["home", "cell"]))
-            .subquery()
-        )
+        # phone_sub_query = (
+        #     select(
+        #         self.dal.PHONE_TABLE.c.phone_number.label("phone_number"),
+        #         self.dal.PHONE_TABLE.c.type.label("phone_type"),
+        #         self.dal.PHONE_TABLE.c.patient_id.label("patient_id"),
+        #     )
+        #     .where(self.dal.PHONE_TABLE.c.type.in_(["home", "cell"]))
+        #     .subquery()
+        # )
 
         query = (
             select(
                 self.dal.PATIENT_TABLE.c.patient_id,
                 self.dal.PERSON_TABLE.c.person_id,
-                self.dal.PATIENT_TABLE.c.dob,
+                self.dal.PATIENT_TABLE.c.dob.label("birthdate"),
                 self.dal.PATIENT_TABLE.c.sex,
                 id_sub_query.c.mrn,
                 self.dal.NAME_TABLE.c.last_name,
-                name_sub_query.c.given_name,
-                phone_sub_query.c.phone_number,
-                phone_sub_query.c.phone_type,
-                self.dal.ADDRESS_TABLE.c.line_1.label("address_line_1"),
-                self.dal.ADDRESS_TABLE.c.zip_code,
+                name_sub_query.c.given_name.label("first_name"),
+                # phone_sub_query.c.phone_number,
+                # phone_sub_query.c.phone_type,
+                self.dal.ADDRESS_TABLE.c.line_1.label("address"),
+                self.dal.ADDRESS_TABLE.c.zip_code.label("zip"),
                 self.dal.ADDRESS_TABLE.c.city,
                 self.dal.ADDRESS_TABLE.c.state,
             )
@@ -275,7 +275,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             )
             .outerjoin(self.dal.NAME_TABLE)
             .outerjoin(name_sub_query)
-            .outerjoin(phone_sub_query)
+            # .outerjoin(phone_sub_query)
             .outerjoin(self.dal.ADDRESS_TABLE)
             .outerjoin(self.dal.PERSON_TABLE)
         )
