@@ -15,6 +15,7 @@ from app.utils import (
 )
 from app.config import get_settings
 import json
+from icecream import ic
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -67,6 +68,10 @@ class ParseMessageInput(BaseModel):
     credential_manager: Optional[Literal["azure", "gcp"]] = Field(
         description="The type of credential manager to use for authentication with a "
         "FHIR converter when conversion to FHIR is required.",
+        default=None,
+    )
+    include_metadata: Optional[Literal["true", "false"]] = Field(
+        description="Boolean to include metadata in the response.",
         default=None,
     )
     message: Union[str, dict] = Field(description="The message to be parsed.")
@@ -177,7 +182,9 @@ async def parse_message_endpoint(
     # 4. Extract desired fields from message by applying each parser.
     parsed_values = {}
     for field, parser in parsers.items():
+        ic(field)
         if "secondary_parsers" not in parser:
+            ic(parser)
             value = parser["primary_parser"](input.message)
             if len(value) == 0:
                 value = None
