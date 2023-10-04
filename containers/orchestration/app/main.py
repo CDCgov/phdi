@@ -66,8 +66,8 @@ async def process_message_endpoint(
             content = data["message"]
             message_type = data["message_type"]
             include_error_types = data["include_error_types"]
-        except json.JSONDecodeError:
-            raise HTTPException(status_code=400, detail="Invalid JSON data")
+        except json.JSONDecodeError as e:
+            raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
         except KeyError as e:
             error_message = str(e)
             raise HTTPException(
