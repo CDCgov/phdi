@@ -40,6 +40,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             engine_url=f"postgresql+psycopg2://{dbuser}:"
             + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
         )
+
+    def _initialize_schema(self):
         self.dal.initialize_schema()
 
     def get_block_data(self, block_criteria: Dict) -> List[list]:
@@ -141,11 +143,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 if criteria_transform == "first4":
                     where_criteria.append(
                         f"LEFT({table_name}.{key},4) = '{criteria_value}'"
-                        f"LEFT({table_name}.{key},4) = '{criteria_value}'"
                     )
                 elif criteria_transform == "last4":
                     where_criteria.append(
-                        f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
                         f"RIGHT({table_name}.{key},4) = '{criteria_value}'"
                     )
         return where_criteria
