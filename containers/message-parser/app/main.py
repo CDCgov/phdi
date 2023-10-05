@@ -182,10 +182,7 @@ async def parse_message_endpoint(
     # 4. Extract desired fields from message by applying each parser.
     parsed_values = {}
     for field, parser in parsers.items():
-        # ic(parsing_schema[field]["fhir_path"])
-        # ic(field)
         if "secondary_parsers" not in parser:
-            # ic(parser)
             value = parser["primary_parser"](input.message)
             if len(value) == 0:
                 value = None
