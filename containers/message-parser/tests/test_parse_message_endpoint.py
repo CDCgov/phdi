@@ -193,8 +193,6 @@ def test_parse_message_success_internal_schema_with_metadata():
 
     actual_response2 = client.post("/parse_message", json=test_request2)
     assert actual_response2.status_code == 200
-    print("******")
-    print(str(actual_response2.json()))
     assert actual_response2.json() == expected_successful_response_floats_with_meta_data
 
 
