@@ -16,6 +16,7 @@ target/
 *.war
 *.ear
 *.zip
+!test_zip.zip
 *.tar.gz
 *.rar
 
