@@ -119,6 +119,6 @@ class FhirConverterInput(BaseModel):
     )
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
-        example=["sample"],
+        example=['<ClinicalDocument xmlns="urn:hl7-org:v3"></ClinicalDocument>'],
         default=None,
     )
