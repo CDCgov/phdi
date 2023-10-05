@@ -556,7 +556,6 @@ def generate_hash_str(linking_identifier: str, salt_str: str) -> str:
 def link_record_against_mpi(
     record: dict,
     algo_config: List[dict],
-    # db_client: BaseMPIConnectorClient,
     external_person_id: str = None,
 ) -> tuple[bool, str]:
     """
@@ -585,9 +584,10 @@ def link_record_against_mpi(
     # in context of the module--i.e. turn the string of a function
     # name back into the callable defined in link.py
     # record = patient
-    # algo_config = algorithm
-    # db_client = postgres_client
-    db_client = PGMPIConnectorClient()
+    # algo_config = DIBBS_BASIC
+
+    mpi_client = PGMPIConnectorClient()
+    mpi_client._initialize_schema()
 
     algo_config = copy.deepcopy(algo_config)
     algo_config = _bind_func_names_to_invocations(algo_config)
@@ -601,15 +601,15 @@ def link_record_against_mpi(
         # MPI will be able to find patients if *any* of their names or addresses
         # contains extracted values, so minimally block on the first line
         # if applicable
-        field_blocks = extract_blocking_values_from_record(record, blocking_fields)
+        blocking_criteria = extract_blocking_values_from_record(record, blocking_fields)
 
         # We don't enforce blocking if an extracted value is empty, so if all
         # values come back blank, skip the pass because the only alt is comparing
         # to all found records
-        if len(field_blocks) == 0:
+        if len(blocking_criteria) == 0:
             continue
 
-        data_block = db_client.block_data(field_blocks)
+        data_block = mpi_client.get_block_data(blocking_criteria)
         print("DATA BLOCK")
         print(data_block)
 
@@ -660,53 +660,54 @@ def link_record_against_mpi(
         # First row of returned block is column headers
         # Map column name to idx, not including patient/person IDs
         col_to_idx = {v: k for k, v in enumerate(data_block[0][2:])}
-        data_block = data_block[1:]
+        if len(data_block[1:]) > 0:  # Check if data_block is empty
+            data_block = data_block[1:]
 
-        flattened_record = _flatten_patient_resource(record, col_to_idx)
+            flattened_record = _flatten_patient_resource(record, col_to_idx)
 
-        clusters = _group_patient_block_by_person(data_block)
+            clusters = _group_patient_block_by_person(data_block)
 
-        # Check if incoming record should belong to one of the person clusters
-        kwargs = linkage_pass.get("kwargs", {})
-        for person in clusters:
-            num_matched_in_cluster = 0.0
-            for linked_patient in clusters[person]:
-                is_match = _compare_records(
-                    flattened_record,
-                    linked_patient,
-                    linkage_pass["funcs"],
-                    col_to_idx,
-                    linkage_pass["matching_rule"],
-                    **kwargs,
-                )
-                if is_match:
-                    num_matched_in_cluster += 1.0
-
-            # Update membership score for this person cluster so that we can
-            # track best possible link across multiple passes
-            belongingness_ratio = num_matched_in_cluster / len(clusters[person])
-            if belongingness_ratio >= linkage_pass.get("cluster_ratio", 0):
-                if person in linkage_scores:
-                    linkage_scores[person] = max(
-                        [linkage_scores[person], belongingness_ratio]
+            # Check if incoming record should belong to one of the person clusters
+            kwargs = linkage_pass.get("kwargs", {})
+            for person in clusters:
+                num_matched_in_cluster = 0.0
+                for linked_patient in clusters[person]:
+                    is_match = _compare_records(
+                        flattened_record,
+                        linked_patient,
+                        linkage_pass["funcs"],
+                        col_to_idx,
+                        linkage_pass["matching_rule"],
+                        **kwargs,
                     )
-                else:
-                    linkage_scores[person] = belongingness_ratio
+                    if is_match:
+                        num_matched_in_cluster += 1.0
 
-    # Didn't match any person in our database
-    if len(linkage_scores) == 0:
-        (matched, new_person_id) = db_client.insert_match_patient(
-            record, person_id=None, external_person_id=external_person_id
-        )
-        return (matched, new_person_id)
+                # Update membership score for this person cluster so that we can
+                # track best possible link across multiple passes
+                belongingness_ratio = num_matched_in_cluster / len(clusters[person])
+                if belongingness_ratio >= linkage_pass.get("cluster_ratio", 0):
+                    if person in linkage_scores:
+                        linkage_scores[person] = max(
+                            [linkage_scores[person], belongingness_ratio]
+                        )
+                    else:
+                        linkage_scores[person] = belongingness_ratio
 
-    # Determine strongest match, upsert, then let the caller know
-    else:
-        best_person = _find_strongest_link(linkage_scores)
-        db_client.insert_match_patient(
-            record, person_id=best_person, external_person_id=external_person_id
-        )
-        return (True, best_person)
+        # Didn't match any person in our database
+        if len(linkage_scores) == 0:
+            (matched, new_person_id) = mpi_client.insert_matched_patient(
+                record, person_id=None, external_person_id=external_person_id
+            )
+            return (matched, new_person_id)
+
+        # Determine strongest match, upsert, then let the caller know
+        else:
+            best_person = _find_strongest_link(linkage_scores)
+            mpi_client.insert_matched_patient(
+                record, person_id=best_person, external_person_id=external_person_id
+            )
+            return (True, best_person)
 
 
 def load_json_probs(path: pathlib.Path):
