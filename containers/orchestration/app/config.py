@@ -1,10 +1,12 @@
 from functools import lru_cache
 from pydantic import BaseSettings
-from typing import Optional
 
 
 class Settings(BaseSettings):
-    fhir_converter_url: Optional[str]
+    fhir_converter_url: str
+    validation_url: str
+    message_parser_url: str
+    ingestion_url: str
 
 
 @lru_cache()
