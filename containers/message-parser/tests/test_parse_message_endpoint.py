@@ -47,6 +47,51 @@ expected_successful_response = {
     },
 }
 
+expected_successful_response_with_meta_data = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": {
+            "value": "John ",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().given.first()",
+            "data_type": "string",
+            "resource_type": "Patient",
+        },
+        "last_name": {
+            "value": "doe",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().family",
+            "data_type": "string",
+            "resource_type": "Patient",
+        },
+        "latitude": {
+            "value": None,
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient')"
+            + ".address.extension.where"
+            + "(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension."
+            + "where(url='latitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "longitude": {
+            "value": None,
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
+            + ".extension.where"
+            + "(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension"
+            + ".where(url='longitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "active_problems": {
+            "value": [],
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Condition')"
+            + ".where(category.coding.code='problem-item-list')",
+            "data_type": "array",
+            "resource_type": "Condition",
+        },
+    },
+}
+
 expected_successful_response_floats = {
     "message": "Parsing succeeded!",
     "parsed_values": {
@@ -55,6 +100,51 @@ expected_successful_response_floats = {
         "latitude": "34.58002",
         "longitude": "-118.08925",
         "active_problems": [],
+    },
+}
+
+expected_successful_response_floats_with_meta_data = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": {
+            "value": "John ",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().given.first()",
+            "data_type": "string",
+            "resource_type": "Patient",
+        },
+        "last_name": {
+            "value": "doe",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name"
+            + ".first().family",
+            "data_type": "string",
+            "resource_type": "Patient",
+        },
+        "latitude": {
+            "value": "34.58002",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
+            + ".extension"
+            + ".where(url='http://hl7.org/fhir/StructureDefinition/geolocation')"
+            + ".extension.where(url='latitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "longitude": {
+            "value": "-118.08925",
+            "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
+            + ".extension"
+            + ".where(url='http://hl7.org/fhir/StructureDefinition/geolocation')"
+            + ".extension.where(url='longitude').valueDecimal",
+            "data_type": "float",
+            "resource_type": "Patient",
+        },
+        "active_problems": {
+            "value": [],
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Condition')"
+            + ".where(category.coding.code='problem-item-list')",
+            "data_type": "array",
+            "resource_type": "Condition",
+        },
     },
 }
 
@@ -80,6 +170,32 @@ def test_parse_message_success_internal_schema():
     assert actual_response2.status_code == 200
     print(actual_response2.json())
     assert actual_response2.json() == expected_successful_response_floats
+
+
+def test_parse_message_success_internal_schema_with_metadata():
+    test_request = {
+        "message_format": "fhir",
+        "parsing_schema_name": "test_schema.json",
+        "include_metadata": "true",
+        "message": fhir_bundle,
+    }
+
+    actual_response = client.post("/parse_message", json=test_request)
+    assert actual_response.status_code == 200
+    assert actual_response.json() == expected_successful_response_with_meta_data
+
+    test_request2 = {
+        "message_format": "fhir",
+        "include_metadata": "true",
+        "parsing_schema_name": "test_schema.json",
+        "message": fhir_bundle_w_float,
+    }
+
+    actual_response2 = client.post("/parse_message", json=test_request2)
+    assert actual_response2.status_code == 200
+    print("******")
+    print(str(actual_response2.json()))
+    assert actual_response2.json() == expected_successful_response_floats_with_meta_data
 
 
 def test_parse_message_success_external_schema():

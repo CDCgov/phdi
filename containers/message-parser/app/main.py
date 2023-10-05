@@ -7,6 +7,7 @@ import os
 from app.utils import (
     load_parsing_schema,
     get_parsers,
+    get_metadata,
     convert_to_fhir,
     get_credential_manager,
     search_for_required_values,
@@ -15,7 +16,6 @@ from app.utils import (
 )
 from app.config import get_settings
 import json
-from icecream import ic
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -182,9 +182,10 @@ async def parse_message_endpoint(
     # 4. Extract desired fields from message by applying each parser.
     parsed_values = {}
     for field, parser in parsers.items():
-        ic(field)
+        # ic(parsing_schema[field]["fhir_path"])
+        # ic(field)
         if "secondary_parsers" not in parser:
-            ic(parser)
+            # ic(parser)
             value = parser["primary_parser"](input.message)
             if len(value) == 0:
                 value = None
@@ -207,7 +208,8 @@ async def parse_message_endpoint(
                         )
                 values.append(value)
             parsed_values[field] = values
-
+    if input.include_metadata == "true":
+        parsed_values = get_metadata(parsed_values, parsing_schema)
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
 

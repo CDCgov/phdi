@@ -12,6 +12,7 @@ from phdi.transport.http import http_request_with_retry
 from phdi.cloud.azure import AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCredentialManager
+import re
 
 
 @cache
@@ -97,6 +98,34 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
     return frozendict(parsers)
+
+
+def get_metadata(parsed_values: dict, schema):
+    data = {}
+    for key, value in parsed_values.items():
+        if key not in schema:
+            data[key] = field_metadata(value=value)
+        else:
+            fhir_path = schema[key]["fhir_path"] if "fhir_path" in schema[key] else ""
+            match = re.search(r"resourceType\s*=\s*'([^']+)'", fhir_path)
+            resource_type = match.group(1) if match and match.group(1) else ""
+            data_type = schema[key]["data_type"] if "data_type" in schema[key] else ""
+            data[key] = field_metadata(
+                value=value,
+                fhir_path=fhir_path,
+                data_type=data_type,
+                resource_type=resource_type,
+            )
+    return data
+
+
+def field_metadata(value="", fhir_path="", data_type="", resource_type=""):
+    return {
+        "value": value,
+        "fhir_path": fhir_path,
+        "data_type": data_type,
+        "resource_type": resource_type,
+    }
 
 
 def search_for_required_values(input: dict, required_values: list) -> str:

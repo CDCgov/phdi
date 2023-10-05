@@ -11,6 +11,8 @@ from app.utils import (
     search_for_required_values,
     convert_to_fhir,
     freeze_parsing_schema,
+    field_metadata,
+    get_metadata,
 )
 from app.config import get_settings
 
@@ -170,3 +172,49 @@ def test_freeze_parsing_schema():
     for key in test_schema:
         for subkey in test_schema[key]:
             assert test_schema[key][subkey] == frozen_schema[key][subkey]
+
+
+def test_field_metadata():
+    expected_result = {
+        "value": "foo",
+        "fhir_path": "bar",
+        "data_type": "biz",
+        "resource_type": "baz",
+    }
+    assert (
+        field_metadata(
+            value="foo", fhir_path="bar", data_type="biz", resource_type="baz"
+        )
+        == expected_result
+    )
+    expected_result2 = {
+        "value": "",
+        "fhir_path": "",
+        "data_type": "",
+        "resource_type": "",
+    }
+    assert field_metadata() == expected_result2
+
+
+def test_get_metadata():
+    example_parsed_values = {"foo": "bar", "fiz": "biz", "baz": "Null"}
+    example_schema = {
+        "foo": {
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Foo').biz",
+            "data_type": "string",
+            "nullable": False,
+        },
+        "baz": {},
+    }
+    expected_result = {
+        "foo": {
+            "value": "bar",
+            "fhir_path": "Bundle.entry.resource.where(resourceType='Foo').biz",
+            "data_type": "string",
+            "resource_type": "Foo",
+        },
+        "fiz": {"value": "biz", "fhir_path": "", "data_type": "", "resource_type": ""},
+        "baz": {"value": "Null", "fhir_path": "", "data_type": "", "resource_type": ""},
+    }
+    result = get_metadata(parsed_values=example_parsed_values, schema=example_schema)
+    assert result == expected_result
