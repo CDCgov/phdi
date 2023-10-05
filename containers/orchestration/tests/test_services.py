@@ -41,7 +41,9 @@ def test_ingestion_payload():
     }
     config = {
         "configurations": {
-            "standardization_and_geocoding": {"geocode_method": "code_method"}
+            "ingestion": {
+                "standardization_and_geocoding": {"geocode_method": "code_method"}
+            }
         }
     }
 
