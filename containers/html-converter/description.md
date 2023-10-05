@@ -22,7 +22,7 @@ Congratulations, the HTML Insights app should now be running on `localhost:8080`
 
 #### Running from Node.js Source Code
 
-We recommend running the HTML Insights app from a container, but if that is not feasible for a given use-case, it may also be run directly from Python using the steps below.
+We recommend running the HTML Insights app from a container, but if that is not feasible for a given use-case, it may also be run directly from Node using the steps below.
 
 1. Ensure that both Git and Node 18.x or higher are installed.
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
@@ -37,7 +37,3 @@ To build the Docker image for the HTML Insights app from source instead of downl
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/html-converter/`.
 4. Run `docker build -t html-converter .`.
-
-### The API 
-
-When viewing these docs from the `/redoc` endpoint on a running instance of the HTML Insights app or the PHDI website, detailed documentation on the API will be available below. 
