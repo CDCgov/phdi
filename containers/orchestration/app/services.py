@@ -79,8 +79,6 @@ def call_apis(
     for step in config["steps"]:
         service = step["service"]
         endpoint = step["endpoint"]
-        print(f"Service: {service}")
-        print(f"Endpoint: {endpoint}")
         f = f"{service}_payload"
         if f in globals() and callable(globals()[f]) and service_urls[service]:
             function_to_call = globals()[f]
@@ -91,7 +89,6 @@ def call_apis(
             print(f"Url: {url}")
             response = post_request(url, payload)
             print(f"Status Code: {response.status_code}")
-            print(f"Response: {response}")
             responses[endpoint] = response
         else:
             raise HTTPException(
