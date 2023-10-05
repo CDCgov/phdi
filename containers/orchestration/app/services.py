@@ -40,7 +40,7 @@ def ingestion_payload(**kwargs) -> dict:
     elif "geocode" in endpoint:
         data = {
             "bundle": r["bundle"],
-            "geocode_method": config["configurations"]["standardization_and_geocoding"][
+            "geocode_method": config["configurations"]["ingestion"]["standardization_and_geocoding"][
                 "geocode_method"
             ],
             "smarty_auth_id": os.environ.get("SMARTY_AUTH_ID"),
