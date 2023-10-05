@@ -14,6 +14,7 @@ from phdi.linkage.utils import (
     get_patient_identifiers,
 )
 from phdi.linkage.dal import DataAccessLayer
+from phdi.fhir.utils import extract_value_with_resource_path
 
 
 class PGMPIConnectorClient(BaseMPIConnectorClient):
@@ -40,6 +41,61 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             engine_url=f"postgresql+psycopg2://{dbuser}:"
             + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
         )
+
+        self.column_to_fhirpaths = {
+            "patient": {
+                "root_path": "Patient",
+                "fields": {
+                    "patient_id": "id",
+                    "dob": "birthDate",
+                    "sex": "gender",
+                    "race": "extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
+                    "ethnicity": "extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
+                },
+            },
+            "name": {
+                "root_path": "Patient.name",
+                "fields": {
+                    "last_name": "family",
+                    "given_name": "given",
+                    "type": "use",
+                },
+            },
+            "phone_number": {
+                "root_path": "Patient.telecom.where(system = 'phone')",
+                "fields": {
+                    "phone_number": "value",
+                    "start_date": "period.start",
+                    "end_date": "period.end",
+                    "type": "use",
+                },
+            },
+            "address": {
+                "root_path": "Patient.address",
+                "fields": {
+                    "line_1": "line[0]",
+                    "line_2": "line[1]",
+                    "city": "city",
+                    "state": "state",
+                    "zip_code": "postalCode",
+                    "country": "country",
+                    "latitude": "extension.where(url = 'http://hl7.org/fhir/StructureDefinition/geolocation').extension.latitude",
+                    "longitude": "extension.where(url = 'http://hl7.org/fhir/StructureDefinition/geolocation').extension.longitude",
+                    "type": "use",
+                    "start_date": "period.start",
+                    "end_date": "period.end",
+                },
+                "identifier": {
+                    "root_path": "Patient.identifier",
+                    "fields": {
+                        "value": "value",
+                        "type_code": "type.coding[0].code",
+                        "type_display": "type.coding[0].display",
+                        "type_system": "type.coding[0].system",
+                    },
+                },
+            },
+        }
 
     def _initialize_schema(self):
         self.dal.initialize_schema()
@@ -79,7 +135,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         )
 
         blocked_data = self.dal.select_results(
-            select_stmt=query_w_ctes, include_col_header=True
+            select_statement=query_w_ctes, include_col_header=True
         )
 
         return blocked_data
@@ -114,7 +170,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             mpi_records = self._get_mpi_records(patient_resource)
 
             return_results = self.dal.bulk_insert_dict(
-                records_with_table=mpi_records, return_pks=True
+                records_with_table=mpi_records, return_primary_keys=True
             )
 
         except Exception as error:  # pragma: no cover
@@ -359,90 +415,35 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if patient_resource["resourceType"] != "Patient":
             return records
 
-        patient = {
-            "person_id": patient_resource.get("person"),
-            "dob": patient_resource.get("birthdate"),
-            "sex": patient_resource.get("gender"),
-            "race": get_patient_race(patient_resource),
-            "ethnicity": get_patient_ethnicity(patient_resource),
-        }
-        new_patient_id = self.dal.single_insert(
-            table_name="patient",
-            record=patient,
-            return_pk=True,
-            return_full=False,
-        )
-        patient_ids = []
-        for pat_id in get_patient_identifiers(patient_resource):
-            ident = {
-                "patient_id": new_patient_id,
-                "value": pat_id.get("value"),
-                "type_code": pat_id.get("type").get("coding")[0].get("code"),
-                "type_display": pat_id.get("type").get("coding")[0].get("display"),
-                "type_system": pat_id.get("type").get("coding")[0].get("system"),
-            }
-            patient_ids.append(ident)
-        records["identifier"] = {"records": patient_ids}
+        for table in column_to_fhirpaths.keys():
+            table_dict = column_to_fhirpaths.get(table)
+            table_fields = table_dict.get("fields")
 
-        phones = []
-        for pat_phone in get_patient_phones(patient_resource):
-            pat_phone_period = pat_phone.get("period")
-            phn = {
-                "patient_id": new_patient_id,
-                "phone_number": pat_phone.get("value"),
-                "type": pat_phone.get("use"),
-            }
-            if pat_phone_period is not None:
-                phn["start_date"] = pat_phone_period.get("start")
-                phn["end_date"] = pat_phone_period.get("end")
-
-            phones.append(phn)
-        records["phone_number"] = {"records": phones}
-
-        addresses = []
-        for pat_addr in get_patient_addresses(patient_resource):
-            addr_period = pat_addr.get("period")
-            addr_dict = {"address": pat_addr}
-            addr_lines = get_address_lines(addr_dict)
-            addr = {
-                "patient_id": new_patient_id,
-                "line_1": addr_lines[0],
-                "line_2": addr_lines[1],
-                "city": pat_addr.get("city"),
-                "zip_code": pat_addr.get("state"),
-                "country": pat_addr.get("country"),
-                "latitude": get_geo_latitude(addr_dict),
-                "longitude": get_geo_longitude(addr_dict),
-                "type": pat_addr.get("use"),
-            }
-            if pat_phone_period is not None:
-                addr["start_date"] = addr_period.get("start")
-                addr["end_date"] = addr_period.get("end")
-            addresses.append(addr)
-        records["address"] = {"records": addresses}
-
-        given_names = []
-        for pat_name in get_patient_names(patient_resource):
-            given_names = []
-            name_rec = {
-                "patient_id": new_patient_id,
-                "last_name": pat_name.get("family"),
-                "type": pat_name.get("use"),
-            }
-            new_name_id = self.dal.single_insert(
-                table_name="name",
-                record=name_rec,
-                return_pk=True,
-                return_full=False,
+            # Parse root path
+            root = extract_value_with_resource_path(
+                patient_resource, table_dict.get("root_path"), selection_criteria="all"
             )
-            for name_index, gname in enumerate(pat_name.get("given")):
-                gname_rec = {
-                    "name_id": new_name_id,
-                    "given_name": gname,
-                    "given_name_index": name_index,
-                }
-                given_names.append(gname_rec)
-        records["given_name"] = {"records": given_names}
+            # Parse fields
+            table_records = []
+            for element in root:
+                record = {}
+                for field in table_fields.keys():
+                    selection_criteria = "first"
+                    if field == "given_name":
+                        selection_criteria = "all"
+
+                    value = extract_value_with_resource_path(
+                        element,
+                        table_fields.get(field),
+                        selection_criteria=selection_criteria,
+                    )
+
+                    record[field] = value
+
+                table_records.append(record)
+
+            records[table] = table_records
+
         return records
 
     def _get_person_id(
@@ -458,18 +459,16 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         If an external person id is supplied then check if there is an
         external person record created for this external person id.
         If the external person record exists then verify that the person id,
-        either supplied or newly created, exists in the external person record.
-        If the person id supplied, or newly created, does not exist then create
-        a new external person record with a link to the person id.
-        If the external person record does exist and matches the person id,
+        either supplied or newly created, is linked to the external person record.
+        If the person id supplied, or newly created, is not linked in the found
+        external person record then create a new external person record using
+        the supplied external person id and the person id (either supplied
+        or newly created).
+        If the external person record does exist and is linked to the person id,
         either supplied or newly created, then just return the person id.
-        If the external person record does not exist, then create a new
-        external person record linked to the person id, either supplied or
-        newly created.  Then return the person id.
-
-        :param external_person_id: The external person id
-        :param person_id: The person id
-        :return: The found or newly created person id
+        If an external person record does not exist with the supplied external
+        person id then create a new external person record and link it to the
+        the person id, either supplied or newly created.  Then return the person id.
         """
         if person_id is None:
             new_person_id = self._insert_person()
@@ -479,9 +478,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if external_person_id is None:
             return new_person_id
 
-        query = select(self.dal.EXT_PERSON_TABLE).where(
+        query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
             text(
-                f"{self.dal.EXT_PERSON_TABLE.name}.external_person_id"
+                f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
                 + f" = '{external_person_id}'"
             )
         )
@@ -539,7 +538,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         person_id = self.dal.single_insert(
             table_name="person",
             record=person_record,
-            return_pk=True,
+            return_primary_key=True,
             return_full=False,
         )
         return person_id

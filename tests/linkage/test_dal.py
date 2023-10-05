@@ -76,8 +76,8 @@ def test_get_connection():
     assert dal.ID_TABLE is None
     assert dal.PHONE_TABLE is None
     assert dal.ADDRESS_TABLE is None
-    assert dal.EXT_PERSON_TABLE is None
-    assert dal.EXT_SOURCE_TABLE is None
+    assert dal.EXTERNAL_PERSON_TABLE is None
+    assert dal.EXTERNAL_SOURCE_TABLE is None
 
 
 def test_initialize_schema():
@@ -95,8 +95,8 @@ def test_initialize_schema():
     assert isinstance(dal.ID_TABLE, Table)
     assert isinstance(dal.PHONE_TABLE, Table)
     assert isinstance(dal.ADDRESS_TABLE, Table)
-    assert isinstance(dal.EXT_PERSON_TABLE, Table)
-    assert isinstance(dal.EXT_SOURCE_TABLE, Table)
+    assert isinstance(dal.EXTERNAL_PERSON_TABLE, Table)
+    assert isinstance(dal.EXTERNAL_SOURCE_TABLE, Table)
 
 
 def test_bulk_insert_dict():
@@ -261,7 +261,7 @@ def test_single_insert():
     pk = dal.single_insert(
         table_name="patient",
         record=pt1,
-        return_pk=True,
+        return_primary_key=True,
         return_full=False,
     )
     assert pk is not None
@@ -269,7 +269,7 @@ def test_single_insert():
     pk2 = dal.single_insert(
         table_name="patient",
         record=pt2,
-        return_pk=False,
+        return_primary_key=False,
         return_full=False,
     )
     assert pk2 is None
@@ -282,9 +282,9 @@ def test_single_insert():
     assert results[1][3] == "male"
     assert results[2][3] == "female"
 
-    pk3 = dal.single_insert(table_name="phone", record={}, return_pk=True)
+    pk3 = dal.single_insert(table_name="phone", record={}, return_primary_key=True)
     assert pk3 is None
-    pk4 = dal.single_insert(table_name=None, record={}, return_pk=True)
+    pk4 = dal.single_insert(table_name=None, record={}, return_primary_key=True)
     assert pk4 is None
 
     _clean_up(dal)
@@ -327,13 +327,13 @@ def test_select_results():
     pk = dal.single_insert(
         table_name="patient",
         record=pt1,
-        return_pk=True,
+        return_primary_key=True,
         return_full=False,
     )
     pk2 = dal.single_insert(
         table_name="patient",
         record=pt2,
-        return_pk=True,
+        return_primary_key=True,
         return_full=False,
     )
     mpi = PGMPIConnectorClient()
@@ -341,8 +341,7 @@ def test_select_results():
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
-    results = dal.select_results(select_stmt=blocked_data_query)
-
+    results = dal.select_results(select_statement=blocked_data_query)
     # ensure blocked data has two rows, headers and data
     assert len(results) == 2
     assert results[0][0] == "patient_id"
@@ -354,7 +353,7 @@ def test_select_results():
     assert results[1][3] == "male"
 
     results2 = dal.select_results(
-        select_stmt=blocked_data_query, include_col_header=False
+        select_statement=blocked_data_query, include_col_header=False
     )
 
     # ensure blocked data has one row, just the data
@@ -373,28 +372,35 @@ def test_bulk_insert_list():
         "dob": "1977-11-11",
         "sex": "male",
         "race": "UNK",
-        "ethnicity": "UNK",
+        "ethnicity": "Pacific Islander",
     }
     pt2 = {
-        "person_id": None,
+        "person_id": "028b16d9-3055-40a8-a87f-f2bcf8c21a56",
         "dob": "1988-01-01",
         "sex": "female",
-        "race": "UNK",
+        "race": "White",
         "ethnicity": "UNK",
     }
+    dal.bulk_insert_list(
+        dal.PERSON_TABLE, [{"person_id": "028b16d9-3055-40a8-a87f-f2bcf8c21a56"}]
+    )
     pat_data = [pt1, pt2]
     pk_list = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data, True)
 
     assert len(pk_list) == 2
 
     results = dal.select_results(select(dal.PATIENT_TABLE))
+    print(results)
     assert len(results) == 3
     assert results[0][0] == "patient_id"
     assert results[1][0] == pk_list[0]
     assert results[2][0] == pk_list[1]
     assert results[0][3] == "sex"
-    assert results[1][3] == "male"
-    assert results[2][3] == "female"
+    assert results[1][3] == pt1.get("sex")
+    assert results[2][3] == pt2.get("sex")
+    assert str(results[2][1]) == pt2.get("person_id")
+    assert results[2][4] == pt2.get("race")
+    assert results[1][5] == pt1.get("ethnicity")
 
     pat_data2 = [pt1, pt2]
     pk_list2 = dal.bulk_insert_list(dal.PATIENT_TABLE, pat_data2, False)

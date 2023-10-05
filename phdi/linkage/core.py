@@ -17,7 +17,7 @@ class BaseMPIConnectorClient(ABC):
         """
         Returns a list of lists containing records from the MPI database that
         match on the incoming record's block criteria and values. If blocking
-        on 'ZIP' and the incoming record's ip code is '90210', the resulting
+        on 'ZIP' and the incoming record's zip code is '90210', the resulting
         block of data would contain records that all
         have the same zip code of 90210.
 
@@ -56,13 +56,15 @@ class BaseMPIConnectorClient(ABC):
         If an external person id is supplied then check if there is an
         external person record created for this external person id.
         If the external person record exists then verify that the person id,
-        either supplied or newly created, exists in the external person record.
-        If the person id supplied, or newly created, does not exist then create
-        a new external person record with a link to the person id.
-        If the external person record does exist and matches the person id,
+        either supplied or newly created, is linked to the external person record.
+        If the person id supplied, or newly created, is not linked in the found
+        external person record then create a new external person record using
+        the supplied external person id and the person id (either supplied
+        or newly created).
+        If the external person record does exist and is linked to the person id,
         either supplied or newly created, then just return the person id.
-        If the external person record does not exist, then create a new
-        external person record linked to the person id, either supplied or
-        newly created.  Then return the person id.
+        If an external person record does not exist with the supplied external
+        person id then create a new external person record and link it to the
+        the person id, either supplied or newly created.  Then return the person id.
         """
         pass  # pragma: no cover
