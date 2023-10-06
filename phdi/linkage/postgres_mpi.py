@@ -4,6 +4,7 @@ from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
+import uuid
 
 
 class PGMPIConnectorClient(BaseMPIConnectorClient):
@@ -393,6 +394,26 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         )
         return query
 
+    def _extract_given_names(given_names: list) -> dict:
+        """
+        Separates given_name into it's own table and creates the given_name_index
+        ahead of inserting the table into the MPI.
+
+        :param given_names: List of given names.
+        :return: List of dictionaries containing entries for the given_name table with
+            1 given name and index per row as well as an associated given_name_id.
+        """
+        table_records = []
+        given_name_id = uuid.uuid4()
+        for idx, name in enumerate(given_names):
+            record = {
+                "given_name_id": given_name_id,
+                "given_name": name,
+                "given_name_index": idx,
+            }
+            table_records.append(record)
+        return table_records
+
     def _get_mpi_records(self, patient_resource: dict) -> dict:
         """
         Generates a dictionary with the different MPI Table
@@ -437,7 +458,15 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                         table_fields.get(field),
                         selection_criteria=selection_criteria,
                     )
-
+                    # Create given_name table in records
+                    if field == "given_name":
+                        given_name_table_records = self._extract_given_names(value)
+                        if field not in records.keys():
+                            records[field] = given_name_table_records
+                        else:
+                            for given_name_table_record in given_name_table_records:
+                                records[field].append(given_name_table_record)
+                        continue
                     record[field] = value
 
                 table_records.append(record)
