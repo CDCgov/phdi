@@ -177,8 +177,6 @@ async def parse_message_endpoint(
             }
 
     # 3. Generate parsers for FHIRpaths specified in schema.
-    print("***(*(*(*&(*&()))))")
-    print(type(parsing_schema))
     parsers = get_parsers(parsing_schema)
 
     # 4. Extract desired fields from message by applying each parser.
