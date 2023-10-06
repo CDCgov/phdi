@@ -1,18 +1,7 @@
 from typing import List, Dict, Union
 from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
-from phdi.linkage.utils import (
-    get_address_lines,
-    get_geo_latitude,
-    get_geo_longitude,
-    get_patient_addresses,
-    get_patient_names,
-    get_patient_phones,
-    load_mpi_env_vars_os,
-    get_patient_ethnicity,
-    get_patient_race,
-    get_patient_identifiers,
-)
+from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
 
@@ -49,8 +38,14 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     "patient_id": "id",
                     "dob": "birthDate",
                     "sex": "gender",
-                    "race": "extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
-                    "ethnicity": "extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
+                    "race": """
+                        extension.where(url =
+                         'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')
+                        .extension.valueCoding.display""",
+                    "ethnicity": """
+                    extension.where(url =
+                     'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')
+                    .extension.valueCoding.display""",
                 },
             },
             "name": {
@@ -79,8 +74,13 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     "state": "state",
                     "zip_code": "postalCode",
                     "country": "country",
-                    "latitude": "extension.where(url = 'http://hl7.org/fhir/StructureDefinition/geolocation').extension.latitude",
-                    "longitude": "extension.where(url = 'http://hl7.org/fhir/StructureDefinition/geolocation').extension.longitude",
+                    "latitude": """
+                        extension.where(url =
+                          'http://hl7.org/fhir/StructureDefinition/geolocation')
+                        .extension.latitude""",
+                    "longitude": """extension.where(url =
+                          'http://hl7.org/fhir/StructureDefinition/geolocation')
+                          .extension.longitude""",
                     "type": "use",
                     "start_date": "period.start",
                     "end_date": "period.end",
@@ -415,8 +415,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if patient_resource["resourceType"] != "Patient":
             return records
 
-        for table in column_to_fhirpaths.keys():
-            table_dict = column_to_fhirpaths.get(table)
+        for table in self.column_to_fhirpaths.keys():
+            table_dict = self.column_to_fhirpaths.get(table)
             table_fields = table_dict.get("fields")
 
             # Parse root path
