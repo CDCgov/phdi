@@ -394,26 +394,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         )
         return query
 
-    def _extract_given_names(given_names: list) -> dict:
-        """
-        Separates given_name into it's own table and creates the given_name_index
-        ahead of inserting the table into the MPI.
-
-        :param given_names: List of given names.
-        :return: List of dictionaries containing entries for the given_name table with
-            1 given name and index per row as well as an associated given_name_id.
-        """
-        table_records = []
-        given_name_id = uuid.uuid4()
-        for idx, name in enumerate(given_names):
-            record = {
-                "given_name_id": given_name_id,
-                "given_name": name,
-                "given_name_index": idx,
-            }
-            table_records.append(record)
-        return table_records
-
     def _get_mpi_records(self, patient_resource: dict) -> dict:
         """
         Generates a dictionary with the different MPI Table
@@ -474,6 +454,26 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             records[table] = table_records
 
         return records
+
+    def _extract_given_names(self, given_names: list) -> dict:
+        """
+        Separates given_name into it's own table and creates the given_name_index
+        ahead of inserting the table into the MPI.
+
+        :param given_names: List of given names.
+        :return: List of dictionaries containing entries for the given_name table with
+            1 given name and index per row as well as an associated given_name_id.
+        """
+        table_records = []
+        given_name_id = uuid.uuid4()
+        for idx, name in enumerate(given_names):
+            record = {
+                "given_name_id": given_name_id,
+                "given_name": name,
+                "given_name_index": idx,
+            }
+            table_records.append(record)
+        return table_records
 
     def _get_person_id(
         self,

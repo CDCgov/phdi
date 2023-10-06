@@ -397,7 +397,7 @@ def test_insert_matched_patient():
     _clean_up(MPI.dal)
 
 
-def test_get_person():
+def test_get_person_id():
     MPI = _init_db()
     result = MPI._get_person_id(person_id=None, external_person_id=None)
     assert result is not None
@@ -513,3 +513,28 @@ def test_generate_dict_record_from_results():
     assert records[1]["patient_id"] == pk_list[1]
 
     _clean_up(MPI.dal)
+
+
+def test_extract_given_names():
+    MPI = _init_db()
+    given_names = ["John", "Juan", "Jean"]
+    given_name_records = MPI._extract_given_names(given_names)
+
+    assert len(given_name_records) == 3
+
+    given_name_id = given_name_records[0]["given_name_id"]
+    for idx, record in enumerate(given_name_records):
+        assert record["given_name_id"] == given_name_id
+        assert record["given_name_index"] == idx
+
+    given_names2 = ["William", "Guillermo", "Guillaume"]
+
+    given_names_log = []
+    for names in [given_names, given_names2]:
+        given_name_records = MPI._extract_given_names(names)
+        given_names_log.append(given_name_records)
+    # Check that the 2 sets of given names were associated differently
+    assert len(given_names_log) == 2
+    assert (
+        given_names_log[0][0]["given_name_id"] != given_names_log[1][0]["given_name_id"]
+    )
