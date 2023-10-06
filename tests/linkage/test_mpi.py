@@ -4,7 +4,7 @@ import os
 import pathlib
 import re
 import pytest
-
+import uuid
 from sqlalchemy import Select, select, text
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
@@ -518,7 +518,8 @@ def test_generate_dict_record_from_results():
 def test_extract_given_names():
     MPI = _init_db()
     given_names = ["John", "Juan", "Jean"]
-    given_name_records = MPI._extract_given_names(given_names)
+    name_id = uuid.uuid4()
+    given_name_records = MPI._extract_given_names(given_names, name_id)
 
     assert len(given_name_records) == 3
 
@@ -528,10 +529,10 @@ def test_extract_given_names():
         assert record["given_name_index"] == idx
 
     given_names2 = ["William", "Guillermo", "Guillaume"]
-
+    name_id2 = uuid.uuid4()
     given_names_log = []
-    for names in [given_names, given_names2]:
-        given_name_records = MPI._extract_given_names(names)
+    for names, ids in zip([given_names, given_names2], [name_id, name_id2]):
+        given_name_records = MPI._extract_given_names(names, ids)
         given_names_log.append(given_name_records)
     # Check that the 2 sets of given names were associated differently
     assert len(given_names_log) == 2
