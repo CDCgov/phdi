@@ -165,6 +165,10 @@ class DataAccessLayer(object):
             the SQLAlchemy table object 'table' to insert into
             along with a list of dictionaries as records to
             insert into the specified table
+            eg. {
+            "patient": [{"patient_id": UUID()}],
+            "address": [{"line_1": "1313 Mocking Bird Lane, "city": "Scranton"},]
+            }
         :param return_primary_keys: boolean indicating if you want the inserted
             primary keys for the table returned or not, defaults to False
         :return: a dictionary that contains table names as keys
