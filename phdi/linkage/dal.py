@@ -116,67 +116,6 @@ class DataAccessLayer(object):
         finally:
             session.close()
 
-    def single_insert(
-        self,
-        table_name: str,
-        record: dict,
-        return_primary_key: bool = False,
-        return_full: bool = False,
-    ) -> list:
-        """
-        Perform a single insert operation on a table for a record.
-         One can have the primary key for the insert returned by
-         using the return_pk parameter or return the full newly
-         created record.
-
-        :param table_name: the name of the table, that will
-            retrieve the SQLAlchemy table object, to insert into
-        :param record: a record as a dictionary
-        :param return_primary_key: boolean indicating if you want the inserted
-            primary key for the table returned or not, defaults to False
-        :param return_full: boolean indicating if you want the newly
-            inserted record for the table returned or not, defaults to False
-        :return: a primary key or the full new record or None
-        """
-
-        new_primary_key = None
-        table = self.get_table_by_name(table_name)
-        if len(record.items()) > 0 and table is not None:
-            primary_key_column = table.primary_key.c[0]
-            with self.transaction() as session:
-                if table_name == "person":
-                    record = {}
-                if return_primary_key or return_full:
-                    statement = (
-                        table.insert().values(record).returning(primary_key_column)
-                    )
-                    # TODO: leaving this logic here
-                    # as we may be able to leverage ctes
-                    # for inserts in the future to insert
-                    # multiple records in different tables at once
-                    # and get the pk back to be used as the fk
-                    # in the folllowing insert statement
-                    #     stmt = (
-                    #         table.insert()
-                    #         .values(record)
-                    #         .where(~exists(cte_query.select()))
-                    #         .returning(pk_column)
-                    #     )
-                    primary_key = session.execute(statement)
-
-                    if return_full:
-                        new_primary_key = primary_key.first()
-                    elif return_primary_key:
-                        # TODO: I don't like this, but seems to
-                        # be one of the only ways to get this to work
-                        #  I have tried using the column name from the
-                        # PK defined in the table and that doesn't work
-                        new_primary_key = primary_key.first()[0]
-                else:
-                    statement = table.insert().values(record)
-                    session.execute(statement)
-        return new_primary_key
-
     def bulk_insert_list(
         self, table: Table, records: list[dict], return_primary_keys: bool = True
     ) -> list:
@@ -235,7 +174,6 @@ class DataAccessLayer(object):
         for table, records in records_with_table.items():
             new_primary_keys = []
             table = self.get_table_by_name(table)
-            records = records.get("records")
             if table is not None and records is not None and len(records) > 0:
                 new_primary_keys = self.bulk_insert_list(
                     table, records, return_primary_keys

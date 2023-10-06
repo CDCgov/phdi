@@ -1,3 +1,4 @@
+import copy
 from typing import List, Dict, Union
 from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -37,6 +38,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 "root_path": "Patient",
                 "fields": {
                     "patient_id": "id",
+                    "person_id": "person",
                     "dob": "birthDate",
                     "sex": "gender",
                     "race": """
@@ -466,8 +468,20 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 table_records.append(record)
 
             records[table] = table_records
+            sorted_records = self._sort_mpi_records(records)
 
-        return records
+        return sorted_records
+
+    def _sort_mpi_records(self, mpi_records: dict) -> dict:
+        sorted_records = {
+            "patient": mpi_records.get("patient"),
+            "name": mpi_records.get("name"),
+            "given_name": mpi_records.get("given_name"),
+            "identifier": mpi_records.get("identifier"),
+            "phone_number": mpi_records.get("phone_number"),
+            "address": mpi_records.get("address"),
+        }
+        return sorted_records
 
     def _extract_given_names(self, given_names: list, name_id: uuid) -> dict:
         """
@@ -547,7 +561,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 "external_person_id": external_person_id,
                 "external_source_id": None,
             }
-            self.dal.single_insert("external_person", new_external_person_record)
+            self.dal.bulk_insert_list(
+                self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
+            )
         return new_person_id
 
     def _generate_dict_record_from_results(
@@ -584,11 +600,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         :return: The newly created person id.
         """
-        person_record = {"person_id": None}
-        person_id = self.dal.single_insert(
-            table_name="person",
-            record=person_record,
-            return_primary_key=True,
-            return_full=False,
+        person_record = {}
+        person_id = self.dal.bulk_insert_list(
+            self.dal.PERSON_TABLE, [person_record], True
         )
-        return person_id
+        return person_id[0]

@@ -1,6 +1,5 @@
 {
   "resourceType": "Patient",
-  "id": "some-uuid",
   "identifier": [
     {
       "value": "123456",
