@@ -78,7 +78,6 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
     :return: A dictionary containing a FHIRpath parsers for each field in the provided
     schema.
     """
-    print("***HELLO***")
     parsers = {}
 
     for field, field_definiton in extraction_schema.items():
@@ -94,7 +93,6 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
                 )
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
-    print(f"{parsers}")
     return frozendict(parsers)
 
 
