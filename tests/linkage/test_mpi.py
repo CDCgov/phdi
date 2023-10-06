@@ -538,3 +538,64 @@ def test_extract_given_names():
     assert (
         given_names_log[0][0]["given_name_id"] != given_names_log[1][0]["given_name_id"]
     )
+
+
+def test_get_mpi_records():
+    MPI = _init_db()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource")
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ][:2]
+
+    # Success
+    records_for_insert = MPI._get_mpi_records(patients[0])
+    assert isinstance(records_for_insert, dict)
+    assert "given_name" in records_for_insert.keys()
+    assert len(records_for_insert["given_name"]) == 2
+
+    # Non-patient resource
+    patients[0]["resourceType"] = "Not Patient"
+    records_for_insert = MPI._get_mpi_records(patients[0])
+    assert bool(records_for_insert) is False
+
+    # Multiple names in a single resource
+    second_name = {
+        "family": "Sheperd",
+        "given": ["John", "Tiberius"],
+        "use": "official",
+    }
+    patients[1]["name"].append(second_name)
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert len(records_for_insert["given_name"]) == 4
+
+    # Multiple names in a single resource with some values missing
+    third_name = {
+        "family": None,
+        "given": ["John", "Tiberius"],
+        "use": "official",
+    }
+    patients[1]["name"].append(third_name)
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert len(records_for_insert["name"]) == 3
+    assert len(records_for_insert["given_name"]) == 6
+
+    # Multiple names in a single resource with some values missing
+    fourth_name = {
+        "family": None,
+        "use": "official",
+    }
+    patients[1]["name"].append(fourth_name)
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert len(records_for_insert["name"]) == 4
+    assert len(records_for_insert["given_name"]) == 7

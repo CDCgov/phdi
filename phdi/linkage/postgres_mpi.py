@@ -466,11 +466,19 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         """
         table_records = []
         given_name_id = uuid.uuid4()
-        for idx, name in enumerate(given_names):
+        if given_names is not None:
+            for idx, name in enumerate(given_names):
+                record = {
+                    "given_name_id": given_name_id,
+                    "given_name": name,
+                    "given_name_index": idx,
+                }
+                table_records.append(record)
+        else:
             record = {
                 "given_name_id": given_name_id,
-                "given_name": name,
-                "given_name_index": idx,
+                "given_name": None,
+                "given_name_index": 0,
             }
             table_records.append(record)
         return table_records
