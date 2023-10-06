@@ -56,6 +56,7 @@ expected_successful_response_with_meta_data = {
             + ".first().given.first()",
             "data_type": "string",
             "resource_type": "Patient",
+            "category": "name",
         },
         "last_name": {
             "value": "doe",
@@ -112,6 +113,7 @@ expected_successful_response_floats_with_meta_data = {
             + ".first().given.first()",
             "data_type": "string",
             "resource_type": "Patient",
+            "category": "name",
         },
         "last_name": {
             "value": "doe",

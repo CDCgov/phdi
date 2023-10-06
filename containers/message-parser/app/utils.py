@@ -52,19 +52,16 @@ def freeze_parsing_schema(parsing_schema: dict) -> frozendict:
     :param parsing_schema: A dictionary containing a parsing schema.
     :return: A frozen dictionary containing the parsing schema.
     """
-    for field, field_definition in parsing_schema.items():
-        if "secondary_schema" in field_definition:
-            for secondary_field, secondary_field_definition in field_definition[
-                "secondary_schema"
-            ].items():
-                field_definition["secondary_schema"][secondary_field] = frozendict(
-                    secondary_field_definition
-                )
-            field_definition["secondary_schema"] = frozendict(
-                field_definition["secondary_schema"]
-            )
-        parsing_schema[field] = frozendict(field_definition)
-    return frozendict(parsing_schema)
+    return freeze_parsing_schema_helper(parsing_schema)
+
+
+# Recursive function to freeze sub dictionaries in the schema
+def freeze_parsing_schema_helper(schema: dict) -> frozendict:
+    if type(schema) is dict:
+        for key, value in schema.items():
+            if type(value) is dict:
+                schema[key] = freeze_parsing_schema_helper(value)
+        return frozendict(schema)
 
 
 # Using frozendict here to have an immutable that can be hashed for caching purposes.
@@ -81,7 +78,7 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
     :return: A dictionary containing a FHIRpath parsers for each field in the provided
     schema.
     """
-
+    print("***HELLO***")
     parsers = {}
 
     for field, field_definiton in extraction_schema.items():
@@ -97,6 +94,7 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
                 )
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
+    print(f"{parsers}")
     return frozendict(parsers)
 
 
@@ -110,22 +108,29 @@ def get_metadata(parsed_values: dict, schema):
             match = re.search(r"resourceType\s*=\s*'([^']+)'", fhir_path)
             resource_type = match.group(1) if match and match.group(1) else ""
             data_type = schema[key]["data_type"] if "data_type" in schema[key] else ""
+            metadata = schema[key]["metadata"] if "metadata" in schema[key] else {}
             data[key] = field_metadata(
                 value=value,
                 fhir_path=fhir_path,
                 data_type=data_type,
                 resource_type=resource_type,
+                metadata=metadata,
             )
     return data
 
 
-def field_metadata(value="", fhir_path="", data_type="", resource_type=""):
-    return {
+def field_metadata(
+    value="", fhir_path="", data_type="", resource_type="", metadata: dict = {}
+):
+    data = {
         "value": value,
         "fhir_path": fhir_path,
         "data_type": data_type,
         "resource_type": resource_type,
     }
+    for key, key_value in metadata.items():
+        data[key] = key_value
+    return data
 
 
 def search_for_required_values(input: dict, required_values: list) -> str:

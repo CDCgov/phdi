@@ -4,6 +4,7 @@ import pytest
 from frozendict import frozendict
 from unittest import mock
 import os
+
 from app.utils import (
     load_parsing_schema,
     get_parsers,
@@ -13,6 +14,7 @@ from app.utils import (
     freeze_parsing_schema,
     field_metadata,
     get_metadata,
+    freeze_parsing_schema_helper,
 )
 from app.config import get_settings
 
@@ -203,6 +205,7 @@ def test_get_metadata():
             "fhir_path": "Bundle.entry.resource.where(resourceType='Foo').biz",
             "data_type": "string",
             "nullable": False,
+            "metadata": {"metaFoo": "metaFooData", "metaFiz": "metaFizData"},
         },
         "baz": {},
     }
@@ -212,9 +215,20 @@ def test_get_metadata():
             "fhir_path": "Bundle.entry.resource.where(resourceType='Foo').biz",
             "data_type": "string",
             "resource_type": "Foo",
+            "metaFoo": "metaFooData",
+            "metaFiz": "metaFizData",
         },
         "fiz": {"value": "biz", "fhir_path": "", "data_type": "", "resource_type": ""},
         "baz": {"value": "Null", "fhir_path": "", "data_type": "", "resource_type": ""},
     }
     result = get_metadata(parsed_values=example_parsed_values, schema=example_schema)
     assert result == expected_result
+
+
+def test_freeze_parsing_schema_helper():
+    input = {"foo": "bar", "fiz": {"foo": "bar", "fiz": {"foo": "bar"}}}
+    output = freeze_parsing_schema_helper(input)
+    assert isinstance(output, frozendict)
+    assert isinstance(output["fiz"], frozendict)
+    assert isinstance(output["fiz"]["fiz"], frozendict)
+    assert isinstance(output["foo"], str)
