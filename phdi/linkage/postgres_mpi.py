@@ -87,14 +87,14 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     "start_date": "period.start",
                     "end_date": "period.end",
                 },
-                "identifier": {
-                    "root_path": "Patient.identifier",
-                    "fields": {
-                        "value": "value",
-                        "type_code": "type.coding[0].code",
-                        "type_display": "type.coding[0].display",
-                        "type_system": "type.coding[0].system",
-                    },
+            },
+            "identifier": {
+                "root_path": "Patient.identifier",
+                "fields": {
+                    "value": "value",
+                    "type_code": "type.coding[0].code",
+                    "type_display": "type.coding[0].display",
+                    "type_system": "type.coding[0].system",
                 },
             },
         }
@@ -467,8 +467,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 table_records.append(record)
 
             records[table] = table_records
-            sorted_records = self._sort_mpi_records(records)
-
+        sorted_records = self._sort_mpi_records(records)
         return sorted_records
 
     def _sort_mpi_records(self, mpi_records: dict) -> dict:
