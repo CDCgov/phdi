@@ -522,9 +522,9 @@ def test_extract_given_names():
 
     assert len(given_name_records) == 3
 
-    given_name_id = given_name_records[0]["given_name_id"]
+    name_id = given_name_records[0]["name_id"]
     for idx, record in enumerate(given_name_records):
-        assert record["given_name_id"] == given_name_id
+        assert record["name_id"] == name_id
         assert record["given_name_index"] == idx
 
     given_names2 = ["William", "Guillermo", "Guillaume"]
@@ -535,9 +535,7 @@ def test_extract_given_names():
         given_names_log.append(given_name_records)
     # Check that the 2 sets of given names were associated differently
     assert len(given_names_log) == 2
-    assert (
-        given_names_log[0][0]["given_name_id"] != given_names_log[1][0]["given_name_id"]
-    )
+    assert given_names_log[0][0]["name_id"] != given_names_log[1][0]["name_id"]
 
 
 def test_get_mpi_records():
@@ -550,6 +548,9 @@ def test_get_mpi_records():
             / "linkage"
             / "patient_bundle_to_link_with_mpi.json"
         )
+    )
+    patients = json.load(
+        open("C://Repos/phdi/tests/assets/linkage/patient_bundle_to_link_with_mpi.json")
     )
     patients = patients["entry"]
     patients = [
@@ -599,3 +600,17 @@ def test_get_mpi_records():
     records_for_insert = MPI._get_mpi_records(patients[1])
     assert len(records_for_insert["name"]) == 4
     assert len(records_for_insert["given_name"]) == 7
+
+    # Check that patient_id is inserted properly across appropriate tables
+    patient_id = patients[1]["id"]
+    assert records_for_insert["patient"][0]["patient_id"] == patient_id
+    assert records_for_insert["name"][0]["patient_id"] == patient_id
+
+    # Check that new patient_id is created if no id is present in incoming record
+    patients[1]["id"] = None
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert records_for_insert["patient"][0]["patient_id"] is not None
+    assert (
+        records_for_insert["patient"][0]["patient_id"]
+        == records_for_insert["address"][0]["patient_id"]
+    )
