@@ -1,4 +1,3 @@
-import copy
 from typing import List, Dict, Union
 from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
