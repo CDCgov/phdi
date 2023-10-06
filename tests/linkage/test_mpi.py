@@ -550,9 +550,6 @@ def test_get_mpi_records():
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
-    patients = json.load(
-        open("C://Repos/phdi/tests/assets/linkage/patient_bundle_to_link_with_mpi.json")
-    )
     patients = patients["entry"]
     patients = [
         p.get("resource")
