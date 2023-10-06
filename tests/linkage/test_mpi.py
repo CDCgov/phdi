@@ -4,7 +4,7 @@ import os
 import pathlib
 import re
 import pytest
-
+import uuid
 from sqlalchemy import Select, select, text
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
@@ -397,7 +397,7 @@ def test_insert_matched_patient():
     _clean_up(MPI.dal)
 
 
-def test_get_person():
+def test_get_person_id():
     MPI = _init_db()
     result = MPI._get_person_id(person_id=None, external_person_id=None)
     assert result is not None
@@ -513,3 +513,105 @@ def test_generate_dict_record_from_results():
     assert records[1]["patient_id"] == pk_list[1]
 
     _clean_up(MPI.dal)
+
+
+def test_extract_given_names():
+    MPI = _init_db()
+    given_names = ["John", "Juan", "Jean"]
+    name_id = uuid.uuid4()
+    given_name_records = MPI._extract_given_names(given_names, name_id)
+
+    assert len(given_name_records) == 3
+
+    name_id = given_name_records[0]["name_id"]
+    for idx, record in enumerate(given_name_records):
+        assert record["name_id"] == name_id
+        assert record["given_name_index"] == idx
+
+    given_names2 = ["William", "Guillermo", "Guillaume"]
+    name_id2 = uuid.uuid4()
+    given_names_log = []
+    for names, ids in zip([given_names, given_names2], [name_id, name_id2]):
+        given_name_records = MPI._extract_given_names(names, ids)
+        given_names_log.append(given_name_records)
+    # Check that the 2 sets of given names were associated differently
+    assert len(given_names_log) == 2
+    assert given_names_log[0][0]["name_id"] != given_names_log[1][0]["name_id"]
+
+
+def test_get_mpi_records():
+    MPI = _init_db()
+
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = json.load(
+        open("C://Repos/phdi/tests/assets/linkage/patient_bundle_to_link_with_mpi.json")
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource")
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ][:2]
+
+    # Success
+    records_for_insert = MPI._get_mpi_records(patients[0])
+    assert isinstance(records_for_insert, dict)
+    assert "given_name" in records_for_insert.keys()
+    assert len(records_for_insert["given_name"]) == 2
+
+    # Non-patient resource
+    patients[0]["resourceType"] = "Not Patient"
+    records_for_insert = MPI._get_mpi_records(patients[0])
+    assert bool(records_for_insert) is False
+
+    # Multiple names in a single resource
+    second_name = {
+        "family": "Sheperd",
+        "given": ["John", "Tiberius"],
+        "use": "official",
+    }
+    patients[1]["name"].append(second_name)
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert len(records_for_insert["given_name"]) == 4
+
+    # Multiple names in a single resource with some values missing
+    third_name = {
+        "family": None,
+        "given": ["John", "Tiberius"],
+        "use": "official",
+    }
+    patients[1]["name"].append(third_name)
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert len(records_for_insert["name"]) == 3
+    assert len(records_for_insert["given_name"]) == 6
+
+    # Multiple names in a single resource with some values missing
+    fourth_name = {
+        "family": None,
+        "use": "official",
+    }
+    patients[1]["name"].append(fourth_name)
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert len(records_for_insert["name"]) == 4
+    assert len(records_for_insert["given_name"]) == 7
+
+    # Check that patient_id is inserted properly across appropriate tables
+    patient_id = patients[1]["id"]
+    assert records_for_insert["patient"][0]["patient_id"] == patient_id
+    assert records_for_insert["name"][0]["patient_id"] == patient_id
+
+    # Check that new patient_id is created if no id is present in incoming record
+    patients[1]["id"] = None
+    records_for_insert = MPI._get_mpi_records(patients[1])
+    assert records_for_insert["patient"][0]["patient_id"] is not None
+    assert (
+        records_for_insert["patient"][0]["patient_id"]
+        == records_for_insert["address"][0]["patient_id"]
+    )

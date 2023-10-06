@@ -39,6 +39,7 @@ from phdi.linkage.link import (
     _flatten_patient_resource,
     _condense_extract_address_from_resource,
 )
+
 from phdi.linkage import DIBBsConnectorClient
 from phdi.linkage import DIBBS_BASIC, DIBBS_ENHANCED
 

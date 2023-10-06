@@ -4,6 +4,7 @@ from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
+import uuid
 
 
 class PGMPIConnectorClient(BaseMPIConnectorClient):
@@ -415,10 +416,20 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if patient_resource["resourceType"] != "Patient":
             return records
 
+        # Check if patient_id exists
+        if patient_resource.get("id", None) is None:
+            patient_id = uuid.uuid4()
+            patient_resource["id"] = patient_id
+        else:
+            patient_id = patient_resource.get("id")
+
         for table in self.column_to_fhirpaths.keys():
             table_dict = self.column_to_fhirpaths.get(table)
             table_fields = table_dict.get("fields")
 
+            # Generate name_id to share between `name` and `given_name` tables
+            if table == "name":
+                name_id = uuid.uuid4()
             # Parse root path
             root = extract_value_with_resource_path(
                 patient_resource, table_dict.get("root_path"), selection_criteria="all"
@@ -426,7 +437,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             # Parse fields
             table_records = []
             for element in root:
-                record = {}
+                record = {"patient_id": patient_id}
+                if table == "name":
+                    record["name_id"] = name_id
                 for field in table_fields.keys():
                     selection_criteria = "first"
                     if field == "given_name":
@@ -437,7 +450,17 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                         table_fields.get(field),
                         selection_criteria=selection_criteria,
                     )
-
+                    # Create given_name table in records
+                    if field == "given_name":
+                        given_name_table_records = self._extract_given_names(
+                            value, name_id
+                        )
+                        if field not in records.keys():
+                            records[field] = given_name_table_records
+                        else:
+                            for given_name_table_record in given_name_table_records:
+                                records[field].append(given_name_table_record)
+                        continue
                     record[field] = value
 
                 table_records.append(record)
@@ -445,6 +468,33 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             records[table] = table_records
 
         return records
+
+    def _extract_given_names(self, given_names: list, name_id: uuid) -> dict:
+        """
+        Separates given_name into it's own table and creates the given_name_index
+        ahead of inserting the table into the MPI.
+
+        :param given_names: List of given names.
+        :return: List of dictionaries containing entries for the given_name table with
+            1 given name and index per row as well as an associated given_name_id.
+        """
+        table_records = []
+        if given_names is not None:
+            for idx, name in enumerate(given_names):
+                record = {
+                    "name_id": name_id,
+                    "given_name": name,
+                    "given_name_index": idx,
+                }
+                table_records.append(record)
+        else:
+            record = {
+                "name_id": name_id,
+                "given_name": None,
+                "given_name_index": 0,
+            }
+            table_records.append(record)
+        return table_records
 
     def _get_person_id(
         self,
