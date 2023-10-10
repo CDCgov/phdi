@@ -115,7 +115,7 @@ def test_bulk_insert_dict():
     }
     insert_result = dal.bulk_insert_dict(data_requested, False)
 
-    assert insert_result == {"patient": {"results": []}}
+    assert insert_result == {"patient": {"primary_keys": []}}
 
     results = dal.select_results(select(dal.PATIENT_TABLE))
     assert len(results) == 2
@@ -169,7 +169,7 @@ def test_bulk_insert_dict():
         "patient": test_data2,
     }
     pks = dal.bulk_insert_dict(data_requested2, True)
-    assert len(pks.get("patient").get("results")) == 2
+    assert len(pks.get("patient").get("primary_keys")) == 2
     results = dal.select_results(select(dal.PATIENT_TABLE))
     assert len(results) == 4
 
@@ -326,7 +326,6 @@ def test_bulk_insert_list():
     assert len(pk_list) == 2
 
     results = dal.select_results(select(dal.PATIENT_TABLE))
-    print(results)
     assert len(results) == 3
     assert results[0][0] == "patient_id"
     assert results[1][0] == pk_list[0]
