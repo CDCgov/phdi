@@ -1,20 +1,10 @@
 from typing import List, Dict, Union
 from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
-from phdi.linkage.utils import (
-    get_address_lines,
-    get_geo_latitude,
-    get_geo_longitude,
-    get_patient_addresses,
-    get_patient_names,
-    get_patient_phones,
-    load_mpi_env_vars_os,
-    get_patient_ethnicity,
-    get_patient_race,
-    get_patient_identifiers,
-)
+from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
+import uuid
 
 
 class PGMPIConnectorClient(BaseMPIConnectorClient):
@@ -47,10 +37,17 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 "root_path": "Patient",
                 "fields": {
                     "patient_id": "id",
+                    "person_id": "person",
                     "dob": "birthDate",
                     "sex": "gender",
-                    "race": "extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
-                    "ethnicity": "extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
+                    "race": """
+                        extension.where(url =
+                         'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')
+                        .extension.valueCoding.display""",
+                    "ethnicity": """
+                    extension.where(url =
+                     'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')
+                    .extension.valueCoding.display""",
                 },
             },
             "name": {
@@ -79,20 +76,25 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     "state": "state",
                     "zip_code": "postalCode",
                     "country": "country",
-                    "latitude": "extension.where(url = 'http://hl7.org/fhir/StructureDefinition/geolocation').extension.latitude",
-                    "longitude": "extension.where(url = 'http://hl7.org/fhir/StructureDefinition/geolocation').extension.longitude",
+                    "latitude": """
+                        extension.where(url =
+                          'http://hl7.org/fhir/StructureDefinition/geolocation')
+                        .extension.latitude""",
+                    "longitude": """extension.where(url =
+                          'http://hl7.org/fhir/StructureDefinition/geolocation')
+                          .extension.longitude""",
                     "type": "use",
                     "start_date": "period.start",
                     "end_date": "period.end",
                 },
-                "identifier": {
-                    "root_path": "Patient.identifier",
-                    "fields": {
-                        "value": "value",
-                        "type_code": "type.coding[0].code",
-                        "type_display": "type.coding[0].display",
-                        "type_system": "type.coding[0].system",
-                    },
+            },
+            "identifier": {
+                "root_path": "Patient.identifier",
+                "fields": {
+                    "value": "value",
+                    "type_code": "type.coding[0].code",
+                    "type_display": "type.coding[0].display",
+                    "type_system": "type.coding[0].system",
                 },
             },
         }
@@ -415,10 +417,20 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if patient_resource["resourceType"] != "Patient":
             return records
 
-        for table in column_to_fhirpaths.keys():
-            table_dict = column_to_fhirpaths.get(table)
+        # Check if patient_id exists
+        if patient_resource.get("id", None) is None:
+            patient_id = uuid.uuid4()
+            patient_resource["id"] = patient_id
+        else:
+            patient_id = patient_resource.get("id")
+
+        for table in self.column_to_fhirpaths.keys():
+            table_dict = self.column_to_fhirpaths.get(table)
             table_fields = table_dict.get("fields")
 
+            # Generate name_id to share between `name` and `given_name` tables
+            if table == "name":
+                name_id = uuid.uuid4()
             # Parse root path
             root = extract_value_with_resource_path(
                 patient_resource, table_dict.get("root_path"), selection_criteria="all"
@@ -426,7 +438,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             # Parse fields
             table_records = []
             for element in root:
-                record = {}
+                record = {"patient_id": patient_id}
+                if table == "name":
+                    record["name_id"] = name_id
                 for field in table_fields.keys():
                     selection_criteria = "first"
                     if field == "given_name":
@@ -437,14 +451,62 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                         table_fields.get(field),
                         selection_criteria=selection_criteria,
                     )
-
+                    # Create given_name table in records
+                    if field == "given_name":
+                        given_name_table_records = self._extract_given_names(
+                            value, name_id
+                        )
+                        if field not in records.keys():
+                            records[field] = given_name_table_records
+                        else:
+                            for given_name_table_record in given_name_table_records:
+                                records[field].append(given_name_table_record)
+                        continue
                     record[field] = value
 
                 table_records.append(record)
 
             records[table] = table_records
+        sorted_records = self._sort_mpi_records(records)
+        return sorted_records
 
-        return records
+    def _sort_mpi_records(self, mpi_records: dict) -> dict:
+        sorted_records = {
+            "patient": mpi_records.get("patient"),
+            "name": mpi_records.get("name"),
+            "given_name": mpi_records.get("given_name"),
+            "identifier": mpi_records.get("identifier"),
+            "phone_number": mpi_records.get("phone_number"),
+            "address": mpi_records.get("address"),
+        }
+        return sorted_records
+
+    def _extract_given_names(self, given_names: list, name_id: uuid) -> dict:
+        """
+        Separates given_name into it's own table and creates the given_name_index
+        ahead of inserting the table into the MPI.
+
+        :param given_names: List of given names.
+        :return: List of dictionaries containing entries for the given_name table with
+            1 given name and index per row as well as an associated given_name_id.
+        """
+        table_records = []
+        if given_names is not None:
+            for idx, name in enumerate(given_names):
+                record = {
+                    "name_id": name_id,
+                    "given_name": name,
+                    "given_name_index": idx,
+                }
+                table_records.append(record)
+        else:
+            record = {
+                "name_id": name_id,
+                "given_name": None,
+                "given_name_index": 0,
+            }
+            table_records.append(record)
+        return table_records
 
     def _get_person_id(
         self,
@@ -497,7 +559,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 "external_person_id": external_person_id,
                 "external_source_id": None,
             }
-            self.dal.single_insert("external_person", new_external_person_record)
+            self.dal.bulk_insert_list(
+                self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
+            )
         return new_person_id
 
     def _generate_dict_record_from_results(
@@ -534,11 +598,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         :return: The newly created person id.
         """
-        person_record = {"person_id": None}
-        person_id = self.dal.single_insert(
-            table_name="person",
-            record=person_record,
-            return_primary_key=True,
-            return_full=False,
+        person_record = {}
+        person_id = self.dal.bulk_insert_list(
+            self.dal.PERSON_TABLE, [person_record], True
         )
-        return person_id
+        return person_id[0]

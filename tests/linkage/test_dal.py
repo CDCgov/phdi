@@ -103,17 +103,15 @@ def test_bulk_insert_dict():
     dal = _init_db()
 
     data_requested = {
-        "patient": {
-            "records": [
-                {
-                    "person_id": None,
-                    "dob": "1977-11-11",
-                    "sex": "male",
-                    "race": "UNK",
-                    "ethnicity": "UNK",
-                }
-            ],
-        },
+        "patient": [
+            {
+                "person_id": None,
+                "dob": "1977-11-11",
+                "sex": "male",
+                "race": "UNK",
+                "ethnicity": "UNK",
+            },
+        ],
     }
     insert_result = dal.bulk_insert_dict(data_requested, False)
 
@@ -126,7 +124,6 @@ def test_bulk_insert_dict():
     assert results[1][0] is not None
 
     data_requested = {
-        "patient_id": None,
         "person_id": None,
         "dob": "1988-01-01",
         "sex": "female",
@@ -169,7 +166,7 @@ def test_bulk_insert_dict():
     test_data2.append(pt1)
     test_data2.append(pt2)
     data_requested2 = {
-        "patient": {"table": dal.PATIENT_TABLE, "records": test_data2},
+        "patient": test_data2,
     }
     pks = dal.bulk_insert_dict(data_requested2, True)
     assert len(pks.get("patient").get("results")) == 2
@@ -239,57 +236,6 @@ def test_does_table_have_column():
     _clean_up(dal)
 
 
-def test_single_insert():
-    dal = _init_db()
-
-    pt1 = {
-        "person_id": None,
-        "dob": "1977-11-11",
-        "sex": "male",
-        "race": "UNK",
-        "ethnicity": "UNK",
-    }
-
-    pt2 = {
-        "person_id": None,
-        "dob": "1988-01-01",
-        "sex": "female",
-        "race": "UNK",
-        "ethnicity": "UNK",
-    }
-
-    pk = dal.single_insert(
-        table_name="patient",
-        record=pt1,
-        return_primary_key=True,
-        return_full=False,
-    )
-    assert pk is not None
-
-    pk2 = dal.single_insert(
-        table_name="patient",
-        record=pt2,
-        return_primary_key=False,
-        return_full=False,
-    )
-    assert pk2 is None
-
-    results = dal.select_results(select(dal.PATIENT_TABLE))
-    assert len(results) == 3
-    assert results[0][0] == "patient_id"
-    assert results[1][0] == pk
-    assert results[0][3] == "sex"
-    assert results[1][3] == "male"
-    assert results[2][3] == "female"
-
-    pk3 = dal.single_insert(table_name="phone", record={}, return_primary_key=True)
-    assert pk3 is None
-    pk4 = dal.single_insert(table_name=None, record={}, return_primary_key=True)
-    assert pk4 is None
-
-    _clean_up(dal)
-
-
 def test_select_results():
     os.environ = {
         "mpi_dbname": "testdb",
@@ -324,18 +270,8 @@ def test_select_results():
         "race": "UNK",
         "ethnicity": "UNK",
     }
-    pk = dal.single_insert(
-        table_name="patient",
-        record=pt1,
-        return_primary_key=True,
-        return_full=False,
-    )
-    pk2 = dal.single_insert(
-        table_name="patient",
-        record=pt2,
-        return_primary_key=True,
-        return_full=False,
-    )
+    records_to_add = [pt1, pt2]
+    pks = dal.bulk_insert_list(dal.PATIENT_TABLE, records_to_add, True)
     mpi = PGMPIConnectorClient()
     mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(
@@ -345,8 +281,8 @@ def test_select_results():
     # ensure blocked data has two rows, headers and data
     assert len(results) == 2
     assert results[0][0] == "patient_id"
-    assert results[1][0] == pk
-    assert results[1][0] != pk2
+    assert results[1][0] == pks[0]
+    assert results[1][0] != pks[1]
     assert results[0][2] == "dob"
     assert results[1][2] == datetime.date(1977, 11, 11)
     assert results[0][3] == "sex"
@@ -358,7 +294,7 @@ def test_select_results():
 
     # ensure blocked data has one row, just the data
     assert len(results2) == 1
-    assert results2[0][0] == pk
+    assert results2[0][0] == pks[0]
     assert results2[0][2] == datetime.date(1977, 11, 11)
     assert results2[0][3] == "male"
 
