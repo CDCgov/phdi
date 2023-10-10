@@ -467,19 +467,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 table_records.append(record)
 
             records[table] = table_records
-        sorted_records = self._sort_mpi_records(records)
-        return sorted_records
 
-    def _sort_mpi_records(self, mpi_records: dict) -> dict:
-        sorted_records = {
-            "patient": mpi_records.get("patient"),
-            "name": mpi_records.get("name"),
-            "given_name": mpi_records.get("given_name"),
-            "identifier": mpi_records.get("identifier"),
-            "phone_number": mpi_records.get("phone_number"),
-            "address": mpi_records.get("address"),
-        }
-        return sorted_records
+        return records
 
     def _extract_given_names(self, given_names: list, name_id: uuid) -> dict:
         """
