@@ -6,6 +6,7 @@ import pandas as pd
 import pathlib
 import sqlite3
 from pydantic import Field
+from datetime import date, datetime
 from itertools import combinations
 from math import log
 from random import sample
@@ -26,6 +27,34 @@ LINKING_FIELDS_TO_FHIRPATHS = {
     "sex": "Patient.gender",
     "mrn": "Patient.identifier.where(type.coding.code='MR').value",
 }
+
+
+def datetime_to_str(input_date: Union[str, date, datetime]) -> str:
+    """
+    Convert a date or datetime object to a string; if a string is provided,
+    check that it follows the 'YYYY-MM-DD' format.
+
+    :param input_date: The input date to convert, which can be of type
+        datetime.date, datetime.datetime, or str.
+    :return: The formatted date as a string in for format 'YYYY-MM-DD'.
+    """
+    # if input is str make sure it follows the expected format
+    if isinstance(input_date, str):
+        try:
+            datetime.strptime(input_date, "%Y-%m-%d")
+            return input_date
+        except ValueError:
+            raise ValueError(
+                f"Input date {input_date} is not in the format 'YYYY-MM-DD'."
+            )
+    # if input is a date or datetime then convert in the expected format
+    elif isinstance(input_date, (date, datetime)):
+        return input_date.strftime("%Y-%m-%d")
+    # if input isn't any of the accepted formats, then return a type error
+    else:
+        raise TypeError(
+            f"Input date {input_date} is not of type date, datetime, or str."
+        )
 
 
 def block_data(data: pd.DataFrame, blocks: List) -> dict:
