@@ -6,3 +6,8 @@ uvicorn
 httpx
 pytest
 frozendict
+requests
+python-dotenv
+python-multipart
+pytest-env
+testcontainers[compose]
