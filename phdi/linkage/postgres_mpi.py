@@ -1,5 +1,5 @@
 from typing import List, Dict, Union
-from sqlalchemy import Select, and_, select, text
+from sqlalchemy import Select, and_, select, text, ForeignKey
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
@@ -91,7 +91,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             "identifier": {
                 "root_path": "Patient.identifier",
                 "fields": {
-                    "value": "value",
+                    "patient_identifier": "value",
                     "type_code": "type.coding[0].code",
                     "type_display": "type.coding[0].display",
                     "type_system": "type.coding[0].system",
@@ -244,8 +244,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     )
                 else:
                     fk_info = cte_query_table.foreign_keys.pop()
-                    fk_table = fk_info.column.table
                     fk_column = fk_info.column
+                    fk_table = fk_info.column.table
                     sub_query = (
                         select(cte_query_table)
                         .where(text(" AND ".join(query_criteria)))
@@ -304,6 +304,12 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             elif block_key == "first_name":
                 sub_dict["given_name"] = block_value
                 table_orm = self.dal.get_table_by_column("given_name")
+            elif block_key == "mrn":
+                sub_dict["patient_identifier"] == block_value
+                # mrn specific criteria
+                mrn_criteria = {"type_code": {"value": "MR"}}
+                sub_dict["patient_identifier"]["criteria"].update(mrn_criteria)
+                table_orm = self.dal.get_table_by_column("patient_identifier")
             else:
                 sub_dict[block_key] = block_value
                 table_orm = self.dal.get_table_by_column(block_key)
@@ -339,7 +345,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         id_sub_query = (
             select(
-                self.dal.ID_TABLE.c.value.label("mrn"),
+                self.dal.ID_TABLE.c.patient_identifier.label("mrn"),
                 self.dal.ID_TABLE.c.patient_id.label("patient_id"),
             )
             .where(self.dal.ID_TABLE.c.type_code == "MR")

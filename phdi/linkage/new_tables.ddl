@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS given_name (
 CREATE TABLE IF NOT EXISTS identifier (
     identifier_id   UUID DEFAULT uuid_generate_v4 (), 
     patient_id      UUID,
-    value           VARCHAR(255),
+    patient_identifier VARCHAR(255),
     type_code       VARCHAR(255),
     type_display    VARCHAR(255),
     type_system     VARCHAR(255),
