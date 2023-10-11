@@ -14,7 +14,6 @@ from typing import List, Callable, Dict, Union
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
 
-# from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 
 LINKING_FIELDS_TO_FHIRPATHS = {
@@ -459,6 +458,10 @@ def feature_match_fuzzy_string(
     """
     idx = col_to_idx[feature_col]
 
+    # temp
+    record_i[idx] = str(record_i[idx])
+    record_j[idx] = str(record_j[idx])
+
     # Special case for two empty strings, since we don't want vacuous
     # equality (or in-) to penalize the score
     if record_i[idx] == "" and record_j[idx] == "":
@@ -610,52 +613,6 @@ def link_record_against_mpi(
             continue
 
         data_block = mpi_client.get_block_data(blocking_criteria)
-        print("DATA BLOCK")
-        print(data_block)
-
-        # data_block = [
-        #     [
-        #         "patient_id",
-        #         "person_id",
-        #         "first_name",
-        #         "last_name",
-        #         "address",
-        #         "birthdate",
-        #         "city",
-        #         "mrn",
-        #         "state",
-        #         "zip",
-        #         "sex",
-        #     ],
-        #     [
-        #         "f6a16ff7-4a31-11eb-be7b-8344edc8f36b",
-        #         "b2bccafa-0c97-46bc-95fc-d33192d49929",
-        #         "John",
-        #         "Shepard",
-        #         "1234 Silversun Strip",
-        #         "2053-11-07",
-        #         "Boston",
-        #         "1234567890",
-        #         "Massachusetts",
-        #         "99999",
-        #         "male",
-        #     ],
-        # ]
-
-        # unnested_data_block = []
-        # for r in data_block:
-        #     unnested_record = []
-        #     for field in r:
-        #         if isinstance(field, list):
-        #             if isinstance(field[0], list):
-        #                 unnested_record.append(field[0][0])
-        #             else:
-        #                 unnested_record.append(field[0])
-        #         else:
-        #             unnested_record.append(field)
-        #     unnested_data_block.append(unnested_record)
-
-        # data_block = unnested_data_block
 
         # First row of returned block is column headers
         # Map column name to idx, not including patient/person IDs
@@ -696,7 +653,7 @@ def link_record_against_mpi(
 
         # Didn't match any person in our database
         if len(linkage_scores) == 0:
-            (matched, new_person_id) = mpi_client.insert_matched_patient(
+            (matched, new_person_id, results) = mpi_client.insert_matched_patient(
                 record, person_id=None, external_person_id=external_person_id
             )
             return (matched, new_person_id)
