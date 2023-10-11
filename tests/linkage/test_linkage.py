@@ -180,7 +180,10 @@ def test_invalid_datetime_to_str_with_time():
     invalid_string_with_time = "2023-10-10 15:30"
     with pytest.raises(
         ValueError,
-        match=f"Input date {invalid_string_with_time} is not in the format 'YYYY-MM-DD HH:MM:SS'",
+        match=(
+            f"Input date {invalid_string_with_time} "
+            "is not in the format 'YYYY-MM-DD HH:MM:SS'"
+        ),
     ):
         datetime_to_str(invalid_string_with_time, include_time=True)
 
