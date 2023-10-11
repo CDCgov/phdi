@@ -7,6 +7,7 @@ import os
 from app.utils import (
     load_parsing_schema,
     get_parsers,
+    get_metadata,
     convert_to_fhir,
     get_credential_manager,
     search_for_required_values,
@@ -67,6 +68,10 @@ class ParseMessageInput(BaseModel):
     credential_manager: Optional[Literal["azure", "gcp"]] = Field(
         description="The type of credential manager to use for authentication with a "
         "FHIR converter when conversion to FHIR is required.",
+        default=None,
+    )
+    include_metadata: Optional[Literal["true", "false"]] = Field(
+        description="Boolean to include metadata in the response.",
         default=None,
     )
     message: Union[str, dict] = Field(description="The message to be parsed.")
@@ -200,7 +205,8 @@ async def parse_message_endpoint(
                         )
                 values.append(value)
             parsed_values[field] = values
-
+    if input.include_metadata == "true":
+        parsed_values = get_metadata(parsed_values, parsing_schema)
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
 
