@@ -1,5 +1,5 @@
 from typing import List, Dict, Union
-from sqlalchemy import Select, and_, select, text, ForeignKey
+from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer

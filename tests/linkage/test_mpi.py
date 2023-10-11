@@ -6,7 +6,7 @@ import re
 import pytest
 import uuid
 from sqlalchemy import Select, select, text
-from phdi.linkage.postgres_mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
 patient_resource = json.load(

@@ -4,7 +4,7 @@ import pathlib
 from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy import Engine, Table, select, text
 from sqlalchemy.orm import scoped_session
-from phdi.linkage.postgres_mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import PGMPIConnectorClient
 
 
 def _init_db() -> DataAccessLayer:
