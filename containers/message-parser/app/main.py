@@ -283,7 +283,7 @@ async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaR
 
 
 PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "timestamp"
+    "string", "integer", "float", "boolean", "date", "datetime", "array"
 ]
 
 
