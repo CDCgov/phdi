@@ -283,7 +283,7 @@ async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaR
 
 
 PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "timestamp"
+    "string", "integer", "float", "boolean", "date", "datetime", "array"
 ]
 
 
@@ -297,7 +297,7 @@ class ParsingSchemaFieldModel(BaseModel):
     fhir_path: str
     data_type: PARSING_SCHEMA_DATA_TYPES
     nullable: bool
-    secondary_schema: Dict[str, ParsingSchemaSecondaryFieldModel]
+    secondary_schema: Optional[Dict[str, ParsingSchemaSecondaryFieldModel]]
 
 
 class ParsingSchemaModel(BaseModel):
@@ -364,7 +364,10 @@ async def upload_schema(
 
     # Convert Pydantic models to dicts so they can be serialized to JSON.
     for field in input.parsing_schema:
-        input.parsing_schema[field] = input.parsing_schema[field].dict()
+        field_dict = input.parsing_schema[field].dict()
+        if "secondary_schema" in field_dict and field_dict["secondary_schema"] is None:
+            del field_dict["secondary_schema"]
+        input.parsing_schema[field] = field_dict
 
     with open(file_path, "w") as file:
         json.dump(input.parsing_schema, file, indent=4)
