@@ -297,7 +297,7 @@ class ParsingSchemaFieldModel(BaseModel):
     fhir_path: str
     data_type: PARSING_SCHEMA_DATA_TYPES
     nullable: bool
-    secondary_schema: Dict[str, ParsingSchemaSecondaryFieldModel]
+    secondary_schema: Optional[Dict[str, ParsingSchemaSecondaryFieldModel]]
 
 
 class ParsingSchemaModel(BaseModel):
