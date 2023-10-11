@@ -174,7 +174,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             return_results = self.dal.bulk_insert_dict(
                 records_with_table=mpi_records, return_primary_keys=True
             )
-
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
@@ -419,7 +418,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         # Check if patient_id exists
         if patient_resource.get("id", None) is None:
-            patient_id = uuid.uuid4()
+            patient_id = str(uuid.uuid4())
             patient_resource["id"] = patient_id
         else:
             patient_id = patient_resource.get("id")
@@ -428,45 +427,44 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             table_dict = self.column_to_fhirpaths.get(table)
             table_fields = table_dict.get("fields")
 
-            # Generate name_id to share between `name` and `given_name` tables
-            if table == "name":
-                name_id = uuid.uuid4()
             # Parse root path
             root = extract_value_with_resource_path(
                 patient_resource, table_dict.get("root_path"), selection_criteria="all"
             )
-            # Parse fields
-            table_records = []
-            for element in root:
-                record = {"patient_id": patient_id}
-                if table == "name":
-                    record["name_id"] = name_id
-                for field in table_fields.keys():
-                    selection_criteria = "first"
-                    if field == "given_name":
-                        selection_criteria = "all"
+            if root is not None:
+                table_records = []
+                for element in root:
+                    record = {"patient_id": patient_id}
+                    # Generate name_id to share between `name` and `given_name` tables
+                    if table == "name":
+                        name_id = str(uuid.uuid4())
+                        record["name_id"] = name_id
+                    for field in table_fields.keys():
+                        selection_criteria = "first"
+                        if field == "given_name":
+                            selection_criteria = "all"
 
-                    value = extract_value_with_resource_path(
-                        element,
-                        table_fields.get(field),
-                        selection_criteria=selection_criteria,
-                    )
-                    # Create given_name table in records
-                    if field == "given_name":
-                        given_name_table_records = self._extract_given_names(
-                            value, name_id
+                        value = extract_value_with_resource_path(
+                            element,
+                            table_fields.get(field),
+                            selection_criteria=selection_criteria,
                         )
-                        if field not in records.keys():
-                            records[field] = given_name_table_records
-                        else:
-                            for given_name_table_record in given_name_table_records:
-                                records[field].append(given_name_table_record)
-                        continue
-                    record[field] = value
+                        # Create given_name table in records
+                        if field == "given_name":
+                            given_name_table_records = self._extract_given_names(
+                                value, name_id
+                            )
+                            if field not in records.keys():
+                                records[field] = given_name_table_records
+                            else:
+                                for given_name_table_record in given_name_table_records:
+                                    records[field].append(given_name_table_record)
+                            continue
+                        record[field] = value
 
-                table_records.append(record)
+                    table_records.append(record)
 
-            records[table] = table_records
+                records[table] = table_records
         sorted_records = self._sort_mpi_records(records)
         return sorted_records
 
