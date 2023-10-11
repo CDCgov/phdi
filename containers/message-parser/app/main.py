@@ -364,7 +364,10 @@ async def upload_schema(
 
     # Convert Pydantic models to dicts so they can be serialized to JSON.
     for field in input.parsing_schema:
-        input.parsing_schema[field] = input.parsing_schema[field].dict()
+        field_dict = input.parsing_schema[field].dict()
+        if "secondary_schema" in field_dict and field_dict["secondary_schema"] is None:
+            del field_dict["secondary_schema"]
+        input.parsing_schema[field] = field_dict
 
     with open(file_path, "w") as file:
         json.dump(input.parsing_schema, file, indent=4)

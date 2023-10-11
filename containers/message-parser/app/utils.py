@@ -80,12 +80,12 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
     """
     parsers = {}
 
-    for field, field_definiton in extraction_schema.items():
+    for field, field_definition in extraction_schema.items():
         parser = {}
-        parser["primary_parser"] = fhirpathpy.compile(field_definiton["fhir_path"])
-        if "secondary_schema" in field_definiton:
+        parser["primary_parser"] = fhirpathpy.compile(field_definition["fhir_path"])
+        if "secondary_schema" in field_definition:
             secondary_parsers = {}
-            for secondary_field, secondary_field_definition in field_definiton[
+            for secondary_field, secondary_field_definition in field_definition[
                 "secondary_schema"
             ].items():
                 secondary_parsers[secondary_field] = fhirpathpy.compile(
