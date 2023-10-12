@@ -59,7 +59,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 },
             },
             "phone_number": {
-                "root_path": "Patient.telecom.where(system = 'phone')",
+                "root_path": "Patient.telecom.where(system='phone')",
                 "fields": {
                     "phone_number": "value",
                     "start_date": "period.start",
@@ -305,10 +305,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 sub_dict["given_name"] = block_value
                 table_orm = self.dal.get_table_by_column("given_name")
             elif block_key == "mrn":
-                sub_dict["patient_identifier"] == block_value
+                sub_dict["patient_identifier"] = block_value
                 # mrn specific criteria
-                mrn_criteria = {"type_code": {"value": "MR"}}
-                sub_dict["patient_identifier"]["criteria"].update(mrn_criteria)
+                sub_dict["type_code"] = {"value": "MR"}
                 table_orm = self.dal.get_table_by_column("patient_identifier")
             else:
                 sub_dict[block_key] = block_value
@@ -443,34 +442,35 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             )
             # Parse fields
             table_records = []
-            for element in root:
-                record = {"patient_id": patient_id}
-                if table == "name":
-                    record["name_id"] = name_id
-                for field in table_fields.keys():
-                    selection_criteria = "first"
-                    if field == "given_name":
-                        selection_criteria = "all"
+            if root is not None:
+                for element in root:
+                    record = {"patient_id": patient_id}
+                    if table == "name":
+                        record["name_id"] = name_id
+                    for field in table_fields.keys():
+                        selection_criteria = "first"
+                        if field == "given_name":
+                            selection_criteria = "all"
 
-                    value = extract_value_with_resource_path(
-                        element,
-                        table_fields.get(field),
-                        selection_criteria=selection_criteria,
-                    )
-                    # Create given_name table in records
-                    if field == "given_name":
-                        given_name_table_records = self._extract_given_names(
-                            value, name_id
+                        value = extract_value_with_resource_path(
+                            element,
+                            table_fields.get(field),
+                            selection_criteria=selection_criteria,
                         )
-                        if field not in records.keys():
-                            records[field] = given_name_table_records
-                        else:
-                            for given_name_table_record in given_name_table_records:
-                                records[field].append(given_name_table_record)
-                        continue
-                    record[field] = value
+                        # Create given_name table in records
+                        if field == "given_name":
+                            given_name_table_records = self._extract_given_names(
+                                value, name_id
+                            )
+                            if field not in records.keys():
+                                records[field] = given_name_table_records
+                            else:
+                                for given_name_table_record in given_name_table_records:
+                                    records[field].append(given_name_table_record)
+                            continue
+                        record[field] = value
 
-                table_records.append(record)
+                    table_records.append(record)
 
             records[table] = table_records
 
