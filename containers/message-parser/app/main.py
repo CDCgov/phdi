@@ -7,6 +7,7 @@ import os
 from app.utils import (
     load_parsing_schema,
     get_parsers,
+    get_metadata,
     convert_to_fhir,
     get_credential_manager,
     search_for_required_values,
@@ -67,6 +68,10 @@ class ParseMessageInput(BaseModel):
     credential_manager: Optional[Literal["azure", "gcp"]] = Field(
         description="The type of credential manager to use for authentication with a "
         "FHIR converter when conversion to FHIR is required.",
+        default=None,
+    )
+    include_metadata: Optional[Literal["true", "false"]] = Field(
+        description="Boolean to include metadata in the response.",
         default=None,
     )
     message: Union[str, dict] = Field(description="The message to be parsed.")
@@ -182,7 +187,7 @@ async def parse_message_endpoint(
             if len(value) == 0:
                 value = None
             else:
-                value = ",".join(value)
+                value = ",".join(map(str, value))
             parsed_values[field] = value
         else:
             inital_values = parser["primary_parser"](input.message)
@@ -196,11 +201,12 @@ async def parse_message_endpoint(
                         value[secondary_field] = None
                     else:
                         value[secondary_field] = ",".join(
-                            secondary_parser(initial_value)
+                            map(str, secondary_parser(initial_value))
                         )
                 values.append(value)
             parsed_values[field] = values
-
+    if input.include_metadata == "true":
+        parsed_values = get_metadata(parsed_values, parsing_schema)
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
 
@@ -277,7 +283,7 @@ async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaR
 
 
 PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "timestamp"
+    "string", "integer", "float", "boolean", "date", "datetime", "array"
 ]
 
 
@@ -291,7 +297,7 @@ class ParsingSchemaFieldModel(BaseModel):
     fhir_path: str
     data_type: PARSING_SCHEMA_DATA_TYPES
     nullable: bool
-    secondary_schema: Dict[str, ParsingSchemaSecondaryFieldModel]
+    secondary_schema: Optional[Dict[str, ParsingSchemaSecondaryFieldModel]]
 
 
 class ParsingSchemaModel(BaseModel):
@@ -358,7 +364,10 @@ async def upload_schema(
 
     # Convert Pydantic models to dicts so they can be serialized to JSON.
     for field in input.parsing_schema:
-        input.parsing_schema[field] = input.parsing_schema[field].dict()
+        field_dict = input.parsing_schema[field].dict()
+        if "secondary_schema" in field_dict and field_dict["secondary_schema"] is None:
+            del field_dict["secondary_schema"]
+        input.parsing_schema[field] = field_dict
 
     with open(file_path, "w") as file:
         json.dump(input.parsing_schema, file, indent=4)

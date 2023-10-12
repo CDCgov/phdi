@@ -2,7 +2,8 @@ import json
 import pathlib
 from functools import cache
 from pathlib import Path
-from frozendict import frozendict
+from zipfile import ZipFile
+from typing import Dict
 
 
 @cache
@@ -31,31 +32,24 @@ def load_processing_config(config_name: str) -> dict:
                 f"A config with the name '{config_name}' could not be found."
             )
 
-    return freeze_processing_config(processing_config)
-
-
-def freeze_processing_config(processing_config: dict) -> frozendict:
-    """
-    Given a processing config dictionary, freeze it and all of its nested dictionaries
-    into a single immutable dictionary.
-
-    :param processing_config: A dictionary containing a processing config.
-    :return: A frozen dictionary containing the processing config.
-    """
-    for field, field_definition in processing_config.items():
-        if "secondary_config" in field_definition:
-            for secondary_field, secondary_field_definition in field_definition[
-                "secondary_config"
-            ].items():
-                field_definition["secondary_config"][secondary_field] = frozendict(
-                    secondary_field_definition
-                )
-            field_definition["secondary_config"] = frozendict(
-                field_definition["secondary_config"]
-            )
-        processing_config[field] = frozendict(field_definition)
-    return frozendict(processing_config)
+    return processing_config
 
 
 def read_json_from_assets(filename: str):
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def unzip(zipped_file) -> Dict:
+    my_zipfile = ZipFile(zipped_file.file)
+    file_to_open = [file for file in my_zipfile.namelist() if "/CDA_eICR.xml" in file][
+        0
+    ]
+    f = my_zipfile.open(file_to_open)
+    return f.read().decode("utf-8")
+
+
+def load_config_assets(upload_config_response_examples, PutConfigResponse) -> Dict:
+    for status_code, file_name in upload_config_response_examples.items():
+        upload_config_response_examples[status_code] = read_json_from_assets(file_name)
+        upload_config_response_examples[status_code]["model"] = PutConfigResponse
+    return upload_config_response_examples
