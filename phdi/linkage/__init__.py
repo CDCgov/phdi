@@ -2,7 +2,6 @@ from phdi.linkage.algorithms import DIBBS_BASIC, DIBBS_ENHANCED
 
 from phdi.linkage.link import (
     generate_hash_str,
-    datetime_to_str,
     block_data,
     match_within_block,
     feature_match_exact,
@@ -38,7 +37,6 @@ __all__ = [
     "DIBBS_BASIC",
     "DIBBS_ENHANCED",
     "generate_hash_str",
-    "datetime_to_str",
     "block_data",
     "match_within_block",
     "feature_match_exact",
