@@ -38,7 +38,7 @@ from phdi.linkage.postgres_mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy import text, select
 
-from phdi.linkage import DIBBS_BASIC  # , DIBBS_ENHANCED
+from phdi.linkage import DIBBS_BASIC, DIBBS_ENHANCED
 
 import pathlib
 import pytest
@@ -882,7 +882,6 @@ def test_link_record_against_mpi():
         for p in patients
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
-    patient_records = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
     matches = []
     mapped_patients = {}
     for patient in patients:
@@ -950,90 +949,87 @@ def test_link_record_against_mpi():
     _clean_up(MPI.dal)
 
 
-# def test_link_record_against_mpi_enhanced_algo():
-#     algorithm = DIBBS_ENHANCED
+def test_link_record_against_mpi_enhanced_algo():
+    algorithm = DIBBS_ENHANCED
+    MPI = _init_db()
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
+    matches = []
+    mapped_patients = {}
+    for patient in patients:
+        matched, pid = link_record_against_mpi(
+            patient["resource"],
+            algorithm,
+        )
+        matches.append(matched)
+        if str(pid) not in mapped_patients:
+            mapped_patients[str(pid)] = 0
+        mapped_patients[str(pid)] += 1
 
-#     mpi_client = _init_db()
+    # First patient inserted into empty MPI, no match
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    # Third patient is entirely new individual, no match
+    # Fourth patient fails blocking with first pass but catches on second, fuzzy matches
+    # Fifth patient: in first pass MRN blocks with one cluster but fails name,
+    #  in second pass name blocks with different cluster but fails address, no match
+    # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
+    # in second pass name blocks on different cluster and address matches it,
+    #  finds greatest strength match and correctly assigns to larger cluster
+    assert matches == [False, True, False, True, False, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
 
-#     patients = json.load(
-#         open(
-#             pathlib.Path(__file__).parent.parent
-#             / "assets"
-#             / "linkage"
-#             / "patient_bundle_to_link_with_mpi.json"
-#         )
-#     )
-#     patients = patients["entry"]
-#     patients = [
-#         p
-#         for p in patients
-#         if p.get("resource", {}).get("resourceType", "") == "Patient"
-#     ]
-#     matches = []
-#     mapped_patients = {}
-#     for patient in patients:
-#         print(patient["resource"].get("id"))
-#         matched, pid = link_record_against_mpi(
-#             patient["resource"],
-#             algorithm,
-#             postgres_client,
-#         )
-#         matches.append(matched)
-#         if pid not in mapped_patients:
-#             mapped_patients[pid] = 0
-#         mapped_patients[pid] += 1
+    # Re-open connection to check for all insertions
+    patient_records = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
+    patient_id_count = {}
+    person_id_count = {}
+    for patient in patient_records[1:]:
+        if str(patient[0]) not in patient_id_count:
+            patient_id_count[str(patient[0])] = 1
+        else:
+            patient_id_count[str(patient[0])] = patient_id_count[str(patient[0])] + 1
+        if str(patient[1]) not in person_id_count:
+            person_id_count[str(patient[1])] = 1
+        else:
+            person_id_count[str(patient[1])] = person_id_count[str(patient[1])] + 1
 
-#     # First patient inserted into empty MPI, no match
-#     # Second patient blocks with first patient in first pass, then fuzzy matches name
-#     # Third patient is entirely new individual, no match
-#     # Fourth patient fails blocking with first pass but catches on second, fuzzy
-# matches
-#     # Fifth patient: in first pass MRN blocks with one cluster but fails name,
-#     #  in second pass name blocks with different cluster but fails address, no match
-#     # Sixth patient: in first pass, MRN blocks with one cluster and name matches in
-# it,
-#     #  in second pass name blocks on different cluster and address matches it,
-#     #  finds greatest strength match and correctly assigns to larger cluster
-#     assert matches == [False, True, False, True, False, True]
-#     assert sorted(list(mapped_patients.values())) == [1, 1, 4]
+    assert len(patient_records[1:]) == len(patients)
+    for person_id in person_id_count:
+        assert person_id_count[person_id] == mapped_patients[person_id]
 
-#     # Re-open connection to check for all insertions
-#     postgres_client.connection = psycopg2.connect(
-#         database=postgres_client.database,
-#         user=postgres_client.user,
-#         password=postgres_client.password,
-#         host=postgres_client.host,
-#         port=postgres_client.port,
-#     )
-#     postgres_client.cursor = postgres_client.connection.cursor()
+    # name and given_name
+    given_name_count = 0
+    name_count = 0
+    for patient in patients:
+        for name in patient["resource"]["name"]:
+            name_count += 1
+            for given_name in name["given"]:
+                given_name_count += 1
+    given_name_records = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE))
+    assert len(given_name_records[1:]) == given_name_count
+    name_records = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
+    assert len(name_records[1:]) == name_count
 
-#     # Extract all data
-#     postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
-#     postgres_client.connection.commit()
-#     data = postgres_client.cursor.fetchall()
+    # address
+    address_records = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE))
+    address_count = 0
+    for patient in patients:
+        for address in patient["resource"]["address"]:
+            address_count += 1
+    assert len(address_records[1:]) == address_count
 
-#     assert len(data) == 6
-
-#     # Re-open connection to check that num records for each person
-#     # ID matches what we found to link on (i.e. links were made
-#     # correctly)
-#     for person_id in mapped_patients:
-#         postgres_client.connection = psycopg2.connect(
-#             database=postgres_client.database,
-#             user=postgres_client.user,
-#             password=postgres_client.password,
-#             host=postgres_client.host,
-#             port=postgres_client.port,
-#         )
-#         postgres_client.cursor = postgres_client.connection.cursor()
-#         postgres_client.cursor.execute(
-#             f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
-#         )
-#         postgres_client.connection.commit()
-#         data = postgres_client.cursor.fetchall()
-#         assert len(data) == mapped_patients[person_id]
-
-#     _clean_up_postgres_client(postgres_client)
+    _clean_up(MPI.dal)
 
 
 def test_add_person_resource():
@@ -1127,13 +1123,6 @@ def test_compare_name_elements():
         "1980-01-01",
         ["123 Main St"],
     ]
-    # record2 = [
-    #     "123",
-    #     "1",
-    #     ["John", "Paul", "George"],
-    #     "1980-01-01",
-    #     ["123 Main St", "9 North Ave"],
-    # ]
     record3 = [
         "123",
         "1",

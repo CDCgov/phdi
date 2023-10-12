@@ -535,6 +535,11 @@ def feature_match_log_odds_fuzzy_compare(
         raise KeyError("Mapping of columns to m/u log-odds must be provided.")
     col_odds = kwargs["log_odds"][feature_col]
     idx = col_to_idx[feature_col]
+
+    # temp
+    record_i[idx] = str(record_i[idx])
+    record_j[idx] = str(record_j[idx])
+
     score = compare_strings(record_i[idx], record_j[idx], "JaroWinkler")
     return score * col_odds
 
