@@ -34,7 +34,7 @@ from phdi.linkage.link import (
     _compare_name_elements,
 )
 
-from phdi.linkage.postgres_mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy import text, select
 
