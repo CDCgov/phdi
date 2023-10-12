@@ -433,9 +433,6 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             table_dict = self.column_to_fhirpaths.get(table)
             table_fields = table_dict.get("fields")
 
-            # Generate name_id to share between `name` and `given_name` tables
-            if table == "name":
-                name_id = uuid.uuid4()
             # Parse root path
             root = extract_value_with_resource_path(
                 patient_resource, table_dict.get("root_path"), selection_criteria="all"
@@ -446,6 +443,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                 for element in root:
                     record = {"patient_id": patient_id}
                     if table == "name":
+                        name_id = uuid.uuid4()
                         record["name_id"] = name_id
                     for field in table_fields.keys():
                         selection_criteria = "first"
