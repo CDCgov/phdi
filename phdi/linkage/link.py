@@ -458,7 +458,7 @@ def feature_match_fuzzy_string(
     """
     idx = col_to_idx[feature_col]
 
-    # temp
+    # TODO: replace with helper function to convert datetime obj to str
     record_i[idx] = str(record_i[idx])
     record_j[idx] = str(record_j[idx])
 
@@ -536,7 +536,7 @@ def feature_match_log_odds_fuzzy_compare(
     col_odds = kwargs["log_odds"][feature_col]
     idx = col_to_idx[feature_col]
 
-    # temp
+    # TODO: replace with helper function to convert datetime obj to str
     record_i[idx] = str(record_i[idx])
     record_j[idx] = str(record_j[idx])
 
