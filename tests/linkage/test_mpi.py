@@ -6,7 +6,7 @@ import re
 import pytest
 import uuid
 from sqlalchemy import Select, select, text
-from phdi.linkage.postgres_mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
 patient_resource = json.load(
@@ -71,7 +71,7 @@ def _clean_up(dal):
         pg_connection.close()
 
 
-def test_block_data():
+def test_get_blocked_data():
     MPI = _init_db()
     block_data = {
         "dob": {"value": "1977-11-11"},
@@ -176,7 +176,7 @@ def test_get_base_query():
         + " birthdate, patient.sex, ident_subq.mrn, name.last_name, "
         + "gname_subq.given_name AS first_name, address.line_1 AS "
         + "address, address.zip_code AS zip, address.city, address.state"
-        + "FROM patient LEFT OUTER JOIN (SELECT identifier.value AS mrn,"
+        + "FROM patient LEFT OUTER JOIN (SELECT identifier.patient_identifier AS mrn,"
         + " identifier.patient_id AS patient_id"
         + "FROM identifier"
         + "WHERE identifier.type_code = :type_code_1) AS ident_subq ON "
@@ -282,7 +282,6 @@ def test_generate_block_query():
     # ensure query has the proper where clause added
     assert re.sub(r"\s+", "", str(my_query)) == re.sub(r"\s+", "", expected_result)
 
-    MPI = _init_db()
     block_data2 = {
         "given_name": {
             "table": MPI.dal.GIVEN_NAME_TABLE,

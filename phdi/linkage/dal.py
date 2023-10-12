@@ -82,15 +82,17 @@ class DataAccessLayer(object):
             "external_source", self.Meta, autoload_with=self.engine
         )
 
-        self.TABLE_LIST.append(self.PATIENT_TABLE)
+        # order of the list determines the order of
+        # inserts due to FK constraints
         self.TABLE_LIST.append(self.PERSON_TABLE)
+        self.TABLE_LIST.append(self.EXTERNAL_SOURCE_TABLE)
+        self.TABLE_LIST.append(self.EXTERNAL_PERSON_TABLE)
+        self.TABLE_LIST.append(self.PATIENT_TABLE)
         self.TABLE_LIST.append(self.NAME_TABLE)
         self.TABLE_LIST.append(self.GIVEN_NAME_TABLE)
         self.TABLE_LIST.append(self.ID_TABLE)
         self.TABLE_LIST.append(self.PHONE_TABLE)
         self.TABLE_LIST.append(self.ADDRESS_TABLE)
-        self.TABLE_LIST.append(self.EXTERNAL_PERSON_TABLE)
-        self.TABLE_LIST.append(self.EXTERNAL_SOURCE_TABLE)
 
     @contextmanager
     def transaction(self) -> None:
@@ -162,7 +164,7 @@ class DataAccessLayer(object):
         along with a single or multiple records for each table.
 
         :param records_with_table: a dictionary that defines the
-            the SQLAlchemy table object 'table' to insert into
+            the SQLAlchemy table name to insert into
             along with a list of dictionaries as records to
             insert into the specified table
             eg. {
@@ -175,14 +177,14 @@ class DataAccessLayer(object):
             along with a list of the primary keys, if requested.
         """
         return_results = {}
-        for table, records in records_with_table.items():
-            new_primary_keys = []
-            table = self.get_table_by_name(table)
-            if table is not None and records is not None and len(records) > 0:
+        for table in self.TABLE_LIST:
+            records = records_with_table.get(table.name)
+            if records is not None:
+                new_primary_keys = []
                 new_primary_keys = self.bulk_insert_list(
                     table, records, return_primary_keys
                 )
-                return_results[table.name] = {"results": new_primary_keys}
+                return_results[table.name] = {"primary_keys": new_primary_keys}
         return return_results
 
     def select_results(
@@ -240,6 +242,8 @@ class DataAccessLayer(object):
     def get_table_by_column(self, column_name: str) -> Table:
         """
         Finds a table in the MPI based upon the column name.
+        Note, this won't work if the column name used exists
+        in more than one table.
 
         :param column_name: the column name you want to find the
             table it belongs to.

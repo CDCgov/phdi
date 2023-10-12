@@ -91,7 +91,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             "identifier": {
                 "root_path": "Patient.identifier",
                 "fields": {
-                    "value": "value",
+                    "patient_identifier": "value",
                     "type_code": "type.coding[0].code",
                     "type_display": "type.coding[0].display",
                     "type_system": "type.coding[0].system",
@@ -174,6 +174,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             return_results = self.dal.bulk_insert_dict(
                 records_with_table=mpi_records, return_primary_keys=True
             )
+
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
@@ -243,8 +244,8 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
                     )
                 else:
                     fk_info = cte_query_table.foreign_keys.pop()
-                    fk_table = fk_info.column.table
                     fk_column = fk_info.column
+                    fk_table = fk_info.column.table
                     sub_query = (
                         select(cte_query_table)
                         .where(text(" AND ".join(query_criteria)))
@@ -303,6 +304,12 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             elif block_key == "first_name":
                 sub_dict["given_name"] = block_value
                 table_orm = self.dal.get_table_by_column("given_name")
+            elif block_key == "mrn":
+                sub_dict["patient_identifier"] == block_value
+                # mrn specific criteria
+                mrn_criteria = {"type_code": {"value": "MR"}}
+                sub_dict["patient_identifier"]["criteria"].update(mrn_criteria)
+                table_orm = self.dal.get_table_by_column("patient_identifier")
             else:
                 sub_dict[block_key] = block_value
                 table_orm = self.dal.get_table_by_column(block_key)
@@ -338,7 +345,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         id_sub_query = (
             select(
-                self.dal.ID_TABLE.c.value.label("mrn"),
+                self.dal.ID_TABLE.c.patient_identifier.label("mrn"),
                 self.dal.ID_TABLE.c.patient_id.label("patient_id"),
             )
             .where(self.dal.ID_TABLE.c.type_code == "MR")
@@ -418,7 +425,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
 
         # Check if patient_id exists
         if patient_resource.get("id", None) is None:
-            patient_id = str(uuid.uuid4())
+            patient_id = uuid.uuid4()
             patient_resource["id"] = patient_id
         else:
             patient_id = patient_resource.get("id")
@@ -427,57 +434,47 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             table_dict = self.column_to_fhirpaths.get(table)
             table_fields = table_dict.get("fields")
 
+            # Generate name_id to share between `name` and `given_name` tables
+            if table == "name":
+                name_id = uuid.uuid4()
             # Parse root path
             root = extract_value_with_resource_path(
                 patient_resource, table_dict.get("root_path"), selection_criteria="all"
             )
-            if root is not None:
-                table_records = []
-                for element in root:
-                    record = {"patient_id": patient_id}
-                    # Generate name_id to share between `name` and `given_name` tables
-                    if table == "name":
-                        name_id = str(uuid.uuid4())
-                        record["name_id"] = name_id
-                    for field in table_fields.keys():
-                        selection_criteria = "first"
-                        if field == "given_name":
-                            selection_criteria = "all"
+            # Parse fields
+            table_records = []
+            for element in root:
+                record = {"patient_id": patient_id}
+                if table == "name":
+                    record["name_id"] = name_id
+                for field in table_fields.keys():
+                    selection_criteria = "first"
+                    if field == "given_name":
+                        selection_criteria = "all"
 
-                        value = extract_value_with_resource_path(
-                            element,
-                            table_fields.get(field),
-                            selection_criteria=selection_criteria,
+                    value = extract_value_with_resource_path(
+                        element,
+                        table_fields.get(field),
+                        selection_criteria=selection_criteria,
+                    )
+                    # Create given_name table in records
+                    if field == "given_name":
+                        given_name_table_records = self._extract_given_names(
+                            value, name_id
                         )
-                        # Create given_name table in records
-                        if field == "given_name":
-                            given_name_table_records = self._extract_given_names(
-                                value, name_id
-                            )
-                            if field not in records.keys():
-                                records[field] = given_name_table_records
-                            else:
-                                for given_name_table_record in given_name_table_records:
-                                    records[field].append(given_name_table_record)
-                            continue
-                        record[field] = value
+                        if field not in records.keys():
+                            records[field] = given_name_table_records
+                        else:
+                            for given_name_table_record in given_name_table_records:
+                                records[field].append(given_name_table_record)
+                        continue
+                    record[field] = value
 
-                    table_records.append(record)
+                table_records.append(record)
 
-                records[table] = table_records
-        sorted_records = self._sort_mpi_records(records)
-        return sorted_records
+            records[table] = table_records
 
-    def _sort_mpi_records(self, mpi_records: dict) -> dict:
-        sorted_records = {
-            "patient": mpi_records.get("patient"),
-            "name": mpi_records.get("name"),
-            "given_name": mpi_records.get("given_name"),
-            "identifier": mpi_records.get("identifier"),
-            "phone_number": mpi_records.get("phone_number"),
-            "address": mpi_records.get("address"),
-        }
-        return sorted_records
+        return records
 
     def _extract_given_names(self, given_names: list, name_id: uuid) -> dict:
         """
