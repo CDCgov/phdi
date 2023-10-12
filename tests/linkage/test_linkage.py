@@ -990,9 +990,9 @@ def test_link_record_against_mpi():
             algorithm,
         )
         matches.append(matched)
-        if pid not in mapped_patients:
-            mapped_patients[pid] = 0
-        mapped_patients[pid] += 1
+        if str(pid) not in mapped_patients:
+            mapped_patients[str(pid)] = 0
+        mapped_patients[str(pid)] += 1
 
     # First patient inserted into empty MPI, no match
     # Second patient blocks with first patient in first pass, then fuzzy matches name
@@ -1009,21 +1009,21 @@ def test_link_record_against_mpi():
 
     # Re-open connection to check for all insertions
     patient_records = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
-    patient_person_count = {}
+    patient_id_count = {}
+    person_id_count = {}
     for patient in patient_records[1:]:
-        if str(patient[1]) not in patient_person_count:
-            patient_person_count[str(patient[1])] = 1
+        if str(patient[0]) not in patient_id_count:
+            patient_id_count[str(patient[0])] = 1
         else:
-            patient_person_count[str(patient[1])] = (
-                patient_person_count[str(patient[1])] + 1
-            )
+            patient_id_count[str(patient[0])] = patient_id_count[str(patient[0])] + 1
+        if str(patient[1]) not in person_id_count:
+            person_id_count[str(patient[1])] = 1
+        else:
+            person_id_count[str(patient[1])] = person_id_count[str(patient[1])] + 1
 
     assert len(patient_records[1:]) == len(patients)
-    # for person_id in patient_person_count:
-    #     assert patient_person_count[person_id] == mapped_patients[person_id]
-
-    for record in patient_records:
-        print(record[1])
+    for person_id in person_id_count:
+        assert person_id_count[person_id] == mapped_patients[person_id]
 
     # name and given_name
     given_name_count = 0
@@ -1046,12 +1046,6 @@ def test_link_record_against_mpi():
             address_count += 1
     assert len(address_records[1:]) == address_count
 
-    # Re-open connection to check that num records for each person
-    # ID matches what we found to link on (i.e. links were made
-    # correctly)
-    person_records = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
-    for record in person_records[1:]:
-        assert record[0] in mapped_patients.keys()
     _clean_up(MPI.dal)
 
 
