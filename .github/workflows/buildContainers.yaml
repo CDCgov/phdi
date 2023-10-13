@@ -36,3 +36,8 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            "ALERTS_URL=${{secrets.ALERTS_URL}}"
+            "FHIR_CONNECTOR_URL=${{secrets.FHIRC_CONNECTOR_URL}}"
+            "INGESTION_URL=${{secrets.INGESTION_URL}}"
+            "MESSAGE_PARSER_URL=${{secrets.MESSAGE_PARSER_URL}}"
