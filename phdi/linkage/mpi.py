@@ -528,6 +528,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         if person_id is None:
             new_person_id = self._insert_person()
         else:
+            self.matched = True
             new_person_id = person_id
 
         if external_person_id is None:
@@ -542,6 +543,7 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
         external_person_record = self.dal.select_results(query, False)
 
         if len(external_person_record) > 0:
+            self.matched = True
             found_person_id = external_person_record[0][1]
         else:
             found_person_id = None
