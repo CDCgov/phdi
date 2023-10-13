@@ -1230,33 +1230,32 @@ def test_flatten_patient():
     ]
 
 
-# def test_multi_element_blocking():
-#     mpi_client = _init_db()
-#     patients = json.load(
-#         open(
-#             pathlib.Path(__file__).parent.parent
-#             / "assets"
-#             / "linkage"
-#             / "patient_bundle_to_link_with_mpi.json"
-#         )
-#     )
-#     patients = patients["entry"]
-#     patients = [
-#         p.get("resource", {})
-#         for p in patients
-#         if p.get("resource", {}).get("resourceType", "") == "Patient"
-#     ]
+def test_multi_element_blocking():
+    MPI = _init_db()
+    patients = json.load(
+        open(
+            pathlib.Path(__file__).parent.parent
+            / "assets"
+            / "linkage"
+            / "patient_bundle_to_link_with_mpi.json"
+        )
+    )
+    patients = patients["entry"]
+    patients = [
+        p.get("resource", {})
+        for p in patients
+        if p.get("resource", {}).get("resourceType", "") == "Patient"
+    ]
 
-#     # Insert multi-entry patient into DB
-#     patient = patients[2]
-#     algorithm = DIBBS_BASIC
-#     link_record_against_mpi(patient, algorithm, postgres_client)
+    # Insert multi-entry patient into DB
+    patient = patients[2]
+    algorithm = DIBBS_BASIC
+    link_record_against_mpi(patient, algorithm)
 
-#     # Now check that we can block on either name
-#     # First row of returned results is headers
-#     found_records = postgres_client.block_data({"last_name": {"value": "Vas Neema"}})
-#     assert len(found_records) == 2
-#     found_records = postgres_client.block_data({"last_name": {"value": "Nar Raya"}})
-#     assert len(found_records) == 2
+    # Now check that we can block on either name & return same results
+    # First row of returned results is headers
+    vm_found_records = MPI.get_block_data({"last_name": {"value": "Vas Neema"}})
+    nr_found_records = MPI.get_block_data({"last_name": {"value": "Nar Raya"}})
+    assert vm_found_records == nr_found_records
 
-#     _clean_up_postgres_client(postgres_client)
+    _clean_up(MPI.dal)
