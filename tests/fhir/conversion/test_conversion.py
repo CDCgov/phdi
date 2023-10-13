@@ -296,8 +296,12 @@ def test_add_rr_to_ecr():
     ) as fp:
         ecr = fp.read()
 
+    print("eCR before conversion: ", ecr)
+
     # extract rr fields, insert to ecr
     ecr = add_rr_data_to_eicr(rr, ecr)
+
+    print("eCR after conversion: ", ecr)
 
     # confirm root tag added
     ecr_root = ecr.splitlines()[0]
@@ -307,7 +311,9 @@ def test_add_rr_to_ecr():
     # confirm new section added
     ecr = etree.fromstring(ecr)
     tag = "{urn:hl7-org:v3}" + "section"
+    print("The test tag is: ", tag)
     section = ecr.find(f"./{tag}", namespaces=ecr.nsmap)
+    print("The section is: ", section)
     assert section is not None
 
     # confirm required elements added

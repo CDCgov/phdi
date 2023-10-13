@@ -48,6 +48,12 @@ def add_rr_data_to_eicr(rr, ecr):
     rr = etree.fromstring(rr)
     ecr = etree.fromstring(ecr)
 
+    # Check to make sure RR hasn't already been merged with eCR
+
+    # you'd think throwing an exception would get the test to fail, but apparently not!
+    x = ecr.findtext("Reportability Response")
+    raise Exception("This is for testing purposes. Is RR present?", x)
+
     # Create the tags for elements we'll be looking for
     rr_tags = [
         "templateId",
