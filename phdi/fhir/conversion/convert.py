@@ -8,6 +8,7 @@ from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
 from phdi.transport.http import http_request_with_retry
 from lxml import etree
+import pathlib
 
 
 CCDA_CODES_TO_CONVERSION_RESOURCE = {
@@ -21,6 +22,19 @@ CCDA_CODES_TO_CONVERSION_RESOURCE = {
     "57133-1": "ReferralNote",
     "18761-7": "TransferSummary",
 }
+
+
+def command_line_rr_extraction(rr_file_path, ecr_file_path):
+    with open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "assets"
+        / "fhir-converter"
+        / "rr_extraction"
+        / "CDA_RR.xml"
+    ) as fp:
+        rr = fp.read()
+
+    return rr
 
 
 def add_rr_data_to_eicr(rr, ecr):
@@ -52,7 +66,7 @@ def add_rr_data_to_eicr(rr, ecr):
 
     # you'd think throwing an exception would get the test to fail, but apparently not!
     x = ecr.findtext("Reportability Response")
-    raise Exception("This is for testing purposes. Is RR present?", x)
+    print(x)
 
     # Create the tags for elements we'll be looking for
     rr_tags = [
