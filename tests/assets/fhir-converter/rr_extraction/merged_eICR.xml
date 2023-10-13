@@ -1,0 +1,17 @@
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><section><templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.1.2"/>
+    <id root="4efa0e5c-c34c-429f-b5de-f1a13aef4a28"/>
+    <code code="88085-6" codeSystem="2.16.840.1.113883.6.1" displayName="Reportability response report Document Public health"/>
+    <title>Reportability Response</title>
+    <effectiveTime value="20220228190403+0000"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="Normal"/>
+    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId extension="2017-04-01" root="2.16.840.1.113883.10.20.15.2.3.29"/>
+                            <id root="39d966b9-8a3a-4024-93d8-138e97d5898a"/>
+                            <code code="RRVS19" codeSystem="2.16.840.1.114222.4.5.274" codeSystemName="PHIN VS (CDC Local Coding System)" displayName="eICR processed"/>
+                        </act>
+                    </entry>
+                <entry typeCode="DRIV">
+                        <organizer classCode="CLUSTER" moodCode="EVN"/>
+                    </entry>
+                </section></ClinicalDocument>
