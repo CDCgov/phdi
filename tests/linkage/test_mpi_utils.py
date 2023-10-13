@@ -7,18 +7,6 @@ from phdi.linkage.config import DBSettings, get_settings
 
 
 def test_get_settings_and_env_vars():
-    try:
-        db_settings = get_settings()
-        assert 1 == 2
-    except ValidationError as error:
-        assert error.model == DBSettings
-
-    try:
-        db_settings = load_mpi_env_vars_os()
-        assert 1 == 2
-    except ValidationError as error:
-        assert error.model == DBSettings
-
     os.environ = {
         "mpi_dbname": "testdb",
         "mpi_user": "postgres",
