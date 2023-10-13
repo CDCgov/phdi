@@ -4,7 +4,6 @@ import json
 import matplotlib.pyplot as plt
 import pandas as pd
 import pathlib
-import sqlite3
 from pydantic import Field
 from itertools import combinations
 from math import log
@@ -49,37 +48,6 @@ def block_data(data: pd.DataFrame, blocks: List) -> dict:
         blocked_data[block] = df.values.tolist()
 
     return blocked_data
-
-
-def block_data_from_db(db_name: str, table_name: str, block_data: Dict) -> List[list]:
-    """
-    Returns a list of lists containing records from the database that match on the
-    incoming record's block values. If blocking on 'ZIP' and the incoming record's zip
-    code is '90210', the resulting block of data would contain records that all have the
-    same zip code of 90210.
-
-    :param db_name: Database name.
-    :param table_name: Table name.
-    :param block_data: Dictionary containing key value pairs for the column name for
-      blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
-    :return: A list of records that are within the block, e.g., records that all have
-      90210 as their ZIP.
-
-    """
-    if len(block_data) == 0:
-        raise ValueError("`block_data` cannot be empty.")
-
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
-    cursor.row_factory = lambda c, row: [i for i in row]
-
-    query = _generate_block_query(table_name, block_data)  # Generate SQL query
-    cursor.execute(query)  # Execute query
-    block = cursor.fetchall()  # Fetch data from query
-    conn.commit()
-    conn.close()
-
-    return block
 
 
 def calculate_log_odds(
@@ -1478,7 +1446,7 @@ def _is_empty_extraction_field(block_vals: dict, field: str):
         or block_vals[field].get("value") == ""
         or block_vals[field].get("value") == [""]
     ):
-        return True
+        return True  # pragma: no cover
     return False
 
 
