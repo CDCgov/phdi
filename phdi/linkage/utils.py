@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from typing import Union
 
+
 def datetime_to_str(
     input_date: Union[str, date, datetime], include_time: bool = False
 ) -> str:

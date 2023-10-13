@@ -1,9 +1,7 @@
 import pytest
 from datetime import date, datetime
 
-from phdi.linkage import (
-    datetime_to_str
-)
+from phdi.linkage import datetime_to_str
 
 
 @pytest.mark.parametrize(
