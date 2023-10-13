@@ -1220,12 +1220,12 @@ def test_flatten_patient():
         None,
         ["PO Box 1 First Rock", "Bay 16 Ward Sector 24"],
         "2060-05-14",
-        ["Nar Raya", "Liveship"],
+        ["Bozeman", "Brooklyn"],
         ["Tali", "Zora", "Tali", "Zora", "Tali", "Zora"],
         "Vas Normandy",
         "7894561235",
         "female",
-        ["Ranoch", "The Neema"],
+        ["Montana", "New York"],
         ["11111", "11111"],
     ]
 

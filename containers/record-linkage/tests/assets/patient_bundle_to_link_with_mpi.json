@@ -140,8 +140,8 @@
               "PO Box 1",
               "First Rock"
             ],
-            "city": "Nar Raya",
-            "state": "Ranoch",
+            "city": "Bozeman",
+            "state": "Montana",
             "postalCode": "11111",
             "use": "home"
           }
@@ -233,8 +233,8 @@
               "PO Box 1",
               "First Rock"
             ],
-            "city": "Nar Raya",
-            "state": "Ranoch",
+            "city": "Bozeman",
+            "state": "Montana",
             "postalCode": "11111",
             "use": "home"
           }
@@ -275,8 +275,8 @@
             "line": [
               "1234 Silversun Strip"
             ],
-            "city": "Nar Raya",
-            "state": "Ranoch",
+            "city": "Bozeman",
+            "state": "Montana",
             "postalCode": "11111",
             "use": "home"
           }
