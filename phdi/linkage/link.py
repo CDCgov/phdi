@@ -655,21 +655,20 @@ def link_record_against_mpi(
                         )
                     else:
                         linkage_scores[person] = belongingness_ratio
+    # Didn't match any person in our database
+    if len(linkage_scores) == 0:
+        (matched, new_person_id, results) = mpi_client.insert_matched_patient(
+            record, person_id=None, external_person_id=external_person_id
+        )
+        return (matched, new_person_id)
 
-        # Didn't match any person in our database
-        if len(linkage_scores) == 0:
-            (matched, new_person_id, results) = mpi_client.insert_matched_patient(
-                record, person_id=None, external_person_id=external_person_id
-            )
-            return (matched, new_person_id)
-
-        # Determine strongest match, upsert, then let the caller know
-        else:
-            best_person = _find_strongest_link(linkage_scores)
-            mpi_client.insert_matched_patient(
-                record, person_id=best_person, external_person_id=external_person_id
-            )
-            return (True, best_person)
+    # Determine strongest match, upsert, then let the caller know
+    else:
+        best_person = _find_strongest_link(linkage_scores)
+        mpi_client.insert_matched_patient(
+            record, person_id=best_person, external_person_id=external_person_id
+        )
+        return (True, best_person)
 
 
 def load_json_probs(path: pathlib.Path):
@@ -1241,7 +1240,7 @@ def _compare_name_elements(
     """
     idx = col_to_idx[feature_col]
     feature_comp = feature_funcs[feature_col](
-        [" ".join(n for n in record[idx])],
+        [record[idx][0]],
         [mpi_patient[idx]],
         feature_col,
         {feature_col: 0},
