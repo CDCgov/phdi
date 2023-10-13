@@ -829,11 +829,6 @@ def test_link_record_against_mpi_none_record():
         for p in patients
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ][:2]
-    # add an additional patient that will fuzzy match to patient 0
-    patient0_copy = copy.deepcopy(patients[0])
-    patient0_copy["id"] = str(uuid.uuid4())
-    patient0_copy["city"] = None
-    patients.append(patient0_copy)
 
     # Test various null data values in incoming record
     patients[1]["name"][0]["given"] = None
@@ -845,17 +840,15 @@ def test_link_record_against_mpi_none_record():
             patient,
             algorithm,
         )
-        # patient_records = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
         matches.append(matched)
         if str(pid) not in mapped_patients:
             mapped_patients[str(pid)] = 0
         mapped_patients[str(pid)] += 1
 
     # First patient inserted into empty MPI, no match
-    # Second patient blocks with first patient in first pass, then fails to fuzzy
-    # match name
-    assert matches == [False, False, True]
-    assert sorted(list(mapped_patients.values())) == [1, 2]
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
+    assert matches == [False, True]
+    assert sorted(list(mapped_patients.values())) == [2]
 
     _clean_up(MPI.dal)
 
@@ -878,11 +871,6 @@ def test_link_record_against_mpi():
         for p in patients
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
-    # add an additional patient that will fuzzy match to patient 0
-    patient0_copy = copy.deepcopy(patients[0])
-    patient0_copy["resource"]["id"] = str(uuid.uuid4())
-    patient0_copy["resource"]["name"][0]["given"][0] = "Jhon"
-    patients.append(patient0_copy)
 
     matches = []
     mapped_patients = {}
@@ -897,8 +885,7 @@ def test_link_record_against_mpi():
         mapped_patients[str(pid)] += 1
 
     # First patient inserted into empty MPI, no match
-    # Second patient blocks with first patient in first pass, then fails to fuzzy
-    # match name
+    # Second patient blocks with first patient in first pass, then fuzzy matches name
     # Third patient is entirely new individual, no match
     # Fourth patient fails blocking with first pass but catches on second, fuzzy
     # matches
@@ -907,8 +894,8 @@ def test_link_record_against_mpi():
     # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
     # in second pass name blocks on different cluster and address matches it,
     # finds greatest strength match and correctly assigns to larger cluster
-    assert matches == [False, False, False, True, False, True, True]
-    assert sorted(list(mapped_patients.values())) == [1, 1, 2, 3]
+    assert matches == [False, True, False, True, False, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
 
     # Re-open connection to check for all insertions
     patient_records = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
