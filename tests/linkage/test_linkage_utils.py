@@ -1,5 +1,5 @@
-import pytest
 from datetime import date, datetime
+import pytest
 
 from phdi.linkage import datetime_to_str
 
