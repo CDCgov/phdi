@@ -1,9 +1,8 @@
 import os
-from pydantic import ValidationError
 from phdi.linkage.utils import (
     load_mpi_env_vars_os,
 )
-from phdi.linkage.config import DBSettings, get_settings
+from phdi.linkage.config import get_settings
 
 
 def test_get_settings_and_env_vars():
