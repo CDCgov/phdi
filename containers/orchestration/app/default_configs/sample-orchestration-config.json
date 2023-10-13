@@ -9,12 +9,12 @@
       "url": "http://localhost:8082"
     },
     "ingestion": {
-      "url": "http://localhost:8083"
-    },
-    "standardization_and_geocoding": {
-      "geocode_method": "smarty",
-      "overwrite": "true",
-      "dob_format": ""
+      "url": "http://localhost:8083",
+      "standardization_and_geocoding": {
+        "geocode_method": "smarty",
+        "overwrite": "true",
+        "dob_format": ""
+      }
     },
     "message_parser": {
       "message_format": "fhir",
@@ -44,10 +44,6 @@
     {
       "service": "ingestion",
       "endpoint": "/fhir/harmonization/standardization/standardize_dob"
-    },
-    {
-      "service": "ingestion",
-      "endpoint": "/fhir/geospatial/geocode/geocode_bundle"
     },
     {
       "service": "message_parser",

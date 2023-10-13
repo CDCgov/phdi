@@ -17,6 +17,9 @@ When can we call this done?
 
 GIVEN...WHEN...THEN
 
+## Testing
+Does this ticket have unusual testing requirements, or new tests that will need to be created?
+
 ## Background & Context
 So what? Why is this functionality important to the user?
 
