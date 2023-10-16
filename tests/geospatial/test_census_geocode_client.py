@@ -6,6 +6,7 @@ import pytest
 from phdi.geospatial.core import GeocodeResult
 from phdi.geospatial.census import CensusGeocodeClient
 
+
 CENSUS_RESPONSE_FILE = (
     pathlib.Path(__file__).parent.parent
     / "assets"
@@ -18,6 +19,26 @@ CENSUS_RESPONSE_FILE = (
 def census_response_data():
     with open(CENSUS_RESPONSE_FILE) as file:
         return json.load(file)
+
+
+@pytest.fixture
+def geocoded_response():
+    return GeocodeResult(
+        line=["239 GREENE ST"],
+        city="NEW YORK",
+        state="NY",
+        postal_code="10003",
+        county_fips="36061",
+        lat=40.72962831414409,
+        lng=-73.9954428687588,
+        district=None,
+        country=None,
+        county_name="New York",
+        precision=None,
+        geoid="360610059003005",
+        census_tract="59",
+        census_block="3005",
+    )
 
 
 def mock_call_census_api(census_response_data, *args, **kwargs):
@@ -71,7 +92,7 @@ def test_parse_census_result_failure(census_response_data):
     assert CensusGeocodeClient._parse_census_result(census_response_data) is None
 
 
-def test_geocode_from_str(monkeypatch, census_response_data):
+def test_geocode_from_str(monkeypatch, census_response_data, geocoded_response):
     address = "239 Greene Street, New York, NY, 10003"
     census_client = CensusGeocodeClient()
 
@@ -83,22 +104,6 @@ def test_geocode_from_str(monkeypatch, census_response_data):
         ),
     )
 
-    geocoded_response = GeocodeResult(
-        line=["239 GREENE ST"],
-        city="NEW YORK",
-        state="NY",
-        postal_code="10003",
-        county_fips="36061",
-        lat=40.72962831414409,
-        lng=-73.9954428687588,
-        district=None,
-        country=None,
-        county_name="New York",
-        precision=None,
-        geoid="360610059003005",
-        census_tract="59",
-        census_block="3005",
-    )
     assert geocoded_response == census_client.geocode_from_str(address)
 
     # Test ambiguous address/address with multiple matches
@@ -115,7 +120,7 @@ def test_geocode_from_str(monkeypatch, census_response_data):
     assert geocoded_response is None
 
 
-def test_geocode_from_dict(monkeypatch, census_response_data):
+def test_geocode_from_dict(monkeypatch, census_response_data, geocoded_response):
     census_client = CensusGeocodeClient()
 
     # set the default mock response
@@ -134,23 +139,6 @@ def test_geocode_from_dict(monkeypatch, census_response_data):
         "state": "NY",
         "zip": "10003",
     }
-
-    geocoded_response = GeocodeResult(
-        line=["239 GREENE ST"],
-        city="NEW YORK",
-        state="NY",
-        postal_code="10003",
-        county_fips="36061",
-        lat=40.72962831414409,
-        lng=-73.9954428687588,
-        district=None,
-        country=None,
-        county_name="New York",
-        precision=None,
-        geoid="360610059003005",
-        census_tract="59",
-        census_block="3005",
-    )
 
     assert geocoded_response == census_client.geocode_from_dict(full_address_dict)
 
