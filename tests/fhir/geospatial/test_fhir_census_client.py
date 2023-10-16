@@ -7,11 +7,7 @@ from phdi.fhir.geospatial.census import CensusFhirGeocodeClient
 from phdi.geospatial.core import GeocodeResult
 
 
-FHIR_BUNDLE_PATH = (
-    pathlib.Path(__file__).parent.parent.parent
-    / "assets"
-    / "general"
-)
+FHIR_BUNDLE_PATH = pathlib.Path(__file__).parent.parent.parent / "assets" / "general"
 
 
 @pytest.fixture
@@ -47,19 +43,19 @@ def census_client(monkeypatch, geocoded_response):
 
     def mock_geocode_from_dict(*args, **kwargs):
         return geocoded_response
-    
+
     monkeypatch.setattr(
-        client._CensusFhirGeocodeClient__client, 
-        "geocode_from_dict", 
-        mock_geocode_from_dict
+        client._CensusFhirGeocodeClient__client,
+        "geocode_from_dict",
+        mock_geocode_from_dict,
     )
 
     return client
 
 
-
 def get_patient_from_bundle(bundle):
     return bundle["entry"][1]["resource"]
+
 
 def extract_address(standardized_patient, geocoded_response, extension=False):
     address = standardized_patient["address"][0]
@@ -121,25 +117,25 @@ def extract_address(standardized_patient, geocoded_response, extension=False):
 
 
 def test_geocode_resource_census(
-        patient_bundle_census, 
-        patient_bundle_census_extension,
-        geocoded_response,
-        census_client,
-        monkeypatch):
-    
+    patient_bundle_census,
+    patient_bundle_census_extension,
+    geocoded_response,
+    census_client,
+    monkeypatch,
+):
     def mock_geocode_from_dict(*args, **kwargs):
         return geocoded_response
-   
+
     monkeypatch.setattr(
         census_client._CensusFhirGeocodeClient__client,
         "geocode_from_dict",
-        mock_geocode_from_dict
-    )   
+        mock_geocode_from_dict,
+    )
 
     patient = get_patient_from_bundle(patient_bundle_census)
     standardized_patient = copy.deepcopy(patient)
     extract_address(standardized_patient, geocoded_response)
-    
+
     # Case 1: Overwrite = False
     returned_patient = census_client.geocode_resource(patient, overwrite=False)
     assert standardized_patient == returned_patient
@@ -173,24 +169,23 @@ def test_geocode_resource_census(
 
 
 def test_geocode_bundle_census(
-        patient_bundle_census, 
-        geocoded_response,
-        census_client,
-        monkeypatch):
-     
+    patient_bundle_census, geocoded_response, census_client, monkeypatch
+):
     def mock_geocode_from_dict(*args, **kwargs):
         return geocoded_response
 
     monkeypatch.setattr(
         census_client._CensusFhirGeocodeClient__client,
         "geocode_from_dict",
-        mock_geocode_from_dict
+        mock_geocode_from_dict,
     )
 
     standardized_bundle = copy.deepcopy(patient_bundle_census)
     patient = standardized_bundle["entry"][1]["resource"]
     extract_address(patient, geocoded_response)
 
-    returned_bundle = census_client.geocode_bundle(patient_bundle_census, overwrite=False)
+    returned_bundle = census_client.geocode_bundle(
+        patient_bundle_census, overwrite=False
+    )
     assert standardized_bundle == returned_bundle
     assert patient_bundle_census != standardized_bundle
