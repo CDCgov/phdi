@@ -559,8 +559,6 @@ def link_record_against_mpi(
     # Need to bind function names back to their symbolic invocations
     # in context of the module--i.e. turn the string of a function
     # name back into the callable defined in link.py
-    # record = patient
-    # algo_config = DIBBS_BASIC
 
     mpi_client = PGMPIConnectorClient()
     mpi_client._initialize_schema()
