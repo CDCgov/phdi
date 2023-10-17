@@ -1,10 +1,10 @@
 import json
 import pathlib
 from app.config import get_settings
-from phdi.linkage import DIBBsConnectorClient
 import subprocess
 from typing import Literal
 import logging
+from phdi.linkage.mpi import PGMPIConnectorClient
 
 
 def connect_to_mpi_with_env_vars():
@@ -14,13 +14,7 @@ def connect_to_mpi_with_env_vars():
     This also automatically tests that a connection can be made as
     part of instantiating the DB Client.
     """
-    dbname, user, password, host = load_mpi_env_vars_os()
-    port = get_settings().get("mpi_port")
-    patient_table = get_settings().get("mpi_patient_table")
-    person_table = get_settings().get("mpi_person_table")
-    db_client = DIBBsConnectorClient(
-        dbname, user, password, host, port, patient_table, person_table
-    )
+    db_client = PGMPIConnectorClient()
     return db_client
 
 
