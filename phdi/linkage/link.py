@@ -549,19 +549,18 @@ def link_record_against_mpi(
     :param algo_config: An algorithm configuration consisting of a list
       of dictionaries describing the algorithm to run. See
       `read_linkage_config` and `write_linkage_config` for more details.
-    :param db_client: An instantiated connection to an MPI database.
     :returns: A tuple consisting of a boolean indicating whether a match
       was found for the new record in the MPI, followed by the ID of the
       Person entity now associated with the incoming patient (either a
       new Person ID or the ID of an existing matched Person).
     """
+    # Initialize MPI client
+    mpi_client = PGMPIConnectorClient()
+    mpi_client._initialize_schema()
 
     # Need to bind function names back to their symbolic invocations
     # in context of the module--i.e. turn the string of a function
     # name back into the callable defined in link.py
-
-    mpi_client = PGMPIConnectorClient()
-    mpi_client._initialize_schema()
 
     algo_config = copy.deepcopy(algo_config)
     algo_config = _bind_func_names_to_invocations(algo_config)
