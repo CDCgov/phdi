@@ -51,6 +51,13 @@ upload_config_response = load_config_assets(
 )
 
 
+class WS_File:
+    # Constructor method (init method)
+    def __init__(self, file):
+        # Instance attributes
+        self.file = file
+
+
 async def process_form(websocket, form_data):
     # Simulate processing the form data with progress updates
     for i in range(1, 11):
@@ -59,6 +66,17 @@ async def process_form(websocket, form_data):
         await websocket.send_text(json.dumps(progress_dict))
         # await websocket.send('{"progress": ' + str(progress) + ', "type": "json }')
         await asyncio.sleep(1)  # Simulate work
+
+
+def unzip_if_zipped(upload_file=None, data=None):
+
+    if upload_file and is_zipfile(upload_file.file):
+        return unzip(upload_file)
+    elif upload_file:
+        return upload_file.file
+    else:
+        content = data["message"]
+        return content
 
 
 @app.websocket("/process-ws")
@@ -71,56 +89,10 @@ async def process_message_endpoint_ws(
     """
     await websocket.accept()
     while True:
-        form_data = await websocket.receive_bytes()
-        ic(form_data)
-        await process_form(websocket, form_data)
-    # while True:
-    #     ic("hello, i got the websocket, now i'll send text")
-    #     # data = await websocket.receive_text()
-    #     # await websocket.send_text(f"Message text was: {data}")
-    #     await websocket.send_text({"progress": "10", "type": "json"})
-
-    # content = ""
-
-    # if upload_file and is_zipfile(upload_file.file):
-    #     content = unzip(upload_file)
-    # else:
-    #     try:
-    #         data = await request.json()
-    #         content = data["message"]
-    #         message_type = data["message_type"]
-    #         include_error_types = data["include_error_types"]
-    #     except json.JSONDecodeError as e:
-    #         raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
-    #     except KeyError as e:
-    #         error_message = str(e)
-    #         raise HTTPException(
-    #             status_code=400, detail=f"Missing JSON data: {error_message}"
-    #         )
-
-    # # Change below to grab from uploaded configs once we've got them
-    # processing_config = load_processing_config("sample-orchestration-config.json")
-    # input = {
-    #     "message_type": message_type,
-    #     "include_error_types": include_error_types,
-    #     "message": content,
-    # }
-
-    # response, responses = call_apis(config=processing_config, input=input)
-
-    # if response.status_code == 200:
-    #     # Parse and work with the API response data (JSON, XML, etc.)
-    #     api_data = response.json()  # Assuming the response is in JSON format
-    #     return {
-    #         "message": "Processing succeeded!",
-    #         "processed_values": api_data,
-    #     }
-    # else:
-    #     return {
-    #         "message": f"Request failed with status code {response.status_code}",
-    #         "responses": f"{responses}",
-    #         "processed_values": "",
-    #     }
+        file = await websocket.receive_bytes()
+        file_maybe = file.write()
+        upload_file = unzip_if_zipped(upload_file=WS_File(file_maybe))
+        await process_form(websocket, file)
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
@@ -136,21 +108,19 @@ async def process_message_endpoint(
     """
     content = ""
 
-    if upload_file and is_zipfile(upload_file.file):
-        content = unzip(upload_file)
-    else:
-        try:
-            data = await request.json()
-            content = data["message"]
-            message_type = data["message_type"]
-            include_error_types = data["include_error_types"]
-        except json.JSONDecodeError as e:
-            raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
-        except KeyError as e:
-            error_message = str(e)
-            raise HTTPException(
-                status_code=400, detail=f"Missing JSON data: {error_message}"
-            )
+    try:
+        data = await request.json()
+        content = unzip_if_zipped(upload_file, data)
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
+    except KeyError as e:
+        error_message = str(e)
+        raise HTTPException(
+            status_code=400, detail=f"Missing JSON data: {error_message}"
+        )
+
+    message_type = data["message_type"]
+    include_error_types = data["include_error_types"]
 
     # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")
