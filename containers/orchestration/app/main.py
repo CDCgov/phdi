@@ -8,6 +8,7 @@ from fastapi import (
     Request,
     File,
     HTTPException,
+    WebSocket,
 )
 from typing import Annotated, Optional
 from pathlib import Path
@@ -30,6 +31,10 @@ from app.constants import (
 )
 import json
 import os
+import asyncio
+from icecream import ic
+
+# import websockets
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -44,6 +49,78 @@ app = BaseService(
 upload_config_response = load_config_assets(
     upload_config_response_examples, PutConfigResponse
 )
+
+
+async def process_form(websocket, form_data):
+    # Simulate processing the form data with progress updates
+    for i in range(1, 11):
+        progress = i * 10  # Progress percentage
+        progress_dict = {"progress": progress}
+        await websocket.send_text(json.dumps(progress_dict))
+        # await websocket.send('{"progress": ' + str(progress) + ', "type": "json }')
+        await asyncio.sleep(1)  # Simulate work
+
+
+@app.websocket("/process-ws")
+async def process_message_endpoint_ws(
+    websocket: WebSocket,
+) -> ProcessMessageResponse:
+    """
+    Processes a message either as a message parameter or an uploaded zip file
+      through a series of microservices
+    """
+    await websocket.accept()
+    while True:
+        form_data = await websocket.receive_bytes()
+        ic(form_data)
+        await process_form(websocket, form_data)
+    # while True:
+    #     ic("hello, i got the websocket, now i'll send text")
+    #     # data = await websocket.receive_text()
+    #     # await websocket.send_text(f"Message text was: {data}")
+    #     await websocket.send_text({"progress": "10", "type": "json"})
+
+    # content = ""
+
+    # if upload_file and is_zipfile(upload_file.file):
+    #     content = unzip(upload_file)
+    # else:
+    #     try:
+    #         data = await request.json()
+    #         content = data["message"]
+    #         message_type = data["message_type"]
+    #         include_error_types = data["include_error_types"]
+    #     except json.JSONDecodeError as e:
+    #         raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
+    #     except KeyError as e:
+    #         error_message = str(e)
+    #         raise HTTPException(
+    #             status_code=400, detail=f"Missing JSON data: {error_message}"
+    #         )
+
+    # # Change below to grab from uploaded configs once we've got them
+    # processing_config = load_processing_config("sample-orchestration-config.json")
+    # input = {
+    #     "message_type": message_type,
+    #     "include_error_types": include_error_types,
+    #     "message": content,
+    # }
+
+    # response, responses = call_apis(config=processing_config, input=input)
+
+    # if response.status_code == 200:
+    #     # Parse and work with the API response data (JSON, XML, etc.)
+    #     api_data = response.json()  # Assuming the response is in JSON format
+    #     return {
+    #         "message": "Processing succeeded!",
+    #         "processed_values": api_data,
+    #     }
+    # else:
+    #     return {
+    #         "message": f"Request failed with status code {response.status_code}",
+    #         "responses": f"{responses}",
+    #         "processed_values": "",
+    #     }
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
