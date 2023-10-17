@@ -166,7 +166,6 @@ def test_geocode_from_dict(monkeypatch, census_response_data, geocoded_response)
     # Test ambiguous address
     ambiguous_address_dict = {"street": "123 Main Street"}
     monkeypatch.setattr(census_client, "_call_census_api", mock_ambiguous_address)
-    # census_client._call_census_api.return_value = ambiguous_address_dict
     assert census_client.geocode_from_dict(ambiguous_address_dict) is None
 
     # Test malformed input input (e.g., zipcode == ABC)
