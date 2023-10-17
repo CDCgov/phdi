@@ -1,18 +1,64 @@
-from phdi.geospatial.core import GeocodeResult
-from phdi.geospatial.census import CensusGeocodeClient
 import json
 import pathlib
-from unittest import mock
-from unittest.mock import patch
-import pytest
 import requests
+import pytest
+
+from phdi.geospatial.core import GeocodeResult
+from phdi.geospatial.census import CensusGeocodeClient
 
 
-@patch("phdi.geospatial.census.http_request_with_retry")
-def test_call_census_api(mock_request):
-    mock_response = mock.Mock()
-    mock_response.status_code = 404
-    mock_request.return_value = mock_response
+CENSUS_RESPONSE_FILE = (
+    pathlib.Path(__file__).parent.parent
+    / "assets"
+    / "geospatial"
+    / "censusResponseFullAddress.json"
+)
+
+
+@pytest.fixture
+def census_response_data():
+    with open(CENSUS_RESPONSE_FILE) as file:
+        return json.load(file)
+
+
+@pytest.fixture
+def geocoded_response():
+    return GeocodeResult(
+        line=["239 GREENE ST"],
+        city="NEW YORK",
+        state="NY",
+        postal_code="10003",
+        county_fips="36061",
+        lat=40.72962831414409,
+        lng=-73.9954428687588,
+        district=None,
+        country=None,
+        county_name="New York",
+        precision=None,
+        geoid="360610059003005",
+        census_tract="59",
+        census_block="3005",
+    )
+
+
+def mock_call_census_api(census_response_data, *args, **kwargs):
+    return census_response_data
+
+
+def mock_ambiguous_address(*args, **kwargs):
+    return {"addressMatches": []}
+
+
+def test_call_census_api(monkeypatch):
+    class MockResponse:
+        status_code = 404
+
+    def mock_http_request_with_retry(*args, **kwargs):
+        return MockResponse()
+
+    monkeypatch.setattr(
+        "phdi.geospatial.census.http_request_with_retry", mock_http_request_with_retry
+    )
 
     url = (
         "https://geocoding.geo.census.gov/geocoder/geographies/"
@@ -28,17 +74,8 @@ def test_call_census_api(mock_request):
         assert "<ExceptionInfo HTTPError() tblen=2>" in str(e.value)
 
 
-def test_parse_census_result_success():
-    censusResponseFullAddress = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent
-            / "assets"
-            / "geospatial"
-            / "censusResponseFullAddress.json"
-        )
-    )
-
-    encoded_result = CensusGeocodeClient._parse_census_result(censusResponseFullAddress)
+def test_parse_census_result_success(census_response_data):
+    encoded_result = CensusGeocodeClient._parse_census_result(census_response_data)
 
     assert encoded_result.line == ["239 GREENE ST"]
     assert encoded_result.city == "NEW YORK"
@@ -50,66 +87,29 @@ def test_parse_census_result_success():
     assert encoded_result.postal_code == "10003"
 
 
-def test_parse_census_result_failure():
-    censusResponseFullAddress_noAddressMatch = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent
-            / "assets"
-            / "geospatial"
-            / "censusResponseFullAddress.json"
-        )
-    )
-
-    # Test when addressMatches is an empty list
-    censusResponseFullAddress_noAddressMatch["addressMatches"] = []
-    assert (
-        CensusGeocodeClient._parse_census_result(
-            censusResponseFullAddress_noAddressMatch
-        )
-        is None
-    )
+def test_parse_census_result_failure(census_response_data):
+    census_response_data["addressMatches"] = []
+    assert CensusGeocodeClient._parse_census_result(census_response_data) is None
 
 
-def test_geocode_from_str():
-    census_client = CensusGeocodeClient()
+def test_geocode_from_str(monkeypatch, census_response_data, geocoded_response):
     address = "239 Greene Street, New York, NY, 10003"
-    censusResponseFullAddress = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent
-            / "assets"
-            / "geospatial"
-            / "censusResponseFullAddress.json"
-        )
-    )
-    census_client._call_census_api = mock.Mock()
-    census_client._call_census_api.return_value = censusResponseFullAddress
+    census_client = CensusGeocodeClient()
 
-    geocoded_response = GeocodeResult(
-        line=["239 GREENE ST"],
-        city="NEW YORK",
-        state="NY",
-        postal_code="10003",
-        county_fips="36061",
-        lat=40.72962831414409,
-        lng=-73.9954428687588,
-        district=None,
-        country=None,
-        county_name="New York",
-        precision=None,
-        geoid="360610059003005",
-        census_tract="59",
-        census_block="3005",
+    monkeypatch.setattr(
+        census_client,
+        "_call_census_api",
+        lambda *args, **kwargs: mock_call_census_api(
+            census_response_data, *args, **kwargs
+        ),
     )
+
     assert geocoded_response == census_client.geocode_from_str(address)
 
     # Test ambiguous address/address with multiple matches
-    address = "659 Centre St"
-    address_response = {
-        "address": address,
-    }
-    census_client._call_census_api.return_value = address_response
-
-    assert census_client.geocode_from_str(address) is None
+    ambiguous_address = "659 Centre St"
+    monkeypatch.setattr(census_client, "_call_census_api", mock_ambiguous_address)
+    assert census_client.geocode_from_str(ambiguous_address) is None
 
     # Test empty string address
     address = ""
@@ -120,19 +120,17 @@ def test_geocode_from_str():
     assert geocoded_response is None
 
 
-def test_geocode_from_dict():
-    censusResponseFullAddress = json.load(
-        open(
-            pathlib.Path(__file__).parent.parent
-            / "assets"
-            / "geospatial"
-            / "censusResponseFullAddress.json"
-        )
-    )
-
+def test_geocode_from_dict(monkeypatch, census_response_data, geocoded_response):
     census_client = CensusGeocodeClient()
-    census_client._call_census_api = mock.Mock()
-    census_client._call_census_api.return_value = censusResponseFullAddress
+
+    # set the default mock response
+    monkeypatch.setattr(
+        census_client,
+        "_call_census_api",
+        lambda *args, **kwargs: mock_call_census_api(
+            census_response_data, *args, **kwargs
+        ),
+    )
 
     # Test address with full, complete information
     full_address_dict = {
@@ -141,23 +139,6 @@ def test_geocode_from_dict():
         "state": "NY",
         "zip": "10003",
     }
-
-    geocoded_response = GeocodeResult(
-        line=["239 GREENE ST"],
-        city="NEW YORK",
-        state="NY",
-        postal_code="10003",
-        county_fips="36061",
-        lat=40.72962831414409,
-        lng=-73.9954428687588,
-        district=None,
-        country=None,
-        county_name="New York",
-        precision=None,
-        geoid="360610059003005",
-        census_tract="59",
-        census_block="3005",
-    )
 
     assert geocoded_response == census_client.geocode_from_dict(full_address_dict)
 
@@ -184,7 +165,7 @@ def test_geocode_from_dict():
 
     # Test ambiguous address
     ambiguous_address_dict = {"street": "123 Main Street"}
-    census_client._call_census_api.return_value = ambiguous_address_dict
+    monkeypatch.setattr(census_client, "_call_census_api", mock_ambiguous_address)
     assert census_client.geocode_from_dict(ambiguous_address_dict) is None
 
     # Test malformed input input (e.g., zipcode == ABC)
