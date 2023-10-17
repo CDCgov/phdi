@@ -48,7 +48,7 @@ def add_rr_data_to_eicr(rr, ecr):
     rr = etree.fromstring(rr)
     ecr = etree.fromstring(ecr)
 
-    if ecr.xpath('//*[@codeSystem="2.16.840.1.113883.6.1"]'):
+    if ecr.xpath('//*[@code="88085-6"]'):
         print("This eCR has already been merged with RR data.")
         return etree.tostring(ecr, encoding="unicode", method="xml")
 
