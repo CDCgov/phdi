@@ -190,9 +190,14 @@ jobs:
         run: pip install pytest
       - name: Install dependencies
         working-directory: ./containers/${{matrix.directories-to-test}}
-        run: |
+        # Instead of importing the SDK from @main, import it from
+        # the current commit.
+        run: | 
           pwd
-          pip install -r requirements.txt
+          commit_hash=$(git rev-parse HEAD)
+          cp requirements.txt ci_requirements.txt
+          sed -i -e "s/phdi@main/phdi@${commit_hash}/g" ci_requirements.txt
+          pip install -r ci_requirements.txt
       - name: Run integration tests for containers
         working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
         run: |
