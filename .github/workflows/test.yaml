@@ -193,10 +193,14 @@ jobs:
         # When running as a PR check, instead of importing the SDK from @main,
         # import it from the current commit.
         run: | 
-          if [[ git rev-parse --abbrev-ref HEAD == "main" ]]; then
+          if [[ GITHUB_REF == "main" ]]; then
+               echo GITHUB_REF
+               echo "running on main!"
                pwd
                pip install -r requirements.txt
           else
+               echo GITHUB_REF
+               echo "not running on main"
                pwd
                commit_hash=$(git rev-parse HEAD)
                cp requirements.txt ci_requirements.txt
