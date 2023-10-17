@@ -304,6 +304,9 @@ class PGMPIConnectorClient(BaseMPIConnectorClient):
             elif block_key == "first_name":
                 sub_dict["given_name"] = block_value
                 table_orm = self.dal.get_table_by_column("given_name")
+            elif block_key == "birthdate":
+                sub_dict["dob"] = block_value
+                table_orm = self.dal.get_table_by_column("dob")
             elif block_key == "mrn":
                 sub_dict["patient_identifier"] = block_value
                 # mrn specific criteria
