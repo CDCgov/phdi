@@ -48,9 +48,7 @@ def add_rr_data_to_eicr(rr, ecr):
     rr = etree.fromstring(rr)
     ecr = etree.fromstring(ecr)
 
-    # Check to make sure RR hasn't already been merged with eCR
-    # If it has, stop execution
-    if ecr.xpath('//*[contains(text(),"Reportability Response")]'):
+    if ecr.xpath('//*[@codeSystem="2.16.840.1.113883.6.1"]'):
         print("This eCR has already been merged with RR data.")
         return etree.tostring(ecr, encoding="unicode", method="xml")
 
