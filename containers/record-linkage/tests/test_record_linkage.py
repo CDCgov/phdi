@@ -1,13 +1,7 @@
+# flake8: noqa
+# fmt: off
 import os
 from app.config import get_settings
-from fastapi import status
-from fastapi.testclient import TestClient
-from app.main import app, run_migrations
-from sqlalchemy import text
-import copy
-import json
-import pathlib
-
 
 def set_mpi_env_vars():
     os.environ["mpi_db_type"] = "postgres"
@@ -21,7 +15,15 @@ def set_mpi_env_vars():
 
 set_mpi_env_vars()
 
-
+from fastapi import status
+from fastapi.testclient import TestClient
+from app.main import app, run_migrations
+from sqlalchemy import text
+import copy
+import json
+import pathlib
+from phdi.linkage.mpi import PGMPIConnectorClient
+# fmt: on
 client = TestClient(app)
 
 
@@ -45,8 +47,10 @@ def pop_mpi_env_vars():
     os.environ.pop("mpi_port", None)
 
 
-def _clean_up(dal):
-    with dal.engine.connect() as pg_connection:
+def _clean_up():
+    MPI = PGMPIConnectorClient()
+
+    with MPI.dal.engine.connect() as pg_connection:
         pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
@@ -57,6 +61,7 @@ def _clean_up(dal):
         pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway;"""))
         pg_connection.commit()
         pg_connection.close()
 
@@ -176,85 +181,82 @@ def test_linkage_success():
     assert person_6.get("id") == person_1.get("id")
 
 
-# _clean_up(MPI.dal)
+def test_use_enhanced_algo():
+    # Start with fresh tables to make tests atomic
+    _clean_up()
+    set_mpi_env_vars()
+    run_migrations()
+    test_bundle = load_test_bundle()
+    entry_list = copy.deepcopy(test_bundle["entry"])
 
+    bundle_1 = test_bundle
+    bundle_1["entry"] = [entry_list[0]]
+    resp_1 = client.post(
+        "/link-record", json={"bundle": bundle_1, "use_enhanced": True}
+    )
+    new_bundle = resp_1.json()["updated_bundle"]
+    person_1 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert not resp_1.json()["found_match"]
 
-# def test_use_enhanced_algo():
-#     # Start with fresh tables to make tests atomic
-#     clean_up_db()
-#     set_mpi_env_vars()
-#     run_migrations()
-#     test_bundle = load_test_bundle()
-#     entry_list = copy.deepcopy(test_bundle["entry"])
+    bundle_2 = test_bundle
+    bundle_2["entry"] = [entry_list[1]]
+    resp_2 = client.post(
+        "/link-record", json={"bundle": bundle_2, "use_enhanced": True}
+    )
+    new_bundle = resp_2.json()["updated_bundle"]
+    person_2 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert resp_2.json()["found_match"]
+    assert person_2.get("id") == person_1.get("id")
 
-#     bundle_1 = test_bundle
-#     bundle_1["entry"] = [entry_list[0]]
-#     resp_1 = client.post(
-#         "/link-record", json={"bundle": bundle_1, "use_enhanced": True}
-#     )
-#     new_bundle = resp_1.json()["updated_bundle"]
-#     person_1 = [
-#         r.get("resource")
-#         for r in new_bundle["entry"]
-#         if r.get("resource").get("resourceType") == "Person"
-#     ][0]
-#     assert not resp_1.json()["found_match"]
+    bundle_3 = test_bundle
+    bundle_3["entry"] = [entry_list[2]]
+    resp_3 = client.post(
+        "/link-record", json={"bundle": bundle_3, "use_enhanced": True}
+    )
+    assert not resp_3.json()["found_match"]
 
-#     bundle_2 = test_bundle
-#     bundle_2["entry"] = [entry_list[1]]
-#     resp_2 = client.post(
-#         "/link-record", json={"bundle": bundle_2, "use_enhanced": True}
-#     )
-#     new_bundle = resp_2.json()["updated_bundle"]
-#     person_2 = [
-#         r.get("resource")
-#         for r in new_bundle["entry"]
-#         if r.get("resource").get("resourceType") == "Person"
-#     ][0]
-#     assert resp_2.json()["found_match"]
-#     assert person_2.get("id") == person_1.get("id")
+    bundle_4 = test_bundle
+    bundle_4["entry"] = [entry_list[3]]
+    resp_4 = client.post(
+        "/link-record", json={"bundle": bundle_4, "use_enhanced": True}
+    )
+    new_bundle = resp_4.json()["updated_bundle"]
+    person_4 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert resp_4.json()["found_match"]
+    assert person_4.get("id") == person_1.get("id")
 
-#     bundle_3 = test_bundle
-#     bundle_3["entry"] = [entry_list[2]]
-#     resp_3 = client.post(
-#         "/link-record", json={"bundle": bundle_3, "use_enhanced": True}
-#     )
-#     assert not resp_3.json()["found_match"]
+    bundle_5 = test_bundle
+    bundle_5["entry"] = [entry_list[4]]
+    resp_5 = client.post(
+        "/link-record", json={"bundle": bundle_5, "use_enhanced": True}
+    )
+    assert not resp_5.json()["found_match"]
 
-#     bundle_4 = test_bundle
-#     bundle_4["entry"] = [entry_list[3]]
-#     resp_4 = client.post(
-#         "/link-record", json={"bundle": bundle_4, "use_enhanced": True}
-#     )
-#     new_bundle = resp_4.json()["updated_bundle"]
-#     person_4 = [
-#         r.get("resource")
-#         for r in new_bundle["entry"]
-#         if r.get("resource").get("resourceType") == "Person"
-#     ][0]
-#     assert resp_4.json()["found_match"]
-#     assert person_4.get("id") == person_1.get("id")
+    bundle_6 = test_bundle
+    bundle_6["entry"] = [entry_list[5]]
+    resp_6 = client.post(
+        "/link-record", json={"bundle": bundle_6, "use_enhanced": True}
+    )
+    new_bundle = resp_6.json()["updated_bundle"]
+    person_6 = [
+        r.get("resource")
+        for r in new_bundle["entry"]
+        if r.get("resource").get("resourceType") == "Person"
+    ][0]
+    assert resp_6.json()["found_match"]
+    assert person_6.get("id") == person_1.get("id")
 
-#     bundle_5 = test_bundle
-#     bundle_5["entry"] = [entry_list[4]]
-#     resp_5 = client.post(
-#         "/link-record", json={"bundle": bundle_5, "use_enhanced": True}
-#     )
-#     assert not resp_5.json()["found_match"]
-
-#     bundle_6 = test_bundle
-#     bundle_6["entry"] = [entry_list[5]]
-#     resp_6 = client.post(
-#         "/link-record", json={"bundle": bundle_6, "use_enhanced": True}
-#     )
-#     new_bundle = resp_6.json()["updated_bundle"]
-#     person_6 = [
-#         r.get("resource")
-#         for r in new_bundle["entry"]
-#         if r.get("resource").get("resourceType") == "Person"
-#     ][0]
-#     assert resp_6.json()["found_match"]
-#     assert person_6.get("id") == person_1.get("id")
-
-#     clean_up_db()
-#     pop_mpi_env_vars()
+    _clean_up()
+    pop_mpi_env_vars()
