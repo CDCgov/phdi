@@ -4,18 +4,6 @@ from app.config import get_settings
 import subprocess
 from typing import Literal
 import logging
-from phdi.linkage.mpi import PGMPIConnectorClient
-
-
-def connect_to_mpi_with_env_vars():
-    """
-    Helper function to load MPI Database settings from the relevant
-    environment variables, then spin up a connection to the MPI.
-    This also automatically tests that a connection can be made as
-    part of instantiating the DB Client.
-    """
-    db_client = PGMPIConnectorClient()
-    return db_client
 
 
 def load_mpi_env_vars_os():
