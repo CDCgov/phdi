@@ -14,6 +14,7 @@ from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
 
 from phdi.linkage.mpi import PGMPIConnectorClient
+from phdi.linkage.utils import datetime_to_str
 
 LINKING_FIELDS_TO_FHIRPATHS = {
     "first_name": "Patient.name.given",
@@ -426,9 +427,10 @@ def feature_match_fuzzy_string(
     """
     idx = col_to_idx[feature_col]
 
-    # TODO: replace with helper function to convert datetime obj to str
-    record_i[idx] = str(record_i[idx])
-    record_j[idx] = str(record_j[idx])
+    # Convert datetime obj to str using helper function
+    if feature_col == "birthdate":
+        record_i[idx] = datetime_to_str(record_i[idx])
+        record_j[idx] = datetime_to_str(record_j[idx])
 
     # Special case for two empty strings, since we don't want vacuous
     # equality (or in-) to penalize the score
@@ -504,9 +506,10 @@ def feature_match_log_odds_fuzzy_compare(
     col_odds = kwargs["log_odds"][feature_col]
     idx = col_to_idx[feature_col]
 
-    # TODO: replace with helper function to convert datetime obj to str
-    record_i[idx] = str(record_i[idx])
-    record_j[idx] = str(record_j[idx])
+    # Convert datetime obj to str using helper function
+    if feature_col == "birthdate":
+        record_i[idx] = datetime_to_str(record_i[idx])
+        record_j[idx] = datetime_to_str(record_j[idx])
 
     score = compare_strings(record_i[idx], record_j[idx], "JaroWinkler")
     return score * col_odds

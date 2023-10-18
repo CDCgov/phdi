@@ -36,6 +36,8 @@ from phdi.linkage.link import (
 
 from phdi.linkage.mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
+from phdi.linkage.utils import datetime_to_str
+
 from sqlalchemy import text, select
 
 from phdi.linkage import DIBBS_BASIC, DIBBS_ENHANCED
@@ -44,6 +46,7 @@ import pathlib
 import pytest
 from random import seed
 from math import log
+from datetime import date, datetime
 from json.decoder import JSONDecodeError
 from tests.test_data_generator import (
     generate_list_patients_contact,
@@ -623,8 +626,8 @@ def test_feature_match_log_odds_fuzzy():
         feature_match_log_odds_fuzzy_compare([], [], "c", {})
     assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
 
-    ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
-    rj = ["John", "Sheperd", "06-08-2000", "asdfghjeki"]
+    ri = ["John", "Shepard", date(1980, 11, 7), "1234 Silversun Strip"]
+    rj = ["John", "Sheperd", datetime(2000, 6, 8), "asdfghjeki"]
     col_to_idx = {"first": 0, "last": 1, "birthdate": 2, "address": 3}
     log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
 
@@ -652,7 +655,7 @@ def test_feature_match_log_odds_fuzzy():
             ),
             3,
         )
-        == 5.227
+        == 5.063
     )
 
     assert (
