@@ -36,7 +36,6 @@ from phdi.linkage.link import (
 
 from phdi.linkage.mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
-from phdi.linkage.utils import datetime_to_str
 
 from sqlalchemy import text, select
 
