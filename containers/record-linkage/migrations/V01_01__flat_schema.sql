@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS patient (
     patient_id UUID DEFAULT uuid_generate_v4 (),
     person_id UUID,
     dob DATE,
-    sex VARCHAR(3),
+    sex VARCHAR(7),
     race VARCHAR(100),
     ethnicity VARCHAR(100),
     PRIMARY KEY (patient_id),
