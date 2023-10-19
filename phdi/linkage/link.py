@@ -1212,7 +1212,7 @@ def _compare_name_elements(
     """
     idx = col_to_idx[feature_col]
     feature_comp = feature_funcs[feature_col](
-        [record[idx][0]],
+        [" ".join(record[idx])],
         [mpi_patient[idx]],
         feature_col,
         {feature_col: 0},
