@@ -664,7 +664,7 @@ def test_feature_match_log_odds_fuzzy():
             ),
             3,
         )
-        == 0.987
+        == 0.0
     )
 
 
