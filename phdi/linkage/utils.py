@@ -85,5 +85,6 @@ def datetime_to_str(
             return str(input_date)
         except TypeError:
             raise TypeError(
-                f"Input date {input_date} is not of type date, datetime, or str; or, it can't be converted or returned safely."
+                f"Input date {input_date} is not of type date, datetime, "
+                "or str; or, it can't be converted or returned safely."
             )
