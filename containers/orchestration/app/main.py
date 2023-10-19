@@ -12,7 +12,7 @@ from fastapi import (
 )
 from typing import Annotated, Optional
 from pathlib import Path
-from zipfile import is_zipfile
+from zipfile import is_zipfile, ZipFile
 from app.utils import load_processing_config, unzip, load_config_assets
 from app.config import get_settings
 from app.services import call_apis
@@ -30,6 +30,7 @@ from app.constants import (
     sample_list_configs_response,
 )
 import json
+import io
 import os
 import asyncio
 from icecream import ic
@@ -87,12 +88,27 @@ async def process_message_endpoint_ws(
     Processes a message either as a message parameter or an uploaded zip file
       through a series of microservices
     """
-    ic("Webby? ", websocket)
+
     await websocket.accept()
     while True:
         file = await websocket.receive_bytes()
         ic(file)
-        upload_file = unzip_if_zipped(upload_file=WS_File(file_maybe))
+        zf = ZipFile(io.BytesIO(file), "r")
+
+        # with open(file, 'rb') as file_data:
+        #     bytes_content = file_data.read()
+        ic(zf.filelist)
+        unzippy = unzip(zf)
+        ic(unzippy)
+
+        input = {
+            "message_type": "eicr",
+            "include_error_types": "errors",
+            "message": unzippy,
+        }
+        processing_config = load_processing_config("sample-orchestration-config.json")
+        call_apis(config=processing_config, input=input)
+
         await process_form(websocket, file)
 
 
