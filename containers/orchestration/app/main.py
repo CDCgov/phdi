@@ -87,10 +87,11 @@ async def process_message_endpoint_ws(
     Processes a message either as a message parameter or an uploaded zip file
       through a series of microservices
     """
+    ic("Webby? ", websocket)
     await websocket.accept()
     while True:
         file = await websocket.receive_bytes()
-        file_maybe = file.write()
+        ic(file)
         upload_file = unzip_if_zipped(upload_file=WS_File(file_maybe))
         await process_form(websocket, file)
 
