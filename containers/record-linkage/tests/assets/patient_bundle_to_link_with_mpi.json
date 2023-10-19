@@ -284,6 +284,178 @@
       }
     },
     {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b22",
+        "identifier": [
+          {
+            "value": "1234567890",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Diop",
+            "given": [
+              "Issa",
+              "Rae"
+            ],
+            "use": "official"
+          },
+          {
+            "family": "Rae",
+            "given": [
+              "Issa"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "1985-01-12",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "1234 Insecure Road",
+              "Apt 2"
+            ],
+            "city": "Los Angeles",
+            "state": "California",
+            "postalCode": "90210",
+            "use": "home"
+          },
+          {
+            "line": [
+              "1234 Insecure Road",
+              "Apt 2"
+            ],
+            "city": "Los Angeles",
+            "state": "California",
+            "postalCode": "90210",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b23",
+        "identifier": [
+          {
+            "value": "1234567890",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Rae",
+            "given": [
+              "Issa"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "1985-01-12",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "1234 Insecure Road",
+              "Apt 2"
+            ],
+            "city": "Los Angeles",
+            "state": "California",
+            "postalCode": "90210",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b24",
+        "name": [
+          {
+            "family": "Rae",
+            "given": [
+              "Issa"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "1985-01-12",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "1234 Insecure Road",
+              "Apt 2"
+            ],
+            "city": "Los Angeles",
+            "state": "California",
+            "postalCode": "90210",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b25",
+        "name": [
+          {
+            "family": "Rae",
+            "given": [
+              "Issa"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "1985-01-12",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "231 Main Street",
+              "Apt 567"
+            ],
+            "city": "Los Angeles",
+            "state": "California",
+            "postalCode": "90211",
+            "use": "home"
+          },
+          {
+            "line": [
+              "1234 Insecure Road",
+              "Apt 2"
+            ],
+            "city": "Los Angeles",
+            "state": "California",
+            "postalCode": "90210",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
       "request": {
         "method": "GET",
         "url": "testing for entry with no resource"
