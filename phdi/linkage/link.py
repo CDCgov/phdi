@@ -1194,7 +1194,6 @@ def _compare_address_elements(
         )
         if feature_comp:
             break
-        break
     return feature_comp
 
 
