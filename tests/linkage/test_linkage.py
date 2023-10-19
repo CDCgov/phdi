@@ -626,7 +626,7 @@ def test_feature_match_log_odds_fuzzy():
     assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
 
     ri = ["John", "Shepard", date(1980, 11, 7), "1234 Silversun Strip"]
-    rj = ["John", "Sheperd", datetime(2000, 6, 8), "asdfghjeki"]
+    rj = ["John", "Sheperd", datetime(1970, 6, 7), "asdfghjeki"]
     col_to_idx = {"first": 0, "last": 1, "birthdate": 2, "address": 3}
     log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
 
@@ -654,7 +654,7 @@ def test_feature_match_log_odds_fuzzy():
             ),
             3,
         )
-        == 5.063
+        == 7.859
     )
 
     assert (
