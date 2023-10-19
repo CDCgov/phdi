@@ -206,8 +206,8 @@ def test_feature_match_exact():
 
 
 def test_feature_match_fuzzy_string():
-    record_i = ["string1", "John", "John", "", None]
-    record_j = ["string2", "Jhon", "Jon", "", None]
+    record_i = ["string1", "John", "John", "1985-12-12", None]
+    record_j = ["string2", "Jhon", "Jon", "1985-12-12", None]
 
     cols = {"col_1": 0, "col_2": 1, "col_3": 2, "col_4": 3}
 
