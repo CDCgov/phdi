@@ -49,25 +49,30 @@ def datetime_to_str(
 ) -> str:
     """
     Convert a date or datetime object to a string; if a string is provided,
-    check that it follows the appropriate format.
+    check that it follows the appropriate format. If unable to perform actions,
+    return input as string rather than failing loudly.
 
-    :param input_date: The input date to convert, which can be of type
+    :param input_date: The input date to convert, which prefers types of
         datetime.date, datetime.datetime, or str.
     :param include_time: Whether to include the time in the output string.
     :return: The formatted date as a string. If include_time is True, the
-        format is 'YYYY-MM-DD HH:MM:SS', otherwise it's 'YYYY-MM-DD'.
+        format is 'YYYY-MM-DD HH:MM:SS', otherwise it's 'YYYY-MM-DD'. If
+        empty or None, return empty or None.
     """
-    # if input is str make sure it follows the expected format
+    # Handle None or empty string
+    if input_date is None or input_date == "":
+        return input_date
+
+    # if input is str try to check that it follows the expected format
     if isinstance(input_date, str):
         try:
             expected_format = "%Y-%m-%d %H:%M:%S" if include_time else "%Y-%m-%d"
             datetime.strptime(input_date, expected_format)
             return input_date
         except ValueError:
-            format_msg = " 'YYYY-MM-DD HH:MM:SS' " if include_time else " 'YYYY-MM-DD' "
-            raise ValueError(
-                f"Input date {input_date} is not in the format" + format_msg
-            )
+            # rather than break loudly, allow str to pass
+            return input_date
+
     # if input is a date or datetime then convert in the expected format
     elif isinstance(input_date, (date, datetime)):
         if include_time:
@@ -76,6 +81,9 @@ def datetime_to_str(
             return input_date.strftime("%Y-%m-%d")
     # if input isn't any of the accepted formats, then return a type error
     else:
-        raise TypeError(
-            f"Input date {input_date} is not of type date, datetime, or str."
-        )
+        try:
+            return str(input_date)
+        except TypeError:
+            raise TypeError(
+                f"Input date {input_date} is not of type date, datetime, or str; or, it can't be converted or returned safely."
+            )
