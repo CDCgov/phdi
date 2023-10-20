@@ -98,8 +98,8 @@ expected_successful_response_floats = {
     "parsed_values": {
         "first_name": "John ",
         "last_name": "doe",
-        "latitude": "34.58002",
-        "longitude": "-118.08925",
+        "latitude": 34.58002,
+        "longitude": -118.08925,
         "active_problems": [],
     },
 }
@@ -123,7 +123,7 @@ expected_successful_response_floats_with_meta_data = {
             "resource_type": "Patient",
         },
         "latitude": {
-            "value": "34.58002",
+            "value": 34.58002,
             "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
             + ".extension"
             + ".where(url='http://hl7.org/fhir/StructureDefinition/geolocation')"
@@ -132,7 +132,7 @@ expected_successful_response_floats_with_meta_data = {
             "resource_type": "Patient",
         },
         "longitude": {
-            "value": "-118.08925",
+            "value": -118.08925,
             "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address"
             + ".extension"
             + ".where(url='http://hl7.org/fhir/StructureDefinition/geolocation')"

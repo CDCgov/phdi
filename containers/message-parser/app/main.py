@@ -128,6 +128,18 @@ class ParseMessageResponse(BaseModel):
     )
 
 
+# Helper function for coalescing values. Returns None if the list is empty, the value
+# if the list has one element, and a comma separated string of values if the list has
+# more than one element.
+def coalesce_values(value):
+    if len(value) == 0:
+        return None
+    if len(value) == 1:
+        return value[0]
+    else:
+        return ",".join(map(str, value))
+
+
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
 async def parse_message_endpoint(
     input: Annotated[ParseMessageInput, Body(examples=parse_message_request_examples)],
@@ -184,11 +196,7 @@ async def parse_message_endpoint(
     for field, parser in parsers.items():
         if "secondary_parsers" not in parser:
             value = parser["primary_parser"](input.message)
-            if len(value) == 0:
-                value = None
-            else:
-                value = ",".join(map(str, value))
-            parsed_values[field] = value
+            parsed_values[field] = coalesce_values(value)
         else:
             inital_values = parser["primary_parser"](input.message)
             values = []
@@ -197,12 +205,9 @@ async def parse_message_endpoint(
                 for secondary_field, secondary_parser in parser[
                     "secondary_parsers"
                 ].items():
-                    if len(secondary_parser(initial_value)) == 0:
-                        value[secondary_field] = None
-                    else:
-                        value[secondary_field] = ",".join(
-                            map(str, secondary_parser(initial_value))
-                        )
+                    value[secondary_field] = coalesce_values(
+                        secondary_parser(initial_value)
+                    )
                 values.append(value)
             parsed_values[field] = values
     if input.include_metadata == "true":
