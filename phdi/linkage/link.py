@@ -503,6 +503,9 @@ def feature_match_log_odds_fuzzy_compare(
     """
     if "log_odds" not in kwargs:
         raise KeyError("Mapping of columns to m/u log-odds must be provided.")
+    threshold = 0.7
+    if "threshold" in kwargs:
+        threshold = kwargs["threshold"]
     col_odds = kwargs["log_odds"][feature_col]
     idx = col_to_idx[feature_col]
 
@@ -512,6 +515,8 @@ def feature_match_log_odds_fuzzy_compare(
         record_j[idx] = datetime_to_str(record_j[idx])
 
     score = compare_strings(record_i[idx], record_j[idx], "JaroWinkler")
+    if score < threshold:
+        score = 0.0
     return score * col_odds
 
 
@@ -1207,7 +1212,7 @@ def _compare_name_elements(
     """
     idx = col_to_idx[feature_col]
     feature_comp = feature_funcs[feature_col](
-        [record[idx][0]],
+        [" ".join(record[idx])],
         [mpi_patient[idx]],
         feature_col,
         {feature_col: 0},
