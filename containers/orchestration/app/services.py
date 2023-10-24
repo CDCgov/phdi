@@ -79,9 +79,7 @@ async def call_apis(
     response = input
     responses = {}
 
-    progress_dict = {
-        "steps": config["steps"]
-    }
+    progress_dict = {"steps": config["steps"]}
 
     for step in config["steps"]:
         service = step["service"]
@@ -100,8 +98,8 @@ async def call_apis(
             if websocket:
                 # Write service responses into websocket message
                 progress_dict[f"{response.url.split('/')[-1]}"] = {
-                    'status_code': response.status_code,
-                    'Message': response.reason
+                    "status_code": response.status_code,
+                    "Message": response.reason,
                 }
 
                 await websocket.send_text(json.dumps(progress_dict))

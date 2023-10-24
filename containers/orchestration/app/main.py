@@ -56,7 +56,6 @@ class WS_File:
 
 
 def unzip_if_zipped(upload_file=None, data=None):
-
     if upload_file and is_zipfile(upload_file.file):
         return unzip(upload_file)
     elif upload_file:
