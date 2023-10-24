@@ -70,9 +70,10 @@ async def process_message_endpoint_ws(
     websocket: WebSocket,
 ) -> ProcessMessageResponse:
     """
-    Creates a websocket connection with the client and accepts a zipped XML file. The file
-    is processed by the building blocks according to the currently loaded configuration and
-    emits websocket updates to the client as each processing step completes.
+    Creates a websocket connection with the client and accepts a zipped XML file.
+    The file is processed by the building blocks according to the currently
+    loaded configuration and emits websocket updates to the client as each
+    processing step completes.
     """
 
     await websocket.accept()
