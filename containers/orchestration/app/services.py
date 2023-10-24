@@ -2,7 +2,6 @@ import os
 import requests
 import json
 from fastapi import HTTPException, WebSocket
-from icecream import ic
 
 
 service_urls = {

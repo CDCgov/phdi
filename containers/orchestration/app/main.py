@@ -32,10 +32,6 @@ from app.constants import (
 import json
 import io
 import os
-import asyncio
-from icecream import ic
-
-# import websockets
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -57,16 +53,6 @@ class WS_File:
     def __init__(self, file):
         # Instance attributes
         self.file = file
-
-
-# async def process_form(websocket, form_data):
-#     # Simulate processing the form data with progress updates
-#     for i in range(1, 11):
-#         progress = i * 10  # Progress percentage
-#         progress_dict = {"progress": progress}
-#         await websocket.send_text(json.dumps(progress_dict))
-#         # await websocket.send('{"progress": ' + str(progress) + ', "type": "json }')
-#         await asyncio.sleep(1)  # Simulate work
 
 
 def unzip_if_zipped(upload_file=None, data=None):
@@ -108,7 +94,6 @@ async def process_message_endpoint_ws(
         await call_apis(config=processing_config, input=input, websocket=websocket)
 
 
-
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
     request: Request,
@@ -123,7 +108,6 @@ async def process_message_endpoint(
     content = ""
 
     if upload_file and is_zipfile(upload_file.file):
-        upload_file
         content = unzip(upload_file)
     else:
         try:
@@ -147,7 +131,7 @@ async def process_message_endpoint(
         "message": content,
     }
 
-    response, responses = call_apis(config=processing_config, input=input)
+    response, responses = await call_apis(config=processing_config, input=input)
 
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)

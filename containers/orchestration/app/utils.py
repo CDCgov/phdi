@@ -13,6 +13,7 @@ def load_processing_config(config_name: str) -> dict:
     first. If no custom configs match the provided name, check the configs provided by
     default with this service in the 'default_configs/' directory.
 
+    :param config_name: Name of config file
     :param path: The path to an extraction config file.
     :return: A dictionary containing the extraction config.
     """
@@ -40,7 +41,7 @@ def read_json_from_assets(filename: str):
 
 
 def unzip(zipped_file) -> Dict:
-    my_zipfile = zipped_file
+    my_zipfile = ZipFile(zipped_file.file)
     file_to_open = [file for file in my_zipfile.namelist() if "/CDA_eICR.xml" in file][
         0
     ]
