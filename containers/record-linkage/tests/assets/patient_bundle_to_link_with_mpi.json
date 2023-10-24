@@ -456,6 +456,100 @@
       }
     },
     {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b26",
+        "identifier": [
+          {
+            "value": "2345678901",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Roberts",
+            "given": [
+              "Chris"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2004-11-24",
+        "gender": "male",
+        "address": [
+          {
+            "line": [
+              "18 Broadway"
+            ],
+            "city": "Joneston",
+            "state": "Colorado",
+            "postalCode": "55555",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b73",
+        "identifier": [
+          {
+            "value": "2345678901",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            }
+          }
+        ],
+        "name": [
+          {
+            "family": "Roberts",
+            "given": [
+              "Christopher"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "2004-11-24",
+        "gender": "male",
+        "address": [
+          {
+            "line": [
+              "1234 Insecure Road",
+              "Apt 2"
+            ],
+            "city": "Los Angeles",
+            "state": "California",
+            "postalCode": "90210",
+            "use": "home"
+          },
+          {
+            "line": [
+              "18 Broadway"
+            ],
+            "city": "Joneston",
+            "state": "Colorado",
+            "postalCode": "55555",
+            "use": "home"
+          }
+        ]
+      }
+    },
+    {
       "request": {
         "method": "GET",
         "url": "testing for entry with no resource"
