@@ -74,10 +74,8 @@ def seed_testdb():
     run_migrations()
     test_bundle = load_test_bundle()
 
-    for r in range(6, len(test_bundle["entry"])):
+    for r in range(len(test_bundle["entry"])):
         if "resource" in test_bundle["entry"][r].keys():
-            print(test_bundle["entry"][r])
-            print()
             bundle = {
                 "resourceType": "Bundle",
                 "identifier": {"value": "a very contrived FHIR bundle"},
@@ -86,8 +84,6 @@ def seed_testdb():
             resp = client.post(
                 "/link-record", json={"bundle": bundle, "use_enhanced": False}
             )
-            print(resp.json())
-            print()
 
     _clean_up()
     pop_mpi_env_vars()
