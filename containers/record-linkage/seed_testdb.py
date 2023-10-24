@@ -81,11 +81,8 @@ def seed_testdb():
                 "identifier": {"value": "a very contrived FHIR bundle"},
                 "entry": [test_bundle["entry"][r]],
             }
-            resp = client.post(
-                "/link-record", json={"bundle": bundle, "use_enhanced": False}
-            )
+            client.post("/link-record", json={"bundle": bundle, "use_enhanced": False})
 
-    _clean_up()
     pop_mpi_env_vars()
 
 
