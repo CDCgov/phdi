@@ -15,7 +15,7 @@ from app.utils import (
     read_json_from_assets,
     run_migrations,
 )
-from phdi.linkage.mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import MPIConnectorClient
 
 # Ensure MPI is configured as expected.
 run_migrations()
@@ -105,7 +105,7 @@ async def health_check() -> HealthCheckResponse:
     """
 
     try:
-        mpi_client = PGMPIConnectorClient()
+        mpi_client = MPIConnectorClient()
         print(mpi_client)
     except Exception as err:
         return {"status": "OK", "mpi_connection_status": str(err)}

@@ -8,7 +8,7 @@ from phdi.fhir.utils import extract_value_with_resource_path
 import uuid
 
 
-class PGMPIConnectorClient(BaseMPIConnectorClient):
+class MPIConnectorClient(BaseMPIConnectorClient):
     """
     Represents a Postgres-specific Master Patient Index (MPI) connector
     client for the DIBBs implementation of the record linkage building
