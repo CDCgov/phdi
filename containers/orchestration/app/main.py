@@ -59,14 +59,14 @@ class WS_File:
         self.file = file
 
 
-async def process_form(websocket, form_data):
-    # Simulate processing the form data with progress updates
-    for i in range(1, 11):
-        progress = i * 10  # Progress percentage
-        progress_dict = {"progress": progress}
-        await websocket.send_text(json.dumps(progress_dict))
-        # await websocket.send('{"progress": ' + str(progress) + ', "type": "json }')
-        await asyncio.sleep(1)  # Simulate work
+# async def process_form(websocket, form_data):
+#     # Simulate processing the form data with progress updates
+#     for i in range(1, 11):
+#         progress = i * 10  # Progress percentage
+#         progress_dict = {"progress": progress}
+#         await websocket.send_text(json.dumps(progress_dict))
+#         # await websocket.send('{"progress": ' + str(progress) + ', "type": "json }')
+#         await asyncio.sleep(1)  # Simulate work
 
 
 def unzip_if_zipped(upload_file=None, data=None):
@@ -85,31 +85,28 @@ async def process_message_endpoint_ws(
     websocket: WebSocket,
 ) -> ProcessMessageResponse:
     """
-    Processes a message either as a message parameter or an uploaded zip file
-      through a series of microservices
+    Creates a websocket connection with the client and accepts a zipped XML file. The file
+    is processed by the building blocks according to the currently loaded configuration and
+    emits websocket updates to the client as each processing step completes.
     """
 
     await websocket.accept()
     while True:
         file = await websocket.receive_bytes()
-        ic(file)
-        zf = ZipFile(io.BytesIO(file), "r")
 
-        # with open(file, 'rb') as file_data:
-        #     bytes_content = file_data.read()
-        ic(zf.filelist)
-        unzippy = unzip(zf)
-        ic(unzippy)
+        zipped_file = ZipFile(io.BytesIO(file), "r")
+        unzipped_file = unzip(zipped_file)
 
+        # Hardcoded message_type for MVP
         input = {
             "message_type": "eicr",
             "include_error_types": "errors",
-            "message": unzippy,
+            "message": unzipped_file,
         }
-        processing_config = load_processing_config("sample-orchestration-config.json")
-        call_apis(config=processing_config, input=input)
 
-        await process_form(websocket, file)
+        processing_config = load_processing_config("sample-orchestration-config.json")
+        await call_apis(config=processing_config, input=input, websocket=websocket)
+
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
@@ -125,19 +122,22 @@ async def process_message_endpoint(
     """
     content = ""
 
-    try:
-        data = await request.json()
-        content = unzip_if_zipped(upload_file, data)
-    except json.JSONDecodeError as e:
-        raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
-    except KeyError as e:
-        error_message = str(e)
-        raise HTTPException(
-            status_code=400, detail=f"Missing JSON data: {error_message}"
-        )
-
-    message_type = data["message_type"]
-    include_error_types = data["include_error_types"]
+    if upload_file and is_zipfile(upload_file.file):
+        upload_file
+        content = unzip(upload_file)
+    else:
+        try:
+            data = await request.json()
+            content = data["message"]
+            message_type = data["message_type"]
+            include_error_types = data["include_error_types"]
+        except json.JSONDecodeError as e:
+            raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
+        except KeyError as e:
+            error_message = str(e)
+            raise HTTPException(
+                status_code=400, detail=f"Missing JSON data: {error_message}"
+            )
 
     # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")

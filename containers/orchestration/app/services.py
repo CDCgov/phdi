@@ -1,6 +1,8 @@
 import os
 import requests
-from fastapi import HTTPException
+import json
+from fastapi import HTTPException, WebSocket
+from icecream import ic
 
 
 service_urls = {
@@ -70,12 +72,18 @@ def post_request(url, payload):
     return requests.post(url, json=payload)
 
 
-def call_apis(
+async def call_apis(
     config,
     input,
+    websocket: WebSocket = None,
 ) -> tuple:
     response = input
     responses = {}
+
+    progress_dict = {
+        "steps": config["steps"]
+    }
+
     for step in config["steps"]:
         service = step["service"]
         endpoint = step["endpoint"]
@@ -89,6 +97,16 @@ def call_apis(
             print(f"Url: {url}")
             response = post_request(url, payload)
             print(f"Status Code: {response.status_code}")
+
+            if websocket:
+                # Write service responses into websocket message
+                progress_dict[f"{response.url.split('/')[-1]}"] = {
+                    'status_code': response.status_code,
+                    'Message': response.reason
+                }
+
+                await websocket.send_text(json.dumps(progress_dict))
+
             responses[endpoint] = response
         else:
             raise HTTPException(
