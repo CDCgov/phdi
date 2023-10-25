@@ -569,7 +569,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             external_source_record = self.dal.select_results(
                 external_source_id_query, False
             )
-            external_source_id = external_source_record[0][1]
+            external_source_id = external_source_record[0][0]
             new_external_person_record = {
                 "person_id": new_person_id,
                 "external_person_id": external_person_id,
