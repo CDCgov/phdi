@@ -19,7 +19,6 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from app.main import app, run_migrations
 from sqlalchemy import text
-import copy
 import json
 import pathlib
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
