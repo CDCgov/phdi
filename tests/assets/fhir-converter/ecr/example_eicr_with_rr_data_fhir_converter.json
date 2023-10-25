@@ -2046,6 +2046,81 @@
         }
       },
       {
+        "fullUrl": "urn:uuid:8930bf72-ccfa-e8d5-9bfa-4dcadb6a8286",
+        "resource": {
+          "resourceType": "Observation",
+          "id": "8930bf72-ccfa-e8d5-9bfa-4dcadb6a8286",
+          "meta": {
+            "profile": [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "urn:oid:2.16.840.1.113883",
+              "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19504533634/_history/1"
+            }
+          ],
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "laboratory"
+                }
+              ]
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "code": "5803-2",
+                "system": "http://loinc.org"
+              }
+            ]
+          },
+          "effectiveDateTime": "2022-05-20T10:27:00Z",
+          "valueQuantity": {
+            "value": 5.0,
+            "unit": "null"
+          },
+          "interpretation": [
+            {
+              "coding": [
+                {
+                  "code": "N",
+                  "display": "Normal",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+                }
+              ]
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/R4/specimen.html",
+              "extension": [
+                {
+                  "url": "specimen source",
+                  "valueString": "Stool"
+                },
+                {
+                  "url": "specimen collection time",
+                  "valueDateTime": "2023-01-31T18:52:00Z"
+                }
+              ]
+            }
+          ],
+          "subject": {
+            "reference": "Patient/34080650-1e86-08fe-c2c9-faa37629edd3"
+          }
+        },
+        "request": {
+          "method": "PUT",
+          "url": "Observation/8930bf72-ccfa-e8d5-9bfa-4dcadb6a8286"
+        }
+      },
+      {
         "fullUrl": "urn:uuid:e8ca029e-79e3-d321-da20-508a088c121e",
         "resource": {
           "resourceType": "Observation",
