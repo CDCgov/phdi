@@ -106,7 +106,6 @@ async def health_check() -> HealthCheckResponse:
 
     try:
         mpi_client = DIBBsMPIConnectorClient()
-        print(mpi_client)
     except Exception as err:
         return {"status": "OK", "mpi_connection_status": str(err)}
     return {"status": "OK", "mpi_connection_status": "OK"}
