@@ -49,7 +49,7 @@ def pop_mpi_env_vars():
 
 
 def _clean_up():
-    MPI = MPIConnectorClient()
+    MPI = PGMPIConnectorClient()
 
     with MPI.dal.engine.connect() as pg_connection:
         pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
