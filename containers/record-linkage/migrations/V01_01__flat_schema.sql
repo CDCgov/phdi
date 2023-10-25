@@ -96,5 +96,5 @@ CREATE TABLE IF NOT EXISTS external_person (
 COMMIT;
 
 INSERT INTO external_source (external_source_id, external_source_name, external_source_description)
-VALUES ("a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b79","IRIS","LACDPH Surveillance System");
+VALUES ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b79','IRIS','LACDPH Surveillance System');
 COMMIT;
