@@ -9,6 +9,7 @@ from sqlalchemy import Select, select, text
 from phdi.linkage.mpi import MPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
+
 patient_resource = json.load(
     open(
         pathlib.Path(__file__).parent.parent.parent
@@ -514,28 +515,88 @@ def test_generate_dict_record_from_results():
     _clean_up(MPI.dal)
 
 
-def test_extract_given_names():
+@pytest.mark.parametrize(
+    "given_name_sets,expected_given_name_counts",
+    [
+        (["Brian", "Peter", "George", "St. John", "le Baptiste", "de la Salle"], 6),
+        (["Jorge", "Francisco", "Isidoro", "Luis"], 4),
+        (["John", "Ronald", "Reuel"], 3),
+        (
+            [
+                "Pablo",
+                "Diego",
+                "José",
+                "Francisco",
+                "de Paula",
+                "Juan",
+                "Nepomuceno",
+                "María",
+                "de los Remedios",
+                "Cipriano",
+                "de la Santísima",
+                "Trinidad",
+            ],
+            12,
+        ),
+    ],
+)
+def test_extract_given_names(given_name_sets, expected_given_name_counts):
     MPI = _init_db()
-    given_names = ["John", "Juan", "Jean"]
     name_id = uuid.uuid4()
-    given_name_records = MPI._extract_given_names(given_names, name_id)
+    given_name_records = MPI._extract_given_names(given_name_sets, name_id)
 
-    assert len(given_name_records) == 3
+    assert len(given_name_records) == expected_given_name_counts
 
-    name_id = given_name_records[0]["name_id"]
     for idx, record in enumerate(given_name_records):
         assert record["name_id"] == name_id
         assert record["given_name_index"] == idx
 
-    given_names2 = ["William", "Guillermo", "Guillaume"]
-    name_id2 = uuid.uuid4()
-    given_names_log = []
-    for names, ids in zip([given_names, given_names2], [name_id, name_id2]):
-        given_name_records = MPI._extract_given_names(names, ids)
-        given_names_log.append(given_name_records)
-    # Check that the 2 sets of given names were associated differently
-    assert len(given_names_log) == 2
-    assert given_names_log[0][0]["name_id"] != given_names_log[1][0]["name_id"]
+    _clean_up(MPI.dal)
+
+
+@pytest.mark.parametrize(
+    "given_name_sets_1, given_name_sets_2",
+    [
+        (
+            ["Brian", "Peter", "George"],
+            ["Brian", "Peter", "George", "St. John", "le Baptiste", "de la Salle"],
+        ),
+        (["Jorge", "Luis", "Borges"], ["Jorge", "Francisco", "Isidoro", "Luis"]),
+        (["John", "Ronald", "Reuel"], ["John", "Ronald", "Reuel", "Tolkien"]),
+        (
+            ["Pablo", "Diego", "José"],
+            [
+                "Pablo",
+                "Diego",
+                "José",
+                "Francisco",
+                "de Paula",
+                "Juan",
+                "Nepomuceno",
+                "María",
+                "de los Remedios",
+                "Cipriano",
+                "de la Santísima",
+                "Trinidad",
+            ],
+        ),
+    ],
+)
+def test_given_names_association(given_name_sets_1, given_name_sets_2):
+    """
+    This function tests that different sets of a person's given names are associated differently.
+    """
+    MPI = _init_db()
+
+    name_id_1 = uuid.uuid4()
+    name_id_2 = uuid.uuid4()
+
+    given_name_records_1 = MPI._extract_given_names(given_name_sets_1, name_id_1)
+    given_name_records_2 = MPI._extract_given_names(given_name_sets_2, name_id_2)
+
+    assert given_name_records_1[0]["name_id"] != given_name_records_2[0]["name_id"]
+
+    _clean_up(MPI.dal)
 
 
 def test_get_mpi_records():
