@@ -74,13 +74,28 @@ def seed_testdb():
     test_bundle = load_test_bundle()
 
     for r in range(len(test_bundle["entry"])):
+        print(r)
         if "resource" in test_bundle["entry"][r].keys():
+            if r == 1:
+                external_person_id = "KNOWN IRIS ID"
+            elif r == 3:
+                external_person_id = "ANOTHER KNOWN IRIS ID"
+            else:
+                external_person_id = None
             bundle = {
                 "resourceType": "Bundle",
                 "identifier": {"value": "a very contrived FHIR bundle"},
                 "entry": [test_bundle["entry"][r]],
             }
-            client.post("/link-record", json={"bundle": bundle, "use_enhanced": False})
+            resp = client.post(
+                "/link-record",
+                json={
+                    "bundle": bundle,
+                    "use_enhanced": False,
+                    "external_person_id": external_person_id,
+                },
+            )
+        print(resp.json())
 
     pop_mpi_env_vars()
 
