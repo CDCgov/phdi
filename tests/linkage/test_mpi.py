@@ -584,7 +584,8 @@ def test_extract_given_names(given_name_sets, expected_given_name_counts):
 )
 def test_given_names_association(given_name_sets_1, given_name_sets_2):
     """
-    This function tests that different sets of a person's given names are associated differently.
+    This function tests that different sets of a person's given names
+    are associated differently.
     """
     MPI = _init_db()
 
