@@ -559,10 +559,21 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             found_person_id = None
 
         if found_person_id is None or found_person_id != new_person_id:
+            # Retrive external_source_id
+            external_source_id_query = select(self.dal.EXTERNAL_SOURCE_TABLE).where(
+                text(
+                    f"{self.dal.EXTERNAL_SOURCE_TABLE.name}.external_source_name"
+                    + " = 'IRIS'"
+                )
+            )
+            external_source_record = self.dal.select_results(
+                external_source_id_query, False
+            )
+            external_source_id = external_source_record[0][1]
             new_external_person_record = {
                 "person_id": new_person_id,
                 "external_person_id": external_person_id,
-                "external_source_id": None,
+                "external_source_id": external_source_id,
             }
             self.dal.bulk_insert_list(
                 self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
