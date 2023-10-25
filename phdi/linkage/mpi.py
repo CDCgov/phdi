@@ -569,7 +569,10 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             external_source_record = self.dal.select_results(
                 external_source_id_query, False
             )
-            external_source_id = external_source_record[0][0]
+            if len(external_source_record) > 0:
+                external_source_id = external_source_record[0][0]
+            else:
+                external_source_id = None
             new_external_person_record = {
                 "person_id": new_person_id,
                 "external_person_id": external_person_id,
