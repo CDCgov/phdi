@@ -78,48 +78,23 @@ def seed_testdb():
         if "resource" in test_bundle["entry"][r].keys():
             if r == 1:
                 external_person_id = "KNOWN IRIS ID"
-                bundle = {
-                    "resourceType": "Bundle",
-                    "identifier": {"value": "a very contrived FHIR bundle"},
-                    "entry": [test_bundle["entry"][r]],
-                }
-                resp = client.post(
-                    "/link-record",
-                    json={
-                        "bundle": bundle,
-                        "use_enhanced": False,
-                        "external_person_id": external_person_id,
-                    },
-                )
             elif r == 3:
                 external_person_id = "ANOTHER KNOWN IRIS ID"
-                bundle = {
-                    "resourceType": "Bundle",
-                    "identifier": {"value": "a very contrived FHIR bundle"},
-                    "entry": [test_bundle["entry"][r]],
-                }
-                resp = client.post(
-                    "/link-record",
-                    json={
-                        "bundle": bundle,
-                        "use_enhanced": False,
-                        "external_person_id": external_person_id,
-                    },
-                )
             else:
-                bundle = {
-                    "resourceType": "Bundle",
-                    "identifier": {"value": "a very contrived FHIR bundle"},
-                    "entry": [test_bundle["entry"][r]],
-                }
-                resp = client.post(
-                    "/link-record",
-                    json={
-                        "bundle": bundle,
-                        "use_enhanced": False,
-                    },
-                )
-
+                external_person_id = None
+            bundle = {
+                "resourceType": "Bundle",
+                "identifier": {"value": "a very contrived FHIR bundle"},
+                "entry": [test_bundle["entry"][r]],
+            }
+            resp = client.post(
+                "/link-record",
+                json={
+                    "bundle": bundle,
+                    "use_enhanced": False,
+                    "external_person_id": external_person_id,
+                },
+            )
         print(resp.json())
 
     pop_mpi_env_vars()
