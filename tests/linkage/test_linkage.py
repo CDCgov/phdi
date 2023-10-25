@@ -34,7 +34,7 @@ from phdi.linkage.link import (
     _compare_name_elements,
 )
 
-from phdi.linkage.mpi import MPIConnectorClient
+from phdi.linkage.mpi import PGMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
 from sqlalchemy import text, select
@@ -61,7 +61,7 @@ def _init_db() -> DataAccessLayer:
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-    MPI = MPIConnectorClient()
+    MPI = PGMPIConnectorClient()
     MPI.dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )

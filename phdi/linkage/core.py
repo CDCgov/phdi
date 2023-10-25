@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from sqlalchemy import Select
 
 
-class BaseMPIConnectorClient(ABC):
+class BasePGMPIConnectorClient(ABC):
     """
     Represents a vendor-agnostic Master Patient Index (MPI) connector client. Requires
     implementing classes to define methods to retrive blocks of data from the MPI.

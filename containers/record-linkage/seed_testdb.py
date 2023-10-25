@@ -22,7 +22,7 @@ from sqlalchemy import text
 import copy
 import json
 import pathlib
-from phdi.linkage.mpi import MPIConnectorClient
+from phdi.linkage.mpi import PGMPIConnectorClient
 # fmt: on
 client = TestClient(app)
 
