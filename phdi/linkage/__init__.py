@@ -11,7 +11,6 @@ from phdi.linkage.link import (
     feature_match_four_char,
     perform_linkage_pass,
     score_linkage_vs_truth,
-    block_data_from_db,
     _generate_block_query,
     calculate_m_probs,
     calculate_u_probs,
@@ -29,7 +28,7 @@ from phdi.linkage.link import (
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
-from phdi.linkage.postgres import DIBBsConnectorClient
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.seed import convert_to_patient_fhir_resources
 from phdi.linkage.utils import datetime_to_str
 
@@ -47,7 +46,6 @@ __all__ = [
     "feature_match_four_char",
     "perform_linkage_pass",
     "score_linkage_vs_truth",
-    "block_data_from_db",
     "_generate_block_query",
     "calculate_m_probs",
     "calculate_u_probs",
@@ -61,11 +59,11 @@ __all__ = [
     "extract_blocking_values_from_record",
     "write_linkage_config",
     "read_linkage_config",
-    "DIBBsConnectorClient",
     "link_record_against_mpi",
     "add_person_resource",
     "_compare_address_elements",
     "_compare_name_elements",
     "convert_to_patient_fhir_resources",
+    "DIBBsMPIConnectorClient",
     "datetime_to_str",
 ]

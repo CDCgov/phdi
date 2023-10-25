@@ -1,14 +1,7 @@
-from fastapi import status
-from fastapi.testclient import TestClient
-from app.config import get_settings
-from app.main import app, run_migrations
-
-import copy
-import json
+# flake8: noqa
+# fmt: off
 import os
-import pathlib
-import psycopg2
-
+from app.config import get_settings
 
 def set_mpi_env_vars():
     os.environ["mpi_db_type"] = "postgres"
@@ -17,11 +10,20 @@ def set_mpi_env_vars():
     os.environ["mpi_password"] = "pw"
     os.environ["mpi_host"] = "localhost"
     os.environ["mpi_port"] = "5432"
-    os.environ["mpi_patient_table"] = "patient"
-    os.environ["mpi_person_table"] = "person"
     get_settings.cache_clear()
 
 
+set_mpi_env_vars()
+
+from fastapi import status
+from fastapi.testclient import TestClient
+from app.main import app, run_migrations
+from sqlalchemy import text
+import copy
+import json
+import pathlib
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
+# fmt: on
 client = TestClient(app)
 
 
@@ -43,23 +45,25 @@ def pop_mpi_env_vars():
     os.environ.pop("mpi_password", None)
     os.environ.pop("mpi_host", None)
     os.environ.pop("mpi_port", None)
-    os.environ.pop("mpi_patient_table", None)
-    os.environ.pop("mpi_person_table", None)
 
 
-def clean_up_db():
-    dbconn = psycopg2.connect(
-        dbname="testdb", user="postgres", password="pw", host="localhost", port="5432"
-    )
-    cursor = dbconn.cursor()
-    cursor.execute("DROP TABLE IF EXISTS patient")
-    dbconn.commit()
-    cursor.execute("DROP TABLE IF EXISTS person")
-    dbconn.commit()
-    cursor.execute("DROP TABLE IF EXISTS pyway")
-    dbconn.commit()
-    cursor.close()
-    dbconn.close()
+def _clean_up():
+    MPI = DIBBsMPIConnectorClient()
+
+    with MPI.dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS public.pyway;"""))
+        pg_connection.commit()
+        pg_connection.close()
 
 
 def test_health_check():
@@ -114,13 +118,7 @@ def test_linkage_invalid_db_type():
 
 
 def test_linkage_success():
-    # Clear MPI ahead of testing
-    # clean_up_db()
-    # run_migrations()
-    # test_bundle = load_test_bundle()
-
     set_mpi_env_vars()
-    clean_up_db()
     run_migrations()
     test_bundle = load_test_bundle()
     entry_list = copy.deepcopy(test_bundle["entry"])
@@ -182,13 +180,10 @@ def test_linkage_success():
     assert resp_6.json()["found_match"]
     assert person_6.get("id") == person_1.get("id")
 
-    clean_up_db()
-    pop_mpi_env_vars()
-
 
 def test_use_enhanced_algo():
     # Start with fresh tables to make tests atomic
-    clean_up_db()
+    _clean_up()
     set_mpi_env_vars()
     run_migrations()
     test_bundle = load_test_bundle()
@@ -263,5 +258,5 @@ def test_use_enhanced_algo():
     assert resp_6.json()["found_match"]
     assert person_6.get("id") == person_1.get("id")
 
-    clean_up_db()
+    _clean_up()
     pop_mpi_env_vars()
