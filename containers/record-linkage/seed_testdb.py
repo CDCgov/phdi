@@ -19,10 +19,9 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from app.main import app, run_migrations
 from sqlalchemy import text
-import copy
 import json
 import pathlib
-from phdi.linkage.mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 # fmt: on
 client = TestClient(app)
 
@@ -49,7 +48,7 @@ def pop_mpi_env_vars():
 
 
 def _clean_up():
-    MPI = PGMPIConnectorClient()
+    MPI = DIBBsMPIConnectorClient()
 
     with MPI.dal.engine.connect() as pg_connection:
         pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))

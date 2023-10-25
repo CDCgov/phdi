@@ -4,7 +4,7 @@ import pathlib
 from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy import Engine, Table, select, text
 from sqlalchemy.orm import scoped_session
-from phdi.linkage.mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 
 def _init_db() -> DataAccessLayer:
@@ -272,7 +272,7 @@ def test_select_results():
     }
     records_to_add = [pt1, pt2]
     pks = dal.bulk_insert_list(dal.PATIENT_TABLE, records_to_add, True)
-    mpi = PGMPIConnectorClient()
+    mpi = DIBBsMPIConnectorClient()
     mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)

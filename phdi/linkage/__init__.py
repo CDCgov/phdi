@@ -28,7 +28,7 @@ from phdi.linkage.link import (
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
-from phdi.linkage.mpi import PGMPIConnectorClient
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.seed import convert_to_patient_fhir_resources
 from phdi.linkage.utils import datetime_to_str
 
@@ -64,6 +64,6 @@ __all__ = [
     "_compare_address_elements",
     "_compare_name_elements",
     "convert_to_patient_fhir_resources",
-    "PGMPIConnectorClient",
+    "DIBBsMPIConnectorClient",
     "datetime_to_str",
 ]
