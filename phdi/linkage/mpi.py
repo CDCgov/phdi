@@ -10,7 +10,7 @@ import uuid
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
     """
-    Represents a Master Patient Index (MPI) connector
+    Represents a Postgres-specific Master Patient Index (MPI) connector
     client for the DIBBs implementation of the record linkage building
     block. Callers should use the provided interface functions (e.g.,
     block_vals) to interact with the underlying vendor-specific client
@@ -562,7 +562,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             new_external_person_record = {
                 "person_id": new_person_id,
                 "external_person_id": external_person_id,
-                "external_source_id": "IRIS",
+                "external_source_id": None,
             }
             self.dal.bulk_insert_list(
                 self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
