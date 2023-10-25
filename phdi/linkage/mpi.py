@@ -562,7 +562,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             new_external_person_record = {
                 "person_id": new_person_id,
                 "external_person_id": external_person_id,
-                "external_source_id": None,
+                "external_source_id": "IRIS",
             }
             self.dal.bulk_insert_list(
                 self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
