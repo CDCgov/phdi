@@ -6,7 +6,7 @@ import re
 import pytest
 import uuid
 from sqlalchemy import Select, select, text
-from phdi.linkage.mpi import MPIConnectorClient
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
 patient_resource = json.load(
@@ -29,7 +29,7 @@ def _init_db() -> DataAccessLayer:
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-    MPI = MPIConnectorClient()
+    MPI = DIBBsMPIConnectorClient()
     MPI.dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
@@ -169,7 +169,7 @@ def test_block_data_failures():
 
 
 def test_get_base_query():
-    MPI: MPIConnectorClient = _init_db()
+    MPI: DIBBsMPIConnectorClient = _init_db()
     base_query = MPI._get_base_query()
     expected_query = (
         "SELECT patient.patient_id, person.person_id, patient.dob AS"
@@ -197,7 +197,7 @@ def test_get_base_query():
 
 
 def test_organize_block_criteria():
-    MPI: MPIConnectorClient = _init_db()
+    MPI: DIBBsMPIConnectorClient = _init_db()
     block_data = {
         "dob": {"value": "1977-11-11"},
         "sex": {"value": "M"},
@@ -332,10 +332,10 @@ def test_init():
         "mpi_db_type": "postgres",
     }
 
-    MPI = MPIConnectorClient()
+    MPI = DIBBsMPIConnectorClient()
 
     assert MPI is not None
-    assert isinstance(MPI, MPIConnectorClient)
+    assert isinstance(MPI, DIBBsMPIConnectorClient)
     assert MPI.dal is not None
     assert isinstance(MPI.dal, DataAccessLayer)
 

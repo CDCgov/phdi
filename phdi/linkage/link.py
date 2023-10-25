@@ -13,7 +13,7 @@ from typing import List, Callable, Dict, Union
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
 
-from phdi.linkage.mpi import MPIConnectorClient
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.utils import datetime_to_str
 
 LINKING_FIELDS_TO_FHIRPATHS = {
@@ -563,7 +563,7 @@ def link_record_against_mpi(
       new Person ID or the ID of an existing matched Person).
     """
     # Initialize MPI client
-    mpi_client = MPIConnectorClient()
+    mpi_client = DIBBsMPIConnectorClient()
     mpi_client._initialize_schema()
 
     # Need to bind function names back to their symbolic invocations
