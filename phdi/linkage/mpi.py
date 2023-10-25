@@ -1,14 +1,14 @@
 from typing import List, Dict, Union
 from sqlalchemy import Select, and_, func, literal_column, select, text
 from sqlalchemy.dialects.postgresql import aggregate_order_by
-from phdi.linkage.core import BasePGMPIConnectorClient
+from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
 import uuid
 
 
-class PGMPIConnectorClient(BasePGMPIConnectorClient):
+class PGMPIConnectorClient(BaseMPIConnectorClient):
     """
     Represents a Master Patient Index (MPI) connector
     client for the DIBBs implementation of the record linkage building

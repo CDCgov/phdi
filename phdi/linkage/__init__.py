@@ -27,7 +27,7 @@ from phdi.linkage.link import (
     add_person_resource,
 )
 
-from phdi.linkage.core import BasePGMPIConnectorClient
+from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.mpi import PGMPIConnectorClient
 from phdi.linkage.seed import convert_to_patient_fhir_resources
 from phdi.linkage.utils import datetime_to_str
@@ -55,7 +55,7 @@ __all__ = [
     "feature_match_log_odds_fuzzy_compare",
     "profile_log_odds",
     "eval_log_odds_cutoff",
-    "BasePGMPIConnectorClient",
+    "BaseMPIConnectorClient",
     "extract_blocking_values_from_record",
     "write_linkage_config",
     "read_linkage_config",
