@@ -41,7 +41,7 @@ def read_json_from_assets(filename: str):
 
 
 def unzip(zipped_file) -> Dict:
-    my_zipfile = ZipFile(zipped_file.file)
+    my_zipfile = zipped_file
     file_to_open = [file for file in my_zipfile.namelist() if "/CDA_eICR.xml" in file][
         0
     ]
