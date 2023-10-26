@@ -1758,22 +1758,6 @@
                                 <observation classCode="OBS" moodCode="EVN">
                                     <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
                                     <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <id extension="https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19504533634/_history/1" root="2.16.840.1.113883"/>
-                                    <code code="5803-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="loinc.org">
-                                        <originalText>
-                                            <reference value="#labTestName2"/>
-                                        </originalText>
-                                    </code>
-                                    <statusCode code="completed"/>
-                                    <effectiveTime value="20220520102700+0000"/>
-                                    <value unit="null" value="5.0" xsi:type="PQ"/>
-                                    <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83" codeSystemName="v3-ObservationInterpretation" displayName="Normal"/>
-                                </observation>
-                            </component>
-                            <component>
-                                <observation classCode="OBS" moodCode="EVN">
-                                    <templateId root="2.16.840.1.113883.10.20.22.4.2"/>
-                                    <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.4.2"/>
                                     <id extension="1546468.10" root="1.2.840.114350.1.13.297.3.7.6.798268.2000"/>
                                     <code code="80348-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
                                         <originalText>E. Coli (EPEC), NAAT

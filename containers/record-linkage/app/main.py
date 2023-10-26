@@ -12,10 +12,10 @@ from phdi.linkage import (
 from pydantic import BaseModel, Field
 from typing import Optional
 from app.utils import (
-    connect_to_mpi_with_env_vars,
     read_json_from_assets,
     run_migrations,
 )
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 # Ensure MPI is configured as expected.
 run_migrations()
@@ -105,7 +105,7 @@ async def health_check() -> HealthCheckResponse:
     """
 
     try:
-        connect_to_mpi_with_env_vars()
+        mpi_client = DIBBsMPIConnectorClient()  # noqa: F841
     except Exception as err:
         return {"status": "OK", "mpi_connection_status": str(err)}
     return {"status": "OK", "mpi_connection_status": "OK"}
@@ -176,9 +176,8 @@ async def link_record(
     # Initialize a DB connection for use with the MPI
     # Then, link away
     try:
-        db_client = connect_to_mpi_with_env_vars()
         (found_match, new_person_id) = link_record_against_mpi(
-            record_to_link, algo_config, db_client, external_id
+            record_to_link, algo_config, external_id
         )
         updated_bundle = add_person_resource(
             new_person_id, record_to_link.get("id", ""), input_bundle

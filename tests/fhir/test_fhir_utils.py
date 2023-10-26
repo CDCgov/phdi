@@ -148,11 +148,11 @@ def test_get_one_line_address():
     assert get_one_line_address({}) == ""
     address = {
         "line": ["1234 Silversun Strip"],
-        "city": "Zakera Ward",
-        "state": "Citadel",
+        "city": "Boston",
+        "state": "Massachusetts",
         "postalCode": "99999",
     }
     assert (
         get_one_line_address(address)
-        == "1234 Silversun Strip Zakera Ward, Citadel 99999"
+        == "1234 Silversun Strip Boston, Massachusetts 99999"
     )
