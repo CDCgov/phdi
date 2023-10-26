@@ -28,31 +28,15 @@ def test_valid_datetime_to_str_with_time(input_value, expected_output):
     assert datetime_to_str(input_value, include_time=True) == expected_output
 
 
-def test_invalid_datetime_to_str():
-    invalid_string = "10-10-2023"
-    with pytest.raises(
-        ValueError,
-        match=f"Input date {invalid_string} is not in the format 'YYYY-MM-DD'.",
-    ):
-        datetime_to_str(invalid_string)
-
-
-def test_unsupported_datetime_to_str():
-    unsupported_input = 20231010
-    with pytest.raises(
-        TypeError,
-        match=f"Input date {unsupported_input} is not of type date, datetime, or str.",
-    ):
-        datetime_to_str(unsupported_input)
-
-
-def test_invalid_datetime_to_str_with_time():
-    invalid_string_with_time = "2023-10-10 15:30"
-    with pytest.raises(
-        ValueError,
-        match=(
-            f"Input date {invalid_string_with_time} "
-            "is not in the format 'YYYY-MM-DD HH:MM:SS'"
-        ),
-    ):
-        datetime_to_str(invalid_string_with_time, include_time=True)
+@pytest.mark.parametrize(
+    "input_value, expected_output",
+    [
+        ("", ""),
+        (None, None),
+        (20231010, "20231010"),
+        (["2023-10-10"], "['2023-10-10']"),
+        ({"date": "2023-10-10"}, "{'date': '2023-10-10'}"),
+    ],
+)
+def test_bad_input_datetime_to_str(input_value, expected_output):
+    assert datetime_to_str(input_value) == expected_output

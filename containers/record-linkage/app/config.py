@@ -1,6 +1,8 @@
 from functools import lru_cache
 from pydantic import BaseSettings
 
+# from typing import Optional
+
 
 class Settings(BaseSettings):
     mpi_db_type: str
@@ -9,8 +11,6 @@ class Settings(BaseSettings):
     mpi_user: str
     mpi_password: str
     mpi_port: str
-    mpi_patient_table: str
-    mpi_person_table: str
 
 
 @lru_cache()

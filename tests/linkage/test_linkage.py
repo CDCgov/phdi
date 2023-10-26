@@ -1,13 +1,10 @@
 import json
 import os
 import pandas as pd
-import psycopg2
-import random
 import copy
-
+import uuid
 from phdi.linkage import (
     generate_hash_str,
-    block_data,
     feature_match_exact,
     feature_match_fuzzy_string,
     eval_perfect_match,
@@ -16,8 +13,6 @@ from phdi.linkage import (
     feature_match_four_char,
     perform_linkage_pass,
     score_linkage_vs_truth,
-    block_data_from_db,
-    _generate_block_query,
     calculate_m_probs,
     calculate_u_probs,
     calculate_log_odds,
@@ -33,103 +28,79 @@ from phdi.linkage import (
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
-    _map_matches_to_record_ids,
-    _compare_address_elements,
-    _compare_name_elements,
     _flatten_patient_resource,
     _condense_extract_address_from_resource,
+    _compare_address_elements,
+    _compare_name_elements,
 )
-from phdi.linkage import DIBBsConnectorClient
+
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
+from phdi.linkage.dal import DataAccessLayer
+
+from sqlalchemy import text, select
+
 from phdi.linkage import DIBBS_BASIC, DIBBS_ENHANCED
 
 import pathlib
 import pytest
 from random import seed
 from math import log
+from datetime import date, datetime
 from json.decoder import JSONDecodeError
 from tests.test_data_generator import (
     generate_list_patients_contact,
 )
 
 
-def _set_up_postgres_client():
-    postgres_client = DIBBsConnectorClient(
-        database="testdb",
-        user="postgres",
-        password="pw",
-        host="localhost",
-        port="5432",
-        patient_table="test_patient_mpi",
-        person_table="test_person_mpi",
-    )
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
-
-    # Generate test tables
-    funcs = {
-        "drop tables": (
-            f"""
-        DROP TABLE IF EXISTS {postgres_client.patient_table};
-        DROP TABLE IF EXISTS {postgres_client.person_table};
-        """
-        ),
-        "create_patient": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.patient_table} "
-            + "(patient_id UUID DEFAULT uuid_generate_v4 (), person_id UUID, "
-            + "patient_resource JSONB);"
-        ),
-        "create_person": (
-            """
-            BEGIN;
-
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"""
-            + f"CREATE TABLE IF NOT EXISTS {postgres_client.person_table} "
-            + "(person_id UUID DEFAULT uuid_generate_v4 (), "
-            + "external_person_id VARCHAR(100));"
-        ),
+def _init_db() -> DataAccessLayer:
+    os.environ = {
+        "mpi_dbname": "testdb",
+        "mpi_user": "postgres",
+        "mpi_password": "pw",
+        "mpi_host": "localhost",
+        "mpi_port": "5432",
+        "mpi_db_type": "postgres",
     }
-
-    for command, statement in funcs.items():
-        try:
-            postgres_client.cursor.execute(statement)
-            postgres_client.connection.commit()
-        except Exception as e:
-            print(f"{command} was unsuccessful")
-            print(e)
-            postgres_client.connection.rollback()
-
-    return postgres_client
-
-
-def _clean_up_postgres_client(postgres_client):
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
+    MPI = DIBBsMPIConnectorClient()
+    MPI.dal.get_connection(
+        engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
-    postgres_client.cursor = postgres_client.connection.cursor()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.patient_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.execute(
-        f"DROP TABLE IF EXISTS {postgres_client.person_table}"
-    )
-    postgres_client.connection.commit()
-    postgres_client.cursor.close()
-    postgres_client.connection.close()
+    _clean_up(MPI.dal)
+
+    # load ddl
+    schema_ddl = open(
+        pathlib.Path(__file__).parent.parent.parent
+        / "phdi"
+        / "linkage"
+        / "new_tables.ddl"
+    ).read()
+
+    try:
+        with MPI.dal.engine.connect() as db_conn:
+            db_conn.execute(text(schema_ddl))
+            db_conn.commit()
+    except Exception as e:
+        print(e)
+        with MPI.dal.engine.connect() as db_conn:
+            db_conn.rollback()
+    MPI._initialize_schema()
+    return MPI
+
+
+def _clean_up(dal):
+    with dal.engine.connect() as pg_connection:
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS give_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS given_name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS name CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS patient CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS person CASCADE;"""))
+        pg_connection.commit()
+        pg_connection.close()
 
 
 def test_extract_blocking_values_from_record():
@@ -206,13 +177,15 @@ def test_extract_blocking_values_from_record():
 
 def test_generate_hash():
     salt_str = "super-legit-salt"
-    patient_1 = "John-Shepard-2153/11/07-1234 Silversun Strip Zakera Ward Citadel 99999"
+    patient_1 = (
+        "John-Shepard-2153/11/07-1234 Silversun Strip Boston Massachusetts 99999"
+    )
     patient_2 = "Tali-Zora-Vas-Normandy-2160/05/14-PO Box 1 Rock Rannoch"
 
     hash_1 = generate_hash_str(patient_1, salt_str)
     hash_2 = generate_hash_str(patient_2, salt_str)
 
-    assert hash_1 == "0aa5aa1f6183a24670b2e1848864514e119ae6ca63bb35246ef215e7a0746a35"
+    assert hash_1 == "b124335071679e95341b8133669f6ab475f211f3e19d3cf69e7b6f13b0df45d6"
     assert hash_2 == "102818c623290c24069beb721c6eb465d281b3b67ecfb6aef924d14affa117b9"
 
 
@@ -233,8 +206,8 @@ def test_feature_match_exact():
 
 
 def test_feature_match_fuzzy_string():
-    record_i = ["string1", "John", "John", "", None]
-    record_j = ["string2", "Jhon", "Jon", "", None]
+    record_i = ["string1", "John", "John", "1985-12-12", None]
+    record_j = ["string2", "Jhon", "Jon", "1985-12-12", None]
 
     cols = {"col_1": 0, "col_2": 1, "col_3": 2, "col_4": 3}
 
@@ -282,12 +255,12 @@ def test_match_within_block_cluster_ratio():
 
     eval_rule = eval_perfect_match
     funcs = {
-        "first": feature_match_fuzzy_string,
-        "last": feature_match_fuzzy_string,
-        "dob": feature_match_exact,
+        "first_name": feature_match_fuzzy_string,
+        "last_name": feature_match_fuzzy_string,
+        "birthdate": feature_match_exact,
         "zip": feature_match_exact,
     }
-    col_to_idx = {"first": 1, "last": 2, "dob": 3, "zip": 4}
+    col_to_idx = {"first_name": 1, "last_name": 2, "birthdate": 3, "zip": 4}
 
     # Do a test run requiring total membership match
     matches = _match_within_block_cluster_ratio(
@@ -321,19 +294,19 @@ def test_match_within_block():
     # First, require exact matches on everything to match
     # Expect 0 pairs
     funcs = {
-        "first": feature_match_exact,
-        "last": feature_match_exact,
-        "dob": feature_match_exact,
+        "first_name": feature_match_exact,
+        "last_name": feature_match_exact,
+        "birthdate": feature_match_exact,
         "zip": feature_match_exact,
     }
-    col_to_idx = {"first": 1, "last": 2, "dob": 3, "zip": 4}
+    col_to_idx = {"first_name": 1, "last_name": 2, "birthdate": 3, "zip": 4}
     match_pairs = match_within_block(data, funcs, col_to_idx, eval_rule)
     assert len(match_pairs) == 0
 
     # Now, require exact on DOB and zip, but allow fuzzy on first and last
     # Expect 6 matches
-    funcs["first"] = feature_match_fuzzy_string
-    funcs["last"] = feature_match_fuzzy_string
+    funcs["first_name"] = feature_match_fuzzy_string
+    funcs["last_name"] = feature_match_fuzzy_string
     match_pairs = match_within_block(data, funcs, col_to_idx, eval_rule)
     assert match_pairs == [(0, 1), (0, 2), (1, 2), (5, 6), (5, 8), (6, 8)]
 
@@ -349,40 +322,6 @@ def test_match_within_block():
         threshold=0.8,
     )
     assert match_pairs == [(5, 6), (5, 8), (6, 8)]
-
-
-def test_block_parquet_data():
-    # Create data for testing
-    test_data = {
-        "id": [0, 1, 2, 3],
-        "first_name": ["Marc", "Mark", "Jose", "Eliza"],
-        "last_name": ["Gutierrez", "Smith", "Garcia", "Jones"],
-        "zip": [90210, 90210, 90210, 90006],
-        "year_of_birth": [1980, 1992, 1992, 1992],
-    }
-    test_data_df = pd.DataFrame.from_dict(test_data)
-
-    if os.path.isfile("./test.parquet"):  # pragma: no cover
-        os.remove("./test.parquet")
-    test_data_df.to_parquet(path="./test.parquet", engine="pyarrow")
-
-    test_data = pd.read_parquet(path="./test.parquet", engine="pyarrow")
-    blocked_test_data = block_data(test_data, blocks=["zip"])
-
-    # Test output data types are correct
-    assert isinstance(blocked_test_data, dict)
-    assert isinstance(blocked_test_data[90006], list)
-
-    # Test that the number of blocks is the same as the distinct number of zip codes
-    assert len(blocked_test_data.keys()) == test_data_df["zip"].nunique()
-
-    # Test blocks with multiple block columns
-    blocked_test_data = block_data(test_data, blocks=["zip", "year_of_birth"])
-    assert len(blocked_test_data[(90210, 1992)]) == 2
-
-    # Clean up
-    if os.path.isfile("./test.parquet"):  # pragma: no cover
-        os.remove("./test.parquet")
 
 
 def test_compile_match_lists():
@@ -437,52 +376,6 @@ def test_feature_match_four_char():
     for c in cols:
         assert feature_match_four_char(record_i, record_j, c, cols)
         assert not feature_match_four_char(record_i, record_k, c, cols)
-
-
-def test_map_matches_to_ids():
-    data = generate_list_patients_contact()
-    data = pd.DataFrame(
-        data,
-        columns=[
-            "BIRTHDATE",
-            "FIRST",
-            "LAST",
-            "GENDER",
-            "ADDRESS",
-            "CITY",
-            "STATE",
-            "ZIP",
-            "ID",
-        ],
-    )
-    blocked_data = block_data(data, ["ZIP"])
-    matches_with_ids = {
-        "12345": [],
-        "15935": [(23, 24), (23, 31), (24, 31)],
-        "23456": [],
-        "64873": [],
-        "90909": [(1, 12)],
-    }
-    found_matches = {
-        "12345": [],
-        "15935": [(0, 1), (0, 2), (1, 2)],
-        "23456": [],
-        "64873": [],
-        "90909": [(0, 3)],
-    }
-    for block in matches_with_ids:
-        assert matches_with_ids[block] == _map_matches_to_record_ids(
-            found_matches[block], blocked_data[block]
-        )
-
-    # Now test in cluster mode
-    found_matches = {
-        "12345": set(),
-        "15935": {0, 1, 2},
-        "23456": set(),
-        "64873": set(),
-        "90909": {0, 3},
-    }
 
 
 def test_perform_linkage_pass():
@@ -576,62 +469,6 @@ def test_score_linkage_vs_truth():
     assert specificity == 0.926
     assert ppv == 0.75
     assert f1 == 0.857
-
-
-def test_generate_block_query():
-    table_name = "test_table"
-    block_data = {"ZIP": 90210, "City": "Los Angeles"}
-    correct_query = (
-        f"SELECT * FROM {table_name} WHERE "
-        + f"{list(block_data.keys())[0]} = {list(block_data.values())[0]} "
-        + f"AND {list(block_data.keys())[1]} = '{list(block_data.values())[1]}'"
-    )
-
-    query = _generate_block_query(table_name, block_data)
-
-    assert query == correct_query
-
-    # Tests for appropriate data type handling in query generation
-    assert (
-        type(list(block_data.values())[1]) == str
-        and "'" in correct_query.split("= ")[-1]
-    )  # String types should be enclosed in quotes
-
-    assert (
-        type(list(block_data.values())[0]) != str
-        and "'" not in correct_query.split("= ")[1]
-    )  # Non-string types should not be enclosed in quotes
-
-
-def test_blocking_data():
-    db_name = (
-        pathlib.Path(__file__).parent.parent.parent
-        / "examples"
-        / "MPI-sample-data"
-        / "synthetic_patient_mpi_db"
-    )
-
-    table_name = "synthetic_patient_mpi"
-    block_data = {"ZIP": 90265, "City": "Malibu"}
-    blocked_data = block_data_from_db(db_name, table_name, block_data)
-
-    # Assert data is returned
-    assert len(blocked_data) > 0
-    # Assert returned data is in the correct format
-    assert type(blocked_data[0]) is list
-    # Assert returned data match the block_data parameters
-    assert (
-        blocked_data[random.randint(0, len(blocked_data) - 1)][11] == block_data["City"]
-    )
-    assert (
-        blocked_data[random.randint(0, len(blocked_data) - 1)][-4] == block_data["ZIP"]
-    )
-
-    # Assert exception is raised when block_data is empty
-    block_data = {}
-    with pytest.raises(ValueError) as e:
-        block_data_from_db(db_name, table_name, block_data)
-    assert "`block_data` cannot be empty." in str(e.value)
 
 
 def test_read_write_m_probs():
@@ -788,8 +625,8 @@ def test_feature_match_log_odds_fuzzy():
         feature_match_log_odds_fuzzy_compare([], [], "c", {})
     assert "Mapping of columns to m/u log-odds must be provided" in str(e.value)
 
-    ri = ["John", "Shepard", "11-07-1980", "1234 Silversun Strip"]
-    rj = ["John", "Sheperd", "06-08-2000", "asdfghjeki"]
+    ri = ["John", "Shepard", date(1980, 11, 7), "1234 Silversun Strip"]
+    rj = ["John", "Sheperd", datetime(1970, 6, 7), "asdfghjeki"]
     col_to_idx = {"first": 0, "last": 1, "birthdate": 2, "address": 3}
     log_odds = {"first": 4.0, "last": 6.5, "birthdate": 9.8, "address": 3.7}
 
@@ -817,7 +654,7 @@ def test_feature_match_log_odds_fuzzy():
             ),
             3,
         )
-        == 5.227
+        == 7.859
     )
 
     assert (
@@ -827,7 +664,7 @@ def test_feature_match_log_odds_fuzzy():
             ),
             3,
         )
-        == 0.987
+        == 0.0
     )
 
 
@@ -977,8 +814,7 @@ def test_algo_write():
 
 def test_link_record_against_mpi_none_record():
     algorithm = DIBBS_BASIC
-
-    postgres_client = _set_up_postgres_client()
+    MPI = _init_db()
 
     patients = json.load(
         open(
@@ -988,42 +824,41 @@ def test_link_record_against_mpi_none_record():
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
+
     patients = patients["entry"]
     patients = [
         p.get("resource")
         for p in patients
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ][:2]
+
     # Test various null data values in incoming record
     patients[1]["name"][0]["given"] = None
-    patients[1]["birthDate"] = ""
+    patients[1]["birthDate"] = None
     matches = []
     mapped_patients = {}
     for patient in patients:
         matched, pid = link_record_against_mpi(
             patient,
             algorithm,
-            postgres_client,
         )
         matches.append(matched)
-        if pid not in mapped_patients:
-            mapped_patients[pid] = 0
-        mapped_patients[pid] += 1
+        if str(pid) not in mapped_patients:
+            mapped_patients[str(pid)] = 0
+        mapped_patients[str(pid)] += 1
 
     # First patient inserted into empty MPI, no match
     # Second patient blocks with first patient in first pass, then fuzzy matches name
     assert matches == [False, True]
     assert sorted(list(mapped_patients.values())) == [2]
 
-    _clean_up_postgres_client(postgres_client)
+    _clean_up(MPI.dal)
 
 
 # TODO: Move this to an integration test suite
 def test_link_record_against_mpi():
     algorithm = DIBBS_BASIC
-
-    postgres_client = _set_up_postgres_client()
-
+    MPI = _init_db()
     patients = json.load(
         open(
             pathlib.Path(__file__).parent.parent
@@ -1038,76 +873,77 @@ def test_link_record_against_mpi():
         for p in patients
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
+
     matches = []
     mapped_patients = {}
     for patient in patients:
         matched, pid = link_record_against_mpi(
             patient["resource"],
             algorithm,
-            postgres_client,
         )
         matches.append(matched)
-        if pid not in mapped_patients:
-            mapped_patients[pid] = 0
-        mapped_patients[pid] += 1
+        if str(pid) not in mapped_patients:
+            mapped_patients[str(pid)] = 0
+        mapped_patients[str(pid)] += 1
 
     # First patient inserted into empty MPI, no match
     # Second patient blocks with first patient in first pass, then fuzzy matches name
     # Third patient is entirely new individual, no match
-    # Fourth patient fails blocking with first pass but catches on second, fuzzy matches
+    # Fourth patient fails blocking with first pass but catches on second, fuzzy
+    # matches
     # Fifth patient: in first pass MRN blocks with one cluster but fails name,
-    #  in second pass name blocks with different cluster but fails address, no match
+    # in second pass name blocks with different cluster but fails address, no match
     # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
-    #  in second pass name blocks on different cluster and address matches it,
-    #  finds greatest strength match and correctly assigns to larger cluster
-
+    # in second pass name blocks on different cluster and address matches it,
+    # finds greatest strength match and correctly assigns to larger cluster
     assert matches == [False, True, False, True, False, True]
     assert sorted(list(mapped_patients.values())) == [1, 1, 4]
 
     # Re-open connection to check for all insertions
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
+    patient_records = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
+    patient_id_count = {}
+    person_id_count = {}
+    for patient in patient_records[1:]:
+        if str(patient[0]) not in patient_id_count:
+            patient_id_count[str(patient[0])] = 1
+        else:
+            patient_id_count[str(patient[0])] = patient_id_count[str(patient[0])] + 1
+        if str(patient[1]) not in person_id_count:
+            person_id_count[str(patient[1])] = 1
+        else:
+            person_id_count[str(patient[1])] = person_id_count[str(patient[1])] + 1
 
-    # Extract all data
-    postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
-    postgres_client.connection.commit()
-    data = postgres_client.cursor.fetchall()
+    assert len(patient_records[1:]) == len(patients)
+    for person_id in person_id_count:
+        assert person_id_count[person_id] == mapped_patients[person_id]
 
-    assert len(data) == 6
+    # name and given_name
+    given_name_count = 0
+    name_count = 0
+    for patient in patients:
+        for name in patient["resource"]["name"]:
+            name_count += 1
+            for given_name in name["given"]:
+                given_name_count += 1
+    given_name_records = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE))
+    assert len(given_name_records[1:]) == given_name_count
+    name_records = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
+    assert len(name_records[1:]) == name_count
 
-    # Re-open connection to check that num records for each person
-    # ID matches what we found to link on (i.e. links were made
-    # correctly)
-    for person_id in mapped_patients:
-        postgres_client.connection = psycopg2.connect(
-            database=postgres_client.database,
-            user=postgres_client.user,
-            password=postgres_client.password,
-            host=postgres_client.host,
-            port=postgres_client.port,
-        )
-        postgres_client.cursor = postgres_client.connection.cursor()
-        postgres_client.cursor.execute(
-            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
-        )
-        postgres_client.connection.commit()
-        data = postgres_client.cursor.fetchall()
-        assert len(data) == mapped_patients[person_id]
+    # address
+    address_records = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE))
+    address_count = 0
+    for patient in patients:
+        for address in patient["resource"]["address"]:
+            address_count += 1
+    assert len(address_records[1:]) == address_count
 
-    _clean_up_postgres_client(postgres_client)
+    _clean_up(MPI.dal)
 
 
 def test_link_record_against_mpi_enhanced_algo():
     algorithm = DIBBS_ENHANCED
-
-    postgres_client = _set_up_postgres_client()
-
+    MPI = _init_db()
     patients = json.load(
         open(
             pathlib.Path(__file__).parent.parent
@@ -1122,19 +958,22 @@ def test_link_record_against_mpi_enhanced_algo():
         for p in patients
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
+    # add an additional patient that will fuzzy match to patient 0
+    patient0_copy = copy.deepcopy(patients[0])
+    patient0_copy["resource"]["id"] = str(uuid.uuid4())
+    patient0_copy["resource"]["name"][0]["given"][0] = "Jhon"
+    patients.append(patient0_copy)
     matches = []
     mapped_patients = {}
     for patient in patients:
-        print(patient["resource"].get("id"))
         matched, pid = link_record_against_mpi(
             patient["resource"],
             algorithm,
-            postgres_client,
         )
         matches.append(matched)
-        if pid not in mapped_patients:
-            mapped_patients[pid] = 0
-        mapped_patients[pid] += 1
+        if str(pid) not in mapped_patients:
+            mapped_patients[str(pid)] = 0
+        mapped_patients[str(pid)] += 1
 
     # First patient inserted into empty MPI, no match
     # Second patient blocks with first patient in first pass, then fuzzy matches name
@@ -1143,48 +982,51 @@ def test_link_record_against_mpi_enhanced_algo():
     # Fifth patient: in first pass MRN blocks with one cluster but fails name,
     #  in second pass name blocks with different cluster but fails address, no match
     # Sixth patient: in first pass, MRN blocks with one cluster and name matches in it,
-    #  in second pass name blocks on different cluster and address matches it,
+    # in second pass name blocks on different cluster and address matches it,
     #  finds greatest strength match and correctly assigns to larger cluster
-    assert matches == [False, True, False, True, False, True]
-    assert sorted(list(mapped_patients.values())) == [1, 1, 4]
+    assert matches == [False, True, False, True, False, True, True]
+    assert sorted(list(mapped_patients.values())) == [1, 1, 5]
 
     # Re-open connection to check for all insertions
-    postgres_client.connection = psycopg2.connect(
-        database=postgres_client.database,
-        user=postgres_client.user,
-        password=postgres_client.password,
-        host=postgres_client.host,
-        port=postgres_client.port,
-    )
-    postgres_client.cursor = postgres_client.connection.cursor()
+    patient_records = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
+    patient_id_count = {}
+    person_id_count = {}
+    for patient in patient_records[1:]:
+        if str(patient[0]) not in patient_id_count:
+            patient_id_count[str(patient[0])] = 1
+        else:
+            patient_id_count[str(patient[0])] = patient_id_count[str(patient[0])] + 1
+        if str(patient[1]) not in person_id_count:
+            person_id_count[str(patient[1])] = 1
+        else:
+            person_id_count[str(patient[1])] = person_id_count[str(patient[1])] + 1
 
-    # Extract all data
-    postgres_client.cursor.execute(f"SELECT * from {postgres_client.patient_table}")
-    postgres_client.connection.commit()
-    data = postgres_client.cursor.fetchall()
+    assert len(patient_records[1:]) == len(patients)
+    for person_id in person_id_count:
+        assert person_id_count[person_id] == mapped_patients[person_id]
 
-    assert len(data) == 6
+    # name and given_name
+    given_name_count = 0
+    name_count = 0
+    for patient in patients:
+        for name in patient["resource"]["name"]:
+            name_count += 1
+            for given_name in name["given"]:
+                given_name_count += 1
+    given_name_records = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE))
+    assert len(given_name_records[1:]) == given_name_count
+    name_records = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
+    assert len(name_records[1:]) == name_count
 
-    # Re-open connection to check that num records for each person
-    # ID matches what we found to link on (i.e. links were made
-    # correctly)
-    for person_id in mapped_patients:
-        postgres_client.connection = psycopg2.connect(
-            database=postgres_client.database,
-            user=postgres_client.user,
-            password=postgres_client.password,
-            host=postgres_client.host,
-            port=postgres_client.port,
-        )
-        postgres_client.cursor = postgres_client.connection.cursor()
-        postgres_client.cursor.execute(
-            f"SELECT * from {postgres_client.patient_table} WHERE person_id = '{person_id}'"  # noqa
-        )
-        postgres_client.connection.commit()
-        data = postgres_client.cursor.fetchall()
-        assert len(data) == mapped_patients[person_id]
+    # address
+    address_records = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE))
+    address_count = 0
+    for patient in patients:
+        for address in patient["resource"]["address"]:
+            address_count += 1
+    assert len(address_records[1:]) == address_count
 
-    _clean_up_postgres_client(postgres_client)
+    _clean_up(MPI.dal)
 
 
 def test_add_person_resource():
@@ -1224,32 +1066,32 @@ def test_compare_address_elements():
     }
     col_to_idx = {"address": 2}
     record = [
-        ["123"],
-        ["1"],
+        "123",
+        "1",
         ["John", "Paul", "George"],
-        ["1980-01-01"],
+        "1980-01-01",
         ["123 Main St"],
     ]
     record2 = [
-        ["123"],
-        ["1"],
+        "123",
+        "1",
         ["John", "Paul", "George"],
-        ["1980-01-01"],
+        "1980-01-01",
         ["123 Main St", "9 North Ave"],
     ]
     mpi_patient1 = [
-        ["456"],
-        ["2"],
-        ["John", "Paul", "George", "Ringo"],
-        ["1980-01-01"],
-        ["756 South St", "123 Main St", "489 North Ave"],
+        "456",
+        "2",
+        "John",
+        "1980-01-01",
+        "123 Main St",
     ]
     mpi_patient2 = [
-        ["789"],
-        ["3"],
-        ["Pierre"],
-        ["1980-01-01"],
-        ["6 South St", "23 Main St", "9 North Ave"],
+        "789",
+        "3",
+        "Pierre",
+        "1980-01-01",
+        "6 South St",
     ]
 
     same_address = _compare_address_elements(
@@ -1272,43 +1114,36 @@ def test_compare_name_elements():
     feature_funcs = {"first": feature_match_fuzzy_string}
     col_to_idx = {"first": 0}
     record = [
-        ["123"],
-        ["1"],
+        "123",
+        "1",
         ["John", "Paul", "George"],
-        ["1980-01-01"],
+        "1980-01-01",
         ["123 Main St"],
     ]
-    record2 = [
-        ["123"],
-        ["1"],
-        ["John", "Paul", "George"],
-        ["1980-01-01"],
-        ["123 Main St", "9 North Ave"],
-    ]
     record3 = [
-        ["123"],
-        ["1"],
+        "123",
+        "1",
         ["Jean", "Pierre"],
-        ["1980-01-01"],
+        "1980-01-01",
         ["123 Main St", "9 North Ave"],
     ]
     mpi_patient1 = [
-        ["456"],
-        ["2"],
-        ["John", "Paul", "George", "Ringo"],
-        ["1980-01-01"],
-        ["756 South St", "123 Main St", "489 North Ave"],
+        "456",
+        "2",
+        "John",
+        "1980-01-01",
+        "756 South St",
     ]
     mpi_patient2 = [
-        ["789"],
-        ["3"],
-        ["Jean"],
-        ["1980-01-01"],
-        ["6 South St", "23 Main St", "9 North Ave"],
+        "789",
+        "3",
+        "Jean",
+        "1980-01-01",
+        "6 South St",
     ]
 
     same_name = _compare_name_elements(
-        record[2:], record2[2:], feature_funcs, "first", col_to_idx
+        record[2:], mpi_patient1[2:], feature_funcs, "first", col_to_idx
     )
     assert same_name is True
 
@@ -1346,7 +1181,7 @@ def test_condense_extracted_address():
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
     patient = patients[2]
-    assert _condense_extract_address_from_resource(patient) == [
+    assert _condense_extract_address_from_resource(patient, "address") == [
         "PO Box 1 First Rock",
         "Bay 16 Ward Sector 24",
     ]
@@ -1361,6 +1196,7 @@ def test_flatten_patient():
             / "patient_bundle_to_link_with_mpi.json"
         )
     )
+
     patients = patients["entry"]
     patients = [
         p.get("resource", {})
@@ -1368,24 +1204,36 @@ def test_flatten_patient():
         if p.get("resource", {}).get("resourceType", "") == "Patient"
     ]
 
+    col_to_idx = {
+        "address": 0,
+        "birthdate": 1,
+        "city": 2,
+        "first_name": 3,
+        "last_name": 4,
+        "mrn": 4,
+        "sex": 5,
+        "state": 6,
+        "zip": 7,
+    }
+
     # Use patient with multiple identifiers to also test MRN-specific filter
-    assert _flatten_patient_resource(patients[2]) == [
+    assert _flatten_patient_resource(patients[2], col_to_idx) == [
         "2c6d5fd1-4a70-11eb-99fd-ad786a821574",
         None,
         ["PO Box 1 First Rock", "Bay 16 Ward Sector 24"],
         "2060-05-14",
-        "Nar Raya",
+        ["Bozeman", "Brooklyn"],
         ["Tali", "Zora", "Tali", "Zora", "Tali", "Zora"],
         "Vas Normandy",
         "7894561235",
         "female",
-        "Ranoch",
-        "11111",
+        ["Montana", "New York"],
+        ["11111", "11111"],
     ]
 
 
 def test_multi_element_blocking():
-    postgres_client = _set_up_postgres_client()
+    MPI = _init_db()
     patients = json.load(
         open(
             pathlib.Path(__file__).parent.parent
@@ -1404,13 +1252,12 @@ def test_multi_element_blocking():
     # Insert multi-entry patient into DB
     patient = patients[2]
     algorithm = DIBBS_BASIC
-    link_record_against_mpi(patient, algorithm, postgres_client)
+    link_record_against_mpi(patient, algorithm)
 
-    # Now check that we can block on either name
+    # Now check that we can block on either name & return same results
     # First row of returned results is headers
-    found_records = postgres_client.block_data({"last_name": {"value": "Vas Neema"}})
-    assert len(found_records) == 2
-    found_records = postgres_client.block_data({"last_name": {"value": "Nar Raya"}})
-    assert len(found_records) == 2
+    vm_found_records = MPI.get_block_data({"last_name": {"value": "Vas Neema"}})
+    nr_found_records = MPI.get_block_data({"last_name": {"value": "Nar Raya"}})
+    assert vm_found_records == nr_found_records
 
-    _clean_up_postgres_client(postgres_client)
+    _clean_up(MPI.dal)
