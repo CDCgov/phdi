@@ -18,14 +18,13 @@ def test_websocket_process_message_endpoint():
 
     with client.websocket_connect("/process-ws") as websocket:
         with open(
-                Path(__file__).parent.parent.parent.parent
-                / "tests"
-                / "assets"
-                / "orchestration"
-                / "test_zip.zip",
-                "rb",
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "orchestration"
+            / "test_zip.zip",
+            "rb",
         ) as file:
             websocket.send_json(file)
-
 
     assert data == {"msg": "Hello WebSocket"}
