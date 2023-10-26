@@ -13,7 +13,12 @@ from fastapi import (
 from typing import Annotated, Optional
 from pathlib import Path
 from zipfile import is_zipfile, ZipFile
-from app.utils import load_processing_config, unzip, load_config_assets
+from app.utils import (
+    load_processing_config,
+    unzip_ws,
+    unzip_http,
+    load_config_assets,
+)
 from app.config import get_settings
 from app.services import call_apis
 from app.models import (
@@ -55,16 +60,6 @@ class WS_File:
         self.file = file
 
 
-def unzip_if_zipped(upload_file=None, data=None):
-    if upload_file and is_zipfile(upload_file.file):
-        return unzip(upload_file)
-    elif upload_file:
-        return upload_file.file
-    else:
-        content = data["message"]
-        return content
-
-
 @app.websocket("/process-ws")
 async def process_message_endpoint_ws(
     websocket: WebSocket,
@@ -81,7 +76,7 @@ async def process_message_endpoint_ws(
         file = await websocket.receive_bytes()
 
         zipped_file = ZipFile(io.BytesIO(file), "r")
-        unzipped_file = unzip(zipped_file)
+        unzipped_file = unzip_ws(zipped_file)
 
         # Hardcoded message_type for MVP
         input = {
@@ -108,7 +103,7 @@ async def process_message_endpoint(
     content = ""
 
     if upload_file and is_zipfile(upload_file.file):
-        content = unzip(upload_file)
+        content = unzip_http(upload_file)
     else:
         try:
             data = await request.json()
