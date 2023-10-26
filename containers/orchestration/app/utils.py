@@ -2,7 +2,6 @@ import json
 import pathlib
 from functools import cache
 from pathlib import Path
-from zipfile import ZipFile
 from typing import Dict
 
 
