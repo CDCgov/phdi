@@ -378,7 +378,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         query = (
             select(
                 self.dal.PATIENT_TABLE.c.patient_id,
-                self.dal.PERSON_TABLE.c.person_id,
+                self.dal.PATIENT_TABLE.c.person_id,
                 self.dal.PATIENT_TABLE.c.dob.label("birthdate"),
                 self.dal.PATIENT_TABLE.c.sex,
                 id_sub_query.c.mrn,
@@ -406,7 +406,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             #
             # .outerjoin(phone_sub_query)
             .outerjoin(self.dal.ADDRESS_TABLE)
-            .outerjoin(self.dal.PERSON_TABLE)
         )
         return query
 
