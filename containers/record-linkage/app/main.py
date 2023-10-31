@@ -11,15 +11,16 @@ from phdi.linkage import (
 )
 from pydantic import BaseModel, Field
 from typing import Optional
-from app.utils import (
-    read_json_from_assets,
-    run_migrations,
-)
+from app.utils import read_json_from_assets, run_migrations, get_settings
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 # Ensure MPI is configured as expected.
 run_migrations()
-
+settings = get_settings()
+mpi_client = DIBBsMPIConnectorClient(
+    pool_size=settings["connection_pool_size"],
+    max_overflow=settings["connection_pool_max_overflow"],
+)
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
