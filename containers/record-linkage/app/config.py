@@ -21,15 +21,17 @@ class Settings(BaseSettings):
     mpi_password: str = Field(
         description="The password used to connect to the MPI database",
     )
-    mpi_port: str
+    mpi_port: str = Field(
+        description="The port used to connect to the MPI database"
+    )
     connection_pool_size: Optional[int] = Field(
         description="The number of MPI database connections in the connection pool",
-        default=5,
-    )
+        default=5
+        )
     connection_pool_max_overflow: Optional[int] = Field(
         description="The maximum number of MPI database connections that can be opened "
         "above the connection pool size",
-        default=10,
+        default=10
     )
 
 
