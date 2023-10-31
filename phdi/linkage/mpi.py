@@ -23,7 +23,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
     def __init__(self, pool_size: int = 5, max_overflow: int = 10):
         """
         Initialize the MPI connector client with the MPI database.
-        
         :param pool_size: The number of connections to keep open to the database.
         :param max_overflow: The number of connections to allow in connection pool.
         """
@@ -38,9 +37,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             engine_url=f"postgresql+psycopg2://{dbuser}:"
             + f"{dbpwd}@{dbhost}:{dbport}/{dbname}",
             pool_size=pool_size,
-            max_overflow=max_overflow
+            max_overflow=max_overflow,
         )
-
         self.column_to_fhirpaths = {
             "patient": {
                 "root_path": "Patient",
@@ -107,9 +105,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 },
             },
         }
-
-    def _initialize_schema(self):
-        self.dal.initialize_schema()
 
     def get_block_data(self, block_criteria: Dict) -> List[list]:
         """
