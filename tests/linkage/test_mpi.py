@@ -173,7 +173,7 @@ def test_get_base_query():
     MPI: DIBBsMPIConnectorClient = _init_db()
     base_query = MPI._get_base_query()
     expected_query = (
-        "SELECT patient.patient_id, person.person_id, patient.dob AS"
+        "SELECT patient.patient_id, patient.person_id, patient.dob AS"
         + " birthdate, patient.sex, ident_subq.mrn, name.last_name, "
         + "gname_subq.given_names AS first_name, address.line_1 AS "
         + "address, address.zip_code AS zip, address.city, address.state"
@@ -188,8 +188,7 @@ def test_get_base_query():
         + " AS given_names"
         + " FROM given_name GROUP BY given_name.name_id) AS gname_subq ON name.name_id "
         + "= gname_subq.name_id LEFT OUTER JOIN address ON patient.patient_id = "
-        + "address.patient_id LEFT OUTER JOIN person ON person.person_id = "
-        + "patient.person_id"
+        + "address.patient_id"
     )
     assert base_query is not None
     assert isinstance(base_query, Select)
