@@ -11,3 +11,5 @@ python-dotenv
 python-multipart
 pytest-env
 testcontainers[compose]
+websockets
+asyncio
