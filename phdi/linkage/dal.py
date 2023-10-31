@@ -48,8 +48,9 @@ class DataAccessLayer(object):
 
         :param engine_url: The URL of the database engine
         :param engine_echo: If True, print SQL statements to stdout
-        :param pool_size: The number of connections to keep open in the connection pool.
-        :param max_overflow: The number of connections to allow in the connection pool “overflow”.
+        :param pool_size: The number of connections to keep open in the connection pool
+        :param max_overflow: The number of connections to allow in the connection pool
+          “overflow”
         :return: None
         """
 
@@ -65,8 +66,16 @@ class DataAccessLayer(object):
         self.session = scoped_session(
             sessionmaker(bind=self.engine)
         )  # NOTE extra config can be implemented in this call to sessionmaker factory
+        try:
+            self._initialize_schema()
+        except Exception:
+            raise TypeError(
+                """
+                A schema could not be found. Run migrations first to ensure tables
+                 in schema exist."""
+            )
 
-    def initialize_schema(self) -> None:
+    def _initialize_schema(self) -> None:
         """
         Initialize the database schema
 
