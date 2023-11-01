@@ -2,7 +2,13 @@ import httpx
 import pytest
 import os
 from pathlib import Path
+from app.config import get_settings
+from app.main import app
+from fastapi.websockets import WebSocketDisconnect
+from fastapi.testclient import TestClient
 
+
+get_settings()
 
 ORCHESTRATION_URL = "http://localhost:8080"
 PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
@@ -69,3 +75,26 @@ def test_process_endpoint_with_zip(setup):
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
+
+
+@pytest.mark.asyncio
+async def test_websocket_process_message_endpoint():
+    client = TestClient(app)
+    with open(
+            Path(__file__).parent.parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "orchestration"
+            / "test_zip.zip",
+            "rb",
+    ) as file:
+        test_zip = file.read()
+
+    with client.websocket_connect("/process-ws") as websocket:
+        try:
+            await websocket.send_bytes(test_zip)
+            messages = await websocket.recv()
+        except WebSocketDisconnect:
+            pass
+
+    assert messages == 'true'
