@@ -2,8 +2,8 @@ import httpx
 import pytest
 import os
 from pathlib import Path
-from phdi.containers.orchestration.app.config import get_settings
-from phdi.containers.orchestration.app.main import app
+from ..app.config import get_settings
+from ..app.main import app
 from fastapi.websockets import WebSocketDisconnect
 from fastapi.testclient import TestClient
 
