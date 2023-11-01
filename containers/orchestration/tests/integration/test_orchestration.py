@@ -2,8 +2,8 @@ import httpx
 import pytest
 import os
 from pathlib import Path
-from ..app.config import get_settings
-from ..app.main import app
+from orchestration.app.config import get_settings
+from orchestration.app.main import app
 from fastapi.websockets import WebSocketDisconnect
 from fastapi.testclient import TestClient
 
