@@ -66,16 +66,9 @@ class DataAccessLayer(object):
         self.session = scoped_session(
             sessionmaker(bind=self.engine)
         )  # NOTE extra config can be implemented in this call to sessionmaker factory
-        try:
-            self._initialize_schema()
-        except Exception:
-            raise TypeError(
-                """
-                A schema could not be found. Run migrations first to ensure tables
-                 in schema exist."""
-            )
 
-    def _initialize_schema(self) -> None:
+
+    def initialize_schema(self) -> None:
         """
         Initialize the database schema
 

@@ -39,6 +39,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             pool_size=pool_size,
             max_overflow=max_overflow,
         )
+        self.dal.initialize_schema(pool_size=pool_size, max_overflow=max_overflow)
         self.column_to_fhirpaths = {
             "patient": {
                 "root_path": "Patient",
