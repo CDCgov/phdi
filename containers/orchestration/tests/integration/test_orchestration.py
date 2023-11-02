@@ -57,6 +57,7 @@ def test_process_endpoint_with_message(setup):
 
 @pytest.mark.integration
 def test_process_endpoint_with_zip(setup):
+    print('other test')
     with open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -79,6 +80,7 @@ def test_process_endpoint_with_zip(setup):
 
 @pytest.mark.asyncio
 async def test_websocket_process_message_endpoint():
+    print('Hello')
     client = TestClient(app)
     with open(
             Path(__file__).parent.parent.parent.parent.parent
@@ -97,4 +99,4 @@ async def test_websocket_process_message_endpoint():
         except WebSocketDisconnect:
             pass
 
-    assert messages == 'true'
+    assert "red" == 'blue'
