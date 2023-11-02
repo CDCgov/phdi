@@ -69,6 +69,7 @@ def test_get_connection():
     assert isinstance(dal.engine, Engine)
     assert dal.session is not None
     assert isinstance(dal.session, scoped_session)
+
     assert dal.PATIENT_TABLE is None
     assert dal.PERSON_TABLE is None
     assert dal.NAME_TABLE is None
@@ -82,7 +83,6 @@ def test_get_connection():
 
 def test_initialize_schema():
     dal = _init_db()
-    dal.initialize_schema()
 
     assert dal.engine is not None
     assert isinstance(dal.engine, Engine)
@@ -185,7 +185,6 @@ def test_get_table_by_name():
     _clean_up(dal)
 
     dal2 = _init_db()
-    dal2.initialize_schema()
 
     table = dal2.get_table_by_name("address")
     assert isinstance(table, Table)
@@ -273,7 +272,6 @@ def test_select_results():
     records_to_add = [pt1, pt2]
     pks = dal.bulk_insert_list(dal.PATIENT_TABLE, records_to_add, True)
     mpi = DIBBsMPIConnectorClient()
-    mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )
