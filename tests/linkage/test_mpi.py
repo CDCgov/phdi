@@ -30,11 +30,12 @@ def _init_db() -> DataAccessLayer:
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-    MPI = DIBBsMPIConnectorClient()
-    MPI.dal.get_connection(
+
+    dal = DataAccessLayer()
+    dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
-    _clean_up(MPI.dal)
+    _clean_up(dal)
 
     # load ddl
     schema_ddl = open(
@@ -45,15 +46,16 @@ def _init_db() -> DataAccessLayer:
     ).read()
 
     try:
-        with MPI.dal.engine.connect() as db_conn:
+        with dal.engine.connect() as db_conn:
             db_conn.execute(text(schema_ddl))
             db_conn.commit()
     except Exception as e:
         print(e)
-        with MPI.dal.engine.connect() as db_conn:
+        with dal.engine.connect() as db_conn:
             db_conn.rollback()
-    MPI._initialize_schema()
-    return MPI
+    dal.initialize_schema()
+    
+    return DIBBsMPIConnectorClient()
 
 
 def _clean_up(dal):
@@ -332,7 +334,7 @@ def test_init():
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-
+    _init_db()
     MPI = DIBBsMPIConnectorClient()
 
     assert MPI is not None
