@@ -85,7 +85,7 @@ def _init_db() -> DataAccessLayer:
         with dal.engine.connect() as db_conn:
             db_conn.rollback()
     dal.initialize_schema()
-    
+
     return DIBBsMPIConnectorClient()
 
 

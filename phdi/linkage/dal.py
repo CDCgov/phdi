@@ -67,7 +67,6 @@ class DataAccessLayer(object):
             sessionmaker(bind=self.engine)
         )  # NOTE extra config can be implemented in this call to sessionmaker factory
 
-
     def initialize_schema(self) -> None:
         """
         Initialize the database schema

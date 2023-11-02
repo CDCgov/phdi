@@ -69,7 +69,7 @@ def test_get_connection():
     assert isinstance(dal.engine, Engine)
     assert dal.session is not None
     assert isinstance(dal.session, scoped_session)
-    
+
     assert dal.PATIENT_TABLE is None
     assert dal.PERSON_TABLE is None
     assert dal.NAME_TABLE is None
