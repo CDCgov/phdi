@@ -32,7 +32,13 @@ class DataAccessLayer(object):
         self.EXTERNAL_SOURCE_TABLE = None
         self.TABLE_LIST = []
 
-    def get_connection(self, engine_url: str, engine_echo: bool = False) -> None:
+    def get_connection(
+        self,
+        engine_url: str,
+        engine_echo: bool = False,
+        pool_size: int = 5,
+        max_overflow: int = 10,
+    ) -> None:
         """
         Establish a connection to the database
 
@@ -42,6 +48,9 @@ class DataAccessLayer(object):
 
         :param engine_url: The URL of the database engine
         :param engine_echo: If True, print SQL statements to stdout
+        :param pool_size: The number of connections to keep open in the connection pool
+        :param max_overflow: The number of connections to allow in the connection pool
+          “overflow”
         :return: None
         """
 
@@ -50,6 +59,8 @@ class DataAccessLayer(object):
             engine_url,
             client_encoding="utf8",
             echo=engine_echo,
+            pool_size=pool_size,
+            max_overflow=max_overflow,
         )
 
         self.session = scoped_session(
