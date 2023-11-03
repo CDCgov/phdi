@@ -267,7 +267,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .where(text(" AND ".join(query_criteria)))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
-
+                    print(f"sub_query: {sub_query}")         
                     cte_query = (
                         select(fk_table.c.patient_id.label("patient_id"))
                         .join(sub_query)
@@ -278,6 +278,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                             )
                         )
                     ).cte(f"{table_key}_cte")
+                    print(f"cte_query: {cte_query}")
             if cte_query is not None:
                 new_query = new_query.join(
                     cte_query,
