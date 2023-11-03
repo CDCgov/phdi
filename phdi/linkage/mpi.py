@@ -271,7 +271,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     print(f"fk_table name {fk_table.name}")
                     print(f"sub query name {sub_query.name}")
                     cte_query = (
-                        select(fk_table).join(
+                        select(fk_table.c.patient_id).join(
                             sub_query,
                             text(
                                 f"{fk_table.name}.{fk_column.name} = "
