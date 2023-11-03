@@ -256,8 +256,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .cte(f"{table_key}_cte")
                     )
                 else:
-                    fk_table = copy.deepcopy(cte_query_table)
-                    fk_info = fk_table.foreign_keys.pop()
+                    fk_query_table = copy.deepcopy(cte_query_table)
+                    fk_info = fk_query_table.foreign_keys.pop()
                     fk_column = fk_info.column
                     fk_table = fk_info.column.table
                     sub_query = (
@@ -271,7 +271,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     print(f"fk_table name {fk_table.name}")
                     print(f"sub query name {sub_query.name}")
                     cte_query = (
-                        select(cte_query_table.c.patient_id.label("patient_id"))
+                        select(fk_table.c.patient_id.label("patient_id"))
                         .join(sub_query)
                         .where(
                             text(
