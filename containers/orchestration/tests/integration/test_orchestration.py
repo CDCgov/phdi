@@ -79,6 +79,7 @@ def test_process_endpoint_with_zip(setup):
 
 
 @pytest.mark.asyncio
+@pytest.mark.integrationq
 async def test_websocket_process_message_endpoint():
     print('Hello')
     client = TestClient(app)
