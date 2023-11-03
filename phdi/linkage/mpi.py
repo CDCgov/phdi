@@ -168,6 +168,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
+        
+        self.dal.initialize_schema()
         try:
             correct_person_id = self._get_person_id(
                 person_id=person_id, external_person_id=external_person_id
