@@ -6,6 +6,7 @@ from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
 import uuid
+import copy
 
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
@@ -257,7 +258,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .cte(f"{table_key}_cte")
                     )
                 else:
-                    fk_info = cte_query_table.foreign_keys.pop()
+                    fk_table = copy.deepcopy(cte_query_table)
+                    fk_info = fk_table.foreign_keys.pop()
                     fk_column = fk_info.column
                     fk_table = fk_info.column.table
                     sub_query = (
