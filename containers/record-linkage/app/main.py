@@ -17,7 +17,7 @@ from phdi.linkage.mpi import DIBBsMPIConnectorClient
 # Ensure MPI is configured as expected.
 run_migrations()
 settings = get_settings()
-mpi_client = DIBBsMPIConnectorClient(
+MPI_CLIENT = DIBBsMPIConnectorClient(
     pool_size=settings["connection_pool_size"],
     max_overflow=settings["connection_pool_max_overflow"],
 )
@@ -174,11 +174,13 @@ async def link_record(
             "message": "Supplied bundle contains no Patient resource to link on.",
         }
 
-    # Initialize a DB connection for use with the MPI
-    # Then, link away
+    # Now link the record
     try:
         (found_match, new_person_id) = link_record_against_mpi(
-            record_to_link, algo_config, external_id
+            record=record_to_link,
+            algo_config=algo_config,
+            external_person_id=external_id,
+            mpi_client=MPI_CLIENT,
         )
         updated_bundle = add_person_resource(
             new_person_id, record_to_link.get("id", ""), input_bundle
