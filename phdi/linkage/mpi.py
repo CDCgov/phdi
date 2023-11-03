@@ -169,7 +169,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
-    
+
         try:
             correct_person_id = self._get_person_id(
                 person_id=person_id, external_person_id=external_person_id
@@ -243,13 +243,12 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             )
 
             if query_criteria is not None and len(query_criteria) > 0:
-                
                 print(f"query_criteria: {query_criteria}")
                 print(f"table_key: {table_key}")
                 print(f"table_info: {table_info}")
                 print(f"cte_query_table: {cte_query_table}")
                 print(f"foreign_keys: {cte_query_table.foreign_keys}")
-                
+
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
                         select(cte_query_table.c.patient_id.label("patient_id"))
@@ -266,7 +265,11 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .where(text(" AND ".join(query_criteria)))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
-                    print(f"sub_query: {sub_query}")         
+                    print(f"sub_query: {sub_query}")
+                    print(f"fk_table {fk_table}")
+                    print(f"fk_table {fk_column.name}")
+                    print(f"fk_table name {fk_table.name}")
+                    print(f"sub query name {sub_query.name")
                     cte_query = (
                         select(fk_table.c.patient_id.label("patient_id"))
                         .join(sub_query)
