@@ -91,6 +91,7 @@ class DataAccessLayer(object):
 
         # order of the list determines the order of
         # inserts due to FK constraints
+        self.TABLE_LIST = []
         self.TABLE_LIST.append(self.PERSON_TABLE)
         self.TABLE_LIST.append(self.EXTERNAL_SOURCE_TABLE)
         self.TABLE_LIST.append(self.EXTERNAL_PERSON_TABLE)
@@ -239,8 +240,8 @@ class DataAccessLayer(object):
         :param table_name: the name of the table you want to get.
         :return: SqlAlchemy ORM Table Object.
         """
-        if len(self.TABLE_LIST) == 0:
-            self.initialize_schema()
+
+        self.initialize_schema()
 
         if table_name is not None and table_name != "":
             # TODO: I am sure there is an easier way to do this
@@ -259,8 +260,8 @@ class DataAccessLayer(object):
             table it belongs to.
         :return: SqlAlchemy ORM Table Object.
         """
-        if len(self.TABLE_LIST) == 0:
-            self.initialize_schema()
+
+        self.initialize_schema()
 
         if column_name is not None and column_name != "":
             # TODO: I am sure there is an easier way to do this
