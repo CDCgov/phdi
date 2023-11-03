@@ -241,6 +241,10 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             )
 
             if query_criteria is not None and len(query_criteria) > 0:
+                print(f"query_criteria: {query_criteria}")
+                print(f"table_key: {table_key}")
+                print(f"table_info: {table_info}")
+                print(f"cte_query_table: {cte_query_table}")
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
                         select(cte_query_table.c.patient_id.label("patient_id"))
