@@ -19,7 +19,6 @@ class DataAccessLayer(object):
 
     def __init__(self) -> None:
         self.engine = None
-        self.session = None
         self.Meta = MetaData()
         self.PATIENT_TABLE = None
         self.PERSON_TABLE = None
@@ -63,9 +62,6 @@ class DataAccessLayer(object):
             max_overflow=max_overflow,
         )
 
-        self.session = scoped_session(
-            sessionmaker(bind=self.engine)
-        )  # NOTE extra config can be implemented in this call to sessionmaker factory
 
     def initialize_schema(self) -> None:
         """
@@ -116,7 +112,7 @@ class DataAccessLayer(object):
         :yield: SQLAlchemy session object
         :raises ValueError: if an error occurs during the transaction
         """
-        session = self.session()
+        session = self.get_session()
 
         try:
             yield session
@@ -230,7 +226,10 @@ class DataAccessLayer(object):
         :return: SQLAlchemy scoped session
         """
 
-        return self.session()
+        session = scoped_session(
+                sessionmaker(bind=self.engine)
+            )  # NOTE extra config can be implemented in this call to sessionmaker factory
+        return session()
 
     def get_table_by_name(self, table_name: str) -> Table:
         """
