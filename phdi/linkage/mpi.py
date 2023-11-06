@@ -268,7 +268,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                             ),
                         )
                     ).cte(f"{table_key}_cte")
-                    print(f"cte_query: {cte_query}")
             if cte_query is not None:
                 new_query = new_query.join(
                     cte_query,
