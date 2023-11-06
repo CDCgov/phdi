@@ -3,6 +3,10 @@ import os
 from testcontainers.compose import DockerCompose
 from dotenv import load_dotenv
 
+import functools
+
+from starlette.testclient import TestClient
+
 
 @pytest.fixture(scope="session")
 def setup(request):
@@ -31,6 +35,7 @@ def setup(request):
 
     def teardown():
         print("Tests finished! Tearing down.")
+        print(orchestration_service.get_logs())
         orchestration_service.stop()
 
     request.addfinalizer(teardown)

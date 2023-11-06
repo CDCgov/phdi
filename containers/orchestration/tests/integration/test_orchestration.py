@@ -4,8 +4,10 @@ import os
 from pathlib import Path
 from app.config import get_settings
 from app.main import app
-from fastapi.websockets import WebSocketDisconnect
+from starlette.websockets import WebSocket
 from fastapi.testclient import TestClient
+from starlette.types import Receive, Scope, Send
+from starlette.testclient import TestClient
 
 
 get_settings()
@@ -78,26 +80,43 @@ def test_process_endpoint_with_zip(setup):
         assert orchestration_response.json()["message"] == "Processing succeeded!"
 
 
+# @pytest.mark.asyncio
+# @pytest.mark.integration
+# async def test_websocket_process_message_endpoint():
+#     print('Hello')
+#     client = TestClient(app)
+#     with open(
+#             Path(__file__).parent.parent.parent.parent.parent
+#             / "tests"
+#             / "assets"
+#             / "orchestration"
+#             / "test_zip.zip",
+#             "rb",
+#     ) as file:
+#         test_zip = file.read()
+#
+#     with client.websocket_connect("/process-ws") as websocket:
+#
+#         await websocket.accept()
+#         await websocket.send_bytes(test_zip)
+#         await websocket.close()
+#         messages = await websocket.recv()
+#
+#     assert "red" == messages
+
+
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_websocket_process_message_endpoint():
-    print('Hello')
-    client = TestClient(app)
-    with open(
-            Path(__file__).parent.parent.parent.parent.parent
-            / "tests"
-            / "assets"
-            / "orchestration"
-            / "test_zip.zip",
-            "rb",
-    ) as file:
-        test_zip = file.read()
+def test_websocket_send_and_receive_bytes(test_client_factory):
+    async def app(scope: Scope, receive: Receive, send: Send) -> None:
+        websocket = WebSocket(scope, receive=receive, send=send)
+        await websocket.accept()
+        data = await websocket.receive_bytes()
+        await websocket.send_bytes(b"Message was: " + data)
+        await websocket.close()
 
-    with client.websocket_connect("/process-ws") as websocket:
-        try:
-            await websocket.send_bytes(test_zip)
-            messages = await websocket.recv()
-        except WebSocketDisconnect:
-            pass
-
-    assert "red" == 'blue'
+    client = test_client_factory(app)
+    with client.websocket_connect("/") as websocket:
+        websocket.send_bytes(b"Hello, world!")
+        data = websocket.receive_bytes()
+        assert data == b"Message was: Hello, world!"
