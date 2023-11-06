@@ -242,12 +242,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 table_info["criteria"], table_key
             )
 
-            if query_criteria is not None and len(query_criteria) > 0:
-                print(f"query_criteria: {query_criteria}")
-                print(f"table_key: {table_key}")
-                print(f"table_info: {table_info}")
-                print(f"cte_query_table: {cte_query_table}")
-                print(f"foreign_keys: {cte_query_table.foreign_keys}")
+            if query_criteria is not None and len(query_criteria) > 0
 
                 if self.dal.does_table_have_column(cte_query_table, "patient_id"):
                     cte_query = (
@@ -265,11 +260,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .where(text(" AND ".join(query_criteria)))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
-                    print(f"sub_query: {sub_query}")
-                    print(f"fk_table {fk_table}")
-                    print(f"fk_table {fk_column.name}")
-                    print(f"fk_table name {fk_table.name}")
-                    print(f"sub query name {sub_query.name}")
                     cte_query = (
                         select(fk_table.c.patient_id).join(
                             sub_query,
