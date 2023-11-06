@@ -78,16 +78,15 @@ def test_get_connection():
     assert dal.EXTERNAL_PERSON_TABLE is None
     assert dal.EXTERNAL_SOURCE_TABLE is None
 
+
 def test_get_session():
     dal = DataAccessLayer()
     dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
     dal.get_session()
-    
-    
-    
-    
+
+
 def test_initialize_schema():
     dal = _init_db()
 

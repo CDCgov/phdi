@@ -62,7 +62,6 @@ class DataAccessLayer(object):
             max_overflow=max_overflow,
         )
 
-
     def initialize_schema(self) -> None:
         """
         Initialize the database schema
@@ -228,8 +227,8 @@ class DataAccessLayer(object):
         """
 
         session = scoped_session(
-                sessionmaker(bind=self.engine)
-            )  # NOTE extra config can be implemented in this call to sessionmaker factory
+            sessionmaker(bind=self.engine)
+        )  # NOTE extra config can be implemented in this call to sessionmaker factory
         return session()
 
     def get_table_by_name(self, table_name: str) -> Table:
