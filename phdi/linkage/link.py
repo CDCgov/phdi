@@ -8,7 +8,7 @@ from pydantic import Field
 from itertools import combinations
 from math import log
 from random import sample
-from typing import List, Callable, Dict, Union
+from typing import List, Callable, Union
 
 from phdi.harmonization.utils import compare_strings
 from phdi.fhir.utils import extract_value_with_resource_path
@@ -629,19 +629,18 @@ def link_record_against_mpi(
                         )
                     else:
                         linkage_scores[person] = belongingness_ratio
-    
-    person_id = None 
+    person_id = None
     matched = False
-    
+
     # If we found any matches, find the strongest one
     if len(linkage_scores) != 0:
         person_id = _find_strongest_link(linkage_scores)
         matched = True
 
     person_id = mpi_client.insert_matched_patient(
-            record, person_id=person_id, external_person_id=external_person_id
-        )
-    
+        record, person_id=person_id, external_person_id=external_person_id
+    )
+
     return (matched, person_id)
 
 
@@ -1408,28 +1407,6 @@ def _match_within_block_cluster_ratio(
         if not found_master_cluster:
             clusters.append({i})
     return clusters
-
-
-def _generate_block_query(table_name: str, block_data: Dict) -> str:
-    """
-    Generates a query for selecting a block of data from `table_name` per the block_data
-    parameters.
-
-    :param table_name: Table name.
-    :param block_data: Dictionary containing key value pairs for the column name you for
-      blocking and the data for the incoming record, e.g., ["ZIP"]: "90210".
-    :return: Query to select block of data base on `block_data` parameters.
-
-    """
-    query_stub = f"SELECT * FROM {table_name} WHERE "
-    block_query = " AND ".join(
-        [
-            key + f" = '{value}'" if type(value) is str else (key + f" = {value}")
-            for key, value in block_data.items()
-        ]
-    )
-    query = query_stub + block_query
-    return query
 
 
 def _is_empty_extraction_field(block_vals: dict, field: str):
