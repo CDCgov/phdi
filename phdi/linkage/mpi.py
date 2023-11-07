@@ -6,6 +6,7 @@ from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
 import uuid
+import copy
 
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
@@ -20,7 +21,12 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
 
     matched: bool = False
 
-    def __init__(self):
+    def __init__(self, pool_size: int = 5, max_overflow: int = 10):
+        """
+        Initialize the MPI connector client with the MPI database.
+        :param pool_size: The number of connections to keep open to the database.
+        :param max_overflow: The number of connections to allow in connection pool.
+        """
         dbsettings = load_mpi_env_vars_os()
         dbuser = dbsettings.get("user")
         dbname = dbsettings.get("dbname")
@@ -30,9 +36,11 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         self.dal = DataAccessLayer()
         self.dal.get_connection(
             engine_url=f"postgresql+psycopg2://{dbuser}:"
-            + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
+            + f"{dbpwd}@{dbhost}:{dbport}/{dbname}",
+            pool_size=pool_size,
+            max_overflow=max_overflow,
         )
-
+        self.dal.initialize_schema()
         self.column_to_fhirpaths = {
             "patient": {
                 "root_path": "Patient",
@@ -100,9 +108,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             },
         }
 
-    def _initialize_schema(self):
-        self.dal.initialize_schema()
-
     def get_block_data(self, block_criteria: Dict) -> List[list]:
         """
         Returns a list of lists containing records from the MPI database that
@@ -164,6 +169,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
+
         try:
             correct_person_id = self._get_person_id(
                 person_id=person_id, external_person_id=external_person_id
@@ -244,7 +250,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .cte(f"{table_key}_cte")
                     )
                 else:
-                    fk_info = cte_query_table.foreign_keys.pop()
+                    fk_query_table = copy.deepcopy(cte_query_table)
+                    fk_info = fk_query_table.foreign_keys.pop()
                     fk_column = fk_info.column
                     fk_table = fk_info.column.table
                     sub_query = (
@@ -252,15 +259,13 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .where(text(" AND ".join(query_criteria)))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
-
                     cte_query = (
-                        select(fk_table.c.patient_id.label("patient_id"))
-                        .join(sub_query)
-                        .where(
+                        select(fk_table.c.patient_id).join(
+                            sub_query,
                             text(
                                 f"{fk_table.name}.{fk_column.name} = "
                                 + f"{sub_query.name}.{fk_column.name}"
-                            )
+                            ),
                         )
                     ).cte(f"{table_key}_cte")
             if cte_query is not None:

@@ -30,11 +30,12 @@ def _init_db() -> DataAccessLayer:
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-    MPI = DIBBsMPIConnectorClient()
-    MPI.dal.get_connection(
+
+    dal = DataAccessLayer()
+    dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
-    _clean_up(MPI.dal)
+    _clean_up(dal)
 
     # load ddl
     schema_ddl = open(
@@ -45,15 +46,16 @@ def _init_db() -> DataAccessLayer:
     ).read()
 
     try:
-        with MPI.dal.engine.connect() as db_conn:
+        with dal.engine.connect() as db_conn:
             db_conn.execute(text(schema_ddl))
             db_conn.commit()
     except Exception as e:
         print(e)
-        with MPI.dal.engine.connect() as db_conn:
+        with dal.engine.connect() as db_conn:
             db_conn.rollback()
-    MPI._initialize_schema()
-    return MPI
+    dal.initialize_schema()
+
+    return DIBBsMPIConnectorClient()
 
 
 def _clean_up(dal):
@@ -294,27 +296,19 @@ def test_generate_block_query():
     }
 
     expected_result2 = (
-        "WITH given_name_cte AS"
-        + "(SELECT name.patient_id AS patient_id"
-        + "FROM name JOIN (SELECT given_name.given_name_id "
-        + "AS given_name_id, given_name.name_id AS name_id, "
-        + "given_name.given_name AS given_name, "
-        + "given_name.given_name_index AS given_name_index"
-        + "FROM given_name"
-        + "WHERE given_name.given_name = 'Homer') "
-        + "AS given_name_cte_subq ON name.name_id = given_name_cte_subq.name_id"
-        + "WHERE name.name_id = given_name_cte_subq.name_id),"
-        + "name_cte AS"
-        + "(SELECT name.patient_id AS patient_id"
-        + "FROM name"
-        + "WHERE name.last_name = 'Simpson')"
-        + "SELECT patient.patient_id, patient.person_id,"
-        + " patient.dob, patient.sex, patient.race, patient.ethnicity"
-        + "FROM patient JOIN given_name_cte ON "
-        + "given_name_cte.patient_id = patient.patient_id "
-        + "JOIN name_cte ON name_cte.patient_id = patient.patient_id"
+        "WITH given_name_cte AS "
+        "(SELECT name.patient_id AS patient_id FROM name JOIN "
+        "(SELECT given_name.given_name_id AS given_name_id, "
+        "given_name.name_id AS name_id, given_name.given_name AS given_name, "
+        "given_name.given_name_index AS given_name_index FROM given_name "
+        "WHERE given_name.given_name = 'Homer') AS given_name_cte_subq "
+        "ON name.name_id = given_name_cte_subq.name_id), name_cte AS "
+        "(SELECT name.patient_id AS patient_id FROM name WHERE "
+        "name.last_name = 'Simpson') SELECT patient.patient_id, patient.person_id, "
+        "patient.dob, patient.sex, patient.race, patient.ethnicity FROM patient JOIN "
+        "given_name_cte ON given_name_cte.patient_id = patient.patient_id JOIN "
+        "name_cte ON name_cte.patient_id = patient.patient_id"
     )
-
     base_query2 = select(MPI.dal.PATIENT_TABLE)
     my_query2 = MPI._generate_block_query(block_data2, base_query2)
 
@@ -331,7 +325,7 @@ def test_init():
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-
+    _init_db()
     MPI = DIBBsMPIConnectorClient()
 
     assert MPI is not None
