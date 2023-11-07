@@ -4,10 +4,7 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    fhir_converter_url: Optional[str]
-    validation_url: Optional[str]
-    message_parser_url: Optional[str]
-    ingestion_url: Optional[str]
+    pass
 
 
 @lru_cache()

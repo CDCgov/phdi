@@ -9,6 +9,7 @@ from fastapi import (
     File,
     HTTPException,
     WebSocket,
+    WebSocketDisconnect,
 )
 from typing import Annotated, Optional
 from pathlib import Path
@@ -72,21 +73,26 @@ async def process_message_endpoint_ws(
     """
 
     await websocket.accept()
-    while True:
-        file = await websocket.receive_bytes()
+    try:
+        while True:
+            file = await websocket.receive_bytes()
 
-        zipped_file = ZipFile(io.BytesIO(file), "r")
-        unzipped_file = unzip_ws(zipped_file)
+            zipped_file = ZipFile(io.BytesIO(file), "r")
+            unzipped_file = unzip_ws(zipped_file)
 
-        # Hardcoded message_type for MVP
-        input = {
-            "message_type": "eicr",
-            "include_error_types": "errors",
-            "message": unzipped_file,
-        }
+            # Hardcoded message_type for MVP
+            input = {
+                "message_type": "eicr",
+                "include_error_types": "errors",
+                "message": unzipped_file,
+            }
 
-        processing_config = load_processing_config("sample-orchestration-config.json")
-        await call_apis(config=processing_config, input=input, websocket=websocket)
+            processing_config = load_processing_config(
+                "sample-orchestration-config.json"
+            )
+            await call_apis(config=processing_config, input=input, websocket=websocket)
+    except WebSocketDisconnect:
+        await websocket.close()
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
