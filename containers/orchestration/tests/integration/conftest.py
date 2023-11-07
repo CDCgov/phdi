@@ -3,10 +3,6 @@ import os
 from testcontainers.compose import DockerCompose
 from dotenv import load_dotenv
 
-import functools
-
-from starlette.testclient import TestClient
-
 
 @pytest.fixture(scope="session")
 def setup(request):
