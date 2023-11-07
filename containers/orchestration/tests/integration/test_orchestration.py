@@ -4,9 +4,6 @@ import os
 from pathlib import Path
 from app.config import get_settings
 from app.main import app
-from starlette.websockets import WebSocket
-from fastapi.testclient import TestClient
-from starlette.types import Receive, Scope, Send
 from starlette.testclient import TestClient
 
 get_settings()
