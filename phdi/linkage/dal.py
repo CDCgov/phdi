@@ -19,7 +19,6 @@ class DataAccessLayer(object):
 
     def __init__(self) -> None:
         self.engine = None
-        self.session = None
         self.Meta = MetaData()
         self.PATIENT_TABLE = None
         self.PERSON_TABLE = None
@@ -63,10 +62,6 @@ class DataAccessLayer(object):
             max_overflow=max_overflow,
         )
 
-        self.session = scoped_session(
-            sessionmaker(bind=self.engine)
-        )  # NOTE extra config can be implemented in this call to sessionmaker factory
-
     def initialize_schema(self) -> None:
         """
         Initialize the database schema
@@ -95,6 +90,7 @@ class DataAccessLayer(object):
 
         # order of the list determines the order of
         # inserts due to FK constraints
+        self.TABLE_LIST = []
         self.TABLE_LIST.append(self.PERSON_TABLE)
         self.TABLE_LIST.append(self.EXTERNAL_SOURCE_TABLE)
         self.TABLE_LIST.append(self.EXTERNAL_PERSON_TABLE)
@@ -116,7 +112,7 @@ class DataAccessLayer(object):
         :yield: SQLAlchemy session object
         :raises ValueError: if an error occurs during the transaction
         """
-        session = self.session()
+        session = self.get_session()
 
         try:
             yield session
@@ -230,7 +226,10 @@ class DataAccessLayer(object):
         :return: SQLAlchemy scoped session
         """
 
-        return self.session()
+        session = scoped_session(
+            sessionmaker(bind=self.engine)
+        )  # NOTE extra config can be implemented in this call to sessionmaker factory
+        return session()
 
     def get_table_by_name(self, table_name: str) -> Table:
         """
@@ -240,8 +239,8 @@ class DataAccessLayer(object):
         :param table_name: the name of the table you want to get.
         :return: SqlAlchemy ORM Table Object.
         """
-        if len(self.TABLE_LIST) == 0:
-            self.initialize_schema()
+
+        self.initialize_schema()
 
         if table_name is not None and table_name != "":
             # TODO: I am sure there is an easier way to do this
@@ -260,8 +259,8 @@ class DataAccessLayer(object):
             table it belongs to.
         :return: SqlAlchemy ORM Table Object.
         """
-        if len(self.TABLE_LIST) == 0:
-            self.initialize_schema()
+
+        self.initialize_schema()
 
         if column_name is not None and column_name != "":
             # TODO: I am sure there is an easier way to do this
