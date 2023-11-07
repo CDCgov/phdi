@@ -1,4 +1,3 @@
-from app.config import get_settings
 from typing import Annotated
 from fastapi import Response, status, Body
 from pathlib import Path
