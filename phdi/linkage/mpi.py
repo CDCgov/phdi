@@ -6,6 +6,7 @@ from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
 import uuid
+import copy
 
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
@@ -168,6 +169,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         :return: the person id
         """
+
         try:
             correct_person_id = self._get_person_id(
                 person_id=person_id, external_person_id=external_person_id
@@ -248,7 +250,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .cte(f"{table_key}_cte")
                     )
                 else:
-                    fk_info = cte_query_table.foreign_keys.pop()
+                    fk_query_table = copy.deepcopy(cte_query_table)
+                    fk_info = fk_query_table.foreign_keys.pop()
                     fk_column = fk_info.column
                     fk_table = fk_info.column.table
                     sub_query = (
@@ -256,15 +259,13 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .where(text(" AND ".join(query_criteria)))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
-
                     cte_query = (
-                        select(fk_table.c.patient_id.label("patient_id"))
-                        .join(sub_query)
-                        .where(
+                        select(fk_table.c.patient_id).join(
+                            sub_query,
                             text(
                                 f"{fk_table.name}.{fk_column.name} = "
                                 + f"{sub_query.name}.{fk_column.name}"
-                            )
+                            ),
                         )
                     ).cte(f"{table_key}_cte")
             if cte_query is not None:
