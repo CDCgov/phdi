@@ -296,27 +296,19 @@ def test_generate_block_query():
     }
 
     expected_result2 = (
-        "WITH given_name_cte AS"
-        + "(SELECT name.patient_id AS patient_id"
-        + "FROM name JOIN (SELECT given_name.given_name_id "
-        + "AS given_name_id, given_name.name_id AS name_id, "
-        + "given_name.given_name AS given_name, "
-        + "given_name.given_name_index AS given_name_index"
-        + "FROM given_name"
-        + "WHERE given_name.given_name = 'Homer') "
-        + "AS given_name_cte_subq ON name.name_id = given_name_cte_subq.name_id"
-        + "WHERE name.name_id = given_name_cte_subq.name_id),"
-        + "name_cte AS"
-        + "(SELECT name.patient_id AS patient_id"
-        + "FROM name"
-        + "WHERE name.last_name = 'Simpson')"
-        + "SELECT patient.patient_id, patient.person_id,"
-        + " patient.dob, patient.sex, patient.race, patient.ethnicity"
-        + "FROM patient JOIN given_name_cte ON "
-        + "given_name_cte.patient_id = patient.patient_id "
-        + "JOIN name_cte ON name_cte.patient_id = patient.patient_id"
+        "WITH given_name_cte AS "
+        "(SELECT name.patient_id AS patient_id FROM name JOIN "
+        "(SELECT given_name.given_name_id AS given_name_id, "
+        "given_name.name_id AS name_id, given_name.given_name AS given_name, "
+        "given_name.given_name_index AS given_name_index FROM given_name "
+        "WHERE given_name.given_name = 'Homer') AS given_name_cte_subq "
+        "ON name.name_id = given_name_cte_subq.name_id), name_cte AS "
+        "(SELECT name.patient_id AS patient_id FROM name WHERE "
+        "name.last_name = 'Simpson') SELECT patient.patient_id, patient.person_id, "
+        "patient.dob, patient.sex, patient.race, patient.ethnicity FROM patient JOIN "
+        "given_name_cte ON given_name_cte.patient_id = patient.patient_id JOIN "
+        "name_cte ON name_cte.patient_id = patient.patient_id"
     )
-
     base_query2 = select(MPI.dal.PATIENT_TABLE)
     my_query2 = MPI._generate_block_query(block_data2, base_query2)
 
