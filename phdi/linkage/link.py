@@ -639,9 +639,9 @@ def link_record_against_mpi(
         matched = True
 
     person_id = mpi_client.insert_matched_patient(
-            record, person_id=person_id, external_person_id=external_person_id
-        )
- 
+        record, person_id=person_id, external_person_id=external_person_id
+    )
+
     return (matched, person_id)
 
 

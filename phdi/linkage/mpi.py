@@ -178,7 +178,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             self.dal.bulk_insert_dict(
                 records_with_table=mpi_records, return_primary_keys=False
             )
-            
+
             if external_person_id is not None:
                 self._insert_external_person_id(person_id, external_person_id)
 
