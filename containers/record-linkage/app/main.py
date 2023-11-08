@@ -1,4 +1,3 @@
-from app.config import get_settings
 from typing import Annotated
 from fastapi import Response, status, Body
 from pathlib import Path
@@ -11,15 +10,16 @@ from phdi.linkage import (
 )
 from pydantic import BaseModel, Field
 from typing import Optional
-from app.utils import (
-    read_json_from_assets,
-    run_migrations,
-)
+from app.utils import read_json_from_assets, run_migrations, get_settings
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 # Ensure MPI is configured as expected.
 run_migrations()
-
+settings = get_settings()
+MPI_CLIENT = DIBBsMPIConnectorClient(
+    pool_size=settings["connection_pool_size"],
+    max_overflow=settings["connection_pool_max_overflow"],
+)
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
@@ -173,11 +173,13 @@ async def link_record(
             "message": "Supplied bundle contains no Patient resource to link on.",
         }
 
-    # Initialize a DB connection for use with the MPI
-    # Then, link away
+    # Now link the record
     try:
         (found_match, new_person_id) = link_record_against_mpi(
-            record_to_link, algo_config, external_id
+            record=record_to_link,
+            algo_config=algo_config,
+            external_person_id=external_id,
+            mpi_client=MPI_CLIENT,
         )
         updated_bundle = add_person_resource(
             new_person_id, record_to_link.get("id", ""), input_bundle

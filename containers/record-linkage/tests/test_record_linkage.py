@@ -118,6 +118,7 @@ def test_linkage_invalid_db_type():
 
 
 def test_linkage_success():
+    _clean_up()
     set_mpi_env_vars()
     run_migrations()
     test_bundle = load_test_bundle()
