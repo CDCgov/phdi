@@ -61,6 +61,7 @@ def _init_db() -> DataAccessLayer:
 def _clean_up(dal):
     with dal.engine.connect() as pg_connection:
         pg_connection.execute(text("""DROP TABLE IF EXISTS external_person CASCADE;"""))
+        pg_connection.execute(text("""DROP TABLE IF EXISTS external_source CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS address CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS phone_number CASCADE;"""))
         pg_connection.execute(text("""DROP TABLE IF EXISTS identifier CASCADE;"""))
@@ -378,7 +379,6 @@ def test_insert_matched_patient():
     assert result is not None
 
     EXTERNAL_PERSON_rec = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
-    print("EXTERNAL_PERSON_rec:", EXTERNAL_PERSON_rec)
     person_rec = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
     patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
     name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))

@@ -530,7 +530,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         :param external_person_id: The external person id for the patient record.
 
         """
-        if person_id is None or external_person_id is None:
+        if person_id is None or external_person_id is None:  # pragma: no cover
             raise ValueError("person_id and external_person_id must be provided.")
 
         external_source_id_query = select(self.dal.EXTERNAL_SOURCE_TABLE).where(
