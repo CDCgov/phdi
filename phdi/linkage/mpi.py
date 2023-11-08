@@ -165,7 +165,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           found in the MPI, defaults to None.
         :param external_person_id: The external person id for the person that matches
           the patient record if a match has been found in the MPI, defaults to None.
-        :return: the person_id
         """
 
         try:
@@ -522,12 +521,13 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         external_person_id: str,
     ):
         """
-        Inserts a new external person id record into the MPI if the external person id
+        Inserts a new external person id record into the MPI if the external_person_id
         does not already exist in the MPI.
 
-        :param person_id: The person ID matching the patient record if a match has been
+        :param person_id: The person_id matching the patient record if a match has been
             found in the MPI.
-        :param external_person_id: The external person id for the patient record.
+        :param external_person_id: The external_person_id for the patient record if it
+            exists.
 
         """
         if person_id is None or external_person_id is None:  # pragma: no cover
