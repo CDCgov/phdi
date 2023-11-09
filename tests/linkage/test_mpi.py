@@ -658,7 +658,7 @@ def test_get_mpi_records():
         records_for_insert["patient"][0]["patient_id"]
         == records_for_insert["address"][0]["patient_id"]
     )
-    
+
     _clean_up(MPI.dal)
 
 
@@ -672,7 +672,7 @@ def test_get_external_source_id():
     # Failure
     external_source_id = MPI._get_external_source_id("Not a source")
     assert external_source_id is None
-    
+
     # Confirm cache is working
     MPI._get_external_source_id("IRIS")
     assert MPI._get_external_source_id.cache_info().hits == 1
