@@ -62,5 +62,5 @@ def unzip_http(zipped_file) -> Dict:
 def load_config_assets(upload_config_response_examples, PutConfigResponse) -> Dict:
     for status_code, file_name in upload_config_response_examples.items():
         upload_config_response_examples[status_code] = read_json_from_assets(file_name)
-        upload_config_response_examples[status_code]["model"] = PutConfigResponse
+        # upload_config_response_examples[status_code]["model"] = PutConfigResponse
     return upload_config_response_examples
