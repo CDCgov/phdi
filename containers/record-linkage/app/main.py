@@ -1,3 +1,4 @@
+import copy
 from typing import Annotated
 from fastapi import Response, status, Body
 from pathlib import Path
@@ -175,8 +176,10 @@ async def link_record(
 
     # Now link the record
     try:
+        # Make a copy of record_to_link so we don't modify the original
+        record = copy.deepcopy(record_to_link)
         (found_match, new_person_id) = link_record_against_mpi(
-            record=record_to_link,
+            record=record,
             algo_config=algo_config,
             external_person_id=external_id,
             mpi_client=MPI_CLIENT,
