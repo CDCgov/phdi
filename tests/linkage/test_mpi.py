@@ -5,7 +5,7 @@ import pathlib
 import re
 import pytest
 import uuid
-from sqlalchemy import Select, select, text, insert
+from sqlalchemy import Select, select, text
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
