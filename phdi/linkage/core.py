@@ -45,26 +45,3 @@ class BaseMPIConnectorClient(ABC):
         criteria.
         """
         pass  # pragma: no cover
-
-    @abstractmethod
-    def _get_person_id() -> str:
-        """
-        If person id is not supplied then generate a new person record
-        with a new person id.
-        If an external person id is not supplied then just return the new
-        person id.
-        If an external person id is supplied then check if there is an
-        external person record created for this external person id.
-        If the external person record exists then verify that the person id,
-        either supplied or newly created, is linked to the external person record.
-        If the person id supplied, or newly created, is not linked in the found
-        external person record then create a new external person record using
-        the supplied external person id and the person id (either supplied
-        or newly created).
-        If the external person record does exist and is linked to the person id,
-        either supplied or newly created, then just return the person id.
-        If an external person record does not exist with the supplied external
-        person id then create a new external person record and link it to the
-        the person id, either supplied or newly created.  Then return the person id.
-        """
-        pass  # pragma: no cover

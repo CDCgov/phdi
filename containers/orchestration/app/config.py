@@ -1,6 +1,6 @@
 from functools import lru_cache
-from pydantic import BaseSettings
 from typing import Optional
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):

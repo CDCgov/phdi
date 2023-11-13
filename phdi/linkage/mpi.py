@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import List, Dict
 from sqlalchemy import Select, and_, func, literal_column, select, text
 from sqlalchemy.dialects.postgresql import aggregate_order_by
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -6,6 +6,7 @@ from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
 import uuid
+import copy
 
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
@@ -18,9 +19,12 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
 
     """
 
-    matched: bool = False
-
-    def __init__(self):
+    def __init__(self, pool_size: int = 5, max_overflow: int = 10):
+        """
+        Initialize the MPI connector client with the MPI database.
+        :param pool_size: The number of connections to keep open to the database.
+        :param max_overflow: The number of connections to allow in connection pool.
+        """
         dbsettings = load_mpi_env_vars_os()
         dbuser = dbsettings.get("user")
         dbname = dbsettings.get("dbname")
@@ -30,9 +34,11 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         self.dal = DataAccessLayer()
         self.dal.get_connection(
             engine_url=f"postgresql+psycopg2://{dbuser}:"
-            + f"{dbpwd}@{dbhost}:{dbport}/{dbname}"
+            + f"{dbpwd}@{dbhost}:{dbport}/{dbname}",
+            pool_size=pool_size,
+            max_overflow=max_overflow,
         )
-
+        self.dal.initialize_schema()
         self.column_to_fhirpaths = {
             "patient": {
                 "root_path": "Patient",
@@ -100,9 +106,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             },
         }
 
-    def _initialize_schema(self):
-        self.dal.initialize_schema()
-
     def get_block_data(self, block_criteria: Dict) -> List[list]:
         """
         Returns a list of lists containing records from the MPI database that
@@ -148,7 +151,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         patient_resource: Dict,
         person_id=None,
         external_person_id=None,
-    ) -> Union[None, tuple]:
+    ) -> str:
         """
         If a matching person ID has been found in the MPI, inserts a new patient into
         the patient table and all other subsequent MPI tables, including the
@@ -162,24 +165,27 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           found in the MPI, defaults to None.
         :param external_person_id: The external person id for the person that matches
           the patient record if a match has been found in the MPI, defaults to None.
-        :return: the person id
         """
+
         try:
-            correct_person_id = self._get_person_id(
-                person_id=person_id, external_person_id=external_person_id
-            )
-            patient_resource["person"] = correct_person_id
+            if person_id is None:
+                person_id = self._insert_person()
+
+            patient_resource["person"] = person_id
 
             mpi_records = self._get_mpi_records(patient_resource)
 
-            return_results = self.dal.bulk_insert_dict(
-                records_with_table=mpi_records, return_primary_keys=True
+            self.dal.bulk_insert_dict(
+                records_with_table=mpi_records, return_primary_keys=False
             )
+
+            if external_person_id is not None:
+                self._insert_external_person_id(person_id, external_person_id)
 
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
-        return (self.matched, correct_person_id, return_results)
+        return person_id
 
     def _generate_where_criteria(self, block_criteria: dict, table_name: str) -> list:
         """
@@ -244,7 +250,8 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .cte(f"{table_key}_cte")
                     )
                 else:
-                    fk_info = cte_query_table.foreign_keys.pop()
+                    fk_query_table = copy.deepcopy(cte_query_table)
+                    fk_info = fk_query_table.foreign_keys.pop()
                     fk_column = fk_info.column
                     fk_table = fk_info.column.table
                     sub_query = (
@@ -252,15 +259,13 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                         .where(text(" AND ".join(query_criteria)))
                         .subquery(f"{cte_query_table.name}_cte_subq")
                     )
-
                     cte_query = (
-                        select(fk_table.c.patient_id.label("patient_id"))
-                        .join(sub_query)
-                        .where(
+                        select(fk_table.c.patient_id).join(
+                            sub_query,
                             text(
                                 f"{fk_table.name}.{fk_column.name} = "
                                 + f"{sub_query.name}.{fk_column.name}"
-                            )
+                            ),
                         )
                     ).cte(f"{table_key}_cte")
             if cte_query is not None:
@@ -510,77 +515,56 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
             table_records.append(record)
         return table_records
 
-    def _get_person_id(
+    def _insert_external_person_id(
         self,
         person_id: str,
         external_person_id: str,
-    ) -> str:
+    ):
         """
-        If person id is not supplied then generate a new person record
-        with a new person id.
-        If an external person id is not supplied then just return the new
-        person id.
-        If an external person id is supplied then check if there is an
-        external person record created for this external person id.
-        If the external person record exists then verify that the person id,
-        either supplied or newly created, is linked to the external person record.
-        If the person id supplied, or newly created, is not linked in the found
-        external person record then create a new external person record using
-        the supplied external person id and the person id (either supplied
-        or newly created).
-        If the external person record does exist and is linked to the person id,
-        either supplied or newly created, then just return the person id.
-        If an external person record does not exist with the supplied external
-        person id then create a new external person record and link it to the
-        the person id, either supplied or newly created.  Then return the person id.
+        Inserts a new external person id record into the MPI if the external_person_id
+        does not already exist in the MPI.
+
+        :param person_id: The person_id matching the patient record if a match has been
+            found in the MPI.
+        :param external_person_id: The external_person_id for the patient record if it
+            exists.
+
         """
-        if person_id is None:
-            new_person_id = self._insert_person()
-        else:
-            self.matched = True
-            new_person_id = person_id
+        if person_id is None or external_person_id is None:  # pragma: no cover
+            raise ValueError("person_id and external_person_id must be provided.")
 
-        if external_person_id is None:
-            return new_person_id
-
-        query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
+        external_source_id_query = select(self.dal.EXTERNAL_SOURCE_TABLE).where(
             text(
-                f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
-                + f" = '{external_person_id}'"
+                f"{self.dal.EXTERNAL_SOURCE_TABLE.name}.external_source_name"
+                + " = 'IRIS'"
             )
         )
-        external_person_record = self.dal.select_results(query, False)
+        external_source_record = self.dal.select_results(
+            external_source_id_query, False
+        )
+        if len(external_source_record) > 0:
+            external_source_id = external_source_record[0][0]
 
-        if len(external_person_record) > 0:
-            self.matched = True
-            found_person_id = external_person_record[0][1]
-        else:
-            found_person_id = None
-
-        if found_person_id is None or found_person_id != new_person_id:
-            # Retrive external_source_id
-            external_source_id_query = select(self.dal.EXTERNAL_SOURCE_TABLE).where(
+            query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
                 text(
-                    f"{self.dal.EXTERNAL_SOURCE_TABLE.name}.external_source_name"
-                    + " = 'IRIS'"
+                    f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
+                    + f" = '{external_person_id}' AND "
+                    + f"{self.dal.EXTERNAL_PERSON_TABLE.name}.person_id = '{person_id}'"
+                    + f" AND {self.dal.EXTERNAL_PERSON_TABLE.name}.external_source_id "
+                    + f" = '{external_source_id}'"
                 )
             )
-            external_source_record = self.dal.select_results(
-                external_source_id_query, False
-            )
-            if len(external_source_record) > 0:
-                external_source_id = external_source_record[0][0]
-            else:
-                external_source_id = None
-            new_external_person_record = {
-                "person_id": new_person_id,
-                "external_person_id": external_person_id,
-                "external_source_id": external_source_id,
-            }
-            self.dal.bulk_insert_list(
-                self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
-            )
-        return new_person_id
+            external_person_record = self.dal.select_results(query, False)
+
+            if len(external_person_record) == 0:
+                new_external_person_record = {
+                    "person_id": person_id,
+                    "external_person_id": external_person_id,
+                    "external_source_id": external_source_id,
+                }
+                self.dal.bulk_insert_list(
+                    self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
+                )
 
     def _generate_dict_record_from_results(
         self, results_list: List[list]

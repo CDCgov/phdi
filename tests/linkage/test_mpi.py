@@ -5,7 +5,7 @@ import pathlib
 import re
 import pytest
 import uuid
-from sqlalchemy import Select, select, text
+from sqlalchemy import Select, select, text, insert
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
@@ -30,11 +30,12 @@ def _init_db() -> DataAccessLayer:
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-    MPI = DIBBsMPIConnectorClient()
-    MPI.dal.get_connection(
+
+    dal = DataAccessLayer()
+    dal.get_connection(
         engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
     )
-    _clean_up(MPI.dal)
+    _clean_up(dal)
 
     # load ddl
     schema_ddl = open(
@@ -45,15 +46,16 @@ def _init_db() -> DataAccessLayer:
     ).read()
 
     try:
-        with MPI.dal.engine.connect() as db_conn:
+        with dal.engine.connect() as db_conn:
             db_conn.execute(text(schema_ddl))
             db_conn.commit()
     except Exception as e:
         print(e)
-        with MPI.dal.engine.connect() as db_conn:
+        with dal.engine.connect() as db_conn:
             db_conn.rollback()
-    MPI._initialize_schema()
-    return MPI
+    dal.initialize_schema()
+
+    return DIBBsMPIConnectorClient()
 
 
 def _clean_up(dal):
@@ -294,27 +296,19 @@ def test_generate_block_query():
     }
 
     expected_result2 = (
-        "WITH given_name_cte AS"
-        + "(SELECT name.patient_id AS patient_id"
-        + "FROM name JOIN (SELECT given_name.given_name_id "
-        + "AS given_name_id, given_name.name_id AS name_id, "
-        + "given_name.given_name AS given_name, "
-        + "given_name.given_name_index AS given_name_index"
-        + "FROM given_name"
-        + "WHERE given_name.given_name = 'Homer') "
-        + "AS given_name_cte_subq ON name.name_id = given_name_cte_subq.name_id"
-        + "WHERE name.name_id = given_name_cte_subq.name_id),"
-        + "name_cte AS"
-        + "(SELECT name.patient_id AS patient_id"
-        + "FROM name"
-        + "WHERE name.last_name = 'Simpson')"
-        + "SELECT patient.patient_id, patient.person_id,"
-        + " patient.dob, patient.sex, patient.race, patient.ethnicity"
-        + "FROM patient JOIN given_name_cte ON "
-        + "given_name_cte.patient_id = patient.patient_id "
-        + "JOIN name_cte ON name_cte.patient_id = patient.patient_id"
+        "WITH given_name_cte AS "
+        "(SELECT name.patient_id AS patient_id FROM name JOIN "
+        "(SELECT given_name.given_name_id AS given_name_id, "
+        "given_name.name_id AS name_id, given_name.given_name AS given_name, "
+        "given_name.given_name_index AS given_name_index FROM given_name "
+        "WHERE given_name.given_name = 'Homer') AS given_name_cte_subq "
+        "ON name.name_id = given_name_cte_subq.name_id), name_cte AS "
+        "(SELECT name.patient_id AS patient_id FROM name WHERE "
+        "name.last_name = 'Simpson') SELECT patient.patient_id, patient.person_id, "
+        "patient.dob, patient.sex, patient.race, patient.ethnicity FROM patient JOIN "
+        "given_name_cte ON given_name_cte.patient_id = patient.patient_id JOIN "
+        "name_cte ON name_cte.patient_id = patient.patient_id"
     )
-
     base_query2 = select(MPI.dal.PATIENT_TABLE)
     my_query2 = MPI._generate_block_query(block_data2, base_query2)
 
@@ -331,7 +325,7 @@ def test_init():
         "mpi_port": "5432",
         "mpi_db_type": "postgres",
     }
-
+    _init_db()
     MPI = DIBBsMPIConnectorClient()
 
     assert MPI is not None
@@ -345,8 +339,7 @@ def test_insert_matched_patient():
 
     result = MPI.insert_matched_patient(patient_resource)
     assert result is not None
-    assert not result[0]
-    assert result[1] is not None
+
     person_rec = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
     patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
     name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
@@ -366,15 +359,25 @@ def test_insert_matched_patient():
     _clean_up(MPI.dal)
 
     MPI = _init_db()
+    # Insert fake IRIS external source id for testing
+    external_source_id = uuid.uuid4()
+    stmt = insert(MPI.dal.EXTERNAL_SOURCE_TABLE).values(
+        external_source_id=external_source_id,
+        external_source_name="IRIS",
+        external_source_description="Fake surveillance system",
+    )
+    with MPI.dal.engine.connect() as conn:
+        result = conn.execute(stmt)
+        conn.commit()
 
+    external_person_id = "EXT-1233456"
     result = MPI.insert_matched_patient(
         patient_resource=patient_resource,
         person_id=None,
-        external_person_id="EXT-1233456",
+        external_person_id=external_person_id,
     )
     assert result is not None
-    assert not result[0]
-    assert result[1] is not None
+
     EXTERNAL_PERSON_rec = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
     person_rec = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
     patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
@@ -386,6 +389,8 @@ def test_insert_matched_patient():
 
     assert len(person_rec) == 2
     assert len(EXTERNAL_PERSON_rec) == 2
+    assert EXTERNAL_PERSON_rec[1][2] == external_person_id
+    assert EXTERNAL_PERSON_rec[1][3] == external_source_id
     assert len(patient_rec) == 2
     assert len(name_rec) == 2
     assert len(given_name_rec) == 3
@@ -395,42 +400,43 @@ def test_insert_matched_patient():
 
     _clean_up(MPI.dal)
 
-
-def test_get_person_id():
+    # Test for missing external_person_id
     MPI = _init_db()
-    result = MPI._get_person_id(person_id=None, external_person_id=None)
+    # Insert fake IRIS external source id for testing
+    external_source_id = uuid.uuid4()
+    stmt = insert(MPI.dal.EXTERNAL_SOURCE_TABLE).values(
+        external_source_id=external_source_id,
+        external_source_name="IRIS",
+        external_source_description="Fake surveillance system",
+    )
+    with MPI.dal.engine.connect() as conn:
+        result = conn.execute(stmt)
+        conn.commit()
+
+    result = MPI.insert_matched_patient(
+        patient_resource=patient_resource,
+        person_id=None,
+        external_person_id=None,
+    )
     assert result is not None
 
-    results = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
-    assert results[1][0] == result
+    EXTERNAL_PERSON_rec = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
+    person_rec = MPI.dal.select_results(select(MPI.dal.PERSON_TABLE))
+    patient_rec = MPI.dal.select_results(select(MPI.dal.PATIENT_TABLE))
+    name_rec = MPI.dal.select_results(select(MPI.dal.NAME_TABLE))
+    given_name_rec = MPI.dal.select_results(select(MPI.dal.GIVEN_NAME_TABLE))
+    address_rec = MPI.dal.select_results(select(MPI.dal.ADDRESS_TABLE))
+    phone_rec = MPI.dal.select_results(select(MPI.dal.PHONE_TABLE))
+    id_rec = MPI.dal.select_results(select(MPI.dal.ID_TABLE))
 
-    result2 = MPI._get_person_id(person_id=result, external_person_id=None)
-    assert result2 == result
-    results2 = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
-    assert len(results2) == 1
-    assert results2[0][0] == "external_id"
-
-    result3 = MPI._get_person_id(person_id=result, external_person_id="MYEXTID-123")
-    assert result3 == result
-    results3 = MPI.dal.select_results(select(MPI.dal.EXTERNAL_PERSON_TABLE))
-    assert len(results3) == 2
-    assert results3[0][0] == "external_id"
-    assert results3[1][0] is not None
-    assert results3[1][1] == result3
-    assert results3[1][2] == "MYEXTID-123"
-
-    result4 = MPI._get_person_id(person_id=None, external_person_id="MYEXTID-789")
-    assert result4 is not None
-    assert result4 != result
-    query = select(MPI.dal.EXTERNAL_PERSON_TABLE).where(
-        text(f"{MPI.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id = 'MYEXTID-789'")
-    )
-    results4 = MPI.dal.select_results(query)
-    assert len(results4) == 2
-    assert results4[0][0] == "external_id"
-    assert results4[1][0] is not None
-    assert results4[1][1] == result4
-    assert results4[1][2] == "MYEXTID-789"
+    assert len(person_rec) == 2
+    assert len(EXTERNAL_PERSON_rec) == 1
+    assert len(patient_rec) == 2
+    assert len(name_rec) == 2
+    assert len(given_name_rec) == 3
+    assert len(address_rec) == 2
+    assert len(phone_rec) == 2
+    assert len(id_rec) == 2
 
     _clean_up(MPI.dal)
 
