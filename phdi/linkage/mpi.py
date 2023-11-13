@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Literal
 from sqlalchemy import Select, and_, func, literal_column, select, text
 from sqlalchemy.dialects.postgresql import aggregate_order_by
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -7,6 +7,7 @@ from phdi.linkage.dal import DataAccessLayer
 from phdi.fhir.utils import extract_value_with_resource_path
 import uuid
 import copy
+from functools import cache
 
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
@@ -533,18 +534,9 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         if person_id is None or external_person_id is None:  # pragma: no cover
             raise ValueError("person_id and external_person_id must be provided.")
 
-        external_source_id_query = select(self.dal.EXTERNAL_SOURCE_TABLE).where(
-            text(
-                f"{self.dal.EXTERNAL_SOURCE_TABLE.name}.external_source_name"
-                + " = 'IRIS'"
-            )
-        )
-        external_source_record = self.dal.select_results(
-            external_source_id_query, False
-        )
-        if len(external_source_record) > 0:
-            external_source_id = external_source_record[0][0]
+        external_source_id = self._get_external_source_id("IRIS")
 
+        if external_source_id is not None:
             query = select(self.dal.EXTERNAL_PERSON_TABLE).where(
                 text(
                     f"{self.dal.EXTERNAL_PERSON_TABLE.name}.external_person_id"
@@ -565,6 +557,30 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 self.dal.bulk_insert_list(
                     self.dal.EXTERNAL_PERSON_TABLE, [new_external_person_record], False
                 )
+
+    @cache
+    def _get_external_source_id(self, external_source_name: str) -> Literal[str, None]:
+        """
+        Gets the external source id for the external source name provided.
+        :param external_source_name: The external source name.
+        :return: The external source id if found, otherwise None.
+        """
+
+        external_source_id_query = select(self.dal.EXTERNAL_SOURCE_TABLE).where(
+            text(
+                f"{self.dal.EXTERNAL_SOURCE_TABLE.name}.external_source_name"
+                + f" = '{external_source_name}'"
+            )
+        )
+        external_source_record = self.dal.select_results(
+            external_source_id_query, False
+        )
+
+        external_source_id = None
+        if len(external_source_record) > 0:
+            external_source_id = external_source_record[0][0]
+
+        return external_source_id
 
     def _generate_dict_record_from_results(
         self, results_list: List[list]

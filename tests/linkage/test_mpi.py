@@ -5,7 +5,7 @@ import pathlib
 import re
 import pytest
 import uuid
-from sqlalchemy import Select, select, text, insert
+from sqlalchemy import Select, select, text
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.dal import DataAccessLayer
 
@@ -359,16 +359,6 @@ def test_insert_matched_patient():
     _clean_up(MPI.dal)
 
     MPI = _init_db()
-    # Insert fake IRIS external source id for testing
-    external_source_id = uuid.uuid4()
-    stmt = insert(MPI.dal.EXTERNAL_SOURCE_TABLE).values(
-        external_source_id=external_source_id,
-        external_source_name="IRIS",
-        external_source_description="Fake surveillance system",
-    )
-    with MPI.dal.engine.connect() as conn:
-        result = conn.execute(stmt)
-        conn.commit()
 
     external_person_id = "EXT-1233456"
     result = MPI.insert_matched_patient(
@@ -390,7 +380,7 @@ def test_insert_matched_patient():
     assert len(person_rec) == 2
     assert len(EXTERNAL_PERSON_rec) == 2
     assert EXTERNAL_PERSON_rec[1][2] == external_person_id
-    assert EXTERNAL_PERSON_rec[1][3] == external_source_id
+    assert EXTERNAL_PERSON_rec[1][3].__str__() == "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380b79"
     assert len(patient_rec) == 2
     assert len(name_rec) == 2
     assert len(given_name_rec) == 3
@@ -402,16 +392,6 @@ def test_insert_matched_patient():
 
     # Test for missing external_person_id
     MPI = _init_db()
-    # Insert fake IRIS external source id for testing
-    external_source_id = uuid.uuid4()
-    stmt = insert(MPI.dal.EXTERNAL_SOURCE_TABLE).values(
-        external_source_id=external_source_id,
-        external_source_name="IRIS",
-        external_source_description="Fake surveillance system",
-    )
-    with MPI.dal.engine.connect() as conn:
-        result = conn.execute(stmt)
-        conn.commit()
 
     result = MPI.insert_matched_patient(
         patient_resource=patient_resource,
@@ -678,3 +658,22 @@ def test_get_mpi_records():
         records_for_insert["patient"][0]["patient_id"]
         == records_for_insert["address"][0]["patient_id"]
     )
+
+    _clean_up(MPI.dal)
+
+
+def test_get_external_source_id():
+    MPI = _init_db()
+
+    # Success
+    external_source_id = MPI._get_external_source_id("IRIS")
+    assert isinstance(external_source_id, uuid.UUID)
+
+    # Failure
+    external_source_id = MPI._get_external_source_id("Not a source")
+    assert external_source_id is None
+
+    # Confirm cache is working
+    MPI._get_external_source_id("IRIS")
+    assert MPI._get_external_source_id.cache_info().hits == 1
+    _clean_up(MPI.dal)
