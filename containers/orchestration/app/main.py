@@ -86,7 +86,28 @@ async def process_message_endpoint_ws(
         }
 
         processing_config = load_processing_config("sample-orchestration-config.json")
-        await call_apis(config=processing_config, input=input, websocket=websocket)
+        response, responses = await call_apis(
+            config=processing_config, input=input, websocket=websocket
+        )
+        if response.status_code == 200:
+            # Parse and work with the API response data (JSON, XML, etc.)
+            api_data = response.json()  # Assuming the response is in JSON format
+            message = {
+                "message": "Processing succeeded!",
+                "processed_values": api_data,
+            }
+            await websocket.send_text(json.dumps(message))
+        else:
+            await websocket.send_text(
+                json.dumps(
+                    {
+                        "message": "Request failed with status code "
+                        + f"{ response.status_code}",
+                        "responses": f"{responses}",
+                        "processed_values": "",
+                    }
+                )
+            )
 
 
 @app.post("/process", status_code=200, responses=process_message_response_examples)
