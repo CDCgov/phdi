@@ -1,7 +1,7 @@
 # This script converts patient data from parquet to patient FHIR resources.
 from typing import Dict, Tuple
 import uuid
-import datetime
+from datetime import datetime
 
 
 def extract_given_name(data: Dict):
@@ -27,7 +27,7 @@ def adjust_birthdate(data: Dict):
     format = "%d%b%Y:00:00:00.000"
     dob = data.get("birthdate", None)
     if dob is not None and ":" in dob:
-        datetime_str = datetime.datetime.strptime(dob, format)
+        datetime_str = datetime.strptime(dob, format)
         dob = datetime_str.strftime("%Y-%m-%d")
     return dob
 
