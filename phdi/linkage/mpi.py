@@ -87,10 +87,10 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                     "latitude": """
                         extension.where(url =
                           'http://hl7.org/fhir/StructureDefinition/geolocation')
-                        .extension.latitude""",
+                        .extension.where(url = 'latitude').valueDecimal""",
                     "longitude": """extension.where(url =
                           'http://hl7.org/fhir/StructureDefinition/geolocation')
-                          .extension.longitude""",
+                          .extension.where(url = 'longitude').valueDecimal""",
                     "type": "use",
                     "start_date": "period.start",
                     "end_date": "period.end",
