@@ -148,7 +148,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
 
         :param container_name: The name of the container containing object to download.
         :param filename: The location of the file within Azure blob storage.
-        :param encoding: The encoding applied to the downloaded content. If set to None 
+        :param encoding: The encoding applied to the downloaded content. If set to None
             then the blob contents will be returned as bytes. Default: UTF-8
         :return: A character blob as a string from the given container and filename.
         """
