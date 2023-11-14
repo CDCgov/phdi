@@ -142,7 +142,7 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         container_name: str,
         filename: str,
         encoding: Literal[None, str] = "UTF-8",
-    ) -> str:
+    ) -> Literal[str, bytes]:
         """
         Downloads a blob from storage and returns it as a string or bytes.
 
