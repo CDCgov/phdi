@@ -6,7 +6,7 @@ from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient, BlobServiceClient
 from datetime import datetime, timezone
-from typing import List, Union
+from typing import List, Union, Literal
 
 
 class AzureCredentialManager(BaseCredentialManager):
@@ -138,25 +138,29 @@ class AzureCloudContainerConnection(BaseCloudStorageConnection):
         return ContainerClient.from_container_url(container_url, credential=creds)
 
     def download_object(
-        self, container_name: str, filename: str, encoding: str = "UTF-8"
+        self,
+        container_name: str,
+        filename: str,
+        encoding: Literal[None, str] = "UTF-8",
     ) -> str:
         """
-        Downloads a character blob from storage and returns it as a string.
+        Downloads a blob from storage and returns it as a string or bytes.
 
         :param container_name: The name of the container containing object to download.
         :param filename: The location of the file within Azure blob storage.
-        :param encoding: The encoding applied to the downloaded content. Default: UTF-8
+        :param encoding: The encoding applied to the downloaded content. If set to None 
+            then the blob contents will be returned as bytes. Default: UTF-8
         :return: A character blob as a string from the given container and filename.
         """
         container_location = f"{self.storage_account_url}/{container_name}"
         container_client = self._get_container_client(container_location)
         blob_client = container_client.get_blob_client(filename)
 
-        downloader = blob_client.download_blob()
+        downloader = blob_client.download_blob(encoding=encoding)
 
-        downloaded_text = downloader.content_as_text(encoding=encoding)
+        blob_contents = downloader.readall()
 
-        return downloaded_text
+        return blob_contents
 
     def upload_object(
         self,
