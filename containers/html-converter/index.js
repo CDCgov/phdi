@@ -1,10 +1,10 @@
 const express = require('express');
 const mustacheExpress = require('mustache-express');
-const multer  = require('multer');
-const os  = require('os');
+const multer = require('multer');
+const os = require('os');
 const fs = require('fs');
 
-const upload = multer({ dest: os.tmpdir() });
+const upload = multer({dest: os.tmpdir()});
 
 const app = express();
 app.use(express.json())
@@ -13,7 +13,7 @@ app.engine('mustache', mustacheExpress());
 const port = 8080;
 
 app.get('/', (req, res) => {
-    res.json({ status: "OK" });
+    res.json({status: "OK"});
 });
 
 app.post('/generate-html', upload.single('file'), (req, res) => {
