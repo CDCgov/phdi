@@ -22,6 +22,11 @@ app.post('/generate-html', upload.single('file'), (req, res) => {
             if (err) {
                 res.status(500).json({error: err});
             } else {
+                try {
+                    JSON.parse(data.toString());
+                }catch (e) {
+                    res.status(500).json({error: 'Error: File is not JSON'});
+                }
                 res.send(data);
             }
         });
