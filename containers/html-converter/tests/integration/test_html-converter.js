@@ -48,20 +48,18 @@ describe('Integration tests', () => {
     expect(response.status).to.equal(200);
   });
 
-  it('performs a .csv post', async () => {
+  it('performs a .json post', async () => {
     const formData = new FormData();
-    const csvData = fs.createReadStream(path.resolve(__dirname, "./test.csv"));
+    const csvData = fs.createReadStream(path.resolve(__dirname, "./single_patient_bundle.json"));
     formData.append('file', csvData);
     
-    // Perform a POST request with the CSV data
     const response = await axios.post(HTML_INSIGHTS, formData, {
       headers: {
         ...formData.getHeaders(),
       },
     });
-    expect(response.data).includes("<td>HUNSINGER</td>");
-    // Assuming the server responds with a 200 status code for a successful POST
-    expect(response.status).to.equal(200);
+    expect(response.data.resourceType).equals("Bundle");
+    expect(response.status).equals(200);
   });
 
 });

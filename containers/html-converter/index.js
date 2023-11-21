@@ -18,20 +18,18 @@ app.get('/', (req, res) => {
 });
 
 app.post('/generate-html', upload.single('file'), (req, res) => {
-    csv()
-        .fromFile(req.file.path)
-        .then((csv_data) => {
-            res.render('index', { csv_data }, function (err, html) {
-                if (err) {
-                    res.status(500).json({ error: err });
-                } else {
-                    res.send(html);
-                }
-            });
-        })
-        .catch((err) => {
-            res.status(500).json({ error: 'Error parsing CSV file' });
+    try {
+        fs.readFile(req.file.path, (err, data) => {
+            if (err) {
+                res.status(500).json({error: err});
+            } else {
+                res.send(data);
+            }
         });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: 'Error reading file'});
+    }
 });
 
 app.listen(port, () => {
