@@ -50,8 +50,8 @@ describe('Integration tests', () => {
 
     it('performs a .json post', async () => {
         const formData = new FormData();
-        const csvData = fs.createReadStream(path.resolve(__dirname, "./single_patient_bundle.json"));
-        formData.append('file', csvData);
+        const jsonData = fs.createReadStream(path.resolve(__dirname, "./single_patient_bundle.json"));
+        formData.append('file', jsonData);
 
         const response = await axios.post(HTML_INSIGHTS, formData, {
             headers: {
