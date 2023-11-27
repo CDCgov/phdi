@@ -3,7 +3,6 @@ import os
 import pathlib
 from phdi.linkage.dal import DataAccessLayer
 from sqlalchemy import Engine, Table, select, text
-from sqlalchemy.orm import scoped_session
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 
@@ -31,6 +30,7 @@ def _init_db() -> DataAccessLayer:
         with dal.engine.connect() as db_conn:
             db_conn.rollback()
     dal.initialize_schema()
+    dal.get_session()
     return dal
 
 
@@ -54,7 +54,6 @@ def test_init_dal():
     dal = DataAccessLayer()
 
     assert dal.engine is None
-    assert dal.session is None
     assert dal.PATIENT_TABLE is None
     assert dal.PERSON_TABLE is None
 
@@ -67,8 +66,7 @@ def test_get_connection():
 
     assert dal.engine is not None
     assert isinstance(dal.engine, Engine)
-    assert dal.session is not None
-    assert isinstance(dal.session, scoped_session)
+
     assert dal.PATIENT_TABLE is None
     assert dal.PERSON_TABLE is None
     assert dal.NAME_TABLE is None
@@ -80,14 +78,19 @@ def test_get_connection():
     assert dal.EXTERNAL_SOURCE_TABLE is None
 
 
+def test_get_session():
+    dal = DataAccessLayer()
+    dal.get_connection(
+        engine_url="postgresql+psycopg2://postgres:pw@localhost:5432/testdb"
+    )
+    dal.get_session()
+
+
 def test_initialize_schema():
     dal = _init_db()
-    dal.initialize_schema()
 
     assert dal.engine is not None
     assert isinstance(dal.engine, Engine)
-    assert dal.session is not None
-    assert isinstance(dal.session, scoped_session)
     assert isinstance(dal.PATIENT_TABLE, Table)
     assert isinstance(dal.PERSON_TABLE, Table)
     assert isinstance(dal.NAME_TABLE, Table)
@@ -140,9 +143,10 @@ def test_bulk_insert_dict():
         error_msg = error
     finally:
         assert error_msg != ""
-        query = dal.session.query(dal.PATIENT_TABLE)
+        session = dal.get_session()
+        query = session.query(dal.PATIENT_TABLE)
         results = query.all()
-        dal.session.close()
+        session.close()
         assert len(results) == 1
         assert results[0].dob == datetime.date(1977, 11, 11)
         assert results[0].sex == "male"
@@ -185,7 +189,6 @@ def test_get_table_by_name():
     _clean_up(dal)
 
     dal2 = _init_db()
-    dal2.initialize_schema()
 
     table = dal2.get_table_by_name("address")
     assert isinstance(table, Table)
@@ -273,7 +276,6 @@ def test_select_results():
     records_to_add = [pt1, pt2]
     pks = dal.bulk_insert_list(dal.PATIENT_TABLE, records_to_add, True)
     mpi = DIBBsMPIConnectorClient()
-    mpi._initialize_schema()
     blocked_data_query = mpi._generate_block_query(
         block_data, select(dal.PATIENT_TABLE)
     )

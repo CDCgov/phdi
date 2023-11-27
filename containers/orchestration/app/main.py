@@ -8,11 +8,18 @@ from fastapi import (
     Request,
     File,
     HTTPException,
+    WebSocket,
+    WebSocketDisconnect,
 )
 from typing import Annotated, Optional
 from pathlib import Path
-from zipfile import is_zipfile
-from app.utils import load_processing_config, unzip, load_config_assets
+from zipfile import is_zipfile, ZipFile
+from app.utils import (
+    load_processing_config,
+    unzip_ws,
+    unzip_http,
+    load_config_assets,
+)
 from app.config import get_settings
 from app.services import call_apis
 from app.models import (
@@ -29,6 +36,7 @@ from app.constants import (
     sample_list_configs_response,
 )
 import json
+import io
 import os
 
 # Read settings immediately to fail fast in case there are invalid values.
@@ -46,6 +54,47 @@ upload_config_response = load_config_assets(
 )
 
 
+class WS_File:
+    # Constructor method (init method)
+    def __init__(self, file):
+        # Instance attributes
+        self.file = file
+
+
+@app.websocket("/process-ws")
+async def process_message_endpoint_ws(
+    websocket: WebSocket,
+) -> ProcessMessageResponse:
+    """
+    Creates a websocket connection with the client and accepts a zipped XML file.
+    The file is processed by the building blocks according to the currently
+    loaded configuration and emits websocket updates to the client as each
+    processing step completes.
+    """
+
+    await websocket.accept()
+    try:
+        while True:
+            file = await websocket.receive_bytes()
+
+            zipped_file = ZipFile(io.BytesIO(file), "r")
+            unzipped_file = unzip_ws(zipped_file)
+
+            # Hardcoded message_type for MVP
+            input = {
+                "message_type": "eicr",
+                "include_error_types": "errors",
+                "message": unzipped_file,
+            }
+
+            processing_config = load_processing_config(
+                "sample-orchestration-config.json"
+            )
+            await call_apis(config=processing_config, input=input, websocket=websocket)
+    except WebSocketDisconnect:
+        await websocket.close()
+
+
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_message_endpoint(
     request: Request,
@@ -60,7 +109,7 @@ async def process_message_endpoint(
     content = ""
 
     if upload_file and is_zipfile(upload_file.file):
-        content = unzip(upload_file)
+        content = unzip_http(upload_file)
     else:
         try:
             data = await request.json()
@@ -83,7 +132,7 @@ async def process_message_endpoint(
         "message": content,
     }
 
-    response, responses = call_apis(config=processing_config, input=input)
+    response, responses = await call_apis(config=processing_config, input=input)
 
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)

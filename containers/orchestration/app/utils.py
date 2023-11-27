@@ -2,8 +2,8 @@ import json
 import pathlib
 from functools import cache
 from pathlib import Path
-from zipfile import ZipFile
 from typing import Dict
+from zipfile import ZipFile
 
 
 @cache
@@ -13,6 +13,7 @@ def load_processing_config(config_name: str) -> dict:
     first. If no custom configs match the provided name, check the configs provided by
     default with this service in the 'default_configs/' directory.
 
+    :param config_name: Name of config file
     :param path: The path to an extraction config file.
     :return: A dictionary containing the extraction config.
     """
@@ -39,7 +40,17 @@ def read_json_from_assets(filename: str):
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
-def unzip(zipped_file) -> Dict:
+def unzip_ws(zipped_file) -> Dict:
+    my_zipfile = zipped_file
+    if my_zipfile.namelist:
+        file_to_open = [
+            file for file in my_zipfile.namelist() if "/CDA_eICR.xml" in file
+        ][0]
+    f = my_zipfile.open(file_to_open)
+    return f.read().decode("utf-8")
+
+
+def unzip_http(zipped_file) -> Dict:
     my_zipfile = ZipFile(zipped_file.file)
     file_to_open = [file for file in my_zipfile.namelist() if "/CDA_eICR.xml" in file][
         0
@@ -51,5 +62,5 @@ def unzip(zipped_file) -> Dict:
 def load_config_assets(upload_config_response_examples, PutConfigResponse) -> Dict:
     for status_code, file_name in upload_config_response_examples.items():
         upload_config_response_examples[status_code] = read_json_from_assets(file_name)
-        upload_config_response_examples[status_code]["model"] = PutConfigResponse
+        # upload_config_response_examples[status_code]["model"] = PutConfigResponse
     return upload_config_response_examples
