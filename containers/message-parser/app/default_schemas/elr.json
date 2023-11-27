@@ -1,0 +1,326 @@
+{
+    "first_name": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+        "data_type": "string",
+        "nullable": true
+    },
+    "last_name": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').name.first().family",
+        "data_type": "string",
+        "nullable": true
+    },
+    "birth_date": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').birthDate",
+        "data_type": "date",
+        "nullable": true
+    },
+    "gender": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').gender",
+        "data_type": "string",
+        "nullable": true
+    },
+    "race": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
+        "data_type": "string",
+        "nullable": true
+    },
+    "ethnicity": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
+        "data_type": "string",
+        "nullable": true
+    },
+    "street_address1": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.line[0]",
+        "data_type": "string",
+        "nullable": true
+    },
+    "street_address2": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.line[1]",
+        "data_type": "string",
+        "nullable": true
+    },
+    "state": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.state",
+        "data_type": "string",
+        "nullable": true
+    },
+    "zip": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.postalCode",
+        "data_type": "string",
+        "nullable": true
+    },
+    "latitude": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
+        "data_type": "float",
+        "nullable": true
+    },
+    "longitude": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
+        "data_type": "float",
+        "nullable": true
+    },
+    "specimen": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType='Specimen')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "specimen_type": {
+                "fhir_path": "Specimen.type.coding.display",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_type_code": {
+                "fhir_path": "Specimen.type.coding.code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_type_system": {
+                "fhir_path": "Specimen.type.coding.system",
+                "data_type": "string",
+                "nullable": true
+            }
+        }
+    },
+    "labs": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType='Observation')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "test_type": {
+                "fhir_path": "Observation.code.coding.display",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_type_code": {
+                "fhir_path": "Observation.code.coding.code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_type_system": {
+                "fhir_path": "Observation.code.coding.system",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_qualitative": {
+                "fhir_path": "Observation.valueString",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_quantitative": {
+                "fhir_path": "Observation.component[0].valueQuantity.value",
+                "data_type": "float",
+                "nullable": true
+            },
+            "test_result_units": {
+                "fhir_path": "Observation.valueQuantity.unit",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_code": {
+                "fhir_path": "Observation.extension[0].valueCodeableConcept.coding.code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_code_display": {
+                "fhir_path": "Observation.extension[0].valueCodeableConcept.coding.display",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_code_system": {
+                "fhir_path": "Observation.extension[0].valueCodeableConcept.coding.system",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_interp": {
+                "fhir_path": "Observation.interpretation.coding.display",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_interp_code": {
+                "fhir_path": "Observation.interpretation.coding.code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_interp_system": {
+                "fhir_path": "Observation.interpretation.coding.system",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_ref_range": {
+                "fhir_path": "Observation.referenceRange.text",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_type": {
+                "fhir_path": "Observation.method.text",
+                "data_type": "string",
+                "nullable": true
+            },
+            "performing_lab": {
+                "fhir_path": "Observation.performer.reference",
+                "data_type": "string",
+                "nullable": true
+            },
+            "test_result_collection_date": {
+                "fhir_path": "Observation.effectiveDateTime",
+                "data_type": "datetime",
+                "nullable": true
+            }
+        }
+    },
+    "encounter_type": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType='Encounter').type.coding[0].display",
+        "data_type": "string",
+        "nullable": true
+    },
+    "encounter_start_date": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Encounter').period.start",
+        "data_type": "datetime",
+        "nullable": true
+    },
+    "encounter_end_date": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Encounter').period.end",
+        "data_type": "datetime",
+        "nullable": true
+    },
+    "locations": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Location')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "location_id": {
+                "fhir_path": "Location.id",
+                "data_type": "string",
+                "nullable": true
+            },
+            "location_name": {
+                "fhir_path": "Location.name",
+                "data_type": "string",
+                "nullable": true
+            },
+            "location_description": {
+                "fhir_path": "Location.description",
+                "data_type": "string",
+                "nullable": true
+            },
+            "location_system": {
+                "fhir_path": "Location.physicalType.coding[0].system",
+                "data_type": "string",
+                "nullable": true
+            },
+            "location_code": {
+                "fhir_path": "Location.physicalType.coding[0].code",
+                "data_type": "string",
+                "nullable": true
+            }
+        }
+    },
+    "organizations": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Organization')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "organization_id": {
+                "fhir_path": "Organization.id",
+                "data_type": "string",
+                "nullable": true
+            },
+            "organization_name": {
+                "fhir_path": "Organization.identifier[0].value",
+                "data_type": "string",
+                "nullable": true
+            },
+            "organization_system": {
+                "fhir_path": "Organization.identifier[0].system",
+                "data_type": "string",
+                "nullable": true
+            }
+        }
+    },
+    "practictioner": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Practitioner')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "practictioner_id": {
+                "fhir_path": "Practitioner.id",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_value": {
+                "fhir_path": "Practitioner.identifier[0].value",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_system": {
+                "fhir_path": "Practitioner.identifier[0].system",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_first_name": {
+                "fhir_path": "Practitioner.name[0].given.first()",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_last_name": {
+                "fhir_path": "Practitioner.name[0].family",
+                "data_type": "string",
+                "nullable": true
+            }
+        }
+    },
+    "practictioner_roles": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'PractitionerRole')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "practictioner_id": {
+                "fhir_path": "PractitionerRole.id",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_id_code": {
+                "fhir_path": "PractitionerRole.code[0].coding[0].code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_id_display": {
+                "fhir_path": "PractitionerRole.code[0].coding[0].display",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_id_system": {
+                "fhir_path": "PractitionerRole.code[0].coding[0].system",
+                "data_type": "string",
+                "nullable": true
+            }
+        }
+    },
+    "medication_dispenses": {
+        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'MedicationDispense')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "medication_dispense_id": {
+                "fhir_path": "MedicationDispense.id",
+                "data_type": "string",
+                "nullable": true
+            },
+            "medication_dispense_code": {
+                "fhir_path": "MedicationDispense.medicationCodeableConcept.coding[0].code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "medication_dispense_display": {
+                "fhir_path": "MedicationDispense.medicationCodeableConcept.coding[0].display",
+                "data_type": "string",
+                "nullable": true
+            },
+            "medication_dispense_code_system": {
+                "fhir_path": "MedicationDispense.medicationCodeableConcept.coding.system",
+                "data_type": "string",
+                "nullable": true
+            }
+        }
+    }
+}
