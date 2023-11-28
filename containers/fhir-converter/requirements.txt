@@ -37,7 +37,6 @@ typing_extensions==4.3.0
 ujson==5.4.0
 urllib3==1.26.11
 uvicorn==0.17.6
-uvloop==0.17.0
 watchgod==0.8.2
 websockets==10.3
 uuid
