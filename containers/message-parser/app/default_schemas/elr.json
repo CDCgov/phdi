@@ -108,6 +108,36 @@
                 "fhir_path": "Specimen.type.coding.system",
                 "data_type": "string",
                 "nullable": true
+            },
+            "specimen_collection_value": {
+                "fhir_path": "Specimen.collection.quantity.value",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_collection_unit": {
+                "fhir_path": "Specimen.collection.quantity.unit",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_accession_value": {
+                "fhir_path": "Specimen.accessionIdentifier.value",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_accession_code": {
+                "fhir_path": "Specimen.accessionIdentifier.type.coding.code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_accession_system": {
+                "fhir_path": "Specimen.accessionIdentifier.type.coding.system",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_accession_display": {
+                "fhir_path": "Specimen.accessionIdentifier.type.coding.display",
+                "data_type": "string",
+                "nullable": true
             }
         }
     },
