@@ -52,9 +52,7 @@ def unzip_ws(zipped_file) -> Dict:
 
 def unzip_http(zipped_file) -> Dict:
     my_zipfile = ZipFile(zipped_file.file)
-    file_to_open = [file for file in my_zipfile.namelist() if "CDA_eICR.xml" in file][
-        0
-    ]
+    file_to_open = [file for file in my_zipfile.namelist() if "CDA_eICR.xml" in file][0]
     f = my_zipfile.open(file_to_open)
     return f.read().decode("utf-8")
 
