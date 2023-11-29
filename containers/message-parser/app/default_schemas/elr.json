@@ -1,69 +1,99 @@
 {
+    "patient_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Patient').id",
+        "data_type": "string",
+        "nullable": false
+    },
+    "person_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Person').id",
+        "data_type": "string",
+        "nullable": false
+    },
     "first_name": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
         "data_type": "string",
         "nullable": true
     },
     "last_name": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').name.first().family",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
         "data_type": "string",
         "nullable": true
     },
     "birth_date": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').birthDate",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').birthDate",
         "data_type": "date",
         "nullable": true
     },
     "gender": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').gender",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').gender",
         "data_type": "string",
         "nullable": true
     },
     "race": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
         "data_type": "string",
         "nullable": true
     },
     "ethnicity": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
         "data_type": "string",
         "nullable": true
     },
     "street_address1": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.line[0]",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[0]",
         "data_type": "string",
         "nullable": true
     },
     "street_address2": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.line[1]",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[1]",
         "data_type": "string",
         "nullable": true
     },
     "state": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.state",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.state",
         "data_type": "string",
         "nullable": true
     },
     "zip": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.postalCode",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.postalCode",
         "data_type": "string",
         "nullable": true
     },
     "latitude": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
         "data_type": "float",
         "nullable": true
     },
     "longitude": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
         "data_type": "float",
         "nullable": true
     },
     "specimen": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType='Specimen')",
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Specimen')",
         "data_type": "array",
         "nullable": true,
         "secondary_schema": {
+            "specimen_id": {
+                "fhir_path": "Specimen.id",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_identifier_value": {
+                "fhir_path": "Specimen.identifier.value",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_identifier_code": {
+                "fhir_path": "Specimen.identifier.type.coding.code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "specimen_identifier_system": {
+                "fhir_path": "Specimen.identifier.type.coding.system",
+                "data_type": "string",
+                "nullable": true
+            },
             "specimen_type": {
                 "fhir_path": "Specimen.type.coding.display",
                 "data_type": "string",
@@ -82,10 +112,15 @@
         }
     },
     "labs": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType='Observation')",
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation')",
         "data_type": "array",
         "nullable": true,
         "secondary_schema": {
+            "test_id": {
+                "fhir_path": "Observation.id",
+                "data_type": "string",
+                "nullable": true
+            },
             "test_type": {
                 "fhir_path": "Observation.code.coding.display",
                 "data_type": "string",
@@ -168,23 +203,85 @@
             }
         }
     },
+    "diagnostics": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='DiagnosticReport')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "report_id": {
+                "fhir_path": "DiagnosticReport.id",
+                "data_type": "string",
+                "nullable": true
+            },
+            "report_status": {
+                "fhir_path": "DiagnosticReport.status",
+                "data_type": "string",
+                "nullable": true
+            },
+            "report_code": {
+                "fhir_path": "DiagnosticReport.code.coding.code",
+                "data_type": "string",
+                "nullable": true
+            },
+            "report_display": {
+                "fhir_path": "DiagnosticReport.code.coding.display",
+                "data_type": "string",
+                "nullable": true
+            },
+            "report_system": {
+                "fhir_path": "DiagnosticReport.code.coding.system",
+                "data_type": "string",
+                "nullable": true
+            }
+        }
+    },
+    "encounter_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Encounter').id",
+        "data_type": "string",
+        "nullable": true
+    },
     "encounter_type": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType='Encounter').type.coding[0].display",
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Encounter').type.coding[0].display",
         "data_type": "string",
         "nullable": true
     },
     "encounter_start_date": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Encounter').period.start",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter').period.start",
         "data_type": "datetime",
         "nullable": true
     },
     "encounter_end_date": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Encounter').period.end",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter').period.end",
+        "data_type": "datetime",
+        "nullable": true
+    },
+    "procedure_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Procedure').id",
+        "data_type": "string",
+        "nullable": true
+    },
+    "procedure_display": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Procedure').code.coding[0].display",
+        "data_type": "string",
+        "nullable": true
+    },
+    "procedure_code": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Procedure').code.coding[0].code",
+        "data_type": "datetime",
+        "nullable": true
+    },
+    "procedure_system": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Procedure').code.coding[0].system",
+        "data_type": "datetime",
+        "nullable": true
+    },
+    "procedure_status": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Procedure').status",
         "data_type": "datetime",
         "nullable": true
     },
     "locations": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Location')",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Location')",
         "data_type": "array",
         "nullable": true,
         "secondary_schema": {
@@ -216,7 +313,7 @@
         }
     },
     "organizations": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Organization')",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization')",
         "data_type": "array",
         "nullable": true,
         "secondary_schema": {
@@ -238,7 +335,7 @@
         }
     },
     "practictioner": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'Practitioner')",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Practitioner')",
         "data_type": "array",
         "nullable": true,
         "secondary_schema": {
@@ -270,34 +367,39 @@
         }
     },
     "practictioner_roles": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'PractitionerRole')",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'PractitionerRole')",
         "data_type": "array",
         "nullable": true,
         "secondary_schema": {
-            "practictioner_id": {
+            "practictioner_role_id": {
                 "fhir_path": "PractitionerRole.id",
                 "data_type": "string",
                 "nullable": true
             },
-            "practictioner_id_code": {
+            "practictioner_role_code": {
                 "fhir_path": "PractitionerRole.code[0].coding[0].code",
                 "data_type": "string",
                 "nullable": true
             },
-            "practictioner_id_display": {
+            "practictioner_role_display": {
                 "fhir_path": "PractitionerRole.code[0].coding[0].display",
                 "data_type": "string",
                 "nullable": true
             },
-            "practictioner_id_system": {
+            "practictioner_role_system": {
                 "fhir_path": "PractitionerRole.code[0].coding[0].system",
+                "data_type": "string",
+                "nullable": true
+            },
+            "practictioner_role_practictioner": {
+                "fhir_path": "PractitionerRole.practitioner.reference",
                 "data_type": "string",
                 "nullable": true
             }
         }
     },
     "medication_dispenses": {
-        "fhir_path": "response.FhirResource.entry.resource.where(resourceType = 'MedicationDispense')",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'MedicationDispense')",
         "data_type": "array",
         "nullable": true,
         "secondary_schema": {
