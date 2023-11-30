@@ -7,7 +7,7 @@ elif docker ps -a | grep -q "validation"; then
 else
     echo "validation Container does not exist, building and running..."
     # Build and run your Docker container here
-    docker build --no-cache -t validation ../validation/ls
+    docker build --no-cache -t validation ../validation/
     docker run -d -p 8081:8080 validation
 fi
 
