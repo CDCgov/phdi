@@ -22,6 +22,16 @@ def validation_payload(**kwargs) -> dict:
     }
 
 
+def validate_response(**kwargs) -> bool:
+    response = kwargs["response"]
+    body = response.json()
+
+    if "message_valid" in body:
+        return body.get("message_valid")
+
+    return response.status_code == 200
+
+
 def fhir_converter_payload(**kwargs) -> dict:
     input = kwargs["input"]
     return {
@@ -97,11 +107,21 @@ async def call_apis(
             url = url.replace('"', "")
             print(f"Url: {url}")
             response = post_request(url, payload)
+            endpoint_name = f"{response.url.split('/')[-1]}"
             print(f"Status Code: {response.status_code}")
+
+            if not validate_response(response=response):
+                progress_dict[endpoint_name] = {
+                    "status": "error",
+                    "response": response.json(),
+                }
+                await websocket.send_text(json.dumps(progress_dict))
+                await websocket.close()
+                break
 
             if websocket:
                 # Write service responses into websocket message
-                progress_dict[f"{response.url.split('/')[-1]}"] = {
+                progress_dict[endpoint_name] = {
                     "status_code": response.status_code,
                     "Message": response.reason,
                 }
