@@ -1,3 +1,4 @@
+import re
 import json
 import pathlib
 from functools import cache
@@ -43,16 +44,28 @@ def read_json_from_assets(filename: str):
 def unzip_ws(zipped_file) -> Dict:
     my_zipfile = zipped_file
     if my_zipfile.namelist:
-        file_to_open = [
-            file for file in my_zipfile.namelist() if "CDA_eICR.xml" in file
-        ][0]
+        try:
+            file_to_open = [
+                file for file in my_zipfile.namelist() if re.search("CDA_eICR.xml", file, re.I) in file
+            ][0]
+        except IndexError:
+            raise IndexError(
+                "A file with the name CDA_eICR.xml could not be found in zip file."
+            )
     f = my_zipfile.open(file_to_open)
     return f.read().decode("utf-8")
 
 
 def unzip_http(zipped_file) -> Dict:
     my_zipfile = ZipFile(zipped_file.file)
-    file_to_open = [file for file in my_zipfile.namelist() if "CDA_eICR.xml" in file][0]
+    try:
+        file_to_open = [
+            file for file in my_zipfile.namelist() if re.search("CDA_eICR.xml", file, re.I) in file
+        ][0]
+    except IndexError:
+        raise IndexError(
+            "A file with the name CDA_eICR.xml could not be found in zip file."
+        )
     f = my_zipfile.open(file_to_open)
     return f.read().decode("utf-8")
 
