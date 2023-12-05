@@ -259,11 +259,6 @@ class DataAccessLayer(object):
                                     for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""
                                 )    
                             
-                            
-                
-                    new_primary_keys = self.bulk_insert_list(
-                        table, records, return_primary_keys
-                    )
                     return_results[table.name] = {"primary_keys": new_primary_keys}
         return return_results
 
