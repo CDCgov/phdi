@@ -46,7 +46,9 @@ def unzip_ws(zipped_file) -> Dict:
     if my_zipfile.namelist:
         try:
             file_to_open = [
-                file for file in my_zipfile.namelist() if re.search("CDA_eICR.xml", file, re.I)
+                file
+                for file in my_zipfile.namelist()
+                if re.search("CDA_eICR.xml", file, re.I)
             ][0]
             f = my_zipfile.open(file_to_open)
         except IndexError:
@@ -60,7 +62,9 @@ def unzip_http(zipped_file) -> Dict:
     my_zipfile = ZipFile(zipped_file.file)
     try:
         file_to_open = [
-            file for file in my_zipfile.namelist() if re.search("CDA_eICR.xml", file, re.I)
+            file
+            for file in my_zipfile.namelist()
+            if re.search("CDA_eICR.xml", file, re.I)
         ][0]
         f = my_zipfile.open(file_to_open)
     except IndexError:
