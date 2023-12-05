@@ -2,6 +2,8 @@ from contextlib import contextmanager
 from sqlalchemy import MetaData, create_engine, Table, select
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
+import logging
+import datetime
 
 
 class DataAccessLayer(object):
@@ -142,22 +144,48 @@ class DataAccessLayer(object):
         """
         new_primary_keys = []
         if len(records) > 0 and table is not None:
+            logging.info(
+                f"Getting primary_key_column at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+            )
             primary_key_column = table.primary_key.c[0]
             with self.transaction() as session:
+                logging.info(
+                    f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                )
+                n_records = 0
                 for record in records:
+                    n_records += 1
                     if return_primary_keys:
+                        logging.info("Returned primary keys")
                         statement = (
                             table.insert().values(record).returning(primary_key_column)
+                        )
+                        logging.info(
+                            f"""Starting statement execution getting
+                              new_primary_key for record #{n_records}at:
+                                {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
                         )
                         new_primary_key = session.execute(statement)
                         # TODO: I don't like this, but seems to
                         # be one of the only ways to get this to work
                         #  I have tried using the column name from the
                         # PK defined in the table and that doesn't work
+                        logging.info(
+                            f""" Done with statement execution getting new_primary_key
+                              for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
+                        )
                         new_primary_keys.append(new_primary_key.first()[0])
                     else:
+                        logging.info("Did not return primary keys")
                         statement = table.insert().values(record)
+                        logging.info(
+                            f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                        )
                         session.execute(statement)
+                        logging.info(
+                            f"""Done with statement execution
+                              for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
+                        )
         return new_primary_keys
 
     def bulk_insert_dict(
@@ -184,14 +212,58 @@ class DataAccessLayer(object):
             along with a list of the primary keys, if requested.
         """
         return_results = {}
-        for table in self.TABLE_LIST:
-            records = records_with_table.get(table.name)
-            if records is not None:
-                new_primary_keys = []
-                new_primary_keys = self.bulk_insert_list(
-                    table, records, return_primary_keys
-                )
-                return_results[table.name] = {"primary_keys": new_primary_keys}
+        with self.transaction() as session:
+            logging.info(
+                f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+            )
+            for table in self.TABLE_LIST:
+                records = records_with_table.get(table.name)
+                if records is not None:
+                    new_primary_keys = []
+
+                    if len(records) > 0 and table is not None:
+                        logging.info(
+                            f"Getting primary_key_column at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                        )
+                        primary_key_column = table.primary_key.c[0]
+                        n_records = 0
+                        for record in records:
+                            n_records += 1
+                            if return_primary_keys:
+                                logging.info("Returned primary keys")
+                                statement = (
+                                    table.insert()
+                                    .values(record)
+                                    .returning(primary_key_column)
+                                )
+                                logging.info(
+                                    f"""Starting statement execution getting
+                                    new_primary_key for record #{n_records}at:
+                                        {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
+                                )
+                                new_primary_key = session.execute(statement)
+                                # TODO: I don't like this, but seems to
+                                # be one of the only ways to get this to work
+                                #  I have tried using the column name from the
+                                # PK defined in the table and that doesn't work
+                                logging.info(
+                                    f""" Done with statement execution getting new_primary_key
+                                    for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
+                                )
+                                new_primary_keys.append(new_primary_key.first()[0])
+                            else:
+                                logging.info("Did not return primary keys")
+                                statement = table.insert().values(record)
+                                logging.info(
+                                    f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                                )
+                                session.execute(statement)
+                                logging.info(
+                                    f"""Done with statement execution
+                                    for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
+                                )
+
+                    return_results[table.name] = {"primary_keys": new_primary_keys}
         return return_results
 
     def select_results(
@@ -210,8 +282,17 @@ class DataAccessLayer(object):
         :return: List of lists of select results
         """
         list_results = [[]]
+        logging.info(
+            f"In select_results, starting new session at {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+        )
         with self.transaction() as session:
+            logging.info(
+                f"Starting to execute statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+            )
             results = session.execute(select_statement)
+            logging.info(
+                f"Done executing statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+            )
             list_results = [list(row) for row in results]
             if include_col_header:
                 list_results.insert(0, list(results.keys()))
