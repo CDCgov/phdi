@@ -213,12 +213,14 @@ class DataAccessLayer(object):
         """
         return_results = {}
         with self.transaction() as session:
-            logging.info(f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}")
+            logging.info(
+                f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
+            )
             for table in self.TABLE_LIST:
                 records = records_with_table.get(table.name)
                 if records is not None:
                     new_primary_keys = []
-                    
+
                     if len(records) > 0 and table is not None:
                         logging.info(
                             f"Getting primary_key_column at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
@@ -230,7 +232,9 @@ class DataAccessLayer(object):
                             if return_primary_keys:
                                 logging.info("Returned primary keys")
                                 statement = (
-                                    table.insert().values(record).returning(primary_key_column)
+                                    table.insert()
+                                    .values(record)
+                                    .returning(primary_key_column)
                                 )
                                 logging.info(
                                     f"""Starting statement execution getting
@@ -257,8 +261,8 @@ class DataAccessLayer(object):
                                 logging.info(
                                     f"""Done with statement execution
                                     for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""
-                                )    
-                            
+                                )
+
                     return_results[table.name] = {"primary_keys": new_primary_keys}
         return return_results
 
