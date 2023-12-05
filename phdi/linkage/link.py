@@ -17,7 +17,7 @@ from phdi.linkage.mpi import DIBBsMPIConnectorClient, BaseMPIConnectorClient
 from phdi.linkage.utils import datetime_to_str
 
 import logging
-from datetime import datetime
+import datetime
 
 LINKING_FIELDS_TO_FHIRPATHS = {
     "first_name": "Patient.name.given",
