@@ -9,6 +9,9 @@ import uuid
 import copy
 from functools import cache
 
+import logging
+from datetime import datetime
+
 
 class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
     """
@@ -123,27 +126,35 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         :return: A list of records that are within the block, e.g.,
             records that all have 90210 as their ZIP.
         """
+        logging.info("In get_block_data")
         if len(block_criteria) == 0:
             raise ValueError("`block_vals` cannot be empty.")
 
         # Get the base query that will select all necessary
         # columns for linkage with some basic filtering
+        logging.info("Starting _get_base_query at:", datetime.now())
         query = self._get_base_query()
+        logging.info("Done with _get_base_query at:", datetime.now())
 
         # now get the criteria organized by table so the
         # CTE queries can be constructed and then added
         # to the base query
+        logging.info("Starting _organize_block_criteria at:", datetime.now())
         organized_block_vals = self._organize_block_criteria(block_criteria)
+        logging.info("Done with _organize_block_criteria at:", datetime.now())
 
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
+        logging.info("Starting _generate_block_query at:", datetime.now())
         query_w_ctes = self._generate_block_query(
             organized_block_criteria=organized_block_vals, query=query
         )
-
+        logging.info("Done with _generate_block_query at:", datetime.now())
+        logging.info("Starting dal.select_results at:", datetime.now())
         blocked_data = self.dal.select_results(
             select_statement=query_w_ctes, include_col_header=True
         )
+        logging.info("Done with dal.select_results at:", datetime.now())
 
         return blocked_data
 
@@ -167,22 +178,39 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         :param external_person_id: The external person id for the person that matches
           the patient record if a match has been found in the MPI, defaults to None.
         """
+        logging.info("Starting insert_matched_patient at", datetime.now())
 
         try:
             if person_id is None:
+                logging.info(
+                    "person_id was None; starting _insert_person at:", datetime.now()
+                )
                 person_id = self._insert_person()
-
+                logging.info(
+                    "person_id was None; done with _insert_person at:", datetime.now()
+                )
             patient_resource["person"] = person_id
-
+            logging.info("Starting _get_mpi_records at:", datetime.now())
             mpi_records = self._get_mpi_records(patient_resource)
-
+            logging.info("Done with _get_mpi_records at:", datetime.now())
+            logging.info("Starting dal.bulk_insert_dict at:", datetime.now())
             self.dal.bulk_insert_dict(
                 records_with_table=mpi_records, return_primary_keys=False
             )
+            logging.info("Done with dal.bulk_insert_dict at:", datetime.now())
 
             if external_person_id is not None:
+                logging.info(
+                    """external_person_id was not None;
+                      starting _insert_external_person_id at:""",
+                    datetime.now(),
+                )
                 self._insert_external_person_id(person_id, external_person_id)
-
+                logging.info(
+                    """external_person_id was not None;
+                      done with _insert_external_person_id at:""",
+                    datetime.now(),
+                )
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
 
