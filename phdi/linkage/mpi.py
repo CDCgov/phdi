@@ -133,43 +133,43 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         # Get the base query that will select all necessary
         # columns for linkage with some basic filtering
         logging.info(
-            f"Starting _get_base_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Starting _get_base_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
         query = self._get_base_query()
         logging.info(
-            f"Done with _get_base_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Done with _get_base_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
 
         # now get the criteria organized by table so the
         # CTE queries can be constructed and then added
         # to the base query
         logging.info(
-            f"Starting _organize_block_criteria at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Starting _organize_block_criteria at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
         organized_block_vals = self._organize_block_criteria(block_criteria)
         logging.info(
-            f"Done with _organize_block_criteria at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}",
+            f"Done with _organize_block_criteria at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}",
         )
 
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
         logging.info(
-            f"Starting _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Starting _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
         query_w_ctes = self._generate_block_query(
             organized_block_criteria=organized_block_vals, query=query
         )
         logging.info(
-            f"Done with _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Done with _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
         logging.info(
-            f"Starting dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Starting dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
         blocked_data = self.dal.select_results(
             select_statement=query_w_ctes, include_col_header=True
         )
         logging.info(
-            f"Done with dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Done with dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
 
         return blocked_data
@@ -195,45 +195,45 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         """
         logging.info(
-            f"Starting insert_matched_patient at {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+            f"Starting insert_matched_patient at {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
         )
 
         try:
             if person_id is None:
                 logging.info(
-                    f"person_id was None; starting _insert_person at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+                    f"person_id was None; starting _insert_person at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
                 )
                 person_id = self._insert_person()
                 logging.info(
-                    f"person_id was None; done with _insert_person at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+                    f"person_id was None; done with _insert_person at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
                 )
             patient_resource["person"] = person_id
             logging.info(
-                f"Starting _get_mpi_records at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+                f"Starting _get_mpi_records at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
             )
             mpi_records = self._get_mpi_records(patient_resource)
             logging.info(
-                f"Done with _get_mpi_records at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+                f"Done with _get_mpi_records at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
             )
             logging.info(
-                f"Starting dal.bulk_insert_dict at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+                f"Starting dal.bulk_insert_dict at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
             )
             self.dal.bulk_insert_dict(
                 records_with_table=mpi_records, return_primary_keys=False
             )
             logging.info(
-                f"Done with dal.bulk_insert_dict at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
+                f"Done with dal.bulk_insert_dict at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"
             )
 
             if external_person_id is not None:
                 logging.info(
                     f"""external_person_id was not None;
-                      starting _insert_external_person_id at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"""
+                      starting _insert_external_person_id at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""
                 )
                 self._insert_external_person_id(person_id, external_person_id)
                 logging.info(
                     f"""external_person_id was not None;
-                      done with _insert_external_person_id at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"""
+                      done with _insert_external_person_id at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""
                 )
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")
