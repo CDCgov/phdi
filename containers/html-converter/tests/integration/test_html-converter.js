@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require('fs');
 const {DockerComposeEnvironment} = require('testcontainers');
 
-const HTML_INSIGHTS_URL = 'http://0.0.0.0:8080';
+const HTML_INSIGHTS_URL = 'http://0.0.0.0:3000';
 const HTML_INSIGHTS = HTML_INSIGHTS_URL + '/generate-html';
 
 // Define a function to set up the containers.
