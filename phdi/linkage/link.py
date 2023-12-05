@@ -576,9 +576,15 @@ def link_record_against_mpi(
     # name back into the callable defined in link.py
 
     algo_config = copy.deepcopy(algo_config)
-    logging.info("Starting _bind_func_names_to_invocations at:", datetime.now())
+    logging.info(
+        "Starting _bind_func_names_to_invocations at:",
+        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+    )
     algo_config = _bind_func_names_to_invocations(algo_config)
-    logging.info("Done with _bind_func_names_to_invocations at:", datetime.now())
+    logging.info(
+        "Done with _bind_func_names_to_invocations at:",
+        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+    )
 
     # Membership ratios need to persist across linkage passes so that we can
     # find the highest scoring match across all trials
@@ -589,10 +595,14 @@ def link_record_against_mpi(
         # MPI will be able to find patients if *any* of their names or addresses
         # contains extracted values, so minimally block on the first line
         # if applicable
-        logging.info("Starting extract_blocking_values_from_record at:", datetime.now())
+        logging.info(
+            "Starting extract_blocking_values_from_record at:",
+            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        )
         blocking_criteria = extract_blocking_values_from_record(record, blocking_fields)
         logging.info(
-            "Done with extract_blocking_values_from_record at:", datetime.now()
+            "Done with extract_blocking_values_from_record at:",
+            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
         )
 
         # We don't enforce blocking if an extracted value is empty, so if all
@@ -601,29 +611,50 @@ def link_record_against_mpi(
         if len(blocking_criteria) == 0:
             logging.info("No blocking criteria extracted from incoming record.")
             continue
-        logging.info("Starting get_block_data at:", datetime.now())
+        logging.info(
+            "Starting get_block_data at:",
+            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        )
         data_block = mpi_client.get_block_data(blocking_criteria)
-        logging.info("Done with get_block_data at:", datetime.now())
+        logging.info(
+            "Done with get_block_data at:",
+            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        )
 
         # First row of returned block is column headers
         # Map column name to idx, not including patient/person IDs
         col_to_idx = {v: k for k, v in enumerate(data_block[0][2:])}
         if len(data_block[1:]) > 0:  # Check if data_block is empty
             data_block = data_block[1:]
-            logging.info("Starting _flatten_patient_resource at:", datetime.now())
+            logging.info(
+                "Starting _flatten_patient_resource at:",
+                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            )
             flattened_record = _flatten_patient_resource(record, col_to_idx)
-            logging.info("Done with _flatten_patient_resource at:", datetime.now())
+            logging.info(
+                "Done with _flatten_patient_resource at:",
+                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            )
 
-            logging.info("Starting _group_patient_block_by_person at:", datetime.now())
+            logging.info(
+                "Starting _group_patient_block_by_person at:",
+                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            )
             clusters = _group_patient_block_by_person(data_block)
-            logging.info("Done with _group_patient_block_by_person at:", datetime.now())
+            logging.info(
+                "Done with _group_patient_block_by_person at:",
+                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            )
 
             # Check if incoming record should belong to one of the person clusters
             kwargs = linkage_pass.get("kwargs", {})
             for person in clusters:
                 num_matched_in_cluster = 0.0
                 for linked_patient in clusters[person]:
-                    logging.info("Starting _compare_records at:", datetime.now())
+                    logging.info(
+                        "Starting _compare_records at:",
+                        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    )
                     is_match = _compare_records(
                         flattened_record,
                         linked_patient,
@@ -632,19 +663,25 @@ def link_record_against_mpi(
                         linkage_pass["matching_rule"],
                         **kwargs,
                     )
-                    logging.info("Done with _compare_records at:", datetime.now())
+                    logging.info(
+                        "Done with _compare_records at:",
+                        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    )
 
                     if is_match:
                         num_matched_in_cluster += 1.0
 
                 # Update membership score for this person cluster so that we can
                 # track best possible link across multiple passes
-                logging.info("Starting to update membership score at:", datetime.now())
+                logging.info(
+                    "Starting to update membership score at:",
+                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                )
                 belongingness_ratio = num_matched_in_cluster / len(clusters[person])
                 if belongingness_ratio >= linkage_pass.get("cluster_ratio", 0):
                     logging.info(
                         "belongingness_ratio >= linkage_pass.get('cluster_ratio', 0)",
-                        datetime.now(),
+                        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
                     )
                     if person in linkage_scores:
                         linkage_scores[person] = max(
@@ -652,21 +689,36 @@ def link_record_against_mpi(
                         )
                     else:
                         linkage_scores[person] = belongingness_ratio
-                logging.info("Done with updating membership score at:", datetime.now())
+                logging.info(
+                    "Done with updating membership score at:",
+                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                )
     person_id = None
     matched = False
 
     # If we found any matches, find the strongest one
     if len(linkage_scores) != 0:
-        logging.info("Starting _find_strongest_link at:", datetime.now())
+        logging.info(
+            "Starting _find_strongest_link at:",
+            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        )
         person_id = _find_strongest_link(linkage_scores)
         matched = True
-        logging.info("Done with _find_strongest_link at:", datetime.now())
-    logging.info("Starting mpi_client.insert_matched_patient at:", datetime.now())
+        logging.info(
+            "Done with _find_strongest_link at:",
+            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        )
+    logging.info(
+        "Starting mpi_client.insert_matched_patient at:",
+        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+    )
     person_id = mpi_client.insert_matched_patient(
         record, person_id=person_id, external_person_id=external_person_id
     )
-    logging.info("Done with mpi_client.insert_matched_patient at:", datetime.now())
+    logging.info(
+        "Done with mpi_client.insert_matched_patient at:",
+        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+    )
 
     return (matched, person_id)
 

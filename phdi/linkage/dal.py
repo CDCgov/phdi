@@ -144,10 +144,16 @@ class DataAccessLayer(object):
         """
         new_primary_keys = []
         if len(records) > 0 and table is not None:
-            logging.info("Getting primary_key_column at:", datetime.now())
+            logging.info(
+                "Getting primary_key_column at:",
+                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            )
             primary_key_column = table.primary_key.c[0]
             with self.transaction() as session:
-                logging.info("Starting session at:", datetime.now())
+                logging.info(
+                    "Starting session at:",
+                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                )
                 n_records = 1
                 for record in records:
                     if return_primary_keys:
@@ -158,7 +164,7 @@ class DataAccessLayer(object):
                         logging.info(
                             f"""Starting statement execution getting
                               new_primary_key for record #{n_records}at: """,
-                            datetime.now(),
+                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
                         )
                         new_primary_key = session.execute(statement)
                         # TODO: I don't like this, but seems to
@@ -168,7 +174,7 @@ class DataAccessLayer(object):
                         logging.info(
                             f""" Done with statement execution getting new_primary_key
                               for record #{n_records} at:""",
-                            datetime.now(),
+                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
                         )
                         new_primary_keys.append(new_primary_key.first()[0])
                     else:
@@ -176,13 +182,13 @@ class DataAccessLayer(object):
                         statement = table.insert().values(record)
                         logging.info(
                             f"Starting statement execution for record #{n_records} at:",
-                            datetime.now(),
+                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
                         )
                         session.execute(statement)
                         logging.info(
                             f"""Done with statement execution
                               for record #{n_records} at:""",
-                            datetime.now(),
+                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
                         )
         return new_primary_keys
 
@@ -236,14 +242,19 @@ class DataAccessLayer(object):
         :return: List of lists of select results
         """
         list_results = [[]]
-        logging.info("In select_results, starting new session at", datetime.now())
+        logging.info(
+            "In select_results, starting new session at",
+            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        )
         with self.transaction() as session:
             logging.info(
-                "Starting to execute statement to return results at:", datetime.now()
+                "Starting to execute statement to return results at:",
+                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
             )
             results = session.execute(select_statement)
             logging.info(
-                "Done executing statement to return results at:", datetime.now()
+                "Done executing statement to return results at:",
+                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
             )
             list_results = [list(row) for row in results]
             if include_col_header:

@@ -20,11 +20,11 @@ services:
       - "8080:8080"
     environment:
       - MPI_DB_TYPE=postgres
-      - MPI_DBNAME=testdb
-      - MPI_HOST=db
+      - MPI_DBNAME=DibbsMpiDB
+      - MPI_HOST=phdidevmpi9d194c64.postgres.database.azure.com
       - MPI_PORT=5432
       - MPI_USER=postgres
-      - MPI_PASSWORD=pw
+      - MPI_PASSWORD=aFuydxPU2WZkHPbTmQL7sEkOD66Jp0Fm
       - MPI_PATIENT_TABLE=patient
       - MPI_PERSON_TABLE=person
     depends_on:
