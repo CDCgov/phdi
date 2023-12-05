@@ -145,14 +145,12 @@ class DataAccessLayer(object):
         new_primary_keys = []
         if len(records) > 0 and table is not None:
             logging.info(
-                "Getting primary_key_column at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Getting primary_key_column at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             primary_key_column = table.primary_key.c[0]
             with self.transaction() as session:
                 logging.info(
-                    "Starting session at:",
-                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                 )
                 n_records = 1
                 for record in records:
@@ -163,8 +161,8 @@ class DataAccessLayer(object):
                         )
                         logging.info(
                             f"""Starting statement execution getting
-                              new_primary_key for record #{n_records}at: """,
-                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                              new_primary_key for record #{n_records}at:
+                                {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"""
                         )
                         new_primary_key = session.execute(statement)
                         # TODO: I don't like this, but seems to
@@ -173,22 +171,19 @@ class DataAccessLayer(object):
                         # PK defined in the table and that doesn't work
                         logging.info(
                             f""" Done with statement execution getting new_primary_key
-                              for record #{n_records} at:""",
-                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                              for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"""
                         )
                         new_primary_keys.append(new_primary_key.first()[0])
                     else:
                         logging.info("Did not return primary keys")
                         statement = table.insert().values(record)
                         logging.info(
-                            f"Starting statement execution for record #{n_records} at:",
-                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                            f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                         )
                         session.execute(statement)
                         logging.info(
                             f"""Done with statement execution
-                              for record #{n_records} at:""",
-                            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                              for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"""
                         )
         return new_primary_keys
 
@@ -243,18 +238,15 @@ class DataAccessLayer(object):
         """
         list_results = [[]]
         logging.info(
-            "In select_results, starting new session at",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"In select_results, starting new session at {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         with self.transaction() as session:
             logging.info(
-                "Starting to execute statement to return results at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Starting to execute statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             results = session.execute(select_statement)
             logging.info(
-                "Done executing statement to return results at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Done executing statement to return results at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             list_results = [list(row) for row in results]
             if include_col_header:

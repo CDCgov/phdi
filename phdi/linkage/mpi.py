@@ -133,51 +133,43 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         # Get the base query that will select all necessary
         # columns for linkage with some basic filtering
         logging.info(
-            "Starting _get_base_query at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting _get_base_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         query = self._get_base_query()
         logging.info(
-            "Done with _get_base_query at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Done with _get_base_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
 
         # now get the criteria organized by table so the
         # CTE queries can be constructed and then added
         # to the base query
         logging.info(
-            "Starting _organize_block_criteria at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting _organize_block_criteria at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         organized_block_vals = self._organize_block_criteria(block_criteria)
         logging.info(
-            "Done with _organize_block_criteria at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Done with _organize_block_criteria at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}",
         )
 
         # now tack on the where criteria using the block_vals
         # while ensuring they exist in the table structure ORM
         logging.info(
-            "Starting _generate_block_query at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         query_w_ctes = self._generate_block_query(
             organized_block_criteria=organized_block_vals, query=query
         )
         logging.info(
-            "Done with _generate_block_query at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Done with _generate_block_query at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         logging.info(
-            "Starting dal.select_results at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         blocked_data = self.dal.select_results(
             select_statement=query_w_ctes, include_col_header=True
         )
         logging.info(
-            "Done with dal.select_results at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Done with dal.select_results at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
 
         return blocked_data
@@ -203,54 +195,45 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
           the patient record if a match has been found in the MPI, defaults to None.
         """
         logging.info(
-            "Starting insert_matched_patient at",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting insert_matched_patient at {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
 
         try:
             if person_id is None:
                 logging.info(
-                    "person_id was None; starting _insert_person at:",
-                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    f"person_id was None; starting _insert_person at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                 )
                 person_id = self._insert_person()
                 logging.info(
-                    "person_id was None; done with _insert_person at:",
-                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    f"person_id was None; done with _insert_person at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                 )
             patient_resource["person"] = person_id
             logging.info(
-                "Starting _get_mpi_records at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Starting _get_mpi_records at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             mpi_records = self._get_mpi_records(patient_resource)
             logging.info(
-                "Done with _get_mpi_records at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Done with _get_mpi_records at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             logging.info(
-                "Starting dal.bulk_insert_dict at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Starting dal.bulk_insert_dict at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             self.dal.bulk_insert_dict(
                 records_with_table=mpi_records, return_primary_keys=False
             )
             logging.info(
-                "Done with dal.bulk_insert_dict at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Done with dal.bulk_insert_dict at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
 
             if external_person_id is not None:
                 logging.info(
-                    """external_person_id was not None;
-                      starting _insert_external_person_id at:""",
-                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    f"""external_person_id was not None;
+                      starting _insert_external_person_id at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"""
                 )
                 self._insert_external_person_id(person_id, external_person_id)
                 logging.info(
-                    """external_person_id was not None;
-                      done with _insert_external_person_id at:""",
-                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    f"""external_person_id was not None;
+                      done with _insert_external_person_id at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"""
                 )
         except Exception as error:  # pragma: no cover
             raise ValueError(f"{error}")

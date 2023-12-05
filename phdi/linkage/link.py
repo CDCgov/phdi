@@ -577,13 +577,11 @@ def link_record_against_mpi(
 
     algo_config = copy.deepcopy(algo_config)
     logging.info(
-        "Starting _bind_func_names_to_invocations at:",
-        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        f"Starting _bind_func_names_to_invocations at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
     )
     algo_config = _bind_func_names_to_invocations(algo_config)
     logging.info(
-        "Done with _bind_func_names_to_invocations at:",
-        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        f"Done with _bind_func_names_to_invocations at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
     )
 
     # Membership ratios need to persist across linkage passes so that we can
@@ -596,13 +594,11 @@ def link_record_against_mpi(
         # contains extracted values, so minimally block on the first line
         # if applicable
         logging.info(
-            "Starting extract_blocking_values_from_record at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting extract_blocking_values_from_record at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         blocking_criteria = extract_blocking_values_from_record(record, blocking_fields)
         logging.info(
-            "Done with extract_blocking_values_from_record at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Done with extract_blocking_values_from_record at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
 
         # We don't enforce blocking if an extracted value is empty, so if all
@@ -612,13 +608,11 @@ def link_record_against_mpi(
             logging.info("No blocking criteria extracted from incoming record.")
             continue
         logging.info(
-            "Starting get_block_data at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting get_block_data at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         data_block = mpi_client.get_block_data(blocking_criteria)
         logging.info(
-            "Done with get_block_data at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Done with get_block_data at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
 
         # First row of returned block is column headers
@@ -627,23 +621,19 @@ def link_record_against_mpi(
         if len(data_block[1:]) > 0:  # Check if data_block is empty
             data_block = data_block[1:]
             logging.info(
-                "Starting _flatten_patient_resource at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Starting _flatten_patient_resource at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             flattened_record = _flatten_patient_resource(record, col_to_idx)
             logging.info(
-                "Done with _flatten_patient_resource at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Done with _flatten_patient_resource at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
 
             logging.info(
-                "Starting _group_patient_block_by_person at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Starting _group_patient_block_by_person at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
             clusters = _group_patient_block_by_person(data_block)
             logging.info(
-                "Done with _group_patient_block_by_person at:",
-                datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                f"Done with _group_patient_block_by_person at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
             )
 
             # Check if incoming record should belong to one of the person clusters
@@ -652,8 +642,7 @@ def link_record_against_mpi(
                 num_matched_in_cluster = 0.0
                 for linked_patient in clusters[person]:
                     logging.info(
-                        "Starting _compare_records at:",
-                        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                        f"Starting _compare_records at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                     )
                     is_match = _compare_records(
                         flattened_record,
@@ -664,8 +653,7 @@ def link_record_against_mpi(
                         **kwargs,
                     )
                     logging.info(
-                        "Done with _compare_records at:",
-                        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                        f"Done with _compare_records at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                     )
 
                     if is_match:
@@ -674,14 +662,12 @@ def link_record_against_mpi(
                 # Update membership score for this person cluster so that we can
                 # track best possible link across multiple passes
                 logging.info(
-                    "Starting to update membership score at:",
-                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    f"Starting to update membership score at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                 )
                 belongingness_ratio = num_matched_in_cluster / len(clusters[person])
                 if belongingness_ratio >= linkage_pass.get("cluster_ratio", 0):
                     logging.info(
-                        "belongingness_ratio >= linkage_pass.get('cluster_ratio', 0)",
-                        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                        f"belongingness_ratio >= linkage_pass.get('cluster_ratio', 0): {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                     )
                     if person in linkage_scores:
                         linkage_scores[person] = max(
@@ -690,8 +676,7 @@ def link_record_against_mpi(
                     else:
                         linkage_scores[person] = belongingness_ratio
                 logging.info(
-                    "Done with updating membership score at:",
-                    datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+                    f"Done with updating membership score at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
                 )
     person_id = None
     matched = False
@@ -699,25 +684,21 @@ def link_record_against_mpi(
     # If we found any matches, find the strongest one
     if len(linkage_scores) != 0:
         logging.info(
-            "Starting _find_strongest_link at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Starting _find_strongest_link at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
         person_id = _find_strongest_link(linkage_scores)
         matched = True
         logging.info(
-            "Done with _find_strongest_link at:",
-            datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+            f"Done with _find_strongest_link at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
         )
     logging.info(
-        "Starting mpi_client.insert_matched_patient at:",
-        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        f"Starting mpi_client.insert_matched_patient at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
     )
     person_id = mpi_client.insert_matched_patient(
         record, person_id=person_id, external_person_id=external_person_id
     )
     logging.info(
-        "Done with mpi_client.insert_matched_patient at:",
-        datetime.datetime.now().strftime("%m-%d-%yt%h%m%s"),
+        f"Done with mpi_client.insert_matched_patient at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S')}"
     )
 
     return (matched, person_id)
