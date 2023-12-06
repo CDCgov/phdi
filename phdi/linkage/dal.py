@@ -264,6 +264,7 @@ class DataAccessLayer(object):
                                 statement = statement.compile(self.engine)
                                 params = statement.params
                                 print(statement)
+                                print(params)
                                 print(type(statement))
                                 print(dir(statement))
                                 statement = text(str(statement)).bindparams(**params)
