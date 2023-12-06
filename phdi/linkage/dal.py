@@ -266,8 +266,7 @@ class DataAccessLayer(object):
                                 print(statement)
                                 print(type(statement))
                                 print(dir(statement))
-                                statement = statement.string % params
-                                statement = statement.replace("None", "NULL")
+                                statement = text(str(statement)).format(**params)
                                 print(statement)
                                 statements.append(statement)
                                 #session.execute(statement)
@@ -280,7 +279,7 @@ class DataAccessLayer(object):
                     return_results[table.name] = {"primary_keys": new_primary_keys}
             statements = ";".join(statements)
             print(statements)
-            session.execute(text(statements))
+            session.execute(statements)
         return return_results
 
     def select_results(
