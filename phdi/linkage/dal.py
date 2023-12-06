@@ -260,6 +260,7 @@ class DataAccessLayer(object):
                                 )
                                 statement = statement.compile(self.engine)
                                 print(statement)
+                                print(type(statement))
                                 statements.append(statement)
                                 #session.execute(statement)
                                 logging.info(
