@@ -261,9 +261,10 @@ class DataAccessLayer(object):
                                 )
 
                                 if "dob" in record:
-                                    record["dob"] = datetime.datetime.strptime(
-                                        record["dob"], "%Y-%m-%d"
-                                    )
+                                    if record["dob"] is not None:
+                                        record["dob"] = datetime.datetime.strptime(
+                                            record["dob"], "%Y-%m-%d"
+                                        )
 
                                 statement = table.insert().values(**record)
 
@@ -282,14 +283,16 @@ class DataAccessLayer(object):
                                 )
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
-            statements = ";".join(statements)
-            logging.info(
-                f"Starting INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
-            )
-            session.execute(text(statements))
-            logging.info(
-                f"Done with INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
-            )
+
+            if not return_primary_keys:
+                statements = ";".join(statements)
+                logging.info(
+                    f"Starting INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                )
+                session.execute(text(statements))
+                logging.info(
+                    f"Done with INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                )
         return return_results
 
     def select_results(
