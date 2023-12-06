@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from sqlalchemy import MetaData, create_engine, Table, select
+from sqlalchemy import MetaData, create_engine, Table, select, text
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
 import logging
@@ -277,8 +277,9 @@ class DataAccessLayer(object):
             
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
+            statements = ";".join(statements)
             print(statements)
-            session.execute("; ".join(statements))
+            session.execute(text(statements))
         return return_results
 
     def select_results(
