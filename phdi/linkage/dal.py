@@ -258,9 +258,13 @@ class DataAccessLayer(object):
                                 logging.info(
                                     f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                                 )
+                                print(statement)
+                                print(type(statement))
+                                print(dir(statement))
                                 statement = statement.compile(self.engine)
                                 print(statement)
                                 print(type(statement))
+                                print(dir(statement))
                                 #statements.append(statement)
                                 #session.execute(statement)
                                 logging.info(
