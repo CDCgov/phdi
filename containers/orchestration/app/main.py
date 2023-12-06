@@ -148,6 +148,12 @@ async def process_message_endpoint(
         "include_error_types": include_error_types,
         "message": content,
     }
+    # THIS MUST BE FIXED
+    # The content.ecr and content.rr will need to be individually passed into the
+    # call_apis function
+    # But, since we can also expect a "message" type to come in,will need to be sure
+    # to read either one
+    # might be easiest to add another endpoint.../process-zip and /process maybe
 
     response, responses = await call_apis(config=processing_config, input=input)
 
