@@ -217,6 +217,7 @@ class DataAccessLayer(object):
             logging.info(
                 f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
             )
+            n_records = 0
             for table in self.TABLE_LIST:
                 records = records_with_table.get(table.name)
                 if records is not None:
@@ -227,7 +228,7 @@ class DataAccessLayer(object):
                             f"Getting primary_key_column at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                         )
                         primary_key_column = table.primary_key.c[0]
-                        n_records = 0
+                        
                         for record in records:
                             n_records += 1
                             if return_primary_keys:
@@ -276,7 +277,6 @@ class DataAccessLayer(object):
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
             statements = ";".join(statements)
-            print(statements)
             logging.info(
                         f"Starting INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                         )
