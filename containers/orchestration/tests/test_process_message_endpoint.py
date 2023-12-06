@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 import json
 from pathlib import Path
 from unittest import mock
+import pytest
 
 from app.main import app
 
@@ -65,3 +66,24 @@ def test_process_message_failure():
 
     actual_response = client.post("/process", json=request)
     assert actual_response.status_code == 400
+
+
+def test_process_message_with_empty_zip():
+    with open(
+        Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "orchestration"
+        / "empty.zip",
+        "rb",
+    ) as f:
+        form_data = {
+            "message_type": "ecr",
+            "include_error_types": "errors",
+        }
+        files = {"upload_file": ("file.zip", f)}
+
+        with pytest.raises(IndexError) as indexError:
+            client.post("/process", data=form_data, files=files)
+        error_message = str(indexError.value)
+        assert "There is no eICR in this zip file." in error_message

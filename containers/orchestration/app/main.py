@@ -13,7 +13,6 @@ from fastapi import (
 )
 from typing import Annotated, Optional
 from pathlib import Path
-from zipfile import is_zipfile, ZipFile
 from app.utils import (
     load_processing_config,
     unzip_ws,
@@ -36,7 +35,6 @@ from app.constants import (
     sample_list_configs_response,
 )
 import json
-import io
 import os
 
 # Read settings immediately to fail fast in case there are invalid values.
@@ -75,22 +73,21 @@ async def process_message_endpoint_ws(
     await websocket.accept()
     try:
         while True:
-            file = await websocket.receive_bytes()
-
-            zipped_file = ZipFile(io.BytesIO(file), "r")
-            unzipped_file = unzip_ws(zipped_file)
+            file_bytes = await websocket.receive_bytes()
+            unzipped_data = unzip_ws(file_bytes)
 
             # Hardcoded message_type for MVP
-            input = {
-                "message_type": "eicr",
+            initial_input = {
+                "message_type": "ecr",
                 "include_error_types": "errors",
-                "message": unzipped_file,
+                "message": unzipped_data.get("ecr"),
+                "rr_data": unzipped_data.get("rr"),
             }
             processing_config = load_processing_config(
                 "sample-orchestration-config.json"
             )
             response, responses = await call_apis(
-                config=processing_config, input=input, websocket=websocket
+                config=processing_config, input=initial_input, websocket=websocket
             )
             if response.status_code == 200:
                 # Parse and work with the API response data (JSON, XML, etc.)
@@ -128,7 +125,7 @@ async def process_message_endpoint(
     """
     content = ""
 
-    if upload_file and is_zipfile(upload_file.file):
+    if upload_file and upload_file.content_type == "application/zip":
         content = unzip_http(upload_file)
     else:
         try:
