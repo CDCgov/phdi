@@ -256,12 +256,17 @@ class DataAccessLayer(object):
                                 logging.info("Did not return primary keys")
                                 print(record)
                                 print(type(record))
+                                
+                                if "dob" in record:
+                                    record["dob"] = datetime.datetime.strptime(record["dob"], "%Y-%m-%d")
+                                
+                                
                                 statement = table.insert().values(**record)
                                 logging.info(
                                     f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                                 )
 
-                                statement = statement.compile(self.engine, compile_kwargs={"literal_binds": True})
+                                statement = statement.compile(self.engine, compile_kwargs={"literal_binds": True, "render_postprocess": str})
                                 statement = str(statement)
                                 print(statement)
                                 statements.append(statement)
