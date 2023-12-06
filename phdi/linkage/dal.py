@@ -266,9 +266,10 @@ class DataAccessLayer(object):
                                     f"""Done with statement execution
                                     for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
                                 )
-            session.execute(statements)
+            
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
+            session.execute("; ".join(statements))
         return return_results
 
     def select_results(
