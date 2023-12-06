@@ -261,7 +261,7 @@ class DataAccessLayer(object):
                                 statement = statement.compile(self.engine)
                                 print(statement)
                                 print(type(statement))
-                                statements.append(statement)
+                                #statements.append(statement)
                                 #session.execute(statement)
                                 logging.info(
                                     f"""Done with statement execution
@@ -270,6 +270,7 @@ class DataAccessLayer(object):
             
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
+            print(statements)
             session.execute("; ".join(statements))
         return return_results
 
