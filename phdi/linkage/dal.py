@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from sqlalchemy import MetaData, create_engine, Table, select
+from sqlalchemy import MetaData, create_engine, Table, select, text
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List
 import logging
@@ -212,10 +212,12 @@ class DataAccessLayer(object):
             along with a list of the primary keys, if requested.
         """
         return_results = {}
+        statements = []
         with self.transaction() as session:
             logging.info(
                 f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
             )
+            n_records = 0
             for table in self.TABLE_LIST:
                 records = records_with_table.get(table.name)
                 if records is not None:
@@ -226,7 +228,7 @@ class DataAccessLayer(object):
                             f"Getting primary_key_column at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                         )
                         primary_key_column = table.primary_key.c[0]
-                        n_records = 0
+
                         for record in records:
                             n_records += 1
                             if return_primary_keys:
@@ -253,17 +255,44 @@ class DataAccessLayer(object):
                                 new_primary_keys.append(new_primary_key.first()[0])
                             else:
                                 logging.info("Did not return primary keys")
-                                statement = table.insert().values(record)
                                 logging.info(
-                                    f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                                    f"""Starting statement creation for record #{n_records} at:
+                                        {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
                                 )
-                                session.execute(statement)
+
+                                if "dob" in record:
+                                    if record["dob"] is not None:
+                                        record["dob"] = datetime.datetime.strptime(
+                                            record["dob"], "%Y-%m-%d"
+                                        )
+
+                                statement = table.insert().values(**record)
+
+                                statement = statement.compile(
+                                    self.engine,
+                                    compile_kwargs={
+                                        "literal_binds": True,
+                                        "render_postprocess": str,
+                                    },
+                                )
+                                statement = str(statement)
+                                statements.append(statement)
                                 logging.info(
-                                    f"""Done with statement execution
-                                    for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
+                                    f"""Done with statement creation for record #{n_records} at:
+                                        {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
                                 )
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
+
+            if not return_primary_keys:
+                statements = ";".join(statements)
+                logging.info(
+                    f"Starting INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                )
+                session.execute(text(statements))
+                logging.info(
+                    f"Done with INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+                )
         return return_results
 
     def select_results(
