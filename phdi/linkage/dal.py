@@ -254,6 +254,8 @@ class DataAccessLayer(object):
                                 new_primary_keys.append(new_primary_key.first()[0])
                             else:
                                 logging.info("Did not return primary keys")
+                                print(record)
+                                print(type(record))
                                 statement = table.insert().values(record)
                                 logging.info(
                                     f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
