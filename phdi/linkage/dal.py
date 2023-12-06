@@ -267,6 +267,7 @@ class DataAccessLayer(object):
                                 print(type(statement))
                                 print(dir(statement))
                                 statement = statement.string % params
+                                statement = statement.replace("None", "NULL")
                                 print(statement)
                                 statements.append(statement)
                                 #session.execute(statement)
