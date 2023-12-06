@@ -268,7 +268,7 @@ class DataAccessLayer(object):
                                 print(dir(statement))
                                 statement = statement.string % params
                                 print(statement)
-                                statements = statements.append(statement)
+                                statements.append(statement)
                                 #session.execute(statement)
                                 logging.info(
                                     f"""Done with statement execution
