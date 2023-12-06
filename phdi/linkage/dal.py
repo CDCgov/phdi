@@ -212,6 +212,7 @@ class DataAccessLayer(object):
             along with a list of the primary keys, if requested.
         """
         return_results = {}
+        statements = []
         with self.transaction() as session:
             logging.info(
                 f"Starting session at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
@@ -257,11 +258,15 @@ class DataAccessLayer(object):
                                 logging.info(
                                     f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                                 )
-                                session.execute(statement)
+                                statement = statement.compile(self.engine)
+                                print(statement)
+                                statements.append(statement)
+                                #session.execute(statement)
                                 logging.info(
                                     f"""Done with statement execution
                                     for record #{n_records} at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
                                 )
+            session.execute(statements)
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
         return return_results
