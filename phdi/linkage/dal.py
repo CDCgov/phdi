@@ -269,7 +269,7 @@ class DataAccessLayer(object):
                                 print(params)
                                 print(type(statement))
                                 print(dir(statement))
-                                statement = text(str(statement)).bindparams(**record)
+                                statement = text(str(statement), postcompileparams=params)
                                 print(statement)
                                 statements.append(statement)
                                 #session.execute(statement)
