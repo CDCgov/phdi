@@ -228,7 +228,7 @@ class DataAccessLayer(object):
                             f"Getting primary_key_column at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                         )
                         primary_key_column = table.primary_key.c[0]
-                        
+
                         for record in records:
                             n_records += 1
                             if return_primary_keys:
@@ -259,31 +259,37 @@ class DataAccessLayer(object):
                                     f"""Starting statement creation for record #{n_records} at:
                                         {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
                                 )
-                                
+
                                 if "dob" in record:
-                                    record["dob"] = datetime.datetime.strptime(record["dob"], "%Y-%m-%d")
-                                
-                                
+                                    record["dob"] = datetime.datetime.strptime(
+                                        record["dob"], "%Y-%m-%d"
+                                    )
+
                                 statement = table.insert().values(**record)
 
-                                statement = statement.compile(self.engine, compile_kwargs={"literal_binds": True, "render_postprocess": str})
+                                statement = statement.compile(
+                                    self.engine,
+                                    compile_kwargs={
+                                        "literal_binds": True,
+                                        "render_postprocess": str,
+                                    },
+                                )
                                 statement = str(statement)
                                 statements.append(statement)
                                 logging.info(
                                     f"""Done with statement creation for record #{n_records} at:
                                         {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"""  # noqa
-                                )                                
-            
+                                )
 
                     return_results[table.name] = {"primary_keys": new_primary_keys}
             statements = ";".join(statements)
             logging.info(
-                        f"Starting INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
-                        )
+                f"Starting INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+            )
             session.execute(text(statements))
             logging.info(
-                        f"Done with INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
-                        )
+                f"Done with INSERT statement execution at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
+            )
         return return_results
 
     def select_results(
