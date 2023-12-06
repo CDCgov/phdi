@@ -256,7 +256,7 @@ class DataAccessLayer(object):
                                 logging.info("Did not return primary keys")
                                 print(record)
                                 print(type(record))
-                                statement = table.insert().values(record)
+                                statement = table.insert().values(**record)
                                 logging.info(
                                     f"Starting statement execution for record #{n_records} at:{datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
                                 )
@@ -269,7 +269,7 @@ class DataAccessLayer(object):
                                 print(params)
                                 print(type(statement))
                                 print(dir(statement))
-                                statement = text(str(statement)).bindparams(**params)
+                                statement = text(str(statement)).bindparams(**record)
                                 print(statement)
                                 statements.append(statement)
                                 #session.execute(statement)
