@@ -28,7 +28,7 @@ We recommend running the HTML Insights app from a container, but if that is not 
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/html-converter/`.
 5. Install all of the Node dependencies for the HTML Insights app with `npm install`.
-6. Run the HTML Insights app on `localhost:8080` with `npm start`. 
+6. Run the HTML Insights app on `localhost:3000` with `npm run dev`. 
 
 ### Building the Docker Image
 

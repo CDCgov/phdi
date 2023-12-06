@@ -3,5 +3,5 @@ FROM node:18-alpine
 WORKDIR /code
 COPY . .
 RUN npm install
-EXPOSE 8080
-CMD ["npm", "start"]
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
