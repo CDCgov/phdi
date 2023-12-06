@@ -280,7 +280,7 @@ class DataAccessLayer(object):
                     return_results[table.name] = {"primary_keys": new_primary_keys}
             statements = ";".join(statements)
             print(statements)
-            session.execute(statements)
+            session.execute(text(statements))
         return return_results
 
     def select_results(
