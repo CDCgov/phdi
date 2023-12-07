@@ -122,7 +122,7 @@ async def call_apis(
                 # Write service responses into websocket message
                 progress_dict[endpoint_name] = {
                     "status_code": response.status_code,
-                    "Message": response.reason,
+                    "response": response.json(),
                 }
 
                 await websocket.send_text(json.dumps(progress_dict))
