@@ -610,10 +610,12 @@ def link_record_against_mpi(
         logging.info(
             f"Starting get_block_data at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
-        data_block = mpi_client.get_block_data(blocking_criteria)
+        raw_data_block = mpi_client.get_block_data(blocking_criteria)
         logging.info(
             f"Done with get_block_data at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
+
+        data_block = aggregate_given_names_for_linkage(raw_data_block)
 
         # First row of returned block is column headers
         # Map column name to idx, not including patient/person IDs
@@ -1537,3 +1539,51 @@ def add_person_resource(
     bundle.get("entry", []).append(person_resource)
 
     return bundle
+
+
+def aggregate_given_names_for_linkage(data: list[list]):
+    """
+    Aggregates the given names in the return block data into appropriate format for
+    record linkage, i.e., one row of data for each patient with all of the given names
+    in a space-delimited string, e.g., John Tiberius
+
+    :param data: List of lists block data.
+    :return: List of lists with aggregated given names.
+    """
+    # Convert LoL to pandas dataframe
+    raw_data = pd.DataFrame(data[1:], columns=data[0])
+
+    # Aggregate given names
+    given_names = (
+        raw_data.sort_values(["name_id", "given_name_index"])
+        .groupby(["name_id"])["given_name"]
+        .apply(lambda x: " ".join(x))
+        .reset_index()
+    )
+    given_names.rename(columns={"given_name": "first_name"}, inplace=True)
+
+    # Merge aggregated given names into original data
+    df = raw_data.merge(given_names, on="name_id")
+
+    # Return only necessary columns
+    # TODO: remove hard coding of necessary columns
+    necessary_columns = [
+        "patient_id",
+        "person_id",
+        "birthdate",
+        "sex",
+        "mrn",
+        "last_name",
+        "first_name",
+        "address",
+        "zip",
+        "city",
+        "state",
+    ]
+    df = df[necessary_columns]
+    df = df.drop_duplicates()
+
+    # Convert dataframe to list of lists for record linkage
+    lol = df.values.tolist()
+    lol.insert(0, necessary_columns)
+    return lol
