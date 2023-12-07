@@ -116,7 +116,6 @@ async def call_apis(
                     "response": response.json(),
                 }
                 await websocket.send_text(json.dumps(progress_dict))
-                await websocket.close()
                 break
 
             if websocket:
