@@ -24,6 +24,7 @@ from phdi.linkage.link import (
     read_linkage_config,
     link_record_against_mpi,
     add_person_resource,
+    aggregate_given_names_for_linkage,
 )
 
 from phdi.linkage.core import BaseMPIConnectorClient
@@ -64,4 +65,5 @@ __all__ = [
     "convert_to_patient_fhir_resources",
     "DIBBsMPIConnectorClient",
     "datetime_to_str",
+    "aggregate_given_names_for_linkage",
 ]
