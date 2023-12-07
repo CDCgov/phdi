@@ -174,19 +174,23 @@ def test_block_data_failures():
 def test_get_base_query():
     MPI: DIBBsMPIConnectorClient = _init_db()
     base_query = MPI._get_base_query()
-    expected_query = """ 
-        SELECT 
-          patient.patient_id, patient.person_id, patient.dob AS birthdate, 
-          patient.sex, ident_subq.mrn, name.last_name, given_name.given_name, 
-          given_name.given_name_index, given_name.name_id, address.line_1 AS address, 
+    expected_query = """
+        SELECT
+          patient.patient_id, patient.person_id, patient.dob AS birthdate,
+          patient.sex, ident_subq.mrn, name.last_name, given_name.given_name,
+          given_name.given_name_index, given_name.name_id, address.line_1 AS address,
           address.zip_code AS zip, address.city, address.state
-        FROM 
-          patient 
-          LEFT OUTER JOIN (SELECT identifier.patient_identifier AS mrn, identifier.patient_id AS patient_id
-        FROM 
+        FROM
+          patient
+          LEFT OUTER JOIN (
+            SELECT
+              identifier.patient_identifier AS mrn,
+              identifier.patient_id AS patient_id
+        FROM
           identifier
         WHERE 
-          identifier.type_code = :type_code_1) AS ident_subq ON patient.patient_id = ident_subq.patient_id 
+          identifier.type_code = :type_code_1) AS ident_subq 
+          ON patient.patient_id = ident_subq.patient_id 
           LEFT OUTER JOIN name ON patient.patient_id = name.patient_id 
           LEFT OUTER JOIN given_name ON name.name_id = given_name.name_id 
           LEFT OUTER JOIN address ON patient.patient_id = address.patient_id
