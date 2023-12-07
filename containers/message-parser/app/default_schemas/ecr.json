@@ -1,388 +1,388 @@
 {
-   "patient_id": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Patient').id",
-      "data_type": "string",
-      "nullable": false
-   },
-   "person_id": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Person').id",
-      "data_type": "string",
-      "nullable": false
-   },
-   "last_name": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
-      "data_type": "string",
-      "nullable": true
-   },
-   "first_name": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
-      "data_type": "string",
-      "nullable": true
-   },
-   "birth_date": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').birthDate",
-      "data_type": "date",
-      "nullable": true
-   },
-   "gender": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').gender",
-      "data_type": "string",
-      "nullable": true
-   },
-   "race": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "ethnicity": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "street_address1": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[0]",
-      "data_type": "string",
-      "nullable": true
-   },
-   "street_address2": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[1]",
-      "data_type": "string",
-      "nullable": true
-   },
-   "city": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.city",
-      "data_type": "string",
-      "nullable": true
-  },   
-   "state": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.state",
-      "data_type": "string",
-      "nullable": true
-   },
-   "zip": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.postalCode",
-      "data_type": "string",
-      "nullable": true
-   },
-   "latitude": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
-      "data_type": "float",
-      "nullable": true
-   },
-   "longitude": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
-      "data_type": "float",
-      "nullable": true
-   },
-   "email": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')",
-      "data_type": "string",
-      "nullable": true
-  },
-  "phone": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'phone')",
-      "data_type": "string",
-      "nullable": true
-  },   
-   "rr_id": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
-      "data_type": "string",
-      "nullable": true
-   },
-   "status": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension').valueCodeableConcept.coding.where(system='urn:oid:2.16.840.1.114222.4.5.274').code",
-      "data_type": "string",
-      "nullable": true
-   },
-   "conditions": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='64572001' and code.coding.first().system='http://snomed.info/sct').valueCodeableConcept.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "eicr_set_id": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').identifier.where(type.coding.code = '55751-2').where(use='official').value",
-      "data_type": "string",
-      "nullable": true
-   },
-   "eicr_id": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').id",
-      "data_type": "string",
-      "nullable": false
-   },
-   "eicr_version_number": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition' ).extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
-      "data_type": "string",
-      "nullable": false
-   },
-   "replaced_eicr_id": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').targetReference.reference",
-      "data_type": "string",
-      "nullable": true
-   },
-   "replaced_eicr_version": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
-      "data_type": "string",
-      "nullable": true
-   },
-   "authoring_datetime": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Composition').date",
-      "data_type": "datetime",
-      "nullable": true
-   },
-   "provider_id": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Practitioner').where(extension.valueString='Responsible Party').identifier.value",
-      "data_type": "string",
-      "nullable": true
-   },
-   "facility_id_number": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].id",
-      "data_type": "string",
-      "nullable": true
-   },
-   "facility_name": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "facility_type": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].extension.where(url = 'http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type').valueCodeableConcept.coding[0].display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "encounter_type": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Encounter')[0].class.where(system = 'urn:oid:2.16.840.1.113883.5.4').display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "encounter_start_date": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter').period.start",
-      "data_type": "datetime",
-      "nullable": true
-   },
-   "encounter_end_date": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter').period.end",
-      "data_type": "datetime",
-      "nullable": true
-   },
-   "reason_for_visit": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition' ).section.where(code.coding.code='29299-5').extension.where(url='http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12').valueString",
-      "data_type": "string",
-      "nullable": true
-   },
-   "active_problems": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list')",
-      "data_type": "array",
-      "nullable": true,
-      "secondary_schema": {
-         "problem": {
-            "fhir_path": "Condition.code.coding.display",
-            "data_type": "string",
-            "nullable": true
-         },
-         "problem_date": {
-            "fhir_path": "Condition.onsetDateTime",
-            "data_type": "datetime",
-            "nullable": true
-         }
-      }
-   },
-   "labs": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')",
-      "data_type": "array",
-      "nullable": true,
-      "secondary_schema": {
-         "test_type": {
-            "fhir_path": "Observation.code.coding.display",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_type_code": {
-            "fhir_path": "Observation.code.coding.code",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_type_system": {
-            "fhir_path": "Observation.code.coding.system",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_qualitative": {
-            "fhir_path": "Observation.valueString",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_quantitative": {
-            "fhir_path": "Observation.valueQuantity.value",
-            "data_type": "float",
-            "nullable": true
-         },
-         "test_result_units": {
-            "fhir_path": "Observation.valueQuantity.unit",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_code": {
-            "fhir_path": "Observation.valueCodeableConcept.coding.code",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_code_display": {
-            "fhir_path": "Observation.valueCodeableConcept.coding.display",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_code_system": {
-            "fhir_path": "Observation.valueCodeableConcept.coding.system",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_interp": {
-            "fhir_path": "Observation.interpretation.coding.display",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_interp_code": {
-            "fhir_path": "Observation.interpretation.coding.code",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_interp_system": {
-            "fhir_path": "Observation.interpretation.coding.system",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_ref_range_low": {
-            "fhir_path": "Observation.refereneceRange.low.value",
-            "data_type": "float",
-            "nullable": true
-         },
-         "test_result_ref_range_low_units": {
-            "fhir_path": "Observation.refereneceRange.low.unit",
-            "data_type": "string",
-            "nullable": true
-         },
-         "test_result_ref_range_high": {
-            "fhir_path": "Observation.refereneceRange.high.value",
-            "data_type": "float",
-            "nullable": true
-         },
-         "test_result_ref_range_high_units": {
-            "fhir_path": "Observation.refereneceRange.high.unit",
-            "data_type": "string",
-            "nullable": true
-         },
-         "specimen_type": {
-            "fhir_path": "Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen source').valueString",
-            "data_type": "string",
-            "nullable": true
-         },
-         "performing_lab": {
-            "fhir_path": "Observation.performer.display",
-            "data_type": "string",
-            "nullable": true
-         },
-         "specimen_collection_date": {
-            "fhir_path": "Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
-            "data_type": "datetime",
-            "nullable": true
-         }
-      }
-   },
-   "birth_sex": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').extension.value.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "gender_identity": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "sexual_orientation": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //http://hl7.org/fhir/us/cdmh/StructureDefinition/cdmh-patient-sexualOrientation').description",
-      "data_type": "string",
-      "nullable": true
-   },
-   "homelessness_status": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='75274-1').where(category.coding.code='social-history').valueCodeableConcept.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "disabilities": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-disability-status').where(category.coding.code='social-history').where(valueBoolean).code.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "tribal_affiliation": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='TribeName').value.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "tribal_enrollment_status": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='EnrolledTribeMember').value",
-      "data_type": "string",
-      "nullable": true
-   },
-   "current_job_title": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http://hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob').where(effectivePeriod.end.exists().not()).valueCodeableConcept.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "current_job_industry": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob').where(effectivePeriod.end.exists().not()).component.where(code.coding.code='86188-0').value.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "usual_occupation": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork').valueCodeableConcept.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "usual_industry": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork').component.where(code.coding.code='21844-6').value.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "preferred_language": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').communication.where(preferred).language.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "pregnancy_status": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-pregnancy-status-observation').value.coding.display",
-      "data_type": "string",
-      "nullable": true
-   },
-   "travel_history": {
-      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history').component[0]valueCodeableConcept.text",
-      "data_type": "string",
-      "nullable": true
-  },
-  "tobacco_use": {
-     "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='72166-2').valueCodeableConcept.coding.display",
-     "data_type": "string",
-     "nullable": true
-  },
-  "alcohol_use": {
-     "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='74013-4')",
-     "data_type": "array",
-     "nullable": true,
-     "secondary_schema": {
-      "alcohol_use_value": {
-         "fhir_path": "Observation.valueQuanity.value",
-         "data_type": "float",
-         "nullable": true
-      },
-      "alcohol_use_system": {
-         "fhir_path": "Observation.valueQuanity.system",
-         "data_type": "string",
-         "nullable": true
-      },
-      "alcohol_use_code": {
-         "fhir_path": "Observation.valueQuanity.code",
-         "data_type": "string",
-         "nullable": true
-      }
-   }     
-  }      
+    "patient_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Patient').id",
+        "data_type": "string",
+        "nullable": false,
+    },
+    "person_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Person').id",
+        "data_type": "string",
+        "nullable": false,
+    },
+    "last_name": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "first_name": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "birth_date": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').birthDate",
+        "data_type": "date",
+        "nullable": true,
+    },
+    "gender": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').gender",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "race": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.valueCoding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "ethnicity": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "street_address1": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[0]",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "street_address2": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.line[1]",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "city": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.city",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "state": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.state",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "zip": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.postalCode",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "latitude": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='latitude').valueDecimal",
+        "data_type": "float",
+        "nullable": true,
+    },
+    "longitude": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.extension.where(url='http://hl7.org/fhir/StructureDefinition/geolocation').extension.where(url='longitude').valueDecimal",
+        "data_type": "float",
+        "nullable": true,
+    },
+    "email": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "phone": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'phone')",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "rr_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "status": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension').valueCodeableConcept.coding.where(system='urn:oid:2.16.840.1.114222.4.5.274').code",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "conditions": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='64572001' and code.coding.first().system='http://snomed.info/sct').valueCodeableConcept.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "eicr_set_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').identifier.where(type.coding.code = '55751-2').where(use='official').value",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "eicr_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').id",
+        "data_type": "string",
+        "nullable": false,
+    },
+    "eicr_version_number": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition' ).extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
+        "data_type": "string",
+        "nullable": false,
+    },
+    "replaced_eicr_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').targetReference.reference",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "replaced_eicr_version": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition').relatesTo.where(code='replaces').extension.where(url='http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber').valueString",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "authoring_datetime": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Composition').date",
+        "data_type": "datetime",
+        "nullable": true,
+    },
+    "provider_id": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Practitioner').where(extension.valueString='Responsible Party').identifier.value",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "facility_id_number": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].id",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "facility_name": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "facility_type": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].extension.where(url = 'http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type').valueCodeableConcept.coding[0].display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "encounter_type": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Encounter')[0].class.where(system = 'urn:oid:2.16.840.1.113883.5.4').display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "encounter_start_date": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter').period.start",
+        "data_type": "datetime",
+        "nullable": true,
+    },
+    "encounter_end_date": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Encounter').period.end",
+        "data_type": "datetime",
+        "nullable": true,
+    },
+    "reason_for_visit": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType= 'Composition' ).section.where(code.coding.code='29299-5').extension.where(url='http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12').valueString",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "active_problems": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "problem": {
+                "fhir_path": "Condition.code.coding.display",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "problem_date": {
+                "fhir_path": "Condition.onsetDateTime",
+                "data_type": "datetime",
+                "nullable": true,
+            },
+        },
+    },
+    "labs": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "test_type": {
+                "fhir_path": "Observation.code.coding.display",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_type_code": {
+                "fhir_path": "Observation.code.coding.code",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_type_system": {
+                "fhir_path": "Observation.code.coding.system",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_qualitative": {
+                "fhir_path": "Observation.valueString",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_quantitative": {
+                "fhir_path": "Observation.valueQuantity.value",
+                "data_type": "float",
+                "nullable": true,
+            },
+            "test_result_units": {
+                "fhir_path": "Observation.valueQuantity.unit",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_code": {
+                "fhir_path": "Observation.valueCodeableConcept.coding.code",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_code_display": {
+                "fhir_path": "Observation.valueCodeableConcept.coding.display",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_code_system": {
+                "fhir_path": "Observation.valueCodeableConcept.coding.system",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_interp": {
+                "fhir_path": "Observation.interpretation.coding.display",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_interp_code": {
+                "fhir_path": "Observation.interpretation.coding.code",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_interp_system": {
+                "fhir_path": "Observation.interpretation.coding.system",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_ref_range_low": {
+                "fhir_path": "Observation.refereneceRange.low.value",
+                "data_type": "float",
+                "nullable": true,
+            },
+            "test_result_ref_range_low_units": {
+                "fhir_path": "Observation.refereneceRange.low.unit",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "test_result_ref_range_high": {
+                "fhir_path": "Observation.refereneceRange.high.value",
+                "data_type": "float",
+                "nullable": true,
+            },
+            "test_result_ref_range_high_units": {
+                "fhir_path": "Observation.refereneceRange.high.unit",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "specimen_type": {
+                "fhir_path": "Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen source').valueString",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "performing_lab": {
+                "fhir_path": "Observation.performer.display",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "specimen_collection_date": {
+                "fhir_path": "Observation.extension.where(url='http://hl7.org/fhir/R4/specimen.html').extension.where(url='specimen collection time').valueDateTime",
+                "data_type": "datetime",
+                "nullable": true,
+            },
+        },
+    },
+    "birth_sex": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').extension.value.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "gender_identity": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "sexual_orientation": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //http://hl7.org/fhir/us/cdmh/StructureDefinition/cdmh-patient-sexualOrientation').description",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "homelessness_status": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='75274-1').where(category.coding.code='social-history').valueCodeableConcept.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "disabilities": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-disability-status').where(category.coding.code='social-history').where(valueBoolean).code.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "tribal_affiliation": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='TribeName').value.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "tribal_enrollment_status": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-tribal-affiliation-extension').extension.where(url='EnrolledTribeMember').value",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "current_job_title": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http://hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob').where(effectivePeriod.end.exists().not()).valueCodeableConcept.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "current_job_industry": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-PastOrPresentJob').where(effectivePeriod.end.exists().not()).component.where(code.coding.code='86188-0').value.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "usual_occupation": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork').valueCodeableConcept.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "usual_industry": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/odh/StructureDefinition/odh-UsualWork').component.where(code.coding.code='21844-6').value.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "preferred_language": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').communication.where(preferred).language.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "pregnancy_status": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-pregnancy-status-observation').value.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "travel_history": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history').component[0]valueCodeableConcept.text",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "tobacco_use": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='72166-2').valueCodeableConcept.coding.display",
+        "data_type": "string",
+        "nullable": true,
+    },
+    "alcohol_use": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='74013-4')",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+            "alcohol_use_value": {
+                "fhir_path": "Observation.valueQuanity.value",
+                "data_type": "float",
+                "nullable": true,
+            },
+            "alcohol_use_system": {
+                "fhir_path": "Observation.valueQuanity.system",
+                "data_type": "string",
+                "nullable": true,
+            },
+            "alcohol_use_code": {
+                "fhir_path": "Observation.valueQuanity.code",
+                "data_type": "string",
+                "nullable": true,
+            },
+        },
+    },
 }
