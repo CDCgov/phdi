@@ -610,10 +610,12 @@ def link_record_against_mpi(
         logging.info(
             f"Starting get_block_data at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
-        data_block = mpi_client.get_block_data(blocking_criteria)
+        raw_data_block = mpi_client.get_block_data(blocking_criteria)
         logging.info(
             f"Done with get_block_data at: {datetime.datetime.now().strftime('%m-%d-%yT%H:%M:%S.%f')}"  # noqa
         )
+
+        data_block = aggregate_given_names_for_linkage(raw_data_block)
 
         # First row of returned block is column headers
         # Map column name to idx, not including patient/person IDs
