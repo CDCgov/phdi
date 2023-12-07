@@ -188,11 +188,11 @@ def test_get_base_query():
               identifier.patient_id AS patient_id
         FROM
           identifier
-        WHERE 
-          identifier.type_code = :type_code_1) AS ident_subq 
-          ON patient.patient_id = ident_subq.patient_id 
-          LEFT OUTER JOIN name ON patient.patient_id = name.patient_id 
-          LEFT OUTER JOIN given_name ON name.name_id = given_name.name_id 
+        WHERE
+          identifier.type_code = :type_code_1) AS ident_subq
+          ON patient.patient_id = ident_subq.patient_id
+          LEFT OUTER JOIN name ON patient.patient_id = name.patient_id
+          LEFT OUTER JOIN given_name ON name.name_id = given_name.name_id
           LEFT OUTER JOIN address ON patient.patient_id = address.patient_id
         """
     assert base_query is not None
