@@ -49,6 +49,11 @@
       "data_type": "string",
       "nullable": true
    },
+   "city": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.city",
+      "data_type": "string",
+      "nullable": true
+  },   
    "state": {
       "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').address.state",
       "data_type": "string",
@@ -69,6 +74,16 @@
       "data_type": "float",
       "nullable": true
    },
+   "email": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')",
+      "data_type": "string",
+      "nullable": true
+  },
+  "phone": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'phone')",
+      "data_type": "string",
+      "nullable": true
+  },   
    "rr_id": {
       "fhir_path": "Bundle.entry.resource.where(resourceType='Composition').section.where(title = 'Reportability Response Information Section').extension.where(url='http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition').valueIdentifier.where(use='official' and type.coding.code='88085-6').value",
       "data_type": "string",
@@ -283,6 +298,11 @@
       "data_type": "string",
       "nullable": true
    },
+   "sexual_orientation": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //http://hl7.org/fhir/us/cdmh/StructureDefinition/cdmh-patient-sexualOrientation').description",
+      "data_type": "string",
+      "nullable": true
+   },
    "homelessness_status": {
       "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='75274-1').where(category.coding.code='social-history').valueCodeableConcept.coding.display",
       "data_type": "string",
@@ -332,5 +352,37 @@
       "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-pregnancy-status-observation').value.coding.display",
       "data_type": "string",
       "nullable": true
-   }
+   },
+   "travel_history": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(meta.profile='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history').component[0]valueCodeableConcept.text",
+      "data_type": "string",
+      "nullable": true
+  },
+  "tobacco_use": {
+     "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='72166-2').valueCodeableConcept.coding.display",
+     "data_type": "string",
+     "nullable": true
+  },
+  "alcohol_use": {
+     "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='74013-4')",
+     "data_type": "array",
+     "nullable": true,
+     "secondary_schema": {
+      "alcohol_use_value": {
+         "fhir_path": "Observation.valueQuanity.value",
+         "data_type": "float",
+         "nullable": true
+      },
+      "alcohol_use_system": {
+         "fhir_path": "Observation.valueQuanity.system",
+         "data_type": "string",
+         "nullable": true
+      },
+      "alcohol_use_code": {
+         "fhir_path": "Observation.valueQuanity.code",
+         "data_type": "string",
+         "nullable": true
+      }
+   }     
+  }      
 }
