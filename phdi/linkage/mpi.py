@@ -1,6 +1,5 @@
 from typing import List, Dict, Literal
-from sqlalchemy import Select, and_, func, literal_column, select, text
-from sqlalchemy.dialects.postgresql import aggregate_order_by
+from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
