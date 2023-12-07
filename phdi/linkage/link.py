@@ -1558,7 +1558,7 @@ def aggregate_given_names_for_linkage(data: list[list]):
         .apply(lambda x: " ".join(x))
         .reset_index()
     )
-    raw_data.rename(columns={"given_name": "given_name_unaggregated"}, inplace=True)
+    given_names.rename(columns={"given_name": "first_name"}, inplace=True)
 
     # Merge aggregated given names into original data
     df = raw_data.merge(given_names, on="name_id")
@@ -1572,13 +1572,14 @@ def aggregate_given_names_for_linkage(data: list[list]):
         "sex",
         "mrn",
         "last_name",
-        "given_name",
+        "first_name",
         "address",
         "zip",
         "city",
         "state",
     ]
     df = df[necessary_columns]
+    df = df.drop_duplicates()
 
     # Convert dataframe to list of lists for record linkage
     lol = df.values.tolist()
