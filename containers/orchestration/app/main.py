@@ -5,15 +5,13 @@ from fastapi import (
     Body,
     UploadFile,
     Form,
-    Request,
     File,
     HTTPException,
     WebSocket,
     WebSocketDisconnect,
 )
-from typing import Annotated, Optional
+from typing import Annotated
 from pathlib import Path
-from zipfile import is_zipfile, ZipFile
 from app.utils import (
     load_processing_config,
     unzip_ws,
@@ -26,6 +24,7 @@ from app.models import (
     GetConfigResponse,
     ProcessingConfigModel,
     PutConfigResponse,
+    ProcessMessageRequest,
     ProcessMessageResponse,
     ListConfigsResponse,
 )
@@ -36,7 +35,6 @@ from app.constants import (
     sample_list_configs_response,
 )
 import json
-import io
 import os
 
 # Read settings immediately to fail fast in case there are invalid values.
@@ -75,22 +73,21 @@ async def process_message_endpoint_ws(
     await websocket.accept()
     try:
         while True:
-            file = await websocket.receive_bytes()
-
-            zipped_file = ZipFile(io.BytesIO(file), "r")
-            unzipped_file = unzip_ws(zipped_file)
+            file_bytes = await websocket.receive_bytes()
+            unzipped_data = unzip_ws(file_bytes)
 
             # Hardcoded message_type for MVP
-            input = {
-                "message_type": "eicr",
+            initial_input = {
+                "message_type": "ecr",
                 "include_error_types": "errors",
-                "message": unzipped_file,
+                "message": unzipped_data.get("ecr"),
+                "rr_data": unzipped_data.get("rr"),
             }
             processing_config = load_processing_config(
                 "sample-orchestration-config.json"
             )
             response, responses = await call_apis(
-                config=processing_config, input=input, websocket=websocket
+                config=processing_config, input=initial_input, websocket=websocket
             )
             if response.status_code == 200:
                 # Parse and work with the API response data (JSON, XML, etc.)
@@ -115,44 +112,67 @@ async def process_message_endpoint_ws(
         await websocket.close()
 
 
+# TODO: This method needs request validation on message_type and include_error_types
+# Should make them into Field values and validate with Pydantic
 @app.post("/process", status_code=200, responses=process_message_response_examples)
-async def process_message_endpoint(
-    request: Request,
-    message_type: Optional[str] = Form(None),
-    include_error_types: Optional[str] = Form(None),
-    upload_file: Optional[UploadFile] = File(None),
+async def process_endpoint(
+    message_type: str = Form(None),
+    include_error_types: str = Form(None),
+    upload_file: UploadFile = File(None),
 ) -> ProcessMessageResponse:
     """
-    Processes a message either as a message parameter or an uploaded zip file
-      through a series of microservices
+    Processes an uploaded zip file through a series of microservices.
     """
-    content = ""
 
-    if upload_file and is_zipfile(upload_file.file):
-        content = unzip_http(upload_file)
-    else:
-        try:
-            data = await request.json()
-            content = data["message"]
-            message_type = data["message_type"]
-            include_error_types = data["include_error_types"]
-        except json.JSONDecodeError as e:
-            raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
-        except KeyError as e:
-            error_message = str(e)
-            raise HTTPException(
-                status_code=400, detail=f"Missing JSON data: {error_message}"
-            )
+    if upload_file.content_type != "application/zip":
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Only .zip files are accepted at this time.",
+        )
 
+    zip_content = unzip_http(upload_file)
+
+    building_block_response = await process_http_request(
+        message_type, include_error_types, zip_content.get("ecr"), zip_content.get("rr")
+    )
+
+    return building_block_response
+
+
+@app.post(
+    "/process-message", status_code=200, responses=process_message_response_examples
+)
+async def process_message_endpoint(
+    request: ProcessMessageRequest,
+) -> ProcessMessageResponse:
+    """
+    Processes a message through a series of microservices.
+    """
+
+    process_request = dict(request)
+    building_block_response = await process_http_request(
+        process_request.get("message_type"),
+        process_request.get("include_error_types"),
+        process_request.get("message"),
+        process_request.get("rr_data"),
+    )
+
+    return building_block_response
+
+
+async def process_http_request(
+    message_type, include_error_types, ecr_content, rr_content
+):
     # Change below to grab from uploaded configs once we've got them
     processing_config = load_processing_config("sample-orchestration-config.json")
-    input = {
+    api_input = {
         "message_type": message_type,
         "include_error_types": include_error_types,
-        "message": content,
+        "message": ecr_content,
+        "rr_data": rr_content,
     }
 
-    response, responses = await call_apis(config=processing_config, input=input)
+    response, responses = await call_apis(config=processing_config, input=api_input)
 
     if response.status_code == 200:
         # Parse and work with the API response data (JSON, XML, etc.)

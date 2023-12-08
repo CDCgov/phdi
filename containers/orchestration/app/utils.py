@@ -1,9 +1,11 @@
 import json
 import pathlib
+from fastapi import UploadFile
 from functools import cache
 from pathlib import Path
 from typing import Dict
 from zipfile import ZipFile
+import io
 
 
 @cache
@@ -40,21 +42,46 @@ def read_json_from_assets(filename: str):
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
-def unzip_ws(zipped_file) -> Dict:
-    my_zipfile = zipped_file
-    if my_zipfile.namelist:
-        file_to_open = [
-            file for file in my_zipfile.namelist() if "CDA_eICR.xml" in file
-        ][0]
-    f = my_zipfile.open(file_to_open)
-    return f.read().decode("utf-8")
+def unzip_ws(file_bytes) -> Dict:
+    zipfile = ZipFile(io.BytesIO(file_bytes), "r")
+    if zipfile.namelist():
+        return search_for_ecr_data(zipfile)
+    else:
+        raise FileNotFoundError("This is not a valid .zip file.")
 
 
-def unzip_http(zipped_file) -> Dict:
-    my_zipfile = ZipFile(zipped_file.file)
-    file_to_open = [file for file in my_zipfile.namelist() if "CDA_eICR.xml" in file][0]
-    f = my_zipfile.open(file_to_open)
-    return f.read().decode("utf-8")
+def unzip_http(upload_file: UploadFile) -> Dict:
+    zipped_file = ZipFile(io.BytesIO(upload_file.file.read()), "r")
+    return search_for_ecr_data(zipped_file)
+
+
+def search_for_ecr_data(valid_zipfile: ZipFile) -> Dict:
+    return_data = {}
+
+    ecr_reference = search_for_file_in_zip("CDA_eICR.xml", valid_zipfile)
+    if ecr_reference is None:
+        raise IndexError("There is no eICR in this zip file.")
+
+    ecr = valid_zipfile.open(ecr_reference)
+    ecr_data = ecr.read().decode("utf-8")
+    return_data["ecr"] = ecr_data
+
+    # RR data is optionally present
+    rr_reference = search_for_file_in_zip("CDA_RR.xml", valid_zipfile)
+    if rr_reference:
+        rr = valid_zipfile.open(rr_reference)
+        rr_data = rr.read().decode("utf-8")
+        return_data["rr"] = rr_data
+
+    return return_data
+
+
+def search_for_file_in_zip(filename, zipfile):
+    results = [file for file in zipfile.namelist() if filename in file]
+    if results:
+        return results[0]
+    else:
+        return None
 
 
 def load_config_assets(upload_config_response_examples, PutConfigResponse) -> Dict:
