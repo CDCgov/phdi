@@ -8,7 +8,12 @@ services:
       - "5432:5432"
     volumes:
 #      - pgdata:/var/lib/postgresql/data
-      - ./seed-scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./seed-scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./seed-scripts/fhir_example.sh:/docker-entrypoint-initdb.d/02-fhir_example.sh
+      - ./seed-scripts/insert_fhir_bundle.sql:/usr/local/lib/insert_fhir_bundle.sql
+      - ./seed-scripts/output.sql:/usr/local/lib/output.sql
+      - ./seed-scripts/example_eicr_with_rr_data_with_person.json:/usr/local/lib/example_eicr_with_rr_data_with_person.json
+      - ./seed-scripts/.pgpass/:/usr/local/lib/.pgpass
     environment:
       - POSTGRES_USER=postgres
       - PGUSER=postgres

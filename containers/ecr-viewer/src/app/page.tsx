@@ -12,7 +12,7 @@ const HomePage = ({ data }) => {
     // Fetch the first row from the PostgreSQL database
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/data');
+        const response = await fetch('/api/data?id=345');
         const newData = await response.json();
         setFirstRow(newData);
       } catch (error) {

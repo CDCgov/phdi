@@ -3,39 +3,23 @@ import fs from "fs"
 import { searchObject } from "./utils";
 import pgPromise from "pg-promise";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const params = request.nextUrl.searchParams
+  const ecr_id = params.get("id") ? params.get("id") : null;
+  console.log(ecr_id)
   const db = require('pg-promise')();
   console.log("DATABASE_URL: ", process.env.DATABASE_URL)
   const database = db(process.env.DATABASE_URL);
-
+  
+  const {ParameterizedQuery: PQ} = require('pg-promise');
+  const findFhir = new PQ({text: 'SELECT * FROM fhir WHERE ecr_id = $1', values: [ecr_id]});
   try {
-    const data = await database.one('SELECT * FROM fhir LIMIT 1');
-    console.log("data parse success!")
-    console.log(data)
-    // res.status(200).json(data);
+    const data = await database.one(findFhir);
+    return NextResponse.json({ data: data, resourceType: "Bundle" }, { status: 200 });
   } catch (error) {
     console.error('Error fetching data:', error);
-    // res.status(500).json({ error: 'Internal Server Error' });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
-
-  return NextResponse.json({ data: data, resourceType: "Bundle" }, { status: 200 });
-
-  // const data = await request.formData()
-  // const file: File | null = data.get('file') as unknown as File;
-  // if(!file){
-  //   return NextResponse.json({error: "File is null"}, {status: 500})
-  // }
-  // const templatePath = './views/index.mustache';
-  // const templateString = fs.readFileSync(templatePath, 'utf8');
-  //
-  // const bytes = await file.arrayBuffer();
-  // const buffer = await Buffer.from(bytes);
-  // const dataJSON = JSON.parse(buffer.toString('utf8'));
-  // const parsed = templateString.replace(/{{(.*?)}}/g, (_, key) => {
-  //   return JSON.stringify(searchObject(dataJSON, key))
-  // });
-  //
-  // return NextResponse.json({ data: parsed, resourceType: "Bundle" }, { status: 200 });
   
 }
 
