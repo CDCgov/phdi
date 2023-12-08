@@ -1,43 +1,43 @@
 version: '3.8'
 
 services:
-  # Next.js app
-  nextjs-app:
-    container_name: ecr-viewer
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ecr-viewer-app:/app
-    environment:
-      - DATABASE_URL=postgres://username:password@postgres:5432/ecrviewer_db
-    depends_on:
-      - postgres
-      # - db-seed
-
   # PostgreSQL database
-  postgres:
-    image: postgres:14-alpine
+  db:
+    image: "postgres:alpine"
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+#      - pgdata:/var/lib/postgresql/data
       - ./seed-scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=ecr_user
-      - POSTGRES_DB=ecrviewer_db
-    
-# Database seeding
-  # db-seed:
-  #   container_name: db-seed
-  #   image: postgres:latest
-  #   restart: "no"
-  #   depends_on:
-  #     - postgres
-  #   volumes:
-  #     - ./seed-scripts:/docker-entrypoint-initdb.d
-volumes:
-  ecr-viewer-app:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+   # Next.js app
+#  nextjs-app:
+#    container_name: ecr-viewer
+#    build: .
+##      context: .
+##      dockerfile: Dockerfile
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ./src/app:/app
+#    environment:
+#      - DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db
+#    depends_on:
+#      db:
+#        condition: service_healthy
+
+#volumes:
+##  pgdata:
+#  ./src/app:
+
+
