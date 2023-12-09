@@ -3,6 +3,7 @@
 
 VALUE_FROM_FILE=$(cat ./example_eicr_with_rr_data_with_person.json)
 
-ESCAPED_TEXT=$(echo -e "$VALUE_FROM_FILE" | sed ':a;N;$!ba;s/\n/\\n/g')
+CLEAN_FHIR=$(echo "$VALUE_FROM_FILE" | jq -c .)
+NO_APOSTROPHE=$(echo $CLEAN_FHIR | tr -d "'")
 
-sed "s|{{VALUE1}}|$ESCAPED_TEXT|g" "./insert_fhir_bundle.sql" > "./output.sql"
+sed "s|{{VALUE1}}|$NO_APOSTROPHE|g" "./insert_fhir_bundle.sql" > "./output.sql"
