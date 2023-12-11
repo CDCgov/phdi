@@ -15,7 +15,7 @@ const EcrSummary = (
     const fhirPathMappings = parse(file);
     return (
         <div>
-            <h1>Quick eCR Summary</h1>
+            <h2>Quick eCR Summary</h2>
             <div
                 className="usa-summary-box padding-3"
                 aria-labelledby="summary-box-key-information"
