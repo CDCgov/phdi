@@ -22,6 +22,8 @@
     "testcontainers": "^10.2.1"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.1.2",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
