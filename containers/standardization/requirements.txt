@@ -1,4 +1,4 @@
-dibbs @ https://github.com/CDCgov/phdi/dibbs/dist/dibbs-0.0.1a0-py3-none-any.whl
+dibbs @ git+https://github.com/CDCgov/phdi/dibbs/dist/dibbs-0.0.1a0-py3-none-any.whl@stubbed-standardization-service
 fastapi==0.96.0
 httpx
 pydantic==1.10.9
