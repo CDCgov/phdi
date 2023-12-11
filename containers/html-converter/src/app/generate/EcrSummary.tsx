@@ -4,15 +4,13 @@ import {parse} from "yaml";
 import {Bundle} from "fhir/r4";
 
 interface EcrViewerProps {
-    fhirBundle: any
+    fhirPathMappings: any
+    fhirBundle: Bundle
 }
 
 const EcrSummary = (
-    // {fhirBundle}: EcrViewerProps
+    {fhirPathMappings, fhirBundle}: EcrViewerProps
 ) => {
-    const file = fs.readFileSync('./src/app/generate/fhirPath.yml', 'utf8').toString();
-    const fhirBundle: Bundle = JSON.parse(fs.readFileSync('./src/app/generate/exampleBundle.json', 'utf8').toString());
-    const fhirPathMappings = parse(file);
     return (
         <div>
             <h2>Quick eCR Summary</h2>
