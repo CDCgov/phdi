@@ -1,6 +1,5 @@
 from typing import List, Dict, Literal
-from sqlalchemy import Select, and_, func, literal_column, select, text
-from sqlalchemy.dialects.postgresql import aggregate_order_by
+from sqlalchemy import Select, and_, select, text
 from phdi.linkage.core import BaseMPIConnectorClient
 from phdi.linkage.utils import load_mpi_env_vars_os
 from phdi.linkage.dal import DataAccessLayer
@@ -395,20 +394,6 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
         :return: A single select statement queries all relevant
             blocking columns and tables from the MPI.
         """
-        given_name_subquery = (
-            select(
-                self.dal.GIVEN_NAME_TABLE.c.name_id.label("name_id"),
-                func.string_agg(
-                    self.dal.GIVEN_NAME_TABLE.c.given_name,
-                    aggregate_order_by(
-                        literal_column("' '"),
-                        self.dal.GIVEN_NAME_TABLE.c.given_name_index,
-                    ),
-                ).label("given_names"),
-            )
-            .group_by(self.dal.GIVEN_NAME_TABLE.c.name_id)
-            .subquery("gname_subq")
-        )
 
         id_sub_query = (
             select(
@@ -441,7 +426,9 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 self.dal.PATIENT_TABLE.c.sex,
                 id_sub_query.c.mrn,
                 self.dal.NAME_TABLE.c.last_name,
-                given_name_subquery.c.given_names.label("first_name"),
+                self.dal.GIVEN_NAME_TABLE.c.given_name,
+                self.dal.GIVEN_NAME_TABLE.c.given_name_index,
+                self.dal.GIVEN_NAME_TABLE.c.name_id,
                 # TODO: keeping this here for the time
                 # when we decide to add phone numbers into
                 # the blocking data
@@ -457,7 +444,7 @@ class DIBBsMPIConnectorClient(BaseMPIConnectorClient):
                 id_sub_query,
             )
             .outerjoin(self.dal.NAME_TABLE)
-            .outerjoin(given_name_subquery)
+            .outerjoin(self.dal.GIVEN_NAME_TABLE)
             # TODO: keeping this here for the time
             # when we decide to add phone numbers into
             # the blocking data
