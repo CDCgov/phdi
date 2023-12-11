@@ -7,12 +7,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-#      - pgdata:/var/lib/postgresql/data
       - ./seed-scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
-      - ./seed-scripts/fhir_example.sh:/docker-entrypoint-initdb.d/02-fhir_example.sh
-      - ./seed-scripts/seed-database.py:/usr/local/lib/seed-database.py
-      - ./seed-scripts/requirements.txt:/usr/local/lib/requirements.txt
-      - ./seed-scripts/example_eicr_with_rr_data_with_person.json:/usr/local/lib/example_eicr_with_rr_data_with_person.json
       - ./seed-scripts/.pgpass/:/usr/local/lib/.pgpass
     environment:
       - POSTGRES_USER=postgres
@@ -25,7 +20,23 @@ services:
       timeout: 5s
       retries: 20
 
-   # Next.js app
+  # Python seeding
+  seed-db:
+    build:
+      context: "./seed-scripts"
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+      - DATABASE_CONNECTION=db
+      - DATABASE_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+    # Next.js app
   nextjs-app:
     container_name: ecr-viewer
     build: .
@@ -36,13 +47,10 @@ services:
     volumes:
       - ./src/app:/app
     environment:
-      - DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db
+      - DATABASE_URL=postgres://postgres:pw@db:5432/ecr_viewer_db
     depends_on:
+      seed-db:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
-
-#volumes:
-##  pgdata:
-#  ./src/app:
-
 
