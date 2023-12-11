@@ -5,7 +5,7 @@ import os
 connection = psycopg2.connect(
     database=os.environ.get("POSTGRES_DB"),
     user=os.environ.get("POSTGRES_USER"),
-    password=os.environ.get("POSTGRES_PW"),
+    password=os.environ.get("POSTGRES_PASSWORD"),
     host=os.environ.get("DATABASE_CONNECTION"),
     port=os.environ.get("DATABASE_PORT"),
 )
