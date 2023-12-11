@@ -13,4 +13,4 @@ const EcrViewer = () =>{
     </div>
 }
 
-export default  EcrViewer;
+export default EcrViewer;
