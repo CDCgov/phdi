@@ -37,10 +37,6 @@
     {
       "service": "ingestion",
       "endpoint": "/fhir/harmonization/standardization/standardize_dob"
-    },
-    {
-      "service": "message_parser",
-      "endpoint": "/parse_message"
     }
   ]
 }

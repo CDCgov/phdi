@@ -1,40 +1,36 @@
 import psycopg2
 import json
-
-# import os
-
-print("we're running the seed")
+import os
 
 connection = psycopg2.connect(
-    database="ecr_viewer_db",
-    user="postgres",
-    password="pw",
-    host="localhost",
-    port=5432,
+    database=os.environ.get("POSTGRES_DB"),
+    user=os.environ.get("POSTGRES_USER"),
+    password=os.environ.get("POSTGRES_PW"),
+    host=os.environ.get("DATABASE_CONNECTION"),
+    port=os.environ.get("DATABASE_PORT"),
 )
-
-# connection = psycopg2.connect(
-#     database=os.environ.get("POSTGRES_DB"),
-#     user=os.environ.get("POSTGRES_USER"),
-#     password=os.environ.get("POSTGRES_PW"),
-#     host=os.environ.get("DATABASE_CONNECTION"),
-#     port=os.environ.get("DATABASE_PORT"),
-# )
 
 cursor = connection.cursor()
 
-with open("example_eicr_with_rr_data_with_person.json", "r") as file:
-    fhir_data = json.load(file)
+directory = "./fhir_data"
+data = {}
 
-uuid = fhir_data["entry"][0]["resource"]["id"]
-print(uuid)
+for filename in os.listdir(directory):
+    full_path = os.path.join(directory, filename)
+    if os.path.isfile(full_path):
+        print(full_path)  # This prints the file name
+        with open(full_path, "r") as file:
+            fhir_data = json.load(file)
+            uuid = fhir_data["entry"][0]["resource"]["id"]
+            data[uuid] = fhir_data
 
 try:
     query = (
         "INSERT INTO fhir (ecr_id, data) VALUES (%s, %s) ON CONFLICT (ecr_id) DO "
         "NOTHING"
     )
-    cursor.execute(query, (uuid, json.dumps(fhir_data)))
+    for uuid, fhir_data in data.items():
+        cursor.execute(query, (uuid, json.dumps(fhir_data)))
     connection.commit()
     print("Data inserted successfully")
 except psycopg2.Error as e:
