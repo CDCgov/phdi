@@ -15,6 +15,13 @@
         "overwrite": "true",
         "dob_format": ""
       }
+    },
+    "message_parser": {
+      "message_format": "fhir",
+      "parsing_schema": "",
+      "parsing_schema_name": "ecr.json",
+      "credential_manager": "azure",
+      "url": "http://localhost:8085"
     }
   },
   "steps": [
@@ -37,6 +44,10 @@
     {
       "service": "ingestion",
       "endpoint": "/fhir/harmonization/standardization/standardize_dob"
+    },
+    {
+      "service": "message_parser",
+      "endpoint": "/parse_message"
     }
   ]
 }

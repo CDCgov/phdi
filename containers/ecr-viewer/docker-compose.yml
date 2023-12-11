@@ -26,7 +26,6 @@ services:
       context: "./seed-scripts"
     environment:
       - POSTGRES_USER=postgres
-      - PGUSER=postgres
       - POSTGRES_PASSWORD=pw
       - POSTGRES_DB=ecr_viewer_db
       - DATABASE_CONNECTION=db
@@ -40,8 +39,6 @@ services:
   nextjs-app:
     container_name: ecr-viewer
     build: .
-#      context: .
-#      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
