@@ -7,7 +7,7 @@ interface EcrViewerProps {
     fhirBundle: any
 }
 
-const EcrViewer = (
+const EcrSummary = (
     // {fhirBundle}: EcrViewerProps
 ) => {
     const file = fs.readFileSync('./src/app/generate/fhirPath.yml', 'utf8').toString();
@@ -62,4 +62,4 @@ const EcrViewer = (
         </div>);
 };
 
-export default EcrViewer;
+export default EcrSummary;
