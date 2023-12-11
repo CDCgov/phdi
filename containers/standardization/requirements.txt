@@ -1,6 +1,6 @@
-dibbs @ git+https://github.com/CDCgov/phdi/dibbs/dist/dibbs-0.0.1a0-py3-none-any.whl@stubbed-standardization-service
 fastapi==0.96.0
 httpx
+phdi @ git+https://github.com/CDCgov/phdi@main
 pydantic==1.10.9
 typing_extensions==4.6.3
 uvicorn
