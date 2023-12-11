@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from phdi.containers.base_service import BaseService
+from dibbs.containers.base_service import BaseService
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
