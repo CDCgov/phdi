@@ -9,9 +9,6 @@ interface EcrViewerProps {
 const EcrSummary = (
     {fhirPathMappings, fhirBundle}: EcrViewerProps
 ) => {
-    console.log("BOOYAH:", fhirBundle);
-    console.log("GIVENNAME: ", fhirPathMappings.patientGivenName);
-    console.log("EVAL: ", evaluate(fhirBundle, fhirPathMappings.patientGivenName))
     return (
         <div>
             <h2>Quick eCR Summary</h2>
