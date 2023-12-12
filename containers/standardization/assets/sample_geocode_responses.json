@@ -1,0 +1,121 @@
+{
+  "description": "Success",
+  "content": {
+    "application/json": {
+      "examples": {
+        "smarty": {
+          "summary": "Smarty Geocode Response",
+          "value": {
+            "status_code": "200",
+            "message": null,
+            "bundle": {
+              "resourceType": "Bundle",
+              "entry": [
+                {
+                  "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                      {
+                        "family": "DOE",
+                        "given": [
+                          "JANE"
+                        ]
+                      }
+                    ],
+                    "address": [
+                      {
+                        "line": [
+                          "1600 Pennsylvania Ave NW"
+                        ],
+                        "city": "Washington",
+                        "state": "DC",
+                        "postalCode": "20500",
+                        "country": "USA",
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
+                            "extension": [
+                              {
+                                "url": "latitude",
+                                "valueDecimal": 38.897606
+                              },
+                              {
+                                "url": "longitude",
+                                "valueDecimal": -77.036674
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "census": {
+          "summary": "Census Geocode Response",
+          "value": {
+            "status_code": "200",
+            "message": null,
+            "bundle": {
+              "resourceType": "Bundle",
+              "entry": [
+                {
+                  "resource": {
+                    "resourceType": "Patient",
+                    "name": [
+                      {
+                        "family": "DOE",
+                        "given": [
+                          "JANE"
+                        ]
+                      }
+                    ],
+                    "address": [
+                      {
+                        "line": [
+                          "1600 Pennsylvania Av NW"
+                        ],
+                        "city": "WASHINGTON",
+                        "state": "DC",
+                        "postalCode": "20500",
+                        "country": "USA",
+                        "extension": [
+                          {
+                            "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
+                            "extension": [
+                              {
+                                "url": "latitude",
+                                "valueDecimal": 38.898752686023606
+                              },
+                              {
+                                "url": "longitude",
+                                "valueDecimal": -77.03534431753657
+                              }
+                            ]
+                          }
+                        ],
+                        "_line": [
+                          {
+                            "extension": [
+                              {
+                                "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
+                                "valueString": "9800"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
