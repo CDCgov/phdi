@@ -11,7 +11,7 @@ $ASSET_PREFIX: "";
   $theme-banner-max-width: "widescreen",
   $theme-checkbox-border-radius: "md",
   /* these are referenced from the root of the /public directory */
-    $theme-font-path: "#{$ASSET_PREFIX}/uswds/fonts",
+  $theme-font-path: "#{$ASSET_PREFIX}/uswds/fonts",
   $theme-image-path: "#{$ASSET_PREFIX}/uswds/img",
   $theme-hero-image: "#{$ASSET_PREFIX}/uswds/img/hero.webp"
 );

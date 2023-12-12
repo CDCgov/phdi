@@ -7,8 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint:check": "next lint && prettier . --check",
-    "lint:write": "next lint --fix && prettier . --write",
+    "lint": "next lint",
     "test:unit": "jest --watch",
     "test:integration": "mocha --timeout 600000 tests/integration/test_html-converter.js"
   },
@@ -38,7 +37,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "mocha": "^10.2.0",
     "postcss": "^8",
-    "prettier": "3.1.1",
     "sass": "^1.69.5",
     "tailwindcss": "^3.3.0",
     "testcontainers": "^10.3.2",
