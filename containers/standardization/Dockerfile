@@ -1,9 +1,9 @@
 FROM python:3.10-slim
 
 WORKDIR /code
-RUN apt update && \
-  apt upgrade -y && \
-  apt install -y git
+RUN apt-get update && apt-get upgrade -y \
+  git \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
