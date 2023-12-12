@@ -1,6 +1,4 @@
 import {evaluate} from "fhirpath";
-import fs from "fs";
-import {parse} from "yaml";
 import {Bundle} from "fhir/r4";
 
 interface EcrViewerProps {

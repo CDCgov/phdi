@@ -9,6 +9,7 @@ import {fhirPathMappings} from "../../../utils/fhirMappings";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle | null>(null);
+  const [mappings, setMappings] = useState(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
 
@@ -24,10 +25,10 @@ const ECRViewerPage = () => {
       }
     };
     fetchData();
+    
+    //Load fhirPath mapping data
+    fhirPathMappings.then(val => {setMappings(val)})
   }, []);
-
-  console.log("FHIR path mappings: ", fhirPathMappings)
-  const mappings = fhirPathMappings.then(val => {return val})
 
     if (fhirBundle && mappings) {
       return <div>
