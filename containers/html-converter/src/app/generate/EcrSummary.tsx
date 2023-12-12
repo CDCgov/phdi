@@ -49,29 +49,26 @@ const EcrSummary = (
                 aria-labelledby="summary-box-key-information"
             >
                 <div className="usa-summary-box__body">
-                    <h3
-                        className="usa-summary-box__heading padding-top-105 padding-bottom-1"
-                        id="summary-box-key-information"
-                    >
+                    <h3 id="summary-box-key-information">
                         About the Patient
                     </h3>
                     <div className="usa-summary-box__text">
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Patient Name</div>
+                            <div className="grid-col-2"><h4>Patient Name</h4></div>
                             <div className="grid-col-auto">
                                 {patientName(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Patient Address</div>
+                            <div className="grid-col-2"><h4>Patient Address</h4></div>
                             <div className="grid-col-auto text-pre-line">
                                 {patientAddress(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
                         <div className="grid-row">
-                        <div className="grid-col-2 text-bold">Patient Contact</div>
+                            <div className="grid-col-2"><h4>Patient Contact</h4></div>
                             <div className="grid-col-auto text-pre-line">
                                 {patientContactInfo(fhirBundle, fhirPathMappings)}
                             </div>
