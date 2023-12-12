@@ -1,24 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs"
-import { searchObject } from "./utils";
 import pgPromise from "pg-promise";
-
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams
   const ecr_id = params.get("id") ? params.get("id") : null;
-  console.log(ecr_id)
-  const db = require('pg-promise')();
-  console.log("DATABASE_URL: ", process.env.DATABASE_URL)
-  const database = db(process.env.DATABASE_URL);
+  const db_url = process.env.DATABASE_URL || "";
+  const db = pgPromise();
+  const database = db(db_url);
   
-  const {ParameterizedQuery: PQ} = require('pg-promise');
+  const {ParameterizedQuery: PQ} = pgPromise;
   const findFhir = new PQ({text: 'SELECT * FROM fhir WHERE ecr_id = $1', values: [ecr_id]});
   try {
-    const data = await database.one(findFhir);
-    return NextResponse.json({ data: data, resourceType: "Bundle" }, { status: 200 });
-  } catch (error) {
+    const entry = await database.one(findFhir);
+    return NextResponse.json({ fhirBundle: entry.data }, { status: 200 });
+  } catch (error: any) {
     console.error('Error fetching data:', error);
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
   
 }
