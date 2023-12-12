@@ -36,10 +36,7 @@
         "name": [
           {
             "family": "Shepard",
-            "given": [
-              "John",
-              "Tiberius"
-            ],
+            "given": ["John", "Tiberius"],
             "use": "official"
           }
         ],
@@ -47,10 +44,7 @@
         "gender": "male",
         "address": [
           {
-            "line": [
-              "1234 Silversun Strip",
-              "apt 2"
-            ],
+            "line": ["1234 Silversun Strip", "apt 2"],
             "buildingNumber": "1234",
             "city": "Boston",
             "state": "Massachusetts",
