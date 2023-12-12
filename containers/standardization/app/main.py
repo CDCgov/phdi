@@ -1,10 +1,9 @@
 from pathlib import Path
 
 from phdi.containers.base_service import BaseService
-from pydantic import BaseModel, Field
 
 from app.config import get_settings
-
+from app.models import HealthCheckResponse
 
 # read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -16,33 +15,9 @@ get_settings()
 #   library with only util functions that are building block agnostic and provide
 #   true utility to our services
 app = BaseService(
-    service_name="DIBBs Ingestion Service",
+    service_name="DIBBs Standardization Service",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
-
-
-class StandardizeInput(BaseModel):
-    """
-    A request model for the standardize endpoint.
-    """
-
-    unstandardized: str
-
-
-class StandardizeResponse(BaseModel):
-    """
-    A response model for the standardize endpoint.
-    """
-
-    standardized: str
-
-
-class HealthCheckResponse(BaseModel):
-    """
-    The schema for response from the Standardization health check endpoint.
-    """
-
-    status: str = Field(description="Returns status of this service")
 
 
 @app.get("/")
