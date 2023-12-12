@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EcrSummary should match snapshot 1`] = `
+<div>
+  <div>
+    <h2>
+      Quick eCR Summary
+    </h2>
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="usa-summary-box padding-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="usa-summary-box__heading padding-top-105 padding-bottom-1"
+          id="summary-box-key-information"
+        >
+          About the Patient
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div
+            class="grid-row"
+          >
+            <div
+              class="grid-col-2 text-bold"
+            >
+              Patient Name
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              John Tiberius Shepard
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="grid-col-2 text-bold"
+            >
+              Patient Address
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              1234 Silversun Strip
+apt 2
+    Boston Massachusetts
+    99999, USA
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="grid-col-2 text-bold"
+            >
+              Patient Contact
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              tel: (mobile) 1 555 234 5678
+tel: (home) 1 555 567 8901
+    email: p.heuvel@example.com
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
