@@ -1,9 +1,12 @@
 const {expect} = require('chai');
 const axios = require('axios');
+const FormData = require('form-data');
+const path = require("path");
+const fs = require('fs');
 const {DockerComposeEnvironment} = require('testcontainers');
 
 const ECR_VIEWER_URL = 'http://0.0.0.0:3000';
-const ECR_VIEWER = ECR_VIEWER_URL + '/view-data';
+const ECR_VIEWER_VIEW_DATA = ECR_VIEWER_URL + '/view-data';
 
 // Define a function to set up the containers.
 async function setup() {
@@ -41,30 +44,13 @@ describe('Integration tests', () => {
     });
 
     it('should perform a health check', async () => {
-        const response = await axios.get(ECR_VIEWER);
+        const response = await axios.get(ECR_VIEWER_URL);
         expect(response.status).to.equal(200);
     });
 
-    it('loads from the postgress db', async () => {
-        const response = await axios.get(
-          `${HTML_INSIGHTS_URL}/view-data?id=1dd10047-2207-4eac-a993-0f706c88be5d`
-        );
-        expect(response.status).to.equal(200)
-        expect(response.data).to.include("")
-    })
-
-    // it('performs a .json post', async () => {
-    //     const formData = new FormData();
-    //     const jsonData = fs.createReadStream(path.resolve(__dirname, "./single_patient_bundle.json"));
-    //     formData.append('file', jsonData);
-
-    //     const response = await axios.post(HTML_INSIGHTS, formData, {
-    //         headers: {
-    //             ...formData.getHeaders(),
-    //         },
-    //     });
-    //     expect(response.data.resourceType).equals("Bundle");
-    //     expect(response.status).equals(200);
-    // });
+    it('loads an ECR', async () => {
+        const response = await axios.get(ECR_VIEWER_VIEW_DATA + "?id=1dd10047-2207-4eac-a993-0f706c88be5d")
+        expect(response.status).equals(200);
+    });
 
 });
