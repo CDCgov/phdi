@@ -1,6 +1,6 @@
 {
-  "name": "html-converter",
-  "description": "The PHDI HTML Insights app offers a REST API for processing FHIR messages into an HTML page with key insights.",
+  "name": "ecr-viewer",
+  "description": "The DIBBs eCR Viewer app offers a REST API for processing FHIR messages into an HTML page with key insights.",
   "version": "1.0.1",
   "private": true,
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "mocha --timeout 600000 tests/integration/test_html-converter.js"
+    "test": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js"
   },
   "dependencies": {
     "@types/fhir": "^0.0.40",
@@ -17,6 +17,7 @@
     "chai": "^4.3.8",
     "fhirpath": "^3.9.0",
     "next": "14.0.3",
+    "pg-promise": "^11.5.4",
     "react": "^18",
     "react-dom": "^18",
     "testcontainers": "^10.2.1"
