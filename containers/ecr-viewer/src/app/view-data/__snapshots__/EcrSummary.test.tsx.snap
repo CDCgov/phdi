@@ -2,10 +2,9 @@
 
 exports[`EcrSummary should match snapshot 1`] = `
 <div>
-  <div>
-    <h2>
-      Quick eCR Summary
-    </h2>
+  <div
+    class="info-container"
+  >
     <div
       aria-labelledby="summary-box-key-information"
       class="usa-summary-box padding-3"
@@ -25,7 +24,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="grid-row"
           >
             <div
-              class="grid-col-2"
+              class="data-title"
             >
               <h4>
                 Patient Name
@@ -44,7 +43,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="grid-row"
           >
             <div
-              class="grid-col-2"
+              class="data-title"
             >
               <h4>
                 Patient Address
@@ -54,8 +53,8 @@ exports[`EcrSummary should match snapshot 1`] = `
               class="grid-col-auto text-pre-line"
             >
               1050 CARPENTER ST
-    EDWARDS CA
-    93523-2800, USA
+    EDWARDS, CA
+    93523-2800, US
             </div>
           </div>
           <div
@@ -65,7 +64,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="grid-row"
           >
             <div
-              class="grid-col-2"
+              class="data-title"
             >
               <h4>
                 Patient Contact
@@ -74,8 +73,8 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="grid-col-auto text-pre-line"
             >
-              tel: (home) +18184195968
-    email: MELLY.C.A.16@GMAIL.COM
+              Home +18184195968
+    MELLY.C.A.16@GMAIL.COM
             </div>
           </div>
           <div
