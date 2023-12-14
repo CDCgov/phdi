@@ -42,8 +42,7 @@ const EcrSummary = (
     {fhirPathMappings, fhirBundle}: EcrViewerProps
 ) => {
     return (
-        <div>
-            <h2>Quick eCR Summary</h2>
+        <div className={"info-container"}>
             <div
                 className="usa-summary-box padding-3"
                 aria-labelledby="summary-box-key-information"
@@ -54,21 +53,21 @@ const EcrSummary = (
                     </h3>
                     <div className="usa-summary-box__text">
                         <div className="grid-row">
-                            <div className="grid-col-2"><h4>Patient Name</h4></div>
+                            <div className="data-title"><h4>Patient Name</h4></div>
                             <div className="grid-col-auto">
                                 {patientName(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"} />
                         <div className="grid-row">
-                            <div className="grid-col-2"><h4>Patient Address</h4></div>
+                            <div className="data-title"><h4>Patient Address</h4></div>
                             <div className="grid-col-auto text-pre-line">
                                 {patientAddress(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
                         <div className="grid-row">
-                            <div className="grid-col-2"><h4>Patient Contact</h4></div>
+                            <div className="data-title"><h4>Patient Contact</h4></div>
                             <div className="grid-col-auto text-pre-line">
                                 {patientContactInfo(fhirBundle, fhirPathMappings)}
                             </div>

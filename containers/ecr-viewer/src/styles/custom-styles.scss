@@ -10,13 +10,39 @@ h2 {
   margin-bottom: 24px;
 }
 
-h3{
+h3 {
   font-size: 22px;
   margin-top: 12px;
-  margin-bottom:16px;
+  margin-bottom: 16px;
 }
 
-h4{
+h4 {
   font-size: 16px;
   margin: 0;
+}
+
+.page-title {
+  font-size: 32px;
+  color: white;
+  background-color: #162e51;
+  padding-top: 28px;
+  padding-bottom: 28px;
+  padding-left: 32px;
+  margin-top: 0px;
+}
+
+.container {
+  margin-top: 48px;
+  margin-left: 300px;
+  margin-right: 300px;
+  justify-content: center;
+}
+
+.info-container {
+  width: 687px;
+}
+
+.data-title {
+  flex:0 1 auto;
+  width: 190px;
 }
