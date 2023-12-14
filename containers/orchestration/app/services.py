@@ -107,22 +107,15 @@ async def call_apis(
             url = url.replace('"', "")
             print(f"Url: {url}")
             response = post_request(url, payload)
-            endpoint_name = f"{response.url.split('/')[-1]}"
             print(f"Status Code: {response.status_code}")
 
-            if not validate_response(response=response):
-                progress_dict[endpoint_name] = {
-                    "status": "error",
-                    "status_code": response.status_code,
-                    "response": response.json(),
-                }
-                await websocket.send_text(json.dumps(progress_dict))
-                break
-
             if websocket:
+                endpoint_name = f"{response.url.split('/')[-1]}"
+                status = "success" if validate_response(response=response) else "error"
+
                 # Write service responses into websocket message
                 progress_dict[endpoint_name] = {
-                    "status": "success",
+                    "status": status,
                     "status_code": response.status_code,
                     "response": response.json(),
                 }
