@@ -218,8 +218,8 @@ jobs:
       with:
         node-version: 14  # Adjust the Node.js version as needed
     - name: Install dependencies
-      working-directory: ./containers/html-converter  # Navigate to your Node.js app directory
+      working-directory: ./containers/ecr-viewer  # Navigate to your Node.js app directory
       run: npm install
     - name: Run tests
-      working-directory: ./containers/html-converter  # Navigate to your Node.js app directory
+      working-directory: ./containers/ecr-viewer  # Navigate to your Node.js app directory
       run: npm test

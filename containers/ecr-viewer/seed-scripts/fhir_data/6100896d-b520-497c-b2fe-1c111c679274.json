@@ -1,0 +1,6860 @@
+{
+  "resourceType": "Bundle",
+  "type": "batch",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:6100896d-b520-497c-b2fe-1c111c679274",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "6100896d-b520-497c-b2fe-1c111c679274",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "code": "55751-2",
+                  "display": "Initial Public Health Case Report",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "value": "38381210|64871322"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
+            "valueString": "1"
+          }
+        ],
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "code": "55751-2",
+              "display": "Initial Public Health Case Report",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "date": "2022-04-17T04:17:21Z",
+        "title": "Initial Public Health Case Report",
+        "confidentiality": "N",
+        "section": [
+          {
+            "id": "8387d52d-4149-8faf-9cf0-55a1d72748d5",
+            "title": "PROBLEMS - DIAGNOSES",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">PROBLEMS - DIAGNOSES</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11450-4",
+                  "display": "PROBLEM LIST",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "display": "Problem - Thrombotic thrombocytopenic purpura (disorder)",
+                "reference": "Condition/3907477b-3eba-59c4-6622-d3c3a81a39f4"
+              }
+            ]
+          },
+          {
+            "id": "54e40155-9ced-2834-aa4c-a368cdf48bca",
+            "title": "ENCOUNTERS",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">ENCOUNTERS</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "46240-8",
+                  "display": "History of Encounters",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "871ba982-4796-186f-1908-cc8d037f8fe7",
+            "title": "RESULTS",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">RESULTS</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "30954-2",
+                  "display": "RESULTS",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "Observation/1c142b46-b7cc-cc84-7cb1-66c0280aae55"
+              },
+              {
+                "reference": "Observation/b522042e-11d5-46f5-649e-7dcdef45830b"
+              },
+              {
+                "reference": "Observation/8f32aade-5df1-43be-3d3f-06ee8405f63c"
+              },
+              {
+                "reference": "Observation/1af0b3c6-8702-0233-e65f-aba84a0c6688"
+              },
+              {
+                "reference": "Observation/b6c9cc52-9aff-e11d-e6be-498caa417544"
+              },
+              {
+                "reference": "Observation/5cf81af4-eb87-a529-d904-1ba84ccf8c64"
+              },
+              {
+                "reference": "Observation/87fdc319-b661-7100-0d08-acf3bb2c78fd"
+              },
+              {
+                "reference": "Observation/b895dbc9-110d-1f99-bc28-84119939d657"
+              },
+              {
+                "reference": "Observation/5beb44d3-1a01-aad8-777d-cfd8d2a6105d"
+              },
+              {
+                "reference": "Observation/c0415a95-b89f-9249-c206-6d62a9a70f9e"
+              },
+              {
+                "reference": "Observation/ce0b6dcd-a093-d71f-f160-3c9d0770dc38"
+              },
+              {
+                "reference": "Observation/8c2b156f-0207-fdd1-8140-14103b857d5c"
+              },
+              {
+                "reference": "Observation/3073f32e-1ef3-e6f3-d4bd-919f25c9aecf"
+              },
+              {
+                "reference": "Observation/bfb9f88b-d8f1-19cb-8f09-fa607b95d3b0"
+              },
+              {
+                "reference": "Observation/0e6126f8-ff8a-810c-6d1d-3d1051a8430b"
+              },
+              {
+                "reference": "Observation/6d8f2236-d9e6-01c1-ba3c-d7da67202b9f"
+              },
+              {
+                "reference": "Observation/c90f7835-e358-1bae-1014-b0c14b7d5590"
+              },
+              {
+                "reference": "Observation/6a48330a-010e-ffa1-5d96-27b0ce154d61"
+              },
+              {
+                "reference": "Observation/3b0a94e2-47dc-f876-3a10-babf1f91123f"
+              },
+              {
+                "reference": "Observation/4882f579-6d26-ea10-cbff-fffbe776b0a9"
+              },
+              {
+                "reference": "Observation/a4859ad1-a9b2-211f-3665-9213256a63ea"
+              },
+              {
+                "reference": "Observation/71f62109-5dd0-b589-e7de-cda2981e5896"
+              },
+              {
+                "reference": "Observation/4f4fd586-16e5-558d-3311-43c271f958d7"
+              },
+              {
+                "reference": "Observation/1056de80-f466-2895-e0a4-7e4a36f0bff3"
+              },
+              {
+                "reference": "Observation/75930f2f-d935-c212-fcd9-e1e184a0ed82"
+              },
+              {
+                "reference": "Observation/7feecf10-1f4b-f22c-b724-38b031cf0380"
+              },
+              {
+                "reference": "Observation/383b8458-a17d-e35a-5933-2fa8804fbffc"
+              },
+              {
+                "reference": "Observation/2ccd7bef-274a-4734-02aa-37aecaafb40e"
+              },
+              {
+                "reference": "Observation/b04baab4-5b6e-06f1-728a-81076f43e4b8"
+              },
+              {
+                "reference": "Observation/53abd1be-30a3-8f26-ba6b-09b07ac4e03e"
+              },
+              {
+                "reference": "Observation/428c465f-c2ce-8173-0eda-0e7a4813d2ed"
+              },
+              {
+                "reference": "Observation/6cdce419-facb-ac5c-a8f4-bfb2ed7b34b3"
+              },
+              {
+                "reference": "Observation/8b028c8f-559a-8c35-84e8-00392957c0de"
+              },
+              {
+                "reference": "Observation/ad8eff06-1c92-d1be-5184-293cb5cf10b0"
+              },
+              {
+                "reference": "Observation/4e5b61cb-8a37-41e5-7be8-8d256055a097"
+              },
+              {
+                "reference": "Observation/d8d7bbe3-19db-959f-c5c9-a1ea6f3e307e"
+              },
+              {
+                "reference": "Observation/7394ad9c-f64b-0cdd-3995-d7747a20e06a"
+              },
+              {
+                "reference": "Observation/0ae6c71c-9277-01fe-0e94-6f7d8e0efe52"
+              },
+              {
+                "reference": "Observation/140c89ef-45b5-ff58-d05f-8a9a6c3c49c4"
+              },
+              {
+                "reference": "Observation/7b277295-b64c-2f9f-9b5f-cb791a0d2ce4"
+              },
+              {
+                "reference": "Observation/11982cab-ffe4-ae52-f5ed-6ba0928a862f"
+              },
+              {
+                "reference": "Observation/655a5229-e203-7904-75cb-93afc8d31d58"
+              },
+              {
+                "reference": "Observation/8d9bbb6b-6aa3-dfb9-f783-7a3452b50ab8"
+              },
+              {
+                "reference": "Observation/1d440e98-dc48-5b38-fbdf-3421266dc260"
+              },
+              {
+                "reference": "Observation/4d8f6eb0-0d7e-ecaf-ae46-44a4dba7d3f3"
+              },
+              {
+                "reference": "Observation/99bc8b36-6065-5ff9-9b64-88b47d111b4e"
+              },
+              {
+                "reference": "Observation/05d23fa2-a11c-d51e-8c37-d0126cfd20de"
+              },
+              {
+                "reference": "Observation/66cf0d33-ead3-106d-6913-430abfcb78a6"
+              },
+              {
+                "reference": "Observation/21bdb3ca-415f-8faf-a74a-e89675e96f80"
+              },
+              {
+                "reference": "Observation/0f0f7b88-36b9-b3f6-c7dc-3dbd0e0c1f33"
+              },
+              {
+                "reference": "Observation/100f0c35-2837-6779-3d9d-78abab23c9be"
+              },
+              {
+                "reference": "Observation/64dfabc6-162c-b3b4-f799-487bb5fe407d"
+              },
+              {
+                "reference": "Observation/00e70eb7-589c-8d09-0352-837e31e7279d"
+              },
+              {
+                "reference": "Observation/1b3c0f38-d65d-82cd-cbfd-3b7d5ef2b261"
+              },
+              {
+                "reference": "Observation/595e4f34-dd66-869a-8e85-47dacd05273c"
+              },
+              {
+                "reference": "Observation/078dd83d-5124-2b01-2978-bf12d2882bb5"
+              },
+              {
+                "reference": "Observation/255626c0-7380-c8c8-7c64-f726aac66826"
+              },
+              {
+                "reference": "Observation/41d93e42-b31d-d098-2050-ee9c61fe3010"
+              }
+            ]
+          },
+          {
+            "id": "c000a97e-4421-7caa-ffa7-481aadaa031b",
+            "title": "Medications Administered",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Medications Administered</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29549-3",
+                  "display": "Medications Administered",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "dd08df91-869b-46df-dd36-c5c0f2ad2eae",
+            "title": "IMMUNIZATIONS",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">IMMUNIZATIONS</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11369-6",
+                  "display": "History of immunizations",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "1ee0e176-222f-864a-5b05-9a38d5189d31",
+            "title": "SOCIAL HISTORY",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">SOCIAL HISTORY</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29762-2",
+                  "display": "Social History",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "7dbd51e8-1c15-8cfa-cbce-f6f4b9a1ed5d",
+            "title": "Plan of Treatment",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "18776-5",
+                  "display": "Treatment Plan",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "d9d29cc3-a276-3cb1-dfbf-e1c4ce391ff6",
+            "title": "History of Present Illness",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">History of Present Illness</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "10164-2",
+                  "display": "History of Present Illness",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "65225627-ffb0-e051-e796-fbbd26035fbc",
+            "title": "Reason For Visit",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason For Visit</div>"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29299-5",
+                  "display": "Reason For Visit",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot"
+          },
+          {
+            "id": "fe5ea6af-6ec5-edfd-fe9b-c6b07748e2dd",
+            "title": "Reportability Response Information Section",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reportability Response Information Section</div>"
+            },
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
+                "valueIdentifier": {
+                  "use": "official",
+                  "type": {
+                    "coding": [
+                      {
+                        "code": "88085-6",
+                        "display": "Reportability response report Document Public health",
+                        "system": "http://loinc.org"
+                      }
+                    ]
+                  },
+                  "value": "85923796-cef7-4122-ac1a-c181799e3604"
+                }
+              },
+              {
+                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "RRVS19",
+                      "display": "eICR processed",
+                      "system": "urn:oid:2.16.840.1.114222.4.5.274"
+                    }
+                  ]
+                }
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "code": "88085-6",
+                  "display": "Reportability response report Document Public health",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "entry": [
+              {
+                "display": "Relevant Reportable Condition Observation - Infection caused by Shiga toxin producing Escherichia coli (disorder)",
+                "reference": "Observation/2fa797d2-eae1-4932-a9d3-f2c4f3992fe1"
+              },
+              {
+                "display": "Relevant Reportable Condition Observation - Hemolytic uremic syndrome (disorder)",
+                "reference": "Observation/30602f55-7718-4880-8045-f3dc6341ff58"
+              },
+              {
+                "display": "Relevant Reportable Condition Observation - Hemolytic uremic syndrome (disorder)",
+                "reference": "Observation/6f6b5bd3-4eb1-4a27-89d1-a2098c124252"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "encounter": {
+          "reference": "Encounter/60ed4165-219a-123f-5845-33a2aec9895a"
+        },
+        "custodian": {
+          "reference": "Organization/430c88de-09b3-f835-b008-e93f59ce7f15"
+        },
+        "author": [
+          {
+            "reference": "Practitioner/eb4f8e78-f15e-116f-af46-435e15202c5d"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Composition/6100896d-b520-497c-b2fe-1c111c679274"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:60ed4165-219a-123f-5845-33a2aec9895a",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "60ed4165-219a-123f-5845-33a2aec9895a",
+        "status": "unknown",
+        "class": {
+          "code": "OBSENC",
+          "display": "observation encounter",
+          "system": "urn:oid:2.16.840.1.113883.5.4"
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "Encounter/64871322/_history/32"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.17.8797.200",
+            "value": "5004465497"
+          }
+        ],
+        "period": {
+          "start": "2022-04-15T16:15:00Z",
+          "end": "2022-04-16T02:21:00Z"
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "location": [
+          {
+            "id": "2.16.840.1.113883.4.6",
+            "location": {
+              "reference": "Location/9d62f0ba-2587-a556-b341-fb0eb65baecd",
+              "display": "HHN-Henderson Hospital"
+            },
+            "extension": [
+              {
+                "url": "http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "team",
+                      "display": "Organizational team",
+                      "system": "urn:oid:2.16.840.1.113883.4.642.3.414"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "ATND"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/eb4f8e78-f15e-116f-af46-435e15202c5d"
+            }
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/60ed4165-219a-123f-5845-33a2aec9895a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9d62f0ba-2587-a556-b341-fb0eb65baecd",
+      "resource": {
+        "resourceType": "Location",
+        "id": "9d62f0ba-2587-a556-b341-fb0eb65baecd",
+        "identifier": [
+          {
+            "value": "2.16.840.1.113883.4.6"
+          }
+        ],
+        "name": "HHN-Henderson Hospital",
+        "address": {
+          "line": [
+            "1050 W. Galleria Drive"
+          ],
+          "city": "Henderson",
+          "state": "NV",
+          "country": "USA",
+          "postalCode": "89011"
+        },
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "(702)963-7000",
+            "use": "work"
+          },
+          {
+            "system": "phone",
+            "value": "(702)963-7000",
+            "use": "work"
+          }
+        ],
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "team",
+                "display": "Organizational team",
+                "system": "urn:oid:2.16.840.1.113883.4.642.3.414"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Location/9d62f0ba-2587-a556-b341-fb0eb65baecd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:eb4f8e78-f15e-116f-af46-435e15202c5d",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "eb4f8e78-f15e-116f-af46-435e15202c5d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/_datatype",
+            "valueString": "Responsible Party"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1326599333"
+          }
+        ],
+        "name": [
+          {
+            "use": "usual",
+            "text": "HHN-Henderson Hospital"
+          },
+          {
+            "family": "Nielsen",
+            "given": [
+              "Victoria",
+              "K"
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "1050 W. Galleria Drive"
+            ],
+            "city": "Henderson",
+            "state": "NV",
+            "country": "USA",
+            "postalCode": "89011"
+          },
+          {
+            "line": [
+              "620 Shadow Lane"
+            ],
+            "city": "Las Vegas",
+            "state": "NV",
+            "country": "US",
+            "postalCode": "89106"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "(702)963-7000",
+            "use": "work"
+          },
+          {
+            "system": "phone",
+            "value": "(702)963-7000",
+            "use": "work"
+          },
+          {
+            "system": "phone",
+            "value": "((70)2)2-59-1"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/eb4f8e78-f15e-116f-af46-435e15202c5d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2fa797d2-eae1-4932-a9d3-f2c4f3992fe1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2fa797d2-eae1-4932-a9d3-f2c4f3992fe1",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:2fa797d2-eae1-4932-a9d3-f2c4f3992fe1"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "328291000119103",
+              "display": "Infection caused by Shiga toxin producing Escherichia coli (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/2fa797d2-eae1-4932-a9d3-f2c4f3992fe1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:30602f55-7718-4880-8045-f3dc6341ff58",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "30602f55-7718-4880-8045-f3dc6341ff58",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:30602f55-7718-4880-8045-f3dc6341ff58"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "111407006",
+              "display": "Hemolytic uremic syndrome (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/30602f55-7718-4880-8045-f3dc6341ff58"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6f6b5bd3-4eb1-4a27-89d1-a2098c124252",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6f6b5bd3-4eb1-4a27-89d1-a2098c124252",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:6f6b5bd3-4eb1-4a27-89d1-a2098c124252"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "64572001",
+              "display": "Condition",
+              "system": "http://snomed.info/sct"
+            },
+            {
+              "code": "75323-6",
+              "display": "Condition",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "111407006",
+              "display": "Hemolytic uremic syndrome (disorder)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/6f6b5bd3-4eb1-4a27-89d1-a2098c124252"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:430c88de-09b3-f835-b008-e93f59ce7f15",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "430c88de-09b3-f835-b008-e93f59ce7f15",
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1003281452"
+          }
+        ],
+        "name": "HHN-Henderson Hospital",
+        "address": [
+          {
+            "line": [
+              "1050 W. Galleria Drive"
+            ],
+            "city": "Henderson",
+            "state": "NV",
+            "country": "USA",
+            "postalCode": "89011"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "(702)963-7000",
+            "use": "work"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/430c88de-09b3-f835-b008-e93f59ce7f15"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c5e66082-9ee2-4610-add4-05f91b1217b3",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "c5e66082-9ee2-4610-add4-05f91b1217b3",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "Patient/38381210/_history/58"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.17.8797.100",
+            "value": "8225956"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.3.2061.100",
+            "value": "5801038"
+          }
+        ],
+        "name": [
+          {
+            "family": "HUNTER",
+            "given": [
+              "VICTORIA"
+            ]
+          }
+        ],
+        "birthDate": "1954-11-15",
+        "gender": "female",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2054-5",
+                  "display": "Black or African American"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Black or African American"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "code": "2186-5",
+                  "display": "Not Hispanic or Latino"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Not Hispanic or Latino"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "code": "F",
+                      "display": "Female",
+                      "system": "urn:oid:2.16.840.1.113883.5.1"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "309 EAST HILLCREST AVE",
+              "APT 232"
+            ],
+            "city": "INGLEWOOD",
+            "state": "CA",
+            "country": "US",
+            "postalCode": "90301-2405"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+14243569018",
+            "use": "home"
+          },
+          {
+            "system": "email",
+            "value": "VSEAS14@GMAIL.COM"
+          }
+        ],
+        "communication": [
+          {
+            "language": {
+              "coding": [
+                {
+                  "system": "urn:ietf:bcp:47",
+                  "code": "en",
+                  "display": "English"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4c00757a-ab7f-5a3a-dba2-3a9652128394",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "4c00757a-ab7f-5a3a-dba2-3a9652128394",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:b46c57df-7681-488d-8dbd-2e97687fa692"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "10839-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/1c142b46-b7cc-cc84-7cb1-66c0280aae55"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/4c00757a-ab7f-5a3a-dba2-3a9652128394"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1c142b46-b7cc-cc84-7cb1-66c0280aae55",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1c142b46-b7cc-cc84-7cb1-66c0280aae55",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286757608/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "10839-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T22:26:00Z",
+        "valueQuantity": {
+          "value": 8.2,
+          "unit": "ng/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1c142b46-b7cc-cc84-7cb1-66c0280aae55"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e93a0e30-5515-c929-dee9-99351fae2f8b",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "e93a0e30-5515-c929-dee9-99351fae2f8b",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:cb178d2e-569f-4eaf-8de9-aa857dfa7362"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "10839-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/b522042e-11d5-46f5-649e-7dcdef45830b"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/e93a0e30-5515-c929-dee9-99351fae2f8b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b522042e-11d5-46f5-649e-7dcdef45830b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b522042e-11d5-46f5-649e-7dcdef45830b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19285932098/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "10839-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T20:14:00Z",
+        "valueQuantity": {
+          "value": 8.1,
+          "unit": "ng/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/b522042e-11d5-46f5-649e-7dcdef45830b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a690e5b1-e33c-aa18-d6f0-6904c324d12e",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "a690e5b1-e33c-aa18-d6f0-6904c324d12e",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:51947a30-9b22-4fe3-ad8d-83a11cc504e2"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "10839-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/8f32aade-5df1-43be-3d3f-06ee8405f63c"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/a690e5b1-e33c-aa18-d6f0-6904c324d12e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8f32aade-5df1-43be-3d3f-06ee8405f63c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8f32aade-5df1-43be-3d3f-06ee8405f63c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19285552731/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "10839-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T19:01:00Z",
+        "valueQuantity": {
+          "value": 9.5,
+          "unit": "ng/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/8f32aade-5df1-43be-3d3f-06ee8405f63c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b7d16d24-20a4-05ae-51d5-6a74a474f9ee",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "b7d16d24-20a4-05ae-51d5-6a74a474f9ee",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:63f853f4-cadf-41f7-ba4c-081e430abeaa"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "33762-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/1af0b3c6-8702-0233-e65f-aba84a0c6688"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/b7d16d24-20a4-05ae-51d5-6a74a474f9ee"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1af0b3c6-8702-0233-e65f-aba84a0c6688",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1af0b3c6-8702-0233-e65f-aba84a0c6688",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19285552724/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "33762-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T19:01:00Z",
+        "valueQuantity": {
+          "value": 84,
+          "unit": "pg/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1af0b3c6-8702-0233-e65f-aba84a0c6688"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0e64935e-5f43-cb86-c5fa-6785009e5d72",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "0e64935e-5f43-cb86-c5fa-6785009e5d72",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:3cf58e92-ea42-421b-bdbe-0c8df5ca5b90"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "35592-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/b6c9cc52-9aff-e11d-e6be-498caa417544"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/0e64935e-5f43-cb86-c5fa-6785009e5d72"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b6c9cc52-9aff-e11d-e6be-498caa417544",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b6c9cc52-9aff-e11d-e6be-498caa417544",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816088/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "35592-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:38:00Z",
+        "valueQuantity": {
+          "value": 52.76,
+          "unit": "mL/min"
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/b6c9cc52-9aff-e11d-e6be-498caa417544"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:54eed238-b17f-8b95-e310-87c978243483",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "54eed238-b17f-8b95-e310-87c978243483",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:1388dec4-bafe-4ea1-b649-9b78c3e96c09"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95419-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/5cf81af4-eb87-a529-d904-1ba84ccf8c64"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/54eed238-b17f-8b95-e310-87c978243483"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5cf81af4-eb87-a529-d904-1ba84ccf8c64",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5cf81af4-eb87-a529-d904-1ba84ccf8c64",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860526/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95419-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "373066001",
+              "display": "Yes (qualifier value)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/5cf81af4-eb87-a529-d904-1ba84ccf8c64"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2c2cf9a6-8869-bc08-3cd0-52b03dc96b70",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "2c2cf9a6-8869-bc08-3cd0-52b03dc96b70",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:433df364-fa71-4172-9363-823fc86766d9"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95420-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/87fdc319-b661-7100-0d08-acf3bb2c78fd"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/2c2cf9a6-8869-bc08-3cd0-52b03dc96b70"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:87fdc319-b661-7100-0d08-acf3bb2c78fd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "87fdc319-b661-7100-0d08-acf3bb2c78fd",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860530/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95420-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "373067005",
+              "display": "No (qualifier value)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/87fdc319-b661-7100-0d08-acf3bb2c78fd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a6b4ab75-7df2-a342-dbbc-4a13e478512c",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "a6b4ab75-7df2-a342-dbbc-4a13e478512c",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:3fc984f4-2d68-4c3a-97ba-00e0cf4c2331"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95421-4",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/b895dbc9-110d-1f99-bc28-84119939d657"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/a6b4ab75-7df2-a342-dbbc-4a13e478512c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b895dbc9-110d-1f99-bc28-84119939d657",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b895dbc9-110d-1f99-bc28-84119939d657",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860536/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95421-4",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "373067005",
+              "display": "No (qualifier value)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/b895dbc9-110d-1f99-bc28-84119939d657"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:20b08294-27d2-bb22-fe1e-71eb9fcc5e30",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "20b08294-27d2-bb22-fe1e-71eb9fcc5e30",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:3c1e9587-8eb7-4137-839d-a11e6b75cbfd"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95418-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/5beb44d3-1a01-aad8-777d-cfd8d2a6105d"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/20b08294-27d2-bb22-fe1e-71eb9fcc5e30"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5beb44d3-1a01-aad8-777d-cfd8d2a6105d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5beb44d3-1a01-aad8-777d-cfd8d2a6105d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860534/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "95418-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "373067005",
+              "display": "No (qualifier value)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/5beb44d3-1a01-aad8-777d-cfd8d2a6105d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d2fb72fb-bb25-8cba-3a27-a0b5726a896d",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "d2fb72fb-bb25-8cba-3a27-a0b5726a896d",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:3beab26e-50fd-4836-9549-1e730b5abba2"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "94309-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/c0415a95-b89f-9249-c206-6d62a9a70f9e"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/d2fb72fb-bb25-8cba-3a27-a0b5726a896d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c0415a95-b89f-9249-c206-6d62a9a70f9e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c0415a95-b89f-9249-c206-6d62a9a70f9e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860540/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "94309-2",
+              "display": "SARS-CoV-2 Interp:",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c0415a95-b89f-9249-c206-6d62a9a70f9e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2adfbd52-1d0d-de81-ee81-41feae79f914",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "2adfbd52-1d0d-de81-ee81-41feae79f914",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:fa74e938-982b-434f-a9d2-715eca400918"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "94500-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/ce0b6dcd-a093-d71f-f160-3c9d0770dc38"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/2adfbd52-1d0d-de81-ee81-41feae79f914"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ce0b6dcd-a093-d71f-f160-3c9d0770dc38",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "ce0b6dcd-a093-d71f-f160-3c9d0770dc38",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860538/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "94500-6",
+              "display": "SARS-CoV-2 PCR",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "260385009",
+              "display": "Negative (qualifier value)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/ce0b6dcd-a093-d71f-f160-3c9d0770dc38"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bca9a328-c3f8-a513-96a6-b066be88b4c8",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "bca9a328-c3f8-a513-96a6-b066be88b4c8",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:1461c0ad-c351-4369-b66c-30e8512c0249"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "50384-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/8c2b156f-0207-fdd1-8140-14103b857d5c"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/bca9a328-c3f8-a513-96a6-b066be88b4c8"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8c2b156f-0207-fdd1-8140-14103b857d5c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8c2b156f-0207-fdd1-8140-14103b857d5c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284799735/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "50384-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueString": "Not Reported",
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/8c2b156f-0207-fdd1-8140-14103b857d5c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9a7fe2e9-c44b-ffe5-ba9c-6fac44a8df17",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "9a7fe2e9-c44b-ffe5-ba9c-6fac44a8df17",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:adc53b02-1f6a-4f30-b2d6-734b96080342"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "76080-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/3073f32e-1ef3-e6f3-d4bd-919f25c9aecf"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/9a7fe2e9-c44b-ffe5-ba9c-6fac44a8df17"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3073f32e-1ef3-e6f3-d4bd-919f25c9aecf",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3073f32e-1ef3-e6f3-d4bd-919f25c9aecf",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860544/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "76080-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/3073f32e-1ef3-e6f3-d4bd-919f25c9aecf"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:81c75b28-e205-fc13-ffe7-7e8951ceabd4",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "81c75b28-e205-fc13-ffe7-7e8951ceabd4",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:bf98a7a6-c7db-4954-9978-ba40fc1a00fb"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "76078-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/bfb9f88b-d8f1-19cb-8f09-fa607b95d3b0"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/81c75b28-e205-fc13-ffe7-7e8951ceabd4"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bfb9f88b-d8f1-19cb-8f09-fa607b95d3b0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "bfb9f88b-d8f1-19cb-8f09-fa607b95d3b0",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19286860542/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "76078-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "260415000",
+              "display": "Not detected (qualifier value)",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/bfb9f88b-d8f1-19cb-8f09-fa607b95d3b0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2ba45049-13ad-9492-06ca-27e9038b980b",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "2ba45049-13ad-9492-06ca-27e9038b980b",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:de9d66f9-d819-454b-9531-34865ab8d138"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "18182-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/0e6126f8-ff8a-810c-6d1d-3d1051a8430b"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/2ba45049-13ad-9492-06ca-27e9038b980b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0e6126f8-ff8a-810c-6d1d-3d1051a8430b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0e6126f8-ff8a-810c-6d1d-3d1051a8430b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816053/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "18182-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 270,
+          "unit": "mOsmol/kg"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "L",
+                "display": "Low",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0e6126f8-ff8a-810c-6d1d-3d1051a8430b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d42a4ff5-905a-455d-bf4a-3bf77c638e9c",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "d42a4ff5-905a-455d-bf4a-3bf77c638e9c",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:95b9bc33-746a-4950-9323-ec338e031b53"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1759-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/6d8f2236-d9e6-01c1-ba3c-d7da67202b9f"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/d42a4ff5-905a-455d-bf4a-3bf77c638e9c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6d8f2236-d9e6-01c1-ba3c-d7da67202b9f",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6d8f2236-d9e6-01c1-ba3c-d7da67202b9f",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816055/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1759-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.7,
+          "unit": "null"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "L",
+                "display": "Low",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/6d8f2236-d9e6-01c1-ba3c-d7da67202b9f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6ed7fb55-dd65-62bc-35ca-477e1b539bed",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "6ed7fb55-dd65-62bc-35ca-477e1b539bed",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:261feb5c-1956-4f9c-9cbe-d42b81f28cd2"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "48642-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/c90f7835-e358-1bae-1014-b0c14b7d5590"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/6ed7fb55-dd65-62bc-35ca-477e1b539bed"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c90f7835-e358-1bae-1014-b0c14b7d5590",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c90f7835-e358-1bae-1014-b0c14b7d5590",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284799567/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "48642-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 70,
+          "unit": "mL/min/1.73m2"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c90f7835-e358-1bae-1014-b0c14b7d5590"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a17415d7-1aad-c9c1-7292-5213e608a598",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "a17415d7-1aad-c9c1-7292-5213e608a598",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:3c4f71bf-0627-4d00-abcb-fa5ec364b78b"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "48643-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/6a48330a-010e-ffa1-5d96-27b0ce154d61"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/a17415d7-1aad-c9c1-7292-5213e608a598"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6a48330a-010e-ffa1-5d96-27b0ce154d61",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6a48330a-010e-ffa1-5d96-27b0ce154d61",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816090/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "48643-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 81,
+          "unit": "mL/min/1.73m2"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/6a48330a-010e-ffa1-5d96-27b0ce154d61"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1c6230de-f989-8170-4695-e753c06ebddd",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "1c6230de-f989-8170-4695-e753c06ebddd",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:b6262f93-89cc-4789-a84e-f605ccae8c5e"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2951-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/3b0a94e2-47dc-f876-3a10-babf1f91123f"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/1c6230de-f989-8170-4695-e753c06ebddd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3b0a94e2-47dc-f876-3a10-babf1f91123f",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3b0a94e2-47dc-f876-3a10-babf1f91123f",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816011/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2951-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 135,
+          "unit": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "L",
+                "display": "Low",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/3b0a94e2-47dc-f876-3a10-babf1f91123f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ec74a543-bd43-8f8d-6cce-3d355621cabd",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "ec74a543-bd43-8f8d-6cce-3d355621cabd",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:6057e95b-305b-44c7-9361-5065f60d3478"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2823-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/4882f579-6d26-ea10-cbff-fffbe776b0a9"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/ec74a543-bd43-8f8d-6cce-3d355621cabd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4882f579-6d26-ea10-cbff-fffbe776b0a9",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4882f579-6d26-ea10-cbff-fffbe776b0a9",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816013/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2823-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 4.0,
+          "unit": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/4882f579-6d26-ea10-cbff-fffbe776b0a9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5206a918-905f-ae98-808f-54016b1e4d2c",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "5206a918-905f-ae98-808f-54016b1e4d2c",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:a7d54876-833a-4881-bb52-83e49daacbc1"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "704-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/a4859ad1-a9b2-211f-3665-9213256a63ea"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/5206a918-905f-ae98-808f-54016b1e4d2c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a4859ad1-a9b2-211f-3665-9213256a63ea",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a4859ad1-a9b2-211f-3665-9213256a63ea",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716756/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "704-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.02,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a4859ad1-a9b2-211f-3665-9213256a63ea"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ead8d893-03a4-7b2b-5e04-a67d26af6d24",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "ead8d893-03a4-7b2b-5e04-a67d26af6d24",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:91b63ad1-62d9-495e-a525-84c1ff5d6e7c"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1751-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/71f62109-5dd0-b589-e7de-cda2981e5896"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/ead8d893-03a4-7b2b-5e04-a67d26af6d24"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:71f62109-5dd0-b589-e7de-cda2981e5896",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "71f62109-5dd0-b589-e7de-cda2981e5896",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816033/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1751-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 3.6,
+          "unit": "gm/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/71f62109-5dd0-b589-e7de-cda2981e5896"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:58353f34-ee83-7232-7451-f465966da2e1",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "58353f34-ee83-7232-7451-f465966da2e1",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:1d152557-6081-46e9-a4b2-d6c39fdc5007"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "742-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/4f4fd586-16e5-558d-3311-43c271f958d7"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/58353f34-ee83-7232-7451-f465966da2e1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4f4fd586-16e5-558d-3311-43c271f958d7",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4f4fd586-16e5-558d-3311-43c271f958d7",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716752/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "742-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.6,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/4f4fd586-16e5-558d-3311-43c271f958d7"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a692297b-5f0c-dec3-d9c3-5f85dd459324",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "a692297b-5f0c-dec3-d9c3-5f85dd459324",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:f174a350-9105-493e-af56-734e0bbdfac9"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "751-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/1056de80-f466-2895-e0a4-7e4a36f0bff3"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/a692297b-5f0c-dec3-d9c3-5f85dd459324"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1056de80-f466-2895-e0a4-7e4a36f0bff3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1056de80-f466-2895-e0a4-7e4a36f0bff3",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716748/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "751-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 4.73,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1056de80-f466-2895-e0a4-7e4a36f0bff3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c4e6c32a-8928-c4b7-11d9-2eea57a5c841",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "c4e6c32a-8928-c4b7-11d9-2eea57a5c841",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:9b34b380-3f6b-4a56-a427-976ff2368ae0"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "706-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/75930f2f-d935-c212-fcd9-e1e184a0ed82"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/c4e6c32a-8928-c4b7-11d9-2eea57a5c841"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:75930f2f-d935-c212-fcd9-e1e184a0ed82",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "75930f2f-d935-c212-fcd9-e1e184a0ed82",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716746/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "706-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.3,
+          "unit": "%"
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/75930f2f-d935-c212-fcd9-e1e184a0ed82"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0703d803-081e-fb71-d6eb-ea80d2f30dbb",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "0703d803-081e-fb71-d6eb-ea80d2f30dbb",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:5baada00-232e-4386-829a-96cba2a8b858"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "713-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/7feecf10-1f4b-f22c-b724-38b031cf0380"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/0703d803-081e-fb71-d6eb-ea80d2f30dbb"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7feecf10-1f4b-f22c-b724-38b031cf0380",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7feecf10-1f4b-f22c-b724-38b031cf0380",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716744/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "713-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.7,
+          "unit": "%"
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/7feecf10-1f4b-f22c-b724-38b031cf0380"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:da6f6c17-3ed6-f268-24e5-982c88f0f4ac",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "da6f6c17-3ed6-f268-24e5-982c88f0f4ac",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:726c4c83-eb55-488c-b5ce-2169fb851264"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "736-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/383b8458-a17d-e35a-5933-2fa8804fbffc"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/da6f6c17-3ed6-f268-24e5-982c88f0f4ac"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:383b8458-a17d-e35a-5933-2fa8804fbffc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "383b8458-a17d-e35a-5933-2fa8804fbffc",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716740/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "736-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 21.3,
+          "unit": "%"
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/383b8458-a17d-e35a-5933-2fa8804fbffc"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:fa272cd6-176e-07be-1272-094f9a265878",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "fa272cd6-176e-07be-1272-094f9a265878",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:e9546246-d6f8-408e-a5c9-044f9026f0ce"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "770-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/2ccd7bef-274a-4734-02aa-37aecaafb40e"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/fa272cd6-176e-07be-1272-094f9a265878"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2ccd7bef-274a-4734-02aa-37aecaafb40e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2ccd7bef-274a-4734-02aa-37aecaafb40e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716736/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "770-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 68.9,
+          "unit": "%"
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/2ccd7bef-274a-4734-02aa-37aecaafb40e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e711e83f-4ee4-0072-cdf8-13439937d001",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "e711e83f-4ee4-0072-cdf8-13439937d001",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:5b52888a-5f6c-4f86-a29f-3ede31e93cfa"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "17861-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/b04baab4-5b6e-06f1-728a-81076f43e4b8"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/e711e83f-4ee4-0072-cdf8-13439937d001"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b04baab4-5b6e-06f1-728a-81076f43e4b8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b04baab4-5b6e-06f1-728a-81076f43e4b8",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816047/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "17861-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 9.1,
+          "unit": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/b04baab4-5b6e-06f1-728a-81076f43e4b8"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d0c11de6-49b1-ab16-f235-e1a794ddd2da",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "d0c11de6-49b1-ab16-f235-e1a794ddd2da",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:01146c5f-8608-4478-b0aa-8c07b034811c"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "21000-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/53abd1be-30a3-8f26-ba6b-09b07ac4e03e"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/d0c11de6-49b1-ab16-f235-e1a794ddd2da"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:53abd1be-30a3-8f26-ba6b-09b07ac4e03e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "53abd1be-30a3-8f26-ba6b-09b07ac4e03e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719610/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "21000-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 49.7,
+          "unit": "Femtoliters"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "H",
+                "display": "High",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/53abd1be-30a3-8f26-ba6b-09b07ac4e03e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:57115e51-be7e-f6f9-e645-3a517e13f8f1",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "57115e51-be7e-f6f9-e645-3a517e13f8f1",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:8b8ad021-51b3-4382-98b7-8e14148132c5"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "53115-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/428c465f-c2ce-8173-0eda-0e7a4813d2ed"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/57115e51-be7e-f6f9-e645-3a517e13f8f1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:428c465f-c2ce-8173-0eda-0e7a4813d2ed",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "428c465f-c2ce-8173-0eda-0e7a4813d2ed",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716758/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "53115-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.01,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/428c465f-c2ce-8173-0eda-0e7a4813d2ed"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:77d2e316-8ebd-7fb7-829c-f5d3097eac26",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "77d2e316-8ebd-7fb7-829c-f5d3097eac26",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:364765ee-eef7-4e22-b24e-8aa8cf14bdd5"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "731-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/6cdce419-facb-ac5c-a8f4-bfb2ed7b34b3"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/77d2e316-8ebd-7fb7-829c-f5d3097eac26"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6cdce419-facb-ac5c-a8f4-bfb2ed7b34b3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6cdce419-facb-ac5c-a8f4-bfb2ed7b34b3",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716750/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "731-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 1.46,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/6cdce419-facb-ac5c-a8f4-bfb2ed7b34b3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ea98fc99-09ec-44e4-b9ac-46563caf7348",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "ea98fc99-09ec-44e4-b9ac-46563caf7348",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:9f236940-30f2-4494-918f-dcf3a4f43fcc"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "5905-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/8b028c8f-559a-8c35-84e8-00392957c0de"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/ea98fc99-09ec-44e4-b9ac-46563caf7348"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8b028c8f-559a-8c35-84e8-00392957c0de",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8b028c8f-559a-8c35-84e8-00392957c0de",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716742/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "5905-5",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 8.7,
+          "unit": "%"
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/8b028c8f-559a-8c35-84e8-00392957c0de"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:32a9f4f7-41e0-2576-346d-609a015abfe5",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "32a9f4f7-41e0-2576-346d-609a015abfe5",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:e88cf977-c8c8-498e-b3b4-8cfa5ac0f9e3"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "788-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/ad8eff06-1c92-d1be-5184-293cb5cf10b0"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/32a9f4f7-41e0-2576-346d-609a015abfe5"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ad8eff06-1c92-d1be-5184-293cb5cf10b0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "ad8eff06-1c92-d1be-5184-293cb5cf10b0",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719612/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "788-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 14.9,
+          "unit": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/ad8eff06-1c92-d1be-5184-293cb5cf10b0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:59fcd384-365c-db2d-687a-2038cd309453",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "59fcd384-365c-db2d-687a-2038cd309453",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:718c849d-c61c-4daa-b060-dbf72838503f"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "71695-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/4e5b61cb-8a37-41e5-7be8-8d256055a097"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/59fcd384-365c-db2d-687a-2038cd309453"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4e5b61cb-8a37-41e5-7be8-8d256055a097",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4e5b61cb-8a37-41e5-7be8-8d256055a097",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716760/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "71695-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.1,
+          "unit": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/4e5b61cb-8a37-41e5-7be8-8d256055a097"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f04dc774-f78a-7f2e-cded-88d6c50a9e32",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "f04dc774-f78a-7f2e-cded-88d6c50a9e32",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:59a3666f-2edb-440a-8590-51de9752b553"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "711-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/d8d7bbe3-19db-959f-c5c9-a1ea6f3e307e"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/f04dc774-f78a-7f2e-cded-88d6c50a9e32"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d8d7bbe3-19db-959f-c5c9-a1ea6f3e307e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d8d7bbe3-19db-959f-c5c9-a1ea6f3e307e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284716754/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "711-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.05,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/d8d7bbe3-19db-959f-c5c9-a1ea6f3e307e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:94b4505e-92be-2c6a-444c-a612fb2a7e3e",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "94b4505e-92be-2c6a-444c-a612fb2a7e3e",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:ef25a78c-27e0-445b-aeba-5114ea4aea2a"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2075-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/7394ad9c-f64b-0cdd-3995-d7747a20e06a"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/94b4505e-92be-2c6a-444c-a612fb2a7e3e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7394ad9c-f64b-0cdd-3995-d7747a20e06a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7394ad9c-f64b-0cdd-3995-d7747a20e06a",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816015/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2075-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 101,
+          "unit": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/7394ad9c-f64b-0cdd-3995-d7747a20e06a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1d5ebab3-1956-b630-9469-2845f3ed1909",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "1d5ebab3-1956-b630-9469-2845f3ed1909",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:147266ed-24a4-49fd-aa23-92506e73a938"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "3094-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/0ae6c71c-9277-01fe-0e94-6f7d8e0efe52"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/1d5ebab3-1956-b630-9469-2845f3ed1909"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0ae6c71c-9277-01fe-0e94-6f7d8e0efe52",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0ae6c71c-9277-01fe-0e94-6f7d8e0efe52",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816019/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "3094-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 9,
+          "unit": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0ae6c71c-9277-01fe-0e94-6f7d8e0efe52"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:64e3c798-9d0e-43eb-e6d1-db5c275e0a38",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "64e3c798-9d0e-43eb-e6d1-db5c275e0a38",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:e331426b-3e07-4c6d-8fd4-f558a341f5c8"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "777-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/140c89ef-45b5-ff58-d05f-8a9a6c3c49c4"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/64e3c798-9d0e-43eb-e6d1-db5c275e0a38"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:140c89ef-45b5-ff58-d05f-8a9a6c3c49c4",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "140c89ef-45b5-ff58-d05f-8a9a6c3c49c4",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719606/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "777-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 195,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/140c89ef-45b5-ff58-d05f-8a9a6c3c49c4"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6dbadcf7-282c-321b-acf9-6934cb132e56",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "6dbadcf7-282c-321b-acf9-6934cb132e56",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:09870f87-37e5-4731-9de3-205b8e5677dd"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "6690-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/7b277295-b64c-2f9f-9b5f-cb791a0d2ce4"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/6dbadcf7-282c-321b-acf9-6934cb132e56"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7b277295-b64c-2f9f-9b5f-cb791a0d2ce4",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7b277295-b64c-2f9f-9b5f-cb791a0d2ce4",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719588/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "6690-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 6.87,
+          "unit": "x10e3/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/7b277295-b64c-2f9f-9b5f-cb791a0d2ce4"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b57855ea-cdae-675b-8b59-0636134b6bde",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "b57855ea-cdae-675b-8b59-0636134b6bde",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:7a7872ad-aca5-4859-903c-865aa8632abd"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2885-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/11982cab-ffe4-ae52-f5ed-6ba0928a862f"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/b57855ea-cdae-675b-8b59-0636134b6bde"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:11982cab-ffe4-ae52-f5ed-6ba0928a862f",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "11982cab-ffe4-ae52-f5ed-6ba0928a862f",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816051/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2885-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 8.9,
+          "unit": "gm/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "H",
+                "display": "High",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/11982cab-ffe4-ae52-f5ed-6ba0928a862f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ac336dd2-2f27-13c5-9052-f4817fc8c58e",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "ac336dd2-2f27-13c5-9052-f4817fc8c58e",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:d31b2906-6509-419d-8b4c-d25ca76938f6"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "789-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/655a5229-e203-7904-75cb-93afc8d31d58"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/ac336dd2-2f27-13c5-9052-f4817fc8c58e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:655a5229-e203-7904-75cb-93afc8d31d58",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "655a5229-e203-7904-75cb-93afc8d31d58",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719592/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "789-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 4.92,
+          "unit": "x10e6/mcL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/655a5229-e203-7904-75cb-93afc8d31d58"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8c134b86-5318-c14c-e513-06959b5c46f3",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "8c134b86-5318-c14c-e513-06959b5c46f3",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:296292aa-2428-4c8b-9ed7-88ecc4e56614"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "32623-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/8d9bbb6b-6aa3-dfb9-f783-7a3452b50ab8"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/8c134b86-5318-c14c-e513-06959b5c46f3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8d9bbb6b-6aa3-dfb9-f783-7a3452b50ab8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8d9bbb6b-6aa3-dfb9-f783-7a3452b50ab8",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719608/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "32623-1",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 11.6,
+          "unit": "Femtoliters"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/8d9bbb6b-6aa3-dfb9-f783-7a3452b50ab8"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:61a6f35f-1737-ef27-960d-063205a74128",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "61a6f35f-1737-ef27-960d-063205a74128",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:fcb76bd4-8543-40dc-82db-3ed8eea027ce"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "787-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/1d440e98-dc48-5b38-fbdf-3421266dc260"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/61a6f35f-1737-ef27-960d-063205a74128"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1d440e98-dc48-5b38-fbdf-3421266dc260",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1d440e98-dc48-5b38-fbdf-3421266dc260",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719598/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "787-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 90.7,
+          "unit": "Femtoliters"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1d440e98-dc48-5b38-fbdf-3421266dc260"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:87889af3-d107-c6ca-da5c-42e2f3a96496",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "87889af3-d107-c6ca-da5c-42e2f3a96496",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:f58e4d56-0fb3-480d-b983-e449b62364ab"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "786-4",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/4d8f6eb0-0d7e-ecaf-ae46-44a4dba7d3f3"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/87889af3-d107-c6ca-da5c-42e2f3a96496"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4d8f6eb0-0d7e-ecaf-ae46-44a4dba7d3f3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4d8f6eb0-0d7e-ecaf-ae46-44a4dba7d3f3",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719602/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "786-4",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 33.0,
+          "unit": "gm/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/4d8f6eb0-0d7e-ecaf-ae46-44a4dba7d3f3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ff195d2a-6f7a-8498-696f-e465f2e0341a",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "ff195d2a-6f7a-8498-696f-e465f2e0341a",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:f45616d9-07b9-4a78-86ad-0be13b3ccf9b"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "785-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/99bc8b36-6065-5ff9-9b64-88b47d111b4e"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/ff195d2a-6f7a-8498-696f-e465f2e0341a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:99bc8b36-6065-5ff9-9b64-88b47d111b4e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "99bc8b36-6065-5ff9-9b64-88b47d111b4e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719600/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "785-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 29.9,
+          "unit": "pg"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/99bc8b36-6065-5ff9-9b64-88b47d111b4e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5a15af0b-0294-a280-bf80-a6ca0ae27d24",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "5a15af0b-0294-a280-bf80-a6ca0ae27d24",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:58faaf53-a135-4e4c-8861-2948272f3b7e"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "718-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/05d23fa2-a11c-d51e-8c37-d0126cfd20de"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/5a15af0b-0294-a280-bf80-a6ca0ae27d24"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:05d23fa2-a11c-d51e-8c37-d0126cfd20de",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "05d23fa2-a11c-d51e-8c37-d0126cfd20de",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719594/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "718-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 14.7,
+          "unit": "gm/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/05d23fa2-a11c-d51e-8c37-d0126cfd20de"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:88f1eea7-2d0b-df73-9501-e24e49f60451",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "88f1eea7-2d0b-df73-9501-e24e49f60451",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:39091871-0e3f-44d6-9b19-6c37cb32c1e9"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "4544-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/66cf0d33-ead3-106d-6913-430abfcb78a6"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/88f1eea7-2d0b-df73-9501-e24e49f60451"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:66cf0d33-ead3-106d-6913-430abfcb78a6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "66cf0d33-ead3-106d-6913-430abfcb78a6",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284719596/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "4544-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 44.6,
+          "unit": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/66cf0d33-ead3-106d-6913-430abfcb78a6"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:72b5985b-4961-9cca-57f6-3d7346e5d5fd",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "72b5985b-4961-9cca-57f6-3d7346e5d5fd",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:337357ca-f335-4832-a257-80eddb26e990"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2345-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/21bdb3ca-415f-8faf-a74a-e89675e96f80"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/72b5985b-4961-9cca-57f6-3d7346e5d5fd"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:21bdb3ca-415f-8faf-a74a-e89675e96f80",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "21bdb3ca-415f-8faf-a74a-e89675e96f80",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816023/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2345-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 115,
+          "unit": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "H",
+                "display": "High",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/21bdb3ca-415f-8faf-a74a-e89675e96f80"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:af92cf08-099a-3046-3b79-44f1ee867b2b",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "af92cf08-099a-3046-3b79-44f1ee867b2b",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:c84a3500-fbeb-440d-8623-db566fd2ecdd"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "48065-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/0f0f7b88-36b9-b3f6-c7dc-3dbd0e0c1f33"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/af92cf08-099a-3046-3b79-44f1ee867b2b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0f0f7b88-36b9-b3f6-c7dc-3dbd0e0c1f33",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0f0f7b88-36b9-b3f6-c7dc-3dbd0e0c1f33",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284775083/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "48065-7",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.34,
+          "unit": "mcg/mL FEU"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0f0f7b88-36b9-b3f6-c7dc-3dbd0e0c1f33"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a1a6860d-3d84-e7f6-8821-4818a4fa7cc9",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "a1a6860d-3d84-e7f6-8821-4818a4fa7cc9",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:39b8f29d-7cd8-48af-97c3-7eb095b91b2b"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2028-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/100f0c35-2837-6779-3d9d-78abab23c9be"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/a1a6860d-3d84-e7f6-8821-4818a4fa7cc9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:100f0c35-2837-6779-3d9d-78abab23c9be",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "100f0c35-2837-6779-3d9d-78abab23c9be",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816017/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2028-9",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 28,
+          "unit": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/100f0c35-2837-6779-3d9d-78abab23c9be"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a94a05dc-944f-a09b-bf04-fbcfb41cf48b",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "a94a05dc-944f-a09b-bf04-fbcfb41cf48b",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:63c00a5a-fad2-4eec-a000-4af796bc3f66"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1975-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/64dfabc6-162c-b3b4-f799-487bb5fe407d"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/a94a05dc-944f-a09b-bf04-fbcfb41cf48b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:64dfabc6-162c-b3b4-f799-487bb5fe407d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "64dfabc6-162c-b3b4-f799-487bb5fe407d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816039/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1975-2",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.8,
+          "unit": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/64dfabc6-162c-b3b4-f799-487bb5fe407d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b983c168-a430-6f1c-0bd3-13f167b2a68f",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "b983c168-a430-6f1c-0bd3-13f167b2a68f",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:57c456dd-147b-436a-a31f-06265842e0ab"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1920-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/00e70eb7-589c-8d09-0352-837e31e7279d"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/b983c168-a430-6f1c-0bd3-13f167b2a68f"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00e70eb7-589c-8d09-0352-837e31e7279d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "00e70eb7-589c-8d09-0352-837e31e7279d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816027/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1920-8",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 25,
+          "unit": "units/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/00e70eb7-589c-8d09-0352-837e31e7279d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0336c04a-7554-3864-606a-bf899bd1e192",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "0336c04a-7554-3864-606a-bf899bd1e192",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:261a54fc-3b4b-4b20-b1a0-7bc5a3420137"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1742-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/1b3c0f38-d65d-82cd-cbfd-3b7d5ef2b261"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/0336c04a-7554-3864-606a-bf899bd1e192"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1b3c0f38-d65d-82cd-cbfd-3b7d5ef2b261",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1b3c0f38-d65d-82cd-cbfd-3b7d5ef2b261",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816025/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1742-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 19,
+          "unit": "units/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1b3c0f38-d65d-82cd-cbfd-3b7d5ef2b261"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:88b330c7-9041-7aed-0b7c-44884e7708f0",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "88b330c7-9041-7aed-0b7c-44884e7708f0",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:a1ae3fa5-1aa2-4304-aa03-00cbd5abc3a8"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "6768-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/595e4f34-dd66-869a-8e85-47dacd05273c"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/88b330c7-9041-7aed-0b7c-44884e7708f0"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:595e4f34-dd66-869a-8e85-47dacd05273c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "595e4f34-dd66-869a-8e85-47dacd05273c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816035/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "6768-6",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 67,
+          "unit": "units/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/595e4f34-dd66-869a-8e85-47dacd05273c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7d570c5f-b0d7-78fa-ded5-794dbfbbfaa9",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "7d570c5f-b0d7-78fa-ded5-794dbfbbfaa9",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:a14e9225-ca2c-4b41-960f-24c0f1f1f03e"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "3097-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/078dd83d-5124-2b01-2978-bf12d2882bb5"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/7d570c5f-b0d7-78fa-ded5-794dbfbbfaa9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:078dd83d-5124-2b01-2978-bf12d2882bb5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "078dd83d-5124-2b01-2978-bf12d2882bb5",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816049/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "3097-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 10,
+          "unit": "null"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/078dd83d-5124-2b01-2978-bf12d2882bb5"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5ddd4da2-3fb1-88cd-2828-a83d25726ef5",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "5ddd4da2-3fb1-88cd-2828-a83d25726ef5",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:7de52dcf-a364-4662-b2e4-8a8b5e3bcb48"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1863-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/255626c0-7380-c8c8-7c64-f726aac66826"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/5ddd4da2-3fb1-88cd-2828-a83d25726ef5"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:255626c0-7380-c8c8-7c64-f726aac66826",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "255626c0-7380-c8c8-7c64-f726aac66826",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816043/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "1863-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 6,
+          "unit": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/255626c0-7380-c8c8-7c64-f726aac66826"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:30a90517-e5c5-13dd-1eea-1c808e0a4d2e",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "30a90517-e5c5-13dd-1eea-1c808e0a4d2e",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:0f86d34d-7572-40a4-9927-2f39ded0881a"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2160-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        },
+        "result": [
+          {
+            "reference": "Observation/41d93e42-b31d-d098-2050-ee9c61fe3010"
+          }
+        ],
+        "meta": {
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/30a90517-e5c5-13dd-1eea-1c808e0a4d2e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:41d93e42-b31d-d098-2050-ee9c61fe3010",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "41d93e42-b31d-d098-2050-ee9c61fe3010",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883",
+            "value": "https://fhir-ehr.cerner.com/r4/da0b5d99-573c-4f5e-aaf6-8d39fa93d033/Observation/M-19284816021/_history/1"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "2160-0",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-04-15T17:03:00Z",
+        "valueQuantity": {
+          "value": 0.856,
+          "unit": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "Normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/41d93e42-b31d-d098-2050-ee9c61fe3010"
+      }
+    }
+  ]
+}
