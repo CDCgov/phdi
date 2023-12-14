@@ -37,7 +37,6 @@ const patientContactInfo = (fhirBundle: Bundle, fhirPathMappings: PathMappings) 
     ${emails}`
 }
 
-
 const EcrSummary = (
     {fhirPathMappings, fhirBundle}: EcrViewerProps
 ) => {
@@ -58,7 +57,14 @@ const EcrSummary = (
                                 {patientName(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
-                        <div className={"section__line"} />
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                            <div className="data-title"><h4>DOB</h4></div>
+                            <div className="grid-col-auto text-pre-line">
+                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Address</h4></div>
                             <div className="grid-col-auto text-pre-line">
@@ -72,7 +78,7 @@ const EcrSummary = (
                                 {patientContactInfo(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
-                        <div className={"section__line"} />
+                        <div className={"section__line"}/>
                     </div>
                 </div>
             </div>

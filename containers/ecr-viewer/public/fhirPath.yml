@@ -7,3 +7,4 @@ patientZipCode: "Bundle.entry.resource.where(resourceType = 'Patient').address.f
 patientCountry: "Bundle.entry.resource.where(resourceType = 'Patient').address.first().country"
 patientPhoneNumbers: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'phone')"
 patientEmails: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')"
+patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"

@@ -46,6 +46,25 @@ exports[`EcrSummary should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
+                DOB
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              2015-04-15
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
                 Patient Address
               </h4>
             </div>
