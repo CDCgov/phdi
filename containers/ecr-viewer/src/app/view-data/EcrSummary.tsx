@@ -30,8 +30,8 @@ const patientName = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
 }
 
 const patientContactInfo = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
-    const phoneNumbers = evaluate(fhirBundle, fhirPathMappings.patientPhoneNumbers).map(phoneNumber => `tel: (${phoneNumber.use}) ${phoneNumber.value}`).join("\n");
-    const emails = evaluate(fhirBundle, fhirPathMappings.patientEmails).map(email => `email: ${email.value}`).join("\n");
+    const phoneNumbers = evaluate(fhirBundle, fhirPathMappings.patientPhoneNumbers).map(phoneNumber => `${phoneNumber?.use?.charAt(0).toUpperCase() + phoneNumber?.use?.substring(1)} ${phoneNumber.value}`).join("\n");
+    const emails = evaluate(fhirBundle, fhirPathMappings.patientEmails).map(email => `${email.value}`).join("\n");
 
     return `${phoneNumbers}
     ${emails}`
