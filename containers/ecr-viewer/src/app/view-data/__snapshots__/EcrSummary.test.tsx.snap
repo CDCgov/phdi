@@ -34,7 +34,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="grid-col-auto"
             >
-              John Tiberius Shepard
+              ABEL CASTILLO
             </div>
           </div>
           <div
@@ -53,10 +53,9 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="grid-col-auto text-pre-line"
             >
-              1234 Silversun Strip
-apt 2
-    Boston Massachusetts
-    99999, USA
+              1050 CARPENTER ST
+    EDWARDS CA
+    93523-2800, USA
             </div>
           </div>
           <div
@@ -75,9 +74,8 @@ apt 2
             <div
               class="grid-col-auto text-pre-line"
             >
-              tel: (mobile) 1 555 234 5678
-tel: (home) 1 555 567 8901
-    email: p.heuvel@example.com
+              tel: (home) +18184195968
+    email: MELLY.C.A.16@GMAIL.COM
             </div>
           </div>
           <div
