@@ -1,8 +1,0 @@
-version: '3.3'
-
-services:
-  html-converter:
-    build:
-      context: ../..
-    ports:
-          - "3000:3000"
