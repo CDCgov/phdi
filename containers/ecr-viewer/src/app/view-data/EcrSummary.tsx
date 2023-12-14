@@ -15,11 +15,11 @@ const patientAddress = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
     const city = evaluate(fhirBundle, fhirPathMappings.patientCity);
     const state = evaluate(fhirBundle, fhirPathMappings.patientState);
     const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode);
-
+    const country = evaluate(fhirBundle, fhirPathMappings.patientCountry);
     return(
     `${streetAddresses}
-    ${city} ${state}
-    ${zipCode}, USA`);
+    ${city}, ${state}
+    ${zipCode}${country && `, ${country}`}`);
 }
 
 const patientName = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
