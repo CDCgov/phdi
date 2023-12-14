@@ -11,7 +11,7 @@
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
-    "test:integration": "mocha --timeout 600000 tests/integration/test_ecr-converter.js"
+    "test:integration": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js"
   },
   "dependencies": {
     "@uswds/uswds": "3.7.0",
