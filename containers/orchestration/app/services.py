@@ -113,6 +113,7 @@ async def call_apis(
             if not validate_response(response=response):
                 progress_dict[endpoint_name] = {
                     "status": "error",
+                    "status_code": response.status_code,
                     "response": response.json(),
                 }
                 await websocket.send_text(json.dumps(progress_dict))
@@ -121,6 +122,7 @@ async def call_apis(
             if websocket:
                 # Write service responses into websocket message
                 progress_dict[endpoint_name] = {
+                    "status": "success",
                     "status_code": response.status_code,
                     "response": response.json(),
                 }
