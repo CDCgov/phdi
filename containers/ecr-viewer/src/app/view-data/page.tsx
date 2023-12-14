@@ -47,7 +47,7 @@ const ECRViewerPage = () => {
       return (
           <div>
             <header><h1 className={"page-title"}>EZ eCR Viewer</h1></header>
-            <div className={"container"}>
+            <div className={"ecr-viewer-container"}>
               <h2>eCR Summary</h2>
               <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle}/>
             </div>
