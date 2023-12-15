@@ -123,7 +123,20 @@ async def test_websocket_process_message_endpoint():
             },
             {"endpoint": "/parse_message", "service": "message_parser"},
         ],
-        "validate": {"Message": "OK", "status_code": 200},
+        "validate": {
+            "status": "success",
+            "status_code": 200,
+            "response": {
+                "message_valid": True,
+                "validation_results": {
+                    "fatal": [],
+                    "errors": [],
+                    "warnings": [],
+                    "information": [],
+                    "message_ids": {},
+                },
+            },
+        },
     }
 
     client = TestClient(app)
