@@ -216,7 +216,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 14  # Adjust the Node.js version as needed
+        node-version: 18  # Adjust the Node.js version as needed
     - name: Install dependencies
       working-directory: ./containers/ecr-viewer  # Navigate to your Node.js app directory
       run: npm install

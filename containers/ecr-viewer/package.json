@@ -8,31 +8,41 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js"
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "jest",
+    "test:unit:watch": "jest --watch",
+    "test:integration": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js"
   },
   "dependencies": {
-    "@types/fhir": "^0.0.40",
     "@uswds/uswds": "3.7.0",
     "axios": "^1.6.0",
-    "chai": "^4.3.8",
     "fhirpath": "^3.9.0",
     "next": "14.0.3",
     "pg-promise": "^11.5.4",
     "react": "^18",
-    "react-dom": "^18",
-    "testcontainers": "^10.2.1"
+    "react-dom": "^18"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@types/fhir": "^0.0.40",
+    "@types/jest-axe": "^3.5.9",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "chai": "^4.3.10",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
+    "jest": "^29.7.0",
+    "jest-axe": "^8.0.0",
+    "jest-environment-jsdom": "^29.7.0",
     "mocha": "^10.2.0",
     "postcss": "^8",
     "sass": "^1.69.5",
     "tailwindcss": "^3.3.0",
+    "testcontainers": "^10.3.2",
     "typescript": "^5"
   }
 }
