@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EcrSummary should match snapshot 1`] = `
+<div>
+  <div
+    class="info-container"
+  >
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="usa-summary-box padding-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          id="summary-box-key-information"
+        >
+          About the Patient
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Patient Name
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              ABEL CASTILLO
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                DOB
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              2015-04-15
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Patient Address
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              1050 CARPENTER ST
+    EDWARDS, CA
+    93523-2800, US
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Patient Contact
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              Home +18184195968
+    MELLY.C.A.16@GMAIL.COM
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

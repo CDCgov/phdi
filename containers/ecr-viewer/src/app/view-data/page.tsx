@@ -44,12 +44,17 @@ const ECRViewerPage = () => {
       )
     }
     else if (fhirBundle && mappings) {
-      return <div>
-        <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle}/>
-      </div>
+      return (
+          <div>
+            <header><h1 className={"page-title"}>EZ eCR Viewer</h1></header>
+            <div className={"ecr-viewer-container"}>
+              <h2>eCR Summary</h2>
+              <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle}/>
+            </div>
+          </div>)
     } else {
       return <div>
-        <h1>Loading...</h1>
+      <h1>Loading...</h1>
       </div>
     }
 

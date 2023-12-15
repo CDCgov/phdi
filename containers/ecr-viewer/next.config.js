@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
 const path = require('path')
 
-module.exports = {
+const nextConfig = {
     sassOptions: {
         includePaths: [
             path.join(__dirname, "node_modules", "@uswds", "uswds", "packages"),
         ],
     },
-}
+    transpilePackages: ['yaml']
+};
+
+module.exports = nextConfig;
