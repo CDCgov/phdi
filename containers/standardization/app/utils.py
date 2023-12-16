@@ -50,7 +50,8 @@ def is_patient_resource(resource) -> bool:
 
 def apply_function_to_fhirpath(bundle: Dict, fhirpath: str, function: Callable) -> Dict:
     """
-    Applies a given function to elements in a FHIR bundle identified by a FHIRPath expression.
+    Applies a given function to elements in a FHIR bundle identified by a FHIRPath
+    expression.
 
     :param bundle: A FHIR bundle.
     :param fhirpath: A FHIRPath expression to select elements in the resource.
