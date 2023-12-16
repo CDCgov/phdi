@@ -5,8 +5,6 @@ from app.main import app
 from app.utils import (
     read_json_from_assets,
     standardize_name,
-    standardize_dob,
-    standardize_dob_fhir,
     _standardize_date,
     _validate_date,
 )
