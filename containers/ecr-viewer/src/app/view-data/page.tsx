@@ -9,40 +9,68 @@ import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import { Accordion } from '@trussworks/react-uswds'
 import UnavailableInfo from "./components/UnavailableInfo";
+import { evaluate } from "fhirpath";
+import { PathMappings, DisplayData, socialData } from "../utils";
 
 
 const ECRViewerPage = () => {
-  const [fhirBundle, setFhirBundle] = useState<Bundle | null>(null);
-  const [mappings, setMappings] = useState(null);
+  const [fhirBundle, setFhirBundle] = useState<Bundle>();
+  const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error | unknown>(null)
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
 
-  const accordionItems: any[] = [
-    {
-      title: 'Patient Info',
-      content: (
-        <div>
-          <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-          <SocialHistory fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-        </div>
-      ),
-      expanded: true,
-      id: '1',
-      headingLevel: 'h2',
-    },
-    {
-      title: 'Unavailable Info',
-      content: (
-        <div>
-          <UnavailableInfo fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-        </div>
-      ),
-      expanded: true,
-      id: '2',
-      headingLevel: 'h2',
-    },
-  ]
+
+  const evaluateSocialData = () => {
+    let socialArray: DisplayData[] = []
+    let unavailableArray: DisplayData[] = []
+    console.log('alcohol use: ', mappings.patientGivenName)
+    socialData.forEach((item) => {
+      const evaluatedFhirPath = evaluate(fhirBundle, mappings[item.value])
+      const evaluatedItem: DisplayData = { 'title': item.title, 'value': evaluatedFhirPath[0] }
+
+      if (evaluatedFhirPath.length > 0) {
+        socialArray.push(evaluatedItem)
+      } else {
+        unavailableArray.push(evaluatedItem)
+      }
+    })
+    return { 'available_data': socialArray, 'unavailable_data': unavailableArray }
+  }
+
+  const renderAccordion = () => {
+    const social_data = evaluateSocialData()
+    const accordionItems: any[] = [
+      {
+        title: 'Patient Info',
+        content: (
+          <div>
+            <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
+            <SocialHistory socialData={social_data.available_data} />
+          </div>
+        ),
+        expanded: true,
+        id: '1',
+        headingLevel: 'h2',
+      },
+      {
+        title: 'Unavailable Info',
+        content: (
+          <div>
+            <UnavailableInfo unavailableData={social_data.unavailable_data} />
+          </div>
+        ),
+        expanded: true,
+        id: '2',
+        headingLevel: 'h2',
+      },
+    ]
+
+    return (
+      <Accordion className="info-container" items={accordionItems} multiselectable={true} />
+    )
+  }
+
 
   useEffect(() => {
     // Fetch the appropriate bundle from Postgres database
@@ -66,6 +94,7 @@ const ECRViewerPage = () => {
     //Load fhirPath mapping data
     fhirPathMappings.then(val => { setMappings(val) })
   }, []);
+
   if (errors) {
     return (
       <div>
@@ -74,15 +103,15 @@ const ECRViewerPage = () => {
     )
   }
   else if (fhirBundle && mappings) {
+
     return (
       <div>
         <header><h1 className={"page-title"}>EZ eCR Viewer</h1></header>
         <div className={"ecr-viewer-container"}>
           <h2>eCR Summary</h2>
           <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-          <Accordion items={accordionItems} multiselectable={true}>
-
-          </Accordion>
+          <h2>Additional Details</h2>
+          {renderAccordion()}
         </div>
       </div>)
   } else {

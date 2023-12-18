@@ -1,17 +1,24 @@
 import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
+import { PathMappings } from "@/app/utils";
 
-interface EcrViewerProps {
+interface DemographicsProps {
     fhirPathMappings: PathMappings
     fhirBundle: Bundle
 }
 
-interface PathMappings {
-    [key: string]: string;
+
+
+const patientName = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
+    const givenNames = evaluate(fhirBundle, fhirPathMappings.patientGivenName).join(" ");
+    const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
+
+    return `${givenNames} ${familyName}`;
 }
 
+
 const Demographics = (
-    { fhirPathMappings, fhirBundle }: EcrViewerProps
+    { fhirPathMappings, fhirBundle }: DemographicsProps
 ) => {
     return (
         <div>
@@ -21,72 +28,72 @@ const Demographics = (
             >
                 <div className="usa-summary-box__body">
                     <h3
-                        className="usa-summary-box__heading padding-top-105 padding-bottom-1"
+                        className="usa-summary-box__heading padding-y-105"
                         id="summary-box-key-information"
                     >
                         Demographics
                     </h3>
                     <div className="usa-summary-box__text">
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Patient Name</div>
+                            <div className="data-title"><h4>Patient Name</h4></div>
                             <div className="grid-col-auto">
-                                {evaluate(fhirBundle, fhirPathMappings.patientGivenName).join(" ")} {evaluate(fhirBundle, fhirPathMappings.patientFamilyName)}
+                                {patientName(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Patient ID</div>
+                            <div className="data-title"><h4>Patient ID</h4></div>
                             <div className="grid-col-auto">
                                 {evaluate(fhirBundle, fhirPathMappings.patientId)}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">DOB</div>
+                            <div className="data-title"><h4>DOB</h4></div>
                             <div className="grid-col-auto">
                                 {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Sex</div>
+                            <div className="data-title"><h4>Sex</h4></div>
                             <div className="grid-col-auto">
                                 {evaluate(fhirBundle, fhirPathMappings.patientGender)}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Race</div>
+                            <div className="data-title"><h4>Race</h4></div>
                             <div className="grid-col-auto">
                                 {evaluate(fhirBundle, fhirPathMappings.patientRace)}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Ethnicity</div>
+                            <div className="data-title"><h4>Ethnicity</h4></div>
                             <div className="grid-col-auto">
                                 {evaluate(fhirBundle, fhirPathMappings.patientEthnicity)}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Preferred Language</div>
+                            <div className="data-title"><h4>Preferred Language</h4></div>
                             <div className="grid-col-auto">
                                 {evaluate(fhirBundle, fhirPathMappings.patientLanguage)}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Patient Address</div>
+                            <div className="data-title"><h4>Patient Address</h4></div>
                             <div className="grid-col-auto text-pre-line">
                                 {evaluate(fhirBundle, fhirPathMappings.patientStreetAddress).join("\n")} {'\n'}
                                 {evaluate(fhirBundle, fhirPathMappings.patientCity)}, {evaluate(fhirBundle, fhirPathMappings.patientState)} {'\n'}
                                 {evaluate(fhirBundle, fhirPathMappings.patientZipCode)}, USA
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                         <div className="grid-row">
-                            <div className="grid-col-2 text-bold">Contact</div>
+                            <div className="data-title"><h4>Contact</h4></div>
                             <div className="grid-col-auto text-pre-line">
                                 {evaluate(fhirBundle, fhirPathMappings.patientPhoneNumbers).map(phoneNumber => {
                                     return `tel: (${phoneNumber.use}) ${phoneNumber.value}`
@@ -97,7 +104,7 @@ const Demographics = (
                                 }).join("\n")}
                             </div>
                         </div>
-                        <div className={"section__line_gray margin-y-105"} />
+                        <div className={"section__line_gray"} />
                     </div>
                 </div>
             </div>

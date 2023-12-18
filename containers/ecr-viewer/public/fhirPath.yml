@@ -7,6 +7,8 @@ patientZipCode: "Bundle.entry.resource.where(resourceType = 'Patient').address.f
 patientCountry: "Bundle.entry.resource.where(resourceType = 'Patient').address.first().country"
 patientPhoneNumbers: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'phone')"
 patientEmails: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')"
+
+patientId: "Bundle.entry.resource.where(resourceType = 'Patient').id"
 patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"
 patientGender: "Bundle.entry.resource.where(resourceType = 'Patient').gender"
 patientRace: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension.first().valueCoding.display"
