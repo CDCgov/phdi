@@ -165,6 +165,9 @@ def _standardize_date(
         Default: False
     :return: A date as a string in the FHIR Date Format.
     """
+    # TODO: detect function from detect-delimiter hasn't been updated
+    # since 2018; might be worth replacing with a more robust library
+    # or writing our own detection function
     delim = detect(raw_date)
     format_delim = detect(date_format.replace("%", ""))
 
