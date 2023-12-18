@@ -24,7 +24,6 @@ const ECRViewerPage = () => {
   const evaluateSocialData = () => {
     let socialArray: DisplayData[] = []
     let unavailableArray: DisplayData[] = []
-    console.log('alcohol use: ', mappings.patientGivenName)
     socialData.forEach((item) => {
       const evaluatedFhirPath = evaluate(fhirBundle, mappings[item.value])
       const evaluatedItem: DisplayData = { 'title': item.title, 'value': evaluatedFhirPath[0] }

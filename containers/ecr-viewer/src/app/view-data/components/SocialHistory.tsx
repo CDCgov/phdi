@@ -1,5 +1,3 @@
-import { evaluate } from "fhirpath";
-import { Bundle } from "fhir/r4";
 import { DisplayData } from "@/app/utils";
 
 interface SocialHistoryProps {
@@ -10,20 +8,17 @@ const SocialHistory = (
     { socialData }: SocialHistoryProps
 ) => {
     const renderDemographicsData = (item: any, index: number) => {
-        console.log(item.value.length);
-        if (item.value.length > 0) {
-            return (
-                <div key={index}>
-                    <div className="grid-row">
-                        <div className="data-title"><h4>{item.title}</h4></div>
-                        <div className="grid-col-auto">
-                            {item.value}
-                        </div>
+        return (
+            <div key={index}>
+                <div className="grid-row">
+                    <div className="data-title"><h4>{item.title}</h4></div>
+                    <div className="grid-col-auto">
+                        {item.value}
                     </div>
-                    <div className={"section__line_gray"} />
                 </div>
-            )
-        }
+                <div className={"section__line_gray"} />
+            </div>
+        )
     }
 
     return (

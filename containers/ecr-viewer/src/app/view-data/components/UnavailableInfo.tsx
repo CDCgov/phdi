@@ -1,5 +1,3 @@
-import { evaluate } from "fhirpath";
-import { Bundle } from "fhir/r4";
 import { DisplayData } from "@/app/utils";
 
 interface UnavailableInfoProps {
