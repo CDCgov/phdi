@@ -2,7 +2,7 @@ import copy
 import json
 import pathlib
 from datetime import datetime
-from typing import Dict, Callable, Literal, List, Optional, Union
+from typing import Dict, Callable, Literal, List, Union
 
 from detect_delimiter import detect
 from fhirpathpy import evaluate as fhirpath_evaluate
@@ -68,34 +68,6 @@ def apply_function_to_fhirpath(bundle: Dict, fhirpath: str, function: Callable) 
         function(element)
 
     return bundle
-
-
-# TODO: function not working as expected; find out it's within scope to
-# refactor this and replace the dependancy on detect_delimiter.detect
-# since it hasn't been updated since 2018
-def detect_delimiter(text: str) -> Optional[str]:
-    """
-    Detects the delimiter used in text formats such as CSV and its variants.
-
-    This is a simplified version of the detect_delimiter.detect function that
-    checks for common delimiters and returns the one that evenly splits the text
-    into fields across multiple lines. If no delimiter is found, it returns None.
-    """
-    candidates = list(",;:|/\t")
-    lines = text.splitlines()
-    likely_candidates = []
-
-    for c in candidates:
-        fields_for_candidate = [len(line.split(c)) for line in lines]
-
-        # check if all lines have the same number of fields when split by the candidate
-        if fields_for_candidate and all(
-            n == fields_for_candidate[0] for n in fields_for_candidate
-        ):
-            likely_candidates.append(c)
-
-    # return the first likely candidate if found, else None
-    return likely_candidates[0] if likely_candidates else None
 
 
 def standardize_name(
@@ -193,8 +165,6 @@ def _standardize_date(
         Default: False
     :return: A date as a string in the FHIR Date Format.
     """
-    # delim = detect_delimiter(raw_date)
-    # format_delim = detect_delimiter(date_format.replace("%", ""))
     delim = detect(raw_date)
     format_delim = detect(date_format.replace("%", ""))
 
@@ -240,7 +210,6 @@ def standardize_dob(raw_dob: str, existing_format: str = FHIR_DATE_FORMAT) -> st
     :return: Date of birth as a string in YYYY-MM-DD format
         or None if date of birth is invalid.
     """
-
     #  Need to make sure dob is not None or null ("")
     #  or detect() will end up in an infinite loop
     if raw_dob is None or len(raw_dob) == 0:
@@ -269,7 +238,6 @@ def standardize_dob_fhir(
                       Default: True.
     :return: The modified bundle or patient resource.
     """
-
     if not overwrite:
         data = copy.deepcopy(data)
 
