@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Demographics should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          Demographics
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Patient Name
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              ABEL CASTILLO
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Patient ID
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              6b6b3c4c-4884-4a96-b6ab-c46406839cea
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                DOB
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              2015-04-15
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Sex
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              male
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Race
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              Black or African American
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Ethnicity
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              Hispanic or Latino
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Preferred Language
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            />
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Patient Address
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              1050 CARPENTER ST
+               
+              
+
+              EDWARDS
+              , 
+              CA
+               
+              
+
+              93523-2800
+              , USA
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Contact
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              tel: (home) +18184195968
+              
+
+              email: MELLY.C.A.16@GMAIL.COM
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

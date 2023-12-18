@@ -4,12 +4,12 @@ import { PathMappings } from "@/app/utils";
 
 interface DemographicsProps {
     fhirPathMappings: PathMappings
-    fhirBundle: Bundle
+    fhirBundle: Bundle | undefined
 }
 
 
 
-const patientName = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
+const patientName = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
     const givenNames = evaluate(fhirBundle, fhirPathMappings.patientGivenName).join(" ");
     const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
 

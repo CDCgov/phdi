@@ -16,7 +16,7 @@ import { PathMappings, DisplayData, socialData } from "../utils";
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
   const [mappings, setMappings] = useState<PathMappings>({});
-  const [errors, setErrors] = useState<Error | unknown>(null)
+  const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
 
@@ -39,13 +39,14 @@ const ECRViewerPage = () => {
 
   const renderAccordion = () => {
     const social_data = evaluateSocialData()
+    console.log(social_data.unavailable_data);
     const accordionItems: any[] = [
       {
         title: 'Patient Info',
         content: (
           <div>
             <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            <SocialHistory socialData={social_data.available_data} />
+            {social_data.available_data && <SocialHistory socialData={social_data.available_data} />}
           </div>
         ),
         expanded: true,
