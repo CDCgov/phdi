@@ -133,7 +133,13 @@ async def test_websocket_process_message_endpoint():
                     "errors": [],
                     "warnings": [],
                     "information": [],
-                    "message_ids": {},
+                    "message_ids": {
+                        "eicr": {
+                            "extension": None,
+                            "root": "1.2.840.114350.1.13.297.3.7.8.688883.532013",
+                        },
+                        "rr": {},
+                    },
                 },
             },
         },
