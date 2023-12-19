@@ -1,13 +1,10 @@
 import {evaluate} from "fhirpath";
 import {Bundle} from "fhir/r4";
+import {PathMappings, formatPatientName} from "../../utils";
 
 interface EcrViewerProps {
     fhirPathMappings: PathMappings
     fhirBundle: Bundle
-}
-
-interface PathMappings {
-    [key: string]: string;
 }
 
 const patientAddress = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
@@ -20,13 +17,6 @@ const patientAddress = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
     `${streetAddresses}
     ${city}, ${state}
     ${zipCode}${country && `, ${country}`}`);
-}
-
-const patientName = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
-    const givenNames = evaluate(fhirBundle, fhirPathMappings.patientGivenName).join(" ");
-    const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
-
-    return `${givenNames} ${familyName}`;
 }
 
 const patientContactInfo = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
@@ -54,7 +44,7 @@ const EcrSummary = (
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Name</h4></div>
                             <div className="grid-col-auto">
-                                {patientName(fhirBundle, fhirPathMappings)}
+                                {formatPatientName(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"}/>

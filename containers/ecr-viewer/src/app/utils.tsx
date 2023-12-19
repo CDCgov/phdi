@@ -1,3 +1,5 @@
+import {Bundle} from "fhir/r4";
+import {evaluate} from "fhirpath";
 
 export interface DisplayData {
     title: string,
@@ -7,7 +9,6 @@ export interface DisplayData {
 export interface PathMappings {
     [key: string]: string;
 }
-
 
 export const socialData = [
     {
@@ -46,5 +47,11 @@ export const socialData = [
         'title': 'Occupation',
         'value': 'patientCurrentJobTitle',
     },
-
 ]
+
+export const formatPatientName = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
+    const givenNames = evaluate(fhirBundle, fhirPathMappings.patientGivenName).join(" ");
+    const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
+
+    return `${givenNames} ${familyName}`;
+}

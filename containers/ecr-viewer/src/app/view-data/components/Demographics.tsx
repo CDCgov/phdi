@@ -1,21 +1,11 @@
 import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
-import { PathMappings } from "@/app/utils";
+import {PathMappings, formatPatientName} from "../../utils";
 
 interface DemographicsProps {
     fhirPathMappings: PathMappings
     fhirBundle: Bundle | undefined
 }
-
-
-
-const patientName = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
-    const givenNames = evaluate(fhirBundle, fhirPathMappings.patientGivenName).join(" ");
-    const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
-
-    return `${givenNames} ${familyName}`;
-}
-
 
 const Demographics = (
     { fhirPathMappings, fhirBundle }: DemographicsProps
@@ -37,7 +27,7 @@ const Demographics = (
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Name</h4></div>
                             <div className="grid-col-auto">
-                                {patientName(fhirBundle, fhirPathMappings)}
+                                {formatPatientName(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
