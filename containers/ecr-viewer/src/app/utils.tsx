@@ -55,3 +55,23 @@ export const formatPatientName = (fhirBundle: Bundle | undefined, fhirPathMappin
 
     return `${givenNames} ${familyName}`;
 }
+
+export const formatPatientAddress = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
+    const streetAddresses = evaluate(fhirBundle, fhirPathMappings.patientStreetAddress).join("\n");
+    const city = evaluate(fhirBundle, fhirPathMappings.patientCity);
+    const state = evaluate(fhirBundle, fhirPathMappings.patientState);
+    const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode);
+    const country = evaluate(fhirBundle, fhirPathMappings.patientCountry);
+    return(
+        `${streetAddresses}
+    ${city}, ${state}
+    ${zipCode}${country && `, ${country}`}`);
+}
+
+export const formatPatientContactInfo = (fhirBundle: Bundle, fhirPathMappings: PathMappings) => {
+    const phoneNumbers = evaluate(fhirBundle, fhirPathMappings.patientPhoneNumbers).map(phoneNumber => `${phoneNumber?.use?.charAt(0).toUpperCase() + phoneNumber?.use?.substring(1)} ${phoneNumber.value}`).join("\n");
+    const emails = evaluate(fhirBundle, fhirPathMappings.patientEmails).map(email => `${email.value}`).join("\n");
+
+    return `${phoneNumbers}
+    ${emails}`
+}
