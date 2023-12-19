@@ -75,3 +75,19 @@ export const formatPatientContactInfo = (fhirBundle: Bundle, fhirPathMappings: P
     return `${phoneNumbers}
     ${emails}`
 }
+
+export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: PathMappings) => {
+    let socialArray: DisplayData[] = []
+    let unavailableArray: DisplayData[] = []
+    socialData.forEach((item) => {
+        const evaluatedFhirPath = evaluate(fhirBundle, mappings[item.value])
+        const evaluatedItem: DisplayData = { 'title': item.title, 'value': evaluatedFhirPath[0] }
+
+        if (evaluatedFhirPath.length > 0) {
+            socialArray.push(evaluatedItem)
+        } else {
+            unavailableArray.push(evaluatedItem)
+        }
+    })
+    return { 'available_data': socialArray, 'unavailable_data': unavailableArray }
+}

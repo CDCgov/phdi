@@ -9,8 +9,7 @@ import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import { Accordion } from '@trussworks/react-uswds'
 import UnavailableInfo from "./components/UnavailableInfo";
-import { evaluate } from "fhirpath";
-import { PathMappings, DisplayData, socialData } from "../utils";
+import {PathMappings, evaluateSocialData} from "../utils";
 
 
 const ECRViewerPage = () => {
@@ -20,26 +19,31 @@ const ECRViewerPage = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
 
-
-  const evaluateSocialData = () => {
-    let socialArray: DisplayData[] = []
-    let unavailableArray: DisplayData[] = []
-    socialData.forEach((item) => {
-      const evaluatedFhirPath = evaluate(fhirBundle, mappings[item.value])
-      const evaluatedItem: DisplayData = { 'title': item.title, 'value': evaluatedFhirPath[0] }
-
-      if (evaluatedFhirPath.length > 0) {
-        socialArray.push(evaluatedItem)
-      } else {
-        unavailableArray.push(evaluatedItem)
+  useEffect(() => {
+    // Fetch the appropriate bundle from Postgres database
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/data?id=${fhirId}`);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Internal Server Error');
+        } else {
+          const databaseBundle: Bundle = (await response.json()).fhirBundle;
+          setFhirBundle(databaseBundle)
+        }
+      } catch (error) {
+        setErrors(error)
+        console.error('Error fetching data:', error);
       }
-    })
-    return { 'available_data': socialArray, 'unavailable_data': unavailableArray }
-  }
+    };
+    fetchData();
+
+    //Load fhirPath mapping data
+    fhirPathMappings.then(val => { setMappings(val) })
+  }, []);
 
   const renderAccordion = () => {
-    const social_data = evaluateSocialData()
-    console.log(social_data.unavailable_data);
+    const social_data = evaluateSocialData(fhirBundle, mappings)
     const accordionItems: any[] = [
       {
         title: 'Patient Info',
@@ -71,30 +75,6 @@ const ECRViewerPage = () => {
     )
   }
 
-
-  useEffect(() => {
-    // Fetch the appropriate bundle from Postgres database
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/data?id=${fhirId}`);
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Internal Server Error');
-        } else {
-          const databaseBundle: Bundle = (await response.json()).fhirBundle;
-          setFhirBundle(databaseBundle)
-        }
-      } catch (error) {
-        setErrors(error)
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-
-    //Load fhirPath mapping data
-    fhirPathMappings.then(val => { setMappings(val) })
-  }, []);
-
   if (errors) {
     return (
       <div>
@@ -119,7 +99,6 @@ const ECRViewerPage = () => {
       <h1>Loading...</h1>
     </div>
   }
-
 };
 
 export default ECRViewerPage;
