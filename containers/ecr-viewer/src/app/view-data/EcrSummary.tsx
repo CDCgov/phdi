@@ -40,6 +40,7 @@ const patientContactInfo = (fhirBundle: Bundle, fhirPathMappings: PathMappings) 
 const EcrSummary = (
     {fhirPathMappings, fhirBundle}: EcrViewerProps
 ) => {
+    const rr = evaluate(fhirBundle, fhirPathMappings.rrSection)[0];
     return (
         <div className={"info-container"}>
             <div
@@ -88,8 +89,8 @@ const EcrSummary = (
                     <div className="usa-summary-box__text">
                         <div className="grid-row">
                             <div className="data-title"><h4>Reportable Condition</h4></div>
-                            <div className="grid-col-auto">
-                                {patientName(fhirBundle, fhirPathMappings)}
+                            <div className="grid-col-fill">
+                                {rr.entry[0].display.split("-")[1]}
                             </div>
                         </div>
                         <div className={"section__line"}/>
@@ -159,7 +160,7 @@ const EcrSummary = (
                                         <div className={"section__line"}/>
                                         <div className="grid-row">
                                             <div className="data-title"><h4>Notes</h4></div>
-                                            <div className="grid-col-auto text-pre-line">
+                                            <div className="grid-col-fill text-pre-line">
                                                 A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions. (temp)
                                             </div>
                                         </div>
