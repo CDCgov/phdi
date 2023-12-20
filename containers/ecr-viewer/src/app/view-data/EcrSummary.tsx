@@ -1,16 +1,5 @@
 import {evaluate} from "fhirpath";
 import {Bundle} from "fhir/r4";
-import {
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    CardGroup,
-    CardHeader,
-    Grid,
-    GridContainer,
-    Table
-} from "@trussworks/react-uswds";
 
 interface EcrViewerProps {
     fhirPathMappings: PathMappings
