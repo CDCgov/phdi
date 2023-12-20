@@ -1,6 +1,6 @@
 import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
-import {PathMappings, formatPatientName} from "../../utils";
+import {PathMappings, formatPatientName, formatPatientContactInfo, formatPatientAddress} from "../../utils";
 
 interface DemographicsProps {
     fhirPathMappings: PathMappings
@@ -76,22 +76,14 @@ const Demographics = (
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Address</h4></div>
                             <div className="grid-col-auto text-pre-line">
-                                {evaluate(fhirBundle, fhirPathMappings.patientStreetAddress).join("\n")} {'\n'}
-                                {evaluate(fhirBundle, fhirPathMappings.patientCity)}, {evaluate(fhirBundle, fhirPathMappings.patientState)} {'\n'}
-                                {evaluate(fhirBundle, fhirPathMappings.patientZipCode)}, USA
+                                {formatPatientAddress(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
                         <div className="grid-row">
                             <div className="data-title"><h4>Contact</h4></div>
                             <div className="grid-col-auto text-pre-line">
-                                {evaluate(fhirBundle, fhirPathMappings.patientPhoneNumbers).map(phoneNumber => {
-                                    return `tel: (${phoneNumber.use}) ${phoneNumber.value}`
-                                }).join("\n")}
-                                {'\n'}
-                                {evaluate(fhirBundle, fhirPathMappings.patientEmails).map(email => {
-                                    return `email: ${email.value}`
-                                }).join("\n")}
+                                {formatPatientContactInfo(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
