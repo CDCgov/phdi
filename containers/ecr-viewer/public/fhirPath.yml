@@ -8,3 +8,5 @@ patientCountry: "Bundle.entry.resource.where(resourceType = 'Patient').address.f
 patientPhoneNumbers: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'phone')"
 patientEmails: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')"
 patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"
+rrSection: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section')"
+rrId: "Bundle.entry.select((resource as Observation).where(id =  $obsId))"

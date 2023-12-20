@@ -4,6 +4,10 @@
   margin-bottom: .5rem;
 }
 
+.card__line {
+  border-top: 8px solid #EDEFF0;
+}
+
 h2 {
   font-size: 40px;
   margin-top: 24px;
@@ -46,3 +50,30 @@ h4 {
   flex:0 1 auto;
   width: 190px;
 }
+
+.list-style-none {
+  list-style: none;
+}
+
+.ecrTable {
+    table-layout: fixed;
+    margin-bottom: 0;
+    width: 100%;
+    td:first-child, th:first-child {
+      padding-left: 24px;
+    }
+    td:last-child, th:last-child {
+      padding-right: 24px;
+    }
+    td {
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+    thead th{
+      border-bottom-color: #A9AEB1;
+    }
+    tr td{
+      border-bottom: none;
+    }
+}
+

@@ -1,5 +1,16 @@
 import {evaluate} from "fhirpath";
 import {Bundle} from "fhir/r4";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardGroup,
+    CardHeader,
+    Grid,
+    GridContainer,
+    Table
+} from "@trussworks/react-uswds";
 
 interface EcrViewerProps {
     fhirPathMappings: PathMappings
@@ -81,6 +92,100 @@ const EcrSummary = (
                         <div className={"section__line"}/>
                     </div>
                 </div>
+                <div className="usa-summary-box__body">
+                    <h3 id="summary-box-key-information">
+                        About the Condition
+                    </h3>
+                    <div className="usa-summary-box__text">
+                        <div className="grid-row">
+                            <div className="data-title"><h4>Reportable Condition</h4></div>
+                            <div className="grid-col-auto">
+                                {patientName(fhirBundle, fhirPathMappings)}
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                            <div className="data-title"><h4>RCKMS Trigger Summary</h4></div>
+                            <div className="grid-col-auto text-pre-line">
+                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                                <h4>Lab results relevant to reportable condition</h4>
+                            <div className="usa-card__container margin-left-0 margin-right-0 margin-top-1">
+                                <div className="usa-card__header padding-top-2 padding-bottom-2 padding-left-3">
+                                    <p>
+                                        Hepatitis C IgG w/Rfx PCR<span
+                                        className="usa-tag margin-left-1 bg-error-dark text-white">Abnormal</span>
+                                    </p>
+                                </div>
+                                <div className={"card__line "}/>
+                                <div className="usa-card__body padding-0">
+                                    <table className="usa-table usa-table--borderless ecrTable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Component</th>
+                                            <th scope="col">Value</th>
+                                            <th scope="col">Ref Range</th>
+                                            <th scope="col">Specimen</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Hepatitis C Antibody</td>
+                                            <td>Positive (A)</td>
+                                            <td>Not Detected</td>
+                                            <td>Blood</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div className={"card__line"}/>
+                                    {/*todo: make a class for these*/}
+                                    <div
+                                        className={"padding-left-3 padding-right-3 padding-top-205 padding-bottom-205"}>
+                                        <div className="grid-row">
+                                            <div className="data-title"><h4>Analysis time</h4></div>
+                                            <div className="grid-col-auto text-pre-line">
+                                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                                            </div>
+                                        </div>
+                                        {/*todo: replace with grey line*/}
+                                        <div className={"section__line"}/>
+                                        <div className="grid-row">
+                                            <div className="data-title"><h4>Collection time</h4></div>
+                                            <div className="grid-col-auto text-pre-line">
+                                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                                            </div>
+                                        </div>
+                                        {/*todo: replace with grey line*/}
+                                        <div className={"section__line"}/>
+                                        <div className="grid-row">
+                                            <div className="data-title"><h4>Received time</h4></div>
+                                            <div className="grid-col-auto text-pre-line">
+                                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                                            </div>
+                                        </div>
+                                        {/*todo: replace with grey line*/}
+                                        <div className={"section__line"}/>
+                                        <div className="grid-row">
+                                            <div className="data-title"><h4>Notes</h4></div>
+                                            <div className="grid-col-auto text-pre-line">
+                                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                            <h4>Clinical sections relevant to reportable condition</h4>
+                            <div className={"padding-top-05"}>No matching clinical data found in this eCR</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>);
 };
