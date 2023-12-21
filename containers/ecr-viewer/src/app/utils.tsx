@@ -1,6 +1,5 @@
 import { Bundle } from "fhir/r4";
 import { evaluate } from "fhirpath";
-import { fhirPathMappings } from "../../utils/fhirMappings";
 
 export interface DisplayData {
     title: string,
