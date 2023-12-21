@@ -37,3 +37,11 @@ To build the Docker image for the eCR Viewer app from source instead of download
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/ecr-viewer/`.
 4. Run `docker build -t ecr-viewer .`.
+
+### Potential Issues
+
+If you have problems connecting your database run this command to see what other postgres databases are running
+`sudo lsof -i :5432`
+
+then kill it
+`kill {pid}`
