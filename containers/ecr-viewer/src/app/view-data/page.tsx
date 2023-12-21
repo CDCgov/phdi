@@ -9,7 +9,8 @@ import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import { Accordion } from '@trussworks/react-uswds'
 import UnavailableInfo from "./components/UnavailableInfo";
-import {PathMappings, evaluateSocialData} from "../utils";
+import { PathMappings, evaluateSocialData, evaluateEncounterData, evaluateProviderData } from "../utils";
+import Encounter from "./components/Encounter";
 
 
 const ECRViewerPage = () => {
@@ -44,6 +45,8 @@ const ECRViewerPage = () => {
 
   const renderAccordion = () => {
     const social_data = evaluateSocialData(fhirBundle, mappings)
+    const encounterData = evaluateEncounterData(fhirBundle, mappings)
+    const providerData = evaluateProviderData(fhirBundle, mappings)
     const accordionItems: any[] = [
       {
         title: 'Patient Info',
@@ -55,6 +58,17 @@ const ECRViewerPage = () => {
         ),
         expanded: true,
         id: '1',
+        headingLevel: 'h2',
+      },
+      {
+        title: 'Unavailable Info',
+        content: (
+          <div>
+            <Encounter encounterData={encounterData.available_data} providerData={providerData.available_data} />
+          </div>
+        ),
+        expanded: true,
+        id: '2',
         headingLevel: 'h2',
       },
       {
