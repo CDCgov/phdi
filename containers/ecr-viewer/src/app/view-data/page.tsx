@@ -19,6 +19,13 @@ const ECRViewerPage = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
 
+  type FhirMappings = { [key: string]: string };
+
+  type ApiResponse = {
+    fhirBundle: Bundle,
+    fhirPathMappings: FhirMappings
+  }
+
   useEffect(() => {
     // Fetch the appropriate bundle from Postgres database
     const fetchData = async () => {
@@ -26,10 +33,11 @@ const ECRViewerPage = () => {
         const response = await fetch(`/api/data?id=${fhirId}`);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || 'Internal Server Error');
-        } else {
-          const databaseBundle: Bundle = (await response.json()).fhirBundle;
-          setFhirBundle(databaseBundle)
+          throw new Error( errorData.message || 'Internal Server Error');
+        } else{
+          const bundle: ApiResponse = (await response.json());
+          setFhirBundle(bundle.fhirBundle)
+          setMappings(bundle.fhirPathMappings)
         }
       } catch (error) {
         setErrors(error)
@@ -37,9 +45,6 @@ const ECRViewerPage = () => {
       }
     };
     fetchData();
-
-    //Load fhirPath mapping data
-    fhirPathMappings.then(val => { setMappings(val) })
   }, []);
 
   const renderAccordion = () => {
