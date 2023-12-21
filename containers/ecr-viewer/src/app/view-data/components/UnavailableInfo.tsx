@@ -51,9 +51,9 @@ const UnavailableInfo = (
                     {socialUnavailableData.length > 0 && renderSection('Social History', socialUnavailableData)}
                     {encounterUnavailableData.length > 0 && renderSection('Encounter Details', encounterUnavailableData)}
                     {providerUnavailableData.length > 0 && renderSection('Provider Details', providerUnavailableData)}
-                </div>
-            </div>
-        </div>);
+                </div >
+            </div >
+        </div >);
 };
 
 export default UnavailableInfo;

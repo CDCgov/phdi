@@ -54,7 +54,7 @@ const ECRViewerPage = () => {
           <div>
             <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
             {social_data.available_data.length > 0 && <SocialHistory socialData={social_data.available_data} />}
-          </div>
+          </div >
         ),
         expanded: true,
         id: '1',
@@ -112,7 +112,7 @@ const ECRViewerPage = () => {
             <h2 className="margin-bottom-3">eCR Document</h2>
             {renderAccordion()}
           </div>
-        </div>
+        </div >
       </div >)
   } else {
     return <div>
