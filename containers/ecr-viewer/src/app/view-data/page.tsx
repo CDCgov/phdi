@@ -33,8 +33,8 @@ const ECRViewerPage = () => {
         const response = await fetch(`/api/data?id=${fhirId}`);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error( errorData.message || 'Internal Server Error');
-        } else{
+          throw new Error(errorData.message || 'Internal Server Error');
+        } else {
           const bundle: ApiResponse = (await response.json());
           setFhirBundle(bundle.fhirBundle)
           setMappings(bundle.fhirPathMappings)
