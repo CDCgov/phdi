@@ -1,6 +1,6 @@
 import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
-import {PathMappings, formatPatientName, formatPatientContactInfo, formatPatientAddress} from "../../utils";
+import {PathMappings, formatPatientName, formatPatientContactInfo, extractPatientAddress} from "../../utils";
 
 interface DemographicsProps {
     fhirPathMappings: PathMappings
@@ -76,7 +76,7 @@ const Demographics = (
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Address</h4></div>
                             <div className="grid-col-auto text-pre-line">
-                                {formatPatientAddress(fhirBundle, fhirPathMappings)}
+                                {extractPatientAddress(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />

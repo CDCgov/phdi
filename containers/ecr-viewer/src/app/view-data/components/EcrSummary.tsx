@@ -1,6 +1,12 @@
 import {evaluate} from "fhirpath";
 import {Bundle} from "fhir/r4";
-import {PathMappings, formatPatientName, formatPatientAddress, formatPatientContactInfo} from "../../utils";
+import {
+    PathMappings,
+    formatPatientName,
+    extractPatientAddress,
+    formatPatientContactInfo,
+    extractFacilityAddress, formatEncounterDate
+} from "../../utils";
 
 interface EcrViewerProps {
     fhirPathMappings: PathMappings
@@ -39,7 +45,7 @@ const EcrSummary = (
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Address</h4></div>
                             <div className="grid-col-auto text-pre-line">
-                                {formatPatientAddress(fhirBundle, fhirPathMappings)}
+                                {extractPatientAddress(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
@@ -50,6 +56,40 @@ const EcrSummary = (
                             </div>
                         </div>
                         <div className={"section__line"}/>
+                    </div>
+                </div>
+                <div className="usa-summary-box__body">
+                    <h3 id="summary-box-key-information">
+                        About the Encounter
+                    </h3>
+                    <div className="usa-summary-box__text">
+                        <div className="grid-row">
+                            <div className="data-title"><h4>Facility Name</h4></div>
+                            <div className="grid-col-auto">
+                                {evaluate(fhirBundle, fhirPathMappings.facilityName)}
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                            <div className="data-title"><h4>Facility Address</h4></div>
+                            <div className="grid-col-auto text-pre-line">
+                                {extractFacilityAddress(fhirBundle, fhirPathMappings)}
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                            <div className="data-title"><h4>Encounter Type</h4></div>
+                            <div className="grid-col-auto">
+                                {evaluate(fhirBundle, fhirPathMappings.encounterType)}
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                            <div className="data-title"><h4>Encounter Date</h4></div>
+                            <div className="grid-col-auto">
+                                {formatEncounterDate(fhirBundle, fhirPathMappings)}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

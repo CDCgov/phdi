@@ -56,16 +56,36 @@ export const formatPatientName = (fhirBundle: Bundle | undefined, fhirPathMappin
     return `${givenNames} ${familyName}`;
 }
 
-export const formatPatientAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
-    const streetAddresses = evaluate(fhirBundle, fhirPathMappings.patientStreetAddress).join("\n");
+export const extractPatientAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
+    const streetAddresses = evaluate(fhirBundle, fhirPathMappings.patientStreetAddress);
     const city = evaluate(fhirBundle, fhirPathMappings.patientCity);
     const state = evaluate(fhirBundle, fhirPathMappings.patientState);
     const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode);
     const country = evaluate(fhirBundle, fhirPathMappings.patientCountry);
+    return formatAddress(streetAddresses, city, state, zipCode, country);
+}
+
+export const extractFacilityAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
+    const locationReference = evaluate(fhirBundle, fhirPathMappings.facilityLocation).join("");
+    const locationUID = locationReference.split("/")[1];
+    const locationExpression = `Bundle.entry.resource.where(resourceType = 'Location').where(id = '${locationUID}')`;
+    const locationResource = evaluate(fhirBundle, locationExpression)[0];
+
+    const streetAddresses = locationResource.address.line;
+    const city = locationResource.address.city;
+    const state = locationResource.address.state;
+    const zipCode = locationResource.address.postalCode;
+    const country = locationResource.address.country;
+
+    return formatAddress(streetAddresses, city, state, zipCode, country);
+}
+
+const formatAddress = (streetAddress: any[], city: any[], state: any[], zipCode: any[], country: any[]) => {
     return(
-        `${streetAddresses}
+        `${streetAddress.join("\n")}
     ${city}, ${state}
     ${zipCode}${country && `, ${country}`}`);
+
 }
 
 export const formatPatientContactInfo = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
@@ -90,4 +110,25 @@ export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: Pat
         }
     })
     return { 'available_data': socialArray, 'unavailable_data': unavailableArray }
+}
+
+export const formatEncounterDate = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
+    const startDate = new Date(evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""))
+        .toLocaleDateString("en-Us", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+    const endDate = new Date(evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""))
+        .toLocaleDateString("en-Us", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+    if (startDate === endDate) {
+        return startDate;
+    }
+
+    return `${startDate} - ${endDate}`;
 }
