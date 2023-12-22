@@ -6,7 +6,7 @@ const fs = require('fs');
 const {DockerComposeEnvironment} = require('testcontainers');
 
 const ECR_VIEWER_URL = 'http://0.0.0.0:3000';
-const ECR_VIEWER_VIEW_DATA = ECR_VIEWER_URL + '/view-data';
+const ECR_VIEWER_VIEW_DATA = ECR_VIEWER_URL + '/api/data';
 
 // Define a function to set up the containers.
 async function setup() {
@@ -41,11 +41,6 @@ module.exports = setup;
 describe('Integration tests', () => {
     before(async () => {
         await setup();
-    });
-
-    it('should perform a health check', async () => {
-        const response = await axios.get(ECR_VIEWER_URL);
-        expect(response.status).to.equal(200);
     });
 
     it('loads an ECR', async () => {

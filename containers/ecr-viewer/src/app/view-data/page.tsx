@@ -4,7 +4,6 @@ import EcrSummary from "@/app/view-data/components/EcrSummary";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from 'react';
 import { Bundle } from "fhir/r4";
-import { fhirPathMappings } from "../../../utils/fhirMappings";
 import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import { Accordion } from '@trussworks/react-uswds'
