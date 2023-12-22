@@ -6,7 +6,7 @@ const fs = require('fs');
 const {DockerComposeEnvironment} = require('testcontainers');
 
 const ECR_VIEWER_URL = 'http://0.0.0.0:3000';
-const ECR_VIEWER_VIEW_DATA = ECR_VIEWER_URL + '/api/data';
+const ECR_VIEWER_VIEW_DATA = ECR_VIEWER_URL + '/api/fhir-data';
 
 // Define a function to set up the containers.
 async function setup() {
