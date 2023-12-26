@@ -577,6 +577,11 @@
             "value": "urn:uuid:e1530c36-cfd5-4bb4-848f-0ac5d8090d03"
           }
         ],
+        "notes": [
+          {
+            "text": "Detection of Influenza A nucleic acid in a clinical specimen by any method, including RT-PCR and rapid molecular assays"
+          }
+        ],
         "status": "final",
         "code": {
           "coding": [

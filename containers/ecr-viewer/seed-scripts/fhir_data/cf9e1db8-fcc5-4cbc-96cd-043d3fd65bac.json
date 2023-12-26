@@ -773,6 +773,11 @@
             "value": "urn:uuid:6a66c193-39d9-4e1c-a00b-48e967fea0cb"
           }
         ],
+        "notes": [
+          {
+            "text": "COVID-19 (as a diagnosis or active problem)"
+          }
+        ],
         "status": "final",
         "code": {
           "coding": [

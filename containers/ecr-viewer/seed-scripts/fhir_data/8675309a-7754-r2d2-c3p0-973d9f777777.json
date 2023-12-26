@@ -623,6 +623,11 @@
             "value": "urn:uuid:f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
           }
         ],
+        "notes": [
+          {
+            "text": "Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method"
+          }
+        ],
         "status": "final",
         "code": {
           "coding": [
