@@ -131,7 +131,6 @@ const EcrSummary = (
                                         </tbody>
                                     </table>
                                     <div className={"card__line"}/>
-                                    {/*todo: make a class for these*/}
                                     <div
                                         className={"padding-left-3 padding-right-3 padding-top-205 padding-bottom-205"}>
                                         <div className="grid-row">
@@ -175,7 +174,6 @@ const EcrSummary = (
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>);
 };
