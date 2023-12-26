@@ -110,28 +110,30 @@ const EcrSummary = (
                                                 N/A (temp)
                                             </div>
                                         </div>
-                                        {/*todo: replace with grey line*/}
-                                        <div className={"section__line"}/>
+                                        <div className={"section__line_gray"}/>
                                         <div className="grid-row">
                                             <div className="data-title"><h4>Collection time</h4></div>
                                             <div className="grid-col-auto text-pre-line">
                                                 05/12/2022 6:00 AM CDT (temp)
                                             </div>
                                         </div>
-                                        {/*todo: replace with grey line*/}
-                                        <div className={"section__line"}/>
+                                        <div className={"section__line_gray"}/>
                                         <div className="grid-row">
                                             <div className="data-title"><h4>Received time</h4></div>
                                             <div className="grid-col-auto text-pre-line">
                                                 05/12/2022 11:30 AM CDT (temp)
                                             </div>
                                         </div>
-                                        {/*todo: replace with grey line*/}
-                                        <div className={"section__line"}/>
+                                        <div className={"section__line_gray"}/>
                                         <div className="grid-row">
                                             <div className="data-title"><h4>Notes</h4></div>
                                             <div className="grid-col-fill text-pre-line">
-                                                A detected result is positive and indicates the presence of the virus in the sample. A not detected result indicates that the test did not detect the virus in the sample. This test was performed using a multiplexed nucleic acid amplification test that is labeled Emergence Use Only by the U.S. FDA. Results of this test should not be used as the sole basis for diagnosis, treatment, or other management decisions. (temp)
+                                                A detected result is positive and indicates the presence of the virus in
+                                                the sample. A not detected result indicates that the test did not detect
+                                                the virus in the sample. This test was performed using a multiplexed
+                                                nucleic acid amplification test that is labeled Emergence Use Only by
+                                                the U.S. FDA. Results of this test should not be used as the sole basis
+                                                for diagnosis, treatment, or other management decisions. (temp)
                                             </div>
                                         </div>
                                     </div>
