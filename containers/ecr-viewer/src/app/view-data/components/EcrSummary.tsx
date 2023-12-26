@@ -25,28 +25,28 @@ const EcrSummary = (
                     <div className="usa-summary-box__text">
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Name</h4></div>
-                            <div className="grid-col-auto">
+                            <div className="grid-col-fill">
                                 {formatPatientName(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
                         <div className="grid-row">
                             <div className="data-title"><h4>DOB</h4></div>
-                            <div className="grid-col-auto text-pre-line">
+                            <div className="grid-col-fill text-pre-line">
                                 {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Address</h4></div>
-                            <div className="grid-col-auto text-pre-line">
+                            <div className="grid-col-fill text-pre-line">
                                 {formatPatientAddress(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
                         <div className="grid-row">
                             <div className="data-title"><h4>Patient Contact</h4></div>
-                            <div className="grid-col-auto text-pre-line">
+                            <div className="grid-col-fill text-pre-line">
                                 {formatPatientContactInfo(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
@@ -67,8 +67,8 @@ const EcrSummary = (
                         <div className={"section__line"}/>
                         <div className="grid-row">
                             <div className="data-title"><h4>RCKMS Trigger Summary</h4></div>
-                            <div className="grid-col-auto text-pre-line">
-                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                            <div className="grid-col-fill text-pre-line">
+                                {rr.entry[0].display}
                             </div>
                         </div>
                         <div className={"section__line"}/>
@@ -106,21 +106,21 @@ const EcrSummary = (
                                         className={"padding-left-3 padding-right-3 padding-top-205 padding-bottom-205"}>
                                         <div className="grid-row">
                                             <div className="data-title"><h4>Analysis time</h4></div>
-                                            <div className="grid-col-auto text-pre-line">
+                                            <div className="grid-col-fill text-pre-line">
                                                 N/A (temp)
                                             </div>
                                         </div>
                                         <div className={"section__line_gray"}/>
                                         <div className="grid-row">
                                             <div className="data-title"><h4>Collection time</h4></div>
-                                            <div className="grid-col-auto text-pre-line">
+                                            <div className="grid-col-fill text-pre-line">
                                                 05/12/2022 6:00 AM CDT (temp)
                                             </div>
                                         </div>
                                         <div className={"section__line_gray"}/>
                                         <div className="grid-row">
                                             <div className="data-title"><h4>Received time</h4></div>
-                                            <div className="grid-col-auto text-pre-line">
+                                            <div className="grid-col-fill text-pre-line">
                                                 05/12/2022 11:30 AM CDT (temp)
                                             </div>
                                         </div>
