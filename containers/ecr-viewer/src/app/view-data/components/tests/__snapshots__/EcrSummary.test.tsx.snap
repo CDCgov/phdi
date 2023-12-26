@@ -95,14 +95,15 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="section__line"
           />
         </div>
-        <div
-          class="usa-summary-box__body"
+      </div>
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          id="summary-box-key-information"
         >
-          <h3
-            id="summary-box-key-information"
-          >
-            About the Encounter
-          </h3>
+          About the Encounter
+        </h3>
         <div
           class="usa-summary-box__text"
         >
@@ -124,85 +125,83 @@ exports[`EcrSummary should match snapshot 1`] = `
           </div>
           <div
             class="section__line"
-          >
-        </div>
-        <div
-          class="grid-row"
-        >
+          />
           <div
-            class="data-title"
+            class="grid-row"
           >
-          <h4>
-            Facility Address
-          </h4>
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Address
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              38600 Medical Center Drive
+    Palmdale, CA
+    93551, USA
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Contact
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              (661)382-5000
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Encounter Date
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              5/13/2022
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Encounter Type
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              Emergency
+            </div>
+          </div>
         </div>
-        <div
-          class="grid-col-auto
-          text-pre-line"
-        >
-          38600 Medical Center Drive
-          Palmdale, CA
-          93551, USA
-        </div>
-      </div>
-      <div
-        class="section__line"
-      >
-      </div>
-      <div
-        class="grid-row"
-      >
-        <div
-          class="data-title"
-        >
-          <h4>
-            Facility Contact
-          </h4>
-        </div>
-        <div
-          class="grid-col-auto"
-        >
-          (661)382-5000
-        </div>
-      </div>
-      <div
-        class="section__line"
-      >
-      </div>
-      <div
-        class="grid-row"
-      >
-        <div
-          class="data-title"
-        >
-      <h4>
-        Encounter Date
-      </h4>
-      </div>
-      <div
-        class="grid-col-auto"
-      >
-        4/27/2022
-      </div>
-    </div>
-    <div
-      class="section__line"
-    >
-    </div>
-    <div
-      class="grid-row"
-    >
-      <div
-        class="data-title"
-      >
-        <h4>
-          Encounter Type
-        </h4>
-      </div>
-      <div
-        class="grid-col-auto"
-      >
-        Emergency
       </div>
       <div
         class="usa-summary-box__body"
@@ -426,6 +425,5 @@ exports[`EcrSummary should match snapshot 1`] = `
       </div>
     </div>
   </div>
-</div>
 </div>
 `;
