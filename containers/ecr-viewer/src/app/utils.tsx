@@ -65,11 +65,16 @@ export const extractPatientAddress = (fhirBundle: Bundle | undefined, fhirPathMa
     return formatAddress(streetAddresses, city, state, zipCode, country);
 }
 
-export const extractFacilityAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
+function extractLocationResource(fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) {
     const locationReference = evaluate(fhirBundle, fhirPathMappings.facilityLocation).join("");
     const locationUID = locationReference.split("/")[1];
     const locationExpression = `Bundle.entry.resource.where(resourceType = 'Location').where(id = '${locationUID}')`;
     const locationResource = evaluate(fhirBundle, locationExpression)[0];
+    return locationResource;
+}
+
+export const extractFacilityAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
+    const locationResource = extractLocationResource(fhirBundle, fhirPathMappings);
 
     const streetAddresses = locationResource.address.line;
     const city = locationResource.address.city;
@@ -85,7 +90,14 @@ const formatAddress = (streetAddress: any[], city: any[], state: any[], zipCode:
         `${streetAddress.join("\n")}
     ${city}, ${state}
     ${zipCode}${country && `, ${country}`}`);
+}
 
+export const extractFacilityContactInfo = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
+    const locationResource = extractLocationResource(fhirBundle, fhirPathMappings);
+    
+    const phoneNumbers = locationResource.telecom.filter((contact: any) => contact.system === "phone");
+    
+    return phoneNumbers[0].value;
 }
 
 export const formatPatientContactInfo = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
@@ -113,22 +125,11 @@ export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: Pat
 }
 
 export const formatEncounterDate = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
-    const startDate = new Date(evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""))
+    return new Date(evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""))
         .toLocaleDateString("en-Us", {
             year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-    const endDate = new Date(evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""))
-        .toLocaleDateString("en-Us", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-
-    if (startDate === endDate) {
-        return startDate;
-    }
-
-    return `${startDate} - ${endDate}`;
+            month: "numeric",
+            day: "numeric",
+        })
 }
+

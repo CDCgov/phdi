@@ -5,7 +5,9 @@ import {
     formatPatientName,
     extractPatientAddress,
     formatPatientContactInfo,
-    extractFacilityAddress, formatEncounterDate
+    extractFacilityAddress,
+    formatEncounterDate,
+    extractFacilityContactInfo
 } from "../../utils";
 
 interface EcrViewerProps {
@@ -78,9 +80,9 @@ const EcrSummary = (
                         </div>
                         <div className={"section__line"}/>
                         <div className="grid-row">
-                            <div className="data-title"><h4>Encounter Type</h4></div>
+                            <div className="data-title"><h4>Facility Contact</h4></div>
                             <div className="grid-col-auto">
-                                {evaluate(fhirBundle, fhirPathMappings.encounterType)}
+                                {extractFacilityContactInfo(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
@@ -88,6 +90,13 @@ const EcrSummary = (
                             <div className="data-title"><h4>Encounter Date</h4></div>
                             <div className="grid-col-auto">
                                 {formatEncounterDate(fhirBundle, fhirPathMappings)}
+                            </div>
+                        </div>
+                        <div className={"section__line"}/>
+                        <div className="grid-row">
+                            <div className="data-title"><h4>Encounter Type</h4></div>
+                            <div className="grid-col-auto">
+                                {evaluate(fhirBundle, fhirPathMappings.encounterType)}
                             </div>
                         </div>
                     </div>
