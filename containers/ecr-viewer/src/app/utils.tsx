@@ -69,8 +69,7 @@ function extractLocationResource(fhirBundle: Bundle | undefined, fhirPathMapping
     const locationReference = evaluate(fhirBundle, fhirPathMappings.facilityLocation).join("");
     const locationUID = locationReference.split("/")[1];
     const locationExpression = `Bundle.entry.resource.where(resourceType = 'Location').where(id = '${locationUID}')`;
-    const locationResource = evaluate(fhirBundle, locationExpression)[0];
-    return locationResource;
+    return evaluate(fhirBundle, locationExpression)[0];
 }
 
 export const extractFacilityAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
