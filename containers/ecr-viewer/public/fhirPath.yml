@@ -26,4 +26,4 @@ patientSexualOrientation: "idk"
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
 rrSection: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section')"
-rrId: "Bundle.entry.select((resource as Observation).where(id =  $obsId))"
+rrObsTriggerSummary: "Bundle.entry.select((resource as Observation).where(id = $obsId)).notes[0].text"

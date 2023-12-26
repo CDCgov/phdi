@@ -12,6 +12,8 @@ const EcrSummary = (
     {fhirPathMappings, fhirBundle}: EcrViewerProps
 ) => {
     const rr = evaluate(fhirBundle, fhirPathMappings.rrSection)[0];
+    const rrObsId = rr.entry[0].reference.split("/")[1];
+    const rrTriggerSummaryMapping = fhirPathMappings.rrObsTriggerSummary.replace("$obsId", `'${rrObsId}'`);
     return (
         <div className={"info-container"}>
             <div
@@ -68,7 +70,7 @@ const EcrSummary = (
                         <div className="grid-row">
                             <div className="data-title"><h4>RCKMS Trigger Summary</h4></div>
                             <div className="grid-col-fill text-pre-line">
-                                {rr.entry[0].display}
+                                {evaluate(fhirBundle, rrTriggerSummaryMapping)}
                             </div>
                         </div>
                         <div className={"section__line"}/>
