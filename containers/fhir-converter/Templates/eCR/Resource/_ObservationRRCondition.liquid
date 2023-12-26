@@ -17,6 +17,13 @@
             { {% include 'DataType/Identifier' Identifier: id -%} },
             {% endfor -%}
         ],
+        "notes": [
+            {
+                {% if observationEntry.entryRelationship.organizer.component.observation.entryRelationship.observation.value._ -%}
+                "text": "{{observationEntry.entryRelationship.organizer.component.observation.entryRelationship.observation.value._}}",
+                {% endif -%}
+            }
+        ],
         "category":
         [
             {
