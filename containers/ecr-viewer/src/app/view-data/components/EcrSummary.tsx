@@ -13,7 +13,6 @@ interface EcrViewerProps {
     fhirBundle: Bundle
 }
 
-
 const EcrSummary = (
     {fhirPathMappings, fhirBundle}: EcrViewerProps
 ) => {
