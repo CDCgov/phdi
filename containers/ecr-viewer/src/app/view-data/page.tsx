@@ -40,7 +40,7 @@ const ECRViewerPage = () => {
 
     //Load fhirPath mapping data
     fhirPathMappings.then(val => { setMappings(val) })
-  }, []);
+  }, [fhirId]);
 
   const renderAccordion = () => {
     const social_data = evaluateSocialData(fhirBundle, mappings)
