@@ -305,29 +305,29 @@ def test_geocode_from_str():
         {"zipcode": "10001", "city_name": "New York", "state_abbreviation": "NY"}
     )
 
-    # Provide a function that adds results to the existing object
-    def fill_in_result(*args, **kwargs):
-        args[0].result = [candidate]
+    with mock.patch.object(smarty_client.client, "send_lookup") as mock_send_lookup:
 
-    smarty_client.client.send_lookup = mock.Mock()
-    smarty_client.client.send_lookup.side_effect = fill_in_result
+        def fill_in_result(*args, **kwargs):
+            args[0].result = [candidate]
 
-    geocoded_response = GeocodeResult(
-        line=["123 FAKE ST"],
-        city="New York",
-        state="NY",
-        lat=45.123,
-        lng=-70.234,
-        county_fips="36061",
-        county_name="New York",
-        postal_code="10001",
-        precision="Zip9",
-    )
+        mock_send_lookup.side_effect = fill_in_result
 
-    assert geocoded_response == smarty_client.geocode_from_str(
-        "123 FAKE ST New York NY 10001"
-    )
-    smarty_client.client.send_lookup.assert_called()
+        geocoded_response = GeocodeResult(
+            line=["123 FAKE ST"],
+            city="New York",
+            state="NY",
+            lat=45.123,
+            lng=-70.234,
+            county_fips="36061",
+            county_name="New York",
+            postal_code="10001",
+            precision="Zip9",
+        )
+
+        assert geocoded_response == smarty_client.geocode_from_str(
+            "123 FAKE ST New York NY 10001"
+        )
+        mock_send_lookup.assert_called()
 
 
 def test_geocode_from_dict():
