@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from containers.orchestration.app.DAL.FhirRepository import FhirRepository
+from app.DAL.FhirRepository import FhirRepository
 
 
 class SqlAlchemyFhirRepository(FhirRepository):

@@ -1,6 +1,6 @@
 import abc
 
-from containers.orchestration.app.DAL.FhirDataModel import FhirDataModel
+from app.DAL.FhirDataModel import FhirDataModel
 
 
 class FhirRepository(metaclass=abc.ABCMeta):

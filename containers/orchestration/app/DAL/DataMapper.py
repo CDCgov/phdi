@@ -1,6 +1,6 @@
 from typing import Any
 
-from containers.orchestration.app.DAL.FhirDataModel import FhirDataModel
+from app.DAL.FhirDataModel import FhirDataModel
 
 
 def entity_to_fhir_model(instance: Any) -> FhirDataModel:
