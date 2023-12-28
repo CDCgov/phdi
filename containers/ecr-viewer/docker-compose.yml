@@ -23,7 +23,7 @@ services:
   # Python seeding
   seed-db:
     build:
-      context: "./seed-scripts"
+      context: "./db/seed-scripts"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pw
