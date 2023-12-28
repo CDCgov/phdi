@@ -4,7 +4,6 @@ from containers.orchestration.app.DAL.FhirRepository import FhirRepository
 
 
 class SqlAlchemyFhirRepository(FhirRepository):
-
     def __init__(self, session: Session):
         self.session = session
 
@@ -12,4 +11,3 @@ class SqlAlchemyFhirRepository(FhirRepository):
         self.session.add(entity)
         self.session.flush()
         return entity
-
