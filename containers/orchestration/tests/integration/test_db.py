@@ -3,10 +3,8 @@ import uuid
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from containers.orchestration.app.DAL.FhirDataModel import FhirDataModel
-from containers.orchestration.app.DAL.SqlAlchemyFhirRepository import (
-    SqlAlchemyFhirRepository,
-)
+from app.DAL.FhirDataModel import FhirDataModel
+from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
 
 
 @pytest.mark.integration
