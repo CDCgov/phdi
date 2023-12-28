@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && prettier --check .",
-    "lint:fix": "next lint && prettier --fix .",
+    "lint:fix": "next lint && prettier --write .",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",

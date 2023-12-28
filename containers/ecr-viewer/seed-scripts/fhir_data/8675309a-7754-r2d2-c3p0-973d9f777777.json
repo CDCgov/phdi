@@ -534,9 +534,7 @@
         "name": "PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY",
         "address": {
           "use": "work",
-          "line": [
-            "2121 Santa Monica Blvd"
-          ],
+          "line": ["2121 Santa Monica Blvd"],
           "city": "Santa Monica",
           "state": "CA",
           "country": "USA",
@@ -591,9 +589,7 @@
         "address": [
           {
             "use": "work",
-            "line": [
-              "4733 TORRANCE BLVD #4400"
-            ],
+            "line": ["4733 TORRANCE BLVD #4400"],
             "city": "TORRANCE",
             "state": "CA",
             "country": "USA",
@@ -714,9 +710,7 @@
         "address": [
           {
             "use": "work",
-            "line": [
-              "4733 TORRANCE BLVD #4400"
-            ],
+            "line": ["4733 TORRANCE BLVD #4400"],
             "city": "TORRANCE",
             "state": "CA",
             "country": "USA",
@@ -756,9 +750,7 @@
         "name": [
           {
             "family": "Lab",
-            "given": [
-              "Background"
-            ]
+            "given": ["Background"]
           },
           {
             "use": "usual",
@@ -768,9 +760,7 @@
         "address": [
           {
             "use": "work",
-            "line": [
-              "4733 TORRANCE BLVD #4400"
-            ],
+            "line": ["4733 TORRANCE BLVD #4400"],
             "city": "TORRANCE",
             "state": "CA",
             "country": "USA",
@@ -837,9 +827,7 @@
           {
             "use": "official",
             "family": "Girl",
-            "given": [
-              "Jessies"
-            ]
+            "given": ["Jessies"]
           }
         ],
         "birthDate": "1981-02-14",
@@ -951,9 +939,7 @@
         "address": [
           {
             "use": "home",
-            "line": [
-              "123 FAKE ST"
-            ],
+            "line": ["123 FAKE ST"],
             "city": "LOS ANGELES",
             "state": "CA",
             "country": "USA",
@@ -1455,9 +1441,7 @@
         "address": [
           {
             "use": "work",
-            "line": [
-              "2121 Santa Monica Blvd"
-            ],
+            "line": ["2121 Santa Monica Blvd"],
             "city": "Santa Monica",
             "state": "CA",
             "country": "USA",
@@ -1547,9 +1531,7 @@
         "name": "PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)",
         "address": [
           {
-            "line": [
-              "2121 Santa Monica Blvd"
-            ],
+            "line": ["2121 Santa Monica Blvd"],
             "city": "Santa Monica",
             "state": "CA",
             "postalCode": "90404"

@@ -11,9 +11,7 @@
           "profile": [
             "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -437,9 +435,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -459,9 +455,7 @@
         ],
         "name": "PRM- Palmdale Regional Medical Center",
         "address": {
-          "line": [
-            "38600 Medical Center Drive"
-          ],
+          "line": ["38600 Medical Center Drive"],
           "city": "Palmdale",
           "state": "CA",
           "country": "USA",
@@ -486,9 +480,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -505,9 +497,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "extension": [
           {
@@ -528,17 +518,12 @@
           },
           {
             "family": "Physician",
-            "given": [
-              "ED Billing",
-              "Discharge"
-            ]
+            "given": ["ED Billing", "Discharge"]
           }
         ],
         "address": [
           {
-            "line": [
-              "38600 Medical Center Drive"
-            ],
+            "line": ["38600 Medical Center Drive"],
             "city": "Palmdale",
             "state": "CA",
             "country": "USA",
@@ -567,9 +552,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -621,9 +604,7 @@
         "name": "PRM- Palmdale Regional Medical Center",
         "address": [
           {
-            "line": [
-              "38600 Medical Center Drive"
-            ],
+            "line": ["38600 Medical Center Drive"],
             "city": "Palmdale",
             "state": "CA",
             "country": "USA",
@@ -638,9 +619,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -657,9 +636,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -670,9 +647,7 @@
         "name": [
           {
             "family": "CASTILLO",
-            "given": [
-              "ABEL"
-            ]
+            "given": ["ABEL"]
           }
         ],
         "birthDate": "2015-04-15",
@@ -730,9 +705,7 @@
         ],
         "address": [
           {
-            "line": [
-              "1050 CARPENTER ST"
-            ],
+            "line": ["1050 CARPENTER ST"],
             "city": "EDWARDS",
             "state": "CA",
             "country": "US",
@@ -798,9 +771,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -817,9 +788,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -886,9 +855,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -905,9 +872,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -988,9 +953,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1007,9 +970,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1090,9 +1051,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1109,9 +1068,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1192,9 +1149,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1211,9 +1166,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1299,9 +1252,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1318,9 +1269,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1406,9 +1355,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1425,9 +1372,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1513,9 +1458,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1532,9 +1475,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1620,9 +1561,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1639,9 +1578,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1708,9 +1645,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1727,9 +1662,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1815,9 +1748,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1834,9 +1765,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1903,9 +1832,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1922,9 +1849,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1991,9 +1916,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2010,9 +1933,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2099,9 +2020,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2118,9 +2037,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2206,9 +2123,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2225,9 +2140,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2313,9 +2226,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2332,9 +2243,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2409,9 +2318,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2428,9 +2335,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2496,9 +2401,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2515,9 +2418,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2603,9 +2504,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2622,9 +2521,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2691,9 +2588,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2710,9 +2605,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2789,9 +2682,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2808,9 +2699,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2887,9 +2776,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2906,9 +2793,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2985,9 +2870,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3004,9 +2887,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3083,9 +2964,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3102,9 +2981,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3181,9 +3058,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3200,9 +3075,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {

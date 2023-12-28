@@ -11,9 +11,7 @@
           "profile": [
             "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -545,9 +543,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -567,9 +563,7 @@
         ],
         "name": "HHN-Henderson Hospital",
         "address": {
-          "line": [
-            "1050 W. Galleria Drive"
-          ],
+          "line": ["1050 W. Galleria Drive"],
           "city": "Henderson",
           "state": "NV",
           "country": "USA",
@@ -599,9 +593,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -618,9 +610,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "extension": [
           {
@@ -641,26 +631,19 @@
           },
           {
             "family": "Nielsen",
-            "given": [
-              "Victoria",
-              "K"
-            ]
+            "given": ["Victoria", "K"]
           }
         ],
         "address": [
           {
-            "line": [
-              "1050 W. Galleria Drive"
-            ],
+            "line": ["1050 W. Galleria Drive"],
             "city": "Henderson",
             "state": "NV",
             "country": "USA",
             "postalCode": "89011"
           },
           {
-            "line": [
-              "620 Shadow Lane"
-            ],
+            "line": ["620 Shadow Lane"],
             "city": "Las Vegas",
             "state": "NV",
             "country": "US",
@@ -698,9 +681,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -747,9 +728,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -796,9 +775,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -850,9 +827,7 @@
         "name": "HHN-Henderson Hospital",
         "address": [
           {
-            "line": [
-              "1050 W. Galleria Drive"
-            ],
+            "line": ["1050 W. Galleria Drive"],
             "city": "Henderson",
             "state": "NV",
             "country": "USA",
@@ -867,9 +842,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -886,9 +859,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -907,9 +878,7 @@
         "name": [
           {
             "family": "HUNTER",
-            "given": [
-              "VICTORIA"
-            ]
+            "given": ["VICTORIA"]
           }
         ],
         "birthDate": "1954-11-15",
@@ -967,10 +936,7 @@
         ],
         "address": [
           {
-            "line": [
-              "309 EAST HILLCREST AVE",
-              "APT 232"
-            ],
+            "line": ["309 EAST HILLCREST AVE", "APT 232"],
             "city": "INGLEWOOD",
             "state": "CA",
             "country": "US",
@@ -1036,9 +1002,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1055,9 +1019,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1138,9 +1100,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1157,9 +1117,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1240,9 +1198,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1259,9 +1215,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1342,9 +1296,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1361,9 +1313,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1444,9 +1394,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1463,9 +1411,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1535,9 +1481,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1554,9 +1498,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1642,9 +1584,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1661,9 +1601,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1749,9 +1687,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1768,9 +1704,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1856,9 +1790,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1875,9 +1807,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -1963,9 +1893,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -1982,9 +1910,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2051,9 +1977,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2070,9 +1994,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2159,9 +2081,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2178,9 +2098,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2247,9 +2165,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2266,9 +2182,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2345,9 +2259,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2364,9 +2276,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2452,9 +2362,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2471,9 +2379,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2554,9 +2460,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2573,9 +2477,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2656,9 +2558,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2675,9 +2575,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2758,9 +2656,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2777,9 +2673,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2860,9 +2754,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2879,9 +2771,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -2962,9 +2852,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -2981,9 +2869,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3064,9 +2950,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3083,9 +2967,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3166,9 +3048,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3185,9 +3065,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3268,9 +3146,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3287,9 +3163,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3370,9 +3244,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3389,9 +3261,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3472,9 +3342,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3491,9 +3359,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3563,9 +3429,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3582,9 +3446,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3654,9 +3516,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3673,9 +3533,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3745,9 +3603,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3764,9 +3620,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3836,9 +3690,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3855,9 +3707,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -3938,9 +3788,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -3957,9 +3805,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4040,9 +3886,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4059,9 +3903,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4142,9 +3984,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4161,9 +4001,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4244,9 +4082,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4263,9 +4099,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4335,9 +4169,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4354,9 +4186,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4437,9 +4267,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4456,9 +4284,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4539,9 +4365,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4558,9 +4382,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4641,9 +4463,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4660,9 +4480,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4743,9 +4561,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4762,9 +4578,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4845,9 +4659,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4864,9 +4676,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -4947,9 +4757,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -4966,9 +4774,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5049,9 +4855,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5068,9 +4872,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5151,9 +4953,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5170,9 +4970,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5253,9 +5051,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5272,9 +5068,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5355,9 +5149,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5374,9 +5166,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5457,9 +5247,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5476,9 +5264,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5559,9 +5345,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5578,9 +5362,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5661,9 +5443,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5680,9 +5460,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5763,9 +5541,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5782,9 +5558,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5865,9 +5639,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5884,9 +5656,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -5967,9 +5737,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -5986,9 +5754,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6069,9 +5835,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6088,9 +5852,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6171,9 +5933,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6190,9 +5950,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6273,9 +6031,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6292,9 +6048,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6375,9 +6129,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6394,9 +6146,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6477,9 +6227,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6496,9 +6244,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6579,9 +6325,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6598,9 +6342,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6681,9 +6423,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6700,9 +6440,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
@@ -6783,9 +6521,7 @@
           }
         ],
         "meta": {
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         }
       },
       "request": {
@@ -6802,9 +6538,7 @@
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
           ],
-          "source": [
-            "ecr"
-          ]
+          "source": ["ecr"]
         },
         "identifier": [
           {
