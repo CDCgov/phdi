@@ -12,15 +12,16 @@ from smartystreets_python_sdk.us_street.components import Components
 from app.main import app
 from app.utils import (
     GeocodeResult,
+    CensusGeocodeClient,
     SmartyGeocodeClient,
+    read_json_from_assets,
     standardize_name,
     standardize_country_code,
     standardize_phone,
     standardize_phones_in_bundle,
-    _standardize_phones_in_resource,
     _extract_countries_from_resource,
-    read_json_from_assets,
     _standardize_date,
+    _standardize_phones_in_resource,
     _validate_date,
 )
 
@@ -234,7 +235,7 @@ def test_extract_countries_from_resource():
 
 
 @pytest.fixture
-def expected_geocode_result():
+def expected_smarty_geocode_result():
     return GeocodeResult(
         line=["1428 Post Aly"],
         city="Seattle",
@@ -282,7 +283,17 @@ def mock_smarty_candidate():
     return candidate
 
 
-def test_parse_smarty_result_success(mock_smarty_candidate):
+@pytest.fixture
+def geocode_input_dict():
+    return {
+        "street": "1428 Post Aly",
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98101",
+    }
+
+
+def test_smarty_parse_result_success(mock_smarty_candidate):
     candidate = mock_smarty_candidate
 
     lookup = mock.Mock()
@@ -300,7 +311,7 @@ def test_parse_smarty_result_success(mock_smarty_candidate):
     assert encoded_result.precision == "Rooftop"
 
 
-def test_parse_smarty_result_failure():
+def test_smarty_parse_result_failure():
     # no result from the API
     lookup_no_result = mock.Mock()
     lookup_no_result.result = None
@@ -315,54 +326,7 @@ def test_parse_smarty_result_failure():
     assert SmartyGeocodeClient._parse_smarty_result(lookup_incomplete) is None
 
 
-def test_geocode_from_str(
-    smarty_geocode_client, mock_smarty_candidate, expected_geocode_result
-):
-    assert smarty_geocode_client.client is not None
-
-    with mock.patch.object(
-        smarty_geocode_client.client, "send_lookup"
-    ) as mock_send_lookup:
-        # provide a function that adds results to the existing object
-        def fill_in_result(*args, **kwargs):
-            args[0].result = [mock_smarty_candidate]
-
-        mock_send_lookup.side_effect = fill_in_result
-
-        assert expected_geocode_result == smarty_geocode_client.geocode_from_str(
-            "1428 Post Aly Seattle WA 98101"
-        )
-        mock_send_lookup.assert_called()
-
-
-def test_geocode_from_dict(
-    smarty_geocode_client, mock_smarty_candidate, expected_geocode_result
-):
-    assert smarty_geocode_client.client is not None
-
-    with mock.patch.object(
-        smarty_geocode_client.client, "send_lookup"
-    ) as mock_send_lookup:
-        # provide a function that adds results to the existing object
-        def fill_in_result(*args, **kwargs):
-            args[0].result = [mock_smarty_candidate]
-
-        mock_send_lookup.side_effect = fill_in_result
-
-        input_dict = {
-            "street": "1428 Post Aly",
-            "city": "Seattle",
-            "state": "WA",
-            "zip": "98101",
-        }
-
-        assert expected_geocode_result == smarty_geocode_client.geocode_from_dict(
-            input_dict
-        )
-        mock_send_lookup.assert_called()
-
-
-def test_blank_geocode_inputs(smarty_geocode_client):
+def test_smarty_blank_geocode_inputs(smarty_geocode_client):
     assert smarty_geocode_client.client is not None
 
     # test geocode_from_str with empty string
@@ -374,3 +338,134 @@ def test_blank_geocode_inputs(smarty_geocode_client):
     with pytest.raises(ValueError) as e:
         smarty_geocode_client.geocode_from_dict({})
     assert "Address must include street number and name at a minimum" in str(e.value)
+
+
+def test_smarty_geocode_from_str(
+    smarty_geocode_client, mock_smarty_candidate, expected_smarty_geocode_result
+):
+    assert smarty_geocode_client.client is not None
+
+    with mock.patch.object(
+        smarty_geocode_client.client, "send_lookup"
+    ) as mock_send_lookup:
+        # provide a function that adds results to the existing object
+        def fill_in_result(*args, **kwargs):
+            args[0].result = [mock_smarty_candidate]
+
+        mock_send_lookup.side_effect = fill_in_result
+
+        assert expected_smarty_geocode_result == smarty_geocode_client.geocode_from_str(
+            "1428 Post Aly Seattle WA 98101"
+        )
+        mock_send_lookup.assert_called()
+
+
+def test_smarty_geocode_from_dict(
+    smarty_geocode_client,
+    mock_smarty_candidate,
+    expected_smarty_geocode_result,
+    geocode_input_dict,
+):
+    assert smarty_geocode_client.client is not None
+
+    with mock.patch.object(
+        smarty_geocode_client.client, "send_lookup"
+    ) as mock_send_lookup:
+        # provide a function that adds results to the existing object
+        def fill_in_result(*args, **kwargs):
+            args[0].result = [mock_smarty_candidate]
+
+        mock_send_lookup.side_effect = fill_in_result
+
+        assert (
+            expected_smarty_geocode_result
+            == smarty_geocode_client.geocode_from_dict(geocode_input_dict)
+        )
+        mock_send_lookup.assert_called()
+
+
+@pytest.fixture
+def census_api_response():
+    with open(
+        pathlib.Path(__file__).parent / "assets" / "censusResponse.json", "r"
+    ) as file:
+        return json.load(file)
+
+
+@pytest.fixture
+def expected_census_geocode_result():
+    return GeocodeResult(
+        line=["1428 POST ALY"],
+        city="SEATTLE",
+        state="WA",
+        postal_code="98101",
+        county_fips="53033",
+        lat=47.60793195443486,
+        lng=-122.33986641487036,
+        district=None,
+        country=None,
+        county_name="King",
+        precision=None,
+        geoid="530330081012004",
+        census_tract="81.01",
+        census_block="2004",
+    )
+
+
+@pytest.fixture
+def census_client():
+    return CensusGeocodeClient()
+
+
+@pytest.fixture
+def mock_call_census_api(census_api_response):
+    with mock.patch.object(
+        CensusGeocodeClient, "_call_census_api", return_value=census_api_response
+    ):
+        yield
+
+
+def test_census_direct_call_to_mocked_method(census_api_response):
+    with mock.patch.object(
+        CensusGeocodeClient, "_call_census_api", return_value=census_api_response
+    ) as mocked_method:
+        census_client = CensusGeocodeClient()
+        result = census_client._call_census_api("dummy_url")
+        assert result == census_api_response
+        mocked_method.assert_called_once_with("dummy_url")
+
+
+def test_census_parse_results(census_api_response, expected_census_geocode_result):
+    parsed_result = CensusGeocodeClient._parse_census_result(
+        census_api_response["result"]
+    )
+    assert parsed_result == expected_census_geocode_result
+
+
+def test_census_geocode_from_str(
+    census_client, census_api_response, expected_census_geocode_result
+):
+    # mock _call_census_api to return the expected response
+    with mock.patch.object(
+        CensusGeocodeClient,
+        "_call_census_api",
+        return_value=census_api_response["result"],
+    ):
+        result = census_client.geocode_from_str("1428 Post Aly Seattle WA 98101")
+        assert result == expected_census_geocode_result
+
+
+def test_census_geocode_from_dict(
+    census_client,
+    census_api_response,
+    expected_census_geocode_result,
+    geocode_input_dict,
+):
+    # mock _call_census_api to return the expected response
+    with mock.patch.object(
+        CensusGeocodeClient,
+        "_call_census_api",
+        return_value=census_api_response["result"],
+    ):
+        result = census_client.geocode_from_dict(geocode_input_dict)
+        assert result == expected_census_geocode_result
