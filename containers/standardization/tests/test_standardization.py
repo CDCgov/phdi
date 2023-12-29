@@ -625,7 +625,6 @@ def test_geocode_resource_overwrite_false(
 ):
     patient = _get_patient_from_bundle(patient_bundle)
     standardized_patient = copy.deepcopy(patient)
-    # Update the standardized_patient with geocoded_response details
     _update_patient_address(
         standardized_patient, expected_smarty_geocode_result, context="smarty"
     )
