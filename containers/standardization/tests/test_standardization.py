@@ -293,22 +293,33 @@ def geocode_input_dict():
     }
 
 
-def test_smarty_parse_result_success(mock_smarty_candidate):
+@pytest.fixture
+def geocode_input_incomplete_dict():
+    return {
+        "street": "1428 Post Aly",
+    }
+
+
+@pytest.fixture
+def geocode_input_malformed_dict():
+    return {
+        "street": "!#%&*!",
+        "city": "1428",
+        "state": "Aly",
+        "zip": "00000",
+    }
+
+
+def test_smarty_parse_result_success(
+    mock_smarty_candidate, expected_smarty_geocode_result
+):
     candidate = mock_smarty_candidate
 
     lookup = mock.Mock()
     lookup.result = [candidate]
     encoded_result = SmartyGeocodeClient._parse_smarty_result(lookup)
 
-    assert encoded_result.line == ["1428 Post Aly"]
-    assert encoded_result.city == "Seattle"
-    assert encoded_result.state == "WA"
-    assert encoded_result.lat == 47.608479
-    assert encoded_result.lng == -122.340202
-    assert encoded_result.county_fips == "53033"
-    assert encoded_result.county_name == "King"
-    assert encoded_result.postal_code == "98101"
-    assert encoded_result.precision == "Rooftop"
+    assert encoded_result == expected_smarty_geocode_result
 
 
 def test_smarty_parse_result_failure():
@@ -442,6 +453,17 @@ def test_census_parse_results(census_api_response, expected_census_geocode_resul
     assert parsed_result == expected_census_geocode_result
 
 
+def test_parse_census_result_failure(census_api_response):
+    # Simulate a response with no address matches
+    census_api_response["result"]["addressMatches"] = []
+
+    # Call the parsing method with the simulated response
+    result = CensusGeocodeClient._parse_census_result(census_api_response["result"])
+
+    # Assert that the result is None, as there are no address matches
+    assert result is None
+
+
 def test_census_geocode_from_str(
     census_client, census_api_response, expected_census_geocode_result
 ):
@@ -454,12 +476,25 @@ def test_census_geocode_from_str(
         result = census_client.geocode_from_str("1428 Post Aly Seattle WA 98101")
         assert result == expected_census_geocode_result
 
+        incomplete_result = census_client.geocode_from_str("1428 Post Aly")
+        assert incomplete_result is None or isinstance(incomplete_result, GeocodeResult)
+
+    # test with an empty string
+    with pytest.raises(ValueError):
+        census_client.geocode_from_str("")
+
+    # test with a malformed string
+    with pytest.raises(ValueError):
+        census_client.geocode_from_str("@#%&*!")
+
 
 def test_census_geocode_from_dict(
     census_client,
     census_api_response,
     expected_census_geocode_result,
     geocode_input_dict,
+    geocode_input_incomplete_dict,
+    geocode_input_malformed_dict,
 ):
     # mock _call_census_api to return the expected response
     with mock.patch.object(
@@ -469,3 +504,16 @@ def test_census_geocode_from_dict(
     ):
         result = census_client.geocode_from_dict(geocode_input_dict)
         assert result == expected_census_geocode_result
+
+        incomplete_result = census_client.geocode_from_dict(
+            geocode_input_incomplete_dict
+        )
+        assert incomplete_result is None or isinstance(incomplete_result, GeocodeResult)
+
+    # test with an empty dict
+    with pytest.raises(ValueError):
+        census_client.geocode_from_dict({})
+
+    # test with a malformed dict
+    with pytest.raises(ValueError):
+        census_client.geocode_from_dict(geocode_input_malformed_dict)
