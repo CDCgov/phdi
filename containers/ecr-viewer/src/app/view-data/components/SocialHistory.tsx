@@ -1,10 +1,10 @@
-import {DisplayData} from '@/app/utils';
+import { DisplayData } from "@/app/utils";
 
 interface SocialHistoryProps {
   socialData: DisplayData[];
 }
 
-const SocialHistory = ({socialData}: SocialHistoryProps) => {
+const SocialHistory = ({ socialData }: SocialHistoryProps) => {
   const renderDemographicsData = (item: any, index: number) => {
     return (
       <div key={index}>
@@ -14,7 +14,7 @@ const SocialHistory = ({socialData}: SocialHistoryProps) => {
           </div>
           <div className="grid-col-auto">{item.value}</div>
         </div>
-        <div className={'section__line_gray'} />
+        <div className={"section__line_gray"} />
       </div>
     );
   };
@@ -34,7 +34,7 @@ const SocialHistory = ({socialData}: SocialHistoryProps) => {
           </h3>
           <div className="usa-summary-box__text">
             {socialData.map((item, index) =>
-              renderDemographicsData(item, index)
+              renderDemographicsData(item, index),
             )}
           </div>
         </div>

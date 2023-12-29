@@ -1,22 +1,22 @@
 // pages/index.js
-'use client';
-import EcrSummary from '@/app/view-data/components/EcrSummary';
-import {useSearchParams} from 'next/navigation';
-import {useEffect, useState} from 'react';
-import {Bundle} from 'fhir/r4';
-import {fhirPathMappings} from '../../../utils/fhirMappings';
-import Demographics from './components/Demographics';
-import SocialHistory from './components/SocialHistory';
-import {Accordion} from '@trussworks/react-uswds';
-import UnavailableInfo from './components/UnavailableInfo';
-import {PathMappings, evaluateSocialData} from '../utils';
+"use client";
+import EcrSummary from "@/app/view-data/components/EcrSummary";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Bundle } from "fhir/r4";
+import { fhirPathMappings } from "../../../utils/fhirMappings";
+import Demographics from "./components/Demographics";
+import SocialHistory from "./components/SocialHistory";
+import { Accordion } from "@trussworks/react-uswds";
+import UnavailableInfo from "./components/UnavailableInfo";
+import { PathMappings, evaluateSocialData } from "../utils";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
-  const fhirId = searchParams.get('id') ?? '';
+  const fhirId = searchParams.get("id") ?? "";
 
   useEffect(() => {
     // Fetch the appropriate bundle from Postgres database
@@ -25,20 +25,20 @@ const ECRViewerPage = () => {
         const response = await fetch(`/api/data?id=${fhirId}`);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || 'Internal Server Error');
+          throw new Error(errorData.message || "Internal Server Error");
         } else {
           const databaseBundle: Bundle = (await response.json()).fhirBundle;
           setFhirBundle(databaseBundle);
         }
       } catch (error) {
         setErrors(error);
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
 
     //Load fhirPath mapping data
-    fhirPathMappings.then(val => {
+    fhirPathMappings.then((val) => {
       setMappings(val);
     });
   }, [fhirId]);
@@ -47,7 +47,7 @@ const ECRViewerPage = () => {
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
-        title: 'Patient Info',
+        title: "Patient Info",
         content: (
           <div>
             <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
@@ -57,19 +57,19 @@ const ECRViewerPage = () => {
           </div>
         ),
         expanded: true,
-        id: '1',
-        headingLevel: 'h2',
+        id: "1",
+        headingLevel: "h2",
       },
       {
-        title: 'Unavailable Info',
+        title: "Unavailable Info",
         content: (
           <div>
             <UnavailableInfo unavailableData={social_data.unavailable_data} />
           </div>
         ),
         expanded: true,
-        id: '2',
-        headingLevel: 'h2',
+        id: "2",
+        headingLevel: "h2",
       },
     ];
 
@@ -88,9 +88,9 @@ const ECRViewerPage = () => {
     return (
       <div>
         <header>
-          <h1 className={'page-title'}>EZ eCR Viewer</h1>
+          <h1 className={"page-title"}>EZ eCR Viewer</h1>
         </header>
-        <div className={'ecr-viewer-container'}>
+        <div className={"ecr-viewer-container"}>
           <h2>eCR Summary</h2>
           <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
           <h2>Additional Details</h2>

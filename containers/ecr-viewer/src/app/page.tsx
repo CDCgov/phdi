@@ -1,5 +1,5 @@
 // pages/index.js
-'use client';
+"use client";
 
 const ECRViewerHomePage = () => {
   return <>ECR Viewer</>;

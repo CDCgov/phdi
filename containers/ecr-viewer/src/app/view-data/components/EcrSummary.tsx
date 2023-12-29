@@ -1,20 +1,20 @@
-import {evaluate} from 'fhirpath';
-import {Bundle} from 'fhir/r4';
+import { evaluate } from "fhirpath";
+import { Bundle } from "fhir/r4";
 import {
   PathMappings,
   formatPatientName,
   formatPatientAddress,
   formatPatientContactInfo,
-} from '../../utils';
+} from "../../utils";
 
 interface EcrViewerProps {
   fhirPathMappings: PathMappings;
   fhirBundle: Bundle;
 }
 
-const EcrSummary = ({fhirPathMappings, fhirBundle}: EcrViewerProps) => {
+const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
   return (
-    <div className={'info-container'}>
+    <div className={"info-container"}>
       <div
         className="usa-summary-box padding-3"
         aria-labelledby="summary-box-key-information"
@@ -30,7 +30,7 @@ const EcrSummary = ({fhirPathMappings, fhirBundle}: EcrViewerProps) => {
                 {formatPatientName(fhirBundle, fhirPathMappings)}
               </div>
             </div>
-            <div className={'section__line'} />
+            <div className={"section__line"} />
             <div className="grid-row">
               <div className="data-title">
                 <h4>DOB</h4>
@@ -39,7 +39,7 @@ const EcrSummary = ({fhirPathMappings, fhirBundle}: EcrViewerProps) => {
                 {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
               </div>
             </div>
-            <div className={'section__line'} />
+            <div className={"section__line"} />
             <div className="grid-row">
               <div className="data-title">
                 <h4>Patient Address</h4>
@@ -48,7 +48,7 @@ const EcrSummary = ({fhirPathMappings, fhirBundle}: EcrViewerProps) => {
                 {formatPatientAddress(fhirBundle, fhirPathMappings)}
               </div>
             </div>
-            <div className={'section__line'} />
+            <div className={"section__line"} />
             <div className="grid-row">
               <div className="data-title">
                 <h4>Patient Contact</h4>
@@ -57,7 +57,7 @@ const EcrSummary = ({fhirPathMappings, fhirBundle}: EcrViewerProps) => {
                 {formatPatientContactInfo(fhirBundle, fhirPathMappings)}
               </div>
             </div>
-            <div className={'section__line'} />
+            <div className={"section__line"} />
           </div>
         </div>
       </div>

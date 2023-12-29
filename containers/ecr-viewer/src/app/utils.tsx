@@ -1,5 +1,5 @@
-import {Bundle} from 'fhir/r4';
-import {evaluate} from 'fhirpath';
+import { Bundle } from "fhir/r4";
+import { evaluate } from "fhirpath";
 
 export interface DisplayData {
   title: string;
@@ -12,51 +12,51 @@ export interface PathMappings {
 
 export const socialData = [
   {
-    title: 'Occupation',
-    value: 'patientCurrentJobTitle',
+    title: "Occupation",
+    value: "patientCurrentJobTitle",
   },
   {
-    title: 'Tobacco Use',
-    value: 'patientTobaccoUse',
+    title: "Tobacco Use",
+    value: "patientTobaccoUse",
   },
   {
-    title: 'Travel History',
-    value: 'patientTravelHistory',
+    title: "Travel History",
+    value: "patientTravelHistory",
   },
   {
-    title: 'Homeless Status',
-    value: 'patientHomelessStatus',
+    title: "Homeless Status",
+    value: "patientHomelessStatus",
   },
   {
-    title: 'Pregnancy Status',
-    value: 'patientPregnancyStatus',
+    title: "Pregnancy Status",
+    value: "patientPregnancyStatus",
   },
   {
-    title: 'Alcohol Use',
-    value: 'patientAlcoholUse',
+    title: "Alcohol Use",
+    value: "patientAlcoholUse",
   },
   {
-    title: 'Sexual Orientation',
-    value: 'patientSexualOrientation',
+    title: "Sexual Orientation",
+    value: "patientSexualOrientation",
   },
   {
-    title: 'Gender Identity',
-    value: 'patientGenderIdentity',
+    title: "Gender Identity",
+    value: "patientGenderIdentity",
   },
   {
-    title: 'Occupation',
-    value: 'patientCurrentJobTitle',
+    title: "Occupation",
+    value: "patientCurrentJobTitle",
   },
 ];
 
 export const formatPatientName = (
   fhirBundle: Bundle | undefined,
-  fhirPathMappings: PathMappings
+  fhirPathMappings: PathMappings,
 ) => {
   const givenNames = evaluate(
     fhirBundle,
-    fhirPathMappings.patientGivenName
-  ).join(' ');
+    fhirPathMappings.patientGivenName,
+  ).join(" ");
   const familyName = evaluate(fhirBundle, fhirPathMappings.patientFamilyName);
 
   return `${givenNames} ${familyName}`;
@@ -64,12 +64,12 @@ export const formatPatientName = (
 
 export const formatPatientAddress = (
   fhirBundle: Bundle | undefined,
-  fhirPathMappings: PathMappings
+  fhirPathMappings: PathMappings,
 ) => {
   const streetAddresses = evaluate(
     fhirBundle,
-    fhirPathMappings.patientStreetAddress
-  ).join('\n');
+    fhirPathMappings.patientStreetAddress,
+  ).join("\n");
   const city = evaluate(fhirBundle, fhirPathMappings.patientCity);
   const state = evaluate(fhirBundle, fhirPathMappings.patientState);
   const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode);
@@ -81,23 +81,23 @@ export const formatPatientAddress = (
 
 export const formatPatientContactInfo = (
   fhirBundle: Bundle | undefined,
-  fhirPathMappings: PathMappings
+  fhirPathMappings: PathMappings,
 ) => {
   const phoneNumbers = evaluate(
     fhirBundle,
-    fhirPathMappings.patientPhoneNumbers
+    fhirPathMappings.patientPhoneNumbers,
   )
     .map(
-      phoneNumber =>
+      (phoneNumber) =>
         `${
           phoneNumber?.use?.charAt(0).toUpperCase() +
           phoneNumber?.use?.substring(1)
-        } ${phoneNumber.value}`
+        } ${phoneNumber.value}`,
     )
-    .join('\n');
+    .join("\n");
   const emails = evaluate(fhirBundle, fhirPathMappings.patientEmails)
-    .map(email => `${email.value}`)
-    .join('\n');
+    .map((email) => `${email.value}`)
+    .join("\n");
 
   return `${phoneNumbers}
     ${emails}`;
@@ -105,11 +105,11 @@ export const formatPatientContactInfo = (
 
 export const evaluateSocialData = (
   fhirBundle: Bundle | undefined,
-  mappings: PathMappings
+  mappings: PathMappings,
 ) => {
   let socialArray: DisplayData[] = [];
   let unavailableArray: DisplayData[] = [];
-  socialData.forEach(item => {
+  socialData.forEach((item) => {
     const evaluatedFhirPath = evaluate(fhirBundle, mappings[item.value]);
     const evaluatedItem: DisplayData = {
       title: item.title,
@@ -122,5 +122,5 @@ export const evaluateSocialData = (
       unavailableArray.push(evaluatedItem);
     }
   });
-  return {available_data: socialArray, unavailable_data: unavailableArray};
+  return { available_data: socialArray, unavailable_data: unavailableArray };
 };

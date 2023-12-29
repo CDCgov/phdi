@@ -1,10 +1,10 @@
-import {DisplayData} from '@/app/utils';
+import { DisplayData } from "@/app/utils";
 
 interface UnavailableInfoProps {
   unavailableData: DisplayData[];
 }
 
-const UnavailableInfo = ({unavailableData}: UnavailableInfoProps) => {
+const UnavailableInfo = ({ unavailableData }: UnavailableInfoProps) => {
   const renderDemographicsData = (item: any, index: number) => {
     return (
       <div key={index}>
@@ -14,7 +14,7 @@ const UnavailableInfo = ({unavailableData}: UnavailableInfoProps) => {
           </div>
           <div className="grid-col-auto">N/A</div>
         </div>
-        <div className={'section__line_gray'} />
+        <div className={"section__line_gray"} />
       </div>
     );
   };
@@ -34,7 +34,7 @@ const UnavailableInfo = ({unavailableData}: UnavailableInfoProps) => {
           </h3>
           <div className="usa-summary-box__text">
             {unavailableData.map((item, index) =>
-              renderDemographicsData(item, index)
+              renderDemographicsData(item, index),
             )}
           </div>
         </div>
