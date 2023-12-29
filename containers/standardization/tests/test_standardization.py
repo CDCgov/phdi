@@ -11,9 +11,12 @@ from smartystreets_python_sdk.us_street.components import Components
 
 from app.main import app
 from app.utils import (
-    GeocodeResult,
+    BaseFhirGeocodeClient,
     CensusGeocodeClient,
+    CensusFhirGeocodeClient,
+    GeocodeResult,
     SmartyGeocodeClient,
+    SmartyFhirGeocodeClient,
     read_json_from_assets,
     standardize_name,
     standardize_country_code,
@@ -517,3 +520,225 @@ def test_census_geocode_from_dict(
     # test with a malformed dict
     with pytest.raises(ValueError):
         census_client.geocode_from_dict(geocode_input_malformed_dict)
+
+
+@pytest.fixture
+def patient_bundle():
+    with open(
+        pathlib.Path(__file__).parent / "assets" / "patientBundle.json", "r"
+    ) as file:
+        return json.load(file)
+
+
+@pytest.fixture
+def patient_bundle_extension():
+    with open(
+        pathlib.Path(__file__).parent / "assets" / "patientBundleExtension.json", "r"
+    ) as file:
+        return json.load(file)
+
+
+@pytest.fixture
+def smarty_fhir_geocode_client():
+    smarty_auth_id = mock.Mock()
+    smarty_auth_token = mock.Mock()
+    return SmartyFhirGeocodeClient(smarty_auth_id, smarty_auth_token)
+
+
+def _get_patient_from_bundle(bundle):
+    return bundle["entry"][1]["resource"]
+
+
+def _update_patient_address(
+    patient: dict, geocoded_response: GeocodeResult, context: str = "smarty"
+) -> None:
+    """
+    Updates the address of a patient resource with geocoded address details.
+    Context can be either 'smarty' or 'census' to handle specific extensions.
+
+    :param patient: The patient resource (dict) whose address will be updated.
+    :param geocoded_response: The geocoded address data (GeocodeResult).
+    :param context: The context of geocoding ('smarty' or 'census').
+    :return: None
+    """
+    address = patient.get("address", [{}])[0]
+    address["city"] = geocoded_response.city
+    address["state"] = geocoded_response.state
+    address["postalCode"] = geocoded_response.postal_code
+
+    # add geolocation extensions
+    BaseFhirGeocodeClient._store_lat_long_extension(
+        address, geocoded_response.lat, geocoded_response.lng
+    )
+
+    # for Census context, add census tract extension and potentially additional logic
+    if context == "census":
+        # add specific logic here from _extract_address if needed
+        BaseFhirGeocodeClient._store_census_tract_extension(
+            address, geocoded_response.census_tract
+        )
+
+
+def test_store_lat_long_fhir(patient_bundle, expected_smarty_geocode_result):
+    # extract the patient from the bundle
+    patient = patient_bundle["entry"][1]["resource"]
+    address = patient.get("address", [])[0]
+
+    # store latitude and longitude using the method
+    BaseFhirGeocodeClient._store_lat_long_extension(
+        address, expected_smarty_geocode_result.lat, expected_smarty_geocode_result.lng
+    )
+
+    # assert that the extension field is added to the address
+    assert "extension" in address, "No extension field found in the address"
+
+    # find the geolocation extension
+    geo_extension = next(
+        (ext for ext in address["extension"] if "geolocation" in ext.get("url", "")),
+        None,
+    )
+    assert geo_extension is not None, "Geolocation extension not found"
+
+    # extract latitude and longitude extensions
+    lat_extension = next(
+        ext
+        for ext in geo_extension.get("extension", [])
+        if ext.get("url") == "latitude"
+    )
+    long_extension = next(
+        ext
+        for ext in geo_extension.get("extension", [])
+        if ext.get("url") == "longitude"
+    )
+
+    # assert that latitude and longitude are stored correctly
+    assert (
+        lat_extension.get("valueDecimal") == expected_smarty_geocode_result.lat
+    ), "Latitude value mismatch"
+    assert (
+        long_extension.get("valueDecimal") == expected_smarty_geocode_result.lng
+    ), "Longitude value mismatch"
+
+
+def test_geocode_resource_overwrite_false(
+    smarty_fhir_geocode_client, expected_smarty_geocode_result, patient_bundle
+):
+    patient = _get_patient_from_bundle(patient_bundle)
+    standardized_patient = copy.deepcopy(patient)
+    # Update the standardized_patient with geocoded_response details
+    _update_patient_address(
+        standardized_patient, expected_smarty_geocode_result, context="smarty"
+    )
+
+    with mock.patch.object(
+        smarty_fhir_geocode_client.geocode_client,
+        "geocode_from_str",
+        return_value=expected_smarty_geocode_result,
+    ):
+        returned_patient = smarty_fhir_geocode_client.geocode_resource(
+            patient, overwrite=False
+        )
+        assert standardized_patient == returned_patient
+        assert returned_patient != patient
+
+
+def test_geocode_bundle(
+    smarty_fhir_geocode_client, expected_smarty_geocode_result, patient_bundle
+):
+    standardized_bundle = copy.deepcopy(patient_bundle)
+
+    # update the standardized bundle using the utility function
+    for entry in standardized_bundle.get("entry", []):
+        patient = entry.get("resource")
+        if patient and patient.get("resourceType") == "Patient":
+            _update_patient_address(
+                patient, expected_smarty_geocode_result, context="smarty"
+            )
+
+    with mock.patch.object(
+        smarty_fhir_geocode_client.geocode_client,
+        "geocode_from_str",
+        return_value=expected_smarty_geocode_result,
+    ):
+        returned_bundle = smarty_fhir_geocode_client.geocode_bundle(
+            patient_bundle, overwrite=False
+        )
+
+        assert standardized_bundle == returned_bundle
+        assert patient_bundle != standardized_bundle
+        smarty_fhir_geocode_client.geocode_client.geocode_from_str.assert_called()
+
+
+@pytest.fixture
+def census_fhir_client():
+    return CensusFhirGeocodeClient()
+
+
+def test_geocode_resource_census_fhir(
+    patient_bundle,
+    patient_bundle_extension,
+    expected_census_geocode_result,
+    census_fhir_client,
+):
+    assert census_fhir_client is not None
+
+    # case 1 and case 2: testing with patient_bundle
+    patient = _get_patient_from_bundle(patient_bundle)
+    standardized_patient = copy.deepcopy(patient)
+    _update_patient_address(
+        standardized_patient, expected_census_geocode_result, context="census"
+    )
+
+    with mock.patch.object(
+        census_fhir_client._CensusFhirGeocodeClient__client,
+        "geocode_from_dict",
+        return_value=expected_census_geocode_result,
+    ):
+        # test with overwrite=False
+        returned_patient = census_fhir_client.geocode_resource(patient, overwrite=False)
+        assert standardized_patient == returned_patient
+        assert returned_patient.get("address") != patient.get("address")
+        assert returned_patient.get("address")[0].get("line") == ["1428 Post Aly"]
+
+        # test with overwrite=True
+        returned_patient = census_fhir_client.geocode_resource(patient, overwrite=True)
+        assert returned_patient["address"][0].get("line") == ["1428 Post Aly"]
+        assert returned_patient == patient
+
+    # case 3: testing with patient_bundle_extension (has existing extension)
+    patient = _get_patient_from_bundle(patient_bundle_extension)
+    standardized_patient = copy.deepcopy(patient)
+    _update_patient_address(
+        standardized_patient, expected_census_geocode_result, context="census"
+    )
+
+    with mock.patch.object(
+        census_fhir_client._CensusFhirGeocodeClient__client,
+        "geocode_from_dict",
+        return_value=expected_census_geocode_result,
+    ):
+        returned_patient = census_fhir_client.geocode_resource(patient, overwrite=True)
+
+        assert returned_patient == standardized_patient
+        assert returned_patient.get("address")[0].get("_line")[0].get("extension")[
+            0
+        ] == {"existing_url": "existing_extension"}
+
+        # check if second element of '_line' array exists and is not None
+        second_line_element = returned_patient.get("address")[0].get("_line")[1]
+        if second_line_element:
+            assert second_line_element.get("extension")[0] is not None
+
+
+def test_geocode_bundle_census_fhir(
+    patient_bundle, expected_census_geocode_result, census_fhir_client
+):
+    assert census_fhir_client is not None
+
+    standardized_bundle = copy.deepcopy(patient_bundle)
+    patient = _get_patient_from_bundle(standardized_bundle)
+    _update_patient_address(patient, expected_census_geocode_result, context="census")
+
+    returned_bundle = census_fhir_client.geocode_bundle(patient_bundle, overwrite=False)
+    assert standardized_bundle == returned_bundle
+    assert patient_bundle != standardized_bundle

@@ -1,0 +1,85 @@
+{
+  "resourceType": "Bundle",
+  "identifier": {
+    "value": "a realistic FHIR bundle"
+  },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "id": "org-id-123"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-uuid-456",
+        "identifier": [
+          {
+            "value": "987654321",
+            "type": {
+              "coding": [
+                {
+                  "code": "MR",
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "display": "Medical record number"
+                }
+              ]
+            },
+            "system": "http://hospital.example.org"
+          }
+        ],
+        "name": [
+          {
+            "family": "Doe",
+            "given": [
+              "Jane"
+            ],
+            "use": "official"
+          }
+        ],
+        "birthDate": "1985-05-15",
+        "gender": "female",
+        "address": [
+          {
+            "line": [
+              "1428 Post Aly"
+            ],
+            "city": "Seattle",
+            "state": "WA",
+            "postalCode": "98101",
+            "country": "USA",
+            "use": "home",
+            "_line": [
+              {
+                "extension": [
+                  {
+                    "existing_url": "existing_extension"
+                  }
+                ]
+              },
+              null
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "use": "home",
+            "system": "phone",
+            "value": "206-555-0100"
+          },
+          {
+            "value": "jane.doe@example.com",
+            "system": "email"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "url": "Patient/patient-uuid-456"
+      }
+    }
+  ]
+}
