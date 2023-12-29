@@ -79,6 +79,23 @@ def apply_function_to_fhirpath(bundle: Dict, fhirpath: str, function: Callable) 
     return bundle
 
 
+def get_one_line_address(address: dict) -> str:
+    """
+    Extracts a one-line string representation of an address from a
+    JSON dictionary holding address information.
+
+    :param address: The FHIR-formatted address.
+    :return: A one-line string representation of an address.
+    """
+    if len(address) == 0:
+        return ""
+    raw_one_line = " ".join(address.get("line", []))
+    raw_one_line += f" {address.get('city', '')}, {address.get('state', '')}"
+    if address.get("postalCode", ""):
+        raw_one_line += f" {address['postalCode']}"
+    return raw_one_line
+
+
 def standardize_name(
     raw_name: Union[str, List[str]],
     trim: bool = True,
@@ -940,3 +957,282 @@ class CensusGeocodeClient(BaseGeocodeClient):
                 census_tract=tractComponents.get("BASENAME", ""),
                 census_block=blockComponents.get("BASENAME", ""),
             )
+
+
+class BaseFhirGeocodeClient(ABC):
+    """
+    Represents a vendor-agnostic geocoder client designed to process
+    FHIR-based data. Implementing classes should define methods to
+    geocode from both bundles and resources. Callers should use the
+    provided interface functions (e.g., geocode_resource) to interact with
+    the underlying vendor-specific client property.
+    """
+
+    @abstractmethod
+    def geocode_resource(self, resource: dict, overwrite=True) -> dict:
+        """
+        Performs geocoding, using the implementing client, on the provided resource,
+        which is passed in as a dictionary.
+
+        :param resource: A FHIR resource to be geocoded.
+        :param overwrite: If true, `resource` is modified in-place;
+          if false, a copy of `resource` modified and returned.  Default: `True`
+        :return: The geocoded resource as a dict.
+        """
+        pass  # pragma: no cover
+
+    @abstractmethod
+    def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
+        """
+        Performs geocoding, using the implementing client, on all supported resources in
+        the provided FHIR bundle which is passed in as a dictionary.
+
+        :param bundle: A bundle of FHIR resources.
+        :param overwrite: If true, `bundle` is modified in-place;
+          if false, a copy of `bundle` modified and returned.  Default: `True`
+        :return: The geocoded FHIR bundle as a dict.
+        """
+        pass  # pragma: no cover
+
+    @staticmethod
+    def _store_lat_long_extension(address: dict, lat: float, long: float) -> None:
+        """
+        Adds extension data for latitude and longitude, if the fields aren't already
+        present, to a given FHIR-formatted dictionary holding address fields.
+        The latitude and longitude data is added directly to the input dictionary.
+
+        :param address: A FHIR formatted dictionary holding address fields.
+        :param lat: The latitude to add to the FHIR data as an extension.
+        :param long: The longitude to add to the FHIR data as an extension.
+        """
+        if "extension" not in address:
+            address["extension"] = []
+
+        # Append with a properly resolving URL for FHIR's canonical geospatial
+        # structure definition, as all extensions are required to have this
+        # attribute; see https://www.hl7.org/fhir/extensibility.html
+        address["extension"].append(
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
+                "extension": [
+                    {
+                        "url": "latitude",
+                        "valueDecimal": lat,
+                    },
+                    {
+                        "url": "longitude",
+                        "valueDecimal": long,
+                    },
+                ],
+            }
+        )
+
+    @staticmethod
+    def _store_census_tract_extension(address: dict, census_tract: str) -> None:
+        """
+        Adds appropriate extension data for census tract for each element in an address
+        line, if the field isn't already present, to a given FHIR-formatted dictionary
+        holding address fields. Add the extension data directly to the input dictionary,
+        leaving census tract as a FHIR-identified geolocation element.
+
+        :param address: A FHIR formatted dictionary holding address fields
+        :param census_tract: The census tract to add to the FHIR data as an extension
+        """
+
+        # Append with a properly resolving URL for FHIR's canonical censusTract
+        # structure definition, as all extensions are required to have this
+        # attribute; see https://www.hl7.org/fhir/extensibility.html
+
+        census_extension = {
+            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract",
+            "valueString": census_tract,
+        }
+
+        if address.get("_line") is None:
+            address["_line"] = []
+        for element_counter in range(len(address["line"])):
+            try:
+                address["_line"][element_counter].get("extension").append(
+                    census_extension
+                )
+            except AttributeError:
+                address["_line"][element_counter] = {"extension": []}
+                address["_line"][element_counter].get("extension").append(
+                    census_extension
+                )
+            except IndexError:
+                address["_line"].append({"extension": [census_extension]})
+
+
+class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
+    """
+    Implementation of a geocoding client designed to handle FHIR-
+    formatted data using the SmartyStreets API.
+    Requires an authorization ID as well as an authentication token
+    in order to build a street lookup client.
+    """
+
+    def __init__(
+        self,
+        smarty_auth_id: str,
+        smarty_auth_token: str,
+        licenses: list[str] = ["us-standard-cloud"],
+    ):
+        self.__client = SmartyGeocodeClient(smarty_auth_id, smarty_auth_token, licenses)
+
+    @property
+    def geocode_client(self) -> us_street.Client:
+        """
+        An instance of the underlying Smarty client.
+        Allows the FHIR wrapper to access a SmartyStreets-
+        specific connection client without instantiating its own
+        copy. Provides access to the respective `geocode_from_str`
+        and `geocode_from_dict` methods if they're desired.
+        """
+        return self.__client
+
+    def geocode_resource(self, resource: dict, overwrite=True) -> dict:
+        """
+        Performs geocoding on one or more addresses in a given FHIR
+        resource and returns either the result or a copy thereof.
+        Currently supported resource types are:
+
+        * Patient
+
+        :param resource: The resource whose addresses should be geocoded.
+        :param overwrite: If true, `resource` is modified in-place;
+          if false, a copy of `resource` modified and returned.  Default: `True`
+        :return: The geocoded resource as a dict.
+        """
+        if not overwrite:
+            resource = copy.deepcopy(resource)
+
+        resource_type = resource.get("resourceType", "")
+        if resource_type == "Patient":
+            self._geocode_patient_resource(resource)
+
+        return resource
+
+    def _geocode_patient_resource(self, patient: dict) -> None:
+        """
+        Geocodes all addresses in a patient resource.
+
+        :param patient: A FHIR Patient resource.
+        """
+        for address in patient.get("address", []):
+            address_str = get_one_line_address(address)
+            standardized_address = self.__client.geocode_from_str(address_str)
+
+            # Update fields with new, standardized information
+            if standardized_address:
+                address["line"] = standardized_address.line
+                address["city"] = standardized_address.city
+                address["state"] = standardized_address.state
+                address["postalCode"] = standardized_address.postal_code
+                self._store_lat_long_extension(
+                    address, standardized_address.lat, standardized_address.lng
+                )
+
+    def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
+        """
+        Geocodes on all resources in a given FHIR bundle whose
+        resource type is among those supported by the PHDI SDK. Currently,
+        this includes:
+
+        * Patient
+
+        :param bundle: A bundle of FHIR resources.
+        :param overwrite: If true, `bundle` is modified in-place;
+          if false, a copy of `bundle` modified and returned.  Default: `True`
+        :return: The FHIR bundle with geocoded address(es).
+        """
+        if not overwrite:
+            bundle = copy.deepcopy(bundle)
+
+        for entry in bundle.get("entry", []):
+            _ = self.geocode_resource(entry.get("resource", {}), overwrite=True)
+
+        return bundle
+
+
+class CensusFhirGeocodeClient(BaseFhirGeocodeClient):
+    """
+    Implementation of a geocoding client designed to handle FHIR-
+    formatted data using the Census API.
+    """
+
+    def __init__(self):
+        self.__client = CensusGeocodeClient()
+
+    def geocode_resource(self, resource: dict, overwrite=True) -> dict:
+        """
+        Performs geocoding on one or more addresses in a given FHIR
+        resource and returns either the result or a copy thereof. The original street
+        name, number, and any secondary address line information are returned in the
+        original form.
+        Currently supported resource types are:
+
+            - Patient
+
+        :param resource: The resource whose addresses should be geocoded.
+        :param overwrite: Whether to save the geocoding information over
+          the raw data, or to create a copy of the given data and write
+          over that instead. Defaults to True (write over given data).
+        :return: Geocoded resource as a dict.
+        """
+        # TODO: research additional APIs that return Apt (and other 2nd line addresses)
+        # so that address.line can be overwritten
+        if not overwrite:
+            resource = copy.deepcopy(resource)
+
+        resource_type = resource.get("resourceType", "")
+        if resource_type == "Patient":
+            self._geocode_patient_resource(resource)
+
+        return resource
+
+    def _geocode_patient_resource(self, patient: dict) -> None:
+        """
+        Handles geocoding of all addresses in a given patient resource.
+        :param patient: The patient resource whose addresses should be geocoded.
+        """
+        for address in patient.get("address", []):
+            address["street"] = " ".join(item for item in address["line"])
+            standardized_address = self.__client.geocode_from_dict(address)
+
+            # Update fields with new, standardized information
+            if standardized_address:
+                address["city"] = standardized_address.city
+                address["state"] = standardized_address.state
+                address["postalCode"] = standardized_address.postal_code
+                self._store_lat_long_extension(
+                    address, standardized_address.lat, standardized_address.lng
+                )
+                self._store_census_tract_extension(
+                    address, standardized_address.census_tract
+                )
+
+                # Remove dict entry needed only for geocode_from_dict()
+                del address["street"]
+
+    def geocode_bundle(self, bundle: dict, overwrite=True) -> dict:
+        """
+        Performs geocoding on all resources in a given FHIR bundle whose
+        resource type is among those supported by the PHDI SDK. Currently,
+        this includes:
+
+            - Patient
+
+        :param bundle: A bundle of fhir resources.
+        :param overwrite: Whether to overwrite the address data in the given
+          bundle's resources (True), or whether to create a copy of the bundle
+          and overwrite that instead (False). Defaults to True.
+        :return: A FHIR bundle with geocoded address(es).
+        """
+        if not overwrite:
+            bundle = copy.deepcopy(bundle)
+
+        for entry in bundle.get("entry", []):
+            self.geocode_resource(entry.get("resource", {}), overwrite=True)
+
+        return bundle
