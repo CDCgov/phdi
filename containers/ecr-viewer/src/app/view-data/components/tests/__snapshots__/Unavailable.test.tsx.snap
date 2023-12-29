@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnavailableInfo should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          Social History
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Travel History
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto"
+              >
+                N/A
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Pregnancy Status
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto"
+              >
+                N/A
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Alcohol Use
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto"
+              >
+                N/A
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Sexual Orientation
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto"
+              >
+                N/A
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Gender Identity
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto"
+              >
+                N/A
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
