@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SocialHistory should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <div>
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            Encounter Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Facility ID
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto"
+                >
+                  2.16.840.1.113883.4.6
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Facility Name
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto"
+                >
+                  PRM- Palmdale Regional Medical Center
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Facility Type
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto"
+                >
+                  Healthcare Provider
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            Provider Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Provider Name
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto"
+                >
+                  test provider name
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Provider Contact
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto"
+                >
+                  test provider contact
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

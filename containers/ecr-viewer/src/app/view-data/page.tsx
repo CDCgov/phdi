@@ -10,7 +10,7 @@ import SocialHistory from "./components/SocialHistory";
 import { Accordion } from '@trussworks/react-uswds'
 import UnavailableInfo from "./components/UnavailableInfo";
 import { PathMappings, evaluateSocialData, evaluateEncounterData, evaluateProviderData } from "../utils";
-import Encounter from "./components/Encounter";
+import EncounterDetails from "./components/Encounter";
 
 
 const ECRViewerPage = () => {
@@ -53,7 +53,7 @@ const ECRViewerPage = () => {
         content: (
           <div>
             <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            {social_data.available_data && <SocialHistory socialData={social_data.available_data} />}
+            {social_data.available_data.length > 0 && <SocialHistory socialData={social_data.available_data} />}
           </div>
         ),
         expanded: true,
@@ -61,10 +61,10 @@ const ECRViewerPage = () => {
         headingLevel: 'h2',
       },
       {
-        title: 'Unavailable Info',
+        title: 'Encounter Data',
         content: (
           <div>
-            <Encounter encounterData={encounterData.available_data} providerData={providerData.available_data} />
+            <EncounterDetails encounterData={encounterData.available_data} providerData={providerData.available_data} />
           </div>
         ),
         expanded: true,
@@ -74,8 +74,12 @@ const ECRViewerPage = () => {
       {
         title: 'Unavailable Info',
         content: (
-          <div>
-            <UnavailableInfo unavailableData={social_data.unavailable_data} />
+          <div className="padding-top-105">
+            <UnavailableInfo
+              socialUnavailableData={social_data.unavailable_data}
+              encounterUnavailableData={encounterData.unavailable_data}
+              providerUnavailableData={providerData.unavailable_data}
+            />
           </div>
         ),
         expanded: true,
@@ -102,12 +106,14 @@ const ECRViewerPage = () => {
       <div>
         <header><h1 className={"page-title"}>EZ eCR Viewer</h1></header>
         <div className={"ecr-viewer-container"}>
-          <h2>eCR Summary</h2>
+          <h2 className="margin-bottom-3">eCR Summary</h2>
           <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-          <h2>Additional Details</h2>
-          {renderAccordion()}
+          <div className="margin-top-6">
+            <h2 className="margin-bottom-3">eCR Document</h2>
+            {renderAccordion()}
+          </div>
         </div>
-      </div>)
+      </div >)
   } else {
     return <div>
       <h1>Loading...</h1>

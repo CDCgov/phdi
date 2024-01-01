@@ -1,12 +1,12 @@
 import { DisplayData } from "@/app/utils";
 
-interface SocialHistoryProps {
+interface EncounterProps {
     encounterData: DisplayData[],
     providerData: DisplayData[]
 }
 
-const Encounter = (
-    { encounterData, providerData }: SocialHistoryProps
+const EncounterDetails = (
+    { encounterData, providerData }: EncounterProps
 ) => {
     const renderData = (item: any, index: number) => {
         return (
@@ -22,6 +22,39 @@ const Encounter = (
         )
     }
 
+    const renderEncounterDetails = () => {
+        return (
+            <div>
+                <h3
+                    className="usa-summary-box__heading padding-y-105"
+                    id="summary-box-key-information"
+                >
+                    Encounter Details
+                </h3>
+
+                <div className="usa-summary-box__text">
+                    {encounterData.map((item, index) => renderData(item, index))}
+                </div>
+            </div>
+        )
+    }
+
+    const renderProviderDetails = () => {
+        return (
+            <div>
+                <h3
+                    className="usa-summary-box__heading padding-y-105"
+                    id="summary-box-key-information"
+                >
+                    Provider Details
+                </h3>
+                <div className="usa-summary-box__text">
+                    {providerData.map((item, index) => renderData(item, index))}
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div>
             <div
@@ -29,27 +62,11 @@ const Encounter = (
                 aria-labelledby="summary-box-key-information"
             >
                 <div className="usa-summary-box__body">
-                    <h3
-                        className="usa-summary-box__heading padding-y-105"
-                        id="summary-box-key-information"
-                    >
-                        Encounter Details
-                    </h3>
-                    <div className="usa-summary-box__text">
-                        {encounterData.map((item, index) => renderData(item, index))}
-                    </div>
-                    <h3
-                        className="usa-summary-box__heading padding-y-105"
-                        id="summary-box-key-information"
-                    >
-                        Provider Details
-                    </h3>
-                    <div className="usa-summary-box__text">
-                        {providerData.map((item, index) => renderData(item, index))}
-                    </div>
+                    {encounterData.length > 0 && renderEncounterDetails()}
+                    {providerData.length > 0 && renderProviderDetails()}
                 </div>
             </div>
         </div>);
 };
 
-export default Encounter;
+export default EncounterDetails;

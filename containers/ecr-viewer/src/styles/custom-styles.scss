@@ -13,8 +13,6 @@
 
 h2 {
   font-size: 40px;
-  margin-top: 24px;
-  margin-bottom: 24px;
 }
 
 h3 {
@@ -52,4 +50,14 @@ h4 {
 .data-title {
   flex:0 1 auto;
   width: 190px;
+}
+
+.usa-accordion__button {
+  font-size: 32px;
+  color: white !important;
+  background-color: #2E6276;
+}
+
+.usa-accordion__button:hover {
+  background-color: #2E6276;
 }

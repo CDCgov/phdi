@@ -164,17 +164,8 @@ exports[`Demographics should match snapshot 1`] = `
               class="grid-col-auto text-pre-line"
             >
               1050 CARPENTER ST
-               
-              
-
-              EDWARDS
-              , 
-              CA
-               
-              
-
-              93523-2800
-              , USA
+    EDWARDS, CA
+    93523-2800, US
             </div>
           </div>
           <div
@@ -193,10 +184,8 @@ exports[`Demographics should match snapshot 1`] = `
             <div
               class="grid-col-auto text-pre-line"
             >
-              tel: (home) +18184195968
-              
-
-              email: MELLY.C.A.16@GMAIL.COM
+              Home +18184195968
+    MELLY.C.A.16@GMAIL.COM
             </div>
           </div>
           <div
