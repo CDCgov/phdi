@@ -35,7 +35,7 @@ jobs:
       - name: Check style (flake8)
         run: |
           flake8
-  yaml:
+#  yaml:
 
   javascript:
     runs-on: ubuntu-latest
