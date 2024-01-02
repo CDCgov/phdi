@@ -89,5 +89,12 @@ export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: Pat
             unavailableArray.push(evaluatedItem)
         }
     })
+
+
+
+
+
+
+
     return { 'available_data': socialArray, 'unavailable_data': unavailableArray }
 }
