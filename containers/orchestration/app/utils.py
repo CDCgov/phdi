@@ -6,8 +6,6 @@ from pathlib import Path
 from typing import Dict
 from zipfile import ZipFile
 import io
-
-
 @cache
 def load_processing_config(config_name: str) -> dict:
     """
