@@ -12,9 +12,11 @@ def test_db_connection(setup):
     engine = create_engine("postgresql://postgres:pw@localhost:5432/ecr_viewer_db")
     ecr_id = uuid.uuid4()
     expected = PostgresFhirDataModel(ecr_id=str(ecr_id), data={"something": "here"})
-    with Session(engine) as session:
+    with Session(engine, expire_on_commit=False) as session:
         repo = SqlAlchemyFhirRepository(session)
         repo.persist(expected)
+
+    with Session(engine) as session:
         actual = session.query(PostgresFhirDataModel).get(str(ecr_id))
         assert expected.ecr_id == actual.ecr_id
         assert expected.data == actual.data
