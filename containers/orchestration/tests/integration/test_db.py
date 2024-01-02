@@ -12,7 +12,6 @@ def test_db_connection(setup):
     engine = create_engine("postgresql://postgres:pw@localhost:5432/ecr_viewer_db")
     ecr_id = uuid.uuid4()
     expected = PostgresFhirDataModel(ecr_id=str(ecr_id), data={"something": "here"})
-    # create session and add objects
     with Session(engine) as session:
         repo = SqlAlchemyFhirRepository(session)
         repo.persist(expected)
