@@ -9,5 +9,5 @@ class SqlAlchemyFhirRepository(FhirRepository):
 
     def persist(self, entity):
         self.session.add(entity)
-        self.session.flush()
+        self.session.commit()
         return entity
