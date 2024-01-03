@@ -25,7 +25,7 @@ const EcrSummary = (
                 aria-labelledby="summary-box-key-information"
             >
                 <div className="usa-summary-box__body">
-                    <h3 id="summary-box-key-information">
+                    <h3 className="summary-box-key-information">
                         About the Patient
                     </h3>
                     <div className="usa-summary-box__text">
@@ -60,7 +60,7 @@ const EcrSummary = (
                     </div>
                 </div>
                 <div className="usa-summary-box__body">
-                    <h3 id="summary-box-key-information">
+                    <h3 className="summary-box-key-information">
                         About the Encounter
                     </h3>
                     <div className="usa-summary-box__text">
@@ -86,8 +86,8 @@ const EcrSummary = (
                         </div>
                         <div className={"section__line"}/>
                         <div className="grid-row">
-                            <div className="data-title"><h4>Encounter Date</h4></div>
-                            <div className="grid-col-auto">
+                            <div className="data-title"><h4>Encounter Date/Time</h4></div>
+                            <div className="grid-col-auto text-pre-line">
                                 {formatEncounterDate(fhirBundle, fhirPathMappings)}
                             </div>
                         </div>

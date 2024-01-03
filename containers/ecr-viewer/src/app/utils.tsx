@@ -122,14 +122,22 @@ export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: Pat
 }
 
 export const formatEncounterDate = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
-    return new Date(evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""))
-        .toLocaleDateString("en-Us", {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-        })
+    const startDate = formatDateTime(evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""));
+    const endDate = formatDateTime(evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""));
+    
+    return (`Start: ${startDate}
+    End: ${endDate}`);
+}
+
+const formatDateTime = (dateTime: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: 'numeric',
+        minute: '2-digit'
+    };
+
+    return new Date(dateTime).toLocaleDateString("en-Us", options).replace(',',"");
 }
 
