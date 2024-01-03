@@ -747,7 +747,7 @@
         "id": "3dfef8a1-dcd0-4013-ba05-858820261eb6",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
           ],
           "source": [
             "ecr"
@@ -757,11 +757,6 @@
           {
             "system": "urn:ietf:rfc:3986",
             "value": "urn:uuid:3dfef8a1-dcd0-4013-ba05-858820261eb6"
-          }
-        ],
-        "notes": [
-          {
-            "text": "COVID-19 (as a diagnosis or active problem)"
           }
         ],
         "status": "final",
@@ -787,7 +782,13 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        }
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "COVID-19 (as a diagnosis or active problem)"
+          }
+        ]
       },
       "request": {
         "method": "PUT",

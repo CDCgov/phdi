@@ -565,7 +565,7 @@
         "id": "e1530c36-cfd5-4bb4-848f-0ac5d8090d03",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
           ],
           "source": [
             "ecr"
@@ -575,11 +575,6 @@
           {
             "system": "urn:ietf:rfc:3986",
             "value": "urn:uuid:e1530c36-cfd5-4bb4-848f-0ac5d8090d03"
-          }
-        ],
-        "notes": [
-          {
-            "text": "Detection of Influenza A nucleic acid in a clinical specimen by any method, including RT-PCR and rapid molecular assays"
           }
         ],
         "status": "final",
@@ -605,7 +600,13 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        }
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection of Influenza A nucleic acid in a clinical specimen by any method, including RT-PCR and rapid molecular assays"
+          }
+        ]
       },
       "request": {
         "method": "PUT",
