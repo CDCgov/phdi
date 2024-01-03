@@ -73,7 +73,10 @@ function extractLocationResource(fhirBundle: Bundle | undefined, fhirPathMapping
 }
 
 export const extractFacilityAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
-    const locationResource = extractLocationResource(fhirBundle, fhirPathMappings);
+    const locationReference = evaluate(fhirBundle, fhirPathMappings.facilityLocation).join("");
+    const locationUID = locationReference.split("/")[1];
+    const locationExpression = `Bundle.entry.resource.where(resourceType = 'Location').where(id = '${locationUID}')`;
+    const locationResource = evaluate(fhirBundle, locationExpression)[0];
 
     const streetAddresses = locationResource.address.line;
     const city = locationResource.address.city;
@@ -93,9 +96,7 @@ const formatAddress = (streetAddress: any[], city: any[], state: any[], zipCode:
 
 export const extractFacilityContactInfo = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
     const locationResource = extractLocationResource(fhirBundle, fhirPathMappings);
-    
     const phoneNumbers = locationResource.telecom.filter((contact: any) => contact.system === "phone");
-    
     return phoneNumbers[0].value;
 }
 
@@ -124,14 +125,22 @@ export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: Pat
 }
 
 export const formatEncounterDate = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
-    return new Date(evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""))
+    const startDate = new Date(evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""))
         .toLocaleDateString("en-Us", {
             year: "numeric",
-            month: "numeric",
-            day: "numeric",
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-        })
-}
+            month: "long",
+            day: "numeric"
+        });
+    const endDate = new Date(evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""))
+        .toLocaleDateString("en-Us", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
 
+    if (startDate === endDate) {
+        return startDate;
+    }
+
+    return `${startDate} - ${endDate}`;
+}
