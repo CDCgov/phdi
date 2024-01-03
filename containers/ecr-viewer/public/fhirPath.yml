@@ -25,5 +25,5 @@ patientAlcoholUse: "Bundle.entry.resource.where(resourceType='Observation').wher
 patientSexualOrientation: "idk"
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
-rrSection: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section')"
-rrObsTriggerSummary: "Bundle.entry.select((resource as Observation).where(id = $obsId)).notes[0].text"
+rrDisplayName: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section').entry.first().display"
+rckmsTriggerSummary: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
