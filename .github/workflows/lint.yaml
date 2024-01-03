@@ -44,4 +44,3 @@ jobs:
         run: |
               npm ci
               npm run lint
-              npx run prettier
