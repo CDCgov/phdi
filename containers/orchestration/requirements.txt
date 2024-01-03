@@ -14,3 +14,4 @@ pytest-asyncio
 testcontainers[compose]
 websockets
 asyncio
+sqlalchemy
