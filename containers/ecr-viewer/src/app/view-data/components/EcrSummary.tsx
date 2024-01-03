@@ -15,10 +15,9 @@ const EcrSummary = (
         <div className={"info-container"}>
             <div
                 className="usa-summary-box padding-3"
-                aria-labelledby="summary-box-key-information"
             >
-                <div className="usa-summary-box__body">
-                    <h3 id="summary-box-key-information">
+                <div>
+                    <h3>
                         About the Patient
                     </h3>
                     <div className="usa-summary-box__text">
@@ -53,7 +52,7 @@ const EcrSummary = (
                     </div>
                 </div>
                 <div className="usa-summary-box__body">
-                    <h3 id="summary-box-key-information">
+                    <h3 className={"margin-bottom-105 margin-top-205"}>
                         About the Condition
                     </h3>
                     <div className="usa-summary-box__text">
