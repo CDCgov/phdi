@@ -64,7 +64,7 @@ const ECRViewerPage = () => {
         headingLevel: 'h2',
       },
       {
-        title: 'Provider Info',
+        title: 'Encounter Info',
         content: (
           <div>
             <EncounterDetails encounterData={encounterData.available_data} providerData={providerData.available_data} />
