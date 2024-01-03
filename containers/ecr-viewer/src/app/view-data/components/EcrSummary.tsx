@@ -99,6 +99,7 @@ const EcrSummary = (
                             </div>
                         </div>
                     </div>
+                    <div className={"section__line"}/>
                 </div>
                 <div className="usa-summary-box__body">
                     <h3 className={"margin-bottom-105 margin-top-205"}>
