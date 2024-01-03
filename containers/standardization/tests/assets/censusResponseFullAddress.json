@@ -1,0 +1,296 @@
+{
+  "input": {
+    "address": {
+      "address": "239 Greene Street, New York, NY, 10003"
+    },
+    "vintage": {
+      "isDefault": "True",
+      "id": "2020",
+      "vintageName": "Census2020_Census2020",
+      "vintageDescription": "Census 2020 Vintage - Census 2020 Benchmark"
+    },
+    "benchmark": {
+      "isDefault": "False",
+      "benchmarkDescription": "Public Address Ranges - Census 2020 Benchmark",
+      "id": "2020",
+      "benchmarkName": "Public_AR_Census2020"
+    }
+  },
+  "addressMatches": [
+    {
+      "tigerLine": {
+        "side": "L",
+        "tigerLineId": "59653861"
+      },
+      "geographies": {
+        "State Legislative Districts - Upper": [
+          {
+            "POP100": "",
+            "GEOID": "36027",
+            "CENTLAT": "+40.7446310",
+            "AREAWATER": 4639429,
+            "STATE": "36",
+            "BASENAME": "27",
+            "OID": 212904690195388,
+            "LSADC": "LU",
+            "SLDU": "027",
+            "FUNCSTAT": "N",
+            "INTPTLAT": "+40.7494188",
+            "NAME": "State Senate District 27",
+            "OBJECTID": 878,
+            "CENTLON": "-073.9894721",
+            "LSY": "2018",
+            "HU100": "",
+            "AREALAND": 11834693,
+            "INTPTLON": "-073.9899093",
+            "MTFCC": "G5210",
+            "LDTYP": "O"
+          }
+        ],
+        "States": [
+          {
+            "STATENS": "01779796",
+            "POP100": "",
+            "GEOID": "36",
+            "CENTLAT": "+42.9196161",
+            "AREAWATER": 19256750161,
+            "STATE": "36",
+            "BASENAME": "New York",
+            "STUSAB": "NY",
+            "OID": 27490100833860,
+            "LSADC": "00",
+            "FUNCSTAT": "A",
+            "INTPTLAT": "+42.9133974",
+            "DIVISION": "2",
+            "NAME": "New York",
+            "REGION": "1",
+            "OBJECTID": 5,
+            "CENTLON": "-075.5941471",
+            "AREALAND": 122049520861,
+            "INTPTLON": "-075.5962723",
+            "HU100": "",
+            "MTFCC": "G4000",
+            "UR": ""
+          }
+        ],
+        "Combined Statistical Areas": [
+          {
+            "POP100": "",
+            "GEOID": "408",
+            "CENTLAT": "+41.0667541",
+            "AREAWATER": 8099265995,
+            "BASENAME": "New York-Newark, NY-NJ-CT-PA",
+            "OID": 2619013782255195,
+            "LSADC": "M0",
+            "FUNCSTAT": "S",
+            "INTPTLAT": "+40.7749300",
+            "NAME": "New York-Newark, NY-NJ-CT-PA CSA",
+            "CSA": "408",
+            "OBJECTID": 147,
+            "CENTLON": "-073.8753122",
+            "HU100": "",
+            "AREALAND": 32113500421,
+            "INTPTLON": "-073.8737580",
+            "MTFCC": "G3100"
+          }
+        ],
+        "County Subdivisions": [
+          {
+            "COUSUB": "44919",
+            "POP100": "",
+            "GEOID": "3606144919",
+            "CENTLAT": "+40.7739865",
+            "AREAWATER": 29014840,
+            "STATE": "36",
+            "BASENAME": "Manhattan",
+            "OID": 27690460844254,
+            "LSADC": "21",
+            "FUNCSTAT": "G",
+            "INTPTLAT": "+40.7766419",
+            "NAME": "Manhattan borough",
+            "OBJECTID": 21843,
+            "CENTLON": "-073.9700438",
+            "COUSUBCC": "Z1",
+            "HU100": "",
+            "AREALAND": 58679457,
+            "INTPTLON": "-073.9701871",
+            "MTFCC": "G4040",
+            "COUSUBNS": "00979190",
+            "UR": "",
+            "COUNTY": "061"
+          }
+        ],
+        "State Legislative Districts - Lower": [
+          {
+            "POP100": "",
+            "GEOID": "36066",
+            "CENTLAT": "+40.7285607",
+            "SLDL": "066",
+            "AREAWATER": 1666529,
+            "STATE": "36",
+            "BASENAME": "66",
+            "OID": 213904690195524,
+            "LSADC": "L3",
+            "FUNCSTAT": "N",
+            "INTPTLAT": "+40.7283264",
+            "NAME": "Assembly District 66",
+            "OBJECTID": 3071,
+            "CENTLON": "-074.0055812",
+            "LSY": "2018",
+            "HU100": "",
+            "AREALAND": 5219381,
+            "INTPTLON": "-074.0062577",
+            "MTFCC": "G5220",
+            "LDTYP": "O"
+          }
+        ],
+        "Incorporated Places": [
+          {
+            "NECTAPCI": "N",
+            "POP100": "",
+            "GEOID": "3651000",
+            "CENTLAT": "+40.6624937",
+            "AREAWATER": 445421632,
+            "STATE": "36",
+            "BASENAME": "New York",
+            "OID": 27890287325779,
+            "LSADC": "25",
+            "PLACE": "51000",
+            "FUNCSTAT": "A",
+            "INTPTLAT": "+40.6627117",
+            "NAME": "New York city",
+            "OBJECTID": 903,
+            "PLACECC": "C1",
+            "CENTLON": "-073.9389043",
+            "CBSAPCI": "Y",
+            "HU100": "",
+            "AREALAND": 778165283,
+            "INTPTLON": "-073.9386769",
+            "PLACENS": "02395220",
+            "MTFCC": "G4110",
+            "UR": ""
+          }
+        ],
+        "Counties": [
+          {
+            "POP100": "",
+            "GEOID": "36061",
+            "CENTLAT": "+40.7739865",
+            "AREAWATER": 29014840,
+            "STATE": "36",
+            "BASENAME": "New York",
+            "OID": 27590460844234,
+            "LSADC": "06",
+            "FUNCSTAT": "C",
+            "INTPTLAT": "+40.7766419",
+            "NAME": "New York County",
+            "OBJECTID": 1892,
+            "CENTLON": "-073.9700438",
+            "COUNTYCC": "H6",
+            "COUNTYNS": "00974129",
+            "AREALAND": 58679457,
+            "INTPTLON": "-073.9701871",
+            "HU100": "",
+            "MTFCC": "G4020",
+            "UR": "",
+            "COUNTY": "061"
+          }
+        ],
+        "116th Congressional Districts": [
+          {
+            "POP100": "",
+            "GEOID": "3610",
+            "CENTLAT": "+40.6977908",
+            "CDSESSN": "116",
+            "AREAWATER": 23700025,
+            "STATE": "36",
+            "BASENAME": "10",
+            "OID": 211904690193666,
+            "LSADC": "C2",
+            "FUNCSTAT": "N",
+            "INTPTLAT": "+40.7032222",
+            "NAME": "Congressional District 10",
+            "OBJECTID": 411,
+            "CENTLON": "-074.0014366",
+            "HU100": "",
+            "AREALAND": 36378247,
+            "INTPTLON": "-074.0062923",
+            "CD116": "10",
+            "MTFCC": "G5200"
+          }
+        ],
+        "Census Tracts": [
+          {
+            "POP100": "",
+            "GEOID": "36061005900",
+            "CENTLAT": "+40.7312894",
+            "AREAWATER": 0,
+            "STATE": "36",
+            "BASENAME": "59",
+            "OID": 20790460864051,
+            "LSADC": "CT",
+            "FUNCSTAT": "S",
+            "INTPTLAT": "+40.7312894",
+            "NAME": "Census Tract 59",
+            "OBJECTID": 16733,
+            "TRACT": "005900",
+            "CENTLON": "-073.9945614",
+            "HU100": "",
+            "AREALAND": 116174,
+            "INTPTLON": "-073.9945614",
+            "MTFCC": "G5020",
+            "UR": "",
+            "COUNTY": "061"
+          }
+        ],
+        "Census Blocks": [
+          {
+            "SUFFIX": "",
+            "POP100": "",
+            "GEOID": "360610059003005",
+            "CENTLAT": "+40.7296661",
+            "BLOCK": "3005",
+            "AREAWATER": 0,
+            "STATE": "36",
+            "BASENAME": "3005",
+            "OID": 210701008619209,
+            "LSADC": "BK",
+            "INTPTLAT": "+40.7296661",
+            "FUNCSTAT": "S",
+            "NAME": "Block 3005",
+            "OBJECTID": 6317458,
+            "TRACT": "005900",
+            "CENTLON": "-073.9959394",
+            "BLKGRP": "3",
+            "AREALAND": 6044,
+            "HU100": "",
+            "INTPTLON": "-073.9959394",
+            "MTFCC": "G5040",
+            "LWBLKTYP": "L",
+            "UR": "",
+            "COUNTY": "061"
+          }
+        ]
+      },
+      "coordinates": {
+        "x": -73.9954428687588,
+        "y": 40.72962831414409
+      },
+      "addressComponents": {
+        "zip": "10003",
+        "streetName": "GREENE",
+        "preType": "",
+        "city": "NEW YORK",
+        "preDirection": "",
+        "suffixDirection": "",
+        "fromAddress": "201",
+        "state": "NY",
+        "suffixType": "ST",
+        "toAddress": "249",
+        "suffixQualifier": "",
+        "preQualifier": ""
+      },
+      "matchedAddress": "239 GREENE ST, NEW YORK, NY, 10003"
+    }
+  ]
+}
