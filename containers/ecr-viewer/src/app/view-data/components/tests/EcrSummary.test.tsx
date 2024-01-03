@@ -15,6 +15,7 @@ describe("EcrSummary", () => {
         container = render(<EcrSummary fhirPathMappings={fhirPathMappings} fhirBundle={fhirBundle} />).container;
     })
     it("should match snapshot", () => {
+        Date = jest.fn(() => new Date(Date.UTC(2017, 7, 9, 8)).valueOf())
         expect(container).toMatchSnapshot();
     });
     it("should pass accessibility test", async () => {
