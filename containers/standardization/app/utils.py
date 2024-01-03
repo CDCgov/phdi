@@ -2,12 +2,15 @@ import copy
 import json
 import pathlib
 from datetime import datetime
-from typing import Dict, Callable, Literal, List, Union
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Literal
+from typing import Union
 
-
-from detect_delimiter import detect
 import phonenumbers
 import pycountry
+from detect_delimiter import detect
 from fhirpathpy import evaluate as fhirpath_evaluate
 
 

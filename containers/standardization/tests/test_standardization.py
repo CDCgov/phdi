@@ -3,20 +3,17 @@ import json
 import pathlib
 
 import pytest
-from fastapi.testclient import TestClient
-
 from app.main import app
-from app.utils import (
-    standardize_name,
-    standardize_country_code,
-    standardize_phone,
-    standardize_phones_in_bundle,
-    _standardize_phones_in_resource,
-    _extract_countries_from_resource,
-    read_json_from_assets,
-    _standardize_date,
-    _validate_date,
-)
+from app.utils import _extract_countries_from_resource
+from app.utils import _standardize_date
+from app.utils import _standardize_phones_in_resource
+from app.utils import _validate_date
+from app.utils import read_json_from_assets
+from app.utils import standardize_country_code
+from app.utils import standardize_name
+from app.utils import standardize_phone
+from app.utils import standardize_phones_in_bundle
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 

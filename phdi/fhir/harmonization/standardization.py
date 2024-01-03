@@ -1,13 +1,14 @@
 import copy
-from typing import List, Literal, Union
-from phdi.harmonization import (
-    DoubleMetaphone,
-    double_metaphone_string,
-    standardize_name,
-    standardize_country_code,
-    standardize_phone,
-    standardize_birth_date,
-)
+from typing import List
+from typing import Literal
+from typing import Union
+
+from phdi.harmonization import double_metaphone_string
+from phdi.harmonization import DoubleMetaphone
+from phdi.harmonization import standardize_birth_date
+from phdi.harmonization import standardize_country_code
+from phdi.harmonization import standardize_name
+from phdi.harmonization import standardize_phone
 
 
 def double_metaphone_bundle(bundle: dict, overwrite=True) -> dict:

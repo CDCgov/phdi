@@ -1,6 +1,7 @@
 import copy
 import json
 import pathlib
+
 import pytest
 
 from phdi.fhir.geospatial.census import CensusFhirGeocodeClient

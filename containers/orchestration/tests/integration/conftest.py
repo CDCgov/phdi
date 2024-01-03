@@ -1,7 +1,8 @@
-import pytest
 import os
-from testcontainers.compose import DockerCompose
+
+import pytest
 from dotenv import load_dotenv
+from testcontainers.compose import DockerCompose
 
 
 @pytest.fixture(scope="session")

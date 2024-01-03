@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import httpx
 import pytest
-from pathlib import Path
 
 VALIDATION_URL = "http://0.0.0.0:8080"
 VALIDATE = VALIDATION_URL + "/validate"

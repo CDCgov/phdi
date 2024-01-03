@@ -1,23 +1,25 @@
 import copy
+import datetime
 import hashlib
 import json
-import matplotlib.pyplot as plt
-import pandas as pd
+import logging
 import pathlib
-from pydantic import Field
 from itertools import combinations
 from math import log
 from random import sample
-from typing import List, Callable, Union
+from typing import Callable
+from typing import List
+from typing import Union
 
-from phdi.harmonization.utils import compare_strings
+import matplotlib.pyplot as plt
+import pandas as pd
+from pydantic import Field
+
 from phdi.fhir.utils import extract_value_with_resource_path
-
-from phdi.linkage.mpi import DIBBsMPIConnectorClient, BaseMPIConnectorClient
+from phdi.harmonization.utils import compare_strings
+from phdi.linkage.mpi import BaseMPIConnectorClient
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 from phdi.linkage.utils import datetime_to_str
-
-import logging
-import datetime
 
 LINKING_FIELDS_TO_FHIRPATHS = {
     "first_name": "Patient.name.given",

@@ -1,4 +1,6 @@
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
+
 import pytest
 
 from phdi.linkage import datetime_to_str
