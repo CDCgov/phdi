@@ -29,13 +29,17 @@ patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').ex
 facilityID: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].id"
 facilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 facilityType: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].extension.where(url = 'http://build.fhir.org/ig/HL7/case-reporting/StructureDefinition-us-ph-location-definitions.html#Location.type').valueCodeableConcept.coding[0].display"
-facilityAddress: "idk"
-facilityContact: "idk"
-encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.where(system = 'urn:oid:2.16.840.1.113883.5.4').display"
+facilityStreetAddress: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.line[0]"
+facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
+facilityState: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.state"
+facilityZipCode: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.postalCode"
+facilityContact: "Bundle.entry.resource.where(resourceType = 'Location')[0].telecom.where(system = 'phone')[0].value"
+encounterType: "Bundle.entry.resource.where(resourceType='Encounter').class.display"
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
-providerName: "idk"
-providerContact: "idk"
+providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
+providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].family"
+providerContact: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].telecom.where(system = 'phone')[0].value"
 
 
 
