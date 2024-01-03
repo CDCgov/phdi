@@ -30,7 +30,6 @@ const EncounterDetails = (
     }
 
     const renderEncounterDetails = () => {
-        const combinedData = combineData()
         return (
             <div>
                 <h3
@@ -41,7 +40,7 @@ const EncounterDetails = (
                 </h3>
 
                 <div className="usa-summary-box__text">
-                    {combinedData.map((item, index) => renderData(item, index))}
+                    {encounterData.map((item, index) => renderData(item, index))}
                 </div>
             </div>
         )
@@ -70,7 +69,13 @@ const EncounterDetails = (
                 aria-labelledby="summary-box-key-information"
             >
                 <div className="usa-summary-box__body">
-                    {(encounterData.length > 0 || providerData.length > 0) && renderEncounterDetails()}
+
+                    <div>
+                        {encounterData.length > 0 && renderEncounterDetails()}
+                    </div>
+                    <div className="margin-top-3">
+                        {providerData.length > 0 && renderProviderDetails()}
+                    </div>
                 </div>
             </div>
         </div>);

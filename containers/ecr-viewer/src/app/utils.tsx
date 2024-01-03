@@ -65,6 +65,28 @@ const formatPhoneNumber = (phoneNumber: string) => {
 
 }
 
+const formatStartEndDateTime = (startDateTime: 'string', endDateTime: 'string') => {
+    const startDateObject = new Date(startDateTime);
+    const endDateObject = new Date(endDateTime)
+
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+    };
+
+    const startFormattedDate = startDateObject.toLocaleString('en-US', options).replace(',', '');
+    const endFormattedDate = endDateObject.toLocaleString('en-us', options).replace(',', '')
+
+    return (
+        `Start: ${startFormattedDate}
+        End: ${endFormattedDate}`
+    )
+}
+
 export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: PathMappings) => {
     const socialData = [
         {
@@ -110,12 +132,12 @@ export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: Pat
 export const evaluateEncounterData = (fhirBundle: Bundle | undefined, mappings: PathMappings) => {
     const encounterData = [
         {
-            'title': 'Encounter Type',
-            'value': evaluate(fhirBundle, mappings['encounterType'])[0]
+            'title': 'Encounter Time',
+            'value': formatStartEndDateTime(evaluate(fhirBundle, mappings['encounterStartDate'])[0], evaluate(fhirBundle, mappings['encounterEndDate'])[0])
         },
         {
-            'title': 'Encounter Date',
-            'value': evaluate(fhirBundle, mappings['encounterEndDate'])[0]
+            'title': 'Encounter Type',
+            'value': evaluate(fhirBundle, mappings['encounterType'])[0]
         },
         {
             'title': 'Facility Name',
