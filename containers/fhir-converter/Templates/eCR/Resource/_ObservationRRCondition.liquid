@@ -7,7 +7,7 @@
         {
             "profile":
             [
-                "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults",
+                "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation",
             ],
         },
         "identifier":
@@ -107,6 +107,14 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
+        "extension": [
+              {% if observationEntry.entryRelationship.organizer.component.observation.entryRelationship.observation.value._ -%}
+              {
+                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+                "valueString": "{{observationEntry.entryRelationship.organizer.component.observation.entryRelationship.observation.value._}}",
+              }
+              {% endif -%}
+            ],
     },
     "request":{
         "method":"PUT",
