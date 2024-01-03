@@ -31,13 +31,13 @@ const EcrMetadata = (
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
+                        <h3
+                            className="usa-summary-box__heading padding-y-105"
+                            id="summary-box-key-information"
+                        >
+                            eCR Sender Details
+                        </h3>
                         <div className="grid-row">
-                <h3
-                    className="usa-summary-box__heading padding-y-105"
-                    id="summary-box-key-information"
-                >
-                    eCR Sender Details
-                </h3>
                         <div className="data-title"><h4>Date/Time eCR Created</h4></div>
                         <div className="grid-col-auto">
                             {evaluate(fhirBundle, fhirPathMappings.patientId)}
