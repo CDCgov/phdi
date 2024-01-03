@@ -9,10 +9,8 @@ on:
     branches:
       - main
 
-
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
-
 
 jobs:
   python:
@@ -42,5 +40,5 @@ jobs:
       - name: Lint eCR Viewer
         working-directory: ./containers/ecr-viewer
         run: |
-              npm ci
-              npm run lint
+          npm ci
+          npm run lint
