@@ -127,6 +127,9 @@ export const formatEncounterDate = (fhirBundle: Bundle | undefined, fhirPathMapp
             year: "numeric",
             month: "numeric",
             day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
         })
 }
 
