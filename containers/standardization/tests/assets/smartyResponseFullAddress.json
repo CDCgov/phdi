@@ -1,0 +1,49 @@
+[
+  {
+    "input_index": 0,
+    "candidate_index": 0,
+    "delivery_line_1": "1428 Post Aly",
+    "last_line": "Seattle WA 98101-2034",
+    "delivery_point_barcode": "981012034282",
+    "smarty_key": "191317107",
+    "components": {
+      "primary_number": "1428",
+      "street_name": "Post",
+      "street_suffix": "Aly",
+      "city_name": "Seattle",
+      "default_city_name": "Seattle",
+      "state_abbreviation": "WA",
+      "zipcode": "98101",
+      "plus4_code": "2034",
+      "delivery_point": "28",
+      "delivery_point_check_digit": "2"
+    },
+    "metadata": {
+      "record_type": "S",
+      "zip_type": "Standard",
+      "county_fips": "53033",
+      "county_name": "King",
+      "carrier_route": "C016",
+      "congressional_district": "07",
+      "rdi": "Commercial",
+      "elot_sequence": "0024",
+      "elot_sort": "D",
+      "latitude": 47.608479,
+      "longitude": -122.340202,
+      "coordinate_license": 1,
+      "precision": "Rooftop",
+      "time_zone": "Pacific",
+      "utc_offset": -8,
+      "dst": true
+    },
+    "analysis": {
+      "dpv_match_code": "Y",
+      "dpv_footnotes": "AABB",
+      "dpv_cmra": "N",
+      "dpv_vacant": "N",
+      "dpv_no_stat": "N",
+      "active": "Y",
+      "enhanced_match": "postal-match"
+    }
+  }
+]
