@@ -1,12 +1,11 @@
 import {evaluate} from "fhirpath";
 import {Bundle} from "fhir/r4";
 import {
-    extractFacilityAddress,
-    extractPatientAddress,
-    formatEncounterDate,
-    formatPatientContactInfo,
+    PathMappings,
     formatPatientName,
-    PathMappings
+    extractPatientAddress,
+    formatPatientContactInfo,
+    extractFacilityAddress, formatEncounterDate
 } from "../../utils";
 
 interface EcrViewerProps {

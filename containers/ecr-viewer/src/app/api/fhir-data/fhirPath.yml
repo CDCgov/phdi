@@ -37,7 +37,6 @@ facilityCity: "Bundle.entry.resource.where(resourceType = 'Encounter').address.f
 facilityState: "Bundle.entry.resource.where(resourceType = 'Encounter').address.first().state"
 facilityZipCode: "Bundle.entry.resource.where(resourceType = 'Encounter').address.first().postalCode"
 facilityCountry: "Bundle.entry.resource.where(resourceType = 'Encounter').address.first().country"
-facilityContact: "idk"
 encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.display"
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
