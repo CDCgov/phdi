@@ -1,15 +1,14 @@
 .section__line {
-  border-top: 1px solid #99DEEA;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
+  border-top: 1px solid #99deea;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .section__line_gray {
   border-top: 1px solid gray;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
-
 
 h2 {
   font-size: 40px;
@@ -50,6 +49,6 @@ h4 {
 }
 
 .data-title {
-  flex:0 1 auto;
+  flex: 0 1 auto;
   width: 190px;
 }

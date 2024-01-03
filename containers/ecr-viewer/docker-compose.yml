@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # PostgreSQL database
@@ -15,7 +15,7 @@ services:
       - POSTGRES_PASSWORD=pw
       - POSTGRES_DB=ecr_viewer_db
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
+      test: ["CMD-SHELL", "pg_isready"]
       interval: 2s
       timeout: 5s
       retries: 20
@@ -34,7 +34,6 @@ services:
       db:
         condition: service_healthy
 
-
   # Next.js app
   nextjs-app:
     build: .
@@ -49,4 +48,3 @@ services:
         condition: service_completed_successfully
       db:
         condition: service_healthy
-
