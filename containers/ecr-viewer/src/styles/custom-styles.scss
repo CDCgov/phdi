@@ -53,3 +53,7 @@ h4 {
   flex:0 1 auto;
   width: 190px;
 }
+
+.usa-summary-box__body:not(:first-child) .summary-box-key-information {
+  margin-top: 20px;
+}
