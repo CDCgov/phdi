@@ -8,6 +8,13 @@ interface EncounterProps {
 const EncounterDetails = (
     { encounterData, providerData }: EncounterProps
 ) => {
+
+    const combineData = () => {
+        const combinedData = encounterData.slice();
+        combinedData.splice(2, 0, ...providerData);
+        return combinedData
+    }
+
     const renderData = (item: any, index: number) => {
         return (
             <div key={index}>
@@ -23,6 +30,8 @@ const EncounterDetails = (
     }
 
     const renderEncounterDetails = () => {
+        console.log(providerData);
+        const combinedData = combineData()
         return (
             <div>
                 <h3
@@ -33,7 +42,7 @@ const EncounterDetails = (
                 </h3>
 
                 <div className="usa-summary-box__text">
-                    {encounterData.map((item, index) => renderData(item, index))}
+                    {combinedData.map((item, index) => renderData(item, index))}
                 </div>
             </div>
         )
@@ -62,8 +71,7 @@ const EncounterDetails = (
                 aria-labelledby="summary-box-key-information"
             >
                 <div className="usa-summary-box__body">
-                    {encounterData.length > 0 && renderEncounterDetails()}
-                    {providerData.length > 0 && renderProviderDetails()}
+                    {(encounterData.length > 0 || providerData.length > 0) && renderEncounterDetails()}
                 </div>
             </div>
         </div>);
