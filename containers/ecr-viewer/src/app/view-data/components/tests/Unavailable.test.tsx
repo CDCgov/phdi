@@ -27,7 +27,24 @@ describe("UnavailableInfo", () => {
                 "value": ""
             }
         ]
-        container = render(<UnavailableInfo unavailableData={socialUnavailability} />).container;
+        const encounterUnavailableData = [
+            {
+                "title": "Facility Address",
+                "value": ""
+            }
+        ]
+        const providerUnavailableData = [
+            {
+                "title": "Provider Name",
+                "value": ""
+            }
+        ]
+        container = render(
+            <UnavailableInfo
+                socialUnavailableData={socialUnavailability}
+                encounterUnavailableData={encounterUnavailableData}
+                providerUnavailableData={providerUnavailableData} />
+        ).container;
     })
     it("should match snapshot", () => {
         expect(container).toMatchSnapshot();
