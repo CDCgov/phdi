@@ -45,3 +45,20 @@ services:
       - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
+  ecr-viewer-db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+    volumes:
+      - ../../../ecr-viewer/seed-scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ../../../ecr-viewer/seed-scripts/.pgpass/:/usr/local/lib/.pgpass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
