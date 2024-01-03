@@ -761,7 +761,7 @@
         "id": "6a66c193-39d9-4e1c-a00b-48e967fea0cb",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
           ],
           "source": [
             "ecr"
@@ -796,7 +796,13 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        }
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "COVID-19 (as a diagnosis or active problem)"
+          }
+        ]
       },
       "request": {
         "method": "PUT",
