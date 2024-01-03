@@ -8,7 +8,7 @@ import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import { Accordion } from '@trussworks/react-uswds'
 import UnavailableInfo from "./components/UnavailableInfo";
-import {PathMappings, evaluateSocialData} from "../utils";
+import { PathMappings, evaluateSocialData } from "../utils";
 
 
 const ECRViewerPage = () => {
@@ -29,11 +29,11 @@ const ECRViewerPage = () => {
     // Fetch the appropriate bundle from Postgres database
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/data?id=${fhirId}`);
+        const response = await fetch(`/api/fhir-data?id=${fhirId}`);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error( errorData.message || 'Internal Server Error');
-        } else{
+          throw new Error(errorData.message || 'Internal Server Error');
+        } else {
           const bundle: ApiResponse = (await response.json());
           setFhirBundle(bundle.fhirBundle)
           setMappings(bundle.fhirPathMappings)
