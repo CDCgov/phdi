@@ -8,8 +8,17 @@ exports[`EcrSummary should match snapshot 1`] = `
     <div
       class="usa-summary-box padding-3"
     >
+<<<<<<< HEAD
       <div>
         <h3>
+=======
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="summary-box-key-information"
+        >
+>>>>>>> fae28c3 (Will I ever remember to update snapshots)
           About the Patient
         </h3>
         <div
@@ -100,7 +109,7 @@ exports[`EcrSummary should match snapshot 1`] = `
         class="usa-summary-box__body"
       >
         <h3
-          id="summary-box-key-information"
+          class="summary-box-key-information"
         >
           About the Encounter
         </h3>
@@ -173,13 +182,14 @@ exports[`EcrSummary should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Encounter Date
+                Encounter Date/Time
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
-              5/13/2022, 3:25 AM
+              Start: 05/13/2022 3:25 AM
+    End: 05/13/2022 5:57 AM
             </div>
           </div>
           <div
