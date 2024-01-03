@@ -20,7 +20,7 @@ const EncounterDetails = (
             <div key={index}>
                 <div className="grid-row">
                     <div className="data-title"><h4>{item.title}</h4></div>
-                    <div className="grid-col-auto">
+                    <div className="grid-col-auto maxw7 text-pre-line">
                         {item.value}
                     </div>
                 </div>
@@ -30,7 +30,6 @@ const EncounterDetails = (
     }
 
     const renderEncounterDetails = () => {
-        console.log(providerData);
         const combinedData = combineData()
         return (
             <div>

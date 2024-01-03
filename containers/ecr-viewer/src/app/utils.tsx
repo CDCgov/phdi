@@ -4,7 +4,7 @@ import { fhirPathMappings } from "../../utils/fhirMappings";
 
 export interface DisplayData {
     title: string,
-    value: string
+    value: string | undefined
 }
 
 export interface PathMappings {
@@ -19,8 +19,13 @@ export const formatPatientName = (fhirBundle: Bundle | undefined, fhirPathMappin
     return `${givenNames} ${familyName}`;
 }
 
-const formatName = (firstNames: string, lastName: string) => {
-    return `${firstNames} ${lastName}`
+const formatName = (firstName: string, lastName: string) => {
+    if (firstName != undefined) {
+        return `${firstName} ${lastName}`
+    }
+    else {
+        return undefined
+    }
 }
 
 export const formatPatientAddress = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
@@ -37,9 +42,9 @@ export const formatPatientAddress = (fhirBundle: Bundle | undefined, fhirPathMap
 
 const formatAddress = (streetAddresses: string[], city: string, state: string, zipCode: string) => {
     return (
-        `${streetAddresses}
-    ${city}, ${state}
-    ${zipCode}`);
+        `${streetAddresses} 
+        ${city}, ${state} ${zipCode}`
+    );
 }
 
 export const formatPatientContactInfo = (fhirBundle: Bundle | undefined, fhirPathMappings: PathMappings) => {
@@ -51,8 +56,13 @@ export const formatPatientContactInfo = (fhirBundle: Bundle | undefined, fhirPat
 }
 
 const formatPhoneNumber = (phoneNumber: string) => {
-    const formattedPhoneNumber = phoneNumber.replace(/\D/g, "").replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    return formattedPhoneNumber
+    try {
+        const formattedPhoneNumber = phoneNumber.replace(/\D/g, "").replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+        return formattedPhoneNumber
+    } catch {
+        return undefined
+    }
+
 }
 
 export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: PathMappings) => {
@@ -158,8 +168,6 @@ const evaluateData = (data: DisplayData[]) => {
     let availableArray: DisplayData[] = []
     let unavailableArray: DisplayData[] = []
     data.forEach((item) => {
-
-        console.log(item.value == undefined)
         if (item.value != undefined) {
             availableArray.push(item)
         } else {
