@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnavailableInfo should match snapshot 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Social History
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Travel History
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Pregnancy Status
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Alcohol Use
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Sexual Orientation
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Gender Identity
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Encounter Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Facility Address
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Provider Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Provider Name
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

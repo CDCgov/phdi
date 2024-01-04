@@ -17,9 +17,9 @@ raw_sample_response = json.load(
 )
 sample_response = {200: raw_sample_response}
 
-sample_request = open(
-    Path(__file__).parent.parent / "assets" / "sample_request.hl7"
-).read()
+sample_request = json.load(
+    open(Path(__file__).parent.parent / "assets" / "sample_fhir_converter_request.json")
+)
 
 
 # Request input types
@@ -108,17 +108,14 @@ class FhirConverterInput(BaseModel):
 
     input_data: str = Field(
         description="The message to be converted as a string.",
-        example=sample_request,
     )
     input_type: InputType = Field(
         description="The type of message to be converted.", example="vxu"
     )
     root_template: RootTemplate = Field(
         description="Name of the liquid template within to be used for conversion.",
-        examples="VXU_V04",
     )
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
-        example=['<ClinicalDocument xmlns="urn:hl7-org:v3"></ClinicalDocument>'],
         default=None,
     )

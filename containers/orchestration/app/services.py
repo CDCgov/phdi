@@ -17,7 +17,8 @@ def validation_payload(**kwargs) -> dict:
     return {
         "message_type": "ecr",
         "include_error_types": "errors",
-        "message": str(input["message"]),
+        "message": input.get("message"),
+        "rr_data": input.get("rr_data"),
     }
 
 
@@ -27,6 +28,7 @@ def fhir_converter_payload(**kwargs) -> dict:
         "input_data": str(input["message"]),
         "input_type": "ecr",
         "root_template": "EICR",
+        "rr_data": input.get("rr_data"),
     }
 
 

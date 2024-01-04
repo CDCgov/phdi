@@ -3,6 +3,8 @@ import subprocess
 import json
 import uuid
 
+from phdi.harmonization import standardize_hl7_datetimes
+
 
 def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
     """
@@ -66,6 +68,7 @@ def convert_to_fhir(
     )
     if input_type == "elr" or input_type == "vxu":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Hl7v2"
+        input_data = standardize_hl7_datetimes(input_data)
     elif input_type == "ecr":
         template_directory_path = "/build/FHIR-Converter/data/Templates/eCR"
     else:

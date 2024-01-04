@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SocialHistory should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          Social History
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Occupation
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7"
+              >
+                Nursing, psychiatric, and home health aides
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Tobacco Use
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7"
+              >
+                Tobacco smoking consumption unknown
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Homeless Status
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7"
+              >
+                unsatisfactory living conditions (finding)
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Occupation
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7"
+              >
+                Nursing, psychiatric, and home health aides
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

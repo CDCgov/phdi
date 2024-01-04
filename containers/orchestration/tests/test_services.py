@@ -13,7 +13,43 @@ def test_validation_payload():
         "message_type": "ecr",
         "include_error_types": "errors",
         "message": "foo",
+        "rr_data": None,
     }
+    assert result == expected_result
+
+
+def test_validation_payload_with_rr():
+    result = validation_payload(input={"message": "foo", "rr_data": "bar"})
+    expected_result = {
+        "message_type": "ecr",
+        "include_error_types": "errors",
+        "message": "foo",
+        "rr_data": "bar",
+    }
+    assert result == expected_result
+
+
+def test_fhir_converter_payload():
+    result = fhir_converter_payload(input={"message": "foo"})
+    expected_result = {
+        "input_data": "foo",
+        "input_type": "ecr",
+        "root_template": "EICR",
+        "rr_data": None,
+    }
+
+    assert result == expected_result
+
+
+def test_fhir_converter_payload_with_rr():
+    result = fhir_converter_payload(input={"message": "foo", "rr_data": "bar"})
+    expected_result = {
+        "input_data": "foo",
+        "input_type": "ecr",
+        "root_template": "EICR",
+        "rr_data": "bar",
+    }
+
     assert result == expected_result
 
 
@@ -58,17 +94,6 @@ def test_ingestion_payload():
         "license_type": '"us-rooftop-geocoding-enterprise-cloud"',
         "smarty_auth_id": '"placeholder"',
         "smarty_auth_token": '"placeholder"',
-    }
-
-    assert result == expected_result
-
-
-def test_fhir_converter_payload():
-    result = fhir_converter_payload(input={"message": "foo"})
-    expected_result = {
-        "input_data": "foo",
-        "input_type": "ecr",
-        "root_template": "EICR",
     }
 
     assert result == expected_result

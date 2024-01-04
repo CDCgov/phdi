@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field, root_validator
 from typing import Literal, Optional, Dict
-from fastapi import UploadFile
 from app.constants import PROCESSING_CONFIG_DATA_TYPES
 
 
@@ -10,10 +9,10 @@ class ProcessMessageRequest(BaseModel):
     The config for requests to the /process endpoint.
     """
 
-    message_type: Optional[Literal["ecr", "elr", "vxu", "fhir"]] = Field(
+    message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
         description="The type of message to be validated."
     )
-    include_error_types: Optional[str] = Field(
+    include_error_types: str = Field(
         description=(
             "A comma separated list of the types of errors that should be"
             + " included in the return response."
@@ -21,25 +20,23 @@ class ProcessMessageRequest(BaseModel):
         )
     )
 
-    upload_file: Optional[UploadFile] = Field(description="The ZIP file with ECR")
+    message: str = Field(description="The message to be validated.")
 
-    message: Optional[str] = Field(description="The message to be validated.")
+    rr_data: Optional[str] = Field(
+        description="If an eICR message, the accompanying Reportability Response data.",
+        default=None,
+    )
 
-    @root_validator(pre=True, allow_reuse=True)
+    @root_validator()
     def validate_fields(cls, values):
-        upload_file = values.get("upload_file")
-        message = values.get("message")
+        message_type = values.get("message_type")
+        rr_data = values.get("rr_data")
 
-        if upload_file is None and message is None:
+        if rr_data is not None and message_type != "ecr":
             raise ValueError(
-                "At least one of 'upload_file' or 'message' must be provided"
+                "Reportability Response (RR) data is only accepted "
+                "for eCR processing requests."
             )
-
-        if upload_file is not None and message is not None:
-            raise ValueError(
-                "Only one of 'upload_file' or 'message' should be provided"
-            )
-
         return values
 
 

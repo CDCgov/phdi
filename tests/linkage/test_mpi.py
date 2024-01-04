@@ -115,7 +115,7 @@ def test_get_blocked_data():
     assert blocked_data[0][1] == "person_id"
     assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
     assert blocked_data[0][2] == "birthdate"
-    assert len(blocked_data[0]) == 11
+    assert len(blocked_data[0]) == 13
 
 
 def test_block_data_failures():
@@ -168,30 +168,33 @@ def test_block_data_failures():
     assert blocked_data[0][1] == "person_id"
     assert blocked_data[1][2].strftime("%Y-%m-%d") == "1977-11-11"
     assert blocked_data[0][2] == "birthdate"
-    assert len(blocked_data[0]) == 11
+    assert len(blocked_data[0]) == 13
 
 
 def test_get_base_query():
     MPI: DIBBsMPIConnectorClient = _init_db()
     base_query = MPI._get_base_query()
-    expected_query = (
-        "SELECT patient.patient_id, patient.person_id, patient.dob AS"
-        + " birthdate, patient.sex, ident_subq.mrn, name.last_name, "
-        + "gname_subq.given_names AS first_name, address.line_1 AS "
-        + "address, address.zip_code AS zip, address.city, address.state"
-        + "FROM patient LEFT OUTER JOIN (SELECT identifier.patient_identifier AS mrn,"
-        + " identifier.patient_id AS patient_id"
-        + "FROM identifier"
-        + "WHERE identifier.type_code = :type_code_1) AS ident_subq ON "
-        + "patient.patient_id"
-        + " = ident_subq.patient_id LEFT OUTER JOIN name ON patient.patient_id = "
-        + "name.patient_id LEFT OUTER JOIN (SELECT given_name.name_id AS name_id, "
-        + "string_agg(given_name.given_name, ' ' ORDER BY given_name.given_name_index)"
-        + " AS given_names"
-        + " FROM given_name GROUP BY given_name.name_id) AS gname_subq ON name.name_id "
-        + "= gname_subq.name_id LEFT OUTER JOIN address ON patient.patient_id = "
-        + "address.patient_id"
-    )
+    expected_query = """
+        SELECT
+          patient.patient_id, patient.person_id, patient.dob AS birthdate,
+          patient.sex, ident_subq.mrn, name.last_name, given_name.given_name,
+          given_name.given_name_index, given_name.name_id, address.line_1 AS address,
+          address.zip_code AS zip, address.city, address.state
+        FROM
+          patient
+          LEFT OUTER JOIN (
+            SELECT
+              identifier.patient_identifier AS mrn,
+              identifier.patient_id AS patient_id
+        FROM
+          identifier
+        WHERE
+          identifier.type_code = :type_code_1) AS ident_subq
+          ON patient.patient_id = ident_subq.patient_id
+          LEFT OUTER JOIN name ON patient.patient_id = name.patient_id
+          LEFT OUTER JOIN given_name ON name.name_id = given_name.name_id
+          LEFT OUTER JOIN address ON patient.patient_id = address.patient_id
+        """
     assert base_query is not None
     assert isinstance(base_query, Select)
     _clean_up(MPI.dal)
@@ -461,14 +464,14 @@ def test_block_data_with_transform():
     _clean_up(MPI.dal)
 
     # ensure blocked data has two rows, headers and data
-    assert len(blocked_data) == 2
+    assert len(blocked_data) == 3
     assert blocked_data[1][1] is None
     assert blocked_data[1][0] == pks_pt[0]
     assert blocked_data[1][0] != pks_pt2[0]
     assert blocked_data[1][2] == datetime.date(1983, 2, 1)
     assert blocked_data[1][3] == "male"
-    assert blocked_data[1][7] == add1[0].get("line_1")
-    assert blocked_data[1][8] == add1[0].get("zip_code")
+    assert blocked_data[2][9] == add1[0].get("line_1")
+    assert blocked_data[2][10] == add1[0].get("zip_code")
 
 
 def test_generate_dict_record_from_results():

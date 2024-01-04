@@ -10,6 +10,7 @@ get_settings()
 
 ORCHESTRATION_URL = "http://localhost:8080"
 PROCESS_ENDPOINT = ORCHESTRATION_URL + "/process"
+PROCESS_MESSAGE_ENDPOINT = ORCHESTRATION_URL + "/process-message"
 
 
 @pytest.mark.integration
@@ -35,7 +36,7 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
-def test_process_endpoint_with_message(setup):
+def test_process_message_endpoint(setup):
     message = open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -48,7 +49,7 @@ def test_process_endpoint_with_message(setup):
         "include_error_types": "errors",
         "message": message,
     }
-    orchestration_response = httpx.post(PROCESS_ENDPOINT, json=request)
+    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
     assert orchestration_response.status_code == 200
     assert orchestration_response.json()["message"] == "Processing succeeded!"
 
@@ -73,6 +74,32 @@ def test_process_endpoint_with_zip(setup):
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
+
+
+@pytest.mark.integration
+def test_process_endpoint_with_zip_and_rr_data(setup):
+    with open(
+        Path(__file__).parent.parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "orchestration"
+        / "eICR_RR_combo.zip",
+        "rb",
+    ) as file:
+        form_data = {
+            "message_type": "ecr",
+            "include_error_types": "errors",
+        }
+        files = {"upload_file": ("file.zip", file)}
+        orchestration_response = httpx.post(
+            PROCESS_ENDPOINT, data=form_data, files=files
+        )
+        assert orchestration_response.status_code == 200
+        assert orchestration_response.json()["message"] == "Processing succeeded!"
+        assert (
+            orchestration_response.json()["processed_values"]["parsed_values"]["rr_id"]
+            is not None
+        )
 
 
 @pytest.mark.asyncio

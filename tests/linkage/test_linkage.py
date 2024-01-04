@@ -25,6 +25,7 @@ from phdi.linkage import (
     read_linkage_config,
     link_record_against_mpi,
     add_person_resource,
+    aggregate_given_names_for_linkage,
 )
 from phdi.linkage.link import (
     _match_within_block_cluster_ratio,
@@ -1263,3 +1264,87 @@ def test_multi_element_blocking():
     assert vm_found_records == nr_found_records
 
     _clean_up(MPI.dal)
+
+
+def test_aggregate_given_names_for_linkage():
+    # TODO: move test data to test file
+    raw_block_data = [
+        [
+            "patient_id",
+            "person_id",
+            "birthdate",
+            "sex",
+            "mrn",
+            "last_name",
+            "given_name",
+            "given_name_index",
+            "name_id",
+            "address",
+            "zip",
+            "city",
+            "state",
+        ],
+        [
+            "98764669-0f0a-4363-b9fd-61f57445af72",
+            "de9f812a-840b-4588-9882-fc1c51117287",
+            "2053-11-07",
+            "male",
+            "1234567890",
+            "SHEPARD",
+            "JOHN",
+            0,
+            "name_id_1",
+            "4720 Mega St NW",
+            "44720",
+            "North Canton",
+            "OH",
+        ],
+        [
+            "98764669-0f0a-4363-b9fd-61f57445af72",
+            "de9f812a-840b-4588-9882-fc1c51117287",
+            "2053-11-07",
+            "male",
+            "1234567890",
+            "SHEPARD",
+            "TIBERIUS",
+            1,
+            "name_id_1",
+            "4720 Mega St NW",
+            "44720",
+            "North Canton",
+            "OH",
+        ],
+    ]
+
+    # Test that two given names are aggregated into a single `first_name`
+    aggregated_data_block = aggregate_given_names_for_linkage(raw_block_data)
+    assert len(aggregated_data_block) == 2
+    assert aggregated_data_block[1][6] == "JOHN TIBERIUS"
+
+    # Test that a record with only 1 given name does not produce errors
+    raw_block_data_one_name = raw_block_data[:-1]
+    aggregated_data_block = aggregate_given_names_for_linkage(raw_block_data_one_name)
+    assert len(aggregated_data_block) == 2
+    assert aggregated_data_block[1][6] == "JOHN"
+
+    # Test that individuals with different name_ids are joined appropriately
+    new_person = [
+        "another_patient_id",
+        "another_person_id",
+        "2053-11-07",
+        "male",
+        "1234567890",
+        "SHEPARD",
+        "MIKE",
+        0,
+        "name_id_2",
+        "4720 Mega St NW",
+        "44720",
+        "North Canton",
+        "OH",
+    ]
+    raw_block_data.append(new_person)
+    aggregated_data_block = aggregate_given_names_for_linkage(raw_block_data)
+    assert len(aggregated_data_block) == 3
+    assert aggregated_data_block[1][6] == "JOHN TIBERIUS"
+    assert aggregated_data_block[2][6] == "MIKE"

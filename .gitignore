@@ -72,3 +72,4 @@ data/
 persistent_storage/
 
 /kubernetes/secrets.yaml
+.next
