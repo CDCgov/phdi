@@ -122,6 +122,9 @@ async def call_apis(
 
                 await websocket.send_text(json.dumps(progress_dict))
 
+            if validate_response(response=response) is False:
+                break
+
             responses[endpoint] = response
         else:
             raise HTTPException(
