@@ -1,4 +1,3 @@
-// pages/index.js
 "use client";
 import EcrSummary from "@/app/view-data/components/EcrSummary";
 import { useSearchParams } from "next/navigation";
@@ -8,7 +7,13 @@ import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import { Accordion } from "@trussworks/react-uswds";
 import UnavailableInfo from "./components/UnavailableInfo";
-import { PathMappings, evaluateSocialData } from "../utils";
+import {
+  PathMappings,
+  evaluateSocialData,
+  evaluateEncounterData,
+  evaluateProviderData,
+} from "../utils";
+import EncounterDetails from "./components/Encounter";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -47,13 +52,15 @@ const ECRViewerPage = () => {
 
   const renderAccordion = () => {
     const social_data = evaluateSocialData(fhirBundle, mappings);
+    const encounterData = evaluateEncounterData(fhirBundle, mappings);
+    const providerData = evaluateProviderData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: "Patient Info",
         content: (
           <div>
             <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            {social_data.available_data && (
+            {social_data.available_data.length > 0 && (
               <SocialHistory socialData={social_data.available_data} />
             )}
           </div>
@@ -63,10 +70,28 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
-        title: "Unavailable Info",
+        title: "Encounter Info",
         content: (
           <div>
-            <UnavailableInfo unavailableData={social_data.unavailable_data} />
+            <EncounterDetails
+              encounterData={encounterData.available_data}
+              providerData={providerData.available_data}
+            />
+          </div>
+        ),
+        expanded: true,
+        id: "2",
+        headingLevel: "h2",
+      },
+      {
+        title: "Unavailable Info",
+        content: (
+          <div className="padding-top-105">
+            <UnavailableInfo
+              socialUnavailableData={social_data.unavailable_data}
+              encounterUnavailableData={encounterData.unavailable_data}
+              providerUnavailableData={providerData.unavailable_data}
+            />
           </div>
         ),
         expanded: true,
@@ -93,10 +118,12 @@ const ECRViewerPage = () => {
           <h1 className={"page-title"}>EZ eCR Viewer</h1>
         </header>
         <div className={"ecr-viewer-container"}>
-          <h2>eCR Summary</h2>
+          <h2 className="margin-bottom-3">eCR Summary</h2>
           <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-          <h2>Additional Details</h2>
-          {renderAccordion()}
+          <div className="margin-top-6">
+            <h2 className="margin-bottom-3">eCR Document</h2>
+            {renderAccordion()}
+          </div>
         </div>
       </div>
     );

@@ -12,7 +12,7 @@ const SocialHistory = ({ socialData }: SocialHistoryProps) => {
           <div className="data-title">
             <h4>{item.title}</h4>
           </div>
-          <div className="grid-col-auto">{item.value}</div>
+          <div className="grid-col-auto maxw7">{item.value}</div>
         </div>
         <div className={"section__line_gray"} />
       </div>
