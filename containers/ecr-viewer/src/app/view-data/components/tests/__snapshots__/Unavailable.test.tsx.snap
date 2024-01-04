@@ -2,7 +2,9 @@
 
 exports[`UnavailableInfo should match snapshot 1`] = `
 <div>
-  <div>
+  <div
+    class=""
+  >
     <div
       aria-labelledby="summary-box-key-information"
       class="padding-bottom-3"
@@ -10,119 +12,193 @@ exports[`UnavailableInfo should match snapshot 1`] = `
       <div
         class="usa-summary-box__body"
       >
-        <h3
-          class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
-        >
-          Social History
-        </h3>
         <div
-          class="usa-summary-box__text"
+          class="margin-bottom-4"
         >
-          <div>
-            <div
-              class="grid-row"
-            >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Social History
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
               <div
-                class="data-title"
+                class="grid-row"
               >
-                <h4>
-                  Travel History
-                </h4>
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Travel History
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
               </div>
               <div
-                class="grid-col-auto"
-              >
-                N/A
-              </div>
+                class="section__line_gray"
+              />
             </div>
-            <div
-              class="section__line_gray"
-            />
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Pregnancy Status
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Alcohol Use
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Sexual Orientation
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Gender Identity
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
           </div>
-          <div>
-            <div
-              class="grid-row"
-            >
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Encounter Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
               <div
-                class="data-title"
+                class="grid-row"
               >
-                <h4>
-                  Pregnancy Status
-                </h4>
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Facility Address
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
               </div>
               <div
-                class="grid-col-auto"
-              >
-                N/A
-              </div>
+                class="section__line_gray"
+              />
             </div>
-            <div
-              class="section__line_gray"
-            />
           </div>
-          <div>
-            <div
-              class="grid-row"
-            >
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Provider Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
               <div
-                class="data-title"
+                class="grid-row"
               >
-                <h4>
-                  Alcohol Use
-                </h4>
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Provider Name
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
               </div>
               <div
-                class="grid-col-auto"
-              >
-                N/A
-              </div>
+                class="section__line_gray"
+              />
             </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
-            >
-              <div
-                class="data-title"
-              >
-                <h4>
-                  Sexual Orientation
-                </h4>
-              </div>
-              <div
-                class="grid-col-auto"
-              >
-                N/A
-              </div>
-            </div>
-            <div
-              class="section__line_gray"
-            />
-          </div>
-          <div>
-            <div
-              class="grid-row"
-            >
-              <div
-                class="data-title"
-              >
-                <h4>
-                  Gender Identity
-                </h4>
-              </div>
-              <div
-                class="grid-col-auto"
-              >
-                N/A
-              </div>
-            </div>
-            <div
-              class="section__line_gray"
-            />
           </div>
         </div>
       </div>
