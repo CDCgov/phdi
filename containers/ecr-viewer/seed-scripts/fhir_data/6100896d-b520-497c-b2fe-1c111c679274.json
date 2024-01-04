@@ -735,7 +735,7 @@
         "extension": [
           {
             "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
-            "valueString": "Detection of Shiga toxin genes, E. coli O157 nucleic acid, Shiga toxin-producing Escherichia coli (STEC) nucleic acid, or Enterohemorrhagic Escherichia coli (EHEC) nucleic acid in a clinical specimen by any method"
+            "valueString": "Detection\u202fof Shiga toxin genes,\u202fE. coli\u202fO157\u202fnucleic acid, Shiga toxin-producing\u202fEscherichia coli\u202f(STEC) nucleic acid, or Enterohemorrhagic Escherichia coli (EHEC) nucleic acid in a clinical specimen by any method"
           }
         ]
       },
