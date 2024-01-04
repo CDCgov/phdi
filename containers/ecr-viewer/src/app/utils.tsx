@@ -131,7 +131,7 @@ export const evaluateSocialData = (fhirBundle: Bundle | undefined, mappings: Pat
 export const evaluateEncounterData = (fhirBundle: Bundle | undefined, mappings: PathMappings) => {
     const encounterData = [
         {
-            'title': 'Encounter Time',
+            'title': 'Encounter Date/Time',
             'value': formatStartEndDateTime(evaluate(fhirBundle, mappings['encounterStartDate'])[0], evaluate(fhirBundle, mappings['encounterEndDate'])[0])
         },
         {
