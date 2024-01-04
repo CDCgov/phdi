@@ -12,7 +12,7 @@ const SocialHistory = (
             <div key={index}>
                 <div className="grid-row">
                     <div className="data-title"><h4>{item.title}</h4></div>
-                    <div className="grid-col-auto">
+                    <div className="grid-col-auto maxw7">
                         {item.value}
                     </div>
                 </div>
