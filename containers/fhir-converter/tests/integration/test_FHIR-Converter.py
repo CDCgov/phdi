@@ -82,3 +82,21 @@ def test_ecr_conversion_with_rr(setup):
         ecr_conversion_response.json()["response"]["FhirResource"]["resourceType"]
         == "Bundle"
     )
+
+
+@pytest.mark.integration
+def test_invalid_rr_format(setup):
+    request = {
+        "input_data": "not valid xml",
+        "input_type": "ecr",
+        "root_template": "EICR",
+        "rr_data": "also not valid xml",
+    }
+    ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
+
+    assert ecr_conversion_response.status_code == 422
+    assert (
+        ecr_conversion_response.json()["detail"]
+        == "Reportability Response and eICR message both "
+        "must be valid XML messages."
+    )

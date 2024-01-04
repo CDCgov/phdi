@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: test_postgres_connection
-        run: poetry run pytest tests/linkage/test_postgres_mpi_connector.py
+        run: poetry run pytest tests/linkage/test_mpi.py
   unit-test-phdi-building-blocks-lib:
     runs-on: ubuntu-latest
     services:
@@ -190,10 +190,36 @@ jobs:
         run: pip install pytest
       - name: Install dependencies
         working-directory: ./containers/${{matrix.directories-to-test}}
-        run: |
-          pwd
-          pip install -r requirements.txt
+        # When running as a PR check, instead of importing the SDK from @main,
+        # import it from the current commit.
+        run: | 
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+               pwd
+               pip install -r requirements.txt
+          else
+               pwd
+               commit_hash=$(git rev-parse HEAD)
+               cp requirements.txt ci_requirements.txt
+               sed -i -e "s/phdi@main/phdi@${commit_hash}/g" ci_requirements.txt
+               pip install -r ci_requirements.txt
+          fi
       - name: Run integration tests for containers
         working-directory: ./containers/${{matrix.directories-to-test}}/tests/integration
         run: |
           python -m pytest -m "integration"
+
+  test-node-containers:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18  # Adjust the Node.js version as needed
+    - name: Install dependencies
+      working-directory: ./containers/ecr-viewer  # Navigate to your Node.js app directory
+      run: npm install
+    - name: Run tests
+      working-directory: ./containers/ecr-viewer  # Navigate to your Node.js app directory
+      run: npm test

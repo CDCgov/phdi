@@ -1,27 +1,10 @@
 import json
+import logging
 import pathlib
-from app.config import get_settings
-from phdi.linkage import DIBBsConnectorClient
 import subprocess
 from typing import Literal
-import logging
 
-
-def connect_to_mpi_with_env_vars():
-    """
-    Helper function to load MPI Database settings from the relevant
-    environment variables, then spin up a connection to the MPI.
-    This also automatically tests that a connection can be made as
-    part of instantiating the DB Client.
-    """
-    dbname, user, password, host = load_mpi_env_vars_os()
-    port = get_settings().get("mpi_port")
-    patient_table = get_settings().get("mpi_patient_table")
-    person_table = get_settings().get("mpi_person_table")
-    db_client = DIBBsConnectorClient(
-        dbname, user, password, host, port, patient_table, person_table
-    )
-    return db_client
+from app.config import get_settings
 
 
 def load_mpi_env_vars_os():

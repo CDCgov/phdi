@@ -3,7 +3,7 @@
 ### Introduction
 The PHDI Orchestration app offers a REST API for processing messages through a series of microservices.
 
-### Running the Orchestration
+### Running Orchestration
 
 The Orchestration app can be run using Docker (or any other OCI container runtime e.g., Podman), or directly from the Python source code.
 

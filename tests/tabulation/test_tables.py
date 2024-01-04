@@ -524,7 +524,7 @@ def test_write_data_sql():
             "obs1",
             "i-am-not-a-robot",
         ),
-        ("Shepard", "Zakera Ward", "None", "no-srsly-i-am-hoomun"),
+        ("Shepard", "Boston", "None", "no-srsly-i-am-hoomun"),
         ("None", "Faketon", "obs2,obs3", "None"),
     ]
     conn.close()

@@ -322,9 +322,8 @@ def test_azure_download_object(mock_get_client):
     object_path = "output/path/some-bundle-type/some-filename-1.fhir"
     object_content = {"hello": "world"}
 
-    mock_downloader = mock.Mock(
-        content_as_text=lambda encoding: json.dumps(object_content)
-    )
+    mock_downloader = mock.Mock()
+    mock_downloader.readall.return_value = json.dumps(object_content).encode("utf-8")
     mock_blob_client.download_blob.return_value = mock_downloader
 
     phdi_container_client = AzureCloudContainerConnection(
@@ -340,7 +339,7 @@ def test_azure_download_object(mock_get_client):
 
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
-    mock_blob_client.download_blob.assert_called_with()
+    mock_blob_client.download_blob.assert_called_with(encoding="UTF-8")
 
 
 @mock.patch.object(AzureCloudContainerConnection, "_get_container_client")
@@ -364,9 +363,8 @@ def test_azure_download_object_cp1252(mock_get_client):
     ) as cp1252file:
         object_content = cp1252file.read()
 
-    mock_downloader = mock.Mock(
-        content_as_text=lambda encoding: object_content.decode(encoding=encoding)
-    )
+    mock_downloader = mock.Mock()
+    mock_downloader.readall.return_value = object_content.decode("cp1252")
 
     mock_blob_client.download_blob.return_value = mock_downloader
 
@@ -378,7 +376,6 @@ def test_azure_download_object_cp1252(mock_get_client):
     download_content = phdi_container_client.download_object(
         object_container, object_path, "cp1252"
     )
-
     download_content_buffer = io.StringIO(download_content)
 
     assert download_content_buffer.readline() == "Testing windows-1252 encoding € œ Ÿ"
@@ -388,7 +385,7 @@ def test_azure_download_object_cp1252(mock_get_client):
 
     mock_container_client.get_blob_client.assert_called_with(object_path)
 
-    mock_blob_client.download_blob.assert_called_with()
+    mock_blob_client.download_blob.assert_called_with(encoding="cp1252")
 
 
 @mock.patch("phdi.cloud.azure.BlobServiceClient")

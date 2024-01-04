@@ -38,9 +38,19 @@ def test_get_specific_config():
 def test_config_not_found():
     response = client.get("/configs/some-config-that-does-not-exist.json")
     assert response.status_code == 400
+    print(
+        str(
+            {
+                "message": "A config with the name "
+                + "'some-config-that-does-not-exist.json' "
+                "could not be found.",
+                "processing_config": {},
+            }
+        )
+    )
     assert response.json() == {
         "message": "A config with the name 'some-config-that-does-not-exist.json' "
-        "could not be found.",
+        + "could not be found.",
         "processing_config": {},
     }
 
@@ -79,17 +89,6 @@ def test_upload_config():
 
     # Attempt to upload a config with name that already exists.
     assert response.status_code == 400
-    print("*******")
-    print(str(response.json()))
-    print(
-        str(
-            {
-                "message": f"A config for the name '{test_config_name}' already exists."
-                " To proceed submit a new request with a different config name or set "
-                "the 'overwrite' field to 'true'."
-            }
-        )
-    )
     assert response.json() == {
         "message": f"A config for the name '{test_config_name}' already exists. "
         "To proceed submit a new request with a different config name or set the "

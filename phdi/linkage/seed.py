@@ -1,7 +1,7 @@
 # This script converts patient data from parquet to patient FHIR resources.
 from typing import Dict, Tuple
 import uuid
-import datetime
+from datetime import datetime
 
 
 def extract_given_name(data: Dict):
@@ -12,12 +12,11 @@ def extract_given_name(data: Dict):
 
     for name in [first_name, middle_name]:
         if name is not None:
-            given_names.append(" ".join(n for n in name.split()))
+            for n in name.split():
+                given_names.append(n)
 
-    given_name = " ".join(name for name in given_names)
-
-    if given_name != "":
-        return given_name
+    if len(given_names) > 0:
+        return given_names
     else:
         return None
 
@@ -28,7 +27,7 @@ def adjust_birthdate(data: Dict):
     format = "%d%b%Y:00:00:00.000"
     dob = data.get("birthdate", None)
     if dob is not None and ":" in dob:
-        datetime_str = datetime.datetime.strptime(dob, format)
+        datetime_str = datetime.strptime(dob, format)
         dob = datetime_str.strftime("%Y-%m-%d")
     return dob
 
@@ -36,12 +35,13 @@ def adjust_birthdate(data: Dict):
 def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
     """
     Converts and returns a row of patient data into patient resource in a FHIR-formatted
-    patient resouce with a newly generated patient id as well as the `iris_id`.
+    patient resouce with a newly generated patient id as well as the
+    `external_person_id`.
 
     :param data: Dictionary of patient data that optionionally includes the following
       fields: mrn, ssn, first_name, middle_name, last_name, home_phone, cell-phone, sex,
       birthdate, address, city, state, zip.
-    :return: Tuple of the `iris_id` and FHIR-formatted patient resource.
+    :return: Tuple of the `external_person_id` and FHIR-formatted patient resource.
     """
 
     patient_id = str(uuid.uuid4())
@@ -119,5 +119,5 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
         ],
     }
 
-    iris_id = data.get("person_id", None)
-    return (iris_id, fhir_bundle)
+    external_person_id = data.get("person_id", None)
+    return (external_person_id, fhir_bundle)

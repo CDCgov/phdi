@@ -120,7 +120,7 @@ def test_tabulate_data():
             "i-am-not-a-robot",
             ["obs1"],
         ],
-        ["no-srsly-i-am-hoomun", "Zakera Ward", "Shepard", None],
+        ["no-srsly-i-am-hoomun", "Boston", "Shepard", None],
         ["Faketon", None, None, ["obs2", "obs3"]],
     ]
     assert len(tabulated_exam_data[1:]) == 3

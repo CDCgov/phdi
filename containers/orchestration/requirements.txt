@@ -6,3 +6,12 @@ uvicorn
 httpx
 pytest
 frozendict
+requests
+python-dotenv
+python-multipart
+pytest-env
+pytest-asyncio
+testcontainers[compose]
+websockets
+asyncio
+sqlalchemy
