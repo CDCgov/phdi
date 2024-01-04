@@ -171,7 +171,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             <div className="grid-row">
               <h4>Clinical sections relevant to reportable condition</h4>
               <div className={"padding-top-05"}>
-                No matching clinical data found in this eCR (temp){" "}
+                No matching clinical data found in this eCR (temp)
               </div>
             </div>
           </div>
