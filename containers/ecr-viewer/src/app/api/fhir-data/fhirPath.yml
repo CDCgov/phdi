@@ -40,3 +40,6 @@ encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').perio
 providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
 providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].family"
 providerContact: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].telecom.where(system = 'phone')[0].value"
+
+rrDisplayName: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section').entry.first().display"
+rckmsTriggerSummary: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
