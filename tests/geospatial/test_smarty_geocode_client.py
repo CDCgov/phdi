@@ -1,9 +1,9 @@
 from unittest import mock
-import pytest
 
+import pytest
 from smartystreets_python_sdk.us_street.candidate import Candidate
-from smartystreets_python_sdk.us_street.metadata import Metadata
 from smartystreets_python_sdk.us_street.components import Components
+from smartystreets_python_sdk.us_street.metadata import Metadata
 
 from phdi.geospatial.core import GeocodeResult
 from phdi.geospatial.smarty import SmartyGeocodeClient

@@ -1,10 +1,10 @@
-import pytest
 import uuid
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
 
+import pytest
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
 from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 
 @pytest.mark.integration

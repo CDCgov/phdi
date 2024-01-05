@@ -1,10 +1,11 @@
 import json
 import pathlib
-import requests
-import pytest
 
-from phdi.geospatial.core import GeocodeResult
+import pytest
+import requests
+
 from phdi.geospatial.census import CensusGeocodeClient
+from phdi.geospatial.core import GeocodeResult
 
 
 CENSUS_RESPONSE_FILE = (

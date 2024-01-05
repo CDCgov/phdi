@@ -1,6 +1,8 @@
 from functools import lru_cache
-from pydantic import BaseSettings, Field
 from typing import Optional
+
+from pydantic import BaseSettings
+from pydantic import Field
 
 
 class Settings(BaseSettings):

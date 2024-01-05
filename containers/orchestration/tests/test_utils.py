@@ -1,8 +1,10 @@
 import json
 from pathlib import Path
-import pytest
-from app.utils import load_processing_config, search_for_ecr_data
 from zipfile import ZipFile
+
+import pytest
+from app.utils import load_processing_config
+from app.utils import search_for_ecr_data
 
 
 def test_load_processing_config_success():

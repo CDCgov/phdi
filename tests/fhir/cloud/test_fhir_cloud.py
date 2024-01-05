@@ -1,7 +1,8 @@
+from unittest import mock
+
 import pytest
 
 from phdi.fhir.cloud.azure import download_from_fhir_export_response
-from unittest import mock
 
 
 @mock.patch("phdi.fhir.cloud.azure.download_blob_from_url")

@@ -1,6 +1,7 @@
 from importlib import metadata
-import toml
 from pathlib import Path
+
+import toml
 
 
 def test_version():

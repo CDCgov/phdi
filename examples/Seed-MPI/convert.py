@@ -1,8 +1,10 @@
 # This file converts a parquet file of patient data into tuples. Each row of patient
 # data is returned a tuple of (iris_id, fhir_bundle)
 import sys
-from phdi.linkage.seed import convert_to_patient_fhir_resources
+
 import pyarrow.parquet as pq
+
+from phdi.linkage.seed import convert_to_patient_fhir_resources
 
 
 def convert():

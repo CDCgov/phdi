@@ -1,13 +1,8 @@
 // pages/index.js
-"use client"
-
+"use client";
 
 const ECRViewerHomePage = () => {
-  return (
-    <>
-      ECR Viewer
-    </>
-  )
+  return <>ECR Viewer</>;
 };
 
 export default ECRViewerHomePage;

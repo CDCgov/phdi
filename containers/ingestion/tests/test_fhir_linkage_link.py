@@ -1,11 +1,11 @@
-import pathlib
-import os
-import json
 import copy
-from fastapi.testclient import TestClient
+import json
+import os
+import pathlib
 
-from app.main import app
 from app.config import get_settings
+from app.main import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 
