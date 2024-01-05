@@ -1,7 +1,9 @@
 import io
+from typing import Iterator
+from typing import TextIO
+from typing import Tuple
 
 from azure.storage.blob import download_blob_from_url
-from typing import Iterator, TextIO, Tuple
 
 from phdi.cloud.azure import AzureCredentialManager
 

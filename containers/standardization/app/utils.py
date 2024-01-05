@@ -1,10 +1,16 @@
 import copy
 import json
 import pathlib
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, Callable, Literal, List, Optional, Union
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Literal
+from typing import Optional
+from typing import Union
 
 import phonenumbers
 import pycountry
@@ -12,7 +18,9 @@ import requests
 from detect_delimiter import detect
 from fhirpathpy import evaluate as fhirpath_evaluate
 from requests.adapters import HTTPAdapter
-from smartystreets_python_sdk import StaticCredentials, ClientBuilder, us_street
+from smartystreets_python_sdk import ClientBuilder
+from smartystreets_python_sdk import StaticCredentials
+from smartystreets_python_sdk import us_street
 from smartystreets_python_sdk.us_street.lookup import Lookup
 from urllib3 import Retry
 

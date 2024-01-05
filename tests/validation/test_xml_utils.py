@@ -1,23 +1,23 @@
 import pathlib
-from phdi.validation.xml_utils import (
-    ECR_NAMESPACES,
-    EICR_MSG_ID_XPATH,
-    RR_MSG_ID_XPATH,
-    validate_xml_value,
-    _check_xml_names_and_attribs_exist,
-    _get_ecr_custom_message,
-    _get_xml_attributes,
-    get_xml_element_details,
-    _get_xml_message_id,
-    get_ecr_message_ids,
-    _get_xml_relative_iterator,
-    validate_xml_attributes,
-    validate_xml_elements,
-    _validate_xml_related_element,
-    _validate_xml_relatives,
-    _get_xml_relatives_details,
-)
+
 from lxml import etree
+
+from phdi.validation.xml_utils import _check_xml_names_and_attribs_exist
+from phdi.validation.xml_utils import _get_ecr_custom_message
+from phdi.validation.xml_utils import _get_xml_attributes
+from phdi.validation.xml_utils import _get_xml_message_id
+from phdi.validation.xml_utils import _get_xml_relative_iterator
+from phdi.validation.xml_utils import _get_xml_relatives_details
+from phdi.validation.xml_utils import _validate_xml_related_element
+from phdi.validation.xml_utils import _validate_xml_relatives
+from phdi.validation.xml_utils import ECR_NAMESPACES
+from phdi.validation.xml_utils import EICR_MSG_ID_XPATH
+from phdi.validation.xml_utils import get_ecr_message_ids
+from phdi.validation.xml_utils import get_xml_element_details
+from phdi.validation.xml_utils import RR_MSG_ID_XPATH
+from phdi.validation.xml_utils import validate_xml_attributes
+from phdi.validation.xml_utils import validate_xml_elements
+from phdi.validation.xml_utils import validate_xml_value
 
 
 test_include_errors = ["fatal", "errors", "warnings", "information"]

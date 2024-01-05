@@ -3,10 +3,10 @@ disable_existing_loggers: False
 formatters:
   default:
     # "()": uvicorn.logging.DefaultFormatter
-    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
   access:
     # "()": uvicorn.logging.AccessFormatter
-    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 handlers:
   default:
     formatter: default

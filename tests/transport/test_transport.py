@@ -1,8 +1,9 @@
+from unittest import mock
+
 import pytest
+from requests import Session
 
 from phdi.transport import http_request_with_retry
-from requests import Session
-from unittest import mock
 
 
 @mock.patch.object(Session, "post")

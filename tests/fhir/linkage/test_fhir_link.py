@@ -1,10 +1,9 @@
 import json
 import pathlib
+
+from phdi.fhir.linkage.link import add_patient_identifier
+from phdi.fhir.linkage.link import add_patient_identifier_in_bundle
 from phdi.linkage.link import generate_hash_str
-from phdi.fhir.linkage.link import (
-    add_patient_identifier,
-    add_patient_identifier_in_bundle,
-)
 
 
 def test_missing_address():

@@ -7,7 +7,7 @@ body:
         Before opening a bug report, search for the behavior in the existing [issues](https://github.com/CDCgov/phdi/issues).
 
         ---
-        
+
         Thank you for taking the time to file a bug report. To address this bug as quickly as possible, we need some information.
   - type: textarea
     id: environment

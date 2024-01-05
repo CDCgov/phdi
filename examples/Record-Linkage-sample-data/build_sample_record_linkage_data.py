@@ -1,13 +1,13 @@
 # This file builds a dataset of synthetic patient data to simulate incoming fields
 # derived from ELR/ECR/ADT data that could be used to link records. Names, addresses,
 # and DOBs have been intentionally scrambled and misspelled.
-
-import sqlite3
-import pandas as pd
 import random
+import sqlite3
 from random import shuffle
 from string import ascii_letters
+
 import numpy as np
+import pandas as pd
 from faker import Faker
 
 # Set up proportions of scramble

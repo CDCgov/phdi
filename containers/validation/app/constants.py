@@ -1,5 +1,8 @@
-from pydantic import BaseModel, Field
-from typing import Literal, Optional
+from typing import Literal
+from typing import Optional
+
+from pydantic import BaseModel
+from pydantic import Field
 
 
 # Request and and response models

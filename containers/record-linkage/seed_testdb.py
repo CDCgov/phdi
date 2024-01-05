@@ -1,6 +1,7 @@
 # flake8: noqa
 # fmt: off
 import os
+
 from app.config import get_settings
 
 def set_mpi_env_vars():

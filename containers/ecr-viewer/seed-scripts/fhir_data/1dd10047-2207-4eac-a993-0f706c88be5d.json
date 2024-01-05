@@ -604,7 +604,7 @@
         "extension": [
           {
             "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
-            "valueString": "Detection of Influenza A nucleic acid in a clinical specimen by any method, including RT-PCR and rapid molecular assays"
+            "valueString": "Detection of Influenza A nucleic acid in a clinical\u202fspecimen by\u202fany method, including RT-PCR and rapid molecular assays"
           }
         ]
       },

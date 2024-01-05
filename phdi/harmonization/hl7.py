@@ -1,8 +1,8 @@
 import logging
 import re
-import hl7
-
 from typing import List
+
+import hl7
 
 
 def standardize_hl7_datetimes(message: str) -> str:

@@ -1,7 +1,11 @@
-from phdi.containers.base_service import LICENSES, DIBBS_CONTACT, BaseService
-from fastapi.testclient import TestClient
-from pathlib import Path
 from importlib import metadata
+from pathlib import Path
+
+from fastapi.testclient import TestClient
+
+from phdi.containers.base_service import BaseService
+from phdi.containers.base_service import DIBBS_CONTACT
+from phdi.containers.base_service import LICENSES
 
 default_app_version = metadata.version("phdi")
 
