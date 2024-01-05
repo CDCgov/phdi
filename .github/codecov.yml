@@ -16,4 +16,3 @@ coverage:
         threshold: 10%
         flags:
           - unit-tests
-        

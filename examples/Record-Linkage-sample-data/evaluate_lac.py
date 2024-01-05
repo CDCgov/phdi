@@ -1,24 +1,18 @@
-import warnings
-
 import time
+import warnings
+from typing import Union
+
 import pandas as pd
 
 from phdi.harmonization import double_metaphone_string
-from phdi.linkage import (
-    score_linkage_vs_truth,
-    eval_perfect_match,
-    perform_linkage_pass,
-    compile_match_lists,
-    feature_match_fuzzy_string,
-    # calculate_m_probs,
-    # calculate_u_probs,
-    # calculate_log_odds
-    load_json_probs,
-    feature_match_log_odds_fuzzy_compare,
-    # profile_log_odds,
-    eval_log_odds_cutoff,
-)
-from typing import Union
+from phdi.linkage import compile_match_lists
+from phdi.linkage import eval_log_odds_cutoff
+from phdi.linkage import eval_perfect_match
+from phdi.linkage import feature_match_fuzzy_string
+from phdi.linkage import feature_match_log_odds_fuzzy_compare
+from phdi.linkage import load_json_probs
+from phdi.linkage import perform_linkage_pass
+from phdi.linkage import score_linkage_vs_truth
 
 DATA_SIZE = 50000
 

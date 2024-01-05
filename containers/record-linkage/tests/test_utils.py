@@ -1,13 +1,11 @@
 import pathlib
 import subprocess
-import pytest
 from typing import Literal
 from unittest import mock
 
-from app.utils import (
-    run_migrations,
-    run_pyway,
-)
+import pytest
+from app.utils import run_migrations
+from app.utils import run_pyway
 
 
 MOCK_SETTINGS = {

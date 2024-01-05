@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import httpx
 import pytest
-from pathlib import Path
 
 CONVERTER_URL = "http://0.0.0.0:8080"
 CONVERT_TO_FHIR = CONVERTER_URL + "/convert-to-fhir"

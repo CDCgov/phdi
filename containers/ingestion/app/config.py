@@ -1,6 +1,8 @@
 from functools import lru_cache
+from typing import Literal
+from typing import Optional
+
 from pydantic import BaseSettings
-from typing import Optional, Literal
 
 
 class Settings(BaseSettings):

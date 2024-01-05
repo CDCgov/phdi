@@ -311,7 +311,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="padding-top-05"
             >
-              No matching clinical data found in this eCR (temp) 
+              No matching clinical data found in this eCR (temp)
             </div>
           </div>
         </div>

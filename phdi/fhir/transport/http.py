@@ -1,5 +1,7 @@
 import logging
-from typing import List, Literal
+from typing import List
+from typing import Literal
+
 import requests
 
 from phdi.cloud.core import BaseCredentialManager

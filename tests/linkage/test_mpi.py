@@ -3,11 +3,15 @@ import json
 import os
 import pathlib
 import re
-import pytest
 import uuid
-from sqlalchemy import Select, select, text
-from phdi.linkage.mpi import DIBBsMPIConnectorClient
+
+import pytest
+from sqlalchemy import Select
+from sqlalchemy import select
+from sqlalchemy import text
+
 from phdi.linkage.dal import DataAccessLayer
+from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 
 patient_resource = json.load(

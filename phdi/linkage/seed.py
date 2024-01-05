@@ -1,7 +1,8 @@
 # This script converts patient data from parquet to patient FHIR resources.
-from typing import Dict, Tuple
 import uuid
 from datetime import datetime
+from typing import Dict
+from typing import Tuple
 
 
 def extract_given_name(data: Dict):
