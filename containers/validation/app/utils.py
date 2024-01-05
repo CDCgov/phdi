@@ -40,7 +40,7 @@ def load_ecr_config(file_path: pathlib.Path = None) -> dict:
     # if not, then just use the default sample_ecr_config.yaml
     for file in pathlib.Path(DEFAULT_CONFIG_PATH).glob("*.yaml"):
         file_name = pathlib.Path(file).stem
-        if file_path is None and re.search("ecr_config_[a-z]+", file_name.lower()):
+        if file_path is None and re.search("^ecr_config_[a-z]+", file_name.lower()):
             path = DEFAULT_CONFIG_PATH / file
             exit
         elif file_path is not None:

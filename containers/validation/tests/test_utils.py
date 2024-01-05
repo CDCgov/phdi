@@ -21,7 +21,7 @@ def test_load_ecr_config():
             config_fields,
         )
     )
-    assert value_for_ecr_version[0].get("errorType") == "warnings"
+    assert value_for_ecr_version[0].get("errorType") == "fatal"
 
 
 def test_validate_error_types():
