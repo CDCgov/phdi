@@ -22,6 +22,9 @@
       "parsing_schema_name": "ecr.json",
       "credential_manager": "azure",
       "url": "http://localhost:8085"
+    },
+    "save_to_db": {
+      "url": "postgresql://postgres:pw@localhost:5432/ecr_viewer_db"
     }
   },
   "steps": [
@@ -48,6 +51,10 @@
     {
       "service": "message_parser",
       "endpoint": "/parse_message"
+    },
+    {
+      "service": "save_to_db",
+      "endpoint": ""
     }
   ]
 }
