@@ -25,4 +25,9 @@
             {% endif -%}
         {% endif -%}
     {% endif -%}
+{% elsif entry.act %}
+    {% assign observationId = entry.act | to_json_string | generate_uuid -%}
+    {% if entry.act.templateId and entry.act.templateId.root and entry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.1" %}
+        {% include 'Resource/ObservationTravelHistory' observationCategory: 'social-history', observationEntry: entry.act, ID: observationId -%}
+    {% endif %}
 {% endif -%}
