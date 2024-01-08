@@ -2,5 +2,6 @@
     {% if patientSectionObservations -%}
         {% assign socialObs = firstSections.2_16_840_1_113883_10_20_22_2_17.entry | to_array -%}
     {% else -%}
+        {% assign socialHistoryTable = firstSections.2_16_840_1_113883_10_20_22_2_17.text %}
         {{ firstSections.2_16_840_1_113883_10_20_22_2_17.entry | to_array | batch_render: 'Entry/SocialHistory/entry', 'entry' }}
     {% endif -%}
