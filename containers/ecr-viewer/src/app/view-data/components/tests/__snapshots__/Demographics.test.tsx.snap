@@ -45,25 +45,6 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Patient ID
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              6b6b3c4c-4884-4a96-b6ab-c46406839cea
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
                 DOB
               </h4>
             </div>
@@ -140,12 +121,31 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Preferred Language
+                Tribal Affiliation
               </h4>
             </div>
             <div
               class="grid-col-auto"
             />
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Preferred Language
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              English
+            </div>
           </div>
           <div
             class="section__line_gray"
@@ -186,6 +186,44 @@ exports[`Demographics should match snapshot 1`] = `
             >
               Home +18184195968
     MELLY.C.A.16@GMAIL.COM
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Emergency Contact
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              N/A
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Patient ID
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              6b6b3c4c-4884-4a96-b6ab-c46406839cea
             </div>
           </div>
           <div
