@@ -7,8 +7,10 @@ from typing import Literal
 from typing import Optional
 from typing import Union
 
+import fhirpathpy
 from app.config import get_settings
 from app.utils import convert_to_fhir
+from app.utils import DIBBS_REFERENCE_SIGNIFIER
 from app.utils import freeze_parsing_schema
 from app.utils import get_credential_manager
 from app.utils import get_metadata
@@ -24,6 +26,7 @@ from pydantic import Field
 from pydantic import root_validator
 
 from phdi.containers.base_service import BaseService
+
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -120,36 +123,6 @@ class ParseMessageInput(BaseModel):
             )
         return values
 
-    @root_validator
-    def require_reference_fields_to_have_lookups(cls, values):
-        schema = values.get("parsing_schema", {})
-        for field in schema:
-            for _, secondary_field_definition in (
-                schema[field].get("secondary_schema", {}).items()
-            ):
-                if (
-                    secondary_field_definition.get("fhir_path", "").startswith("Bundle")
-                    and "reference_lookup" not in secondary_field_definition
-                ):
-                    raise ValueError(
-                        "Secondary fields in the parsing schema that reference other "
-                        "resources must include a `reference_lookup` field that "
-                        "identifies where the reference ID can be found."
-                    )
-                if (
-                    "reference_lookup" in secondary_field_definition
-                    and not secondary_field_definition.get("fhir_path").startswith(
-                        "Bundle"
-                    )
-                ):
-                    raise ValueError(
-                        "Secondary fields in the parsing schema that provide "
-                        "`reference_lookup` locations must have a `fhir_path` that "
-                        "begins with `Bundle` and identifies the type of resource "
-                        "being referenced."
-                    )
-        return values
-
 
 class ParseMessageResponse(BaseModel):
     """
@@ -164,12 +137,6 @@ class ParseMessageResponse(BaseModel):
         description="A set of key:value pairs containing the values extracted from the "
         "message."
     )
-
-
-# TODO
-@app.post("/fhir_to_phdc", status_code=200, responses=parse_message_response_examples)
-async def fhir_to_phdc_endpoint() -> ParseMessageResponse:
-    pass
 
 
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
@@ -251,6 +218,208 @@ async def parse_message_endpoint(
             parsed_values[field] = values
     if input.include_metadata == "true":
         parsed_values = get_metadata(parsed_values, parsing_schema)
+    return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
+
+
+# /fhir_to_phdc endpoint #
+fhir_to_phdc_request_examples = read_json_from_assets(
+    "sample_fhir_to_phdc_requests.json"
+)
+raw_fhir_to_phdc_response_examples = read_json_from_assets(
+    "sample_fhir_to_phdc_response.json"
+)
+fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
+
+
+class FhirToPhdcInput(BaseModel):
+    """
+    The schema for requests to the /fhir-to-phdc endpoint.
+    """
+
+    parsing_schema: Optional[dict] = Field(
+        description="A schema describing which fields to extract from the message. This"
+        " must be a JSON object with key:value pairs of the form "
+        "<my-field>:<FHIR-to-my-field>.",
+        default={},
+    )
+    parsing_schema_name: Optional[str] = Field(
+        description="The name of a schema that was previously"
+        " loaded in the service to use to extract fields from the message.",
+        default="",
+    )
+    message: dict = Field(description="The FHIR bundle to extract from.")
+
+    @root_validator
+    def prohibit_schema_and_schema_name(cls, values):
+        if (
+            values.get("parsing_schema") != {}
+            and values.get("parsing_schema_name") != ""
+        ):
+            raise ValueError(
+                "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
+                "provided. Only one of these values is permited."
+            )
+        return values
+
+    @root_validator
+    def require_schema_or_schema_name(cls, values):
+        if (
+            values.get("parsing_schema") == {}
+            and values.get("parsing_schema_name") == ""
+        ):
+            raise ValueError(
+                "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
+                "provided. One, but not both, of these values is required."
+            )
+        return values
+
+    @root_validator
+    def require_reference_fields_to_have_lookups(cls, values):
+        schema = values.get("parsing_schema", {})
+        for field in schema:
+            for _, secondary_field_definition in (
+                schema[field].get("secondary_schema", {}).items()
+            ):
+                if (
+                    secondary_field_definition.get("fhir_path", "").startswith("Bundle")
+                    and "reference_lookup" not in secondary_field_definition
+                ):
+                    raise ValueError(
+                        "Secondary fields in the parsing schema that reference other "
+                        "resources must include a `reference_lookup` field that "
+                        "identifies where the reference ID can be found."
+                    )
+                if (
+                    "reference_lookup" in secondary_field_definition
+                    and not secondary_field_definition.get("fhir_path").startswith(
+                        "Bundle"
+                    )
+                ):
+                    raise ValueError(
+                        "Secondary fields in the parsing schema that provide "
+                        "`reference_lookup` locations must have a `fhir_path` that "
+                        "begins with `Bundle` and identifies the type of resource "
+                        "being referenced."
+                    )
+        return values
+
+
+class FhirToPhdcResponse(BaseModel):
+    """
+    The schema for responses from the /fhir-to-phdc endpoint.
+    """
+
+    message: str = Field(
+        description="A message describing the result of a request to "
+        "the /parse_message endpoint."
+    )
+    parsed_values: dict = Field(
+        description="A set of key:value pairs containing the values extracted from the "
+        "message."
+    )
+
+
+@app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
+async def fhir_to_phdc_endpoint(
+    input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
+    response: Response,
+) -> FhirToPhdcResponse:
+    # First, extract the parsing schema or look one up
+    if input.parsing_schema != {}:
+        parsing_schema = freeze_parsing_schema(input.parsing_schema)
+    else:
+        try:
+            parsing_schema = load_parsing_schema(input.parsing_schema_name)
+        except FileNotFoundError as error:
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return {"message": error.__str__(), "parsed_values": {}}
+
+    # Get the parsers defined in the schema, remembering that some might
+    # not be compiled yet if they reference other resources
+    parsers = get_parsers(parsing_schema)
+    parsed_values = {}
+
+    # Iterate over each parser and make the appropriate path call
+    for field, parser in parsers.items():
+        if "secondary_parsers" not in parser:
+            value = parser["primary_parser"](input.message)
+            if len(value) == 0:
+                value = None
+            else:
+                value = ",".join(map(str, value))
+            parsed_values[field] = value
+        else:
+            inital_values = parser["primary_parser"](input.message)
+            values = []
+            for initial_value in inital_values:
+                value = {}
+                for secondary_field, secondary_parser in parser[
+                    "secondary_parsers"
+                ].items():
+                    # Base cases for a secondary field:
+                    # Information is contained on this resource, just in a
+                    # nested structure
+                    if (
+                        not parsing_schema.get(field)
+                        .get("secondary_schema")
+                        .get(secondary_field)
+                        .get("fhir_path")
+                        .startswith("Bundle")
+                    ):
+                        if len(secondary_parser(initial_value)) == 0:
+                            value[secondary_field] = None
+                        else:
+                            value[secondary_field] = ",".join(
+                                map(str, secondary_parser(initial_value))
+                            )
+
+                    # Reference case: information is contained on another
+                    # resource that we have to look up
+                    else:
+                        reference_path = secondary_parser
+                        reference_lookup = (
+                            parsing_schema.get(field)
+                            .get("secondary_schema")
+                            .get(secondary_field)
+                            .get("reference_lookup")
+                        )
+                        reference_lookup = fhirpathpy.compile(reference_lookup)
+
+                        if len(reference_lookup(initial_value)) == 0:
+                            response.status_code = status.HTTP_400_BAD_REQUEST
+                            return {
+                                "message": "Provided `reference_lookup` location does "
+                                "not point to a referencing identifier",
+                                "parsed_values": {},
+                            }
+                        else:
+                            reference_lookup = ",".join(
+                                map(str, reference_lookup(initial_value))
+                            )
+
+                            # FHIR references are prefixed with resource type
+                            reference_lookup = reference_lookup.split("/")[-1]
+
+                            # Now, if we found the ID being referenced, we can search
+                            # the original bundle for the resource being referenced
+                            # by building a concatenated reference path
+                            reference_path = reference_path.replace(
+                                DIBBS_REFERENCE_SIGNIFIER, reference_lookup
+                            )
+                            reference_path = fhirpathpy.compile(reference_path)
+                            ref_res = reference_path(input.message)
+                            if len(ref_res) == 0:
+                                response.status_code = status.HTTP_400_BAD_REQUEST
+                                return {
+                                    "message": "Provided bundle does not contain a "
+                                    "resource matching reference criteria defined "
+                                    "in schema",
+                                    "parsed_values": {},
+                                }
+                            else:
+                                value[secondary_field] = ",".join(map(str, ref_res))
+                values.append(value)
+            parsed_values[field] = values
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
 
