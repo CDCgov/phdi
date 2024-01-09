@@ -120,6 +120,19 @@ const formatStartEndDateTime = (
         End: ${endFormattedDate}`;
 };
 
+const getTravelHistory = (fhirBundle: Bundle | undefined, mappings: PathMappings) => {
+  const startDate = evaluate(fhirBundle, mappings["patientTravelHistoryStartDate"])[0];
+  const endDate = evaluate(fhirBundle, mappings["patientTravelHistoryEndDate"])[0];
+  const location = evaluate(fhirBundle, mappings["patientTravelHistoryLocation"])[0];
+  const purposeOfTravel = evaluate(fhirBundle, mappings["patientTravelHistoryPurpose"])[0];
+  if(startDate || endDate || location || purposeOfTravel){
+    return `Dates: ${startDate} - ${endDate}
+       Location(s): ${location ?? "N/A"}
+       Purpose of Travel: ${purposeOfTravel ?? "N/A"}
+       `;
+  }
+}
+
 export const evaluateSocialData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
@@ -135,7 +148,7 @@ export const evaluateSocialData = (
     },
     {
       title: "Travel History",
-      value: evaluate(fhirBundle, mappings["patientTravelHistory"])[0],
+      value: getTravelHistory(fhirBundle, mappings),
     },
     {
       title: "Homeless Status",
