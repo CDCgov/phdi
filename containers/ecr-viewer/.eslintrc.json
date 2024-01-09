@@ -14,5 +14,6 @@
     "ecmaVersion": 12,
     "sourceType": "module",
     "allowImportExportEverywhere": true
-  }
+  },
+  "root": true
 }
