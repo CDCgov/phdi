@@ -73,7 +73,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             >
               1050 CARPENTER ST
     EDWARDS, CA
-    93523-2800, US
+        93523-2800, US
             </div>
           </div>
           <div
@@ -146,7 +146,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             >
               38600 Medical Center Drive
     Palmdale, CA
-    93551, USA
+        93551, USA
             </div>
           </div>
           <div
