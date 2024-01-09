@@ -5,7 +5,7 @@ interface SocialHistoryProps {
 }
 
 const SocialHistory = ({ socialData }: SocialHistoryProps) => {
-  const renderDemographicsData = (item: any, index: number) => {
+  const renderSocialHistoryData = (item: any, index: number) => {
     return (
       <div key={index}>
         <div className="grid-row">
@@ -34,7 +34,7 @@ const SocialHistory = ({ socialData }: SocialHistoryProps) => {
           </h3>
           <div className="usa-summary-box__text">
             {socialData.map((item, index) =>
-              renderDemographicsData(item, index),
+              renderSocialHistoryData(item, index),
             )}
           </div>
         </div>

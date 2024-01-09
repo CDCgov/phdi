@@ -12,6 +12,7 @@ import {
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
+  evaluateDemographicsData,
 } from "../utils";
 import EncounterDetails from "./components/Encounter";
 
@@ -51,7 +52,8 @@ const ECRViewerPage = () => {
   }, []);
 
   const renderAccordion = () => {
-    const social_data = evaluateSocialData(fhirBundle, mappings);
+    const demographicsData = evaluateDemographicsData(fhirBundle, mappings);
+    const socialData = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
     const accordionItems: any[] = [
@@ -59,9 +61,9 @@ const ECRViewerPage = () => {
         title: "Patient Info",
         content: (
           <div>
-            <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            {social_data.available_data.length > 0 && (
-              <SocialHistory socialData={social_data.available_data} />
+            <Demographics demographicsData={demographicsData.evaluated_data} />
+            {socialData.evaluated_data.length > 0 && (
+              <SocialHistory socialData={socialData.evaluated_data} />
             )}
           </div>
         ),
@@ -74,8 +76,8 @@ const ECRViewerPage = () => {
         content: (
           <div>
             <EncounterDetails
-              encounterData={encounterData.available_data}
-              providerData={providerData.available_data}
+              encounterData={encounterData.evaluated_data}
+              providerData={providerData.evaluated_data}
             />
           </div>
         ),
@@ -88,7 +90,7 @@ const ECRViewerPage = () => {
         content: (
           <div className="padding-top-105">
             <UnavailableInfo
-              socialUnavailableData={social_data.unavailable_data}
+              socialUnavailableData={socialData.unavailable_data}
               encounterUnavailableData={encounterData.unavailable_data}
               providerUnavailableData={providerData.unavailable_data}
             />

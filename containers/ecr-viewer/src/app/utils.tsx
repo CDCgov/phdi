@@ -24,7 +24,7 @@ export const formatPatientName = (
 };
 
 const formatName = (firstName: string, lastName: string) => {
-  if (firstName != undefined) {
+  if (firstName != undefined && lastName != undefined) {
     return `${firstName} ${lastName}`;
   } else {
     return undefined;
@@ -78,8 +78,14 @@ export const formatPatientContactInfo = (
     .map((email) => `${email.value}`)
     .join("\n");
 
-  return `${phoneNumbers}
+  const formattedContactInfo = `${phoneNumbers}
     ${emails}`;
+
+  if (!formattedContactInfo.trim().length) {
+    return undefined;
+  }
+
+  return formattedContactInfo;
 };
 
 const formatPhoneNumber = (phoneNumber: string) => {
@@ -116,8 +122,52 @@ const formatStartEndDateTime = (
     .toLocaleString("en-us", options)
     .replace(",", "");
 
-  return `Start: ${startFormattedDate}
-        End: ${endFormattedDate}`;
+  const formattedDateTime = `Start: ${startFormattedDate}
+    End: ${endFormattedDate}`;
+
+  if (!formattedDateTime.trim().length) {
+    return undefined;
+  }
+
+  return formattedDateTime;
+};
+
+export const evaluateDemographicsData = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const demographicsData = [
+    {
+      title: "Patient Name",
+      value: formatPatientName(fhirBundle, mappings),
+    },
+    { title: "DOB", value: evaluate(fhirBundle, mappings.patientDOB)[0] },
+    { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
+    { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
+    {
+      title: "Ethnicity",
+      value: evaluate(fhirBundle, mappings.patientEthnicity)[0],
+    },
+    {
+      title: "Tribal",
+      value: evaluate(fhirBundle, mappings.patientTribalAffiliation)[0],
+    },
+    {
+      title: "Preferred Language",
+      value: evaluate(fhirBundle, mappings.patientLanguage)[0],
+    },
+    {
+      title: "Patient Address",
+      value: formatPatientAddress(fhirBundle, mappings),
+    },
+    { title: "Contact", value: formatPatientContactInfo(fhirBundle, mappings) },
+    {
+      title: "Emergency Contact",
+      value: evaluate(fhirBundle, mappings.patientEmergencyContact)[0],
+    },
+    { title: "Patient ID", value: evaluate(fhirBundle, mappings.patientId)[0] },
+  ];
+  return evaluateData(demographicsData);
 };
 
 export const evaluateSocialData = (
@@ -235,14 +285,14 @@ export const evaluateProviderData = (
 };
 
 const evaluateData = (data: DisplayData[]) => {
-  let availableArray: DisplayData[] = [];
+  let evaluatedData: DisplayData[] = [];
   let unavailableArray: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value != undefined) {
-      availableArray.push(item);
-    } else {
+    if (item.value == undefined) {
       unavailableArray.push(item);
+      item.value = "N/A";
     }
+    evaluatedData.push(item);
   });
-  return { available_data: availableArray, unavailable_data: unavailableArray };
+  return { evaluated_data: evaluatedData, unavailable_data: unavailableArray };
 };
