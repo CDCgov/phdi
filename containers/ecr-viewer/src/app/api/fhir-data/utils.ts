@@ -8,5 +8,6 @@ export function loadYamlConfig() {
     "src/app/api/fhir-data/fhirPath.yml",
   );
   const fileContents = fs.readFileSync(filePath, "utf8");
-  return yaml.load(fileContents);
+  const data = yaml.load(fileContents);
+  return data;
 }
