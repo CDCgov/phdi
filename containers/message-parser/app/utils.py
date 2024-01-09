@@ -16,6 +16,8 @@ from phdi.cloud.gcp import GcpCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
 from phdi.transport.http import http_request_with_retry
 
+DIBBS_REFERENCE_SIGNIFIER = "#REF#"
+
 
 @cache
 def load_parsing_schema(schema_name: str) -> dict:
@@ -90,9 +92,10 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
             for secondary_field, secondary_field_definition in field_definition[
                 "secondary_schema"
             ].items():
-                secondary_parsers[secondary_field] = fhirpathpy.compile(
-                    secondary_field_definition["fhir_path"]
-                )
+                if not secondary_field_definition["fhir_path"].startswith("Bundle"):
+                    secondary_parsers[secondary_field] = fhirpathpy.compile(
+                        secondary_field_definition["fhir_path"]
+                    )
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
     return frozendict(parsers)

@@ -120,6 +120,36 @@ class ParseMessageInput(BaseModel):
             )
         return values
 
+    @root_validator
+    def require_reference_fields_to_have_lookups(cls, values):
+        schema = values.get("parsing_schema", {})
+        for field in schema:
+            for _, secondary_field_definition in (
+                schema[field].get("secondary_schema", {}).items()
+            ):
+                if (
+                    secondary_field_definition.get("fhir_path", "").startswith("Bundle")
+                    and "reference_lookup" not in secondary_field_definition
+                ):
+                    raise ValueError(
+                        "Secondary fields in the parsing schema that reference other "
+                        "resources must include a `reference_lookup` field that "
+                        "identifies where the reference ID can be found."
+                    )
+                if (
+                    "reference_lookup" in secondary_field_definition
+                    and not secondary_field_definition.get("fhir_path").startswith(
+                        "Bundle"
+                    )
+                ):
+                    raise ValueError(
+                        "Secondary fields in the parsing schema that provide "
+                        "`reference_lookup` locations must have a `fhir_path` that "
+                        "begins with `Bundle` and identifies the type of resource "
+                        "being referenced."
+                    )
+        return values
+
 
 class ParseMessageResponse(BaseModel):
     """
@@ -134,6 +164,12 @@ class ParseMessageResponse(BaseModel):
         description="A set of key:value pairs containing the values extracted from the "
         "message."
     )
+
+
+# TODO
+@app.post("/fhir_to_phdc", status_code=200, responses=parse_message_response_examples)
+async def fhir_to_phdc_endpoint() -> ParseMessageResponse:
+    pass
 
 
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
