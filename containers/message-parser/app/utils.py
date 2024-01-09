@@ -96,6 +96,10 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
                     secondary_parsers[secondary_field] = fhirpathpy.compile(
                         secondary_field_definition["fhir_path"]
                     )
+                else:
+                    secondary_parsers[secondary_field] = secondary_field_definition[
+                        "fhir_path"
+                    ]  # noqa
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
     return frozendict(parsers)
