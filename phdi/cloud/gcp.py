@@ -1,10 +1,13 @@
-from typing import List, Union
 import json
-from .core import BaseCredentialManager, BaseCloudStorageConnection
-import google.auth
+from typing import List
+from typing import Union
+
 import google.auth.transport.requests
 from google.auth.credentials import Credentials
 from google.cloud import storage
+
+from .core import BaseCloudStorageConnection
+from .core import BaseCredentialManager
 
 
 class GcpCredentialManager(BaseCredentialManager):

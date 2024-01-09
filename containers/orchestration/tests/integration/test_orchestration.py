@@ -1,7 +1,8 @@
-import httpx
-import pytest
 import os
 from pathlib import Path
+
+import httpx
+import pytest
 from app.config import get_settings
 from app.main import app
 from starlette.testclient import TestClient
@@ -123,7 +124,26 @@ async def test_websocket_process_message_endpoint():
             },
             {"endpoint": "/parse_message", "service": "message_parser"},
         ],
-        "validate": {"Message": "OK", "status_code": 200},
+        "validate": {
+            "status": "success",
+            "status_code": 200,
+            "response": {
+                "message_valid": True,
+                "validation_results": {
+                    "fatal": [],
+                    "errors": [],
+                    "warnings": [],
+                    "information": [],
+                    "message_ids": {
+                        "eicr": {
+                            "extension": None,
+                            "root": "1.2.840.114350.1.13.297.3.7.8.688883.532013",
+                        },
+                        "rr": {},
+                    },
+                },
+            },
+        },
     }
 
     client = TestClient(app)

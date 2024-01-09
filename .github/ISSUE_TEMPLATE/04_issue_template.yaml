@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Before submitting a ticket, search for existing tickets in the [issues](https://github.com/CDCgov/phdi/issues).
-        
+
         ---
   - type: textarea
     id: description

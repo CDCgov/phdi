@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from phdi.containers.base_service import BaseService
-
 from app.config import get_settings
 from app.models import HealthCheckResponse
+
+from phdi.containers.base_service import BaseService
 
 # read settings immediately to fail fast in case there are invalid values.
 get_settings()

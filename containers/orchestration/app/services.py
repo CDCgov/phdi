@@ -1,7 +1,9 @@
-import os
-import requests
 import json
-from fastapi import HTTPException, WebSocket
+import os
+
+import requests
+from fastapi import HTTPException
+from fastapi import WebSocket
 
 
 service_urls = {
@@ -20,6 +22,16 @@ def validation_payload(**kwargs) -> dict:
         "message": input.get("message"),
         "rr_data": input.get("rr_data"),
     }
+
+
+def validate_response(**kwargs) -> bool:
+    response = kwargs["response"]
+    body = response.json()
+
+    if "message_valid" in body:
+        return body.get("message_valid")
+
+    return response.status_code == 200
 
 
 def fhir_converter_payload(**kwargs) -> dict:
@@ -100,13 +112,20 @@ async def call_apis(
             print(f"Status Code: {response.status_code}")
 
             if websocket:
+                endpoint_name = f"{response.url.split('/')[-1]}"
+                status = "success" if validate_response(response=response) else "error"
+
                 # Write service responses into websocket message
-                progress_dict[f"{response.url.split('/')[-1]}"] = {
+                progress_dict[endpoint_name] = {
+                    "status": status,
                     "status_code": response.status_code,
-                    "Message": response.reason,
+                    "response": response.json(),
                 }
 
                 await websocket.send_text(json.dumps(progress_dict))
+
+            if validate_response(response=response) is False:
+                break
 
             responses[endpoint] = response
         else:

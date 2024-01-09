@@ -1,9 +1,15 @@
-from contextlib import contextmanager
-from sqlalchemy import MetaData, create_engine, Table, select, text
-from sqlalchemy.orm import sessionmaker, scoped_session
-from typing import List
-import logging
 import datetime
+import logging
+from contextlib import contextmanager
+from typing import List
+
+from sqlalchemy import create_engine
+from sqlalchemy import MetaData
+from sqlalchemy import select
+from sqlalchemy import Table
+from sqlalchemy import text
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
 
 
 class DataAccessLayer(object):

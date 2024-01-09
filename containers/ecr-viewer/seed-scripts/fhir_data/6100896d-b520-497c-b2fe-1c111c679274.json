@@ -696,7 +696,7 @@
         "id": "2fa797d2-eae1-4932-a9d3-f2c4f3992fe1",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
           ],
           "source": [
             "ecr"
@@ -731,7 +731,13 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        }
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection\u202fof Shiga toxin genes,\u202fE. coli\u202fO157\u202fnucleic acid, Shiga toxin-producing\u202fEscherichia coli\u202f(STEC) nucleic acid, or Enterohemorrhagic Escherichia coli (EHEC) nucleic acid in a clinical specimen by any method"
+          }
+        ]
       },
       "request": {
         "method": "PUT",

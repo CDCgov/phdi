@@ -1,6 +1,7 @@
-import psycopg2
 import json
 import os
+
+import psycopg2
 
 connection = psycopg2.connect(
     database=os.environ.get("POSTGRES_DB"),

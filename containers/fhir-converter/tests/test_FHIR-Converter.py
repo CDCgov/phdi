@@ -1,10 +1,11 @@
 # flake8: noqa
-from unittest import mock
-from fastapi.testclient import TestClient
 import json
+from unittest import mock
+
 import pytest
 from app.main import app
 from app.service import add_data_source_to_bundle
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 

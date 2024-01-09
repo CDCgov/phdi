@@ -1,5 +1,6 @@
-from app.utils import read_json_from_assets
 from typing import Literal
+
+from app.utils import read_json_from_assets
 
 
 # /process endpoint #

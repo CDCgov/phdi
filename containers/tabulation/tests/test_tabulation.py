@@ -1,13 +1,15 @@
 # flake8: noqa
-import os
-from fastapi.testclient import TestClient
-import json
-from unittest import mock
-import pathlib
 import copy
-import urllib
 import datetime
-from app.main import app, tabulate
+import json
+import os
+import pathlib
+import urllib
+from unittest import mock
+
+from app.main import app
+from app.main import tabulate
+from fastapi.testclient import TestClient
 
 valid_schema_path = (
     pathlib.Path(__file__).parent.parent.parent.parent

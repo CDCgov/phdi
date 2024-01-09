@@ -1,13 +1,13 @@
-from phdi.containers.base_service import BaseService
-from app.routers import (
-    fhir_harmonization_standardization,
-    fhir_geospatial,
-    fhir_linkage_link,
-    fhir_transport_http,
-    cloud_storage,
-)
-from app.config import get_settings
 from pathlib import Path
+
+from app.config import get_settings
+from app.routers import cloud_storage
+from app.routers import fhir_geospatial
+from app.routers import fhir_harmonization_standardization
+from app.routers import fhir_linkage_link
+from app.routers import fhir_transport_http
+
+from phdi.containers.base_service import BaseService
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()

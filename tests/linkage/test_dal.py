@@ -1,8 +1,13 @@
 import datetime
 import os
 import pathlib
+
+from sqlalchemy import Engine
+from sqlalchemy import select
+from sqlalchemy import Table
+from sqlalchemy import text
+
 from phdi.linkage.dal import DataAccessLayer
-from sqlalchemy import Engine, Table, select, text
 from phdi.linkage.mpi import DIBBsMPIConnectorClient
 
 

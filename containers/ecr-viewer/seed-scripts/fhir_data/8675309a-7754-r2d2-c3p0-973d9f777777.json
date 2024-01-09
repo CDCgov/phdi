@@ -614,7 +614,7 @@
         "id": "f61d4bbc-d1d5-4bef-b2f6-d32e8db54596",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation"
           ]
         },
         "identifier": [
@@ -646,7 +646,13 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        }
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method"
+          }
+        ]
       },
       "request": {
         "method": "PUT",

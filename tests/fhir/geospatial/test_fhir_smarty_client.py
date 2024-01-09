@@ -1,7 +1,7 @@
-from unittest import mock
+import copy
 import json
 import pathlib
-import copy
+from unittest import mock
 
 from phdi.fhir.geospatial.smarty import SmartyFhirGeocodeClient
 from phdi.geospatial.core import GeocodeResult

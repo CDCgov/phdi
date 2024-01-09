@@ -1,7 +1,8 @@
-import requests
+from typing import List
+from typing import Literal
 
+import requests
 from requests.adapters import HTTPAdapter
-from typing import List, Literal
 from urllib3 import Retry
 
 
