@@ -27,7 +27,7 @@ repos:
           - eslint
           - eslint-config-next
           - eslint-config-prettier
-          - typescript-eslint
+          - "@typescript-eslint/parser"
           - typescript
           - "@next/eslint-plugin-next"
         args: ["--config=./containers/ecr-viewer/.eslintrc.json"]
