@@ -26,8 +26,11 @@ repos:
         additional_dependencies:
           - eslint
           - eslint-config-next
-          - eslint-plugin-prettier
-          - typescript-eslint
+          - eslint-config-prettier
+          - "@typescript-eslint/parser"
+          - "@typescript-eslint/eslint-plugin"
+          - typescript
+          - "@next/eslint-plugin-next"
         args: ["--config=./containers/ecr-viewer/.eslintrc.json"]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
