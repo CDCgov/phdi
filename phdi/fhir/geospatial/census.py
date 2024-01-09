@@ -1,7 +1,7 @@
 import copy
 
-from phdi.geospatial.census import CensusGeocodeClient
 from phdi.fhir.geospatial.core import BaseFhirGeocodeClient
+from phdi.geospatial.census import CensusGeocodeClient
 
 
 class CensusFhirGeocodeClient(BaseFhirGeocodeClient):

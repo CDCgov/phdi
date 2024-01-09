@@ -1,5 +1,6 @@
+from abc import ABC
+from abc import abstractmethod
 from typing import List
-from abc import ABC, abstractmethod
 
 from sqlalchemy import Select
 

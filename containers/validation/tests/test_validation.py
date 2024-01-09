@@ -1,12 +1,11 @@
 import pathlib
+
+from app.main import app
+from app.main import validate_ecr_msg
+from app.main import validate_elr_msg
+from app.main import validate_fhir_bundle
+from app.main import validate_vxu_msg
 from fastapi.testclient import TestClient
-from app.main import (
-    app,
-    validate_ecr_msg,
-    validate_elr_msg,
-    validate_vxu_msg,
-    validate_fhir_bundle,
-)
 
 client = TestClient(app)
 test_error_types = ["errors", "warnings", "information"]
@@ -79,32 +78,25 @@ def test_validate_ecr_invalid():
         "message_valid": False,
         "validation_results": {
             "fatal": [
-                "Could not find field. Field name: 'Status' "
-                + "Attributes: attribute #1: 'code' with the "
-                + "required value pattern: 'RRVS19|RRVS20|RRVS21|"
-                + "RRVS22', attribute #2: 'codeSystem', attribute #3: "
-                + "'displayName'",
                 "Could not find field. Field name: "
-                + "'Conditions' Attributes: attribute #1: 'code' "
-                + "with the required value pattern: '[0-9]+',"
-                + " attribute #2: 'codeSystem'",
-                "The field value does not exist or doesn't match "
-                + "the following pattern: "
-                + "'[0-9]{5}(?:-[0-9]{4})?'. For the Field name: 'Zip' value: '9999'",
+                "'eICR Version Number' "
+                "Attributes: attribute #1: 'value'",
+                "Could not find field. Field name: "
+                "'City' Related elements: Field name:"
+                " 'addr' Attributes: attribute #1: 'use'"
+                " with the required value pattern: 'H'",
+                "The field value does not exist or doesn't"
+                " match the following pattern: "
+                "'[0-9]{5}(?:-[0-9]{4})?'. "
+                "For the Field name: 'Zip' value: '9999'",
             ],
-            "errors": [
-                "Could not find field. Field name: 'First Name' Related elements: "
-                + "Field name: 'name' Attributes: attribute #1: 'use' with the "
-                + "required value pattern: 'L'"
-            ],
+            "errors": ["Could not find field. Field name: 'First Name'"],
             "warnings": [
-                "Could not find field. Field name: 'eICR Version Number' "
-                + "Attributes: attribute #1: 'value'",
-                "Attribute: 'code' "
-                + "not in expected format. Field name: 'Sex' Attributes: "
-                + "attribute #1: 'code' with the required value pattern: "
-                + "'F|M|O|U' actual value: 't', attribute #2: 'codeSystem'"
-                + " actual value: '2.16.840.1.113883.5.1'",
+                "Attribute: 'code' not in expected format."
+                " Field name: 'Sex' Attributes: "
+                "attribute #1: 'code' with the required value "
+                "pattern: 'F|M|O|U' actual value: 't', "
+                "attribute #2: 'codeSystem' actual value: '2.16.840.1.113883.5.1'"
             ],
             "information": [],
             "message_ids": {

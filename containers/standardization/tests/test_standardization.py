@@ -4,29 +4,26 @@ import pathlib
 from unittest import mock
 
 import pytest
+from app.main import app
+from app.utils import _extract_countries_from_resource
+from app.utils import _standardize_date
+from app.utils import _standardize_phones_in_resource
+from app.utils import _validate_date
+from app.utils import BaseFhirGeocodeClient
+from app.utils import CensusFhirGeocodeClient
+from app.utils import CensusGeocodeClient
+from app.utils import GeocodeResult
+from app.utils import read_json_from_assets
+from app.utils import SmartyFhirGeocodeClient
+from app.utils import SmartyGeocodeClient
+from app.utils import standardize_country_code
+from app.utils import standardize_name
+from app.utils import standardize_phone
+from app.utils import standardize_phones_in_bundle
 from fastapi.testclient import TestClient
 from smartystreets_python_sdk.us_street.candidate import Candidate
-from smartystreets_python_sdk.us_street.metadata import Metadata
 from smartystreets_python_sdk.us_street.components import Components
-
-from app.main import app
-from app.utils import (
-    BaseFhirGeocodeClient,
-    CensusGeocodeClient,
-    CensusFhirGeocodeClient,
-    GeocodeResult,
-    SmartyGeocodeClient,
-    SmartyFhirGeocodeClient,
-    read_json_from_assets,
-    standardize_name,
-    standardize_country_code,
-    standardize_phone,
-    standardize_phones_in_bundle,
-    _extract_countries_from_resource,
-    _standardize_date,
-    _standardize_phones_in_resource,
-    _validate_date,
-)
+from smartystreets_python_sdk.us_street.metadata import Metadata
 
 client = TestClient(app)
 

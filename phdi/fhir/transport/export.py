@@ -1,9 +1,10 @@
+from typing import Union
+
 import polling
 import requests
 
-from phdi.fhir.transport.http import http_request_with_reauth
 from phdi.cloud.core import BaseCredentialManager
-from typing import Union
+from phdi.fhir.transport.http import http_request_with_reauth
 
 
 def export_from_fhir_server(

@@ -1,6 +1,11 @@
-from pydantic import BaseModel, Field, root_validator
-from typing import Literal, Optional, Dict
+from typing import Dict
+from typing import Literal
+from typing import Optional
+
 from app.constants import PROCESSING_CONFIG_DATA_TYPES
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import root_validator
 
 
 # Request and response models

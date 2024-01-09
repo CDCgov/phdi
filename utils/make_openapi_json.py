@@ -1,5 +1,6 @@
-from fastapi.openapi.utils import get_openapi
 import json
+
+from fastapi.openapi.utils import get_openapi
 
 try:
     from app.main import app

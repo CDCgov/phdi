@@ -1,13 +1,12 @@
 import json
 import pathlib
+
 import pytest
 
-from phdi.fhir.utils import (
-    apply_selection_criteria,
-    find_entries_by_resource_type,
-    get_field,
-    get_one_line_address,
-)
+from phdi.fhir.utils import apply_selection_criteria
+from phdi.fhir.utils import find_entries_by_resource_type
+from phdi.fhir.utils import get_field
+from phdi.fhir.utils import get_one_line_address
 
 
 def test_apply_selection_criteria():

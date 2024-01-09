@@ -1,13 +1,11 @@
+import copy
 import json
 import pathlib
-import copy
 
-from phdi.fhir.harmonization.standardization import (
-    _standardize_names_in_resource,
-    _standardize_phones_in_resource,
-    _extract_countries_from_resource,
-    _standardize_dob_in_resource,
-)
+from phdi.fhir.harmonization.standardization import _extract_countries_from_resource
+from phdi.fhir.harmonization.standardization import _standardize_dob_in_resource
+from phdi.fhir.harmonization.standardization import _standardize_names_in_resource
+from phdi.fhir.harmonization.standardization import _standardize_phones_in_resource
 
 
 def test_standardize_names_in_resource():

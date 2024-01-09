@@ -1,10 +1,16 @@
-version: '3.3'
+version: "3.3"
 
 services:
   orchestration-service:
     build:
       context: ../..
-    depends_on: [validation-service, fhir-converter-service, ingestion-service, message-parser-service]
+    depends_on:
+      [
+        validation-service,
+        fhir-converter-service,
+        ingestion-service,
+        message-parser-service,
+      ]
     ports:
       - "${ORCHESTRATION_PORT_NUMBER}:8080"
     logging:
@@ -52,7 +58,7 @@ services:
       - ../../../ecr-viewer/seed-scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
       - ../../../ecr-viewer/seed-scripts/.pgpass/:/usr/local/lib/.pgpass
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
+      test: ["CMD-SHELL", "pg_isready"]
       interval: 2s
       timeout: 5s
       retries: 20

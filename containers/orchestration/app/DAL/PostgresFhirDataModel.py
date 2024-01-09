@@ -1,4 +1,5 @@
-from sqlalchemy import Column, VARCHAR
+from sqlalchemy import Column
+from sqlalchemy import VARCHAR
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import declarative_base
 

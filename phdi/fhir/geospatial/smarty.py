@@ -1,9 +1,10 @@
 import copy
+
 from smartystreets_python_sdk import us_street
 
-from phdi.geospatial.smarty import SmartyGeocodeClient
 from phdi.fhir.geospatial.core import BaseFhirGeocodeClient
 from phdi.fhir.utils import get_one_line_address
+from phdi.geospatial.smarty import SmartyGeocodeClient
 
 
 class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):

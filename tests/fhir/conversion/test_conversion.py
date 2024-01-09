@@ -1,15 +1,14 @@
 import pathlib
+from unittest import mock
+
 import pytest
+from lxml import etree
 
 from phdi.fhir.conversion import convert_to_fhir
-from phdi.fhir.conversion.convert import (
-    ConversionError,
-    _get_fhir_conversion_settings,
-    add_rr_data_to_eicr,
-)
+from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
+from phdi.fhir.conversion.convert import add_rr_data_to_eicr
+from phdi.fhir.conversion.convert import ConversionError
 from phdi.harmonization import standardize_hl7_datetimes
-from unittest import mock
-from lxml import etree
 
 
 def test_get_fhir_conversion_settings():

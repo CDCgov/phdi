@@ -1,8 +1,9 @@
 import pathlib
 
 import yaml
-from tests.test_data_generator import generate_eicr_results
+
 from phdi.validation.validation import validate_ecr
+from tests.test_data_generator import generate_eicr_results
 
 
 test_include_errors = ["fatal", "errors", "warnings", "information"]

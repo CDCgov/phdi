@@ -1,8 +1,13 @@
-import fhirpathpy
 import json
 import random
 from functools import cache
-from typing import Any, Callable, List, Literal, Union
+from typing import Any
+from typing import Callable
+from typing import List
+from typing import Literal
+from typing import Union
+
+import fhirpathpy
 
 selection_criteria_types = Literal["first", "last", "random", "all"]
 

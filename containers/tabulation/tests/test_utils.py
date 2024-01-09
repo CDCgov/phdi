@@ -1,13 +1,12 @@
-import os
-import pytest
-import pathlib
 import json
-from app.utils import (
-    search_for_required_values,
-    get_cred_manager,
-    check_schema_validity,
-)
+import os
+import pathlib
+
+import pytest
 from app.config import get_settings
+from app.utils import check_schema_validity
+from app.utils import get_cred_manager
+from app.utils import search_for_required_values
 
 
 def test_search_for_required_values_success():

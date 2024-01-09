@@ -1,8 +1,8 @@
 # This script prepares synthetic patient data and loads it into a sqlite db that will
 # be used for testing record linkage algorithms.
+import sqlite3
 
 import pandas as pd
-import sqlite3
 
 df = pd.read_csv(
     # locally stord file of synthetic LAC synthea data; user must change
