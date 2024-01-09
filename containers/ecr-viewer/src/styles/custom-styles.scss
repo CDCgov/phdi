@@ -94,3 +94,6 @@ h4 {
     }
 }
 
+.usa-summary-box__body:not(:first-child) .summary-box-key-information {
+  margin-top: 20px;
+}
