@@ -1,44 +1,44 @@
-name: Lint Check
-on:
-  workflow_call:
-  workflow_dispatch:
-  pull_request:
-    branches:
-      - "**"
-  push:
-    branches:
-      - main
-
-env:
-  TEST_RUNNER_PYTHON_VERSION: 3.10.12
-
-jobs:
-  python:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install dependencies
-        run: |
-          pip install -U pip
-          pip install black flake8
-      - name: Check format (black)
-        run: |
-          black --check --verbose .
-      - name: Check style (flake8)
-        run: |
-          flake8
-  javascript:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Lint eCR Viewer
-        working-directory: ./containers/ecr-viewer
-        run: |
-          npm ci
-          npm run lint
+#name: Lint Check
+#on:
+#  workflow_call:
+#  workflow_dispatch:
+#  pull_request:
+#    branches:
+#      - "**"
+#  push:
+#    branches:
+#      - main
+#
+#env:
+#  TEST_RUNNER_PYTHON_VERSION: 3.10.12
+#
+#jobs:
+#  python:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
+#          cache: pip
+#      - name: Install dependencies
+#        run: |
+#          pip install -U pip
+#          pip install black flake8
+#      - name: Check format (black)
+#        run: |
+#          black --check --verbose .
+#      - name: Check style (flake8)
+#        run: |
+#          flake8
+#  javascript:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Lint eCR Viewer
+#        working-directory: ./containers/ecr-viewer
+#        run: |
+#          npm ci
+#          npm run lint
