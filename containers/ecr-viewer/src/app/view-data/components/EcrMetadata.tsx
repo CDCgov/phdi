@@ -27,10 +27,10 @@ const EcrMetadata = (
                         <div className="grid-row">
                             <div className="data-title"><h4>eICR Identifier</h4></div>
                             <div className="grid-col-auto">
-                                {}
+                                {evaluate(fhirBundle, fhirPathMappings.eicrIdentifier)}
                             </div>
                         </div>
-                        <div className={"section__line_gray"} />
+                        <div className={"section__line_gray padding-bottom-3"} />
                         <h3
                             className="usa-summary-box__heading padding-y-105"
                             id="summary-box-key-information"
@@ -40,42 +40,42 @@ const EcrMetadata = (
                         <div className="grid-row">
                         <div className="data-title"><h4>Date/Time eCR Created</h4></div>
                         <div className="grid-col-auto">
-                            {evaluate(fhirBundle, fhirPathMappings.patientId)}
+                            {evaluate(fhirBundle, fhirPathMappings.dateTimeEcrCreated)}
                         </div>
                         </div>
                         <div className={"section__line_gray"} />
                         <div className="grid-row">
                             <div className="data-title"><h4>Sender Software</h4></div>
                             <div className="grid-col-auto">
-                                {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
+                                {evaluate(fhirBundle, fhirPathMappings.senderSoftware)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
                         <div className="grid-row">
                             <div className="data-title"><h4>Sender Facility Name</h4></div>
                             <div className="grid-col-auto">
-                                {evaluate(fhirBundle, fhirPathMappings.patientGender)}
+                                {evaluate(fhirBundle, fhirPathMappings.senderFacilityName)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
                         <div className="grid-row">
                             <div className="data-title"><h4>Facility Address</h4></div>
                             <div className="grid-col-auto">
-                                {evaluate(fhirBundle, fhirPathMappings.patientRace)}
+                                {evaluate(fhirBundle, fhirPathMappings.facilityAddress)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
                         <div className="grid-row">
                             <div className="data-title"><h4>Facility Contact</h4></div>
                             <div className="grid-col-auto">
-                                {evaluate(fhirBundle, fhirPathMappings.patientEthnicity)}
+                                {evaluate(fhirBundle, fhirPathMappings.facilityContact)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
                         <div className="grid-row">
                             <div className="data-title"><h4>Facility ID</h4></div>
                             <div className="grid-col-auto">
-                                {evaluate(fhirBundle, fhirPathMappings.patientLanguage)}
+                                {evaluate(fhirBundle, fhirPathMappings.facilityId)}
                             </div>
                         </div>
                         <div className={"section__line_gray"} />
