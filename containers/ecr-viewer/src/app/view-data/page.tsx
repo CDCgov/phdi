@@ -22,11 +22,9 @@ const ECRViewerPage = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
 
-  type FhirMappings = { [key: string]: string };
-
   type ApiResponse = {
     fhirBundle: Bundle;
-    fhirPathMappings: FhirMappings;
+    fhirPathMappings: PathMappings;
   };
 
   useEffect(() => {
