@@ -1,6 +1,6 @@
 import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
-import {PathMappings, formatPatientName, formatPatientContactInfo, formatPatientAddress} from "../../utils";
+import {PathMappings} from "../../utils";
 
 interface EcrMetadataProps {
     fhirPathMappings: PathMappings
