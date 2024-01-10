@@ -21,8 +21,8 @@ const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
       >
         <div className="usa-summary-box__body">
           <h3
-            className="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
+            className="usa-summary-box__heading padding-y-105 summary-box-key-information"
+            id="demographics"
           >
             Demographics
           </h3>

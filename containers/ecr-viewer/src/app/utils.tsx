@@ -158,10 +158,9 @@ const formatDateTime = (dateTime: string) => {
 
 const formatPhoneNumber = (phoneNumber: string) => {
   try {
-    const formattedPhoneNumber = phoneNumber
+    return phoneNumber
       .replace(/\D/g, "")
       .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    return formattedPhoneNumber;
   } catch {
     return undefined;
   }

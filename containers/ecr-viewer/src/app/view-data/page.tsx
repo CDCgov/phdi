@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
 import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
-import { Accordion } from "@trussworks/react-uswds";
+import { Accordion, SideNav } from "@trussworks/react-uswds";
 import UnavailableInfo from "./components/UnavailableInfo";
 import {
   PathMappings,
@@ -21,6 +21,47 @@ const ECRViewerPage = () => {
   const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
+  const accordionItems: any[] = [
+    {
+      title: <span id="patient-info">Patient Info</span>,
+      content: null,
+      expanded: true,
+      id: "1",
+      headingLevel: "h2",
+      link: [
+        <a href="#patient-info">Patient Info</a>,
+        <SideNav
+          isSubnav={true}
+          items={[<a href="#demographics">Demographics</a>]}
+        />,
+      ],
+    },
+    {
+      title: <span id="encounter-info">Encounter Info</span>,
+      content: null,
+      expanded: true,
+      id: "2",
+      headingLevel: "h2",
+      link: [
+        <a href="#encounter-info">Encounter Info</a>,
+        <SideNav
+          isSubnav={true}
+          items={[
+            <a href="#encounter-details">Encounter Details</a>,
+            <a href="#provider-details">Provider Details</a>,
+          ]}
+        />,
+      ],
+    },
+    {
+      title: "Unavailable Info",
+      content: null,
+      expanded: true,
+      id: "2",
+      headingLevel: "h2",
+      link: <a href="#unavailable-info">Unavailable Info</a>,
+    },
+  ];
 
   type FhirMappings = { [key: string]: string };
 
@@ -54,51 +95,32 @@ const ECRViewerPage = () => {
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
-    const accordionItems: any[] = [
-      {
-        title: "Patient Info",
-        content: (
-          <div>
-            <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            {social_data.available_data.length > 0 && (
-              <SocialHistory socialData={social_data.available_data} />
-            )}
-          </div>
-        ),
-        expanded: true,
-        id: "1",
-        headingLevel: "h2",
-      },
-      {
-        title: "Encounter Info",
-        content: (
-          <div>
-            <EncounterDetails
-              encounterData={encounterData.available_data}
-              providerData={providerData.available_data}
-            />
-          </div>
-        ),
-        expanded: true,
-        id: "2",
-        headingLevel: "h2",
-      },
-      {
-        title: "Unavailable Info",
-        content: (
-          <div className="padding-top-105">
-            <UnavailableInfo
-              socialUnavailableData={social_data.unavailable_data}
-              encounterUnavailableData={encounterData.unavailable_data}
-              providerUnavailableData={providerData.unavailable_data}
-            />
-          </div>
-        ),
-        expanded: true,
-        id: "2",
-        headingLevel: "h2",
-      },
-    ];
+
+    accordionItems[0].content = (
+      <div id="patient-info">
+        <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
+        {social_data.available_data.length > 0 && (
+          <SocialHistory socialData={social_data.available_data} />
+        )}
+      </div>
+    );
+    accordionItems[1].content = (
+      <div id="encounter-info">
+        <EncounterDetails
+          encounterData={encounterData.available_data}
+          providerData={providerData.available_data}
+        />
+      </div>
+    );
+    accordionItems[2].content = (
+      <div className="padding-top-105" id="unavailable-info">
+        <UnavailableInfo
+          socialUnavailableData={social_data.unavailable_data}
+          encounterUnavailableData={encounterData.unavailable_data}
+          providerUnavailableData={providerData.unavailable_data}
+        />
+      </div>
+    );
 
     return (
       <Accordion
@@ -117,12 +139,17 @@ const ECRViewerPage = () => {
         <header>
           <h1 className={"page-title"}>EZ eCR Viewer</h1>
         </header>
-        <div className={"ecr-viewer-container"}>
-          <h2 className="margin-bottom-3">eCR Summary</h2>
-          <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-          <div className="margin-top-6">
-            <h2 className="margin-bottom-3">eCR Document</h2>
-            {renderAccordion()}
+        <div className="main-container" style={{ display: "flex" }}>
+          <nav style={{ width: "20%" }}>
+            <SideNav items={accordionItems.map((item) => item.link)} />
+          </nav>
+          <div className={"ecr-viewer-container"} style={{ width: "80%" }}>
+            <h2 className="margin-bottom-3">eCR Summary</h2>
+            <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
+            <div className="margin-top-6">
+              <h2 className="margin-bottom-3">eCR Document</h2>
+              {renderAccordion()}
+            </div>
           </div>
         </div>
       </div>

@@ -30,8 +30,8 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
     return (
       <div>
         <h3
-          className="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          className="usa-summary-box__heading padding-y-105 summary-box-key-information"
+          id="encounter-details"
         >
           Encounter Details
         </h3>
@@ -47,8 +47,8 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
     return (
       <div>
         <h3
-          className="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
+          className="usa-summary-box__heading padding-y-105 summary-box-key-information"
+          id="provider-details"
         >
           Provider Details
         </h3>
