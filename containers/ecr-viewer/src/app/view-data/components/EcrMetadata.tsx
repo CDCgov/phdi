@@ -1,6 +1,10 @@
 import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
-import { PathMappings } from "../../utils";
+import {
+  extractFacilityAddress,
+  extractFacilityContactInfo,
+  PathMappings,
+} from "../../utils";
 
 interface EcrMetadataProps {
   fhirPathMappings: PathMappings;
@@ -69,7 +73,7 @@ const EcrMetadata = ({ fhirPathMappings, fhirBundle }: EcrMetadataProps) => {
                 <h4>Facility Address</h4>
               </div>
               <div className="grid-col-auto">
-                {evaluate(fhirBundle, fhirPathMappings.facilityAddress)}
+                {extractFacilityAddress(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line_gray"} />
@@ -87,7 +91,7 @@ const EcrMetadata = ({ fhirPathMappings, fhirBundle }: EcrMetadataProps) => {
                 <h4>Facility ID</h4>
               </div>
               <div className="grid-col-auto">
-                {evaluate(fhirBundle, fhirPathMappings.facilityId)}
+                {evaluate(fhirBundle, fhirPathMappings.facilityID)}
               </div>
             </div>
             <div className={"section__line_gray"} />
