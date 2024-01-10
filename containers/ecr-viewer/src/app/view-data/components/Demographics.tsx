@@ -121,7 +121,7 @@ const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
             <div className={"section__line_gray"} />
             <div className="grid-row">
               <div className="data-title">
-                <h4>Patient ID</h4>
+                <h4>Patient IDs</h4>
               </div>
               <div className="grid-col-auto">
                 {evaluate(fhirBundle, fhirPathMappings.patientId)}
