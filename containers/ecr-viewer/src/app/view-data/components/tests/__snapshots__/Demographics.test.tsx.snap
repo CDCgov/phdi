@@ -178,6 +178,23 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
+                County
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            />
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
                 Contact
               </h4>
             </div>
@@ -217,7 +234,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Patient ID
+                Patient IDs
               </h4>
             </div>
             <div
