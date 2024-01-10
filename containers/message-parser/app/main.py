@@ -376,16 +376,7 @@ async def fhir_to_phdc_endpoint(
                     # Reference case: information is contained on another
                     # resource that we have to look up
                     else:
-                        reference_path = secondary_parser
-                        reference_lookup = (
-                            parsing_schema.get(field)
-                            .get("secondary_schema")
-                            .get(secondary_field)
-                            .get("reference_lookup")
-                        )
-                        reference_lookup = fhirpathpy.compile(reference_lookup)
-
-                        if len(reference_lookup(initial_value)) == 0:
+                        if len(secondary_parser(initial_value)) == 0:
                             response.status_code = status.HTTP_400_BAD_REQUEST
                             return {
                                 "message": "Provided `reference_lookup` location does "
@@ -394,7 +385,7 @@ async def fhir_to_phdc_endpoint(
                             }
                         else:
                             reference_lookup = ",".join(
-                                map(str, reference_lookup(initial_value))
+                                map(str, secondary_parser(initial_value))
                             )
 
                             # FHIR references are prefixed with resource type
@@ -403,6 +394,12 @@ async def fhir_to_phdc_endpoint(
                             # Now, if we found the ID being referenced, we can search
                             # the original bundle for the resource being referenced
                             # by building a concatenated reference path
+                            reference_path = (
+                                parsing_schema.get(field)
+                                .get("secondary_schema")
+                                .get(secondary_field)
+                                .get("fhir_path")
+                            )
                             reference_path = reference_path.replace(
                                 DIBBS_REFERENCE_SIGNIFIER, reference_lookup
                             )

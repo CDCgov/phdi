@@ -92,14 +92,19 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
             for secondary_field, secondary_field_definition in field_definition[
                 "secondary_schema"
             ].items():
+                # Base case: secondary field is located on this resource
                 if not secondary_field_definition["fhir_path"].startswith("Bundle"):
                     secondary_parsers[secondary_field] = fhirpathpy.compile(
                         secondary_field_definition["fhir_path"]
                     )
+
+                # Reference case: secondary field is located on a different resource,
+                # so we can't compile the fhir_path proper; instead, compile the
+                # reference for quick access later
                 else:
-                    secondary_parsers[secondary_field] = secondary_field_definition[
-                        "fhir_path"
-                    ]
+                    secondary_parsers[secondary_field] = fhirpathpy.compile(
+                        secondary_field_definition["reference_lookup"]
+                    )
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
     return frozendict(parsers)
