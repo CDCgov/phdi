@@ -13,7 +13,6 @@ interface DemographicsProps {
 }
 
 const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
-  console.log(evaluate(fhirBundle, fhirPathMappings.patientTribalAffiliation));
   return (
     <div>
       <div
