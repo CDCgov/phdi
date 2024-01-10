@@ -2,13 +2,17 @@ import json
 import os
 from pathlib import Path
 from typing import Annotated
-from typing import Dict
-from typing import Literal
-from typing import Optional
-from typing import Union
 
 import fhirpathpy
 from app.config import get_settings
+from app.models import FhirToPhdcInput
+from app.models import FhirToPhdcResponse
+from app.models import GetSchemaResponse
+from app.models import ListSchemasResponse
+from app.models import ParseMessageInput
+from app.models import ParseMessageResponse
+from app.models import ParsingSchemaModel
+from app.models import PutSchemaResponse
 from app.utils import convert_to_fhir
 from app.utils import DIBBS_REFERENCE_SIGNIFIER
 from app.utils import freeze_parsing_schema
@@ -21,9 +25,6 @@ from app.utils import search_for_required_values
 from fastapi import Body
 from fastapi import Response
 from fastapi import status
-from pydantic import BaseModel
-from pydantic import Field
-from pydantic import root_validator
 
 from phdi.containers.base_service import BaseService
 
@@ -45,98 +46,6 @@ raw_parse_message_response_examples = read_json_from_assets(
     "sample_parse_message_responses.json"
 )
 parse_message_response_examples = {200: raw_parse_message_response_examples}
-
-
-# Request and response models
-class ParseMessageInput(BaseModel):
-    """
-    The schema for requests to the /extract endpoint.
-    """
-
-    message_format: Literal["fhir", "hl7v2", "ecr"] = Field(
-        description="The format of the message."
-    )
-    message_type: Optional[Literal["ecr", "elr", "vxu"]] = Field(
-        description="The type of message that values will be extracted from. Required "
-        "when 'message_format is not FHIR."
-    )
-    parsing_schema: Optional[dict] = Field(
-        description="A schema describing which fields to extract from the message. This"
-        " must be a JSON object with key:value pairs of the form "
-        "<my-field>:<FHIR-to-my-field>.",
-        default={},
-    )
-    parsing_schema_name: Optional[str] = Field(
-        description="The name of a schema that was previously"
-        " loaded in the service to use to extract fields from the message.",
-        default="",
-    )
-    fhir_converter_url: Optional[str] = Field(
-        description="The URL of an instance of the PHDI FHIR converter. Required when "
-        "the message is not already in FHIR format.",
-        default="",
-    )
-    credential_manager: Optional[Literal["azure", "gcp"]] = Field(
-        description="The type of credential manager to use for authentication with a "
-        "FHIR converter when conversion to FHIR is required.",
-        default=None,
-    )
-    include_metadata: Optional[Literal["true", "false"]] = Field(
-        description="Boolean to include metadata in the response.",
-        default=None,
-    )
-    message: Union[str, dict] = Field(description="The message to be parsed.")
-
-    @root_validator
-    def require_message_type_when_not_fhir(cls, values):
-        if (
-            values.get("message_format") != "fhir"
-            and values.get("message_type") is None
-        ):
-            raise ValueError(
-                "When the message format is not FHIR then the message type must be "
-                "included."
-            )
-        return values
-
-    @root_validator
-    def prohibit_schema_and_schema_name(cls, values):
-        if (
-            values.get("parsing_schema") != {}
-            and values.get("parsing_schema_name") != ""
-        ):
-            raise ValueError(
-                "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
-                "provided. Only one of these values is permited."
-            )
-        return values
-
-    @root_validator
-    def require_schema_or_schema_name(cls, values):
-        if (
-            values.get("parsing_schema") == {}
-            and values.get("parsing_schema_name") == ""
-        ):
-            raise ValueError(
-                "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
-                "provided. One, but not both, of these values is required."
-            )
-        return values
-
-
-class ParseMessageResponse(BaseModel):
-    """
-    The schema for responses from the /extract endpoint.
-    """
-
-    message: str = Field(
-        description="A message describing the result of a request to "
-        "the /parse_message endpoint."
-    )
-    parsed_values: dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
-    )
 
 
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
@@ -229,94 +138,6 @@ raw_fhir_to_phdc_response_examples = read_json_from_assets(
     "sample_fhir_to_phdc_response.json"
 )
 fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
-
-
-class FhirToPhdcInput(BaseModel):
-    """
-    The schema for requests to the /fhir-to-phdc endpoint.
-    """
-
-    parsing_schema: Optional[dict] = Field(
-        description="A schema describing which fields to extract from the message. This"
-        " must be a JSON object with key:value pairs of the form "
-        "<my-field>:<FHIR-to-my-field>.",
-        default={},
-    )
-    parsing_schema_name: Optional[str] = Field(
-        description="The name of a schema that was previously"
-        " loaded in the service to use to extract fields from the message.",
-        default="",
-    )
-    message: dict = Field(description="The FHIR bundle to extract from.")
-
-    @root_validator
-    def prohibit_schema_and_schema_name(cls, values):
-        if (
-            values.get("parsing_schema") != {}
-            and values.get("parsing_schema_name") != ""
-        ):
-            raise ValueError(
-                "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
-                "provided. Only one of these values is permited."
-            )
-        return values
-
-    @root_validator
-    def require_schema_or_schema_name(cls, values):
-        if (
-            values.get("parsing_schema") == {}
-            and values.get("parsing_schema_name") == ""
-        ):
-            raise ValueError(
-                "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
-                "provided. One, but not both, of these values is required."
-            )
-        return values
-
-    @root_validator
-    def require_reference_fields_to_have_lookups(cls, values):
-        schema = values.get("parsing_schema", {})
-        for field in schema:
-            for _, secondary_field_definition in (
-                schema[field].get("secondary_schema", {}).items()
-            ):
-                if (
-                    secondary_field_definition.get("fhir_path", "").startswith("Bundle")
-                    and "reference_lookup" not in secondary_field_definition
-                ):
-                    raise ValueError(
-                        "Secondary fields in the parsing schema that reference other "
-                        "resources must include a `reference_lookup` field that "
-                        "identifies where the reference ID can be found."
-                    )
-                if (
-                    "reference_lookup" in secondary_field_definition
-                    and not secondary_field_definition.get("fhir_path").startswith(
-                        "Bundle"
-                    )
-                ):
-                    raise ValueError(
-                        "Secondary fields in the parsing schema that provide "
-                        "`reference_lookup` locations must have a `fhir_path` that "
-                        "begins with `Bundle` and identifies the type of resource "
-                        "being referenced."
-                    )
-        return values
-
-
-class FhirToPhdcResponse(BaseModel):
-    """
-    The schema for responses from the /fhir-to-phdc endpoint.
-    """
-
-    message: str = Field(
-        description="A message describing the result of a request to "
-        "the /parse_message endpoint."
-    )
-    parsed_values: dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
-    )
 
 
 @app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
@@ -425,20 +246,6 @@ raw_list_schemas_response = read_json_from_assets("sample_list_schemas_response.
 sample_list_schemas_response = {200: raw_list_schemas_response}
 
 
-class ListSchemasResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint.
-    """
-
-    default_schemas: list = Field(
-        description="The schemas that ship with with this service by default."
-    )
-    custom_schemas: list = Field(
-        description="Additional schemas that users have uploaded to this service beyond"
-        " the ones come by default."
-    )
-
-
 @app.get("/schemas", responses=sample_list_schemas_response)
 async def list_schemas() -> ListSchemasResponse:
     """
@@ -452,22 +259,6 @@ async def list_schemas() -> ListSchemasResponse:
     custom_schemas = [schema for schema in custom_schemas if schema != ".keep"]
     schemas = {"default_schemas": default_schemas, "custom_schemas": custom_schemas}
     return schemas
-
-
-class GetSchemaResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint when a specific schema is
-    queried.
-    """
-
-    message: str = Field(
-        description="A message describing the result of a request to "
-        "the /parse_message endpoint."
-    )
-    parsing_schema: dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
-    )
 
 
 # /schemas/{parsing_schema_name} endpoint #
@@ -490,47 +281,6 @@ async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaR
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": error.__str__(), "parsing_schema": {}}
     return {"message": "Schema found!", "parsing_schema": parsing_schema}
-
-
-PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "datetime", "array"
-]
-
-
-class ParsingSchemaSecondaryFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PARSING_SCHEMA_DATA_TYPES
-    nullable: bool
-
-
-class ParsingSchemaFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PARSING_SCHEMA_DATA_TYPES
-    nullable: bool
-    secondary_schema: Optional[Dict[str, ParsingSchemaSecondaryFieldModel]]
-
-
-class ParsingSchemaModel(BaseModel):
-    parsing_schema: Dict[str, ParsingSchemaFieldModel] = Field(
-        description="A JSON formatted parsing schema to upload."
-    )
-    overwrite: Optional[bool] = Field(
-        description="When `true` if a schema already exists for the provided name it "
-        "will be replaced. When `false` no action will be taken and the response will "
-        "indicate that a schema for the given name already exists. To proceed submit a "
-        "new request with a different schema name or set this field to `true`.",
-        default=False,
-    )
-
-
-class PutSchemaResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint when a schema is uploaded.
-    """
-
-    message: str = Field(
-        "A message describing the result of a request to " "upload a parsing schema."
-    )
 
 
 upload_schema_request_examples = read_json_from_assets(
