@@ -197,7 +197,7 @@ invalid_rr_data_request = {
 
 invalid_rr_data_response = {
     "message": "Reportability Response (RR) data is only accepted for eCR "
-               "conversion requests."
+    "conversion requests."
 }
 
 
@@ -207,11 +207,11 @@ invalid_rr_data_response = {
 @mock.patch("app.service.Path")
 @mock.patch("app.main.resolve_references")
 def test_convert_valid_request(
-        patched_resolve_references,
-        patched_file_path,
-        patched_subprocess_run,
-        patched_open,
-        patched_json_load,
+    patched_resolve_references,
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
 ):
     global valid_response
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
@@ -239,12 +239,12 @@ def test_convert_valid_request(
 @mock.patch("app.main.add_rr_data_to_eicr")
 @mock.patch("app.main.resolve_references")
 def test_convert_valid_request_with_rr_data(
-        patched_resolve_references,
-        patched_add_rr_data_to_eicr,
-        patched_file_path,
-        patched_subprocess_run,
-        patched_open,
-        patched_json_load,
+    patched_resolve_references,
+    patched_add_rr_data_to_eicr,
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
 ):
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
     patched_json_load.return_value = valid_response
@@ -263,7 +263,11 @@ def test_convert_valid_request_with_rr_data(
 @mock.patch("app.service.Path")
 @mock.patch("app.main.resolve_references")
 def test_convert_conversion_failure(
-        patched_resolve_references,patched_file_path, patched_subprocess_run, patched_open, patched_json_load
+    patched_resolve_references,
+    patched_file_path,
+    patched_subprocess_run,
+    patched_open,
+    patched_json_load,
 ):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     patched_json_load.return_value = valid_response
@@ -337,17 +341,20 @@ def test_add_data_source_to_bundle_missing_arg():
     assert expected_error_message in result_error_message
 
 
-bundle_with_references = "<ClinicalDocument xmlns=\"urn:hl7-org:v3\" xmlns:sdtc=\"urn:hl7-org:sdtc\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><component><structuredBody><component><section><text><content styleCode=\"Bold\">Additional Data</content><table><tbody><tr><th>Assigned Birth Sex</th><td ID=\"birthsex\">Female</td></tr><tr><th>Gender Identity</th><td ID=\"gender-identity\">unknown</td></tr><tr><th>Sexual Orientation</th><td ID=\"sexual-orientation\">Do not know</td></tr></tbody></table><content styleCode=\"Bold\">Travel History</content><table><thead><tr><th>Date of Travel</th><th>Location</th></tr></thead><tbody><tr><td>January 18th, 2018 - February 18th, 2018</td><td ID=\"trvhx-1\">Traveled to Singapore, Malaysia and Bali with<br/>my family.</td></tr></tbody></table></text><entry><observation classCode=\"OBS\" moodCode=\"EVN\"><value code=\"F\" codeSystem=\"2.16.840.1.113883.5.1\" codeSystemName=\"AdministrativeGender\" displayName=\"Female\" xsi:type=\"CD\"><originalText><reference value=\"#birthsex\"/></originalText></value></observation></entry><entry><observation classCode=\"OBS\" moodCode=\"EVN\"><value nullFlavor=\"UNK\" xsi:type=\"CD\"><originalText><reference value=\"#gender-identity\"/></originalText></value></observation></entry><entry><observation classCode=\"OBS\" moodCode=\"EVN\"><value nullFlavor=\"UNK\" xsi:type=\"CD\"><originalText><reference value=\"#sexual-orientation\"/></originalText></value></observation></entry><entry><act classCode=\"ACT\" moodCode=\"EVN\"><text><reference value=\"#trvhx-1\"/></text></act></entry></section></component></structuredBody></component></ClinicalDocument>"
+bundle_with_references = '<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><component><structuredBody><component><section><text><content styleCode="Bold">Additional Data</content><table><tbody><tr><th>Assigned Birth Sex</th><td ID="birthsex">Female</td></tr><tr><th>Gender Identity</th><td ID="gender-identity">unknown</td></tr><tr><th>Sexual Orientation</th><td ID="sexual-orientation">Do not know</td></tr></tbody></table><content styleCode="Bold">Travel History</content><table><thead><tr><th>Date of Travel</th><th>Location</th></tr></thead><tbody><tr><td>January 18th, 2018 - February 18th, 2018</td><td ID="trvhx-1">Traveled to Singapore, Malaysia and Bali with<br/>my family.</td></tr></tbody></table></text><entry><observation classCode="OBS" moodCode="EVN"><value code="F" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender" displayName="Female" xsi:type="CD"><originalText><reference value="#birthsex"/></originalText></value></observation></entry><entry><observation classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" xsi:type="CD"><originalText><reference value="#gender-identity"/></originalText></value></observation></entry><entry><observation classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" xsi:type="CD"><originalText><reference value="#sexual-orientation"/></originalText></value></observation></entry><entry><act classCode="ACT" moodCode="EVN"><text><reference value="#trvhx-1"/></text></act></entry></section></component></structuredBody></component></ClinicalDocument>'
 
 
 def test_resolve_references():
     tree = etree.fromstring(resolve_references(bundle_with_references))
-    actual_refs = tree.xpath('//hl7:reference', namespaces={ "hl7" : 'urn:hl7-org:v3' })
-    assert actual_refs[0].attrib['value'] == "#birthsex"
+    actual_refs = tree.xpath("//hl7:reference", namespaces={"hl7": "urn:hl7-org:v3"})
+    assert actual_refs[0].attrib["value"] == "#birthsex"
     assert actual_refs[0].text == "Female"
-    assert actual_refs[1].attrib['value'] == "#gender-identity"
+    assert actual_refs[1].attrib["value"] == "#gender-identity"
     assert actual_refs[1].text == "unknown"
-    assert actual_refs[2].attrib['value'] == "#sexual-orientation"
+    assert actual_refs[2].attrib["value"] == "#sexual-orientation"
     assert actual_refs[2].text == "Do not know"
-    assert actual_refs[3].attrib['value'] == "#trvhx-1"
-    assert actual_refs[3].text == "Traveled to Singapore, Malaysia and Bali with my family."
+    assert actual_refs[3].attrib["value"] == "#trvhx-1"
+    assert (
+        actual_refs[3].text
+        == "Traveled to Singapore, Malaysia and Bali with my family."
+    )

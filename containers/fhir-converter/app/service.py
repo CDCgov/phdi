@@ -2,6 +2,7 @@ import json
 import subprocess
 import uuid
 from pathlib import Path
+
 from lxml import etree
 
 from phdi.harmonization import standardize_hl7_datetimes
@@ -41,10 +42,10 @@ def add_data_source_to_bundle(bundle: dict, data_source: str) -> dict:
 
 def resolve_references(input_data: str):
     ecr = etree.fromstring(input_data)
-    ns = {'hl7': 'urn:hl7-org:v3'}
-    refs = ecr.xpath('//hl7:reference', namespaces=ns)
+    ns = {"hl7": "urn:hl7-org:v3"}
+    refs = ecr.xpath("//hl7:reference", namespaces=ns)
     for i in range(len(refs)):
-        ref_id = refs[i].attrib['value'][1:]
+        ref_id = refs[i].attrib["value"][1:]
         value = " ".join(ecr.xpath("//*[@ID='" + ref_id + "']/text()"))
         refs[i].text = value
 
