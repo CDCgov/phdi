@@ -105,6 +105,15 @@ const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
             <div className={"section__line_gray"} />
             <div className="grid-row">
               <div className="data-title">
+                <h4>County</h4>
+              </div>
+              <div className="grid-col-auto">
+                {evaluate(fhirBundle, fhirPathMappings.patientCounty)}
+              </div>
+            </div>
+            <div className={"section__line_gray"} />
+            <div className="grid-row">
+              <div className="data-title">
                 <h4>Contact</h4>
               </div>
               <div className="grid-col-auto text-pre-line">
