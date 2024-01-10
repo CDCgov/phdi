@@ -18,7 +18,8 @@ class PHDCBuilder:
     ):
         """
         Builds a `telecom` XML element for phone data including phone number (as
-        `value`) and use, if available.
+        `value`) and use, if available. There are three types of phone uses: 'HP'
+        for home phone, 'WP' for work phone, and 'MC' for mobile phone.
 
         :param phone: The phone number.
         :param use: Type of phone number, defaults to None.
