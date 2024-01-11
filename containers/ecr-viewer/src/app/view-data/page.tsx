@@ -12,6 +12,7 @@ import {
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
+  evaluateDemographicsData,
 } from "../utils";
 import EncounterDetails from "./components/Encounter";
 
@@ -51,6 +52,7 @@ const ECRViewerPage = () => {
   }, []);
 
   const renderAccordion = () => {
+    const demographicsData = evaluateDemographicsData(fhirBundle, mappings);
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
@@ -59,9 +61,9 @@ const ECRViewerPage = () => {
         title: "Patient Info",
         content: (
           <div>
-            <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            {social_data.available_data.length > 0 && (
-              <SocialHistory socialData={social_data.available_data} />
+            <Demographics demographicsData={demographicsData.evaluated_data} />
+            {social_data.evaluated_data.length > 0 && (
+              <SocialHistory socialData={social_data.evaluated_data} />
             )}
           </div>
         ),
@@ -74,8 +76,8 @@ const ECRViewerPage = () => {
         content: (
           <div>
             <EncounterDetails
-              encounterData={encounterData.available_data}
-              providerData={providerData.available_data}
+              encounterData={encounterData.evaluated_data}
+              providerData={providerData.evaluated_data}
             />
           </div>
         ),
