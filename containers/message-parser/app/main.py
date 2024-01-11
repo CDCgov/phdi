@@ -48,6 +48,99 @@ raw_parse_message_response_examples = read_json_from_assets(
 parse_message_response_examples = {200: raw_parse_message_response_examples}
 
 
+def extract_and_apply_parsers(parsing_schema, message, response):
+    """
+    Helper function used to pull parsing methods for each field out of the
+    passed-in schema, resolve any reference dependencies, and apply the
+    result to the input FHIR bundle. If reference dependencies are present
+    (e.g. an Observation resource that references an ordering provider
+    Organization), this function will raise an error if those references
+    cannot be resolved (if the ID of the referenced object can't be found,
+    for example).
+
+    :param parsing_schema: A dictionary holding the parsing schema send
+      to the endpoint.
+    :param message: The FHIR bundle to extract values from.
+    :param response: The Response object the endpoint will send back, in
+      case we need to apply error status codes.
+    :return: A dictionary mapping schema keys to parsed values.
+    """
+    parsers = get_parsers(parsing_schema)
+    parsed_values = {}
+
+    # Iterate over each parser and make the appropriate path call
+    for field, parser in parsers.items():
+        if "secondary_parsers" not in parser:
+            value = parser["primary_parser"](message)
+            if len(value) == 0:
+                value = None
+            else:
+                value = ",".join(map(str, value))
+            parsed_values[field] = value
+
+        # Use the secondary field data structure, remembering that some
+        # fhir paths might not be compiled yet
+        else:
+            inital_values = parser["primary_parser"](message)
+            values = []
+            for initial_value in inital_values:
+                value = {}
+                for secondary_field, path_struct in parser["secondary_parsers"].items():
+                    # Base cases for a secondary field:
+                    # Information is contained on this resource, just in a
+                    # nested structure
+                    if "reference_path" not in path_struct:
+                        secondary_parser = path_struct["secondary_fhir_path"]
+                        if len(secondary_parser(initial_value)) == 0:
+                            value[secondary_field] = None
+                        else:
+                            value[secondary_field] = ",".join(
+                                map(str, secondary_parser(initial_value))
+                            )
+
+                    # Reference case: information is contained on another
+                    # resource that we have to look up
+                    else:
+                        reference_parser = path_struct["reference_path"]
+                        if len(reference_parser(initial_value)) == 0:
+                            response.status_code = status.HTTP_400_BAD_REQUEST
+                            return {
+                                "message": "Provided `reference_lookup` location does "
+                                "not point to a referencing identifier",
+                                "parsed_values": {},
+                            }
+                        else:
+                            reference_to_find = ",".join(
+                                map(str, reference_parser(initial_value))
+                            )
+
+                            # FHIR references are prefixed with resource type
+                            reference_to_find = reference_to_find.split("/")[-1]
+
+                            # Build the resultant concatenated reference path
+                            reference_path = path_struct["secondary_fhir_path"].replace(
+                                DIBBS_REFERENCE_SIGNIFIER, reference_to_find
+                            )
+                            reference_path = fhirpathpy.compile(reference_path)
+                            referenced_value = reference_path(message)
+                            if len(referenced_value) == 0:
+                                response.status_code = status.HTTP_400_BAD_REQUEST
+                                return {
+                                    "message": "Provided bundle does not contain a "
+                                    "resource matching reference criteria defined "
+                                    "in schema",
+                                    "parsed_values": {},
+                                }
+                            else:
+                                value[secondary_field] = ",".join(
+                                    map(str, referenced_value)
+                                )
+
+                values.append(value)
+            parsed_values[field] = values
+    return parsed_values
+
+
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
 async def parse_message_endpoint(
     input: Annotated[ParseMessageInput, Body(examples=parse_message_request_examples)],
@@ -96,35 +189,8 @@ async def parse_message_endpoint(
                 "parsed_values": {},
             }
 
-    # 3. Generate parsers for FHIRpaths specified in schema.
-    parsers = get_parsers(parsing_schema)
-
-    # 4. Extract desired fields from message by applying each parser.
-    parsed_values = {}
-    for field, parser in parsers.items():
-        if "secondary_parsers" not in parser:
-            value = parser["primary_parser"](input.message)
-            if len(value) == 0:
-                value = None
-            else:
-                value = ",".join(map(str, value))
-            parsed_values[field] = value
-        else:
-            inital_values = parser["primary_parser"](input.message)
-            values = []
-            for initial_value in inital_values:
-                value = {}
-                for secondary_field, secondary_parser in parser[
-                    "secondary_parsers"
-                ].items():
-                    if len(secondary_parser(initial_value)) == 0:
-                        value[secondary_field] = None
-                    else:
-                        value[secondary_field] = ",".join(
-                            map(str, secondary_parser(initial_value))
-                        )
-                values.append(value)
-            parsed_values[field] = values
+    # 3. Parse the desired values and find metadata, if needed
+    parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
     if input.include_metadata == "true":
         parsed_values = get_metadata(parsed_values, parsing_schema)
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
@@ -140,6 +206,10 @@ raw_fhir_to_phdc_response_examples = read_json_from_assets(
 fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
 
 
+# TODO: Once we complete M2 and can convert information into PHDC format,
+# the output of this function will change. The parse-message endpoint will
+# continue to return DIBBs JSON, though, which is why both endpoints use
+# the same helper function to handle resource references.
 @app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
 async def fhir_to_phdc_endpoint(
     input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
@@ -155,89 +225,7 @@ async def fhir_to_phdc_endpoint(
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"message": error.__str__(), "parsed_values": {}}
 
-    # Get the parsers defined in the schema, remembering that some might
-    # not be compiled yet if they reference other resources
-    parsers = get_parsers(parsing_schema)
-    parsed_values = {}
-
-    # Iterate over each parser and make the appropriate path call
-    for field, parser in parsers.items():
-        if "secondary_parsers" not in parser:
-            value = parser["primary_parser"](input.message)
-            if len(value) == 0:
-                value = None
-            else:
-                value = ",".join(map(str, value))
-            parsed_values[field] = value
-        else:
-            inital_values = parser["primary_parser"](input.message)
-            values = []
-            for initial_value in inital_values:
-                value = {}
-                for secondary_field, secondary_parser in parser[
-                    "secondary_parsers"
-                ].items():
-                    # Base cases for a secondary field:
-                    # Information is contained on this resource, just in a
-                    # nested structure
-                    if (
-                        not parsing_schema.get(field)
-                        .get("secondary_schema")
-                        .get(secondary_field)
-                        .get("fhir_path")
-                        .startswith("Bundle")
-                    ):
-                        if len(secondary_parser(initial_value)) == 0:
-                            value[secondary_field] = None
-                        else:
-                            value[secondary_field] = ",".join(
-                                map(str, secondary_parser(initial_value))
-                            )
-
-                    # Reference case: information is contained on another
-                    # resource that we have to look up
-                    else:
-                        if len(secondary_parser(initial_value)) == 0:
-                            response.status_code = status.HTTP_400_BAD_REQUEST
-                            return {
-                                "message": "Provided `reference_lookup` location does "
-                                "not point to a referencing identifier",
-                                "parsed_values": {},
-                            }
-                        else:
-                            reference_lookup = ",".join(
-                                map(str, secondary_parser(initial_value))
-                            )
-
-                            # FHIR references are prefixed with resource type
-                            reference_lookup = reference_lookup.split("/")[-1]
-
-                            # Now, if we found the ID being referenced, we can search
-                            # the original bundle for the resource being referenced
-                            # by building a concatenated reference path
-                            reference_path = (
-                                parsing_schema.get(field)
-                                .get("secondary_schema")
-                                .get(secondary_field)
-                                .get("fhir_path")
-                            )
-                            reference_path = reference_path.replace(
-                                DIBBS_REFERENCE_SIGNIFIER, reference_lookup
-                            )
-                            reference_path = fhirpathpy.compile(reference_path)
-                            ref_res = reference_path(input.message)
-                            if len(ref_res) == 0:
-                                response.status_code = status.HTTP_400_BAD_REQUEST
-                                return {
-                                    "message": "Provided bundle does not contain a "
-                                    "resource matching reference criteria defined "
-                                    "in schema",
-                                    "parsed_values": {},
-                                }
-                            else:
-                                value[secondary_field] = ",".join(map(str, ref_res))
-                values.append(value)
-            parsed_values[field] = values
+    parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
 

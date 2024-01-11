@@ -29,6 +29,8 @@ test_schema_path = (
 with open(test_schema_path, "r") as file:
     test_schema = json.load(file)
 
+# TODO: Once we complete M2, the response type of the phdc endpoint will
+# become phdc rather than justs JSON, so update the expected response
 expected_successful_response = {
     "message": "Parsing succeeded!",
     "parsed_values": {

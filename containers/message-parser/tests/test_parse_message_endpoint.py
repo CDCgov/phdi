@@ -24,22 +24,6 @@ fhir_bundle_path_w_float = (
     / "patient_bundle_w_floats.json"
 )
 
-test_reference_schema = {
-    "labs": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')",  # noqa
-        "data_type": "array",
-        "nullable": True,
-        "secondary_schema": {
-            "ordering_provider": {
-                "fhir_path": "Bundle.entry.resource.where(resourceType='Organization').where(id='#REF#').name",  # noqa
-                "reference_lookup": "Observation.performer.first().reference",
-                "data_type": "string",
-                "nullable": True,
-            }
-        },
-    }
-}
-
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
 
@@ -167,6 +151,43 @@ expected_successful_response_floats_with_meta_data = {
     },
 }
 
+reference_bundle_path = (
+    Path(__file__).parent.parent.parent.parent
+    / "tests"
+    / "assets"
+    / "general"
+    / "patient_bundle_w_labs.json"
+)
+
+with open(reference_bundle_path, "r") as file:
+    reference_bundle = json.load(file)
+
+test_reference_schema_path = (
+    Path(__file__).parent.parent
+    / "app"
+    / "default_schemas"
+    / "test_reference_schema.json"
+)
+
+with open(test_reference_schema_path, "r") as file:
+    test_reference_schema = json.load(file)
+
+expected_reference_response = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "labs": [
+            {
+                "test_type": "Blood culture",
+                "test_result_code_display": "Staphylococcus aureus",
+                "ordering_provider": "Western Pennsylvania Medical General",
+                "requesting_organization_contact_person": "Dr. Totally Real Doctor, M.D.",  # noqa
+            }
+        ],
+    },
+}
+
 
 def test_parse_message_success_internal_schema():
     test_request = {
@@ -225,6 +246,17 @@ def test_parse_message_success_external_schema():
     actual_response = client.post("/parse_message", json=request)
     assert actual_response.status_code == 200
     assert actual_response.json() == expected_successful_response
+
+
+def test_parse_message_success_referenced_resources():
+    request = {
+        "message_format": "fhir",
+        "parsing_schema": test_reference_schema,
+        "message": reference_bundle,
+    }
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 200
+    assert actual_response.json() == expected_reference_response
 
 
 @mock.patch("app.main.convert_to_fhir")

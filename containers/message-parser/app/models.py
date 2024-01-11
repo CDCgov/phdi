@@ -12,6 +12,35 @@ PARSING_SCHEMA_DATA_TYPES = Literal[
 ]
 
 
+# TODO: Add docstring here as part of separate ticket work
+def validate_secondary_reference_fields(values):
+    schema = values.get("parsing_schema", {})
+    for field in schema:
+        for _, secondary_field_definition in (
+            schema[field].get("secondary_schema", {}).items()
+        ):
+            if (
+                secondary_field_definition.get("fhir_path", "").startswith("Bundle")
+                and "reference_lookup" not in secondary_field_definition
+            ):
+                raise ValueError(
+                    "Secondary fields in the parsing schema that reference other "
+                    "resources must include a `reference_lookup` field that "
+                    "identifies where the reference ID can be found."
+                )
+            if (
+                "reference_lookup" in secondary_field_definition
+                and not secondary_field_definition.get("fhir_path").startswith("Bundle")
+            ):
+                raise ValueError(
+                    "Secondary fields in the parsing schema that provide "
+                    "`reference_lookup` locations must have a `fhir_path` that "
+                    "begins with `Bundle` and identifies the type of resource "
+                    "being referenced."
+                )
+    return values
+
+
 class ParseMessageInput(BaseModel):
     """
     The schema for requests to the /extract endpoint.
@@ -87,6 +116,13 @@ class ParseMessageInput(BaseModel):
             )
         return values
 
+    # TODO: As part of future work, move validation of the schema more fully
+    # into pydanatic, rather than duplicate schema validation on each model
+    # and the schema upload
+    @root_validator
+    def require_reference_fields_to_have_lookups(cls, values):
+        return validate_secondary_reference_fields(values)
+
 
 class ParseMessageResponse(BaseModel):
     """
@@ -121,6 +157,8 @@ class FhirToPhdcInput(BaseModel):
     )
     message: dict = Field(description="The FHIR bundle to extract from.")
 
+    # TODO: Eventually, we'll remove this when we stop exposing the ability
+    # to set a custom schema when receiving PHDC (since it's so structured)
     @root_validator
     def prohibit_schema_and_schema_name(cls, values):
         if (
@@ -133,6 +171,8 @@ class FhirToPhdcInput(BaseModel):
             )
         return values
 
+    # TODO: Eventually, we'll remove this when we stop exposing the ability
+    # to set a custom schema when receiving PHDC (since it's so structured)
     @root_validator
     def require_schema_or_schema_name(cls, values):
         if (
@@ -145,35 +185,12 @@ class FhirToPhdcInput(BaseModel):
             )
         return values
 
+    # TODO: As part of future work, move validation of the schema more fully
+    # into pydanatic, rather than duplicate schema validation on each model
+    # and the schema upload
     @root_validator
     def require_reference_fields_to_have_lookups(cls, values):
-        schema = values.get("parsing_schema", {})
-        for field in schema:
-            for _, secondary_field_definition in (
-                schema[field].get("secondary_schema", {}).items()
-            ):
-                if (
-                    secondary_field_definition.get("fhir_path", "").startswith("Bundle")
-                    and "reference_lookup" not in secondary_field_definition
-                ):
-                    raise ValueError(
-                        "Secondary fields in the parsing schema that reference other "
-                        "resources must include a `reference_lookup` field that "
-                        "identifies where the reference ID can be found."
-                    )
-                if (
-                    "reference_lookup" in secondary_field_definition
-                    and not secondary_field_definition.get("fhir_path").startswith(
-                        "Bundle"
-                    )
-                ):
-                    raise ValueError(
-                        "Secondary fields in the parsing schema that provide "
-                        "`reference_lookup` locations must have a `fhir_path` that "
-                        "begins with `Bundle` and identifies the type of resource "
-                        "being referenced."
-                    )
-        return values
+        return validate_secondary_reference_fields(values)
 
 
 class FhirToPhdcResponse(BaseModel):
