@@ -41,17 +41,8 @@
                     ]
                 },
                 "valueCodeableConcept" : {
-                    {% assign refId = observationEntry.text.reference.value | remove_first: "#"%}
-                    {% for table in socialHistoryTable.table %}
-                        {% if table.tbody and table.tbody.tr and table.tbody.tr.td %}
-                            {% for td in table.tbody.tr.td %}
-                                {% if td.ID and td.ID == refId %}
-                                    "text": "{{ td._ | reverse | join: ' '}}",
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                }
+                    "text": "{{ observationEntry.text.reference._ }}",
+                },
             }
         ],
         "effectivePeriod":
