@@ -48,10 +48,10 @@ def resolve_references(input_data: str):
 
     ns = {"hl7": "urn:hl7-org:v3"}
     refs = ecr.xpath("//hl7:reference", namespaces=ns)
-    for i in range(len(refs)):
-        ref_id = refs[i].attrib["value"][1:]
+    for ref in refs:
+        ref_id = ref.attrib["value"][1:]
         value = " ".join(ecr.xpath("//*[@ID='" + ref_id + "']/text()"))
-        refs[i].text = value
+        ref.text = value
 
     return etree.tostring(ecr).decode()
 
