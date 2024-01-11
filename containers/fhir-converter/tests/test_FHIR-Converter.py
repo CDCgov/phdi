@@ -359,6 +359,7 @@ def test_resolve_references_valid_input():
         == "Traveled to Singapore, Malaysia and Bali with my family."
     )
 
+
 def test_resolve_references_invalid_input():
     actual = resolve_references("VXU or HL7 MESSAGE")
     assert actual == "VXU or HL7 MESSAGE"
