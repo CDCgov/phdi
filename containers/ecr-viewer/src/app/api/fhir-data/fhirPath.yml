@@ -28,6 +28,11 @@ patientAlcoholUse: "Bundle.entry.resource.where(resourceType='Observation').wher
 patientSexualOrientation: "idk"
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
+eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
+dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
+senderSoftware: "idk"
+senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
+
 # Encounter Info
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"

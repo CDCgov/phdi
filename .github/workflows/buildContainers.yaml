@@ -7,6 +7,10 @@ on:
     paths:
       - "containers/**"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   list-containers:
     uses: ./.github/workflows/listContainers.yaml

@@ -89,7 +89,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
                 <h4>Facility Contact</h4>
               </div>
               <div className="grid-col-auto">
-                {extractFacilityContactInfo(fhirBundle, fhirPathMappings)}
+                {evaluate(fhirBundle, fhirPathMappings.facilityContact)}
               </div>
             </div>
             <div className={"section__line"} />
