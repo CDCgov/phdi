@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Demographics should match snapshot 1`] = `
+exports[`ECR Metadata should match snapshot 1`] = `
 <div>
   <div>
     <div
@@ -14,7 +14,7 @@ exports[`Demographics should match snapshot 1`] = `
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
         >
-          Demographics
+          eICR Details
         </h3>
         <div
           class="usa-summary-box__text"
@@ -26,13 +26,38 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Patient Name
+                eICR Identifier
               </h4>
             </div>
             <div
               class="grid-col-auto"
             >
-              ABEL CASTILLO
+              1dd10047-2207-4eac-a993-0f706c88be5d
+            </div>
+          </div>
+          <div
+            class="section__line_gray padding-bottom-3"
+          />
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            eCR Sender Details
+          </h3>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Date/Time eCR Created
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              2022-05-14T12:56:38Z
             </div>
           </div>
           <div
@@ -45,83 +70,7 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                DOB
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              2015-04-15
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Sex
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              male
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Race
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              Black or African American
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Ethnicity
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              Hispanic or Latino
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Tribal Affiliation
+                Sender Software
               </h4>
             </div>
             <div
@@ -138,13 +87,13 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Preferred Language
+                Sender Facility Name
               </h4>
             </div>
             <div
               class="grid-col-auto"
             >
-              English
+              PRM- Palmdale Regional Medical Center
             </div>
           </div>
           <div
@@ -157,90 +106,53 @@ exports[`Demographics should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Patient Address
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto text-pre-line"
-            >
-              1050 CARPENTER ST
-    EDWARDS, CA
-        93523-2800, US
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                County
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            />
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Contact
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto text-pre-line"
-            >
-              Home +18184195968
-    MELLY.C.A.16@GMAIL.COM
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Emergency Contact
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto text-pre-line"
-            >
-              N/A
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Patient IDs
+                Facility Address
               </h4>
             </div>
             <div
               class="grid-col-auto"
             >
-              6b6b3c4c-4884-4a96-b6ab-c46406839cea
+              38600 Medical Center Drive
+    Palmdale, CA
+        93551, USA
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Contact
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              (661)382-5000
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility ID
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              2.16.840.1.113883.4.6
             </div>
           </div>
           <div

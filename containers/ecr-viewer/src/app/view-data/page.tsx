@@ -7,6 +7,7 @@ import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import { Accordion } from "@trussworks/react-uswds";
 import UnavailableInfo from "./components/UnavailableInfo";
+import EcrMetadata from "./components/EcrMetadata";
 import {
   PathMappings,
   evaluateSocialData,
@@ -56,15 +57,26 @@ const ECRViewerPage = () => {
       {
         title: "Patient Info",
         content: (
-          <div>
+          <>
             <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
             {social_data.available_data.length > 0 && (
               <SocialHistory socialData={social_data.available_data} />
             )}
-          </div>
+          </>
         ),
         expanded: true,
         id: "1",
+        headingLevel: "h2",
+      },
+      {
+        title: "eCR Metadata",
+        content: (
+          <>
+            <EcrMetadata fhirPathMappings={mappings} fhirBundle={fhirBundle} />
+          </>
+        ),
+        expanded: true,
+        id: "2",
         headingLevel: "h2",
       },
       {
@@ -78,7 +90,7 @@ const ECRViewerPage = () => {
           </div>
         ),
         expanded: true,
-        id: "2",
+        id: "3",
         headingLevel: "h2",
       },
       {
@@ -93,7 +105,7 @@ const ECRViewerPage = () => {
           </div>
         ),
         expanded: true,
-        id: "2",
+        id: "4",
         headingLevel: "h2",
       },
     ];

@@ -5,9 +5,16 @@ on:
   pull_request:
     branches:
       - "**"
+  merge_group:
+    types:
+      - checks_requested
   push:
     branches:
       - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12

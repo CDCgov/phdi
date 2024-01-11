@@ -4,7 +4,7 @@ import {
   PathMappings,
   formatPatientName,
   formatPatientContactInfo,
-  formatPatientAddress,
+  extractPatientAddress,
 } from "../../utils";
 
 interface DemographicsProps {
@@ -33,15 +33,6 @@ const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
               </div>
               <div className="grid-col-auto">
                 {formatPatientName(fhirBundle, fhirPathMappings)}
-              </div>
-            </div>
-            <div className={"section__line_gray"} />
-            <div className="grid-row">
-              <div className="data-title">
-                <h4>Patient ID</h4>
-              </div>
-              <div className="grid-col-auto">
-                {evaluate(fhirBundle, fhirPathMappings.patientId)}
               </div>
             </div>
             <div className={"section__line_gray"} />
@@ -83,6 +74,18 @@ const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
             <div className={"section__line_gray"} />
             <div className="grid-row">
               <div className="data-title">
+                <h4>Tribal Affiliation</h4>
+              </div>
+              <div className="grid-col-auto">
+                {evaluate(
+                  fhirBundle,
+                  fhirPathMappings.patientTribalAffiliation,
+                )}
+              </div>
+            </div>
+            <div className={"section__line_gray"} />
+            <div className="grid-row">
+              <div className="data-title">
                 <h4>Preferred Language</h4>
               </div>
               <div className="grid-col-auto">
@@ -95,7 +98,16 @@ const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
                 <h4>Patient Address</h4>
               </div>
               <div className="grid-col-auto text-pre-line">
-                {formatPatientAddress(fhirBundle, fhirPathMappings)}
+                {extractPatientAddress(fhirBundle, fhirPathMappings)}
+              </div>
+            </div>
+            <div className={"section__line_gray"} />
+            <div className="grid-row">
+              <div className="data-title">
+                <h4>County</h4>
+              </div>
+              <div className="grid-col-auto">
+                {evaluate(fhirBundle, fhirPathMappings.patientCounty)}
               </div>
             </div>
             <div className={"section__line_gray"} />
@@ -105,6 +117,22 @@ const Demographics = ({ fhirPathMappings, fhirBundle }: DemographicsProps) => {
               </div>
               <div className="grid-col-auto text-pre-line">
                 {formatPatientContactInfo(fhirBundle, fhirPathMappings)}
+              </div>
+            </div>
+            <div className={"section__line_gray"} />
+            <div className="grid-row">
+              <div className="data-title">
+                <h4>Emergency Contact</h4>
+              </div>
+              <div className="grid-col-auto text-pre-line">N/A</div>
+            </div>
+            <div className={"section__line_gray"} />
+            <div className="grid-row">
+              <div className="data-title">
+                <h4>Patient IDs</h4>
+              </div>
+              <div className="grid-col-auto">
+                {evaluate(fhirBundle, fhirPathMappings.patientId)}
               </div>
             </div>
             <div className={"section__line_gray"} />
