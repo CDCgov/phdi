@@ -344,7 +344,7 @@ def test_add_data_source_to_bundle_missing_arg():
 bundle_with_references = '<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><component><structuredBody><component><section><text><content styleCode="Bold">Additional Data</content><table><tbody><tr><th>Assigned Birth Sex</th><td ID="birthsex">Female</td></tr><tr><th>Gender Identity</th><td ID="gender-identity">unknown</td></tr><tr><th>Sexual Orientation</th><td ID="sexual-orientation">Do not know</td></tr></tbody></table><content styleCode="Bold">Travel History</content><table><thead><tr><th>Date of Travel</th><th>Location</th></tr></thead><tbody><tr><td>January 18th, 2018 - February 18th, 2018</td><td ID="trvhx-1">Traveled to Singapore, Malaysia and Bali with<br/>my family.</td></tr></tbody></table></text><entry><observation classCode="OBS" moodCode="EVN"><value code="F" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender" displayName="Female" xsi:type="CD"><originalText><reference value="#birthsex"/></originalText></value></observation></entry><entry><observation classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" xsi:type="CD"><originalText><reference value="#gender-identity"/></originalText></value></observation></entry><entry><observation classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" xsi:type="CD"><originalText><reference value="#sexual-orientation"/></originalText></value></observation></entry><entry><act classCode="ACT" moodCode="EVN"><text><reference value="#trvhx-1"/></text></act></entry></section></component></structuredBody></component></ClinicalDocument>'
 
 
-def test_resolve_references():
+def test_resolve_references_valid_input():
     tree = etree.fromstring(resolve_references(bundle_with_references))
     actual_refs = tree.xpath("//hl7:reference", namespaces={"hl7": "urn:hl7-org:v3"})
     assert actual_refs[0].attrib["value"] == "#birthsex"
@@ -358,3 +358,7 @@ def test_resolve_references():
         actual_refs[3].text
         == "Traveled to Singapore, Malaysia and Bali with my family."
     )
+
+def test_resolve_references_invalid_input():
+    actual = resolve_references("VXU or HL7 MESSAGE")
+    assert actual == "VXU or HL7 MESSAGE"
