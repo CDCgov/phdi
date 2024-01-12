@@ -13,6 +13,7 @@ import {
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
+  evaluateDemographicsData,
 } from "../utils";
 import EncounterDetails from "./components/Encounter";
 
@@ -23,11 +24,9 @@ const ECRViewerPage = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
 
-  type FhirMappings = { [key: string]: string };
-
   type ApiResponse = {
     fhirBundle: Bundle;
-    fhirPathMappings: FhirMappings;
+    fhirPathMappings: PathMappings;
   };
 
   useEffect(() => {
@@ -52,6 +51,7 @@ const ECRViewerPage = () => {
   }, []);
 
   const renderAccordion = () => {
+    const demographicsData = evaluateDemographicsData(fhirBundle, mappings);
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
@@ -60,9 +60,9 @@ const ECRViewerPage = () => {
         title: "Patient Info",
         content: (
           <>
-            <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            {social_data.available_data.length > 0 && (
-              <SocialHistory socialData={social_data.available_data} />
+            <Demographics demographicsData={demographicsData.availableData} />
+            {social_data.availableData.length > 0 && (
+              <SocialHistory socialData={social_data.availableData} />
             )}
           </>
         ),
@@ -86,8 +86,8 @@ const ECRViewerPage = () => {
         content: (
           <div>
             <EncounterDetails
-              encounterData={encounterData.available_data}
-              providerData={providerData.available_data}
+              encounterData={encounterData.availableData}
+              providerData={providerData.availableData}
             />
           </div>
         ),
@@ -100,6 +100,7 @@ const ECRViewerPage = () => {
         content: (
           <div className="padding-top-105">
             <UnavailableInfo
+              demographicsUnavailableData={demographicsData.unavailable_data}
               socialUnavailableData={social_data.unavailable_data}
               encounterUnavailableData={encounterData.unavailable_data}
               providerUnavailableData={providerData.unavailable_data}
