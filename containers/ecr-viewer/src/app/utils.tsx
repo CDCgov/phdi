@@ -97,13 +97,10 @@ export const extractFacilityContactInfo = (
     fhirBundle,
     fhirPathMappings,
   );
-  console.log("location resource", locationResource);
   const phoneNumbers = locationResource.telecom?.filter(
     (contact: any) => contact.system === "phone",
   );
-  return phoneNumbers && phoneNumbers.length > 0
-    ? phoneNumbers[0].value
-    : undefined;
+  return phoneNumbers?.[0].value;
 };
 
 export const formatPatientContactInfo = (
@@ -130,7 +127,7 @@ export const formatPatientContactInfo = (
     ${emails}`;
 
   // if it's an empty string, return undefined
-  return formattedContactInfo.trim().length ? formattedContactInfo : undefined;
+  return formattedContactInfo;
 };
 
 export const formatEncounterDate = (
@@ -364,7 +361,7 @@ const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableArray: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value == undefined) {
+    if (item.value == undefined || item.value.length == 0) {
       unavailableArray.push(item);
       item.value = "N/A";
     } else {
