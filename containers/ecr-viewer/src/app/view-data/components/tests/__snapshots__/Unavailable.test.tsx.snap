@@ -2,9 +2,7 @@
 
 exports[`UnavailableInfo should match snapshot 1`] = `
 <div>
-  <div
-    class=""
-  >
+  <div>
     <div
       aria-labelledby="summary-box-key-information"
       class="padding-bottom-3"
