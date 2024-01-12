@@ -48,13 +48,13 @@ class PHDCBuilder:
         Builds an `addr` XML element for address data. There are two types of address
          uses: 'H' for home address and 'WP' for workplace address.
 
-        :param use: Type of phone number, defaults to None, defaults to None
-        :param line: _description_, defaults to None
-        :param city: _description_, defaults to None
-        :param state: _description_, defaults to None
-        :param zip: _description_, defaults to None
-        :param county: _description_, defaults to None
-        :param country: _description_, defaults to None
+        :param use: Type of address, defaults to None.
+        :param line: Street address, defaults to None.
+        :param city: City, defaults to None.
+        :param state: State, defaults to None.
+        :param zip: Zip code, defaults to None.
+        :param county: County, defaults to None.
+        :param country: Country, defaults to None.
         :return: XML element of address data.
         """
         address_elements = locals()
