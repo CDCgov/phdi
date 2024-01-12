@@ -262,7 +262,7 @@ export const evaluateDemographicsData = (
       value: evaluate(fhirBundle, mappings.patientEthnicity)[0],
     },
     {
-      title: "Tribal",
+      title: "Tribal Affiliation",
       value: evaluate(fhirBundle, mappings.patientTribalAffiliation)[0],
     },
     {
