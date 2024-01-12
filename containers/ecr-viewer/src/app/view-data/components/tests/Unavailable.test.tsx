@@ -5,6 +5,16 @@ import UnavailableInfo from "../UnavailableInfo";
 describe("UnavailableInfo", () => {
   let container: HTMLElement;
   beforeAll(() => {
+    const demographicsUnavailability = [
+      {
+        title: "Tribal Affiliation",
+        value: "",
+      },
+      {
+        title: "Preffered Language",
+        value: "",
+      },
+    ];
     const socialUnavailability = [
       {
         title: "Travel History",
@@ -41,6 +51,7 @@ describe("UnavailableInfo", () => {
     ];
     container = render(
       <UnavailableInfo
+        demographicsUnavailableData={demographicsUnavailability}
         socialUnavailableData={socialUnavailability}
         encounterUnavailableData={encounterUnavailableData}
         providerUnavailableData={providerUnavailableData}
