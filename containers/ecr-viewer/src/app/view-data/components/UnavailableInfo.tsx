@@ -41,7 +41,7 @@ const UnavailableInfo = ({
   };
 
   return (
-    <div className="">
+    <div>
       <div
         className="padding-bottom-3"
         aria-labelledby="summary-box-key-information"
