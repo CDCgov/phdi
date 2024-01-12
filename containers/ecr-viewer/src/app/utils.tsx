@@ -361,14 +361,15 @@ export const evaluateProviderData = (
 };
 
 const evaluateData = (data: DisplayData[]) => {
-  let evaluatedData: DisplayData[] = [];
+  let availableData: DisplayData[] = [];
   let unavailableArray: DisplayData[] = [];
   data.forEach((item) => {
     if (item.value == undefined) {
       unavailableArray.push(item);
       item.value = "N/A";
+    } else {
+      availableData.push(item);
     }
-    evaluatedData.push(item);
   });
-  return { evaluated_data: evaluatedData, unavailable_data: unavailableArray };
+  return { availableData: availableData, unavailable_data: unavailableArray };
 };

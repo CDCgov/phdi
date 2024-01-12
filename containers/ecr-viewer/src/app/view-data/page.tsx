@@ -62,9 +62,9 @@ const ECRViewerPage = () => {
         title: "Patient Info",
         content: (
           <>
-            <Demographics demographicsData={demographicsData.evaluated_data} />
-            {social_data.evaluated_data.length > 0 && (
-              <SocialHistory socialData={social_data.evaluated_data} />
+            <Demographics demographicsData={demographicsData.availableData} />
+            {social_data.availableData.length > 0 && (
+              <SocialHistory socialData={social_data.availableData} />
             )}
           </>
         ),
@@ -88,8 +88,8 @@ const ECRViewerPage = () => {
         content: (
           <div>
             <EncounterDetails
-              encounterData={encounterData.evaluated_data}
-              providerData={providerData.evaluated_data}
+              encounterData={encounterData.availableData}
+              providerData={providerData.availableData}
             />
           </div>
         ),
@@ -102,6 +102,7 @@ const ECRViewerPage = () => {
         content: (
           <div className="padding-top-105">
             <UnavailableInfo
+              demographicsUnavailableData={demographicsData.unavailable_data}
               socialUnavailableData={social_data.unavailable_data}
               encounterUnavailableData={encounterData.unavailable_data}
               providerUnavailableData={providerData.unavailable_data}
