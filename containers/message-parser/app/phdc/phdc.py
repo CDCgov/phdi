@@ -33,5 +33,45 @@ class PHDCBuilder:
 
         return telecom_data
 
+    def _build_addr(
+        use: Literal["H", "WP"] = None,
+        line: str = None,
+        city: str = None,
+        state: str = None,
+        zip: str = None,
+        county: str = None,
+        country: str = None,
+    ):
+        """
+        Builds an `addr` XML element for address data. There are two types of address
+         uses: 'H' for home address and 'WP' for workplace address.
+
+        :param use: Type of address, defaults to None.
+        :param line: Street address, defaults to None.
+        :param city: City, defaults to None.
+        :param state: State, defaults to None.
+        :param zip: Zip code, defaults to None.
+        :param county: County, defaults to None.
+        :param country: Country, defaults to None.
+        :return: XML element of address data.
+        """
+        address_elements = locals()
+
+        address_data = ET.Element("addr")
+        if use is not None:
+            address_data.set("use", use)
+
+        for element, value in address_elements.items():
+            if element != "use" and value is not None:
+                if element == "line":
+                    element = "streetAddressLine"
+                elif element == "zip":
+                    element = "postalCode"
+                e = ET.Element(element)
+                e.text = value
+                address_data.append(e)
+
+        return address_data
+
     def build(self):
         return PHDC(self)

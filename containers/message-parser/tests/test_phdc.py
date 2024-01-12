@@ -28,3 +28,57 @@ from lxml import etree as ET
 def test_build_telecom(build_telecom_test_data, expected_result):
     xml_telecom_data = PHDCBuilder._build_telecom(**build_telecom_test_data)
     assert ET.tostring(xml_telecom_data).decode() == expected_result
+
+
+@pytest.mark.parametrize(
+    "build_addr_test_data, expected_result",
+    [
+        # Success with all values present
+        (
+            {
+                "use": "H",
+                "line": "123 Main Street",
+                "city": "Brooklyn",
+                "state": "New York",
+                "zip": "11205",
+                "county": "Kings",
+                "country": "USA",
+            },
+            (
+                '<addr use="H"><streetAddressLine>123 Main Street</streetAddressLine>'
+                + "<city>Brooklyn</city><state>New York</state>"
+                + "<postalCode>11205</postalCode><county>Kings</county>"
+                + "<country>USA</country></addr>"
+            ),
+        ),
+        # Success with some values missing
+        (
+            {
+                "use": "H",
+                "line": "123 Main Street",
+                "city": "Brooklyn",
+                "state": "New York",
+            },
+            (
+                '<addr use="H"><streetAddressLine>123 Main Street</streetAddressLine>'
+                + "<city>Brooklyn</city><state>New York</state></addr>"
+            ),
+        ),
+        # Success with some values as None
+        (
+            {
+                "use": "H",
+                "line": "123 Main Street",
+                "city": "Brooklyn",
+                "state": None,
+            },
+            (
+                '<addr use="H"><streetAddressLine>123 Main Street</streetAddressLine>'
+                + "<city>Brooklyn</city></addr>"
+            ),
+        ),
+    ],
+)
+def test_build_addr(build_addr_test_data, expected_result):
+    xml_addr_data = PHDCBuilder._build_addr(**build_addr_test_data)
+    assert ET.tostring(xml_addr_data).decode() == expected_result
