@@ -1,4 +1,6 @@
+from typing import List
 from typing import Literal
+from typing import Union
 
 from lxml import etree as ET
 
@@ -46,7 +48,7 @@ class PHDCBuilder:
         Builds an `addr` XML element for address data. There are two types of address
          uses: 'H' for home address and 'WP' for workplace address.
 
-        :param use: _description_, defaults to None
+        :param use: Type of phone number, defaults to None, defaults to None
         :param line: _description_, defaults to None
         :param city: _description_, defaults to None
         :param state: _description_, defaults to None
@@ -72,6 +74,40 @@ class PHDCBuilder:
                 address_data.append(e)
 
         return address_data
+
+    def _build_name(
+        use: Literal["L", "P"] = None,
+        prefix: str = None,
+        given_name: Union[str, List[str]] = None,
+        last_name: str = None,
+    ):
+        """
+        Builds a `name` XML element for address data. There are two types of name
+         uses: 'L' for legal and 'P' for pseudonym.
+
+        :param use: _description_, defaults to None
+        :param prefix: _description_, defaults to None
+        :param given_name: _description_, defaults to None
+        :param last_name: _description_, defaults to None
+        """
+        name_elements = locals()
+
+        name_data = ET.Element("name")
+        if use is not None:
+            name_data.set("use", use)
+
+        for element, value in name_elements.items():
+            if element != "use" and value is not None:
+                if element == "given_name":
+                    element = "given"
+                    if type(value) is list:
+                        pass
+
+                elif element == "last_name":
+                    element = "family"
+                e = ET.Element(element)
+                e.text = value
+                name_data.append(e)
 
     def build(self):
         return PHDC(self)
