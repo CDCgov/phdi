@@ -194,10 +194,10 @@ const formatStartEndDateTime = (
         End: ${endFormattedDate}`;
 };
 
-const getTravelHistory = (
+const extractTravelHistory = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
-) => {
+): string | undefined => {
   const startDate = evaluate(
     fhirBundle,
     mappings["patientTravelHistoryStartDate"],
@@ -220,6 +220,7 @@ const getTravelHistory = (
        Purpose of Travel: ${purposeOfTravel ?? "N/A"}
        `;
   }
+  return undefined;
 };
 
 export const evaluateSocialData = (
@@ -237,7 +238,7 @@ export const evaluateSocialData = (
     },
     {
       title: "Travel History",
-      value: getTravelHistory(fhirBundle, mappings),
+      value: extractTravelHistory(fhirBundle, mappings),
     },
     {
       title: "Homeless Status",
