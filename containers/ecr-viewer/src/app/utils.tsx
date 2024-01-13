@@ -397,5 +397,5 @@ const evaluateData = (data: DisplayData[]) => {
       availableData.push(item);
     }
   });
-  return { availableData: availableData, unavailable_data: unavailableArray };
+  return { available_data: availableData, unavailable_data: unavailableArray };
 };
