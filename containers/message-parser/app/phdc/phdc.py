@@ -1,4 +1,6 @@
+from typing import List
 from typing import Literal
+from typing import Union
 
 from lxml import etree as ET
 
@@ -72,6 +74,61 @@ class PHDCBuilder:
                 address_data.append(e)
 
         return address_data
+
+    def _build_name(
+        use: Literal["L", "P"] = None,
+        prefix: str = None,
+        given_name: Union[str, List[str]] = None,
+        last_name: str = None,
+    ):
+        """
+        Builds a `name` XML element for address data. There are two types of name
+         uses: 'L' for legal and 'P' for pseudonym.
+
+        :param use: Type of address, defaults to None.
+        :param prefix: Name prefix, defaults to None.
+        :param given_name: String or list of strings representing given name(s),
+          defaults to None.
+        :param last_name: Last name, defaults to None.
+        """
+        name_elements = locals()
+
+        name_data = ET.Element("name")
+        if use is not None:
+            name_data.set("use", use)
+
+        for element, value in name_elements.items():
+            if element != "use" and value is not None:
+                if element == "given_name":
+                    element = "given"
+
+                    # Split single string names into first name and middle names as
+                    # PHDC appears to only allow for up to two given names
+                    if isinstance(value, str) and len(value.split()) > 1:
+                        value = [
+                            value.split()[0],
+                            " ".join(v for v in (value.split()[1:])),
+                        ]
+
+                elif element == "last_name":
+                    element = "family"
+
+                # Append each value of a list, e.g., given name, as its own Element
+                if isinstance(value, list):
+                    value = [
+                        value[0],
+                        " ".join(v for v in (value[1:])),
+                    ]
+                    for v in value:
+                        e = ET.Element(element)
+                        e.text = v
+                        name_data.append(e)
+                else:
+                    e = ET.Element(element)
+                    e.text = value
+                    name_data.append(e)
+
+        return name_data
 
     def build(self):
         return PHDC(self)
