@@ -18,7 +18,7 @@ repos:
         args: [--autofix, --no-sort-keys]
         exclude: ".*valid.*"
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v9.0.0-alpha.0"
+    rev: "v9.0.0-alpha.1"
     hooks:
       - id: eslint
         files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
