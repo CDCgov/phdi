@@ -84,9 +84,9 @@ const formatAddress = (
   zipCode: any[],
   country: any[],
 ) => {
-  return `${streetAddress.join("\n")}
-    ${city}, ${state}
-        ${zipCode}${country && `, ${country}`}`;
+  return `${streetAddress.join("\n")}\n${city}, ${state}\n${zipCode}${
+    country && `, ${country}`
+  }`;
 };
 
 export const extractFacilityContactInfo = (
@@ -161,10 +161,9 @@ const formatDateTime = (dateTime: string) => {
 
 const formatPhoneNumber = (phoneNumber: string) => {
   try {
-    const formattedPhoneNumber = phoneNumber
+    return phoneNumber
       .replace(/\D/g, "")
       .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    return formattedPhoneNumber;
   } catch {
     return undefined;
   }
@@ -388,14 +387,14 @@ export const evaluateProviderData = (
 
 const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
-  let unavailableArray: DisplayData[] = [];
+  let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
     if (item.value == undefined || item.value.length == 0) {
-      unavailableArray.push(item);
+      unavailableData.push(item);
       item.value = "N/A";
     } else {
       availableData.push(item);
     }
   });
-  return { available_data: availableData, unavailable_data: unavailableArray };
+  return { availableData: availableData, unavailableData: unavailableData };
 };
