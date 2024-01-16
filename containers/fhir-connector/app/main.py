@@ -67,7 +67,6 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
     # Find Patient
 
     patient_query = f"{fhir_host}/Patient?given={input.first_name}&family={input.last_name}&birthdate={input.dob}"
-    print(patient_query)
     response = session.get(patient_query)
 
     if response.status_code != 200:
@@ -149,8 +148,16 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
             f"{fhir_host}/Encounter?subject={patient_id}&type={cancer_encounter_codes}"
         )
         medication_request_query = f"{fhir_host}/MedicationRequest?subject={patient_id}&code={cancer_medications}"
+        medication_query = f"{fhir_host}/Medication?code={cancer_medications}"
+        # medication_administration_query = f"{fhir_host}/MedicationAdministration?subject={patient_id}&code={cancer_medications}"
 
-        queries = [conditon_query, encounter_query, medication_request_query]
+        queries = [
+            conditon_query,
+            encounter_query,
+            medication_request_query,
+            medication_query,
+            # medication_administration_query,
+        ]
         use_case_response = concatenate_queries(queries, session)
 
     return use_case_response
@@ -159,6 +166,7 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
 def concatenate_queries(queries, session):
     use_case_response = None
     for query in queries:
+        print(query)
         partial_response = session.get(query)
         if use_case_response is None:
             use_case_response = partial_response.json()
