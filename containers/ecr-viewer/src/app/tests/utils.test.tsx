@@ -1,95 +1,52 @@
-import { evaluateSocialData } from "@/app/utils";
+import {
+  evaluateSocialData,
+  extractPatientAddress,
+  formatPatientName,
+} from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/fhir-data/utils";
 import { Bundle } from "fhir/r4";
+import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
+import BundleWithPatient from "../tests/assets/BundlePatient.json";
 
-describe("Evaluate Social Data", () => {
+describe("Utils", () => {
   const mappings = loadYamlConfig();
-  it("should have no available data when there is no data", () => {
-    const actual = evaluateSocialData(undefined, mappings);
-    expect(actual.available_data).toBeEmpty();
-    expect(actual.unavailable_data).not.toBeEmpty();
-  });
-  it("should have travel history when there is a travel history observation present", () => {
-    const bundleWithTravelHistory = {
-      resourceType: "Bundle",
-      type: "batch",
-      entry: [
-        {
-          fullUrl: "urn:uuid:595b1386-09d2-7dfb-d414-fb1e5043013d",
-          resource: {
-            resourceType: "Observation",
-            id: "595b1386-09d2-7dfb-d414-fb1e5043013d",
-            meta: {
-              profile: [
-                "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history",
-              ],
-              source: ["ecr"],
-            },
-            code: {
-              coding: [
-                {
-                  system: "http://snomed.info/sct",
-                  code: "420008001",
-                  display: "Travel",
-                },
-              ],
-              text: "Travel History",
-            },
-            status: "final",
-            component: [
-              {
-                code: {
-                  coding: [
-                    {
-                      system:
-                        "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-                      code: "LOC",
-                      display: "Location",
-                    },
-                  ],
-                },
-                valueCodeableConcept: {
-                  text: "Traveled to Singapore, Malaysia and Bali with my family.",
-                },
-              },
-              {
-                code: {
-                  coding: [
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "280147009",
-                      display: "Type of activity (attribute)",
-                    },
-                  ],
-                },
-                valueCodeableConcept: {
-                  coding: [
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "702348006",
-                      display: "Active duty military (occupation)",
-                    },
-                  ],
-                },
-              },
-            ],
-            effectivePeriod: {
-              start: "2018-01-18",
-              end: "2018-02-18",
-            },
-          },
-          request: {
-            method: "PUT",
-            url: "Observation/595b1386-09d2-7dfb-d414-fb1e5043013d",
-          },
-        },
-      ],
-    } as unknown as Bundle;
+  describe("Evaluate Social Data", () => {
+    it("should have no available data when there is no data", () => {
+      const actual = evaluateSocialData(undefined, mappings);
 
-    const actual = evaluateSocialData(bundleWithTravelHistory, mappings);
-    expect(actual.available_data[0].value)
-      .toEqualIgnoringWhitespace(`Dates: 2018-01-18 - 2018-02-18
+      expect(actual.availableData).toBeEmpty();
+      expect(actual.unavailableData).not.toBeEmpty();
+    });
+    it("should have travel history when there is a travel history observation present", () => {
+      const actual = evaluateSocialData(
+        BundleWithTravelHistory as unknown as Bundle,
+        mappings,
+      );
+
+      expect(actual.availableData[0].value)
+        .toEqualIgnoringWhitespace(`Dates: 2018-01-18 - 2018-02-18
            Location(s): Traveled to Singapore, Malaysia and Bali with my family.
            Purpose of Travel: Active duty military (occupation)`);
+    });
+  });
+  describe("Format Patient Name", () => {
+    it("should return name", () => {
+      const actual = formatPatientName(
+        BundleWithPatient as unknown as Bundle,
+        mappings,
+      );
+
+      expect(actual).toEqual("ABEL CASTILLO");
+    });
+  });
+  describe("Extract Patient Address", () => {
+    it("should get patient address", () => {
+      const actual = extractPatientAddress(
+        BundleWithPatient as unknown as Bundle,
+        mappings,
+      );
+
+      expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
+    });
   });
 });

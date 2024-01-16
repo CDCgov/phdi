@@ -100,10 +100,10 @@ const ECRViewerPage = () => {
         content: (
           <div className="padding-top-105">
             <UnavailableInfo
-              demographicsUnavailableData={demographicsData.unavailable_data}
-              socialUnavailableData={social_data.unavailable_data}
-              encounterUnavailableData={encounterData.unavailable_data}
-              providerUnavailableData={providerData.unavailable_data}
+              demographicsUnavailableData={demographicsData.unavailableData}
+              socialUnavailableData={social_data.unavailableData}
+              encounterUnavailableData={encounterData.unavailableData}
+              providerUnavailableData={providerData.unavailableData}
             />
           </div>
         ),
