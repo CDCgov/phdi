@@ -84,7 +84,9 @@ const formatAddress = (
   zipCode: any[],
   country: any[],
 ) => {
-  return`${streetAddress.join("\n")}\n${city}, ${state}\n${zipCode}${country && `, ${country}`}`;
+  return `${streetAddress.join("\n")}\n${city}, ${state}\n${zipCode}${
+    country && `, ${country}`
+  }`;
 };
 
 export const extractFacilityContactInfo = (
