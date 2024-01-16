@@ -388,14 +388,14 @@ export const evaluateProviderData = (
 
 const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
-  let unavailableArray: DisplayData[] = [];
+  let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
     if (item.value == undefined || item.value.length == 0) {
-      unavailableArray.push(item);
+      unavailableData.push(item);
       item.value = "N/A";
     } else {
       availableData.push(item);
     }
   });
-  return { available_data: availableData, unavailable_data: unavailableArray };
+  return { availableData: availableData, unavailableData: unavailableData };
 };
