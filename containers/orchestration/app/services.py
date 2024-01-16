@@ -9,6 +9,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
 from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
+<<<<<<< HEAD
+=======
+from app.utils import CustomJSONResponse
+from fastapi import HTTPException
+from fastapi import Response
+from fastapi import WebSocket
+from fastapi.encoders import jsonable_encoder
+from icecream import ic
+from sqlalchemy import create_engine
+>>>>>>> 029dad5 (wip)
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi.encoders import jsonable_encoder
 from app.utils import CustomJSONResponse
@@ -24,6 +34,7 @@ service_urls = {
 
 def validation_payload(**kwargs) -> dict:
     input = kwargs["input"]
+    ic("validation payload")
     return {
         "message_type": "ecr",
         "include_error_types": "errors",
@@ -35,8 +46,9 @@ def validation_payload(**kwargs) -> dict:
 def validate_response(**kwargs) -> bool:
     response = kwargs["response"]
     body = response.json()
-
+    ic(body)
     if "message_valid" in body:
+        ic("hello message valid")
         return body.get("message_valid")
 
     return response.status_code == 200
@@ -123,12 +135,19 @@ async def call_apis(
     responses = {}
 
     progress_dict = {"steps": config["steps"]}
-
     for step in config["steps"]:
+        ic(step)
         service = step["service"]
         endpoint = step["endpoint"]
         f = f"{service}_payload"
+<<<<<<< HEAD
+=======
+        ic(service_urls[service])
+        ic(service_urls)
+        ic(service)
+>>>>>>> 029dad5 (wip)
         if f in globals() and callable(globals()[f]) and service_urls[service]:
+            ic("calling global")
             function_to_call = globals()[f]
             payload = function_to_call(
                 input=input, response=response, step=step, config=config

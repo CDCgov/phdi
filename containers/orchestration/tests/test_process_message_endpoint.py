@@ -5,6 +5,7 @@ from unittest import mock
 import pytest
 from app.main import app
 from fastapi.testclient import TestClient
+from icecream import ic
 
 
 client = TestClient(app)
@@ -74,7 +75,16 @@ def test_process_message_input_validation_with_rr_data():
 
 # /process tests
 @mock.patch("app.services.post_request")
-def test_process_success(patched_post_request):
+def test_process_success(patched_post_request, monkeypatch):
+    envVar = [
+        "VALIDATION_URL",
+        "INGESTION_URL",
+        "FHIR_CONVERTER_URL",
+        "MESSAGE_PARSER_URL",
+    ]
+    for item in envVar:
+        ic(item)
+        monkeypatch.setenv(item, "placeholder")
     with open(
         Path(__file__).parent.parent.parent.parent
         / "tests"
@@ -95,9 +105,11 @@ def test_process_success(patched_post_request):
             "response": {"FhirResource": {"foo": "bar"}},
             "bundle": {"foo": "bundle"},
         }
+
         patched_post_request.return_value = call_post_request
 
         actual_response = client.post("/process", data=form_data, files=files)
+        ic(actual_response)
         assert actual_response.status_code == 200
 
 

@@ -1,3 +1,5 @@
+import os
+
 from app.services import fhir_converter_payload
 from app.services import ingestion_payload
 from app.services import message_parser_payload
@@ -52,6 +54,9 @@ def test_fhir_converter_payload_with_rr():
 
 
 def test_ingestion_payload():
+    os.environ["SMARTY_AUTH_ID"] = "placeholder"
+    os.environ["SMARTY_AUTH_TOKEN"] = "placeholder"
+    os.environ["LICENSE_TYPE"] = "us-rooftop-geocoding-enterprise-cloud"
     response = Response()
     response.status_code = 200
     response._content = b'{"bundle": "bar", "response":{"FhirResource":"fiz"}}'
@@ -89,11 +94,10 @@ def test_ingestion_payload():
     expected_result = {
         "bundle": "bar",
         "geocode_method": "code_method",
-        "license_type": '"us-rooftop-geocoding-enterprise-cloud"',
-        "smarty_auth_id": '"placeholder"',
-        "smarty_auth_token": '"placeholder"',
+        "license_type": "us-rooftop-geocoding-enterprise-cloud",
+        "smarty_auth_id": "placeholder",
+        "smarty_auth_token": "placeholder",
     }
-
     assert result == expected_result
 
 
