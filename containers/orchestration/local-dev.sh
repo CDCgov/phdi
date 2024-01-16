@@ -51,6 +51,10 @@ else
     docker run -d -p 8083:8080 ingestion
 fi
 
+cd ../ecr-viewer
+docker compose up db seed-db -d
+cd -
+
 # Orchestration
 # docker build -t orchestration ./
 # docker run -d -p 8080:8080 orchestration
