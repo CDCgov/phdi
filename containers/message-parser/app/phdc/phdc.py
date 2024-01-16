@@ -84,15 +84,35 @@ class PHDCDirector:
     def __init__(self, builder: PHDCBuilder) -> None:
         self.builder = builder
 
-    def build_case_report(
-        self, phone: str, use: Optional[Literal["HP", "WP", "MC"]] = None
-    ) -> PHDC:
-        self.builder._build_telecom(phone, use)
+    def build_case_report(self, telecom_data: dict, addr_data: dict) -> PHDC:
+        """
+        Builds a case report PHDC object.
+
+        Arguments are dictionaries passed to PHDCBuilder's methods and should include
+        the arguments required by those methods. See PHDCBuilder's methods for more
+        info.
+
+        :param telecom_data: Dictionary of telecom data.
+        :param addr_data: Dictionary of address data.
+        :return: PHDC object.
+        """
+        self.builder._build_telecom(**telecom_data)
+        self.builder._build_addr(**addr_data)
         return self.builder.build()
 
     # TODO: find out if source data we will use requires building separate lab reports
-    def build_lab_report(
-        self, phone: str, use: Optional[Literal["HP", "WP", "MC"]] = None
-    ) -> PHDC:
-        self.builder._build_telecom(phone, use)
+    def build_lab_report(self, telecom_data: dict, addr_data: dict) -> PHDC:
+        """
+        Builds a lab report PHDC object.
+
+        Arguments are dictionaries passed to PHDCBuilder's methods and should include
+        the arguments required by those methods. See PHDCBuilder's methods for more
+        info.
+
+        :param telecom_data: Dictionary of telecom data.
+        :param addr_data: Dictionary of address data.
+        :return: PHDC object.
+        """
+        self.builder._build_telecom(**telecom_data)
+        self.builder._build_addr(**addr_data)
         return self.builder.build()
