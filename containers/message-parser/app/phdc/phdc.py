@@ -142,16 +142,18 @@ class PHDCBuilder:
         :param id: Custodian identifier.
         :return: XML element of custodian data.
         """
+        if id is None:
+            raise ValueError("The Custodian id parameter must be a defined.")
+
         custodian_data = ET.Element("custodian")
         assignedCustodian = ET.Element("assignedCustodian")
         representedCustodianOrganization = ET.Element(
             "representedCustodianOrganization"
         )
 
-        if id is not None:
-            id_element = ET.Element("id")
-            id_element.set("extension", id)
-            representedCustodianOrganization.append(id_element)
+        id_element = ET.Element("id")
+        id_element.set("extension", id)
+        representedCustodianOrganization.append(id_element)
 
         assignedCustodian.append(representedCustodianOrganization)
         custodian_data.append(assignedCustodian)
