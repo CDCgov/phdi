@@ -1,6 +1,18 @@
 import pytest
+from app.phdc.phdc import PHDC
 from app.phdc.phdc import PHDCBuilder
+from app.phdc.phdc import PHDCDirector
 from lxml import etree as ET
+
+
+@pytest.fixture
+def builder():
+    return PHDCBuilder()
+
+
+@pytest.fixture
+def director(builder):
+    return PHDCDirector(builder)
 
 
 @pytest.mark.parametrize(
@@ -25,8 +37,8 @@ from lxml import etree as ET
         ),
     ],
 )
-def test_build_telecom(build_telecom_test_data, expected_result):
-    xml_telecom_data = PHDCBuilder._build_telecom(**build_telecom_test_data)
+def test_build_telecom(builder, build_telecom_test_data, expected_result):
+    xml_telecom_data = builder._build_telecom(**build_telecom_test_data)
     assert ET.tostring(xml_telecom_data).decode() == expected_result
 
 
@@ -79,6 +91,32 @@ def test_build_telecom(build_telecom_test_data, expected_result):
         ),
     ],
 )
-def test_build_addr(build_addr_test_data, expected_result):
-    xml_addr_data = PHDCBuilder._build_addr(**build_addr_test_data)
+def test_build_addr(builder, build_addr_test_data, expected_result):
+    xml_addr_data = builder._build_addr(**build_addr_test_data)
     assert ET.tostring(xml_addr_data).decode() == expected_result
+
+
+@pytest.fixture
+def director_data():
+    return {
+        "telecom_data": {"phone": "+1-800-555-1234", "use": "WP"},
+        "addr_data": {
+            "use": "H",
+            "line": "123 Main Street",
+            "city": "Brooklyn",
+            "state": "New York",
+            "zip": "11205",
+            "county": "Kings",
+            "country": "USA",
+        },
+    }
+
+
+def test_director_build_case_report(director, director_data):
+    case_report = director.build_case_report(**director_data)
+    assert isinstance(case_report, PHDC)
+
+
+def test_director_build_lab_report(director, director_data):
+    lab_report = director.build_lab_report(**director_data)
+    assert isinstance(lab_report, PHDC)

@@ -10,12 +10,16 @@ class PHDC:
     def __init__(self, builder: PHDCBuilder) -> None:
         self.header = builder.header
 
+    def to_xml_string(self):
+        return ET.tostring(self.header) if self.header is not None else ""
+
 
 class PHDCBuilder:
     def __init__(self) -> None:
         self.header = None
 
     def _build_telecom(
+        self,
         phone: str,
         use: Optional[Literal["HP", "WP", "MC"]] = None,
     ):
@@ -37,6 +41,7 @@ class PHDCBuilder:
         return telecom_data
 
     def _build_addr(
+        self,
         use: Optional[Literal["H", "WP"]] = None,
         line: str = None,
         city: str = None,
@@ -65,7 +70,7 @@ class PHDCBuilder:
             address_data.set("use", use)
 
         for element, value in address_elements.items():
-            if element != "use" and value is not None:
+            if element not in ["use", "self"] and value is not None:
                 if element == "line":
                     element = "streetAddressLine"
                 elif element == "zip":
@@ -76,7 +81,7 @@ class PHDCBuilder:
 
         return address_data
 
-    def build(self):
+    def build(self, **kwargs) -> PHDC:
         return PHDC(self)
 
 
@@ -96,9 +101,9 @@ class PHDCDirector:
         :param addr_data: Dictionary of address data.
         :return: PHDC object.
         """
-        self.builder._build_telecom(**telecom_data)
-        self.builder._build_addr(**addr_data)
-        return self.builder.build()
+        telecom_element = self.builder._build_telecom(**telecom_data)
+        addr_element = self.builder._build_addr(**addr_data)
+        return self.builder.build(telecom=telecom_element, addr=addr_element)
 
     # TODO: find out if source data we will use requires building separate lab reports
     def build_lab_report(self, telecom_data: dict, addr_data: dict) -> PHDC:
@@ -113,6 +118,6 @@ class PHDCDirector:
         :param addr_data: Dictionary of address data.
         :return: PHDC object.
         """
-        self.builder._build_telecom(**telecom_data)
-        self.builder._build_addr(**addr_data)
-        return self.builder.build()
+        telecom_element = self.builder._build_telecom(**telecom_data)
+        addr_element = self.builder._build_addr(**addr_data)
+        return self.builder.build(telecom=telecom_element, addr=addr_element)
