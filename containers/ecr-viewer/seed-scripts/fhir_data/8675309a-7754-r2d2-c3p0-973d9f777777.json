@@ -613,6 +613,52 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:d6930155-009b-92a0-d2b9-007761c45ad2",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "d6930155-009b-92a0-d2b9-007761c45ad2",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "California Department of Public Health",
+        "address": [
+          {
+            "use": "work",
+            "city": "Sacramento",
+            "state": "CA"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "CalREDIEeCR@cdph.ca.gov",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:f61d4bbc-d1d5-4bef-b2f6-d32e8db54596",
       "resource": {
         "resourceType": "Observation",
@@ -656,6 +702,12 @@
           {
             "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
             "valueString": "Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2",
+            "display": "California Department of Public Health"
           }
         ]
       },
