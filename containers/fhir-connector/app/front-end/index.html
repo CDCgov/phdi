@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Public Health Usecase FHIR Client</title>
+    <link rel="stylesheet" type="text/css" href="front-end/style.css">
+</head>
+<body>
+    <h1>Public Health Query and Response FHIR Client</h1>
+    <form id="dataForm">
+        <label for="fhirServer">FHIR Server:</label>
+        <select id="fhirServer" name="fhirServer">
+            <option value="meld">Meld</option>
+            <option value="ehealthexchange">eHealthExchange</option>
+        </select><br><br>
+
+        <label for="useCase">Use Case:</label>
+        <select id="useCase" name="useCase">
+            <option value="newborn-screening">Newborn Screening</option>
+            <option value="syphilis">Syphilis</option>
+            <option value="social-determinants">Social Determinants of Health</option>
+        </select><br><br>
+
+
+        <!-- Existing fields -->
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name"><br><br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name"><br><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Query Response</h2>
+    <div id="loader"></div>
+    <div id="apiResponse"></div>
+
+    <script src="front-end/script.js"></script>
+</body>
+</html>

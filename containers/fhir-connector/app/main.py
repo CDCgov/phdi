@@ -5,6 +5,8 @@ import uuid
 import json
 from pydantic import BaseModel
 from typing import Optional, Literal
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 USE_CASES = Literal["social-determinants", "newborn-screening", "syphilis"]
 
@@ -88,7 +90,6 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
 
     patient_id = patient_searchset["entry"][0]["resource"]["id"]
 
-    print(patient_id)
     # Use Case Query
     if use_case == "social-determinants":
         use_case_query = (
@@ -135,3 +136,11 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
                 use_case_response["entry"].extend(partial_response.json()["entry"])
             use_case_response["total"] = len(use_case_response["entry"])
     return use_case_response
+
+ # Serve Static Files
+app.mount("/front-end", StaticFiles(directory="./app/front-end"), name="front-end")
+
+# Root endpoint to serve the HTML page
+@app.get("/front-end")
+async def root():
+    return FileResponse('./app/front-end/index.html')
