@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import Literal
-from typing import Optional
 
 from lxml import etree as ET
 
@@ -21,7 +20,7 @@ class PHDCBuilder:
     def _build_telecom(
         self,
         phone: str,
-        use: Optional[Literal["HP", "WP", "MC"]] = None,
+        use: Literal["HP", "WP", "MC"] = None,
     ):
         """
         Builds a `telecom` XML element for phone data including phone number (as
@@ -42,7 +41,7 @@ class PHDCBuilder:
 
     def _build_addr(
         self,
-        use: Optional[Literal["H", "WP"]] = None,
+        use: Literal["H", "WP"] = None,
         line: str = None,
         city: str = None,
         state: str = None,
@@ -106,18 +105,3 @@ class PHDCDirector:
         return self.builder.build(telecom=telecom_element, addr=addr_element)
 
     # TODO: find out if source data we will use requires building separate lab reports
-    def build_lab_report(self, telecom_data: dict, addr_data: dict) -> PHDC:
-        """
-        Builds a lab report PHDC object.
-
-        Arguments are dictionaries passed to PHDCBuilder's methods and should include
-        the arguments required by those methods. See PHDCBuilder's methods for more
-        info.
-
-        :param telecom_data: Dictionary of telecom data.
-        :param addr_data: Dictionary of address data.
-        :return: PHDC object.
-        """
-        telecom_element = self.builder._build_telecom(**telecom_data)
-        addr_element = self.builder._build_addr(**addr_data)
-        return self.builder.build(telecom=telecom_element, addr=addr_element)

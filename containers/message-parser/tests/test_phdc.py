@@ -115,8 +115,3 @@ def director_data():
 def test_director_build_case_report(director, director_data):
     case_report = director.build_case_report(**director_data)
     assert isinstance(case_report, PHDC)
-
-
-def test_director_build_lab_report(director, director_data):
-    lab_report = director.build_lab_report(**director_data)
-    assert isinstance(lab_report, PHDC)
