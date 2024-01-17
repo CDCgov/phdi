@@ -36,7 +36,10 @@ exports[`ECR Metadata should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="section__line_gray padding-bottom-3"
+            class="section__line_gray"
+          />
+          <div
+            class="padding-bottom-1"
           />
           <h3
             class="usa-summary-box__heading padding-y-105"

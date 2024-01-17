@@ -25,16 +25,20 @@ const EcrMetadata = ({rrDetails, eicrDetails, eCRSenderDetails}: EcrMetadataProp
           </h3>
           <div className="usa-summary-box__text">
             {eicrDetails.map(({title, value}) => {
-              return (<div className="grid-row" key={title}>
+              return (
+                <Fragment key={title}>
+                <div className="grid-row">
                 <div className="data-title">
                   <h4>{title}</h4>
                 </div>
                 <div className="grid-col-auto">
                   {value}
                 </div>
-              </div>)
+              </div>
+                  <div className={"section__line_gray"} />
+                </Fragment>)
             })}
-            <div className={"section__line_gray padding-bottom-3"} />
+            <div className={"padding-bottom-1"} />
             <h3
               className="usa-summary-box__heading padding-y-105"
               id="summary-box-key-information"
