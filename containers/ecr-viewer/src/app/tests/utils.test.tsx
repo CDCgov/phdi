@@ -1,7 +1,8 @@
 import {
+  evaluateEcrMetadata,
   evaluateSocialData,
   extractPatientAddress,
-  formatPatientName,
+  formatPatientName
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/fhir-data/utils";
 import { Bundle } from "fhir/r4";
@@ -40,6 +41,11 @@ describe("Utils", () => {
     });
   });
   describe("Extract Patient Address", () => {
+    it("should return empty string if no address is available", () => {
+      const actual = extractPatientAddress(undefined, mappings);
+
+      expect(actual).toBeEmpty();
+    })
     it("should get patient address", () => {
       const actual = extractPatientAddress(
         BundleWithPatient as unknown as Bundle,
@@ -49,4 +55,5 @@ describe("Utils", () => {
       expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
     });
   });
+
 });

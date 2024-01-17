@@ -39,10 +39,10 @@ export const extractPatientAddress = (
     fhirBundle,
     fhirPathMappings.patientStreetAddress,
   );
-  const city = evaluate(fhirBundle, fhirPathMappings.patientCity);
-  const state = evaluate(fhirBundle, fhirPathMappings.patientState);
-  const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode);
-  const country = evaluate(fhirBundle, fhirPathMappings.patientCountry);
+  const city = evaluate(fhirBundle, fhirPathMappings.patientCity)[0];
+  const state = evaluate(fhirBundle, fhirPathMappings.patientState)[0];
+  const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode)[0];
+  const country = evaluate(fhirBundle, fhirPathMappings.patientCountry)[0];
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
@@ -78,15 +78,15 @@ export const extractFacilityAddress = (
 };
 
 const formatAddress = (
-  streetAddress: any[],
-  city: any[],
-  state: any[],
-  zipCode: any[],
-  country: any[],
+  streetAddress: string[],
+  city: string,
+  state: string,
+  zipCode: string,
+  country: string,
 ) => {
-  return `${streetAddress.join("\n")}\n${city}, ${state}\n${zipCode}${
-    country && `, ${country}`
-  }`;
+  let address= {streetAddress: streetAddress, cityState: [city, state], zipCodeCountry: [zipCode, country]};
+
+  return [address.streetAddress.join("\n"), address.cityState.filter(Boolean).join(", "), address.zipCodeCountry.filter(Boolean).join(", ")].filter(Boolean).join("\n");
 };
 
 export const extractFacilityContactInfo = (
