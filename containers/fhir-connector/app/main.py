@@ -8,7 +8,7 @@ from typing import Optional, Literal
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
-USE_CASES = Literal["social-determinants", "newborn-screening", "syphilis"]
+USE_CASES = Literal["social-determinants", "newborn-screening", "syphilis", "cancer"]
 
 FHIR_SERVERS = {
     "meld": {"hostname": "https://gw.interop.community/HeliosConnectathonSa/open"},
@@ -53,7 +53,6 @@ class UseCaseQueryRequest(BaseModel):
 
 @app.post("/use-case-query/{use_case}")
 async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
-    
     # Connect to FHIR Server
     fhir_host = FHIR_SERVERS[input.fhir_server]["hostname"]
     session = requests.Session()
@@ -65,8 +64,7 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
         )
     if fhir_server_config.get("headers"):
         session.headers = fhir_server_config["headers"]
-    session.verify = False   
-    
+    session.verify = False
 
     # Find Patient
 
@@ -121,20 +119,62 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
         syphilis_loincs = ["LP70657-9", "98212-4"]
         syphilis_loincs = ",".join(syphilis_loincs)
         conditon_query = f"{fhir_host}/Condition?subject={patient_id}&code=76272004"
-        labs_query = f"{fhir_host}/Observation?subject={patient_id}&code={syphilis_loincs}"
-        diagnositic_report_query = f"{fhir_host}/DiagnosticReport?subject={patient_id}&code={syphilis_loincs}"
-        
-        queries = [conditon_query, labs_query, diagnositic_report_query]
-        
-        use_case_response = None
-        for query in queries:
-            partial_response = session.get(query)
-            print(query)
-            if use_case_response is None:
-                use_case_response = partial_response.json()
-            else:
-                use_case_response["entry"].extend(partial_response.json()["entry"])
-            use_case_response["total"] = len(use_case_response["entry"])
+        observation_query = (
+            f"{fhir_host}/Observation?subject={patient_id}&code={syphilis_loincs}"
+        )
+        diagnositic_report_query = (
+            f"{fhir_host}/DiagnosticReport?subject={patient_id}&code={syphilis_loincs}"
+        )
+        encounter_query = f"{fhir_host}/Encounter?subject={patient_id}&reason-reference=Condition/105H"
+
+        queries = [
+            conditon_query,
+            observation_query,
+            diagnositic_report_query,
+            encounter_query,
+        ]
+        use_case_response = concatenate_queries(queries, session)
+
+    elif use_case == "cancer":
+        cancer_snomeds = ["92814006"]
+        cancer_snomeds = ",".join(cancer_snomeds)
+        cancer_encounter_codes = ["15301000"]
+        cancer_encounter_codes = ",".join(cancer_encounter_codes)
+        cancer_medications = ["828265"]
+        cancer_medications = ",".join(cancer_medications)
+
+        conditon_query = (
+            f"{fhir_host}/Condition?subject={patient_id}&code={cancer_snomeds}"
+        )
+        encounter_query = (
+            f"{fhir_host}/Encounter?subject={patient_id}&type={cancer_encounter_codes}"
+        )
+        medication_request_query = f"{fhir_host}/MedicationRequest?subject={patient_id}&code={cancer_medications}"
+        medication_query = f"{fhir_host}/Medication?code={cancer_medications}"
+        # medication_administration_query = f"{fhir_host}/MedicationAdministration?subject={patient_id}&code={cancer_medications}"
+
+        queries = [
+            conditon_query,
+            encounter_query,
+            medication_request_query,
+            medication_query,
+            # medication_administration_query,
+        ]
+        use_case_response = concatenate_queries(queries, session)
+
+    return use_case_response
+
+
+def concatenate_queries(queries, session):
+    use_case_response = None
+    for query in queries:
+        print(query)
+        partial_response = session.get(query)
+        if use_case_response is None:
+            use_case_response = partial_response.json()
+        else:
+            use_case_response["entry"].extend(partial_response.json()["entry"])
+        use_case_response["total"] = len(use_case_response["entry"])
     return use_case_response
 
  # Serve Static Files
