@@ -90,6 +90,7 @@ class PHDCBuilder:
         :param given_name: String or list of strings representing given name(s),
           defaults to None.
         :param last_name: Last name, defaults to None.
+        :return: XML element of name data.
         """
         name_elements = locals()
 
