@@ -78,6 +78,14 @@ class ParseMessageInput(BaseModel):
 
     @root_validator
     def require_message_type_when_not_fhir(cls, values):
+        """
+        Function that checks when non-fhir-formatted data is given whether a
+        message_type has been included with API call
+        Inputs:
+            cls (class): the ParseMessageInput class
+            values (str): the message_format provided by the user
+        Returns: values (str): the message_format provided by the user
+        """
         if (
             values.get("message_format") != "fhir"
             and values.get("message_type") is None
@@ -90,6 +98,16 @@ class ParseMessageInput(BaseModel):
 
     @root_validator
     def prohibit_schema_and_schema_name(cls, values):
+        """
+        Function that checks whether the user has provided
+        both parsing_schema and parsing_schema_name;
+        only one should be provided for message_parser to work correctly.
+        Inputs:
+            cls (class): the ParseMessageInput class
+            values (str): the parsing_schema and
+                            parsing_schema_name provided by the user
+        Returns: values (str): the message_format provided by the user
+        """
         if (
             values.get("parsing_schema") != {}
             and values.get("parsing_schema_name") != ""
@@ -102,6 +120,17 @@ class ParseMessageInput(BaseModel):
 
     @root_validator
     def require_schema_or_schema_name(cls, values):
+        """
+        Function that checks whether the user has provided
+        one of either parsing_schema and parsing_schema_name;
+        one (and only one!) should be provided for message_parser to work correctly.
+        Inputs:
+            cls (class): the ParseMessageInput class
+            values (str): the parsing_schema and
+                        parsing_schema_name provided by the user
+        Returns: values (str): the message_format provided by the user
+
+        """
         if (
             values.get("parsing_schema") == {}
             and values.get("parsing_schema_name") == ""
