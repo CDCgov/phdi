@@ -2,7 +2,7 @@
 name: SeCRET Tech Debt
 about: Describe technical debt work for the SeCRET team to pick up
 title: ''
-labels: SeCRET
+labels: "Streamline eCR"
 assignees: ''
 
 ---

@@ -2,7 +2,7 @@
 name: SeCRET RDC
 about: A research, design, or content task for the SeCRET team
 title: ''
-labels: SeCRET
+labels: "Streamline eCR"
 assignees: ''
 
 ---
