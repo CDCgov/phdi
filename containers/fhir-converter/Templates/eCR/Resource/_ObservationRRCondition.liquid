@@ -114,7 +114,13 @@
                 "valueString": "{{observationEntry.entryRelationship.organizer.component.observation.entryRelationship.observation.value._}}",
               }
               {% endif -%}
-            ],
+        ],
+        "performer" : [
+            {
+                "reference" : "Organization/{{ RoutingEntityId }}",
+                "display" : "{{  RoutingEntityName }}",
+            },
+        ],
     },
     "request":{
         "method":"PUT",
