@@ -4,7 +4,7 @@ table_1:
     Patient ID:
       fhir_path: Patient.id
       include_nulls: false
-      include_unknowns: false 
+      include_unknowns: false
       selection_criteria: first
       new_name: patient_id
     Identifier:
@@ -32,24 +32,24 @@ table_1:
       selection_criteria: first
       new_name: phone_number
   Observation:
-      Observation ID:
-        fhir_path: Observation.id
-        include_nulls: false
-        include_unknowns: false
-        selection_criteria: first
-        new_name: observation_id
-      Subject:
-        fhir_path: Observation.subject.reference
-        include_nulls: false
-        include_unknowns: false
-        selection_criteria: first
-        new_name: patient_id
-      Effective DateTime:
-        fhir_path: Observation.effectiveDateTime
-        include_nulls: false
-        include_unknowns: false
-        selection_criteria: first
-        new_name: effective_datetime
+    Observation ID:
+      fhir_path: Observation.id
+      include_nulls: false
+      include_unknowns: false
+      selection_criteria: first
+      new_name: observation_id
+    Subject:
+      fhir_path: Observation.subject.reference
+      include_nulls: false
+      include_unknowns: false
+      selection_criteria: first
+      new_name: patient_id
+    Effective DateTime:
+      fhir_path: Observation.effectiveDateTime
+      include_nulls: false
+      include_unknowns: false
+      selection_criteria: first
+      new_name: effective_datetime
 table_2:
   Patient:
     Patient ID:
@@ -83,21 +83,21 @@ table_2:
       selection_criteria: first
       new_name: phone_number
   Observation:
-      Observation ID:
-        fhir_path: Observation.id
-        include_nulls: false
-        include_unknowns: false
-        selection_criteria: first
-        new_name: observation_id
-      Subject:
-        fhir_path: Observation.subject.reference
-        include_nulls: false
-        include_unknowns: false
-        selection_criteria: first
-        new_name: patient_id
-      Effective DateTime:
-        fhir_path: Observation.effectiveDateTime
-        include_nulls: false
-        include_unknowns: false
-        selection_criteria: first
-        new_name: effective_datetime
+    Observation ID:
+      fhir_path: Observation.id
+      include_nulls: false
+      include_unknowns: false
+      selection_criteria: first
+      new_name: observation_id
+    Subject:
+      fhir_path: Observation.subject.reference
+      include_nulls: false
+      include_unknowns: false
+      selection_criteria: first
+      new_name: patient_id
+    Effective DateTime:
+      fhir_path: Observation.effectiveDateTime
+      include_nulls: false
+      include_unknowns: false
+      selection_criteria: first
+      new_name: effective_datetime

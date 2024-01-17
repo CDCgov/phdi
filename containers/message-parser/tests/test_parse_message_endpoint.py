@@ -1,8 +1,9 @@
-from fastapi.testclient import TestClient
 import json
 from pathlib import Path
 from unittest import mock
+
 from app.main import app
+from fastapi.testclient import TestClient
 
 
 client = TestClient(app)
@@ -150,6 +151,43 @@ expected_successful_response_floats_with_meta_data = {
     },
 }
 
+reference_bundle_path = (
+    Path(__file__).parent.parent.parent.parent
+    / "tests"
+    / "assets"
+    / "general"
+    / "patient_bundle_w_labs.json"
+)
+
+with open(reference_bundle_path, "r") as file:
+    reference_bundle = json.load(file)
+
+test_reference_schema_path = (
+    Path(__file__).parent.parent
+    / "app"
+    / "default_schemas"
+    / "test_reference_schema.json"
+)
+
+with open(test_reference_schema_path, "r") as file:
+    test_reference_schema = json.load(file)
+
+expected_reference_response = {
+    "message": "Parsing succeeded!",
+    "parsed_values": {
+        "first_name": "John ",
+        "last_name": "doe",
+        "labs": [
+            {
+                "test_type": "Blood culture",
+                "test_result_code_display": "Staphylococcus aureus",
+                "ordering_provider": "Western Pennsylvania Medical General",
+                "requesting_organization_contact_person": "Dr. Totally Real Doctor, M.D.",  # noqa
+            }
+        ],
+    },
+}
+
 
 def test_parse_message_success_internal_schema():
     test_request = {
@@ -208,6 +246,17 @@ def test_parse_message_success_external_schema():
     actual_response = client.post("/parse_message", json=request)
     assert actual_response.status_code == 200
     assert actual_response.json() == expected_successful_response
+
+
+def test_parse_message_success_referenced_resources():
+    request = {
+        "message_format": "fhir",
+        "parsing_schema": test_reference_schema,
+        "message": reference_bundle,
+    }
+    actual_response = client.post("/parse_message", json=request)
+    assert actual_response.status_code == 200
+    assert actual_response.json() == expected_reference_response
 
 
 @mock.patch("app.main.convert_to_fhir")
@@ -312,7 +361,7 @@ def test_parse_message_non_fhir_missing_message_type():
 def test_parse_message_internal_and_external_schema():
     request = {
         "message_format": "fhir",
-        "parsing_schema": {"my-field": "FHIR.to.my.field"},
+        "parsing_schema": test_reference_schema,
         "parsing_schema_name": "test_schema.json",
         "message": "some-hl7v2-elr-message",
     }

@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ECR Metadata should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      aria-labelledby="summary-box-key-information"
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          eICR Details
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                eICR Identifier
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              1dd10047-2207-4eac-a993-0f706c88be5d
+            </div>
+          </div>
+          <div
+            class="section__line_gray padding-bottom-3"
+          />
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            eCR Sender Details
+          </h3>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Date/Time eCR Created
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              2022-05-14T12:56:38Z
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Sender Software
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            />
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Sender Facility Name
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              PRM- Palmdale Regional Medical Center
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Address
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              38600 Medical Center Drive
+Palmdale, CA
+93551, USA
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Contact
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              (661)382-5000
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility ID
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              2.16.840.1.113883.4.6
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

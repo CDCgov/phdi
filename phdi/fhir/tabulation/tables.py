@@ -1,15 +1,21 @@
 import json
-import warnings
-import requests
-from typing import Dict, List, Union, Tuple
-from urllib.parse import parse_qs, urlencode
-import urllib.parse
 import pathlib
+import urllib.parse
+import warnings
+from typing import Dict
+from typing import List
+from typing import Tuple
+from typing import Union
+from urllib.parse import parse_qs
+from urllib.parse import urlencode
+
+import requests
 
 from phdi.cloud.core import BaseCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
-from phdi.tabulation.tables import load_schema, write_data
 from phdi.fhir.utils import extract_value_with_resource_path
+from phdi.tabulation.tables import load_schema
+from phdi.tabulation.tables import write_data
 
 
 def drop_invalid(data: List[list], schema: Dict, table_name: str) -> List[list]:

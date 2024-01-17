@@ -1,5 +1,6 @@
-import pytest
 import os
+
+import pytest
 from testcontainers.compose import DockerCompose
 
 
@@ -8,7 +9,9 @@ def setup(request):
     print("Setting up tests...")
     compose_path = os.path.join(os.path.dirname(__file__), "./")
     compose_file_name = "docker-compose.yaml"
-    fhir_converter = DockerCompose(compose_path, compose_file_name=compose_file_name)
+    fhir_converter = DockerCompose(
+        compose_path, compose_file_name=compose_file_name, build=True
+    )
     converter_url = "http://0.0.0.0:8080"
 
     fhir_converter.start()

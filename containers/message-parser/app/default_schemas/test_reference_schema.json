@@ -1,0 +1,41 @@
+{
+  "first_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().given.first()",
+    "data_type": "string",
+    "nullable": true
+  },
+  "last_name": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').name.first().family",
+    "data_type": "string",
+    "nullable": true
+  },
+  "labs": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType='Observation').where(category.coding.code='laboratory')",
+    "data_type": "array",
+    "nullable": true,
+    "secondary_schema": {
+      "test_type": {
+        "fhir_path": "Observation.code.coding.display",
+        "data_type": "string",
+        "nullable": true
+      },
+      "test_result_code_display": {
+        "fhir_path": "Observation.valueCodeableConcept.coding.display",
+        "data_type": "string",
+        "nullable": true
+      },
+      "ordering_provider": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Organization').where(id='#REF#').name",
+        "reference_lookup": "Observation.performer.first().reference",
+        "data_type": "string",
+        "nullable": true
+      },
+      "requesting_organization_contact_person": {
+        "fhir_path": "Bundle.entry.resource.where(resourceType='Organization').where(id='#REF#').contact.name.text",
+        "reference_lookup": "Observation.performer.first().reference",
+        "data_type": "string",
+        "nullable": true
+      }
+    }
+  }
+}

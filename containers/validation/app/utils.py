@@ -1,9 +1,12 @@
 import json
 import pathlib
-import yaml
 import re
-from fastapi import HTTPException, status
+
+import yaml
+from fastapi import HTTPException
+from fastapi import status
 from lxml.etree import XMLSyntaxError
+
 from phdi.fhir.conversion import add_rr_data_to_eicr
 
 VALID_ERROR_TYPES = ["fatal", "errors", "warnings", "information"]

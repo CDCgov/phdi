@@ -1,11 +1,12 @@
+import io
 import json
 import pathlib
-from fastapi import UploadFile
 from functools import cache
 from pathlib import Path
 from typing import Dict
 from zipfile import ZipFile
-import io
+
+from fastapi import UploadFile
 
 
 @cache

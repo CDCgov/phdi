@@ -5,13 +5,18 @@ on:
   pull_request:
     branches:
       - "**"
+  merge_group:
+    types:
+      - checks_requested
   push:
     branches:
       - main
-    paths-ignore: 
+    paths-ignore:
       - pyproject.toml
 
-
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   TEST_RUNNER_PYTHON_VERSION: 3.10.12
@@ -89,27 +94,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           flags: unit-tests
-
-  code-check-python:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup python ${{env.TEST_RUNNER_PYTHON_VERSION}}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{env.TEST_RUNNER_PYTHON_VERSION}}
-          cache: pip
-      - name: Install dependencies
-        run: |
-          pip install -U pip
-          pip install black flake8
-      - name: Check format (black)
-        run: |
-          black --check --verbose .
-      - name: Check style (flake8)
-        run: |
-          flake8
 
   ensure-clean-notebooks:
     runs-on: ubuntu-latest
@@ -192,7 +176,7 @@ jobs:
         working-directory: ./containers/${{matrix.directories-to-test}}
         # When running as a PR check, instead of importing the SDK from @main,
         # import it from the current commit.
-        run: | 
+        run: |
           if [[ $GITHUB_REF == "refs/heads/main" ]]; then
                pwd
                pip install -r requirements.txt
@@ -211,15 +195,15 @@ jobs:
   test-node-containers:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 18  # Adjust the Node.js version as needed
-    - name: Install dependencies
-      working-directory: ./containers/ecr-viewer  # Navigate to your Node.js app directory
-      run: npm install
-    - name: Run tests
-      working-directory: ./containers/ecr-viewer  # Navigate to your Node.js app directory
-      run: npm test
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18 # Adjust the Node.js version as needed
+      - name: Install dependencies
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm install
+      - name: Run tests
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm test

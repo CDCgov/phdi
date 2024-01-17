@@ -2,7 +2,6 @@
 # files into a single compiled database. The repos from which these
 # source files were downloaded can be found in the Acknowledgments
 # section of the project's root README.
-
 import pathlib
 
 names_to_nicknames = {}

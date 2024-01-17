@@ -19,178 +19,258 @@ exports[`Demographics should match snapshot 1`] = `
         <div
           class="usa-summary-box__text"
         >
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              <h4>
-                Patient Name
-              </h4>
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Patient Name
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                Test patient
+              </div>
             </div>
             <div
-              class="grid-col-auto"
-            >
-              ABEL CASTILLO
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Patient ID
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              6b6b3c4c-4884-4a96-b6ab-c46406839cea
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                DOB
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              2015-04-15
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Sex
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              male
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Race
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              Black or African American
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Ethnicity
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
-            >
-              Hispanic or Latino
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title"
-            >
-              <h4>
-                Preferred Language
-              </h4>
-            </div>
-            <div
-              class="grid-col-auto"
+              class="section__line_gray"
             />
           </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              <h4>
-                Patient Address
-              </h4>
+              <div
+                class="data-title"
+              >
+                <h4>
+                  DOB
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                06/01/1996
+              </div>
             </div>
             <div
-              class="grid-col-auto text-pre-line"
-            >
-              1050 CARPENTER ST
-    EDWARDS, CA
-    93523-2800, US
-            </div>
+              class="section__line_gray"
+            />
           </div>
-          <div
-            class="section__line_gray"
-          />
-          <div
-            class="grid-row"
-          >
+          <div>
             <div
-              class="data-title"
+              class="grid-row"
             >
-              <h4>
-                Contact
-              </h4>
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Sex
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                female
+              </div>
             </div>
             <div
-              class="grid-col-auto text-pre-line"
-            >
-              Home +18184195968
-    MELLY.C.A.16@GMAIL.COM
-            </div>
+              class="section__line_gray"
+            />
           </div>
-          <div
-            class="section__line_gray"
-          />
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Race
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                Asian/Pacific Islander
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Ethnicity
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                Not Hispanic or Latino
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Tribal
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                test
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Preferred Language
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                test
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Patient Address
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                test address
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  County
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                test
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Contact
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                test contact
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Emergency Contact
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                N/A
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Patient IDs
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                123-4567-890
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
         </div>
       </div>
     </div>

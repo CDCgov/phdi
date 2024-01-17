@@ -1,5 +1,6 @@
-import pytest
 import os
+
+import pytest
 from testcontainers.compose import DockerCompose
 
 

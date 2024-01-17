@@ -1,14 +1,19 @@
-from typing import Annotated
 from pathlib import Path
-from fastapi import FastAPI, Response, status, HTTPException, Body
-from phdi.fhir.conversion import add_rr_data_to_eicr
-from app.constants import (
-    sample_request,
-    sample_response,
-    FhirConverterInput,
-)
+from typing import Annotated
+
+from app.constants import FhirConverterInput
+from app.constants import sample_request
+from app.constants import sample_response
 from app.service import convert_to_fhir
+from app.service import resolve_references
+from fastapi import Body
+from fastapi import FastAPI
+from fastapi import HTTPException
+from fastapi import Response
+from fastapi import status
 from lxml.etree import XMLSyntaxError
+
+from phdi.fhir.conversion import add_rr_data_to_eicr
 
 description = (Path(__file__).parent.parent / "description.md").read_text(
     encoding="utf-8"
@@ -61,6 +66,7 @@ async def convert(
     """
     fhir_converter_input = dict(input)
     fhir_converter_input.pop("rr_data")
+    input.input_data = resolve_references(input.input_data)
 
     # If RR is present, also need input data and conversion type eICR
     if input.rr_data is not None:

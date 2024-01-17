@@ -6,10 +6,15 @@ exports[`EcrSummary should match snapshot 1`] = `
     class="info-container"
   >
     <div
+      aria-labelledby="summary-box-key-information"
       class="usa-summary-box padding-3"
     >
-      <div>
-        <h3>
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="summary-box-key-information"
+        >
           About the Patient
         </h3>
         <div
@@ -26,7 +31,7 @@ exports[`EcrSummary should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-fill"
+              class="grid-col-auto"
             >
               ABEL CASTILLO
             </div>
@@ -45,7 +50,7 @@ exports[`EcrSummary should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-fill text-pre-line"
+              class="grid-col-auto text-pre-line"
             >
               2015-04-15
             </div>
@@ -64,11 +69,11 @@ exports[`EcrSummary should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-fill text-pre-line"
+              class="grid-col-auto text-pre-line"
             >
               1050 CARPENTER ST
-    EDWARDS, CA
-    93523-2800, US
+EDWARDS, CA
+93523-2800, US
             </div>
           </div>
           <div
@@ -85,7 +90,7 @@ exports[`EcrSummary should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-fill text-pre-line"
+              class="grid-col-auto text-pre-line"
             >
               Home +18184195968
     MELLY.C.A.16@GMAIL.COM
@@ -95,6 +100,117 @@ exports[`EcrSummary should match snapshot 1`] = `
             class="section__line"
           />
         </div>
+      </div>
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="summary-box-key-information"
+        >
+          About the Encounter
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Name
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              PRM- Palmdale Regional Medical Center
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Address
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              38600 Medical Center Drive
+Palmdale, CA
+93551, USA
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Facility Contact
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              (661)382-5000
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Encounter Date/Time
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto text-pre-line"
+            >
+              Start: 05/13/2022 3:25 AM
+    End: 05/13/2022 5:57 AM
+            </div>
+          </div>
+          <div
+            class="section__line"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Encounter Type
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto"
+            >
+              Emergency
+            </div>
+          </div>
+        </div>
+        <div
+          class="section__line"
+        />
       </div>
       <div
         class="usa-summary-box__body"
@@ -311,7 +427,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="padding-top-05"
             >
-              No matching clinical data found in this eCR (temp) 
+              No matching clinical data found in this eCR (temp)
             </div>
           </div>
         </div>

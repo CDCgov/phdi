@@ -1,6 +1,8 @@
-from phdi.linkage.config import get_settings
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 from typing import Union
+
+from phdi.linkage.config import get_settings
 
 
 def load_mpi_env_vars_os():

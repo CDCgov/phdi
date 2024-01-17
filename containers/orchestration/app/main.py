@@ -1,41 +1,39 @@
-from phdi.containers.base_service import BaseService
-from fastapi import (
-    Response,
-    status,
-    Body,
-    UploadFile,
-    Form,
-    File,
-    HTTPException,
-    WebSocket,
-    WebSocketDisconnect,
-)
-from typing import Annotated
-from pathlib import Path
-from app.utils import (
-    load_processing_config,
-    unzip_ws,
-    unzip_http,
-    load_config_assets,
-)
-from app.config import get_settings
-from app.services import call_apis
-from app.models import (
-    GetConfigResponse,
-    ProcessingConfigModel,
-    PutConfigResponse,
-    ProcessMessageRequest,
-    ProcessMessageResponse,
-    ListConfigsResponse,
-)
-from app.constants import (
-    upload_config_response_examples,
-    sample_get_config_response,
-    process_message_response_examples,
-    sample_list_configs_response,
-)
 import json
+import logging
 import os
+from pathlib import Path
+from typing import Annotated
+
+from app.config import get_settings
+from app.constants import process_message_response_examples
+from app.constants import sample_get_config_response
+from app.constants import sample_list_configs_response
+from app.constants import upload_config_response_examples
+from app.models import GetConfigResponse
+from app.models import ListConfigsResponse
+from app.models import ProcessingConfigModel
+from app.models import ProcessMessageRequest
+from app.models import ProcessMessageResponse
+from app.models import PutConfigResponse
+from app.services import call_apis
+from app.services import validate_response
+from app.utils import load_config_assets
+from app.utils import load_processing_config
+from app.utils import unzip_http
+from app.utils import unzip_ws
+from fastapi import Body
+from fastapi import File
+from fastapi import Form
+from fastapi import HTTPException
+from fastapi import Response
+from fastapi import status
+from fastapi import UploadFile
+from fastapi import WebSocket
+from fastapi import WebSocketDisconnect
+
+from phdi.containers.base_service import BaseService
+
+logger = logging.getLogger(__name__)
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -89,7 +87,7 @@ async def process_message_endpoint_ws(
             response, responses = await call_apis(
                 config=processing_config, input=initial_input, websocket=websocket
             )
-            if response.status_code == 200:
+            if validate_response(response=response):
                 # Parse and work with the API response data (JSON, XML, etc.)
                 api_data = response.json()  # Assuming the response is in JSON format
                 message = {
@@ -97,18 +95,21 @@ async def process_message_endpoint_ws(
                     "processed_values": api_data,
                 }
                 await websocket.send_text(json.dumps(message))
-            else:
-                await websocket.send_text(
-                    json.dumps(
-                        {
-                            "message": "Request failed with status code "
-                            + f"{ response.status_code}",
-                            "responses": f"{responses}",
-                            "processed_values": "",
-                        }
-                    )
-                )
     except WebSocketDisconnect:
+        logger.error("The websocket disconnected")
+    except Exception as e:
+        logger.error("An error occurred:", e)
+        if websocket:
+            await websocket.send_text(
+                json.dumps(
+                    {
+                        "message": "Something went wrong",
+                        "responses": None,
+                        "processed_values": "",
+                    }
+                )
+            )
+    finally:
         await websocket.close()
 
 

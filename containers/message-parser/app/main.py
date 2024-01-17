@@ -1,21 +1,33 @@
-from phdi.containers.base_service import BaseService
-from fastapi import Response, status, Body
-from pydantic import BaseModel, Field, root_validator
-from typing import Literal, Optional, Union, Annotated, Dict
-from pathlib import Path
-import os
-from app.utils import (
-    load_parsing_schema,
-    get_parsers,
-    get_metadata,
-    convert_to_fhir,
-    get_credential_manager,
-    search_for_required_values,
-    read_json_from_assets,
-    freeze_parsing_schema,
-)
-from app.config import get_settings
 import json
+import os
+from pathlib import Path
+from typing import Annotated
+
+import fhirpathpy
+from app.config import get_settings
+from app.models import FhirToPhdcInput
+from app.models import FhirToPhdcResponse
+from app.models import GetSchemaResponse
+from app.models import ListSchemasResponse
+from app.models import ParseMessageInput
+from app.models import ParseMessageResponse
+from app.models import ParsingSchemaModel
+from app.models import PutSchemaResponse
+from app.utils import convert_to_fhir
+from app.utils import DIBBS_REFERENCE_SIGNIFIER
+from app.utils import freeze_parsing_schema
+from app.utils import get_credential_manager
+from app.utils import get_metadata
+from app.utils import get_parsers
+from app.utils import load_parsing_schema
+from app.utils import read_json_from_assets
+from app.utils import search_for_required_values
+from fastapi import Body
+from fastapi import Response
+from fastapi import status
+
+from phdi.containers.base_service import BaseService
+
 
 # Read settings immediately to fail fast in case there are invalid values.
 get_settings()
@@ -36,11 +48,25 @@ raw_parse_message_response_examples = read_json_from_assets(
 parse_message_response_examples = {200: raw_parse_message_response_examples}
 
 
-# Request and response models
-class ParseMessageInput(BaseModel):
+def extract_and_apply_parsers(parsing_schema, message, response):
     """
-    The schema for requests to the /extract endpoint.
+    Helper function used to pull parsing methods for each field out of the
+    passed-in schema, resolve any reference dependencies, and apply the
+    result to the input FHIR bundle. If reference dependencies are present
+    (e.g. an Observation resource that references an ordering provider
+    Organization), this function will raise an error if those references
+    cannot be resolved (if the ID of the referenced object can't be found,
+    for example).
+
+    :param parsing_schema: A dictionary holding the parsing schema send
+      to the endpoint.
+    :param message: The FHIR bundle to extract values from.
+    :param response: The Response object the endpoint will send back, in
+      case we need to apply error status codes.
+    :return: A dictionary mapping schema keys to parsed values.
     """
+    parsers = get_parsers(parsing_schema)
+    parsed_values = {}
 
     message_format: Literal["fhir", "hl7v2", "ecr"] = Field(
         description="The format of the message."
@@ -141,20 +167,77 @@ class ParseMessageInput(BaseModel):
             )
         return values
 
+    # Iterate over each parser and make the appropriate path call
+    for field, parser in parsers.items():
+        if "secondary_parsers" not in parser:
+            value = parser["primary_parser"](message)
+            if len(value) == 0:
+                value = None
+            else:
+                value = ",".join(map(str, value))
+            parsed_values[field] = value
 
-class ParseMessageResponse(BaseModel):
-    """
-    The schema for responses from the /extract endpoint.
-    """
+        # Use the secondary field data structure, remembering that some
+        # fhir paths might not be compiled yet
+        else:
+            inital_values = parser["primary_parser"](message)
+            values = []
+            for initial_value in inital_values:
+                value = {}
+                for secondary_field, path_struct in parser["secondary_parsers"].items():
+                    # Base cases for a secondary field:
+                    # Information is contained on this resource, just in a
+                    # nested structure
+                    if "reference_path" not in path_struct:
+                        secondary_parser = path_struct["secondary_fhir_path"]
+                        if len(secondary_parser(initial_value)) == 0:
+                            value[secondary_field] = None
+                        else:
+                            value[secondary_field] = ",".join(
+                                map(str, secondary_parser(initial_value))
+                            )
 
-    message: str = Field(
-        description="A message describing the result of a request to "
-        "the /parse_message endpoint."
-    )
-    parsed_values: dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
-    )
+                    # Reference case: information is contained on another
+                    # resource that we have to look up
+                    else:
+                        reference_parser = path_struct["reference_path"]
+                        if len(reference_parser(initial_value)) == 0:
+                            response.status_code = status.HTTP_400_BAD_REQUEST
+                            return {
+                                "message": "Provided `reference_lookup` location does "
+                                "not point to a referencing identifier",
+                                "parsed_values": {},
+                            }
+                        else:
+                            reference_to_find = ",".join(
+                                map(str, reference_parser(initial_value))
+                            )
+
+                            # FHIR references are prefixed with resource type
+                            reference_to_find = reference_to_find.split("/")[-1]
+
+                            # Build the resultant concatenated reference path
+                            reference_path = path_struct["secondary_fhir_path"].replace(
+                                DIBBS_REFERENCE_SIGNIFIER, reference_to_find
+                            )
+                            reference_path = fhirpathpy.compile(reference_path)
+                            referenced_value = reference_path(message)
+                            if len(referenced_value) == 0:
+                                response.status_code = status.HTTP_400_BAD_REQUEST
+                                return {
+                                    "message": "Provided bundle does not contain a "
+                                    "resource matching reference criteria defined "
+                                    "in schema",
+                                    "parsed_values": {},
+                                }
+                            else:
+                                value[secondary_field] = ",".join(
+                                    map(str, referenced_value)
+                                )
+
+                values.append(value)
+            parsed_values[field] = values
+    return parsed_values
 
 
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
@@ -205,57 +288,49 @@ async def parse_message_endpoint(
                 "parsed_values": {},
             }
 
-    # 3. Generate parsers for FHIRpaths specified in schema.
-    parsers = get_parsers(parsing_schema)
-
-    # 4. Extract desired fields from message by applying each parser.
-    parsed_values = {}
-    for field, parser in parsers.items():
-        if "secondary_parsers" not in parser:
-            value = parser["primary_parser"](input.message)
-            if len(value) == 0:
-                value = None
-            else:
-                value = ",".join(map(str, value))
-            parsed_values[field] = value
-        else:
-            inital_values = parser["primary_parser"](input.message)
-            values = []
-            for initial_value in inital_values:
-                value = {}
-                for secondary_field, secondary_parser in parser[
-                    "secondary_parsers"
-                ].items():
-                    if len(secondary_parser(initial_value)) == 0:
-                        value[secondary_field] = None
-                    else:
-                        value[secondary_field] = ",".join(
-                            map(str, secondary_parser(initial_value))
-                        )
-                values.append(value)
-            parsed_values[field] = values
+    # 3. Parse the desired values and find metadata, if needed
+    parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
     if input.include_metadata == "true":
         parsed_values = get_metadata(parsed_values, parsing_schema)
+    return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
+
+
+# /fhir_to_phdc endpoint #
+fhir_to_phdc_request_examples = read_json_from_assets(
+    "sample_fhir_to_phdc_requests.json"
+)
+raw_fhir_to_phdc_response_examples = read_json_from_assets(
+    "sample_fhir_to_phdc_response.json"
+)
+fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
+
+
+# TODO: Once we complete M2 and can convert information into PHDC format,
+# the output of this function will change. The parse-message endpoint will
+# continue to return DIBBs JSON, though, which is why both endpoints use
+# the same helper function to handle resource references.
+@app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
+async def fhir_to_phdc_endpoint(
+    input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
+    response: Response,
+) -> FhirToPhdcResponse:
+    # First, extract the parsing schema or look one up
+    if input.parsing_schema != {}:
+        parsing_schema = freeze_parsing_schema(input.parsing_schema)
+    else:
+        try:
+            parsing_schema = load_parsing_schema(input.parsing_schema_name)
+        except FileNotFoundError as error:
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return {"message": error.__str__(), "parsed_values": {}}
+
+    parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
     return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
 
 
 # /schemas endpoint #
 raw_list_schemas_response = read_json_from_assets("sample_list_schemas_response.json")
 sample_list_schemas_response = {200: raw_list_schemas_response}
-
-
-class ListSchemasResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint.
-    """
-
-    default_schemas: list = Field(
-        description="The schemas that ship with with this service by default."
-    )
-    custom_schemas: list = Field(
-        description="Additional schemas that users have uploaded to this service beyond"
-        " the ones come by default."
-    )
 
 
 @app.get("/schemas", responses=sample_list_schemas_response)
@@ -271,22 +346,6 @@ async def list_schemas() -> ListSchemasResponse:
     custom_schemas = [schema for schema in custom_schemas if schema != ".keep"]
     schemas = {"default_schemas": default_schemas, "custom_schemas": custom_schemas}
     return schemas
-
-
-class GetSchemaResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint when a specific schema is
-    queried.
-    """
-
-    message: str = Field(
-        description="A message describing the result of a request to "
-        "the /parse_message endpoint."
-    )
-    parsing_schema: dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
-    )
 
 
 # /schemas/{parsing_schema_name} endpoint #
@@ -309,47 +368,6 @@ async def get_schema(parsing_schema_name: str, response: Response) -> GetSchemaR
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": error.__str__(), "parsing_schema": {}}
     return {"message": "Schema found!", "parsing_schema": parsing_schema}
-
-
-PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "datetime", "array"
-]
-
-
-class ParsingSchemaSecondaryFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PARSING_SCHEMA_DATA_TYPES
-    nullable: bool
-
-
-class ParsingSchemaFieldModel(BaseModel):
-    fhir_path: str
-    data_type: PARSING_SCHEMA_DATA_TYPES
-    nullable: bool
-    secondary_schema: Optional[Dict[str, ParsingSchemaSecondaryFieldModel]]
-
-
-class ParsingSchemaModel(BaseModel):
-    parsing_schema: Dict[str, ParsingSchemaFieldModel] = Field(
-        description="A JSON formatted parsing schema to upload."
-    )
-    overwrite: Optional[bool] = Field(
-        description="When `true` if a schema already exists for the provided name it "
-        "will be replaced. When `false` no action will be taken and the response will "
-        "indicate that a schema for the given name already exists. To proceed submit a "
-        "new request with a different schema name or set this field to `true`.",
-        default=False,
-    )
-
-
-class PutSchemaResponse(BaseModel):
-    """
-    The schema for responses from the /schemas endpoint when a schema is uploaded.
-    """
-
-    message: str = Field(
-        "A message describing the result of a request to " "upload a parsing schema."
-    )
 
 
 upload_schema_request_examples = read_json_from_assets(
