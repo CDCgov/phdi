@@ -151,16 +151,29 @@ async def use_case_query(use_case: USE_CASES, input: UseCaseQueryRequest):
         )
         medication_request_query = f"{fhir_host}/MedicationRequest?subject={patient_id}&code={cancer_medications}"
         medication_query = f"{fhir_host}/Medication?code={cancer_medications}"
-        # medication_administration_query = f"{fhir_host}/MedicationAdministration?subject={patient_id}&code={cancer_medications}"
 
+        medications = session.get(medication_request_query).json()
+
+        medication_administrations = [
+            medication["resource"]["id"] for medication in medications["entry"]
+        ]
+        medication_administrations = ",".join(medication_administrations)
+        medication_administration_query = f"{fhir_host}/MedicationAdministration?subject={patient_id}&request={medication_administrations}"
+        medication_administration_response = session.get(
+            medication_administration_query
+        )
         queries = [
             conditon_query,
             encounter_query,
-            medication_request_query,
             medication_query,
-            # medication_administration_query,
         ]
+
         use_case_response = concatenate_queries(queries, session)
+
+        medication_administration_response = medication_administration_response.json()
+        for response in [medication_administration_response, medications]:
+            use_case_response["entry"].extend(response["entry"])
+            use_case_response["total"] = len(use_case_response["entry"])
 
     return use_case_response
 
@@ -177,10 +190,12 @@ def concatenate_queries(queries, session):
         use_case_response["total"] = len(use_case_response["entry"])
     return use_case_response
 
- # Serve Static Files
+
+# Serve Static Files
 app.mount("/front-end", StaticFiles(directory="./app/front-end"), name="front-end")
+
 
 # Root endpoint to serve the HTML page
 @app.get("/front-end")
 async def root():
-    return FileResponse('./app/front-end/index.html')
+    return FileResponse("./app/front-end/index.html")
