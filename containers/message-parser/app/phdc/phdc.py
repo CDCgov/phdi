@@ -130,5 +130,32 @@ class PHDCBuilder:
 
         return name_data
 
+    def _build_custodian(
+        id: str,
+    ):
+        """
+        Builds a `custodian` XML element for custodian data, which refers to the
+          organization from which the PHDC originates and that is in charge of
+          maintaining the document.
+
+        :param id: Custodian identifier.
+        :return: XML element of custodian data.
+        """
+        custodian_data = ET.Element("custodian")
+        assignedCustodian = ET.Element("assignedCustodian")
+        representedCustodianOrganization = ET.Element(
+            "representedCustodianOrganization"
+        )
+
+        if id is not None:
+            id_element = ET.Element("id")
+            id_element.set("extension", id)
+            representedCustodianOrganization.append(id_element)
+
+        assignedCustodian.append(representedCustodianOrganization)
+        custodian_data.append(assignedCustodian)
+
+        return custodian_data
+
     def build(self):
         return PHDC(self)
