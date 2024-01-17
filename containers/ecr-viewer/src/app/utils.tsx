@@ -31,31 +31,76 @@ const formatName = (firstName: string, lastName: string) => {
   }
 };
 
-export const formatPatientAddress = (
+export const extractPatientAddress = (
   fhirBundle: Bundle | undefined,
   fhirPathMappings: PathMappings,
 ) => {
   const streetAddresses = evaluate(
     fhirBundle,
     fhirPathMappings.patientStreetAddress,
-  ).join("\n");
+  );
   const city = evaluate(fhirBundle, fhirPathMappings.patientCity);
   const state = evaluate(fhirBundle, fhirPathMappings.patientState);
   const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode);
   const country = evaluate(fhirBundle, fhirPathMappings.patientCountry);
-  return `${streetAddresses}
-    ${city}, ${state}
-    ${zipCode}${country && `, ${country}`}`;
+  return formatAddress(streetAddresses, city, state, zipCode, country);
+};
+
+function extractLocationResource(
+  fhirBundle: Bundle | undefined,
+  fhirPathMappings: PathMappings,
+) {
+  const locationReference = evaluate(
+    fhirBundle,
+    fhirPathMappings.facilityLocation,
+  ).join("");
+  const locationUID = locationReference.split("/")[1];
+  const locationExpression = `Bundle.entry.resource.where(resourceType = 'Location').where(id = '${locationUID}')`;
+  return evaluate(fhirBundle, locationExpression)[0];
+}
+
+export const extractFacilityAddress = (
+  fhirBundle: Bundle | undefined,
+  fhirPathMappings: PathMappings,
+) => {
+  const locationResource = extractLocationResource(
+    fhirBundle,
+    fhirPathMappings,
+  );
+
+  const streetAddresses = locationResource.address.line;
+  const city = locationResource.address.city;
+  const state = locationResource.address.state;
+  const zipCode = locationResource.address.postalCode;
+  const country = locationResource.address.country;
+
+  return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
 const formatAddress = (
-  streetAddresses: string[],
-  city: string,
-  state: string,
-  zipCode: string,
+  streetAddress: any[],
+  city: any[],
+  state: any[],
+  zipCode: any[],
+  country: any[],
 ) => {
-  return `${streetAddresses} 
-        ${city}, ${state} ${zipCode}`;
+  return `${streetAddress.join("\n")}\n${city}, ${state}\n${zipCode}${
+    country && `, ${country}`
+  }`;
+};
+
+export const extractFacilityContactInfo = (
+  fhirBundle: Bundle | undefined,
+  fhirPathMappings: PathMappings,
+) => {
+  const locationResource = extractLocationResource(
+    fhirBundle,
+    fhirPathMappings,
+  );
+  const phoneNumbers = locationResource.telecom?.filter(
+    (contact: any) => contact.system === "phone",
+  );
+  return phoneNumbers?.[0].value;
 };
 
 export const formatPatientContactInfo = (
@@ -78,16 +123,47 @@ export const formatPatientContactInfo = (
     .map((email) => `${email.value}`)
     .join("\n");
 
-  return `${phoneNumbers}
+  const formattedContactInfo = `${phoneNumbers}
     ${emails}`;
+
+  // if it's an empty string, return undefined
+  return formattedContactInfo;
+};
+
+export const formatEncounterDate = (
+  fhirBundle: Bundle | undefined,
+  fhirPathMappings: PathMappings,
+) => {
+  const startDate = formatDateTime(
+    evaluate(fhirBundle, fhirPathMappings.encounterStartDate).join(""),
+  );
+  const endDate = formatDateTime(
+    evaluate(fhirBundle, fhirPathMappings.encounterEndDate).join(""),
+  );
+
+  return `Start: ${startDate}
+    End: ${endDate}`;
+};
+
+const formatDateTime = (dateTime: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "numeric",
+    minute: "2-digit",
+  };
+
+  return new Date(dateTime)
+    .toLocaleDateString("en-Us", options)
+    .replace(",", "");
 };
 
 const formatPhoneNumber = (phoneNumber: string) => {
   try {
-    const formattedPhoneNumber = phoneNumber
+    return phoneNumber
       .replace(/\D/g, "")
       .replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    return formattedPhoneNumber;
   } catch {
     return undefined;
   }
@@ -120,6 +196,35 @@ const formatStartEndDateTime = (
         End: ${endFormattedDate}`;
 };
 
+const extractTravelHistory = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+): string | undefined => {
+  const startDate = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryStartDate"],
+  )[0];
+  const endDate = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryEndDate"],
+  )[0];
+  const location = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryLocation"],
+  )[0];
+  const purposeOfTravel = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryPurpose"],
+  )[0];
+  if (startDate || endDate || location || purposeOfTravel) {
+    return `Dates: ${startDate} - ${endDate}
+       Location(s): ${location ?? "N/A"}
+       Purpose of Travel: ${purposeOfTravel ?? "N/A"}
+       `;
+  }
+  return undefined;
+};
+
 export const evaluateSocialData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
@@ -135,7 +240,7 @@ export const evaluateSocialData = (
     },
     {
       title: "Travel History",
-      value: evaluate(fhirBundle, mappings["patientTravelHistory"])[0],
+      value: extractTravelHistory(fhirBundle, mappings),
     },
     {
       title: "Homeless Status",
@@ -165,6 +270,51 @@ export const evaluateSocialData = (
   return evaluateData(socialData);
 };
 
+export const evaluateDemographicsData = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const demographicsData = [
+    {
+      title: "Patient Name",
+      value: formatPatientName(fhirBundle, mappings),
+    },
+    { title: "DOB", value: evaluate(fhirBundle, mappings.patientDOB)[0] },
+    { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
+    { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
+    {
+      title: "Ethnicity",
+      value: evaluate(fhirBundle, mappings.patientEthnicity)[0],
+    },
+    {
+      title: "Tribal Affiliation",
+      value: evaluate(fhirBundle, mappings.patientTribalAffiliation)[0],
+    },
+    {
+      title: "Preferred Language",
+      value: evaluate(fhirBundle, mappings.patientLanguage)[0],
+    },
+    {
+      title: "Patient Address",
+      value: extractPatientAddress(fhirBundle, mappings),
+    },
+    {
+      title: "County",
+      value: evaluate(fhirBundle, mappings.patientCounty)[0],
+    },
+    { title: "Contact", value: formatPatientContactInfo(fhirBundle, mappings) },
+    {
+      title: "Emergency Contact",
+      value: evaluate(fhirBundle, mappings.patientEmergencyContact)[0],
+    },
+    {
+      title: "Patient IDs",
+      value: evaluate(fhirBundle, mappings.patientId)[0],
+    },
+  ];
+  return evaluateData(demographicsData);
+};
+
 export const evaluateEncounterData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
@@ -192,6 +342,7 @@ export const evaluateEncounterData = (
         evaluate(fhirBundle, mappings["facilityCity"])[0],
         evaluate(fhirBundle, mappings["facilityState"])[0],
         evaluate(fhirBundle, mappings["facilityZipCode"])[0],
+        evaluate(fhirBundle, mappings["facilityCountry"])[0],
       ),
     },
     {
@@ -235,14 +386,15 @@ export const evaluateProviderData = (
 };
 
 const evaluateData = (data: DisplayData[]) => {
-  let availableArray: DisplayData[] = [];
-  let unavailableArray: DisplayData[] = [];
+  let availableData: DisplayData[] = [];
+  let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value != undefined) {
-      availableArray.push(item);
+    if (item.value == undefined || item.value.length == 0) {
+      unavailableData.push(item);
+      item.value = "N/A";
     } else {
-      unavailableArray.push(item);
+      availableData.push(item);
     }
   });
-  return { available_data: availableArray, unavailable_data: unavailableArray };
+  return { availableData: availableData, unavailableData: unavailableData };
 };

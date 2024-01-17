@@ -31,7 +31,7 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 Nursing, psychiatric, and home health aides
               </div>
@@ -52,7 +52,7 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 Tobacco smoking consumption unknown
               </div>
@@ -73,7 +73,7 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 unsatisfactory living conditions (finding)
               </div>
@@ -94,7 +94,7 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 Nursing, psychiatric, and home health aides
               </div>
