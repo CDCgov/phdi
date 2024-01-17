@@ -13,7 +13,7 @@ import {
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
-  evaluateDemographicsData,
+  evaluateDemographicsData, evaluateEcrMetadata
 } from "../utils";
 import EncounterDetails from "./components/Encounter";
 
@@ -55,6 +55,7 @@ const ECRViewerPage = () => {
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
+    const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: "Patient Info",
@@ -74,7 +75,7 @@ const ECRViewerPage = () => {
         title: "eCR Metadata",
         content: (
           <>
-            <EcrMetadata fhirPathMappings={mappings} fhirBundle={fhirBundle} />
+            <EcrMetadata eicrDetails={ecrMetadata.eicrDetails.availableData} eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData} rrDetails={[]}/>
           </>
         ),
         expanded: true,

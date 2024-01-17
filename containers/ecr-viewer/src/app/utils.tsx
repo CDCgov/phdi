@@ -385,6 +385,40 @@ export const evaluateProviderData = (
   return evaluateData(providerData);
 };
 
+export const evaluateEcrMetadata = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const eicrDetails: DisplayData[] = [
+    {
+      title: "eICR Identifier",
+      value: evaluate(fhirBundle, mappings.eicrIdentifier)[0]
+    },
+  ];
+  const ecrSenderDetails: DisplayData[] = [
+    {
+      title: "Date/Time eCR Created",
+      value: evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0]
+    },    {
+      title: "Sender Software",
+      value: evaluate(fhirBundle, mappings.senderSoftware)[0]
+    },    {
+      title: "Sender Facility Name",
+      value: evaluate(fhirBundle, mappings.senderFacilityName)
+    },    {
+      title: "Facility Address",
+      value: extractFacilityAddress(fhirBundle, mappings)
+    },    {
+      title: "Facility Contact",
+      value: evaluate(fhirBundle, mappings.facilityContact)[0]
+    },    {
+      title: "Facility ID",
+      value: evaluate(fhirBundle, mappings.facilityID)[0]
+    },
+  ];
+  return {eicrDetails: evaluateData(eicrDetails), ecrSenderDetails: evaluateData(ecrSenderDetails) };
+};
+
 const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
