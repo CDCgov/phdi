@@ -30,6 +30,16 @@ describe("Utils", () => {
            Purpose of Travel: Active duty military (occupation)`);
     });
   });
+  describe("Evaluate Ecr Metadata", () => {
+    it("should have no available data where there is no data", () => {
+      const actual = evaluateEcrMetadata(undefined, mappings);
+
+      expect(actual.ecrSenderDetails.availableData).toBeEmpty();
+      expect(actual.eicrDetails.availableData).toBeEmpty();
+      expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
+      expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
+    })
+  })
   describe("Format Patient Name", () => {
     it("should return name", () => {
       const actual = formatPatientName(

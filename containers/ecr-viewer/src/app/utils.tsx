@@ -68,11 +68,11 @@ export const extractFacilityAddress = (
     fhirPathMappings,
   );
 
-  const streetAddresses = locationResource.address.line;
-  const city = locationResource.address.city;
-  const state = locationResource.address.state;
-  const zipCode = locationResource.address.postalCode;
-  const country = locationResource.address.country;
+  const streetAddresses = locationResource?.address?.line;
+  const city = locationResource?.address?.city;
+  const state = locationResource?.address?.state;
+  const zipCode = locationResource?.address?.postalCode;
+  const country = locationResource?.address?.country;
 
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
@@ -84,7 +84,7 @@ const formatAddress = (
   zipCode: string,
   country: string,
 ) => {
-  let address= {streetAddress: streetAddress, cityState: [city, state], zipCodeCountry: [zipCode, country]};
+  let address= {streetAddress: streetAddress || [], cityState: [city, state], zipCodeCountry: [zipCode, country]};
 
   return [address.streetAddress.join("\n"), address.cityState.filter(Boolean).join(", "), address.zipCodeCountry.filter(Boolean).join(", ")].filter(Boolean).join("\n");
 };
