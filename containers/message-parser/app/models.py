@@ -12,8 +12,22 @@ PARSING_SCHEMA_DATA_TYPES = Literal[
 ]
 
 
-# TODO: Add docstring here as part of separate ticket work
 def validate_secondary_reference_fields(values):
+    """
+    Function that determines whether the schema
+      given to message_parser is correctly formatted
+
+    :param values: parsing_schema to determine how to transform data
+      with message_parser
+
+    :raises ValueError: raises for two reasons:
+      1. If a secondary field in the parsing schema references another resource,
+      parsing schema must include a reference_lookup
+      2. If a secondary field in the parsing schema includes a reference_lookup,
+      that reference_lookup must start with Bundle
+
+    :return values: if parsing_schema correctly formated, return parsing_schema
+    """
     schema = values.get("parsing_schema", {})
     for field in schema:
         for _, secondary_field_definition in (
@@ -82,6 +96,19 @@ class ParseMessageInput(BaseModel):
 
     @root_validator
     def require_message_type_when_not_fhir(cls, values):
+        """
+        Function that checks when non-fhir-formatted data is given whether a
+          message_type has been included with API call
+
+        :param cls: the ParseMessageInput class
+
+        :param values: the message_format provided by the user
+
+        :raises ValueError: errors when message_type is None
+          when message_format is not "fhir"
+
+        :return values: the message_format provided by the user
+        """
         if (
             values.get("message_format") != "fhir"
             and values.get("message_type") is None
@@ -94,6 +121,20 @@ class ParseMessageInput(BaseModel):
 
     @root_validator
     def prohibit_schema_and_schema_name(cls, values):
+        """
+        Function that checks whether the user has provided
+          both parsing_schema and parsing_schema_name;
+          only one should be provided for message_parser to work correctly.
+
+        :param cls: the ParseMessageInput class
+
+        :param values: the parsing_schema and parsing_schema_name provided by the user
+
+        :raises ValueError: error when both parsing_schema and
+          parsing_schema_name are provided in API call.
+
+        :return values: the parsing_schema and parsing_schema_name provided by the user
+        """
         if (
             values.get("parsing_schema") != {}
             and values.get("parsing_schema_name") != ""
@@ -106,6 +147,20 @@ class ParseMessageInput(BaseModel):
 
     @root_validator
     def require_schema_or_schema_name(cls, values):
+        """
+        Function that checks whether the user has provided
+          one of either parsing_schema and parsing_schema_name;
+          one (and only one!) should be provided for message_parser to work correctly.
+
+        :param cls: the ParseMessageInput class
+
+        :param values: the parsing_schema and parsing_schema_name provided by the user
+
+        :raises ValueError: error when both pasing_schema and parsing_schema_name
+          are missing from API call.
+
+        :return values: the parsing_schema and parsing_schema_name provided by the user
+        """
         if (
             values.get("parsing_schema") == {}
             and values.get("parsing_schema_name") == ""
@@ -161,6 +216,19 @@ class FhirToPhdcInput(BaseModel):
     # to set a custom schema when receiving PHDC (since it's so structured)
     @root_validator
     def prohibit_schema_and_schema_name(cls, values):
+        """
+        Function that checks whether the user has provided
+          one of either parsing_schema and parsing_schema_name;
+          one (and only one!) should be provided for message_parser to work correctly.
+
+        :param cls: the ParseMessageInput class
+        :param values: the parsing_schema and parsing_schema_name provided by the user
+
+        :raises ValueError: error when both pasing_schema and parsing_schema name
+          are missing from API call.
+
+        :return values: the parsing_schema and parsing_schema_name provided by the user
+        """
         if (
             values.get("parsing_schema") != {}
             and values.get("parsing_schema_name") != ""
@@ -175,6 +243,20 @@ class FhirToPhdcInput(BaseModel):
     # to set a custom schema when receiving PHDC (since it's so structured)
     @root_validator
     def require_schema_or_schema_name(cls, values):
+        """
+        Function that checks whether the user has provided
+          one of either parsing_schema and parsing_schema_name;
+          one (and only one!) should be provided for message_parser to work correctly.
+
+        :param cls: the ParseMessageInput class
+
+        :param values: the parsing_schema and parsing_schema_name provided by the user
+
+        :raises ValueError: error when both pasing_schema and parsing_schema_name
+          are missing from API call.
+
+        :return values: the parsing_schema and parsing_schema_name provided by the user
+        """
         if (
             values.get("parsing_schema") == {}
             and values.get("parsing_schema_name") == ""
