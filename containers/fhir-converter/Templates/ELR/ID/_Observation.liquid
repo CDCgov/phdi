@@ -1,0 +1,28 @@
+{% capture identifiers -%}
+    {% if OBX.3 and OBX.14 -%}
+        {{OBX.3.Value}},{{OBX.14.Value}}
+    {% elsif OBX_ORU.3 and OBR.7 -%}
+        {{OBX_ORU.3.Value}},{{OBR.7.Value}}
+    {% elsif OBX -%}
+        {{OBX.Value}}
+    {% elsif PID.22 -%}
+        {{PID.22.Value}}
+    {% elsif PID.10 -%}
+        {{PID.10.Value}}
+    {% elsif NTE -%}
+        {{NTE.Value}}
+    {% elsif ACC.13 -%}
+        {{ACC.13.Repeats[0].Value}}
+    {% elsif ACC.1 and ACC.2 and ACC.3 and ACC.11 -%}
+        {{ACC.1.Value}},{{ACC.2.Value}},{{ACC.3.Value}},{{ACC.11.Value}}
+    {% elsif ACC -%}
+        {{ACC.Value}}
+    {% elsif PDA_death.3 and PDA_death.4 and PDA_death.5.1  -%}
+        {{PDA_death.3.Value}},{{PDA_death.4.Value}},{{PDA_death.5.1.Value}}
+    {% elsif PDA_autopsy.6 and PDA_autopsy.7 and PDA_autopsy.8.1 -%}
+        {{PDA_autopsy.6.Value}},{{PDA_autopsy.7.Value}},{{PDA_autopsy.8.1.Value}}
+    {% elsif PDA_coroner.9 -%}
+        {{PDA_coroner.9.Value}}    
+    {% endif -%}
+{% endcapture -%}
+{{ identifiers | generate_id_input: 'Observation', false, baseId | generate_uuid }}

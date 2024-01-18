@@ -1,0 +1,7 @@
+{
+    "url": "http://example.com/v2-to-fhir-converter/Observation_Status",
+    "valueCodeableConcept": {
+        {% include 'DataType/CWECodeableConcept' mapping: 'CodeSystem/ObservationStatus-ext', CWE: ID -%}     
+        "text": "{{ ID.1.Value | get_property: 'CodeSystem/ObservationStatus-ext', 'display' }}",
+    },
+}

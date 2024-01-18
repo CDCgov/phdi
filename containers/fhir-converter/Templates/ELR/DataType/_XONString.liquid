@@ -1,0 +1,7 @@
+{% if XON -%}
+    {% if XON.1 -%}
+    "{{ XON.1.Value }}",
+    {% else -%}
+       "{{ XON.10.Value }}",
+    {% endif -%}
+{% endif -%}

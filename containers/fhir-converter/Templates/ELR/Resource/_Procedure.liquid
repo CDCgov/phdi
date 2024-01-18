@@ -1,0 +1,282 @@
+{% comment -%}
+The following reference IDs are accepted by this template.
+
+Location_ID_PR1_23: A resource Id, used to fill "location.reference" property. The resource is of "Location" type and generated based on "PR1.23" HL7 V2 identifier.
+Procedure_ID_PR1_25: A resource Id, used to fill "partOf.reference" property. The resource is of "Procedure" type and generated based on "PR1.25" HL7 V2 identifier.
+Procedure_Subject_ID: A resource Id, used to fill "subject.reference" property.
+Procedure_Encounter_ID: A resource Id, used to fill "encounter.reference" property.
+Procedure_Recorder_ID: A resource Id, used to fill "recorder.reference" property.
+Procedure_Asserter_ID: A resource Id, used to fill "asserter.reference" property.
+{% endcomment -%}
+{% evaluate Practitioner_ID_PR1_8 using 'ID/Practitioner' XCN: PR1.8 -%}
+{% evaluate Practitioner_ID_PDA_5 using 'ID/Practitioner' XCN: PDA_proc_1.5 -%}
+{% evaluate Practitioner_ID_PDA_8 using 'ID/Practitioner' XCN: PDA_proc_2.8 -%}
+{% evaluate Practitioner_ID_PR1_11 using 'ID/Practitioner' XCN: PR1.11 -%}
+{% evaluate Practitioner_ID_PR1_12 using 'ID/Practitioner' XCN: PR1.12 -%}
+{% evaluate Procedure_ID_PR1_25 using 'ID/Procedure' PR1: PR1.25, baseId: Procedure_Subject_ID -%}
+
+{
+    "fullUrl":"urn:uuid:{{ ID }}",
+    "resource":{
+        "resourceType": "Procedure",
+        "id":"{{ ID }}",
+        "code":
+        {
+            {% if PR1.3 -%}
+                {% include 'DataType/CNECodeableConcept' CNE: PR1.3 -%}
+            {% endif -%}
+            {% if PR1.3.9 == null -%}
+                "text":"{{ PR1.4.Value }}",
+            {% endif -%}
+            {% if PDA_proc_1 %}
+                "coding": 
+                [
+                    {
+                        "code": "death-certification",
+                        "display": "Death Certification",
+                        "system": "http://example.com/v2-to-fhir-converter/CodeSystem/procedure-code",
+                    }
+                ],
+            {% endif %}
+            {% if PDA_proc_2 %}
+                "coding": 
+                [
+                    {
+                        "code": "autopsy-performed",
+                        "display": "Autopsy Performed",
+                        "system": "http://example.com/v2-to-fhir-converter/CodeSystem/procedure-code",
+                    }
+                ],
+            {% endif %}
+            {% if FT1.25 -%}
+                {% include 'DataType/CNECodeableConcept' CNE: FT1.25 -%}
+            {% endif -%}
+        },
+
+        {% if PR1 -%}
+            "status": "unknown",
+        {% endif %}
+        {% if PR1.20.Value == "D" -%}
+            "status": "entered-in-error",
+        {% endif %}
+
+        {% if FT1 -%}
+            "status": "unknown",
+        {% endif -%}
+
+        {% if PR1_25 -%}
+            "status": "unknown",
+        {% endif -%}
+
+        {% if PDA_proc_1 %}
+            {% if PDA_proc_1.3.Value == 'Y' %}
+                "status": "completed",
+            {% elsif PDA_proc_1.3.Value == 'N' %}
+                "status": "not-done",
+            {% else %}
+                "status": "unknown",
+            {% endif %}
+        {% endif %}
+        {% if PDA_proc_2 %}
+            {% if PDA_proc_2.6.Value == 'Y' %}
+                "status": "completed",
+            {% elsif PDA_proc_2.6.Value == 'N' %}
+                "status": "not-done",
+            {% else %}
+                "status": "unknown",
+            {% endif %}
+        {% endif %}
+
+        "performedDateTime":"{{ PR1.5.Value | format_as_date_time }}",
+        {% if PDA_proc_1.4 %}
+            "performedDateTime": "{{ PDA_proc_1.4.Value | format_as_date_time }}",
+        {% endif %}
+        {% if PDA_proc_2.7 %}
+            "performedPeriod":
+            {   
+                {% include 'DataType/DRPeriod' DR: PDA_proc_2.7 %}
+            },
+        {% endif %}
+       
+        {% comment %}
+        {% assign procedureDateTime = PR1.5.Value | format_as_date_time %}
+        {% assign performedMinute = procedureDateTime | date: "%m" %}
+        
+        {% if PR1.7 and performedMinute == null -%}
+            "performedDateTime":"{{ PR1.5.Value | format_as_date_time }}",
+        {% endif -%}
+
+        "performedPeriod":
+        {
+            {% if PR1.7 and performedMinute -%}
+                "start":"{{ PR1.5.Value | format_as_date_time }}",
+            {% endif -%}  
+            {% if performedMinute -%}
+                "end": "{{ procedureDateTime | date_add: 5, "day"}}",  
+            {% endif -%}
+        },
+        {% endcomment %}
+        "category":
+        {
+            {% include 'DataType/CWECodeableConcept' CWE: PR1.6 -%}
+        },
+        "performer" : [
+            {% if PDA_proc_1 %}
+                {
+                    "function" : { 
+                        "text": "Death Certified By",
+                    },
+                    "actor" : { 
+                        {% if Practitioner_ID_PDA_5 %}
+                            "reference":"Practitioner/{{ Practitioner_ID_PDA_5 }}",
+                        {% endif %}
+                    },
+                },
+            {% endif %}
+            {% if PDA_proc_2 %}
+                {
+                    "function" : { 
+                        "text": "Autopsy Performed By",
+                    },
+                    "actor" : { 
+                        {% if Practitioner_ID_PDA_8 %}
+                            "reference":"Practitioner/{{ Practitioner_ID_PDA_8 }}",
+                        {% endif %}
+                    },
+                },
+            {% endif %}
+            {% if PR1.8-%}
+            {
+                "actor" : { 
+                    "reference":"Practitioner/{{ Practitioner_ID_PR1_8 }}",
+                }, 
+                "function" : { 
+                    "coding":[
+                        {
+                            "code": "anesthesiologist",
+                            "system": "http://example.com/v2-to-fhir-converter/CodeSystem/performer-role",
+                            "display": "Anesthesiologist",
+                        },
+                    ],
+                    "text": "Anesthesiologist",
+                }, 
+            },
+            {% endif -%}
+            {% if PR1.11-%}
+            {
+                "actor" : { 
+                    "reference":"Practitioner/{{ Practitioner_ID_PR1_11 }}",
+                }, 
+                "function" : { 
+                    "coding":[
+                        {
+                            "code":"surgeon",
+                            "system":"http://example.com/v2-to-fhir-converter/CodeSystem/performer-role",
+                            "display": "Surgeon",
+                        },
+                    ],
+                    "text": "Surgeon",
+                },
+            },
+            {% endif -%}
+            {% if PR1.12-%}
+            {
+                "actor" : { 
+                    "reference":"Practitioner/{{ Practitioner_ID_PR1_12 }}",
+                },
+                "function":{
+                    "coding":[
+                        {
+                            "code":"procedure-practitioner",
+                            "system":"http://example.com/v2-to-fhir-converter/CodeSystem/performer-role",
+                            "display": "Procedure Practitioner",
+                        },
+                    ],
+                    "text": "Procedure Practitioner",
+                } 
+            },
+            {% endif -%}
+        ],
+        "reasonCode":
+        [
+            {
+                {% include 'DataType/CWECodeableConcept' CWE: PR1.15 -%}
+            },
+        ],
+        "identifier":
+        [
+            {
+                {% include 'DataType/EIIdentifier' EI: PR1.19 -%}
+            },
+            {
+                {% include 'DataType/EIIdentifier' EI: PR1_25 -%}
+            },
+        ],
+        "location":
+            {   
+                {% if PR1.23 -%}
+                    {% if PR1.23.5 or PR1.23.9 -%}
+                        {% if PR1.23.5 and PR1.23.9 -%}
+                            {% assign PL_Value_Except_PL5_PL9 = PR1.23.Value | remove: PR1.23.5.Value | remove: PR1.23.9.Value %}
+                        {% endif -%}
+                        {% if PR1.23.5 and PR1.23.9 == null or PR1.23.9 == "" -%}
+                            {% assign PL_Value_Except_PL5_PL9= PR1.23.Value | remove: PR1.23.5.Value %}
+                        {% endif -%}
+                        {% if PR1.23.9 and PR1.23.5 == null or PR1.23.5 == "" -%}
+                            {% assign PL_Value_Except_PL5_PL9= PR1.23.Value | remove: PR1.23.9.Value %}
+                        {% endif -%}
+                    {% else -%}
+                        {% assign PL_Value_Except_PL5_PL9 = PR1.23.Value %}
+                    {% endif -%}
+
+                    {% if PR1.23.1 -%}
+                        {% evaluate Location_ID_PR1_23 using 'ID/Location' PL_Field_Value: PR1.23.1, PL: PR1.23, PL_Value_Except_PL5_PL9: PL_Value_Except_PL5_PL9 -%}
+                    {% elseif PR1.23.2 -%}
+                        {% evaluate Location_ID_PR1_23 using 'ID/Location' PL_Field_Value: PR1.23.2, PL: PR1.23, PL_Value_Except_PL5_PL9: PL_Value_Except_PL5_PL9 -%}
+                    {% elseif PR1.23.3 -%}
+                        {% evaluate Location_ID_PR1_23 using 'ID/Location' PL_Field_Value: PR1.23.3, PL: PR1.23, PL_Value_Except_PL5_PL9: PL_Value_Except_PL5_PL9 -%}
+                    {% elseif PR1.23.4 -%}
+                        {% evaluate Location_ID_PR1_23 using 'ID/Location' PL_Field_Value: PR1.23.4, PL: PR1.23, PL_Value_Except_PL5_PL9: PL_Value_Except_PL5_PL9 -%}
+                    {% elseif PR1.23.7 -%}
+                        {% evaluate Location_ID_PR1_23 using 'ID/Location' PL_Field_Value: PR1.23.7, PL: PR1.23, PL_Value_Except_PL5_PL9: PL_Value_Except_PL5_PL9 -%}
+                    {% elseif PR1.23.8 -%}
+                        {% evaluate Location_ID_PR1_23 using 'ID/Location' PL_Field_Value: PR1.23.8, PL: PR1.23, PL_Value_Except_PL5_PL9: PL_Value_Except_PL5_PL9 -%}
+                    {% endif -%}
+
+                    {% if PR1.23 and Location_ID_PR1_23 -%}
+                            "reference":"Location/{{ Location_ID_PR1_23 }}",
+                    {% endif -%}
+                {% endif %}
+            },
+            
+        "partOf":
+        [
+            {
+                {% if PR1.25 and Procedure_ID_PR1_25 -%}
+                    "reference":"Procedure/{{ Procedure_ID_PR1_25 }}",
+                {% endif -%}
+            },
+        ],
+        "subject":
+        {
+            "reference":"{{ Procedure_Subject_ID }}",
+        },
+        
+        "encounter":
+        {
+            "reference":"{{ Procedure_Encounter_ID }}",
+        },
+        "recorder":
+        {
+            "reference":"{{ Procedure_Recorder_ID }}",
+        },
+        "asserter":
+        {
+            "reference":"{{ Procedure_Asserter_ID }}",
+        },
+    },
+    "request":{
+        "method":"PUT",
+        "url":"Procedure/{{ ID }}",
+    },
+},

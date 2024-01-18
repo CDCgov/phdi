@@ -1,0 +1,88 @@
+{% if CWE -%}
+    "coding":
+    [
+        {
+            {% if mapping -%}
+                "code":"{{ CWE.1.Value | get_property: mapping, 'code' }}",
+                {% capture displayURL %}{{ CWE.1.Value | get_property: mapping, 'display' }}{% endcapture %}
+                    "display":"{{ displayURL }}",
+                {% if displayURL ==  CWE.1.Value %}
+                    "display":"{{ CWE.2.Value }}",
+                {% endif %}
+                {% if CWE.3 %}
+                    "system":"http://example.com/v2-to-fhir-converter/CodeSystem/{{CWE.3.Value | replace: ' ', '-'}}",
+                {% endif %}
+                "system":"{{ CWE.1.Value | get_property: mapping, 'system' }}",
+                "version":"{{ CWE.1.Value | get_property: mapping, 'version' }}",
+                "version":"{{ CWE.7.Value }}",
+            {% else -%}
+                "code":"{{ CWE.1.Value }}",
+                "display":"{{ CWE.2.Value }}",
+
+                {% if CWE.3 %}
+                    "system":"http://example.com/v2-to-fhir-converter/CodeSystem/{{CWE.3.Value | replace: ' ', '-'}}",
+                {% endif %}
+                {% capture temp %}{{ CWE.3.Value | get_property: 'CodeSystem/CodeSystemUrl', 'system' }}{% endcapture %}
+                {% if temp%}
+                    "system":"{{temp}}",              
+                {% endif %}
+                "version":"{{ CWE.7.Value }}",
+            {% endif -%}
+        },
+        {
+            {% if mapping -%}
+                "code":"{{ CWE.4.Value | get_property: mapping, 'code' }}",
+                {% capture displayURL %}{{ CWE.4.Value | get_property: mapping, 'display' }}{% endcapture %}
+                    "display":"{{ displayURL }}",
+                {% if displayURL ==  CWE.4.Value %}
+                    "display":"{{ CWE.5.Value }}",
+                {% endif %}
+                {% if CWE.6 %}
+                    "system":"http://example.com/v2-to-fhir-converter/CodeSystem/{{CWE.6.Value | replace: ' ', '-'}}",
+                {% endif %}
+                "system":"{{ CWE.4.Value | get_property: mapping, 'system' }}",
+                "version":"{{ CWE.4.Value | get_property: mapping, 'version' }}",
+                "version":"{{ CWE.8.Value }}",
+            {% else -%}
+                "code":"{{ CWE.4.Value }}",
+                "display":"{{ CWE.5.Value }}",
+                {% if CWE.6 %}
+                    "system":"http://example.com/v2-to-fhir-converter/CodeSystem/{{CWE.6.Value | replace: ' ', '-'}}",
+                {% endif %}
+                {% capture temp %}{{ CWE.6.Value | get_property: 'CodeSystem/CodeSystemUrl', 'system' }}{% endcapture %}
+                {% if temp%}
+                    "system":"{{temp}}",              
+                {% endif %}
+                "version":"{{ CWE.8.Value }}",
+            {% endif -%}
+        },
+        {
+            {% if mapping -%}
+                "code":"{{ CWE.10.Value | get_property: mapping, 'code' }}",
+                {% capture displayURL %}{{ CWE.10.Value | get_property: mapping, 'display' }}{% endcapture %}
+                    "display":"{{ displayURL }}",
+                {% if displayURL ==  CWE.10.Value %}
+                    "display":"{{ CWE.11.Value }}",
+                {% endif %}
+                {% if CWE.12 %}
+                    "system":"http://example.com/v2-to-fhir-converter/CodeSystem/{{CWE.12.Value | replace: ' ', '-'}}",
+                {% endif %}
+                "system":"{{ CWE.10.Value | get_property: mapping, 'system' }}",
+                "version":"{{ CWE.10.Value | get_property: mapping, 'version' }}",
+                "version":"{{ CWE.13.Value }}",
+            {% else -%}
+                "code":"{{ CWE.10.Value }}",
+                "display":"{{ CWE.11.Value }}",
+                {% if CWE.12 %}
+                    "system":"http://example.com/v2-to-fhir-converter/CodeSystem/{{CWE.12.Value | replace: ' ', '-'}}",
+                {% endif %}
+                {% capture temp %}{{ CWE.12.Value | get_property: 'CodeSystem/CodeSystemUrl', 'system' }}{% endcapture %}
+                {% if temp%}
+                    "system":"{{temp}}",              
+                {% endif %}
+                "version":"{{ CWE.13.Value }}",
+            {% endif -%}
+        },
+    ],
+    "text":"{{ CWE.9.Value }}",
+{% endif -%}
