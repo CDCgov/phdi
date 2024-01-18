@@ -1,8 +1,29 @@
 from __future__ import annotations
 
+from typing import List
 from typing import Literal
+from typing import Optional
+from typing import Union
 
+from dataclass import dataclass
 from lxml import etree as ET
+
+
+@dataclass
+class PHDCData:
+    phone_use: Optional[str] = None
+    phone: Optional[str] = None
+    addr_use: Optional[str] = None
+    addr_line: Optional[str] = None
+    addr_city: Optional[str] = None
+    addr_state: Optional[str] = None
+    addr_zip: Optional[str] = None
+    addr_county: Optional[str] = None
+    addr_country: Optional[str] = None
+    name_use: Optional[str] = None
+    name_prefix: Optional[str] = None
+    given_name: str = None
+    last_name: str = None
 
 
 class PHDC:
@@ -80,6 +101,61 @@ class PHDCBuilder:
 
         return address_data
 
+    def _build_name(
+        use: Literal["L", "P"] = None,
+        prefix: str = None,
+        given_name: Union[str, List[str]] = None,
+        last_name: str = None,
+    ):
+        """
+        Builds a `name` XML element for address data. There are two types of name
+         uses: 'L' for legal and 'P' for pseudonym.
+
+        :param use: Type of address, defaults to None.
+        :param prefix: Name prefix, defaults to None.
+        :param given_name: String or list of strings representing given name(s),
+          defaults to None.
+        :param last_name: Last name, defaults to None.
+        """
+        name_elements = locals()
+
+        name_data = ET.Element("name")
+        if use is not None:
+            name_data.set("use", use)
+
+        for element, value in name_elements.items():
+            if element != "use" and value is not None:
+                if element == "given_name":
+                    element = "given"
+
+                    # Split single string names into first name and middle names as
+                    # PHDC appears to only allow for up to two given names
+                    if isinstance(value, str) and len(value.split()) > 1:
+                        value = [
+                            value.split()[0],
+                            " ".join(v for v in (value.split()[1:])),
+                        ]
+
+                elif element == "last_name":
+                    element = "family"
+
+                # Append each value of a list, e.g., given name, as its own Element
+                if isinstance(value, list):
+                    value = [
+                        value[0],
+                        " ".join(v for v in (value[1:])),
+                    ]
+                    for v in value:
+                        e = ET.Element(element)
+                        e.text = v
+                        name_data.append(e)
+                else:
+                    e = ET.Element(element)
+                    e.text = value
+                    name_data.append(e)
+
+        return name_data
+
     def build(self, **kwargs) -> PHDC:
         return PHDC(self)
 
@@ -88,7 +164,7 @@ class PHDCDirector:
     def __init__(self, builder: PHDCBuilder) -> None:
         self.builder = builder
 
-    def build_case_report(self, telecom_data: dict, addr_data: dict) -> PHDC:
+    def build_case_report(self, data: PHDCData) -> PHDC:
         """
         Builds a case report PHDC object.
 
@@ -96,10 +172,23 @@ class PHDCDirector:
         the arguments required by those methods. See PHDCBuilder's methods for more
         info.
 
-        :param telecom_data: Dictionary of telecom data.
-        :param addr_data: Dictionary of address data.
+        :param data: Dictionary of parsed data to be used to construct a PHDC
+            Case Report.
         :return: PHDC object.
         """
+        telecom_data = {"phone": data.phone, "use": data.phone_use}
+
+        # Extracting address data
+        addr_data = {
+            "use": data.addr_use,
+            "line": data.addr_line,
+            "city": data.addr_city,
+            "state": data.addr_state,
+            "zip": data.addr_zip,
+            "county": data.addr_county,
+            "country": data.addr_country,
+        }
+
         telecom_element = self.builder._build_telecom(**telecom_data)
         addr_element = self.builder._build_addr(**addr_data)
         return self.builder.build(telecom=telecom_element, addr=addr_element)

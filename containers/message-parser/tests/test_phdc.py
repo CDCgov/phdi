@@ -96,6 +96,83 @@ def test_build_addr(builder, build_addr_test_data, expected_result):
     assert ET.tostring(xml_addr_data).decode() == expected_result
 
 
+@pytest.mark.parametrize(
+    "build_name_test_data, expected_result",
+    [
+        # Success with all single given_name
+        (
+            {
+                "use": "L",
+                "prefix": "Mr.",
+                "given_name": "John",
+                "last_name": "Doe",
+            },
+            (
+                '<name use="L"><prefix>Mr.</prefix>'
+                + "<given>John</given><family>Doe</family></name>"
+            ),
+        ),
+        # Success with given_name as list
+        (
+            {
+                "use": "L",
+                "prefix": "Mr.",
+                "given_name": ["John", "Jacob"],
+                "last_name": "Doe",
+            },
+            (
+                '<name use="L"><prefix>Mr.</prefix>'
+                + "<given>John</given><given>Jacob</given><family>Doe</family></name>"
+            ),
+        ),
+        # Success with given_name as multi-name str
+        (
+            {
+                "use": "L",
+                "prefix": "Mr.",
+                "given_name": "John Jacob",
+                "last_name": "Doe",
+            },
+            (
+                '<name use="L"><prefix>Mr.</prefix>'
+                + "<given>John</given><given>Jacob</given><family>Doe</family></name>"
+            ),
+        ),
+        # Success with more than 2 given names in a string condensed to 2 given names
+        (
+            {
+                "use": "L",
+                "prefix": "Mr.",
+                "given_name": "John Jacob Jingleheimer",
+                "last_name": "Doe",
+            },
+            (
+                '<name use="L"><prefix>Mr.</prefix>'
+                + "<given>John</given><given>Jacob Jingleheimer</given>"
+                + "<family>Doe</family></name>"
+            ),
+        ),
+        # Success with more than 2 given names in a list condensed to 2 given names
+        (
+            {
+                "use": "L",
+                "prefix": "Mr.",
+                "given_name": ["John", "Jacob", "Jingleheimer"],
+                "last_name": "Doe",
+            },
+            (
+                '<name use="L"><prefix>Mr.</prefix>'
+                + "<given>John</given><given>Jacob Jingleheimer</given>"
+                + "<family>Doe</family></name>"
+            ),
+        ),
+    ],
+)
+def test_build_name(build_name_test_data, expected_result):
+    xml_name_data = PHDCBuilder._build_name(**build_name_test_data)
+    assert ET.tostring(xml_name_data).decode() == expected_result
+
+
 @pytest.fixture
 def director_data():
     return {
