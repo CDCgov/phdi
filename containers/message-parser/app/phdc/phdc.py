@@ -90,6 +90,7 @@ class PHDCBuilder:
         :param given_name: String or list of strings representing given name(s),
           defaults to None.
         :param last_name: Last name, defaults to None.
+        :return: XML element of name data.
         """
         name_elements = locals()
 
@@ -129,6 +130,35 @@ class PHDCBuilder:
                     name_data.append(e)
 
         return name_data
+
+    def _build_custodian(
+        id: str,
+    ):
+        """
+        Builds a `custodian` XML element for custodian data, which refers to the
+          organization from which the PHDC originates and that is in charge of
+          maintaining the document.
+
+        :param id: Custodian identifier.
+        :return: XML element of custodian data.
+        """
+        if id is None:
+            raise ValueError("The Custodian id parameter must be a defined.")
+
+        custodian_data = ET.Element("custodian")
+        assignedCustodian = ET.Element("assignedCustodian")
+        representedCustodianOrganization = ET.Element(
+            "representedCustodianOrganization"
+        )
+
+        id_element = ET.Element("id")
+        id_element.set("extension", id)
+        representedCustodianOrganization.append(id_element)
+
+        assignedCustodian.append(representedCustodianOrganization)
+        custodian_data.append(assignedCustodian)
+
+        return custodian_data
 
     def build(self):
         return PHDC(self)
