@@ -49,7 +49,7 @@ const UnavailableInfo = ({
         aria-labelledby="summary-box-key-information"
       >
         <div className="usa-summary-box__body">
-          {socialUnavailableData.length > 0 &&
+          {demographicsUnavailableData.length > 0 &&
             renderSection("Demographics", demographicsUnavailableData)}
           {socialUnavailableData.length > 0 &&
             renderSection("Social History", socialUnavailableData)}
