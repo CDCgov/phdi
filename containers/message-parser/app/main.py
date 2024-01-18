@@ -141,6 +141,16 @@ def extract_and_apply_parsers(parsing_schema, message, response):
     return parsed_values
 
 
+@app.get("/")
+async def health_check():
+    """
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the FHIR conversion service is available and running
+    properly.
+    """
+    return {"status": "OK"}
+
+
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)
 async def parse_message_endpoint(
     input: Annotated[ParseMessageInput, Body(examples=parse_message_request_examples)],
