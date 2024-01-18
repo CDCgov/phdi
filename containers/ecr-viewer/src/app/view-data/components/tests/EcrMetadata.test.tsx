@@ -6,6 +6,18 @@ import { DisplayData } from "@/app/utils";
 describe("ECR Metadata", () => {
   let container: HTMLElement;
   beforeAll(() => {
+    const rrDetails: DisplayData[] = [
+      {
+        title: "Reportable Condition(s)",
+        value: "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)"
+      },      {
+        title: "RCKMS Trigger Summary",
+        value: "COVID-19 (as a diagnosis or active problem)"
+      },      {
+        title: "Jurisdiction(s) Sent eCR",
+        value: "California Department of Public Health"
+      },
+    ];
 
     const eicrDetails: DisplayData[] = [
       {
@@ -39,7 +51,7 @@ describe("ECR Metadata", () => {
       <EcrMetadata
         eicrDetails={eicrDetails}
         eCRSenderDetails={ecrSenderDetails}
-        rrDetails={[]}
+        rrDetails={rrDetails}
       />,
     ).container;
   });

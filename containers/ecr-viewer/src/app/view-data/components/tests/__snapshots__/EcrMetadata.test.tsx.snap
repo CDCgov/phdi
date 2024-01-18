@@ -10,15 +10,81 @@ exports[`ECR Metadata should match snapshot 1`] = `
       <div
         class="usa-summary-box__body"
       >
-        <h3
-          class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
-        >
-          eICR Details
-        </h3>
         <div
           class="usa-summary-box__text"
         >
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            RR Details
+          </h3>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Reportable Condition(s)
+              </h4>
+            </div>
+            <div
+              class="grid-col-fill"
+            >
+              Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                RCKMS Trigger Summary
+              </h4>
+            </div>
+            <div
+              class="grid-col-fill"
+            >
+              COVID-19 (as a diagnosis or active problem)
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Jurisdiction(s) Sent eCR
+              </h4>
+            </div>
+            <div
+              class="grid-col-fill"
+            >
+              California Department of Public Health
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="padding-bottom-1"
+          />
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            eICR Details
+          </h3>
           <div
             class="grid-row"
           >

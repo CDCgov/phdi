@@ -75,7 +75,7 @@ const ECRViewerPage = () => {
         title: "eCR Metadata",
         content: (
           <>
-            <EcrMetadata eicrDetails={ecrMetadata.eicrDetails.availableData} eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData} rrDetails={[]}/>
+            <EcrMetadata eicrDetails={ecrMetadata.eicrDetails.availableData} eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData} rrDetails={ecrMetadata.rrDetails.availableData}/>
           </>
         ),
         expanded: true,
