@@ -1,5 +1,6 @@
-import { Bundle } from "fhir/r4";
+import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "fhirpath";
+import * as R4Models from "fhirpath/fhir-context/r4"
 
 export interface DisplayData {
   title: string;
@@ -389,6 +390,24 @@ export const evaluateEcrMetadata = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
+  const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
+
+  const rrPerformers: Organization[] = rrPerformerReferences.map(ref => {
+    ref = ref.split("/")
+    return evaluate(fhirBundle, mappings.resolve, { resourceType: ref[0], id: ref[1] })[0];
+  })
+  const rrDetails: DisplayData[] = [
+    {
+      title: "Reportable Condition(s)",
+      value: evaluate(fhirBundle, mappings.rrDisplayNames)?.join("\n")
+    },{
+      title: "RCKMS Trigger Summary",
+      value: evaluate(fhirBundle, mappings.rckmsTriggerSummaries)?.join("\n")
+    },{
+      title: "Jurisdiction(s) Sent eCR",
+      value: rrPerformers.map(org => org.name)?.join("\n")
+    }
+  ]
   const eicrDetails: DisplayData[] = [
     {
       title: "eICR Identifier",
@@ -416,7 +435,7 @@ export const evaluateEcrMetadata = (
       value: evaluate(fhirBundle, mappings.facilityID)[0]
     },
   ];
-  return {eicrDetails: evaluateData(eicrDetails), ecrSenderDetails: evaluateData(ecrSenderDetails) };
+  return {eicrDetails: evaluateData(eicrDetails), ecrSenderDetails: evaluateData(ecrSenderDetails), rrDetails: evaluateData(rrDetails) };
 };
 
 const evaluateData = (data: DisplayData[]) => {

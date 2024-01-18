@@ -8,6 +8,7 @@ import { loadYamlConfig } from "@/app/api/fhir-data/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
 import BundleWithPatient from "../tests/assets/BundlePatient.json";
+import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json"
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -35,9 +36,36 @@ describe("Utils", () => {
       const actual = evaluateEcrMetadata(undefined, mappings);
 
       expect(actual.ecrSenderDetails.availableData).toBeEmpty();
-      expect(actual.eicrDetails.availableData).toBeEmpty();
       expect(actual.ecrSenderDetails.unavailableData).not.toBeEmpty();
+
+      expect(actual.eicrDetails.availableData).toBeEmpty();
       expect(actual.eicrDetails.unavailableData).not.toBeEmpty();
+
+      expect(actual.rrDetails.availableData).toBeEmpty();
+      expect(actual.rrDetails.unavailableData).not.toBeEmpty();
+
+    })
+    it("should have ecrSenderDetails", () => {
+      const actual = evaluateEcrMetadata(BundleWithEcrMetadata as unknown as Bundle, mappings);
+
+      expect(actual.ecrSenderDetails.availableData).toEqual(  [{"title": "Date/Time eCR Created", "value": "2022-07-28T09:01:22-05:00"}, {"title": "Sender Facility Name", "value": ["Vanderbilt University Adult Hospital"]}, {"title": "Facility Address", "value": "1211 Medical Center Dr\nNashville, TN\n37232"}, {"title": "Facility Contact", "value": "+1-615-322-5000"}, {"title": "Facility ID", "value": "1.2.840.114350.1.13.478.3.7.2.686980"}]
+      );
+      expect(actual.ecrSenderDetails.unavailableData).toEqual([{"title": "Sender Software", "value": "N/A"}]);
+    })
+    it("should have eicrDetails", () => {
+      const actual = evaluateEcrMetadata(BundleWithEcrMetadata as unknown as Bundle, mappings);
+
+      expect(actual.eicrDetails.availableData).toEqual([{
+        "title": "eICR Identifier",
+        "value": "1.2.840.114350.1.13.478.3.7.8.688883.230886"
+      }]);
+      expect(actual.eicrDetails.unavailableData).toBeEmpty();
+    });
+    it("should have rrDetails", () => {
+      const actual = evaluateEcrMetadata(BundleWithEcrMetadata as unknown as Bundle, mappings);
+
+      expect(actual.rrDetails.availableData).toEqual([{"title": "Reportable Condition(s)", "value": "Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)"},{"title": "RCKMS Trigger Summary", "value": "COVID-19 (as a diagnosis or active problem)\nDetection of SARS-CoV-2 nucleic acid in a clinical or post-mortem specimen by any method"},{"title": "Jurisdiction(s) Sent eCR", "value": "Tennessee Department of Health"}]);
+      expect(actual.rrDetails.unavailableData).toBeEmpty();
     })
   })
   describe("Format Patient Name", () => {
