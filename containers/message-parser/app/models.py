@@ -144,15 +144,15 @@ class ParseMessageInput(BaseModel):
         one of either parsing_schema and parsing_schema_name;
         one (and only one!) should be provided for message_parser to work correctly.
 
-        :param cls (class): the ParseMessageInput class
-        :param values (str): the parsing_schema and
-                             parsing_schema_name provided by the user
+        :param cls: the ParseMessageInput class
+        :param values: the parsing_schema and
+                       parsing_schema_name provided by the user
 
         :raises ValueError: error when both pasing_schema and parsing_schema_name
                             are missing from API call.
 
-        :return values (str): the parsing_schema and
-                              parsing_schema_name provided by the user
+        :return values: the parsing_schema and
+                        parsing_schema_name provided by the user
         """
         if (
             values.get("parsing_schema") == {}
@@ -242,15 +242,15 @@ class FhirToPhdcInput(BaseModel):
         one of either parsing_schema and parsing_schema_name;
         one (and only one!) should be provided for message_parser to work correctly.
 
-        :param cls (class): the ParseMessageInput class
-        :param values (str): the parsing_schema and
-                             parsing_schema_name provided by the user
+        :param cls: the ParseMessageInput class
+        :param values: the parsing_schema and
+                       parsing_schema_name provided by the user
 
         :raises ValueError: error when both pasing_schema and parsing_schema_name
                             are missing from API call.
 
-        :return values (str): the parsing_schema and
-                              parsing_schema_name provided by the user
+        :return values: the parsing_schema and
+                        parsing_schema_name provided by the user
         """
         if (
             values.get("parsing_schema") == {}
