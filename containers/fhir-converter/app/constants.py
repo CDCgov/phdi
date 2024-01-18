@@ -91,6 +91,7 @@ class RootTemplate(str, Enum):
     VXU_V04 = "VXU_V04"
     CCD = "CCD"
     EICR = "EICR"
+    ELR = "ELR"
     ConsultationNote = "ConsultationNote"
     DischargeSummary = "DischargeSummary"
     Header = "Header"

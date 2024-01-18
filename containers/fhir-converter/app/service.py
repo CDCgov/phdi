@@ -84,11 +84,14 @@ def convert_to_fhir(
     converter_project_path = (
         "/build/FHIR-Converter/output/Microsoft.Health.Fhir.Liquid.Converter.Tool.dll"
     )
-    if input_type == "elr" or input_type == "vxu":
+    if input_type == "vxu":
         template_directory_path = "/build/FHIR-Converter/data/Templates/Hl7v2"
         input_data = standardize_hl7_datetimes(input_data)
     elif input_type == "ecr":
         template_directory_path = "/build/FHIR-Converter/data/Templates/eCR"
+    elif input_type == "elr":
+        template_directory_path = "/build/FHIR-Converter/data/Templates/ELR"
+        input_data = standardize_hl7_datetimes(input_data)
     else:
         raise ValueError(
             f"Invalid input_type {input_type}. Valid values are 'hl7v2' and 'ecr'."
