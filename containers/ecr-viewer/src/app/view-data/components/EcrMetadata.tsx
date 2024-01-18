@@ -1,15 +1,17 @@
-import {
-  DisplayData,
-} from "../../utils";
+import { DisplayData } from "../../utils";
 import { Fragment } from "react";
 
 interface EcrMetadataProps {
-  rrDetails: DisplayData[],
-  eicrDetails: DisplayData[],
-  eCRSenderDetails: DisplayData[]
+  rrDetails: DisplayData[];
+  eicrDetails: DisplayData[];
+  eCRSenderDetails: DisplayData[];
 }
 
-const EcrMetadata = ({rrDetails, eicrDetails, eCRSenderDetails}: EcrMetadataProps) => {
+const EcrMetadata = ({
+  rrDetails,
+  eicrDetails,
+  eCRSenderDetails,
+}: EcrMetadataProps) => {
   return (
     <div>
       <div
@@ -31,12 +33,11 @@ const EcrMetadata = ({rrDetails, eicrDetails, eCRSenderDetails}: EcrMetadataProp
                     <div className="data-title">
                       <h4>{title}</h4>
                     </div>
-                    <div className="grid-col-fill">
-                      {value}
-                    </div>
+                    <div className="grid-col-fill">{value}</div>
                   </div>
                   <div className={"section__line_gray"} />
-                </Fragment>);
+                </Fragment>
+              );
             })}
             <div className={"padding-bottom-1"} />
             <h3
@@ -52,12 +53,11 @@ const EcrMetadata = ({rrDetails, eicrDetails, eCRSenderDetails}: EcrMetadataProp
                     <div className="data-title">
                       <h4>{title}</h4>
                     </div>
-                    <div className="grid-col-auto">
-                      {value}
-                    </div>
+                    <div className="grid-col-auto">{value}</div>
                   </div>
                   <div className={"section__line_gray"} />
-                </Fragment>);
+                </Fragment>
+              );
             })}
             <div className={"padding-bottom-1"} />
             <h3
@@ -67,17 +67,17 @@ const EcrMetadata = ({rrDetails, eicrDetails, eCRSenderDetails}: EcrMetadataProp
               eCR Sender Details
             </h3>
             {eCRSenderDetails.map(({ title, value }) => {
-              return (<Fragment key={title}>
-                <div className="grid-row">
-                  <div className="data-title">
-                    <h4>{title}</h4>
+              return (
+                <Fragment key={title}>
+                  <div className="grid-row">
+                    <div className="data-title">
+                      <h4>{title}</h4>
+                    </div>
+                    <div className="grid-col-auto">{value}</div>
                   </div>
-                  <div className="grid-col-auto">
-                    {value}
-                  </div>
-                </div>
-                <div className={"section__line_gray"} />
-              </Fragment>);
+                  <div className={"section__line_gray"} />
+                </Fragment>
+              );
             })}
           </div>
         </div>

@@ -13,7 +13,8 @@ import {
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
-  evaluateDemographicsData, evaluateEcrMetadata
+  evaluateDemographicsData,
+  evaluateEcrMetadata,
 } from "../utils";
 import EncounterDetails from "./components/Encounter";
 
@@ -75,7 +76,11 @@ const ECRViewerPage = () => {
         title: "eCR Metadata",
         content: (
           <>
-            <EcrMetadata eicrDetails={ecrMetadata.eicrDetails.availableData} eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData} rrDetails={ecrMetadata.rrDetails.availableData}/>
+            <EcrMetadata
+              eicrDetails={ecrMetadata.eicrDetails.availableData}
+              eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+              rrDetails={ecrMetadata.rrDetails.availableData}
+            />
           </>
         ),
         expanded: true,
