@@ -55,6 +55,9 @@ providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[
 providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
 providerName: "idk"
 
-rrDisplayName: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section').entry.first().display"
-rckmsTriggerSummary: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
+rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
+rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
+rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
 # Encounter Info
+
+resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
