@@ -1,19 +1,18 @@
 import json
 import os
+import uuid
 
 import requests
-
-from fastapi import HTTPException, WebSocket, Response
-import uuid
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
 from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
 from app.utils import CustomJSONResponse
-
+from fastapi import HTTPException
+from fastapi import Response
+from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
-
+from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
 
 
 service_urls = {
