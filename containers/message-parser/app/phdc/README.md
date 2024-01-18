@@ -2,7 +2,7 @@
 
 The DIBBs [message parser](https://github.com/CDCgov/phdi/tree/main/containers/message-parser) offers a flexible config-driven solution for extracting data elements of interest from FHIR via FHIRPath. This set of code adds PHDC as an alternate output format to the message parser to convert data received from FHIR to PHDC.
 
-Once complete, with this code, there will be a parsing config file for PHDC such that when a client makes a request to the message parser with a FHIR bundle that calls for using the PHDC parsing config, then the message parser will extract the required data from FHIR, construct and a PHDC XML, and return it to the client.
+Once complete, with this code, there will be a parsing config file for PHDC such that when a client makes a request to the message parser with a FHIR bundle that calls for using the PHDC parsing config, then the message parser will extract the required data from FHIR, construct a PHDC XML, and return that file to the client.
 
 ## Purpose
 
