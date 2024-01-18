@@ -124,11 +124,7 @@ export const formatPatientContactInfo = (
     .map((email) => `${email.value}`)
     .join("\n");
 
-  const formattedContactInfo = `${phoneNumbers}
-    ${emails}`;
-
-  // if it's an empty string, return undefined
-  return formattedContactInfo;
+  return `${phoneNumbers}\n${emails}`;
 };
 
 export const formatEncounterDate = (
