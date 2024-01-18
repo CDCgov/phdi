@@ -9,19 +9,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
 from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
-<<<<<<< HEAD
-=======
 from app.utils import CustomJSONResponse
-from fastapi import HTTPException
-from fastapi import Response
-from fastapi import WebSocket
+
 from fastapi.encoders import jsonable_encoder
-from icecream import ic
-from sqlalchemy import create_engine
->>>>>>> 029dad5 (wip)
+
 from sqlalchemy.exc import SQLAlchemyError
-from fastapi.encoders import jsonable_encoder
-from app.utils import CustomJSONResponse
+
 
 service_urls = {
     "validation": os.environ.get("VALIDATION_URL"),
@@ -34,7 +27,6 @@ service_urls = {
 
 def validation_payload(**kwargs) -> dict:
     input = kwargs["input"]
-    ic("validation payload")
     return {
         "message_type": "ecr",
         "include_error_types": "errors",
@@ -46,9 +38,7 @@ def validation_payload(**kwargs) -> dict:
 def validate_response(**kwargs) -> bool:
     response = kwargs["response"]
     body = response.json()
-    ic(body)
     if "message_valid" in body:
-        ic("hello message valid")
         return body.get("message_valid")
 
     return response.status_code == 200
@@ -104,13 +94,14 @@ def message_parser_payload(**kwargs) -> dict:
 def save_to_db(**kwargs) -> dict:
     ecr_id = kwargs["payload"]["ecr_id"]
     payload_data = kwargs["payload"]["data"]
-    engine = create_engine("postgresql://postgres:pw@localhost:5432/ecr_viewer_db")
+    url = kwargs["url"]
+    engine = create_engine(url)
     pg_data = PostgresFhirDataModel(ecr_id=str(ecr_id), data=payload_data)
     try:
         with Session(engine, expire_on_commit=False) as session:
             repo = SqlAlchemyFhirRepository(session)
             repo.persist(pg_data)
-        return CustomJSONResponse(content=jsonable_encoder(payload_data))
+        return CustomJSONResponse(content=jsonable_encoder(payload_data), url=url)
     except SQLAlchemyError as e:
         return Response(content=e, status_code=500)
 
@@ -118,7 +109,10 @@ def save_to_db(**kwargs) -> dict:
 def save_to_db_payload(**kwargs) -> dict:
     response = kwargs["response"]
     r = response.json()
-    ecr_id = r["parsed_values"]["eicr_id"] or uuid.uuid4()
+    if r.get("parsed_values", {}).get("eicr_id"):
+        ecr_id = r["parsed_values"]["eicr_id"]
+    else:
+        ecr_id = uuid.uuid4()
     return {"ecr_id": ecr_id, "data": r}
 
 
@@ -136,18 +130,10 @@ async def call_apis(
 
     progress_dict = {"steps": config["steps"]}
     for step in config["steps"]:
-        ic(step)
         service = step["service"]
         endpoint = step["endpoint"]
         f = f"{service}_payload"
-<<<<<<< HEAD
-=======
-        ic(service_urls[service])
-        ic(service_urls)
-        ic(service)
->>>>>>> 029dad5 (wip)
         if f in globals() and callable(globals()[f]) and service_urls[service]:
-            ic("calling global")
             function_to_call = globals()[f]
             payload = function_to_call(
                 input=input, response=response, step=step, config=config
@@ -156,7 +142,7 @@ async def call_apis(
             url = url.replace('"', "")
             print(f"Url: {url}")
             if service in globals() and callable(globals()[service]):
-                response = globals()[service](payload=payload)
+                response = globals()[service](url=url, payload=payload)
             else:
                 response = post_request(url, payload)
             print(f"Status Code: {response.status_code}")

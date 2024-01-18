@@ -95,9 +95,10 @@ def load_config_assets(upload_config_response_examples, PutConfigResponse) -> Di
 
 
 class CustomJSONResponse(JSONResponse):
-    def __init__(self, content, *args, **kwargs):
+    def __init__(self, content, url="", *args, **kwargs):
         super().__init__(content=jsonable_encoder(content), *args, **kwargs)
         self._content = content
+        self.url = url
 
     def json(self):
         return self._content

@@ -3,6 +3,7 @@ import os
 from app.services import fhir_converter_payload
 from app.services import ingestion_payload
 from app.services import message_parser_payload
+from app.services import save_to_db_payload
 from app.services import validation_payload
 from requests.models import Response
 
@@ -118,6 +119,19 @@ def test_message_parser_payload():
         "message": "bar",
         "message_format": "msg_format",
         "parsing_schema_name": "schema_name",
+    }
+
+    assert result == expected_result
+
+
+def test_save_to_db_payload():
+    response = Response()
+    response.status_code = 200
+    response._content = b'{"bundle": "bar", "parsed_values":{"eicr_id":"foo"}}'
+    result = save_to_db_payload(response=response)
+    expected_result = {
+        "data": {"bundle": "bar", "parsed_values": {"eicr_id": "foo"}},
+        "ecr_id": "foo",
     }
 
     assert result == expected_result
