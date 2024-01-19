@@ -51,11 +51,14 @@ else
     docker run -d -p 8083:8080 ingestion
 fi
 
-cd ../ecr-viewer
-docker compose up db seed-db -d
-cd -
+# Database container
+if docker ps | grep -q "postgres:alpine"; then
+    echo "Database container already running; skipping build and run"
+else
+    cd ../ecr-viewer
+    docker compose up db seed-db -d
+    cd - || return
+fi
 
 # Orchestration
-# docker build -t orchestration ./
-# docker run -d -p 8080:8080 orchestration
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload --env-file local-dev.env
