@@ -47,7 +47,7 @@
               {% assign observationId = ob.value | to_json_string | generate_uuid -%}
             {% endif -%}
 
-            {% if ob.entryRelationship and ob.entryRelationship.organizer and ob.entryRelationship.organizer %}
+            {% if ob.entryRelationship and ob.entryRelationship.organizer and ob.entryRelationship.organizer.participant %}
               {% assign participants = ob.entryRelationship.organizer.participant | to_array %}
               {% for participant in participants %}
                 {% if participant.participantRole and participant.participantRole.code.codeSystem == "2.16.840.1.114222.4.5.232" and participant.participantRole.code.code == "RR7" %}
