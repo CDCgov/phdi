@@ -41,9 +41,11 @@ COPY app /code/app
 COPY assets /code/assets
 COPY description.md /code/description.md
 
-# Copy eCR and ELR templates
+# Copy eCR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
-COPY Templates/ELR /build/FHIR-Converter/data/Templates/ELR
+
+# Copy ELR template to the Hl7v2 folder
+COPY Templates/ELR/ELR.liquid /build/FHIR-Converter/data/Templates/Hl7v2
 
 EXPOSE 8080
 CMD /root/.pyenv/shims/uvicorn app.main:app --host 0.0.0.0 --port 8080
