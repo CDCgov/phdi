@@ -41,7 +41,7 @@ COPY app /code/app
 COPY assets /code/assets
 COPY description.md /code/description.md
 
-# Copy eCR templates
+# Copy eCR and ELR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
 COPY Templates/ELR /build/FHIR-Converter/data/Templates/ELR
 
