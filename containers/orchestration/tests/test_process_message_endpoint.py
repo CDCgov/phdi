@@ -4,6 +4,8 @@ from unittest import mock
 
 import pytest
 from app.main import app
+from app.utils import CustomJSONResponse
+from fastapi.encoders import jsonable_encoder
 from fastapi.testclient import TestClient
 
 
@@ -33,7 +35,8 @@ with open(test_config_path, "r") as file:
 
 # /process-message tests
 @mock.patch("app.services.post_request")
-def test_process_message_success(patched_post_request):
+@mock.patch("app.services.save_to_db")
+def test_process_message_success(patched_post_request, patched_save_to_db):
     request = {
         "message_type": "ecr",
         "include_error_types": "errors",
@@ -45,7 +48,18 @@ def test_process_message_success(patched_post_request):
         "response": {"FhirResource": {"foo": "bar"}},
         "bundle": {"foo": "bundle"},
     }
+    save_to_db_response = CustomJSONResponse(
+        content=jsonable_encoder(
+            {
+                "response": {"FhirResource": {"foo": "bar"}},
+                "bundle": {"foo": "bundle"},
+                "parsed_values": {"eicr_id": "foo"},
+            }
+        )
+    )
+
     patched_post_request.return_value = call_post_request
+    patched_save_to_db.return_value = save_to_db_response
 
     actual_response = client.post("/process-message", json=request)
     assert actual_response.status_code == 200
@@ -74,7 +88,8 @@ def test_process_message_input_validation_with_rr_data():
 
 # /process tests
 @mock.patch("app.services.post_request")
-def test_process_success(patched_post_request):
+@mock.patch("app.services.save_to_db")
+def test_process_success(patched_post_request, patched_save_to_db):
     with open(
         Path(__file__).parent.parent.parent.parent
         / "tests"
@@ -92,10 +107,24 @@ def test_process_success(patched_post_request):
         call_post_request = mock.Mock()
         call_post_request.status_code = 200
         call_post_request.json.return_value = {
-            "response": {"FhirResource": {"foo": "bar"}},
+            "response": {
+                "FhirResource": {"foo": "bar"},
+            },
             "bundle": {"foo": "bundle"},
         }
+
+        save_to_db_response = CustomJSONResponse(
+            content=jsonable_encoder(
+                {
+                    "response": {"FhirResource": {"foo": "bar"}},
+                    "bundle": {"foo": "bundle"},
+                    "parsed_values": {"eicr_id": "foo"},
+                }
+            )
+        )
+
         patched_post_request.return_value = call_post_request
+        patched_save_to_db.return_value = save_to_db_response
 
         actual_response = client.post("/process", data=form_data, files=files)
         assert actual_response.status_code == 200

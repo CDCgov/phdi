@@ -1,7 +1,12 @@
+import os
+
+import pytest
 from app.services import fhir_converter_payload
 from app.services import ingestion_payload
 from app.services import message_parser_payload
+from app.services import save_to_db_payload
 from app.services import validation_payload
+from fastapi import HTTPException
 from requests.models import Response
 
 
@@ -52,6 +57,9 @@ def test_fhir_converter_payload_with_rr():
 
 
 def test_ingestion_payload():
+    os.environ["SMARTY_AUTH_ID"] = "placeholder"
+    os.environ["SMARTY_AUTH_TOKEN"] = "placeholder"
+    os.environ["LICENSE_TYPE"] = "us-rooftop-geocoding-enterprise-cloud"
     response = Response()
     response.status_code = 200
     response._content = b'{"bundle": "bar", "response":{"FhirResource":"fiz"}}'
@@ -89,11 +97,10 @@ def test_ingestion_payload():
     expected_result = {
         "bundle": "bar",
         "geocode_method": "code_method",
-        "license_type": '"us-rooftop-geocoding-enterprise-cloud"',
-        "smarty_auth_id": '"placeholder"',
-        "smarty_auth_token": '"placeholder"',
+        "license_type": "us-rooftop-geocoding-enterprise-cloud",
+        "smarty_auth_id": "placeholder",
+        "smarty_auth_token": "placeholder",
     }
-
     assert result == expected_result
 
 
@@ -117,3 +124,27 @@ def test_message_parser_payload():
     }
 
     assert result == expected_result
+
+
+def test_save_to_db_payload():
+    response = Response()
+    response.status_code = 200
+    response._content = b'{"bundle": "bar", "parsed_values":{"eicr_id":"foo"}}'
+    result = save_to_db_payload(response=response)
+    expected_result = {
+        "data": {"bundle": "bar", "parsed_values": {"eicr_id": "foo"}},
+        "ecr_id": "foo",
+    }
+
+    assert result == expected_result
+
+
+def test_save_to_db_failure_missing_eicr_id():
+    response = Response()
+    response.status_code = 200
+    response._content = b'{"bundle": "bar", "parsed_values":{}}'
+
+    with pytest.raises(HTTPException) as exc_info:
+        save_to_db_payload(response=response)
+
+    assert exc_info.value.status_code == 422
