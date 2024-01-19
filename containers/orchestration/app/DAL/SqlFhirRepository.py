@@ -7,6 +7,6 @@ class SqlAlchemyFhirRepository(FhirRepository):
         self.session = session
 
     def persist(self, entity):
-        self.session.add(entity)
+        self.session.merge(entity)
         self.session.commit()
         return entity
