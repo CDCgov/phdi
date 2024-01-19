@@ -53,6 +53,7 @@ def test_process_message_success(patched_post_request, patched_save_to_db):
             {
                 "response": {"FhirResource": {"foo": "bar"}},
                 "bundle": {"foo": "bundle"},
+                "parsed_values": {"eicr_id": "foo"},
             }
         )
     )
@@ -106,7 +107,9 @@ def test_process_success(patched_post_request, patched_save_to_db):
         call_post_request = mock.Mock()
         call_post_request.status_code = 200
         call_post_request.json.return_value = {
-            "response": {"FhirResource": {"foo": "bar"}},
+            "response": {
+                "FhirResource": {"foo": "bar"},
+            },
             "bundle": {"foo": "bundle"},
         }
 
@@ -115,6 +118,7 @@ def test_process_success(patched_post_request, patched_save_to_db):
                 {
                     "response": {"FhirResource": {"foo": "bar"}},
                     "bundle": {"foo": "bundle"},
+                    "parsed_values": {"eicr_id": "foo"},
                 }
             )
         )
