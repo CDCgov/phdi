@@ -160,5 +160,49 @@ class PHDCBuilder:
 
         return custodian_data
 
+    def _build_coded_element(self, element_name: str, **kwargs: dict):
+        """
+        Builds coded elements, such as administrativeGenderCode, using kwargs code,
+          codeSystem, and displayName.
+
+        :param element_name: Name of the element being built.
+        :param code: The element code, defaults to None
+        :param codeSystem: The element codeSystem that the code corresponds to, defaults
+          to None
+        :param displayName: The element display name, defaults to None
+        :return: XML element of coded data.
+        """
+        element = ET.Element(element_name)
+
+        for e, v in kwargs.items():
+            if e != "element_name" and v is not None:
+                element.set(e, v)
+        return element
+
+    def _build_patient(self, **kwargs: dict):
+        patient_data = ET.Element("patient")
+
+        for element, value in kwargs.items():
+            if value is not None:
+                if isinstance(value, ET._Element):
+                    patient_data.append(value)
+                elif element in [
+                    "administrativeGenderCode",
+                    "raceCode",
+                    "ethnicGroupCode",
+                ]:
+                    # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
+                    v = self._build_coded_element(
+                        element,
+                        **{"displayName": value},
+                    )
+                    patient_data.append(v)
+                else:
+                    e = ET.Element(element)
+                    e.text = value
+                    patient_data.append(e)
+
+        return patient_data
+
     def build(self):
         return PHDC(self)
