@@ -26,7 +26,8 @@ from lxml import etree as ET
     ],
 )
 def test_build_telecom(build_telecom_test_data, expected_result):
-    xml_telecom_data = PHDCBuilder._build_telecom(**build_telecom_test_data)
+    builder = PHDCBuilder()
+    xml_telecom_data = builder._build_telecom(**build_telecom_test_data)
     assert ET.tostring(xml_telecom_data).decode() == expected_result
 
 
@@ -80,7 +81,8 @@ def test_build_telecom(build_telecom_test_data, expected_result):
     ],
 )
 def test_build_addr(build_addr_test_data, expected_result):
-    xml_addr_data = PHDCBuilder._build_addr(**build_addr_test_data)
+    builder = PHDCBuilder()
+    xml_addr_data = builder._build_addr(**build_addr_test_data)
     assert ET.tostring(xml_addr_data).decode() == expected_result
 
 
@@ -157,7 +159,8 @@ def test_build_addr(build_addr_test_data, expected_result):
     ],
 )
 def test_build_name(build_name_test_data, expected_result):
-    xml_name_data = PHDCBuilder._build_name(**build_name_test_data)
+    builder = PHDCBuilder()
+    xml_name_data = builder._build_name(**build_name_test_data)
     assert ET.tostring(xml_name_data).decode() == expected_result
 
 
@@ -185,27 +188,27 @@ def test_build_name(build_name_test_data, expected_result):
     ],
 )
 def test_build_custodian(build_custodian_test_data, expected_result):
+    builder = PHDCBuilder()
     if isinstance(expected_result, ValueError):
         with pytest.raises(ValueError) as e:
-            xml_custodian_data = PHDCBuilder._build_custodian(
-                **build_custodian_test_data
-            )
+            xml_custodian_data = builder._build_custodian(**build_custodian_test_data)
             assert str(e.value) == str(expected_result)
 
     else:
-        xml_custodian_data = PHDCBuilder._build_custodian(**build_custodian_test_data)
+        xml_custodian_data = builder._build_custodian(**build_custodian_test_data)
         assert ET.tostring(xml_custodian_data).decode() == expected_result
 
 
 def create_patient_test_data():
+    builder = PHDCBuilder()
     n_data = {
         "prefix": "Mr.",
         "given_name": "John Jacob",
         "last_name": "Schmidt",
     }
-    name_data = PHDCBuilder._build_name(**n_data)
+    name_data = builder._build_name(**n_data)
     t_data = {"phone": "+1-800-555-1234", "use": "WP"}
-    telecom_data = PHDCBuilder._build_telecom(**t_data)
+    telecom_data = builder._build_telecom(**t_data)
 
     return {
         "complete_data": {
