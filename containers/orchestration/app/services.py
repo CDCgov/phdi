@@ -1,6 +1,5 @@
 import json
 import os
-import uuid
 
 import requests
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
@@ -111,7 +110,13 @@ def save_to_db_payload(**kwargs) -> dict:
     if r.get("parsed_values", {}).get("eicr_id"):
         ecr_id = r["parsed_values"]["eicr_id"]
     else:
-        ecr_id = uuid.uuid4()
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "Unprocessable Entity",
+                "details": "eICR ID not found, cannot save to database.",
+            },
+        )
     return {"ecr_id": ecr_id, "data": r}
 
 

@@ -1,10 +1,12 @@
 import os
 
+import pytest
 from app.services import fhir_converter_payload
 from app.services import ingestion_payload
 from app.services import message_parser_payload
 from app.services import save_to_db_payload
 from app.services import validation_payload
+from fastapi import HTTPException
 from requests.models import Response
 
 
@@ -135,3 +137,14 @@ def test_save_to_db_payload():
     }
 
     assert result == expected_result
+
+
+def test_save_to_db_failure_missing_eicr_id():
+    response = Response()
+    response.status_code = 200
+    response._content = b'{"bundle": "bar", "parsed_values":{}}'
+
+    with pytest.raises(HTTPException) as exc_info:
+        save_to_db_payload(response=response)
+
+    assert exc_info.value.status_code == 422
