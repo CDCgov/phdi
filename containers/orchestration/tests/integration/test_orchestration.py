@@ -105,7 +105,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_websocket_process_message_endpoint():
+async def test_websocket_process_message_endpoint(setup):
     expected_response_message = {
         "steps": [
             {"endpoint": "/validate", "service": "validation"},
@@ -123,6 +123,7 @@ async def test_websocket_process_message_endpoint():
                 "service": "ingestion",
             },
             {"endpoint": "/parse_message", "service": "message_parser"},
+            {"endpoint": "", "service": "save_to_db"},
         ],
         "validate": {
             "status": "success",
@@ -145,7 +146,6 @@ async def test_websocket_process_message_endpoint():
             },
         },
     }
-
     client = TestClient(app)
 
     # Pull in and read test zip file

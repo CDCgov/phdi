@@ -149,7 +149,6 @@ async def process_message_endpoint(
     """
     Processes a message through a series of microservices.
     """
-
     process_request = dict(request)
     building_block_response = await process_http_request(
         process_request.get("message_type"),
