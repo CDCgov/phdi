@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Dict
 from typing import List
 from typing import Optional
+from enum import Enum
+from uuid import uuid4
 
 from lxml import etree as ET
 
@@ -14,6 +16,72 @@ class PHDC:
 class PHDCBuilder:
     def __init__(self):
         self.header = None
+
+    def _build_header():
+        def get_type_id():
+            type_id = ET.Element("typeId")
+            type_id.set("root", "2.16.840.1.113883.1.3")
+            type_id.set("extension", "POCD_HD000020")
+            return type_id
+
+        def get_id():
+            id = ET.Element("id")
+            id.set("root", "2.16.840.1.113883.19")
+            id.set("extension", str(uuid4()))
+            return id
+
+        def get_effective_time():
+            effective_time = ET.Element("effectiveTime")
+            effective_time.set("value", datetime.now().strftime("%Y%m%d%H%M%S"))
+            return effective_time
+
+        class ConfidentialityCodes(str, Enum):
+            normal = ("N",)
+            restricted = ("R",)
+            very_restricted = ("V",)
+
+        def get_confidentiality_code(code: ConfidentialityCodes):
+            confidentiality_code = ET.Element("confidentialityCode")
+            confidentiality_code.set("code", code)
+            confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
+            return confidentiality_code
+
+        def get_case_report_code():
+            code = ET.Element("code")
+            code.set("code", "55751-2")
+            code.set("codeSystem", "2.16.840.1.113883.6.1")
+            code.set("codeSystemName", "LOINC")
+            code.set("displayName", "Public Health Case Report - PHRI")
+            return code
+
+        xsi_schema_location = ET.QName(
+            "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
+        )
+
+        namespace = {
+            None: "urn:hl7-org:v3",
+            "sdt": "urn:hl7-org:sdtc",
+            "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        }
+        clinical_document = ET.Element(
+            "ClinicalDocument",
+            {xsi_schema_location: "urn:hl7-org:v3 CDA_SDTC.xsd"},
+            nsmap=namespace,
+        )
+        pi = ET.ProcessingInstruction(
+            "xml-stylesheet", text='type="text/xsl" href="PHDC.xsl"'
+        )
+        clinical_document.addprevious(pi)
+
+        clinical_document.append(get_type_id())
+        clinical_document.append(get_id())
+        clinical_document.append(get_case_report_code())
+        clinical_document.append(get_effective_time())
+        clinical_document.append(get_confidentiality_code(ConfidentialityCodes.normal))
+
+        clinical_document.append(PHDCBuilder._build_custodian(str(uuid4())))
+
+        return clinical_document
 
     def _build_telecom(
         self,

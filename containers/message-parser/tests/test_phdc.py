@@ -342,3 +342,14 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
     else:
         xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
         assert ET.tostring(xml_recordtarget_data).decode() == expected_result
+
+def test_build_header():
+    print()
+    print(
+        ET.tostring(
+            PHDCBuilder._build_header(),
+            pretty_print=True,
+            xml_declaration=True,
+            encoding="utf-8",
+        ).decode()
+    )
