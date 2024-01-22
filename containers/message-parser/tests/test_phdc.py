@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 from app.phdc.phdc import PHDCBuilder
 from lxml import etree as ET
@@ -195,3 +197,41 @@ def test_build_custodian(build_custodian_test_data, expected_result):
     else:
         xml_custodian_data = PHDCBuilder._build_custodian(**build_custodian_test_data)
         assert ET.tostring(xml_custodian_data).decode() == expected_result
+
+
+@pytest.mark.parametrize(
+    "family_name, expected_oid, expected_date, expected_name",
+    [
+        # test for correct OID and name "CDC PRIME DIBBs"
+        (
+            "CDC PRIME DIBBs",
+            "2.16.840.1.113883.19.5",
+            datetime.now().strftime("%Y%m%d"),
+            (
+                '<author><time value="{}"/><assignedAuthor>'
+                '<id root="2.16.840.1.113883.19.5"/><name>'
+                "<family>CDC PRIME DIBBs</family></name>"
+                "</assignedAuthor></author>"
+            ).format(datetime.now().strftime("%Y%m%d%H%M%S")),
+        ),
+        # test for correct OID and name "Local Health Jurisdiction"
+        (
+            "Local Health Jurisdiction",
+            "2.16.840.1.113883.19.5",
+            datetime.now().strftime("%Y%m%d"),
+            (
+                '<author><time value="{}"/><assignedAuthor>'
+                '<id root="2.16.840.1.113883.19.5"/><name>'
+                "<family>Local Health Jurisdiction</family></name>"
+                "</assignedAuthor></author>"
+            ).format(datetime.now().strftime("%Y%m%d%H%M%S")),
+        ),
+    ],
+)
+def test_build_author(family_name, expected_oid, expected_date, expected_name):
+    xml_author_data = PHDCBuilder()._build_author(family_name)
+    author_string = ET.tostring(xml_author_data).decode()
+
+    assert expected_oid in author_string
+    assert expected_date in author_string
+    assert expected_name in author_string
