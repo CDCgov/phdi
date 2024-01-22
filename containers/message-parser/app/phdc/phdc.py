@@ -217,7 +217,7 @@ class PHDCBuilder:
     ):
         """
         Builds a `recordTarget` XML element for recordTarget data, which refers to
-          the medical record of the subject patient.
+          the medical record of the patient.
 
         :param id: recordTarget identifier
         :param root: recordTarget root
