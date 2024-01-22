@@ -3,11 +3,7 @@ import EcrSummary from "@/app/view-data/components/EcrSummary";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import Demographics from "./components/Demographics";
-import SocialHistory from "./components/SocialHistory";
 import { Accordion } from "@trussworks/react-uswds";
-import UnavailableInfo from "./components/UnavailableInfo";
-import EcrMetadata from "./components/EcrMetadata";
 import {
   PathMappings,
   evaluateSocialData,
@@ -15,6 +11,10 @@ import {
   evaluateProviderData,
   evaluateDemographicsData,
 } from "../utils";
+import Demographics from "./components/Demographics";
+import SocialHistory from "./components/SocialHistory";
+import UnavailableInfo from "./components/UnavailableInfo";
+import EcrMetadata from "./components/EcrMetadata";
 import EncounterDetails from "./components/Encounter";
 
 const ECRViewerPage = () => {
