@@ -160,5 +160,62 @@ class PHDCBuilder:
 
         return custodian_data
 
+    def _build_recordTarget(
+        self,
+        id: str,
+        root: str = None,
+        assigningAuthorityName: str = None,
+        telecom_data: str = None,
+        addr_data: str = None,
+        patient_data: str = None,
+    ):
+        """
+        Builds a `recordTarget` XML element for recordTarget data, which refers to
+          the medical record of the subject patient.
+
+        :param id: recordTarget identifier
+        :param root: recordTarget root
+        :param assigningAuthorityName: recordTarget assigningAuthorityName
+        :param telecom_data: XML data from _build_telecom
+        :param addr_data: XML data from _build_addr
+        :param patient_data: XML data from _build_patient
+
+        :raises ValueError: recordTarget needs ID to be defined.
+
+        :return recordTarget_data: XML element of the recordTarget
+        """
+        if id is None:
+            raise ValueError("The recordTarget id parameter must be a defined.")
+
+        # create recordTarget element
+        recordTarget_data = ET.Element("recordTarget")
+
+        # Create and append 'patientRole' element
+        patientRole = ET.Element("patientRole")
+        recordTarget_data.append(patientRole)
+
+        # add id data
+        id_element = ET.Element("id")
+        id_element.set("extension", id)
+        id_element.set("root", root)
+        id_element.set("assigningAuthorityName", assigningAuthorityName)
+        patientRole.append(id_element)
+
+        # add address data
+        if addr_data is not None:
+            addr_element = self._build_addr(**addr_data)
+            patientRole.append(addr_element)
+
+        # add telecom
+        if telecom_data is not None:
+            telecom_element = self._build_telecom(**telecom_data)
+            patientRole.append(telecom_element)
+
+        # add patient data
+        if patient_data is not None:
+            patient_element = self.build_patient(**patient_data)
+            patientRole.append(patient_element)
+        return recordTarget_data
+
     def build(self):
         return PHDC(self)
