@@ -2,8 +2,16 @@ import json
 import os
 
 import requests
+from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
+from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
+from app.utils import CustomJSONResponse
 from fastapi import HTTPException
+from fastapi import Response
 from fastapi import WebSocket
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
 
 
 service_urls = {
@@ -11,6 +19,7 @@ service_urls = {
     "ingestion": os.environ.get("INGESTION_URL"),
     "fhir_converter": os.environ.get("FHIR_CONVERTER_URL"),
     "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
+    "save_to_db": os.environ.get("DATABASE_URL"),
 }
 
 
@@ -27,7 +36,6 @@ def validation_payload(**kwargs) -> dict:
 def validate_response(**kwargs) -> bool:
     response = kwargs["response"]
     body = response.json()
-
     if "message_valid" in body:
         return body.get("message_valid")
 
@@ -81,6 +89,37 @@ def message_parser_payload(**kwargs) -> dict:
     return data
 
 
+def save_to_db(**kwargs) -> dict:
+    ecr_id = kwargs["payload"]["ecr_id"]
+    payload_data = kwargs["payload"]["data"]
+    url = kwargs["url"]
+    engine = create_engine(url)
+    pg_data = PostgresFhirDataModel(ecr_id=str(ecr_id), data=payload_data)
+    try:
+        with Session(engine, expire_on_commit=False) as session:
+            repo = SqlAlchemyFhirRepository(session)
+            repo.persist(pg_data)
+        return CustomJSONResponse(content=jsonable_encoder(payload_data), url=url)
+    except SQLAlchemyError as e:
+        return Response(content=e, status_code=500)
+
+
+def save_to_db_payload(**kwargs) -> dict:
+    response = kwargs["response"]
+    r = response.json()
+    if r.get("parsed_values", {}).get("eicr_id"):
+        ecr_id = r["parsed_values"]["eicr_id"]
+    else:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "Unprocessable Entity",
+                "details": "eICR ID not found, cannot save to database.",
+            },
+        )
+    return {"ecr_id": ecr_id, "data": r}
+
+
 def post_request(url, payload):
     return requests.post(url, json=payload)
 
@@ -94,12 +133,10 @@ async def call_apis(
     responses = {}
 
     progress_dict = {"steps": config["steps"]}
-
     for step in config["steps"]:
         service = step["service"]
         endpoint = step["endpoint"]
         f = f"{service}_payload"
-
         if f in globals() and callable(globals()[f]) and service_urls[service]:
             function_to_call = globals()[f]
             payload = function_to_call(
@@ -108,7 +145,10 @@ async def call_apis(
             url = service_urls[service] + step["endpoint"]
             url = url.replace('"', "")
             print(f"Url: {url}")
-            response = post_request(url, payload)
+            if service in globals() and callable(globals()[service]):
+                response = globals()[service](url=url, payload=payload)
+            else:
+                response = post_request(url, payload)
             print(f"Status Code: {response.status_code}")
 
             if websocket:

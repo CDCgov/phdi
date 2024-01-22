@@ -159,3 +159,39 @@ def test_build_addr(build_addr_test_data, expected_result):
 def test_build_name(build_name_test_data, expected_result):
     xml_name_data = PHDCBuilder._build_name(**build_name_test_data)
     assert ET.tostring(xml_name_data).decode() == expected_result
+
+
+@pytest.mark.parametrize(
+    "build_custodian_test_data, expected_result",
+    [
+        # Success with `id`
+        (
+            {
+                "id": "TEST ID",
+            },
+            (
+                "<custodian><assignedCustodian><representedCustodianOrganization>"
+                + '<id extension="TEST ID"/></representedCustodianOrganization>'
+                + "</assignedCustodian></custodian>"
+            ),
+        ),
+        # ValueError is raised when `id` is None
+        (
+            {
+                "id": None,
+            },
+            ValueError("The Custodian id parameter must be a defined."),
+        ),
+    ],
+)
+def test_build_custodian(build_custodian_test_data, expected_result):
+    if isinstance(expected_result, ValueError):
+        with pytest.raises(ValueError) as e:
+            xml_custodian_data = PHDCBuilder._build_custodian(
+                **build_custodian_test_data
+            )
+            assert str(e.value) == str(expected_result)
+
+    else:
+        xml_custodian_data = PHDCBuilder._build_custodian(**build_custodian_test_data)
+        assert ET.tostring(xml_custodian_data).decode() == expected_result
