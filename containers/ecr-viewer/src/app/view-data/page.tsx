@@ -51,7 +51,6 @@ const ECRViewerPage = () => {
   }, []);
 
   const renderAccordion = () => {
-    console.log("Complete FHIR bundle: ", fhirBundle);
     const demographicsData = evaluateDemographicsData(fhirBundle, mappings);
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
