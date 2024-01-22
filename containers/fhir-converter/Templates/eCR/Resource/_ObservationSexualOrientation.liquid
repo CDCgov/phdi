@@ -58,8 +58,10 @@
                 "value":{{ observationEntry.value.value }},
                 "unit":"{{ observationEntry.value.unit }}",
             },
-        {% else -%}
+        {% elsif observationEntry.value.originalText.reference._ -%}
             "valueString":"{{ observationEntry.value.originalText.reference._ }}",
+        {% else -%}
+            "valueString":"unknown",
         {% endif -%}
     },
     "request":{
