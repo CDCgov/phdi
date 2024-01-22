@@ -243,8 +243,14 @@ class PHDCBuilder:
         # add id data
         id_element = ET.Element("id")
         id_element.set("extension", id)
-        id_element.set("root", root)
-        id_element.set("assigningAuthorityName", assigningAuthorityName)
+
+        # TODO: this should follow the same kwargs logic as above using
+        #   the _build_coded_element logic
+        if root is not None:
+            id_element.set("root", root)
+
+        if assigningAuthorityName is not None:
+            id_element.set("assigningAuthorityName", assigningAuthorityName)
         patientRole.append(id_element)
 
         # add address data
@@ -259,7 +265,7 @@ class PHDCBuilder:
 
         # add patient data
         if patient_data is not None:
-            patient_element = self.build_patient(**patient_data)
+            patient_element = self._build_patient(**patient_data)
             patientRole.append(patient_element)
         return recordTarget_data
 
