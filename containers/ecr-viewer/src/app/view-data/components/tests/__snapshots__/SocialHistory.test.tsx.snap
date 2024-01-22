@@ -103,6 +103,27 @@ exports[`SocialHistory should match snapshot 1`] = `
               class="section__line_gray"
             />
           </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Sexual Orientation
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                Do not know
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
         </div>
       </div>
     </div>
