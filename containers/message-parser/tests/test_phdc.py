@@ -349,6 +349,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
         xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
         assert ET.tostring(xml_recordtarget_data).decode() == expected_result
 
+
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 def test_print_header():
