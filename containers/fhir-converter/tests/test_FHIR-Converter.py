@@ -241,12 +241,12 @@ def test_convert_valid_request(
 @mock.patch("app.main.add_rr_data_to_eicr")
 @mock.patch("app.main.resolve_references")
 def test_convert_valid_request_with_rr_data(
-    patched_resolve_references,
-    patched_add_rr_data_to_eicr,
-    patched_file_path,
-    patched_subprocess_run,
-    patched_open,
-    patched_json_load,
+        patched_resolve_references,
+        patched_add_rr_data_to_eicr,
+        patched_file_path,
+        patched_subprocess_run,
+        patched_open,
+        patched_json_load,
 ):
     patched_subprocess_run.return_value = mock.Mock(returncode=0)
     patched_json_load.return_value = valid_response
@@ -265,11 +265,11 @@ def test_convert_valid_request_with_rr_data(
 @mock.patch("app.service.Path")
 @mock.patch("app.main.resolve_references")
 def test_convert_conversion_failure(
-    patched_resolve_references,
-    patched_file_path,
-    patched_subprocess_run,
-    patched_open,
-    patched_json_load,
+        patched_resolve_references,
+        patched_file_path,
+        patched_subprocess_run,
+        patched_open,
+        patched_json_load,
 ):
     patched_subprocess_run.return_value = mock.Mock(returncode=1)
     patched_json_load.return_value = valid_response
@@ -380,8 +380,8 @@ def test_resolve_references_valid_input():
     assert actual_refs[2].text == "Do not know"
     assert actual_refs[3].attrib["value"] == "#trvhx-1"
     assert (
-        actual_refs[3].text
-        == "Traveled to Singapore, Malaysia and Bali with my family."
+            actual_refs[3].text
+            == "Traveled to Singapore, Malaysia and Bali with my family."
     )
 
 
@@ -423,11 +423,11 @@ bundle_with_text = ('<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl
                     'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><component><section><templateId '
                     'root="1.3.6.1.4.1.19376.1.5.3.1.3.4"/><code code="10164-2" codeSystem="2.16.840.1.113883.6.1" '
                     'codeSystemName="LOINC" displayName="HISTORY OF PRESENT ILLNESS"/><title>Miscellaneous '
-                    'Notes</title><text>Doctor said they are ok</text></section></component></ClinicalDocument>')
+                    'Notes</title><text>OK</text></section></component></ClinicalDocument>')
 
 
 def test_resolve_html_does_not_override_existing():
     tree = etree.fromstring(resolve_html(bundle_with_text))
     actual_refs = tree.xpath("//hl7:text", namespaces={"hl7": "urn:hl7-org:v3"})
     print(etree.tostring(actual_refs[0]).decode())
-    assert actual_refs[0].text == 'Doctor said they are ok'
+    assert actual_refs[0].text == 'OK'
