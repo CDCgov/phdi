@@ -56,6 +56,21 @@ def resolve_references(input_data: str):
     return etree.tostring(ecr).decode()
 
 
+def resolve_html(input_data: str):
+    try:
+        ecr = etree.fromstring(input_data.encode())
+    except etree.XMLSyntaxError:
+        return input_data
+
+    ns = {"hl7": "urn:hl7-org:v3"}
+    text_blocks = ecr.xpath("//hl7:text", namespaces=ns)
+    for text in text_blocks:
+        if not text.text:
+            text.text = etree.tostring(text).decode()
+
+    return etree.tostring(ecr).decode()
+
+
 def convert_to_fhir(
     input_data: str,
     input_type: str,

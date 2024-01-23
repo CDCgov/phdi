@@ -6,6 +6,7 @@ import pytest
 from app.main import app
 from app.service import add_data_source_to_bundle
 from app.service import resolve_references
+from app.service import resolve_html
 from fastapi.testclient import TestClient
 from lxml import etree
 
@@ -342,7 +343,30 @@ def test_add_data_source_to_bundle_missing_arg():
     assert expected_error_message in result_error_message
 
 
-bundle_with_references = '<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><component><structuredBody><component><section><text><content styleCode="Bold">Additional Data</content><table><tbody><tr><th>Assigned Birth Sex</th><td ID="birthsex">Female</td></tr><tr><th>Gender Identity</th><td ID="gender-identity">unknown</td></tr><tr><th>Sexual Orientation</th><td ID="sexual-orientation">Do not know</td></tr></tbody></table><content styleCode="Bold">Travel History</content><table><thead><tr><th>Date of Travel</th><th>Location</th></tr></thead><tbody><tr><td>January 18th, 2018 - February 18th, 2018</td><td ID="trvhx-1">Traveled to Singapore, Malaysia and Bali with<br/>my family.</td></tr></tbody></table></text><entry><observation classCode="OBS" moodCode="EVN"><value code="F" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender" displayName="Female" xsi:type="CD"><originalText><reference value="#birthsex"/></originalText></value></observation></entry><entry><observation classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" xsi:type="CD"><originalText><reference value="#gender-identity"/></originalText></value></observation></entry><entry><observation classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" xsi:type="CD"><originalText><reference value="#sexual-orientation"/></originalText></value></observation></entry><entry><act classCode="ACT" moodCode="EVN"><text><reference value="#trvhx-1"/></text></act></entry></section></component></structuredBody></component></ClinicalDocument>'
+bundle_with_references = ('<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" '
+                          'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><component><structuredBody'
+                          '><component><section><text><content styleCode="Bold">Additional '
+                          'Data</content><table><tbody><tr><th>Assigned Birth Sex</th><td '
+                          'ID="birthsex">Female</td></tr><tr><th>Gender Identity</th><td '
+                          'ID="gender-identity">unknown</td></tr><tr><th>Sexual Orientation</th><td '
+                          'ID="sexual-orientation">Do not know</td></tr></tbody></table><content '
+                          'styleCode="Bold">Travel History</content><table><thead><tr><th>Date of '
+                          'Travel</th><th>Location</th></tr></thead><tbody><tr><td>January 18th, 2018 - February '
+                          '18th, 2018</td><td ID="trvhx-1">Traveled to Singapore, Malaysia and Bali with<br/>my '
+                          'family.</td></tr></tbody></table></text><entry><observation classCode="OBS" '
+                          'moodCode="EVN"><value code="F" codeSystem="2.16.840.1.113883.5.1" '
+                          'codeSystemName="AdministrativeGender" displayName="Female" '
+                          'xsi:type="CD"><originalText><reference '
+                          'value="#birthsex"/></originalText></value></observation></entry><entry><observation '
+                          'classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" '
+                          'xsi:type="CD"><originalText><reference '
+                          'value="#gender-identity"/></originalText></value></observation></entry><entry><observation '
+                          'classCode="OBS" moodCode="EVN"><value nullFlavor="UNK" '
+                          'xsi:type="CD"><originalText><reference '
+                          'value="#sexual-orientation"/></originalText></value></observation></entry><entry><act '
+                          'classCode="ACT" moodCode="EVN"><text><reference '
+                          'value="#trvhx-1"/></text></act></entry></section></component></structuredBody></component'
+                          '></ClinicalDocument>')
 
 
 def test_resolve_references_valid_input():
@@ -364,3 +388,46 @@ def test_resolve_references_valid_input():
 def test_resolve_references_invalid_input():
     actual = resolve_references("VXU or HL7 MESSAGE")
     assert actual == "VXU or HL7 MESSAGE"
+
+
+bundle_with_html = ('<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" '
+                    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><component><section><templateId '
+                    'root="1.3.6.1.4.1.19376.1.5.3.1.3.4"/><code code="10164-2" codeSystem="2.16.840.1.113883.6.1" '
+                    'codeSystemName="LOINC" displayName="HISTORY OF PRESENT ILLNESS"/><title>Miscellaneous '
+                    'Notes</title><text><list styleCode="xTOC"><item><caption>Addendum Note - Provprovider Two '
+                    'Imbtest, MD - Fri Nov 20, 2020  8:30 AM PST</caption><content ID="Note3"><content> Addended by: '
+                    'AMBTEST, PROV PROVIDER TWO on: 7/25/2022 12:38 PM<br/><br/> Modules accepted: '
+                    'Orders<br/><br/></content><br/><content styleCode="xLabel">Electronically signed by Provprovider '
+                    'Two Imbtest, MD at 07/25/2022 12:38 PM PDT</content><br/></content></item></list><footnote '
+                    'ID="subTitle1" styleCode="xSectionSubTitle">documented in this '
+                    'encounter</footnote></text></section></component></ClinicalDocument>')
+
+
+def test_resolve_html_valid_input():
+    tree = etree.fromstring(resolve_html(bundle_with_html))
+    actual_refs = tree.xpath("//hl7:text", namespaces={"hl7": "urn:hl7-org:v3"})
+    print(etree.tostring(actual_refs[0]).decode())
+    assert actual_refs[0].text == ('<text xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" '
+                                   'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><list '
+                                   'styleCode="xTOC"><item><caption>Addendum Note - Provprovider Two Imbtest, '
+                                   'MD - Fri Nov 20, 2020  8:30 AM PST</caption><content ID="Note3"><content> '
+                                   'Addended by: AMBTEST, PROV PROVIDER TWO on: 7/25/2022 12:38 PM<br/><br/> Modules '
+                                   'accepted: Orders<br/><br/></content><br/><content '
+                                   'styleCode="xLabel">Electronically signed by Provprovider Two Imbtest, '
+                                   'MD at 07/25/2022 12:38 PM PDT</content><br/></content></item></list><footnote '
+                                   'ID="subTitle1" styleCode="xSectionSubTitle">documented in this '
+                                   'encounter</footnote></text>')
+
+
+bundle_with_text = ('<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" '
+                    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><component><section><templateId '
+                    'root="1.3.6.1.4.1.19376.1.5.3.1.3.4"/><code code="10164-2" codeSystem="2.16.840.1.113883.6.1" '
+                    'codeSystemName="LOINC" displayName="HISTORY OF PRESENT ILLNESS"/><title>Miscellaneous '
+                    'Notes</title><text>Doctor said they are ok</text></section></component></ClinicalDocument>')
+
+
+def test_resolve_html_does_not_override_existing():
+    tree = etree.fromstring(resolve_html(bundle_with_text))
+    actual_refs = tree.xpath("//hl7:text", namespaces={"hl7": "urn:hl7-org:v3"})
+    print(etree.tostring(actual_refs[0]).decode())
+    assert actual_refs[0].text == 'Doctor said they are ok'

@@ -6,6 +6,7 @@ from app.constants import sample_request
 from app.constants import sample_response
 from app.service import convert_to_fhir
 from app.service import resolve_references
+from app.service import resolve_html
 from fastapi import Body
 from fastapi import FastAPI
 from fastapi import HTTPException
@@ -67,6 +68,7 @@ async def convert(
     fhir_converter_input = dict(input)
     fhir_converter_input.pop("rr_data")
     input.input_data = resolve_references(input.input_data)
+    input.input_data = resolve_html(input.input_data)
 
     # If RR is present, also need input data and conversion type eICR
     if input.rr_data is not None:
