@@ -1,4 +1,9 @@
 import { DisplayData } from "../../utils";
+import {
+  AccordianSection,
+  AccordianH3,
+  AccordianDiv,
+} from "../component-utils";
 
 interface DemographicsProps {
   demographicsData: DisplayData[];
@@ -19,26 +24,14 @@ const Demographics = ({ demographicsData }: DemographicsProps) => {
     );
   };
   return (
-    <div>
-      <div
-        className="padding-bottom-3"
-        aria-labelledby="summary-box-key-information"
-      >
-        <div className="usa-summary-box__body">
-          <h3
-            className="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
-          >
-            Demographics
-          </h3>
-          <div className="usa-summary-box__text">
-            {demographicsData.map((item, index) =>
-              renderDemographicsData(item, index),
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <AccordianSection>
+      <AccordianH3>Demographics</AccordianH3>
+      <AccordianDiv>
+        {demographicsData.map((item, index) =>
+          renderDemographicsData(item, index),
+        )}
+      </AccordianDiv>
+    </AccordianSection>
   );
 };
 
