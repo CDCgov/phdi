@@ -294,10 +294,11 @@ def test_build_patient(build_patient_test_data, expected_result):
 def test_build_recordTarget(build_rt_test_data, expected_result):
     builder = PHDCBuilder()
 
-    if isinstance(expected_result, type) and issubclass(expected_result, Exception):
-        with pytest.raises(expected_result):
-            builder._build_recordTarget(**build_rt_test_data)
+    if isinstance(expected_result, ValueError):
+        with pytest.raises(ValueError) as e:
+            xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
+            assert str(e.value) == str(expected_result)
+
     else:
         xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
-        assert xml_recordtarget_data is not None, "Expected XML object, got None"
-        assert ET.tostring(xml_recordtarget_data, encoding="unicode") == expected_result
+        assert ET.tostring(xml_recordtarget_data).decode() == expected_result
