@@ -1,4 +1,7 @@
 from datetime import datetime
+from typing import Dict
+from typing import List
+from typing import Optional
 
 from lxml import etree as ET
 
@@ -248,6 +251,76 @@ class PHDCBuilder:
                     patient_data.append(e)
 
         return patient_data
+
+    def _build_recordTarget(
+        self,
+        id: str,
+        root: str = None,
+        assigningAuthorityName: str = None,
+        telecom_data_list: Optional[List[Dict]] = None,
+        address_data_list: Optional[List[Dict]] = None,
+        patient_data_list: Optional[List[Dict]] = None,
+    ):
+        """
+        Builds a `recordTarget` XML element for recordTarget data, which refers to
+          the medical record of the patient.
+
+        :param id: recordTarget identifier
+        :param root: recordTarget root
+        :param assigningAuthorityName: recordTarget assigningAuthorityName
+        :param telecom_data_list: XML data from _build_telecom
+        :param address_data_list: XML data from _build_addr
+        :param patient_data_list: XML data from _build_patient
+
+        :raises ValueError: recordTarget needs ID to be defined.
+
+        :return recordTarget_data: XML element of the recordTarget
+        """
+        if id is None:
+            raise ValueError("The recordTarget id parameter must be a defined.")
+
+        # create recordTarget element
+        recordTarget_data = ET.Element("recordTarget")
+
+        # Create and append 'patientRole' element
+        patientRole = ET.Element("patientRole")
+        recordTarget_data.append(patientRole)
+
+        # add id data
+        id_element = ET.Element("id")
+        id_element.set("extension", id)
+
+        # TODO: this should follow the same kwargs logic as above using
+        #   the _build_coded_element logic
+        if root is not None:
+            id_element.set("root", root)
+
+        if assigningAuthorityName is not None:
+            id_element.set("assigningAuthorityName", assigningAuthorityName)
+        patientRole.append(id_element)
+
+        # add address data
+        if address_data_list is not None:
+            for address_data in address_data_list:
+                if address_data is not None:
+                    address_element = self._build_addr(address_data)
+                    patientRole.append(address_element)
+
+        # add telecom data
+        if telecom_data_list is not None:
+            for telecom_data in telecom_data_list:
+                if telecom_data is not None:
+                    telecom_element = self._build_telecom(telecom_data)
+                    patientRole.append(telecom_element)
+
+        # add patient data
+        if patient_data_list is not None:
+            for patient_data in patient_data_list:
+                if patient_data is not None:
+                    patient_element = self._build_patient(patient_data)
+                    patientRole.append(patient_element)
+
+        return recordTarget_data
 
     def build(self):
         return PHDC(self)
