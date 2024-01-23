@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from lxml import etree as ET
 
 
@@ -12,7 +14,7 @@ class PHDCBuilder:
 
     def _build_telecom(
         self,
-        **kwargs: dict
+        **kwargs: dict,
         # phone: str,
         # use: Literal["HP", "WP", "MC"] = None,
     ):
@@ -36,7 +38,7 @@ class PHDCBuilder:
 
     def _build_addr(
         self,
-        **kwargs
+        **kwargs,
         # use: Literal["H", "WP"] = None,
         # line: str = None,
         # city: str = None,
@@ -77,7 +79,7 @@ class PHDCBuilder:
 
     def _build_name(
         self,
-        **kwargs: dict
+        **kwargs: dict,
         # use: Literal["L", "P"] = None,
         # prefix: str = None,
         # given_name: Union[str, List[str]] = None,
@@ -161,6 +163,47 @@ class PHDCBuilder:
         custodian_data.append(assignedCustodian)
 
         return custodian_data
+
+    def _build_author(self, family_name: str):
+        """
+        Builds an `author` XML element for author data, which represents the
+            humans and/or machines that authored the document.
+
+            This includes the OID as per HL7 standards, the family name of
+            the author, which will be either the DIBBs project name or the
+            origin/provenance of the data we're migrating as well as the
+            creation timestamp of the document (not a parameter).
+
+        :param family_name: The DIBBs project name or source of the data being migrated.
+        :return: XML element of author data.
+        """
+        author_element = ET.Element("author")
+
+        # time element with the current timestamp
+        current_timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        time_element = ET.Element("time")
+        time_element.set("value", current_timestamp)
+        author_element.append(time_element)
+
+        # assignedAuthor element
+        assigned_author = ET.Element("assignedAuthor")
+
+        # using the standard OID for the author
+        id_element = ET.Element("id")
+        id_element.set("root", "2.16.840.1.113883.19.5")
+        assigned_author.append(id_element)
+
+        # family name is the example way to add either a project name or source of
+        # the data being migrated
+        name_element = ET.Element("name")
+        family_element = ET.SubElement(name_element, "family")
+        family_element.text = family_name
+
+        assigned_author.append(name_element)
+
+        author_element.append(assigned_author)
+
+        return author_element
 
     def _build_coded_element(self, element_name: str, **kwargs: dict):
         """
