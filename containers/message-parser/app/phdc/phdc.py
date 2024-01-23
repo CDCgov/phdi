@@ -1,13 +1,19 @@
-from datetime import datetime
 import uuid
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict
 from typing import List
 from typing import Optional
 
 from app import utils
 from lxml import etree as ET
+
+
+@dataclass
+class Telecom:
+    value: Optional[str] = None
+    type: Optional[str] = None
+    useable_period_low: Optional[str] = None
+    useable_period_high: Optional[str] = None
 
 
 @dataclass
@@ -37,13 +43,20 @@ class Name:
 
 
 @dataclass
+class Patient:
+    name: List[Name] = None
+    address: List[Address] = None
+    telecom: List[Telecom] = None
+    administrative_gender_code: Optional[str] = None
+    race_code: Optional[str] = None
+    ethnic_group_code: Optional[str] = None
+    birth_time: Optional[str] = None
+
+
+@dataclass
 class PHDCInputData:
-    patient_address: List[Address] = None
-    patient_name: List[Name] = None
-    patient_administrative_gender_code: Optional[str] = None
-    patient_race_code: Optional[str] = None
-    patient_ethnic_group_code: Optional[str] = None
-    patient_birth_time: Optional[str] = None
+    type: str = "case report"
+    patient: Patient = None
 
 
 class PHDC:
@@ -133,12 +146,20 @@ class PHDCBuilder:
 
         clinical_document.append(self._build_custodian(id=str(uuid.uuid4())))
         clinical_document.append(self._build_author(family_name="DIBBS"))
-
+        clinical_document.append(
+            self._build_recordTarget(
+                id=str(uuid.uuid4()),
+                assigningAuthorityName="L",
+                telecom_data=self.input_data.patient.telecom,
+                address_data=self.input_data.patient.address,
+                patient_data=self.input_data.patient,
+            )
+        )
         return clinical_document
 
     def _build_telecom(
         self,
-        **kwargs: dict,
+        telecom: Telecom
         # phone: str,
         # use: Literal["HP", "WP", "MC"] = None,
     ):
@@ -153,16 +174,27 @@ class PHDCBuilder:
         """
         telecom_data = ET.Element("telecom")
 
-        if "use" in kwargs.keys() and kwargs["use"] is not None:
-            telecom_data.set("use", kwargs["use"])
-        if "phone" in kwargs.keys() and kwargs["phone"] is not None:
-            telecom_data.set("value", kwargs["phone"])
+        if telecom.type is not None:
+            types = {
+                "home": "H",
+                "work": "WP",
+                "mobile": "MC",
+            }
+            telecom_data.set("use", types[telecom.type])
+
+        if telecom.value is not None:
+            if telecom.type in ["home", "work", "mobile"]:
+                telecom_data.set("value", f"tel:{telecom.value}")
+            elif telecom.type == "email":
+                telecom_data.set("value", f"mailto:{telecom.value}")
+            else:
+                telecom_data.set("value", telecom.value)
 
         return telecom_data
 
     def _build_addr(
         self,
-        **kwargs,
+        address: Address,
         # use: Literal["H", "WP"] = None,
         # line: str = None,
         # city: str = None,
@@ -184,26 +216,31 @@ class PHDCBuilder:
         :param country: Country, defaults to None.
         :return: XML element of address data.
         """
-
         address_data = ET.Element("addr")
-        if "use" in kwargs.keys() and kwargs["use"] is not None:
-            address_data.set("use", kwargs["use"])
 
-        for element, value in kwargs.items():
-            if element != "use" and value is not None:
-                if element == "line":
-                    element = "streetAddressLine"
-                elif element == "zip":
-                    element = "postalCode"
-                e = ET.Element(element)
-                e.text = value
+        def add_field(data, field_name: str):
+            if data is not None:
+                e = ET.Element(field_name)
+                e.text = data
                 address_data.append(e)
+
+        if address.type is not None:
+            address_data.set("use", "H" if address.type.lower() == "home" else "WP")
+
+        add_field(address.street_address_line_1, "streetAddressLine")
+        add_field(address.street_address_line_2, "streetAddressLine")
+        add_field(address.city, "city")
+        add_field(address.state, "state")
+        add_field(address.postal_code, "postalCode")
+        add_field(address.county, "county")
+        add_field(address.country, "country")
 
         return address_data
 
     def _build_name(
         self,
-        **kwargs: dict,
+        name: Name
+        # **kwargs: dict,
         # use: Literal["L", "P"] = None,
         # prefix: str = None,
         # given_name: Union[str, List[str]] = None,
@@ -222,39 +259,56 @@ class PHDCBuilder:
         """
 
         name_data = ET.Element("name")
-        if "use" in kwargs.keys() and kwargs["use"] is not None:
-            name_data.set("use", kwargs["use"])
 
-        for element, value in kwargs.items():
-            if element != "use" and value is not None:
-                if element == "given_name":
-                    element = "given"
+        def add_field(data, field_name: str):
+            if data is not None:
+                e = ET.Element(field_name)
+                e.text = data
+                name_data.append(e)
 
-                    # Split single string names into first name and middle names as
-                    # PHDC appears to only allow for up to two given names
-                    if isinstance(value, str) and len(value.split()) > 1:
-                        value = [
-                            value.split()[0],
-                            " ".join(v for v in (value.split()[1:])),
-                        ]
+        if name.type is not None:
+            types = {
+                "legal": "L",
+                "pseudonym": "P",
+            }
+            name_data.set("use", types[name.type])
 
-                elif element == "last_name":
-                    element = "family"
+        add_field(name.prefix, "prefix")
+        add_field(name.first, "given")
+        add_field(name.middle, "given")
+        add_field(name.family, "family")
+        add_field(name.suffix, "suffix")
 
-                # Append each value of a list, e.g., given name, as its own Element
-                if isinstance(value, list):
-                    value = [
-                        value[0],
-                        " ".join(v for v in (value[1:])),
-                    ]
-                    for v in value:
-                        e = ET.Element(element)
-                        e.text = v
-                        name_data.append(e)
-                else:
-                    e = ET.Element(element)
-                    e.text = value
-                    name_data.append(e)
+        # for element, value in kwargs.items():
+        #     if element != "use" and value is not None:
+        #         if element == "given_name":
+        #             element = "given"
+        #
+        #             # Split single string names into first name and middle names as
+        #             # PHDC appears to only allow for up to two given names
+        #             if isinstance(value, str) and len(value.split()) > 1:
+        #                 value = [
+        #                     value.split()[0],
+        #                     " ".join(v for v in (value.split()[1:])),
+        #                 ]
+        #
+        #         elif element == "last_name":
+        #             element = "family"
+        #
+        #         # Append each value of a list, e.g., given name, as its own Element
+        #         if isinstance(value, list):
+        #             value = [
+        #                 value[0],
+        #                 " ".join(v for v in (value[1:])),
+        #             ]
+        #             for v in value:
+        #                 e = ET.Element(element)
+        #                 e.text = v
+        #                 name_data.append(e)
+        #         else:
+        #             e = ET.Element(element)
+        #             e.text = value
+        #             name_data.append(e)
 
         return name_data
 
@@ -348,28 +402,38 @@ class PHDCBuilder:
                 element.set(e, v)
         return element
 
-    def _build_patient(self, **kwargs: dict):
+    def _build_patient(self, patient: Patient):
         patient_data = ET.Element("patient")
 
-        for element, value in kwargs.items():
-            if value is not None:
-                if isinstance(value, ET._Element):
-                    patient_data.append(value)
-                elif element in [
-                    "administrativeGenderCode",
-                    "raceCode",
-                    "ethnicGroupCode",
-                ]:
-                    # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
-                    v = self._build_coded_element(
-                        element,
-                        **{"displayName": value},
-                    )
-                    patient_data.append(v)
-                else:
-                    e = ET.Element(element)
-                    e.text = value
-                    patient_data.append(e)
+        for name in patient.name:
+            patient_data.append(self._build_name(name))
+
+        if patient.administrative_gender_code is not None:
+            v = self._build_coded_element(
+                "administrativeGenderCode",
+                **{"displayName": patient.administrative_gender_code},
+            )
+            patient_data.append(v)
+
+        if patient.race_code is not None:
+            v = self._build_coded_element(
+                "raceCode",
+                **{"displayName": patient.race_code},
+            )
+            patient_data.append(v)
+
+        if patient.ethnic_group_code is not None:
+            v = self._build_coded_element(
+                "ethnicGroupCode",
+                **{"displayName": patient.ethnic_group_code},
+            )
+            patient_data.append(v)
+
+        if patient.birth_time is not None:
+            e = ET.Element("birthTime")
+            e.text = patient.birth_time
+            patient_data.append(e)
+        # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
 
         return patient_data
 
@@ -378,9 +442,9 @@ class PHDCBuilder:
         id: str,
         root: str = None,
         assigningAuthorityName: str = None,
-        telecom_data_list: Optional[List[Dict]] = None,
-        address_data_list: Optional[List[Dict]] = None,
-        patient_data_list: Optional[List[Dict]] = None,
+        telecom_data: Optional[List[Telecom]] = None,
+        address_data: Optional[List[Address]] = None,
+        patient_data: Optional[Patient] = None,
     ):
         """
         Builds a `recordTarget` XML element for recordTarget data, which refers to
@@ -421,25 +485,23 @@ class PHDCBuilder:
         patientRole.append(id_element)
 
         # add address data
-        if address_data_list is not None:
-            for address_data in address_data_list:
+        if address_data is not None:
+            for address_data in address_data:
                 if address_data is not None:
                     address_element = self._build_addr(address_data)
                     patientRole.append(address_element)
 
         # add telecom data
-        if telecom_data_list is not None:
-            for telecom_data in telecom_data_list:
+        if telecom_data is not None:
+            for telecom_data in telecom_data:
                 if telecom_data is not None:
                     telecom_element = self._build_telecom(telecom_data)
                     patientRole.append(telecom_element)
 
         # add patient data
-        if patient_data_list is not None:
-            for patient_data in patient_data_list:
-                if patient_data is not None:
-                    patient_element = self._build_patient(patient_data)
-                    patientRole.append(patient_element)
+        if patient_data is not None:
+            patient_element = self._build_patient(patient_data)
+            patientRole.append(patient_element)
 
         return recordTarget_data
 

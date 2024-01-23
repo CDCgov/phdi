@@ -1,13 +1,15 @@
 import uuid
 from datetime import date
-from datetime import datetime
 from unittest.mock import patch
 
 import pytest
 from app import utils
+from app.phdc.phdc import Address
 from app.phdc.phdc import Name
+from app.phdc.phdc import Patient
 from app.phdc.phdc import PHDCBuilder
 from app.phdc.phdc import PHDCInputData
+from app.phdc.phdc import Telecom
 from lxml import etree as ET
 
 
@@ -16,26 +18,24 @@ from lxml import etree as ET
     [
         # Success with `use`
         (
-            {"phone": "+1-800-555-1234", "use": "WP"},
-            '<telecom use="WP" value="+1-800-555-1234"/>',
+            Telecom(value="+1-800-555-1234", type="work"),
+            '<telecom use="WP" value="tel:+1-800-555-1234"/>',
         ),
         # Success without `use`
         (
-            {
-                "phone": "+1-800-555-1234",
-            },
+            Telecom(value="+1-800-555-1234"),
             '<telecom value="+1-800-555-1234"/>',
         ),
         # Success with `use` as None
         (
-            {"phone": "+1-800-555-1234", "use": None},
+            Telecom(value="+1-800-555-1234", type=None),
             '<telecom value="+1-800-555-1234"/>',
         ),
     ],
 )
 def test_build_telecom(build_telecom_test_data, expected_result):
     builder = PHDCBuilder()
-    xml_telecom_data = builder._build_telecom(**build_telecom_test_data)
+    xml_telecom_data = builder._build_telecom(build_telecom_test_data)
     assert ET.tostring(xml_telecom_data).decode() == expected_result
 
 
@@ -44,15 +44,15 @@ def test_build_telecom(build_telecom_test_data, expected_result):
     [
         # Success with all values present
         (
-            {
-                "use": "H",
-                "line": "123 Main Street",
-                "city": "Brooklyn",
-                "state": "New York",
-                "zip": "11205",
-                "county": "Kings",
-                "country": "USA",
-            },
+            Address(
+                type="Home",
+                street_address_line_1="123 Main Street",
+                city="Brooklyn",
+                state="New York",
+                postal_code="11205",
+                county="Kings",
+                country="USA",
+            ),
             (
                 '<addr use="H"><streetAddressLine>123 Main Street</streetAddressLine>'
                 + "<city>Brooklyn</city><state>New York</state>"
@@ -62,12 +62,12 @@ def test_build_telecom(build_telecom_test_data, expected_result):
         ),
         # Success with some values missing
         (
-            {
-                "use": "H",
-                "line": "123 Main Street",
-                "city": "Brooklyn",
-                "state": "New York",
-            },
+            Address(
+                type="Home",
+                street_address_line_1="123 Main Street",
+                city="Brooklyn",
+                state="New York",
+            ),
             (
                 '<addr use="H"><streetAddressLine>123 Main Street</streetAddressLine>'
                 + "<city>Brooklyn</city><state>New York</state></addr>"
@@ -75,12 +75,12 @@ def test_build_telecom(build_telecom_test_data, expected_result):
         ),
         # Success with some values as None
         (
-            {
-                "use": "H",
-                "line": "123 Main Street",
-                "city": "Brooklyn",
-                "state": None,
-            },
+            Address(
+                type="Home",
+                street_address_line_1="123 Main Street",
+                city="Brooklyn",
+                state=None,
+            ),
             (
                 '<addr use="H"><streetAddressLine>123 Main Street</streetAddressLine>'
                 + "<city>Brooklyn</city></addr>"
@@ -90,7 +90,7 @@ def test_build_telecom(build_telecom_test_data, expected_result):
 )
 def test_build_addr(build_addr_test_data, expected_result):
     builder = PHDCBuilder()
-    xml_addr_data = builder._build_addr(**build_addr_test_data)
+    xml_addr_data = builder._build_addr(build_addr_test_data)
     assert ET.tostring(xml_addr_data).decode() == expected_result
 
 
@@ -99,12 +99,7 @@ def test_build_addr(build_addr_test_data, expected_result):
     [
         # Success with all single given_name
         (
-            {
-                "use": "L",
-                "prefix": "Mr.",
-                "given_name": "John",
-                "last_name": "Doe",
-            },
+            Name(type="legal", prefix="Mr.", first="John", family="Doe"),
             (
                 '<name use="L"><prefix>Mr.</prefix>'
                 + "<given>John</given><family>Doe</family></name>"
@@ -112,25 +107,9 @@ def test_build_addr(build_addr_test_data, expected_result):
         ),
         # Success with given_name as list
         (
-            {
-                "use": "L",
-                "prefix": "Mr.",
-                "given_name": ["John", "Jacob"],
-                "last_name": "Doe",
-            },
-            (
-                '<name use="L"><prefix>Mr.</prefix>'
-                + "<given>John</given><given>Jacob</given><family>Doe</family></name>"
+            Name(
+                type="legal", prefix="Mr.", first="John", middle="Jacob", family="Doe"
             ),
-        ),
-        # Success with given_name as multi-name str
-        (
-            {
-                "use": "L",
-                "prefix": "Mr.",
-                "given_name": "John Jacob",
-                "last_name": "Doe",
-            },
             (
                 '<name use="L"><prefix>Mr.</prefix>'
                 + "<given>John</given><given>Jacob</given><family>Doe</family></name>"
@@ -138,37 +117,26 @@ def test_build_addr(build_addr_test_data, expected_result):
         ),
         # Success with more than 2 given names in a string condensed to 2 given names
         (
-            {
-                "use": "L",
-                "prefix": "Mr.",
-                "given_name": "John Jacob Jingleheimer",
-                "last_name": "Doe",
-            },
-            (
-                '<name use="L"><prefix>Mr.</prefix>'
-                + "<given>John</given><given>Jacob Jingleheimer</given>"
-                + "<family>Doe</family></name>"
+            Name(
+                type="legal",
+                prefix="Mr.",
+                first="John",
+                middle="Jacob Jingleheimer",
+                family="Doe",
+                suffix="V",
             ),
-        ),
-        # Success with more than 2 given names in a list condensed to 2 given names
-        (
-            {
-                "use": "L",
-                "prefix": "Mr.",
-                "given_name": ["John", "Jacob", "Jingleheimer"],
-                "last_name": "Doe",
-            },
             (
                 '<name use="L"><prefix>Mr.</prefix>'
                 + "<given>John</given><given>Jacob Jingleheimer</given>"
-                + "<family>Doe</family></name>"
+                + "<family>Doe</family>"
+                + "<suffix>V</suffix></name>"
             ),
         ),
     ],
 )
 def test_build_name(build_name_test_data, expected_result):
     builder = PHDCBuilder()
-    xml_name_data = builder._build_name(**build_name_test_data)
+    xml_name_data = builder._build_name(build_name_test_data)
     assert ET.tostring(xml_name_data).decode() == expected_result
 
 
@@ -207,6 +175,7 @@ def test_build_custodian(build_custodian_test_data, expected_result):
         assert ET.tostring(xml_custodian_data).decode() == expected_result
 
 
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 @pytest.mark.parametrize(
     "family_name, expected_oid, expected_date, expected_name",
     [
@@ -214,25 +183,25 @@ def test_build_custodian(build_custodian_test_data, expected_result):
         (
             "CDC PRIME DIBBs",
             "2.16.840.1.113883.19.5",
-            datetime.now().strftime("%Y%m%d"),
+            "20101215000000",
             (
-                '<author><time value="{}"/><assignedAuthor>'
+                '<author><time value="20101215000000"/><assignedAuthor>'
                 '<id root="2.16.840.1.113883.19.5"/><name>'
                 "<family>CDC PRIME DIBBs</family></name>"
                 "</assignedAuthor></author>"
-            ).format(datetime.now().strftime("%Y%m%d%H%M%S")),
+            ),
         ),
         # test for correct OID and name "Local Health Jurisdiction"
         (
             "Local Health Jurisdiction",
             "2.16.840.1.113883.19.5",
-            datetime.now().strftime("%Y%m%d"),
+            "20101215000000",
             (
-                '<author><time value="{}"/><assignedAuthor>'
+                '<author><time value="20101215000000"/><assignedAuthor>'
                 '<id root="2.16.840.1.113883.19.5"/><name>'
                 "<family>Local Health Jurisdiction</family></name>"
                 "</assignedAuthor></author>"
-            ).format(datetime.now().strftime("%Y%m%d%H%M%S")),
+            ),
         ),
     ],
 )
@@ -245,72 +214,35 @@ def test_build_author(family_name, expected_oid, expected_date, expected_name):
     assert expected_name in author_string
 
 
-def create_patient_test_data():
-    builder = PHDCBuilder()
-    n_data = {
-        "prefix": "Mr.",
-        "given_name": "John Jacob",
-        "last_name": "Schmidt",
-    }
-    name_data = builder._build_name(**n_data)
-    t_data = {"phone": "+1-800-555-1234", "use": "WP"}
-    telecom_data = builder._build_telecom(**t_data)
-
-    return {
-        "complete_data": {
-            "name_data": name_data,
-            "telecom_data": telecom_data,
-            "administrativeGenderCode": "Male",
-            "raceCode": "White",
-            "ethnicGroupCode": "Not-Hispanic/Latino",
-            "birthTime": "01-01-2000",
-        },
-        "missing_data": {
-            "name_data": name_data,
-            "telecom_data": telecom_data,
-            "administrativeGenderCode": "Male",
-            "raceCode": "White",
-            "ethnicGroupCode": None,
-            "birthTime": "01-01-2000",
-        },
-    }
-
-
-patient_test_data = create_patient_test_data()
-
-
 @pytest.mark.parametrize(
     "build_patient_test_data, expected_result",
     [
         # Success with all patient data
         (
-            patient_test_data["complete_data"],
+            Patient(
+                name=[
+                    Name(prefix="Mr.", first="John", middle="Jacob", family="Schmidt")
+                ],
+                race_code="White",
+                ethnic_group_code="Not Hispanic or Latino",
+                administrative_gender_code="Male",
+                birth_time="01-01-2000",
+            ),
             (
                 "<patient><name><prefix>Mr.</prefix><given>John</given>"
                 + "<given>Jacob</given><family>Schmidt</family></name>"
-                + '<telecom use="WP" value="+1-800-555-1234"/>'
                 + '<administrativeGenderCode displayName="Male"/>'
                 + '<raceCode displayName="White"/><ethnicGroupCode displayName='
-                + '"Not-Hispanic/Latino"/><birthTime>01-01-2000</birthTime></patient>'
+                + '"Not Hispanic or Latino"/><birthTime>01-01-2000</birthTime>'
+                + "</patient>"
             ),
-        ),
-        # Success with one patient data element as None
-        (
-            patient_test_data["missing_data"],
-            (
-                "<patient><name><prefix>Mr.</prefix><given>John</given><given>Jacob"
-                + '</given><family>Schmidt</family></name><telecom use="WP"'
-                + ' value="+1-800-555-1234"/><administrativeGenderCode displayName='
-                + '"Male"/><raceCode displayName="White"/><birthTime>01-01-2000'
-                + "</birthTime></patient>"
-            ),
-        ),
+        )
     ],
 )
 def test_build_patient(build_patient_test_data, expected_result):
     builder = PHDCBuilder()
 
-    xml_patient_data = builder._build_patient(**build_patient_test_data)
+    xml_patient_data = builder._build_patient(build_patient_test_data)
     assert ET.tostring(xml_patient_data).decode() == expected_result
 
 
@@ -349,43 +281,59 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
         xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
         assert ET.tostring(xml_recordtarget_data).decode() == expected_result
 
-@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
-@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
-def test_print_header():
-    # print(utils.read_file_from_assets("sample_phdc.xml"))
-    builder = PHDCBuilder()
-
-    input = PHDCInputData(patient_name=Name(family="Smith"))
-
-    phdc = builder.set_input_data(input).build()
-
-    print("=====")
-    print(phdc.to_xml_string())
-    #
-    # print()
-    # print(
-    #     ET.tostring(
-    #         builder._build_header(family_name="Smith"),
-    #         pretty_print=True,
-    #         xml_declaration=True,
-    #         encoding="utf-8",
-    #     ).decode()
-    # )
-
 
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 @pytest.mark.parametrize(
     "build_header_test_data, expected_result",
-    [({}, (utils.read_file_from_assets("sample_phdc.xml")))],
+    [
+        (
+            PHDCInputData(
+                patient=Patient(
+                    name=[
+                        Name(
+                            prefix="Mr.",
+                            first="John",
+                            middle="Jacob",
+                            family="Schmidt",
+                            type="legal",
+                        ),
+                        Name(
+                            prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
+                        ),
+                    ],
+                    race_code="White",
+                    ethnic_group_code="Not Hispanic or Latino",
+                    administrative_gender_code="Male",
+                    birth_time="01-01-2000",
+                    telecom=[
+                        Telecom(value="+1-800-555-1234"),
+                        Telecom(value="+1-800-555-1234", type="work"),
+                    ],
+                    address=[
+                        Address(
+                            type="Home",
+                            street_address_line_1="123 Main Street",
+                            city="Brooklyn",
+                            postal_code="11201",
+                            state="New York",
+                        ),
+                        Address(
+                            type="workplace",
+                            street_address_line_1="123 Main Street",
+                            postal_code="55866",
+                            city="Brooklyn",
+                            state="New York",
+                        ),
+                    ],
+                )
+            ),
+            (utils.read_file_from_assets("sample_phdc.xml")),
+        )
+    ],
 )
 def test_build_header(build_header_test_data, expected_result):
     builder = PHDCBuilder()
 
-    xml_patient_data = builder._build_header(**build_header_test_data)
-    assert (
-        ET.tostring(
-            xml_patient_data, pretty_print=True, xml_declaration=True, encoding="utf-8"
-        ).decode()
-        == expected_result
-    )
+    phdc = builder.set_input_data(build_header_test_data).build()
+    assert phdc.to_xml_string() == expected_result
