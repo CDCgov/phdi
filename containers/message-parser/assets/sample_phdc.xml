@@ -21,4 +21,40 @@
       </name>
     </assignedAuthor>
   </author>
+  <recordTarget>
+    <patientRole>
+      <id extension="mocked-uuid" assigningAuthorityName="L"/>
+      <addr use="H">
+        <streetAddressLine>123 Main Street</streetAddressLine>
+        <city>Brooklyn</city>
+        <state>New York</state>
+        <postalCode>11201</postalCode>
+      </addr>
+      <addr use="WP">
+        <streetAddressLine>123 Main Street</streetAddressLine>
+        <city>Brooklyn</city>
+        <state>New York</state>
+        <postalCode>55866</postalCode>
+      </addr>
+      <telecom value="+1-800-555-1234"/>
+      <telecom use="WP" value="tel:+1-800-555-1234"/>
+      <patient>
+        <name use="L">
+          <prefix>Mr.</prefix>
+          <given>John</given>
+          <given>Jacob</given>
+          <family>Schmidt</family>
+        </name>
+        <name use="P">
+          <prefix>Mr.</prefix>
+          <given>JJ</given>
+          <family>Schmidt</family>
+        </name>
+        <administrativeGenderCode displayName="Male"/>
+        <raceCode displayName="White"/>
+        <ethnicGroupCode displayName="Not Hispanic or Latino"/>
+        <birthTime>01-01-2000</birthTime>
+      </patient>
+    </patientRole>
+  </recordTarget>
 </ClinicalDocument>
