@@ -1,6 +1,4 @@
-from typing import List
-from typing import Literal
-from typing import Union
+from datetime import datetime
 
 from lxml import etree as ET
 
@@ -15,8 +13,10 @@ class PHDCBuilder:
         self.header = None
 
     def _build_telecom(
-        phone: str,
-        use: Literal["HP", "WP", "MC"] = None,
+        self,
+        **kwargs: dict,
+        # phone: str,
+        # use: Literal["HP", "WP", "MC"] = None,
     ):
         """
         Builds a `telecom` XML element for phone data including phone number (as
@@ -29,20 +29,23 @@ class PHDCBuilder:
         """
         telecom_data = ET.Element("telecom")
 
-        if use is not None:
-            telecom_data.set("use", use)
-        telecom_data.set("value", phone)
+        if "use" in kwargs.keys() and kwargs["use"] is not None:
+            telecom_data.set("use", kwargs["use"])
+        if "phone" in kwargs.keys() and kwargs["phone"] is not None:
+            telecom_data.set("value", kwargs["phone"])
 
         return telecom_data
 
     def _build_addr(
-        use: Literal["H", "WP"] = None,
-        line: str = None,
-        city: str = None,
-        state: str = None,
-        zip: str = None,
-        county: str = None,
-        country: str = None,
+        self,
+        **kwargs,
+        # use: Literal["H", "WP"] = None,
+        # line: str = None,
+        # city: str = None,
+        # state: str = None,
+        # zip: str = None,
+        # county: str = None,
+        # country: str = None,
     ):
         """
         Builds an `addr` XML element for address data. There are two types of address
@@ -57,13 +60,12 @@ class PHDCBuilder:
         :param country: Country, defaults to None.
         :return: XML element of address data.
         """
-        address_elements = locals()
 
         address_data = ET.Element("addr")
-        if use is not None:
-            address_data.set("use", use)
+        if "use" in kwargs.keys() and kwargs["use"] is not None:
+            address_data.set("use", kwargs["use"])
 
-        for element, value in address_elements.items():
+        for element, value in kwargs.items():
             if element != "use" and value is not None:
                 if element == "line":
                     element = "streetAddressLine"
@@ -76,10 +78,12 @@ class PHDCBuilder:
         return address_data
 
     def _build_name(
-        use: Literal["L", "P"] = None,
-        prefix: str = None,
-        given_name: Union[str, List[str]] = None,
-        last_name: str = None,
+        self,
+        **kwargs: dict,
+        # use: Literal["L", "P"] = None,
+        # prefix: str = None,
+        # given_name: Union[str, List[str]] = None,
+        # last_name: str = None,
     ):
         """
         Builds a `name` XML element for address data. There are two types of name
@@ -92,13 +96,12 @@ class PHDCBuilder:
         :param last_name: Last name, defaults to None.
         :return: XML element of name data.
         """
-        name_elements = locals()
 
         name_data = ET.Element("name")
-        if use is not None:
-            name_data.set("use", use)
+        if "use" in kwargs.keys() and kwargs["use"] is not None:
+            name_data.set("use", kwargs["use"])
 
-        for element, value in name_elements.items():
+        for element, value in kwargs.items():
             if element != "use" and value is not None:
                 if element == "given_name":
                     element = "given"
@@ -132,6 +135,7 @@ class PHDCBuilder:
         return name_data
 
     def _build_custodian(
+        self,
         id: str,
     ):
         """
@@ -159,6 +163,91 @@ class PHDCBuilder:
         custodian_data.append(assignedCustodian)
 
         return custodian_data
+
+    def _build_author(self, family_name: str):
+        """
+        Builds an `author` XML element for author data, which represents the
+            humans and/or machines that authored the document.
+
+            This includes the OID as per HL7 standards, the family name of
+            the author, which will be either the DIBBs project name or the
+            origin/provenance of the data we're migrating as well as the
+            creation timestamp of the document (not a parameter).
+
+        :param family_name: The DIBBs project name or source of the data being migrated.
+        :return: XML element of author data.
+        """
+        author_element = ET.Element("author")
+
+        # time element with the current timestamp
+        current_timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        time_element = ET.Element("time")
+        time_element.set("value", current_timestamp)
+        author_element.append(time_element)
+
+        # assignedAuthor element
+        assigned_author = ET.Element("assignedAuthor")
+
+        # using the standard OID for the author
+        id_element = ET.Element("id")
+        id_element.set("root", "2.16.840.1.113883.19.5")
+        assigned_author.append(id_element)
+
+        # family name is the example way to add either a project name or source of
+        # the data being migrated
+        name_element = ET.Element("name")
+        family_element = ET.SubElement(name_element, "family")
+        family_element.text = family_name
+
+        assigned_author.append(name_element)
+
+        author_element.append(assigned_author)
+
+        return author_element
+
+    def _build_coded_element(self, element_name: str, **kwargs: dict):
+        """
+        Builds coded elements, such as administrativeGenderCode, using kwargs code,
+          codeSystem, and displayName.
+
+        :param element_name: Name of the element being built.
+        :param code: The element code, defaults to None
+        :param codeSystem: The element codeSystem that the code corresponds to, defaults
+          to None
+        :param displayName: The element display name, defaults to None
+        :return: XML element of coded data.
+        """
+        element = ET.Element(element_name)
+
+        for e, v in kwargs.items():
+            if e != "element_name" and v is not None:
+                element.set(e, v)
+        return element
+
+    def _build_patient(self, **kwargs: dict):
+        patient_data = ET.Element("patient")
+
+        for element, value in kwargs.items():
+            if value is not None:
+                if isinstance(value, ET._Element):
+                    patient_data.append(value)
+                elif element in [
+                    "administrativeGenderCode",
+                    "raceCode",
+                    "ethnicGroupCode",
+                ]:
+                    # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
+                    v = self._build_coded_element(
+                        element,
+                        **{"displayName": value},
+                    )
+                    patient_data.append(v)
+                else:
+                    e = ET.Element(element)
+                    e.text = value
+                    patient_data.append(e)
+
+        return patient_data
 
     def build(self):
         return PHDC(self)

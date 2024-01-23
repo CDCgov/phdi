@@ -31,3 +31,11 @@
         {% include 'Resource/ObservationTravelHistory' observationCategory: 'social-history', observationEntry: entry.act, ID: observationId -%}
     {% endif %}
 {% endif -%}
+
+{% for socialObservation in SOCIALOBS -%}
+    {% assign observationId = socialObservation.observation | to_json_string | generate_uuid -%}
+    {% if socialObservation.observation.templateId and socialObservation.observation.templateId[0] and socialObservation.observation.templateId[0].root and socialObservation.observation.templateId[0].root == '2.16.840.1.113883.10.20.22.4.38' and socialObservation.observation.code and socialObservation.observation.code.code == '76690-7' -%}
+        {% include 'Resource/ObservationSexualOrientation' observationCategory: 'social-history', observationEntry: socialObservation.observation, ID: observationId -%},
+        {% include 'Reference/Observation/Subject' ID: observationId, REF: fullPatientId -%}
+    {% endif -%}
+{% endfor -%}

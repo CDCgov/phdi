@@ -7,6 +7,7 @@ import { loadYamlConfig } from "@/app/api/fhir-data/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
 import BundleWithPatient from "../tests/assets/BundlePatient.json";
+import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -27,6 +28,14 @@ describe("Utils", () => {
         .toEqualIgnoringWhitespace(`Dates: 2018-01-18 - 2018-02-18
            Location(s): Traveled to Singapore, Malaysia and Bali with my family.
            Purpose of Travel: Active duty military (occupation)`);
+    });
+    it("should have patient sexual orientation when available", () => {
+      const actual = evaluateSocialData(
+        BundleWithSexualOrientation as unknown as Bundle,
+        mappings,
+      );
+
+      expect(actual.availableData[0].value).toEqual("Do not know");
     });
   });
   describe("Format Patient Name", () => {
