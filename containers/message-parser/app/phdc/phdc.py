@@ -208,12 +208,13 @@ class PHDCBuilder:
 
     def _build_recordTarget(
         self,
-        id: str,
-        root: str = None,
-        assigningAuthorityName: str = None,
-        telecom_data: str = None,
-        addr_data: str = None,
-        patient_data: str = None,
+        **kwargs,
+        # id: str,
+        # root: str = None,
+        # assigningAuthorityName: str = None,
+        # telecom_data: str = None,
+        # addr_data: str = None,
+        # patient_data: str = None,
     ):
         """
         Builds a `recordTarget` XML element for recordTarget data, which refers to
@@ -230,7 +231,7 @@ class PHDCBuilder:
 
         :return recordTarget_data: XML element of the recordTarget
         """
-        if id is None:
+        if "id" not in kwargs or kwargs["id"] is None:
             raise ValueError("The recordTarget id parameter must be a defined.")
 
         # create recordTarget element
@@ -240,34 +241,28 @@ class PHDCBuilder:
         patientRole = ET.Element("patientRole")
         recordTarget_data.append(patientRole)
 
-        # add id data
+        # initialize id data, add data, then append to patientRole
         id_element = ET.Element("id")
-        id_element.set("extension", id)
+        id_element.set("extension", kwargs["id"])
 
-        # TODO: this should follow the same kwargs logic as above using
-        #   the _build_coded_element logic
-        if root is not None:
-            id_element.set("root", root)
+        element_list = ["root", "assigningAuthorityName"]
+        for id_elem in element_list:
+            if id_elem in kwargs:
+                id_element.set(id_elem, kwargs[id_elem])
 
-        if assigningAuthorityName is not None:
-            id_element.set("assigningAuthorityName", assigningAuthorityName)
         patientRole.append(id_element)
 
-        # add address data
-        if addr_data is not None:
-            addr_element = self._build_addr(**addr_data)
-            patientRole.append(addr_element)
+        # add address, telecom, patient
+        element_methods = {
+            "addr_data": self._build_addr,
+            "telecom_data": self._build_telecom,
+            "patient_data": self._build_patient,
+        }
 
-        # add telecom
-        if telecom_data is not None:
-            telecom_element = self._build_telecom(**telecom_data)
-            patientRole.append(telecom_element)
-
-        # add patient data
-        if patient_data is not None:
-            patient_element = self._build_patient(**patient_data)
-            patientRole.append(patient_element)
-        return recordTarget_data
+        for elem_key, method in element_methods.items():
+            if elem_key in kwargs:
+                element = method(**kwargs[elem_key])
+                patientRole.append(element)
 
     def build(self):
         return PHDC(self)
