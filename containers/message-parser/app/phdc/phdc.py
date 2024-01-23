@@ -1,4 +1,7 @@
 from datetime import datetime
+from typing import Dict
+from typing import List
+from typing import Optional
 
 from lxml import etree as ET
 
@@ -254,9 +257,9 @@ class PHDCBuilder:
         id: str,
         root: str = None,
         assigningAuthorityName: str = None,
-        telecom_data: str = None,
-        addr_data: str = None,
-        patient_data: str = None,
+        telecom_data_list: Optional[List[Dict]] = None,
+        address_data_list: Optional[List[Dict]] = None,
+        patient_data_list: Optional[List[Dict]] = None,
     ):
         """
         Builds a `recordTarget` XML element for recordTarget data, which refers to
@@ -265,9 +268,9 @@ class PHDCBuilder:
         :param id: recordTarget identifier
         :param root: recordTarget root
         :param assigningAuthorityName: recordTarget assigningAuthorityName
-        :param telecom_data: XML data from _build_telecom
-        :param addr_data: XML data from _build_addr
-        :param patient_data: XML data from _build_patient
+        :param telecom_data_list: XML data from _build_telecom
+        :param address_data_list: XML data from _build_addr
+        :param patient_data_list: XML data from _build_patient
 
         :raises ValueError: recordTarget needs ID to be defined.
 
@@ -297,19 +300,26 @@ class PHDCBuilder:
         patientRole.append(id_element)
 
         # add address data
-        if addr_data is not None:
-            addr_element = self._build_addr(**addr_data)
-            patientRole.append(addr_element)
+        if address_data_list is not None:
+            for address_data in address_data_list:
+                if address_data is not None:
+                    address_element = self._build_addr(address_data)
+                    patientRole.append(address_element)
 
-        # add telecom
-        if telecom_data is not None:
-            telecom_element = self._build_telecom(**telecom_data)
-            patientRole.append(telecom_element)
+        # add telecom data
+        if telecom_data_list is not None:
+            for telecom_data in telecom_data_list:
+                if telecom_data is not None:
+                    telecom_element = self._build_telecom(telecom_data)
+                    patientRole.append(telecom_element)
 
         # add patient data
-        if patient_data is not None:
-            patient_element = self._build_patient(**patient_data)
-            patientRole.append(patient_element)
+        if patient_data_list is not None:
+            for patient_data in patient_data_list:
+                if patient_data is not None:
+                    patient_element = self._build_patient(patient_data)
+                    patientRole.append(patient_element)
+
         return recordTarget_data
 
     def build(self):
