@@ -1,3 +1,4 @@
+import datetime
 import json
 import pathlib
 import re
@@ -268,3 +269,14 @@ def get_credential_manager(
 
 def read_json_from_assets(filename: str):
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def read_file_from_assets(filename: str):
+    with open(
+        (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
+    ) as file:
+        return file.read()
+
+
+def get_datetime_now():
+    return datetime.datetime.now()

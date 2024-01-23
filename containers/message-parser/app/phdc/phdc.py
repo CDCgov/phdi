@@ -1,23 +1,73 @@
 from datetime import datetime
+import uuid
+from dataclasses import dataclass
+from enum import Enum
 from typing import Dict
 from typing import List
 from typing import Optional
-from enum import Enum
-from uuid import uuid4
 
+from app import utils
 from lxml import etree as ET
 
 
+@dataclass
+class Address:
+    street_address_line_1: Optional[str] = None
+    street_address_line_2: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    postal_code: Optional[str] = None
+    county: Optional[str] = None
+    country: Optional[str] = None
+    type: Optional[str] = None
+    useable_period_low: Optional[str] = None
+    useable_period_high: Optional[str] = None
+
+
+@dataclass
+class Name:
+    prefix: Optional[str] = None
+    first: Optional[str] = None
+    middle: Optional[str] = None
+    family: Optional[str] = None
+    suffix: Optional[str] = None
+    type: Optional[str] = None
+    validTime_low: Optional[str] = None
+    validTime_high: Optional[str] = None
+
+
+@dataclass
+class PHDCInputData:
+    patient_address: List[Address] = None
+    patient_name: List[Name] = None
+    patient_administrative_gender_code: Optional[str] = None
+    patient_race_code: Optional[str] = None
+    patient_ethnic_group_code: Optional[str] = None
+    patient_birth_time: Optional[str] = None
+
+
 class PHDC:
-    def __init__(self, builder):
-        self.header = builder.header
+    def __init__(self, header):
+        self.header = header
+
+    def to_xml_string(self):
+        return ET.tostring(
+            self.header,
+            pretty_print=True,
+            xml_declaration=True,
+            encoding="utf-8",
+        ).decode()
 
 
 class PHDCBuilder:
     def __init__(self):
-        self.header = None
+        self.input_data: PHDCInputData = None
 
-    def _build_header():
+    def set_input_data(self, input_data: PHDCInputData):
+        self.input_data = input_data
+        return self
+
+    def _build_header(self):
         def get_type_id():
             type_id = ET.Element("typeId")
             type_id.set("root", "2.16.840.1.113883.1.3")
@@ -27,12 +77,14 @@ class PHDCBuilder:
         def get_id():
             id = ET.Element("id")
             id.set("root", "2.16.840.1.113883.19")
-            id.set("extension", str(uuid4()))
+            id.set("extension", str(uuid.uuid4()))
             return id
 
         def get_effective_time():
             effective_time = ET.Element("effectiveTime")
-            effective_time.set("value", datetime.now().strftime("%Y%m%d%H%M%S"))
+            effective_time.set(
+                "value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S")
+            )
             return effective_time
 
         class ConfidentialityCodes(str, Enum):
@@ -79,7 +131,8 @@ class PHDCBuilder:
         clinical_document.append(get_effective_time())
         clinical_document.append(get_confidentiality_code(ConfidentialityCodes.normal))
 
-        clinical_document.append(PHDCBuilder._build_custodian(str(uuid4())))
+        clinical_document.append(self._build_custodian(id=str(uuid.uuid4())))
+        clinical_document.append(self._build_author(family_name="DIBBS"))
 
         return clinical_document
 
@@ -251,7 +304,7 @@ class PHDCBuilder:
         author_element = ET.Element("author")
 
         # time element with the current timestamp
-        current_timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        current_timestamp = utils.get_datetime_now().strftime("%Y%m%d%H%M%S")
         time_element = ET.Element("time")
         time_element.set("value", current_timestamp)
         author_element.append(time_element)
@@ -391,4 +444,4 @@ class PHDCBuilder:
         return recordTarget_data
 
     def build(self):
-        return PHDC(self)
+        return PHDC(self._build_header())

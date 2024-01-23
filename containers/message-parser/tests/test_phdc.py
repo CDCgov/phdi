@@ -1,7 +1,13 @@
+import uuid
+from datetime import date
 from datetime import datetime
+from unittest.mock import patch
 
 import pytest
+from app import utils
+from app.phdc.phdc import Name
 from app.phdc.phdc import PHDCBuilder
+from app.phdc.phdc import PHDCInputData
 from lxml import etree as ET
 
 
@@ -343,13 +349,43 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
         xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
         assert ET.tostring(xml_recordtarget_data).decode() == expected_result
 
-def test_build_header():
-    print()
-    print(
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
+def test_print_header():
+    # print(utils.read_file_from_assets("sample_phdc.xml"))
+    builder = PHDCBuilder()
+
+    input = PHDCInputData(patient_name=Name(family="Smith"))
+
+    phdc = builder.set_input_data(input).build()
+
+    print("=====")
+    print(phdc.to_xml_string())
+    #
+    # print()
+    # print(
+    #     ET.tostring(
+    #         builder._build_header(family_name="Smith"),
+    #         pretty_print=True,
+    #         xml_declaration=True,
+    #         encoding="utf-8",
+    #     ).decode()
+    # )
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
+@pytest.mark.parametrize(
+    "build_header_test_data, expected_result",
+    [({}, (utils.read_file_from_assets("sample_phdc.xml")))],
+)
+def test_build_header(build_header_test_data, expected_result):
+    builder = PHDCBuilder()
+
+    xml_patient_data = builder._build_header(**build_header_test_data)
+    assert (
         ET.tostring(
-            PHDCBuilder._build_header(),
-            pretty_print=True,
-            xml_declaration=True,
-            encoding="utf-8",
+            xml_patient_data, pretty_print=True, xml_declaration=True, encoding="utf-8"
         ).decode()
+        == expected_result
     )
