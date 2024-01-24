@@ -6,13 +6,17 @@ from typing import Annotated
 import fhirpathpy
 from app.config import get_settings
 from app.models import FhirToPhdcInput
-from app.models import FhirToPhdcResponse
 from app.models import GetSchemaResponse
 from app.models import ListSchemasResponse
 from app.models import ParseMessageInput
 from app.models import ParseMessageResponse
 from app.models import ParsingSchemaModel
 from app.models import PutSchemaResponse
+from app.phdc.phdc import Address
+from app.phdc.phdc import Name
+from app.phdc.phdc import Patient
+from app.phdc.phdc import PHDCBuilder
+from app.phdc.phdc import PHDCInputData
 from app.utils import convert_to_fhir
 from app.utils import DIBBS_REFERENCE_SIGNIFIER
 from app.utils import freeze_parsing_schema
@@ -254,11 +258,13 @@ fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
 # the output of this function will change. The parse-message endpoint will
 # continue to return DIBBs JSON, though, which is why both endpoints use
 # the same helper function to handle resource references.
+
+
 @app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
 async def fhir_to_phdc_endpoint(
     input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
     response: Response,
-) -> FhirToPhdcResponse:
+):
     # First, extract the parsing schema or look one up
     if input.parsing_schema != {}:
         parsing_schema = freeze_parsing_schema(input.parsing_schema)
@@ -270,7 +276,34 @@ async def fhir_to_phdc_endpoint(
             return {"message": error.__str__(), "parsed_values": {}}
 
     parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
-    return {"message": "Parsing succeeded!", "parsed_values": parsed_values}
+
+    # Translate to internal data classes
+    input_data = PHDCInputData()
+    input_data.patient = Patient()
+    for key, value in parsed_values.items():
+        if key == "patient_address":
+            input_data.patient.address = []
+            for address in value:
+                input_data.patient.address.append(Address(**address))
+
+        elif key == "patient_name":
+            input_data.patient.name = []
+            for name in value:
+                input_data.patient.name.append(Name(**name))
+
+        elif key == "patient_administrative_gender_code":
+            input_data.patient.administrative_gender_code = value
+
+        elif key == "patient_birth_time":
+            input_data.patient.birth_time = value
+
+    # Build the PHDC
+    print(input_data)
+    builder = PHDCBuilder()
+    builder.set_input_data(input_data)
+    phdc = builder.build()
+
+    return Response(content=phdc.to_xml_string(), media_type="application/xml")
 
 
 # /schemas endpoint #

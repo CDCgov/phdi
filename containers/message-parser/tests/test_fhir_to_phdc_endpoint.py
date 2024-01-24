@@ -1,64 +1,60 @@
 import json
+import uuid
 from copy import deepcopy
+from datetime import date
 from pathlib import Path
+from unittest.mock import patch
 
+from app import utils
 from app.main import app
 from fastapi.testclient import TestClient
-
 
 client = TestClient(app)
 
 fhir_bundle_path = (
-    Path(__file__).parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "general"
-    / "patient_bundle_w_labs.json"
+    Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
 )
+
 
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)
 
 test_schema_path = (
+    Path(__file__).parent.parent / "app" / "default_schemas" / "demo_phdc.json"
+)
+
+with open(test_schema_path, "r") as file:
+    test_schema = json.load(file)
+
+test_reference_schema_path = (
     Path(__file__).parent.parent
     / "app"
     / "default_schemas"
     / "test_reference_schema.json"
 )
 
-with open(test_schema_path, "r") as file:
-    test_schema = json.load(file)
+with open(test_reference_schema_path, "r") as file:
+    test_reference_schema = json.load(file)
 
 # TODO: Once we complete M2, the response type of the phdc endpoint will
 # become PHDC rather than just JSON, so update the expected response
-expected_successful_response = {
-    "message": "Parsing succeeded!",
-    "parsed_values": {
-        "first_name": "John ",
-        "last_name": "doe",
-        "labs": [
-            {
-                "test_type": "Blood culture",
-                "test_result_code_display": "Staphylococcus aureus",
-                "ordering_provider": "Western Pennsylvania Medical General",
-                "requesting_organization_contact_person": "Dr. Totally Real Doctor, M.D.",  # noqa
-            }
-        ],
-    },
-}
+expected_successful_response = utils.read_file_from_assets("demo_phdc.xml")
 
 
+@patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 def test_parse_message_success_internal_schema():
     test_request = {
-        "parsing_schema_name": "test_reference_schema.json",
+        "parsing_schema_name": "demo_phdc.json",
         "message": fhir_bundle,
     }
-
     actual_response = client.post("/fhir_to_phdc", json=test_request)
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.text == expected_successful_response
 
 
+@patch.object(uuid, "uuid4", lambda: "495669c7-96bf-4573-9dd8-59e745e05576")
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 def test_parse_message_success_external_schema():
     request = {
         "parsing_schema": test_schema,
@@ -67,7 +63,7 @@ def test_parse_message_success_external_schema():
 
     actual_response = client.post("/fhir_to_phdc", json=request)
     assert actual_response.status_code == 200
-    assert actual_response.json() == expected_successful_response
+    assert actual_response.text == expected_successful_response
 
 
 def test_parse_message_internal_and_external_schema():
@@ -102,7 +98,7 @@ def test_parse_message_neither_internal_nor_external_schema():
 
 
 def test_schema_without_reference_lookup():
-    no_lookup_schema = deepcopy(test_schema)
+    no_lookup_schema = deepcopy(test_reference_schema)
     del no_lookup_schema["labs"]["secondary_schema"]["ordering_provider"][
         "reference_lookup"
     ]
@@ -122,7 +118,7 @@ def test_schema_without_reference_lookup():
 
 
 def test_schema_without_identifier_path():
-    no_bundle_schema = deepcopy(test_schema)
+    no_bundle_schema = deepcopy(test_reference_schema)
     no_bundle_schema["labs"]["secondary_schema"]["ordering_provider"][
         "fhir_path"
     ] = "Observation.provider"

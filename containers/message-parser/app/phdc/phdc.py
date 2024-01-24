@@ -1,139 +1,258 @@
-from datetime import datetime
-from typing import Dict
+from __future__ import annotations
+
+import uuid
+from dataclasses import dataclass
+from enum import Enum
 from typing import List
 from typing import Optional
 
+from app import utils
 from lxml import etree as ET
 
 
+@dataclass
+class Telecom:
+    value: Optional[str] = None
+    type: Optional[str] = None
+    useable_period_low: Optional[str] = None
+    useable_period_high: Optional[str] = None
+
+
+@dataclass
+class Address:
+    street_address_line_1: Optional[str] = None
+    street_address_line_2: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    postal_code: Optional[str] = None
+    county: Optional[str] = None
+    country: Optional[str] = None
+    type: Optional[str] = None
+    useable_period_low: Optional[str] = None
+    useable_period_high: Optional[str] = None
+
+
+@dataclass
+class Name:
+    prefix: Optional[str] = None
+    first: Optional[str] = None
+    middle: Optional[str] = None
+    family: Optional[str] = None
+    suffix: Optional[str] = None
+    type: Optional[str] = None
+    valid_time_low: Optional[str] = None
+    valid_time_high: Optional[str] = None
+
+
+@dataclass
+class Patient:
+    name: List[Name] = None
+    address: List[Address] = None
+    telecom: List[Telecom] = None
+    administrative_gender_code: Optional[str] = None
+    race_code: Optional[str] = None
+    ethnic_group_code: Optional[str] = None
+    birth_time: Optional[str] = None
+
+
+@dataclass
+class PHDCInputData:
+    type: str = "case report"
+    patient: Patient = None
+
+
 class PHDC:
-    def __init__(self, builder):
-        self.header = builder.header
+    def __init__(self, builder: PHDCBuilder):
+        self.header = builder._build_header()
+
+    def to_xml_string(self):
+        return ET.tostring(
+            self.header,
+            pretty_print=True,
+            xml_declaration=True,
+            encoding="utf-8",
+        ).decode()
 
 
 class PHDCBuilder:
     def __init__(self):
-        self.header = None
+        self.input_data: PHDCInputData = None
 
-    def _build_telecom(
-        self,
-        **kwargs: dict,
-        # phone: str,
-        # use: Literal["HP", "WP", "MC"] = None,
-    ):
+    def set_input_data(self, input_data: PHDCInputData):
+        self.input_data = input_data
+        return self
+
+    def _build_header(self):
+        def get_type_id():
+            type_id = ET.Element("typeId")
+            type_id.set("root", "2.16.840.1.113883.1.3")
+            type_id.set("extension", "POCD_HD000020")
+            return type_id
+
+        def get_id():
+            id = ET.Element("id")
+            id.set("root", "2.16.840.1.113883.19")
+            id.set("extension", str(uuid.uuid4()))
+            return id
+
+        def get_effective_time():
+            effective_time = ET.Element("effectiveTime")
+            effective_time.set(
+                "value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S")
+            )
+            return effective_time
+
+        class ConfidentialityCodes(str, Enum):
+            normal = ("N",)
+            restricted = ("R",)
+            very_restricted = ("V",)
+
+        def get_confidentiality_code(code: ConfidentialityCodes):
+            confidentiality_code = ET.Element("confidentialityCode")
+            confidentiality_code.set("code", code)
+            confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
+            return confidentiality_code
+
+        def get_case_report_code():
+            code = ET.Element("code")
+            code.set("code", "55751-2")
+            code.set("codeSystem", "2.16.840.1.113883.6.1")
+            code.set("codeSystemName", "LOINC")
+            code.set("displayName", "Public Health Case Report - PHRI")
+            return code
+
+        xsi_schema_location = ET.QName(
+            "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
+        )
+
+        namespace = {
+            None: "urn:hl7-org:v3",
+            "sdt": "urn:hl7-org:sdtc",
+            "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        }
+        clinical_document = ET.Element(
+            "ClinicalDocument",
+            {xsi_schema_location: "urn:hl7-org:v3 CDA_SDTC.xsd"},
+            nsmap=namespace,
+        )
+        pi = ET.ProcessingInstruction(
+            "xml-stylesheet", text='type="text/xsl" href="PHDC.xsl"'
+        )
+        clinical_document.addprevious(pi)
+
+        clinical_document.append(get_type_id())
+        clinical_document.append(get_id())
+        clinical_document.append(get_case_report_code())
+        clinical_document.append(get_effective_time())
+        clinical_document.append(get_confidentiality_code(ConfidentialityCodes.normal))
+
+        clinical_document.append(self._build_custodian(id=str(uuid.uuid4())))
+        clinical_document.append(self._build_author(family_name="DIBBS"))
+        clinical_document.append(
+            self._build_recordTarget(
+                id=str(uuid.uuid4()),
+                root="2.16.840.1.113883.4.1",
+                assigningAuthorityName="LR",
+                telecom_data=self.input_data.patient.telecom,
+                address_data=self.input_data.patient.address,
+                patient_data=self.input_data.patient,
+            )
+        )
+
+        return clinical_document
+
+    def _build_telecom(self, telecom: Telecom):
         """
         Builds a `telecom` XML element for phone data including phone number (as
         `value`) and use, if available. There are three types of phone uses: 'HP'
         for home phone, 'WP' for work phone, and 'MC' for mobile phone.
 
-        :param phone: The phone number.
-        :param use: Type of phone number, defaults to None.
+        :param telecom: The data for building the telecom element as a Telecom object.
         :return: XML element of telecom data.
         """
         telecom_data = ET.Element("telecom")
 
-        if "use" in kwargs.keys() and kwargs["use"] is not None:
-            telecom_data.set("use", kwargs["use"])
-        if "phone" in kwargs.keys() and kwargs["phone"] is not None:
-            telecom_data.set("value", kwargs["phone"])
+        if telecom.type is not None:
+            types = {
+                "home": "H",
+                "work": "WP",
+                "mobile": "MC",
+            }
+            telecom_data.set("use", types[telecom.type])
+
+        if telecom.value is not None:
+            if telecom.type in ["home", "work", "mobile"]:
+                telecom_data.set("value", f"tel:{telecom.value}")
+            elif telecom.type == "email":
+                telecom_data.set("value", f"mailto:{telecom.value}")
+            else:
+                telecom_data.set("value", telecom.value)
 
         return telecom_data
 
     def _build_addr(
         self,
-        **kwargs,
-        # use: Literal["H", "WP"] = None,
-        # line: str = None,
-        # city: str = None,
-        # state: str = None,
-        # zip: str = None,
-        # county: str = None,
-        # country: str = None,
+        address: Address,
     ):
         """
         Builds an `addr` XML element for address data. There are two types of address
          uses: 'H' for home address and 'WP' for workplace address.
 
-        :param use: Type of address, defaults to None.
-        :param line: Street address, defaults to None.
-        :param city: City, defaults to None.
-        :param state: State, defaults to None.
-        :param zip: Zip code, defaults to None.
-        :param county: County, defaults to None.
-        :param country: Country, defaults to None.
+        :param address: The data for building the address element as an Address object.
         :return: XML element of address data.
         """
-
         address_data = ET.Element("addr")
-        if "use" in kwargs.keys() and kwargs["use"] is not None:
-            address_data.set("use", kwargs["use"])
 
-        for element, value in kwargs.items():
-            if element != "use" and value is not None:
-                if element == "line":
-                    element = "streetAddressLine"
-                elif element == "zip":
-                    element = "postalCode"
-                e = ET.Element(element)
-                e.text = value
+        def add_field(data, field_name: str):
+            if data is not None:
+                e = ET.Element(field_name)
+                e.text = data
                 address_data.append(e)
+
+        if address.type is not None:
+            address_data.set("use", "H" if address.type.lower() == "home" else "WP")
+
+        add_field(address.street_address_line_1, "streetAddressLine")
+        add_field(address.street_address_line_2, "streetAddressLine")
+        add_field(address.city, "city")
+        add_field(address.state, "state")
+        add_field(address.postal_code, "postalCode")
+        add_field(address.county, "county")
+        add_field(address.country, "country")
 
         return address_data
 
-    def _build_name(
-        self,
-        **kwargs: dict,
-        # use: Literal["L", "P"] = None,
-        # prefix: str = None,
-        # given_name: Union[str, List[str]] = None,
-        # last_name: str = None,
-    ):
+    def _build_name(self, name: Name):
         """
-        Builds a `name` XML element for address data. There are two types of name
-         uses: 'L' for legal and 'P' for pseudonym.
+        Builds a `name` XML element for name data.
 
-        :param use: Type of address, defaults to None.
-        :param prefix: Name prefix, defaults to None.
-        :param given_name: String or list of strings representing given name(s),
-          defaults to None.
-        :param last_name: Last name, defaults to None.
+        :param name: The data for constructing the name element as a Name object.
         :return: XML element of name data.
         """
 
         name_data = ET.Element("name")
-        if "use" in kwargs.keys() and kwargs["use"] is not None:
-            name_data.set("use", kwargs["use"])
 
-        for element, value in kwargs.items():
-            if element != "use" and value is not None:
-                if element == "given_name":
-                    element = "given"
+        def add_field(data, field_name: str):
+            if data is not None:
+                e = ET.Element(field_name)
+                e.text = data
+                name_data.append(e)
 
-                    # Split single string names into first name and middle names as
-                    # PHDC appears to only allow for up to two given names
-                    if isinstance(value, str) and len(value.split()) > 1:
-                        value = [
-                            value.split()[0],
-                            " ".join(v for v in (value.split()[1:])),
-                        ]
+        if name.type is not None:
+            types = {
+                "official": "L",
+                "usual": "L",
+                "maiden": "P",
+                "nickname": "P",
+                "pseudonym": "P",
+            }
+            name_data.set("use", types[name.type])
 
-                elif element == "last_name":
-                    element = "family"
-
-                # Append each value of a list, e.g., given name, as its own Element
-                if isinstance(value, list):
-                    value = [
-                        value[0],
-                        " ".join(v for v in (value[1:])),
-                    ]
-                    for v in value:
-                        e = ET.Element(element)
-                        e.text = v
-                        name_data.append(e)
-                else:
-                    e = ET.Element(element)
-                    e.text = value
-                    name_data.append(e)
+        add_field(name.prefix, "prefix")
+        add_field(name.first, "given")
+        add_field(name.middle, "given")
+        add_field(name.family, "family")
+        add_field(name.suffix, "suffix")
 
         return name_data
 
@@ -183,7 +302,7 @@ class PHDCBuilder:
         author_element = ET.Element("author")
 
         # time element with the current timestamp
-        current_timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        current_timestamp = utils.get_datetime_now().strftime("%Y%m%d%H%M%S")
         time_element = ET.Element("time")
         time_element.set("value", current_timestamp)
         author_element.append(time_element)
@@ -227,28 +346,38 @@ class PHDCBuilder:
                 element.set(e, v)
         return element
 
-    def _build_patient(self, **kwargs: dict):
+    def _build_patient(self, patient: Patient):
         patient_data = ET.Element("patient")
 
-        for element, value in kwargs.items():
-            if value is not None:
-                if isinstance(value, ET._Element):
-                    patient_data.append(value)
-                elif element in [
-                    "administrativeGenderCode",
-                    "raceCode",
-                    "ethnicGroupCode",
-                ]:
-                    # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
-                    v = self._build_coded_element(
-                        element,
-                        **{"displayName": value},
-                    )
-                    patient_data.append(v)
-                else:
-                    e = ET.Element(element)
-                    e.text = value
-                    patient_data.append(e)
+        for name in patient.name:
+            patient_data.append(self._build_name(name))
+
+        if patient.administrative_gender_code is not None:
+            v = self._build_coded_element(
+                "administrativeGenderCode",
+                **{"displayName": patient.administrative_gender_code},
+            )
+            patient_data.append(v)
+
+        if patient.race_code is not None:
+            v = self._build_coded_element(
+                "raceCode",
+                **{"displayName": patient.race_code},
+            )
+            patient_data.append(v)
+
+        if patient.ethnic_group_code is not None:
+            v = self._build_coded_element(
+                "ethnicGroupCode",
+                **{"displayName": patient.ethnic_group_code},
+            )
+            patient_data.append(v)
+
+        if patient.birth_time is not None:
+            e = ET.Element("birthTime")
+            e.text = patient.birth_time
+            patient_data.append(e)
+        # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
 
         return patient_data
 
@@ -257,9 +386,9 @@ class PHDCBuilder:
         id: str,
         root: str = None,
         assigningAuthorityName: str = None,
-        telecom_data_list: Optional[List[Dict]] = None,
-        address_data_list: Optional[List[Dict]] = None,
-        patient_data_list: Optional[List[Dict]] = None,
+        telecom_data: Optional[List[Telecom]] = None,
+        address_data: Optional[List[Address]] = None,
+        patient_data: Optional[Patient] = None,
     ):
         """
         Builds a `recordTarget` XML element for recordTarget data, which refers to
@@ -268,9 +397,9 @@ class PHDCBuilder:
         :param id: recordTarget identifier
         :param root: recordTarget root
         :param assigningAuthorityName: recordTarget assigningAuthorityName
-        :param telecom_data_list: XML data from _build_telecom
-        :param address_data_list: XML data from _build_addr
-        :param patient_data_list: XML data from _build_patient
+        :param telecom_data: Telecom data from _build_telecom
+        :param address_data: Address data from _build_addr
+        :param patient_data: Patient data from _build_patient
 
         :raises ValueError: recordTarget needs ID to be defined.
 
@@ -300,25 +429,23 @@ class PHDCBuilder:
         patientRole.append(id_element)
 
         # add address data
-        if address_data_list is not None:
-            for address_data in address_data_list:
+        if address_data is not None:
+            for address_data in address_data:
                 if address_data is not None:
                     address_element = self._build_addr(address_data)
                     patientRole.append(address_element)
 
         # add telecom data
-        if telecom_data_list is not None:
-            for telecom_data in telecom_data_list:
+        if telecom_data is not None:
+            for telecom_data in telecom_data:
                 if telecom_data is not None:
                     telecom_element = self._build_telecom(telecom_data)
                     patientRole.append(telecom_element)
 
         # add patient data
-        if patient_data_list is not None:
-            for patient_data in patient_data_list:
-                if patient_data is not None:
-                    patient_element = self._build_patient(patient_data)
-                    patientRole.append(patient_element)
+        if patient_data is not None:
+            patient_element = self._build_patient(patient_data)
+            patientRole.append(patient_element)
 
         return recordTarget_data
 

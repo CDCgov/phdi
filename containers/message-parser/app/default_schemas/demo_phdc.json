@@ -44,12 +44,12 @@
         "data_type": "string",
         "nullable": true
       },
-      "usable_period_low": {
+      "useable_period_low": {
         "fhir_path": "Address.period.start",
         "data_type": "string",
         "nullable": true
       },
-      "usable_period_high": {
+      "useable_period_high": {
         "fhir_path": "Address.period.end",
         "data_type": "string",
         "nullable": true
