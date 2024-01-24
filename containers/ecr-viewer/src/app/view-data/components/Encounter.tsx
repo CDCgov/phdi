@@ -1,4 +1,9 @@
 import { DisplayData } from "@/app/utils";
+import {
+  AccordianSection,
+  AccordianH3,
+  AccordianDiv,
+} from "../component-utils";
 
 interface EncounterProps {
   encounterData: DisplayData[];
@@ -28,51 +33,33 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
 
   const renderEncounterDetails = () => {
     return (
-      <div>
-        <h3
-          className="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
-        >
-          Encounter Details
-        </h3>
-
-        <div className="usa-summary-box__text">
+      <>
+        <AccordianH3>Encounter Details</AccordianH3>
+        <AccordianDiv>
           {encounterData.map((item, index) => renderData(item, index))}
-        </div>
-      </div>
+        </AccordianDiv>
+      </>
     );
   };
 
   const renderProviderDetails = () => {
     return (
-      <div>
-        <h3
-          className="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
-        >
-          Provider Details
-        </h3>
-        <div className="usa-summary-box__text">
+      <>
+        <AccordianH3>Provider Details</AccordianH3>
+        <AccordianDiv>
           {providerData.map((item, index) => renderData(item, index))}
-        </div>
-      </div>
+        </AccordianDiv>
+      </>
     );
   };
 
   return (
-    <div>
-      <div
-        className="padding-bottom-3"
-        aria-labelledby="summary-box-key-information"
-      >
-        <div className="usa-summary-box__body">
-          <div>{encounterData.length > 0 && renderEncounterDetails()}</div>
-          <div className="margin-top-3">
-            {providerData.length > 0 && renderProviderDetails()}
-          </div>
-        </div>
+    <AccordianSection>
+      <div>{encounterData.length > 0 && renderEncounterDetails()}</div>
+      <div className="margin-top-3">
+        {providerData.length > 0 && renderProviderDetails()}
       </div>
-    </div>
+    </AccordianSection>
   );
 };
 

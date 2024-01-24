@@ -1,6 +1,12 @@
 import { DisplayData } from "../../utils";
 import { Fragment } from "react";
 
+import {
+  AccordianSection,
+  AccordianH3,
+  AccordianDiv,
+} from "../component-utils";
+
 interface EcrMetadataProps {
   rrDetails: DisplayData[];
   eicrDetails: DisplayData[];
@@ -13,19 +19,11 @@ const EcrMetadata = ({
   eCRSenderDetails,
 }: EcrMetadataProps) => {
   return (
-    <div>
-      <div
-        className="padding-bottom-3"
-        aria-labelledby="summary-box-key-information"
-      >
-        <div className="usa-summary-box__body">
-          <div className="usa-summary-box__text">
-            <h3
-              className="usa-summary-box__heading padding-y-105"
-              id="summary-box-key-information"
-            >
-              RR Details
-            </h3>
+      <AccordianSection>
+        <AccordianH3>
+          RR Details
+        </AccordianH3>
+          <AccordianDiv>
             {rrDetails.map(({ title, value }) => {
               return (
                 <Fragment key={title}>
@@ -40,12 +38,9 @@ const EcrMetadata = ({
               );
             })}
             <div className={"padding-bottom-1"} />
-            <h3
-              className="usa-summary-box__heading padding-y-105"
-              id="summary-box-key-information"
-            >
+            <AccordianH3>
               eICR Details
-            </h3>
+            </AccordianH3>
             {eicrDetails.map(({ title, value }) => {
               return (
                 <Fragment key={title}>
@@ -60,12 +55,9 @@ const EcrMetadata = ({
               );
             })}
             <div className={"padding-bottom-1"} />
-            <h3
-              className="usa-summary-box__heading padding-y-105"
-              id="summary-box-key-information"
-            >
+            <AccordianH3>
               eCR Sender Details
-            </h3>
+            </AccordianH3>
             {eCRSenderDetails.map(({ title, value }) => {
               return (
                 <Fragment key={title}>
@@ -79,10 +71,8 @@ const EcrMetadata = ({
                 </Fragment>
               );
             })}
-          </div>
-        </div>
-      </div>
-    </div>
+        </AccordianDiv>
+      </AccordianSection>
   );
 };
 

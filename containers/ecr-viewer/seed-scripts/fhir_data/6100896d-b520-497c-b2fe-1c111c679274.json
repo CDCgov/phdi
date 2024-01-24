@@ -342,6 +342,9 @@
             "entry": [
               {
                 "reference": "Observation/595b1386-09d2-7dfb-d414-fb1e5043013d"
+              },
+              {
+                "reference": "Observation/3bd09111-ae6b-0357-cbda-526c275da43b"
               }
             ]
           },
@@ -6906,6 +6909,40 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:3bd09111-ae6b-0357-cbda-526c275da43b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3bd09111-ae6b-0357-cbda-526c275da43b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "76690-7",
+              "display": "Sexual orientation"
+            }
+          ],
+          "text": "Sexual orientation"
+        },
+        "status": "final",
+        "valueString": "Do not know",
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/3bd09111-ae6b-0357-cbda-526c275da43b"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:595b1386-09d2-7dfb-d414-fb1e5043013d",
       "resource": {
         "resourceType": "Observation",
@@ -6945,21 +6982,21 @@
             }
           },
           {
-            "code" : {
-              "coding" : [
+            "code": {
+              "coding": [
                 {
-                  "system" : "http://snomed.info/sct",
-                  "code" : "280147009",
-                  "display" : "Type of activity (attribute)"
+                  "system": "http://snomed.info/sct",
+                  "code": "280147009",
+                  "display": "Type of activity (attribute)"
                 }
               ]
             },
-            "valueCodeableConcept" : {
-              "coding" : [
+            "valueCodeableConcept": {
+              "coding": [
                 {
-                  "system" : "http://snomed.info/sct",
-                  "code" : "702348006",
-                  "display" : "Active duty military (occupation)"
+                  "system": "http://snomed.info/sct",
+                  "code": "702348006",
+                  "display": "Active duty military (occupation)"
                 }
               ]
             }

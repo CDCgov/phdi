@@ -4,21 +4,20 @@ exports[`ECR Metadata should match snapshot 1`] = `
 <div>
   <div>
     <div
-      aria-labelledby="summary-box-key-information"
       class="padding-bottom-3"
     >
       <div
         class="usa-summary-box__body"
       >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          RR Details
+        </h3>
         <div
           class="usa-summary-box__text"
         >
-          <h3
-            class="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
-          >
-            RR Details
-          </h3>
           <div
             class="grid-row"
           >

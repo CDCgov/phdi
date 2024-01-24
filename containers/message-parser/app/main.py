@@ -90,13 +90,41 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                     # Information is contained on this resource, just in a
                     # nested structure
                     if "reference_path" not in path_struct:
-                        secondary_parser = path_struct["secondary_fhir_path"]
-                        if len(secondary_parser(initial_value)) == 0:
-                            value[secondary_field] = None
-                        else:
-                            value[secondary_field] = ",".join(
-                                map(str, secondary_parser(initial_value))
-                            )
+                        try:
+                            secondary_parser = path_struct["secondary_fhir_path"]
+                            if len(secondary_parser(initial_value)) == 0:
+                                value[secondary_field] = None
+                            else:
+                                value[secondary_field] = ",".join(
+                                    map(str, secondary_parser(initial_value))
+                                )
+
+                        # By default, fhirpathpy will compile such that *only*
+                        # actual resources can be accessed, rather than data types.
+                        # This is fine for most cases, but sometimes the actual data
+                        # we want is in a list of structs rather than a list of
+                        # resources, such as a list of patient addresses. This
+                        # exception catches that and allows an ordinary property
+                        # search.
+                        except KeyError:
+                            try:
+                                accessors = (
+                                    secondary_parser.parsedPath.get("children")[0]
+                                    .get("text")
+                                    .split(".")[1:]
+                                )
+                                val = initial_value
+                                for acc in accessors:
+                                    if "[" not in acc:
+                                        val = val[acc]
+                                    else:
+                                        sub_acc = acc.split("[")[1].split("]")[0]
+                                        val = val[acc.split("[")[0].strip()][
+                                            int(sub_acc)
+                                        ]
+                                value[secondary_field] = str(val)
+                            except:  # noqa
+                                value[secondary_field] = None
 
                     # Reference case: information is contained on another
                     # resource that we have to look up
@@ -139,6 +167,16 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                 values.append(value)
             parsed_values[field] = values
     return parsed_values
+
+
+@app.get("/")
+async def health_check():
+    """
+    Check service status. If an HTTP 200 status code is returned along with
+    '{"status": "OK"}' then the FHIR conversion service is available and running
+    properly.
+    """
+    return {"status": "OK"}
 
 
 @app.post("/parse_message", status_code=200, responses=parse_message_response_examples)

@@ -110,7 +110,7 @@
 
 {% if msg.ClinicalDocument.recordTarget.patientRole -%}
   {% assign patientSectionObservations = true -%}
-  {% include 'Section/SocialHistory' -%}
+  {% include 'Section/SocialHistory' SOCIALOBS: socialObs -%}
   {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId SOCIALOBS: socialObs -%}
 {% endif -%}
 {% assign patientSectionObservations = false -%}
