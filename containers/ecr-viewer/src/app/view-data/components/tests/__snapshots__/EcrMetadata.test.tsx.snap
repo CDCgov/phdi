@@ -4,7 +4,6 @@ exports[`ECR Metadata should match snapshot 1`] = `
 <div>
   <div>
     <div
-      aria-labelledby="summary-box-key-information"
       class="padding-bottom-3"
     >
       <div
@@ -35,15 +34,16 @@ exports[`ECR Metadata should match snapshot 1`] = `
               1dd10047-2207-4eac-a993-0f706c88be5d
             </div>
           </div>
-          <div
-            class="section__line_gray padding-bottom-3"
-          />
-          <h3
-            class="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
-          >
-            eCR Sender Details
-          </h3>
+        </div>
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          eCR Sender Details
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
           <div
             class="grid-row"
           >

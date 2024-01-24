@@ -306,3 +306,39 @@ def test_build_patient(build_patient_test_data, expected_result):
 
     xml_patient_data = builder._build_patient(**build_patient_test_data)
     assert ET.tostring(xml_patient_data).decode() == expected_result
+
+
+@pytest.mark.parametrize(
+    "build_rt_test_data, expected_result",
+    [
+        # Success with `id`
+        (
+            {
+                "id": "TEST ID",
+            },
+            (
+                "<recordTarget><patientRole>"
+                + '<id extension="TEST ID"/>'
+                + "</patientRole></recordTarget>"
+            ),
+        ),
+        # ValueError is raised when `id` is None
+        (
+            {
+                "id": None,
+            },
+            ValueError("The recordTarget id parameter must be a defined."),
+        ),
+    ],
+)
+def test_build_recordTarget(build_rt_test_data, expected_result):
+    builder = PHDCBuilder()
+
+    if isinstance(expected_result, ValueError):
+        with pytest.raises(ValueError) as e:
+            xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
+            assert str(e.value) == str(expected_result)
+
+    else:
+        xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
+        assert ET.tostring(xml_recordtarget_data).decode() == expected_result
