@@ -3,7 +3,6 @@ import uuid
 from copy import deepcopy
 from datetime import date
 from pathlib import Path
-from unittest import mock
 from unittest.mock import patch
 
 from app import utils
@@ -15,6 +14,7 @@ client = TestClient(app)
 fhir_bundle_path = (
     Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
 )
+
 
 with open(fhir_bundle_path, "r") as file:
     fhir_bundle = json.load(file)

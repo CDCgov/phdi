@@ -6,7 +6,6 @@ from typing import Annotated
 import fhirpathpy
 from app.config import get_settings
 from app.models import FhirToPhdcInput
-from app.models import FhirToPhdcResponse
 from app.models import GetSchemaResponse
 from app.models import ListSchemasResponse
 from app.models import ParseMessageInput
