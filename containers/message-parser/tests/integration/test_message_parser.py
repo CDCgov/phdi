@@ -62,7 +62,7 @@ def test_parse_message(setup):
     }
 
     parsing_response = httpx.post(PARSE_MESSAGE, json=request)
-
+    breakpoint()
     assert parsing_response.status_code == 200
     assert parsing_response.json() == expected_reference_response
 

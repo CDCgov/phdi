@@ -99,7 +99,7 @@ def test_build_addr(build_addr_test_data, expected_result):
     [
         # Success with all single given_name
         (
-            Name(type="legal", prefix="Mr.", first="John", family="Doe"),
+            Name(type="official", prefix="Mr.", first="John", family="Doe"),
             (
                 '<name use="L"><prefix>Mr.</prefix>'
                 + "<given>John</given><family>Doe</family></name>"
@@ -108,7 +108,7 @@ def test_build_addr(build_addr_test_data, expected_result):
         # Success with given_name as list
         (
             Name(
-                type="legal", prefix="Mr.", first="John", middle="Jacob", family="Doe"
+                type="usual", prefix="Mr.", first="John", middle="Jacob", family="Doe"
             ),
             (
                 '<name use="L"><prefix>Mr.</prefix>'
@@ -118,7 +118,7 @@ def test_build_addr(build_addr_test_data, expected_result):
         # Success with more than 2 given names in a string condensed to 2 given names
         (
             Name(
-                type="legal",
+                type="official",
                 prefix="Mr.",
                 first="John",
                 middle="Jacob Jingleheimer",
@@ -296,7 +296,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                             first="John",
                             middle="Jacob",
                             family="Schmidt",
-                            type="legal",
+                            type="official",
                         ),
                         Name(
                             prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
@@ -334,6 +334,5 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
 )
 def test_build_header(build_header_test_data, expected_result):
     builder = PHDCBuilder()
-
     phdc = builder.set_input_data(build_header_test_data).build()
     assert phdc.to_xml_string() == expected_result

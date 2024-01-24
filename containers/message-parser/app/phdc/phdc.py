@@ -241,24 +241,11 @@ class PHDCBuilder:
 
         return address_data
 
-    def _build_name(
-        self,
-        name: Name
-        # **kwargs: dict,
-        # use: Literal["L", "P"] = None,
-        # prefix: str = None,
-        # given_name: Union[str, List[str]] = None,
-        # last_name: str = None,
-    ):
+    def _build_name(self, name: Name):
         """
-        Builds a `name` XML element for address data. There are two types of name
-         uses: 'L' for legal and 'P' for pseudonym.
+        Builds a `name` XML element for name data.
 
-        :param use: Type of address, defaults to None.
-        :param prefix: Name prefix, defaults to None.
-        :param given_name: String or list of strings representing given name(s),
-          defaults to None.
-        :param last_name: Last name, defaults to None.
+        :param name: The data for constructing the name element as a Name object.
         :return: XML element of name data.
         """
 
@@ -273,7 +260,9 @@ class PHDCBuilder:
         if name.type is not None:
             types = {
                 "official": "L",
+                "usual": "L",
                 "maiden": "P",
+                "nickname": "P",
                 "pseudonym": "P",
             }
             name_data.set("use", types[name.type])
