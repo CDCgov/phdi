@@ -1,3 +1,4 @@
+from __future__ import annotations
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
@@ -39,8 +40,8 @@ class Name:
     family: Optional[str] = None
     suffix: Optional[str] = None
     type: Optional[str] = None
-    validTime_low: Optional[str] = None
-    validTime_high: Optional[str] = None
+    valid_time_low: Optional[str] = None
+    valid_time_high: Optional[str] = None
 
 
 @dataclass
@@ -61,8 +62,8 @@ class PHDCInputData:
 
 
 class PHDC:
-    def __init__(self, header):
-        self.header = header
+    def __init__(self, builder: PHDCBuilder):
+        self.header = builder._build_header()
 
     def to_xml_string(self):
         return ET.tostring(
@@ -150,12 +151,14 @@ class PHDCBuilder:
         clinical_document.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
-                assigningAuthorityName="L",
+                root="2.16.840.1.113883.4.1",
+                assigningAuthorityName="LR",
                 telecom_data=self.input_data.patient.telecom,
                 address_data=self.input_data.patient.address,
                 patient_data=self.input_data.patient,
             )
         )
+
         return clinical_document
 
     def _build_telecom(
@@ -269,7 +272,8 @@ class PHDCBuilder:
 
         if name.type is not None:
             types = {
-                "legal": "L",
+                "official": "L",
+                "maiden": "P",
                 "pseudonym": "P",
             }
             name_data.set("use", types[name.type])
@@ -507,4 +511,4 @@ class PHDCBuilder:
         return recordTarget_data
 
     def build(self):
-        return PHDC(self._build_header())
+        return PHDC(self)
