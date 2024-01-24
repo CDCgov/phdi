@@ -274,7 +274,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
 
     if isinstance(expected_result, ValueError):
         with pytest.raises(ValueError) as e:
-            xml_recordtarget_data = builder._build_recordTarget(**build_rt_test_data)
+            builder._build_recordTarget(**build_rt_test_data)
             assert str(e.value) == str(expected_result)
 
     else:

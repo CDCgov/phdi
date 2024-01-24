@@ -161,19 +161,13 @@ class PHDCBuilder:
 
         return clinical_document
 
-    def _build_telecom(
-        self,
-        telecom: Telecom
-        # phone: str,
-        # use: Literal["HP", "WP", "MC"] = None,
-    ):
+    def _build_telecom(self, telecom: Telecom):
         """
         Builds a `telecom` XML element for phone data including phone number (as
         `value`) and use, if available. There are three types of phone uses: 'HP'
         for home phone, 'WP' for work phone, and 'MC' for mobile phone.
 
-        :param phone: The phone number.
-        :param use: Type of phone number, defaults to None.
+        :param telecom: The data for building the telecom element as a Telecom object.
         :return: XML element of telecom data.
         """
         telecom_data = ET.Element("telecom")
@@ -199,25 +193,12 @@ class PHDCBuilder:
     def _build_addr(
         self,
         address: Address,
-        # use: Literal["H", "WP"] = None,
-        # line: str = None,
-        # city: str = None,
-        # state: str = None,
-        # zip: str = None,
-        # county: str = None,
-        # country: str = None,
     ):
         """
         Builds an `addr` XML element for address data. There are two types of address
          uses: 'H' for home address and 'WP' for workplace address.
 
-        :param use: Type of address, defaults to None.
-        :param line: Street address, defaults to None.
-        :param city: City, defaults to None.
-        :param state: State, defaults to None.
-        :param zip: Zip code, defaults to None.
-        :param county: County, defaults to None.
-        :param country: Country, defaults to None.
+        :param address: The data for building the address element as an Address object.
         :return: XML element of address data.
         """
         address_data = ET.Element("addr")
@@ -272,37 +253,6 @@ class PHDCBuilder:
         add_field(name.middle, "given")
         add_field(name.family, "family")
         add_field(name.suffix, "suffix")
-
-        # for element, value in kwargs.items():
-        #     if element != "use" and value is not None:
-        #         if element == "given_name":
-        #             element = "given"
-        #
-        #             # Split single string names into first name and middle names as
-        #             # PHDC appears to only allow for up to two given names
-        #             if isinstance(value, str) and len(value.split()) > 1:
-        #                 value = [
-        #                     value.split()[0],
-        #                     " ".join(v for v in (value.split()[1:])),
-        #                 ]
-        #
-        #         elif element == "last_name":
-        #             element = "family"
-        #
-        #         # Append each value of a list, e.g., given name, as its own Element
-        #         if isinstance(value, list):
-        #             value = [
-        #                 value[0],
-        #                 " ".join(v for v in (value[1:])),
-        #             ]
-        #             for v in value:
-        #                 e = ET.Element(element)
-        #                 e.text = v
-        #                 name_data.append(e)
-        #         else:
-        #             e = ET.Element(element)
-        #             e.text = value
-        #             name_data.append(e)
 
         return name_data
 
@@ -447,9 +397,9 @@ class PHDCBuilder:
         :param id: recordTarget identifier
         :param root: recordTarget root
         :param assigningAuthorityName: recordTarget assigningAuthorityName
-        :param telecom_data_list: XML data from _build_telecom
-        :param address_data_list: XML data from _build_addr
-        :param patient_data_list: XML data from _build_patient
+        :param telecom_data: Telecom data from _build_telecom
+        :param address_data: Address data from _build_addr
+        :param patient_data: Patient data from _build_patient
 
         :raises ValueError: recordTarget needs ID to be defined.
 
