@@ -15,26 +15,19 @@ def test_health_check(setup):
     assert health_check_response.status_code == 200
 
 
-reference_bundle_path = (
-    Path(__file__).parent.parent.parent.parent.parent
-    / "tests"
-    / "assets"
-    / "general"
-    / "patient_bundle_w_labs.json"
+fhir_bundle_path = (
+    Path(__file__).parent.parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
 )
 
-with open(reference_bundle_path, "r") as file:
-    reference_bundle = json.load(file)
+with open(fhir_bundle_path, "r") as file:
+    test_bundle = json.load(file)
 
-test_reference_schema_path = (
-    Path(__file__).parent.parent.parent
-    / "app"
-    / "default_schemas"
-    / "test_reference_schema.json"
+test_schema_path = (
+    Path(__file__).parent.parent.parent / "app" / "default_schemas" / "demo_phdc.json"
 )
 
-with open(test_reference_schema_path, "r") as file:
-    test_reference_schema = json.load(file)
+with open(test_schema_path, "r") as file:
+    test_schema = json.load(file)
 
 
 @pytest.mark.integration
@@ -42,27 +35,57 @@ def test_parse_message(setup):
     expected_reference_response = {
         "message": "Parsing succeeded!",
         "parsed_values": {
-            "first_name": "John ",
-            "last_name": "doe",
-            "labs": [
+            "patient_address": [
                 {
-                    "test_type": "Blood culture",
-                    "test_result_code_display": "Staphylococcus aureus",
-                    "ordering_provider": "Western Pennsylvania Medical General",
-                    "requesting_organization_contact_person": "Dr. Totally Real Doctor, M.D.",  # noqa
+                    "street_address_line_1": "165 Eichmann Crossing",
+                    "street_address_line_2": "Suite 25",
+                    "city": "Waltham",
+                    "state": "Massachusetts",
+                    "postal_code": "46239",
+                    "county": "Franklin",
+                    "country": "US",
+                    "type": "official",
+                    "useable_period_low": None,
+                    "useable_period_high": None,
                 }
             ],
+            "patient_name": [
+                {
+                    "prefix": "Mrs.",
+                    "first": "Kimberley",
+                    "middle": "Annette",
+                    "family": "Price",
+                    "suffix": None,
+                    "type": "official",
+                    "valid_time_low": None,
+                    "valid_time_high": None,
+                },
+                {
+                    "prefix": "Ms.",
+                    "first": "Kim",
+                    "middle": None,
+                    "family": "Levinson",
+                    "suffix": None,
+                    "type": "maiden",
+                    "valid_time_low": "1996-04-17",
+                    "valid_time_high": "2022-12-03",
+                },
+            ],
+            "patient_administrative_gender_code": "female",
+            "patient_race_code": None,
+            "patient_ethnic_group_code": None,
+            "patient_birth_time": "1996-04-17",
         },
     }
 
     request = {
         "message_format": "fhir",
-        "parsing_schema": test_reference_schema,
-        "message": reference_bundle,
+        "parsing_schema": test_schema,
+        "message": test_bundle,
     }
 
     parsing_response = httpx.post(PARSE_MESSAGE, json=request)
-    breakpoint()
+
     assert parsing_response.status_code == 200
     assert parsing_response.json() == expected_reference_response
 
@@ -70,8 +93,8 @@ def test_parse_message(setup):
 @pytest.mark.integration
 def test_fhir_to_phdc(setup):
     request = {
-        "parsing_schema": test_reference_schema,
-        "message": reference_bundle,
+        "parsing_schema": test_schema,
+        "message": test_bundle,
     }
 
     parsing_response = httpx.post(FHIR_TO_PHDC, json=request)
