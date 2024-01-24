@@ -1,14 +1,14 @@
 import json
+import uuid
 from copy import deepcopy
+from datetime import date
 from pathlib import Path
-
-from app.main import app
-from fastapi.testclient import TestClient
-from app import utils
 from unittest import mock
 from unittest.mock import patch
-from datetime import date
-import uuid
+
+from app import utils
+from app.main import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 

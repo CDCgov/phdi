@@ -13,7 +13,11 @@ from app.models import ParseMessageInput
 from app.models import ParseMessageResponse
 from app.models import ParsingSchemaModel
 from app.models import PutSchemaResponse
-from app.phdc.phdc import PHDCInputData, Address, Name, Patient, PHDCBuilder
+from app.phdc.phdc import Address
+from app.phdc.phdc import Name
+from app.phdc.phdc import Patient
+from app.phdc.phdc import PHDCBuilder
+from app.phdc.phdc import PHDCInputData
 from app.utils import convert_to_fhir
 from app.utils import DIBBS_REFERENCE_SIGNIFIER
 from app.utils import freeze_parsing_schema
