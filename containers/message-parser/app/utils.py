@@ -13,7 +13,7 @@ from app.phdc.models import Address
 from app.phdc.models import Name
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
-from fastapi import status
+from fastapi import Response
 from frozendict import frozendict
 
 from phdi.cloud.azure import AzureCredentialManager
@@ -121,7 +121,7 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
     return frozendict(parsers)
 
 
-def get_metadata(parsed_values: dict, schema):
+def get_metadata(parsed_values: dict, schema) -> dict:
     data = {}
     for key, value in parsed_values.items():
         if key not in schema:
@@ -144,7 +144,7 @@ def get_metadata(parsed_values: dict, schema):
 
 def field_metadata(
     value="", fhir_path="", data_type="", resource_type="", metadata: dict = {}
-):
+) -> dict:
     data = {
         "value": value,
         "fhir_path": fhir_path,
@@ -272,22 +272,24 @@ def get_credential_manager(
     return result
 
 
-def read_json_from_assets(filename: str):
+def read_json_from_assets(filename: str) -> dict:
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
-def read_file_from_assets(filename: str):
+def read_file_from_assets(filename: str) -> str:
     with open(
         (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
     ) as file:
         return file.read()
 
 
-def get_datetime_now():
+def get_datetime_now() -> datetime.datetime:
     return datetime.datetime.now()
 
 
-def extract_and_apply_parsers(parsing_schema, message, response):
+def extract_and_apply_parsers(
+    parsing_schema: dict, message: dict, response: Response
+) -> dict:
     """
     Helper function used to pull parsing methods for each field out of the
     passed-in schema, resolve any reference dependencies, and apply the
