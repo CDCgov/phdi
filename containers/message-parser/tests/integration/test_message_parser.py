@@ -98,11 +98,11 @@ def test_parse_message(setup):
             "author_time": "2022-08-08",
             "author_assigned_person": [
                 {
-                    "author_assigned_person_prefix": "Doctor",
-                    "author_assigned_person_first": "Charles",
-                    "author_assigned_person_middle": "Macintyre-Downing",
-                    "author_assigned_person_family": "Britishmun",
-                    "author_assigned_person_suffix": "III",
+                    "prefix": "Doctor",
+                    "first": "Charles",
+                    "middle": "Macintyre-Downing",
+                    "family": "Britishmun",
+                    "suffix": "III",
                 }
             ],
             "custodian_represented_custodian_organization": [
