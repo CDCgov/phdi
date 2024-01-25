@@ -108,13 +108,25 @@
             { {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.interpretationCode -%} },
         ],
         "extension": [
-              {% if observationEntry.entryRelationship.organizer.component.observation.entryRelationship.observation.value._ -%}
-              {
-                "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
-                "valueString": "{{observationEntry.entryRelationship.organizer.component.observation.entryRelationship.observation.value._}}",
-              }
-              {% endif -%}
-            ],
+        {% assign components = observationEntry.entryRelationship.organizer.component |  to_array %}
+        {% for component in components %}
+            {% assign entryRelationships = component.observation.entryRelationship | to_array %}
+            {% for entry in entryRelationships %}
+                {% if entry.observation.code.code == "RR3" and entry.observation.value %}
+                    {
+                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+                        "valueString": "{{ entry.observation.value._ }}",
+                    },
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        ],
+        "performer" : [
+            {
+                "reference" : "Organization/{{ RoutingEntityId }}",
+                "display" : "{{  RoutingEntityName }}",
+            },
+        ],
     },
     "request":{
         "method":"PUT",

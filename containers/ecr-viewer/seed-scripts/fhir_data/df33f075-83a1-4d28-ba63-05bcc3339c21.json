@@ -741,6 +741,38 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:21e7aca1-7a03-43dc-15e6-8f7ee24b6613",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "21e7aca1-7a03-43dc-15e6-8f7ee24b6613",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "Tennessee Department of Health"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/21e7aca1-7a03-43dc-15e6-8f7ee24b6613"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:3dfef8a1-dcd0-4013-ba05-858820261eb6",
       "resource": {
         "resourceType": "Observation",
@@ -787,6 +819,12 @@
           {
             "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
             "valueString": "COVID-19 (as a diagnosis or active problem)"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/21e7aca1-7a03-43dc-15e6-8f7ee24b6613",
+            "display": "Tennessee Department of Health"
           }
         ]
       },

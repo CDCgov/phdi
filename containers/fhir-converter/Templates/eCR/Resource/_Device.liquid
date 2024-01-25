@@ -26,6 +26,16 @@
                 "value":"{{ author.assignedAuthoringDevice.softwareName._ }}",
             },
         ],
+        "category": {
+            "coding":
+            [
+                {
+                    "system": "http://hl7.org/fhir/device-category",
+                    "code": "software",
+                    "display": "software",
+                },
+            ],
+        },
     },
     "request":{
         "method":"PUT",
