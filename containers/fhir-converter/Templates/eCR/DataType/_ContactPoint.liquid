@@ -3,7 +3,7 @@
 		"system":"phone",
 		"value": "{{ContactPoint.value | replace: 'tel:\s*', ''}}",
 		"use": "{{ ContactPoint.use | get_property: 'ValueSet/TelecomUse' }}",
-	{% elsif ContactPoint.value contains 'mailto:' -%}
+	{% elsif ContactPoint.value contains 'mailto:' or ContactPoint.value contains '@' -%}
 		"system":"email",
 		"value": "{{ContactPoint.value | replace: 'mailto:\s*', ''}}",
 		"use": "{{ ContactPoint.use | get_property: 'ValueSet/TelecomUse' }}",
