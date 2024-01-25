@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass
-from enum import Enum
+from typing import Literal
 from typing import List
 from typing import Optional
 
@@ -108,51 +108,52 @@ class PHDCBuilder:
 
         return clinical_document
 
+    def _get_type_id(self):
+        type_id = ET.Element("typeId")
+        type_id.set("root", "2.16.840.1.113883.1.3")
+        type_id.set("extension", "POCD_HD000020")
+        return type_id
+
+    def _get_id(self):
+        id = ET.Element("id")
+        id.set("root", "2.16.840.1.113883.19")
+        id.set("extension", str(uuid.uuid4()))
+        return id
+
+    def _get_effective_time(self):
+        effective_time = ET.Element("effectiveTime")
+        effective_time.set("value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S"))
+        return effective_time
+
+    def _get_confidentiality_code(
+        self, confidentiality: Literal["normal", "restricted", "very restricted"]
+    ):
+        confidendiality_codes = {
+            "normal": "N",
+            "restricted": "R",
+            "very restricted": "V",
+        }
+
+        confidentiality_code = ET.Element("confidentialityCode")
+        confidentiality_code.set("code", confidendiality_codes[confidentiality])
+        confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
+        return confidentiality_code
+
+    def _get_case_report_code(self):
+        code = ET.Element("code")
+        code.set("code", "55751-2")
+        code.set("codeSystem", "2.16.840.1.113883.6.1")
+        code.set("codeSystemName", "LOINC")
+        code.set("displayName", "Public Health Case Report - PHRI")
+        return code
+
     def build_header(self):
-        def get_type_id():
-            type_id = ET.Element("typeId")
-            type_id.set("root", "2.16.840.1.113883.1.3")
-            type_id.set("extension", "POCD_HD000020")
-            return type_id
-
-        def get_id():
-            id = ET.Element("id")
-            id.set("root", "2.16.840.1.113883.19")
-            id.set("extension", str(uuid.uuid4()))
-            return id
-
-        def get_effective_time():
-            effective_time = ET.Element("effectiveTime")
-            effective_time.set(
-                "value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S")
-            )
-            return effective_time
-
-        class ConfidentialityCodes(str, Enum):
-            normal = ("N",)
-            restricted = ("R",)
-            very_restricted = ("V",)
-
-        def get_confidentiality_code(code: ConfidentialityCodes):
-            confidentiality_code = ET.Element("confidentialityCode")
-            confidentiality_code.set("code", code)
-            confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
-            return confidentiality_code
-
-        def get_case_report_code():
-            code = ET.Element("code")
-            code.set("code", "55751-2")
-            code.set("codeSystem", "2.16.840.1.113883.6.1")
-            code.set("codeSystemName", "LOINC")
-            code.set("displayName", "Public Health Case Report - PHRI")
-            return code
-
         root = self.phdc.getroot()
-        root.append(get_type_id())
-        root.append(get_id())
-        root.append(get_case_report_code())
-        root.append(get_effective_time())
-        root.append(get_confidentiality_code(ConfidentialityCodes.normal))
+        root.append(self._get_type_id())
+        root.append(self._get_id())
+        root.append(self._get_case_report_code())
+        root.append(self._get_effective_time())
+        root.append(self._get_confidentiality_code(confidentiality="normal"))
 
         root.append(self._build_custodian(id=str(uuid.uuid4())))
         root.append(self._build_author(family_name="DIBBS"))
