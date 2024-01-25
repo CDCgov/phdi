@@ -1,64 +1,17 @@
 from __future__ import annotations
 
 import uuid
-from dataclasses import dataclass
 from typing import Literal
 from typing import List
 from typing import Optional
 
 from app import utils
+from app.phdc.models import Address
+from app.phdc.models import Name
+from app.phdc.models import Patient
+from app.phdc.models import Telecom
+from app.phdc.models import PHDCInputData
 from lxml import etree as ET
-
-
-@dataclass
-class Telecom:
-    value: Optional[str] = None
-    type: Optional[str] = None
-    useable_period_low: Optional[str] = None
-    useable_period_high: Optional[str] = None
-
-
-@dataclass
-class Address:
-    street_address_line_1: Optional[str] = None
-    street_address_line_2: Optional[str] = None
-    city: Optional[str] = None
-    state: Optional[str] = None
-    postal_code: Optional[str] = None
-    county: Optional[str] = None
-    country: Optional[str] = None
-    type: Optional[str] = None
-    useable_period_low: Optional[str] = None
-    useable_period_high: Optional[str] = None
-
-
-@dataclass
-class Name:
-    prefix: Optional[str] = None
-    first: Optional[str] = None
-    middle: Optional[str] = None
-    family: Optional[str] = None
-    suffix: Optional[str] = None
-    type: Optional[str] = None
-    valid_time_low: Optional[str] = None
-    valid_time_high: Optional[str] = None
-
-
-@dataclass
-class Patient:
-    name: List[Name] = None
-    address: List[Address] = None
-    telecom: List[Telecom] = None
-    administrative_gender_code: Optional[str] = None
-    race_code: Optional[str] = None
-    ethnic_group_code: Optional[str] = None
-    birth_time: Optional[str] = None
-
-
-@dataclass
-class PHDCInputData:
-    type: str = "case report"
-    patient: Patient = None
 
 
 class PHDC:
@@ -458,8 +411,3 @@ class PHDCBuilder:
 
     def build(self):
         return PHDC(self)
-
-
-if __name__ == "__main__":
-    builder = PHDCBuilder()
-    input_data = PHDCInputData()
