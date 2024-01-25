@@ -113,7 +113,7 @@ def test_parse_message(setup):
                     "street_address_line_2": "Building 3",
                     "city": "Amherst",
                     "state": "Massachusetts",
-                    "postal_code": 33721,
+                    "postal_code": "33721",
                     "county": "Duvall",
                     "country": None,
                 }
