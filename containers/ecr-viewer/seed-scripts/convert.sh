@@ -11,7 +11,7 @@ fi
 
 
 echo "Starting fhir-converter"
-docker run --rm -d -it -p 8080:8080 $(docker build -q $BASEDIR/../../fhir-converter/)
+docker run --rm -d -it -p 8080:8080 "$(docker build -q "$BASEDIR"/../../fhir-converter/)"
 
 echo "Looping through folders in baseECR"
 for d in "$BASEDIR"/baseECR/* ; do
