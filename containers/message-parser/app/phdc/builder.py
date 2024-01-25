@@ -15,10 +15,23 @@ from lxml import etree as ET
 
 
 class PHDC:
+    """
+    A class to represent a Public Health Data Container (PHDC) document given a
+    PHDCBuilder.
+    """
+
     def __init__(self, builder: PHDCBuilder):
+        """
+        Initializes the PHDC class with a PHDCBuilder.
+
+        :param builder: The PHDCBuilder to use to build the PHDC.
+        """
         self.builder = builder
 
     def to_xml_string(self):
+        """
+        Return a string representation of the PHDC XML document as serialized bytes.
+        """
         return ET.tostring(
             self.builder.phdc,
             pretty_print=True,
@@ -28,15 +41,32 @@ class PHDC:
 
 
 class PHDCBuilder:
+    """
+    A builder class for creating PHDC documents.
+    """
+
     def __init__(self):
+        """
+        Initializes the PHDCBuilder class and create and empty PHDC.
+        """
+
         self.input_data: PHDCInputData = None
         self.phdc = self._build_base_phdc()
 
     def set_input_data(self, input_data: PHDCInputData):
+        """
+        Given a PHDCInputData object, set the input data for the PHDCBuilder.
+
+        :param input_data: The PHDCInputData object to use as input data.
+        """
+
         self.input_data = input_data
         return self
 
     def _build_base_phdc(self):
+        """
+        Create the base PHDC XML document.
+        """
         xsi_schema_location = ET.QName(
             "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
         )
@@ -62,18 +92,27 @@ class PHDCBuilder:
         return clinical_document
 
     def _get_type_id(self):
+        """
+        Returns the type ID element of the PHDC header.
+        """
         type_id = ET.Element("typeId")
         type_id.set("root", "2.16.840.1.113883.1.3")
         type_id.set("extension", "POCD_HD000020")
         return type_id
 
     def _get_id(self):
+        """
+        Returns the ID element of the PHDC header.
+        """
         id = ET.Element("id")
         id.set("root", "2.16.840.1.113883.19")
         id.set("extension", str(uuid.uuid4()))
         return id
 
     def _get_effective_time(self):
+        """
+        Returns the effectiveTime element of the PHDC header.
+        """
         effective_time = ET.Element("effectiveTime")
         effective_time.set("value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S"))
         return effective_time
@@ -81,6 +120,11 @@ class PHDCBuilder:
     def _get_confidentiality_code(
         self, confidentiality: Literal["normal", "restricted", "very restricted"]
     ):
+        """
+        Returns the confidentialityCode element of the PHDC header.
+
+        :param confidentiality: The confidentiality code to use.
+        """
         confidendiality_codes = {
             "normal": "N",
             "restricted": "R",
@@ -93,6 +137,9 @@ class PHDCBuilder:
         return confidentiality_code
 
     def _get_case_report_code(self):
+        """
+        Returns the code element of the header for a PHDC case report.
+        """
         code = ET.Element("code")
         code.set("code", "55751-2")
         code.set("codeSystem", "2.16.840.1.113883.6.1")
@@ -101,6 +148,9 @@ class PHDCBuilder:
         return code
 
     def build_header(self):
+        """
+        Builds the header of the PHDC document.
+        """
         root = self.phdc.getroot()
         root.append(self._get_type_id())
         root.append(self._get_id())
@@ -307,6 +357,12 @@ class PHDCBuilder:
         return element
 
     def _build_patient(self, patient: Patient):
+        """
+        Given a Patient object, build the patient element of the PHDC.
+
+        :param patient: The Patient object to use for building the patient element.
+        """
+
         patient_data = ET.Element("patient")
 
         for name in patient.name:
@@ -410,4 +466,7 @@ class PHDCBuilder:
         return recordTarget_data
 
     def build(self):
+        """
+        Returns a PHDC object given a PHDCBuilder.
+        """
         return PHDC(self)
