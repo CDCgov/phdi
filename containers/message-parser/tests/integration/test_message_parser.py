@@ -75,6 +75,73 @@ def test_parse_message(setup):
             "patient_race_code": None,
             "patient_ethnic_group_code": None,
             "patient_birth_time": "1996-04-17",
+            "patient_telecom": [
+                {
+                    "value": "555-690-3898",
+                    "type": "home",
+                    "useable_period_low": "2004-01-01",
+                    "useable_period_high": "2010-02-02",
+                },
+                {
+                    "value": "863-507-9999",
+                    "type": "mobile",
+                    "useable_period_low": "2008-03-18",
+                    "useable_period_high": None,
+                },
+                {
+                    "value": "kp73@gmail.com",
+                    "type": None,
+                    "useable_period_low": None,
+                    "useable_period_high": None,
+                },
+            ],
+            "author_time": "2022-08-08",
+            "author_assigned_person": [
+                {
+                    "prefix": "Doctor",
+                    "first": "Charles",
+                    "middle": "Macintyre-Downing",
+                    "family": "Britishmun",
+                    "suffix": "III",
+                }
+            ],
+            "custodian_represented_custodian_organization": [
+                {
+                    "name": "Sunny Vale",
+                    "phone": "999-999-9999",
+                    "street_address_line_1": "999 North Ridge Road",
+                    "street_address_line_2": "Building 3",
+                    "city": "Amherst",
+                    "state": "Massachusetts",
+                    "postal_code": "33721",
+                    "county": "Duvall",
+                    "country": None,
+                }
+            ],
+            "clinical_information_observations": [
+                {
+                    "code": "15074-8",
+                    "code_system": "http://loinc.org",
+                    "code_display": "Glucose [Moles/volume] in Blood",
+                    "quantitative_value": "6.3",
+                    "quantitative_system": "http://unitsofmeasure.org",
+                    "quantitative_code": "mmol/L",
+                    "qualitative_value": None,
+                    "qualitative_system": None,
+                    "qualitative_code": None,
+                },
+                {
+                    "code": "104177,600-7",
+                    "code_system": "http://acmelabs.org,http://loinc.org",
+                    "code_display": "Blood culture,Bacteria identified in Blood by Culture",  # noqa
+                    "quantitative_value": None,
+                    "quantitative_system": None,
+                    "quantitative_code": None,
+                    "qualitative_value": "Staphylococcus aureus",
+                    "qualitative_system": "http://snomed.info/sct",
+                    "qualitative_code": "3092008",
+                },
+            ],
         },
     }
 
