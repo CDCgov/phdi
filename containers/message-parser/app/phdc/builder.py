@@ -1,16 +1,16 @@
 from __future__ import annotations
 
 import uuid
-from typing import Literal
 from typing import List
+from typing import Literal
 from typing import Optional
 
 from app import utils
 from app.phdc.models import Address
 from app.phdc.models import Name
 from app.phdc.models import Patient
-from app.phdc.models import Telecom
 from app.phdc.models import PHDCInputData
+from app.phdc.models import Telecom
 from lxml import etree as ET
 
 
