@@ -11,7 +11,11 @@ fi
 
 
 echo "Starting fhir-converter"
-docker run --rm -d -it -p 8080:8080 "$(docker build -q "$BASEDIR"/../../fhir-converter/)"
+dockId=$(docker run --rm -d -it -p 8080:8080 "$(docker build -q "$BASEDIR"/../../fhir-converter/)")
+until [[ "$(docker logs "$dockId")" == *"Application startup complete."* ]]; do
+    sleep 0.5;
+    echo "waiting for fhir-converter to be ready"
+done;
 
 echo "Looping through folders in baseECR"
 for d in "$BASEDIR"/baseECR/* ; do
@@ -22,3 +26,5 @@ for d in "$BASEDIR"/baseECR/* ; do
     echo $resp | jq '.response.FhirResource' > "$BASEDIR/fhir_data/$(basename $d).json"
 
 done
+
+docker kill "$dockId"
