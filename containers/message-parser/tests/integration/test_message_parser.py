@@ -23,7 +23,10 @@ with open(fhir_bundle_path, "r") as file:
     test_bundle = json.load(file)
 
 test_schema_path = (
-    Path(__file__).parent.parent.parent / "app" / "default_schemas" / "demo_phdc.json"
+    Path(__file__).parent.parent.parent
+    / "app"
+    / "default_schemas"
+    / "phdc_case_report_schema.json"
 )
 
 with open(test_schema_path, "r") as file:
@@ -160,7 +163,7 @@ def test_parse_message(setup):
 @pytest.mark.integration
 def test_fhir_to_phdc(setup):
     request = {
-        "parsing_schema": test_schema,
+        "phdc_report_type": "case_report",
         "message": test_bundle,
     }
 

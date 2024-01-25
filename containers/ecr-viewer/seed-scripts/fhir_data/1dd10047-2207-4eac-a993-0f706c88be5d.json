@@ -715,6 +715,48 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+      "resource": {
+        "resourceType": "Device",
+        "id": "3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.1",
+            "value": "10.1"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "display": "Epic - Version 10.1"
+            }
+          ]
+        },
+        "manufacturer": "Epic - Version 10.1",
+        "version": [
+          {
+            "value": "Epic - Version 10.1"
+          }
+        ],
+        "category": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/device-category",
+              "code": "software",
+              "display": "software"
+            }
+          ]
+        },
+        "owner": {
+          "reference": "Organization/91c4d2ba-e324-5b1a-a4cb-84d9690511d3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/3cd5a00e-5ed8-c2a6-4be2-dbe915111561"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:6b6b3c4c-4884-4a96-b6ab-c46406839cea",
       "resource": {
         "resourceType": "Patient",
