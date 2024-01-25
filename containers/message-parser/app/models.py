@@ -8,7 +8,7 @@ from pydantic import Field
 from pydantic import root_validator
 
 PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "datetime", "array"
+    "string", "integer", "float", "boolean", "date", "datetime", "array", "struct"
 ]
 
 
