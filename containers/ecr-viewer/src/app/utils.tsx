@@ -1,5 +1,5 @@
 import { Bundle, Organization, Reference } from "fhir/r4";
-import { evaluate } from "fhirpath";
+import { types, evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
 
@@ -172,6 +172,17 @@ const formatDateTime = (dateTime: string) => {
     .replace(",", "");
 };
 
+const formatDate = (date: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  };
+
+  return new Date(date)
+    .toLocaleDateString("en-US", { ...options, timeZone: 'UTC' }); // UTC, otherwise will have timezone issues?
+};
+
 const formatPhoneNumber = (phoneNumber: string) => {
   try {
     return phoneNumber
@@ -209,6 +220,7 @@ const formatStartEndDateTime = (
         End: ${endFormattedDate}`;
 };
 
+// TODO: Write render test for Active Problems table (snapshot)
 const formatTable = (  
   resources: [],
   mappings: PathMappings,
@@ -219,7 +231,7 @@ const formatTable = (
   columns.forEach(column => {
     const header = 
       <>
-        <th scope="col">{ column.columnName }</th>
+        <th scope="col" className="minw-15">{ column.columnName }</th>
       </>
     ;
     headers.push(header);
@@ -258,7 +270,7 @@ const formatTable = (
       </tbody>
     </>
   );
-  const table = <Table bordered striped> {tableContent} </Table>;
+  const table = <Table striped> {tableContent} </Table>;
 
   // TODO: deal with NA (empty data? no active problems?)
   return table
@@ -524,15 +536,30 @@ export const evaluateClinicalData = (
   mappings: PathMappings,
 ) => {
 
-  const columnInfo = [{columnName: "Active Problems", infoPath: "activeProblemsDisplay"}, {columnName: "Noted Date", infoPath: "activeProblemsDate"}];
+  // TODO: Write unit test for this function
+  const returnProblemsTable = (problemsArray, mappings) => {
+    const columnInfo = [
+      {columnName: "Active Problems", infoPath: "activeProblemsDisplay"}, 
+      {columnName: "Noted Date", infoPath: "activeProblemsDate"}
+    ];
 
-  // TODO: Sorting data by date first before formatting table?
-  // TODO: change date format to match Figma?
+    problemsArray.forEach(entry => {
+      entry.onsetDateTime = formatDate(entry.onsetDateTime);
+    });
+
+    problemsArray.sort(function(a, b){
+      console.log(a.onsetDateTime, b.onsetDateTime);
+      return new Date(b.onsetDateTime) - new Date(a.onsetDateTime)
+    });
+
+    return formatTable(problemsArray, mappings, columnInfo);
+  };
+  
   const activeProblemsData: DisplayData[] = [
     {
       title: "Problems List",
       value: 
-        formatTable(evaluate(fhirBundle, mappings["activeProblems"]), mappings, columnInfo),
+        returnProblemsTable(evaluate(fhirBundle, mappings["activeProblems"]), mappings),
     },
   ];
   return {
