@@ -4,10 +4,10 @@ from unittest.mock import patch
 
 import pytest
 from app import utils
+from app.phdc.builder import PHDCBuilder
 from app.phdc.models import Address
 from app.phdc.models import Name
 from app.phdc.models import Patient
-from app.phdc.builder import PHDCBuilder
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET

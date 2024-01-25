@@ -7,13 +7,13 @@ from pathlib import Path
 from typing import Literal
 
 import fhirpathpy
-from fastapi import status
 import requests
 from app.config import get_settings
-from app.phdc.models import PHDCInputData
-from app.phdc.models import Patient
 from app.phdc.models import Address
 from app.phdc.models import Name
+from app.phdc.models import Patient
+from app.phdc.models import PHDCInputData
+from fastapi import status
 from frozendict import frozendict
 
 from phdi.cloud.azure import AzureCredentialManager
