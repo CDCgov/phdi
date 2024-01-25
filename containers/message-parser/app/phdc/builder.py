@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import uuid
 from typing import List
 from typing import Literal
@@ -20,20 +18,22 @@ class PHDC:
     PHDCBuilder.
     """
 
-    def __init__(self, builder: PHDCBuilder):
+    def __init__(self, data: ET.ElementTree = None):
         """
         Initializes the PHDC class with a PHDCBuilder.
 
         :param builder: The PHDCBuilder to use to build the PHDC.
         """
-        self.builder = builder
+        self.data = data
 
     def to_xml_string(self) -> bytes:
         """
         Return a string representation of the PHDC XML document as serialized bytes.
         """
+        if self.data is None:
+            raise ValueError("The PHDC object must be initialized.")
         return ET.tostring(
-            self.builder.phdc,
+            self.data,
             pretty_print=True,
             xml_declaration=True,
             encoding="utf-8",
@@ -471,6 +471,7 @@ class PHDCBuilder:
 
     def build(self) -> PHDC:
         """
-        Returns a PHDC object given a PHDCBuilder.
+        Returns a PHDC object.
         """
-        return PHDC(self)
+
+        return PHDC(data=self.phdc)
