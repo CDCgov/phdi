@@ -13,7 +13,7 @@ from app.phdc.models import Address
 from app.phdc.models import Name
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
-from fastapi import Response
+from fastapi import status
 from frozendict import frozendict
 
 from phdi.cloud.azure import AzureCredentialManager
@@ -287,9 +287,7 @@ def get_datetime_now() -> datetime.datetime:
     return datetime.datetime.now()
 
 
-def extract_and_apply_parsers(
-    parsing_schema: dict, message: dict, response: Response
-) -> dict:
+def extract_and_apply_parsers(parsing_schema, message, response):
     """
     Helper function used to pull parsing methods for each field out of the
     passed-in schema, resolve any reference dependencies, and apply the
@@ -322,9 +320,21 @@ def extract_and_apply_parsers(
         # Use the secondary field data structure, remembering that some
         # fhir paths might not be compiled yet
         else:
-            inital_values = parser["primary_parser"](message)
+            initial_values = parser["primary_parser"](message)
             values = []
-            for initial_value in inital_values:
+
+            # This check allows us to use secondary schemas on fields that
+            # are just datatype structs, rather than full arrays. This is
+            # useful when we want multiple fields of information from a
+            # referenced resource, but there's only one instance of the
+            # resource type referencing another resource in the bundle
+            # (e.g. we want multiple values about the Bundle's Custodian:
+            # bundle.custodian is a dict with a reference, so we only need
+            # to find that reference once)
+            if type(initial_values) is not list:
+                initial_values = [initial_values]
+
+            for initial_value in initial_values:
                 value = {}
                 for secondary_field, path_struct in parser["secondary_parsers"].items():
                     # Base cases for a secondary field:
@@ -393,13 +403,7 @@ def extract_and_apply_parsers(
                             reference_path = fhirpathpy.compile(reference_path)
                             referenced_value = reference_path(message)
                             if len(referenced_value) == 0:
-                                response.status_code = status.HTTP_400_BAD_REQUEST
-                                return {
-                                    "message": "Provided bundle does not contain a "
-                                    "resource matching reference criteria defined "
-                                    "in schema",
-                                    "parsed_values": {},
-                                }
+                                value[secondary_field] = None
                             else:
                                 value[secondary_field] = ",".join(
                                     map(str, referenced_value)
