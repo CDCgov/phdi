@@ -28,7 +28,7 @@ class PHDC:
         """
         self.builder = builder
 
-    def to_xml_string(self):
+    def to_xml_string(self) -> bytes:
         """
         Return a string representation of the PHDC XML document as serialized bytes.
         """
@@ -61,9 +61,8 @@ class PHDCBuilder:
         """
 
         self.input_data = input_data
-        return self
 
-    def _build_base_phdc(self):
+    def _build_base_phdc(self) -> ET.ElementTree:
         """
         Create the base PHDC XML document.
         """
@@ -91,7 +90,7 @@ class PHDCBuilder:
 
         return clinical_document
 
-    def _get_type_id(self):
+    def _get_type_id(self) -> ET.Element:
         """
         Returns the type ID element of the PHDC header.
         """
@@ -100,7 +99,7 @@ class PHDCBuilder:
         type_id.set("extension", "POCD_HD000020")
         return type_id
 
-    def _get_id(self):
+    def _get_id(self) -> ET.Element:
         """
         Returns the ID element of the PHDC header.
         """
@@ -109,7 +108,7 @@ class PHDCBuilder:
         id.set("extension", str(uuid.uuid4()))
         return id
 
-    def _get_effective_time(self):
+    def _get_effective_time(self) -> ET.Element:
         """
         Returns the effectiveTime element of the PHDC header.
         """
@@ -119,7 +118,7 @@ class PHDCBuilder:
 
     def _get_confidentiality_code(
         self, confidentiality: Literal["normal", "restricted", "very restricted"]
-    ):
+    ) -> ET.Element:
         """
         Returns the confidentialityCode element of the PHDC header.
 
@@ -171,7 +170,7 @@ class PHDCBuilder:
             )
         )
 
-    def _build_telecom(self, telecom: Telecom):
+    def _build_telecom(self, telecom: Telecom) -> ET.Element:
         """
         Builds a `telecom` XML element for phone data including phone number (as
         `value`) and use, if available. There are three types of phone uses: 'HP'
@@ -216,7 +215,7 @@ class PHDCBuilder:
     def _build_addr(
         self,
         address: Address,
-    ):
+    ) -> ET.Element:
         """
         Builds an `addr` XML element for address data. There are two types of address
          uses: 'H' for home address and 'WP' for workplace address.
@@ -243,7 +242,7 @@ class PHDCBuilder:
 
         return address_data
 
-    def _build_name(self, name: Name):
+    def _build_name(self, name: Name) -> ET.Element:
         """
         Builds a `name` XML element for name data.
 
@@ -274,7 +273,7 @@ class PHDCBuilder:
     def _build_custodian(
         self,
         id: str,
-    ):
+    ) -> ET.Element:
         """
         Builds a `custodian` XML element for custodian data, which refers to the
           organization from which the PHDC originates and that is in charge of
@@ -301,7 +300,7 @@ class PHDCBuilder:
 
         return custodian_data
 
-    def _build_author(self, family_name: str):
+    def _build_author(self, family_name: str) -> ET.Element:
         """
         Builds an `author` XML element for author data, which represents the
             humans and/or machines that authored the document.
@@ -342,7 +341,7 @@ class PHDCBuilder:
 
         return author_element
 
-    def _build_coded_element(self, element_name: str, **kwargs: dict):
+    def _build_coded_element(self, element_name: str, **kwargs: dict) -> ET.Element:
         """
         Builds coded elements, such as administrativeGenderCode, using kwargs code,
           codeSystem, and displayName.
@@ -361,7 +360,7 @@ class PHDCBuilder:
                 element.set(e, v)
         return element
 
-    def _build_patient(self, patient: Patient):
+    def _build_patient(self, patient: Patient) -> ET.Element:
         """
         Given a Patient object, build the patient element of the PHDC.
 
@@ -410,7 +409,7 @@ class PHDCBuilder:
         telecom_data: Optional[List[Telecom]] = None,
         address_data: Optional[List[Address]] = None,
         patient_data: Optional[Patient] = None,
-    ):
+    ) -> ET.Element:
         """
         Builds a `recordTarget` XML element for recordTarget data, which refers to
           the medical record of the patient.
@@ -470,7 +469,7 @@ class PHDCBuilder:
 
         return recordTarget_data
 
-    def build(self):
+    def build(self) -> PHDC:
         """
         Returns a PHDC object given a PHDCBuilder.
         """
