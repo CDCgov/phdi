@@ -254,26 +254,21 @@ raw_fhir_to_phdc_response_examples = read_json_from_assets(
 fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
 
 
-# TODO: Once we complete M2 and can convert information into PHDC format,
-# the output of this function will change. The parse-message endpoint will
-# continue to return DIBBs JSON, though, which is why both endpoints use
-# the same helper function to handle resource references.
-
-
 @app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
 async def fhir_to_phdc_endpoint(
     input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
     response: Response,
 ):
-    # First, extract the parsing schema or look one up
-    if input.parsing_schema != {}:
-        parsing_schema = freeze_parsing_schema(input.parsing_schema)
-    else:
-        try:
-            parsing_schema = load_parsing_schema(input.parsing_schema_name)
-        except FileNotFoundError as error:
-            response.status_code = status.HTTP_400_BAD_REQUEST
-            return {"message": error.__str__(), "parsed_values": {}}
+    # First, identify the parsing schema based on the supplied phdc type
+    match input.phdc_report_type:
+        case "case_report":
+            parsing_schema = load_parsing_schema("phdc_case_report_schema.json")
+        case "contact_record":
+            pass
+        case "lab_report":
+            pass
+        case "morbidity_report":
+            pass
 
     parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
 
