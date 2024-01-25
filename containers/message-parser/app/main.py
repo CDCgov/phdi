@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from typing import Annotated
 
-import fhirpathpy
 from app.config import get_settings
 from app.models import FhirToPhdcInput
 from app.models import GetSchemaResponse
@@ -12,13 +11,8 @@ from app.models import ParseMessageInput
 from app.models import ParseMessageResponse
 from app.models import ParsingSchemaModel
 from app.models import PutSchemaResponse
-from app.phdc.models import Address
-from app.phdc.models import Name
-from app.phdc.models import Patient
 from app.phdc.builder import PHDCBuilder
-from app.phdc.models import PHDCInputData
 from app.utils import convert_to_fhir
-from app.utils import DIBBS_REFERENCE_SIGNIFIER
 from app.utils import freeze_parsing_schema
 from app.utils import get_credential_manager
 from app.utils import get_metadata
