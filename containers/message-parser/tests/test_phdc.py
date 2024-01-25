@@ -334,5 +334,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
 )
 def test_build_header(build_header_test_data, expected_result):
     builder = PHDCBuilder()
-    phdc = builder.set_input_data(build_header_test_data).build()
+    builder.set_input_data(build_header_test_data)
+    builder.build_header()
+    phdc = builder.build()
     assert phdc.to_xml_string() == expected_result

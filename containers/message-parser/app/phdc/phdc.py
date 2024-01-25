@@ -63,11 +63,11 @@ class PHDCInputData:
 
 class PHDC:
     def __init__(self, builder: PHDCBuilder):
-        self.header = builder._build_header()
+        self.builder = builder
 
     def to_xml_string(self):
         return ET.tostring(
-            self.header,
+            self.builder.phdc,
             pretty_print=True,
             xml_declaration=True,
             encoding="utf-8",
@@ -77,12 +77,38 @@ class PHDC:
 class PHDCBuilder:
     def __init__(self):
         self.input_data: PHDCInputData = None
+        self.phdc = self._build_base_phdc()
 
     def set_input_data(self, input_data: PHDCInputData):
         self.input_data = input_data
         return self
 
-    def _build_header(self):
+    def _build_base_phdc(self):
+        xsi_schema_location = ET.QName(
+            "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
+        )
+
+        namespace = {
+            None: "urn:hl7-org:v3",
+            "sdt": "urn:hl7-org:sdtc",
+            "sdtcxmlnamespaceholder": "urn:hl7-org:v3",
+            "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        }
+        clinical_document = ET.Element(
+            "ClinicalDocument",
+            {xsi_schema_location: "urn:hl7-org:v3 CDA_SDTC.xsd"},
+            nsmap=namespace,
+        )
+        clinical_document = ET.ElementTree(clinical_document)
+        pi = ET.ProcessingInstruction(
+            "xml-stylesheet", text='type="text/xsl" href="PHDC.xsl"'
+        )
+
+        clinical_document.getroot().addprevious(pi)
+
+        return clinical_document
+
+    def build_header(self):
         def get_type_id():
             type_id = ET.Element("typeId")
             type_id.set("root", "2.16.840.1.113883.1.3")
@@ -121,34 +147,16 @@ class PHDCBuilder:
             code.set("displayName", "Public Health Case Report - PHRI")
             return code
 
-        xsi_schema_location = ET.QName(
-            "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
-        )
+        root = self.phdc.getroot()
+        root.append(get_type_id())
+        root.append(get_id())
+        root.append(get_case_report_code())
+        root.append(get_effective_time())
+        root.append(get_confidentiality_code(ConfidentialityCodes.normal))
 
-        namespace = {
-            None: "urn:hl7-org:v3",
-            "sdt": "urn:hl7-org:sdtc",
-            "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-        }
-        clinical_document = ET.Element(
-            "ClinicalDocument",
-            {xsi_schema_location: "urn:hl7-org:v3 CDA_SDTC.xsd"},
-            nsmap=namespace,
-        )
-        pi = ET.ProcessingInstruction(
-            "xml-stylesheet", text='type="text/xsl" href="PHDC.xsl"'
-        )
-        clinical_document.addprevious(pi)
-
-        clinical_document.append(get_type_id())
-        clinical_document.append(get_id())
-        clinical_document.append(get_case_report_code())
-        clinical_document.append(get_effective_time())
-        clinical_document.append(get_confidentiality_code(ConfidentialityCodes.normal))
-
-        clinical_document.append(self._build_custodian(id=str(uuid.uuid4())))
-        clinical_document.append(self._build_author(family_name="DIBBS"))
-        clinical_document.append(
+        root.append(self._build_custodian(id=str(uuid.uuid4())))
+        root.append(self._build_author(family_name="DIBBS"))
+        root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
                 root="2.16.840.1.113883.4.1",
@@ -158,8 +166,6 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
-
-        return clinical_document
 
     def _build_telecom(self, telecom: Telecom):
         """
@@ -451,3 +457,8 @@ class PHDCBuilder:
 
     def build(self):
         return PHDC(self)
+
+
+if __name__ == "__main__":
+    builder = PHDCBuilder()
+    input_data = PHDCInputData()

@@ -292,9 +292,9 @@ async def fhir_to_phdc_endpoint(
             input_data.patient.birth_time = value
 
     # Build the PHDC
-    print(input_data)
     builder = PHDCBuilder()
     builder.set_input_data(input_data)
+    builder.build_header()
     phdc = builder.build()
 
     return Response(content=phdc.to_xml_string(), media_type="application/xml")
