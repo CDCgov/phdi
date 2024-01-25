@@ -336,8 +336,12 @@ def test_build_header(build_header_test_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_header_test_data)
     builder.build_header()
-    phdc = builder.build()
-    assert phdc.to_xml_string() == expected_result
+    assert (
+        ET.tostring(
+            builder.phdc, pretty_print=True, xml_declaration=True, encoding="utf-8"
+        ).decode("utf-8")
+        == expected_result
+    )
 
 
 def test_build_base_phdc():

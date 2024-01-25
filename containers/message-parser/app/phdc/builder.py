@@ -473,5 +473,5 @@ class PHDCBuilder:
         """
         Returns a PHDC object.
         """
-
+        self.build_header()
         return PHDC(data=self.phdc)

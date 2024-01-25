@@ -155,7 +155,6 @@ async def fhir_to_phdc_endpoint(
     # 4. Build PHDC
     builder = PHDCBuilder()
     builder.set_input_data(input_data)
-    builder.build_header()
     phdc = builder.build()
 
     return Response(content=phdc.to_xml_string(), media_type="application/xml")
