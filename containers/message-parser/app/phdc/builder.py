@@ -203,7 +203,7 @@ class PHDCBuilder:
     def _add_field(self, parent_element: ET.Element, data: str, field_name: str):
         """
         Adds a child element to a parent element given the data and field name.
-        
+
         :param parent_element: The parent element to add the child element to.
         :param data: The data to add to the child element.
         :param field_name: The name of the child element.
@@ -229,8 +229,12 @@ class PHDCBuilder:
         if address.type is not None:
             address_data.set("use", "H" if address.type.lower() == "home" else "WP")
 
-        self._add_field(address_data, address.street_address_line_1, "streetAddressLine")
-        self._add_field(address_data, address.street_address_line_2, "streetAddressLine")
+        self._add_field(
+            address_data, address.street_address_line_1, "streetAddressLine"
+        )
+        self._add_field(
+            address_data, address.street_address_line_2, "streetAddressLine"
+        )
         self._add_field(address_data, address.city, "city")
         self._add_field(address_data, address.state, "state")
         self._add_field(address_data, address.postal_code, "postalCode")
