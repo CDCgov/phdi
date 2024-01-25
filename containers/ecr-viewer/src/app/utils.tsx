@@ -1,5 +1,6 @@
 import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "fhirpath";
+import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
 
 export interface DisplayData {
@@ -9,6 +10,11 @@ export interface DisplayData {
 
 export interface PathMappings {
   [key: string]: string;
+}
+
+export interface ColumnInfoInput {
+  columnName: string;
+  infoPath: string;
 }
 
 export const formatPatientName = (
@@ -201,6 +207,61 @@ const formatStartEndDateTime = (
 
   return `Start: ${startFormattedDate}
         End: ${endFormattedDate}`;
+};
+
+const formatTable = (  
+  resources: [],
+  mappings: PathMappings,
+  columns: [ColumnInfoInput], // TODO: Make note about order of columns
+) => {
+  // Build table headers
+  let headers = [];
+  columns.forEach(column => {
+    const header = 
+      <>
+        <th scope="col">{ column.columnName }</th>
+      </>
+    ;
+    headers.push(header);
+  })
+  
+  let tableRows = [];
+  resources.forEach(entry => {
+    let rowCells = [];
+    columns.forEach(column => {
+      let rowCellData = evaluate(entry, mappings[column.infoPath])[0];
+      let rowCell = (
+        <td>
+          { rowCellData }
+        </td>
+      )
+      rowCells.push(rowCell);
+    });
+    const tableRow = (
+      <tr>
+        { rowCells }
+      </tr>
+    )
+    tableRows.push(tableRow);
+  });
+  
+  // TODO: Fix table styling to match Figma
+  const tableContent = (
+    <>
+      <thead>
+        <tr>
+          { headers }
+        </tr>
+      </thead>
+      <tbody>
+        { tableRows }
+      </tbody>
+    </>
+  );
+  const table = <Table bordered striped> {tableContent} </Table>;
+
+  // TODO: deal with NA (empty data? no active problems?)
+  return table
 };
 
 const extractTravelHistory = (
@@ -455,6 +516,27 @@ export const evaluateEcrMetadata = (
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
     rrDetails: evaluateData(rrDetails),
+  };
+};
+
+export const evaluateClinicalData = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+
+  const columnInfo = [{columnName: "Active Problems", infoPath: "activeProblemsDisplay"}, {columnName: "Noted Date", infoPath: "activeProblemsDate"}];
+
+  // TODO: Sorting data by date first before formatting table?
+  // TODO: change date format to match Figma?
+  const activeProblemsData: DisplayData[] = [
+    {
+      title: "Problems List",
+      value: 
+        formatTable(evaluate(fhirBundle, mappings["activeProblems"]), mappings, columnInfo),
+    },
+  ];
+  return {
+    activeProblemsDetails: evaluateData(activeProblemsData)
   };
 };
 

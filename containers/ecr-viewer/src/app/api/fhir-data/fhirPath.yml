@@ -61,3 +61,8 @@ rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/u
 # Encounter Info
 
 resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
+
+# Clinical Info
+activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list')"
+activeProblemsDisplay: "Condition.code.coding[0].display"
+activeProblemsDate: "Condition.onsetDateTime"
