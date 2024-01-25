@@ -92,7 +92,7 @@
             "mode": "snapshot"
           },
           {
-            "id": "49280d2c-f8d6-9eb9-b96a-4d05f9188f0c",
+            "id": "a7d62592-7456-6cc1-b9eb-ed2ffe81780a",
             "title": "RESULTS",
             "text": {
               "status": "generated",
@@ -110,79 +110,79 @@
             "mode": "snapshot",
             "entry": [
               {
-                "reference": "Observation/d5ea10d8-1ceb-4f6e-605f-e8f5d8fa4d3a"
+                "reference": "Observation/449f4d35-ede1-d54a-ee8b-85247ab0b6e6"
               },
               {
-                "reference": "Observation/3dbc1496-c582-19da-58cd-c48821fccf3a"
+                "reference": "Observation/6ae97d71-62a8-ebc2-fc80-b4a67e742ecb"
               },
               {
-                "reference": "Observation/b1c41413-9bf6-cf1b-f24c-c0e7bf018530"
+                "reference": "Observation/69f90668-7f73-3170-bfb2-049587dfcd9e"
               },
               {
-                "reference": "Observation/35b356ea-a3d2-fdcb-1125-abe7b427a95b"
+                "reference": "Observation/378e9d76-db69-45bb-06df-d63f96e10619"
               },
               {
-                "reference": "Observation/dfea8864-c62e-aaf7-147b-157a6714c7d8"
+                "reference": "Observation/a7b1cb64-7121-3dfe-8605-889d1ff3511d"
               },
               {
-                "reference": "Observation/fea7405e-c98f-04eb-9b21-c396a9acbeb7"
+                "reference": "Observation/81503091-497e-5d02-4115-a9b94e3f3c87"
               },
               {
-                "reference": "Observation/34fb1c83-e01f-79ce-48e4-1e4ddf58343f"
+                "reference": "Observation/ac4992a1-cbfe-dfcf-5f6b-ca49aa06cddd"
               },
               {
-                "reference": "Observation/9f8b4625-4a0e-e517-2f61-0a643bf07c5e"
+                "reference": "Observation/aeeb7e8a-7b73-55f7-148e-4fdfc078285b"
               },
               {
-                "reference": "Observation/0e61f8f8-5cc6-eb99-5aa1-5cdaacc6cba9"
+                "reference": "Observation/3d8742ee-44b7-2bc3-1515-d1c4771e6fb2"
               },
               {
-                "reference": "Observation/de6db888-98e1-6f2b-de82-a623a35d6324"
+                "reference": "Observation/c5c046e4-b0eb-3210-114c-7be495e24a3f"
               },
               {
-                "reference": "Observation/7063c71f-7ff6-75c1-045f-54645c82cbaa"
+                "reference": "Observation/546deab4-bca2-d056-24e3-d5bcde20d975"
               },
               {
-                "reference": "Observation/0d1c42db-6db9-9579-a3e8-4d38eeaf7853"
+                "reference": "Observation/2e39b82b-8663-164f-11a6-31fdbba093b7"
               },
               {
-                "reference": "Observation/090881d5-3f85-01a7-1eec-d05473d48731"
+                "reference": "Observation/ed81d103-56dc-f9b9-ccc6-315503cb75b8"
               },
               {
-                "reference": "Observation/8c4dc57d-6412-bfd3-b057-c746c4d7d9eb"
+                "reference": "Observation/b055bbba-9778-0f5d-1ed4-0415c127aeec"
               },
               {
-                "reference": "Observation/1f898244-6fa0-2a38-6134-b29e9c801d1d"
+                "reference": "Observation/9f30a6e1-c3d8-bef3-df89-b7c64b9bada4"
               },
               {
-                "reference": "Observation/92719f56-3c90-a5d3-09d2-d77960b035c6"
+                "reference": "Observation/8347a4a4-68d7-c939-a39a-1c83ade11da9"
               },
               {
-                "reference": "Observation/0711c2b6-f95a-e42b-23a1-718ded8a7c06"
+                "reference": "Observation/247c7366-60be-2ba4-1667-dc4a2cffdcdf"
               },
               {
-                "reference": "Observation/9a67c1e6-a7fa-9f18-b0d4-b60b46ce4559"
+                "reference": "Observation/5d87c713-c202-2486-c0c2-5d6d691af42f"
               },
               {
-                "reference": "Observation/e77c823d-5d72-f993-83a4-addba317350b"
+                "reference": "Observation/a1993689-9c3a-6986-9d21-e7515972f8c2"
               },
               {
-                "reference": "Observation/b44c04d7-dbb2-ff34-dac2-690388da9d09"
+                "reference": "Observation/0909ed94-9369-57cb-60a3-353c08947a8a"
               },
               {
-                "reference": "Observation/54bb27a5-60b3-5431-eb1c-5a50457bc971"
+                "reference": "Observation/304a0b98-17f1-b855-6f0f-bb507f3045ad"
               },
               {
-                "reference": "Observation/f404e01d-130c-5a6a-66f4-95aa95e46ba2"
+                "reference": "Observation/b7f26954-ec35-0dbd-da80-48b380621693"
               },
               {
-                "reference": "Observation/3b92beb6-3611-a822-04f5-a80be5aec253"
+                "reference": "Observation/83a07fb4-b3c1-118a-ac11-a3232785ac3b"
               },
               {
-                "reference": "Observation/4b75a20b-ddce-162f-d08e-f61d4988e4a3"
+                "reference": "Observation/f73f0c43-7283-9ace-b129-68555b0eef89"
               },
               {
-                "reference": "Observation/53a7d568-ba4e-4c78-432c-409d77871dd5"
+                "reference": "Observation/eb888a57-1652-152f-705c-6014061a43e0"
               }
             ]
           },
@@ -241,10 +241,10 @@
             "mode": "snapshot",
             "entry": [
               {
-                "reference": "Observation/595b1386-09d2-7dfb-d414-fb1e5043013d"
+                "reference": "Observation/334a7b0b-e775-63c1-3461-49e6c5e1e3c1"
               },
               {
-                "reference": "Observation/3bd09111-ae6b-0357-cbda-526c275da43b"
+                "reference": "Observation/c368a59d-afcf-2b68-0ed6-164deb6eddfd"
               }
             ]
           },
@@ -357,7 +357,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "encounter": {
           "reference": "Encounter/1a016589-f03e-c216-eb37-306903e8f437"
@@ -402,7 +402,7 @@
           "end": "2022-05-13T09:57:00Z"
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "location": [
           {
@@ -608,13 +608,7 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
-            "valueString": "Detection of Influenza A nucleic acid in a clinical\u202fspecimen by\u202fany method, including RT-PCR and rapid molecular assays"
-          }
-        ]
+        }
       },
       "request": {
         "method": "PUT",
@@ -663,10 +657,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6b6b3c4c-4884-4a96-b6ab-c46406839cea",
+      "fullUrl": "urn:uuid:0a07ae90-e6fe-42d0-97a5-e9ddc50bc527",
       "resource": {
         "resourceType": "Patient",
-        "id": "6b6b3c4c-4884-4a96-b6ab-c46406839cea",
+        "id": "0a07ae90-e6fe-42d0-97a5-e9ddc50bc527",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -756,7 +750,7 @@
         "telecom": [
           {
             "system": "phone",
-            "value": "+18184195968",
+            "value": "(818)419-5968",
             "use": "home"
           },
           {
@@ -780,14 +774,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+        "url": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
       }
     },
     {
-      "fullUrl": "urn:uuid:f3eb5009-f32c-440f-9956-7fc3486147fc",
+      "fullUrl": "urn:uuid:4713bd73-65ae-4ac1-1c7b-4d80465bade4",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "f3eb5009-f32c-440f-9956-7fc3486147fc",
+        "id": "4713bd73-65ae-4ac1-1c7b-4d80465bade4",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -804,11 +798,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/d5ea10d8-1ceb-4f6e-605f-e8f5d8fa4d3a"
+            "reference": "Observation/449f4d35-ede1-d54a-ee8b-85247ab0b6e6"
           }
         ],
         "meta": {
@@ -819,14 +813,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/f3eb5009-f32c-440f-9956-7fc3486147fc"
+        "url": "DiagnosticReport/4713bd73-65ae-4ac1-1c7b-4d80465bade4"
       }
     },
     {
-      "fullUrl": "urn:uuid:d5ea10d8-1ceb-4f6e-605f-e8f5d8fa4d3a",
+      "fullUrl": "urn:uuid:449f4d35-ede1-d54a-ee8b-85247ab0b6e6",
       "resource": {
         "resourceType": "Observation",
-        "id": "d5ea10d8-1ceb-4f6e-605f-e8f5d8fa4d3a",
+        "id": "449f4d35-ede1-d54a-ee8b-85247ab0b6e6",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -863,19 +857,19 @@
         "effectiveDateTime": "2022-05-13T07:47:00Z",
         "valueString": "NONE /LPF",
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/d5ea10d8-1ceb-4f6e-605f-e8f5d8fa4d3a"
+        "url": "Observation/449f4d35-ede1-d54a-ee8b-85247ab0b6e6"
       }
     },
     {
-      "fullUrl": "urn:uuid:433959d8-efbc-02b6-937f-eafcdc5db7a4",
+      "fullUrl": "urn:uuid:ae7434f5-bc73-901b-efd1-9e6f134f5e8b",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "433959d8-efbc-02b6-937f-eafcdc5db7a4",
+        "id": "ae7434f5-bc73-901b-efd1-9e6f134f5e8b",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -892,11 +886,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/3dbc1496-c582-19da-58cd-c48821fccf3a"
+            "reference": "Observation/6ae97d71-62a8-ebc2-fc80-b4a67e742ecb"
           }
         ],
         "meta": {
@@ -907,14 +901,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/433959d8-efbc-02b6-937f-eafcdc5db7a4"
+        "url": "DiagnosticReport/ae7434f5-bc73-901b-efd1-9e6f134f5e8b"
       }
     },
     {
-      "fullUrl": "urn:uuid:3dbc1496-c582-19da-58cd-c48821fccf3a",
+      "fullUrl": "urn:uuid:6ae97d71-62a8-ebc2-fc80-b4a67e742ecb",
       "resource": {
         "resourceType": "Observation",
-        "id": "3dbc1496-c582-19da-58cd-c48821fccf3a",
+        "id": "6ae97d71-62a8-ebc2-fc80-b4a67e742ecb",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -965,19 +959,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/3dbc1496-c582-19da-58cd-c48821fccf3a"
+        "url": "Observation/6ae97d71-62a8-ebc2-fc80-b4a67e742ecb"
       }
     },
     {
-      "fullUrl": "urn:uuid:cfc3bc8b-252e-1f4f-6353-035e90a3d29c",
+      "fullUrl": "urn:uuid:7d9cc2bd-5fe8-0df1-ab5b-5a2719c10b70",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "cfc3bc8b-252e-1f4f-6353-035e90a3d29c",
+        "id": "7d9cc2bd-5fe8-0df1-ab5b-5a2719c10b70",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -994,11 +988,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/b1c41413-9bf6-cf1b-f24c-c0e7bf018530"
+            "reference": "Observation/69f90668-7f73-3170-bfb2-049587dfcd9e"
           }
         ],
         "meta": {
@@ -1009,14 +1003,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/cfc3bc8b-252e-1f4f-6353-035e90a3d29c"
+        "url": "DiagnosticReport/7d9cc2bd-5fe8-0df1-ab5b-5a2719c10b70"
       }
     },
     {
-      "fullUrl": "urn:uuid:b1c41413-9bf6-cf1b-f24c-c0e7bf018530",
+      "fullUrl": "urn:uuid:69f90668-7f73-3170-bfb2-049587dfcd9e",
       "resource": {
         "resourceType": "Observation",
-        "id": "b1c41413-9bf6-cf1b-f24c-c0e7bf018530",
+        "id": "69f90668-7f73-3170-bfb2-049587dfcd9e",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1067,19 +1061,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/b1c41413-9bf6-cf1b-f24c-c0e7bf018530"
+        "url": "Observation/69f90668-7f73-3170-bfb2-049587dfcd9e"
       }
     },
     {
-      "fullUrl": "urn:uuid:e561bb7c-46eb-ab83-4e91-9e9512100761",
+      "fullUrl": "urn:uuid:a5d26ead-694d-6199-0406-2b043fae0c7e",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "e561bb7c-46eb-ab83-4e91-9e9512100761",
+        "id": "a5d26ead-694d-6199-0406-2b043fae0c7e",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1096,11 +1090,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/35b356ea-a3d2-fdcb-1125-abe7b427a95b"
+            "reference": "Observation/378e9d76-db69-45bb-06df-d63f96e10619"
           }
         ],
         "meta": {
@@ -1111,14 +1105,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/e561bb7c-46eb-ab83-4e91-9e9512100761"
+        "url": "DiagnosticReport/a5d26ead-694d-6199-0406-2b043fae0c7e"
       }
     },
     {
-      "fullUrl": "urn:uuid:35b356ea-a3d2-fdcb-1125-abe7b427a95b",
+      "fullUrl": "urn:uuid:378e9d76-db69-45bb-06df-d63f96e10619",
       "resource": {
         "resourceType": "Observation",
-        "id": "35b356ea-a3d2-fdcb-1125-abe7b427a95b",
+        "id": "378e9d76-db69-45bb-06df-d63f96e10619",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1169,19 +1163,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/35b356ea-a3d2-fdcb-1125-abe7b427a95b"
+        "url": "Observation/378e9d76-db69-45bb-06df-d63f96e10619"
       }
     },
     {
-      "fullUrl": "urn:uuid:d1210b9a-0af1-4b19-d641-92ca3a4a6249",
+      "fullUrl": "urn:uuid:48f1b3a3-dff2-36e3-f729-e444ae9b052a",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "d1210b9a-0af1-4b19-d641-92ca3a4a6249",
+        "id": "48f1b3a3-dff2-36e3-f729-e444ae9b052a",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1198,11 +1192,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/dfea8864-c62e-aaf7-147b-157a6714c7d8"
+            "reference": "Observation/a7b1cb64-7121-3dfe-8605-889d1ff3511d"
           }
         ],
         "meta": {
@@ -1213,14 +1207,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/d1210b9a-0af1-4b19-d641-92ca3a4a6249"
+        "url": "DiagnosticReport/48f1b3a3-dff2-36e3-f729-e444ae9b052a"
       }
     },
     {
-      "fullUrl": "urn:uuid:dfea8864-c62e-aaf7-147b-157a6714c7d8",
+      "fullUrl": "urn:uuid:a7b1cb64-7121-3dfe-8605-889d1ff3511d",
       "resource": {
         "resourceType": "Observation",
-        "id": "dfea8864-c62e-aaf7-147b-157a6714c7d8",
+        "id": "a7b1cb64-7121-3dfe-8605-889d1ff3511d",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1276,19 +1270,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/dfea8864-c62e-aaf7-147b-157a6714c7d8"
+        "url": "Observation/a7b1cb64-7121-3dfe-8605-889d1ff3511d"
       }
     },
     {
-      "fullUrl": "urn:uuid:d99eb0c7-7cb8-cf08-0cc4-9af45731e81d",
+      "fullUrl": "urn:uuid:19acf2c3-621b-2615-15fa-46d0242a6720",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "d99eb0c7-7cb8-cf08-0cc4-9af45731e81d",
+        "id": "19acf2c3-621b-2615-15fa-46d0242a6720",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1305,11 +1299,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/fea7405e-c98f-04eb-9b21-c396a9acbeb7"
+            "reference": "Observation/81503091-497e-5d02-4115-a9b94e3f3c87"
           }
         ],
         "meta": {
@@ -1320,14 +1314,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/d99eb0c7-7cb8-cf08-0cc4-9af45731e81d"
+        "url": "DiagnosticReport/19acf2c3-621b-2615-15fa-46d0242a6720"
       }
     },
     {
-      "fullUrl": "urn:uuid:fea7405e-c98f-04eb-9b21-c396a9acbeb7",
+      "fullUrl": "urn:uuid:81503091-497e-5d02-4115-a9b94e3f3c87",
       "resource": {
         "resourceType": "Observation",
-        "id": "fea7405e-c98f-04eb-9b21-c396a9acbeb7",
+        "id": "81503091-497e-5d02-4115-a9b94e3f3c87",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1383,19 +1377,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/fea7405e-c98f-04eb-9b21-c396a9acbeb7"
+        "url": "Observation/81503091-497e-5d02-4115-a9b94e3f3c87"
       }
     },
     {
-      "fullUrl": "urn:uuid:861d022f-9cee-e917-520e-8142544ee604",
+      "fullUrl": "urn:uuid:b14ad53d-d2f5-d7ff-ed96-231f8439f917",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "861d022f-9cee-e917-520e-8142544ee604",
+        "id": "b14ad53d-d2f5-d7ff-ed96-231f8439f917",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1412,11 +1406,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/34fb1c83-e01f-79ce-48e4-1e4ddf58343f"
+            "reference": "Observation/ac4992a1-cbfe-dfcf-5f6b-ca49aa06cddd"
           }
         ],
         "meta": {
@@ -1427,14 +1421,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/861d022f-9cee-e917-520e-8142544ee604"
+        "url": "DiagnosticReport/b14ad53d-d2f5-d7ff-ed96-231f8439f917"
       }
     },
     {
-      "fullUrl": "urn:uuid:34fb1c83-e01f-79ce-48e4-1e4ddf58343f",
+      "fullUrl": "urn:uuid:ac4992a1-cbfe-dfcf-5f6b-ca49aa06cddd",
       "resource": {
         "resourceType": "Observation",
-        "id": "34fb1c83-e01f-79ce-48e4-1e4ddf58343f",
+        "id": "ac4992a1-cbfe-dfcf-5f6b-ca49aa06cddd",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1490,19 +1484,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/34fb1c83-e01f-79ce-48e4-1e4ddf58343f"
+        "url": "Observation/ac4992a1-cbfe-dfcf-5f6b-ca49aa06cddd"
       }
     },
     {
-      "fullUrl": "urn:uuid:36d0a116-0727-7cd9-d38b-44771983da79",
+      "fullUrl": "urn:uuid:2778fed1-c918-de35-49e1-822b3eac3257",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "36d0a116-0727-7cd9-d38b-44771983da79",
+        "id": "2778fed1-c918-de35-49e1-822b3eac3257",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1519,11 +1513,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/9f8b4625-4a0e-e517-2f61-0a643bf07c5e"
+            "reference": "Observation/aeeb7e8a-7b73-55f7-148e-4fdfc078285b"
           }
         ],
         "meta": {
@@ -1534,14 +1528,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/36d0a116-0727-7cd9-d38b-44771983da79"
+        "url": "DiagnosticReport/2778fed1-c918-de35-49e1-822b3eac3257"
       }
     },
     {
-      "fullUrl": "urn:uuid:9f8b4625-4a0e-e517-2f61-0a643bf07c5e",
+      "fullUrl": "urn:uuid:aeeb7e8a-7b73-55f7-148e-4fdfc078285b",
       "resource": {
         "resourceType": "Observation",
-        "id": "9f8b4625-4a0e-e517-2f61-0a643bf07c5e",
+        "id": "aeeb7e8a-7b73-55f7-148e-4fdfc078285b",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1597,19 +1591,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/9f8b4625-4a0e-e517-2f61-0a643bf07c5e"
+        "url": "Observation/aeeb7e8a-7b73-55f7-148e-4fdfc078285b"
       }
     },
     {
-      "fullUrl": "urn:uuid:259bfc8f-4db4-a39b-b07e-f90facb7267d",
+      "fullUrl": "urn:uuid:9ded2d62-e1c9-17de-7bfa-a17b7db73e6f",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "259bfc8f-4db4-a39b-b07e-f90facb7267d",
+        "id": "9ded2d62-e1c9-17de-7bfa-a17b7db73e6f",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1626,11 +1620,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/0e61f8f8-5cc6-eb99-5aa1-5cdaacc6cba9"
+            "reference": "Observation/3d8742ee-44b7-2bc3-1515-d1c4771e6fb2"
           }
         ],
         "meta": {
@@ -1641,14 +1635,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/259bfc8f-4db4-a39b-b07e-f90facb7267d"
+        "url": "DiagnosticReport/9ded2d62-e1c9-17de-7bfa-a17b7db73e6f"
       }
     },
     {
-      "fullUrl": "urn:uuid:0e61f8f8-5cc6-eb99-5aa1-5cdaacc6cba9",
+      "fullUrl": "urn:uuid:3d8742ee-44b7-2bc3-1515-d1c4771e6fb2",
       "resource": {
         "resourceType": "Observation",
-        "id": "0e61f8f8-5cc6-eb99-5aa1-5cdaacc6cba9",
+        "id": "3d8742ee-44b7-2bc3-1515-d1c4771e6fb2",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1685,19 +1679,19 @@
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "valueString": "UNK",
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/0e61f8f8-5cc6-eb99-5aa1-5cdaacc6cba9"
+        "url": "Observation/3d8742ee-44b7-2bc3-1515-d1c4771e6fb2"
       }
     },
     {
-      "fullUrl": "urn:uuid:4c7fbf9f-5d5e-de39-9942-6159a60b6d6d",
+      "fullUrl": "urn:uuid:87c11304-99f8-f413-ecfd-7bb5e6e73037",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "4c7fbf9f-5d5e-de39-9942-6159a60b6d6d",
+        "id": "87c11304-99f8-f413-ecfd-7bb5e6e73037",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1714,11 +1708,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/de6db888-98e1-6f2b-de82-a623a35d6324"
+            "reference": "Observation/c5c046e4-b0eb-3210-114c-7be495e24a3f"
           }
         ],
         "meta": {
@@ -1729,14 +1723,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/4c7fbf9f-5d5e-de39-9942-6159a60b6d6d"
+        "url": "DiagnosticReport/87c11304-99f8-f413-ecfd-7bb5e6e73037"
       }
     },
     {
-      "fullUrl": "urn:uuid:de6db888-98e1-6f2b-de82-a623a35d6324",
+      "fullUrl": "urn:uuid:c5c046e4-b0eb-3210-114c-7be495e24a3f",
       "resource": {
         "resourceType": "Observation",
-        "id": "de6db888-98e1-6f2b-de82-a623a35d6324",
+        "id": "c5c046e4-b0eb-3210-114c-7be495e24a3f",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1792,19 +1786,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/de6db888-98e1-6f2b-de82-a623a35d6324"
+        "url": "Observation/c5c046e4-b0eb-3210-114c-7be495e24a3f"
       }
     },
     {
-      "fullUrl": "urn:uuid:cf7602e3-f40a-8ef5-9ffc-63eb6f435a8e",
+      "fullUrl": "urn:uuid:394d5626-06b2-3a16-ab77-33764ed9fc6e",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "cf7602e3-f40a-8ef5-9ffc-63eb6f435a8e",
+        "id": "394d5626-06b2-3a16-ab77-33764ed9fc6e",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1821,11 +1815,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/7063c71f-7ff6-75c1-045f-54645c82cbaa"
+            "reference": "Observation/546deab4-bca2-d056-24e3-d5bcde20d975"
           }
         ],
         "meta": {
@@ -1836,14 +1830,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/cf7602e3-f40a-8ef5-9ffc-63eb6f435a8e"
+        "url": "DiagnosticReport/394d5626-06b2-3a16-ab77-33764ed9fc6e"
       }
     },
     {
-      "fullUrl": "urn:uuid:7063c71f-7ff6-75c1-045f-54645c82cbaa",
+      "fullUrl": "urn:uuid:546deab4-bca2-d056-24e3-d5bcde20d975",
       "resource": {
         "resourceType": "Observation",
-        "id": "7063c71f-7ff6-75c1-045f-54645c82cbaa",
+        "id": "546deab4-bca2-d056-24e3-d5bcde20d975",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1880,19 +1874,19 @@
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "valueString": "UNK",
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/7063c71f-7ff6-75c1-045f-54645c82cbaa"
+        "url": "Observation/546deab4-bca2-d056-24e3-d5bcde20d975"
       }
     },
     {
-      "fullUrl": "urn:uuid:33ee44b3-78cc-bfe5-6dd3-6434229ccc1a",
+      "fullUrl": "urn:uuid:c53adedd-3f8b-cf55-1d8b-2c2b6b6a00ae",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "33ee44b3-78cc-bfe5-6dd3-6434229ccc1a",
+        "id": "c53adedd-3f8b-cf55-1d8b-2c2b6b6a00ae",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1909,11 +1903,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/0d1c42db-6db9-9579-a3e8-4d38eeaf7853"
+            "reference": "Observation/2e39b82b-8663-164f-11a6-31fdbba093b7"
           }
         ],
         "meta": {
@@ -1924,14 +1918,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/33ee44b3-78cc-bfe5-6dd3-6434229ccc1a"
+        "url": "DiagnosticReport/c53adedd-3f8b-cf55-1d8b-2c2b6b6a00ae"
       }
     },
     {
-      "fullUrl": "urn:uuid:0d1c42db-6db9-9579-a3e8-4d38eeaf7853",
+      "fullUrl": "urn:uuid:2e39b82b-8663-164f-11a6-31fdbba093b7",
       "resource": {
         "resourceType": "Observation",
-        "id": "0d1c42db-6db9-9579-a3e8-4d38eeaf7853",
+        "id": "2e39b82b-8663-164f-11a6-31fdbba093b7",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1968,19 +1962,19 @@
         },
         "effectiveDateTime": "2022-05-13T07:43:00Z",
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/0d1c42db-6db9-9579-a3e8-4d38eeaf7853"
+        "url": "Observation/2e39b82b-8663-164f-11a6-31fdbba093b7"
       }
     },
     {
-      "fullUrl": "urn:uuid:ec1a4982-53cc-baf0-0297-88903a704089",
+      "fullUrl": "urn:uuid:214efd8c-7cc1-b5a9-23d9-938bf05d71aa",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "ec1a4982-53cc-baf0-0297-88903a704089",
+        "id": "214efd8c-7cc1-b5a9-23d9-938bf05d71aa",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -1997,11 +1991,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/090881d5-3f85-01a7-1eec-d05473d48731"
+            "reference": "Observation/ed81d103-56dc-f9b9-ccc6-315503cb75b8"
           }
         ],
         "meta": {
@@ -2012,14 +2006,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/ec1a4982-53cc-baf0-0297-88903a704089"
+        "url": "DiagnosticReport/214efd8c-7cc1-b5a9-23d9-938bf05d71aa"
       }
     },
     {
-      "fullUrl": "urn:uuid:090881d5-3f85-01a7-1eec-d05473d48731",
+      "fullUrl": "urn:uuid:ed81d103-56dc-f9b9-ccc6-315503cb75b8",
       "resource": {
         "resourceType": "Observation",
-        "id": "090881d5-3f85-01a7-1eec-d05473d48731",
+        "id": "ed81d103-56dc-f9b9-ccc6-315503cb75b8",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2076,19 +2070,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/090881d5-3f85-01a7-1eec-d05473d48731"
+        "url": "Observation/ed81d103-56dc-f9b9-ccc6-315503cb75b8"
       }
     },
     {
-      "fullUrl": "urn:uuid:0977f67a-17c7-38cc-ff2a-a8ec3f7feadf",
+      "fullUrl": "urn:uuid:4d8397b2-f3da-0109-6e5b-a3ecc1261dc0",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "0977f67a-17c7-38cc-ff2a-a8ec3f7feadf",
+        "id": "4d8397b2-f3da-0109-6e5b-a3ecc1261dc0",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2105,11 +2099,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/8c4dc57d-6412-bfd3-b057-c746c4d7d9eb"
+            "reference": "Observation/b055bbba-9778-0f5d-1ed4-0415c127aeec"
           }
         ],
         "meta": {
@@ -2120,14 +2114,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/0977f67a-17c7-38cc-ff2a-a8ec3f7feadf"
+        "url": "DiagnosticReport/4d8397b2-f3da-0109-6e5b-a3ecc1261dc0"
       }
     },
     {
-      "fullUrl": "urn:uuid:8c4dc57d-6412-bfd3-b057-c746c4d7d9eb",
+      "fullUrl": "urn:uuid:b055bbba-9778-0f5d-1ed4-0415c127aeec",
       "resource": {
         "resourceType": "Observation",
-        "id": "8c4dc57d-6412-bfd3-b057-c746c4d7d9eb",
+        "id": "b055bbba-9778-0f5d-1ed4-0415c127aeec",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2183,19 +2177,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/8c4dc57d-6412-bfd3-b057-c746c4d7d9eb"
+        "url": "Observation/b055bbba-9778-0f5d-1ed4-0415c127aeec"
       }
     },
     {
-      "fullUrl": "urn:uuid:96ba55d5-be22-8972-96c3-0eafa6e269f0",
+      "fullUrl": "urn:uuid:be6bf447-8458-cbbd-f521-32ae4585f607",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "96ba55d5-be22-8972-96c3-0eafa6e269f0",
+        "id": "be6bf447-8458-cbbd-f521-32ae4585f607",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2212,11 +2206,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/1f898244-6fa0-2a38-6134-b29e9c801d1d"
+            "reference": "Observation/9f30a6e1-c3d8-bef3-df89-b7c64b9bada4"
           }
         ],
         "meta": {
@@ -2227,14 +2221,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/96ba55d5-be22-8972-96c3-0eafa6e269f0"
+        "url": "DiagnosticReport/be6bf447-8458-cbbd-f521-32ae4585f607"
       }
     },
     {
-      "fullUrl": "urn:uuid:1f898244-6fa0-2a38-6134-b29e9c801d1d",
+      "fullUrl": "urn:uuid:9f30a6e1-c3d8-bef3-df89-b7c64b9bada4",
       "resource": {
         "resourceType": "Observation",
-        "id": "1f898244-6fa0-2a38-6134-b29e9c801d1d",
+        "id": "9f30a6e1-c3d8-bef3-df89-b7c64b9bada4",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2290,19 +2284,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/1f898244-6fa0-2a38-6134-b29e9c801d1d"
+        "url": "Observation/9f30a6e1-c3d8-bef3-df89-b7c64b9bada4"
       }
     },
     {
-      "fullUrl": "urn:uuid:bea5cde7-9313-fcc2-1f92-7d8e6a12247e",
+      "fullUrl": "urn:uuid:932fc1a5-f543-da9f-0c33-f3e9a2f87274",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "bea5cde7-9313-fcc2-1f92-7d8e6a12247e",
+        "id": "932fc1a5-f543-da9f-0c33-f3e9a2f87274",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2319,11 +2313,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/92719f56-3c90-a5d3-09d2-d77960b035c6"
+            "reference": "Observation/8347a4a4-68d7-c939-a39a-1c83ade11da9"
           }
         ],
         "meta": {
@@ -2334,14 +2328,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/bea5cde7-9313-fcc2-1f92-7d8e6a12247e"
+        "url": "DiagnosticReport/932fc1a5-f543-da9f-0c33-f3e9a2f87274"
       }
     },
     {
-      "fullUrl": "urn:uuid:92719f56-3c90-a5d3-09d2-d77960b035c6",
+      "fullUrl": "urn:uuid:8347a4a4-68d7-c939-a39a-1c83ade11da9",
       "resource": {
         "resourceType": "Observation",
-        "id": "92719f56-3c90-a5d3-09d2-d77960b035c6",
+        "id": "8347a4a4-68d7-c939-a39a-1c83ade11da9",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2386,19 +2380,19 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/92719f56-3c90-a5d3-09d2-d77960b035c6"
+        "url": "Observation/8347a4a4-68d7-c939-a39a-1c83ade11da9"
       }
     },
     {
-      "fullUrl": "urn:uuid:fea1879c-f4ce-df5a-b5c5-54a659817c08",
+      "fullUrl": "urn:uuid:15c3111a-f473-9c40-6d5c-d1862e5315c6",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "fea1879c-f4ce-df5a-b5c5-54a659817c08",
+        "id": "15c3111a-f473-9c40-6d5c-d1862e5315c6",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2415,11 +2409,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/0711c2b6-f95a-e42b-23a1-718ded8a7c06"
+            "reference": "Observation/247c7366-60be-2ba4-1667-dc4a2cffdcdf"
           }
         ],
         "meta": {
@@ -2430,14 +2424,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/fea1879c-f4ce-df5a-b5c5-54a659817c08"
+        "url": "DiagnosticReport/15c3111a-f473-9c40-6d5c-d1862e5315c6"
       }
     },
     {
-      "fullUrl": "urn:uuid:0711c2b6-f95a-e42b-23a1-718ded8a7c06",
+      "fullUrl": "urn:uuid:247c7366-60be-2ba4-1667-dc4a2cffdcdf",
       "resource": {
         "resourceType": "Observation",
-        "id": "0711c2b6-f95a-e42b-23a1-718ded8a7c06",
+        "id": "247c7366-60be-2ba4-1667-dc4a2cffdcdf",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2473,19 +2467,19 @@
         },
         "effectiveDateTime": "2022-05-13T06:52:00Z",
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/0711c2b6-f95a-e42b-23a1-718ded8a7c06"
+        "url": "Observation/247c7366-60be-2ba4-1667-dc4a2cffdcdf"
       }
     },
     {
-      "fullUrl": "urn:uuid:3e3f64e8-1c16-788f-a891-e1b4d4729920",
+      "fullUrl": "urn:uuid:08fe9462-943c-4271-680d-3010fabab539",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "3e3f64e8-1c16-788f-a891-e1b4d4729920",
+        "id": "08fe9462-943c-4271-680d-3010fabab539",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2502,11 +2496,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/9a67c1e6-a7fa-9f18-b0d4-b60b46ce4559"
+            "reference": "Observation/5d87c713-c202-2486-c0c2-5d6d691af42f"
           }
         ],
         "meta": {
@@ -2517,14 +2511,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/3e3f64e8-1c16-788f-a891-e1b4d4729920"
+        "url": "DiagnosticReport/08fe9462-943c-4271-680d-3010fabab539"
       }
     },
     {
-      "fullUrl": "urn:uuid:9a67c1e6-a7fa-9f18-b0d4-b60b46ce4559",
+      "fullUrl": "urn:uuid:5d87c713-c202-2486-c0c2-5d6d691af42f",
       "resource": {
         "resourceType": "Observation",
-        "id": "9a67c1e6-a7fa-9f18-b0d4-b60b46ce4559",
+        "id": "5d87c713-c202-2486-c0c2-5d6d691af42f",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2580,19 +2574,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/9a67c1e6-a7fa-9f18-b0d4-b60b46ce4559"
+        "url": "Observation/5d87c713-c202-2486-c0c2-5d6d691af42f"
       }
     },
     {
-      "fullUrl": "urn:uuid:523eb7e9-24af-a0c1-31f1-9dcd27018220",
+      "fullUrl": "urn:uuid:3ab6636a-73c4-e6be-5f1d-f35b83f4c90d",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "523eb7e9-24af-a0c1-31f1-9dcd27018220",
+        "id": "3ab6636a-73c4-e6be-5f1d-f35b83f4c90d",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2609,11 +2603,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/e77c823d-5d72-f993-83a4-addba317350b"
+            "reference": "Observation/a1993689-9c3a-6986-9d21-e7515972f8c2"
           }
         ],
         "meta": {
@@ -2624,14 +2618,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/523eb7e9-24af-a0c1-31f1-9dcd27018220"
+        "url": "DiagnosticReport/3ab6636a-73c4-e6be-5f1d-f35b83f4c90d"
       }
     },
     {
-      "fullUrl": "urn:uuid:e77c823d-5d72-f993-83a4-addba317350b",
+      "fullUrl": "urn:uuid:a1993689-9c3a-6986-9d21-e7515972f8c2",
       "resource": {
         "resourceType": "Observation",
-        "id": "e77c823d-5d72-f993-83a4-addba317350b",
+        "id": "a1993689-9c3a-6986-9d21-e7515972f8c2",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2668,19 +2662,19 @@
         "effectiveDateTime": "2022-05-13T06:52:00Z",
         "valueString": "Trace-lysed",
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/e77c823d-5d72-f993-83a4-addba317350b"
+        "url": "Observation/a1993689-9c3a-6986-9d21-e7515972f8c2"
       }
     },
     {
-      "fullUrl": "urn:uuid:d0da98bc-086f-9011-ee56-a13090a1a1be",
+      "fullUrl": "urn:uuid:8d531a14-eaa1-4503-b5e6-5a70be3908dc",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "d0da98bc-086f-9011-ee56-a13090a1a1be",
+        "id": "8d531a14-eaa1-4503-b5e6-5a70be3908dc",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2697,11 +2691,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/b44c04d7-dbb2-ff34-dac2-690388da9d09"
+            "reference": "Observation/0909ed94-9369-57cb-60a3-353c08947a8a"
           }
         ],
         "meta": {
@@ -2712,14 +2706,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/d0da98bc-086f-9011-ee56-a13090a1a1be"
+        "url": "DiagnosticReport/8d531a14-eaa1-4503-b5e6-5a70be3908dc"
       }
     },
     {
-      "fullUrl": "urn:uuid:b44c04d7-dbb2-ff34-dac2-690388da9d09",
+      "fullUrl": "urn:uuid:0909ed94-9369-57cb-60a3-353c08947a8a",
       "resource": {
         "resourceType": "Observation",
-        "id": "b44c04d7-dbb2-ff34-dac2-690388da9d09",
+        "id": "0909ed94-9369-57cb-60a3-353c08947a8a",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2766,19 +2760,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/b44c04d7-dbb2-ff34-dac2-690388da9d09"
+        "url": "Observation/0909ed94-9369-57cb-60a3-353c08947a8a"
       }
     },
     {
-      "fullUrl": "urn:uuid:2f0526e9-b82b-151b-f53b-70daab46eb05",
+      "fullUrl": "urn:uuid:6e4e508c-1381-215d-8fa3-3958fcf1573a",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "2f0526e9-b82b-151b-f53b-70daab46eb05",
+        "id": "6e4e508c-1381-215d-8fa3-3958fcf1573a",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2795,11 +2789,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/54bb27a5-60b3-5431-eb1c-5a50457bc971"
+            "reference": "Observation/304a0b98-17f1-b855-6f0f-bb507f3045ad"
           }
         ],
         "meta": {
@@ -2810,14 +2804,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/2f0526e9-b82b-151b-f53b-70daab46eb05"
+        "url": "DiagnosticReport/6e4e508c-1381-215d-8fa3-3958fcf1573a"
       }
     },
     {
-      "fullUrl": "urn:uuid:54bb27a5-60b3-5431-eb1c-5a50457bc971",
+      "fullUrl": "urn:uuid:304a0b98-17f1-b855-6f0f-bb507f3045ad",
       "resource": {
         "resourceType": "Observation",
-        "id": "54bb27a5-60b3-5431-eb1c-5a50457bc971",
+        "id": "304a0b98-17f1-b855-6f0f-bb507f3045ad",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2864,19 +2858,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/54bb27a5-60b3-5431-eb1c-5a50457bc971"
+        "url": "Observation/304a0b98-17f1-b855-6f0f-bb507f3045ad"
       }
     },
     {
-      "fullUrl": "urn:uuid:cedc4b0e-b649-5fb6-102d-be88a3864071",
+      "fullUrl": "urn:uuid:48b8b9fb-2867-9b86-684a-d7ce3e02e37f",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "cedc4b0e-b649-5fb6-102d-be88a3864071",
+        "id": "48b8b9fb-2867-9b86-684a-d7ce3e02e37f",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2893,11 +2887,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/f404e01d-130c-5a6a-66f4-95aa95e46ba2"
+            "reference": "Observation/b7f26954-ec35-0dbd-da80-48b380621693"
           }
         ],
         "meta": {
@@ -2908,14 +2902,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/cedc4b0e-b649-5fb6-102d-be88a3864071"
+        "url": "DiagnosticReport/48b8b9fb-2867-9b86-684a-d7ce3e02e37f"
       }
     },
     {
-      "fullUrl": "urn:uuid:f404e01d-130c-5a6a-66f4-95aa95e46ba2",
+      "fullUrl": "urn:uuid:b7f26954-ec35-0dbd-da80-48b380621693",
       "resource": {
         "resourceType": "Observation",
-        "id": "f404e01d-130c-5a6a-66f4-95aa95e46ba2",
+        "id": "b7f26954-ec35-0dbd-da80-48b380621693",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2962,19 +2956,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/f404e01d-130c-5a6a-66f4-95aa95e46ba2"
+        "url": "Observation/b7f26954-ec35-0dbd-da80-48b380621693"
       }
     },
     {
-      "fullUrl": "urn:uuid:e074e1da-5569-2f0f-5713-352a4fbb680c",
+      "fullUrl": "urn:uuid:d7f0d92a-69b0-f09c-ba69-16cc4448ae7f",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "e074e1da-5569-2f0f-5713-352a4fbb680c",
+        "id": "d7f0d92a-69b0-f09c-ba69-16cc4448ae7f",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -2991,11 +2985,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/3b92beb6-3611-a822-04f5-a80be5aec253"
+            "reference": "Observation/83a07fb4-b3c1-118a-ac11-a3232785ac3b"
           }
         ],
         "meta": {
@@ -3006,14 +3000,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/e074e1da-5569-2f0f-5713-352a4fbb680c"
+        "url": "DiagnosticReport/d7f0d92a-69b0-f09c-ba69-16cc4448ae7f"
       }
     },
     {
-      "fullUrl": "urn:uuid:3b92beb6-3611-a822-04f5-a80be5aec253",
+      "fullUrl": "urn:uuid:83a07fb4-b3c1-118a-ac11-a3232785ac3b",
       "resource": {
         "resourceType": "Observation",
-        "id": "3b92beb6-3611-a822-04f5-a80be5aec253",
+        "id": "83a07fb4-b3c1-118a-ac11-a3232785ac3b",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3060,19 +3054,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/3b92beb6-3611-a822-04f5-a80be5aec253"
+        "url": "Observation/83a07fb4-b3c1-118a-ac11-a3232785ac3b"
       }
     },
     {
-      "fullUrl": "urn:uuid:abb2e0ce-f1f6-4cf2-0302-79c4af619e76",
+      "fullUrl": "urn:uuid:f1585cb1-ec32-8e5d-572a-95941db69548",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "abb2e0ce-f1f6-4cf2-0302-79c4af619e76",
+        "id": "f1585cb1-ec32-8e5d-572a-95941db69548",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -3089,11 +3083,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/4b75a20b-ddce-162f-d08e-f61d4988e4a3"
+            "reference": "Observation/f73f0c43-7283-9ace-b129-68555b0eef89"
           }
         ],
         "meta": {
@@ -3104,14 +3098,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/abb2e0ce-f1f6-4cf2-0302-79c4af619e76"
+        "url": "DiagnosticReport/f1585cb1-ec32-8e5d-572a-95941db69548"
       }
     },
     {
-      "fullUrl": "urn:uuid:4b75a20b-ddce-162f-d08e-f61d4988e4a3",
+      "fullUrl": "urn:uuid:f73f0c43-7283-9ace-b129-68555b0eef89",
       "resource": {
         "resourceType": "Observation",
-        "id": "4b75a20b-ddce-162f-d08e-f61d4988e4a3",
+        "id": "f73f0c43-7283-9ace-b129-68555b0eef89",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3158,19 +3152,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/4b75a20b-ddce-162f-d08e-f61d4988e4a3"
+        "url": "Observation/f73f0c43-7283-9ace-b129-68555b0eef89"
       }
     },
     {
-      "fullUrl": "urn:uuid:9f900667-fbb0-2398-20d9-455f42aea9f2",
+      "fullUrl": "urn:uuid:8b4a95b0-98bf-126f-3a73-39f4725e3dc9",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "9f900667-fbb0-2398-20d9-455f42aea9f2",
+        "id": "8b4a95b0-98bf-126f-3a73-39f4725e3dc9",
         "identifier": [
           {
             "system": "urn:ietf:rfc:3986",
@@ -3187,11 +3181,11 @@
           ]
         },
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         },
         "result": [
           {
-            "reference": "Observation/53a7d568-ba4e-4c78-432c-409d77871dd5"
+            "reference": "Observation/eb888a57-1652-152f-705c-6014061a43e0"
           }
         ],
         "meta": {
@@ -3202,14 +3196,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/9f900667-fbb0-2398-20d9-455f42aea9f2"
+        "url": "DiagnosticReport/8b4a95b0-98bf-126f-3a73-39f4725e3dc9"
       }
     },
     {
-      "fullUrl": "urn:uuid:53a7d568-ba4e-4c78-432c-409d77871dd5",
+      "fullUrl": "urn:uuid:eb888a57-1652-152f-705c-6014061a43e0",
       "resource": {
         "resourceType": "Observation",
-        "id": "53a7d568-ba4e-4c78-432c-409d77871dd5",
+        "id": "eb888a57-1652-152f-705c-6014061a43e0",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3256,53 +3250,19 @@
           }
         ],
         "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
+          "reference": "Patient/0a07ae90-e6fe-42d0-97a5-e9ddc50bc527"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/53a7d568-ba4e-4c78-432c-409d77871dd5"
+        "url": "Observation/eb888a57-1652-152f-705c-6014061a43e0"
       }
     },
     {
-      "fullUrl": "urn:uuid:3bd09111-ae6b-0357-cbda-526c275da43b",
+      "fullUrl": "urn:uuid:334a7b0b-e775-63c1-3461-49e6c5e1e3c1",
       "resource": {
         "resourceType": "Observation",
-        "id": "3bd09111-ae6b-0357-cbda-526c275da43b",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation"
-          ],
-          "source": [
-            "ecr"
-          ]
-        },
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "76690-7",
-              "display": "Sexual orientation"
-            }
-          ],
-          "text": "Sexual orientation"
-        },
-        "status": "final",
-        "valueString": "Do not know",
-        "subject": {
-          "reference": "Patient/6b6b3c4c-4884-4a96-b6ab-c46406839cea"
-        }
-      },
-      "request": {
-        "method": "PUT",
-        "url": "Observation/3bd09111-ae6b-0357-cbda-526c275da43b"
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:595b1386-09d2-7dfb-d414-fb1e5043013d",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "595b1386-09d2-7dfb-d414-fb1e5043013d",
+        "id": "334a7b0b-e775-63c1-3461-49e6c5e1e3c1",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history"
@@ -3332,20 +3292,58 @@
                   "display": "Location"
                 }
               ]
-            },
-            "valueCodeableConcept": {
-              "text": "Traveled to Singapore, Malaysia and Bali with my family."
             }
           }
         ],
-        "effectivePeriod": {
-          "start": "2018-01-18",
-          "end": "2018-02-18"
-        }
+        "effectiveDateTime": "2022-05-13T07:31:02Z"
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/595b1386-09d2-7dfb-d414-fb1e5043013d"
+        "url": "Observation/334a7b0b-e775-63c1-3461-49e6c5e1e3c1"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c368a59d-afcf-2b68-0ed6-164deb6eddfd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c368a59d-afcf-2b68-0ed6-164deb6eddfd",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "420008001",
+              "display": "Travel"
+            }
+          ],
+          "text": "Travel History"
+        },
+        "status": "final",
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                  "code": "LOC",
+                  "display": "Location"
+                }
+              ]
+            }
+          }
+        ],
+        "effectiveDateTime": "2022-05-13T07:25:22Z"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c368a59d-afcf-2b68-0ed6-164deb6eddfd"
       }
     }
   ]
