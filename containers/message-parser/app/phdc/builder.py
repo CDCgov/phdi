@@ -200,6 +200,19 @@ class PHDCBuilder:
 
         return telecom_data
 
+    def _add_field(self, parent_element: ET.Element, data: str, field_name: str):
+        """
+        Adds a child element to a parent element given the data and field name.
+        
+        :param parent_element: The parent element to add the child element to.
+        :param data: The data to add to the child element.
+        :param field_name: The name of the child element.
+        """
+        if data is not None:
+            e = ET.Element(field_name)
+            e.text = data
+            parent_element.append(e)
+
     def _build_addr(
         self,
         address: Address,
@@ -213,22 +226,16 @@ class PHDCBuilder:
         """
         address_data = ET.Element("addr")
 
-        def add_field(data, field_name: str):
-            if data is not None:
-                e = ET.Element(field_name)
-                e.text = data
-                address_data.append(e)
-
         if address.type is not None:
             address_data.set("use", "H" if address.type.lower() == "home" else "WP")
 
-        add_field(address.street_address_line_1, "streetAddressLine")
-        add_field(address.street_address_line_2, "streetAddressLine")
-        add_field(address.city, "city")
-        add_field(address.state, "state")
-        add_field(address.postal_code, "postalCode")
-        add_field(address.county, "county")
-        add_field(address.country, "country")
+        self._add_field(address_data, address.street_address_line_1, "streetAddressLine")
+        self._add_field(address_data, address.street_address_line_2, "streetAddressLine")
+        self._add_field(address_data, address.city, "city")
+        self._add_field(address_data, address.state, "state")
+        self._add_field(address_data, address.postal_code, "postalCode")
+        self._add_field(address_data, address.county, "county")
+        self._add_field(address_data, address.country, "country")
 
         return address_data
 
@@ -242,12 +249,6 @@ class PHDCBuilder:
 
         name_data = ET.Element("name")
 
-        def add_field(data, field_name: str):
-            if data is not None:
-                e = ET.Element(field_name)
-                e.text = data
-                name_data.append(e)
-
         if name.type is not None:
             types = {
                 "official": "L",
@@ -258,11 +259,11 @@ class PHDCBuilder:
             }
             name_data.set("use", types[name.type])
 
-        add_field(name.prefix, "prefix")
-        add_field(name.first, "given")
-        add_field(name.middle, "given")
-        add_field(name.family, "family")
-        add_field(name.suffix, "suffix")
+        self._add_field(name_data, name.prefix, "prefix")
+        self._add_field(name_data, name.first, "given")
+        self._add_field(name_data, name.middle, "given")
+        self._add_field(name_data, name.family, "family")
+        self._add_field(name_data, name.suffix, "suffix")
 
         return name_data
 
