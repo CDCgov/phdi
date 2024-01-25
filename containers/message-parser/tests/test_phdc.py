@@ -338,3 +338,60 @@ def test_build_header(build_header_test_data, expected_result):
     builder.build_header()
     phdc = builder.build()
     assert phdc.to_xml_string() == expected_result
+
+
+def test_build_base_phdc():
+    builder = PHDCBuilder()
+    base_phdc = builder._build_base_phdc()
+    assert (
+        ET.tostring(base_phdc)
+        == b'<?xml-stylesheet type="text/xsl" href="PHDC.xsl"?><ClinicalDocument '
+        b'xmlns="urn:hl7-org:v3" xmlns:sdt="urn:hl7-org:sdtc" '
+        b'xmlns:sdtcxmlnamespaceholder="urn:hl7-org:v3" '
+        b'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+        b'xsi:schemaLocation="urn:hl7-org:v3 CDA_SDTC.xsd"/>'
+    )
+
+
+def test_get_type_id():
+    builder = PHDCBuilder()
+    type_id = builder._get_type_id()
+    assert (
+        ET.tostring(type_id)
+        == b'<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000020"/>'
+    )
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+def test_get_id():
+    builder = PHDCBuilder()
+    id = builder._get_id()
+    assert (
+        ET.tostring(id) == b'<id root="2.16.840.1.113883.19" extension="mocked-uuid"/>'
+    )
+
+
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
+def test_get_effective_time():
+    builder = PHDCBuilder()
+    effective_time = builder._get_effective_time()
+    assert ET.tostring(effective_time) == b'<effectiveTime value="20101215000000"/>'
+
+
+def test_get_confidentiality_code():
+    builder = PHDCBuilder()
+    confidentiality_code = builder._get_confidentiality_code(confidentiality="normal")
+    assert (
+        ET.tostring(confidentiality_code)
+        == b'<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>'
+    )
+
+
+def test_get_case_report_code():
+    builder = PHDCBuilder()
+    case_report_code = builder._get_case_report_code()
+    assert (
+        ET.tostring(case_report_code)
+        == b'<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" '
+        b'codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>'
+    )
