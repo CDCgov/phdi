@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BASEDIR=$(dirname "$0")
+set -e
 
 echo "Installing JQ"
 if brew list jq &>/dev/null; then
