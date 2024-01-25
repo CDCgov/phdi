@@ -34,7 +34,7 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
           <div className="data-title">
             <h4>{item.title}</h4>
           </div>
-          <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
+          <div className="grid-col-auto text-pre-line">{item.value}</div>
           <div className={"section__line_gray"} />
         </div>
       ))}
