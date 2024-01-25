@@ -395,3 +395,10 @@ def test_get_case_report_code():
         == b'<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" '
         b'codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>'
     )
+
+
+def test_add_field():
+    builder = PHDCBuilder()
+    parent = ET.Element("parent")
+    builder._add_field(parent, "test", "child")
+    assert ET.tostring(parent) == b"<parent><child>test</child></parent>"
