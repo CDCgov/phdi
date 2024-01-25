@@ -3,17 +3,19 @@ import EcrSummary from "@/app/view-data/components/EcrSummary";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import Demographics from "./components/Demographics";
-import SocialHistory from "./components/SocialHistory";
 import { Accordion, SideNav } from "@trussworks/react-uswds";
-import UnavailableInfo from "./components/UnavailableInfo";
 import {
   PathMappings,
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
+  evaluateDemographicsData,
+  evaluateEcrMetadata,
 } from "../utils";
-import EncounterDetails from "./components/Encounter";
+import Demographics from "./components/Demographics";
+import SocialHistory from "./components/SocialHistory";
+import UnavailableInfo from "./components/UnavailableInfo";
+import EcrMetadata from "./components/EcrMetadata";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -23,7 +25,6 @@ const ECRViewerPage = () => {
   const fhirId = searchParams.get("id") ?? "";
   const accordionItems: any[] = [
     {
-      title: <span id="patient-info">Patient Info</span>,
       content: null,
       expanded: true,
       id: "1",
@@ -37,18 +38,18 @@ const ECRViewerPage = () => {
       ],
     },
     {
-      title: <span id="encounter-info">Encounter Info</span>,
       content: null,
       expanded: true,
       id: "2",
       headingLevel: "h2",
       link: [
-        <a href="#encounter-info">Encounter Info</a>,
+        <a href="#ecr-metadata">eCR Metadata</a>,
         <SideNav
           isSubnav={true}
           items={[
-            <a href="#encounter-details">Encounter Details</a>,
-            <a href="#provider-details">Provider Details</a>,
+            <a href="#rr-details">RR Details</a>,
+            <a href="#eicr-details">eICR Details</a>,
+            <a href="#ecr-sender-details">eCR Sender Details</a>,
           ]}
         />,
       ],
@@ -63,11 +64,9 @@ const ECRViewerPage = () => {
     },
   ];
 
-  type FhirMappings = { [key: string]: string };
-
   type ApiResponse = {
     fhirBundle: Bundle;
-    fhirPathMappings: FhirMappings;
+    fhirPathMappings: PathMappings;
   };
 
   useEffect(() => {
@@ -92,35 +91,58 @@ const ECRViewerPage = () => {
   }, []);
 
   const renderAccordion = () => {
+    const demographicsData = evaluateDemographicsData(fhirBundle, mappings);
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
-
-    accordionItems[0].content = (
-      <div id="patient-info">
-        <Demographics fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-        {social_data.available_data.length > 0 && (
-          <SocialHistory socialData={social_data.available_data} />
-        )}
-      </div>
-    );
-    accordionItems[1].content = (
-      <div id="encounter-info">
-        <EncounterDetails
-          encounterData={encounterData.available_data}
-          providerData={providerData.available_data}
-        />
-      </div>
-    );
-    accordionItems[2].content = (
-      <div className="padding-top-105" id="unavailable-info">
-        <UnavailableInfo
-          socialUnavailableData={social_data.unavailable_data}
-          encounterUnavailableData={encounterData.unavailable_data}
-          providerUnavailableData={providerData.unavailable_data}
-        />
-      </div>
-    );
+    const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
+    const accordionItems: any[] = [
+      {
+        title: <span id="patient-info">Patient Info</span>,
+        content: (
+          <>
+            <Demographics demographicsData={demographicsData.availableData} />
+            {social_data.availableData.length > 0 && (
+              <SocialHistory socialData={social_data.availableData} />
+            )}
+          </>
+        ),
+        expanded: true,
+        id: "1",
+        headingLevel: "h2",
+      },
+      {
+        title: <span id="ecr-metadata">eCR Metadata</span>,
+        content: (
+          <>
+            <EcrMetadata
+              eicrDetails={ecrMetadata.eicrDetails.availableData}
+              eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+              rrDetails={ecrMetadata.rrDetails.availableData}
+            />
+          </>
+        ),
+        expanded: true,
+        id: "2",
+        headingLevel: "h2",
+      },
+      {
+        title: <span id="unavailable-info">Unavailable Info</span>,
+        content: (
+          <div className="padding-top-105">
+            <UnavailableInfo
+              demographicsUnavailableData={demographicsData.unavailableData}
+              socialUnavailableData={social_data.unavailableData}
+              encounterUnavailableData={encounterData.unavailableData}
+              providerUnavailableData={providerData.unavailableData}
+            />
+          </div>
+        ),
+        expanded: true,
+        id: "4",
+        headingLevel: "h2",
+      },
+    ];
 
     return (
       <Accordion

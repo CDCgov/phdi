@@ -1,4 +1,6 @@
 import os
+from os.path import dirname
+from os.path import join
 
 import pytest
 from dotenv import load_dotenv
@@ -8,7 +10,8 @@ from testcontainers.compose import DockerCompose
 @pytest.fixture(scope="session")
 def setup(request):
     print("Setting up tests...")
-    load_dotenv(dotenv_path="test.env")
+    dotenv_path = join(dirname(__file__), "test.env")
+    load_dotenv(dotenv_path)
     compose_path = os.path.join(os.path.dirname(__file__), "./")
     compose_file_name = "docker-compose.yaml"
     orchestration_service = DockerCompose(

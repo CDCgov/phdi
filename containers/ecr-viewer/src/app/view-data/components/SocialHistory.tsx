@@ -1,4 +1,9 @@
 import { DisplayData } from "@/app/utils";
+import {
+  AccordianSection,
+  AccordianH3,
+  AccordianDiv,
+} from "../component-utils";
 
 interface SocialHistoryProps {
   socialData: DisplayData[];
@@ -12,7 +17,7 @@ const SocialHistory = ({ socialData }: SocialHistoryProps) => {
           <div className="data-title">
             <h4>{item.title}</h4>
           </div>
-          <div className="grid-col-auto maxw7">{item.value}</div>
+          <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
         </div>
         <div className={"section__line_gray"} />
       </div>
@@ -20,26 +25,12 @@ const SocialHistory = ({ socialData }: SocialHistoryProps) => {
   };
 
   return (
-    <div>
-      <div
-        className="padding-bottom-3"
-        aria-labelledby="summary-box-key-information"
-      >
-        <div className="usa-summary-box__body">
-          <h3
-            className="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
-          >
-            Social History
-          </h3>
-          <div className="usa-summary-box__text">
-            {socialData.map((item, index) =>
-              renderDemographicsData(item, index),
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <AccordianSection>
+      <AccordianH3>Social History</AccordianH3>
+      <AccordianDiv>
+        {socialData.map((item, index) => renderDemographicsData(item, index))}
+      </AccordianDiv>
+    </AccordianSection>
   );
 };
 

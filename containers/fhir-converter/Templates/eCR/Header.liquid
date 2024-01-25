@@ -46,7 +46,20 @@
             {% else -%}
               {% assign observationId = ob.value | to_json_string | generate_uuid -%}
             {% endif -%}
-            {% include 'Resource/ObservationRRCondition' observationEntry: ob, ID: observationId -%}
+
+            {% if ob.entryRelationship and ob.entryRelationship.organizer and ob.entryRelationship.organizer.participant %}
+              {% assign participants = ob.entryRelationship.organizer.participant | to_array %}
+              {% for participant in participants %}
+                {% if participant.participantRole and participant.participantRole.code.codeSystem == "2.16.840.1.114222.4.5.232" and participant.participantRole.code.code == "RR7" %}
+                  {% assign organizationRoutingEntityId = participant | to_json_string | generate_uuid %}
+                  {% assign organizationRoutingEntityName = participant.participantRole.playingEntity.name._ %}
+                  {% include'Resource/OrganizationRRRoutingEntity' organization: participant.participantRole, ID: organizationRoutingEntityId  %}
+                {% endif %}
+              {% endfor %}
+            {% endif -%}
+
+            {% include 'Resource/ObservationRRCondition' observationEntry: ob, ID: observationId, RoutingEntityId: organizationRoutingEntityId, RoutingEntityName: organizationRoutingEntityName-%}
+
           {% endif -%}
         {% endfor -%}
       {% endfor -%}
@@ -97,7 +110,7 @@
 
 {% if msg.ClinicalDocument.recordTarget.patientRole -%}
   {% assign patientSectionObservations = true -%}
-  {% include 'Section/SocialHistory' -%}
+  {% include 'Section/SocialHistory' SOCIALOBS: socialObs -%}
   {% include 'Resource/Patient' patientRole: msg.ClinicalDocument.recordTarget.patientRole ID: patientId SOCIALOBS: socialObs -%}
 {% endif -%}
 {% assign patientSectionObservations = false -%}

@@ -72,8 +72,8 @@ exports[`EcrSummary should match snapshot 1`] = `
               class="grid-col-auto text-pre-line"
             >
               1050 CARPENTER ST
-    EDWARDS, CA
-        93523-2800, US
+EDWARDS, CA
+93523-2800, US
             </div>
           </div>
           <div
@@ -93,7 +93,7 @@ exports[`EcrSummary should match snapshot 1`] = `
               class="grid-col-auto text-pre-line"
             >
               Home +18184195968
-    MELLY.C.A.16@GMAIL.COM
+MELLY.C.A.16@GMAIL.COM
             </div>
           </div>
           <div
@@ -145,8 +145,8 @@ exports[`EcrSummary should match snapshot 1`] = `
               class="grid-col-auto text-pre-line"
             >
               38600 Medical Center Drive
-    Palmdale, CA
-        93551, USA
+Palmdale, CA
+93551, USA
             </div>
           </div>
           <div
@@ -236,7 +236,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="grid-col-fill"
             >
-               Influenza caused by Influenza A virus subtype H5N1 (disorder)
+              Influenza caused by Influenza A virus subtype H5N1 (disorder)
             </div>
           </div>
           <div

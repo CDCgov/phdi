@@ -4,7 +4,6 @@ exports[`SocialHistory should match snapshot 1`] = `
 <div>
   <div>
     <div
-      aria-labelledby="summary-box-key-information"
       class="padding-bottom-3"
     >
       <div
@@ -31,7 +30,7 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 Nursing, psychiatric, and home health aides
               </div>
@@ -52,7 +51,7 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 Tobacco smoking consumption unknown
               </div>
@@ -73,7 +72,7 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 unsatisfactory living conditions (finding)
               </div>
@@ -94,9 +93,30 @@ exports[`SocialHistory should match snapshot 1`] = `
                 </h4>
               </div>
               <div
-                class="grid-col-auto maxw7"
+                class="grid-col-auto maxw7 text-pre-line"
               >
                 Nursing, psychiatric, and home health aides
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Sexual Orientation
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                Do not know
               </div>
             </div>
             <div

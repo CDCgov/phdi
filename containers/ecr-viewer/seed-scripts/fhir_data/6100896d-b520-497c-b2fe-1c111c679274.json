@@ -338,7 +338,15 @@
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "entry": [
+              {
+                "reference": "Observation/595b1386-09d2-7dfb-d414-fb1e5043013d"
+              },
+              {
+                "reference": "Observation/3bd09111-ae6b-0357-cbda-526c275da43b"
+              }
+            ]
           },
           {
             "id": "7dbd51e8-1c15-8cfa-cbce-f6f4b9a1ed5d",
@@ -690,6 +698,38 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:21e7aca1-7a03-43dc-15e6-8f7ee24b6613",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "21e7aca1-7a03-43dc-15e6-8f7ee24b6613",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "Tennessee Department of Health"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/21e7aca1-7a03-43dc-15e6-8f7ee24b6613"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:2fa797d2-eae1-4932-a9d3-f2c4f3992fe1",
       "resource": {
         "resourceType": "Observation",
@@ -736,6 +776,12 @@
           {
             "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
             "valueString": "Detection\u202fof Shiga toxin genes,\u202fE. coli\u202fO157\u202fnucleic acid, Shiga toxin-producing\u202fEscherichia coli\u202f(STEC) nucleic acid, or Enterohemorrhagic Escherichia coli (EHEC) nucleic acid in a clinical specimen by any method"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/21e7aca1-7a03-43dc-15e6-8f7ee24b6613",
+            "display": "Tennessee Department of Health"
           }
         ]
       },
@@ -6860,6 +6906,110 @@
       "request": {
         "method": "PUT",
         "url": "Observation/41d93e42-b31d-d098-2050-ee9c61fe3010"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3bd09111-ae6b-0357-cbda-526c275da43b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3bd09111-ae6b-0357-cbda-526c275da43b",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "76690-7",
+              "display": "Sexual orientation"
+            }
+          ],
+          "text": "Sexual orientation"
+        },
+        "status": "final",
+        "valueString": "Do not know",
+        "subject": {
+          "reference": "Patient/c5e66082-9ee2-4610-add4-05f91b1217b3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/3bd09111-ae6b-0357-cbda-526c275da43b"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:595b1386-09d2-7dfb-d414-fb1e5043013d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "595b1386-09d2-7dfb-d414-fb1e5043013d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "420008001",
+              "display": "Travel"
+            }
+          ],
+          "text": "Travel History"
+        },
+        "status": "final",
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                  "code": "LOC",
+                  "display": "Location"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "text": "PATIENT TRAVELED AROUND ASIA FOR ONE MONTH, INCLUDING THAILAND, VIETNAM AND CAMBODIA"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "280147009",
+                  "display": "Type of activity (attribute)"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "702348006",
+                  "display": "Active duty military (occupation)"
+                }
+              ]
+            }
+          }
+        ],
+        "effectivePeriod": {
+          "start": "2022-01-01",
+          "end": "2022-02-05"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/595b1386-09d2-7dfb-d414-fb1e5043013d"
       }
     }
   ]

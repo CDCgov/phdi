@@ -151,6 +151,18 @@
                                         {% endif -%}
                                     {% endif -%}
                                 {% endfor -%}
+                            {% elsif sectionEntry.act.templateId.root and sectionEntry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.1" %}
+                                {% assign observationId = sectionEntry.act | to_json_string | generate_uuid -%}
+                                {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                {
+                                    "reference": "{{ fullObservationId }}",
+                                },
+                            {% elsif sectionEntry.observation.templateId and sectionEntry.observation.templateId[0] and sectionEntry.observation.templateId[0].root and sectionEntry.observation.templateId[0].root == '2.16.840.1.113883.10.20.22.4.38' and sectionEntry.observation.code and sectionEntry.observation.code.code == '76690-7' -%}
+                                {% assign observationId = sectionEntry.observation | to_json_string | generate_uuid -%}
+                                {% assign fullObservationId = observationId | prepend: 'Observation/' -%}
+                                {
+                                    "reference": "{{ fullObservationId }}",
+                                },
                             {% endif -%}
                         {% endfor -%}
                     ],

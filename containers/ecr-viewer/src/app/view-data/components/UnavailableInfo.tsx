@@ -1,12 +1,19 @@
 import { DisplayData } from "@/app/utils";
+import {
+  AccordianSection,
+  AccordianH3,
+  AccordianDiv,
+} from "../component-utils";
 
 interface UnavailableInfoProps {
+  demographicsUnavailableData: DisplayData[];
   socialUnavailableData: DisplayData[];
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
 }
 
 const UnavailableInfo = ({
+  demographicsUnavailableData,
   socialUnavailableData,
   encounterUnavailableData,
   providerUnavailableData,
@@ -41,21 +48,16 @@ const UnavailableInfo = ({
   };
 
   return (
-    <div className="">
-      <div
-        className="padding-bottom-3"
-        aria-labelledby="summary-box-key-information"
-      >
-        <div className="usa-summary-box__body">
-          {socialUnavailableData.length > 0 &&
-            renderSection("Social History", socialUnavailableData)}
-          {encounterUnavailableData.length > 0 &&
-            renderSection("Encounter Details", encounterUnavailableData)}
-          {providerUnavailableData.length > 0 &&
-            renderSection("Provider Details", providerUnavailableData)}
-        </div>
-      </div>
-    </div>
+    <AccordianSection>
+      {demographicsUnavailableData.length > 0 &&
+        renderSection("Demographics", demographicsUnavailableData)}
+      {socialUnavailableData.length > 0 &&
+        renderSection("Social History", socialUnavailableData)}
+      {encounterUnavailableData.length > 0 &&
+        renderSection("Encounter Details", encounterUnavailableData)}
+      {providerUnavailableData.length > 0 &&
+        renderSection("Provider Details", providerUnavailableData)}
+    </AccordianSection>
   );
 };
 

@@ -22,6 +22,10 @@ describe("SocialHistory", () => {
         title: "Occupation",
         value: "Nursing, psychiatric, and home health aides",
       },
+      {
+        title: "Sexual Orientation",
+        value: "Do not know",
+      },
     ];
     container = render(
       <SocialHistory socialData={socialAvailableData} />,

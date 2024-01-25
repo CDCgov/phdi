@@ -1,3 +1,4 @@
+import datetime
 import json
 import pathlib
 import re
@@ -15,6 +16,8 @@ from phdi.cloud.core import BaseCredentialManager
 from phdi.cloud.gcp import GcpCredentialManager
 from phdi.fhir.transport import http_request_with_reauth
 from phdi.transport.http import http_request_with_retry
+
+DIBBS_REFERENCE_SIGNIFIER = "#REF#"
 
 
 @cache
@@ -90,9 +93,24 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
             for secondary_field, secondary_field_definition in field_definition[
                 "secondary_schema"
             ].items():
-                secondary_parsers[secondary_field] = fhirpathpy.compile(
-                    secondary_field_definition["fhir_path"]
-                )
+                # Base case: secondary field is located on this resource
+                if not secondary_field_definition["fhir_path"].startswith("Bundle"):
+                    secondary_parsers[secondary_field] = {
+                        "secondary_fhir_path": fhirpathpy.compile(
+                            secondary_field_definition["fhir_path"]
+                        )
+                    }
+
+                # Reference case: secondary field is located on a different resource,
+                # so we can't compile the fhir_path proper; instead, compile the
+                # reference for quick access later
+                else:
+                    secondary_parsers[secondary_field] = {
+                        "secondary_fhir_path": secondary_field_definition["fhir_path"],
+                        "reference_path": fhirpathpy.compile(
+                            secondary_field_definition["reference_lookup"]
+                        ),
+                    }
             parser["secondary_parsers"] = secondary_parsers
         parsers[field] = parser
     return frozendict(parsers)
@@ -251,3 +269,14 @@ def get_credential_manager(
 
 def read_json_from_assets(filename: str):
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def read_file_from_assets(filename: str):
+    with open(
+        (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
+    ) as file:
+        return file.read()
+
+
+def get_datetime_now():
+    return datetime.datetime.now()

@@ -1,5 +1,6 @@
-import { Bundle } from "fhir/r4";
+import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "fhirpath";
+import * as R4Models from "fhirpath/fhir-context/r4";
 
 export interface DisplayData {
   title: string;
@@ -39,10 +40,10 @@ export const extractPatientAddress = (
     fhirBundle,
     fhirPathMappings.patientStreetAddress,
   );
-  const city = evaluate(fhirBundle, fhirPathMappings.patientCity);
-  const state = evaluate(fhirBundle, fhirPathMappings.patientState);
-  const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode);
-  const country = evaluate(fhirBundle, fhirPathMappings.patientCountry);
+  const city = evaluate(fhirBundle, fhirPathMappings.patientCity)[0];
+  const state = evaluate(fhirBundle, fhirPathMappings.patientState)[0];
+  const zipCode = evaluate(fhirBundle, fhirPathMappings.patientZipCode)[0];
+  const country = evaluate(fhirBundle, fhirPathMappings.patientCountry)[0];
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
@@ -68,25 +69,35 @@ export const extractFacilityAddress = (
     fhirPathMappings,
   );
 
-  const streetAddresses = locationResource.address.line;
-  const city = locationResource.address.city;
-  const state = locationResource.address.state;
-  const zipCode = locationResource.address.postalCode;
-  const country = locationResource.address.country;
+  const streetAddresses = locationResource?.address?.line;
+  const city = locationResource?.address?.city;
+  const state = locationResource?.address?.state;
+  const zipCode = locationResource?.address?.postalCode;
+  const country = locationResource?.address?.country;
 
   return formatAddress(streetAddresses, city, state, zipCode, country);
 };
 
 const formatAddress = (
-  streetAddress: any[],
-  city: any[],
-  state: any[],
-  zipCode: any[],
-  country: any[],
+  streetAddress: string[],
+  city: string,
+  state: string,
+  zipCode: string,
+  country: string,
 ) => {
-  return `${streetAddress.join("\n")}
-    ${city}, ${state}
-        ${zipCode}${country && `, ${country}`}`;
+  let address = {
+    streetAddress: streetAddress || [],
+    cityState: [city, state],
+    zipCodeCountry: [zipCode, country],
+  };
+
+  return [
+    address.streetAddress.join("\n"),
+    address.cityState.filter(Boolean).join(", "),
+    address.zipCodeCountry.filter(Boolean).join(", "),
+  ]
+    .filter(Boolean)
+    .join("\n");
 };
 
 export const extractFacilityContactInfo = (
@@ -97,10 +108,10 @@ export const extractFacilityContactInfo = (
     fhirBundle,
     fhirPathMappings,
   );
-  const phoneNumbers = locationResource.telecom.filter(
+  const phoneNumbers = locationResource.telecom?.filter(
     (contact: any) => contact.system === "phone",
   );
-  return phoneNumbers[0].value;
+  return phoneNumbers?.[0].value;
 };
 
 export const formatPatientContactInfo = (
@@ -123,8 +134,7 @@ export const formatPatientContactInfo = (
     .map((email) => `${email.value}`)
     .join("\n");
 
-  return `${phoneNumbers}
-    ${emails}`;
+  return `${phoneNumbers}\n${emails}`;
 };
 
 export const formatEncounterDate = (
@@ -193,6 +203,35 @@ const formatStartEndDateTime = (
         End: ${endFormattedDate}`;
 };
 
+const extractTravelHistory = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+): string | undefined => {
+  const startDate = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryStartDate"],
+  )[0];
+  const endDate = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryEndDate"],
+  )[0];
+  const location = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryLocation"],
+  )[0];
+  const purposeOfTravel = evaluate(
+    fhirBundle,
+    mappings["patientTravelHistoryPurpose"],
+  )[0];
+  if (startDate || endDate || location || purposeOfTravel) {
+    return `Dates: ${startDate} - ${endDate}
+       Location(s): ${location ?? "N/A"}
+       Purpose of Travel: ${purposeOfTravel ?? "N/A"}
+       `;
+  }
+  return undefined;
+};
+
 export const evaluateSocialData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
@@ -208,7 +247,7 @@ export const evaluateSocialData = (
     },
     {
       title: "Travel History",
-      value: evaluate(fhirBundle, mappings["patientTravelHistory"])[0],
+      value: extractTravelHistory(fhirBundle, mappings),
     },
     {
       title: "Homeless Status",
@@ -236,6 +275,51 @@ export const evaluateSocialData = (
     },
   ];
   return evaluateData(socialData);
+};
+
+export const evaluateDemographicsData = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const demographicsData = [
+    {
+      title: "Patient Name",
+      value: formatPatientName(fhirBundle, mappings),
+    },
+    { title: "DOB", value: evaluate(fhirBundle, mappings.patientDOB)[0] },
+    { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
+    { title: "Race", value: evaluate(fhirBundle, mappings.patientRace)[0] },
+    {
+      title: "Ethnicity",
+      value: evaluate(fhirBundle, mappings.patientEthnicity)[0],
+    },
+    {
+      title: "Tribal Affiliation",
+      value: evaluate(fhirBundle, mappings.patientTribalAffiliation)[0],
+    },
+    {
+      title: "Preferred Language",
+      value: evaluate(fhirBundle, mappings.patientLanguage)[0],
+    },
+    {
+      title: "Patient Address",
+      value: extractPatientAddress(fhirBundle, mappings),
+    },
+    {
+      title: "County",
+      value: evaluate(fhirBundle, mappings.patientCounty)[0],
+    },
+    { title: "Contact", value: formatPatientContactInfo(fhirBundle, mappings) },
+    {
+      title: "Emergency Contact",
+      value: evaluate(fhirBundle, mappings.patientEmergencyContact)[0],
+    },
+    {
+      title: "Patient IDs",
+      value: evaluate(fhirBundle, mappings.patientId)[0],
+    },
+  ];
+  return evaluateData(demographicsData);
 };
 
 export const evaluateEncounterData = (
@@ -308,15 +392,82 @@ export const evaluateProviderData = (
   return evaluateData(providerData);
 };
 
+export const evaluateEcrMetadata = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const rrPerformerReferences = evaluate(fhirBundle, mappings.rrPerformers);
+
+  const rrPerformers: Organization[] = rrPerformerReferences.map((ref) => {
+    ref = ref.split("/");
+    return evaluate(fhirBundle, mappings.resolve, {
+      resourceType: ref[0],
+      id: ref[1],
+    })[0];
+  });
+  const rrDetails: DisplayData[] = [
+    {
+      title: "Reportable Condition(s)",
+      value: evaluate(fhirBundle, mappings.rrDisplayNames)?.join("\n"),
+    },
+    {
+      title: "RCKMS Trigger Summary",
+      value: evaluate(fhirBundle, mappings.rckmsTriggerSummaries)?.join("\n"),
+    },
+    {
+      title: "Jurisdiction(s) Sent eCR",
+      value: rrPerformers.map((org) => org.name)?.join("\n"),
+    },
+  ];
+  const eicrDetails: DisplayData[] = [
+    {
+      title: "eICR Identifier",
+      value: evaluate(fhirBundle, mappings.eicrIdentifier)[0],
+    },
+  ];
+  const ecrSenderDetails: DisplayData[] = [
+    {
+      title: "Date/Time eCR Created",
+      value: evaluate(fhirBundle, mappings.dateTimeEcrCreated)[0],
+    },
+    {
+      title: "Sender Software",
+      value: evaluate(fhirBundle, mappings.senderSoftware)[0],
+    },
+    {
+      title: "Sender Facility Name",
+      value: evaluate(fhirBundle, mappings.senderFacilityName),
+    },
+    {
+      title: "Facility Address",
+      value: extractFacilityAddress(fhirBundle, mappings),
+    },
+    {
+      title: "Facility Contact",
+      value: evaluate(fhirBundle, mappings.facilityContact)[0],
+    },
+    {
+      title: "Facility ID",
+      value: evaluate(fhirBundle, mappings.facilityID)[0],
+    },
+  ];
+  return {
+    eicrDetails: evaluateData(eicrDetails),
+    ecrSenderDetails: evaluateData(ecrSenderDetails),
+    rrDetails: evaluateData(rrDetails),
+  };
+};
+
 const evaluateData = (data: DisplayData[]) => {
-  let availableArray: DisplayData[] = [];
-  let unavailableArray: DisplayData[] = [];
+  let availableData: DisplayData[] = [];
+  let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value != undefined) {
-      availableArray.push(item);
+    if (item.value == undefined || item.value.length == 0) {
+      unavailableData.push(item);
+      item.value = "N/A";
     } else {
-      unavailableArray.push(item);
+      availableData.push(item);
     }
   });
-  return { available_data: availableArray, unavailable_data: unavailableArray };
+  return { availableData: availableData, unavailableData: unavailableData };
 };
