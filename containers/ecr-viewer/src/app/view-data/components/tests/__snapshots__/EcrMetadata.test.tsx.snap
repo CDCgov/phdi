@@ -13,11 +13,77 @@ exports[`ECR Metadata should match snapshot 1`] = `
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
         >
-          eICR Details
+          RR Details
         </h3>
         <div
           class="usa-summary-box__text"
         >
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Reportable Condition(s)
+              </h4>
+            </div>
+            <div
+              class="grid-col-fill text-pre-line"
+            >
+              Disease caused by severe acute respiratory syndrome coronavirus 2 (disorder)
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                RCKMS Trigger Summary
+              </h4>
+            </div>
+            <div
+              class="grid-col-fill text-pre-line"
+            >
+              COVID-19 (as a diagnosis or active problem)
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Jurisdiction(s) Sent eCR
+              </h4>
+            </div>
+            <div
+              class="grid-col-fill text-pre-line"
+            >
+              California Department of Public Health
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="padding-bottom-1"
+          />
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            eICR Details
+          </h3>
           <div
             class="grid-row"
           >
@@ -29,21 +95,23 @@ exports[`ECR Metadata should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               8675309a-7754-r2d2-c3p0-973d9f777777
             </div>
           </div>
-        </div>
-        <h3
-          class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
-        >
-          eCR Sender Details
-        </h3>
-        <div
-          class="usa-summary-box__text"
-        >
+          <div
+            class="section__line_gray"
+          />
+          <div
+            class="padding-bottom-1"
+          />
+          <h3
+            class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
+          >
+            eCR Sender Details
+          </h3>
           <div
             class="grid-row"
           >
@@ -55,7 +123,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               2023-04-09T13:04:17-07:00
             </div>
@@ -74,7 +142,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               Epic - Version 10.1
             </div>
@@ -93,7 +161,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY
             </div>
@@ -112,7 +180,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               2121 Santa Monica Blvd
 Santa Monica, CA
@@ -133,7 +201,7 @@ Santa Monica, CA
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             />
           </div>
           <div
@@ -150,7 +218,7 @@ Santa Monica, CA
               </h4>
             </div>
             <div
-              class="grid-col-auto"
+              class="grid-col-auto text-pre-line"
             >
               1.2.840.114350.1.13.297.3.7.2.686980
             </div>
