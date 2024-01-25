@@ -123,11 +123,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
                 <h4>Reportable Condition</h4>
               </div>
               <div className="grid-col-fill">
-                {
-                  evaluate(fhirBundle, fhirPathMappings.rrDisplayName)[0].split(
-                    "-",
-                  )[1]
-                }
+                {evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
               </div>
             </div>
             <div className={"section__line"} />
@@ -136,7 +132,12 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
                 <h4>RCKMS Trigger Summary</h4>
               </div>
               <div className="grid-col-fill text-pre-line">
-                {evaluate(fhirBundle, fhirPathMappings.rckmsTriggerSummary)}
+                {
+                  evaluate(
+                    fhirBundle,
+                    fhirPathMappings.rckmsTriggerSummaries,
+                  )[0]
+                }
               </div>
             </div>
             <div className={"section__line"} />
