@@ -31,7 +31,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="grid-col-auto"
             >
-              1dd10047-2207-4eac-a993-0f706c88be5d
+              8675309a-7754-r2d2-c3p0-973d9f777777
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="grid-col-auto"
             >
-              2022-05-14T12:56:38Z
+              2023-04-09T13:04:17-07:00
             </div>
           </div>
           <div
@@ -75,7 +75,9 @@ exports[`ECR Metadata should match snapshot 1`] = `
             </div>
             <div
               class="grid-col-auto"
-            />
+            >
+              Epic - Version 10.1
+            </div>
           </div>
           <div
             class="section__line_gray"
@@ -93,7 +95,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="grid-col-auto"
             >
-              PRM- Palmdale Regional Medical Center
+              PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY
             </div>
           </div>
           <div
@@ -112,9 +114,9 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="grid-col-auto"
             >
-              38600 Medical Center Drive
-Palmdale, CA
-93551, USA
+              2121 Santa Monica Blvd
+Santa Monica, CA
+90404-2303, USA
             </div>
           </div>
           <div
@@ -132,9 +134,7 @@ Palmdale, CA
             </div>
             <div
               class="grid-col-auto"
-            >
-              (661)382-5000
-            </div>
+            />
           </div>
           <div
             class="section__line_gray"
@@ -152,7 +152,7 @@ Palmdale, CA
             <div
               class="grid-col-auto"
             >
-              2.16.840.1.113883.4.6
+              1.2.840.114350.1.13.297.3.7.2.686980
             </div>
           </div>
           <div

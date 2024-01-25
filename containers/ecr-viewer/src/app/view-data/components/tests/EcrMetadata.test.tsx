@@ -15,7 +15,7 @@ describe("ECR Metadata", () => {
     const fhirBundle: Bundle = JSON.parse(
       fs
         .readFileSync(
-          "./seed-scripts/fhir_data/1dd10047-2207-4eac-a993-0f706c88be5d.json",
+          "./seed-scripts/fhir_data/8675309a-7754-r2d2-c3p0-973d9f777777.json",
           "utf8",
         )
         .toString(),
