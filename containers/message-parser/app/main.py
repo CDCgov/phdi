@@ -130,7 +130,7 @@ async def fhir_to_phdc_endpoint(
     """
     Convert a FHIR bundle to a Public Health Document Container (PHDC).
     """
-    
+
     # 1. Identify the parsing schema based on the supplied phdc type
     match input.phdc_report_type:
         case "case_report":
