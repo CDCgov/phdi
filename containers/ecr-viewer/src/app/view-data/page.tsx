@@ -104,7 +104,6 @@ const ECRViewerPage = () => {
         id: "3",
         headingLevel: "h2",
       },
-      // TODO: Change id (& make order match with Figma?)
       {
         title: "Clinical Info",
         content: (
@@ -115,24 +114,24 @@ const ECRViewerPage = () => {
           </div>
         ),
         expanded: true,
-        id: "5",
+        id: "4",
         headingLevel: "h2",
       },
       {
         title: "Unavailable Info",
         content: (
           <div className="padding-top-105">
-            {/* // TODO: Add clinical data to unavailabledata? */}
             <UnavailableInfo
               demographicsUnavailableData={demographicsData.unavailableData}
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
               providerUnavailableData={providerData.unavailableData}
+              activeProblemsUnavailableData={clinicalData.activeProblemsDetails.unavailableData}
             />
           </div>
         ),
         expanded: true,
-        id: "4",
+        id: "5",
         headingLevel: "h2",
       },
     ];
