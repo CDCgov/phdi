@@ -54,11 +54,11 @@
         "confidentiality": "N",
         "section": [
           {
-            "id": "b7a7ed08-af88-4a31-cc4e-8dddd58b7fc8",
+            "id": "3e373959-ccc8-b49f-5462-c1d0a225a1df",
             "title": "Miscellaneous Notes",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Miscellaneous Notes</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><content ID=\"nof2\">Not on file</content><footnote ID=\"subTitle1\" styleCode=\"xSectionSubTitle\">documented in this encounter</footnote></text>"
             },
             "code": {
               "coding": [
@@ -76,7 +76,7 @@
             "title": "Immunizations",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Immunizations</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><content ID=\"nof4\">Not on file</content><footnote ID=\"subTitle3\" styleCode=\"xSectionSubTitle\">documented as of this encounter</footnote></text>"
             },
             "code": {
               "coding": [
@@ -94,7 +94,7 @@
             "title": "Administered Medications",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Administered Medications</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><content ID=\"nof6\">Not on file</content><footnote ID=\"subTitle5\" styleCode=\"xSectionSubTitle\">documented in this encounter</footnote></text>"
             },
             "code": {
               "coding": [
@@ -108,11 +108,11 @@
             "mode": "snapshot"
           },
           {
-            "id": "c2281805-ec40-0a32-031b-1c709c70d1c1",
+            "id": "3306063c-e7de-820b-ff86-3613f8b50bb3",
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><paragraph>Not on file</paragraph><footnote ID=\"subTitle7\" styleCode=\"xSectionSubTitle\">documented as of this encounter</footnote></text>"
             },
             "code": {
               "coding": [
@@ -130,7 +130,7 @@
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Problems</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><table><colgroup><col width=\"75%\"/><col width=\"25%\"/></colgroup><thead><tr><th>Problem</th><th>Noted Date</th></tr></thead><tbody><tr ID=\"problem15\" styleCode=\"xRowNormal\"><td ID=\"problem15name\">Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive</td><td>12/14/22</td></tr><tr ID=\"problem13\" styleCode=\"xRowAlt\"><td ID=\"problem13name\">Headache</td><td>8/19/22</td></tr><tr ID=\"problem14\" styleCode=\"xRowNormal\"><td ID=\"problem14name\">Backache</td><td>8/19/22</td></tr><tr ID=\"problem12\" styleCode=\"xRowAlt\"><td ID=\"problem12name\">Malignant neoplasm of urinary bladder neck</td><td>11/5/21</td></tr><tr ID=\"problem11\" styleCode=\"xRowNormal\"><td ID=\"problem11name\">Malignant neoplasm of overlapping sites of pancreas</td><td>9/18/17</td></tr><tr styleCode=\"xRowNormal xMergeUp\"><td colspan=\"2\" styleCode=\"xallIndent\"><paragraph styleCode=\"xcellHeader\">Cancer Staging: </paragraph>Clinical stage from 1/13/2022:<content styleCode=\"Bold\">Stage IIB</content> (cT1, cN1, cM0) - Signed by Ocmd Phsbeacon, MD on 1/13/2022<br/>Pathologic:<content styleCode=\"Bold\">Stage III</content> (pT1, pN2, cM0) - Signed by Ocmd Phsbeacon, MD on 9/30/2022<br/></td></tr><tr ID=\"problem10\" styleCode=\"xRowAlt\"><td ID=\"problem10name\">Bilateral malignant neoplasm of lower outer quadrant of breast in female</td><td>2/27/17</td></tr><tr styleCode=\"xRowAlt xMergeUp\"><td colspan=\"2\" styleCode=\"xallIndent\"><paragraph styleCode=\"xcellHeader\">Cancer Staging: </paragraph>Clinical stage from 2/27/2017:<content styleCode=\"Bold\">Stage IIA</content> (T1, N1, M0) - Signed by Ocmd Phsbeacon, MD on 2/27/2017<br/>Pathologic stage from 12/10/2017:<content styleCode=\"Bold\">Stage IV</content> (rpT2, pN1a(f), pM1, G3, ER: Negative, PR: Negative, HER2: Negative) - Signed by Ocmd Phsbeacon, MD on 1/10/2018<br/></td></tr></tbody></table><footnote ID=\"subTitle9\" styleCode=\"xSectionSubTitle\">documented as of this encounter (statuses as of 12/14/2022)</footnote></text>"
             },
             "code": {
               "coding": [
@@ -145,36 +145,36 @@
             "entry": [
               {
                 "display": "Problem - Bilateral malignant neoplasm of lower outer quadrant of breast in female",
-                "reference": "Condition/98767c9b-63c8-d80d-cb16-c5de734acf22"
+                "reference": "Condition/3c8741f7-0032-95f4-50af-6ffbfa69bf05"
               },
               {
                 "display": "Problem - Malignant neoplasm of overlapping sites of pancreas",
-                "reference": "Condition/bdb1e7a1-1a09-7792-df6c-2d85488986ee"
+                "reference": "Condition/4c83fc62-7fb3-f087-f9c9-1c0b89a4cbda"
               },
               {
                 "display": "Problem - Malignant neoplasm of urinary bladder neck",
-                "reference": "Condition/42aa13bf-77c4-c57f-a250-987c1f593967"
+                "reference": "Condition/a7ebc684-a880-7b44-948f-f3648c20072f"
               },
               {
                 "display": "Problem - Headache",
-                "reference": "Condition/6d11bcdf-55ee-e348-07c9-0282605e48e0"
+                "reference": "Condition/ebf8b173-8400-7d85-cf33-8c84ab4a1311"
               },
               {
                 "display": "Problem - Backache",
-                "reference": "Condition/2c6ddcbf-126f-2226-1c11-dd647aa44643"
+                "reference": "Condition/c25c0fb6-bb25-06f7-44b2-92272a038f1c"
               },
               {
                 "display": "Problem - Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive",
-                "reference": "Condition/6f1ba581-bdef-0d47-9b23-308987970f1b"
+                "reference": "Condition/5c7f897a-54bd-cd0a-edce-64a990be0858"
               }
             ]
           },
           {
-            "id": "eef25da4-bea1-2e77-4a0c-12f50e7be15e",
+            "id": "6875470e-0bfc-b970-9509-c907b2826963",
             "title": "Reason for Visit",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason for Visit</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><content ID=\"nof11\">Not on file</content></text>"
             },
             "code": {
               "coding": [
@@ -198,7 +198,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Results</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><list styleCode=\"xTOC\"><item ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468\"><caption ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Procedure\" styleCode=\"xAbnormal\">(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (03/31/2022 11:52 AM PDT)</caption><table><colgroup><col width=\"20%\"/><col width=\"12%\"/><col width=\"8%\"/><col width=\"20%\"/><col span=\"2\" width=\"10%\"/><col width=\"20%\"/></colgroup><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Name\">Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp1Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Name\">C. Diff Toxin A/B, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp2Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Name\">Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp3Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Name\">Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp4Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Name\">Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp5Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Name\">Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp6Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Name\">Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp7Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Name\">E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp8Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Name\">E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp9Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Name\">E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp10Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Name\">E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp11Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Name\">Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp12Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Name\">Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp13Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Name\">Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp14Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Name\">Cyclospora cayetanensis, NAAT</td><td><content styleCode=\"xflagData\">DETECTED</content><content styleCode=\"xflagData\"> (AA)</content></td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp15Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Name\">E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp16Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Name\">Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp17Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Name\">Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp18Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Name\">Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp19Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Name\">Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp20Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21\" styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Name\">Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp21Signature\"/></tr><tr ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22\" styleCode=\"xRowAlt\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Name\">Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td><paragraph ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22TestMethodName1\">LAB DEVICE: BIOFIRE&#65533; FILMARRAY&#65533; 2.0 SYSTEM</paragraph></td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Comp22Signature\"/></tr></tbody></table><table><colgroup><col span=\"5\" width=\"20%\"/></colgroup><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr styleCode=\"xRowNormal\"><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.Specimen\">Stool</td><td>STOOL SPECIMEN / Unknown</td><td/><td>03/31/2022 11:52 AM PDT</td><td>03/31/2022 11:52 AM PDT</td></tr></tbody></table><table><colgroup><col width=\"20%\"/><col width=\"80%\"/></colgroup><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Authorizing Provider</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><colgroup><col span=\"3\" width=\"20%\"/><col width=\"40%\"/></colgroup><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td ID=\"Result.1.2.840.114350.1.13.297.3.7.2.798268.1546468.PerformingLab\"><paragraph>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</paragraph></td><td><paragraph>2121 Santa Monica Blvd</paragraph></td><td><paragraph>Santa Monica, CA 90404</paragraph></td><td><paragraph>310-829-8800</paragraph></td></tr></tbody></table></item></list><footnote ID=\"subTitle12\" styleCode=\"xSectionSubTitle\">documented in this encounter</footnote></text>"
             },
             "code": {
               "coding": [
@@ -213,91 +213,91 @@
             "entry": [
               {
                 "display": "Campylobacter, NAAT",
-                "reference": "Observation/9005b05e-9d6b-04b8-3b24-3ccc2409bc10"
+                "reference": "Observation/0606d792-0104-3dbf-467c-63af74fb466f"
               },
               {
                 "display": "C. Diff Toxin A/B, NAAT",
-                "reference": "Observation/c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878"
+                "reference": "Observation/2c552cb4-f898-7d8b-9cf7-12308344a857"
               },
               {
                 "display": "Plesiomonas shigelloides, NAAT",
-                "reference": "Observation/9c46236d-9962-28d7-a797-dbdf0b7723a0"
+                "reference": "Observation/1bf991da-aaf6-5114-fa44-62323828d836"
               },
               {
                 "display": "Salmonella, NAAT",
-                "reference": "Observation/6b535d2b-6f45-8319-4b05-26a26c8de3bd"
+                "reference": "Observation/ac4f81e8-80f9-d552-4942-affde03c92d6"
               },
               {
                 "display": "Vibrio, NAAT",
-                "reference": "Observation/4e3b20b0-765d-039b-9614-9537b0c59588"
+                "reference": "Observation/d464bd9b-c858-3714-cbbf-4f56d61cbaa0"
               },
               {
                 "display": "Vibrio cholerae, NAAT",
-                "reference": "Observation/42a0951a-ff80-7525-1046-505ba2ec6ba5"
+                "reference": "Observation/de67dfc7-1676-afd5-8882-84726b5cf3ef"
               },
               {
                 "display": "Yersinia enterocolitica, NAAT",
-                "reference": "Observation/c7501c45-cfe7-c699-d538-9bb303f72e88"
+                "reference": "Observation/61537e5d-8373-117c-529e-426ac96f76c7"
               },
               {
                 "display": "E. Coli O157, NAAT",
-                "reference": "Observation/0f8fd57b-19f6-99d8-f0bd-cd0b335392b0"
+                "reference": "Observation/353a6c4a-ad80-a4ad-98d2-05c66804b0c2"
               },
               {
                 "display": "E. Coli (EAEC), NAAT",
-                "reference": "Observation/2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c"
+                "reference": "Observation/45b9e074-18d1-26be-f9d6-ca1ceeb5a14b"
               },
               {
                 "display": "E. Coli (EPEC), NAAT",
-                "reference": "Observation/d0c377c9-af5d-f939-a35d-6e805f1fdfc4"
+                "reference": "Observation/1d8cad45-f214-e82e-58b0-a9967538f5b3"
               },
               {
                 "display": "E. Coli (ETEC), NAAT",
-                "reference": "Observation/0812de0f-2cc3-c517-6376-001da70bae25"
+                "reference": "Observation/036e5ea2-b2bd-01a9-86d9-d55d9b48d763"
               },
               {
                 "display": "Shiga-Like Toxin E. Coli (STEC), NAAT",
-                "reference": "Observation/07162769-83cc-61e0-6476-c916e0854e7d"
+                "reference": "Observation/708a5d47-6d74-0145-e709-8740a6c5ca56"
               },
               {
                 "display": "Shigella/EIEC, NAAT",
-                "reference": "Observation/5b2e1d26-b438-d200-6c7e-d17b748757e6"
+                "reference": "Observation/c00a4240-15c5-8446-cc7f-91da3fb0ce34"
               },
               {
                 "display": "Cryptosporidium, NAAT",
-                "reference": "Observation/f9d39143-ffb7-16c2-ef00-29fc0157a8fb"
+                "reference": "Observation/8d2acfeb-3201-b6b1-9201-97f54cba9fea"
               },
               {
                 "display": "Cyclospora cayetanensis, NAAT",
-                "reference": "Observation/5dacaa50-cef9-e4ec-21b1-15c2e15bc00a"
+                "reference": "Observation/579279ac-314f-dcd0-2f4c-ec9d5fc592f0"
               },
               {
                 "display": "E. histolytica, NAAT",
-                "reference": "Observation/63056ac0-0596-d7ab-d02b-f6682bef73dd"
+                "reference": "Observation/a2f6f151-6f28-4a47-1a9b-d612f008c379"
               },
               {
                 "display": "Giardia lamblia, NAAT",
-                "reference": "Observation/9800e50d-77dc-8b23-0af5-44929d91a3db"
+                "reference": "Observation/77912d80-2a1d-ce12-3ae9-c8ebe922db59"
               },
               {
                 "display": "Adenovirus F 40/41, NAAT",
-                "reference": "Observation/2f26889d-ad02-e761-e3a4-b93bfd9b6c5f"
+                "reference": "Observation/d21ee50e-194c-830a-dd74-7bb980a6bbed"
               },
               {
                 "display": "Astrovirus, NAAT",
-                "reference": "Observation/33852e11-1614-2637-fec6-b873725ce3e0"
+                "reference": "Observation/d2f42d6c-1754-75b8-7567-7014b6c3e774"
               },
               {
                 "display": "Norovirus, NAAT",
-                "reference": "Observation/d24a938c-526c-953a-d10b-f4e321a03555"
+                "reference": "Observation/c0b22686-2c61-082f-6824-172e6091f8ca"
               },
               {
                 "display": "Rotavirus A, NAAT",
-                "reference": "Observation/a1c957bc-67e7-e9cd-fb85-e216b6c46299"
+                "reference": "Observation/9c42c4a9-77d5-a76a-0514-1c092b005783"
               },
               {
                 "display": "Sapovirus, NAAT",
-                "reference": "Observation/292416f6-39ba-9f36-bf4f-a7b302379abd"
+                "reference": "Observation/8457707c-5d79-81e9-c652-4529a4b5b1a9"
               },
               {
                 "display": "Lab Interpretation",
@@ -306,11 +306,11 @@
             ]
           },
           {
-            "id": "de08d63e-a994-0da3-88cf-b99d3355b5ea",
+            "id": "7249f0d1-8a24-53b9-88d4-99d4f680bbc7",
             "title": "Social History",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Social History</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><table ID=\"sochist14\"><colgroup><col span=\"2\" width=\"25%\"/><col width=\"13%\"/><col width=\"12%\"/><col width=\"25%\"/></colgroup><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Never Assessed</td><td/><td ID=\"sochist14packsperday\"/><td/><td/></tr></tbody></table><table><colgroup><col width=\"25%\"/><col width=\"75%\"/></colgroup><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr ID=\"BirthSex15\"><td ID=\"BirthSex15Value\">Not on file</td><td/></tr></tbody></table><footnote ID=\"subTitle13\" styleCode=\"xSectionSubTitle\">documented as of this encounter</footnote></text>"
             },
             "code": {
               "coding": [
@@ -324,11 +324,11 @@
             "mode": "snapshot"
           },
           {
-            "id": "4976facc-887a-460b-f47e-a6613230befd",
+            "id": "e5af6a5e-ae73-803b-6268-672a61bab56b",
             "title": "Pregnancy Section",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Pregnancy Section</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>"
             },
             "code": {
               "coding": [
@@ -342,11 +342,11 @@
             "mode": "snapshot"
           },
           {
-            "id": "e535411b-2bfd-1b1e-8ec4-2a55e7118359",
+            "id": "1ef76462-3cf0-3c75-76f5-fff20654f5d8",
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Encounter Details</div>"
+              "div": "<text xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><table><colgroup><col width=\"10%\"/><col width=\"15%\"/><col span=\"3\" width=\"25%\"/></colgroup><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr ID=\"encounter16\" styleCode=\"xRowNormal\"><td>3/31/22</td><td ID=\"encounter16type\">Lab Requisition</td><td><paragraph>PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY</paragraph><paragraph>2121 Santa Monica Blvd</paragraph><paragraph>Santa Monica, CA 90404-2303</paragraph><paragraph>310-829-8116</paragraph></td><td><paragraph styleCode=\"Bold\">Provider, Authorizing</paragraph></td><td/></tr></tbody></table></text>"
             },
             "code": {
               "coding": [
@@ -418,7 +418,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "relatesTo": [
           {
@@ -476,7 +476,7 @@
           "end": "2023-02-12"
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "location": [
           {
@@ -624,10 +624,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:d6930155-009b-92a0-d2b9-007761c45ad2",
+      "fullUrl": "urn:uuid:0e0c4ed5-f251-7818-c530-5081ac13c13c",
       "resource": {
         "resourceType": "Organization",
-        "id": "d6930155-009b-92a0-d2b9-007761c45ad2",
+        "id": "0e0c4ed5-f251-7818-c530-5081ac13c13c",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
@@ -648,25 +648,11 @@
             ]
           }
         ],
-        "name": "California Department of Public Health",
-        "address": [
-          {
-            "use": "work",
-            "city": "Sacramento",
-            "state": "CA"
-          }
-        ],
-        "telecom": [
-          {
-            "system": "email",
-            "value": "CalREDIEeCR@cdph.ca.gov",
-            "use": "work"
-          }
-        ]
+        "name": "California Department of Public Health"
       },
       "request": {
         "method": "PUT",
-        "url": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2"
+        "url": "Organization/0e0c4ed5-f251-7818-c530-5081ac13c13c"
       }
     },
     {
@@ -711,11 +697,55 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        }
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/0e0c4ed5-f251-7818-c530-5081ac13c13c",
+            "display": "California Department of Public Health"
+          }
+        ]
       },
       "request": {
         "method": "PUT",
         "url": "Observation/f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c56015b1-ec87-3ccf-4f38-5a16943cf505",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "c56015b1-ec87-3ccf-4f38-5a16943cf505",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "Los Angeles County Department of Public Health"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/c56015b1-ec87-3ccf-4f38-5a16943cf505"
       }
     },
     {
@@ -769,8 +799,8 @@
         ],
         "performer": [
           {
-            "reference": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2",
-            "display": "California Department of Public Health"
+            "reference": "Organization/c56015b1-ec87-3ccf-4f38-5a16943cf505",
+            "display": "Los Angeles County Department of Public Health"
           }
         ]
       },
@@ -920,10 +950,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2",
+      "fullUrl": "urn:uuid:085e72d2-e0b4-4e65-bc8c-96990f8edd2a",
       "resource": {
         "resourceType": "Patient",
-        "id": "d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2",
+        "id": "085e72d2-e0b4-4e65-bc8c-96990f8edd2a",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1082,14 +1112,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+        "url": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
       }
     },
     {
-      "fullUrl": "urn:uuid:98767c9b-63c8-d80d-cb16-c5de734acf22",
+      "fullUrl": "urn:uuid:3c8741f7-0032-95f4-50af-6ffbfa69bf05",
       "resource": {
         "resourceType": "Condition",
-        "id": "98767c9b-63c8-d80d-cb16-c5de734acf22",
+        "id": "3c8741f7-0032-95f4-50af-6ffbfa69bf05",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
@@ -1127,7 +1157,7 @@
         },
         "onsetDateTime": "2017-02-27",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "meta": {
           "source": [
@@ -1137,14 +1167,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/98767c9b-63c8-d80d-cb16-c5de734acf22"
+        "url": "Condition/3c8741f7-0032-95f4-50af-6ffbfa69bf05"
       }
     },
     {
-      "fullUrl": "urn:uuid:bdb1e7a1-1a09-7792-df6c-2d85488986ee",
+      "fullUrl": "urn:uuid:4c83fc62-7fb3-f087-f9c9-1c0b89a4cbda",
       "resource": {
         "resourceType": "Condition",
-        "id": "bdb1e7a1-1a09-7792-df6c-2d85488986ee",
+        "id": "4c83fc62-7fb3-f087-f9c9-1c0b89a4cbda",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
@@ -1182,7 +1212,7 @@
         },
         "onsetDateTime": "2017-09-18",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "meta": {
           "source": [
@@ -1192,14 +1222,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/bdb1e7a1-1a09-7792-df6c-2d85488986ee"
+        "url": "Condition/4c83fc62-7fb3-f087-f9c9-1c0b89a4cbda"
       }
     },
     {
-      "fullUrl": "urn:uuid:42aa13bf-77c4-c57f-a250-987c1f593967",
+      "fullUrl": "urn:uuid:a7ebc684-a880-7b44-948f-f3648c20072f",
       "resource": {
         "resourceType": "Condition",
-        "id": "42aa13bf-77c4-c57f-a250-987c1f593967",
+        "id": "a7ebc684-a880-7b44-948f-f3648c20072f",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
@@ -1237,7 +1267,7 @@
         },
         "onsetDateTime": "2021-11-05",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "meta": {
           "source": [
@@ -1247,14 +1277,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/42aa13bf-77c4-c57f-a250-987c1f593967"
+        "url": "Condition/a7ebc684-a880-7b44-948f-f3648c20072f"
       }
     },
     {
-      "fullUrl": "urn:uuid:6d11bcdf-55ee-e348-07c9-0282605e48e0",
+      "fullUrl": "urn:uuid:ebf8b173-8400-7d85-cf33-8c84ab4a1311",
       "resource": {
         "resourceType": "Condition",
-        "id": "6d11bcdf-55ee-e348-07c9-0282605e48e0",
+        "id": "ebf8b173-8400-7d85-cf33-8c84ab4a1311",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
@@ -1292,7 +1322,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "meta": {
           "source": [
@@ -1302,14 +1332,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/6d11bcdf-55ee-e348-07c9-0282605e48e0"
+        "url": "Condition/ebf8b173-8400-7d85-cf33-8c84ab4a1311"
       }
     },
     {
-      "fullUrl": "urn:uuid:2c6ddcbf-126f-2226-1c11-dd647aa44643",
+      "fullUrl": "urn:uuid:c25c0fb6-bb25-06f7-44b2-92272a038f1c",
       "resource": {
         "resourceType": "Condition",
-        "id": "2c6ddcbf-126f-2226-1c11-dd647aa44643",
+        "id": "c25c0fb6-bb25-06f7-44b2-92272a038f1c",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
@@ -1347,7 +1377,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "meta": {
           "source": [
@@ -1357,14 +1387,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/2c6ddcbf-126f-2226-1c11-dd647aa44643"
+        "url": "Condition/c25c0fb6-bb25-06f7-44b2-92272a038f1c"
       }
     },
     {
-      "fullUrl": "urn:uuid:6f1ba581-bdef-0d47-9b23-308987970f1b",
+      "fullUrl": "urn:uuid:5c7f897a-54bd-cd0a-edce-64a990be0858",
       "resource": {
         "resourceType": "Condition",
-        "id": "6f1ba581-bdef-0d47-9b23-308987970f1b",
+        "id": "5c7f897a-54bd-cd0a-edce-64a990be0858",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
@@ -1402,7 +1432,7 @@
         },
         "onsetDateTime": "2022-12-14",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "meta": {
           "source": [
@@ -1412,7 +1442,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Condition/6f1ba581-bdef-0d47-9b23-308987970f1b"
+        "url": "Condition/5c7f897a-54bd-cd0a-edce-64a990be0858"
       }
     },
     {
@@ -1466,7 +1496,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -1475,10 +1505,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:8031d8e1-ef51-f8ac-82a6-b5f3ecac3cf4",
+      "fullUrl": "urn:uuid:825f0296-17b1-9636-be9c-5b67a8100e8c",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "8031d8e1-ef51-f8ac-82a6-b5f3ecac3cf4",
+        "id": "825f0296-17b1-9636-be9c-5b67a8100e8c",
         "identifier": [
           {
             "system": "urn:oid:1.2.840.114350.1.13.297.3.7.2.798268",
@@ -1500,7 +1530,7 @@
           "end": "2022-01-31T18:52:00Z"
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -1509,70 +1539,70 @@
         ],
         "result": [
           {
-            "reference": "Observation/9005b05e-9d6b-04b8-3b24-3ccc2409bc10"
+            "reference": "Observation/0606d792-0104-3dbf-467c-63af74fb466f"
           },
           {
-            "reference": "Observation/c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878"
+            "reference": "Observation/2c552cb4-f898-7d8b-9cf7-12308344a857"
           },
           {
-            "reference": "Observation/9c46236d-9962-28d7-a797-dbdf0b7723a0"
+            "reference": "Observation/1bf991da-aaf6-5114-fa44-62323828d836"
           },
           {
-            "reference": "Observation/6b535d2b-6f45-8319-4b05-26a26c8de3bd"
+            "reference": "Observation/ac4f81e8-80f9-d552-4942-affde03c92d6"
           },
           {
-            "reference": "Observation/4e3b20b0-765d-039b-9614-9537b0c59588"
+            "reference": "Observation/d464bd9b-c858-3714-cbbf-4f56d61cbaa0"
           },
           {
-            "reference": "Observation/42a0951a-ff80-7525-1046-505ba2ec6ba5"
+            "reference": "Observation/de67dfc7-1676-afd5-8882-84726b5cf3ef"
           },
           {
-            "reference": "Observation/c7501c45-cfe7-c699-d538-9bb303f72e88"
+            "reference": "Observation/61537e5d-8373-117c-529e-426ac96f76c7"
           },
           {
-            "reference": "Observation/0f8fd57b-19f6-99d8-f0bd-cd0b335392b0"
+            "reference": "Observation/353a6c4a-ad80-a4ad-98d2-05c66804b0c2"
           },
           {
-            "reference": "Observation/2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c"
+            "reference": "Observation/45b9e074-18d1-26be-f9d6-ca1ceeb5a14b"
           },
           {
-            "reference": "Observation/d0c377c9-af5d-f939-a35d-6e805f1fdfc4"
+            "reference": "Observation/1d8cad45-f214-e82e-58b0-a9967538f5b3"
           },
           {
-            "reference": "Observation/0812de0f-2cc3-c517-6376-001da70bae25"
+            "reference": "Observation/036e5ea2-b2bd-01a9-86d9-d55d9b48d763"
           },
           {
-            "reference": "Observation/07162769-83cc-61e0-6476-c916e0854e7d"
+            "reference": "Observation/708a5d47-6d74-0145-e709-8740a6c5ca56"
           },
           {
-            "reference": "Observation/5b2e1d26-b438-d200-6c7e-d17b748757e6"
+            "reference": "Observation/c00a4240-15c5-8446-cc7f-91da3fb0ce34"
           },
           {
-            "reference": "Observation/f9d39143-ffb7-16c2-ef00-29fc0157a8fb"
+            "reference": "Observation/8d2acfeb-3201-b6b1-9201-97f54cba9fea"
           },
           {
-            "reference": "Observation/5dacaa50-cef9-e4ec-21b1-15c2e15bc00a"
+            "reference": "Observation/579279ac-314f-dcd0-2f4c-ec9d5fc592f0"
           },
           {
-            "reference": "Observation/63056ac0-0596-d7ab-d02b-f6682bef73dd"
+            "reference": "Observation/a2f6f151-6f28-4a47-1a9b-d612f008c379"
           },
           {
-            "reference": "Observation/9800e50d-77dc-8b23-0af5-44929d91a3db"
+            "reference": "Observation/77912d80-2a1d-ce12-3ae9-c8ebe922db59"
           },
           {
-            "reference": "Observation/2f26889d-ad02-e761-e3a4-b93bfd9b6c5f"
+            "reference": "Observation/d21ee50e-194c-830a-dd74-7bb980a6bbed"
           },
           {
-            "reference": "Observation/33852e11-1614-2637-fec6-b873725ce3e0"
+            "reference": "Observation/d2f42d6c-1754-75b8-7567-7014b6c3e774"
           },
           {
-            "reference": "Observation/d24a938c-526c-953a-d10b-f4e321a03555"
+            "reference": "Observation/c0b22686-2c61-082f-6824-172e6091f8ca"
           },
           {
-            "reference": "Observation/a1c957bc-67e7-e9cd-fb85-e216b6c46299"
+            "reference": "Observation/9c42c4a9-77d5-a76a-0514-1c092b005783"
           },
           {
-            "reference": "Observation/292416f6-39ba-9f36-bf4f-a7b302379abd"
+            "reference": "Observation/8457707c-5d79-81e9-c652-4529a4b5b1a9"
           },
           {
             "reference": "Observation/871dfa80-44de-7e07-dca1-91480e5e9612"
@@ -1586,7 +1616,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "DiagnosticReport/8031d8e1-ef51-f8ac-82a6-b5f3ecac3cf4"
+        "url": "DiagnosticReport/825f0296-17b1-9636-be9c-5b67a8100e8c"
       }
     },
     {
@@ -1620,10 +1650,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:9005b05e-9d6b-04b8-3b24-3ccc2409bc10",
+      "fullUrl": "urn:uuid:0606d792-0104-3dbf-467c-63af74fb466f",
       "resource": {
         "resourceType": "Observation",
-        "id": "9005b05e-9d6b-04b8-3b24-3ccc2409bc10",
+        "id": "0606d792-0104-3dbf-467c-63af74fb466f",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1676,7 +1706,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -1687,7 +1717,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/9005b05e-9d6b-04b8-3b24-3ccc2409bc10"
+        "url": "Observation/0606d792-0104-3dbf-467c-63af74fb466f"
       }
     },
     {
@@ -1724,10 +1754,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878",
+      "fullUrl": "urn:uuid:2c552cb4-f898-7d8b-9cf7-12308344a857",
       "resource": {
         "resourceType": "Observation",
-        "id": "c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878",
+        "id": "2c552cb4-f898-7d8b-9cf7-12308344a857",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1780,7 +1810,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -1791,14 +1821,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/c51b6b27-8ed1-8e9f-67e5-8f4fd99b0878"
+        "url": "Observation/2c552cb4-f898-7d8b-9cf7-12308344a857"
       }
     },
     {
-      "fullUrl": "urn:uuid:9c46236d-9962-28d7-a797-dbdf0b7723a0",
+      "fullUrl": "urn:uuid:1bf991da-aaf6-5114-fa44-62323828d836",
       "resource": {
         "resourceType": "Observation",
-        "id": "9c46236d-9962-28d7-a797-dbdf0b7723a0",
+        "id": "1bf991da-aaf6-5114-fa44-62323828d836",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1851,7 +1881,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -1862,14 +1892,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/9c46236d-9962-28d7-a797-dbdf0b7723a0"
+        "url": "Observation/1bf991da-aaf6-5114-fa44-62323828d836"
       }
     },
     {
-      "fullUrl": "urn:uuid:6b535d2b-6f45-8319-4b05-26a26c8de3bd",
+      "fullUrl": "urn:uuid:ac4f81e8-80f9-d552-4942-affde03c92d6",
       "resource": {
         "resourceType": "Observation",
-        "id": "6b535d2b-6f45-8319-4b05-26a26c8de3bd",
+        "id": "ac4f81e8-80f9-d552-4942-affde03c92d6",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1922,7 +1952,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -1933,14 +1963,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/6b535d2b-6f45-8319-4b05-26a26c8de3bd"
+        "url": "Observation/ac4f81e8-80f9-d552-4942-affde03c92d6"
       }
     },
     {
-      "fullUrl": "urn:uuid:4e3b20b0-765d-039b-9614-9537b0c59588",
+      "fullUrl": "urn:uuid:d464bd9b-c858-3714-cbbf-4f56d61cbaa0",
       "resource": {
         "resourceType": "Observation",
-        "id": "4e3b20b0-765d-039b-9614-9537b0c59588",
+        "id": "d464bd9b-c858-3714-cbbf-4f56d61cbaa0",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -1993,7 +2023,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2004,14 +2034,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/4e3b20b0-765d-039b-9614-9537b0c59588"
+        "url": "Observation/d464bd9b-c858-3714-cbbf-4f56d61cbaa0"
       }
     },
     {
-      "fullUrl": "urn:uuid:42a0951a-ff80-7525-1046-505ba2ec6ba5",
+      "fullUrl": "urn:uuid:de67dfc7-1676-afd5-8882-84726b5cf3ef",
       "resource": {
         "resourceType": "Observation",
-        "id": "42a0951a-ff80-7525-1046-505ba2ec6ba5",
+        "id": "de67dfc7-1676-afd5-8882-84726b5cf3ef",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2064,7 +2094,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2075,14 +2105,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/42a0951a-ff80-7525-1046-505ba2ec6ba5"
+        "url": "Observation/de67dfc7-1676-afd5-8882-84726b5cf3ef"
       }
     },
     {
-      "fullUrl": "urn:uuid:c7501c45-cfe7-c699-d538-9bb303f72e88",
+      "fullUrl": "urn:uuid:61537e5d-8373-117c-529e-426ac96f76c7",
       "resource": {
         "resourceType": "Observation",
-        "id": "c7501c45-cfe7-c699-d538-9bb303f72e88",
+        "id": "61537e5d-8373-117c-529e-426ac96f76c7",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2135,7 +2165,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2146,14 +2176,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/c7501c45-cfe7-c699-d538-9bb303f72e88"
+        "url": "Observation/61537e5d-8373-117c-529e-426ac96f76c7"
       }
     },
     {
-      "fullUrl": "urn:uuid:0f8fd57b-19f6-99d8-f0bd-cd0b335392b0",
+      "fullUrl": "urn:uuid:353a6c4a-ad80-a4ad-98d2-05c66804b0c2",
       "resource": {
         "resourceType": "Observation",
-        "id": "0f8fd57b-19f6-99d8-f0bd-cd0b335392b0",
+        "id": "353a6c4a-ad80-a4ad-98d2-05c66804b0c2",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2206,7 +2236,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2217,14 +2247,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/0f8fd57b-19f6-99d8-f0bd-cd0b335392b0"
+        "url": "Observation/353a6c4a-ad80-a4ad-98d2-05c66804b0c2"
       }
     },
     {
-      "fullUrl": "urn:uuid:2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c",
+      "fullUrl": "urn:uuid:45b9e074-18d1-26be-f9d6-ca1ceeb5a14b",
       "resource": {
         "resourceType": "Observation",
-        "id": "2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c",
+        "id": "45b9e074-18d1-26be-f9d6-ca1ceeb5a14b",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2277,7 +2307,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2288,14 +2318,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/2e5991f2-9065-833c-d1a8-cbfb8d5bbc2c"
+        "url": "Observation/45b9e074-18d1-26be-f9d6-ca1ceeb5a14b"
       }
     },
     {
-      "fullUrl": "urn:uuid:d0c377c9-af5d-f939-a35d-6e805f1fdfc4",
+      "fullUrl": "urn:uuid:1d8cad45-f214-e82e-58b0-a9967538f5b3",
       "resource": {
         "resourceType": "Observation",
-        "id": "d0c377c9-af5d-f939-a35d-6e805f1fdfc4",
+        "id": "1d8cad45-f214-e82e-58b0-a9967538f5b3",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2348,7 +2378,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2359,14 +2389,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/d0c377c9-af5d-f939-a35d-6e805f1fdfc4"
+        "url": "Observation/1d8cad45-f214-e82e-58b0-a9967538f5b3"
       }
     },
     {
-      "fullUrl": "urn:uuid:0812de0f-2cc3-c517-6376-001da70bae25",
+      "fullUrl": "urn:uuid:036e5ea2-b2bd-01a9-86d9-d55d9b48d763",
       "resource": {
         "resourceType": "Observation",
-        "id": "0812de0f-2cc3-c517-6376-001da70bae25",
+        "id": "036e5ea2-b2bd-01a9-86d9-d55d9b48d763",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2419,7 +2449,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2430,14 +2460,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/0812de0f-2cc3-c517-6376-001da70bae25"
+        "url": "Observation/036e5ea2-b2bd-01a9-86d9-d55d9b48d763"
       }
     },
     {
-      "fullUrl": "urn:uuid:07162769-83cc-61e0-6476-c916e0854e7d",
+      "fullUrl": "urn:uuid:708a5d47-6d74-0145-e709-8740a6c5ca56",
       "resource": {
         "resourceType": "Observation",
-        "id": "07162769-83cc-61e0-6476-c916e0854e7d",
+        "id": "708a5d47-6d74-0145-e709-8740a6c5ca56",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2490,7 +2520,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2501,14 +2531,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/07162769-83cc-61e0-6476-c916e0854e7d"
+        "url": "Observation/708a5d47-6d74-0145-e709-8740a6c5ca56"
       }
     },
     {
-      "fullUrl": "urn:uuid:5b2e1d26-b438-d200-6c7e-d17b748757e6",
+      "fullUrl": "urn:uuid:c00a4240-15c5-8446-cc7f-91da3fb0ce34",
       "resource": {
         "resourceType": "Observation",
-        "id": "5b2e1d26-b438-d200-6c7e-d17b748757e6",
+        "id": "c00a4240-15c5-8446-cc7f-91da3fb0ce34",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2561,7 +2591,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2572,14 +2602,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/5b2e1d26-b438-d200-6c7e-d17b748757e6"
+        "url": "Observation/c00a4240-15c5-8446-cc7f-91da3fb0ce34"
       }
     },
     {
-      "fullUrl": "urn:uuid:f9d39143-ffb7-16c2-ef00-29fc0157a8fb",
+      "fullUrl": "urn:uuid:8d2acfeb-3201-b6b1-9201-97f54cba9fea",
       "resource": {
         "resourceType": "Observation",
-        "id": "f9d39143-ffb7-16c2-ef00-29fc0157a8fb",
+        "id": "8d2acfeb-3201-b6b1-9201-97f54cba9fea",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2632,7 +2662,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2643,14 +2673,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/f9d39143-ffb7-16c2-ef00-29fc0157a8fb"
+        "url": "Observation/8d2acfeb-3201-b6b1-9201-97f54cba9fea"
       }
     },
     {
-      "fullUrl": "urn:uuid:5dacaa50-cef9-e4ec-21b1-15c2e15bc00a",
+      "fullUrl": "urn:uuid:579279ac-314f-dcd0-2f4c-ec9d5fc592f0",
       "resource": {
         "resourceType": "Observation",
-        "id": "5dacaa50-cef9-e4ec-21b1-15c2e15bc00a",
+        "id": "579279ac-314f-dcd0-2f4c-ec9d5fc592f0",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2722,7 +2752,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2733,14 +2763,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/5dacaa50-cef9-e4ec-21b1-15c2e15bc00a"
+        "url": "Observation/579279ac-314f-dcd0-2f4c-ec9d5fc592f0"
       }
     },
     {
-      "fullUrl": "urn:uuid:63056ac0-0596-d7ab-d02b-f6682bef73dd",
+      "fullUrl": "urn:uuid:a2f6f151-6f28-4a47-1a9b-d612f008c379",
       "resource": {
         "resourceType": "Observation",
-        "id": "63056ac0-0596-d7ab-d02b-f6682bef73dd",
+        "id": "a2f6f151-6f28-4a47-1a9b-d612f008c379",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2793,7 +2823,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2804,14 +2834,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/63056ac0-0596-d7ab-d02b-f6682bef73dd"
+        "url": "Observation/a2f6f151-6f28-4a47-1a9b-d612f008c379"
       }
     },
     {
-      "fullUrl": "urn:uuid:9800e50d-77dc-8b23-0af5-44929d91a3db",
+      "fullUrl": "urn:uuid:77912d80-2a1d-ce12-3ae9-c8ebe922db59",
       "resource": {
         "resourceType": "Observation",
-        "id": "9800e50d-77dc-8b23-0af5-44929d91a3db",
+        "id": "77912d80-2a1d-ce12-3ae9-c8ebe922db59",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2864,7 +2894,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2875,14 +2905,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/9800e50d-77dc-8b23-0af5-44929d91a3db"
+        "url": "Observation/77912d80-2a1d-ce12-3ae9-c8ebe922db59"
       }
     },
     {
-      "fullUrl": "urn:uuid:2f26889d-ad02-e761-e3a4-b93bfd9b6c5f",
+      "fullUrl": "urn:uuid:d21ee50e-194c-830a-dd74-7bb980a6bbed",
       "resource": {
         "resourceType": "Observation",
-        "id": "2f26889d-ad02-e761-e3a4-b93bfd9b6c5f",
+        "id": "d21ee50e-194c-830a-dd74-7bb980a6bbed",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -2935,7 +2965,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -2946,14 +2976,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/2f26889d-ad02-e761-e3a4-b93bfd9b6c5f"
+        "url": "Observation/d21ee50e-194c-830a-dd74-7bb980a6bbed"
       }
     },
     {
-      "fullUrl": "urn:uuid:33852e11-1614-2637-fec6-b873725ce3e0",
+      "fullUrl": "urn:uuid:d2f42d6c-1754-75b8-7567-7014b6c3e774",
       "resource": {
         "resourceType": "Observation",
-        "id": "33852e11-1614-2637-fec6-b873725ce3e0",
+        "id": "d2f42d6c-1754-75b8-7567-7014b6c3e774",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3006,7 +3036,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -3017,14 +3047,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/33852e11-1614-2637-fec6-b873725ce3e0"
+        "url": "Observation/d2f42d6c-1754-75b8-7567-7014b6c3e774"
       }
     },
     {
-      "fullUrl": "urn:uuid:d24a938c-526c-953a-d10b-f4e321a03555",
+      "fullUrl": "urn:uuid:c0b22686-2c61-082f-6824-172e6091f8ca",
       "resource": {
         "resourceType": "Observation",
-        "id": "d24a938c-526c-953a-d10b-f4e321a03555",
+        "id": "c0b22686-2c61-082f-6824-172e6091f8ca",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3077,7 +3107,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -3088,14 +3118,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/d24a938c-526c-953a-d10b-f4e321a03555"
+        "url": "Observation/c0b22686-2c61-082f-6824-172e6091f8ca"
       }
     },
     {
-      "fullUrl": "urn:uuid:a1c957bc-67e7-e9cd-fb85-e216b6c46299",
+      "fullUrl": "urn:uuid:9c42c4a9-77d5-a76a-0514-1c092b005783",
       "resource": {
         "resourceType": "Observation",
-        "id": "a1c957bc-67e7-e9cd-fb85-e216b6c46299",
+        "id": "9c42c4a9-77d5-a76a-0514-1c092b005783",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3148,7 +3178,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -3159,14 +3189,14 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/a1c957bc-67e7-e9cd-fb85-e216b6c46299"
+        "url": "Observation/9c42c4a9-77d5-a76a-0514-1c092b005783"
       }
     },
     {
-      "fullUrl": "urn:uuid:292416f6-39ba-9f36-bf4f-a7b302379abd",
+      "fullUrl": "urn:uuid:8457707c-5d79-81e9-c652-4529a4b5b1a9",
       "resource": {
         "resourceType": "Observation",
-        "id": "292416f6-39ba-9f36-bf4f-a7b302379abd",
+        "id": "8457707c-5d79-81e9-c652-4529a4b5b1a9",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3219,7 +3249,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         },
         "performer": [
           {
@@ -3230,7 +3260,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/292416f6-39ba-9f36-bf4f-a7b302379abd"
+        "url": "Observation/8457707c-5d79-81e9-c652-4529a4b5b1a9"
       }
     },
     {
@@ -3290,7 +3320,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -3299,10 +3329,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:06620f3f-52ed-4c23-8c08-28fe1af82384",
+      "fullUrl": "urn:uuid:74db6f9f-86b2-6f2d-3c05-cc3718fa7e2e",
       "resource": {
         "resourceType": "Observation",
-        "id": "06620f3f-52ed-4c23-8c08-28fe1af82384",
+        "id": "74db6f9f-86b2-6f2d-3c05-cc3718fa7e2e",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
@@ -3347,12 +3377,12 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
         "method": "PUT",
-        "url": "Observation/06620f3f-52ed-4c23-8c08-28fe1af82384"
+        "url": "Observation/74db6f9f-86b2-6f2d-3c05-cc3718fa7e2e"
       }
     },
     {
@@ -3405,7 +3435,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -3455,7 +3485,7 @@
         "effectiveDateTime": "2020-11-09",
         "valueBoolean": true,
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -3516,7 +3546,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -3613,7 +3643,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -3661,7 +3691,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -3827,7 +3857,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
@@ -3878,7 +3908,7 @@
           "value": 20171216
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/085e72d2-e0b4-4e65-bc8c-96990f8edd2a"
         }
       },
       "request": {
