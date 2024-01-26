@@ -187,8 +187,6 @@ class PHDCBuilder:
 
         self.phdc.getroot().append(body)
 
-        # return body
-
     def _build_case_report(self):
         component = ET.Element("component")
         section = ET.Element("section")
