@@ -179,8 +179,10 @@ const formatDate = (date: string) => {
     day: "2-digit",
   };
 
-  return new Date(date)
-    .toLocaleDateString("en-US", { ...options, timeZone: 'UTC' }); // UTC, otherwise will have timezone issues
+  return new Date(date).toLocaleDateString("en-US", {
+    ...options,
+    timeZone: "UTC",
+  }); // UTC, otherwise will have timezone issues
 };
 
 const formatPhoneNumber = (phoneNumber: string) => {
@@ -221,61 +223,56 @@ const formatStartEndDateTime = (
 };
 
 // TODO: Write render test for Active Problems table (snapshot)
-const formatTable = (  
+const formatTable = (
   resources: [],
   mappings: PathMappings,
   columns: [ColumnInfoInput], // Order of columns in array = order of apearance
 ) => {
   let headers = [];
-  columns.forEach(column => {
+  columns.forEach((column) => {
     const header = (
       <>
-        <th scope="col" className=" bg-gray-5 minw-15">{ column.columnName }</th>
+        <th scope="col" className=" bg-gray-5 minw-15">
+          {column.columnName}
+        </th>
       </>
     );
     headers.push(header);
-  })
-  
+  });
+
   let tableRows = [];
-  resources.forEach(entry => {
+  resources.forEach((entry) => {
     let rowCells = [];
-    columns.forEach(function(column, index) {
+    columns.forEach(function (column, index) {
       let rowCellData = evaluate(entry, mappings[column.infoPath])[0];
-      let isFirstCell = (index === 0);
+      let isFirstCell = index === 0;
 
       let rowCell = isFirstCell ? (
-        <th scope="row">
-          { rowCellData }
-        </th> )
-      : (
-        <td>
-          { rowCellData }
-        </td>
+        <th scope="row">{rowCellData}</th>
+      ) : (
+        <td>{rowCellData}</td>
       );
       rowCells.push(rowCell);
     });
-    const tableRow = (
-      <tr>
-        { rowCells }
-      </tr>
-    )
+    const tableRow = <tr>{rowCells}</tr>;
     tableRows.push(tableRow);
   });
-  
+
   // TODO: Fix table styling to match Figma
   const tableContent = (
     <>
       <thead>
-        <tr>
-          { headers }
-        </tr>
+        <tr>{headers}</tr>
       </thead>
-      <tbody>
-        { tableRows }
-      </tbody>
+      <tbody>{tableRows}</tbody>
     </>
   );
-  const table = <Table borderless className="border-top border-left border-right"> {tableContent} </Table>;
+  const table = (
+    <Table borderless className="border-top border-left border-right">
+      {" "}
+      {tableContent}{" "}
+    </Table>
+  );
 
   // TODO: deal with NA (empty data? no active problems?)
   return table;
@@ -540,24 +537,23 @@ export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
-
   // TODO: Write unit test for this function
   const returnProblemsTable = (problemsArray, mappings) => {
-    if (problemsArray.length === 0 ) {
+    if (problemsArray.length === 0) {
       return undefined;
-    };
-  
+    }
+
     const columnInfo = [
-      {columnName: "Active Problems", infoPath: "activeProblemsDisplay"}, 
-      {columnName: "Noted Date", infoPath: "activeProblemsDate"}
+      { columnName: "Active Problems", infoPath: "activeProblemsDisplay" },
+      { columnName: "Noted Date", infoPath: "activeProblemsDate" },
     ];
 
-    problemsArray.forEach(entry => {
+    problemsArray.forEach((entry) => {
       entry.onsetDateTime = formatDate(entry.onsetDateTime);
     });
 
-    problemsArray.sort(function(a, b){
-      return new Date(b.onsetDateTime) - new Date(a.onsetDateTime)
+    problemsArray.sort(function (a, b) {
+      return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
     });
 
     return formatTable(problemsArray, mappings, columnInfo);
@@ -566,13 +562,13 @@ export const evaluateClinicalData = (
   const activeProblemsData: DisplayData[] = [
     {
       title: "Problems List",
-      value: 
+      value:
         // returnProblemsTable(evaluate(fhirBundle, mappings["activeProblems"]), mappings),
         returnProblemsTable([], mappings),
     },
   ];
   return {
-    activeProblemsDetails: evaluateData(activeProblemsData)
+    activeProblemsDetails: evaluateData(activeProblemsData),
   };
 };
 

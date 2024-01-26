@@ -109,7 +109,9 @@ const ECRViewerPage = () => {
         content: (
           <div>
             <ClinicalInfo
-              activeProblemsDetails={clinicalData.activeProblemsDetails.availableData}
+              activeProblemsDetails={
+                clinicalData.activeProblemsDetails.availableData
+              }
             />
           </div>
         ),
@@ -126,7 +128,9 @@ const ECRViewerPage = () => {
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
               providerUnavailableData={providerData.unavailableData}
-              activeProblemsUnavailableData={clinicalData.activeProblemsDetails.unavailableData}
+              activeProblemsUnavailableData={
+                clinicalData.activeProblemsDetails.unavailableData
+              }
             />
           </div>
         ),
