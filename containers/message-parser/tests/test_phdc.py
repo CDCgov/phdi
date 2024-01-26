@@ -328,7 +328,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                     ],
                 )
             ),
-            (utils.read_file_from_assets("sample_phdc.xml")),
+            (utils.read_file_from_assets("sample_phdc_header.xml")),
         )
     ],
 )
@@ -399,6 +399,81 @@ def test_get_case_report_code():
         == b'<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" '
         b'codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>'
     )
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+def test_get_case_report():
+    builder = PHDCBuilder()
+    case_report_code = builder._build_case_report()
+
+    assert (
+        ET.tostring(case_report_code) == b"<component><section>"
+        b'<id extension="mocked-uuid" assigningAuthorityName="LR"/>'
+        b'<code code="55752-0"'
+        b' codeSystem="2.16.840.1.113883.6.1" '
+        b'codeSystemName="LOINC" '
+        b'displayName="Clinical Information"/>'
+        b"<title>Clinical Information</title>"
+        b"</section></component>"
+    )
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
+@pytest.mark.parametrize(
+    "build_header_test_data, expected_result",
+    [
+        (
+            PHDCInputData(
+                type="case_report",
+                patient=Patient(
+                    name=[
+                        Name(
+                            prefix="Mr.",
+                            first="John",
+                            middle="Jacob",
+                            family="Schmidt",
+                            type="official",
+                        ),
+                        Name(
+                            prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
+                        ),
+                    ],
+                    race_code="White",
+                    ethnic_group_code="Not Hispanic or Latino",
+                    administrative_gender_code="Male",
+                    birth_time="01-01-2000",
+                    telecom=[
+                        Telecom(value="+1-800-555-1234"),
+                        Telecom(value="+1-800-555-1234", type="work"),
+                    ],
+                    address=[
+                        Address(
+                            type="Home",
+                            street_address_line_1="123 Main Street",
+                            city="Brooklyn",
+                            postal_code="11201",
+                            state="New York",
+                        ),
+                        Address(
+                            type="workplace",
+                            street_address_line_1="123 Main Street",
+                            postal_code="55866",
+                            city="Brooklyn",
+                            state="New York",
+                        ),
+                    ],
+                ),
+            ),
+            (utils.read_file_from_assets("sample_phdc.xml")),
+        )
+    ],
+)
+def test_build(build_header_test_data, expected_result):
+    builder = PHDCBuilder()
+    builder.set_input_data(build_header_test_data)
+    phdc = builder.build()
+    assert phdc.to_xml_string() == expected_result
 
 
 def test_add_field():
