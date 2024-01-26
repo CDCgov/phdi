@@ -8,7 +8,10 @@ from pydantic import Field
 from pydantic import root_validator
 
 PARSING_SCHEMA_DATA_TYPES = Literal[
-    "string", "integer", "float", "boolean", "date", "datetime", "array"
+    "string", "integer", "float", "boolean", "date", "datetime", "array", "struct"
+]
+PHDC_REPORT_TYPES = Literal[
+    "case_report", "contact_record", "lab_report", "morbidity_report"
 ]
 
 
@@ -199,80 +202,12 @@ class FhirToPhdcInput(BaseModel):
     The schema for requests to the /fhir-to-phdc endpoint.
     """
 
-    parsing_schema: Optional[dict] = Field(
-        description="A schema describing which fields to extract from the message. This"
-        " must be a JSON object with key:value pairs of the form "
-        "<my-field>:<FHIR-to-my-field>.",
-        default={},
-    )
-    parsing_schema_name: Optional[str] = Field(
-        description="The name of a schema that was previously"
-        " loaded in the service to use to extract fields from the message.",
-        default="",
+    phdc_report_type: PHDC_REPORT_TYPES = Field(
+        description="The type of PHDC document the user wants returned to them."
+        " The choice of report type should reflect the type of the incoming data"
+        " and determines which PHDC schema is used when extracting."
     )
     message: dict = Field(description="The FHIR bundle to extract from.")
-
-    # TODO: Eventually, we'll remove this when we stop exposing the ability
-    # to set a custom schema when receiving PHDC (since it's so structured)
-    @root_validator
-    def prohibit_schema_and_schema_name(cls, values):
-        """
-        Function that checks whether the user has provided
-          one of either parsing_schema and parsing_schema_name;
-          one (and only one!) should be provided for message_parser to work correctly.
-
-        :param cls: the ParseMessageInput class
-        :param values: the parsing_schema and parsing_schema_name provided by the user
-
-        :raises ValueError: error when both pasing_schema and parsing_schema name
-          are missing from API call.
-
-        :return values: the parsing_schema and parsing_schema_name provided by the user
-        """
-        if (
-            values.get("parsing_schema") != {}
-            and values.get("parsing_schema_name") != ""
-        ):
-            raise ValueError(
-                "Values for both 'parsing_schema' and 'parsing_schema_name' have been "
-                "provided. Only one of these values is permited."
-            )
-        return values
-
-    # TODO: Eventually, we'll remove this when we stop exposing the ability
-    # to set a custom schema when receiving PHDC (since it's so structured)
-    @root_validator
-    def require_schema_or_schema_name(cls, values):
-        """
-        Function that checks whether the user has provided
-          one of either parsing_schema and parsing_schema_name;
-          one (and only one!) should be provided for message_parser to work correctly.
-
-        :param cls: the ParseMessageInput class
-
-        :param values: the parsing_schema and parsing_schema_name provided by the user
-
-        :raises ValueError: error when both pasing_schema and parsing_schema_name
-          are missing from API call.
-
-        :return values: the parsing_schema and parsing_schema_name provided by the user
-        """
-        if (
-            values.get("parsing_schema") == {}
-            and values.get("parsing_schema_name") == ""
-        ):
-            raise ValueError(
-                "Values for 'parsing_schema' and 'parsing_schema_name' have not been "
-                "provided. One, but not both, of these values is required."
-            )
-        return values
-
-    # TODO: As part of future work, move validation of the schema more fully
-    # into pydanatic, rather than duplicate schema validation on each model
-    # and the schema upload
-    @root_validator
-    def require_reference_fields_to_have_lookups(cls, values):
-        return validate_secondary_reference_fields(values)
 
 
 class FhirToPhdcResponse(BaseModel):

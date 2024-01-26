@@ -3,18 +3,19 @@ import EcrSummary from "@/app/view-data/components/EcrSummary";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import Demographics from "./components/Demographics";
-import SocialHistory from "./components/SocialHistory";
 import { Accordion } from "@trussworks/react-uswds";
-import UnavailableInfo from "./components/UnavailableInfo";
-import EcrMetadata from "./components/EcrMetadata";
 import {
   PathMappings,
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
   evaluateDemographicsData,
+  evaluateEcrMetadata,
 } from "../utils";
+import Demographics from "./components/Demographics";
+import SocialHistory from "./components/SocialHistory";
+import UnavailableInfo from "./components/UnavailableInfo";
+import EcrMetadata from "./components/EcrMetadata";
 import EncounterDetails from "./components/Encounter";
 
 const ECRViewerPage = () => {
@@ -55,6 +56,7 @@ const ECRViewerPage = () => {
     const social_data = evaluateSocialData(fhirBundle, mappings);
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
+    const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: "Patient Info",
@@ -74,7 +76,11 @@ const ECRViewerPage = () => {
         title: "eCR Metadata",
         content: (
           <>
-            <EcrMetadata fhirPathMappings={mappings} fhirBundle={fhirBundle} />
+            <EcrMetadata
+              eicrDetails={ecrMetadata.eicrDetails.availableData}
+              eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+              rrDetails={ecrMetadata.rrDetails.availableData}
+            />
           </>
         ),
         expanded: true,
