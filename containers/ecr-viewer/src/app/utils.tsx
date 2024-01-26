@@ -1,5 +1,5 @@
 import { Bundle, Organization, Reference } from "fhir/r4";
-import { types, evaluate } from "fhirpath";
+import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
 
@@ -222,7 +222,6 @@ const formatStartEndDateTime = (
         End: ${endFormattedDate}`;
 };
 
-// TODO: Write render test for Active Problems table (snapshot)
 const formatTable = (
   resources: [],
   mappings: PathMappings,
@@ -532,7 +531,6 @@ export const evaluateEcrMetadata = (
 };
 
 export const returnProblemsTable = (problemsArray, mappings) => {
-  console.log(problemsArray);
   if (problemsArray.length === 0) {
     return undefined;
   }
