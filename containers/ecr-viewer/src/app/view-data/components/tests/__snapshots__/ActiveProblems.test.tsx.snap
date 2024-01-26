@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Problems Table should match snapshot 1`] = `
+<div>
+  <table
+    class="usa-table usa-table--borderless border-top border-left border-right"
+    data-testid="table"
+  >
+     
+    <thead>
+      <tr>
+        <th
+          class=" bg-gray-5 minw-15"
+          scope="col"
+        >
+          Active Problems
+        </th>
+        <th
+          class=" bg-gray-5 minw-15"
+          scope="col"
+        >
+          Noted Date
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
+        </th>
+        <td>
+          12/14/2022
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Headache
+        </th>
+        <td>
+          08/19/2022
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Backache
+        </th>
+        <td>
+          08/19/2022
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Malignant neoplasm of urinary bladder neck
+        </th>
+        <td>
+          11/05/2021
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Malignant neoplasm of overlapping sites of pancreas
+        </th>
+        <td>
+          09/18/2017
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Bilateral malignant neoplasm of lower outer quadrant of breast in female
+        </th>
+        <td>
+          02/27/2017
+        </td>
+      </tr>
+    </tbody>
+     
+  </table>
+</div>
+`;

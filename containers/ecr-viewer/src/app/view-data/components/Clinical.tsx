@@ -7,7 +7,6 @@ import {
 
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
-  // Other clinical data details will go here
 }
 
 const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
@@ -25,7 +24,6 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
     );
   };
 
-  // this is just for Active Problems table -> don't want title and value (table) to appear on same row
   const renderActiveProblemsDetails = () => {
     return (
       <div>
@@ -53,9 +51,7 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
 
   return (
     <AccordianSection>
-      {/* <div>{encounterData.length > 0 && renderEncounterDetails()}</div> */}
       <div className="margin-top-3">
-        {/* // TODO: renderSymptomsPRoblemsDetails shouldn't depend on just activeProblemsDetails */}
         {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
       </div>
     </AccordianSection>

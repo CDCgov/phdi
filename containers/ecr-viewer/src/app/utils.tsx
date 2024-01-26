@@ -172,7 +172,7 @@ const formatDateTime = (dateTime: string) => {
     .replace(",", "");
 };
 
-const formatDate = (date: string) => {
+export const formatDate = (date: string) => {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "2-digit",
@@ -258,7 +258,6 @@ const formatTable = (
     tableRows.push(tableRow);
   });
 
-  // TODO: Fix table styling to match Figma
   const tableContent = (
     <>
       <thead>
@@ -274,7 +273,6 @@ const formatTable = (
     </Table>
   );
 
-  // TODO: deal with NA (empty data? no active problems?)
   return table;
 };
 
@@ -533,38 +531,39 @@ export const evaluateEcrMetadata = (
   };
 };
 
+export const returnProblemsTable = (problemsArray, mappings) => {
+  console.log(problemsArray);
+  if (problemsArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo = [
+    { columnName: "Active Problems", infoPath: "activeProblemsDisplay" },
+    { columnName: "Noted Date", infoPath: "activeProblemsDate" },
+  ];
+
+  problemsArray.forEach((entry) => {
+    entry.onsetDateTime = formatDate(entry.onsetDateTime);
+  });
+
+  problemsArray.sort(function (a, b) {
+    return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
+  });
+
+  return formatTable(problemsArray, mappings, columnInfo);
+};
+
 export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
-  // TODO: Write unit test for this function
-  const returnProblemsTable = (problemsArray, mappings) => {
-    if (problemsArray.length === 0) {
-      return undefined;
-    }
-
-    const columnInfo = [
-      { columnName: "Active Problems", infoPath: "activeProblemsDisplay" },
-      { columnName: "Noted Date", infoPath: "activeProblemsDate" },
-    ];
-
-    problemsArray.forEach((entry) => {
-      entry.onsetDateTime = formatDate(entry.onsetDateTime);
-    });
-
-    problemsArray.sort(function (a, b) {
-      return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
-    });
-
-    return formatTable(problemsArray, mappings, columnInfo);
-  };
-
   const activeProblemsData: DisplayData[] = [
     {
       title: "Problems List",
-      value:
-        // returnProblemsTable(evaluate(fhirBundle, mappings["activeProblems"]), mappings),
-        returnProblemsTable([], mappings),
+      value: returnProblemsTable(
+        evaluate(fhirBundle, mappings["activeProblems"]),
+        mappings,
+      ),
     },
   ];
   return {

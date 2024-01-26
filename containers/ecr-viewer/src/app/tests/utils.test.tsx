@@ -3,6 +3,7 @@ import {
   evaluateSocialData,
   extractPatientAddress,
   formatPatientName,
+  formatDate,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/fhir-data/utils";
 import { Bundle } from "fhir/r4";
@@ -138,6 +139,15 @@ describe("Utils", () => {
       );
 
       expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
+    });
+  });
+  describe("Format Date", () => {
+    it("should return the correct formatted date", () => {
+      const inputDate = "2023-01-15";
+      const expectedDate = "01/15/2023";
+
+      const result = formatDate(inputDate);
+      expect(result).toEqual(expectedDate);
     });
   });
 });
