@@ -5,7 +5,9 @@ from typing import Optional
 
 from app import utils
 from app.phdc.models import Address
+from app.phdc.models import CodedElement
 from app.phdc.models import Name
+from app.phdc.models import Observation
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
@@ -211,6 +213,55 @@ class PHDCBuilder:
             e = ET.Element(field_name)
             e.text = data
             parent_element.append(e)
+
+    def _add_coded_elements(
+        self, parent_element: ET.Element, elements: List[CodedElement], tag: str
+    ):
+        """
+        Adds multiple coded elements as child elements to a parent XML element.
+        Each coded element is added with a specified tag and attributes derived
+        from the properties of the CodedElement object.
+
+        This method is used to create and append XML elements with attributes,
+        such as 'xsi:type', 'code', 'codeSystem', 'codeSystemName', and 'displayName',
+        which are common in coded XML structures.
+
+        :param parent_element: The parent element to add the child element to.
+        :param elements: A list of CodedElement objects to be added as child elements.
+        :param tag: The tag name to be used for each created child element.
+        """
+        for element in elements:
+            if element is not None:
+                # Filter out None values from attributes
+                attrib = element.to_attributes()
+                # Replace 'display_name' with 'displayName'
+                attrib = {k: v for k, v in attrib.items() if v is not None}
+                ET.SubElement(parent_element, tag, attrib)
+
+    def _build_observation_method(self, observation: Observation) -> ET.Element:
+        # Create the 'entry' element
+        entry_data = ET.Element("entry", attrib={"typeCode": observation.type_code})
+
+        # Create the 'observation' element and append it to 'entry'
+        observation_data = ET.SubElement(
+            entry_data,
+            "observation",
+            {"classCode": observation.class_code, "moodCode": observation.mood_code},
+        )
+        # Add 'code' elements
+        if observation.code:
+            self._add_coded_elements(observation_data, observation.code, "code")
+
+        # Add 'value' elements
+        if observation.value:
+            v = self._add_coded_elements(observation_data, observation.value, "value")
+        # Add 'translation' elements to value
+        if observation.translation:
+            self._add_coded_elements(v, observation.translation, "translation")
+
+        print(ET.tostring(entry_data, encoding="unicode"))
+
+        return entry_data
 
     def _build_addr(
         self,
