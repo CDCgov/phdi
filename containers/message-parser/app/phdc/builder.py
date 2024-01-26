@@ -1,73 +1,39 @@
-from __future__ import annotations
-
 import uuid
-from dataclasses import dataclass
-from enum import Enum
 from typing import List
+from typing import Literal
 from typing import Optional
 
 from app import utils
+from app.phdc.models import Address
+from app.phdc.models import Name
+from app.phdc.models import Patient
+from app.phdc.models import PHDCInputData
+from app.phdc.models import Telecom
 from lxml import etree as ET
 
 
-@dataclass
-class Telecom:
-    value: Optional[str] = None
-    type: Optional[str] = None
-    useable_period_low: Optional[str] = None
-    useable_period_high: Optional[str] = None
-
-
-@dataclass
-class Address:
-    street_address_line_1: Optional[str] = None
-    street_address_line_2: Optional[str] = None
-    city: Optional[str] = None
-    state: Optional[str] = None
-    postal_code: Optional[str] = None
-    county: Optional[str] = None
-    country: Optional[str] = None
-    type: Optional[str] = None
-    useable_period_low: Optional[str] = None
-    useable_period_high: Optional[str] = None
-
-
-@dataclass
-class Name:
-    prefix: Optional[str] = None
-    first: Optional[str] = None
-    middle: Optional[str] = None
-    family: Optional[str] = None
-    suffix: Optional[str] = None
-    type: Optional[str] = None
-    valid_time_low: Optional[str] = None
-    valid_time_high: Optional[str] = None
-
-
-@dataclass
-class Patient:
-    name: List[Name] = None
-    address: List[Address] = None
-    telecom: List[Telecom] = None
-    administrative_gender_code: Optional[str] = None
-    race_code: Optional[str] = None
-    ethnic_group_code: Optional[str] = None
-    birth_time: Optional[str] = None
-
-
-@dataclass
-class PHDCInputData:
-    type: str = "case report"
-    patient: Patient = None
-
-
 class PHDC:
-    def __init__(self, builder: PHDCBuilder):
-        self.header = builder._build_header()
+    """
+    A class to represent a Public Health Data Container (PHDC) document given a
+    PHDCBuilder.
+    """
 
-    def to_xml_string(self):
+    def __init__(self, data: ET.ElementTree = None):
+        """
+        Initializes the PHDC class with a PHDCBuilder.
+
+        :param builder: The PHDCBuilder to use to build the PHDC.
+        """
+        self.data = data
+
+    def to_xml_string(self) -> bytes:
+        """
+        Return a string representation of the PHDC XML document as serialized bytes.
+        """
+        if self.data is None:
+            raise ValueError("The PHDC object must be initialized.")
         return ET.tostring(
-            self.header,
+            self.data,
             pretty_print=True,
             xml_declaration=True,
             encoding="utf-8",
@@ -75,52 +41,31 @@ class PHDC:
 
 
 class PHDCBuilder:
+    """
+    A builder class for creating PHDC documents.
+    """
+
     def __init__(self):
+        """
+        Initializes the PHDCBuilder class and create and empty PHDC.
+        """
+
         self.input_data: PHDCInputData = None
+        self.phdc = self._build_base_phdc()
 
     def set_input_data(self, input_data: PHDCInputData):
+        """
+        Given a PHDCInputData object, set the input data for the PHDCBuilder.
+
+        :param input_data: The PHDCInputData object to use as input data.
+        """
+
         self.input_data = input_data
-        return self
 
-    def _build_header(self):
-        def get_type_id():
-            type_id = ET.Element("typeId")
-            type_id.set("root", "2.16.840.1.113883.1.3")
-            type_id.set("extension", "POCD_HD000020")
-            return type_id
-
-        def get_id():
-            id = ET.Element("id")
-            id.set("root", "2.16.840.1.113883.19")
-            id.set("extension", str(uuid.uuid4()))
-            return id
-
-        def get_effective_time():
-            effective_time = ET.Element("effectiveTime")
-            effective_time.set(
-                "value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S")
-            )
-            return effective_time
-
-        class ConfidentialityCodes(str, Enum):
-            normal = ("N",)
-            restricted = ("R",)
-            very_restricted = ("V",)
-
-        def get_confidentiality_code(code: ConfidentialityCodes):
-            confidentiality_code = ET.Element("confidentialityCode")
-            confidentiality_code.set("code", code)
-            confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
-            return confidentiality_code
-
-        def get_case_report_code():
-            code = ET.Element("code")
-            code.set("code", "55751-2")
-            code.set("codeSystem", "2.16.840.1.113883.6.1")
-            code.set("codeSystemName", "LOINC")
-            code.set("displayName", "Public Health Case Report - PHRI")
-            return code
-
+    def _build_base_phdc(self) -> ET.ElementTree:
+        """
+        Create the base PHDC XML document.
+        """
         xsi_schema_location = ET.QName(
             "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
         )
@@ -128,6 +73,7 @@ class PHDCBuilder:
         namespace = {
             None: "urn:hl7-org:v3",
             "sdt": "urn:hl7-org:sdtc",
+            "sdtcxmlnamespaceholder": "urn:hl7-org:v3",
             "xsi": "http://www.w3.org/2001/XMLSchema-instance",
         }
         clinical_document = ET.Element(
@@ -135,20 +81,85 @@ class PHDCBuilder:
             {xsi_schema_location: "urn:hl7-org:v3 CDA_SDTC.xsd"},
             nsmap=namespace,
         )
+        clinical_document = ET.ElementTree(clinical_document)
         pi = ET.ProcessingInstruction(
             "xml-stylesheet", text='type="text/xsl" href="PHDC.xsl"'
         )
-        clinical_document.addprevious(pi)
 
-        clinical_document.append(get_type_id())
-        clinical_document.append(get_id())
-        clinical_document.append(get_case_report_code())
-        clinical_document.append(get_effective_time())
-        clinical_document.append(get_confidentiality_code(ConfidentialityCodes.normal))
+        clinical_document.getroot().addprevious(pi)
 
-        clinical_document.append(self._build_custodian(id=str(uuid.uuid4())))
-        clinical_document.append(self._build_author(family_name="DIBBS"))
-        clinical_document.append(
+        return clinical_document
+
+    def _get_type_id(self) -> ET.Element:
+        """
+        Returns the type ID element of the PHDC header.
+        """
+        type_id = ET.Element("typeId")
+        type_id.set("root", "2.16.840.1.113883.1.3")
+        type_id.set("extension", "POCD_HD000020")
+        return type_id
+
+    def _get_id(self) -> ET.Element:
+        """
+        Returns the ID element of the PHDC header.
+        """
+        id = ET.Element("id")
+        id.set("root", "2.16.840.1.113883.19")
+        id.set("extension", str(uuid.uuid4()))
+        return id
+
+    def _get_effective_time(self) -> ET.Element:
+        """
+        Returns the effectiveTime element of the PHDC header.
+        """
+        effective_time = ET.Element("effectiveTime")
+        effective_time.set("value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S"))
+        return effective_time
+
+    def _get_confidentiality_code(
+        self, confidentiality: Literal["normal", "restricted", "very restricted"]
+    ) -> ET.Element:
+        """
+        Returns the confidentialityCode element of the PHDC header.
+
+        :param confidentiality: The confidentiality code to use.
+        """
+        confidendiality_codes = {
+            "normal": "N",
+            "restricted": "R",
+            "very restricted": "V",
+        }
+
+        confidentiality_code = ET.Element("confidentialityCode")
+        confidentiality_code.set("code", confidendiality_codes[confidentiality])
+        confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
+        return confidentiality_code
+
+    def _get_case_report_code(self):
+        """
+        Returns the code element of the header for a PHDC case report.
+        """
+        code = ET.Element("code")
+        code.set("code", "55751-2")
+        code.set("codeSystem", "2.16.840.1.113883.6.1")
+        code.set("codeSystemName", "LOINC")
+        code.set("displayName", "Public Health Case Report - PHRI")
+        return code
+
+    def build_header(self):
+        """
+        Builds the header of the PHDC document.
+        """
+        root = self.phdc.getroot()
+        root.append(self._get_type_id())
+        root.append(self._get_id())
+        root.append(self._get_case_report_code())
+        root.append(self._get_effective_time())
+        root.append(self._get_confidentiality_code(confidentiality="normal"))
+
+        root.append(self._build_custodian(id=str(uuid.uuid4())))
+        root.append(self._build_author(family_name="DIBBS"))
+        root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
                 root="2.16.840.1.113883.4.1",
@@ -159,9 +170,7 @@ class PHDCBuilder:
             )
         )
 
-        return clinical_document
-
-    def _build_telecom(self, telecom: Telecom):
+    def _build_telecom(self, telecom: Telecom) -> ET.Element:
         """
         Builds a `telecom` XML element for phone data including phone number (as
         `value`) and use, if available. There are three types of phone uses: 'HP'
@@ -190,10 +199,23 @@ class PHDCBuilder:
 
         return telecom_data
 
+    def _add_field(self, parent_element: ET.Element, data: str, field_name: str):
+        """
+        Adds a child element to a parent element given the data and field name.
+
+        :param parent_element: The parent element to add the child element to.
+        :param data: The data to add to the child element.
+        :param field_name: The name of the child element.
+        """
+        if data is not None:
+            e = ET.Element(field_name)
+            e.text = data
+            parent_element.append(e)
+
     def _build_addr(
         self,
         address: Address,
-    ):
+    ) -> ET.Element:
         """
         Builds an `addr` XML element for address data. There are two types of address
          uses: 'H' for home address and 'WP' for workplace address.
@@ -203,26 +225,24 @@ class PHDCBuilder:
         """
         address_data = ET.Element("addr")
 
-        def add_field(data, field_name: str):
-            if data is not None:
-                e = ET.Element(field_name)
-                e.text = data
-                address_data.append(e)
-
         if address.type is not None:
             address_data.set("use", "H" if address.type.lower() == "home" else "WP")
 
-        add_field(address.street_address_line_1, "streetAddressLine")
-        add_field(address.street_address_line_2, "streetAddressLine")
-        add_field(address.city, "city")
-        add_field(address.state, "state")
-        add_field(address.postal_code, "postalCode")
-        add_field(address.county, "county")
-        add_field(address.country, "country")
+        self._add_field(
+            address_data, address.street_address_line_1, "streetAddressLine"
+        )
+        self._add_field(
+            address_data, address.street_address_line_2, "streetAddressLine"
+        )
+        self._add_field(address_data, address.city, "city")
+        self._add_field(address_data, address.state, "state")
+        self._add_field(address_data, address.postal_code, "postalCode")
+        self._add_field(address_data, address.county, "county")
+        self._add_field(address_data, address.country, "country")
 
         return address_data
 
-    def _build_name(self, name: Name):
+    def _build_name(self, name: Name) -> ET.Element:
         """
         Builds a `name` XML element for name data.
 
@@ -231,12 +251,6 @@ class PHDCBuilder:
         """
 
         name_data = ET.Element("name")
-
-        def add_field(data, field_name: str):
-            if data is not None:
-                e = ET.Element(field_name)
-                e.text = data
-                name_data.append(e)
 
         if name.type is not None:
             types = {
@@ -248,18 +262,18 @@ class PHDCBuilder:
             }
             name_data.set("use", types[name.type])
 
-        add_field(name.prefix, "prefix")
-        add_field(name.first, "given")
-        add_field(name.middle, "given")
-        add_field(name.family, "family")
-        add_field(name.suffix, "suffix")
+        self._add_field(name_data, name.prefix, "prefix")
+        self._add_field(name_data, name.first, "given")
+        self._add_field(name_data, name.middle, "given")
+        self._add_field(name_data, name.family, "family")
+        self._add_field(name_data, name.suffix, "suffix")
 
         return name_data
 
     def _build_custodian(
         self,
         id: str,
-    ):
+    ) -> ET.Element:
         """
         Builds a `custodian` XML element for custodian data, which refers to the
           organization from which the PHDC originates and that is in charge of
@@ -286,7 +300,7 @@ class PHDCBuilder:
 
         return custodian_data
 
-    def _build_author(self, family_name: str):
+    def _build_author(self, family_name: str) -> ET.Element:
         """
         Builds an `author` XML element for author data, which represents the
             humans and/or machines that authored the document.
@@ -327,7 +341,7 @@ class PHDCBuilder:
 
         return author_element
 
-    def _build_coded_element(self, element_name: str, **kwargs: dict):
+    def _build_coded_element(self, element_name: str, **kwargs: dict) -> ET.Element:
         """
         Builds coded elements, such as administrativeGenderCode, using kwargs code,
           codeSystem, and displayName.
@@ -346,7 +360,13 @@ class PHDCBuilder:
                 element.set(e, v)
         return element
 
-    def _build_patient(self, patient: Patient):
+    def _build_patient(self, patient: Patient) -> ET.Element:
+        """
+        Given a Patient object, build the patient element of the PHDC.
+
+        :param patient: The Patient object to use for building the patient element.
+        """
+
         patient_data = ET.Element("patient")
 
         for name in patient.name:
@@ -389,7 +409,7 @@ class PHDCBuilder:
         telecom_data: Optional[List[Telecom]] = None,
         address_data: Optional[List[Address]] = None,
         patient_data: Optional[Patient] = None,
-    ):
+    ) -> ET.Element:
         """
         Builds a `recordTarget` XML element for recordTarget data, which refers to
           the medical record of the patient.
@@ -449,5 +469,9 @@ class PHDCBuilder:
 
         return recordTarget_data
 
-    def build(self):
-        return PHDC(self)
+    def build(self) -> PHDC:
+        """
+        Returns a PHDC object.
+        """
+        self.build_header()
+        return PHDC(data=self.phdc)

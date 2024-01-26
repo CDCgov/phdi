@@ -43,6 +43,12 @@ To build the Docker image for the eCR Viewer app from source instead of download
 3. Navigate to `/phdi/containers/ecr-viewer/`.
 4. Run `docker build -t ecr-viewer .`.
 
+
+### Updating Seed Data
+
+Occasionally, the FHIR Converter will be updated requiring new seed data to be regenerated. This can be done by running `npm run convert-seed-data`.
+To reload the local DB with the new data you will need to delete the `ecr-viewer-seed-db` image by running `docker image rm ecr-viewer-seed-db ` and deleting the volume for the DB.
+
 ### Potential Issues
 
 If you have problems connecting your database run this command to see what other postgres databases are running
