@@ -180,7 +180,7 @@ const formatDate = (date: string) => {
   };
 
   return new Date(date)
-    .toLocaleDateString("en-US", { ...options, timeZone: 'UTC' }); // UTC, otherwise will have timezone issues?
+    .toLocaleDateString("en-US", { ...options, timeZone: 'UTC' }); // UTC, otherwise will have timezone issues
 };
 
 const formatPhoneNumber = (phoneNumber: string) => {
@@ -224,29 +224,34 @@ const formatStartEndDateTime = (
 const formatTable = (  
   resources: [],
   mappings: PathMappings,
-  columns: [ColumnInfoInput], // TODO: Make note about order of columns
+  columns: [ColumnInfoInput], // Order of columns in array = order of apearance
 ) => {
-  // Build table headers
   let headers = [];
   columns.forEach(column => {
-    const header = 
+    const header = (
       <>
-        <th scope="col" className="minw-15">{ column.columnName }</th>
+        <th scope="col" className=" bg-gray-5 minw-15">{ column.columnName }</th>
       </>
-    ;
+    );
     headers.push(header);
   })
   
   let tableRows = [];
   resources.forEach(entry => {
     let rowCells = [];
-    columns.forEach(column => {
+    columns.forEach(function(column, index) {
       let rowCellData = evaluate(entry, mappings[column.infoPath])[0];
-      let rowCell = (
+      let isFirstCell = (index === 0);
+
+      let rowCell = isFirstCell ? (
+        <th scope="row">
+          { rowCellData }
+        </th> )
+      : (
         <td>
           { rowCellData }
         </td>
-      )
+      );
       rowCells.push(rowCell);
     });
     const tableRow = (
@@ -270,10 +275,10 @@ const formatTable = (
       </tbody>
     </>
   );
-  const table = <Table striped> {tableContent} </Table>;
+  const table = <Table borderless className="border-top border-left border-right"> {tableContent} </Table>;
 
   // TODO: deal with NA (empty data? no active problems?)
-  return table
+  return table;
 };
 
 const extractTravelHistory = (
@@ -538,6 +543,10 @@ export const evaluateClinicalData = (
 
   // TODO: Write unit test for this function
   const returnProblemsTable = (problemsArray, mappings) => {
+    if (problemsArray.length === 0 ) {
+      return undefined;
+    };
+  
     const columnInfo = [
       {columnName: "Active Problems", infoPath: "activeProblemsDisplay"}, 
       {columnName: "Noted Date", infoPath: "activeProblemsDate"}
@@ -548,18 +557,18 @@ export const evaluateClinicalData = (
     });
 
     problemsArray.sort(function(a, b){
-      console.log(a.onsetDateTime, b.onsetDateTime);
       return new Date(b.onsetDateTime) - new Date(a.onsetDateTime)
     });
 
     return formatTable(problemsArray, mappings, columnInfo);
   };
-  
+
   const activeProblemsData: DisplayData[] = [
     {
       title: "Problems List",
       value: 
-        returnProblemsTable(evaluate(fhirBundle, mappings["activeProblems"]), mappings),
+        // returnProblemsTable(evaluate(fhirBundle, mappings["activeProblems"]), mappings),
+        returnProblemsTable([], mappings),
     },
   ];
   return {
