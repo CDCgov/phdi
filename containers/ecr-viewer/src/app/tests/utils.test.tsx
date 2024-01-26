@@ -1,8 +1,9 @@
 import {
+  DisplayData,
   evaluateEcrMetadata,
   evaluateSocialData,
   extractPatientAddress,
-  formatPatientName,
+  formatPatientName, renderData
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/fhir-data/utils";
 import { Bundle } from "fhir/r4";
@@ -10,6 +11,7 @@ import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
 import BundleWithPatient from "../tests/assets/BundlePatient.json";
 import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json";
 import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
+import { render } from "@testing-library/react";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -140,4 +142,21 @@ describe("Utils", () => {
       expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");
     });
   });
+  describe("Render data", () => {
+    it("should render all data", () => {
+      const displayData: DisplayData[] = [
+        {
+          title: "Name",
+          value: "James"
+        },
+        {
+          title: "DOB",
+          value: "1751-03-16"
+        }
+      ];
+
+      const {container} = render(<>{renderData(displayData)}</>);
+      expect(container).toMatchSnapshot()
+    })
+  })
 });

@@ -18,27 +18,25 @@ exports[`Clinical Info should match snapshot 1`] = `
         <div
           class="usa-summary-box__text"
         >
-          <div>
+          <div
+            class="grid-row"
+          >
             <div
-              class="grid-row"
+              class="data-title"
             >
-              <div
-                class="data-title"
-              >
-                <h4>
-                  Clinical Notes
-                </h4>
-              </div>
-              <div
-                class="grid-col-auto maxw7 text-pre-line"
-              >
-                &lt;paragraph&gt;This patient was only recently discharged for a recurrent GI bleed as described&lt;/paragraph&gt;
-              </div>
+              <h4>
+                Clinical Notes
+              </h4>
             </div>
             <div
-              class="section__line_gray"
-            />
+              class="grid-col-auto maxw7 text-pre-line"
+            >
+              &lt;paragraph&gt;This patient was only recently discharged for a recurrent GI bleed as described&lt;/paragraph&gt;
+            </div>
           </div>
+          <div
+            class="section__line_gray"
+          />
         </div>
       </div>
     </div>

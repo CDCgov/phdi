@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Utils Render data should render all data 1`] = `
+<div>
+  <div
+    class="grid-row"
+  >
+    <div
+      class="data-title"
+    >
+      <h4>
+        Name
+      </h4>
+    </div>
+    <div
+      class="grid-col-auto maxw7 text-pre-line"
+    >
+      James
+    </div>
+  </div>
+  <div
+    class="section__line_gray"
+  />
+  <div
+    class="grid-row"
+  >
+    <div
+      class="data-title"
+    >
+      <h4>
+        DOB
+      </h4>
+    </div>
+    <div
+      class="grid-col-auto maxw7 text-pre-line"
+    >
+      1751-03-16
+    </div>
+  </div>
+  <div
+    class="section__line_gray"
+  />
+</div>
+`;

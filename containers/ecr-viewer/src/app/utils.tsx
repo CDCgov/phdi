@@ -1,6 +1,6 @@
 import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "fhirpath";
-import * as R4Models from "fhirpath/fhir-context/r4";
+import { Fragment } from "react";
 
 export interface DisplayData {
   title: string;
@@ -471,3 +471,19 @@ const evaluateData = (data: DisplayData[]) => {
   });
   return { availableData: availableData, unavailableData: unavailableData };
 };
+
+export const renderData = (data: DisplayData[]) => {
+  return data.map(({title, value}) =>
+    (
+      <Fragment key={title}>
+        <div className="grid-row">
+          <div className="data-title">
+            <h4>{title}</h4>
+          </div>
+          <div className="grid-col-auto maxw7 text-pre-line">{value}</div>
+        </div>
+        <div className={"section__line_gray"} />
+      </Fragment>
+    )
+  )
+}
