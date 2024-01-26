@@ -8,7 +8,7 @@ interface ClinicalInfoProps {
 const ClinicalInfo = ({ clinicalNotes }: ClinicalInfoProps) => {
   return(
     <AccordianSection>
-      <AccordianH3>Clinical Info</AccordianH3>
+      <AccordianH3>Clinical Notes</AccordianH3>
       <AccordianDiv>
         {renderData(clinicalNotes)}
       </AccordianDiv>
