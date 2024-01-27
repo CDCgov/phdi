@@ -61,4 +61,4 @@ rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/u
 
 resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
 
-historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text.div"
+historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text"
