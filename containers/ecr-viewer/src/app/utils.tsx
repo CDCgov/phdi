@@ -458,6 +458,16 @@ export const evaluateEcrMetadata = (
   };
 };
 
+export const evaluateClinicalData = (fhirBundle: Bundle | undefined, mappings: PathMappings) => {
+  const clinicalNotes = [
+    {
+      title: "Clinical Notes",
+      value: evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div,
+    },
+  ];
+  return {clinicalNotes: evaluateData(clinicalNotes)};
+}
+
 const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];

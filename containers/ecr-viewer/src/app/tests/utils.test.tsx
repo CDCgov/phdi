@@ -1,5 +1,5 @@
 import {
-  DisplayData,
+  DisplayData, evaluateClinicalData,
   evaluateEcrMetadata,
   evaluateSocialData,
   extractPatientAddress,
@@ -11,6 +11,7 @@ import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
 import BundleWithPatient from "../tests/assets/BundlePatient.json";
 import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json";
 import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
+import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json"
 import { render } from "@testing-library/react";
 
 describe("Utils", () => {
@@ -117,6 +118,17 @@ describe("Utils", () => {
       expect(actual.rrDetails.unavailableData).toBeEmpty();
     });
   });
+  describe("Evaluate Clinical Info", () => {
+    it("Should return notes", () => {
+      const actual = evaluateClinicalData(BundleWithMiscNotes as unknown as Bundle, mappings);
+
+      expect(actual.clinicalNotes.availableData).toEqual([{
+        "title": "Clinical Notes",
+        "value": "<text xmlns=\"urn:hl7-org:v3\"><list styleCode=\"xTOC\"><item><caption>Addendum Note - Gregory, Lindsey - Wed Sep 28, 2022 12:00 PM PDT</caption><content ID=\"Note4\"><content> Addended by: GREGORY, LINDSEY on: 9/28/2022 08:36 PM<br/><br/> Modules accepted: Orders<br/><br/></content><br/><content styleCode=\"xLabel\">Electronically signed by Gregory, Lindsey at 09/28/2022 8:36 PM PDT</content><br/></content></item><item><caption>Addendum Note - Cshs, Hybrid Physician W Mycslink, MD - Wed Sep 28, 2022 12:00 PM PDT</caption><content ID=\"Note3\"><content> Addended by: CSHS, HYBRID PHYSICIAN W/ MYCHART TEST USER on: 9/28/2022 08:37 PM<br/><br/> Modules accepted: Orders<br/><br/></content><br/><content styleCode=\"xLabel\">Electronically signed by Cshs, Hybrid Physician W Mycslink, MD at 09/28/2022 8:37 PM PDT</content><br/></content></item></list><footnote ID=\"subTitle1\" styleCode=\"xSectionSubTitle\">documented in this encounter</footnote></text>",
+      }]);
+      expect(actual.clinicalNotes.unavailableData).toBeEmpty();
+    })
+  })
   describe("Format Patient Name", () => {
     it("should return name", () => {
       const actual = formatPatientName(
