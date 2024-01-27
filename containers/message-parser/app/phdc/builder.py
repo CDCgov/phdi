@@ -366,6 +366,16 @@ class PHDCBuilder:
 
         :param patient: The Patient object to use for building the patient element.
         """
+        # RACE_CODE_SYSTEM = "2.16.840.1.113883.6.238"
+        # RACE_CODE_SYSTEM_NAME = "Race & Ethnicity"
+
+        # race_code_and_mapping = {
+        #     "1002-5": "American Indian or Alaska Native",
+        #     "2028-9": "Asian",
+        #     "2054-5": "Black or African American",
+        #     "2076-8": "Native Hawaiian or Other Pacific Islander",
+        #     "2106-3": "White",
+        # }
 
         patient_data = ET.Element("patient")
 
@@ -386,6 +396,18 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
+        # if (patient.race_code is not None and
+        #     patient.race_code in race_code_and_mapping):
+        #     display_name = race_code_and_mapping[patient.race_code]
+        #     v = self._build_coded_element(
+        #         "sdtc:raceCode",
+        #         code=patient.race_code,
+        #         codeSystem=RACE_CODE_SYSTEM,
+        #         displayName=display_name,
+        #         codeSystemName=RACE_CODE_SYSTEM_NAME,
+        #     )
+        #     patient_data.append(v)
+
         if patient.ethnic_group_code is not None:
             v = self._build_coded_element(
                 "ethnicGroupCode",
@@ -397,6 +419,7 @@ class PHDCBuilder:
             e = ET.Element("birthTime")
             e.text = patient.birth_time
             patient_data.append(e)
+
         # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
 
         return patient_data
