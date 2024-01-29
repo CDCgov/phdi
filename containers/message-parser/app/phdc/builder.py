@@ -189,7 +189,9 @@ class PHDCBuilder:
 
         self.phdc.getroot().append(body)
 
-    def _build_case_report(self):
+    def _build_case_report(
+        self, observation_data: Optional[List[Observation]] = None
+    ) -> ET.Element:
         component = ET.Element("component")
         section = ET.Element("section")
         id = ET.Element("id")
@@ -208,6 +210,12 @@ class PHDCBuilder:
         section.append(id)
         section.append(code)
         section.append(title)
+
+        # add observation data to section
+        if observation_data:
+            for observation in observation_data:
+                observation_element = self._build_observation_method(observation)
+                section.append(observation_element)
 
         component.append(section)
         return component
