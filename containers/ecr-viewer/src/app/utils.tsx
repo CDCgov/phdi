@@ -536,7 +536,7 @@ export const returnProblemsTable = (problemsArray, mappings) => {
   }
 
   const columnInfo = [
-    { columnName: "Active Problems", infoPath: "activeProblemsDisplay" },
+    { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
     { columnName: "Noted Date", infoPath: "activeProblemsDate" },
   ];
 
