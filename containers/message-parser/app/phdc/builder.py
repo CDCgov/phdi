@@ -239,6 +239,13 @@ class PHDCBuilder:
                 ET.SubElement(parent_element, tag, attrib)
 
     def _build_observation_method(self, observation: Observation) -> ET.Element:
+        """
+        Creates Entry XML element for observation data.
+
+        :param observation: The data for building the observation element as an
+          Entry object.
+        :return entry_data: XML element of Entry data
+        """
         # Create the 'entry' element
         entry_data = ET.Element("entry", attrib={"typeCode": observation.type_code})
 
