@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from typing import Annotated
 
-import fhirpathpy
 from app.config import get_settings
 from app.models import FhirToPhdcInput
 from app.models import GetSchemaResponse
@@ -12,20 +11,16 @@ from app.models import ParseMessageInput
 from app.models import ParseMessageResponse
 from app.models import ParsingSchemaModel
 from app.models import PutSchemaResponse
-from app.phdc.phdc import Address
-from app.phdc.phdc import Name
-from app.phdc.phdc import Patient
-from app.phdc.phdc import PHDCBuilder
-from app.phdc.phdc import PHDCInputData
+from app.phdc.builder import PHDCBuilder
 from app.utils import convert_to_fhir
-from app.utils import DIBBS_REFERENCE_SIGNIFIER
+from app.utils import extract_and_apply_parsers
 from app.utils import freeze_parsing_schema
 from app.utils import get_credential_manager
 from app.utils import get_metadata
-from app.utils import get_parsers
 from app.utils import load_parsing_schema
 from app.utils import read_json_from_assets
 from app.utils import search_for_required_values
+from app.utils import transform_to_phdc_input_data
 from fastapi import Body
 from fastapi import Response
 from fastapi import status
@@ -50,133 +45,6 @@ raw_parse_message_response_examples = read_json_from_assets(
     "sample_parse_message_responses.json"
 )
 parse_message_response_examples = {200: raw_parse_message_response_examples}
-
-
-def extract_and_apply_parsers(parsing_schema, message, response):
-    """
-    Helper function used to pull parsing methods for each field out of the
-    passed-in schema, resolve any reference dependencies, and apply the
-    result to the input FHIR bundle. If reference dependencies are present
-    (e.g. an Observation resource that references an ordering provider
-    Organization), this function will raise an error if those references
-    cannot be resolved (if the ID of the referenced object can't be found,
-    for example).
-
-    :param parsing_schema: A dictionary holding the parsing schema send
-      to the endpoint.
-    :param message: The FHIR bundle to extract values from.
-    :param response: The Response object the endpoint will send back, in
-      case we need to apply error status codes.
-    :return: A dictionary mapping schema keys to parsed values.
-    """
-    parsers = get_parsers(parsing_schema)
-    parsed_values = {}
-
-    # Iterate over each parser and make the appropriate path call
-    for field, parser in parsers.items():
-        if "secondary_parsers" not in parser:
-            value = parser["primary_parser"](message)
-            if len(value) == 0:
-                value = None
-            else:
-                value = ",".join(map(str, value))
-            parsed_values[field] = value
-
-        # Use the secondary field data structure, remembering that some
-        # fhir paths might not be compiled yet
-        else:
-            initial_values = parser["primary_parser"](message)
-            values = []
-
-            # This check allows us to use secondary schemas on fields that
-            # are just datatype structs, rather than full arrays. This is
-            # useful when we want multiple fields of information from a
-            # referenced resource, but there's only one instance of the
-            # resource type referencing another resource in the bundle
-            # (e.g. we want multiple values about the Bundle's Custodian:
-            # bundle.custodian is a dict with a reference, so we only need
-            # to find that reference once)
-            if type(initial_values) is not list:
-                initial_values = [initial_values]
-
-            for initial_value in initial_values:
-                value = {}
-                for secondary_field, path_struct in parser["secondary_parsers"].items():
-                    # Base cases for a secondary field:
-                    # Information is contained on this resource, just in a
-                    # nested structure
-                    if "reference_path" not in path_struct:
-                        try:
-                            secondary_parser = path_struct["secondary_fhir_path"]
-                            if len(secondary_parser(initial_value)) == 0:
-                                value[secondary_field] = None
-                            else:
-                                value[secondary_field] = ",".join(
-                                    map(str, secondary_parser(initial_value))
-                                )
-
-                        # By default, fhirpathpy will compile such that *only*
-                        # actual resources can be accessed, rather than data types.
-                        # This is fine for most cases, but sometimes the actual data
-                        # we want is in a list of structs rather than a list of
-                        # resources, such as a list of patient addresses. This
-                        # exception catches that and allows an ordinary property
-                        # search.
-                        except KeyError:
-                            try:
-                                accessors = (
-                                    secondary_parser.parsedPath.get("children")[0]
-                                    .get("text")
-                                    .split(".")[1:]
-                                )
-                                val = initial_value
-                                for acc in accessors:
-                                    if "[" not in acc:
-                                        val = val[acc]
-                                    else:
-                                        sub_acc = acc.split("[")[1].split("]")[0]
-                                        val = val[acc.split("[")[0].strip()][
-                                            int(sub_acc)
-                                        ]
-                                value[secondary_field] = str(val)
-                            except:  # noqa
-                                value[secondary_field] = None
-
-                    # Reference case: information is contained on another
-                    # resource that we have to look up
-                    else:
-                        reference_parser = path_struct["reference_path"]
-                        if len(reference_parser(initial_value)) == 0:
-                            response.status_code = status.HTTP_400_BAD_REQUEST
-                            return {
-                                "message": "Provided `reference_lookup` location does "
-                                "not point to a referencing identifier",
-                                "parsed_values": {},
-                            }
-                        else:
-                            reference_to_find = ",".join(
-                                map(str, reference_parser(initial_value))
-                            )
-
-                            # FHIR references are prefixed with resource type
-                            reference_to_find = reference_to_find.split("/")[-1]
-
-                            # Build the resultant concatenated reference path
-                            reference_path = path_struct["secondary_fhir_path"].replace(
-                                DIBBS_REFERENCE_SIGNIFIER, reference_to_find
-                            )
-                            reference_path = fhirpathpy.compile(reference_path)
-                            referenced_value = reference_path(message)
-                            if len(referenced_value) == 0:
-                                value[secondary_field] = None
-                            else:
-                                value[secondary_field] = ",".join(
-                                    map(str, referenced_value)
-                                )
-
-                values.append(value)
-            parsed_values[field] = values
-    return parsed_values
 
 
 @app.get("/")
@@ -254,51 +122,33 @@ raw_fhir_to_phdc_response_examples = read_json_from_assets(
 fhir_to_phdc_response_examples = {200: raw_fhir_to_phdc_response_examples}
 
 
-# TODO: Once we complete M2 and can convert information into PHDC format,
-# the output of this function will change. The parse-message endpoint will
-# continue to return DIBBs JSON, though, which is why both endpoints use
-# the same helper function to handle resource references.
-
-
 @app.post("/fhir_to_phdc", status_code=200, responses=fhir_to_phdc_response_examples)
 async def fhir_to_phdc_endpoint(
     input: Annotated[FhirToPhdcInput, Body(examples=fhir_to_phdc_request_examples)],
     response: Response,
 ):
-    # First, extract the parsing schema or look one up
-    if input.parsing_schema != {}:
-        parsing_schema = freeze_parsing_schema(input.parsing_schema)
-    else:
-        try:
-            parsing_schema = load_parsing_schema(input.parsing_schema_name)
-        except FileNotFoundError as error:
-            response.status_code = status.HTTP_400_BAD_REQUEST
-            return {"message": error.__str__(), "parsed_values": {}}
+    """
+    Convert a FHIR bundle to a Public Health Document Container (PHDC).
+    """
 
+    # 1. Identify the parsing schema based on the supplied phdc type
+    match input.phdc_report_type:
+        case "case_report":
+            parsing_schema = load_parsing_schema("phdc_case_report_schema.json")
+        case "contact_record":
+            pass
+        case "lab_report":
+            pass
+        case "morbidity_report":
+            pass
+
+    # 2. Extract data from FHIR
     parsed_values = extract_and_apply_parsers(parsing_schema, input.message, response)
 
-    # Translate to internal data classes
-    input_data = PHDCInputData()
-    input_data.patient = Patient()
-    for key, value in parsed_values.items():
-        if key == "patient_address":
-            input_data.patient.address = []
-            for address in value:
-                input_data.patient.address.append(Address(**address))
+    # 3. Transform to PHDCbuilder data classes
+    input_data = transform_to_phdc_input_data(parsed_values)
 
-        elif key == "patient_name":
-            input_data.patient.name = []
-            for name in value:
-                input_data.patient.name.append(Name(**name))
-
-        elif key == "patient_administrative_gender_code":
-            input_data.patient.administrative_gender_code = value
-
-        elif key == "patient_birth_time":
-            input_data.patient.birth_time = value
-
-    # Build the PHDC
-    print(input_data)
+    # 4. Build PHDC
     builder = PHDCBuilder()
     builder.set_input_data(input_data)
     phdc = builder.build()
