@@ -172,6 +172,46 @@ class PHDCBuilder:
             )
         )
 
+    def build_body(self):
+        body = ET.Element("component")
+        structured_body = ET.Element("structuredBody")
+        body.append(structured_body)
+
+        match self.input_data.type:
+            case "case_report":
+                body.append(self._build_case_report())
+            case "contact_record":
+                pass
+            case "lab_report":
+                pass
+            case "morbidity_report":
+                pass
+
+        self.phdc.getroot().append(body)
+
+    def _build_case_report(self):
+        component = ET.Element("component")
+        section = ET.Element("section")
+        id = ET.Element("id")
+        id.set("extension", str(uuid.uuid4()))
+        id.set("assigningAuthorityName", "LR")
+
+        code = ET.Element("code")
+        code.set("code", "55752-0")
+        code.set("codeSystem", "2.16.840.1.113883.6.1")
+        code.set("codeSystemName", "LOINC")
+        code.set("displayName", "Clinical Information")
+
+        title = ET.Element("title")
+        title.text = "Clinical Information"
+
+        section.append(id)
+        section.append(code)
+        section.append(title)
+
+        component.append(section)
+        return component
+
     def _build_telecom(self, telecom: Telecom) -> ET.Element:
         """
         Builds a `telecom` XML element for phone data including phone number (as
@@ -532,4 +572,5 @@ class PHDCBuilder:
         Returns a PHDC object.
         """
         self.build_header()
+        self.build_body()
         return PHDC(data=self.phdc)

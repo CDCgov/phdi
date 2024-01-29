@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict
 from typing import List
+from typing import Literal
 from typing import Optional
 
 
@@ -81,5 +82,7 @@ class Observation:
 
 @dataclass
 class PHDCInputData:
-    type: str = "case report"
+    type: Literal[
+        "case_report", "contact_record", "lab_report", "morbidity_report"
+    ] = "case_report"
     patient: Patient = None
