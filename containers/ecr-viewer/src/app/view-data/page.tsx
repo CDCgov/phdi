@@ -187,7 +187,11 @@ const ECRViewerPage = () => {
         </header>
         <div
           className="main-container"
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            overflow: "visible",
+          }}
         >
           <div
             style={{
@@ -195,23 +199,29 @@ const ECRViewerPage = () => {
               maxWidth: "1440px",
               justifyContent: "center",
               gap: "48px",
+              overflow: "visible",
             }}
           >
-            {" "}
-            {/* Wrapper div with gap */}
             <div
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
-                width: "100%",
+                flexDirection: "column",
+                alignItems: "flex-start",
               }}
             >
-              {" "}
-              {/* Wrapper for right-justifying nav */}
-              <nav style={{ maxWidth: "170px" }}>
+              <nav
+                style={{
+                  flexGrow: 0,
+                  flexShrink: 0,
+                  flexBasis: "auto",
+                  position: "sticky",
+                  top: 0,
+                }}
+              >
                 <SideNav items={accordionItems.map((item) => item.link)} />
               </nav>
             </div>
+            {/* Main Content */}
             <div
               className="ecr-viewer-container"
               style={{
@@ -221,8 +231,7 @@ const ECRViewerPage = () => {
               }}
             >
               <div style={{ maxWidth: "1222px" }}>
-                {" "}
-                {/* Adjusted for 170px nav + 48px gap */}
+                {/* Content */}
                 <h2 className="margin-bottom-3" id="ecr-summmary">
                   eCR Summary
                 </h2>
