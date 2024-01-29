@@ -6,7 +6,9 @@ import pytest
 from app import utils
 from app.phdc.builder import PHDCBuilder
 from app.phdc.models import Address
+from app.phdc.models import CodedElement
 from app.phdc.models import Name
+from app.phdc.models import Observation
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
@@ -37,6 +39,48 @@ def test_build_telecom(build_telecom_test_data, expected_result):
     builder = PHDCBuilder()
     xml_telecom_data = builder._build_telecom(build_telecom_test_data)
     assert ET.tostring(xml_telecom_data).decode() == expected_result
+
+
+@pytest.mark.parametrize(
+    "build_observation_test_data, expected_result",
+    [
+        # Test case with a single code element, value, and translation
+        (
+            Observation(
+                type_code="ENTRY",
+                class_code="OBS",
+                mood_code="EVN",
+                code=[CodedElement(code="1", code_system="0", display_name="Code")],
+                value=[
+                    CodedElement(
+                        xsi_type="ST", code="2", code_system="1", display_name="V"
+                    )
+                ],
+                translation=[
+                    CodedElement(
+                        xsi_type="T", code="0", code_system="L", display_name="T"
+                    )
+                ],
+            ),
+            (
+                '<entry typeCode="ENTRY">'
+                + '<observation classCode="OBS" moodCode="EVN">'
+                + '<code code="1" codeSystem="0" displayName="Code"/>'
+                + '<value xsi:type="ST" code="2" codeSystem="1" displayName="V">'
+                + '<translation xsi:type="T" code="0" codeSystem="L" displayName="T"/>'
+                + "</value></observation></entry>"
+            ),
+        )
+    ],
+)
+def test_build_observation(build_observation_test_data, expected_result):
+    builder = PHDCBuilder()
+    # TODO: is there a better way to acknowledge xsi:type requires xmlns that is
+    # established earlier in the clinicaldocument portion?
+    with pytest.raises(ValueError, match="Invalid attribute name 'xsi:type'"):
+        xod = builder._build_observation_method(build_observation_test_data)
+        actual_result = ET.tostring(xod, encoding="unicode")
+        assert actual_result == expected_result
 
 
 @pytest.mark.parametrize(
@@ -328,7 +372,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                     ],
                 )
             ),
-            (utils.read_file_from_assets("sample_phdc.xml")),
+            (utils.read_file_from_assets("sample_phdc_header.xml")),
         )
     ],
 )
@@ -399,6 +443,81 @@ def test_get_case_report_code():
         == b'<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" '
         b'codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>'
     )
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+def test_get_case_report():
+    builder = PHDCBuilder()
+    case_report_code = builder._build_case_report()
+
+    assert (
+        ET.tostring(case_report_code) == b"<component><section>"
+        b'<id extension="mocked-uuid" assigningAuthorityName="LR"/>'
+        b'<code code="55752-0"'
+        b' codeSystem="2.16.840.1.113883.6.1" '
+        b'codeSystemName="LOINC" '
+        b'displayName="Clinical Information"/>'
+        b"<title>Clinical Information</title>"
+        b"</section></component>"
+    )
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
+@pytest.mark.parametrize(
+    "build_header_test_data, expected_result",
+    [
+        (
+            PHDCInputData(
+                type="case_report",
+                patient=Patient(
+                    name=[
+                        Name(
+                            prefix="Mr.",
+                            first="John",
+                            middle="Jacob",
+                            family="Schmidt",
+                            type="official",
+                        ),
+                        Name(
+                            prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
+                        ),
+                    ],
+                    race_code="White",
+                    ethnic_group_code="Not Hispanic or Latino",
+                    administrative_gender_code="Male",
+                    birth_time="01-01-2000",
+                    telecom=[
+                        Telecom(value="+1-800-555-1234"),
+                        Telecom(value="+1-800-555-1234", type="work"),
+                    ],
+                    address=[
+                        Address(
+                            type="Home",
+                            street_address_line_1="123 Main Street",
+                            city="Brooklyn",
+                            postal_code="11201",
+                            state="New York",
+                        ),
+                        Address(
+                            type="workplace",
+                            street_address_line_1="123 Main Street",
+                            postal_code="55866",
+                            city="Brooklyn",
+                            state="New York",
+                        ),
+                    ],
+                ),
+            ),
+            (utils.read_file_from_assets("sample_phdc.xml")),
+        )
+    ],
+)
+def test_build(build_header_test_data, expected_result):
+    builder = PHDCBuilder()
+    builder.set_input_data(build_header_test_data)
+    phdc = builder.build()
+    assert phdc.to_xml_string() == expected_result
 
 
 def test_add_field():
