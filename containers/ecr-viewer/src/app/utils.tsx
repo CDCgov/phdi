@@ -173,6 +173,10 @@ const formatDateTime = (dateTime: string) => {
 };
 
 export const formatDate = (date: string) => {
+  if (!date) {
+    return "N/A";
+  }
+
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "2-digit",

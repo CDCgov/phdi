@@ -149,5 +149,13 @@ describe("Utils", () => {
       const result = formatDate(inputDate);
       expect(result).toEqual(expectedDate);
     });
+
+    it("should return N/A if provided date is an empty string", () => {
+      const inputDate = "";
+      const expectedDate = "N/A";
+
+      const result = formatDate(inputDate);
+      expect(result).toEqual(expectedDate);
+    });
   });
 });
