@@ -30,6 +30,30 @@ const ECRViewerPage = () => {
       id: "1",
       headingLevel: "h2",
       link: [
+        <a href="#ecr-summary">eCR Summary</a>,
+        <SideNav
+          isSubnav={true}
+          items={[
+            <a href="#about-the-patient">About the Patient</a>,
+            <a href="#about-the-encounter">About the Encounter</a>,
+            <a href="#about-the-condition">About the Condition</a>,
+          ]}
+        />,
+      ],
+    },
+    {
+      content: null,
+      expanded: true,
+      id: "1",
+      headingLevel: "h2",
+      link: [<a href="#ecr-document">eCR Document</a>],
+    },
+    {
+      content: null,
+      expanded: true,
+      id: "1",
+      headingLevel: "h2",
+      link: [
         <a href="#patient-info">Patient Info</a>,
         <SideNav
           isSubnav={true}
@@ -161,16 +185,58 @@ const ECRViewerPage = () => {
         <header>
           <h1 className={"page-title"}>EZ eCR Viewer</h1>
         </header>
-        <div className="main-container" style={{ display: "flex" }}>
-          <nav style={{ width: "20%" }}>
-            <SideNav items={accordionItems.map((item) => item.link)} />
-          </nav>
-          <div className={"ecr-viewer-container"} style={{ width: "80%" }}>
-            <h2 className="margin-bottom-3">eCR Summary</h2>
-            <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-            <div className="margin-top-6">
-              <h2 className="margin-bottom-3">eCR Document</h2>
-              {renderAccordion()}
+        <div
+          className="main-container"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <div
+            style={{
+              display: "flex",
+              maxWidth: "1440px",
+              justifyContent: "center",
+              gap: "48px",
+            }}
+          >
+            {" "}
+            {/* Wrapper div with gap */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+              }}
+            >
+              {" "}
+              {/* Wrapper for right-justifying nav */}
+              <nav style={{ maxWidth: "170px" }}>
+                <SideNav items={accordionItems.map((item) => item.link)} />
+              </nav>
+            </div>
+            <div
+              className="ecr-viewer-container"
+              style={{
+                flexBasis: "auto",
+                display: "flex",
+                justifyContent: "left",
+              }}
+            >
+              <div style={{ maxWidth: "1222px" }}>
+                {" "}
+                {/* Adjusted for 170px nav + 48px gap */}
+                <h2 className="margin-bottom-3" id="ecr-summmary">
+                  eCR Summary
+                </h2>
+                <EcrSummary
+                  fhirPathMappings={mappings}
+                  fhirBundle={fhirBundle}
+                />
+                <div className="margin-top-6">
+                  <h2 className="margin-bottom-3" id="ecr-document">
+                    eCR Document
+                  </h2>
+                  {renderAccordion()}
+                </div>
+              </div>
             </div>
           </div>
         </div>

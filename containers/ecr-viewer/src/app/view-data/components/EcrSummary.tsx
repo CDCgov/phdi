@@ -23,7 +23,9 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
         aria-labelledby="summary-box-key-information"
       >
         <div className="usa-summary-box__body">
-          <h3 className="summary-box-key-information">About the Patient</h3>
+          <h3 className="summary-box-key-information" id="about-the-patient">
+            About the Patient
+          </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
               <div className="data-title">
@@ -64,7 +66,9 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h3 className="summary-box-key-information">About the Encounter</h3>
+          <h3 className="summary-box-key-information" id="about-the-encounter">
+            About the Encounter
+          </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
               <div className="data-title">
@@ -114,7 +118,10 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
           <div className={"section__line"} />
         </div>
         <div className="usa-summary-box__body">
-          <h3 className={"margin-bottom-105 margin-top-205"}>
+          <h3
+            className={"margin-bottom-105 margin-top-205"}
+            id="about-the-condition"
+          >
             About the Condition
           </h3>
           <div className="usa-summary-box__text">

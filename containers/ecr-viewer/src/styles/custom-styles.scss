@@ -97,3 +97,7 @@ h4 {
 .usa-summary-box__body:not(:first-child) .summary-box-key-information {
   margin-top: 20px;
 }
+
+.usa-sidenav__item a:not(.usa-sidenav__sublist a) {
+  font-weight: bold;
+}
