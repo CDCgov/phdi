@@ -1,3 +1,4 @@
+import logging
 import uuid
 from typing import List
 from typing import Literal
@@ -12,6 +13,11 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
+
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class PHDC:
@@ -493,30 +499,39 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
-        if patient.race_code is not None and patient.race_code in race_code_and_mapping:
-            display_name = race_code_and_mapping[patient.race_code]
-            v = self._build_coded_element(
-                f"{{{SDTC_NAMESPACE}}}raceCode",
-                code=patient.race_code,
-                codeSystem=RACE_CODE_SYSTEM,
-                displayName=display_name,
-                codeSystemName=RACE_CODE_SYSTEM_NAME,
-            )
-            patient_data.append(v)
+        if patient.race_code is not None:
+            if patient.race_code in race_code_and_mapping:
+                display_name = race_code_and_mapping[patient.race_code]
+                v = self._build_coded_element(
+                    f"{{{SDTC_NAMESPACE}}}raceCode",
+                    code=patient.race_code,
+                    codeSystem=RACE_CODE_SYSTEM,
+                    displayName=display_name,
+                    codeSystemName=RACE_CODE_SYSTEM_NAME,
+                )
+                patient_data.append(v)
+            else:
+                logging.warning(
+                    f"Race code {patient.race_code} not found in "
+                    "the OMB classification."
+                )
 
-        if (
-            patient.ethnic_group_code is not None
-            and patient.ethnic_group_code in ethnicity_code_and_mapping
-        ):
-            display_name = ethnicity_code_and_mapping[patient.ethnic_group_code]
-            v = self._build_coded_element(
-                "ethnicGroupCode",
-                code=patient.ethnic_group_code,
-                codeSystem=RACE_CODE_SYSTEM,
-                displayName=display_name,
-                codeSystemName=RACE_CODE_SYSTEM_NAME,
-            )
-            patient_data.append(v)
+        if patient.ethnic_group_code is not None:
+            if patient.ethnic_group_code in ethnicity_code_and_mapping:
+                display_name = ethnicity_code_and_mapping[patient.ethnic_group_code]
+                v = self._build_coded_element(
+                    "ethnicGroupCode",
+                    code=patient.ethnic_group_code,
+                    codeSystem=RACE_CODE_SYSTEM,
+                    displayName=display_name,
+                    codeSystemName=RACE_CODE_SYSTEM_NAME,
+                )
+                patient_data.append(v)
+            else:
+                logging.warning(
+                    f"Ethnic group code {patient.ethnic_group_code} not "
+                    "found in OMB classification."
+                )
 
         if patient.birth_time is not None:
             e = ET.Element("birthTime")
