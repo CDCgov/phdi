@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Dict
 from typing import List
 from typing import Literal
 from typing import Optional
@@ -47,6 +48,36 @@ class Patient:
     race_code: Optional[str] = None
     ethnic_group_code: Optional[str] = None
     birth_time: Optional[str] = None
+
+
+@dataclass
+class CodedElement:
+    xsi_type: Optional[str] = None
+    code: Optional[str] = None
+    code_system: Optional[str] = None
+    code_system_name: Optional[str] = None
+    display_name: Optional[str] = None
+
+    def to_attributes(self) -> Dict[str, str]:
+        # Create a dictionary with XML attribute names
+        attrib = {
+            "xsi:type": self.xsi_type,
+            "code": self.code,
+            "codeSystem": self.code_system,
+            "codeSystemName": self.code_system_name,
+            "displayName": self.display_name,
+        }
+        return attrib
+
+
+@dataclass
+class Observation:
+    type_code: Optional[str] = None
+    class_code: Optional[str] = None
+    mood_code: Optional[str] = None
+    code: List[CodedElement] = None
+    value: List[CodedElement] = None
+    translation: List[CodedElement] = None
 
 
 @dataclass

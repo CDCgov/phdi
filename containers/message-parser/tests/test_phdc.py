@@ -6,7 +6,9 @@ import pytest
 from app import utils
 from app.phdc.builder import PHDCBuilder
 from app.phdc.models import Address
+from app.phdc.models import CodedElement
 from app.phdc.models import Name
+from app.phdc.models import Observation
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
@@ -37,6 +39,48 @@ def test_build_telecom(build_telecom_test_data, expected_result):
     builder = PHDCBuilder()
     xml_telecom_data = builder._build_telecom(build_telecom_test_data)
     assert ET.tostring(xml_telecom_data).decode() == expected_result
+
+
+@pytest.mark.parametrize(
+    "build_observation_test_data, expected_result",
+    [
+        # Test case with a single code element, value, and translation
+        (
+            Observation(
+                type_code="ENTRY",
+                class_code="OBS",
+                mood_code="EVN",
+                code=[CodedElement(code="1", code_system="0", display_name="Code")],
+                value=[
+                    CodedElement(
+                        xsi_type="ST", code="2", code_system="1", display_name="V"
+                    )
+                ],
+                translation=[
+                    CodedElement(
+                        xsi_type="T", code="0", code_system="L", display_name="T"
+                    )
+                ],
+            ),
+            (
+                '<entry typeCode="ENTRY">'
+                + '<observation classCode="OBS" moodCode="EVN">'
+                + '<code code="1" codeSystem="0" displayName="Code"/>'
+                + '<value xsi:type="ST" code="2" codeSystem="1" displayName="V">'
+                + '<translation xsi:type="T" code="0" codeSystem="L" displayName="T"/>'
+                + "</value></observation></entry>"
+            ),
+        )
+    ],
+)
+def test_build_observation(build_observation_test_data, expected_result):
+    builder = PHDCBuilder()
+    # TODO: is there a better way to acknowledge xsi:type requires xmlns that is
+    # established earlier in the clinicaldocument portion?
+    with pytest.raises(ValueError, match="Invalid attribute name 'xsi:type'"):
+        xod = builder._build_observation_method(build_observation_test_data)
+        actual_result = ET.tostring(xod, encoding="unicode")
+        assert actual_result == expected_result
 
 
 @pytest.mark.parametrize(
