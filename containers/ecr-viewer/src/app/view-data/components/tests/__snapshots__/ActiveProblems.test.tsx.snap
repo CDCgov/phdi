@@ -13,7 +13,7 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class=" bg-gray-5 minw-15"
           scope="col"
         >
-          Active Problems
+          Active Problem
         </th>
         <th
           class=" bg-gray-5 minw-15"
