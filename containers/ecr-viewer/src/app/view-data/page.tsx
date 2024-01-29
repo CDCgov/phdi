@@ -183,55 +183,17 @@ const ECRViewerPage = () => {
     return (
       <div>
         <header>
-          <h1 className={"page-title"}>EZ eCR Viewer</h1>
+          <h1 className="page-title">EZ eCR Viewer</h1>
         </header>
-        <div
-          className="main-container"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            overflow: "visible",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              maxWidth: "1440px",
-              justifyContent: "center",
-              gap: "48px",
-              overflow: "visible",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-              }}
-            >
-              <nav
-                style={{
-                  flexGrow: 0,
-                  flexShrink: 0,
-                  flexBasis: "auto",
-                  position: "sticky",
-                  top: 0,
-                }}
-              >
+        <div className="main-container">
+          <div className="content-wrapper">
+            <div className="nav-wrapper">
+              <nav className="sticky-nav">
                 <SideNav items={accordionItems.map((item) => item.link)} />
               </nav>
             </div>
-            {/* Main Content */}
-            <div
-              className="ecr-viewer-container"
-              style={{
-                flexBasis: "auto",
-                display: "flex",
-                justifyContent: "left",
-              }}
-            >
-              <div style={{ maxWidth: "1222px" }}>
-                {/* Content */}
+            <div className="ecr-viewer-container">
+              <div className="ecr-content">
                 <h2 className="margin-bottom-3" id="ecr-summmary">
                   eCR Summary
                 </h2>
