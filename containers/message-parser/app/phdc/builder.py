@@ -378,6 +378,11 @@ class PHDCBuilder:
             "2106-3": "White",
         }
 
+        ethnicity_code_and_mapping = {
+            "2186-5": "Not Hispanic or Latino",
+            "2135-2": "Hispanic or Latino",
+        }
+
         patient_data = ET.Element("patient")
 
         for name in patient.name:
@@ -401,10 +406,17 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
-        if patient.ethnic_group_code is not None:
+        if (
+            patient.ethnic_group_code is not None
+            and patient.ethnic_group_code in ethnicity_code_and_mapping
+        ):
+            display_name = ethnicity_code_and_mapping[patient.ethnic_group_code]
             v = self._build_coded_element(
                 "ethnicGroupCode",
-                **{"displayName": patient.ethnic_group_code},
+                code=patient.ethnic_group_code,
+                codeSystem=RACE_CODE_SYSTEM,
+                displayName=display_name,
+                codeSystemName=RACE_CODE_SYSTEM_NAME,
             )
             patient_data.append(v)
 
@@ -412,8 +424,6 @@ class PHDCBuilder:
             e = ET.Element("birthTime")
             e.text = patient.birth_time
             patient_data.append(e)
-
-        # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
 
         return patient_data
 
