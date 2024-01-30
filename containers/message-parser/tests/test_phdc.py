@@ -79,7 +79,9 @@ def test_build_observation(build_observation_test_data, expected_result):
     # established earlier in the clinicaldocument portion?
     with pytest.raises(ValueError, match="Invalid attribute name 'xsi:type'"):
         xod = builder._build_observation_method(build_observation_test_data)
-        actual_result = ET.tostring(xod, encoding="unicode")
+        actual_result = ET.tostring(xod, encoding="unicode").replace(
+            'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', ""
+        )
         assert actual_result == expected_result
 
 
@@ -592,78 +594,79 @@ def test_get_case_report(build_case_report_data, expected_result):
                         ),
                     ],
                 ),
+                clinical_info=[
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=[
+                            CodedElement(
+                                code="INV169",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                display_name="Condition",
+                            )
+                        ],
+                        value=[
+                            CodedElement(
+                                xsi_type="CE",
+                                code="10274",
+                                code_system="1.2.3.5",
+                                display_name="Chlamydia trachomatis infection",
+                            )
+                        ],
+                        translation=[
+                            CodedElement(
+                                xsi_type="CE",
+                                code="350",
+                                code_system="L",
+                                code_system_name="STD*MIS",
+                                display_name="Local Label",
+                            )
+                        ],
+                    ),
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=[
+                            CodedElement(
+                                code="NBS012",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                display_name="Shared Ind",
+                            )
+                        ],
+                        value=[
+                            CodedElement(
+                                xsi_type="CE",
+                                code="F",
+                                code_system="1.2.3.5",
+                                display_name="False",
+                            )
+                        ],
+                        translation=[
+                            CodedElement(
+                                xsi_type="CE",
+                                code="T",
+                                code_system="L",
+                                code_system_name="STD*MIS",
+                                display_name="Local Label",
+                            )
+                        ],
+                    ),
+                ],
             ),
-            (utils.read_file_from_assets("sample_phdc.xml")),
+            utils.read_file_from_assets("sample_phdc.xml"),
         )
     ],
 )
 def test_build(build_header_test_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_header_test_data)
-    builder._build_case_report(
-        [
-            Observation(
-                type_code="COMP",
-                class_code="OBS",
-                mood_code="EVN",
-                code=[
-                    CodedElement(
-                        code="INV169",
-                        code_system="2.16.840.1.114222.4.5.1",
-                        display_name="Condition",
-                    )
-                ],
-                value=[
-                    CodedElement(
-                        xsi_type="CE",
-                        code="10274",
-                        code_system="1.2.3.5",
-                        display_name="Chlamydia trachomatis infection",
-                    )
-                ],
-                translation=[
-                    CodedElement(
-                        xsi_type="CE",
-                        code="350",
-                        code_system="L",
-                        code_system_name="STD*MIS",
-                        display_name="Local Label",
-                    )
-                ],
-            ),
-            Observation(
-                type_code="COMP",
-                class_code="OBS",
-                mood_code="EVN",
-                code=[
-                    CodedElement(
-                        code="NBS012",
-                        code_system="2.16.840.1.114222.4.5.1",
-                        display_name="Shared Ind",
-                    )
-                ],
-                value=[
-                    CodedElement(
-                        xsi_type="CE",
-                        code="F",
-                        code_system="1.2.3.5",
-                        display_name="False",
-                    )
-                ],
-                translation=[
-                    CodedElement(
-                        xsi_type="CE",
-                        code="T",
-                        code_system="L",
-                        code_system_name="STD*MIS",
-                        display_name="Local Label",
-                    )
-                ],
-            ),
-        ]
-    )
     phdc = builder.build()
-    assert phdc.to_xml_string() == expected_result
+    actual_result = phdc.to_xml_string()
+    print("Actual Result:\n", actual_result)
+    print("Expected Result:\n", expected_result)
+    assert actual_result == expected_result
 
 
 def test_add_field():

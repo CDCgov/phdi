@@ -60,14 +60,18 @@ class CodedElement:
 
     def to_attributes(self) -> Dict[str, str]:
         # Create a dictionary with XML attribute names
+        attributes = {}
         attrib = {
-            "xsi:type": self.xsi_type,
+            "{http://www.w3.org/2001/XMLSchema-instance}type": self.xsi_type,
             "code": self.code,
             "codeSystem": self.code_system,
             "codeSystemName": self.code_system_name,
             "displayName": self.display_name,
         }
-        return attrib
+        for key, value in attrib.items():
+            if value is not None:
+                attributes[key] = value
+        return attributes
 
 
 @dataclass
@@ -86,3 +90,4 @@ class PHDCInputData:
         "case_report", "contact_record", "lab_report", "morbidity_report"
     ] = "case_report"
     patient: Patient = None
+    clinical_info: List[Observation] = None

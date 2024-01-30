@@ -5,7 +5,6 @@ from typing import Optional
 
 from app import utils
 from app.phdc.models import Address
-from app.phdc.models import CodedElement
 from app.phdc.models import Name
 from app.phdc.models import Observation
 from app.phdc.models import Patient
@@ -68,6 +67,8 @@ class PHDCBuilder:
         """
         Create the base PHDC XML document.
         """
+        ET.register_namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance")
+
         xsi_schema_location = ET.QName(
             "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
         )
@@ -179,7 +180,8 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                body.append(self._build_case_report())
+                clinical_info = self._build_case_report(self.input_data.clinical_info)
+                body.append(clinical_info)
             case "contact_record":
                 pass
             case "lab_report":
@@ -262,40 +264,16 @@ class PHDCBuilder:
             e.text = data
             parent_element.append(e)
 
-    def _add_coded_elements(
-        self, parent_element: ET.Element, elements: List[CodedElement], tag: str
-    ):
-        """
-        Adds multiple coded elements as child elements to a parent XML element.
-        Each coded element is added with a specified tag and attributes derived
-        from the properties of the CodedElement object.
-
-        This method is used to create and append XML elements with attributes,
-        such as 'xsi:type', 'code', 'codeSystem', 'codeSystemName', and 'displayName',
-        which are common in coded XML structures.
-
-        :param parent_element: The parent element to add the child element to.
-        :param elements: A list of CodedElement objects to be added as child elements.
-        :param tag: The tag name to be used for each created child element.
-        """
-        for element in elements:
-            if element is not None:
-                # Filter out None values from attributes
-                attrib = element.to_attributes()
-                # Replace 'display_name' with 'displayName'
-                attrib = {k: v for k, v in attrib.items() if v is not None}
-                ET.SubElement(parent_element, tag, attrib)
-
     def _build_observation_method(self, observation: Observation) -> ET.Element:
         """
         Creates Entry XML element for observation data.
 
         :param observation: The data for building the observation element as an
-          Entry object.
+        Entry object.
         :return entry_data: XML element of Entry data
         """
         # Create the 'entry' element
-        entry_data = ET.Element("entry", attrib={"typeCode": observation.type_code})
+        entry_data = ET.Element("entry", {"typeCode": observation.type_code})
 
         # Create the 'observation' element and append it to 'entry'
         observation_data = ET.SubElement(
@@ -303,18 +281,25 @@ class PHDCBuilder:
             "observation",
             {"classCode": observation.class_code, "moodCode": observation.mood_code},
         )
-        # Add 'code' elements
-        if observation.code:
-            self._add_coded_elements(observation_data, observation.code, "code")
+        for code_element in observation.code:
+            code_attributes = code_element.to_attributes()
+            code_element_xml = self._build_coded_element("code", **code_attributes)
+            observation_data.append(code_element_xml)
 
-        # Add 'value' elements
-        if observation.value:
-            v = self._add_coded_elements(observation_data, observation.value, "value")
-        # Add 'translation' elements to value
+        # Add attributes to 'observation' using CodedElement for value
+        for value_element in observation.value:
+            value_attributes = value_element.to_attributes()
+            value_element_xml = self._build_coded_element("value", **value_attributes)
+            observation_data.append(value_element_xml)
+
+        # Add 'translation' elements to 'value' if translation is provided
         if observation.translation:
-            self._add_coded_elements(v, observation.translation, "translation")
-
-        print(ET.tostring(entry_data, encoding="unicode"))
+            for translation_element in observation.translation:
+                translation_attributes = translation_element.to_attributes()
+                translation_element_xml = self._build_coded_element(
+                    "translation", **translation_attributes
+                )
+                value_element_xml.append(translation_element_xml)
 
         return entry_data
 
