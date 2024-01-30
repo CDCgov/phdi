@@ -74,6 +74,11 @@ class PHDCBuilder:
         """
         Create the base PHDC XML document.
         """
+        # register the namespaces for the entire element tree
+        ET.register_namespace("sdtc", "urn:hl7-org:sdtc")
+        ET.register_namespace("sdtcxmlnamespaceholder", "urn:hl7-org:v3")
+        ET.register_namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance")
+
         xsi_schema_location = ET.QName(
             "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
         )
@@ -470,7 +475,6 @@ class PHDCBuilder:
 
         :param patient: The Patient object to use for building the patient element.
         """
-        SDTC_NAMESPACE = "urn:hl7-org:sdtc"
         RACE_CODE_SYSTEM = "2.16.840.1.113883.6.238"
         RACE_CODE_SYSTEM_NAME = "Race & Ethnicity"
 
@@ -503,7 +507,7 @@ class PHDCBuilder:
             if patient.race_code in race_code_and_mapping:
                 display_name = race_code_and_mapping[patient.race_code]
                 v = self._build_coded_element(
-                    f"{{{SDTC_NAMESPACE}}}raceCode",
+                    "{urn:hl7-org:sdtc}raceCode",
                     code=patient.race_code,
                     codeSystem=RACE_CODE_SYSTEM,
                     displayName=display_name,
