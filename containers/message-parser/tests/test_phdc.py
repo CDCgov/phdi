@@ -546,8 +546,6 @@ def test_get_case_report(build_case_report_data, expected_result):
         .replace('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', "")
     )
     expected_result = expected_result
-    print("Actual Result:\n", actual_result)
-    print("Expected Result:\n", expected_result)
     assert actual_result == expected_result
 
 
