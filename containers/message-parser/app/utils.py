@@ -3,6 +3,7 @@ import datetime
 import json
 import pathlib
 import re
+import uuid
 from functools import cache
 from pathlib import Path
 from typing import Literal
@@ -451,7 +452,7 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     organizations.append(
                         Organization(
                             name=entry["name"],
-                            id=entry["name"],
+                            id=str(uuid.uuid4()),
                             address=Address(
                                 **dict(
                                     filter(
