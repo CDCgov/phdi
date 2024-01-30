@@ -54,8 +54,8 @@ class Patient:
 class Organization:
     id: str = None
     name: str = None
-    address: List[Address] = ()
-    telecom: List[Telecom] = ()
+    address: Address = None
+    telecom: Telecom = None
 
 
 @dataclass

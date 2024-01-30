@@ -203,18 +203,16 @@ def test_build_name(build_name_test_data, expected_result):
                 Organization(
                     id="112233",
                     name="Happy Labs",
-                    address=[
-                        Address(
-                            street_address_line_1="23 main st",
-                            street_address_line_2="apt 12",
-                            city="Fort Worth",
-                            state="Texas",
-                            postal_code="76006",
-                            county="Tarrant",
-                            country="USA",
-                        )
-                    ],
-                    telecom=[Telecom(value="8888675309"), Telecom(value="8888675310")],
+                    address=Address(
+                        street_address_line_1="23 main st",
+                        street_address_line_2="apt 12",
+                        city="Fort Worth",
+                        state="Texas",
+                        postal_code="76006",
+                        county="Tarrant",
+                        country="USA",
+                    ),
+                    telecom=Telecom(value="8888675309"),
                 )
             ],
             (
@@ -233,7 +231,6 @@ def test_build_name(build_name_test_data, expected_result):
                 "        <country>USA</country>\n"
                 "      </addr>\n"
                 '      <telecom value="8888675309"/>\n'
-                '      <telecom value="8888675310"/>\n'
                 "    </representedCustodianOrganization>\n"
                 "  </assignedCustodian>\n"
                 "</custodian>\n"
@@ -250,7 +247,7 @@ def test_build_custodian(build_custodian_test_data, expected_result):
     builder = PHDCBuilder()
     if isinstance(expected_result, ValueError):
         with pytest.raises(ValueError) as e:
-            xml_custodian_data = builder._build_custodian(build_custodian_test_data)
+            builder._build_custodian(build_custodian_test_data)
             assert str(e.value) == str(expected_result)
 
     else:
@@ -380,6 +377,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
     [
         (
             PHDCInputData(
+                organization=[Organization(id="112233")],
                 patient=Patient(
                     name=[
                         Name(
@@ -417,7 +415,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                             state="New York",
                         ),
                     ],
-                )
+                ),
             ),
             (utils.read_file_from_assets("sample_phdc_header.xml")),
         )
@@ -690,6 +688,22 @@ def test_get_clinical_info(build_clinical_info_data, expected_result):
                             display_name="Local Label",
                         ),
                     ),
+                ],
+                organization=[
+                    Organization(
+                        id="112233",
+                        name="Happy Labs",
+                        address=Address(
+                            street_address_line_1="23 main st",
+                            street_address_line_2="apt 12",
+                            city="Fort Worth",
+                            state="Texas",
+                            postal_code="76006",
+                            county="Tarrant",
+                            country="USA",
+                        ),
+                        telecom=Telecom(value="8888675309"),
+                    )
                 ],
             ),
             utils.read_file_from_assets("sample_phdc.xml"),

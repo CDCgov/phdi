@@ -202,7 +202,7 @@ class PHDCBuilder:
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
 
-        root.append(self._build_custodian(organizations=[]))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
         root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
@@ -435,11 +435,12 @@ class PHDCBuilder:
 
             self._add_field(represented_organization, organization.name, "name")
 
-            for address in organization.address:
-                represented_organization.append(self._build_addr(address))
-
-            for telecom in organization.telecom:
-                represented_organization.append(self._build_telecom(telecom))
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
+            if organization.telecom is not None:
+                represented_organization.append(
+                    self._build_telecom(organization.telecom)
+                )
 
             assigned_custodian.append(represented_organization)
 
