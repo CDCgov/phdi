@@ -25,7 +25,24 @@ jobs:
         # use jq to produce json output and filter out the empty item caused by final newline
         run: |
           ls -d * | jq -R -s -c 'split("\n")[:-1]'
-          echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1] | map(select(. != "ecr-viewer"))')" >> $GITHUB_OUTPUT
+          echo "containers=$(ls -d */ | cut -f1 -d'/' | jq -R -s -c 'split("\n")[:-1] ')" >> $GITHUB_OUTPUT
+  list-python-containers:
+    runs-on: ubuntu-latest
+    outputs:
+      python-container-dirs: ${{steps.generate-python-list.outputs.python_containers}}
+    steps:
+      - name: Check Out Changes
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get install jq
+      - id: generate-python-list
+        name: Generate list of python-specific directories within containers/
+        working-directory: ./containers
+        # find all subdirectories with a requirements.txt file at the base (the python containers)
+        run: |
+          find . -maxdepth 2 -type f -name "requirements.txt" -exec dirname {} \; | sort -u | xargs -n 1 basename | jq -nR '[inputs]'
+          echo "python_containers=$(find . -maxdepth 2 -type f -name "requirements.txt" -exec dirname {} \; | sort -u | xargs -n 1 basename | jq -nR '[inputs]')" >> $GITHUB_OUTPUT
   list-integration-test-directories:
     runs-on: ubuntu-latest
     outputs:
