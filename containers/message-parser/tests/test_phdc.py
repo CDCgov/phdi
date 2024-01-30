@@ -641,7 +641,7 @@ def test_get_case_report(build_case_report_data, expected_result):
                                 xsi_type="CE",
                                 code="F",
                                 code_system="1.2.3.5",
-                                display_name="False",
+                                display_name="Flase",
                             )
                         ],
                         translation=[

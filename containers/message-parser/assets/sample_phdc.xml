@@ -76,7 +76,7 @@
         <entry typeCode="COMP">
           <observation classCode="OBS" moodCode="EVN">
             <code code="NBS012" codeSystem="2.16.840.1.114222.4.5.1" displayName="Shared Ind"/>
-            <value xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">
+            <value xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="Flase">
               <translation xsi:type="CE" code="T" codeSystem="L" codeSystemName="STD*MIS" displayName="Local Label"/>
             </value>
           </observation>
