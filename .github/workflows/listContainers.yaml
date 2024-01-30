@@ -43,7 +43,7 @@ jobs:
         # find all subdirectories with a requirements.txt file at the base (the python containers)
         run: |
           find . -maxdepth 2 -type f -name "requirements.txt" -exec dirname {} \; | sort -u | xargs -n 1 basename | jq -nR '[inputs]'
-          echo "python_containers=$(find . -maxdepth 2 -type f -name "requirements.txt" -exec dirname {} \; | sort -u | xargs -n 1 basename | jq -nR '[inputs]')" >> $GITHUB_OUTPUT
+          echo "python_containers=$(find . -maxdepth 2 -type f -name "requirements.txt" -exec dirname {} \; | sort -u | xargs -n 1 basename | jq -R -s -c 'split("\n")[:-1] ')" >> $GITHUB_OUTPUT
   list-integration-test-directories:
     runs-on: ubuntu-latest
     outputs:
