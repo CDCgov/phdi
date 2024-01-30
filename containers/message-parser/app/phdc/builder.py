@@ -75,7 +75,7 @@ class PHDCBuilder:
         Create the base PHDC XML document.
         """
         # register the namespaces for the entire element tree
-        ET.register_namespace("sdtc", "urn:hl7-org:sdtc")
+        ET.register_namespace("sdt", "urn:hl7-org:sdtc")
         ET.register_namespace("sdtcxmlnamespaceholder", "urn:hl7-org:v3")
         ET.register_namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance")
 
@@ -85,7 +85,7 @@ class PHDCBuilder:
 
         namespace = {
             None: "urn:hl7-org:v3",
-            "sdtc": "urn:hl7-org:sdtc",
+            "sdt": "urn:hl7-org:sdtc",
             "sdtcxmlnamespaceholder": "urn:hl7-org:v3",
             "xsi": "http://www.w3.org/2001/XMLSchema-instance",
         }

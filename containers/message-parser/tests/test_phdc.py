@@ -276,7 +276,7 @@ def test_build_author(family_name, expected_oid, expected_date, expected_name):
                 "<patient><name><prefix>Mr.</prefix><given>John</given>"
                 + "<given>Jacob</given><family>Schmidt</family></name>"
                 + '<administrativeGenderCode displayName="Male"/>'
-                + '<sdtc:raceCode xmlns:sdtc="urn:hl7-org:sdtc" code="2106-3" '
+                + '<sdt:raceCode xmlns:sdt="urn:hl7-org:sdtc" code="2106-3" '
                 + 'codeSystem="2.16.840.1.113883.6.238" '
                 + 'displayName="White" codeSystemName="Race &amp; Ethnicity"/>'
                 + '<ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" '
@@ -399,7 +399,7 @@ def test_build_base_phdc():
     assert (
         ET.tostring(base_phdc)
         == b'<?xml-stylesheet type="text/xsl" href="PHDC.xsl"?><ClinicalDocument '
-        b'xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" '
+        b'xmlns="urn:hl7-org:v3" xmlns:sdt="urn:hl7-org:sdtc" '
         b'xmlns:sdtcxmlnamespaceholder="urn:hl7-org:v3" '
         b'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
         b'xsi:schemaLocation="urn:hl7-org:v3 CDA_SDTC.xsd"/>'
