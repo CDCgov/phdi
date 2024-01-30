@@ -380,6 +380,15 @@ def test_build_header(build_header_test_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_header_test_data)
     builder.build_header()
+    # print()
+    # print(
+    #     ET.tostring(
+    #         builder.phdc, pretty_print=True, xml_declaration=True, encoding="utf-8"
+    #     ).decode("utf-8")
+    # )
+    # print("EXPECTED RESULT")
+    # print()
+    # print(expected_result)
     assert (
         ET.tostring(
             builder.phdc, pretty_print=True, xml_declaration=True, encoding="utf-8"
@@ -433,6 +442,12 @@ def test_get_confidentiality_code():
         ET.tostring(confidentiality_code)
         == b'<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>'
     )
+
+
+def test_get_realmCode():
+    builder = PHDCBuilder()
+    realmCode = builder._get_realmCode()
+    assert ET.tostring(realmCode) == b'<realmCode code="US"/>'
 
 
 def test_get_case_report_code():
