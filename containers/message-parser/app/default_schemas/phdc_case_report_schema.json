@@ -118,13 +118,13 @@
     "data_type": "string",
     "nullable": true
   },
-  "patient_ethnic_group_code": {
-    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.code",
+  "patient_ethnic_group_display": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
     "data_type": "string",
     "nullable": true
   },
-  "patient_ethnic_group_display": {
-    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.display",
+  "patient_ethnic_group_code": {
+    "fhir_path": "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity').extension.valueCoding.code",
     "data_type": "string",
     "nullable": true
   },
