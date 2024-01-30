@@ -276,7 +276,12 @@ const formatTable = (
     </>
   );
   const table = (
-    <Table borderless fullWidth className="border-top border-left border-right">
+    <Table
+      borderless
+      fullWidth
+      caption="Problems List"
+      className="border-top border-left border-right table-caption-margin"
+    >
       {tableContent}
     </Table>
   );

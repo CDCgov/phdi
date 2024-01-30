@@ -29,9 +29,6 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
       <div>
         {activeProblemsDetails.map((item, index) => (
           <div key={index}>
-            <div className="data-title">
-              <h4>{item.title}</h4>
-            </div>
             <div className="grid-col-auto text-pre-line">{item.value}</div>
             <div className={"section__line_gray"} />
           </div>

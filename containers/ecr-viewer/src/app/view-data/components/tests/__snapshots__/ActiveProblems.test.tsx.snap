@@ -3,10 +3,12 @@
 exports[`Active Problems Table should match snapshot 1`] = `
 <div>
   <table
-    class="usa-table usa-table--borderless border-top border-left border-right"
+    class="usa-table usa-table--borderless width-full border-top border-left border-right table-caption-margin"
     data-testid="table"
   >
-     
+    <caption>
+      Problems List
+    </caption>
     <thead>
       <tr>
         <th
@@ -19,73 +21,90 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class=" bg-gray-5 minw-15"
           scope="col"
         >
-          Noted Date
+          Onset Date
         </th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <th
+          class="text-top"
           scope="row"
         >
           Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
         </th>
-        <td>
+        <td
+          class="text-top"
+        >
           12/14/2022
         </td>
       </tr>
       <tr>
         <th
+          class="text-top"
           scope="row"
         >
           Headache
         </th>
-        <td>
+        <td
+          class="text-top"
+        >
           08/19/2022
         </td>
       </tr>
       <tr>
         <th
+          class="text-top"
           scope="row"
         >
           Backache
         </th>
-        <td>
+        <td
+          class="text-top"
+        >
           08/19/2022
         </td>
       </tr>
       <tr>
         <th
+          class="text-top"
           scope="row"
         >
           Malignant neoplasm of urinary bladder neck
         </th>
-        <td>
+        <td
+          class="text-top"
+        >
           11/05/2021
         </td>
       </tr>
       <tr>
         <th
+          class="text-top"
           scope="row"
         >
           Malignant neoplasm of overlapping sites of pancreas
         </th>
-        <td>
+        <td
+          class="text-top"
+        >
           09/18/2017
         </td>
       </tr>
       <tr>
         <th
+          class="text-top"
           scope="row"
         >
           Bilateral malignant neoplasm of lower outer quadrant of breast in female
         </th>
-        <td>
+        <td
+          class="text-top"
+        >
           02/27/2017
         </td>
       </tr>
     </tbody>
-     
   </table>
 </div>
 `;
