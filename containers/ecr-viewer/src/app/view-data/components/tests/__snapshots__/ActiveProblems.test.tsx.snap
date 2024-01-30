@@ -21,6 +21,12 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class=" bg-gray-5 minw-15"
           scope="col"
         >
+          Onset Age
+        </th>
+        <th
+          class=" bg-gray-5 minw-15"
+          scope="col"
+        >
           Onset Date
         </th>
       </tr>
@@ -33,6 +39,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         >
           Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
         </th>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
         <td
           class="text-top"
         >
@@ -49,6 +60,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
+          N/A
+        </td>
+        <td
+          class="text-top"
+        >
           08/19/2022
         </td>
       </tr>
@@ -59,6 +75,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         >
           Backache
         </th>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
         <td
           class="text-top"
         >
@@ -75,6 +96,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
+          N/A
+        </td>
+        <td
+          class="text-top"
+        >
           11/05/2021
         </td>
       </tr>
@@ -88,6 +114,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         <td
           class="text-top"
         >
+          N/A
+        </td>
+        <td
+          class="text-top"
+        >
           09/18/2017
         </td>
       </tr>
@@ -98,6 +129,11 @@ exports[`Active Problems Table should match snapshot 1`] = `
         >
           Bilateral malignant neoplasm of lower outer quadrant of breast in female
         </th>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
         <td
           class="text-top"
         >

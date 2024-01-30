@@ -65,4 +65,5 @@ resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %
 # Clinical Info
 activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(category.coding.code='problem-item-list')"
 activeProblemsDisplay: "Condition.code.coding[0].display"
-activeProblemsDate: "Condition.onsetDateTime"
+activeProblemsOnsetDate: "Condition.onsetDateTime"
+activeProblemsOnsetAge: "idk"

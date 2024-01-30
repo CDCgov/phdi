@@ -551,7 +551,8 @@ export const returnProblemsTable = (problemsArray, mappings) => {
 
   const columnInfo = [
     { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
-    { columnName: "Onset Date", infoPath: "activeProblemsDate" },
+    { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
+    { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
   ];
 
   problemsArray.forEach((entry) => {
