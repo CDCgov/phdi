@@ -488,8 +488,8 @@ def test_get_case_report():
                             prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
                         ),
                     ],
-                    race_code="White",
-                    ethnic_group_code="Not Hispanic or Latino",
+                    race_code="2106-3",
+                    ethnic_group_code="2186-5",
                     administrative_gender_code="Male",
                     birth_time="01-01-2000",
                     telecom=[
