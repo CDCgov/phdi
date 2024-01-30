@@ -9,6 +9,7 @@ from app.phdc.models import Address
 from app.phdc.models import CodedElement
 from app.phdc.models import Name
 from app.phdc.models import Observation
+from app.phdc.models import Organization
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
@@ -183,22 +184,64 @@ def test_build_name(build_name_test_data, expected_result):
 @pytest.mark.parametrize(
     "build_custodian_test_data, expected_result",
     [
-        # Success with `id`
+        # Success with `id` only
         (
-            {
-                "id": "TEST ID",
-            },
+            [Organization(id="TEST ID")],
             (
-                "<custodian><assignedCustodian><representedCustodianOrganization>"
-                + '<id extension="TEST ID"/></representedCustodianOrganization>'
-                + "</assignedCustodian></custodian>"
+                "<custodian>\n"
+                "  <assignedCustodian>\n"
+                "    <representedCustodianOrganization>\n"
+                '      <id extension="TEST ID"/>\n'
+                "    </representedCustodianOrganization>\n"
+                "  </assignedCustodian>\n"
+                "</custodian>\n"
+            ),
+        ),
+        # Success with data
+        (
+            [
+                Organization(
+                    id="112233",
+                    name="Happy Labs",
+                    address=[
+                        Address(
+                            street_address_line_1="23 main st",
+                            street_address_line_2="apt 12",
+                            city="Fort Worth",
+                            state="Texas",
+                            postal_code="76006",
+                            county="Tarrant",
+                            country="USA",
+                        )
+                    ],
+                    telecom=[Telecom(value="8888675309"), Telecom(value="8888675310")],
+                )
+            ],
+            (
+                "<custodian>\n"
+                "  <assignedCustodian>\n"
+                "    <representedCustodianOrganization>\n"
+                '      <id extension="112233"/>\n'
+                "      <name>Happy Labs</name>\n"
+                "      <addr>\n"
+                "        <streetAddressLine>23 main st</streetAddressLine>\n"
+                "        <streetAddressLine>apt 12</streetAddressLine>\n"
+                "        <city>Fort Worth</city>\n"
+                "        <state>Texas</state>\n"
+                "        <postalCode>76006</postalCode>\n"
+                "        <county>Tarrant</county>\n"
+                "        <country>USA</country>\n"
+                "      </addr>\n"
+                '      <telecom value="8888675309"/>\n'
+                '      <telecom value="8888675310"/>\n'
+                "    </representedCustodianOrganization>\n"
+                "  </assignedCustodian>\n"
+                "</custodian>\n"
             ),
         ),
         # ValueError is raised when `id` is None
         (
-            {
-                "id": None,
-            },
+            [Organization()],
             ValueError("The Custodian id parameter must be a defined."),
         ),
     ],
@@ -207,12 +250,15 @@ def test_build_custodian(build_custodian_test_data, expected_result):
     builder = PHDCBuilder()
     if isinstance(expected_result, ValueError):
         with pytest.raises(ValueError) as e:
-            xml_custodian_data = builder._build_custodian(**build_custodian_test_data)
+            xml_custodian_data = builder._build_custodian(build_custodian_test_data)
             assert str(e.value) == str(expected_result)
 
     else:
-        xml_custodian_data = builder._build_custodian(**build_custodian_test_data)
-        assert ET.tostring(xml_custodian_data).decode() == expected_result
+        xml_custodian_data = builder._build_custodian(build_custodian_test_data)
+        assert (
+            ET.tostring(xml_custodian_data, pretty_print=True).decode()
+            == expected_result
+        )
 
 
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))

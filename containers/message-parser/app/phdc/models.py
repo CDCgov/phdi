@@ -51,6 +51,14 @@ class Patient:
 
 
 @dataclass
+class Organization:
+    id: str = None
+    name: str = None
+    address: List[Address] = ()
+    telecom: List[Telecom] = ()
+
+
+@dataclass
 class CodedElement:
     xsi_type: Optional[str] = None
     code: Optional[str] = None
@@ -94,3 +102,4 @@ class PHDCInputData:
     ] = "case_report"
     patient: Patient = None
     clinical_info: List[Observation] = None
+    organization: List[Organization] = None
