@@ -173,7 +173,7 @@ const formatDateTime = (dateTime: string) => {
 };
 
 export const formatDate = (date: string) => {
-  if (!date) {
+  if (!date || date === null) {
     return "N/A";
   }
 
@@ -247,13 +247,19 @@ const formatTable = (
   resources.forEach((entry) => {
     let rowCells = [];
     columns.forEach(function (column, index) {
-      let rowCellData = evaluate(entry, mappings[column.infoPath])[0];
       let isFirstCell = index === 0;
 
+      let rowCellData;
+      evaluate(entry, mappings[column.infoPath])[0]
+        ? (rowCellData = evaluate(entry, mappings[column.infoPath])[0])
+        : (rowCellData = "N/A");
+
       let rowCell = isFirstCell ? (
-        <th scope="row">{rowCellData}</th>
+        <th scope="row" className="text-top">
+          {rowCellData}
+        </th>
       ) : (
-        <td>{rowCellData}</td>
+        <td className="text-top">{rowCellData}</td>
       );
       rowCells.push(rowCell);
     });
@@ -270,9 +276,8 @@ const formatTable = (
     </>
   );
   const table = (
-    <Table borderless className="border-top border-left border-right">
-      {" "}
-      {tableContent}{" "}
+    <Table borderless fullWidth className="border-top border-left border-right">
+      {tableContent}
     </Table>
   );
 
@@ -541,11 +546,13 @@ export const returnProblemsTable = (problemsArray, mappings) => {
 
   const columnInfo = [
     { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
-    { columnName: "Noted Date", infoPath: "activeProblemsDate" },
+    { columnName: "Onset Date", infoPath: "activeProblemsDate" },
   ];
 
   problemsArray.forEach((entry) => {
-    entry.onsetDateTime = formatDate(entry.onsetDateTime);
+    entry.onsetDateTime
+      ? (entry.onsetDateTime = formatDate(entry.onsetDateTime))
+      : (entry.onsetDateTime = "N/A");
   });
 
   problemsArray.sort(function (a, b) {

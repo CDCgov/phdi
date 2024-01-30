@@ -157,5 +157,21 @@ describe("Utils", () => {
       const result = formatDate(inputDate);
       expect(result).toEqual(expectedDate);
     });
+
+    it("should return N/A if provided date is undefined", () => {
+      const inputDate = undefined;
+      const expectedDate = "N/A";
+
+      const result = formatDate(inputDate);
+      expect(result).toEqual(expectedDate);
+    });
+
+    it("should return N/A if provided date is null", () => {
+      const inputDate = null;
+      const expectedDate = "N/A";
+
+      const result = formatDate(inputDate);
+      expect(result).toEqual(expectedDate);
+    });
   });
 });
