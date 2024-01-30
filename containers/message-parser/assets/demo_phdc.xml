@@ -58,7 +58,7 @@
         <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
         <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical Information"/>
         <title>Clinical Information</title>
-        <entry typeCode="COMP">
+        <!-- <entry typeCode="COMP">
           <observation classCode="OBS" moodCode="EVN">
             <code code="INV169" codeSystem="2.16.840.1.114222.4.5.1" displayName="Condition"/>
             <value xsi:type="CE" code="10274" codeSystem="1.2.3.5" displayName="Chlamydia trachomatis infection">
@@ -73,7 +73,7 @@
               <translation xsi:type="CE" code="T" codeSystem="L" codeSystemName="STD*MIS" displayName="Local Label"/>
             </value>
           </observation>
-        </entry>        
+        </entry>         -->
       </section>
     </component>
   </component>
