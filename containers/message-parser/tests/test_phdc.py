@@ -75,14 +75,12 @@ def test_build_telecom(build_telecom_test_data, expected_result):
 )
 def test_build_observation(build_observation_test_data, expected_result):
     builder = PHDCBuilder()
-    # TODO: is there a better way to acknowledge xsi:type requires xmlns that is
-    # established earlier in the clinicaldocument portion?
-    with pytest.raises(ValueError, match="Invalid attribute name 'xsi:type'"):
-        xod = builder._build_observation_method(build_observation_test_data)
-        actual_result = ET.tostring(xod, encoding="unicode").replace(
-            'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', ""
-        )
-        assert actual_result == expected_result
+    xod = builder._build_observation_method(build_observation_test_data)
+    actual_result = ET.tostring(xod, encoding="unicode").replace(
+        'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', ""
+    )
+    # TODO: There has to be a more elegant way to do that...
+    assert actual_result == expected_result
 
 
 @pytest.mark.parametrize(
@@ -518,34 +516,39 @@ def test_get_case_report_code():
             # Expected XML output as a string
             "<component><section>"
             + '<id extension="mocked-uuid" assigningAuthorityName="LR"/>'
-            + '<code code="55752-0"'
-            + ' codeSystem="2.16.840.1.113883.6.1" '
-            + 'codeSystemName="LOINC" '
-            + 'displayName="Clinical Information"/>'
+            + '<code code="55752-0" codeSystem="2.16.840.1.113883.6.1"'
+            + ' codeSystemName="LOINC" displayName="Clinical Information"/>'
             + "<title>Clinical Information</title>"
             + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
             + '<code code="INV169" codeSystem="2.16.840.1.114222.4.5.1"'
-            + 'displayName="Condition"/>'
+            + ' displayName="Condition"/>'
             + '<value xsi:type="CE" code="10274" codeSystem="1.2.3.5"'
-            + 'displayName="Chlamydia trachomatis infection">'
+            + ' displayName="Chlamydia trachomatis infection">'
             + '<translation xsi:type="CE" code="350" codeSystem="L"'
-            + 'codeSystemName="STD*MIS" displayName="Local Label"/>'
+            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
             + "</value></observation></entry>"
             + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
             + '<code code="NBS012" codeSystem="2.16.840.1.114222.4.5.1"'
-            + 'displayName="Shared Ind"/>'
+            + ' displayName="Shared Ind"/>'
             + '<value xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">'
             + '<translation xsi:type="CE" code="T" codeSystem="L"'
-            + 'codeSystemName="STD*MIS" displayName="Local Label"/>'
+            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
             + "</value></observation></entry></section></component>",
         ),
     ],
 )
 def test_get_case_report(build_case_report_data, expected_result):
     builder = PHDCBuilder()
-    with pytest.raises(ValueError, match="Invalid attribute name 'xsi:type'"):
-        case_report_code = builder._build_case_report(build_case_report_data)
-        assert ET.tostring(case_report_code).decode() == expected_result
+    case_report_code = builder._build_case_report(build_case_report_data)
+    actual_result = (
+        ET.tostring(case_report_code)
+        .decode()
+        .replace('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', "")
+    )
+    expected_result = expected_result
+    print("Actual Result:\n", actual_result)
+    print("Expected Result:\n", expected_result)
+    assert actual_result == expected_result
 
 
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
@@ -664,8 +667,6 @@ def test_build(build_header_test_data, expected_result):
     builder.set_input_data(build_header_test_data)
     phdc = builder.build()
     actual_result = phdc.to_xml_string()
-    print("Actual Result:\n", actual_result)
-    print("Expected Result:\n", expected_result)
     assert actual_result == expected_result
 
 

@@ -80,7 +80,7 @@
               <translation xsi:type="CE" code="T" codeSystem="L" codeSystemName="STD*MIS" displayName="Local Label"/>
             </value>
           </observation>
-        </entry>       
+        </entry>
       </section>
     </component>
   </component>
