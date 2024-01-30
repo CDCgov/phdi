@@ -148,6 +148,16 @@ class PHDCBuilder:
         code.set("displayName", "Public Health Case Report - PHRI")
         return code
 
+    def _get_title(self):
+        """
+        Returns the title element of the PHDC header.
+        """
+        title = ET.Element("title")
+        title.text = (
+            "Public Health Case Report - Data from the DIBBs FHIR to PHDC Converter"
+        )
+        return title
+
     def build_header(self):
         """
         Builds the header of the PHDC document.
@@ -156,6 +166,7 @@ class PHDCBuilder:
         root.append(self._get_type_id())
         root.append(self._get_id())
         root.append(self._get_case_report_code())
+        root.append(self._get_title())
         root.append(self._get_effective_time())
         root.append(self._get_confidentiality_code(confidentiality="normal"))
 
