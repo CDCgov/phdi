@@ -187,6 +187,17 @@ class PHDCBuilder:
 
         return setid
 
+    def _get_version_number(self):
+        """
+        Returns the versionNumber element of the PHDC header.
+        """
+        # TODO: once we get prod data, we'll have to determine
+        # whether or not this will be data we parse from source data
+        version_number = ET.Element("versionNumber")
+        version_number.set("value", "1")
+
+        return version_number
+
     def build_header(self):
         """
         Builds the header of the PHDC document.
@@ -200,6 +211,7 @@ class PHDCBuilder:
         root.append(self._get_effective_time())
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
+        root.append(self._get_version_number())
 
         root.append(self._build_custodian(id=str(uuid.uuid4())))
         root.append(self._build_author(family_name="DIBBS"))
