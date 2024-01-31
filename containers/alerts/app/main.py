@@ -25,6 +25,7 @@ from phdi.containers.base_service import BaseService
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Alerts Service",
+    service_path="/alerts",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 

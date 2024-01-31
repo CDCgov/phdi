@@ -142,7 +142,16 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/${{matrix.container-to-test}}
         run: |
-          pip install -r requirements.txt
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+               pwd
+               pip install -r requirements.txt
+          else
+               pwd
+               commit_hash=$(git rev-parse HEAD)
+               cp requirements.txt ci_requirements.txt
+               sed -i -e "s/phdi@main/phdi@${commit_hash}/g" ci_requirements.txt
+               pip install -r ci_requirements.txt
+          fi
       - name: Run unit tests for containers
         env:
           MPI_DBNAME: testdb
