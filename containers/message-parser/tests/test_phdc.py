@@ -436,6 +436,12 @@ def test_get_confidentiality_code():
     )
 
 
+def test_get_realmCode():
+    builder = PHDCBuilder()
+    realmCode = builder._get_realmCode()
+    assert ET.tostring(realmCode) == b'<realmCode code="US"/>'
+
+
 def test_get_clinical_info_code():
     builder = PHDCBuilder()
     clinical_info_code = builder._get_clinical_info_code()
