@@ -1,3 +1,4 @@
+import logging
 import uuid
 from typing import List
 from typing import Literal
@@ -11,6 +12,11 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
+
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class PHDC:
@@ -67,6 +73,9 @@ class PHDCBuilder:
         """
         Create the base PHDC XML document.
         """
+        # register the namespaces for the entire element tree
+        ET.register_namespace("sdt", "urn:hl7-org:sdtc")
+        ET.register_namespace("sdtcxmlnamespaceholder", "urn:hl7-org:v3")
         ET.register_namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance")
 
         xsi_schema_location = ET.QName(
@@ -469,6 +478,21 @@ class PHDCBuilder:
 
         :param patient: The Patient object to use for building the patient element.
         """
+        RACE_CODE_SYSTEM = "2.16.840.1.113883.6.238"
+        RACE_CODE_SYSTEM_NAME = "Race & Ethnicity"
+
+        race_code_and_mapping = {
+            "1002-5": "American Indian or Alaska Native",
+            "2028-9": "Asian",
+            "2054-5": "Black or African American",
+            "2076-8": "Native Hawaiian or Other Pacific Islander",
+            "2106-3": "White",
+        }
+
+        ethnicity_code_and_mapping = {
+            "2186-5": "Not Hispanic or Latino",
+            "2135-2": "Hispanic or Latino",
+        }
 
         patient_data = ET.Element("patient")
 
@@ -483,24 +507,43 @@ class PHDCBuilder:
             patient_data.append(v)
 
         if patient.race_code is not None:
-            v = self._build_coded_element(
-                "raceCode",
-                **{"displayName": patient.race_code},
-            )
-            patient_data.append(v)
+            if patient.race_code in race_code_and_mapping:
+                display_name = race_code_and_mapping[patient.race_code]
+                v = self._build_coded_element(
+                    "{urn:hl7-org:sdtc}raceCode",
+                    code=patient.race_code,
+                    codeSystem=RACE_CODE_SYSTEM,
+                    displayName=display_name,
+                    codeSystemName=RACE_CODE_SYSTEM_NAME,
+                )
+                patient_data.append(v)
+            else:
+                logging.warning(
+                    f"Race code {patient.race_code} not found in "
+                    "the OMB classification."
+                )
 
         if patient.ethnic_group_code is not None:
-            v = self._build_coded_element(
-                "ethnicGroupCode",
-                **{"displayName": patient.ethnic_group_code},
-            )
-            patient_data.append(v)
+            if patient.ethnic_group_code in ethnicity_code_and_mapping:
+                display_name = ethnicity_code_and_mapping[patient.ethnic_group_code]
+                v = self._build_coded_element(
+                    "ethnicGroupCode",
+                    code=patient.ethnic_group_code,
+                    codeSystem=RACE_CODE_SYSTEM,
+                    displayName=display_name,
+                    codeSystemName=RACE_CODE_SYSTEM_NAME,
+                )
+                patient_data.append(v)
+            else:
+                logging.warning(
+                    f"Ethnic group code {patient.ethnic_group_code} not "
+                    "found in OMB classification."
+                )
 
         if patient.birth_time is not None:
             e = ET.Element("birthTime")
             e.text = patient.birth_time
             patient_data.append(e)
-        # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
 
         return patient_data
 
