@@ -447,6 +447,12 @@ def test_get_setId():
     assert ET.tostring(setid) == b'<setId extension="CLOSED_CASE" displayable="true"/>'
 
 
+def test_get_realmCode():
+    builder = PHDCBuilder()
+    realmCode = builder._get_realmCode()
+    assert ET.tostring(realmCode) == b'<realmCode code="US"/>'
+
+
 def test_get_case_report_code():
     builder = PHDCBuilder()
     case_report_code = builder._get_case_report_code()
