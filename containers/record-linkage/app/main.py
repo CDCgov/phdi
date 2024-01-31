@@ -29,7 +29,6 @@ MPI_CLIENT = DIBBsMPIConnectorClient(
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="DIBBs Record Linkage Service",
-    service_path="/record-linkage",
     description_path=Path(__file__).parent.parent / "description.md",
     include_health_check_endpoint=False,
 ).start()

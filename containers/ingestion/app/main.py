@@ -15,7 +15,6 @@ get_settings()
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Ingestion Service",
-    service_path="/ingestion",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 

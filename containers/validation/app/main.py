@@ -20,7 +20,6 @@ ecr_config = load_ecr_config()
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Validation Service",
-    service_path="/validation",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
