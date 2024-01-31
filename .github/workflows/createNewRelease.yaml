@@ -196,7 +196,7 @@ jobs:
           - 5432:5432
     strategy:
       matrix:
-        container: ${{fromJson(needs.list-containers.outputs.python-container-dirs)}}
+        container: ${{fromJson(needs.list-containers.outputs.python-containers)}}
     steps:
       - uses: actions/checkout@v3
         with:
