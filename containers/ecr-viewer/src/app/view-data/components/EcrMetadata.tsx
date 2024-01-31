@@ -6,12 +6,18 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
+import { SectionConfig } from "./SectionConfig";
 
 interface EcrMetadataProps {
   rrDetails: DisplayData[];
   eicrDetails: DisplayData[];
   eCRSenderDetails: DisplayData[];
 }
+
+export const ecrMetadataConfig: SectionConfig = new SectionConfig(
+  "eCR Metadata",
+  ["RR Details", "eICR Details", "eCR Sender Details"],
+);
 
 const EcrMetadata = ({
   rrDetails,

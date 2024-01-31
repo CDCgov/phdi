@@ -9,6 +9,11 @@ interface SocialHistoryProps {
   socialData: DisplayData[];
 }
 
+export const socialHistoryConfig: SectionConfig = {
+  id: "social-history",
+  title: "Social History",
+};
+
 const SocialHistory = ({ socialData }: SocialHistoryProps) => {
   const renderDemographicsData = (item: any, index: number) => {
     return (
@@ -26,7 +31,9 @@ const SocialHistory = ({ socialData }: SocialHistoryProps) => {
 
   return (
     <AccordianSection>
-      <AccordianH3>Social History</AccordianH3>
+      <AccordianH3>
+        <span id={socialHistoryConfig.id}>{socialHistoryConfig.title}</span>
+      </AccordianH3>
       <AccordianDiv>
         {socialData.map((item, index) => renderDemographicsData(item, index))}
       </AccordianDiv>

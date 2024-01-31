@@ -2,18 +2,24 @@ import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
 import {
   extractFacilityAddress,
-  extractFacilityContactInfo,
   extractPatientAddress,
   formatEncounterDate,
   formatPatientContactInfo,
   formatPatientName,
   PathMappings,
 } from "../../utils";
+import { SectionConfig } from "./SectionConfig";
 
 interface EcrViewerProps {
   fhirPathMappings: PathMappings;
   fhirBundle: Bundle;
 }
+
+export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
+  "About the Patient",
+  "About the Encounter",
+  "About the Condition",
+]);
 
 const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
   return (
