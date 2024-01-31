@@ -138,7 +138,7 @@ class PHDCBuilder:
         confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
         return confidentiality_code
 
-    def _get_case_report_code(self):
+    def _get_clinical_info_code(self):
         """
         Returns the code element of the header for a PHDC case report.
         """
@@ -166,7 +166,7 @@ class PHDCBuilder:
         root = self.phdc.getroot()
         root.append(self._get_type_id())
         root.append(self._get_id())
-        root.append(self._get_case_report_code())
+        root.append(self._get_clinical_info_code())
         root.append(self._get_title())
         root.append(self._get_effective_time())
         root.append(self._get_confidentiality_code(confidentiality="normal"))
@@ -191,7 +191,7 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                clinical_info = self._build_case_report(self.input_data.clinical_info)
+                clinical_info = self._build_clinical_info(self.input_data.clinical_info)
                 body.append(clinical_info)
             case "contact_record":
                 pass
@@ -202,7 +202,7 @@ class PHDCBuilder:
 
         self.phdc.getroot().append(body)
 
-    def _build_case_report(
+    def _build_clinical_info(
         self, observation_data: Optional[List[Observation]] = None
     ) -> ET.Element:
         component = ET.Element("component")
@@ -227,7 +227,7 @@ class PHDCBuilder:
         # add observation data to section
         if observation_data:
             for observation in observation_data:
-                observation_element = self._build_observation_method(observation)
+                observation_element = self._build_observation(observation)
                 section.append(observation_element)
 
         component.append(section)
@@ -275,7 +275,7 @@ class PHDCBuilder:
             e.text = data
             parent_element.append(e)
 
-    def _build_observation_method(self, observation: Observation) -> ET.Element:
+    def _build_observation(self, observation: Observation) -> ET.Element:
         """
         Creates Entry XML element for observation data.
 

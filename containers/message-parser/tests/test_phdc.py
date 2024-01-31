@@ -75,7 +75,7 @@ def test_build_telecom(build_telecom_test_data, expected_result):
 )
 def test_build_observation(build_observation_test_data, expected_result):
     builder = PHDCBuilder()
-    xod = builder._build_observation_method(build_observation_test_data)
+    xod = builder._build_observation(build_observation_test_data)
     actual_result = ET.tostring(xod, encoding="unicode").replace(
         'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', ""
     )
@@ -435,11 +435,11 @@ def test_get_confidentiality_code():
     )
 
 
-def test_get_case_report_code():
+def test_get_clinical_info_code():
     builder = PHDCBuilder()
-    case_report_code = builder._get_case_report_code()
+    clinical_info_code = builder._get_clinical_info_code()
     assert (
-        ET.tostring(case_report_code)
+        ET.tostring(clinical_info_code)
         == b'<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" '
         b'codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>'
     )
@@ -447,7 +447,7 @@ def test_get_case_report_code():
 
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
 @pytest.mark.parametrize(
-    "build_case_report_data, expected_result",
+    "build_clinical_info_data, expected_result",
     [
         # Example test case
         (
@@ -537,11 +537,11 @@ def test_get_case_report_code():
         ),
     ],
 )
-def test_get_case_report(build_case_report_data, expected_result):
+def test_get_clinical_info(build_clinical_info_data, expected_result):
     builder = PHDCBuilder()
-    case_report_code = builder._build_case_report(build_case_report_data)
+    clinical_info_code = builder._build_clinical_info(build_clinical_info_data)
     actual_result = (
-        ET.tostring(case_report_code)
+        ET.tostring(clinical_info_code)
         .decode()
         .replace('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', "")
     )
