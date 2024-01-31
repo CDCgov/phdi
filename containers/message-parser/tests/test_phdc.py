@@ -50,17 +50,13 @@ def test_build_telecom(build_telecom_test_data, expected_result):
                 type_code="ENTRY",
                 class_code="OBS",
                 mood_code="EVN",
-                code=[CodedElement(code="1", code_system="0", display_name="Code")],
-                value=[
-                    CodedElement(
-                        xsi_type="ST", code="2", code_system="1", display_name="V"
-                    )
-                ],
-                translation=[
-                    CodedElement(
-                        xsi_type="T", code="0", code_system="L", display_name="T"
-                    )
-                ],
+                code=CodedElement(code="1", code_system="0", display_name="Code"),
+                value=CodedElement(
+                    xsi_type="ST", code="2", code_system="1", display_name="V"
+                ),
+                translation=CodedElement(
+                    xsi_type="T", code="0", code_system="L", display_name="T"
+                ),
             ),
             (
                 '<entry typeCode="ENTRY">'
@@ -75,12 +71,12 @@ def test_build_telecom(build_telecom_test_data, expected_result):
 )
 def test_build_observation(build_observation_test_data, expected_result):
     builder = PHDCBuilder()
-    # TODO: is there a better way to acknowledge xsi:type requires xmlns that is
-    # established earlier in the clinicaldocument portion?
-    with pytest.raises(ValueError, match="Invalid attribute name 'xsi:type'"):
-        xod = builder._build_observation_method(build_observation_test_data)
-        actual_result = ET.tostring(xod, encoding="unicode")
-        assert actual_result == expected_result
+    xod = builder._build_observation(build_observation_test_data)
+    actual_result = ET.tostring(xod, encoding="unicode").replace(
+        'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', ""
+    )
+    # TODO: There has to be a more elegant way to do that...
+    assert actual_result == expected_result
 
 
 @pytest.mark.parametrize(
@@ -453,31 +449,106 @@ def test_get_realmCode():
     assert ET.tostring(realmCode) == b'<realmCode code="US"/>'
 
 
-def test_get_case_report_code():
+def test_get_clinical_info_code():
     builder = PHDCBuilder()
-    case_report_code = builder._get_case_report_code()
+    clinical_info_code = builder._get_clinical_info_code()
     assert (
-        ET.tostring(case_report_code)
+        ET.tostring(clinical_info_code)
         == b'<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" '
         b'codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>'
     )
 
 
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
-def test_get_case_report():
+@pytest.mark.parametrize(
+    "build_clinical_info_data, expected_result",
+    [
+        # Example test case
+        (
+            (
+                [
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="INV169",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Condition",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="10274",
+                            code_system="1.2.3.5",
+                            display_name="Chlamydia trachomatis infection",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="350",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="NBS012",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Shared Ind",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="F",
+                            code_system="1.2.3.5",
+                            display_name="False",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="T",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                ]
+            ),
+            # Expected XML output as a string
+            "<component><section>"
+            + '<id extension="mocked-uuid" assigningAuthorityName="LR"/>'
+            + '<code code="55752-0" codeSystem="2.16.840.1.113883.6.1"'
+            + ' codeSystemName="LOINC" displayName="Clinical Information"/>'
+            + "<title>Clinical Information</title>"
+            + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
+            + '<code code="INV169" codeSystem="2.16.840.1.114222.4.5.1"'
+            + ' displayName="Condition"/>'
+            + '<value xsi:type="CE" code="10274" codeSystem="1.2.3.5"'
+            + ' displayName="Chlamydia trachomatis infection">'
+            + '<translation xsi:type="CE" code="350" codeSystem="L"'
+            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
+            + "</value></observation></entry>"
+            + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
+            + '<code code="NBS012" codeSystem="2.16.840.1.114222.4.5.1"'
+            + ' displayName="Shared Ind"/>'
+            + '<value xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">'
+            + '<translation xsi:type="CE" code="T" codeSystem="L"'
+            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
+            + "</value></observation></entry></section></component>",
+        ),
+    ],
+)
+def test_get_clinical_info(build_clinical_info_data, expected_result):
     builder = PHDCBuilder()
-    case_report_code = builder._build_case_report()
-
-    assert (
-        ET.tostring(case_report_code) == b"<component><section>"
-        b'<id extension="mocked-uuid" assigningAuthorityName="LR"/>'
-        b'<code code="55752-0"'
-        b' codeSystem="2.16.840.1.113883.6.1" '
-        b'codeSystemName="LOINC" '
-        b'displayName="Clinical Information"/>'
-        b"<title>Clinical Information</title>"
-        b"</section></component>"
+    clinical_info_code = builder._build_clinical_info(build_clinical_info_data)
+    actual_result = (
+        ET.tostring(clinical_info_code)
+        .decode()
+        .replace('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', "")
     )
+    expected_result = expected_result
+    assert actual_result == expected_result
 
 
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
@@ -526,8 +597,56 @@ def test_get_case_report():
                         ),
                     ],
                 ),
+                clinical_info=[
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="INV169",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Condition",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="10274",
+                            code_system="1.2.3.5",
+                            display_name="Chlamydia trachomatis infection",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="350",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="NBS012",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Shared Ind",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="F",
+                            code_system="1.2.3.5",
+                            display_name="Flase",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="T",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                ],
             ),
-            (utils.read_file_from_assets("sample_phdc.xml")),
+            utils.read_file_from_assets("sample_phdc.xml"),
         )
     ],
 )
@@ -535,7 +654,8 @@ def test_build(build_header_test_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_header_test_data)
     phdc = builder.build()
-    assert phdc.to_xml_string() == expected_result
+    actual_result = phdc.to_xml_string()
+    assert actual_result == expected_result
 
 
 def test_add_field():
