@@ -9,7 +9,6 @@ on:
         value: ${{ jobs.list-python-containers.outputs.python-container-dirs }}
       integration-dirs:
         value: ${{ jobs.list-integration-test-directories.outputs.integration-dirs }}
-  workflow_dispatch:
 
 jobs:
   list-containers:
