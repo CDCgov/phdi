@@ -319,7 +319,15 @@ export const evaluateEncounterData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
+  console.log(
+    "reason for visit",
+    evaluate(fhirBundle, mappings["encounterReasonForVisit"]),
+  );
   const encounterData = [
+    {
+      title: "Reason for visit",
+      value: evaluate(fhirBundle, mappings["encounterReasonForVisit"]),
+    },
     {
       title: "Encounter Date/Time",
       value: formatStartEndDateTime(

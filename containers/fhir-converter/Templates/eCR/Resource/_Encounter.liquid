@@ -36,6 +36,9 @@
                 {% include 'DataType/CodeableConcept' CodeableConcept: encounter.dischargeDispositionCode -%}
             },
         },
+        
+        "reason": {%  include 'DataType/Reason' Reason: REASON -%},
+        
     },
     "request":{
         "method":"PUT",

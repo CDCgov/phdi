@@ -448,7 +448,18 @@
           "source": [
             "ecr"
           ]
-        }
+        },
+        "reason": [
+          {
+            "value": [
+              {
+                "concept": {
+                  "text": "Abdominal Cramping"
+                }
+              }
+            ]
+          }
+        ]
       },
       "request": {
         "method": "PUT",
