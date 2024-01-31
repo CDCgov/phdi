@@ -24,10 +24,10 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
     );
   };
 
-  const renderActiveProblemsDetails = () => {
+  const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
-        {activeProblemsDetails.map((item, index) => (
+        {tableDetails.map((item, index) => (
           <div key={index}>
             <div className="grid-col-auto text-pre-line">{item.value}</div>
             <div className={"section__line_gray"} />
@@ -41,7 +41,7 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
     return (
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
-        <AccordianDiv>{renderActiveProblemsDetails()}</AccordianDiv>
+        <AccordianDiv>{renderTableDetails(activeProblemsDetails)}</AccordianDiv>
       </>
     );
   };
