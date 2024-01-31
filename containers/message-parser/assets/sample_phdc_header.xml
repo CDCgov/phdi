@@ -54,8 +54,8 @@
           <family>Schmidt</family>
         </name>
         <administrativeGenderCode displayName="Male"/>
-        <raceCode displayName="White"/>
-        <ethnicGroupCode displayName="Not Hispanic or Latino"/>
+        <sdt:raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238" displayName="White" codeSystemName="Race &amp; Ethnicity"/>
+        <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
         <birthTime>01-01-2000</birthTime>
       </patient>
     </patientRole>

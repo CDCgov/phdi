@@ -267,8 +267,8 @@ def test_build_author(family_name, expected_oid, expected_date, expected_name):
                 name=[
                     Name(prefix="Mr.", first="John", middle="Jacob", family="Schmidt")
                 ],
-                race_code="White",
-                ethnic_group_code="Not Hispanic or Latino",
+                race_code="2106-3",
+                ethnic_group_code="2186-5",
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
@@ -276,8 +276,13 @@ def test_build_author(family_name, expected_oid, expected_date, expected_name):
                 "<patient><name><prefix>Mr.</prefix><given>John</given>"
                 + "<given>Jacob</given><family>Schmidt</family></name>"
                 + '<administrativeGenderCode displayName="Male"/>'
-                + '<raceCode displayName="White"/><ethnicGroupCode displayName='
-                + '"Not Hispanic or Latino"/><birthTime>01-01-2000</birthTime>'
+                + '<sdt:raceCode xmlns:sdt="urn:hl7-org:sdtc" code="2106-3" '
+                + 'codeSystem="2.16.840.1.113883.6.238" '
+                + 'displayName="White" codeSystemName="Race &amp; Ethnicity"/>'
+                + '<ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" '
+                + 'displayName="Not Hispanic or Latino" '
+                + 'codeSystemName="Race &amp; Ethnicity"/>'
+                + "<birthTime>01-01-2000</birthTime>"
                 + "</patient>"
             ),
         )
@@ -346,8 +351,8 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                             prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
                         ),
                     ],
-                    race_code="White",
-                    ethnic_group_code="Not Hispanic or Latino",
+                    race_code="2106-3",
+                    ethnic_group_code="2186-5",
                     administrative_gender_code="Male",
                     birth_time="01-01-2000",
                     telecom=[
@@ -498,8 +503,8 @@ def test_get_case_report():
                             prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
                         ),
                     ],
-                    race_code="White",
-                    ethnic_group_code="Not Hispanic or Latino",
+                    race_code="2106-3",
+                    ethnic_group_code="2186-5",
                     administrative_gender_code="Male",
                     birth_time="01-01-2000",
                     telecom=[
