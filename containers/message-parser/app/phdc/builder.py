@@ -292,25 +292,26 @@ class PHDCBuilder:
             "observation",
             {"classCode": observation.class_code, "moodCode": observation.mood_code},
         )
-        for code_element in observation.code:
-            code_attributes = code_element.to_attributes()
-            code_element_xml = self._build_coded_element("code", **code_attributes)
+
+        if observation.code:
+            code_element_xml = self._build_coded_element(
+                "code", **observation.code.to_attributes()
+            )
             observation_data.append(code_element_xml)
 
         # Add attributes to 'observation' using CodedElement for value
-        for value_element in observation.value:
-            value_attributes = value_element.to_attributes()
-            value_element_xml = self._build_coded_element("value", **value_attributes)
+        if observation.value:
+            value_element_xml = self._build_coded_element(
+                "value", **observation.value.to_attributes()
+            )
             observation_data.append(value_element_xml)
 
         # Add 'translation' elements to 'value' if translation is provided
         if observation.translation:
-            for translation_element in observation.translation:
-                translation_attributes = translation_element.to_attributes()
-                translation_element_xml = self._build_coded_element(
-                    "translation", **translation_attributes
-                )
-                value_element_xml.append(translation_element_xml)
+            translation_element_xml = self._build_coded_element(
+                "translation", **observation.translation.to_attributes()
+            )
+            value_element_xml.append(translation_element_xml)
 
         return entry_data
 

@@ -50,17 +50,13 @@ def test_build_telecom(build_telecom_test_data, expected_result):
                 type_code="ENTRY",
                 class_code="OBS",
                 mood_code="EVN",
-                code=[CodedElement(code="1", code_system="0", display_name="Code")],
-                value=[
-                    CodedElement(
-                        xsi_type="ST", code="2", code_system="1", display_name="V"
-                    )
-                ],
-                translation=[
-                    CodedElement(
-                        xsi_type="T", code="0", code_system="L", display_name="T"
-                    )
-                ],
+                code=CodedElement(code="1", code_system="0", display_name="Code"),
+                value=CodedElement(
+                    xsi_type="ST", code="2", code_system="1", display_name="V"
+                ),
+                translation=CodedElement(
+                    xsi_type="T", code="0", code_system="L", display_name="T"
+                ),
             ),
             (
                 '<entry typeCode="ENTRY">'
@@ -457,59 +453,47 @@ def test_get_clinical_info_code():
                         type_code="COMP",
                         class_code="OBS",
                         mood_code="EVN",
-                        code=[
-                            CodedElement(
-                                code="INV169",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Condition",
-                            )
-                        ],
-                        value=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="10274",
-                                code_system="1.2.3.5",
-                                display_name="Chlamydia trachomatis infection",
-                            )
-                        ],
-                        translation=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="350",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
-                            )
-                        ],
+                        code=CodedElement(
+                            code="INV169",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Condition",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="10274",
+                            code_system="1.2.3.5",
+                            display_name="Chlamydia trachomatis infection",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="350",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
                     ),
                     Observation(
                         type_code="COMP",
                         class_code="OBS",
                         mood_code="EVN",
-                        code=[
-                            CodedElement(
-                                code="NBS012",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Shared Ind",
-                            )
-                        ],
-                        value=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="F",
-                                code_system="1.2.3.5",
-                                display_name="False",
-                            )
-                        ],
-                        translation=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="T",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
-                            )
-                        ],
+                        code=CodedElement(
+                            code="NBS012",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Shared Ind",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="F",
+                            code_system="1.2.3.5",
+                            display_name="False",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="T",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
                     ),
                 ]
             ),
@@ -600,59 +584,47 @@ def test_get_clinical_info(build_clinical_info_data, expected_result):
                         type_code="COMP",
                         class_code="OBS",
                         mood_code="EVN",
-                        code=[
-                            CodedElement(
-                                code="INV169",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Condition",
-                            )
-                        ],
-                        value=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="10274",
-                                code_system="1.2.3.5",
-                                display_name="Chlamydia trachomatis infection",
-                            )
-                        ],
-                        translation=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="350",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
-                            )
-                        ],
+                        code=CodedElement(
+                            code="INV169",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Condition",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="10274",
+                            code_system="1.2.3.5",
+                            display_name="Chlamydia trachomatis infection",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="350",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
                     ),
                     Observation(
                         type_code="COMP",
                         class_code="OBS",
                         mood_code="EVN",
-                        code=[
-                            CodedElement(
-                                code="NBS012",
-                                code_system="2.16.840.1.114222.4.5.1",
-                                display_name="Shared Ind",
-                            )
-                        ],
-                        value=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="F",
-                                code_system="1.2.3.5",
-                                display_name="Flase",
-                            )
-                        ],
-                        translation=[
-                            CodedElement(
-                                xsi_type="CE",
-                                code="T",
-                                code_system="L",
-                                code_system_name="STD*MIS",
-                                display_name="Local Label",
-                            )
-                        ],
+                        code=CodedElement(
+                            code="NBS012",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Shared Ind",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="F",
+                            code_system="1.2.3.5",
+                            display_name="Flase",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="T",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
                     ),
                 ],
             ),
