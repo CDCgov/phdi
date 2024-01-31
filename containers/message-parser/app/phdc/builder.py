@@ -169,6 +169,15 @@ class PHDCBuilder:
         )
         return title
 
+    def _get_setId(self):
+        """
+        Returns the setId element of the PHDC header.
+        """
+        setid_attributes = {"extension": "CLOSED_CASE", "displayable": "true"}
+        setid = ET.Element("setId", attrib=setid_attributes)
+
+        return setid
+
     def build_header(self):
         """
         Builds the header of the PHDC document.
@@ -180,6 +189,7 @@ class PHDCBuilder:
         root.append(self._get_title())
         root.append(self._get_effective_time())
         root.append(self._get_confidentiality_code(confidentiality="normal"))
+        root.append(self._get_setId())
 
         root.append(self._build_custodian(id=str(uuid.uuid4())))
         root.append(self._build_author(family_name="DIBBS"))
