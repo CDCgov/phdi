@@ -46,36 +46,25 @@ const ECRViewerPage = () => {
       expanded: true,
       id: "1",
       headingLevel: "h2",
-      link: [<a href="#ecr-document">eCR Document</a>],
-    },
-    {
-      content: null,
-      expanded: true,
-      id: "1",
-      headingLevel: "h2",
       link: [
-        <a href="#patient-info">Patient Info</a>,
-        <SideNav
-          isSubnav={true}
-          items={[<a href="#demographics">Demographics</a>]}
-        />,
-      ],
-    },
-    {
-      content: null,
-      expanded: true,
-      id: "2",
-      headingLevel: "h2",
-      link: [
-        <a href="#ecr-metadata">eCR Metadata</a>,
+        <a href="#ecr-document">eCR Document</a>,
         <SideNav
           isSubnav={true}
           items={[
-            <a href="#rr-details">RR Details</a>,
-            <a href="#eicr-details">eICR Details</a>,
-            <a href="#ecr-sender-details">eCR Sender Details</a>,
+            <a href="#patient-info">Patient Info</a>,
+            <SideNav items={[<a href="#demographics">Demographics</a>]} />,
+            <a href="#ecr-metadata">eCR Metadata</a>,
+            <SideNav
+              isSubnav={true}
+              items={[
+                <a href="#rr-details">RR Details</a>,
+                <a href="#eicr-details">eICR Details</a>,
+                <a href="#ecr-sender-details">eCR Sender Details</a>,
+              ]}
+            />,
+            <a href="#unavailable-info">Unavailable Info</a>,
           ]}
-        />,
+        ></SideNav>,
       ],
     },
     {
