@@ -148,6 +148,16 @@ class PHDCBuilder:
         confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
         return confidentiality_code
 
+    def _get_realmCode(self) -> ET.Element:
+        """
+        Returns the realmCode element of the PHDC header.
+
+        """
+
+        realmCode = ET.Element("realmCode")
+        realmCode.set("code", "US")
+        return realmCode
+
     def _get_case_report_code(self):
         """
         Returns the code element of the header for a PHDC case report.
@@ -174,6 +184,7 @@ class PHDCBuilder:
         Builds the header of the PHDC document.
         """
         root = self.phdc.getroot()
+        root.append(self._get_realmCode())
         root.append(self._get_type_id())
         root.append(self._get_id())
         root.append(self._get_case_report_code())
