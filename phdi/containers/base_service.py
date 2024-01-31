@@ -57,6 +57,7 @@ class BaseService:
             MIT license.
         """
         description = Path(description_path).read_text(encoding="utf-8")
+        self.service_path = service_path
         self.include_health_check_endpoint = include_health_check_endpoint
         self.app = FastAPI(
             title=service_name,
