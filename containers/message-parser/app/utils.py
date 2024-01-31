@@ -435,6 +435,10 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                 input_data.patient.administrative_gender_code = value
             case "patient_birth_time":
                 input_data.patient.birth_time = value
+            case "patient_race_code":
+                input_data.patient.race_code = value
+            case "patient_ethnic_group_code":
+                input_data.patient.ethnic_group_code = value
             case _:
                 pass
     return input_data
