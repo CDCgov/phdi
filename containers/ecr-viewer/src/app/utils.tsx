@@ -230,6 +230,7 @@ const formatTable = (
   resources: [],
   mappings: PathMappings,
   columns: [ColumnInfoInput], // Order of columns in array = order of apearance
+  caption: string,
 ) => {
   let headers = [];
   columns.forEach((column) => {
@@ -279,7 +280,7 @@ const formatTable = (
     <Table
       borderless
       fullWidth
-      caption="Problems List"
+      caption={caption}
       className="border-top border-left border-right table-caption-margin"
     >
       {tableContent}
@@ -565,7 +566,7 @@ export const returnProblemsTable = (problemsArray, mappings) => {
     return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
   });
 
-  return formatTable(problemsArray, mappings, columnInfo);
+  return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
 export const evaluateClinicalData = (
