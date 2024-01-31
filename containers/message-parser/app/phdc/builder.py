@@ -157,7 +157,7 @@ class PHDCBuilder:
         realmCode.set("code", "US")
         return realmCode
 
-    def _get_case_report_code(self):
+    def _get_clinical_info_code(self):
         """
         Returns the code element of the header for a PHDC case report.
         """
