@@ -225,6 +225,12 @@ class PHDCBuilder:
     def _build_clinical_info(
         self, observation_data: Optional[List[Observation]] = None
     ) -> ET.Element:
+        """
+        Builds the `ClinicalInformation` XML element, including all hardcoded aspects
+          required to initialize the section.
+        :param observation_data: List of clinical-relevant Observation data.
+        :return: XML element of ClinicalInformation data.
+        """
         component = ET.Element("component")
         section = ET.Element("section")
         id = ET.Element("id")
