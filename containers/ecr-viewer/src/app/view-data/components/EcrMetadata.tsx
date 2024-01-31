@@ -6,7 +6,7 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
-import { SectionConfig } from "./SectionConfig";
+import { SectionConfig } from "./SideNav";
 
 interface EcrMetadataProps {
   rrDetails: DisplayData[];

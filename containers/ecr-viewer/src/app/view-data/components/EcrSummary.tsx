@@ -8,7 +8,7 @@ import {
   formatPatientName,
   PathMappings,
 } from "../../utils";
-import { SectionConfig } from "./SectionConfig";
+import { SectionConfig } from "./SideNav";
 
 interface EcrViewerProps {
   fhirPathMappings: PathMappings;

@@ -4,6 +4,7 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
+import { SectionConfig } from "./SideNav";
 
 interface SocialHistoryProps {
   socialData: DisplayData[];

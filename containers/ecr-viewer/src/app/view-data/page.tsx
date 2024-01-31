@@ -5,7 +5,7 @@ import EcrSummary, {
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import { Accordion, SideNav } from "@trussworks/react-uswds";
+import { Accordion } from "@trussworks/react-uswds";
 import {
   PathMappings,
   evaluateSocialData,
@@ -18,7 +18,7 @@ import Demographics, { demographicsConfig } from "./components/Demographics";
 import SocialHistory, { socialHistoryConfig } from "./components/SocialHistory";
 import UnavailableInfo from "./components/UnavailableInfo";
 import EcrMetadata, { ecrMetadataConfig } from "./components/EcrMetadata";
-import { SectionConfig } from "./components/SectionConfig";
+import SideNav, { SectionConfig } from "./components/SideNav";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -38,29 +38,6 @@ const ECRViewerPage = () => {
     ]),
     new SectionConfig("Unavailable Info"),
   ];
-
-  function buildSideNav(sectionConfigs: SectionConfig[]) {
-    let sideNavItems: React.ReactNode[] = [];
-    for (let section of sectionConfigs) {
-      let sideNavItem = <a href={"#" + section.id}>{section.title}</a>;
-      sideNavItems.push(sideNavItem);
-
-      if (section.subNavItems) {
-        let subSideNavItems = buildSideNav(section.subNavItems);
-        sideNavItems.push(<SideNav isSubnav={true} items={subSideNavItems} />);
-      }
-    }
-
-    return sideNavItems;
-  }
-
-  function createSubSideNavItem(sectionConfig: SectionConfig[]) {
-    let subItems: React.ReactNode[] = sectionConfig.map((item) => {
-      return <a href={"#" + item.id}>{item.title}</a>;
-    });
-
-    return <SideNav isSubnav={true} items={subItems} />;
-  }
 
   const accordionItems: any[] = [
     {
@@ -185,7 +162,7 @@ const ECRViewerPage = () => {
           <div className="content-wrapper">
             <div className="nav-wrapper">
               <nav className="sticky-nav">
-                <SideNav items={buildSideNav(sideNavConfigs)} />
+                <SideNav sectionConfigs={sideNavConfigs} />
               </nav>
             </div>
             <div className="ecr-viewer-container">
