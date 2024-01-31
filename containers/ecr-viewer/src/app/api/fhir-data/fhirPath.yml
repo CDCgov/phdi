@@ -55,6 +55,13 @@ providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[
 providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
 providerName: "idk"
 
+# vital signs
+patientHeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.value"
+patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.unit"
+patientWeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.value"
+patientWeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.unit"
+patientBmi: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='39156-5').valueQuantity.value"
+
 rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
 rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
 rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
