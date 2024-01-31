@@ -8,6 +8,7 @@
   <title>Public Health Case Report - Data from the DIBBs FHIR to PHDC Converter</title>
   <effectiveTime value="20101215000000"/>
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+  <setId extension="CLOSED_CASE" displayable="true"/>
   <custodian>
     <assignedCustodian>
       <representedCustodianOrganization>

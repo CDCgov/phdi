@@ -440,6 +440,13 @@ def test_get_confidentiality_code():
     )
 
 
+def test_get_setId():
+    builder = PHDCBuilder()
+    setid = builder._get_setId()
+
+    assert ET.tostring(setid) == b'<setId extension="CLOSED_CASE" displayable="true"/>'
+
+
 def test_get_realmCode():
     builder = PHDCBuilder()
     realmCode = builder._get_realmCode()
