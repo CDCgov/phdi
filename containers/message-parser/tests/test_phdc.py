@@ -443,6 +443,13 @@ def test_get_setId():
     assert ET.tostring(setid) == b'<setId extension="CLOSED_CASE" displayable="true"/>'
 
 
+def test_get_version_number():
+    builder = PHDCBuilder()
+    version_number = builder._get_version_number()
+
+    assert ET.tostring(version_number) == b'<versionNumber value="1"/>'
+
+
 def test_get_realmCode():
     builder = PHDCBuilder()
     realmCode = builder._get_realmCode()
