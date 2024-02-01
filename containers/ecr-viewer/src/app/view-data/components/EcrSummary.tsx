@@ -29,8 +29,11 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
         aria-labelledby="summary-box-key-information"
       >
         <div className="usa-summary-box__body">
-          <h3 className="summary-box-key-information" id="about-the-patient">
-            About the Patient
+          <h3
+            className="summary-box-key-information"
+            id={ecrSummaryConfig.subNavItems?.[0].id}
+          >
+            {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
@@ -72,8 +75,11 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h3 className="summary-box-key-information" id="about-the-encounter">
-            About the Encounter
+          <h3
+            className="summary-box-key-information"
+            id={ecrSummaryConfig.subNavItems?.[1].id}
+          >
+            {ecrSummaryConfig.subNavItems?.[1].title}
           </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
@@ -126,9 +132,9 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
         <div className="usa-summary-box__body">
           <h3
             className={"margin-bottom-105 margin-top-205"}
-            id="about-the-condition"
+            id={ecrSummaryConfig.subNavItems?.[2].id}
           >
-            About the Condition
+            {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">

@@ -167,7 +167,7 @@ const ECRViewerPage = () => {
             </div>
             <div className="ecr-viewer-container">
               <div className="ecr-content">
-                <h2 className="margin-bottom-3" id="ecr-summmary">
+                <h2 className="margin-bottom-3" id="ecr-summary">
                   eCR Summary
                 </h2>
                 <EcrSummary

@@ -27,7 +27,9 @@ const EcrMetadata = ({
   return (
     <AccordianSection>
       <AccordianH3>
-        <span id="rr-details">RR Details</span>
+        <span id={ecrMetadataConfig.subNavItems?.[0].id}>
+          {ecrMetadataConfig.subNavItems?.[0].title}
+        </span>
       </AccordianH3>
       <AccordianDiv>
         {rrDetails.map(({ title, value }) => {
@@ -45,7 +47,9 @@ const EcrMetadata = ({
         })}
         <div className={"padding-bottom-1"} />
         <AccordianH3>
-          <span id="eicr-details">eICR Details</span>
+          <span id={ecrMetadataConfig.subNavItems?.[1].id}>
+            {ecrMetadataConfig.subNavItems?.[1].title}
+          </span>
         </AccordianH3>
         {eicrDetails.map(({ title, value }) => {
           return (
@@ -62,7 +66,9 @@ const EcrMetadata = ({
         })}
         <div className={"padding-bottom-1"} />
         <AccordianH3>
-          <span id="ecr-sender-details">eCR Sender Details</span>
+          <span id={ecrMetadataConfig.subNavItems?.[2].id}>
+            {ecrMetadataConfig.subNavItems?.[2].title}
+          </span>
         </AccordianH3>
         {eCRSenderDetails.map(({ title, value }) => {
           return (
