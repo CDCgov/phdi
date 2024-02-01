@@ -190,11 +190,11 @@ async def apply_workflow_to_message(
     """
     try:
         processing_config = load_processing_config(config_file_name)
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         return {
             "status_code": 400,
-            "message": error.__str__(),
-            "processed_values": {},
+            # "message": error.__str__(),
+            # "processed_values": {},
         }
 
     api_input = {
