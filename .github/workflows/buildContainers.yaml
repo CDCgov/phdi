@@ -6,7 +6,6 @@ on:
       - "**"
     paths:
       - "containers/**"
-  push:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
