@@ -56,7 +56,7 @@ providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0
 providerName: "idk"
 
 # vital signs
-patientHeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.value"
+patientHeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='8302-2').first().valueQuantity.value"
 patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.unit"
 patientWeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.value"
 patientWeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.unit"

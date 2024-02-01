@@ -10,6 +10,7 @@ import {
   evaluateEncounterData,
   evaluateProviderData,
   evaluateDemographicsData,
+  evaluateVitalData,
   evaluateEcrMetadata,
 } from "../utils";
 import Demographics from "./components/Demographics";
@@ -17,6 +18,7 @@ import SocialHistory from "./components/SocialHistory";
 import UnavailableInfo from "./components/UnavailableInfo";
 import EcrMetadata from "./components/EcrMetadata";
 import EncounterDetails from "./components/Encounter";
+import ClinicalInfo from "./components/ClinicalInfo";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -57,6 +59,7 @@ const ECRViewerPage = () => {
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
     const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
+    const vitalData = evaluateVitalData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: "Patient Info",
@@ -102,6 +105,17 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
+        title: "Clinical Info",
+        content: (
+          <div>
+            <ClinicalInfo vitalData={vitalData.availableData} />
+          </div>
+        ),
+        expanded: true,
+        id: "3",
+        headingLevel: "h2",
+      },
+      {
         title: "Unavailable Info",
         content: (
           <div className="padding-top-105">
@@ -110,6 +124,7 @@ const ECRViewerPage = () => {
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
               providerUnavailableData={providerData.unavailableData}
+              vitalUnavailableData={vitalData.unavailableData}
             />
           </div>
         ),
