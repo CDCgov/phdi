@@ -12,7 +12,7 @@
   <custodian>
     <assignedCustodian>
       <representedCustodianOrganization>
-        <id extension="mocked-uuid"/>
+        <id extension="112233"/>
       </representedCustodianOrganization>
     </assignedCustodian>
   </custodian>
