@@ -1,14 +1,22 @@
 import io
 import json
+import os
 import pathlib
 from functools import cache
 from pathlib import Path
 from typing import Dict
 from zipfile import ZipFile
 
+from dotenv import load_dotenv
 from fastapi import UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+
+# Construct the path to the .env file
+env_path = Path(__file__).resolve().parent.parent / "local-dev.env"
+
+# Load the environment variables from your .env file
+load_dotenv(dotenv_path=env_path)
 
 
 @cache
@@ -37,6 +45,11 @@ def load_processing_config(config_name: str) -> dict:
             raise FileNotFoundError(
                 f"A config with the name '{config_name}' could not be found."
             )
+
+    # Replace placeholders with environment variable values
+    for settings in processing_config.get("configurations", {}).values():
+        if "url" in settings and isinstance(settings["url"], str):
+            settings["url"] = os.path.expandvars(settings["url"])
 
     return processing_config
 
