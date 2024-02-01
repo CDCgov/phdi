@@ -26,6 +26,8 @@ def load_processing_config(config_name: str) -> dict:
     first. If no custom configs match the provided name, check the configs provided by
     default with this service in the 'default_configs/' directory.
 
+    If necessary, it will also replace .env variables.
+
     :param config_name: Name of config file
     :param path: The path to an extraction config file.
     :return: A dictionary containing the extraction config.
@@ -46,12 +48,30 @@ def load_processing_config(config_name: str) -> dict:
                 f"A config with the name '{config_name}' could not be found."
             )
 
-    # Replace placeholders with environment variable values
-    for settings in processing_config.get("configurations", {}).values():
-        if "url" in settings and isinstance(settings["url"], str):
-            settings["url"] = os.path.expandvars(settings["url"])
+    # Replace placeholders with environment variable values, if present
+    replace_env_var_placeholders(processing_config)
 
     return processing_config
+
+
+def replace_env_var_placeholders(config: dict):
+    """
+    Check for environment variable placeholders in the configuration
+      and replace them if found.
+    :param config: Loaded config json file that needs to be checked for replace vars.
+    """
+    has_placeholders = False
+    # TODO: Currently, we are only replacing URLs, but may need to be
+    # more generalizable in the future
+    for settings in config.get("configurations", {}).values():
+        if "url" in settings and isinstance(settings["url"], str):
+            has_placeholders = True
+            break
+
+    if has_placeholders:
+        for settings in config.get("configurations", {}).values():
+            if "url" in settings and isinstance(settings["url"], str):
+                settings["url"] = os.path.expandvars(settings["url"])
 
 
 def read_json_from_assets(filename: str):
