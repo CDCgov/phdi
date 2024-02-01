@@ -539,7 +539,7 @@ def test_get_clinical_info_code():
         ),
     ],
 )
-def test_get_clinical_info(build_clinical_info_data, expected_result):
+def test_build_clinical_info(build_clinical_info_data, expected_result):
     builder = PHDCBuilder()
     clinical_info_code = builder._build_clinical_info(build_clinical_info_data)
     actual_result = (
@@ -549,6 +549,76 @@ def test_get_clinical_info(build_clinical_info_data, expected_result):
     )
     expected_result = expected_result
     assert actual_result == expected_result
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@pytest.mark.parametrize(
+    "build_social_history_info_data, expected_result",
+    [
+        # Example test case
+        (
+            (
+                [
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="DEM127",
+                            code_system="2.16.840.1.114222.4.5.232",
+                            code_system_name="PHIN Questions",
+                            display_name="Is this person deceased?",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="N",
+                            code_system_name="Yes/No Indicator (HL7)",
+                            display_name="No",
+                            code_system="2.16.840.1.113883.12.136",
+                        ),
+                        translation=CodedElement(
+                            code="N",
+                            code_system="2.16.840.1.113883.12.136",
+                            code_system_name="2.16.840.1.113883.12.136",
+                            display_name="No",
+                        ),
+                    ),
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="NBS104",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            code_system_name="NEDSS Base System",
+                            display_name="Information As of Date",
+                        ),
+                        value=CodedElement(
+                            xsi_type="TS",
+                            text="20240124",
+                        ),
+                    ),
+                ]
+            ),
+            # Expected XML output as a string
+            utils.read_file_from_assets("sample_phdc_social_history_info.xml"),
+        ),
+    ],
+)
+def test_build_social_history_info(build_social_history_info_data, expected_result):
+    builder = PHDCBuilder()
+    social_history_info = builder._build_social_history_info(
+        build_social_history_info_data
+    )
+    assert (
+        ET.tostring(
+            social_history_info,
+            pretty_print=True,
+            xml_declaration=True,
+            encoding="utf-8",
+        ).decode("utf-8")
+        == expected_result
+    )
 
 
 @patch.object(uuid, "uuid4", lambda: "mocked-uuid")
