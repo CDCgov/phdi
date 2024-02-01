@@ -3,6 +3,7 @@ from typing import Dict
 from typing import List
 from typing import Literal
 from typing import Optional
+from typing import Union
 
 
 @dataclass
@@ -57,6 +58,8 @@ class CodedElement:
     code_system: Optional[str] = None
     code_system_name: Optional[str] = None
     display_name: Optional[str] = None
+    value: Optional[str] = None
+    text: Optional[Union[str, int]] = None
 
     def to_attributes(self) -> Dict[str, str]:
         """
@@ -73,6 +76,8 @@ class CodedElement:
             "codeSystem": self.code_system,
             "codeSystemName": self.code_system_name,
             "displayName": self.display_name,
+            "value": self.value,
+            "text": self.text,
         }
         return {k: v for k, v in attributes.items() if v is not None}
 
