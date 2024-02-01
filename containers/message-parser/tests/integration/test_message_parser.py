@@ -75,8 +75,10 @@ def test_parse_message(setup):
                 },
             ],
             "patient_administrative_gender_code": "female",
-            "patient_race_code": None,
-            "patient_ethnic_group_code": None,
+            "patient_race_code": "2028-9",
+            "patient_race_display": "Asian",
+            "patient_ethnic_group_code": "2186-5",
+            "patient_ethnic_group_display": "Not Hispanic or Latino",
             "patient_birth_time": "1996-04-17",
             "patient_telecom": [
                 {
