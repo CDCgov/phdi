@@ -192,9 +192,9 @@ async def apply_workflow_to_message(
         processing_config = load_processing_config(config_file_name)
     except FileNotFoundError as error:
         return {
-            "status_code": status.HTTP_400_BAD_REQUEST,
+            "status_code": 400,
             "message": error.__str__(),
-            "processed_values": "",
+            "processed_values": {},
         }
 
     api_input = {
