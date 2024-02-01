@@ -2,7 +2,7 @@
 
 ### Introduction
 
-The DIBBs eCR Viewer app offers a REST API for processing FHIR messages into an HTML page with key insights.
+The DIBBs eCR Viewer app offers a REST API for processing eCR FHIR messages into an HTML page with key insights.
 
 ### Running eCR Viewer
 
@@ -42,6 +42,10 @@ To build the Docker image for the eCR Viewer app from source instead of download
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/ecr-viewer/`.
 4. Run `docker build -t ecr-viewer .`.
+
+### Running via docker-compose
+
+The eCR Viewer requires a Postgres database with FHIR bundles to render properly. To make local development easier, a docker-compose file has been created that starts a Postgres database, seeds it with eCR FHIR data, and starts the Node service. This can be run with `docker compose up`. See the [Docker Compose documentation](https://docs.docker.com/engine/reference/commandline/compose_up/) for additional information.
 
 
 ### Updating Seed Data
