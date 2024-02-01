@@ -325,6 +325,44 @@ const formatTable = (
   );
 
   return table;
+}
+const formatVitals = (
+  heightAmount: string,
+  heightMeasurementType: string,
+  weightAmount: string,
+  weightMeasurementType: string,
+  bmi: string,
+) => {
+  let heightString = "";
+  let weightString = "";
+  let bmiString = "";
+
+  let heightType = "";
+  let weightType = "";
+  if (heightAmount != undefined && heightMeasurementType != undefined) {
+    if (heightMeasurementType == "[in_i]") {
+      heightType = "inches";
+    } else if (heightMeasurementType == "cm") {
+      heightType = "cm";
+    }
+    heightString = `Height: ${heightAmount} ${heightType}\n\n`;
+  }
+
+  if (weightAmount != undefined && weightMeasurementType != undefined) {
+    if (weightMeasurementType == "[lb_av]") {
+      weightType = "Lbs";
+    } else if (weightMeasurementType == "kg") {
+      weightType = "kg";
+    }
+    weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
+  }
+
+  if (bmi != undefined) {
+    bmiString = `Body Mass Index (BMI): ${bmi}`;
+  }
+
+  const combinedString = `${heightString} ${weightString} ${bmiString}`;
+  return combinedString.trim().length ? combinedString : "";
 };
 
 const extractTravelHistory = (

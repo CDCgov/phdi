@@ -62,6 +62,7 @@ const ECRViewerPage = () => {
     const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
     const vitalData = evaluateVitalData(fhirBundle, mappings);
     const clinicalData = evaluateClinicalData(fhirBundle, mappings);
+    const vitalData = evaluateVitalData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: "Patient Info",
@@ -115,6 +116,7 @@ const ECRViewerPage = () => {
               activeProblemsDetails={
                 clinicalData.activeProblemsDetails.availableData
               }
+              vitalData={vitalData.availableData}
             />
           </div>
         ),
@@ -135,6 +137,7 @@ const ECRViewerPage = () => {
               activeProblemsUnavailableData={
                 clinicalData.activeProblemsDetails.unavailableData
               }
+              vitalUnavailableData={vitalData.unavailableData}
             />
           </div>
         ),
