@@ -128,7 +128,7 @@ jobs:
           - 5432:5432
     strategy:
       matrix:
-        container-to-test: ${{fromJson(needs.list-containers.outputs.python-containers)}}
+        container-to-test: ${{fromJson(needs.list-containers.outputs.containers)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3

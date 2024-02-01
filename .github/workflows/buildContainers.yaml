@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container-to-build: ${{fromJson(needs.list-containers.outputs.all-containers)}}
+        container-to-build: ${{fromJson(needs.list-containers.outputs.containers)}}
     steps:
       - name: Check Out Changes
         uses: actions/checkout@v3
