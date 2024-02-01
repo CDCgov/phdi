@@ -269,6 +269,48 @@ class PHDCBuilder:
         component.append(section)
         return component
 
+    def _build_social_history_info(
+        self, observation_data: Optional[List[Observation]] = None
+    ) -> ET.Element:
+        """
+        Builds the Social History Information XML section, including all hardcoded
+            aspects required to initialize the section.
+        :param observation_data: List of social history-relevant Observation data.
+        :return: XML element of SocialHistory data.
+        """
+        component = ET.Element("component")
+        section = ET.Element("section")
+        id = ET.Element("id")
+        id.set("extension", str(uuid.uuid4()))
+        id.set("assigningAuthorityName", "LR")
+
+        code = ET.Element(
+            "code",
+            {
+                "code": "29762-2",
+                "codeSystem": "2.16.840.1.113883.6.1",
+                "codeSystemName": "LOINC",
+                "displayName": "Social history",
+            },
+        )
+
+        title = ET.Element("title")
+        title.text = "SOCIAL HISTORY INFORMATION"
+
+        section.append(id)
+        section.append(code)
+        section.append(title)
+
+        # add observation data to section
+        if observation_data:
+            for observation in observation_data:
+                observation_element = self._build_observation(observation)
+                section.append(observation_element)
+
+        component.append(section)
+
+        return component
+
     def _build_telecom(self, telecom: Telecom) -> ET.Element:
         """
         Builds a `telecom` XML element for phone data including phone number (as
@@ -496,6 +538,9 @@ class PHDCBuilder:
 
         for e, v in kwargs.items():
             if e != "element_name" and v is not None:
+                if e == "text":
+                    element.text = v
+                    continue
                 element.set(e, v)
         return element
 
