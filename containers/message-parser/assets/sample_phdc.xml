@@ -12,7 +12,18 @@
   <custodian>
     <assignedCustodian>
       <representedCustodianOrganization>
-        <id extension="mocked-uuid"/>
+        <id extension="112233"/>
+        <name>Happy Labs</name>
+        <addr>
+          <streetAddressLine>23 main st</streetAddressLine>
+          <streetAddressLine>apt 12</streetAddressLine>
+          <city>Fort Worth</city>
+          <state>Texas</state>
+          <postalCode>76006</postalCode>
+          <county>Tarrant</county>
+          <country>USA</country>
+        </addr>
+        <telecom value="8888675309"/>
       </representedCustodianOrganization>
     </assignedCustodian>
   </custodian>
