@@ -84,8 +84,8 @@ def test_process_message_invalid_config():
     }
 
     actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 400
     assert actual_response.json() == {
-        "status_code": 400,
         "message": "A config with the name 'non_existent_schema.json' could not be found.",  # noqa
         "processed_values": {},
     }
@@ -212,8 +212,8 @@ def test_process_invalid_config():
         files = {"upload_file": ("file.zip", f)}
 
         actual_response = client.post("/process", data=form_data, files=files)
+        assert actual_response.status_code == 400
         assert actual_response.json() == {
-            "status_code": 400,
             "message": "A config with the name 'non_existent_schema.json' could not be found.",  # noqa
             "processed_values": {},
         }
