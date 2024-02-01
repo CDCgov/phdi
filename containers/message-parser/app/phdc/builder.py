@@ -168,9 +168,11 @@ class PHDCBuilder:
         code.set("displayName", "Public Health Case Report - PHRI")
         return code
 
-    def _get_title(self):
+    def _get_title(self) -> ET.Element:
         """
         Returns the title element of the PHDC header.
+
+        :returns: XML element of <title>.
         """
         title = ET.Element("title")
         title.text = (
@@ -187,9 +189,11 @@ class PHDCBuilder:
 
         return setid
 
-    def _get_version_number(self):
+    def _get_version_number(self) -> ET.Element:
         """
         Returns the versionNumber element of the PHDC header.
+
+        :returns: XML element of <versionNumber>.
         """
         # TODO: once we get prod data, we'll have to determine
         # whether or not this will be data we parse from source data
