@@ -11,21 +11,16 @@ describe("SectionConfig", () => {
 
   it("should handle subNavItems as strings and convert them to SectionConfig instances", () => {
     const section = new SectionConfig("Parent Section", ["Child Section"]);
-    // @ts-ignore
-    expect(section.subNavItems.length).toBe(1);
-    // @ts-ignore
-    expect(section.subNavItems[0] instanceof SectionConfig).toBeTruthy();
-    // @ts-ignore
-    expect(section.subNavItems[0].title).toBe("Child Section");
+    expect(section.subNavItems?.length).toBe(1);
+    expect(section.subNavItems?.[0] instanceof SectionConfig).toBeTruthy();
+    expect(section.subNavItems?.[0]?.title).toBe("Child Section");
   });
 
   it("should handle subNavItems as SectionConfig instances", () => {
     const childSection = new SectionConfig("Child Section");
     const section = new SectionConfig("Parent Section", [childSection]);
-    // @ts-ignore
-    expect(section.subNavItems.length).toBe(1);
-    // @ts-ignore
-    expect(section.subNavItems[0]).toBe(childSection);
+    expect(section.subNavItems?.length).toBe(1);
+    expect(section.subNavItems?.[0]).toBe(childSection);
   });
 
   it("should match the snapshot", () => {
