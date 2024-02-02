@@ -77,7 +77,6 @@ async def process_message_endpoint_ws(
             # Hardcoded message_type for MVP
             initial_input = {
                 "message_type": "ecr",
-                "config_file_name": "sample-orchestration-config.json",
                 "include_error_types": "errors",
                 "message": unzipped_data.get("ecr"),
                 "rr_data": unzipped_data.get("rr"),
