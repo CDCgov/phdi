@@ -9,10 +9,22 @@
   <effectiveTime value="20101215000000"/>
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <setId extension="CLOSED_CASE" displayable="true"/>
+  <versionNumber value="1"/>
   <custodian>
     <assignedCustodian>
       <representedCustodianOrganization>
-        <id extension="mocked-uuid"/>
+        <id extension="112233"/>
+        <name>Happy Labs</name>
+        <addr>
+          <streetAddressLine>23 main st</streetAddressLine>
+          <streetAddressLine>apt 12</streetAddressLine>
+          <city>Fort Worth</city>
+          <state>Texas</state>
+          <postalCode>76006</postalCode>
+          <county>Tarrant</county>
+          <country>USA</country>
+        </addr>
+        <telecom value="8888675309"/>
       </representedCustodianOrganization>
     </assignedCustodian>
   </custodian>
