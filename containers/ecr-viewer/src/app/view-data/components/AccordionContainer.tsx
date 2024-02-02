@@ -4,6 +4,7 @@ import {
   evaluateProviderData,
   evaluateClinicalData,
   evaluateDemographicsData,
+  evaluateEcrMetadata,
   PathMappings,
 } from "../../utils";
 import Demographics from "./Demographics";
@@ -34,6 +35,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const encounterData = evaluateEncounterData(fhirBundle, fhirPathMappings);
   const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
   const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
+  const ecrMetadata = evaluateEcrMetadata(fhirBundle, fhirPathMappings);
   const accordionItems: any[] = [
     {
       title: "Patient Info",
@@ -46,7 +48,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      id: "1",
       headingLevel: "h2",
     },
     {
@@ -54,13 +55,13 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       content: (
         <>
           <EcrMetadata
-            fhirPathMappings={fhirPathMappings}
-            fhirBundle={fhirBundle}
+            eicrDetails={ecrMetadata.eicrDetails.availableData}
+            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+            rrDetails={ecrMetadata.rrDetails.availableData}
           />
         </>
       ),
       expanded: true,
-      id: "2",
       headingLevel: "h2",
     },
     {
@@ -74,7 +75,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </div>
       ),
       expanded: true,
-      id: "3",
       headingLevel: "h2",
     },
     {
@@ -85,7 +85,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </div>
       ),
       expanded: true,
-      id: "4",
       headingLevel: "h2",
     },
     {
@@ -102,10 +101,15 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </div>
       ),
       expanded: true,
-      id: "5",
       headingLevel: "h2",
     },
   ];
+
+  //Add id
+  accordionItems.forEach((item, index) => {
+    item["id"] = index + 1;
+    accordionItems[index] = item;
+  });
 
   return (
     <Accordion
