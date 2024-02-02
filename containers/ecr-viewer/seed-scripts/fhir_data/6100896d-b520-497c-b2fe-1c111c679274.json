@@ -557,17 +557,6 @@
             "ecr"
           ]
         },
-        "reason": [
-          {
-            "value": [
-              {
-                "concept": {
-                  "text": "Foo"
-                }
-              }
-            ]
-          }
-        ]
       },
       "request": {
         "method": "PUT",
