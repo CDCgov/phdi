@@ -112,7 +112,9 @@ def convert_to_fhir(
     fhir_conversion_command = "".join(fhir_conversion_command)
 
     # Call the FHIR Converter.
-    converter_response = subprocess.run(fhir_conversion_command, shell=True, capture_output=True)
+    converter_response = subprocess.run(
+        fhir_conversion_command, shell=True, capture_output=True
+    )
     print("Converter Response stdout: ")
     print(converter_response.stdout)
     # Process the response from FHIR Converter.
