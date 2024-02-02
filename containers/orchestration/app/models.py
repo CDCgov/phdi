@@ -17,6 +17,13 @@ class ProcessMessageRequest(BaseModel):
     message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
         description="The type of message to be validated."
     )
+    config_file_name: str = Field(
+        description=(
+            "The name of a config file in either the `default/` or `custom/`"
+            " schemas directory that will define the workflow applied to the"
+            " passed data."
+        )
+    )
     include_error_types: str = Field(
         description=(
             "A comma separated list of the types of errors that should be"
@@ -33,7 +40,7 @@ class ProcessMessageRequest(BaseModel):
     )
 
     @root_validator()
-    def validate_fields(cls, values):
+    def validate_rr_with_ecr(cls, values):
         message_type = values.get("message_type")
         rr_data = values.get("rr_data")
 
