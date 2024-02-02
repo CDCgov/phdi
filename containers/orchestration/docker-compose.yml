@@ -5,7 +5,7 @@ services:
     build:
       context: ../validation/
       no_cache: true
-    image: validation
+    image: validation:latest
     ports:
       - "8081:8080"
     restart: unless-stopped
@@ -14,7 +14,7 @@ services:
     build:
       context: ../fhir-converter/
       no_cache: true
-    image: fhir-converter
+    image: fhir-converter:latest
     ports:
       - "8082:8080"
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
     build:
       context: ../message-parser/
       no_cache: true
-    image: message-parser
+    image: message-parser:latest
     ports:
       - "8085:8080"
     restart: unless-stopped
@@ -32,7 +32,7 @@ services:
     build:
       context: ../ingestion/
       no_cache: true
-    image: ingestion
+    image: ingestion:latest
     ports:
       - "8083:8080"
     restart: unless-stopped
@@ -41,9 +41,10 @@ services:
     build:
       context: ../ecr-viewer/
       no_cache: true
-    image: ecr-viewer
+    image: ecr-viewer:latest
     ports:
       - "3000:8080"
+    command: npm run dev
     restart: unless-stopped
 
   orchestration:
