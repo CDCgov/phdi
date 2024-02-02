@@ -192,6 +192,7 @@ jobs:
             commit_hash=$(git rev-parse HEAD)
             cd ..
             find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
+            cd ${{matrix.directories-to-test}}
             pip install -r requirements.txt
           fi
       - name: Run integration tests for containers
