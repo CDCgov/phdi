@@ -464,6 +464,17 @@ def test_get_id():
     )
 
 
+def test_get_title():
+    builder = PHDCBuilder()
+    title = builder._get_title()
+
+    assert (
+        ET.tostring(title)
+        == b"<title>Public Health Case Report - "
+        + b"Data from the DIBBs FHIR to PHDC Converter</title>"
+    )
+
+
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 def test_get_effective_time():
     builder = PHDCBuilder()
@@ -485,6 +496,13 @@ def test_get_setId():
     setid = builder._get_setId()
 
     assert ET.tostring(setid) == b'<setId extension="CLOSED_CASE" displayable="true"/>'
+
+
+def test_get_version_number():
+    builder = PHDCBuilder()
+    version_number = builder._get_version_number()
+
+    assert ET.tostring(version_number) == b'<versionNumber value="1"/>'
 
 
 def test_get_realmCode():
