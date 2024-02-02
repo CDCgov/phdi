@@ -59,3 +59,6 @@ providerName: "idk"
 rrDisplayName: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section').entry.first().display"
 rckmsTriggerSummary: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
 # Encounter Info
+
+# Clinical Data
+clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"

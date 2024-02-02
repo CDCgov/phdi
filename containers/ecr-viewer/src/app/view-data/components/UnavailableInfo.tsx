@@ -9,6 +9,7 @@ interface UnavailableInfoProps {
   demographicsUnavailableData: DisplayData[];
   socialUnavailableData: DisplayData[];
   encounterUnavailableData: DisplayData[];
+  clinicalUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
 }
 
@@ -16,6 +17,7 @@ const UnavailableInfo = ({
   demographicsUnavailableData,
   socialUnavailableData,
   encounterUnavailableData,
+  clinicalUnavailableData,
   providerUnavailableData,
 }: UnavailableInfoProps) => {
   const renderRow = (item: any, index: number) => {
@@ -55,6 +57,8 @@ const UnavailableInfo = ({
         renderSection("Social History", socialUnavailableData)}
       {encounterUnavailableData.length > 0 &&
         renderSection("Encounter Details", encounterUnavailableData)}
+      {clinicalUnavailableData.length > 0 &&
+        renderSection("Clinical Info", clinicalUnavailableData)}
       {providerUnavailableData.length > 0 &&
         renderSection("Provider Details", providerUnavailableData)}
     </AccordianSection>

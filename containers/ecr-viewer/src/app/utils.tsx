@@ -319,15 +319,7 @@ export const evaluateEncounterData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
-  console.log(
-    "reason for visit",
-    evaluate(fhirBundle, mappings["encounterReasonForVisit"]),
-  );
   const encounterData = [
-    {
-      title: "Reason for visit",
-      value: evaluate(fhirBundle, mappings["encounterReasonForVisit"]),
-    },
     {
       title: "Encounter Date/Time",
       value: formatStartEndDateTime(
@@ -391,6 +383,19 @@ export const evaluateProviderData = (
     },
   ];
   return evaluateData(providerData);
+};
+
+export const evaluateClinicalData = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const clinicalData: DisplayData[] = [
+    {
+      title: "Reason for visit",
+      value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
+    },
+  ];
+  return evaluateData(clinicalData);
 };
 
 const evaluateData = (data: DisplayData[]) => {

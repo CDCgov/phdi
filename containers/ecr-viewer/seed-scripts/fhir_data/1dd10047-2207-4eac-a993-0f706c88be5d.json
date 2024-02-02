@@ -285,22 +285,28 @@
             "mode": "snapshot"
           },
           {
-            "id": "5143951a-85ed-1b18-e4ea-304982129ffb",
-            "title": "Reason For Visit",
+            "id": "627dbdb9-cccc-e07d-93af-2b959c8719ea",
+            "title": "Reason for Visit",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason For Visit</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason for Visit</div>"
             },
             "code": {
               "coding": [
                 {
                   "code": "29299-5",
-                  "display": "Reason For Visit",
+                  "display": "REASON FOR VISIT",
                   "system": "http://loinc.org"
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                "valueString": "Abdominal Cramping"
+              }
+            ]
           },
           {
             "id": "915ea4b0-0f6f-a969-20d1-7c9d6bc2acfd",

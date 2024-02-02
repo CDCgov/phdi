@@ -2,14 +2,16 @@ import {
   evaluateSocialData,
   evaluateEncounterData,
   evaluateProviderData,
+  evaluateClinicalData,
   evaluateDemographicsData,
   PathMappings,
 } from "../../utils";
-import Demographics from "../components/Demographics";
-import SocialHistory from "../components/SocialHistory";
-import UnavailableInfo from "../components/UnavailableInfo";
-import EcrMetadata from "../components/EcrMetadata";
-import EncounterDetails from "../components/Encounter";
+import Demographics from "./Demographics";
+import SocialHistory from "./SocialHistory";
+import UnavailableInfo from "./UnavailableInfo";
+import EcrMetadata from "./EcrMetadata";
+import EncounterDetails from "./Encounter";
+import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
 import { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
@@ -31,6 +33,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
   const social_data = evaluateSocialData(fhirBundle, fhirPathMappings);
   const encounterData = evaluateEncounterData(fhirBundle, fhirPathMappings);
   const providerData = evaluateProviderData(fhirBundle, fhirPathMappings);
+  const clinicalData = evaluateClinicalData(fhirBundle, fhirPathMappings);
   const accordionItems: any[] = [
     {
       title: "Patient Info",
@@ -75,6 +78,17 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       headingLevel: "h2",
     },
     {
+      title: "Clinical Info",
+      content: (
+        <div>
+          <ClinicalInfo clinicalData={clinicalData.availableData} />
+        </div>
+      ),
+      expanded: true,
+      id: "4",
+      headingLevel: "h2",
+    },
+    {
       title: "Unavailable Info",
       content: (
         <div className="padding-top-105">
@@ -82,12 +96,13 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             demographicsUnavailableData={demographicsData.unavailableData}
             socialUnavailableData={social_data.unavailableData}
             encounterUnavailableData={encounterData.unavailableData}
+            clinicalUnavailableData={clinicalData.unavailableData}
             providerUnavailableData={providerData.unavailableData}
           />
         </div>
       ),
       expanded: true,
-      id: "4",
+      id: "5",
       headingLevel: "h2",
     },
   ];
