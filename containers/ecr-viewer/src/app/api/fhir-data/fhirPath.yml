@@ -61,9 +61,7 @@ rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.o
 rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
 # Encounter Info
 
-
 # Clinical Data
 clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"
 
 resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
-

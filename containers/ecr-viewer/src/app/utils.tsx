@@ -403,7 +403,7 @@ export const evaluateClinicalData = (
     },
   ];
   return evaluateData(clinicalData);
-}
+};
 
 export const evaluateEcrMetadata = (
   fhirBundle: Bundle | undefined,
