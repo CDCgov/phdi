@@ -1,14 +1,22 @@
 import io
 import json
+import os
 import pathlib
 from functools import cache
 from pathlib import Path
 from typing import Dict
 from zipfile import ZipFile
 
+from dotenv import load_dotenv
 from fastapi import UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+
+# Construct the path to the .env file
+env_path = Path(__file__).resolve().parent.parent / ".env"
+
+# Load the environment variables from your .env file
+load_dotenv(dotenv_path=env_path)
 
 
 @cache
@@ -17,6 +25,8 @@ def load_processing_config(config_name: str) -> dict:
     Load a processing config given its name. Look in the 'custom_configs/' directory
     first. If no custom configs match the provided name, check the configs provided by
     default with this service in the 'default_configs/' directory.
+
+    If necessary, it will also replace .env variables.
 
     :param config_name: Name of config file
     :param path: The path to an extraction config file.
@@ -38,7 +48,23 @@ def load_processing_config(config_name: str) -> dict:
                 f"A config with the name '{config_name}' could not be found."
             )
 
+    # Replace placeholders with environment variable values
+    replace_env_var_placeholders(processing_config)
+
     return processing_config
+
+
+def replace_env_var_placeholders(config: dict):
+    """
+    Check for environment variable placeholders in the configuration
+      and replace them if found.
+    :param config: Loaded config json file that needs to be checked for replace vars.
+    """
+    # TODO: Currently, we are only replacing URLs, but may need to be
+    # more generalizable in the future
+    for settings in config.get("configurations", {}).values():
+        if "url" in settings:
+            settings["url"] = os.path.expandvars(settings["url"])
 
 
 def read_json_from_assets(filename: str):

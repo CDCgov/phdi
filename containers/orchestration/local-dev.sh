@@ -61,4 +61,4 @@ else
 fi
 
 # Orchestration
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload --env-file local-dev.env
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
