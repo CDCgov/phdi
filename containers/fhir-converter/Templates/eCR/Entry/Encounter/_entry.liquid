@@ -1,6 +1,7 @@
 {% assign encounterId = entry | to_json_string | generate_uuid -%}
 {% include 'Resource/Encounter' encounter: entry.encounter, ID: encounterId -%}
 {% include 'Reference/Encounter/Subject' ID: encounterId, REF: fullPatientId -%}
+
 {% if entry.encounter.performer.assignedEntity -%}
     {% assign practitionerEncPerfId = entry.encounter.performer.assignedEntity | to_json_string | generate_uuid -%}
     {% include 'Resource/Practitioner' practitioner: entry.encounter.performer.assignedEntity, ID: practitionerEncPerfId -%}
