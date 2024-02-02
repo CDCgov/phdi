@@ -221,6 +221,11 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
+                social_history_info = self._build_social_history_info(
+                    self.input_data.social_history_info
+                )
+                body.append(social_history_info)
+
                 clinical_info = self._build_clinical_info(self.input_data.clinical_info)
                 body.append(clinical_info)
             case "contact_record":

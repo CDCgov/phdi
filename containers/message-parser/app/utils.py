@@ -11,6 +11,7 @@ import requests
 from app.config import get_settings
 from app.phdc.models import Address
 from app.phdc.models import Name
+from app.phdc.models import Observation
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from fastapi import status
@@ -439,6 +440,15 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                 input_data.patient.race_code = value
             case "patient_ethnic_group_code":
                 input_data.patient.ethnic_group_code = value
+            case "clinical_information_observations":
+                input_data.clinical_info = [
+                    Observation(**clinical_info_obs) for clinical_info_obs in value
+                ]
+            case "social_history_information_observations":
+                input_data.social_history_info = [
+                    Observation(**social_history_info_obs)
+                    for social_history_info_obs in value
+                ]
             case _:
                 pass
     return input_data
