@@ -584,6 +584,52 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:d6930155-009b-92a0-d2b9-007761c45ad2",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "d6930155-009b-92a0-d2b9-007761c45ad2",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "California Department of Public Health",
+        "address": [
+          {
+            "use": "work",
+            "city": "Sacramento",
+            "state": "CA"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "CalREDIEeCR@cdph.ca.gov",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:e1530c36-cfd5-4bb4-848f-0ac5d8090d03",
       "resource": {
         "resourceType": "Observation",
@@ -631,6 +677,12 @@
             "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
             "valueString": "Detection of Influenza A nucleic acid in a clinical\u202fspecimen by\u202fany method, including RT-PCR and rapid molecular assays"
           }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2",
+            "display": "California Department of Public Health"
+          }
         ]
       },
       "request": {
@@ -677,6 +729,48 @@
       "request": {
         "method": "PUT",
         "url": "Organization/91c4d2ba-e324-5b1a-a4cb-84d9690511d3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+      "resource": {
+        "resourceType": "Device",
+        "id": "3cd5a00e-5ed8-c2a6-4be2-dbe915111561",
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.1",
+            "value": "10.1"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "display": "Epic - Version 10.1"
+            }
+          ]
+        },
+        "manufacturer": "Epic - Version 10.1",
+        "version": [
+          {
+            "value": "Epic - Version 10.1"
+          }
+        ],
+        "category": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/device-category",
+              "code": "software",
+              "display": "software"
+            }
+          ]
+        },
+        "owner": {
+          "reference": "Organization/91c4d2ba-e324-5b1a-a4cb-84d9690511d3"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/3cd5a00e-5ed8-c2a6-4be2-dbe915111561"
       }
     },
     {

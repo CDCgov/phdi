@@ -33,7 +33,7 @@ patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').ex
 
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
 dateTimeEcrCreated: "Bundle.entry.resource.where(resourceType = 'Composition').date"
-senderSoftware: "idk"
+senderSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(category.coding.code='software').type.coding.display"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 
 # Encounter Info
@@ -56,9 +56,14 @@ providerFamilyName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[
 providerGivenName: "Bundle.entry.resource.where(resourceType = 'Practitioner')[0].name[1].given"
 providerName: "idk"
 
-rrDisplayName: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(title = 'Reportability Response Information Section').entry.first().display"
-rckmsTriggerSummary: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
+rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').valueCodeableConcept.coding.display"
+rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
+rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
 # Encounter Info
+
 
 # Clinical Data
 clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"
+
+resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
+

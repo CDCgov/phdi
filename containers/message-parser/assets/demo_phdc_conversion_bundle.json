@@ -4,18 +4,81 @@
   "meta": {
     "lastUpdated": "2022-06-07T14:13:02.511737+00:00"
   },
-  "type": "searchset",
-  "link": [
+  "type": "batch",
+  "entry": [
     {
-      "relation": "next",
-      "url": "https://phdi-pilot.azurehealthcareapis.com/Patient?ct=LJPRbttGEEX%2FhXpUAtsqo6IE8nBmuaTWNE1LFC1viz4ogTJWA3mj1LKspsmP5SGflF8oxihfFlwMZ%2B49c%2Fnz%2B4%2Bnyb9%2FfMke08fNQ1Zk40Uoi2%2B3r33NTTym4RjkyP%2FP27ejxbK4GC0Xrrg4H4X%2BtpiMgu%2BK6Zs3019H1Y0rUA9zadHtbBZlqXJAEjuVLTHRqjTUdu88RP5WObFOBPUnXKRRDoScpcqGq4RXt6XOedKy4TrKPej8Khen5Z55xFv9LEmp4gi53BMc14mobmr3zwTcZU5Sd%2BAq56RVwKFz3J4%2BSqeMIfGXlj1NZKucCIn3Nm84UuEgYDrHXOZc2bkM9FbfzkGXjlYdHuUuyKB0tIEbdTvqyM50hEgyP5c5By2nXEce1e2ZBT5YnY9ELcfms9XS40VqrWok8lmZ0gVU%2FY4QeFJqysBEy5r3iV7Z44K8Uz9lljO270v4ZHzaRFLf0yRO6k7USbzpayK%2FaXnA55xre5J5Qo7eGZ%2BJzhp8YqFs7P13lZ2dS3W19bk1vZK4V%2BlY5Hw0Hz5yZ3WzKAvj2ZsOvzL%2Fvyg7hjlByxNDLqJuQx%2BN45TeeEnDdTAuY6tjKDvb%2Bz8qa%2BrExUvfnFzrseWjVj%2BmetHzkpcPNr%2FNEZWam8QzeLnM2dh8n3iwebOcZ%2BPYBKmViel71Gpv%2FTF%2BbWBtex3m%2BOA83osqjjLJzHxXya2031v%2BzpW16Rssbz7g1K2Nz72yMi6PWvfme2X6u8inF32BWvEDsrKdRmVrWb3TruWsOzsDXPYq%2B7x%2B0E1WfMl2W%2FsRs1fZbv2cFVlVZV%2B%2F%2FvkfAAAA%2F%2F8%3D"
+      "fullUrl": "https://phdi-pilot.azurehealthcareapis.com/Composition/40234gi0-16h5-ffdf-n18d-d93jbn19dajj",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "40234gi0-16h5-ffdf-n18d-d93jbn19dajj",
+        "status": "registered",
+        "type": {
+          "coding": {
+            "system": "https://loinc.org",
+            "code": "100459-7",
+            "display": "Summary"
+          },
+          "text": "Patient COVID summary"
+        },
+        "date": "2022-08-08",
+        "author": [
+          {
+            "reference": "Practitioner/3nf82nby-js82-xnxw-1j39-js8143gzvs",
+            "type": "Practitioner"
+          }
+        ],
+        "custodian": {
+          "reference": "Organization/org800201",
+          "type": "Organization"
+        }
+      }
     },
     {
-      "relation": "self",
-      "url": "https://phdi-pilot.azurehealthcareapis.com/Patient"
-    }
-  ],
-  "entry": [
+      "fullUrl": "https://phdi-pilot.azurehealthcareapis.com/Organization/org800201",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "org800201",
+        "name": "Sunny Vale",
+        "contact": {
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "999-999-9999"
+            }
+          ],
+          "address": [
+            {
+              "line": [
+                "999 North Ridge Road",
+                "Building 3"
+              ],
+              "city": "Amherst",
+              "state": "Massachusetts",
+              "district": "Duvall",
+              "postalCode": "33721"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "3nf82nby-js82-xnxw-1j39-js8143gzvs",
+        "name": [
+          {
+            "prefix": "Doctor",
+            "given": [
+              "Charles",
+              "Macintyre-Downing"
+            ],
+            "family": "Britishmun",
+            "suffix": "III"
+          }
+        ]
+      }
+    },
     {
       "fullUrl": "https://phdi-pilot.azurehealthcareapis.com/Patient/907844f6-7c99-eabc-f68e-d92189729a55",
       "resource": {
@@ -41,6 +104,32 @@
               "state": "Massachusetts",
               "country": "US"
             }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2028-9",
+                  "display": "Asian"
+                }
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [
+              {
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2186-5",
+                  "display": "Not Hispanic or Latino"
+                }
+              }
+            ]
           },
           {
             "url": "http://synthetichealth.github.io/synthea/disability-adjusted-life-years",
@@ -144,7 +233,23 @@
           {
             "system": "phone",
             "value": "555-690-3898",
-            "use": "home"
+            "use": "home",
+            "period": {
+              "start": "2004-01-01",
+              "end": "2010-02-02"
+            }
+          },
+          {
+            "system": "phone",
+            "value": "863-507-9999",
+            "use": "mobile",
+            "period": {
+              "start": "2008-03-18"
+            }
+          },
+          {
+            "system": "email",
+            "value": "kp73@gmail.com"
           }
         ],
         "gender": "female",
@@ -206,6 +311,123 @@
       },
       "search": {
         "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://phdi-pilot.azurehealthcareapis.com/Observation/f001",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f001",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"f001\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;f001&quot; </p></div><p><b>identifier</b>: id:\u00a06323\u00a0(use:\u00a0OFFICIAL)</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#15074-8)</span></p><p><b>subject</b>: <a href=\"patient-example-f001-pieter.html\">Patient/f001: P. van de Heuvel</a> &quot;Pieter VAN DE HEUVEL&quot;</p><p><b>effective</b>: 2013-04-02T09:30:10+01:00</p><p><b>issued</b>: Apr 3, 2013, 2:30:10 PM</p><p><b>performer</b>: <a href=\"practitioner-example-f005-al.html\">Practitioner/f005: A. Langeveld</a> &quot;Langeveld ANNE&quot;</p><p><b>value</b>: 6.3 mmol/l<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mmol/L = 'mmol/L')</span></p><p><b>interpretation</b>: High <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.4.0/CodeSystem-v3-ObservationInterpretation.html\">ObservationInterpretation</a>#H)</span></p><h3>ReferenceRanges</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Low</b></td><td><b>High</b></td></tr><tr><td style=\"display: none\">*</td><td>3.1 mmol/l<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mmol/L = 'mmol/L')</span></td><td>6.2 mmol/l<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mmol/L = 'mmol/L')</span></td></tr></table></div>"
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "system": "http://www.bmc.nl/zorgportal/identifiers/observations",
+            "value": "6323"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "15074-8",
+              "display": "Glucose [Moles/volume] in Blood"
+            }
+          ]
+        },
+        "effectiveDateTime": "2013-04-02T09:30:10+01:00",
+        "issued": "2013-04-03T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 6.3,
+          "unit": "mmol/l",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 3.1,
+              "unit": "mmol/l",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "high": {
+              "value": 6.2,
+              "unit": "mmol/l",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://phdi-pilot.azurehealthcareapis.com/Observation/f206",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f206",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"f206\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;f206&quot; </p></div><p><b>status</b>: final</p><p><b>code</b>: Blood culture <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (acmelabs.org#104177; <a href=\"https://loinc.org/\">LOINC</a>#600-7 &quot;Bacteria identified in Blood by Culture&quot;)</span></p><p><b>subject</b>: <span title=\"  No identifier could be provided to this observation  \"><a href=\"patient-example-f201-roel.html\">Patient/f201: Roel</a> &quot;Roel&quot;</span></p><p><b>issued</b>: Mar 11, 2013, 9:28:00 AM</p><p><b>performer</b>: <a href=\"practitioner-example-f202-lm.html\">Practitioner/f202: Luigi Maas</a> &quot;Luigi Maas&quot;</p><p><b>value</b>: Staphylococcus aureus <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#3092008)</span></p><p><b>interpretation</b>: Positive <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.4.0/CodeSystem-v3-ObservationInterpretation.html\">ObservationInterpretation</a>#POS)</span></p><p><b>method</b>: <span title=\"  BodySite not relevant  \">Blood culture for bacteria, including anaerobic screen <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#104177005)</span></span></p></div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://acmelabs.org",
+              "code": "104177",
+              "display": "Blood culture"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "600-7",
+              "display": "Bacteria identified in Blood by Culture"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "3092008",
+              "display": "Staphylococcus aureus"
+            }
+          ]
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS"
+              }
+            ]
+          }
+        ],
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "104177005",
+              "display": "Blood culture for bacteria, including anaerobic screen"
+            }
+          ]
+        }
       }
     }
   ]
