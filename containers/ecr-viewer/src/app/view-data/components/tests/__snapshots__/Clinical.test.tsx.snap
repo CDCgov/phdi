@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Clinical should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          Clinical Notes
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title"
+            >
+              <h4>
+                Clinical Notes
+              </h4>
+            </div>
+            <div
+              class="grid-col-auto maxw7 text-pre-line"
+            >
+              &lt;paragraph&gt;This patient was only recently discharged for a recurrent GI bleed as described&lt;/paragraph&gt;
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          Symptoms and Problems
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div>
+            <div>
+              <div
+                class="grid-col-auto text-pre-line"
+              >
+                <table
+                  class="usa-table usa-table--borderless width-full border-top border-left border-right table-caption-margin"
+                  data-testid="table"
+                >
+                  <caption>
+                    Problems List
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th
+                        class=" bg-gray-5 minw-15"
+                        scope="col"
+                      >
+                        Active Problem
+                      </th>
+                      <th
+                        class=" bg-gray-5 minw-15"
+                        scope="col"
+                      >
+                        Onset Age
+                      </th>
+                      <th
+                        class=" bg-gray-5 minw-15"
+                        scope="col"
+                      >
+                        Onset Date
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th
+                        class="text-top"
+                        scope="row"
+                      >
+                        Coronavirus infection
+                      </th>
+                      <td
+                        class="text-top"
+                      >
+                        N/A
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        09/28/2022
+                      </td>
+                    </tr>
+                    <tr>
+                      <th
+                        class="text-top"
+                        scope="row"
+                      >
+                        Close exposure to COVID-19 virus
+                      </th>
+                      <td
+                        class="text-top"
+                      >
+                        N/A
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        09/28/2022
+                      </td>
+                    </tr>
+                    <tr>
+                      <th
+                        class="text-top"
+                        scope="row"
+                      >
+                        Seasonal allergies
+                      </th>
+                      <td
+                        class="text-top"
+                      >
+                        N/A
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        09/24/2022
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

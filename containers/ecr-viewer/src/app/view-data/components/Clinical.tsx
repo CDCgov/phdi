@@ -1,4 +1,4 @@
-import { DisplayData } from "@/app/utils";
+import { DisplayData, renderData } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH3,
@@ -7,23 +7,10 @@ import {
 
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
+  clinicalNotes: DisplayData[];
 }
 
-const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
-  const renderData = (item: any, index: number) => {
-    return (
-      <div key={index}>
-        <div className="grid-row">
-          <div className="data-title">
-            <h4>{item.title}</h4>
-          </div>
-          <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
-        </div>
-        <div className={"section__line_gray"} />
-      </div>
-    );
-  };
-
+const ClinicalInfo = ({ activeProblemsDetails, clinicalNotes }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
@@ -48,9 +35,11 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
 
   return (
     <AccordianSection>
-      <div className="margin-top-3">
-        {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
-      </div>
+      {clinicalNotes?.length > 0 && (<>
+        <AccordianH3>Clinical Notes</AccordianH3>
+        <AccordianDiv>{renderData(clinicalNotes)}</AccordianDiv>
+      </>)}
+      {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
     </AccordianSection>
   );
 };
