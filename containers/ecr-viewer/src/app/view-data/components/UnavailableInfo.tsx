@@ -11,6 +11,7 @@ interface UnavailableInfoProps {
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
   activeProblemsUnavailableData: DisplayData[];
+  vitalUnavailableData: DisplayData[];
 }
 
 const UnavailableInfo = ({
@@ -19,6 +20,7 @@ const UnavailableInfo = ({
   encounterUnavailableData,
   providerUnavailableData,
   activeProblemsUnavailableData,
+  vitalUnavailableData,
 }: UnavailableInfoProps) => {
   const renderRow = (item: any, index: number) => {
     return (
@@ -61,6 +63,8 @@ const UnavailableInfo = ({
         renderSection("Provider Details", providerUnavailableData)}
       {activeProblemsUnavailableData?.length > 0 && // Add other items under symptoms and problems here
         renderSection("Symptoms and Problems", activeProblemsUnavailableData)}
+      {vitalUnavailableData?.length > 0 && // Add other items under symptoms and problems here
+        renderSection("Diagnostics and Vital Signs", vitalUnavailableData)}
     </AccordianSection>
   );
 };

@@ -7,9 +7,10 @@ import {
 
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
+  vitalData: DisplayData[];
 }
 
-const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
+const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
   const renderData = (item: any, index: number) => {
     return (
       <div key={index}>
@@ -46,10 +47,24 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
     );
   };
 
+  const renderVitalDetails = () => {
+    return (
+      <>
+        <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
+        <AccordianDiv>
+          <div className="lh-18">
+            {vitalData.map((item, index) => renderData(item, index))}
+          </div>
+        </AccordianDiv>
+      </>
+    );
+  };
+
   return (
     <AccordianSection>
-      <div className="margin-top-3">
+      <div>
         {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
+        {vitalData.length > 0 && renderVitalDetails()}
       </div>
     </AccordianSection>
   );
