@@ -3,8 +3,8 @@ import {
   evaluateEcrMetadata,
   evaluateSocialData,
   extractPatientAddress,
-  formatPatientName, renderData
   formatPatientName,
+  renderData,
   formatDate,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/fhir-data/utils";
