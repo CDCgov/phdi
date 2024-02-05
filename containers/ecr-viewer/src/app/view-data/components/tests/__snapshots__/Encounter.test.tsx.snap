@@ -14,7 +14,11 @@ exports[`Encounter should match snapshot 1`] = `
             class="usa-summary-box__heading padding-y-105"
             id="summary-box-key-information"
           >
-            Encounter Details
+            <span
+              id="encounter-details"
+            >
+              Encounter Details
+            </span>
           </h3>
           <div
             class="usa-summary-box__text"
@@ -91,7 +95,11 @@ exports[`Encounter should match snapshot 1`] = `
             class="usa-summary-box__heading padding-y-105"
             id="summary-box-key-information"
           >
-            Provider Details
+            <span
+              id="provider-details"
+            >
+              Provider Details
+            </span>
           </h3>
           <div
             class="usa-summary-box__text"

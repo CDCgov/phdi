@@ -1,7 +1,9 @@
 "use client";
-import EcrSummary from "@/app/view-data/components/EcrSummary";
+import EcrSummary, {
+  ecrSummaryConfig,
+} from "@/app/view-data/components/EcrSummary";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
 import { Accordion } from "@trussworks/react-uswds";
 import {
@@ -13,12 +15,13 @@ import {
   evaluateEcrMetadata,
   evaluateClinicalData,
 } from "../utils";
-import Demographics from "./components/Demographics";
-import SocialHistory from "./components/SocialHistory";
+import Demographics, { demographicsConfig } from "./components/Demographics";
+import SocialHistory, { socialHistoryConfig } from "./components/SocialHistory";
 import UnavailableInfo from "./components/UnavailableInfo";
-import EcrMetadata from "./components/EcrMetadata";
-import EncounterDetails from "./components/Encounter";
+import EcrMetadata, { ecrMetadataConfig } from "./components/EcrMetadata";
+import SideNav, { SectionConfig } from "./components/SideNav";
 import ClinicalInfo from "./components/Clinical";
+import EncounterDetails, { encounterConfig } from "./components/Encounter";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -26,6 +29,19 @@ const ECRViewerPage = () => {
   const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
+
+  const sideNavConfigs = [
+    ecrSummaryConfig,
+    new SectionConfig("eCR Document", [
+      new SectionConfig("Patient Info", [
+        demographicsConfig,
+        socialHistoryConfig,
+      ]),
+      ecrMetadataConfig,
+      encounterConfig,
+    ]),
+    new SectionConfig("Unavailable Info"),
+  ];
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -62,7 +78,7 @@ const ECRViewerPage = () => {
     const clinicalData = evaluateClinicalData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
-        title: "Patient Info",
+        title: <span id="patient-info">Patient Info</span>,
         content: (
           <>
             <Demographics demographicsData={demographicsData.availableData} />
@@ -76,7 +92,7 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
-        title: "eCR Metadata",
+        title: <span id="ecr-metadata">eCR Metadata</span>,
         content: (
           <>
             <EcrMetadata
@@ -91,7 +107,7 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
-        title: "Encounter Info",
+        title: <span id="encounter-info">Encounter Info</span>,
         content: (
           <div>
             <EncounterDetails
@@ -105,7 +121,7 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
-        title: "Clinical Info",
+        title: <span id="clinical-info">Clinical Info</span>,
         content: (
           <div>
             <ClinicalInfo
@@ -121,7 +137,7 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
-        title: "Unavailable Info",
+        title: <span id="unavailable-info">Unavailable Info</span>,
         content: (
           <div className="padding-top-105">
             <UnavailableInfo
@@ -157,14 +173,32 @@ const ECRViewerPage = () => {
     return (
       <div>
         <header>
-          <h1 className={"page-title"}>EZ eCR Viewer</h1>
+          <h1 className="page-title">EZ eCR Viewer</h1>
         </header>
-        <div className={"ecr-viewer-container"}>
-          <h2 className="margin-bottom-3">eCR Summary</h2>
-          <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-          <div className="margin-top-6">
-            <h2 className="margin-bottom-3">eCR Document</h2>
-            {renderAccordion()}
+        <div className="main-container">
+          <div className="content-wrapper">
+            <div className="nav-wrapper">
+              <nav className="sticky-nav">
+                <SideNav sectionConfigs={sideNavConfigs} />
+              </nav>
+            </div>
+            <div className="ecr-viewer-container">
+              <div className="ecr-content">
+                <h2 className="margin-bottom-3" id="ecr-summary">
+                  eCR Summary
+                </h2>
+                <EcrSummary
+                  fhirPathMappings={mappings}
+                  fhirBundle={fhirBundle}
+                />
+                <div className="margin-top-6">
+                  <h2 className="margin-bottom-3" id="ecr-document">
+                    eCR Document
+                  </h2>
+                  {renderAccordion()}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
