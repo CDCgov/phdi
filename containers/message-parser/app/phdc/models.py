@@ -51,6 +51,14 @@ class Patient:
 
 
 @dataclass
+class Organization:
+    id: str = None
+    name: str = None
+    address: Address = None
+    telecom: Telecom = None
+
+
+@dataclass
 class CodedElement:
     xsi_type: Optional[str] = None
     code: Optional[str] = None
@@ -59,15 +67,22 @@ class CodedElement:
     display_name: Optional[str] = None
 
     def to_attributes(self) -> Dict[str, str]:
+        """
+        to_attributes is intended to take a standard CodedElements
+          and simplify them to a dictionary that can be looped through for
+          multiple types of simple elements. Right now, primarily Observation.
+
+          It will create a small dictionary that can then be assigned to an ET.Element.
+        """
         # Create a dictionary with XML attribute names
-        attrib = {
-            "xsi:type": self.xsi_type,
+        attributes = {
+            "{http://www.w3.org/2001/XMLSchema-instance}type": self.xsi_type,
             "code": self.code,
             "codeSystem": self.code_system,
             "codeSystemName": self.code_system_name,
             "displayName": self.display_name,
         }
-        return attrib
+        return {k: v for k, v in attributes.items() if v is not None}
 
 
 @dataclass
@@ -75,9 +90,9 @@ class Observation:
     type_code: Optional[str] = None
     class_code: Optional[str] = None
     mood_code: Optional[str] = None
-    code: List[CodedElement] = None
-    value: List[CodedElement] = None
-    translation: List[CodedElement] = None
+    code: Optional[CodedElement] = None
+    value: Optional[CodedElement] = None
+    translation: Optional[CodedElement] = None
 
 
 @dataclass
@@ -86,3 +101,5 @@ class PHDCInputData:
         "case_report", "contact_record", "lab_report", "morbidity_report"
     ] = "case_report"
     patient: Patient = None
+    clinical_info: List[Observation] = None
+    organization: List[Organization] = None

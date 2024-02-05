@@ -13,12 +13,14 @@ import {
   evaluateProviderData,
   evaluateDemographicsData,
   evaluateEcrMetadata,
+  evaluateClinicalData,
 } from "../utils";
 import Demographics, { demographicsConfig } from "./components/Demographics";
 import SocialHistory, { socialHistoryConfig } from "./components/SocialHistory";
 import UnavailableInfo from "./components/UnavailableInfo";
 import EcrMetadata, { ecrMetadataConfig } from "./components/EcrMetadata";
 import SideNav, { SectionConfig } from "./components/SideNav";
+import ClinicalInfo from "./components/Clinical";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -93,6 +95,7 @@ const ECRViewerPage = () => {
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
     const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
+    const clinicalData = evaluateClinicalData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: <span id="patient-info">Patient Info</span>,
@@ -124,7 +127,36 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
-        title: <span id="unavailable-info">Unavailable Info</span>,
+        title: <span id="encounter-info">Encounter Info</span>,
+        content: (
+          <div>
+            <EncounterDetails
+              encounterData={encounterData.availableData}
+              providerData={providerData.availableData}
+            />
+          </div>
+        ),
+        expanded: true,
+        id: "3",
+        headingLevel: "h2",
+      },
+      {
+        title: <span id="clinical-info">Clinical Info</span>,
+        content: (
+          <div>
+            <ClinicalInfo
+              activeProblemsDetails={
+                clinicalData.activeProblemsDetails.availableData
+              }
+            />
+          </div>
+        ),
+        expanded: true,
+        id: "4",
+        headingLevel: "h2",
+      },
+      {
+        title: <span id="unavailable-info"><Unavailable Info</span>,
         content: (
           <div className="padding-top-105">
             <UnavailableInfo
@@ -132,11 +164,14 @@ const ECRViewerPage = () => {
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
               providerUnavailableData={providerData.unavailableData}
+              activeProblemsUnavailableData={
+                clinicalData.activeProblemsDetails.unavailableData
+              }
             />
           </div>
         ),
         expanded: true,
-        id: "4",
+        id: "5",
         headingLevel: "h2",
       },
     ];
