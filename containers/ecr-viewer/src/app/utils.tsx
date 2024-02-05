@@ -1,12 +1,11 @@
-import { Bundle, Organization, Reference } from "fhir/r4";
+import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "fhirpath";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { Table } from "@trussworks/react-uswds";
-import * as R4Models from "fhirpath/fhir-context/r4";
 
 export interface DisplayData {
   title: string;
-  value: string | undefined;
+  value: React.JSX.Element | string | undefined;
 }
 
 export interface PathMappings {
@@ -598,7 +597,7 @@ const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value == undefined || item.value.length == 0) {
+    if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
       unavailableData.push(item);
       item.value = "N/A";
     } else {
@@ -609,7 +608,7 @@ const evaluateData = (data: DisplayData[]) => {
 };
 
 export const renderData = (data: DisplayData[]) => {
-  return data.map(({title, value}) =>
+  return data?.map(({title, value}) =>
     (
       <Fragment key={title}>
         <div className="grid-row">
