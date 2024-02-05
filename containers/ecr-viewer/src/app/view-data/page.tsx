@@ -11,12 +11,14 @@ import {
   evaluateProviderData,
   evaluateDemographicsData,
   evaluateEcrMetadata,
+  evaluateClinicalData,
 } from "../utils";
 import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import UnavailableInfo from "./components/UnavailableInfo";
 import EcrMetadata from "./components/EcrMetadata";
 import EncounterDetails from "./components/Encounter";
+import ClinicalInfo from "./components/Clinical";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -57,6 +59,7 @@ const ECRViewerPage = () => {
     const encounterData = evaluateEncounterData(fhirBundle, mappings);
     const providerData = evaluateProviderData(fhirBundle, mappings);
     const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
+    const clinicalData = evaluateClinicalData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: "Patient Info",
@@ -102,6 +105,21 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
+        title: "Clinical Info",
+        content: (
+          <div>
+            <ClinicalInfo
+              activeProblemsDetails={
+                clinicalData.activeProblemsDetails.availableData
+              }
+            />
+          </div>
+        ),
+        expanded: true,
+        id: "4",
+        headingLevel: "h2",
+      },
+      {
         title: "Unavailable Info",
         content: (
           <div className="padding-top-105">
@@ -110,11 +128,14 @@ const ECRViewerPage = () => {
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
               providerUnavailableData={providerData.unavailableData}
+              activeProblemsUnavailableData={
+                clinicalData.activeProblemsDetails.unavailableData
+              }
             />
           </div>
         ),
         expanded: true,
-        id: "4",
+        id: "5",
         headingLevel: "h2",
       },
     ];
