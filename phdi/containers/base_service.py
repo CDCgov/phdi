@@ -4,6 +4,7 @@ from typing import Literal
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+from starlette.middleware import RawContextMiddleware
 
 
 # create a class with the DIBBs default Creative Commons Zero v1.0 and
@@ -101,6 +102,7 @@ class BaseService:
 
         :return: The FastAPI instance.
         """
+        self.app.add_middleware(RawContextMiddleware)
         self.add_path_rewrite_middleware()
         if self.include_health_check_endpoint:
             self.add_health_check_endpoint()
