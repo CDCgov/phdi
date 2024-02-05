@@ -11,7 +11,7 @@ import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";
 import EcrMetadata from "./EcrMetadata";
-import EncounterDetails from "./Encounter";
+import EncounterDetails, { encounterConfig } from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
 import { ReactNode } from "react";

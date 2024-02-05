@@ -1,5 +1,6 @@
 import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "fhirpath";
+import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
 
 export interface DisplayData {
@@ -9,6 +10,11 @@ export interface DisplayData {
 
 export interface PathMappings {
   [key: string]: string;
+}
+
+export interface ColumnInfoInput {
+  columnName: string;
+  infoPath: string;
 }
 
 export const formatPatientName = (
@@ -166,6 +172,23 @@ const formatDateTime = (dateTime: string) => {
     .replace(",", "");
 };
 
+export const formatDate = (date: string) => {
+  if (!date || date === null) {
+    return "N/A";
+  }
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  };
+
+  return new Date(date).toLocaleDateString("en-US", {
+    ...options,
+    timeZone: "UTC",
+  }); // UTC, otherwise will have timezone issues
+};
+
 const formatPhoneNumber = (phoneNumber: string) => {
   try {
     return phoneNumber
@@ -201,6 +224,70 @@ const formatStartEndDateTime = (
 
   return `Start: ${startFormattedDate}
         End: ${endFormattedDate}`;
+};
+
+const formatTable = (
+  resources: [],
+  mappings: PathMappings,
+  columns: [ColumnInfoInput], // Order of columns in array = order of apearance
+  caption: string,
+) => {
+  let headers = [];
+  columns.forEach((column) => {
+    const header = (
+      <>
+        <th scope="col" className=" bg-gray-5 minw-15">
+          {column.columnName}
+        </th>
+      </>
+    );
+    headers.push(header);
+  });
+
+  let tableRows = [];
+  resources.forEach((entry) => {
+    let rowCells = [];
+    columns.forEach(function (column, index) {
+      let isFirstCell = index === 0;
+
+      let rowCellData;
+      evaluate(entry, mappings[column.infoPath])[0]
+        ? (rowCellData = evaluate(entry, mappings[column.infoPath])[0])
+        : (rowCellData = "N/A");
+
+      let rowCell = isFirstCell ? (
+        <th scope="row" className="text-top">
+          {rowCellData}
+        </th>
+      ) : (
+        <td className="text-top">{rowCellData}</td>
+      );
+      rowCells.push(rowCell);
+    });
+    const tableRow = <tr>{rowCells}</tr>;
+    tableRows.push(tableRow);
+  });
+
+  const tableContent = (
+    <>
+      <thead>
+        <tr>{headers}</tr>
+      </thead>
+      <tbody>{tableRows}</tbody>
+    </>
+  );
+  const table = (
+    <Table
+      borderless
+      fullWidth
+      caption={caption}
+      className="border-top border-left border-right table-caption-margin"
+    >
+      {tableContent}
+    </Table>
+  );
+
+  return table;
 };
 
 const extractTravelHistory = (
@@ -468,6 +555,48 @@ export const evaluateEcrMetadata = (
     eicrDetails: evaluateData(eicrDetails),
     ecrSenderDetails: evaluateData(ecrSenderDetails),
     rrDetails: evaluateData(rrDetails),
+  };
+};
+
+export const returnProblemsTable = (problemsArray, mappings) => {
+  if (problemsArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo = [
+    { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
+    { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
+    { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
+  ];
+
+  problemsArray.forEach((entry) => {
+    entry.onsetDateTime
+      ? (entry.onsetDateTime = formatDate(entry.onsetDateTime))
+      : (entry.onsetDateTime = "N/A");
+  });
+
+  problemsArray.sort(function (a, b) {
+    return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
+  });
+
+  return formatTable(problemsArray, mappings, columnInfo, "Problems List");
+};
+
+export const evaluateClinicalData = (
+  fhirBundle: Bundle | undefined,
+  mappings: PathMappings,
+) => {
+  const activeProblemsData: DisplayData[] = [
+    {
+      title: "Problems List",
+      value: returnProblemsTable(
+        evaluate(fhirBundle, mappings["activeProblems"]),
+        mappings,
+      ),
+    },
+  ];
+  return {
+    activeProblemsDetails: evaluateData(activeProblemsData),
   };
 };
 

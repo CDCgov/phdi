@@ -1,10 +1,17 @@
 "use client";
-import EcrSummary from "@/app/view-data/components/EcrSummary";
+import EcrSummary, {
+  ecrSummaryConfig,
+} from "@/app/view-data/components/EcrSummary";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
+import { demographicsConfig } from "./components/Demographics";
+import { socialHistoryConfig } from "./components/SocialHistory";
+import { ecrMetadataConfig } from "./components/EcrMetadata";
+import { encounterConfig } from "./components/Encounter";
 import { PathMappings } from "../utils";
+import SideNav, { SectionConfig } from "./components/SideNav";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -12,6 +19,19 @@ const ECRViewerPage = () => {
   const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
+
+  const sideNavConfigs = [
+    ecrSummaryConfig,
+    new SectionConfig("eCR Document", [
+      new SectionConfig("Patient Info", [
+        demographicsConfig,
+        socialHistoryConfig,
+      ]),
+      ecrMetadataConfig,
+      encounterConfig,
+    ]),
+    new SectionConfig("Unavailable Info"),
+  ];
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -44,17 +64,26 @@ const ECRViewerPage = () => {
     return (
       <div>
         <header>
-          <h1 className={"page-title"}>EZ eCR Viewer</h1>
+          <h1 className="page-title">EZ eCR Viewer</h1>
         </header>
-        <div className={"ecr-viewer-container"}>
-          <h2 className="margin-bottom-3">eCR Summary</h2>
-          <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-          <div className="margin-top-6">
-            <h2 className="margin-bottom-3">eCR Document</h2>
-            <AccordionContainer
-              fhirPathMappings={mappings}
-              fhirBundle={fhirBundle}
-            />
+        <div className="main-container">
+          <div className="content-wrapper">
+            <div className="nav-wrapper">
+              <nav className="sticky-nav">
+                <SideNav sectionConfigs={sideNavConfigs} />
+              </nav>
+            </div>
+            <div className={"ecr-viewer-container"}>
+              <h2 className="margin-bottom-3">eCR Summary</h2>
+              <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
+              <div className="margin-top-6">
+                <h2 className="margin-bottom-3">eCR Document</h2>
+                <AccordionContainer
+                  fhirPathMappings={mappings}
+                  fhirBundle={fhirBundle}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
