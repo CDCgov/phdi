@@ -7,7 +7,7 @@ describe("Clinical", () => {
   beforeAll(() => {
     const clinicalNotes = [
       {
-        title: "Clinical Notes",
+        title: "Miscellaneous Notes",
         value: "<paragraph>This patient was only recently discharged for a recurrent GI bleed as described</paragraph>",
       }
     ];
