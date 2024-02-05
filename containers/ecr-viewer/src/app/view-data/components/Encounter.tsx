@@ -4,11 +4,17 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
+import { SectionConfig } from "./SideNav";
 
 interface EncounterProps {
   encounterData: DisplayData[];
   providerData: DisplayData[];
 }
+
+export const encounterConfig: SectionConfig = new SectionConfig(
+  "Encounter Details",
+  ["Encounter Details", "Provider Details"],
+);
 
 const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const combineData = () => {
@@ -34,7 +40,11 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderEncounterDetails = () => {
     return (
       <>
-        <AccordianH3>Encounter Details</AccordianH3>
+        <AccordianH3>
+          <span id={encounterConfig.subNavItems?.[0].id}>
+            {encounterConfig.subNavItems?.[0].title}
+          </span>
+        </AccordianH3>
         <AccordianDiv>
           {encounterData.map((item, index) => renderData(item, index))}
         </AccordianDiv>
@@ -45,7 +55,11 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderProviderDetails = () => {
     return (
       <>
-        <AccordianH3>Provider Details</AccordianH3>
+        <AccordianH3>
+          <span id={encounterConfig.subNavItems?.[1].id}>
+            {encounterConfig.subNavItems?.[1].title}
+          </span>
+        </AccordianH3>
         <AccordianDiv>
           {providerData.map((item, index) => renderData(item, index))}
         </AccordianDiv>

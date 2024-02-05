@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionConfig should match the snapshot 1`] = `
+<DocumentFragment>
+  <ul
+    class="usa-sidenav"
+    data-testid="sidenav"
+  >
+    <li
+      class="usa-sidenav__item"
+    >
+      <a
+        href="#section-1"
+      >
+        Section 1
+      </a>
+    </li>
+    <li
+      class="usa-sidenav__item"
+    >
+      <a
+        href="#section-2"
+      >
+        Section 2
+      </a>
+    </li>
+    <li
+      class="usa-sidenav__item"
+    >
+      <ul
+        class="usa-sidenav__sublist"
+        data-testid="sidenav"
+      >
+        <li
+          class="usa-sidenav__item"
+        >
+          <a
+            href="#subsection-1"
+          >
+            Subsection 1
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

@@ -25,7 +25,7 @@ exports[`Clinical should match snapshot 1`] = `
               class="data-title"
             >
               <h4>
-                Clinical Notes
+                Miscellaneous Notes
               </h4>
             </div>
             <div

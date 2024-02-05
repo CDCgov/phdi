@@ -4,10 +4,13 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
+import { SectionConfig } from "./SideNav";
 
 interface DemographicsProps {
   demographicsData: DisplayData[];
 }
+
+export const demographicsConfig = new SectionConfig("Demographics");
 
 const Demographics = ({ demographicsData }: DemographicsProps) => {
   const renderDemographicsData = (item: any, index: number) => {
@@ -25,7 +28,9 @@ const Demographics = ({ demographicsData }: DemographicsProps) => {
   };
   return (
     <AccordianSection>
-      <AccordianH3>Demographics</AccordianH3>
+      <AccordianH3>
+        <span id={demographicsConfig.id}>{demographicsConfig.title}</span>
+      </AccordianH3>
       <AccordianDiv>
         {demographicsData.map((item, index) =>
           renderDemographicsData(item, index),
