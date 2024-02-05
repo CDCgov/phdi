@@ -5,58 +5,68 @@ services:
     build:
       context: ../validation/
       no_cache: true
-    image: validation:latest
+    logging:
+      driver: "json-file"
     ports:
-      - "8081:8080"
-    restart: unless-stopped
+      - "${VALIDATION_PORT_NUMBER}:8080"
 
   fhir-converter:
     build:
       context: ../fhir-converter/
       no_cache: true
-    image: fhir-converter:latest
+    logging:
+      driver: "json-file"
     ports:
-      - "8082:8080"
-    restart: unless-stopped
-
-  message-parser:
-    build:
-      context: ../message-parser/
-      no_cache: true
-    image: message-parser:latest
-    ports:
-      - "8085:8080"
-    restart: unless-stopped
+      - "${FHIR_CONVERTER_PORT_NUMBER}:8080"
 
   ingestion:
     build:
       context: ../ingestion/
       no_cache: true
     image: ingestion:latest
+    logging:
+      driver: "json-file"
     ports:
-      - "8083:8080"
-    restart: unless-stopped
+      - "${INGESTION_PORT_NUMBER}:8080"
 
-  ecr-viewer:
+  message-parser:
     build:
-      context: ../ecr-viewer/
+      context: ../message-parser/
       no_cache: true
-    image: ecr-viewer:latest
+    logging:
+      driver: "json-file"
     ports:
-      - "3000:8080"
-    command: npm run dev
-    restart: unless-stopped
+      - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
+
+  ecr-viewer-db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+    volumes:
+      - ../ecr-viewer/seed-scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ../ecr-viewer/seed-scripts/.pgpass/:/usr/local/lib/.pgpass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
 
   orchestration:
     build: .
     command: python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
     ports:
-      - "8080:8080"
+      - "${ORCHESTRATION_PORT_NUMBER}:8080"
+    logging:
+      driver: "json-file"
     depends_on:
       - validation
       - fhir-converter
       - message-parser
       - ingestion
-      - ecr-viewer
     env_file:
       - .env
