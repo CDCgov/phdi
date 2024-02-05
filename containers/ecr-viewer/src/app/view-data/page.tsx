@@ -18,7 +18,7 @@ import SocialHistory from "./components/SocialHistory";
 import UnavailableInfo from "./components/UnavailableInfo";
 import EcrMetadata from "./components/EcrMetadata";
 import EncounterDetails from "./components/Encounter";
-import ClinicalInfo from "@/app/view-data/components/ClinicalInfo";
+import ClinicalInfo from "./components/Clinical";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -109,12 +109,14 @@ const ECRViewerPage = () => {
         content: (
           <div>
             <ClinicalInfo
-              clinicalNotes={clinicalData.clinicalNotes.availableData}
+              activeProblemsDetails={
+                clinicalData.activeProblemsDetails.availableData
+              }
             />
           </div>
         ),
         expanded: true,
-        id: "3",
+        id: "4",
         headingLevel: "h2",
       },
       {
@@ -126,11 +128,14 @@ const ECRViewerPage = () => {
               socialUnavailableData={social_data.unavailableData}
               encounterUnavailableData={encounterData.unavailableData}
               providerUnavailableData={providerData.unavailableData}
+              activeProblemsUnavailableData={
+                clinicalData.activeProblemsDetails.unavailableData
+              }
             />
           </div>
         ),
         expanded: true,
-        id: "4",
+        id: "5",
         headingLevel: "h2",
       },
     ];

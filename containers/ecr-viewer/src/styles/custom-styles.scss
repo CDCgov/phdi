@@ -97,3 +97,9 @@ h4 {
 .usa-summary-box__body:not(:first-child) .summary-box-key-information {
   margin-top: 20px;
 }
+
+.table-caption-margin {
+  caption {
+    margin-bottom: 8px;
+  }
+}

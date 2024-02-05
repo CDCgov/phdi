@@ -6,7 +6,10 @@ import pytest
 from app import utils
 from app.phdc.builder import PHDCBuilder
 from app.phdc.models import Address
+from app.phdc.models import CodedElement
 from app.phdc.models import Name
+from app.phdc.models import Observation
+from app.phdc.models import Organization
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
@@ -37,6 +40,44 @@ def test_build_telecom(build_telecom_test_data, expected_result):
     builder = PHDCBuilder()
     xml_telecom_data = builder._build_telecom(build_telecom_test_data)
     assert ET.tostring(xml_telecom_data).decode() == expected_result
+
+
+@pytest.mark.parametrize(
+    "build_observation_test_data, expected_result",
+    [
+        # Test case with a single code element, value, and translation
+        (
+            Observation(
+                type_code="ENTRY",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(code="1", code_system="0", display_name="Code"),
+                value=CodedElement(
+                    xsi_type="ST", code="2", code_system="1", display_name="V"
+                ),
+                translation=CodedElement(
+                    xsi_type="T", code="0", code_system="L", display_name="T"
+                ),
+            ),
+            (
+                '<entry typeCode="ENTRY">'
+                + '<observation classCode="OBS" moodCode="EVN">'
+                + '<code code="1" codeSystem="0" displayName="Code"/>'
+                + '<value xsi:type="ST" code="2" codeSystem="1" displayName="V">'
+                + '<translation xsi:type="T" code="0" codeSystem="L" displayName="T"/>'
+                + "</value></observation></entry>"
+            ),
+        )
+    ],
+)
+def test_build_observation(build_observation_test_data, expected_result):
+    builder = PHDCBuilder()
+    xod = builder._build_observation(build_observation_test_data)
+    actual_result = ET.tostring(xod, encoding="unicode").replace(
+        'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', ""
+    )
+    # TODO: There has to be a more elegant way to do that...
+    assert actual_result == expected_result
 
 
 @pytest.mark.parametrize(
@@ -143,22 +184,61 @@ def test_build_name(build_name_test_data, expected_result):
 @pytest.mark.parametrize(
     "build_custodian_test_data, expected_result",
     [
-        # Success with `id`
+        # Success with `id` only
         (
-            {
-                "id": "TEST ID",
-            },
+            [Organization(id="TEST ID")],
             (
-                "<custodian><assignedCustodian><representedCustodianOrganization>"
-                + '<id extension="TEST ID"/></representedCustodianOrganization>'
-                + "</assignedCustodian></custodian>"
+                "<custodian>\n"
+                "  <assignedCustodian>\n"
+                "    <representedCustodianOrganization>\n"
+                '      <id extension="TEST ID"/>\n'
+                "    </representedCustodianOrganization>\n"
+                "  </assignedCustodian>\n"
+                "</custodian>\n"
+            ),
+        ),
+        # Success with data
+        (
+            [
+                Organization(
+                    id="112233",
+                    name="Happy Labs",
+                    address=Address(
+                        street_address_line_1="23 main st",
+                        street_address_line_2="apt 12",
+                        city="Fort Worth",
+                        state="Texas",
+                        postal_code="76006",
+                        county="Tarrant",
+                        country="USA",
+                    ),
+                    telecom=Telecom(value="8888675309"),
+                )
+            ],
+            (
+                "<custodian>\n"
+                "  <assignedCustodian>\n"
+                "    <representedCustodianOrganization>\n"
+                '      <id extension="112233"/>\n'
+                "      <name>Happy Labs</name>\n"
+                "      <addr>\n"
+                "        <streetAddressLine>23 main st</streetAddressLine>\n"
+                "        <streetAddressLine>apt 12</streetAddressLine>\n"
+                "        <city>Fort Worth</city>\n"
+                "        <state>Texas</state>\n"
+                "        <postalCode>76006</postalCode>\n"
+                "        <county>Tarrant</county>\n"
+                "        <country>USA</country>\n"
+                "      </addr>\n"
+                '      <telecom value="8888675309"/>\n'
+                "    </representedCustodianOrganization>\n"
+                "  </assignedCustodian>\n"
+                "</custodian>\n"
             ),
         ),
         # ValueError is raised when `id` is None
         (
-            {
-                "id": None,
-            },
+            [Organization()],
             ValueError("The Custodian id parameter must be a defined."),
         ),
     ],
@@ -167,12 +247,15 @@ def test_build_custodian(build_custodian_test_data, expected_result):
     builder = PHDCBuilder()
     if isinstance(expected_result, ValueError):
         with pytest.raises(ValueError) as e:
-            xml_custodian_data = builder._build_custodian(**build_custodian_test_data)
+            builder._build_custodian(build_custodian_test_data)
             assert str(e.value) == str(expected_result)
 
     else:
-        xml_custodian_data = builder._build_custodian(**build_custodian_test_data)
-        assert ET.tostring(xml_custodian_data).decode() == expected_result
+        xml_custodian_data = builder._build_custodian(build_custodian_test_data)
+        assert (
+            ET.tostring(xml_custodian_data, pretty_print=True).decode()
+            == expected_result
+        )
 
 
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
@@ -223,8 +306,8 @@ def test_build_author(family_name, expected_oid, expected_date, expected_name):
                 name=[
                     Name(prefix="Mr.", first="John", middle="Jacob", family="Schmidt")
                 ],
-                race_code="White",
-                ethnic_group_code="Not Hispanic or Latino",
+                race_code="2106-3",
+                ethnic_group_code="2186-5",
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
@@ -232,8 +315,13 @@ def test_build_author(family_name, expected_oid, expected_date, expected_name):
                 "<patient><name><prefix>Mr.</prefix><given>John</given>"
                 + "<given>Jacob</given><family>Schmidt</family></name>"
                 + '<administrativeGenderCode displayName="Male"/>'
-                + '<raceCode displayName="White"/><ethnicGroupCode displayName='
-                + '"Not Hispanic or Latino"/><birthTime>01-01-2000</birthTime>'
+                + '<sdt:raceCode xmlns:sdt="urn:hl7-org:sdtc" code="2106-3" '
+                + 'codeSystem="2.16.840.1.113883.6.238" '
+                + 'displayName="White" codeSystemName="Race &amp; Ethnicity"/>'
+                + '<ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" '
+                + 'displayName="Not Hispanic or Latino" '
+                + 'codeSystemName="Race &amp; Ethnicity"/>'
+                + "<birthTime>01-01-2000</birthTime>"
                 + "</patient>"
             ),
         )
@@ -289,6 +377,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
     [
         (
             PHDCInputData(
+                organization=[Organization(id="112233")],
                 patient=Patient(
                     name=[
                         Name(
@@ -302,8 +391,8 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                             prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
                         ),
                     ],
-                    race_code="White",
-                    ethnic_group_code="Not Hispanic or Latino",
+                    race_code="2106-3",
+                    ethnic_group_code="2186-5",
                     administrative_gender_code="Male",
                     birth_time="01-01-2000",
                     telecom=[
@@ -326,9 +415,9 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                             state="New York",
                         ),
                     ],
-                )
+                ),
             ),
-            (utils.read_file_from_assets("sample_phdc.xml")),
+            (utils.read_file_from_assets("sample_phdc_header.xml")),
         )
     ],
 )
@@ -375,6 +464,17 @@ def test_get_id():
     )
 
 
+def test_get_title():
+    builder = PHDCBuilder()
+    title = builder._get_title()
+
+    assert (
+        ET.tostring(title)
+        == b"<title>Public Health Case Report - "
+        + b"Data from the DIBBs FHIR to PHDC Converter</title>"
+    )
+
+
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 def test_get_effective_time():
     builder = PHDCBuilder()
@@ -391,14 +491,249 @@ def test_get_confidentiality_code():
     )
 
 
-def test_get_case_report_code():
+def test_get_setId():
     builder = PHDCBuilder()
-    case_report_code = builder._get_case_report_code()
+    setid = builder._get_setId()
+
+    assert ET.tostring(setid) == b'<setId extension="CLOSED_CASE" displayable="true"/>'
+
+
+def test_get_version_number():
+    builder = PHDCBuilder()
+    version_number = builder._get_version_number()
+
+    assert ET.tostring(version_number) == b'<versionNumber value="1"/>'
+
+
+def test_get_realmCode():
+    builder = PHDCBuilder()
+    realmCode = builder._get_realmCode()
+    assert ET.tostring(realmCode) == b'<realmCode code="US"/>'
+
+
+def test_get_clinical_info_code():
+    builder = PHDCBuilder()
+    clinical_info_code = builder._get_clinical_info_code()
     assert (
-        ET.tostring(case_report_code)
+        ET.tostring(clinical_info_code)
         == b'<code code="55751-2" codeSystem="2.16.840.1.113883.6.1" '
         b'codeSystemName="LOINC" displayName="Public Health Case Report - PHRI"/>'
     )
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@pytest.mark.parametrize(
+    "build_clinical_info_data, expected_result",
+    [
+        # Example test case
+        (
+            (
+                [
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="INV169",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Condition",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="10274",
+                            code_system="1.2.3.5",
+                            display_name="Chlamydia trachomatis infection",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="350",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="NBS012",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Shared Ind",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="F",
+                            code_system="1.2.3.5",
+                            display_name="False",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="T",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                ]
+            ),
+            # Expected XML output as a string
+            "<component><section>"
+            + '<id extension="mocked-uuid" assigningAuthorityName="LR"/>'
+            + '<code code="55752-0" codeSystem="2.16.840.1.113883.6.1"'
+            + ' codeSystemName="LOINC" displayName="Clinical Information"/>'
+            + "<title>Clinical Information</title>"
+            + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
+            + '<code code="INV169" codeSystem="2.16.840.1.114222.4.5.1"'
+            + ' displayName="Condition"/>'
+            + '<value xsi:type="CE" code="10274" codeSystem="1.2.3.5"'
+            + ' displayName="Chlamydia trachomatis infection">'
+            + '<translation xsi:type="CE" code="350" codeSystem="L"'
+            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
+            + "</value></observation></entry>"
+            + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
+            + '<code code="NBS012" codeSystem="2.16.840.1.114222.4.5.1"'
+            + ' displayName="Shared Ind"/>'
+            + '<value xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">'
+            + '<translation xsi:type="CE" code="T" codeSystem="L"'
+            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
+            + "</value></observation></entry></section></component>",
+        ),
+    ],
+)
+def test_get_clinical_info(build_clinical_info_data, expected_result):
+    builder = PHDCBuilder()
+    clinical_info_code = builder._build_clinical_info(build_clinical_info_data)
+    actual_result = (
+        ET.tostring(clinical_info_code)
+        .decode()
+        .replace('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', "")
+    )
+    expected_result = expected_result
+    assert actual_result == expected_result
+
+
+@patch.object(uuid, "uuid4", lambda: "mocked-uuid")
+@patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
+@pytest.mark.parametrize(
+    "build_header_test_data, expected_result",
+    [
+        (
+            PHDCInputData(
+                type="case_report",
+                patient=Patient(
+                    name=[
+                        Name(
+                            prefix="Mr.",
+                            first="John",
+                            middle="Jacob",
+                            family="Schmidt",
+                            type="official",
+                        ),
+                        Name(
+                            prefix="Mr.", first="JJ", family="Schmidt", type="pseudonym"
+                        ),
+                    ],
+                    race_code="2106-3",
+                    ethnic_group_code="2186-5",
+                    administrative_gender_code="Male",
+                    birth_time="01-01-2000",
+                    telecom=[
+                        Telecom(value="+1-800-555-1234"),
+                        Telecom(value="+1-800-555-1234", type="work"),
+                    ],
+                    address=[
+                        Address(
+                            type="Home",
+                            street_address_line_1="123 Main Street",
+                            city="Brooklyn",
+                            postal_code="11201",
+                            state="New York",
+                        ),
+                        Address(
+                            type="workplace",
+                            street_address_line_1="123 Main Street",
+                            postal_code="55866",
+                            city="Brooklyn",
+                            state="New York",
+                        ),
+                    ],
+                ),
+                clinical_info=[
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="INV169",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Condition",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="10274",
+                            code_system="1.2.3.5",
+                            display_name="Chlamydia trachomatis infection",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="350",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                    Observation(
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="NBS012",
+                            code_system="2.16.840.1.114222.4.5.1",
+                            display_name="Shared Ind",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="F",
+                            code_system="1.2.3.5",
+                            display_name="Flase",
+                        ),
+                        translation=CodedElement(
+                            xsi_type="CE",
+                            code="T",
+                            code_system="L",
+                            code_system_name="STD*MIS",
+                            display_name="Local Label",
+                        ),
+                    ),
+                ],
+                organization=[
+                    Organization(
+                        id="112233",
+                        name="Happy Labs",
+                        address=Address(
+                            street_address_line_1="23 main st",
+                            street_address_line_2="apt 12",
+                            city="Fort Worth",
+                            state="Texas",
+                            postal_code="76006",
+                            county="Tarrant",
+                            country="USA",
+                        ),
+                        telecom=Telecom(value="8888675309"),
+                    )
+                ],
+            ),
+            utils.read_file_from_assets("sample_phdc.xml"),
+        )
+    ],
+)
+def test_build(build_header_test_data, expected_result):
+    builder = PHDCBuilder()
+    builder.set_input_data(build_header_test_data)
+    phdc = builder.build()
+    actual_result = phdc.to_xml_string()
+    assert actual_result == expected_result
 
 
 def test_add_field():

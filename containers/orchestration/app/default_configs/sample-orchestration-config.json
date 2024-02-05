@@ -2,14 +2,14 @@
   "configurations": {
     "validation": {
       "include_error_types": "error",
-      "url": "http://localhost:8081"
+      "url": "${VALIDATION_URL}"
     },
     "convert_to_fhir": {
       "root_template": "EICR",
-      "url": "http://localhost:8082"
+      "url": "${FHIR_CONVERTER_URL}"
     },
     "ingestion": {
-      "url": "http://localhost:8083",
+      "url": "${INGESTION_URL}",
       "standardization_and_geocoding": {
         "geocode_method": "smarty",
         "overwrite": "true",
@@ -21,10 +21,10 @@
       "parsing_schema": "",
       "parsing_schema_name": "ecr.json",
       "credential_manager": "azure",
-      "url": "http://localhost:8085"
+      "url": "${MESSAGE_PARSER_URL}"
     },
     "save_to_db": {
-      "url": "postgresql://postgres:pw@localhost:5432/ecr_viewer_db"
+      "url": "${DATABASE_URL}"
     }
   },
   "steps": [

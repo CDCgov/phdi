@@ -1,9 +1,11 @@
 import json
+import os
 from pathlib import Path
 from zipfile import ZipFile
 
 import pytest
 from app.utils import load_processing_config
+from app.utils import replace_env_var_placeholders
 from app.utils import search_for_ecr_data
 
 
@@ -16,6 +18,26 @@ def test_load_processing_config_success():
 
     config = load_processing_config("test_config.json")
     assert config == test_config
+
+
+def test_replace_env_var_placeholders():
+    # Setup a test config with known placeholders
+    test_config = {
+        "configurations": {
+            "service1": {"url": "${TEST_SERVICE_URL}"},
+            "service2": {"url": "http://fixedurl.com"},
+        }
+    }
+
+    # Set up the environment variables to match
+    os.environ["TEST_SERVICE_URL"] = "http://testservice.com"
+
+    # Call the function to replace placeholders
+    replace_env_var_placeholders(test_config)
+
+    # Assert the placeholders were replaced correctly
+    assert test_config["configurations"]["service1"]["url"] == "http://testservice.com"
+    assert test_config["configurations"]["service2"]["url"] == "http://fixedurl.com"
 
 
 def test_load_processing_config_fail():
