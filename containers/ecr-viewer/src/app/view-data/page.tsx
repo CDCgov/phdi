@@ -21,6 +21,7 @@ import UnavailableInfo from "./components/UnavailableInfo";
 import EcrMetadata, { ecrMetadataConfig } from "./components/EcrMetadata";
 import SideNav, { SectionConfig } from "./components/SideNav";
 import ClinicalInfo from "./components/Clinical";
+import EncounterDetails, { encounterConfig } from "./components/Encounter";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -37,30 +38,9 @@ const ECRViewerPage = () => {
         socialHistoryConfig,
       ]),
       ecrMetadataConfig,
+      encounterConfig,
     ]),
     new SectionConfig("Unavailable Info"),
-  ];
-
-  const accordionItems: any[] = [
-    {
-      content: null,
-      expanded: true,
-      id: "1",
-      headingLevel: "h2",
-    },
-    {
-      content: null,
-      expanded: true,
-      id: "1",
-      headingLevel: "h2",
-    },
-    {
-      title: "Unavailable Info",
-      content: null,
-      expanded: true,
-      id: "2",
-      headingLevel: "h2",
-    },
   ];
 
   type ApiResponse = {
@@ -156,7 +136,7 @@ const ECRViewerPage = () => {
         headingLevel: "h2",
       },
       {
-        title: <span id="unavailable-info"><Unavailable Info</span>,
+        title: <span id="unavailable-info">Unavailable Info</span>,
         content: (
           <div className="padding-top-105">
             <UnavailableInfo
