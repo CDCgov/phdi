@@ -16,6 +16,7 @@ get_settings()
 #   true utility to our services
 app = BaseService(
     service_name="DIBBs Standardization Service",
+    service_path="/standardization",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
