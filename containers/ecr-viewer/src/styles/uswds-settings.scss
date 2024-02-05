@@ -14,5 +14,6 @@ $ASSET_PREFIX: "";
   /* these are referenced from the root of the /public directory */
     $theme-font-path: "#{$ASSET_PREFIX}/uswds/fonts",
   $theme-image-path: "#{$ASSET_PREFIX}/uswds/img",
-  $theme-hero-image: "#{$ASSET_PREFIX}/uswds/img/hero.webp"
+  $theme-hero-image: "#{$ASSET_PREFIX}/uswds/img/hero.webp",
+  $utilities-use-important: true,
 );

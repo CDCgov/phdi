@@ -2,18 +2,24 @@ import { evaluate } from "fhirpath";
 import { Bundle } from "fhir/r4";
 import {
   extractFacilityAddress,
-  extractFacilityContactInfo,
   extractPatientAddress,
   formatEncounterDate,
   formatPatientContactInfo,
   formatPatientName,
   PathMappings,
 } from "../../utils";
+import { SectionConfig } from "./SideNav";
 
 interface EcrViewerProps {
   fhirPathMappings: PathMappings;
   fhirBundle: Bundle;
 }
+
+export const ecrSummaryConfig = new SectionConfig("eCR Summary", [
+  "About the Patient",
+  "About the Encounter",
+  "About the Condition",
+]);
 
 const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
   return (
@@ -23,7 +29,12 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
         aria-labelledby="summary-box-key-information"
       >
         <div className="usa-summary-box__body">
-          <h3 className="summary-box-key-information">About the Patient</h3>
+          <h3
+            className="summary-box-key-information"
+            id={ecrSummaryConfig.subNavItems?.[0].id}
+          >
+            {ecrSummaryConfig.subNavItems?.[0].title}
+          </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
               <div className="data-title">
@@ -64,7 +75,12 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
           </div>
         </div>
         <div className="usa-summary-box__body">
-          <h3 className="summary-box-key-information">About the Encounter</h3>
+          <h3
+            className="summary-box-key-information"
+            id={ecrSummaryConfig.subNavItems?.[1].id}
+          >
+            {ecrSummaryConfig.subNavItems?.[1].title}
+          </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
               <div className="data-title">
@@ -114,8 +130,11 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
           <div className={"section__line"} />
         </div>
         <div className="usa-summary-box__body">
-          <h3 className={"margin-bottom-105 margin-top-205"}>
-            About the Condition
+          <h3
+            className={"margin-bottom-105 margin-top-205"}
+            id={ecrSummaryConfig.subNavItems?.[2].id}
+          >
+            {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">

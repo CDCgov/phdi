@@ -52,6 +52,14 @@ class Patient:
 
 
 @dataclass
+class Organization:
+    id: str = None
+    name: str = None
+    address: Address = None
+    telecom: Telecom = None
+
+
+@dataclass
 class CodedElement:
     xsi_type: Optional[str] = None
     code: Optional[str] = None
@@ -100,3 +108,4 @@ class PHDCInputData:
     patient: Patient = None
     clinical_info: List[Observation] = None
     social_history_info: List[Observation] = None
+    organization: List[Organization] = None

@@ -1,7 +1,9 @@
+import dataclasses
 import datetime
 import json
 import pathlib
 import re
+import uuid
 from functools import cache
 from pathlib import Path
 from typing import Literal
@@ -12,8 +14,10 @@ from app.config import get_settings
 from app.phdc.models import Address
 from app.phdc.models import Name
 from app.phdc.models import Observation
+from app.phdc.models import Organization
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
+from app.phdc.models import Telecom
 from fastapi import status
 from frozendict import frozendict
 
@@ -426,6 +430,7 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
     # Translate to internal data classes
     input_data = PHDCInputData()
     input_data.patient = Patient()
+    input_data.organization = Organization()
     for key, value in parsed_values.items():
         match key:
             case "patient_address":
@@ -449,6 +454,27 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     Observation(**social_history_info_obs)
                     for social_history_info_obs in value
                 ]
+            case "custodian_represented_custodian_organization":
+                organizations = []
+                address_fields = set([f.name for f in dataclasses.fields(Address)])
+
+                for entry in value:
+                    organizations.append(
+                        Organization(
+                            name=entry["name"],
+                            id=str(uuid.uuid4()),
+                            address=Address(
+                                **dict(
+                                    filter(
+                                        lambda e: e[0] in address_fields, entry.items()
+                                    )
+                                )
+                            ),
+                            telecom=Telecom(value=entry["phone"]),
+                        )
+                    )
+
+                input_data.organization = organizations
             case _:
                 pass
     return input_data

@@ -8,6 +8,7 @@ from app import utils
 from app.phdc.models import Address
 from app.phdc.models import Name
 from app.phdc.models import Observation
+from app.phdc.models import Organization
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
@@ -168,9 +169,11 @@ class PHDCBuilder:
         code.set("displayName", "Public Health Case Report - PHRI")
         return code
 
-    def _get_title(self):
+    def _get_title(self) -> ET.Element:
         """
         Returns the title element of the PHDC header.
+
+        :returns: XML element of <title>.
         """
         title = ET.Element("title")
         title.text = (
@@ -187,6 +190,19 @@ class PHDCBuilder:
 
         return setid
 
+    def _get_version_number(self) -> ET.Element:
+        """
+        Returns the versionNumber element of the PHDC header.
+
+        :returns: XML element of <versionNumber>.
+        """
+        # TODO: once we get prod data, we'll have to determine
+        # whether or not this will be data we parse from source data
+        version_number = ET.Element("versionNumber")
+        version_number.set("value", "1")
+
+        return version_number
+
     def build_header(self):
         """
         Builds the header of the PHDC document.
@@ -200,8 +216,9 @@ class PHDCBuilder:
         root.append(self._get_effective_time())
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
+        root.append(self._get_version_number())
 
-        root.append(self._build_custodian(id=str(uuid.uuid4())))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
         root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
@@ -456,34 +473,41 @@ class PHDCBuilder:
 
         return name_data
 
-    def _build_custodian(
-        self,
-        id: str,
-    ) -> ET.Element:
+    def _build_custodian(self, organizations: List[Organization]) -> ET.Element:
         """
         Builds a `custodian` XML element for custodian data, which refers to the
           organization from which the PHDC originates and that is in charge of
           maintaining the document.
 
-        :param id: Custodian identifier.
+        :param organizations: Custodian representedCustodianOrganization.
         :return: XML element of custodian data.
         """
-        if id is None:
-            raise ValueError("The Custodian id parameter must be a defined.")
 
         custodian_data = ET.Element("custodian")
-        assignedCustodian = ET.Element("assignedCustodian")
-        representedCustodianOrganization = ET.Element(
-            "representedCustodianOrganization"
-        )
+        assigned_custodian = ET.Element("assignedCustodian")
 
-        id_element = ET.Element("id")
-        id_element.set("extension", id)
-        representedCustodianOrganization.append(id_element)
+        for organization in organizations:
+            represented_organization = ET.Element("representedCustodianOrganization")
 
-        assignedCustodian.append(representedCustodianOrganization)
-        custodian_data.append(assignedCustodian)
+            if organization.id is None:
+                raise ValueError("The Custodian id parameter must be a defined.")
 
+            id_element = ET.Element("id")
+            id_element.set("extension", organization.id)
+            represented_organization.append(id_element)
+
+            self._add_field(represented_organization, organization.name, "name")
+
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
+            if organization.telecom is not None:
+                represented_organization.append(
+                    self._build_telecom(organization.telecom)
+                )
+
+            assigned_custodian.append(represented_organization)
+
+        custodian_data.append(assigned_custodian)
         return custodian_data
 
     def _build_author(self, family_name: str) -> ET.Element:
