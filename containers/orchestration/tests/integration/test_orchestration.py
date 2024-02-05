@@ -48,6 +48,7 @@ def test_process_message_endpoint(setup):
     ).read()
     request = {
         "message_type": "ecr",
+        "data_type": "ecr",
         "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
         "message": message,
@@ -111,7 +112,9 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 def test_parse_message_fhir(setup):
     message = json.load(
         open(
-            Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
+            Path(__file__).parent.parent.parent
+            / "assets"
+            / "demo_phdc_conversion_bundle.json"
         )
     )
     request = {
