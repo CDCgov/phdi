@@ -122,7 +122,7 @@ def test_parse_message_fhir(setup):
         "data_type": "fhir",
         "config_file_name": "sample-fhir-test-config.json",
         "include_error_types": "errors",
-        "message": message,
+        "message": json.dumps(message),
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
     assert orchestration_response.status_code == 200
