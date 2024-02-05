@@ -12,13 +12,14 @@ import {
   evaluateDemographicsData,
   evaluateVitalData,
   evaluateEcrMetadata,
+  evaluateClinicalData,
 } from "../utils";
 import Demographics from "./components/Demographics";
 import SocialHistory from "./components/SocialHistory";
 import UnavailableInfo from "./components/UnavailableInfo";
 import EcrMetadata from "./components/EcrMetadata";
 import EncounterDetails from "./components/Encounter";
-import ClinicalInfo from "./components/ClinicalInfo";
+import ClinicalInfo from "./components/Clinical";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -60,6 +61,7 @@ const ECRViewerPage = () => {
     const providerData = evaluateProviderData(fhirBundle, mappings);
     const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
     const vitalData = evaluateVitalData(fhirBundle, mappings);
+    const clinicalData = evaluateClinicalData(fhirBundle, mappings);
     const accordionItems: any[] = [
       {
         title: "Patient Info",
@@ -108,11 +110,16 @@ const ECRViewerPage = () => {
         title: "Clinical Info",
         content: (
           <div>
-            <ClinicalInfo vitalData={vitalData.availableData} />
+            <ClinicalInfo
+              vitalData={vitalData.availableData}
+              activeProblemsDetails={
+                clinicalData.activeProblemsDetails.availableData
+              }
+            />
           </div>
         ),
         expanded: true,
-        id: "3",
+        id: "4",
         headingLevel: "h2",
       },
       {
@@ -125,11 +132,14 @@ const ECRViewerPage = () => {
               encounterUnavailableData={encounterData.unavailableData}
               providerUnavailableData={providerData.unavailableData}
               vitalUnavailableData={vitalData.unavailableData}
+              activeProblemsUnavailableData={
+                clinicalData.activeProblemsDetails.unavailableData
+              }
             />
           </div>
         ),
         expanded: true,
-        id: "4",
+        id: "5",
         headingLevel: "h2",
       },
     ];
