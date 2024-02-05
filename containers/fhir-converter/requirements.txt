@@ -30,7 +30,7 @@ PyYAML==6.0
 requests==2.31.0
 six==1.16.0
 sniffio==1.2.0
-starlette==0.27.0
+starlette==0.36.2
 testcontainers[compose]==3.7.1
 tomli==2.0.1
 typing_extensions==4.3.0
