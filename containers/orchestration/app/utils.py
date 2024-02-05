@@ -84,6 +84,10 @@ def unzip_http(upload_file: UploadFile) -> Dict:
     return search_for_ecr_data(zipped_file)
 
 
+def load_json_from_binary(upload_file: UploadFile) -> Dict:
+    return json.load(io.BytesIO(upload_file.file.read()))
+
+
 def search_for_ecr_data(valid_zipfile: ZipFile) -> Dict:
     return_data = {}
 

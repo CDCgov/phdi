@@ -39,6 +39,7 @@ with open(test_config_path, "r") as file:
 def test_process_message_success(patched_post_request, patched_save_to_db):
     request = {
         "message_type": "ecr",
+        "data_type": "ecr",
         "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
         "message": '{"foo": "bar"}',
@@ -66,6 +67,26 @@ def test_process_message_success(patched_post_request, patched_save_to_db):
     assert actual_response.status_code == 200
 
 
+@mock.patch("app.services.post_request")
+def test_process_message_fhir_data(patched_post_request):
+    request = {
+        "message_type": "fhir",
+        "data_type": "fhir",
+        "config_file_name": "sample-fhir-test-config.json",
+        "include_error_types": "errors",
+        "message": '{"foo": "bar"}',
+    }
+    call_post_request = mock.Mock()
+    call_post_request.status_code = 200
+    call_post_request.json.return_value = {
+        "response": {"FhirResource": {"foo": "bar"}},
+        "bundle": {"foo": "bundle"},
+    }
+    patched_post_request.return_value = call_post_request
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 200
+
+
 def test_process_message_input_validation():
     request = {
         "processing_config": test_config,
@@ -77,7 +98,8 @@ def test_process_message_input_validation():
 
 def test_process_message_invalid_config():
     request = {
-        "message_type": "elr",
+        "message_type": "ecr",
+        "data_type": "ecr",
         "message": "foo",
         "config_file_name": "non_existent_schema.json",
         "include_error_types": "errors",
@@ -91,9 +113,53 @@ def test_process_message_invalid_config():
     }
 
 
+def test_process_message_mismatched_data_types():
+    request = {
+        "message_type": "ecr",
+        "data_type": "fhir",
+        "message": "foo",
+        "config_file_name": "sample-orchestration-config.json",
+        "include_error_types": "errors",
+    }
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 422
+    assert (
+        actual_response.json()["detail"][0]["msg"]
+        == "For an eCR message, `data_type` must be either `ecr` or `zip`."
+    )
+
+    request["message_type"] = "fhir"
+    request["data_type"] = "zip"
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 422
+    assert (
+        actual_response.json()["detail"][0]["msg"]
+        == "`data_type` and `message_type` parameters must both be `fhir` in "
+        "order to process a FHIR bundle."
+    )
+
+
+def test_process_message_invalid_fhir():
+    request = {
+        "message_type": "fhir",
+        "data_type": "fhir",
+        "message": json.dumps("foo"),
+        "config_file_name": "sample-orchestration-config.json",
+        "include_error_types": "errors",
+    }
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 422
+    assert (
+        actual_response.json()["detail"][0]["msg"]
+        == "A `data_type` of FHIR requires the input message "
+        "to be a valid dictionary."
+    )
+
+
 def test_process_message_input_validation_with_rr_data():
     request = {
         "message": "foo",
+        "data_type": "elr",
         "config_file_name": "sample-orchestration-config.json",
         "message_type": "elr",
         "include_error_types": "errors",
@@ -118,6 +184,7 @@ def test_process_success(patched_post_request, patched_save_to_db):
     ) as f:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
@@ -160,6 +227,7 @@ def test_process_with_empty_zip():
     ) as f:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
@@ -169,30 +237,6 @@ def test_process_with_empty_zip():
             client.post("/process", data=form_data, files=files)
         error_message = str(indexError.value)
         assert "There is no eICR in this zip file." in error_message
-
-
-def test_process_with_non_zip():
-    with open(
-        Path(__file__).parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "orchestration"
-        / "CDA_eICR.xml",
-        "rb",
-    ) as f:
-        form_data = {
-            "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config.json",
-            "include_error_types": "errors",
-        }
-        files = {"upload_file": ("file.xml", f)}
-
-        actual_response = client.post("/process", data=form_data, files=files)
-        assert actual_response.status_code == 422
-        assert (
-            actual_response.json()["detail"]
-            == "Only .zip files are accepted at this time."
-        )
 
 
 def test_process_invalid_config():
@@ -206,6 +250,7 @@ def test_process_invalid_config():
     ) as f:
         form_data = {
             "message_type": "ecr",
+            "data_type": "zip",
             "config_file_name": "non_existent_schema.json",
             "include_error_types": "errors",
         }

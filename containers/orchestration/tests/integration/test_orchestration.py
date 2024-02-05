@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 
@@ -104,6 +105,25 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
             orchestration_response.json()["processed_values"]["parsed_values"]["rr_id"]
             is not None
         )
+
+
+@pytest.mark.integration
+def test_parse_message_fhir(setup):
+    message = json.load(
+        open(
+            Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
+        )
+    )
+    request = {
+        "message_type": "fhir",
+        "data_type": "fhir",
+        "config_file_name": "sample-fhir-test-config.json",
+        "include_error_types": "errors",
+        "message": message,
+    }
+    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
+    assert orchestration_response.status_code == 200
+    assert orchestration_response.json()["message"] == "Processing succeeded!"
 
 
 @pytest.mark.asyncio

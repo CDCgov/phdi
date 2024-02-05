@@ -79,13 +79,27 @@ def message_parser_payload(**kwargs) -> dict:
     response = kwargs["response"]
     config = kwargs["config"]
     r = response.json()
-    data = {
-        "message_format": config["configurations"]["message_parser"]["message_format"],
-        "parsing_schema_name": config["configurations"]["message_parser"][
-            "parsing_schema_name"
-        ],
-        "message": r["bundle"],
-    }
+
+    # We're going to be hitting the fhir_to_phdc side of the message parser
+    if "phdc_report_type" in config["configurations"]["message_parser"]:
+        data = {
+            "phdc_report_type": config["configurations"]["message_parser"][
+                "phdc_report_type"
+            ],
+            "message": r["bundle"],
+        }
+
+    # Standard message parsing request, so load regular keywords
+    else:
+        data = {
+            "message_format": config["configurations"]["message_parser"][
+                "message_format"
+            ],
+            "parsing_schema_name": config["configurations"]["message_parser"][
+                "parsing_schema_name"
+            ],
+            "message": r["bundle"],
+        }
     return data
 
 

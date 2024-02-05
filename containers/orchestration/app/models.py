@@ -1,3 +1,4 @@
+import json
 from typing import Dict
 from typing import Literal
 from typing import Optional
@@ -17,6 +18,13 @@ class ProcessMessageRequest(BaseModel):
     message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
         description="The type of message to be validated."
     )
+    data_type: Literal["ecr", "zip", "fhir"] = Field(
+        description=(
+            "The type of data of the passed-in message. Must be one of 'ecr', "
+            "'fhir', or 'zip'. If `data_type` is set to 'zip', the underlying "
+            "unzipped data is assumed to be ecr."
+        )
+    )
     config_file_name: str = Field(
         description=(
             "The name of a config file in either the `default/` or `custom/`"
@@ -31,9 +39,7 @@ class ProcessMessageRequest(BaseModel):
             + " Valid types are fatal, errors, warnings, information"
         )
     )
-
     message: str = Field(description="The message to be validated.")
-
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
         default=None,
@@ -42,12 +48,41 @@ class ProcessMessageRequest(BaseModel):
     @root_validator()
     def validate_rr_with_ecr(cls, values):
         message_type = values.get("message_type")
+        data_type = values.get("data_type")
         rr_data = values.get("rr_data")
 
-        if rr_data is not None and message_type != "ecr":
+        if rr_data is not None and (
+            message_type != "ecr" or not (data_type == "ecr" or data_type == "zip")
+        ):
             raise ValueError(
                 "Reportability Response (RR) data is only accepted "
                 "for eCR processing requests."
+            )
+        return values
+
+    @root_validator()
+    def validate_types_agree(cls, values):
+        message_type = values.get("message_type")
+        data_type = values.get("data_type")
+        if message_type == "ecr" and (data_type != "ecr" and data_type != "zip"):
+            raise ValueError(
+                "For an eCR message, `data_type` must be either `ecr` or `zip`."
+            )
+        if message_type == "fhir" and data_type != "fhir":
+            raise ValueError(
+                "`data_type` and `message_type` parameters must both be `fhir` in "
+                "order to process a FHIR bundle."
+            )
+        return values
+
+    @root_validator()
+    def validate_fhir_message_is_dict(cls, values):
+        message = values.get("message")
+        data_type = values.get("data_type")
+        if data_type == "fhir" and type(json.loads(message)) is not dict:
+            raise ValueError(
+                "A `data_type` of FHIR requires the input message "
+                "to be a valid dictionary."
             )
         return values
 
