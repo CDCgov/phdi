@@ -1,8 +1,6 @@
 import { DisplayData } from "@/app/utils";
 import {
   AccordianSection,
-  AccordianH3,
-  AccordianDiv,
 } from "../component-utils";
 
 interface UnavailableInfoProps {
@@ -11,6 +9,7 @@ interface UnavailableInfoProps {
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
   activeProblemsUnavailableData: DisplayData[];
+  clinicalNotesUnavailableData: DisplayData[];
 }
 
 const UnavailableInfo = ({
@@ -19,6 +18,7 @@ const UnavailableInfo = ({
   encounterUnavailableData,
   providerUnavailableData,
   activeProblemsUnavailableData,
+                           clinicalNotesUnavailableData
 }: UnavailableInfoProps) => {
   const renderRow = (item: any, index: number) => {
     return (
@@ -55,6 +55,7 @@ const UnavailableInfo = ({
         renderSection("Demographics", demographicsUnavailableData)}
       {socialUnavailableData?.length > 0 &&
         renderSection("Social History", socialUnavailableData)}
+      {clinicalNotesUnavailableData?.length > 0 && renderSection("Clinical Notes", clinicalNotesUnavailableData)}
       {encounterUnavailableData?.length > 0 &&
         renderSection("Encounter Details", encounterUnavailableData)}
       {providerUnavailableData?.length > 0 &&
