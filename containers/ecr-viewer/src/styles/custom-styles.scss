@@ -43,12 +43,7 @@ h4 {
   margin-top: 0px;
 }
 
-.ecr-viewer-container {
-  margin-top: 48px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 887px;
-}
+
 
 .info-container {
   width: 687px;
@@ -96,4 +91,55 @@ h4 {
 
 .usa-summary-box__body:not(:first-child) .summary-box-key-information {
   margin-top: 20px;
+}
+
+.usa-sidenav__item a:not(.usa-sidenav__sublist a) {
+  font-weight: bold;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.content-wrapper {
+  display: flex;
+  max-width: 1440px;
+  justify-content: center;
+  gap: 48px;
+  overflow: visible;
+}
+
+.nav-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sticky-nav {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+  position: sticky;
+  top: 0;
+}
+
+.ecr-viewer-container {
+  display: flex;
+  flex-basis: auto;
+  justify-content: left;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 48px;
+}
+
+.ecr-content {
+  max-width: 1222px;
+}
+
+.table-caption-margin {
+  caption {
+    margin-bottom: 8px;
+  }
 }
