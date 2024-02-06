@@ -62,10 +62,8 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
 
   return (
     <AccordianSection>
-      <div>
-        {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
-        {vitalData.length > 0 && renderVitalDetails()}
-      </div>
+      {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
+      {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );
 };

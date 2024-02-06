@@ -239,30 +239,30 @@ const formatVitals = (
 
   let heightType = "";
   let weightType = "";
-  if (heightAmount != undefined && heightMeasurementType != undefined) {
-    if (heightMeasurementType == "[in_i]") {
+  if (heightAmount && heightMeasurementType) {
+    if (heightMeasurementType === "[in_i]") {
       heightType = "inches";
-    } else if (heightMeasurementType == "cm") {
+    } else if (heightMeasurementType === "cm") {
       heightType = "cm";
     }
     heightString = `Height: ${heightAmount} ${heightType}\n\n`;
   }
 
-  if (weightAmount != undefined && weightMeasurementType != undefined) {
-    if (weightMeasurementType == "[lb_av]") {
+  if (weightAmount && weightMeasurementType) {
+    if (weightMeasurementType === "[lb_av]") {
       weightType = "Lbs";
-    } else if (weightMeasurementType == "kg") {
+    } else if (weightMeasurementType === "kg") {
       weightType = "kg";
     }
     weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
   }
 
-  if (bmi != undefined) {
+  if (bmi) {
     bmiString = `Body Mass Index (BMI): ${bmi}`;
   }
 
   const combinedString = `${heightString} ${weightString} ${bmiString}`;
-  return combinedString.trim().length ? combinedString : "";
+  return combinedString.trim();
 };
 
 const formatTable = (
