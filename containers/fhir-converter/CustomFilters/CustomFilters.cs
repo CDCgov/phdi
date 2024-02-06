@@ -76,9 +76,5 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
       return string.Join(",", result);
     }
-    public static string FooBar(string data)
-    {
-      return data + " Foo Bar";
-    }
   }
 }
