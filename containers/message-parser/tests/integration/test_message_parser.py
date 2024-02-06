@@ -123,8 +123,9 @@ def test_parse_message(setup):
                     "country": None,
                 }
             ],
-            "clinical_information_observations": [
+            "observations": [
                 {
+                    "obs_type": "laboratory",
                     "code": "15074-8",
                     "code_system": "http://loinc.org",
                     "code_display": "Glucose [Moles/volume] in Blood",
@@ -136,6 +137,7 @@ def test_parse_message(setup):
                     "qualitative_code": None,
                 },
                 {
+                    "obs_type": "laboratory",
                     "code": "104177,600-7",
                     "code_system": "http://acmelabs.org,http://loinc.org",
                     "code_display": "Blood culture,Bacteria identified in Blood by Culture",  # noqa
