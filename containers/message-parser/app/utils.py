@@ -431,7 +431,6 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
     input_data = PHDCInputData()
     input_data.patient = Patient()
     input_data.organization = Organization()
-    input_data.observations = list()
     for key, value in parsed_values.items():
         match key:
             case "patient_address":
