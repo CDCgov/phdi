@@ -51,20 +51,6 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       headingLevel: "h2",
     },
     {
-      title: "eCR Metadata",
-      content: (
-        <>
-          <EcrMetadata
-            eicrDetails={ecrMetadata.eicrDetails.availableData}
-            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-            rrDetails={ecrMetadata.rrDetails.availableData}
-          />
-        </>
-      ),
-      expanded: true,
-      headingLevel: "h2",
-    },
-    {
       title: "Encounter Info",
       content: (
         <div>
@@ -83,6 +69,20 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         <div>
           <ClinicalInfo clinicalData={clinicalData.availableData} />
         </div>
+      ),
+      expanded: true,
+      headingLevel: "h2",
+    },
+    {
+      title: "eCR Metadata",
+      content: (
+        <>
+          <EcrMetadata
+            eicrDetails={ecrMetadata.eicrDetails.availableData}
+            eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
+            rrDetails={ecrMetadata.rrDetails.availableData}
+          />
+        </>
       ),
       expanded: true,
       headingLevel: "h2",
