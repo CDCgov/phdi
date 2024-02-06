@@ -14,7 +14,7 @@ from phdi.fhir.conversion.convert import standardize_hl7_datetimes
 
 
 def test_validation_payload():
-    result = validation_payload(input={"message": "foo"})
+    result = validation_payload(input={"message": "foo", "message_type": "ecr"})
     expected_result = {
         "message_type": "ecr",
         "include_error_types": "errors",
@@ -25,7 +25,9 @@ def test_validation_payload():
 
 
 def test_validation_payload_with_rr():
-    result = validation_payload(input={"message": "foo", "rr_data": "bar"})
+    result = validation_payload(
+        input={"message": "foo", "message_type": "ecr", "rr_data": "bar"}
+    )
     expected_result = {
         "message_type": "ecr",
         "include_error_types": "errors",
@@ -136,7 +138,8 @@ def test_message_parser_payload():
                 "message_format": "msg_format",
                 "parsing_schema_name": "schema_name",
             }
-        }
+        },
+        "steps": [{"service": "message_parser", "endpoint": "/parse-message"}],
     }
     result = message_parser_payload(response=response, config=config)
     expected_result = {
