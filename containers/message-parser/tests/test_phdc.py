@@ -741,3 +741,54 @@ def test_add_field():
     parent = ET.Element("parent")
     builder._add_field(parent, "test", "child")
     assert ET.tostring(parent) == b"<parent><child>test</child></parent>"
+
+
+@pytest.mark.parametrize(
+    "sort_observation_test_data, expected_result",
+    [
+        (
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code_code="NBS012",
+                code_code_system="2.16.840.1.114222.4.5.1",
+                code_code_display="Shared Ind",
+                value_quantitative_code=None,
+                value_quantitative_code_system=None,
+                value_quantitative_value=None,
+                value_qualitative_code="F",
+                value_qualitative_code_system="1.2.3.5",
+                value_qualitative_value="False",
+            ),
+            Observation(
+                type_code="COMP",
+                class_code="OBS",
+                mood_code="EVN",
+                code=CodedElement(
+                    xsi_type=None,
+                    code="NBS012",
+                    code_system="2.16.840.1.114222.4.5.1",
+                    code_system_name=None,
+                    display_name="Shared Ind",
+                    value=None,
+                ),
+                value=CodedElement(
+                    xsi_type=None,
+                    code="F",
+                    code_system="1.2.3.5",
+                    code_system_name=None,
+                    display_name=None,
+                    value="False",
+                ),
+            ),
+        )
+    ],
+)
+def test_sort_observation(sort_observation_test_data, expected_result):
+    builder = PHDCBuilder()
+    builder.set_input_data(sort_observation_test_data)
+    actual_result = builder._sort_observation(sort_observation_test_data)
+
+    assert actual_result.code == expected_result.code
+    assert actual_result.value == expected_result.value

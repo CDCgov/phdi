@@ -373,7 +373,8 @@ class PHDCBuilder:
         return entry_data
 
     def _sort_observation(self, observation: Observation) -> Observation:
-        """_summary_
+        """
+        Sorts Observation values in to `code` and `value` CodedElements for PHDC.
 
         :param observation: The data for building the observation element as an
             Entry object.
