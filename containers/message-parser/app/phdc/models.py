@@ -92,8 +92,17 @@ class CodedElement:
 
 @dataclass
 class Observation:
+    obs_type: str = "laboratory"
     type_code: Optional[str] = None
     class_code: Optional[str] = None
+    code_display: Optional[str] = None
+    code_system: Optional[str] = None
+    quantitative_value: Optional[float] = None
+    quantitative_system: Optional[str] = None
+    quantitative_code: Optional[str] = None
+    qualitative_value: Optional[str] = None
+    qualitative_system: Optional[str] = None
+    qualitative_code: Optional[str] = None
     mood_code: Optional[str] = None
     code: Optional[CodedElement] = None
     value: Optional[CodedElement] = None
