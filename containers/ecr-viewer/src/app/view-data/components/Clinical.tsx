@@ -7,9 +7,13 @@ import {
 
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
+  immunizationsDetails: DisplayData[];
 }
 
-const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
+const ClinicalInfo = ({
+  activeProblemsDetails,
+  immunizationsDetails,
+}: ClinicalProps) => {
   const renderData = (item: any, index: number) => {
     return (
       <div key={index}>
@@ -24,10 +28,10 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
     );
   };
 
-  const renderActiveProblemsDetails = () => {
+  const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
-        {activeProblemsDetails.map((item, index) => (
+        {tableDetails.map((item, index) => (
           <div key={index}>
             <div className="grid-col-auto text-pre-line">{item.value}</div>
             <div className={"section__line_gray"} />
@@ -41,7 +45,16 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
     return (
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
-        <AccordianDiv>{renderActiveProblemsDetails()}</AccordianDiv>
+        <AccordianDiv>{renderTableDetails(activeProblemsDetails)}</AccordianDiv>
+      </>
+    );
+  };
+
+  const renderImmunizationsDetails = () => {
+    return (
+      <>
+        <AccordianH3>Immunizations</AccordianH3>
+        <AccordianDiv>{renderTableDetails(immunizationsDetails)}</AccordianDiv>
       </>
     );
   };
@@ -50,6 +63,9 @@ const ClinicalInfo = ({ activeProblemsDetails }: ClinicalProps) => {
     <AccordianSection>
       <div className="margin-top-3">
         {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
+      </div>
+      <div className="margin-top-3">
+        {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       </div>
     </AccordianSection>
   );

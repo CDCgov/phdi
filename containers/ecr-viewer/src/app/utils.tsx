@@ -230,6 +230,7 @@ const formatTable = (
   resources: [],
   mappings: PathMappings,
   columns: [ColumnInfoInput], // Order of columns in array = order of apearance
+  caption: string,
 ) => {
   let headers = [];
   columns.forEach((column) => {
@@ -279,7 +280,7 @@ const formatTable = (
     <Table
       borderless
       fullWidth
-      caption="Problems List"
+      caption={caption}
       className="border-top border-left border-right table-caption-margin"
     >
       {tableContent}
@@ -568,6 +569,35 @@ export const returnProblemsTable = (problemsArray, mappings) => {
   return formatTable(problemsArray, mappings, columnInfo);
 };
 
+export const returnImmunizations = (immunizationsArray, mappings) => {
+  if (immunizationsArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo = [
+    { columnName: "Name", infoPath: "immunizationsName" },
+    { columnName: "Administration Dates", infoPath: "immunizationsAdminDate" },
+    { columnName: "Next Due", infoPath: "immunizationsNextDue" },
+  ];
+
+  immunizationsArray.forEach((entry) => {
+    entry.occurrenceDateTime
+      ? (entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime))
+      : (entry.occurrenceDateTime = "N/A");
+  });
+
+  immunizationsArray.sort(function (a, b) {
+    return new Date(b.occurrenceDateTime) - new Date(a.occurrenceDateTime);
+  });
+
+  return formatTable(
+    immunizationsArray,
+    mappings,
+    columnInfo,
+    "Immunization History",
+  );
+};
+
 export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
@@ -578,11 +608,24 @@ export const evaluateClinicalData = (
       value: returnProblemsTable(
         evaluate(fhirBundle, mappings["activeProblems"]),
         mappings,
+        "Problems List",
+      ),
+    },
+  ];
+
+  const immunizationsData: DisplayData[] = [
+    {
+      title: "Immunization History",
+      value: returnImmunizations(
+        evaluate(fhirBundle, mappings["immunizations"]),
+        mappings,
+        "Immunization History",
       ),
     },
   ];
   return {
     activeProblemsDetails: evaluateData(activeProblemsData),
+    immunizationsDetails: evaluateData(immunizationsData),
   };
 };
 

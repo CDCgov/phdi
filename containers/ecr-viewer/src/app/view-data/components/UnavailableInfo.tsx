@@ -19,6 +19,7 @@ const UnavailableInfo = ({
   encounterUnavailableData,
   providerUnavailableData,
   activeProblemsUnavailableData,
+  immunizationsUnavailableData,
 }: UnavailableInfoProps) => {
   const renderRow = (item: any, index: number) => {
     return (
@@ -61,6 +62,8 @@ const UnavailableInfo = ({
         renderSection("Provider Details", providerUnavailableData)}
       {activeProblemsUnavailableData?.length > 0 && // Add other items under symptoms and problems here
         renderSection("Symptoms and Problems", activeProblemsUnavailableData)}
+      {immunizationsUnavailableData?.length > 0 &&
+        renderSection("Immunizations", immunizationsUnavailableData)}
     </AccordianSection>
   );
 };
