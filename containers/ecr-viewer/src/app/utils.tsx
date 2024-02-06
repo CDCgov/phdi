@@ -596,7 +596,6 @@ export const evaluateClinicalData = (
   return evaluateData(activeProblemsData);
 };
 
-
 const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
