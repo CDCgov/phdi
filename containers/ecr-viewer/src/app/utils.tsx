@@ -229,7 +229,7 @@ const formatStartEndDateTime = (
 const formatTable = (
   resources: React.JSX.Element[],
   mappings: PathMappings,
-  columns: [ColumnInfoInput], // Order of columns in array = order of apearance
+  columns: ColumnInfoInput[], // Order of columns in array = order of apearance
   caption: string,
 ) => {
   let headers: React.JSX.Element[] = [];
@@ -557,7 +557,7 @@ export const returnProblemsTable = (
     return undefined;
   }
 
-  const columnInfo = [
+  const columnInfo: ColumnInfoInput[] = [
     { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
     { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
@@ -570,7 +570,9 @@ export const returnProblemsTable = (
   });
 
   problemsArray.sort(function (a, b) {
-    return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
+    return (
+      new Date(b.onsetDateTime).getTime() - new Date(a.onsetDateTime).getTime()
+    );
   });
 
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
@@ -615,10 +617,10 @@ export const formatString = (input: string): string => {
   let result = input.toLowerCase();
 
   // Replace spaces with underscores
-  result = result.replace(/\s+/g, "_");
+  result = result.replace(/\s+/g, "-");
 
   // Remove all special characters except underscores
-  result = result.replace(/[^a-z0-9_]/g, "");
+  result = result.replace(/[^a-z0-9\-]/g, "");
 
   return result;
 };

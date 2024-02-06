@@ -27,8 +27,8 @@ const ECRViewerPage = () => {
         demographicsConfig,
         socialHistoryConfig,
       ]),
-      ecrMetadataConfig,
       encounterConfig,
+      ecrMetadataConfig,
     ]),
     new SectionConfig("Unavailable Info"),
   ];
@@ -75,13 +75,17 @@ const ECRViewerPage = () => {
             </div>
             <div className={"ecr-viewer-container"}>
               <div className="ecr-content">
-                <h2 className="margin-bottom-3">eCR Summary</h2>
+                <h2 className="margin-bottom-3" id="ecr-summary">
+                  eCR Summary
+                </h2>
                 <EcrSummary
                   fhirPathMappings={mappings}
                   fhirBundle={fhirBundle}
                 />
                 <div className="margin-top-6">
-                  <h2 className="margin-bottom-3">eCR Document</h2>
+                  <h2 className="margin-bottom-3" id="ecr-document">
+                    eCR Document
+                  </h2>
                   <AccordionContainer
                     fhirPathMappings={mappings}
                     fhirBundle={fhirBundle}
