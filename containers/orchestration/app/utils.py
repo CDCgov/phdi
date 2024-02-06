@@ -85,6 +85,9 @@ def unzip_http(upload_file: UploadFile) -> Dict:
 
 
 def load_json_from_binary(upload_file: UploadFile) -> Dict:
+    """
+    Helper method to transform a buffered IO of bytes into a json dictionary.
+    """
     return json.load(io.BytesIO(upload_file.file.read()))
 
 
