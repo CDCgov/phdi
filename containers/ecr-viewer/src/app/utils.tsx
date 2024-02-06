@@ -566,7 +566,7 @@ export const returnProblemsTable = (problemsArray, mappings) => {
     return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
   });
 
-  return formatTable(problemsArray, mappings, columnInfo);
+  return formatTable(problemsArray, mappings, columnInfo. "Problems List");
 };
 
 export const returnImmunizations = (immunizationsArray, mappings) => {

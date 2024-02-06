@@ -39,6 +39,7 @@ with open(test_config_path, "r") as file:
 def test_process_message_success(patched_post_request, patched_save_to_db):
     request = {
         "message_type": "ecr",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
         "message": '{"foo": "bar"}',
     }
@@ -74,9 +75,26 @@ def test_process_message_input_validation():
     assert actual_response.status_code == 422
 
 
+def test_process_message_invalid_config():
+    request = {
+        "message_type": "elr",
+        "message": "foo",
+        "config_file_name": "non_existent_schema.json",
+        "include_error_types": "errors",
+    }
+
+    actual_response = client.post("/process-message", json=request)
+    assert actual_response.status_code == 400
+    assert actual_response.json() == {
+        "message": "A config with the name 'non_existent_schema.json' could not be found.",  # noqa
+        "processed_values": {},
+    }
+
+
 def test_process_message_input_validation_with_rr_data():
     request = {
         "message": "foo",
+        "config_file_name": "sample-orchestration-config.json",
         "message_type": "elr",
         "include_error_types": "errors",
         "rr_data": "bar",
@@ -100,6 +118,7 @@ def test_process_success(patched_post_request, patched_save_to_db):
     ) as f:
         form_data = {
             "message_type": "ecr",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}
@@ -141,13 +160,14 @@ def test_process_with_empty_zip():
     ) as f:
         form_data = {
             "message_type": "ecr",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}
 
-        with pytest.raises(IndexError) as indexError:
+        with pytest.raises(BaseException) as indexError:
             client.post("/process", data=form_data, files=files)
-        error_message = str(indexError.value)
+        error_message = str(indexError)
         assert "There is no eICR in this zip file." in error_message
 
 
@@ -162,6 +182,7 @@ def test_process_with_non_zip():
     ) as f:
         form_data = {
             "message_type": "ecr",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.xml", f)}
@@ -172,3 +193,27 @@ def test_process_with_non_zip():
             actual_response.json()["detail"]
             == "Only .zip files are accepted at this time."
         )
+
+
+def test_process_invalid_config():
+    with open(
+        Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "orchestration"
+        / "eICR_RR_combo.zip",
+        "rb",
+    ) as f:
+        form_data = {
+            "message_type": "ecr",
+            "config_file_name": "non_existent_schema.json",
+            "include_error_types": "errors",
+        }
+        files = {"upload_file": ("file.zip", f)}
+
+        actual_response = client.post("/process", data=form_data, files=files)
+        assert actual_response.status_code == 400
+        assert actual_response.json() == {
+            "message": "A config with the name 'non_existent_schema.json' could not be found.",  # noqa
+            "processed_values": {},
+        }

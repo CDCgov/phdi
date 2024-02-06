@@ -41,6 +41,7 @@ get_settings()
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Orchestration",
+    service_path="/orchestration",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
@@ -118,6 +119,7 @@ async def process_message_endpoint_ws(
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_endpoint(
     message_type: str = Form(None),
+    config_file_name: str = Form(None),
     include_error_types: str = Form(None),
     upload_file: UploadFile = File(None),
 ) -> ProcessMessageResponse:
@@ -133,8 +135,12 @@ async def process_endpoint(
 
     zip_content = unzip_http(upload_file)
 
-    building_block_response = await process_http_request(
-        message_type, include_error_types, zip_content.get("ecr"), zip_content.get("rr")
+    building_block_response = await apply_workflow_to_message(
+        message_type,
+        config_file_name,
+        include_error_types,
+        zip_content.get("ecr"),
+        zip_content.get("rr"),
     )
 
     return building_block_response
@@ -150,8 +156,9 @@ async def process_message_endpoint(
     Processes a message through a series of microservices.
     """
     process_request = dict(request)
-    building_block_response = await process_http_request(
+    building_block_response = await apply_workflow_to_message(
         process_request.get("message_type"),
+        process_request.get("config_file_name"),
         process_request.get("include_error_types"),
         process_request.get("message"),
         process_request.get("rr_data"),
@@ -160,11 +167,41 @@ async def process_message_endpoint(
     return building_block_response
 
 
-async def process_http_request(
-    message_type, include_error_types, ecr_content, rr_content
+async def apply_workflow_to_message(
+    message_type, config_file_name, include_error_types, ecr_content, rr_content
 ):
-    # Change below to grab from uploaded configs once we've got them
-    processing_config = load_processing_config("sample-orchestration-config.json")
+    """
+    Main orchestration function that applies a config-defined workflow to an
+    uploaded piece of data. The workflow applied is determined by loading the
+    configuration file of the provided name, and each step of this workflow
+    is applied by an appropriate API call.
+
+    :param message_type: The type of data being supplied for orchestration. May
+      be either 'ecr', 'elr', 'vxu', or 'fhir'.
+    :param config_file_name: The name of the workflow configuration file to
+      load and apply stepwise to the data. File must be located in the custom
+      or default configs directory on the service's disk space.
+    :param include_error_types: Whether to include error typing in the API
+      responses.
+    :param ecr_content: The data content of the provided eCR message.
+    :param rr_content: The reportability response associated with the eCR.
+    :return: JSON of whether the workflow succeeded and what its outputs
+      were.
+    """
+    try:
+        processing_config = load_processing_config(config_file_name)
+    except FileNotFoundError as error:
+        response = Response(
+            content=json.dumps(
+                {
+                    "message": error.__str__(),
+                    "processed_values": {},
+                }
+            ),
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+        return response
+
     api_input = {
         "message_type": message_type,
         "include_error_types": include_error_types,

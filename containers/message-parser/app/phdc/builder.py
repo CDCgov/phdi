@@ -1,3 +1,4 @@
+import logging
 import uuid
 from typing import List
 from typing import Literal
@@ -6,10 +7,17 @@ from typing import Optional
 from app import utils
 from app.phdc.models import Address
 from app.phdc.models import Name
+from app.phdc.models import Observation
+from app.phdc.models import Organization
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
+
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class PHDC:
@@ -66,6 +74,11 @@ class PHDCBuilder:
         """
         Create the base PHDC XML document.
         """
+        # register the namespaces for the entire element tree
+        ET.register_namespace("sdt", "urn:hl7-org:sdtc")
+        ET.register_namespace("sdtcxmlnamespaceholder", "urn:hl7-org:v3")
+        ET.register_namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance")
+
         xsi_schema_location = ET.QName(
             "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation"
         )
@@ -135,7 +148,17 @@ class PHDCBuilder:
         confidentiality_code.set("codeSystem", "2.16.840.1.113883.5.25")
         return confidentiality_code
 
-    def _get_case_report_code(self):
+    def _get_realmCode(self) -> ET.Element:
+        """
+        Returns the realmCode element of the PHDC header.
+
+        """
+
+        realmCode = ET.Element("realmCode")
+        realmCode.set("code", "US")
+        return realmCode
+
+    def _get_clinical_info_code(self):
         """
         Returns the code element of the header for a PHDC case report.
         """
@@ -146,18 +169,56 @@ class PHDCBuilder:
         code.set("displayName", "Public Health Case Report - PHRI")
         return code
 
+    def _get_title(self) -> ET.Element:
+        """
+        Returns the title element of the PHDC header.
+
+        :returns: XML element of <title>.
+        """
+        title = ET.Element("title")
+        title.text = (
+            "Public Health Case Report - Data from the DIBBs FHIR to PHDC Converter"
+        )
+        return title
+
+    def _get_setId(self):
+        """
+        Returns the setId element of the PHDC header.
+        """
+        setid_attributes = {"extension": "CLOSED_CASE", "displayable": "true"}
+        setid = ET.Element("setId", attrib=setid_attributes)
+
+        return setid
+
+    def _get_version_number(self) -> ET.Element:
+        """
+        Returns the versionNumber element of the PHDC header.
+
+        :returns: XML element of <versionNumber>.
+        """
+        # TODO: once we get prod data, we'll have to determine
+        # whether or not this will be data we parse from source data
+        version_number = ET.Element("versionNumber")
+        version_number.set("value", "1")
+
+        return version_number
+
     def build_header(self):
         """
         Builds the header of the PHDC document.
         """
         root = self.phdc.getroot()
+        root.append(self._get_realmCode())
         root.append(self._get_type_id())
         root.append(self._get_id())
-        root.append(self._get_case_report_code())
+        root.append(self._get_clinical_info_code())
+        root.append(self._get_title())
         root.append(self._get_effective_time())
         root.append(self._get_confidentiality_code(confidentiality="normal"))
+        root.append(self._get_setId())
+        root.append(self._get_version_number())
 
-        root.append(self._build_custodian(id=str(uuid.uuid4())))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
         root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
@@ -169,6 +230,61 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
+
+    def build_body(self):
+        body = ET.Element("component")
+        structured_body = ET.Element("structuredBody")
+        body.append(structured_body)
+
+        match self.input_data.type:
+            case "case_report":
+                clinical_info = self._build_clinical_info(self.input_data.clinical_info)
+                body.append(clinical_info)
+            case "contact_record":
+                pass
+            case "lab_report":
+                pass
+            case "morbidity_report":
+                pass
+
+        self.phdc.getroot().append(body)
+
+    def _build_clinical_info(
+        self, observation_data: Optional[List[Observation]] = None
+    ) -> ET.Element:
+        """
+        Builds the `ClinicalInformation` XML element, including all hardcoded aspects
+          required to initialize the section.
+        :param observation_data: List of clinical-relevant Observation data.
+        :return: XML element of ClinicalInformation data.
+        """
+        component = ET.Element("component")
+        section = ET.Element("section")
+        id = ET.Element("id")
+        id.set("extension", str(uuid.uuid4()))
+        id.set("assigningAuthorityName", "LR")
+
+        code = ET.Element("code")
+        code.set("code", "55752-0")
+        code.set("codeSystem", "2.16.840.1.113883.6.1")
+        code.set("codeSystemName", "LOINC")
+        code.set("displayName", "Clinical Information")
+
+        title = ET.Element("title")
+        title.text = "Clinical Information"
+
+        section.append(id)
+        section.append(code)
+        section.append(title)
+
+        # add observation data to section
+        if observation_data:
+            for observation in observation_data:
+                observation_element = self._build_observation(observation)
+                section.append(observation_element)
+
+        component.append(section)
+        return component
 
     def _build_telecom(self, telecom: Telecom) -> ET.Element:
         """
@@ -211,6 +327,46 @@ class PHDCBuilder:
             e = ET.Element(field_name)
             e.text = data
             parent_element.append(e)
+
+    def _build_observation(self, observation: Observation) -> ET.Element:
+        """
+        Creates Entry XML element for observation data.
+
+        :param observation: The data for building the observation element as an
+        Entry object.
+        :return entry_data: XML element of Entry data
+        """
+        # Create the 'entry' element
+        entry_data = ET.Element("entry", {"typeCode": observation.type_code})
+
+        # Create the 'observation' element and append it to 'entry'
+        observation_data = ET.SubElement(
+            entry_data,
+            "observation",
+            {"classCode": observation.class_code, "moodCode": observation.mood_code},
+        )
+
+        if observation.code:
+            code_element_xml = self._build_coded_element(
+                "code", **observation.code.to_attributes()
+            )
+            observation_data.append(code_element_xml)
+
+        # Add attributes to 'observation' using CodedElement for value
+        if observation.value:
+            value_element_xml = self._build_coded_element(
+                "value", **observation.value.to_attributes()
+            )
+            observation_data.append(value_element_xml)
+
+        # Add 'translation' elements to 'value' if translation is provided
+        if observation.translation:
+            translation_element_xml = self._build_coded_element(
+                "translation", **observation.translation.to_attributes()
+            )
+            value_element_xml.append(translation_element_xml)
+
+        return entry_data
 
     def _build_addr(
         self,
@@ -270,34 +426,41 @@ class PHDCBuilder:
 
         return name_data
 
-    def _build_custodian(
-        self,
-        id: str,
-    ) -> ET.Element:
+    def _build_custodian(self, organizations: List[Organization]) -> ET.Element:
         """
         Builds a `custodian` XML element for custodian data, which refers to the
           organization from which the PHDC originates and that is in charge of
           maintaining the document.
 
-        :param id: Custodian identifier.
+        :param organizations: Custodian representedCustodianOrganization.
         :return: XML element of custodian data.
         """
-        if id is None:
-            raise ValueError("The Custodian id parameter must be a defined.")
 
         custodian_data = ET.Element("custodian")
-        assignedCustodian = ET.Element("assignedCustodian")
-        representedCustodianOrganization = ET.Element(
-            "representedCustodianOrganization"
-        )
+        assigned_custodian = ET.Element("assignedCustodian")
 
-        id_element = ET.Element("id")
-        id_element.set("extension", id)
-        representedCustodianOrganization.append(id_element)
+        for organization in organizations:
+            represented_organization = ET.Element("representedCustodianOrganization")
 
-        assignedCustodian.append(representedCustodianOrganization)
-        custodian_data.append(assignedCustodian)
+            if organization.id is None:
+                raise ValueError("The Custodian id parameter must be a defined.")
 
+            id_element = ET.Element("id")
+            id_element.set("extension", organization.id)
+            represented_organization.append(id_element)
+
+            self._add_field(represented_organization, organization.name, "name")
+
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
+            if organization.telecom is not None:
+                represented_organization.append(
+                    self._build_telecom(organization.telecom)
+                )
+
+            assigned_custodian.append(represented_organization)
+
+        custodian_data.append(assigned_custodian)
         return custodian_data
 
     def _build_author(self, family_name: str) -> ET.Element:
@@ -366,6 +529,21 @@ class PHDCBuilder:
 
         :param patient: The Patient object to use for building the patient element.
         """
+        RACE_CODE_SYSTEM = "2.16.840.1.113883.6.238"
+        RACE_CODE_SYSTEM_NAME = "Race & Ethnicity"
+
+        race_code_and_mapping = {
+            "1002-5": "American Indian or Alaska Native",
+            "2028-9": "Asian",
+            "2054-5": "Black or African American",
+            "2076-8": "Native Hawaiian or Other Pacific Islander",
+            "2106-3": "White",
+        }
+
+        ethnicity_code_and_mapping = {
+            "2186-5": "Not Hispanic or Latino",
+            "2135-2": "Hispanic or Latino",
+        }
 
         patient_data = ET.Element("patient")
 
@@ -380,24 +558,43 @@ class PHDCBuilder:
             patient_data.append(v)
 
         if patient.race_code is not None:
-            v = self._build_coded_element(
-                "raceCode",
-                **{"displayName": patient.race_code},
-            )
-            patient_data.append(v)
+            if patient.race_code in race_code_and_mapping:
+                display_name = race_code_and_mapping[patient.race_code]
+                v = self._build_coded_element(
+                    "{urn:hl7-org:sdtc}raceCode",
+                    code=patient.race_code,
+                    codeSystem=RACE_CODE_SYSTEM,
+                    displayName=display_name,
+                    codeSystemName=RACE_CODE_SYSTEM_NAME,
+                )
+                patient_data.append(v)
+            else:
+                logging.warning(
+                    f"Race code {patient.race_code} not found in "
+                    "the OMB classification."
+                )
 
         if patient.ethnic_group_code is not None:
-            v = self._build_coded_element(
-                "ethnicGroupCode",
-                **{"displayName": patient.ethnic_group_code},
-            )
-            patient_data.append(v)
+            if patient.ethnic_group_code in ethnicity_code_and_mapping:
+                display_name = ethnicity_code_and_mapping[patient.ethnic_group_code]
+                v = self._build_coded_element(
+                    "ethnicGroupCode",
+                    code=patient.ethnic_group_code,
+                    codeSystem=RACE_CODE_SYSTEM,
+                    displayName=display_name,
+                    codeSystemName=RACE_CODE_SYSTEM_NAME,
+                )
+                patient_data.append(v)
+            else:
+                logging.warning(
+                    f"Ethnic group code {patient.ethnic_group_code} not "
+                    "found in OMB classification."
+                )
 
         if patient.birth_time is not None:
             e = ET.Element("birthTime")
             e.text = patient.birth_time
             patient_data.append(e)
-        # TODO: Determine how to implement std:raceCode and/or stdc:raceCode
 
         return patient_data
 
@@ -474,4 +671,5 @@ class PHDCBuilder:
         Returns a PHDC object.
         """
         self.build_header()
+        self.build_body()
         return PHDC(data=self.phdc)
