@@ -263,52 +263,52 @@
       }
     }
   },
-  "clinical_information_observations": {
+  "observations": {
     "fhir_path": "Bundle.entry.resource.where(resourceType='Observation')",
     "data_type": "array",
     "nullable": true,
     "secondary_schema": {
-      "code": {
+      "code_code": {
         "fhir_path": "Observation.code.coding.code",
         "data_type": "string",
         "nullable": true
       },
-      "code_system": {
+      "code_code_system": {
         "fhir_path": "Observation.code.coding.system",
         "data_type": "string",
         "nullable": true
       },
-      "code_display": {
+      "code_code_display": {
         "fhir_path": "Observation.code.coding.display",
         "data_type": "string",
         "nullable": true
       },
-      "quantitative_value": {
+      "value_quantitative_value": {
         "fhir_path": "Observation.valueQuantity.value",
         "data_type": "float",
         "nullable": true
       },
-      "quantitative_system": {
+      "value_quantitative_code_system": {
         "fhir_path": "Observation.valueQuantity.system",
         "data_type": "string",
         "nullable": true
       },
-      "quantitative_code": {
+      "value_quantitative_code": {
         "fhir_path": "Observation.valueQuantity.code",
         "data_type": "string",
         "nullable": true
       },
-      "qualitative_value": {
+      "value_qualitative_value": {
         "fhir_path": "Observation.valueCodeableConcept.coding[0].display",
         "data_type": "string",
         "nullable": true
       },
-      "qualitative_system": {
+      "value_qualitative_code_system": {
         "fhir_path": "Observation.valueCodeableConcept.coding[0].system",
         "data_type": "string",
         "nullable": true
       },
-      "qualitative_code": {
+      "value_qualitative_code": {
         "fhir_path": "Observation.valueCodeableConcept.coding[0].code",
         "data_type": "string",
         "nullable": true

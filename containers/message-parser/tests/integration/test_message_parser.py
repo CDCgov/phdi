@@ -123,7 +123,7 @@ def test_parse_message(setup):
                     "country": None,
                 }
             ],
-            "clinical_information_observations": [
+            "observations": [
                 {
                     "code": "15074-8",
                     "code_system": "http://loinc.org",

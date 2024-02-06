@@ -6,6 +6,7 @@ import re
 import uuid
 from functools import cache
 from pathlib import Path
+from typing import List
 from typing import Literal
 
 import fhirpathpy
@@ -13,6 +14,7 @@ import requests
 from app.config import get_settings
 from app.phdc.models import Address
 from app.phdc.models import Name
+from app.phdc.models import Observation
 from app.phdc.models import Organization
 from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
@@ -430,6 +432,7 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
     input_data = PHDCInputData()
     input_data.patient = Patient()
     input_data.organization = Organization()
+    input_data.observations = List(Observation())
     for key, value in parsed_values.items():
         match key:
             case "patient_address":
@@ -465,6 +468,8 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     )
 
                 input_data.organization = organizations
+            case "observations":
+                input_data.observations = [Observation(**obs) for obs in value]
             case _:
                 pass
     return input_data
