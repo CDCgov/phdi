@@ -34,7 +34,7 @@ def validation_payload(**kwargs) -> dict:
     """
     input = kwargs["input"]
     return {
-        "message_type": input.get("message_type"),
+        "message_type": "ecr",
         "include_error_types": "errors",
         "message": input.get("message"),
         "rr_data": input.get("rr_data"),
