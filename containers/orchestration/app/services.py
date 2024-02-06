@@ -27,9 +27,14 @@ service_urls = {
 
 
 def validation_payload(**kwargs) -> dict:
+    """
+    The input payload to an orchestrated request of the DIBBs validation
+    service. No additional configuration options are needed here beyond
+    the supplied input.
+    """
     input = kwargs["input"]
     return {
-        "message_type": "ecr",
+        "message_type": input.get("message_type"),
         "include_error_types": "errors",
         "message": input.get("message"),
         "rr_data": input.get("rr_data"),
@@ -37,6 +42,10 @@ def validation_payload(**kwargs) -> dict:
 
 
 def validate_response(**kwargs) -> bool:
+    """
+    The body payload of a response from the DIBBs validation service. Reports
+    whether a supplied message is valid.
+    """
     response = kwargs["response"]
     body = response.json()
     if "message_valid" in body:
@@ -46,6 +55,15 @@ def validate_response(**kwargs) -> bool:
 
 
 def fhir_converter_payload(**kwargs) -> dict:
+    """
+    The input payload to an orchestrated request of the DIBBs FHIR converter
+    service. When the user uploads data, we use the properties of the
+    uploaded message to determine the appropriate conversion settings
+    (such as the root template or HL7v2 basis segment). If these values
+    cannot be determined directly from the message, the payload is set
+    with default permissive EICR templates (needed to preserve
+    compatibility with demo UI viewers.)
+    """
     input = kwargs["input"]
     msg = str(input["message"])
     # Template will depend on input data formatting and typing, so try
@@ -66,6 +84,12 @@ def fhir_converter_payload(**kwargs) -> dict:
 
 
 def ingestion_payload(**kwargs) -> dict:
+    """
+    The input payload to an orchestrated request to the DIBBs ingestion
+    service. The ingestion service comprises the DIBBs harmonization and
+    geocoding offerings, so settings related to options for these
+    functions are set in this payload.
+    """
     response = kwargs["response"]
     step = kwargs["step"]
     config = kwargs["config"]
@@ -89,30 +113,34 @@ def ingestion_payload(**kwargs) -> dict:
 
 
 def message_parser_payload(**kwargs) -> dict:
+    """
+    The input payload of an orchestrated request to the DIBBs message parser
+    service. The message parser could be used for internal tabular value
+    extraction (`parse-message`) or conversion to PHDC (`fhir-to-phdc`), so
+    the configuration settings of the user's chosen workflow determine which
+    endpoint this payload is meant for.
+    """
     response = kwargs["response"]
     config = kwargs["config"]
     r = response.json()
 
-    # We're going to be hitting the fhir_to_phdc side of the message parser
-    if "phdc_report_type" in config["configurations"]["message_parser"]:
-        data = {
-            "phdc_report_type": config["configurations"]["message_parser"][
-                "phdc_report_type"
-            ],
-            "message": r["bundle"],
-        }
-
-    # Standard message parsing request, so load regular keywords
-    else:
-        data = {
-            "message_format": config["configurations"]["message_parser"][
-                "message_format"
-            ],
-            "parsing_schema_name": config["configurations"]["message_parser"][
-                "parsing_schema_name"
-            ],
-            "message": r["bundle"],
-        }
+    # We determine which endpoint to hit by finding the message-parsing
+    # service step and checking the desired call
+    data = {"message": r["bundle"]}
+    for step in config["steps"]:
+        if step["service"] == "message_parser":
+            if "fhir_to_phdc" in step["endpoint"]:
+                data["phdc_report_type"] = config["configurations"]["message_parser"][
+                    "phdc_report_type"
+                ]
+            else:
+                data["message_format"] = config["configurations"]["message_parser"][
+                    "message_format"
+                ]
+                data["parsing_schema_name"] = config["configurations"][
+                    "message_parser"
+                ]["parsing_schema_name"]
+            break
     return data
 
 

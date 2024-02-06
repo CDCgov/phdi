@@ -17,6 +17,10 @@ PROCESS_MESSAGE_ENDPOINT = ORCHESTRATION_URL + "/process-message"
 
 @pytest.mark.integration
 def test_health_check(setup):
+    """
+    Basic test to make sure the orchestration service can communicate with
+    other up and running services.
+    """
     port_number_strings = [
         "ORCHESTRATION_PORT_NUMBER",
         "VALIDATION_PORT_NUMBER",
@@ -39,6 +43,10 @@ def test_health_check(setup):
 
 @pytest.mark.integration
 def test_process_message_endpoint(setup):
+    """
+    Tests a basic scenario of accepting an eCR message in XML format and
+    applying a full validation through parsing workflow.
+    """
     message = open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -60,6 +68,10 @@ def test_process_message_endpoint(setup):
 
 @pytest.mark.integration
 def test_process_endpoint_with_zip(setup):
+    """
+    Tests full orchestration functionality of an eCR file, but this time,
+    the file is zipped rather than raw string.
+    """
     with open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -83,6 +95,10 @@ def test_process_endpoint_with_zip(setup):
 
 @pytest.mark.integration
 def test_process_endpoint_with_zip_and_rr_data(setup):
+    """
+    Full orchestration test of a zip file containing both an eICR and the
+    associated RR data.
+    """
     with open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -110,6 +126,10 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 @pytest.mark.integration
 def test_process_message_fhir(setup):
+    """
+    Integration test of a different workflow and data type, a FHIR bundle
+    passed through standardization.
+    """
     message = json.load(
         open(
             Path(__file__).parent.parent.parent
@@ -131,6 +151,10 @@ def test_process_message_fhir(setup):
 
 @pytest.mark.integration
 def test_process_message_hl7(setup):
+    """
+    Full orchestrated test of validating, converting to FHIR, and geocoding
+    an eLR HL7v2 message.
+    """
     message = open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"

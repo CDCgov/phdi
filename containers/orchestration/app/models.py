@@ -47,6 +47,10 @@ class ProcessMessageRequest(BaseModel):
 
     @root_validator()
     def validate_rr_with_ecr(cls, values):
+        """
+        Validates that RR data is supplied if and only if the uploaded data
+        is an eCR (or a zip file of an eICR).
+        """
         message_type = values.get("message_type")
         data_type = values.get("data_type")
         rr_data = values.get("rr_data")
@@ -62,6 +66,12 @@ class ProcessMessageRequest(BaseModel):
 
     @root_validator()
     def validate_types_agree(cls, values):
+        """
+        Validates that the stream type of a message matches the encoded data
+        type of that message. This ensures that data from an eCR stream is
+        correctly processed as an eCR and ensures that FHIR data (which is
+        held in a different structure) is processed as a dictionary.
+        """
         message_type = values.get("message_type")
         data_type = values.get("data_type")
         if message_type == "ecr" and (data_type != "ecr" and data_type != "zip"):
@@ -77,6 +87,10 @@ class ProcessMessageRequest(BaseModel):
 
     @root_validator()
     def validate_fhir_message_is_dict(cls, values):
+        """
+        Validates that requests specifying a FHIR data type are formatted as
+        proper JSON dictionaries for accessing later.
+        """
         message = values.get("message")
         data_type = values.get("data_type")
         if data_type == "fhir" and type(json.loads(message)) is not dict:
