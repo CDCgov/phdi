@@ -38,6 +38,7 @@ class BaseService:
     def __init__(
         self,
         service_name: str,
+        service_path: str,
         description_path: str,
         include_health_check_endpoint: bool = True,
         license_info: Literal["CreativeCommonsZero", "MIT"] = "CreativeCommonsZero",
@@ -46,6 +47,7 @@ class BaseService:
         Initialize a BaseService instance.
 
         :param service_name: The name of the service.
+        :param service_path: The path to used to access the service from a gateway.
         :param description_path: The path to a markdown file containing a description of
             the service.
         :param include_health_check_endpoint: If True, the standard DIBBs health check
@@ -55,6 +57,7 @@ class BaseService:
             MIT license.
         """
         description = Path(description_path).read_text(encoding="utf-8")
+        self.service_path = service_path
         self.include_health_check_endpoint = include_health_check_endpoint
         self.app = FastAPI(
             title=service_name,
@@ -63,6 +66,23 @@ class BaseService:
             license_info=LICENSES[license_info],
             description=description,
         )
+
+    def add_path_rewrite_middleware(self):
+        """
+        Add middleware to the FastAPI instance to strip the service_path
+        from the URL path if it is present. This is useful when the service
+        is behind a gateway that is using a path-based routing strategy.
+        """
+
+        @self.app.middleware("http")
+        async def rewrite_path(request, call_next):
+            if request.url.path.startswith(self.service_path):
+                request.scope["path"] = request.scope["path"].replace(
+                    self.service_path, ""
+                )
+                if request.scope["path"] == "":
+                    request.scope["path"] = "/"
+            return await call_next(request)
 
     def add_health_check_endpoint(self):
         @self.app.get("/")
@@ -81,6 +101,7 @@ class BaseService:
 
         :return: The FastAPI instance.
         """
+        self.add_path_rewrite_middleware()
         if self.include_health_check_endpoint:
             self.add_health_check_endpoint()
         return self.app
