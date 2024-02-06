@@ -1,9 +1,5 @@
 import { DisplayData } from "@/app/utils";
-import {
-  AccordianSection,
-  AccordianH3,
-  AccordianDiv,
-} from "../component-utils";
+import { AccordianSection } from "../component-utils";
 
 interface UnavailableInfoProps {
   demographicsUnavailableData: DisplayData[];

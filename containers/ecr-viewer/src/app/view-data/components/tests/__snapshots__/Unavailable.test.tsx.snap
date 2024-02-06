@@ -226,6 +226,41 @@ exports[`UnavailableInfo should match snapshot 1`] = `
             class="usa-summary-box__heading padding-bottom-205"
             id="summary-box-key-information"
           >
+            Clinical Info
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    Reason for visit
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
             Provider Details
           </h3>
           <div
@@ -240,6 +275,41 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 >
                   <h4>
                     Provider Name
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto font-sans-xs"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Symptoms and Problems
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title font-sans-xs"
+                >
+                  <h4>
+                    foo
                   </h4>
                 </div>
                 <div

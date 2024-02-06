@@ -227,26 +227,28 @@ const formatStartEndDateTime = (
 };
 
 const formatTable = (
-  resources: [],
+  resources: any[],
   mappings: PathMappings,
   columns: [ColumnInfoInput], // Order of columns in array = order of apearance
   caption: string,
 ) => {
-  let headers = [];
-  columns.forEach((column) => {
+  let headers: any[] = [];
+  columns.forEach((column, index) => {
     const header = (
-      <>
-        <th scope="col" className=" bg-gray-5 minw-15">
-          {column.columnName}
-        </th>
-      </>
+      <th
+        key={`${column.columnName}${index}`}
+        scope="col"
+        className=" bg-gray-5 minw-15"
+      >
+        {column.columnName}
+      </th>
     );
     headers.push(header);
   });
 
-  let tableRows = [];
-  resources.forEach((entry) => {
-    let rowCells = [];
+  let tableRows: any[] = [];
+  resources.forEach((entry, index) => {
+    let rowCells: any[] = [];
     columns.forEach(function (column, index) {
       let isFirstCell = index === 0;
 
@@ -256,15 +258,17 @@ const formatTable = (
         : (rowCellData = "N/A");
 
       let rowCell = isFirstCell ? (
-        <th scope="row" className="text-top">
+        <th key={`row-header-${index}`} scope="row" className="text-top">
           {rowCellData}
         </th>
       ) : (
-        <td className="text-top">{rowCellData}</td>
+        <td key={`row-data-${index}`} className="text-top">
+          {rowCellData}
+        </td>
       );
       rowCells.push(rowCell);
     });
-    const tableRow = <tr>{rowCells}</tr>;
+    const tableRow = <tr key={`table-row-${index}`}>{rowCells}</tr>;
     tableRows.push(tableRow);
   });
 
@@ -278,8 +282,8 @@ const formatTable = (
   );
   const table = (
     <Table
-      borderless
-      fullWidth
+      bordered={false}
+      fullWidth={true}
       caption={caption}
       className="border-top border-left border-right table-caption-margin"
     >
@@ -479,19 +483,6 @@ export const evaluateProviderData = (
   return evaluateData(providerData);
 };
 
-export const evaluateClinicalData = (
-  fhirBundle: Bundle | undefined,
-  mappings: PathMappings,
-) => {
-  const clinicalData: DisplayData[] = [
-    {
-      title: "Reason for visit",
-      value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
-    },
-  ];
-  return evaluateData(clinicalData);
-};
-
 export const evaluateEcrMetadata = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
@@ -558,7 +549,10 @@ export const evaluateEcrMetadata = (
   };
 };
 
-export const returnProblemsTable = (problemsArray, mappings) => {
+export const returnProblemsTable = (
+  problemsArray: any[],
+  mappings: PathMappings,
+) => {
   if (problemsArray.length === 0) {
     return undefined;
   }
@@ -594,11 +588,26 @@ export const evaluateClinicalData = (
         mappings,
       ),
     },
+    {
+      title: "Reason for visit",
+      value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
+    },
   ];
-  return {
-    activeProblemsDetails: evaluateData(activeProblemsData),
-  };
+  return evaluateData(activeProblemsData);
 };
+
+// export const evaluateClinicalData = (
+//   fhirBundle: Bundle | undefined,
+//   mappings: PathMappings,
+// ) => {
+//   const clinicalData: DisplayData[] = [
+//     {
+//       title: "Reason for visit",
+//       value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
+//     },
+//   ];
+//   return evaluateData(clinicalData);
+// };
 
 const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
