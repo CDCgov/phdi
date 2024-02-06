@@ -596,18 +596,6 @@ export const evaluateClinicalData = (
   return evaluateData(activeProblemsData);
 };
 
-// export const evaluateClinicalData = (
-//   fhirBundle: Bundle | undefined,
-//   mappings: PathMappings,
-// ) => {
-//   const clinicalData: DisplayData[] = [
-//     {
-//       title: "Reason for visit",
-//       value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
-//     },
-//   ];
-//   return evaluateData(clinicalData);
-// };
 
 const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
