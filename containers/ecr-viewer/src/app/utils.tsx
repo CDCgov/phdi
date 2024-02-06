@@ -566,7 +566,7 @@ export const returnProblemsTable = (problemsArray, mappings) => {
     return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
   });
 
-  return formatTable(problemsArray, mappings, columnInfo. "Problems List");
+  return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
 export const returnImmunizations = (immunizationsArray, mappings) => {
@@ -608,7 +608,6 @@ export const evaluateClinicalData = (
       value: returnProblemsTable(
         evaluate(fhirBundle, mappings["activeProblems"]),
         mappings,
-        "Problems List",
       ),
     },
   ];
@@ -619,7 +618,6 @@ export const evaluateClinicalData = (
       value: returnImmunizations(
         evaluate(fhirBundle, mappings["immunizations"]),
         mappings,
-        "Immunization History",
       ),
     },
   ];
