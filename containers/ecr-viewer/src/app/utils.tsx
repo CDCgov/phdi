@@ -227,12 +227,12 @@ const formatStartEndDateTime = (
 };
 
 const formatTable = (
-  resources: any[],
+  resources: React.JSX.Element[],
   mappings: PathMappings,
   columns: [ColumnInfoInput], // Order of columns in array = order of apearance
   caption: string,
 ) => {
-  let headers: any[] = [];
+  let headers: React.JSX.Element[] = [];
   columns.forEach((column, index) => {
     const header = (
       <th
@@ -246,9 +246,9 @@ const formatTable = (
     headers.push(header);
   });
 
-  let tableRows: any[] = [];
+  let tableRows: React.JSX.Element[] = [];
   resources.forEach((entry, index) => {
-    let rowCells: any[] = [];
+    let rowCells: React.JSX.Element[] = [];
     columns.forEach(function (column, index) {
       let isFirstCell = index === 0;
 
@@ -608,4 +608,17 @@ const evaluateData = (data: DisplayData[]) => {
     }
   });
   return { availableData: availableData, unavailableData: unavailableData };
+};
+
+export const formatString = (input: string): string => {
+  // Convert to lowercase
+  let result = input.toLowerCase();
+
+  // Replace spaces with underscores
+  result = result.replace(/\s+/g, "_");
+
+  // Remove all special characters except underscores
+  result = result.replace(/[^a-z0-9_]/g, "");
+
+  return result;
 };

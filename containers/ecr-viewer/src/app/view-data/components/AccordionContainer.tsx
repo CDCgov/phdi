@@ -6,6 +6,7 @@ import {
   evaluateDemographicsData,
   evaluateEcrMetadata,
   PathMappings,
+  formatString,
 } from "../../utils";
 import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
@@ -16,6 +17,7 @@ import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
 import { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
+import { format } from "path";
 
 type AccordionContainerProps = {
   children?: ReactNode;
@@ -107,7 +109,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
 
   //Add id
   accordionItems.forEach((item, index) => {
-    item["id"] = index + 1;
+    item["id"] = `${formatString(item["title"])}_${index + 1}`;
     accordionItems[index] = item;
   });
 
