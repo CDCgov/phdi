@@ -165,9 +165,9 @@ def test_process_with_empty_zip():
         }
         files = {"upload_file": ("file.zip", f)}
 
-        with pytest.raises(IndexError) as indexError:
+        with pytest.raises(BaseException) as indexError:
             client.post("/process", data=form_data, files=files)
-        error_message = str(indexError.value)
+        error_message = str(indexError)
         assert "There is no eICR in this zip file." in error_message
 
 

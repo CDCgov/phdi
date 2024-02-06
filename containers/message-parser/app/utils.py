@@ -474,6 +474,8 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     )
 
                 input_data.organization = organizations
+            case "observations":
+                input_data.observations = [Observation(**obs) for obs in value]
             case _:
                 pass
     return input_data

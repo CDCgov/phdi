@@ -6,6 +6,7 @@ from typing import Optional
 
 from app import utils
 from app.phdc.models import Address
+from app.phdc.models import CodedElement
 from app.phdc.models import Name
 from app.phdc.models import Observation
 from app.phdc.models import Organization
@@ -383,6 +384,9 @@ class PHDCBuilder:
         Entry object.
         :return entry_data: XML element of Entry data
         """
+        # Sort the observation into code and value sections
+        observation = self._sort_observation(observation)
+
         # Create the 'entry' element
         entry_data = ET.Element("entry", {"typeCode": observation.type_code})
 
@@ -414,6 +418,40 @@ class PHDCBuilder:
             value_element_xml.append(translation_element_xml)
 
         return entry_data
+
+    def _sort_observation(self, observation: Observation) -> Observation:
+        """
+        Sorts Observation values in to `code` and `value` CodedElements for PHDC.
+
+        :param observation: The data for building the observation element as an
+            Entry object.
+        :return: The data for building the observation element as an
+            Entry object, sorted into code and value sections.
+        """
+        # Code
+        if not observation.code:
+            observation.code = CodedElement(
+                code=observation.code_code,
+                code_system=observation.code_code_system,
+                display_name=observation.code_code_display,
+            )
+        # Quantitative values
+        if not observation.value:
+            if observation.value_quantitative_value is not None:
+                observation.value = CodedElement(
+                    code=observation.value_quantitative_code,
+                    code_system=observation.value_quantitative_code_system,
+                    value=observation.value_quantitative_value,
+                )
+            else:
+                observation.value = CodedElement(
+                    code=observation.value_qualitative_code,
+                    code_system=observation.value_qualitative_code_system,
+                    value=observation.value_qualitative_value,
+                )
+        # TODO: translation section
+
+        return observation
 
     def _build_addr(
         self,
