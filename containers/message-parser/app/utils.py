@@ -445,15 +445,14 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                 input_data.patient.race_code = value
             case "patient_ethnic_group_code":
                 input_data.patient.ethnic_group_code = value
-            case "clinical_information_observations":
-                input_data.clinical_info = [
-                    Observation(**clinical_info_obs) for clinical_info_obs in value
-                ]
-            case "social_history_information_observations":
-                input_data.social_history_info = [
-                    Observation(**social_history_info_obs)
-                    for social_history_info_obs in value
-                ]
+            case "observations":
+                input_data.clinical_info = []
+                input_data.social_history_info = []
+                for obs in value:
+                    if obs["obs_type"] == "social-history":
+                        input_data.social_history_info.append(Observation(**obs))
+                    else:
+                        input_data.clinical_info.append(Observation(**obs))
             case "custodian_represented_custodian_organization":
                 organizations = []
                 address_fields = set([f.name for f in dataclasses.fields(Address)])
