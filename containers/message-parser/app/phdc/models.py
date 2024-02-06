@@ -90,6 +90,15 @@ class Observation:
     type_code: Optional[str] = None
     class_code: Optional[str] = None
     mood_code: Optional[str] = None
+    code_code: Optional[str] = None
+    code_code_system: Optional[str] = None
+    code_code_display: Optional[str] = None
+    value_quantitative_code: Optional[str] = None
+    value_quantitative_code_system: Optional[str] = None
+    value_quantitative_value: Optional[float] = None
+    value_qualitative_code: Optional[str] = None
+    value_qualitative_code_system: Optional[str] = None
+    value_qualitative_value: Optional[str] = None
     code: Optional[CodedElement] = None
     value: Optional[CodedElement] = None
     translation: Optional[CodedElement] = None
