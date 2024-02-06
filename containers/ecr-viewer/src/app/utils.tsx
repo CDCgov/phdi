@@ -2,6 +2,7 @@ import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import React, { Fragment } from "react";
 import { Table } from "@trussworks/react-uswds";
+import parse from 'html-react-parser';
 
 export interface DisplayData {
   title: string;
@@ -584,7 +585,7 @@ export const evaluateClinicalData = (
   const clinicalNotes = [
     {
       title: "Miscellaneous Notes",
-      value: evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div,
+      value: parse(evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div)
     },
   ];
   return {
