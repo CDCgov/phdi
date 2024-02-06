@@ -6,7 +6,6 @@ COPY /CustomFilters/ /build/FHIR-Converter/src/Microsoft.Health.Fhir.Liquid.Conv
 
 WORKDIR /build/FHIR-Converter
 
-RUN echo 'hello'
 RUN pwd && ls -la
 
 RUN echo test > src/Microsoft.Health.Fhir.TemplateManagement.UnitTests/TestData/DecompressedFiles/VXU_V04.liquid
