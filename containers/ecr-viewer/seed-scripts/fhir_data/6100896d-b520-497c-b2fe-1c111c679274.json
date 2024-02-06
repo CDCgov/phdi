@@ -556,7 +556,7 @@
           "source": [
             "ecr"
           ]
-        },
+        }
       },
       "request": {
         "method": "PUT",
