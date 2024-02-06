@@ -109,7 +109,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
 
 
 @pytest.mark.integration
-def test_parse_message_fhir(setup):
+def test_process_message_fhir(setup):
     message = json.load(
         open(
             Path(__file__).parent.parent.parent
@@ -123,6 +123,28 @@ def test_parse_message_fhir(setup):
         "config_file_name": "sample-fhir-test-config.json",
         "include_error_types": "errors",
         "message": json.dumps(message),
+    }
+    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
+    assert orchestration_response.status_code == 200
+    assert orchestration_response.json()["message"] == "Processing succeeded!"
+
+
+@pytest.mark.integration
+def test_process_message_hl7(setup):
+    message = open(
+        Path(__file__).parent.parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "fhir-converter"
+        / "hl7v2"
+        / "hl7_with_msh_3_set.hl7"
+    ).read()
+    request = {
+        "message_type": "elr",
+        "data_type": "hl7",
+        "config_file_name": "sample-hl7-test-config.json",
+        "include_error_types": "errors",
+        "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
     assert orchestration_response.status_code == 200

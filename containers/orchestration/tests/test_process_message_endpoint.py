@@ -37,25 +37,41 @@ with open(test_config_path, "r") as file:
 @mock.patch("app.services.post_request")
 @mock.patch("app.services.save_to_db")
 def test_process_message_success(patched_post_request, patched_save_to_db):
+    message = open(
+        Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "fhir-converter"
+        / "hl7v2"
+        / "hl7_with_msh_3_set.hl7"
+    ).read()
     request = {
-        "message_type": "ecr",
-        "data_type": "ecr",
+        "message_type": "elr",
+        "data_type": "hl7",
         "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
-        "message": '{"foo": "bar"}',
+        "message": message,
     }
     call_post_request = mock.Mock()
     call_post_request.status_code = 200
     call_post_request.json.return_value = {
-        "response": {"FhirResource": {"foo": "bar"}},
-        "bundle": {"foo": "bundle"},
+        "response": {
+            "FhirResource": {
+                "converted_msg_placeholder_key": "converted_placeholder_value"
+            }
+        },
+        "bundle": {"converted_msg_placeholder_key": "placeholder_bundle"},
     }
     save_to_db_response = CustomJSONResponse(
         content=jsonable_encoder(
             {
-                "response": {"FhirResource": {"foo": "bar"}},
-                "bundle": {"foo": "bundle"},
-                "parsed_values": {"eicr_id": "foo"},
+                "response": {
+                    "FhirResource": {
+                        "converted_msg_placeholder_key": "converted_placeholder_value"
+                    }
+                },
+                "bundle": {"converted_msg_placeholder_key": "placeholder_bundle"},
+                "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
             }
         )
     )

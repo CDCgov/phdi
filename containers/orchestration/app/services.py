@@ -13,6 +13,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
+from phdi.fhir.conversion.convert import standardize_hl7_datetimes
+
 
 service_urls = {
     "validation": os.environ.get("VALIDATION_URL"),
@@ -44,10 +47,20 @@ def validate_response(**kwargs) -> bool:
 
 def fhir_converter_payload(**kwargs) -> dict:
     input = kwargs["input"]
+    msg = str(input["message"])
+    # Template will depend on input data formatting and typing, so try
+    # to figure that out. If we can't, use our default EICR settings
+    # to preserve backwards compatibility
+    try:
+        conversion_settings = _get_fhir_conversion_settings(msg)
+        if conversion_settings["input_type"] == "hl7v2":
+            msg = standardize_hl7_datetimes(msg)
+    except KeyError:
+        conversion_settings = {"input_type": "ecr", "root_template": "EICR"}
     return {
-        "input_data": str(input["message"]),
-        "input_type": "ecr",
-        "root_template": "EICR",
+        "input_data": msg,
+        "input_type": conversion_settings["input_type"],
+        "root_template": conversion_settings["root_template"],
         "rr_data": input.get("rr_data"),
     }
 

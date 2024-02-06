@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import pytest
 from app.services import fhir_converter_payload
@@ -8,6 +9,8 @@ from app.services import save_to_db_payload
 from app.services import validation_payload
 from fastapi import HTTPException
 from requests.models import Response
+
+from phdi.fhir.conversion.convert import standardize_hl7_datetimes
 
 
 def test_validation_payload():
@@ -33,24 +36,43 @@ def test_validation_payload_with_rr():
 
 
 def test_fhir_converter_payload():
-    result = fhir_converter_payload(input={"message": "foo"})
-    expected_result = {
-        "input_data": "foo",
-        "input_type": "ecr",
-        "root_template": "EICR",
-        "rr_data": None,
-    }
-
-    assert result == expected_result
+    message = open(
+        Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "fhir-converter"
+        / "hl7v2"
+        / "hl7_with_msh_3_set.hl7"
+    ).read()
+    result = fhir_converter_payload(input={"message": message})
+    assert result["input_type"] == "hl7v2"
+    assert result["root_template"] == "ADT_A01"
+    assert result["input_data"] == standardize_hl7_datetimes(message)
 
 
 def test_fhir_converter_payload_with_rr():
-    result = fhir_converter_payload(input={"message": "foo", "rr_data": "bar"})
+    message = open(
+        Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "fhir-converter"
+        / "ecr"
+        / "example_eicr.xml"
+    ).read()
+    rr = open(
+        Path(__file__).parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "fhir-converter"
+        / "ecr"
+        / "example_rr.xml"
+    ).read()
+    result = fhir_converter_payload(input={"message": message, "rr_data": rr})
     expected_result = {
-        "input_data": "foo",
+        "input_data": message,
         "input_type": "ecr",
         "root_template": "EICR",
-        "rr_data": "bar",
+        "rr_data": rr,
     }
 
     assert result == expected_result

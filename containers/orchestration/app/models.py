@@ -18,7 +18,7 @@ class ProcessMessageRequest(BaseModel):
     message_type: Literal["ecr", "elr", "vxu", "fhir"] = Field(
         description="The type of message to be validated."
     )
-    data_type: Literal["ecr", "zip", "fhir"] = Field(
+    data_type: Literal["ecr", "zip", "fhir", "hl7"] = Field(
         description=(
             "The type of data of the passed-in message. Must be one of 'ecr', "
             "'fhir', or 'zip'. If `data_type` is set to 'zip', the underlying "
