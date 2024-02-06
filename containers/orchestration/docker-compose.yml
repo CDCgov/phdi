@@ -1,43 +1,50 @@
-version: "3.8"
+version: "3.3"
 
 services:
-  validation:
+  orchestration-service:
     build:
-      context: ../validation/
-      no_cache: true
+      context: .
+    depends_on:
+      [
+        validation-service,
+        fhir-converter-service,
+        ingestion-service,
+        message-parser-service,
+      ]
+    ports:
+      - "${ORCHESTRATION_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
+    env_file:
+      - .env
+  validation-service:
+    build:
+      context: ../validation
     ports:
       - "${VALIDATION_PORT_NUMBER}:8080"
-
-  fhir-converter:
-    build:
-      context: ../fhir-converter/
-      no_cache: true
     logging:
       driver: "json-file"
+  fhir-converter-service:
+    build:
+      context: ../fhir-converter
     ports:
       - "${FHIR_CONVERTER_PORT_NUMBER}:8080"
-
-  ingestion:
-    build:
-      context: ../ingestion/
-      no_cache: true
-    image: ingestion:latest
     logging:
       driver: "json-file"
+  ingestion-service:
+    build:
+      context: ../ingestion
     ports:
       - "${INGESTION_PORT_NUMBER}:8080"
-
-  message-parser:
-    build:
-      context: ../message-parser/
-      no_cache: true
     logging:
       driver: "json-file"
+  message-parser-service:
+    build:
+      context: ../message-parser
     ports:
       - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
-
+    logging:
+      driver: "json-file"
   ecr-viewer-db:
     image: "postgres:alpine"
     ports:
@@ -55,18 +62,3 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
-
-  orchestration:
-    build: .
-    command: python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
-    ports:
-      - "${ORCHESTRATION_PORT_NUMBER}:8080"
-    logging:
-      driver: "json-file"
-    depends_on:
-      - validation
-      - fhir-converter
-      - message-parser
-      - ingestion
-    env_file:
-      - .env
