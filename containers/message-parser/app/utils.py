@@ -6,7 +6,6 @@ import re
 import uuid
 from functools import cache
 from pathlib import Path
-from typing import List
 from typing import Literal
 
 import fhirpathpy
@@ -432,7 +431,7 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
     input_data = PHDCInputData()
     input_data.patient = Patient()
     input_data.organization = Organization()
-    input_data.observations = List(Observation())
+    input_data.observations = list()
     for key, value in parsed_values.items():
         match key:
             case "patient_address":
