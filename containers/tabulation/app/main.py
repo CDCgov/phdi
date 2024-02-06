@@ -30,6 +30,7 @@ get_settings()
 # Instantiate FastAPI via PHDI's BaseService class
 app = BaseService(
     service_name="PHDI Tabulation Service",
+    service_path="/tabulation",
     description_path=Path(__file__).parent.parent / "description.md",
 ).start()
 
