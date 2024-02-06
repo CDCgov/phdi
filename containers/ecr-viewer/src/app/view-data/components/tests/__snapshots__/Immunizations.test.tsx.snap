@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Immunizations Table should match snapshot 1`] = `
+<div>
+  <table
+    class="usa-table usa-table--borderless width-full border-top border-left border-right table-caption-margin"
+    data-testid="table"
+  >
+    <caption>
+      Immunization History
+    </caption>
+    <thead>
+      <tr>
+        <th
+          class=" bg-gray-5 minw-15"
+          scope="col"
+        >
+          Name
+        </th>
+        <th
+          class=" bg-gray-5 minw-15"
+          scope="col"
+        >
+          Administration Dates
+        </th>
+        <th
+          class=" bg-gray-5 minw-15"
+          scope="col"
+        >
+          Next Due
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th
+          class="text-top"
+          scope="row"
+        >
+          MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)
+        </th>
+        <td
+          class="text-top"
+        >
+          11/16/2020
+        </td>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
+      </tr>
+      <tr>
+        <th
+          class="text-top"
+          scope="row"
+        >
+          TDAP, (ADOL/ADULT)
+        </th>
+        <td
+          class="text-top"
+        >
+          11/10/2020
+        </td>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
+      </tr>
+      <tr>
+        <th
+          class="text-top"
+          scope="row"
+        >
+          HEP A (ADULT) 2 DOSE
+        </th>
+        <td
+          class="text-top"
+        >
+          11/11/2011
+        </td>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
+      </tr>
+      <tr>
+        <th
+          class="text-top"
+          scope="row"
+        >
+          DTAP-HIB-IPV (PENTACEL)
+        </th>
+        <td
+          class="text-top"
+        >
+          04/16/2010
+        </td>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
+      </tr>
+      <tr>
+        <th
+          class="text-top"
+          scope="row"
+        >
+          HEP B (PED,ADOLESCENT) 3 DOSE
+        </th>
+        <td
+          class="text-top"
+        >
+          03/21/1974
+        </td>
+        <td
+          class="text-top"
+        >
+          N/A
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
