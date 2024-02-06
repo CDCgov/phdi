@@ -74,14 +74,19 @@ const ECRViewerPage = () => {
               </nav>
             </div>
             <div className={"ecr-viewer-container"}>
-              <h2 className="margin-bottom-3">eCR Summary</h2>
-              <EcrSummary fhirPathMappings={mappings} fhirBundle={fhirBundle} />
-              <div className="margin-top-6">
-                <h2 className="margin-bottom-3">eCR Document</h2>
-                <AccordionContainer
+              <div className="ecr-content">
+                <h2 className="margin-bottom-3">eCR Summary</h2>
+                <EcrSummary
                   fhirPathMappings={mappings}
                   fhirBundle={fhirBundle}
                 />
+                <div className="margin-top-6">
+                  <h2 className="margin-bottom-3">eCR Document</h2>
+                  <AccordionContainer
+                    fhirPathMappings={mappings}
+                    fhirBundle={fhirBundle}
+                  />
+                </div>
               </div>
             </div>
           </div>
