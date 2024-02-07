@@ -51,7 +51,7 @@ describe("UnavailableInfo", () => {
     ];
     const clinicalUnavailableData = [
       {
-        title: "Reason for visit",
+        title: "Reason for Visit",
         value: "",
       },
     ];
@@ -72,7 +72,6 @@ describe("UnavailableInfo", () => {
         demographicsUnavailableData={demographicsUnavailability}
         socialUnavailableData={socialUnavailability}
         encounterUnavailableData={encounterUnavailableData}
-        clinicalUnavailableData={clinicalUnavailableData}
         providerUnavailableData={providerUnavailableData}
         activeProblemsUnavailableData={activeProblemsUnavailableData}
         vitalUnavailableData={vitalUnavailableData}
