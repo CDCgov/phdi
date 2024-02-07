@@ -10,6 +10,7 @@ import { demographicsConfig } from "./components/Demographics";
 import { socialHistoryConfig } from "./components/SocialHistory";
 import { ecrMetadataConfig } from "./components/EcrMetadata";
 import { encounterConfig } from "./components/Encounter";
+import { clinicalInfoConfig } from "./components/ClinicalInfo";
 import { PathMappings } from "../utils";
 import SideNav, { SectionConfig } from "./components/SideNav";
 
@@ -28,6 +29,7 @@ const ECRViewerPage = () => {
         socialHistoryConfig,
       ]),
       encounterConfig,
+      clinicalInfoConfig,
       ecrMetadataConfig,
     ]),
     new SectionConfig("Unavailable Info"),

@@ -4,10 +4,16 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
+import { SectionConfig } from "./SideNav";
 
 interface ClinicalProps {
   clinicalData: DisplayData[];
 }
+
+export const clinicalInfoConfig: SectionConfig = new SectionConfig(
+  "Clinical Info",
+  ["Symptoms and Problems"],
+);
 
 const ClinicalInfo = ({ clinicalData }: ClinicalProps) => {
   const renderData = (item: any, index: number) => {
