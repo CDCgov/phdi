@@ -623,6 +623,10 @@ export const evaluateClinicalData = (
 ) => {
   const activeProblemsData: DisplayData[] = [
     {
+      title: "Reason for visit",
+      value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
+    },
+    {
       title: "Problems List",
       value: returnProblemsTable(
         evaluate(fhirBundle, mappings["activeProblems"]),
@@ -646,12 +650,6 @@ export const evaluateClinicalData = (
   return {
     activeProblemsDetails: evaluateData(activeProblemsData),
     vitalData: evaluateData(vitalData),
-    reason: evaluateData([
-      {
-        title: "Reason for visit",
-        value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
-      },
-    ]),
   };
 };
 

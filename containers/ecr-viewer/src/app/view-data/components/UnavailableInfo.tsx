@@ -6,6 +6,7 @@ interface UnavailableInfoProps {
   socialUnavailableData: DisplayData[];
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
+  reasonUnavailableData: DisplayData[];
   activeProblemsUnavailableData: DisplayData[];
   vitalUnavailableData: DisplayData[];
 }
