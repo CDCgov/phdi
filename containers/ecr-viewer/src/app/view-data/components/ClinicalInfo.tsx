@@ -1,4 +1,4 @@
-import { DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayData } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH3,
@@ -18,20 +18,6 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
 );
 
 const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
-  const renderData = (item: any, index: number) => {
-    return (
-      <div key={index}>
-        <div className="grid-row">
-          <div className="data-title">
-            <h4>{item.title}</h4>
-          </div>
-          <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
-        </div>
-        <div className={"section__line_gray"} />
-      </div>
-    );
-  };
-
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
@@ -56,7 +42,9 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
         <AccordianDiv>
-          {data.map((item, index) => renderData(item, index))}
+          {data.map((item, index) => (
+            <DataDisplay item={item} key={index} />
+          ))}
           {renderTableDetails(tableData)}
         </AccordianDiv>
       </>
@@ -69,7 +57,9 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
         <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
         <AccordianDiv>
           <div className="lh-18">
-            {vitalData.map((item, index) => renderData(item, index))}
+            {vitalData.map((item, index) => (
+              <DataDisplay item={item} key={index} />
+            ))}
           </div>
         </AccordianDiv>
       </>
