@@ -108,9 +108,9 @@ class Observation:
 
 @dataclass
 class PHDCInputData:
-    type: Literal["case_report", "contact_record", "lab_report", "morbidity_report"] = (
-        "case_report"
-    )
+    type: Literal[
+        "case_report", "contact_record", "lab_report", "morbidity_report"
+    ] = "case_report"
     patient: Patient = None
     clinical_info: List[Observation] = None
     organization: List[Organization] = None
