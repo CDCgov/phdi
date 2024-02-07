@@ -23,7 +23,9 @@ const SocialHistory = ({ socialData }: SocialHistoryProps) => {
         <span id={socialHistoryConfig.id}>{socialHistoryConfig.title}</span>
       </AccordianH3>
       <AccordianDiv>
-        {socialData.map((item, index) => <DataDisplay item={item} key={index} />)}
+        {socialData.map((item, index) => (
+          <DataDisplay item={item} key={index} />
+        ))}
       </AccordianDiv>
     </AccordianSection>
   );

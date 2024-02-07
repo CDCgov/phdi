@@ -18,7 +18,6 @@ export const encounterConfig: SectionConfig = new SectionConfig(
 );
 
 const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
-
   const renderEncounterDetails = () => {
     return (
       <>
@@ -28,7 +27,9 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
           </span>
         </AccordianH3>
         <AccordianDiv>
-          {encounterData.map((item, index) => <DataDisplay item={item} key={index} />)}
+          {encounterData.map((item, index) => (
+            <DataDisplay item={item} key={index} />
+          ))}
         </AccordianDiv>
       </>
     );
@@ -43,7 +44,9 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
           </span>
         </AccordianH3>
         <AccordianDiv>
-          {providerData.map((item, index) => <DataDisplay item={item} key={index} />)}
+          {providerData.map((item, index) => (
+            <DataDisplay item={item} key={index} />
+          ))}
         </AccordianDiv>
       </>
     );

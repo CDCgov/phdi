@@ -18,7 +18,6 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
 );
 
 const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
-
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
@@ -43,7 +42,9 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
         <AccordianDiv>
-          {data.map((item, index) => <DataDisplay item={item} key={index}/>)}
+          {data.map((item, index) => (
+            <DataDisplay item={item} key={index} />
+          ))}
           {renderTableDetails(tableData)}
         </AccordianDiv>
       </>
@@ -56,7 +57,9 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
         <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
         <AccordianDiv>
           <div className="lh-18">
-            {vitalData.map((item, index) => <DataDisplay item={item} key={index} />)}
+            {vitalData.map((item, index) => (
+              <DataDisplay item={item} key={index} />
+            ))}
           </div>
         </AccordianDiv>
       </>

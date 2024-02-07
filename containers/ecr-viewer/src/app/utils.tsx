@@ -681,7 +681,9 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-export const DataDisplay: React.FC<{item: DisplayData}> = ({ item }): React.JSX.Element => {
+export const DataDisplay: React.FC<{ item: DisplayData }> = ({
+  item,
+}): React.JSX.Element => {
   return (
     <div>
       <div className="grid-row">
