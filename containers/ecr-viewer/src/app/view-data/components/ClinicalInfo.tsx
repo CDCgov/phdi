@@ -8,6 +8,7 @@ import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface ClinicalProps {
+  reasonForVisitDetails: DisplayData[];
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
   immunizationsDetails: DisplayData[];
@@ -20,6 +21,7 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
 );
 
 const ClinicalInfo = ({
+  reasonForVisitDetails,
   activeProblemsDetails,
   immunizationsDetails,
   vitalData,
@@ -52,18 +54,18 @@ const ClinicalInfo = ({
   };
 
   const renderSymptomsAndProblems = () => {
-    const tableData = activeProblemsDetails.filter((item) =>
-      React.isValidElement(item),
-    );
-    const data = activeProblemsDetails.filter(
-      (item) => !React.isValidElement(item),
-    );
+    // const tableData = activeProblemsDetails.filter((item) =>
+    //   React.isValidElement(item),
+    // );
+    // const data = activeProblemsDetails.filter(
+    //   (item) => !React.isValidElement(item),
+    // );
     return (
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
         <AccordianDiv>
-          {data.map((item, index) => renderData(item, index))}
-          {/* {renderTableDetails(tableData)} */}
+          {reasonForVisitDetails.map((item, index) => renderData(item, index))}
+          {renderTableDetails(activeProblemsDetails)}
         </AccordianDiv>
       </>
     );
@@ -93,7 +95,8 @@ const ClinicalInfo = ({
 
   return (
     <AccordianSection>
-      {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
+      {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
+        renderSymptomsAndProblems()}
       {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>

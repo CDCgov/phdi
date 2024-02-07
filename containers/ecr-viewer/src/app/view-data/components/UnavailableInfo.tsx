@@ -6,6 +6,7 @@ interface UnavailableInfoProps {
   socialUnavailableData: DisplayData[];
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
+  reasonForVisitUnavailableData: DisplayData[];
   activeProblemsUnavailableData: DisplayData[];
   vitalUnavailableData: DisplayData[];
 }
@@ -15,6 +16,7 @@ const UnavailableInfo = ({
   socialUnavailableData,
   encounterUnavailableData,
   providerUnavailableData,
+  reasonForVisitUnavailableData,
   activeProblemsUnavailableData,
   immunizationsUnavailableData,
   vitalUnavailableData,
@@ -58,7 +60,8 @@ const UnavailableInfo = ({
         renderSection("Encounter Details", encounterUnavailableData)}
       {providerUnavailableData.length > 0 &&
         renderSection("Provider Details", providerUnavailableData)}
-      {activeProblemsUnavailableData?.length > 0 && // Add other items under symptoms and problems here
+      {(reasonForVisitUnavailableData?.length > 0 ||
+        activeProblemsUnavailableData?.length > 0) &&
         renderSection("Symptoms and Problems", activeProblemsUnavailableData)}
       {vitalUnavailableData?.length > 0 &&
         renderSection("Diagnostics and Vital Signs", vitalUnavailableData)}
