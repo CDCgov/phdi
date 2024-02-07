@@ -226,7 +226,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
             class="usa-summary-box__heading padding-bottom-205"
             id="summary-box-key-information"
           >
-            Clinical Info
+            Provider Details
           </h3>
           <div
             class="usa-summary-box__text"
@@ -239,7 +239,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   class="data-title font-sans-xs"
                 >
                   <h4>
-                    Reason for visit
+                    Provider Name
                   </h4>
                 </div>
                 <div
@@ -261,7 +261,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
             class="usa-summary-box__heading padding-bottom-205"
             id="summary-box-key-information"
           >
-            Provider Details
+            Symptoms and Problems
           </h3>
           <div
             class="usa-summary-box__text"
@@ -274,7 +274,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   class="data-title font-sans-xs"
                 >
                   <h4>
-                    Provider Name
+                    foo
                   </h4>
                 </div>
                 <div

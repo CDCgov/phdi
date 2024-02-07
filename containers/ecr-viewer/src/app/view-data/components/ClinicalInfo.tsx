@@ -10,7 +10,6 @@ import React from "react";
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
-  reason: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
