@@ -623,7 +623,7 @@ export const evaluateClinicalData = (
 ) => {
   const activeProblemsData: DisplayData[] = [
     {
-      title: "Reason for visit",
+      title: "Reason for Visit",
       value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
     },
     {
