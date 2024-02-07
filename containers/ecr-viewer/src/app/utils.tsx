@@ -5,7 +5,7 @@ import * as R4Models from "fhirpath/fhir-context/r4";
 
 export interface DisplayData {
   title: string;
-  value: string | undefined;
+  value: string | JSX.Element | undefined;
 }
 
 export interface PathMappings {
@@ -266,26 +266,28 @@ const formatVitals = (
 };
 
 const formatTable = (
-  resources: [],
+  resources: React.JSX.Element[],
   mappings: PathMappings,
-  columns: [ColumnInfoInput], // Order of columns in array = order of apearance
+  columns: ColumnInfoInput[], // Order of columns in array = order of apearance
   caption: string,
 ) => {
-  let headers = [];
-  columns.forEach((column) => {
+  let headers: React.JSX.Element[] = [];
+  columns.forEach((column, index) => {
     const header = (
-      <>
-        <th scope="col" className=" bg-gray-5 minw-15">
-          {column.columnName}
-        </th>
-      </>
+      <th
+        key={`${column.columnName}${index}`}
+        scope="col"
+        className=" bg-gray-5 minw-15"
+      >
+        {column.columnName}
+      </th>
     );
     headers.push(header);
   });
 
-  let tableRows = [];
-  resources.forEach((entry) => {
-    let rowCells = [];
+  let tableRows: React.JSX.Element[] = [];
+  resources.forEach((entry, index) => {
+    let rowCells: React.JSX.Element[] = [];
     columns.forEach(function (column, index) {
       let isFirstCell = index === 0;
 
@@ -295,15 +297,17 @@ const formatTable = (
         : (rowCellData = "N/A");
 
       let rowCell = isFirstCell ? (
-        <th scope="row" className="text-top">
+        <th key={`row-header-${index}`} scope="row" className="text-top">
           {rowCellData}
         </th>
       ) : (
-        <td className="text-top">{rowCellData}</td>
+        <td key={`row-data-${index}`} className="text-top">
+          {rowCellData}
+        </td>
       );
       rowCells.push(rowCell);
     });
-    const tableRow = <tr>{rowCells}</tr>;
+    const tableRow = <tr key={`table-row-${index}`}>{rowCells}</tr>;
     tableRows.push(tableRow);
   });
 
@@ -317,8 +321,8 @@ const formatTable = (
   );
   const table = (
     <Table
-      borderless
-      fullWidth
+      bordered={false}
+      fullWidth={true}
       caption={caption}
       className="border-top border-left border-right table-caption-margin"
     >
@@ -584,12 +588,15 @@ export const evaluateEcrMetadata = (
   };
 };
 
-export const returnProblemsTable = (problemsArray, mappings) => {
+export const returnProblemsTable = (
+  problemsArray: any[],
+  mappings: PathMappings,
+) => {
   if (problemsArray.length === 0) {
     return undefined;
   }
 
-  const columnInfo = [
+  const columnInfo: ColumnInfoInput[] = [
     { columnName: "Active Problem", infoPath: "activeProblemsDisplay" },
     { columnName: "Onset Age", infoPath: "activeProblemsOnsetAge" },
     { columnName: "Onset Date", infoPath: "activeProblemsOnsetDate" },
@@ -602,7 +609,9 @@ export const returnProblemsTable = (problemsArray, mappings) => {
   });
 
   problemsArray.sort(function (a, b) {
-    return new Date(b.onsetDateTime) - new Date(a.onsetDateTime);
+    return (
+      new Date(b.onsetDateTime).getTime() - new Date(a.onsetDateTime).getTime()
+    );
   });
 
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
@@ -614,6 +623,10 @@ export const evaluateClinicalData = (
 ) => {
   const activeProblemsData: DisplayData[] = [
     {
+      title: "Reason for visit",
+      value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
+    },
+    {
       title: "Problems List",
       value: returnProblemsTable(
         evaluate(fhirBundle, mappings["activeProblems"]),
@@ -621,6 +634,7 @@ export const evaluateClinicalData = (
       ),
     },
   ];
+
   const vitalData = [
     {
       title: "Vital Signs",
@@ -651,4 +665,17 @@ const evaluateData = (data: DisplayData[]) => {
     }
   });
   return { availableData: availableData, unavailableData: unavailableData };
+};
+
+export const formatString = (input: string): string => {
+  // Convert to lowercase
+  let result = input.toLowerCase();
+
+  // Replace spaces with underscores
+  result = result.replace(/\s+/g, "-");
+
+  // Remove all special characters except underscores
+  result = result.replace(/[^a-z0-9\-]/g, "");
+
+  return result;
 };
