@@ -64,7 +64,7 @@ def test_build_telecom(build_telecom_test_data, expected_result):
                 '<code code="1" codeSystem="0" displayName="Code"/><value xsi:type="ST"'
                 ' code="2" codeSystem="1" displayName="V"><translation xsi:type="T" '
                 'code="0" codeSystem="L" displayName="T"/></value></observation>'
-                '</entry>'
+                "</entry>"
             ),
         )
     ],
