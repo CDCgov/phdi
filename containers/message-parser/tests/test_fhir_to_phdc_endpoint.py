@@ -51,4 +51,3 @@ def test_endpoint():
     actual_response = client.post("/fhir_to_phdc", json=test_request)
     assert actual_response.status_code == 200
     assert actual_response.text == expected_successful_response
-    # print(actual_response.text)
