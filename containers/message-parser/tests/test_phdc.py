@@ -48,7 +48,7 @@ def test_build_telecom(build_telecom_test_data, expected_result):
         # Test case with a single code element, value, and translation
         (
             Observation(
-                type_code="ENTRY",
+                type_code="COMP",
                 class_code="OBS",
                 mood_code="EVN",
                 code=CodedElement(code="1", code_system="0", display_name="Code"),
@@ -60,12 +60,11 @@ def test_build_telecom(build_telecom_test_data, expected_result):
                 ),
             ),
             (
-                '<entry typeCode="ENTRY">'
-                + '<observation classCode="OBS" moodCode="EVN">'
-                + '<code code="1" codeSystem="0" displayName="Code"/>'
-                + '<value xsi:type="ST" code="2" codeSystem="1" displayName="V">'
-                + '<translation xsi:type="T" code="0" codeSystem="L" displayName="T"/>'
-                + "</value></observation></entry>"
+                '<entry typeCode="COMP"><observation classCode="OBS" moodCode="ENV">'
+                '<code code="1" codeSystem="0" displayName="Code"/><value xsi:type="ST"'
+                ' code="2" codeSystem="1" displayName="V"><translation xsi:type="T" '
+                'code="0" codeSystem="L" displayName="T"/></value></observation>'
+                "</entry>"
             ),
         )
     ],
@@ -528,88 +527,92 @@ def test_get_clinical_info_code():
         # Example test case
         (
             (
-                [
-                    Observation(
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="INV169",
-                            code_system="2.16.840.1.114222.4.5.1",
-                            display_name="Condition",
+                PHDCInputData(
+                    observations=[
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV169",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                display_name="Condition",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="10274",
+                                code_system="1.2.3.5",
+                                display_name="Chlamydia trachomatis infection",
+                            ),
+                            translation=CodedElement(
+                                xsi_type="CE",
+                                code="350",
+                                code_system="L",
+                                code_system_name="STD*MIS",
+                                display_name="Local Label",
+                            ),
                         ),
-                        value=CodedElement(
-                            xsi_type="CE",
-                            code="10274",
-                            code_system="1.2.3.5",
-                            display_name="Chlamydia trachomatis infection",
+                        Observation(
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="NBS012",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                display_name="Shared Ind",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="F",
+                                code_system="1.2.3.5",
+                                display_name="False",
+                            ),
+                            translation=CodedElement(
+                                xsi_type="CE",
+                                code="T",
+                                code_system="L",
+                                code_system_name="STD*MIS",
+                                display_name="Local Label",
+                            ),
                         ),
-                        translation=CodedElement(
-                            xsi_type="CE",
-                            code="350",
-                            code_system="L",
-                            code_system_name="STD*MIS",
-                            display_name="Local Label",
-                        ),
-                    ),
-                    Observation(
-                        type_code="COMP",
-                        class_code="OBS",
-                        mood_code="EVN",
-                        code=CodedElement(
-                            code="NBS012",
-                            code_system="2.16.840.1.114222.4.5.1",
-                            display_name="Shared Ind",
-                        ),
-                        value=CodedElement(
-                            xsi_type="CE",
-                            code="F",
-                            code_system="1.2.3.5",
-                            display_name="False",
-                        ),
-                        translation=CodedElement(
-                            xsi_type="CE",
-                            code="T",
-                            code_system="L",
-                            code_system_name="STD*MIS",
-                            display_name="Local Label",
-                        ),
-                    ),
-                ]
+                    ]
+                )
             ),
             # Expected XML output as a string
-            "<component><section>"
-            + '<id extension="mocked-uuid" assigningAuthorityName="LR"/>'
-            + '<code code="55752-0" codeSystem="2.16.840.1.113883.6.1"'
-            + ' codeSystemName="LOINC" displayName="Clinical Information"/>'
-            + "<title>Clinical Information</title>"
-            + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
-            + '<code code="INV169" codeSystem="2.16.840.1.114222.4.5.1"'
-            + ' displayName="Condition"/>'
-            + '<value xsi:type="CE" code="10274" codeSystem="1.2.3.5"'
-            + ' displayName="Chlamydia trachomatis infection">'
-            + '<translation xsi:type="CE" code="350" codeSystem="L"'
-            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
-            + "</value></observation></entry>"
-            + '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
-            + '<code code="NBS012" codeSystem="2.16.840.1.114222.4.5.1"'
-            + ' displayName="Shared Ind"/>'
-            + '<value xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">'
-            + '<translation xsi:type="CE" code="T" codeSystem="L"'
-            + ' codeSystemName="STD*MIS" displayName="Local Label"/>'
-            + "</value></observation></entry></section></component>",
+            (
+                '<component><section><id extension="mocked-uuid" assigningAuthorityName'
+                + '="LR"/><code code="55752-0" codeSystem="2.16.840.1.113883.6.1" '
+                + 'codeSystemName="LOINC" displayName="Clinical Information"/><title>'
+                + 'Clinical Information</title><entry typeCode="COMP"><observation '
+                + 'classCode="OBS" moodCode="ENV"><code code="INV169" codeSystem="2.16.'
+                + '840.1.114222.4.5.1" displayName="Condition"/><value xsi:type="CE" '
+                + 'code="10274" codeSystem="1.2.3.5" displayName="Chlamydia trachomatis'
+                + ' infection"><translation xsi:type="CE" '
+                + 'code="350" codeSystem="L" codeSystemName="STD*MIS" displayName='
+                + '"Local '
+                + 'Label"/></value></observation></entry><entry typeCode="COMP">'
+                + '<observation classCode="OBS" moodCode="ENV"><code code="NBS012" '
+                + 'codeSystem="2.16.840.1.114222.4.5.1" displayName="Shared Ind"/>'
+                + "<value "
+                + 'xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">'
+                + "<transla"
+                + 'tion xsi:type="CE" code="T" codeSystem="L" codeSystemName="STD*MIS" '
+                + "disp"
+                + 'layName="Local Label"/></value></observation></entry></section>'
+                + "</component>"
+            ),
         ),
     ],
 )
 def test_build_clinical_info(build_clinical_info_data, expected_result):
     builder = PHDCBuilder()
-    clinical_info_code = builder._build_clinical_info(build_clinical_info_data)
+    builder.set_input_data(build_clinical_info_data)
+    clinical_info_code = builder._build_clinical_info()
     actual_result = (
         ET.tostring(clinical_info_code)
         .decode()
         .replace('xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', "")
     )
-    expected_result = expected_result
     assert actual_result == expected_result
 
 
@@ -729,7 +732,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                         ),
                     ],
                 ),
-                clinical_info=[
+                observations=[
                     Observation(
                         type_code="COMP",
                         class_code="OBS",

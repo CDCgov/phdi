@@ -127,3 +127,4 @@ class PHDCInputData:
     clinical_info: List[Observation] = None
     social_history_info: List[Observation] = None
     organization: List[Organization] = None
+    observations: List[Observation] = None
