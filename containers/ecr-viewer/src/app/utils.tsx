@@ -5,7 +5,7 @@ import * as R4Models from "fhirpath/fhir-context/r4";
 
 export interface DisplayData {
   title: string;
-  value: string | undefined;
+  value: string | JSX.Element | undefined;
 }
 
 export interface PathMappings {
@@ -629,10 +629,6 @@ export const evaluateClinicalData = (
         mappings,
       ),
     },
-    {
-      title: "Reason for visit",
-      value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
-    },
   ];
 
   const vitalData = [
@@ -650,6 +646,12 @@ export const evaluateClinicalData = (
   return {
     activeProblemsDetails: evaluateData(activeProblemsData),
     vitalData: evaluateData(vitalData),
+    reason: evaluateData([
+      {
+        title: "Reason for visit",
+        value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
+      },
+    ]),
   };
 };
 

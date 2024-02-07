@@ -9,6 +9,7 @@ import { SectionConfig } from "./SideNav";
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
+  reason: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -16,7 +17,11 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   ["Symptoms and Problems"],
 );
 
-const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
+const ClinicalInfo = ({
+  activeProblemsDetails,
+  vitalData,
+  reason,
+}: ClinicalProps) => {
   const renderData = (item: any, index: number) => {
     return (
       <div key={index}>
@@ -49,7 +54,7 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
         <AccordianDiv>
-          {clinicalData.map((item, index) => renderData(item, index))}
+          {reason.map((item, index) => renderData(item, index))}
           {renderTableDetails(activeProblemsDetails)}
         </AccordianDiv>
       </>
@@ -71,7 +76,8 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
 
   return (
     <AccordianSection>
-      {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
+      {(activeProblemsDetails.length > 0 || reason.length > 0) &&
+        renderSymptomsAndProblems()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );
