@@ -49,7 +49,7 @@ describe("UnavailableInfo", () => {
         value: "",
       },
     ];
-    const clinicalUnavailableData = [
+    const reasonForVisitUnavailableData = [
       {
         title: "Reason for Visit",
         value: "",
@@ -57,7 +57,13 @@ describe("UnavailableInfo", () => {
     ];
     const activeProblemsUnavailableData = [
       {
-        title: "foo",
+        title: "Problems List",
+        value: "",
+      },
+    ];
+    const immunizationsUnavailableData = [
+      {
+        title: "Immunization History",
         value: "",
       },
     ];
@@ -73,7 +79,9 @@ describe("UnavailableInfo", () => {
         socialUnavailableData={socialUnavailability}
         encounterUnavailableData={encounterUnavailableData}
         providerUnavailableData={providerUnavailableData}
+        reasonForVisitUnavailableData={reasonForVisitUnavailableData}
         activeProblemsUnavailableData={activeProblemsUnavailableData}
+        immunizationsUnavailableData={immunizationsUnavailableData}
         vitalUnavailableData={vitalUnavailableData}
       />,
     ).container;
