@@ -20,7 +20,12 @@ describe("Encounter", () => {
       },
     ];
     container = render(
-      <ClinicalInfo activeProblemsDetails={[]} vitalData={vitalData} />,
+      <ClinicalInfo
+        activeProblemsDetails={[]}
+        vitalData={vitalData}
+        reasonForVisitDetails={[]}
+        immunizationsDetails={[]}
+      />,
     ).container;
   });
   it("should match snapshot", () => {
