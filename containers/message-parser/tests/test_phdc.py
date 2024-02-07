@@ -48,7 +48,7 @@ def test_build_telecom(build_telecom_test_data, expected_result):
         # Test case with a single code element, value, and translation
         (
             Observation(
-                type_code="ENTRY",
+                type_code="COMP",
                 class_code="OBS",
                 mood_code="EVN",
                 code=CodedElement(code="1", code_system="0", display_name="Code"),
@@ -60,12 +60,11 @@ def test_build_telecom(build_telecom_test_data, expected_result):
                 ),
             ),
             (
-                '<entry typeCode="ENTRY">'
-                + '<observation classCode="OBS" moodCode="EVN">'
-                + '<code code="1" codeSystem="0" displayName="Code"/>'
-                + '<value xsi:type="ST" code="2" codeSystem="1" displayName="V">'
-                + '<translation xsi:type="T" code="0" codeSystem="L" displayName="T"/>'
-                + "</value></observation></entry>"
+                '<entry typeCode="COMP"><observation classCode="OBS" moodCode="ENV">'
+                '<code code="1" codeSystem="0" displayName="Code"/><value xsi:type="ST"'
+                ' code="2" codeSystem="1" displayName="V"><translation xsi:type="T" '
+                'code="0" codeSystem="L" displayName="T"/></value></observation>'
+                '</entry>'
             ),
         )
     ],
