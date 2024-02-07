@@ -83,6 +83,7 @@
                     },
                     "mode":"snapshot",
                     {% if component.section.templateId.root and component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.12" -%}
+                        {%  assign tds = component.section | concatenate_tds -%}
                         {% if component.section.text and component.section.text.content and component.section.text.content._ -%}
                             "extension":
                             [
@@ -99,14 +100,14 @@
                                     "valueString" : "{{ component.section.text.content._ }}"
                                 },
                             ],
-                        {% elsif component.section.text and component.section.text.table.tbody.tr.td._ -%}
+                        {% elsif tds and tds != '' -%}
                             "extension":
                             [
                                 {
                                     "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                    "valueString" : "{{ component.section.text.table.tbody.tr.td._ }}"
+                                    "valueString" : "{{ tds }}"
                                 },
-                            ],
+                            ], 
                         {% endif -%}
                     {% endif -%}
                     "entry": 

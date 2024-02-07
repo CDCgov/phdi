@@ -18,13 +18,13 @@ from app.models import PutConfigResponse
 from app.services import call_apis
 from app.services import validate_response
 from app.utils import load_config_assets
+from app.utils import load_json_from_binary
 from app.utils import load_processing_config
 from app.utils import unzip_http
 from app.utils import unzip_ws
 from fastapi import Body
 from fastapi import File
 from fastapi import Form
-from fastapi import HTTPException
 from fastapi import Response
 from fastapi import status
 from fastapi import UploadFile
@@ -119,28 +119,48 @@ async def process_message_endpoint_ws(
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_endpoint(
     message_type: str = Form(None),
+    data_type: str = Form(None),
     config_file_name: str = Form(None),
     include_error_types: str = Form(None),
     upload_file: UploadFile = File(None),
 ) -> ProcessMessageResponse:
     """
-    Processes an uploaded zip file through a series of microservices.
+    Wrapper function for unpacking an uploaded file, determining appropriate
+    parameter and application settings, and applying a config-driven workflow
+    to the data in that file. This is one of two endpoints that can actually
+    invoke and apply a config workflow to data and is meant to be used to
+    process files.
+
+    :param message_type: The type of stream of the uploaded file's underlying
+      data (e.g. ecr, elr, etc.). If the data is in FHIR format, set to FHIR.
+    :param data_type: The type of data held in the uploaded file. Eligible
+      values include `ecr`, `zip`, `fhir`, and `hl7`.
+    :param config_file_name: The name of the configuration file to load on
+      the service's back-end, specifying the workflow to apply.
+    :param include_error_types: Whether to include error messaging if the
+      workflow is unsuccessful, as well as what kinds of errors.
+    :param upload_file: A file containing clinical health care information.
+    :return: A response holding whether the workflow application was
+      successful as well as well as the results of the workflow.
     """
 
-    if upload_file.content_type != "application/zip":
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Only .zip files are accepted at this time.",
-        )
-
-    zip_content = unzip_http(upload_file)
+    rr_content = None
+    if upload_file.content_type == "application/zip":
+        unzipped_file = unzip_http(upload_file)
+        message = unzipped_file.get("ecr")
+        rr_content = unzipped_file.get("rr")
+    elif upload_file.content_type == "application/json":
+        message = load_json_from_binary(upload_file)
+    else:
+        message = upload_file.read()
 
     building_block_response = await apply_workflow_to_message(
         message_type,
+        data_type,
         config_file_name,
         include_error_types,
-        zip_content.get("ecr"),
-        zip_content.get("rr"),
+        message,
+        rr_content,
     )
 
     return building_block_response
@@ -153,11 +173,16 @@ async def process_message_endpoint(
     request: ProcessMessageRequest,
 ) -> ProcessMessageResponse:
     """
-    Processes a message through a series of microservices.
+    Wrapper function for unpacking a message processing input and using those
+    settings to apply a config-driven workflow to a raw string of data.
+    This endpoint is the second of two workflow-driven endpoints and is meant
+    to be used with raw string data (meaning if the data is JSON, it must be
+    string serialized with `json.dumps`).
     """
     process_request = dict(request)
     building_block_response = await apply_workflow_to_message(
         process_request.get("message_type"),
+        process_request.get("data_type"),
         process_request.get("config_file_name"),
         process_request.get("include_error_types"),
         process_request.get("message"),
@@ -168,7 +193,12 @@ async def process_message_endpoint(
 
 
 async def apply_workflow_to_message(
-    message_type, config_file_name, include_error_types, ecr_content, rr_content
+    message_type: str,
+    data_type: str,
+    config_file_name: str,
+    include_error_types: str,
+    message: str,
+    rr_content: str,
 ):
     """
     Main orchestration function that applies a config-defined workflow to an
@@ -178,16 +208,18 @@ async def apply_workflow_to_message(
 
     :param message_type: The type of data being supplied for orchestration. May
       be either 'ecr', 'elr', 'vxu', or 'fhir'.
+    :param data_type: The type of data of the passed-in message.
     :param config_file_name: The name of the workflow configuration file to
       load and apply stepwise to the data. File must be located in the custom
       or default configs directory on the service's disk space.
     :param include_error_types: Whether to include error typing in the API
       responses.
-    :param ecr_content: The data content of the provided eCR message.
+    :param message: The content of the supplied string of data.
     :param rr_content: The reportability response associated with the eCR.
     :return: JSON of whether the workflow succeeded and what its outputs
       were.
     """
+    # Load the config file and fail fast if we can't find it
     try:
         processing_config = load_processing_config(config_file_name)
     except FileNotFoundError as error:
@@ -202,13 +234,14 @@ async def apply_workflow_to_message(
         )
         return response
 
+    # Compile the input to the other service endpoints and call them
     api_input = {
         "message_type": message_type,
+        "data_type": data_type,
         "include_error_types": include_error_types,
-        "message": ecr_content,
+        "message": message,
         "rr_data": rr_content,
     }
-
     response, responses = await call_apis(config=processing_config, input=api_input)
 
     if response.status_code == 200:

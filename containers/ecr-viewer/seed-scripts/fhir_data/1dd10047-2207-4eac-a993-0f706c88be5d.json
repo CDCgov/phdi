@@ -285,22 +285,28 @@
             "mode": "snapshot"
           },
           {
-            "id": "5143951a-85ed-1b18-e4ea-304982129ffb",
-            "title": "Reason For Visit",
+            "id": "627dbdb9-cccc-e07d-93af-2b959c8719ea",
+            "title": "Reason for Visit",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason For Visit</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason for Visit</div>"
             },
             "code": {
               "coding": [
                 {
                   "code": "29299-5",
-                  "display": "Reason For Visit",
+                  "display": "REASON FOR VISIT",
                   "system": "http://loinc.org"
                 }
               ]
             },
-            "mode": "snapshot"
+            "mode": "snapshot",
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                "valueString": "Abdominal Cramping"
+              }
+            ]
           },
           {
             "id": "915ea4b0-0f6f-a969-20d1-7c9d6bc2acfd",
@@ -448,7 +454,18 @@
           "source": [
             "ecr"
           ]
-        }
+        },
+        "reason": [
+          {
+            "value": [
+              {
+                "concept": {
+                  "text": "Abdominal Cramping"
+                }
+              }
+            ]
+          }
+        ]
       },
       "request": {
         "method": "PUT",
@@ -3440,6 +3457,271 @@
       "request": {
         "method": "PUT",
         "url": "Observation/595b1386-09d2-7dfb-d414-fb1e5043013d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:96d9c86d-44a7-468f-54a0-7967b4a9d74e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "96d9c86d-44a7-468f-54a0-7967b4a9d74e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:17867d40-a3bf-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "8302-2",
+              "display": "Height",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-03-14T13:48:00-04:00",
+        "valueQuantity": {
+          "value": 65,
+          "unit": "[in_i]"
+        },
+        "subject": {
+          "reference": "Patient/0955f194-b00a-4b9b-a0cb-5d9c1b45f549"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/96d9c86d-44a7-468f-54a0-7967b4a9d74e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b56ecbc3-d9d6-9ee0-72a2-d593a1319384",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b56ecbc3-d9d6-9ee0-72a2-d593a1319384",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:17867d41-a3bf-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "8302-2",
+              "display": "Height",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-03-14T13:48:00-04:00",
+        "valueQuantity": {
+          "value": 165.1,
+          "unit": "cm"
+        },
+        "subject": {
+          "reference": "Patient/0955f194-b00a-4b9b-a0cb-5d9c1b45f549"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/b56ecbc3-d9d6-9ee0-72a2-d593a1319384"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f6629e93-53d1-acc9-e012-d3828d3bb525",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f6629e93-53d1-acc9-e012-d3828d3bb525",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:17867d42-a3bf-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "29463-7",
+              "display": "Weight",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-03-14T13:48:00-04:00",
+        "valueQuantity": {
+          "value": 150,
+          "unit": "[lb_av]"
+        },
+        "subject": {
+          "reference": "Patient/0955f194-b00a-4b9b-a0cb-5d9c1b45f549"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/f6629e93-53d1-acc9-e012-d3828d3bb525"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a7520460-214e-886f-3b3f-7b32d672a5f2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a7520460-214e-886f-3b3f-7b32d672a5f2",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:17867d43-a3bf-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "29463-7",
+              "display": "Weight",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-03-14T13:48:00-04:00",
+        "valueQuantity": {
+          "value": 68.039,
+          "unit": "kg"
+        },
+        "subject": {
+          "reference": "Patient/0955f194-b00a-4b9b-a0cb-5d9c1b45f549"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a7520460-214e-886f-3b3f-7b32d672a5f2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dcd0af93-2eca-0d28-f1fe-5f2b65c7d182",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "dcd0af93-2eca-0d28-f1fe-5f2b65c7d182",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:17867d44-a3bf-11ec-81e0-9e7eef92c510"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "39156-5",
+              "display": "BMI (Body Mass Index)",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-03-14T13:48:00-04:00",
+        "valueQuantity": {
+          "value": 25,
+          "unit": "kg/m2"
+        },
+        "subject": {
+          "reference": "Patient/0955f194-b00a-4b9b-a0cb-5d9c1b45f549"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/dcd0af93-2eca-0d28-f1fe-5f2b65c7d182"
       }
     }
   ]
