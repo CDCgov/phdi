@@ -44,7 +44,6 @@ def test_ecr_conversion(setup):
     ).read()
     request = {"input_data": input_data, "input_type": "ecr", "root_template": "EICR"}
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
-
     assert ecr_conversion_response.status_code == 200
     assert (
         ecr_conversion_response.json()["response"]["FhirResource"]["resourceType"]

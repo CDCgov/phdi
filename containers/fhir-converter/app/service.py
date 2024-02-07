@@ -115,7 +115,6 @@ def convert_to_fhir(
     converter_response = subprocess.run(
         fhir_conversion_command, shell=True, capture_output=True
     )
-
     # Process the response from FHIR Converter.
     if converter_response.returncode == 0:
         result = json.load(open(output_data_file_path))
