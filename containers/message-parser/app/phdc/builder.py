@@ -233,18 +233,18 @@ class PHDCBuilder:
         )
 
     def build_body(self):
-        body = ET.Element("component")
-        structured_body = ET.Element("structuredBody")
+        # body = ET.Element("component")
+        # structured_body = ET.Element("structuredBody")
 
         match self.input_data.type:
             case "case_report":
                 social_history_info = self._build_social_history_info(
                     self.input_data.social_history_info
                 )
-                structured_body.append(social_history_info)
+                # body.append(social_history_info)
 
                 clinical_info = self._build_clinical_info(self.input_data.clinical_info)
-                structured_body.append(clinical_info)
+                # body.append(clinical_info)
 
             case "contact_record":
                 pass
@@ -252,8 +252,9 @@ class PHDCBuilder:
                 pass
             case "morbidity_report":
                 pass
-        body.append(structured_body)
-        self.phdc.getroot().append(body)
+        # body.append(structured_body)
+        self.phdc.getroot().append(social_history_info)
+        self.phdc.getroot().append(clinical_info)
 
     def _build_clinical_info(
         self, observation_data: Optional[List[Observation]] = None
@@ -331,7 +332,6 @@ class PHDCBuilder:
                 section.append(observation_element)
 
         component.append(section)
-
         return component
 
     def _build_telecom(self, telecom: Telecom) -> ET.Element:
@@ -388,13 +388,16 @@ class PHDCBuilder:
         observation = self._sort_observation(observation)
 
         # Create the 'entry' element
-        entry_data = ET.Element("entry", {"typeCode": observation.type_code})
+        entry_data = ET.Element("entry")
 
         # Create the 'observation' element and append it to 'entry'
         observation_data = ET.SubElement(
             entry_data,
             "observation",
-            {"classCode": observation.class_code, "moodCode": observation.mood_code},
+            {
+                "classCode": "OBS",
+                "moodCode": "EVN",
+            },
         )
 
         if observation.code:
