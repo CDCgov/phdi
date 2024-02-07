@@ -2,7 +2,12 @@ FROM mcr.microsoft.com/dotnet/sdk:3.1 as build
 
 # Download FHIR-Converter
 RUN git clone https://github.com/microsoft/FHIR-Converter.git --branch v5.0.4 --single-branch /build/FHIR-Converter
+COPY /CustomFilters/ /build/FHIR-Converter/src/Microsoft.Health.Fhir.Liquid.Converter/Filters/
+
 WORKDIR /build/FHIR-Converter
+
+RUN pwd && ls -la
+
 RUN echo test > src/Microsoft.Health.Fhir.TemplateManagement.UnitTests/TestData/DecompressedFiles/VXU_V04.liquid
 RUN if [ -f src/Microsoft.Health.Fhir.TemplateManagement.UnitTests/TestData/DecompressedFiles/.wh.VXU_V04.liquid ]; then rm src/Microsoft.Health.Fhir.TemplateManagement.UnitTests/TestData/DecompressedFiles/.wh.VXU_V04.liquid; fi
 RUN mkdir bin && \

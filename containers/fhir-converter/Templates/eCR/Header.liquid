@@ -13,7 +13,8 @@
 
 {% if msg.ClinicalDocument.componentOf.encompassingEncounter -%}
   {% assign encounterId = msg.ClinicalDocument.componentOf.encompassingEncounter | to_json_string | generate_uuid -%}
-  {% include 'Resource/Encounter' encounter: msg.ClinicalDocument.componentOf.encompassingEncounter ID: encounterId -%}
+  {% assign reasonForVisit = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.12' %} 
+  {% include 'Resource/Encounter' encounter: msg.ClinicalDocument.componentOf.encompassingEncounter ID: encounterId REASON: reasonForVisit  -%}
   {% include 'Reference/Encounter/Subject' ID: encounterId, REF: fullPatientId -%}
   {% assign fullEncounterId = encounterId | prepend: 'Encounter/' -%}
   {% include 'Reference/Composition/Encounter' ID: compositionId, REF: fullEncounterId -%}

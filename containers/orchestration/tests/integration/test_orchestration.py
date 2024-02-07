@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 
@@ -20,6 +21,10 @@ PROCESS_MESSAGE_ENDPOINT = ORCHESTRATION_URL + "/process-message"
 
 @pytest.mark.integration
 def test_health_check(setup):
+    """
+    Basic test to make sure the orchestration service can communicate with
+    other up and running services.
+    """
     port_number_strings = [
         "ORCHESTRATION_PORT_NUMBER",
         "VALIDATION_PORT_NUMBER",
@@ -42,6 +47,10 @@ def test_health_check(setup):
 
 @pytest.mark.integration
 def test_process_message_endpoint(setup):
+    """
+    Tests a basic scenario of accepting an eCR message in XML format and
+    applying a full validation through parsing workflow.
+    """
     message = open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -51,6 +60,7 @@ def test_process_message_endpoint(setup):
     ).read()
     request = {
         "message_type": "ecr",
+        "data_type": "ecr",
         "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
         "message": message,
@@ -62,6 +72,10 @@ def test_process_message_endpoint(setup):
 
 @pytest.mark.integration
 def test_process_endpoint_with_zip(setup):
+    """
+    Tests full orchestration functionality of an eCR file, but this time,
+    the file is zipped rather than raw string.
+    """
     with open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -85,6 +99,10 @@ def test_process_endpoint_with_zip(setup):
 
 @pytest.mark.integration
 def test_process_endpoint_with_zip_and_rr_data(setup):
+    """
+    Full orchestration test of a zip file containing both an eICR and the
+    associated RR data.
+    """
     with open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -108,6 +126,57 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
             orchestration_response.json()["processed_values"]["parsed_values"]["rr_id"]
             is not None
         )
+
+
+@pytest.mark.integration
+def test_process_message_fhir(setup):
+    """
+    Integration test of a different workflow and data type, a FHIR bundle
+    passed through standardization.
+    """
+    message = json.load(
+        open(
+            Path(__file__).parent.parent.parent
+            / "assets"
+            / "demo_phdc_conversion_bundle.json"
+        )
+    )
+    request = {
+        "message_type": "fhir",
+        "data_type": "fhir",
+        "config_file_name": "sample-fhir-test-config.json",
+        "include_error_types": "errors",
+        "message": json.dumps(message),
+    }
+    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
+    assert orchestration_response.status_code == 200
+    assert orchestration_response.json()["message"] == "Processing succeeded!"
+
+
+@pytest.mark.integration
+def test_process_message_hl7(setup):
+    """
+    Full orchestrated test of validating, converting to FHIR, and geocoding
+    an eLR HL7v2 message.
+    """
+    message = open(
+        Path(__file__).parent.parent.parent.parent.parent
+        / "tests"
+        / "assets"
+        / "fhir-converter"
+        / "hl7v2"
+        / "hl7_with_msh_3_set.hl7"
+    ).read()
+    request = {
+        "message_type": "elr",
+        "data_type": "hl7",
+        "config_file_name": "sample-hl7-test-config.json",
+        "include_error_types": "errors",
+        "message": message,
+    }
+    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
+    assert orchestration_response.status_code == 200
+    assert orchestration_response.json()["message"] == "Processing succeeded!"
 
 
 @pytest.mark.asyncio

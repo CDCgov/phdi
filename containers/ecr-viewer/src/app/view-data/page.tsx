@@ -2,26 +2,17 @@
 import EcrSummary, {
   ecrSummaryConfig,
 } from "@/app/view-data/components/EcrSummary";
+import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import { Accordion } from "@trussworks/react-uswds";
-import {
-  PathMappings,
-  evaluateSocialData,
-  evaluateEncounterData,
-  evaluateProviderData,
-  evaluateDemographicsData,
-  evaluateEcrMetadata,
-  evaluateClinicalData,
-} from "../utils";
-import Demographics, { demographicsConfig } from "./components/Demographics";
-import SocialHistory, { socialHistoryConfig } from "./components/SocialHistory";
-import UnavailableInfo from "./components/UnavailableInfo";
-import EcrMetadata, { ecrMetadataConfig } from "./components/EcrMetadata";
+import { demographicsConfig } from "./components/Demographics";
+import { socialHistoryConfig } from "./components/SocialHistory";
+import { ecrMetadataConfig } from "./components/EcrMetadata";
+import { encounterConfig } from "./components/Encounter";
+import { clinicalInfoConfig } from "./components/ClinicalInfo";
+import { PathMappings } from "../utils";
 import SideNav, { SectionConfig } from "./components/SideNav";
-import ClinicalInfo from "./components/Clinical";
-import EncounterDetails, { encounterConfig } from "./components/Encounter";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -37,8 +28,9 @@ const ECRViewerPage = () => {
         demographicsConfig,
         socialHistoryConfig,
       ]),
-      ecrMetadataConfig,
       encounterConfig,
+      clinicalInfoConfig,
+      ecrMetadataConfig,
     ]),
     new SectionConfig("Unavailable Info"),
   ];
@@ -68,105 +60,6 @@ const ECRViewerPage = () => {
     };
     fetchData();
   }, []);
-
-  const renderAccordion = () => {
-    const demographicsData = evaluateDemographicsData(fhirBundle, mappings);
-    const social_data = evaluateSocialData(fhirBundle, mappings);
-    const encounterData = evaluateEncounterData(fhirBundle, mappings);
-    const providerData = evaluateProviderData(fhirBundle, mappings);
-    const ecrMetadata = evaluateEcrMetadata(fhirBundle, mappings);
-    const clinicalData = evaluateClinicalData(fhirBundle, mappings);
-    const accordionItems: any[] = [
-      {
-        title: <span id="patient-info">Patient Info</span>,
-        content: (
-          <>
-            <Demographics demographicsData={demographicsData.availableData} />
-            {social_data.availableData.length > 0 && (
-              <SocialHistory socialData={social_data.availableData} />
-            )}
-          </>
-        ),
-        expanded: true,
-        id: "1",
-        headingLevel: "h2",
-      },
-      {
-        title: <span id="ecr-metadata">eCR Metadata</span>,
-        content: (
-          <>
-            <EcrMetadata
-              eicrDetails={ecrMetadata.eicrDetails.availableData}
-              eCRSenderDetails={ecrMetadata.ecrSenderDetails.availableData}
-              rrDetails={ecrMetadata.rrDetails.availableData}
-            />
-          </>
-        ),
-        expanded: true,
-        id: "2",
-        headingLevel: "h2",
-      },
-      {
-        title: <span id="encounter-info">Encounter Info</span>,
-        content: (
-          <div>
-            <EncounterDetails
-              encounterData={encounterData.availableData}
-              providerData={providerData.availableData}
-            />
-          </div>
-        ),
-        expanded: true,
-        id: "3",
-        headingLevel: "h2",
-      },
-      {
-        title: <span id="clinical-info">Clinical Info</span>,
-        content: (
-          <div>
-            <ClinicalInfo
-              activeProblemsDetails={
-                clinicalData.activeProblemsDetails.availableData
-              }
-              vitalData={clinicalData.vitalData.availableData}
-            />
-          </div>
-        ),
-        expanded: true,
-        id: "4",
-        headingLevel: "h2",
-      },
-      {
-        title: <span id="unavailable-info">Unavailable Info</span>,
-        content: (
-          <div className="padding-top-105">
-            <UnavailableInfo
-              demographicsUnavailableData={demographicsData.unavailableData}
-              socialUnavailableData={social_data.unavailableData}
-              encounterUnavailableData={encounterData.unavailableData}
-              providerUnavailableData={providerData.unavailableData}
-              activeProblemsUnavailableData={
-                clinicalData.activeProblemsDetails.unavailableData
-              }
-              vitalUnavailableData={clinicalData.vitalData.unavailableData}
-            />
-          </div>
-        ),
-        expanded: true,
-        id: "5",
-        headingLevel: "h2",
-      },
-    ];
-
-    return (
-      <Accordion
-        className="info-container"
-        items={accordionItems}
-        multiselectable={true}
-      />
-    );
-  };
-
   if (errors) {
     return <div>{`${errors}`}</div>;
   } else if (fhirBundle && mappings) {
@@ -182,7 +75,7 @@ const ECRViewerPage = () => {
                 <SideNav sectionConfigs={sideNavConfigs} />
               </nav>
             </div>
-            <div className="ecr-viewer-container">
+            <div className={"ecr-viewer-container"}>
               <div className="ecr-content">
                 <h2 className="margin-bottom-3" id="ecr-summary">
                   eCR Summary
@@ -195,7 +88,10 @@ const ECRViewerPage = () => {
                   <h2 className="margin-bottom-3" id="ecr-document">
                     eCR Document
                   </h2>
-                  {renderAccordion()}
+                  <AccordionContainer
+                    fhirPathMappings={mappings}
+                    fhirBundle={fhirBundle}
+                  />
                 </div>
               </div>
             </div>
