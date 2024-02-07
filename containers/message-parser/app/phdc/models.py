@@ -114,3 +114,4 @@ class PHDCInputData:
     patient: Patient = None
     clinical_info: List[Observation] = None
     organization: List[Organization] = None
+    observations: List[Observation] = None
