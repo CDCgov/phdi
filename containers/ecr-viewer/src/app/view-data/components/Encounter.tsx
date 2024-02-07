@@ -1,10 +1,11 @@
-import { DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayData } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
+import React from "react";
 
 interface EncounterProps {
   encounterData: DisplayData[];
@@ -17,25 +18,6 @@ export const encounterConfig: SectionConfig = new SectionConfig(
 );
 
 const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
-  const combineData = () => {
-    const combinedData = encounterData.slice();
-    combinedData.splice(2, 0, ...providerData);
-    return combinedData;
-  };
-
-  const renderData = (item: any, index: number) => {
-    return (
-      <div key={index}>
-        <div className="grid-row">
-          <div className="data-title">
-            <h4>{item.title}</h4>
-          </div>
-          <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
-        </div>
-        <div className={"section__line_gray"} />
-      </div>
-    );
-  };
 
   const renderEncounterDetails = () => {
     return (
@@ -46,7 +28,7 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
           </span>
         </AccordianH3>
         <AccordianDiv>
-          {encounterData.map((item, index) => renderData(item, index))}
+          {encounterData.map((item, index) => <DataDisplay item={item} key={index} />)}
         </AccordianDiv>
       </>
     );
@@ -61,7 +43,7 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
           </span>
         </AccordianH3>
         <AccordianDiv>
-          {providerData.map((item, index) => renderData(item, index))}
+          {providerData.map((item, index) => <DataDisplay item={item} key={index} />)}
         </AccordianDiv>
       </>
     );

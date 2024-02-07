@@ -2,6 +2,7 @@ import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
+import React from "react";
 
 export interface DisplayData {
   title: string;
@@ -678,4 +679,18 @@ export const formatString = (input: string): string => {
   result = result.replace(/[^a-z0-9\-]/g, "");
 
   return result;
+};
+
+export const DataDisplay: React.FC<{item: DisplayData}> = ({ item }): React.JSX.Element => {
+  return (
+    <div>
+      <div className="grid-row">
+        <div className="data-title">
+          <h4>{item.title}</h4>
+        </div>
+        <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
+      </div>
+      <div className={"section__line_gray"} />
+    </div>
+  );
 };
