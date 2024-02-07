@@ -74,6 +74,18 @@
         <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
         <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical Information"/>
         <title>Clinical Information</title>
+        <entry typeCode="COMP">
+          <observation classCode="OBS" moodCode="EVN">
+            <code code="15074-8" codeSystem="http://loinc.org" displayName="Glucose [Moles/volume] in Blood"/>
+            <value code="mmol/L" codeSystem="http://unitsofmeasure.org" value="6.3"/>
+          </observation>
+        </entry>
+        <entry typeCode="COMP">
+          <observation classCode="OBS" moodCode="EVN">
+            <code code="104177,600-7" codeSystem="http://acmelabs.org,http://loinc.org" displayName="Blood culture,Bacteria identified in Blood by Culture"/>
+            <value code="3092008" codeSystem="http://snomed.info/sct" value="Staphylococcus aureus"/>
+          </observation>
+        </entry>
       </section>
     </component>
   </component>
