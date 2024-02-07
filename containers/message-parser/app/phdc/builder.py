@@ -239,7 +239,7 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                clinical_info = self._build_clinical_info(self.input_data.clinical_info)
+                clinical_info = self._build_clinical_info()
                 body.append(clinical_info)
             case "contact_record":
                 pass
@@ -250,9 +250,7 @@ class PHDCBuilder:
 
         self.phdc.getroot().append(body)
 
-    def _build_clinical_info(
-        self, observation_data: Optional[List[Observation]] = None
-    ) -> ET.Element:
+    def _build_clinical_info(self) -> ET.Element:
         """
         Builds the `ClinicalInformation` XML element, including all hardcoded aspects
           required to initialize the section.
@@ -279,8 +277,8 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if observation_data:
-            for observation in observation_data:
+        if self.input_data.observations is not None:
+            for observation in self.input_data.observations:
                 observation_element = self._build_observation(observation)
                 section.append(observation_element)
 
@@ -337,17 +335,18 @@ class PHDCBuilder:
         Entry object.
         :return entry_data: XML element of Entry data
         """
+
         # Sort the observation into code and value sections
         observation = self._sort_observation(observation)
 
         # Create the 'entry' element
-        entry_data = ET.Element("entry", {"typeCode": observation.type_code})
+        entry_data = ET.Element("entry", {"typeCode": "COMP"})
 
         # Create the 'observation' element and append it to 'entry'
         observation_data = ET.SubElement(
             entry_data,
             "observation",
-            {"classCode": observation.class_code, "moodCode": observation.mood_code},
+            {"classCode": "OBS", "moodCode": "ENV"},
         )
 
         if observation.code:
