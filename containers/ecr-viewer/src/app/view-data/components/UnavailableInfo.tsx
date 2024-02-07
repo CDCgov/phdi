@@ -1,9 +1,5 @@
 import { DisplayData } from "@/app/utils";
-import {
-  AccordianSection,
-  AccordianH3,
-  AccordianDiv,
-} from "../component-utils";
+import { AccordianSection } from "../component-utils";
 
 interface UnavailableInfoProps {
   demographicsUnavailableData: DisplayData[];
@@ -11,6 +7,7 @@ interface UnavailableInfoProps {
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
   activeProblemsUnavailableData: DisplayData[];
+  vitalUnavailableData: DisplayData[];
 }
 
 const UnavailableInfo = ({
@@ -20,6 +17,7 @@ const UnavailableInfo = ({
   providerUnavailableData,
   activeProblemsUnavailableData,
   immunizationsUnavailableData,
+  vitalUnavailableData,
 }: UnavailableInfoProps) => {
   const renderRow = (item: any, index: number) => {
     return (
@@ -58,10 +56,12 @@ const UnavailableInfo = ({
         renderSection("Social History", socialUnavailableData)}
       {encounterUnavailableData?.length > 0 &&
         renderSection("Encounter Details", encounterUnavailableData)}
-      {providerUnavailableData?.length > 0 &&
+      {providerUnavailableData.length > 0 &&
         renderSection("Provider Details", providerUnavailableData)}
       {activeProblemsUnavailableData?.length > 0 && // Add other items under symptoms and problems here
         renderSection("Symptoms and Problems", activeProblemsUnavailableData)}
+      {vitalUnavailableData?.length > 0 &&
+        renderSection("Diagnostics and Vital Signs", vitalUnavailableData)}
       {immunizationsUnavailableData?.length > 0 &&
         renderSection("Immunizations", immunizationsUnavailableData)}
     </AccordianSection>

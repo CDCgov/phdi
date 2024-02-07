@@ -4,15 +4,25 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
+import { SectionConfig } from "./SideNav";
+import React from "react";
 
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
+  vitalData: DisplayData[];
   immunizationsDetails: DisplayData[];
 }
+
+export const clinicalInfoConfig: SectionConfig = new SectionConfig(
+  "Clinical Info",
+  ["Symptoms and Problems"],
+  // immunizationsDetails,
+);
 
 const ClinicalInfo = ({
   activeProblemsDetails,
   immunizationsDetails,
+  vitalData,
 }: ClinicalProps) => {
   const renderData = (item: any, index: number) => {
     return (
@@ -41,11 +51,20 @@ const ClinicalInfo = ({
     );
   };
 
-  const renderSymptomsProblemsDetails = () => {
+  const renderSymptomsAndProblems = () => {
+    const tableData = activeProblemsDetails.filter((item) =>
+      React.isValidElement(item),
+    );
+    const data = activeProblemsDetails.filter(
+      (item) => !React.isValidElement(item),
+    );
     return (
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
-        <AccordianDiv>{renderTableDetails(activeProblemsDetails)}</AccordianDiv>
+        <AccordianDiv>
+          {data.map((item, index) => renderData(item, index))}
+          {/* {renderTableDetails(tableData)} */}
+        </AccordianDiv>
       </>
     );
   };
@@ -59,14 +78,24 @@ const ClinicalInfo = ({
     );
   };
 
+  const renderVitalDetails = () => {
+    return (
+      <>
+        <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
+        <AccordianDiv>
+          <div className="lh-18">
+            {vitalData.map((item, index) => renderData(item, index))}
+          </div>
+        </AccordianDiv>
+      </>
+    );
+  };
+
   return (
     <AccordianSection>
-      <div className="margin-top-3">
-        {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
-      </div>
-      <div className="margin-top-3">
-        {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
-      </div>
+      {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
+      {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
+      {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );
 };
