@@ -239,10 +239,7 @@ class PHDCBuilder:
         match self.input_data.type:
             case "case_report":
                 social_history_info = self._build_social_history_info()
-                # body.append(social_history_info)
-
                 clinical_info = self._build_clinical_info()
-                # body.append(clinical_info)
 
             case "contact_record":
                 pass
@@ -250,7 +247,6 @@ class PHDCBuilder:
                 pass
             case "morbidity_report":
                 pass
-        # body.append(structured_body)
         self.phdc.getroot().append(social_history_info)
         self.phdc.getroot().append(clinical_info)
 
