@@ -68,9 +68,14 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
     {
       title: "Clinical Info",
       content: (
-        <div>
-          <ClinicalInfo clinicalData={clinicalData.availableData} />
-        </div>
+        <>
+          <ClinicalInfo
+            activeProblemsDetails={
+              clinicalData.activeProblemsDetails.availableData
+            }
+            vitalData={clinicalData.vitalData.availableData}
+          />
+        </>
       ),
       expanded: true,
       headingLevel: "h2",
@@ -97,8 +102,11 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             demographicsUnavailableData={demographicsData.unavailableData}
             socialUnavailableData={social_data.unavailableData}
             encounterUnavailableData={encounterData.unavailableData}
-            clinicalUnavailableData={clinicalData.unavailableData}
+            activeProblemsUnavailableData={
+              clinicalData.activeProblemsDetails.unavailableData
+            }
             providerUnavailableData={providerData.unavailableData}
+            vitalUnavailableData={clinicalData.vitalData.unavailableData}
           />
         </div>
       ),

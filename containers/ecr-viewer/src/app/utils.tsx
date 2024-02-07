@@ -226,6 +226,45 @@ const formatStartEndDateTime = (
         End: ${endFormattedDate}`;
 };
 
+const formatVitals = (
+  heightAmount: string,
+  heightMeasurementType: string,
+  weightAmount: string,
+  weightMeasurementType: string,
+  bmi: string,
+) => {
+  let heightString = "";
+  let weightString = "";
+  let bmiString = "";
+
+  let heightType = "";
+  let weightType = "";
+  if (heightAmount && heightMeasurementType) {
+    if (heightMeasurementType === "[in_i]") {
+      heightType = "inches";
+    } else if (heightMeasurementType === "cm") {
+      heightType = "cm";
+    }
+    heightString = `Height: ${heightAmount} ${heightType}\n\n`;
+  }
+
+  if (weightAmount && weightMeasurementType) {
+    if (weightMeasurementType === "[lb_av]") {
+      weightType = "Lbs";
+    } else if (weightMeasurementType === "kg") {
+      weightType = "kg";
+    }
+    weightString = `Weight: ${weightAmount} ${weightType}\n\n`;
+  }
+
+  if (bmi) {
+    bmiString = `Body Mass Index (BMI): ${bmi}`;
+  }
+
+  const combinedString = `${heightString} ${weightString} ${bmiString}`;
+  return combinedString.trim();
+};
+
 const formatTable = (
   resources: React.JSX.Element[],
   mappings: PathMappings,
@@ -595,7 +634,23 @@ export const evaluateClinicalData = (
       value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
     },
   ];
-  return evaluateData(activeProblemsData);
+
+  const vitalData = [
+    {
+      title: "Vital Signs",
+      value: formatVitals(
+        evaluate(fhirBundle, mappings["patientHeight"])[0],
+        evaluate(fhirBundle, mappings["patientHeightMeasurement"])[0],
+        evaluate(fhirBundle, mappings["patientWeight"])[0],
+        evaluate(fhirBundle, mappings["patientWeightMeasurement"])[0],
+        evaluate(fhirBundle, mappings["patientBmi"])[0],
+      ),
+    },
+  ];
+  return {
+    activeProblemsDetails: evaluateData(activeProblemsData),
+    vitalData: evaluateData(vitalData),
+  };
 };
 
 const evaluateData = (data: DisplayData[]) => {

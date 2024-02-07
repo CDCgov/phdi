@@ -7,7 +7,8 @@ import {
 import { SectionConfig } from "./SideNav";
 
 interface ClinicalProps {
-  clinicalData: DisplayData[];
+  activeProblemsDetails: DisplayData[];
+  vitalData: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -15,7 +16,7 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   ["Symptoms and Problems"],
 );
 
-const ClinicalInfo = ({ clinicalData }: ClinicalProps) => {
+const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
   const renderData = (item: any, index: number) => {
     return (
       <div key={index}>
@@ -30,12 +31,39 @@ const ClinicalInfo = ({ clinicalData }: ClinicalProps) => {
     );
   };
 
+  const renderTableDetails = (tableDetails: DisplayData[]) => {
+    return (
+      <div>
+        {tableDetails.map((item, index) => (
+          <div key={index}>
+            <div className="grid-col-auto text-pre-line">{item.value}</div>
+            <div className={"section__line_gray"} />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   const renderSymptomsAndProblems = () => {
     return (
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
         <AccordianDiv>
           {clinicalData.map((item, index) => renderData(item, index))}
+          {renderTableDetails(activeProblemsDetails)}
+        </AccordianDiv>
+      </>
+    );
+  };
+
+  const renderVitalDetails = () => {
+    return (
+      <>
+        <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
+        <AccordianDiv>
+          <div className="lh-18">
+            {vitalData.map((item, index) => renderData(item, index))}
+          </div>
         </AccordianDiv>
       </>
     );
@@ -43,7 +71,8 @@ const ClinicalInfo = ({ clinicalData }: ClinicalProps) => {
 
   return (
     <AccordianSection>
-      <div>{clinicalData.length > 0 && renderSymptomsAndProblems()}</div>
+      {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
+      {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );
 };
