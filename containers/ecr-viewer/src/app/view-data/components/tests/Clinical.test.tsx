@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
-import ClinicalInfo from "../Clinical";
+import ClinicalInfo from "../ClinicalInfo";
 
 describe("Encounter", () => {
   let container: HTMLElement;

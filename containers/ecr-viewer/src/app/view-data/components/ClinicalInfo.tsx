@@ -4,11 +4,18 @@ import {
   AccordianH3,
   AccordianDiv,
 } from "../component-utils";
+import { SectionConfig } from "./SideNav";
+import React from "react";
 
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
 }
+
+export const clinicalInfoConfig: SectionConfig = new SectionConfig(
+  "Clinical Info",
+  ["Symptoms and Problems"],
+);
 
 const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
   const renderData = (item: any, index: number) => {
@@ -38,11 +45,20 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
     );
   };
 
-  const renderSymptomsProblemsDetails = () => {
+  const renderSymptomsAndProblems = () => {
+    const tableData = activeProblemsDetails.filter((item) =>
+      React.isValidElement(item),
+    );
+    const data = activeProblemsDetails.filter(
+      (item) => !React.isValidElement(item),
+    );
     return (
       <>
         <AccordianH3>Symptoms and Problems</AccordianH3>
-        <AccordianDiv>{renderTableDetails(activeProblemsDetails)}</AccordianDiv>
+        <AccordianDiv>
+          {data.map((item, index) => renderData(item, index))}
+          {renderTableDetails(tableData)}
+        </AccordianDiv>
       </>
     );
   };
@@ -62,7 +78,7 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
 
   return (
     <AccordianSection>
-      {activeProblemsDetails.length > 0 && renderSymptomsProblemsDetails()}
+      {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );
