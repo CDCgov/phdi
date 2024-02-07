@@ -387,7 +387,7 @@ class PHDCBuilder:
         observation_data = ET.SubElement(
             entry_data,
             "observation",
-            {"classCode": "OBS", "moodCode": "ENV"},
+            {"classCode": "OBS", "moodCode": "EVN"},
         )
 
         if observation.code:
