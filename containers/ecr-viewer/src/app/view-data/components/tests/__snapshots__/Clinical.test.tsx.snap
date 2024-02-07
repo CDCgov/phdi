@@ -9,86 +9,84 @@ exports[`Encounter should match snapshot 1`] = `
       <div
         class="usa-summary-box__body"
       >
-        <div>
-          <h3
-            class="usa-summary-box__heading padding-y-105"
-            id="summary-box-key-information"
-          >
-            Diagnostic and Vital Signs
-          </h3>
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          Diagnostic and Vital Signs
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
           <div
-            class="usa-summary-box__text"
+            class="lh-18"
           >
-            <div
-              class="lh-18"
-            >
-              <div>
+            <div>
+              <div
+                class="grid-row"
+              >
                 <div
-                  class="grid-row"
+                  class="data-title"
                 >
-                  <div
-                    class="data-title"
-                  >
-                    <h4>
-                      Vitals
-                    </h4>
-                  </div>
-                  <div
-                    class="grid-col-auto maxw7 text-pre-line"
-                  >
-                    Height: 65 inches
+                  <h4>
+                    Vitals
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  Height: 65 inches
 
 Weight: 150 Lbs
 
 Body Mass Index (BMI): 25
-                  </div>
                 </div>
-                <div
-                  class="section__line_gray"
-                />
               </div>
-              <div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
                 <div
-                  class="grid-row"
+                  class="data-title"
                 >
-                  <div
-                    class="data-title"
-                  >
-                    <h4>
-                      Facility Name
-                    </h4>
-                  </div>
-                  <div
-                    class="grid-col-auto maxw7 text-pre-line"
-                  >
-                    PRM- Palmdale Regional Medical Center
-                  </div>
+                  <h4>
+                    Facility Name
+                  </h4>
                 </div>
                 <div
-                  class="section__line_gray"
-                />
-              </div>
-              <div>
-                <div
-                  class="grid-row"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
-                  <div
-                    class="data-title"
-                  >
-                    <h4>
-                      Facility Type
-                    </h4>
-                  </div>
-                  <div
-                    class="grid-col-auto maxw7 text-pre-line"
-                  >
-                    Healthcare Provider
-                  </div>
+                  PRM- Palmdale Regional Medical Center
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Facility Type
+                  </h4>
                 </div>
                 <div
-                  class="section__line_gray"
-                />
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  Healthcare Provider
+                </div>
               </div>
+              <div
+                class="section__line_gray"
+              />
             </div>
           </div>
         </div>
