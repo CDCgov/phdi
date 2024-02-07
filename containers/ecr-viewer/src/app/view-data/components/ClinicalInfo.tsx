@@ -16,8 +16,7 @@ interface ClinicalProps {
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   "Clinical Info",
-  ["Symptoms and Problems"],
-  // immunizationsDetails,
+  ["Symptoms and Problems", "Immunizations", "Diagnostics and Vital Signs"],
 );
 
 const ClinicalInfo = ({
@@ -54,15 +53,13 @@ const ClinicalInfo = ({
   };
 
   const renderSymptomsAndProblems = () => {
-    // const tableData = activeProblemsDetails.filter((item) =>
-    //   React.isValidElement(item),
-    // );
-    // const data = activeProblemsDetails.filter(
-    //   (item) => !React.isValidElement(item),
-    // );
     return (
       <>
-        <AccordianH3>Symptoms and Problems</AccordianH3>
+        <AccordianH3>
+          <span id={clinicalInfoConfig.subNavItems?.[0].id}>
+            {clinicalInfoConfig.subNavItems?.[0].title}
+          </span>
+        </AccordianH3>
         <AccordianDiv>
           {reasonForVisitDetails.map((item, index) => renderData(item, index))}
           {renderTableDetails(activeProblemsDetails)}
@@ -74,7 +71,11 @@ const ClinicalInfo = ({
   const renderImmunizationsDetails = () => {
     return (
       <>
-        <AccordianH3>Immunizations</AccordianH3>
+        <AccordianH3>
+          <span id={clinicalInfoConfig.subNavItems?.[1].id}>
+            {clinicalInfoConfig.subNavItems?.[1].title}
+          </span>
+        </AccordianH3>
         <AccordianDiv>{renderTableDetails(immunizationsDetails)}</AccordianDiv>
       </>
     );
@@ -83,7 +84,11 @@ const ClinicalInfo = ({
   const renderVitalDetails = () => {
     return (
       <>
-        <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
+        <AccordianH3>
+          <span id={clinicalInfoConfig.subNavItems?.[2].id}>
+            {clinicalInfoConfig.subNavItems?.[2].title}
+          </span>
+        </AccordianH3>
         <AccordianDiv>
           <div className="lh-18">
             {vitalData.map((item, index) => renderData(item, index))}
