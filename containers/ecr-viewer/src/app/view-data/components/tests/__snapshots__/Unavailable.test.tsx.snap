@@ -26,14 +26,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Tribal Affiliation
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -47,14 +47,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Preffered Language
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -82,14 +82,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Travel History
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -103,14 +103,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Pregnancy Status
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -124,14 +124,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Alcohol Use
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -145,14 +145,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Sexual Orientation
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -166,14 +166,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Gender Identity
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -201,14 +201,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Facility Address
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -236,14 +236,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Provider Name
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -271,14 +271,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Problems List
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
@@ -306,14 +306,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Vitals
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>

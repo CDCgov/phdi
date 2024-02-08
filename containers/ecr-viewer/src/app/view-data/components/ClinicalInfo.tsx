@@ -1,4 +1,4 @@
-import { DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayData } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH3,
@@ -25,20 +25,6 @@ const ClinicalInfo = ({
   immunizationsDetails,
   vitalData,
 }: ClinicalProps) => {
-  const renderData = (item: any, index: number) => {
-    return (
-      <div key={index}>
-        <div className="grid-row">
-          <div className="data-title">
-            <h4>{item.title}</h4>
-          </div>
-          <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
-        </div>
-        <div className={"section__line_gray"} />
-      </div>
-    );
-  };
-
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
@@ -61,7 +47,9 @@ const ClinicalInfo = ({
           </span>
         </AccordianH3>
         <AccordianDiv>
-          {reasonForVisitDetails.map((item, index) => renderData(item, index))}
+          {reasonForVisitDetails.map((item, index) => (
+            <DataDisplay item={item} key={index} />
+          ))}
           {renderTableDetails(activeProblemsDetails)}
         </AccordianDiv>
       </>
@@ -91,7 +79,9 @@ const ClinicalInfo = ({
         </AccordianH3>
         <AccordianDiv>
           <div className="lh-18">
-            {vitalData.map((item, index) => renderData(item, index))}
+            {vitalData.map((item, index) => (
+              <DataDisplay item={item} key={index} />
+            ))}
           </div>
         </AccordianDiv>
       </>
