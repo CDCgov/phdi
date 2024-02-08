@@ -264,59 +264,61 @@
     }
   },
   "observations": {
-    "fhir_path": "Bundle.entry.resource.where(resourceType='Observation')",
-    "data_type": "array",
-    "nullable": true,
-    "secondary_schema": {
-      "obs_type": {
-        "fhir_path": "Observation.category.coding.code",
-        "data_type": "string",
-        "nullable": false
-      },
-      "code_code": {
-        "fhir_path": "Observation.code.coding.code",
-        "data_type": "string",
-        "nullable": true
-      },
-      "code_code_system": {
-        "fhir_path": "Observation.code.coding.system",
-        "data_type": "string",
-        "nullable": true
-      },
-      "code_code_display": {
-        "fhir_path": "Observation.code.coding.display",
-        "data_type": "string",
-        "nullable": true
-      },
-      "value_quantitative_value": {
-        "fhir_path": "Observation.valueQuantity.value",
-        "data_type": "float",
-        "nullable": true
-      },
-      "value_quantitative_code_system": {
-        "fhir_path": "Observation.valueQuantity.system",
-        "data_type": "string",
-        "nullable": true
-      },
-      "value_quantitative_code": {
-        "fhir_path": "Observation.valueQuantity.code",
-        "data_type": "string",
-        "nullable": true
-      },
-      "value_qualitative_value": {
-        "fhir_path": "Observation.valueCodeableConcept.coding[0].display",
-        "data_type": "string",
-        "nullable": true
-      },
-      "value_qualitative_code_system": {
-        "fhir_path": "Observation.valueCodeableConcept.coding[0].system",
-        "data_type": "string",
-        "nullable": true
-      },
-      "value_qualitative_code": {
-        "fhir_path": "Observation.valueCodeableConcept.coding[0].code",
-        "data_type": "string",
-        "nullable": true
+    "observations": {
+      "fhir_path": "Bundle.entry.resource.where(resourceType='Observation')",
+      "data_type": "array",
+      "nullable": true,
+      "secondary_schema": {
+        "obs_type": {
+          "fhir_path": "Observation.category.coding.code",
+          "data_type": "string",
+          "nullable": false
+        },
+        "code_code": {
+          "fhir_path": "Observation.code.coding.code",
+          "data_type": "string",
+          "nullable": true
+        },
+        "code_code_system": {
+          "fhir_path": "Observation.code.coding.system",
+          "data_type": "string",
+          "nullable": true
+        },
+        "code_code_display": {
+          "fhir_path": "Observation.code.coding.display",
+          "data_type": "string",
+          "nullable": true
+        },
+        "value_quantitative_value": {
+          "fhir_path": "Observation.valueQuantity.value",
+          "data_type": "float",
+          "nullable": true
+        },
+        "value_quantitative_code_system": {
+          "fhir_path": "Observation.valueQuantity.system",
+          "data_type": "string",
+          "nullable": true
+        },
+        "value_quantitative_code": {
+          "fhir_path": "Observation.valueQuantity.code",
+          "data_type": "string",
+          "nullable": true
+        },
+        "value_qualitative_value": {
+          "fhir_path": "Observation.valueCodeableConcept.coding[0].display",
+          "data_type": "string",
+          "nullable": true
+        },
+        "value_qualitative_code_system": {
+          "fhir_path": "Observation.valueCodeableConcept.coding[0].system",
+          "data_type": "string",
+          "nullable": true
+        },
+        "value_qualitative_code": {
+          "fhir_path": "Observation.valueCodeableConcept.coding[0].code",
+          "data_type": "string",
+          "nullable": true
+        }
       }
     }
   }

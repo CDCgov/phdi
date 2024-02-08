@@ -92,6 +92,9 @@ class CodedElement:
 
 @dataclass
 class Observation:
+    # TODO: remove all except obs_type, type_code, class_code, mood_code, code, value,
+    # and translation once the "sorter" method for code/value/translation has been
+    # added
     obs_type: str = "laboratory"
     type_code: Optional[str] = None
     class_code: Optional[str] = None
