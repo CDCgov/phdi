@@ -1,7 +1,8 @@
 version: "3.3"
 
 include:
-  - docker-compose-ecr-viewer.yml
+  - path:
+      - docker-compose-ecr-viewer.yml
 
 services:
   orchestration-service:
@@ -13,8 +14,6 @@ services:
         fhir-converter-service,
         ingestion-service,
         message-parser-service,
-        db,
-        seed-db,
       ]
     ports:
       - "${ORCHESTRATION_PORT_NUMBER}:8080"
