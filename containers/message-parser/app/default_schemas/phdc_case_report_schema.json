@@ -214,49 +214,49 @@
         "nullable": true
       },
       "phone": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.telecom.where(system = 'phone').value",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').telecom.where(system = 'phone').value",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
       },
       "street_address_line_1": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.address[0].line[0]",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').address[0].line[0]",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
       },
       "street_address_line_2": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.address[0].line[1]",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').address[0].line[1]",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
       },
       "city": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.address[0].city",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').address[0].city",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
       },
       "state": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.address[0].state",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').address[0].state",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
       },
       "postal_code": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.address[0].postalCode",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').address[0].postalCode",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
       },
       "county": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.address[0].district",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').address[0].district",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
       },
       "country": {
-        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').contact.address[0].country",
+        "fhir_path": "Bundle.entry.resource.where(resourceType = 'Organization').where(id = '#REF#').address[0].country",
         "reference_lookup": "Composition.custodian.reference",
         "data_type": "string",
         "nullable": true
