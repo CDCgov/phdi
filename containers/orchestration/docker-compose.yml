@@ -13,6 +13,8 @@ services:
         fhir-converter-service,
         ingestion-service,
         message-parser-service,
+        db,
+        seed-db,
       ]
     ports:
       - "${ORCHESTRATION_PORT_NUMBER}:8080"
