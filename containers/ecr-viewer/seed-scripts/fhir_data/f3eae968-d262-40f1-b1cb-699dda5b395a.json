@@ -496,7 +496,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "relatesTo": [
           {
@@ -554,7 +554,7 @@
           "end": "2022-09-28"
         },
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "location": [
           {
@@ -1166,10 +1166,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:d2ff4c14-a41b-47f6-9038-6aabfd655ad5",
+      "fullUrl": "urn:uuid:fdaccfeb-b28a-4e38-bf58-7c74aab32cd6",
       "resource": {
         "resourceType": "Patient",
-        "id": "d2ff4c14-a41b-47f6-9038-6aabfd655ad5",
+        "id": "fdaccfeb-b28a-4e38-bf58-7c74aab32cd6",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1281,7 +1281,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+        "url": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
       }
     },
     {
@@ -1326,7 +1326,7 @@
         },
         "onsetDateTime": "2019-04-16",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1381,7 +1381,7 @@
         },
         "onsetDateTime": "2019-04-29",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1436,7 +1436,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1491,7 +1491,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1546,7 +1546,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1601,7 +1601,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1656,7 +1656,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1711,7 +1711,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -1750,7 +1750,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -1921,7 +1921,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2025,7 +2025,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2115,7 +2115,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2186,7 +2186,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2257,7 +2257,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2328,7 +2328,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2399,7 +2399,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2470,7 +2470,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2541,7 +2541,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2612,7 +2612,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2683,7 +2683,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2773,7 +2773,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2844,7 +2844,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2915,7 +2915,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -2986,7 +2986,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3057,7 +3057,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3128,7 +3128,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3199,7 +3199,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3270,7 +3270,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3341,7 +3341,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3412,7 +3412,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3483,7 +3483,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         }
       },
       "request": {
@@ -3517,7 +3517,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3657,7 +3657,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3728,7 +3728,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3799,7 +3799,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3870,7 +3870,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -3941,7 +3941,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4012,7 +4012,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4083,7 +4083,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4154,7 +4154,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4225,7 +4225,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4296,7 +4296,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4367,7 +4367,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4438,7 +4438,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4509,7 +4509,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4580,7 +4580,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4651,7 +4651,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4722,7 +4722,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4793,7 +4793,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4864,7 +4864,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -4935,7 +4935,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -5006,7 +5006,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "performer": [
           {
@@ -5077,7 +5077,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         }
       },
       "request": {
@@ -5135,7 +5135,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         }
       },
       "request": {
@@ -5193,7 +5193,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         }
       },
       "request": {
@@ -5251,173 +5251,12 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/3399337e-669a-be70-29a8-f8c6ec97be6e"
-      }
-    },
-    {
-      "hello_nick1": "30",
-      "manproduct_hello": {
-        "nullFlavor": "OTH",
-        "originalText": {
-          "reference": {
-            "value": "#immunization4Name",
-            "_": "DTAP-HIB-IPV (PENTACEL)"
-          }
-        }
-      }
-    },
-    {
-      "find_entrysub": {
-        "classCode": "SBADM",
-        "moodCode": "EVN",
-        "negationInd": "false",
-        "templateId": [
-          {
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          },
-          {
-            "extension": "2015-08-01",
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          }
-        ],
-        "id": {
-          "extension": "35371",
-          "root": "1.2.840.114350.1.13.297.3.7.2.768076"
-        },
-        "code": {
-          "code": "IMMUNIZ",
-          "codeSystem": "2.16.840.1.113883.5.4",
-          "codeSystemName": "ActCode"
-        },
-        "text": {
-          "reference": {
-            "value": "#immunization4"
-          }
-        },
-        "statusCode": {
-          "code": "completed"
-        },
-        "effectiveTime": {
-          "value": "20100416"
-        },
-        "consumable": {
-          "typeCode": "CSM",
-          "manufacturedProduct": {
-            "classCode": "MANU",
-            "templateId": [
-              {
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              },
-              {
-                "extension": "2014-06-09",
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              }
-            ],
-            "manufacturedMaterial": {
-              "code": {
-                "nullFlavor": "OTH",
-                "originalText": {
-                  "reference": {
-                    "value": "#immunization4Name",
-                    "_": "DTAP-HIB-IPV (PENTACEL)"
-                  }
-                }
-              },
-              "lotNumberText": {
-                "nullFlavor": "UNK"
-              }
-            }
-          }
-        },
-        "author": {
-          "templateId": [
-            {
-              "root": "2.16.840.1.113883.10.20.22.4.119"
-            },
-            {
-              "extension": "2019-10-01",
-              "root": "2.16.840.1.113883.10.20.22.5.6"
-            }
-          ],
-          "time": {
-            "value": "20190416091055-0700"
-          },
-          "assignedAuthor": {
-            "id": [
-              {
-                "extension": "195858804",
-                "root": "1.2.840.114350.1.13.297.3.7.1.1133"
-              },
-              {
-                "root": "2.16.840.1.113883.4.6"
-              }
-            ],
-            "code": {
-              "nullFlavor": "OTH",
-              "originalText": {
-                "_": "Registered Nurse"
-              },
-              "translation": {
-                "code": "168",
-                "codeSystem": "1.2.840.114350.1.13.297.3.7.10.836982.1050",
-                "codeSystemName": "Epic.SER.ProviderSpecialty",
-                "displayName": "Registered Nurse"
-              }
-            },
-            "telecom": {
-              "nullFlavor": "UNK"
-            },
-            "representedOrganization": {
-              "id": [
-                {
-                  "extension": "50",
-                  "root": "1.2.840.114350.1.13.297.3.7.2.696570"
-                },
-                {
-                  "nullFlavor": "UNK",
-                  "root": "2.16.840.1.113883.4.2"
-                },
-                {
-                  "nullFlavor": "UNK",
-                  "root": "2.16.840.1.113883.4.6"
-                }
-              ],
-              "name": {
-                "_": "Providence California"
-              },
-              "telecom": {
-                "use": "WP",
-                "value": "tel:+1-855-415-6179"
-              },
-              "addr": {
-                "use": "WP",
-                "streetAddressLine": {
-                  "_": "4733 TORRANCE BLVD #4400"
-                },
-                "county": {
-                  "_": "LOS ANGELES"
-                },
-                "city": {
-                  "_": "TORRANCE"
-                },
-                "state": {
-                  "_": "CA"
-                },
-                "postalCode": {
-                  "_": "90503"
-                },
-                "country": {
-                  "_": "USA"
-                }
-              }
-            }
-          }
-        }
       }
     },
     {
@@ -5449,221 +5288,6 @@
       }
     },
     {
-      "hello_nick1": "96",
-      "manproduct_hello": {
-        "nullFlavor": "OTH",
-        "originalText": {
-          "reference": {
-            "value": "#immunization5Name",
-            "_": "TDAP, (ADOL/ADULT)"
-          }
-        },
-        "translation": {
-          "code": "49281-400-10",
-          "codeSystem": "2.16.840.1.113883.6.69",
-          "codeSystemName": "NDC"
-        }
-      }
-    },
-    {
-      "find_entrysub": {
-        "classCode": "SBADM",
-        "moodCode": "EVN",
-        "negationInd": "false",
-        "templateId": [
-          {
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          },
-          {
-            "extension": "2015-08-01",
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          }
-        ],
-        "id": {
-          "extension": "57643",
-          "root": "1.2.840.114350.1.13.297.3.7.2.768076"
-        },
-        "code": {
-          "code": "IMMUNIZ",
-          "codeSystem": "2.16.840.1.113883.5.4",
-          "codeSystemName": "ActCode"
-        },
-        "text": {
-          "reference": {
-            "value": "#immunization5"
-          }
-        },
-        "statusCode": {
-          "code": "completed"
-        },
-        "effectiveTime": {
-          "value": "20201110"
-        },
-        "doseQuantity": {
-          "unit": "mL",
-          "value": ".5"
-        },
-        "consumable": {
-          "typeCode": "CSM",
-          "manufacturedProduct": {
-            "classCode": "MANU",
-            "templateId": [
-              {
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              },
-              {
-                "extension": "2014-06-09",
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              }
-            ],
-            "manufacturedMaterial": {
-              "code": {
-                "nullFlavor": "OTH",
-                "originalText": {
-                  "reference": {
-                    "value": "#immunization5Name",
-                    "_": "TDAP, (ADOL/ADULT)"
-                  }
-                },
-                "translation": {
-                  "code": "49281-400-10",
-                  "codeSystem": "2.16.840.1.113883.6.69",
-                  "codeSystemName": "NDC"
-                }
-              },
-              "lotNumberText": {
-                "_": "369258741"
-              }
-            },
-            "manufacturerOrganization": {
-              "name": {
-                "_": "Sanofi Pasteur"
-              }
-            }
-          }
-        },
-        "performer": {
-          "typeCode": "PRF",
-          "assignedEntity": {
-            "classCode": "ASSIGNED",
-            "id": {
-              "nullFlavor": "UNK",
-              "root": "2.16.840.1.113883.4.6"
-            },
-            "addr": {
-              "use": "WP",
-              "streetAddressLine": {
-                "nullFlavor": "UNK"
-              },
-              "city": {
-                "nullFlavor": "UNK"
-              },
-              "state": {
-                "nullFlavor": "UNK"
-              },
-              "postalCode": {
-                "nullFlavor": "UNK"
-              }
-            },
-            "telecom": {
-              "nullFlavor": "UNK"
-            },
-            "assignedPerson": {
-              "name": {
-                "given": [
-                  {
-                    "_": "Provma"
-                  },
-                  {
-                    "_": "Two"
-                  }
-                ],
-                "family": {
-                  "_": "Ambtest"
-                },
-                "suffix": {
-                  "qualifier": "AC",
-                  "_": "CMA"
-                }
-              }
-            }
-          }
-        },
-        "author": {
-          "templateId": [
-            {
-              "root": "2.16.840.1.113883.10.20.22.4.119"
-            },
-            {
-              "extension": "2019-10-01",
-              "root": "2.16.840.1.113883.10.20.22.5.6"
-            }
-          ],
-          "time": {
-            "value": "20201110154842-0800"
-          },
-          "assignedAuthor": {
-            "id": [
-              {
-                "extension": "326310445",
-                "root": "1.2.840.114350.1.13.297.3.7.1.1133"
-              },
-              {
-                "root": "2.16.840.1.113883.4.6"
-              }
-            ],
-            "telecom": {
-              "nullFlavor": "UNK"
-            },
-            "representedOrganization": {
-              "id": [
-                {
-                  "extension": "50",
-                  "root": "1.2.840.114350.1.13.297.3.7.2.696570"
-                },
-                {
-                  "nullFlavor": "UNK",
-                  "root": "2.16.840.1.113883.4.2"
-                },
-                {
-                  "nullFlavor": "UNK",
-                  "root": "2.16.840.1.113883.4.6"
-                }
-              ],
-              "name": {
-                "_": "Providence California"
-              },
-              "telecom": {
-                "use": "WP",
-                "value": "tel:+1-855-415-6179"
-              },
-              "addr": {
-                "use": "WP",
-                "streetAddressLine": {
-                  "_": "4733 TORRANCE BLVD #4400"
-                },
-                "county": {
-                  "_": "LOS ANGELES"
-                },
-                "city": {
-                  "_": "TORRANCE"
-                },
-                "state": {
-                  "_": "CA"
-                },
-                "postalCode": {
-                  "_": "90503"
-                },
-                "country": {
-                  "_": "USA"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
       "fullUrl": "urn:uuid:b5d003f7-cfe2-56a4-6e91-07307f25aa83",
       "resource": {
         "resourceType": "Immunization",
@@ -5689,7 +5313,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -5700,108 +5324,6 @@
       "request": {
         "method": "PUT",
         "url": "Immunization/b5d003f7-cfe2-56a4-6e91-07307f25aa83"
-      }
-    },
-    {
-      "hello_nick1": "14",
-      "manproduct_hello": {
-        "nullFlavor": "OTH",
-        "originalText": {
-          "reference": {
-            "value": "#immunization6Name",
-            "_": "HEP A (ADULT) 2 DOSE"
-          }
-        }
-      }
-    },
-    {
-      "find_entrysub": {
-        "classCode": "SBADM",
-        "moodCode": "EVN",
-        "negationInd": "false",
-        "templateId": [
-          {
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          },
-          {
-            "extension": "2015-08-01",
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          }
-        ],
-        "id": {
-          "extension": "57644",
-          "root": "1.2.840.114350.1.13.297.3.7.2.768076"
-        },
-        "code": {
-          "code": "IMMUNIZ",
-          "codeSystem": "2.16.840.1.113883.5.4",
-          "codeSystemName": "ActCode"
-        },
-        "text": {
-          "reference": {
-            "value": "#immunization6"
-          }
-        },
-        "statusCode": {
-          "code": "completed"
-        },
-        "effectiveTime": {
-          "value": "20111111"
-        },
-        "consumable": {
-          "typeCode": "CSM",
-          "manufacturedProduct": {
-            "classCode": "MANU",
-            "templateId": [
-              {
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              },
-              {
-                "extension": "2014-06-09",
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              }
-            ],
-            "manufacturedMaterial": {
-              "code": {
-                "nullFlavor": "OTH",
-                "originalText": {
-                  "reference": {
-                    "value": "#immunization6Name",
-                    "_": "HEP A (ADULT) 2 DOSE"
-                  }
-                }
-              },
-              "lotNumberText": {
-                "nullFlavor": "UNK"
-              }
-            }
-          }
-        },
-        "author": {
-          "templateId": [
-            {
-              "root": "2.16.840.1.113883.10.20.22.4.119"
-            },
-            {
-              "extension": "2019-10-01",
-              "root": "2.16.840.1.113883.10.20.22.5.6"
-            }
-          ],
-          "time": {
-            "value": "20201110154900-0800"
-          },
-          "assignedAuthor": {
-            "id": [
-              {
-                "extension": "326310445",
-                "root": "1.2.840.114350.1.13.297.3.7.1.1133"
-              },
-              {
-                "root": "2.16.840.1.113883.4.6"
-              }
-            ]
-          }
-        }
       }
     },
     {
@@ -5833,174 +5355,6 @@
       }
     },
     {
-      "hello_nick1": "47",
-      "manproduct_hello": {
-        "nullFlavor": "OTH",
-        "originalText": {
-          "reference": {
-            "value": "#immunization7Name",
-            "_": "MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)"
-          }
-        },
-        "translation": {
-          "code": "50090-1890-1",
-          "codeSystem": "2.16.840.1.113883.6.69",
-          "codeSystemName": "NDC"
-        }
-      }
-    },
-    {
-      "find_entrysub": {
-        "classCode": "SBADM",
-        "moodCode": "EVN",
-        "negationInd": "false",
-        "templateId": [
-          {
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          },
-          {
-            "extension": "2015-08-01",
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          }
-        ],
-        "id": {
-          "extension": "58353",
-          "root": "1.2.840.114350.1.13.297.3.7.2.768076"
-        },
-        "code": {
-          "code": "IMMUNIZ",
-          "codeSystem": "2.16.840.1.113883.5.4",
-          "codeSystemName": "ActCode"
-        },
-        "text": {
-          "reference": {
-            "value": "#immunization7"
-          }
-        },
-        "statusCode": {
-          "code": "completed"
-        },
-        "effectiveTime": {
-          "value": "20201116"
-        },
-        "doseQuantity": {
-          "unit": "mL",
-          "value": ".5"
-        },
-        "consumable": {
-          "typeCode": "CSM",
-          "manufacturedProduct": {
-            "classCode": "MANU",
-            "templateId": [
-              {
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              },
-              {
-                "extension": "2014-06-09",
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              }
-            ],
-            "manufacturedMaterial": {
-              "code": {
-                "nullFlavor": "OTH",
-                "originalText": {
-                  "reference": {
-                    "value": "#immunization7Name",
-                    "_": "MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)"
-                  }
-                },
-                "translation": {
-                  "code": "50090-1890-1",
-                  "codeSystem": "2.16.840.1.113883.6.69",
-                  "codeSystemName": "NDC"
-                }
-              },
-              "lotNumberText": {
-                "_": "1"
-              }
-            },
-            "manufacturerOrganization": {
-              "name": {
-                "_": "Sanofi Pasteur"
-              }
-            }
-          }
-        },
-        "performer": {
-          "typeCode": "PRF",
-          "assignedEntity": {
-            "classCode": "ASSIGNED",
-            "id": {
-              "nullFlavor": "UNK",
-              "root": "2.16.840.1.113883.4.6"
-            },
-            "addr": {
-              "use": "WP",
-              "streetAddressLine": {
-                "nullFlavor": "UNK"
-              },
-              "city": {
-                "nullFlavor": "UNK"
-              },
-              "state": {
-                "nullFlavor": "UNK"
-              },
-              "postalCode": {
-                "nullFlavor": "UNK"
-              }
-            },
-            "telecom": {
-              "nullFlavor": "UNK"
-            },
-            "assignedPerson": {
-              "name": {
-                "given": [
-                  {
-                    "_": "Provma"
-                  },
-                  {
-                    "_": "Two"
-                  }
-                ],
-                "family": {
-                  "_": "Ambtest"
-                },
-                "suffix": {
-                  "qualifier": "AC",
-                  "_": "CMA"
-                }
-              }
-            }
-          }
-        },
-        "author": {
-          "templateId": [
-            {
-              "root": "2.16.840.1.113883.10.20.22.4.119"
-            },
-            {
-              "extension": "2019-10-01",
-              "root": "2.16.840.1.113883.10.20.22.5.6"
-            }
-          ],
-          "time": {
-            "value": "20201116182245-0800"
-          },
-          "assignedAuthor": {
-            "id": [
-              {
-                "extension": "326310445",
-                "root": "1.2.840.114350.1.13.297.3.7.1.1133"
-              },
-              {
-                "root": "2.16.840.1.113883.4.6"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
       "fullUrl": "urn:uuid:35c0d7fc-0bc0-5a24-e65e-dc30321d7e2e",
       "resource": {
         "resourceType": "Immunization",
@@ -6026,7 +5380,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/d2ff4c14-a41b-47f6-9038-6aabfd655ad5"
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
         },
         "meta": {
           "source": [
@@ -6037,108 +5391,6 @@
       "request": {
         "method": "PUT",
         "url": "Immunization/35c0d7fc-0bc0-5a24-e65e-dc30321d7e2e"
-      }
-    },
-    {
-      "hello_nick1": "13",
-      "manproduct_hello": {
-        "nullFlavor": "OTH",
-        "originalText": {
-          "reference": {
-            "value": "#immunization8Name",
-            "_": "HEP B (PED,ADOLESCENT) 3 DOSE"
-          }
-        }
-      }
-    },
-    {
-      "find_entrysub": {
-        "classCode": "SBADM",
-        "moodCode": "EVN",
-        "negationInd": "false",
-        "templateId": [
-          {
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          },
-          {
-            "extension": "2015-08-01",
-            "root": "2.16.840.1.113883.10.20.22.4.52"
-          }
-        ],
-        "id": {
-          "extension": "58354",
-          "root": "1.2.840.114350.1.13.297.3.7.2.768076"
-        },
-        "code": {
-          "code": "IMMUNIZ",
-          "codeSystem": "2.16.840.1.113883.5.4",
-          "codeSystemName": "ActCode"
-        },
-        "text": {
-          "reference": {
-            "value": "#immunization8"
-          }
-        },
-        "statusCode": {
-          "code": "completed"
-        },
-        "effectiveTime": {
-          "value": "19740321"
-        },
-        "consumable": {
-          "typeCode": "CSM",
-          "manufacturedProduct": {
-            "classCode": "MANU",
-            "templateId": [
-              {
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              },
-              {
-                "extension": "2014-06-09",
-                "root": "2.16.840.1.113883.10.20.22.4.54"
-              }
-            ],
-            "manufacturedMaterial": {
-              "code": {
-                "nullFlavor": "OTH",
-                "originalText": {
-                  "reference": {
-                    "value": "#immunization8Name",
-                    "_": "HEP B (PED,ADOLESCENT) 3 DOSE"
-                  }
-                }
-              },
-              "lotNumberText": {
-                "nullFlavor": "UNK"
-              }
-            }
-          }
-        },
-        "author": {
-          "templateId": [
-            {
-              "root": "2.16.840.1.113883.10.20.22.4.119"
-            },
-            {
-              "extension": "2019-10-01",
-              "root": "2.16.840.1.113883.10.20.22.5.6"
-            }
-          ],
-          "time": {
-            "value": "20201116182326-0800"
-          },
-          "assignedAuthor": {
-            "id": [
-              {
-                "extension": "326310445",
-                "root": "1.2.840.114350.1.13.297.3.7.1.1133"
-              },
-              {
-                "root": "2.16.840.1.113883.4.6"
-              }
-            ]
-          }
-        }
       }
     },
     {
