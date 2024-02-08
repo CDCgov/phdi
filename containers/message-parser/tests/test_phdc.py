@@ -76,8 +76,7 @@ def test_build_observation(build_observation_test_data, expected_result):
         'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ', ""
     )
     # TODO: There has to be a more elegant way to do that...
-    # assert actual_result == expected_result
-    print(actual_result)
+    assert actual_result == expected_result
 
 
 @pytest.mark.parametrize(
@@ -529,7 +528,7 @@ def test_get_clinical_info_code():
         (
             (
                 PHDCInputData(
-                    observations=[
+                    clinical_info=[
                         Observation(
                             type_code="COMP",
                             class_code="OBS",
@@ -625,7 +624,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
         (
             (
                 PHDCInputData(
-                    observations=[
+                    social_history_info=[
                         Observation(
                             type_code="COMP",
                             class_code="OBS",
@@ -734,7 +733,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                         ),
                     ],
                 ),
-                observations=[
+                clinical_info=[
                     Observation(
                         type_code="COMP",
                         class_code="OBS",
@@ -844,7 +843,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
         )
     ],
 )
-def test_build_2(build_header_test_data, expected_result):
+def test_build(build_header_test_data, expected_result):
     builder = PHDCBuilder()
     builder.set_input_data(build_header_test_data)
     phdc = builder.build()

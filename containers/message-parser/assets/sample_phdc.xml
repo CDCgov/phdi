@@ -80,18 +80,16 @@
       <title>SOCIAL HISTORY INFORMATION</title>
       <entry typeCode="COMP">
         <observation classCode="OBS" moodCode="EVN">
-          <code code="INV169" codeSystem="2.16.840.1.114222.4.5.1" displayName="Condition"/>
-          <value xsi:type="CE" code="10274" codeSystem="1.2.3.5" displayName="Chlamydia trachomatis infection">
-            <translation xsi:type="CE" code="350" codeSystem="L" codeSystemName="STD*MIS" displayName="Local Label"/>
+          <code code="DEM127" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Is this person deceased?"/>
+          <value xsi:type="CE" code="N" codeSystem="2.16.840.1.113883.12.136" codeSystemName="Yes/No Indicator (HL7)" displayName="No">
+            <translation code="N" codeSystem="2.16.840.1.113883.12.136" codeSystemName="2.16.840.1.113883.12.136" displayName="No"/>
           </value>
         </observation>
       </entry>
       <entry typeCode="COMP">
         <observation classCode="OBS" moodCode="EVN">
-          <code code="NBS012" codeSystem="2.16.840.1.114222.4.5.1" displayName="Shared Ind"/>
-          <value xsi:type="CE" code="F" codeSystem="1.2.3.5" displayName="False">
-            <translation xsi:type="CE" code="T" codeSystem="L" codeSystemName="STD*MIS" displayName="Local Label"/>
-          </value>
+          <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Information As of Date"/>
+          <value xsi:type="TS">20240124</value>
         </observation>
       </entry>
     </section>
