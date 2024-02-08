@@ -1,8 +1,8 @@
 version: "3.3"
 
-include:
-  - path:
-      - docker-compose-ecr-viewer.yml
+# include:
+#   - path:
+#       - docker-compose-ecr-viewer.yml
 
 services:
   orchestration-service:
@@ -49,3 +49,35 @@ services:
       - "${MESSAGE_PARSER_PORT_NUMBER}:8080"
     logging:
       driver: "json-file"
+  # PostgreSQL database
+  db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../ecr-viewer/seed-scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ../ecr-viewer/seed-scripts/.pgpass/:/usr/local/lib/.pgpass
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+  # Python seeding
+  seed-db:
+    build:
+      context: "../ecr-viewer/seed-scripts"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+      - DATABASE_CONNECTION=db
+      - DATABASE_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
