@@ -1,0 +1,45 @@
+{
+  "workflow": [
+    {
+      "service": "validation",
+      "url": "${VALIDATION_URL}",
+      "endpoint": "/validate",
+      "params": {
+        "include_error_types": "error"
+      }
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_names",
+      "params": {
+        "overwrite": true
+      }
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob",
+      "params": {
+        "overwrite": true,
+        "dob_format": ""
+      }
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones",
+      "params": {
+        "overwrite": true
+      }
+    },
+    {
+      "service": "message_parser",
+      "url": "${MESSAGE_PARSER_URL}",
+      "endpoint": "/fhir_to_phdc",
+      "params": {
+        "phdc_report_type": "case_report"
+      }
+    }
+  ]
+}
