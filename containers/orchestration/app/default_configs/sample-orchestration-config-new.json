@@ -16,27 +16,20 @@
     {
       "service": "ingestion",
       "url": "${INGESTION_URL}",
-      "endpoint": "/fhir/harmonization/standardization/standardize_names",
-      "params": {
-        "overwrite": true
-      }
+      "endpoint": "/fhir/harmonization/standardization/standardize_names"
     },
     {
       "service": "ingestion",
       "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_dob",
       "params": {
-        "overwrite": true,
         "dob_format": ""
       }
     },
     {
       "service": "ingestion",
       "url": "${INGESTION_URL}",
-      "endpoint": "/fhir/harmonization/standardization/standardize_phones",
-      "params": {
-        "overwrite": true
-      }
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
       "service": "message_parser",
