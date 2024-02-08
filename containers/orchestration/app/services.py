@@ -150,15 +150,14 @@ def save_to_db(**kwargs) -> dict:
     url = kwargs["url"]
     engine = create_engine(url)
     pg_data = PostgresFhirDataModel(ecr_id=str(ecr_id), data=payload_data)
-    print("PG DATA:", pg_data)
-    print("ECR ID:", ecr_id)
     try:
         with Session(engine, expire_on_commit=False) as session:
             repo = SqlAlchemyFhirRepository(session)
             repo.persist(pg_data)
         return CustomJSONResponse(content=jsonable_encoder(payload_data), url=url)
     except SQLAlchemyError as e:
-        return Response(content=e, status_code=500)
+        print("SQLAlchemyError:", str(e))
+        return Response(content=str(e), status_code=500)
 
 
 def save_to_db_payload(**kwargs) -> dict:
