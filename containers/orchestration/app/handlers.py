@@ -1,7 +1,4 @@
-from fastapi import HTTPException
-
 from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
-from phdi.fhir.conversion.convert import standardize_hl7_datetimes
 
 
 def build_fhir_converter_request(input_msg: str, rr_data: str | None = None) -> dict:
@@ -26,8 +23,6 @@ def build_fhir_converter_request(input_msg: str, rr_data: str | None = None) -> 
     # to preserve backwards compatibility
     try:
         conversion_settings = _get_fhir_conversion_settings(input_msg)
-        if conversion_settings["input_type"] == "hl7v2":
-            input_msg = standardize_hl7_datetimes(input_msg)
     except KeyError:
         conversion_settings = {"input_type": "ecr", "root_template": "EICR"}
     return {
@@ -50,11 +45,8 @@ def unpack_fhir_converter_response(response: dict) -> dict:
     :return: The FHIR bundle that the service generated.
     """
     converter_response = response.json().get("response")
-    print(converter_response)
     if converter_response.status_code != 200:
-        raise HTTPException(
-            status_code=converter_response.status_code,
-            detail={"error": "Bad Request", "details": "FHIR conversion failed"},
-        )
-    fhir_msg = converter_response.get("FhirResource")
-    return fhir_msg
+        return (converter_response.status_code, "Bad Request: FHIR Conversion failed.")
+    else:
+        fhir_msg = converter_response.get("FhirResource")
+        return (converter_response.status_code, fhir_msg)

@@ -3,12 +3,8 @@ from pathlib import Path
 from unittest.mock import MagicMock
 from unittest.mock import Mock
 
-import pytest
 from app.handlers import build_fhir_converter_request
 from app.handlers import unpack_fhir_converter_response
-from fastapi import HTTPException
-
-from phdi.fhir.conversion.convert import standardize_hl7_datetimes
 
 
 def test_build_fhir_converter_request():
@@ -24,7 +20,7 @@ def test_build_fhir_converter_request():
     result = build_fhir_converter_request(input_msg=message)
     assert result["input_type"] == "hl7v2"
     assert result["root_template"] == "ADT_A01"
-    assert result["input_data"] == standardize_hl7_datetimes(message)
+    assert result["input_data"] == message
 
     # Test case for an eCR message
     message = open(
@@ -51,9 +47,8 @@ def test_unpack_fhir_converter_response():
     converter_result.content = {"fhir_conversion_failed": True}
     response = Mock()
     response.json.return_value = {"response": converter_result}
-    with pytest.raises(HTTPException) as e:
-        unpack_fhir_converter_response(response)
-        assert "FHIR conversion failed" in str(e)
+    result = unpack_fhir_converter_response(response)
+    assert result == (400, "Bad Request: FHIR Conversion failed.")
 
     # Successful conversion response
     sample_bundle = json.load(
@@ -71,5 +66,5 @@ def test_unpack_fhir_converter_response():
     converter_result.get.side_effect = actual_bundle.get
     response = Mock()
     response.json.return_value = {"response": converter_result}
-    extracted_bundle = unpack_fhir_converter_response(response)
-    assert extracted_bundle == sample_bundle
+    result = unpack_fhir_converter_response(response)
+    assert result == (200, sample_bundle)
