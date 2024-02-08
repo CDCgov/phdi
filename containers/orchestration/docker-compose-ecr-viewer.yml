@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  # PostgreSQL database
+  db:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../ecr-viewer/seed-scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ../ecr-viewer/seed-scripts/.pgpass/:/usr/local/lib/.pgpass
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=ecr_viewer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 2s
+      timeout: 5s
+      retries: 20

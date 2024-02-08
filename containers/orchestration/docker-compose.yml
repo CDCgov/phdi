@@ -1,7 +1,8 @@
 version: "3.8"
 
 include:
-  - ../ecr-viewer/docker-compose.yml
+  - docker-compose-ecr-viewer.yml
+  - docker-compose-seed-db.yml
 
 services:
   orchestration-service:
