@@ -65,6 +65,7 @@ class CodedElement:
     code_system: Optional[str] = None
     code_system_name: Optional[str] = None
     display_name: Optional[str] = None
+    value: Optional[str] = None
 
     def to_attributes(self) -> Dict[str, str]:
         """
@@ -81,6 +82,7 @@ class CodedElement:
             "codeSystem": self.code_system,
             "codeSystemName": self.code_system_name,
             "displayName": self.display_name,
+            "value": self.value,
         }
         return {k: v for k, v in attributes.items() if v is not None}
 
@@ -90,6 +92,15 @@ class Observation:
     type_code: Optional[str] = None
     class_code: Optional[str] = None
     mood_code: Optional[str] = None
+    code_code: Optional[str] = None
+    code_code_system: Optional[str] = None
+    code_code_display: Optional[str] = None
+    value_quantitative_code: Optional[str] = None
+    value_quantitative_code_system: Optional[str] = None
+    value_quantitative_value: Optional[float] = None
+    value_qualitative_code: Optional[str] = None
+    value_qualitative_code_system: Optional[str] = None
+    value_qualitative_value: Optional[str] = None
     code: Optional[CodedElement] = None
     value: Optional[CodedElement] = None
     translation: Optional[CodedElement] = None
@@ -103,3 +114,4 @@ class PHDCInputData:
     patient: Patient = None
     clinical_info: List[Observation] = None
     organization: List[Organization] = None
+    observations: List[Observation] = None

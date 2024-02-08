@@ -39,6 +39,7 @@ senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].
 # Encounter Info
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"
+encounterReasonForVisit: "Bundle.entry.resource.where(resourceType = 'Encounter').reason[0].value[0].concept.text"
 encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.display"
 facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
 facilityContact: "Bundle.entry.resource.where(resourceType = 'Location')[0].telecom.where(system = 'phone')[0].value"
@@ -59,6 +60,15 @@ rrDisplayNames: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir
 rckmsTriggerSummaries: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension').valueString"
 rrPerformers: "Bundle.entry.resource.where(meta.profile = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-reportability-information-observation').performer.reference"
 # Encounter Info
+
+# Clinical Data
+clinicalReasonForVisit: "Bundle.entry.resource.section.where(title = 'Reason for Visit')[0].extension[0].valueString"
+#vitals
+patientHeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='8302-2').first().valueQuantity.value"
+patientHeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='8302-2').first().valueQuantity.unit"
+patientWeight: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.value"
+patientWeightMeasurement: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='29463-7').first().valueQuantity.unit"
+patientBmi: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.first().code='39156-5').valueQuantity.value"
 
 resolve: "Bundle.entry.resource.where(resourceType = %resourceType).where(id = %id)"
 

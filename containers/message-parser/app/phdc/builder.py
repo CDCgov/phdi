@@ -6,6 +6,7 @@ from typing import Optional
 
 from app import utils
 from app.phdc.models import Address
+from app.phdc.models import CodedElement
 from app.phdc.models import Name
 from app.phdc.models import Observation
 from app.phdc.models import Organization
@@ -238,7 +239,7 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                clinical_info = self._build_clinical_info(self.input_data.clinical_info)
+                clinical_info = self._build_clinical_info()
                 body.append(clinical_info)
             case "contact_record":
                 pass
@@ -249,9 +250,7 @@ class PHDCBuilder:
 
         self.phdc.getroot().append(body)
 
-    def _build_clinical_info(
-        self, observation_data: Optional[List[Observation]] = None
-    ) -> ET.Element:
+    def _build_clinical_info(self) -> ET.Element:
         """
         Builds the `ClinicalInformation` XML element, including all hardcoded aspects
           required to initialize the section.
@@ -278,8 +277,8 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if observation_data:
-            for observation in observation_data:
+        if self.input_data.observations is not None:
+            for observation in self.input_data.observations:
                 observation_element = self._build_observation(observation)
                 section.append(observation_element)
 
@@ -336,14 +335,18 @@ class PHDCBuilder:
         Entry object.
         :return entry_data: XML element of Entry data
         """
+
+        # Sort the observation into code and value sections
+        observation = self._sort_observation(observation)
+
         # Create the 'entry' element
-        entry_data = ET.Element("entry", {"typeCode": observation.type_code})
+        entry_data = ET.Element("entry", {"typeCode": "COMP"})
 
         # Create the 'observation' element and append it to 'entry'
         observation_data = ET.SubElement(
             entry_data,
             "observation",
-            {"classCode": observation.class_code, "moodCode": observation.mood_code},
+            {"classCode": "OBS", "moodCode": "EVN"},
         )
 
         if observation.code:
@@ -367,6 +370,40 @@ class PHDCBuilder:
             value_element_xml.append(translation_element_xml)
 
         return entry_data
+
+    def _sort_observation(self, observation: Observation) -> Observation:
+        """
+        Sorts Observation values in to `code` and `value` CodedElements for PHDC.
+
+        :param observation: The data for building the observation element as an
+            Entry object.
+        :return: The data for building the observation element as an
+            Entry object, sorted into code and value sections.
+        """
+        # Code
+        if not observation.code:
+            observation.code = CodedElement(
+                code=observation.code_code,
+                code_system=observation.code_code_system,
+                display_name=observation.code_code_display,
+            )
+        # Quantitative values
+        if not observation.value:
+            if observation.value_quantitative_value is not None:
+                observation.value = CodedElement(
+                    code=observation.value_quantitative_code,
+                    code_system=observation.value_quantitative_code_system,
+                    value=observation.value_quantitative_value,
+                )
+            else:
+                observation.value = CodedElement(
+                    code=observation.value_qualitative_code,
+                    code_system=observation.value_qualitative_code_system,
+                    value=observation.value_qualitative_value,
+                )
+        # TODO: translation section
+
+        return observation
 
     def _build_addr(
         self,

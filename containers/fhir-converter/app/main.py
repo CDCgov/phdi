@@ -36,6 +36,7 @@ app = FastAPI(
 
 
 @app.get("/")
+@app.get("/fhir-converter")
 async def health_check():
     """
     Check service status. If an HTTP 200 status code is returned along with
@@ -47,6 +48,11 @@ async def health_check():
 
 @app.post(
     "/convert-to-fhir",
+    status_code=200,
+    responses=sample_response,
+)
+@app.post(
+    "/fhir-converter/convert-to-fhir",
     status_code=200,
     responses=sample_response,
 )

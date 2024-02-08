@@ -49,12 +49,32 @@ describe("UnavailableInfo", () => {
         value: "",
       },
     ];
+    const clinicalUnavailableData = [
+      {
+        title: "Reason for Visit",
+        value: "",
+      },
+    ];
+    const activeProblemsUnavailableData = [
+      {
+        title: "foo",
+        value: "",
+      },
+    ];
+    const vitalUnavailableData = [
+      {
+        title: "Vitals",
+        value: "",
+      },
+    ];
     container = render(
       <UnavailableInfo
         demographicsUnavailableData={demographicsUnavailability}
         socialUnavailableData={socialUnavailability}
         encounterUnavailableData={encounterUnavailableData}
         providerUnavailableData={providerUnavailableData}
+        activeProblemsUnavailableData={activeProblemsUnavailableData}
+        vitalUnavailableData={vitalUnavailableData}
       />,
     ).container;
   });
