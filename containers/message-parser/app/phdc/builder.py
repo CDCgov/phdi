@@ -276,8 +276,8 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.observations is not None:
-            for observation in self.input_data.observations:
+        if self.input_data.clinical_info is not None:
+            for observation in self.input_data.clinical_info:
                 observation_element = self._build_observation(observation)
                 section.append(observation_element)
 
@@ -314,8 +314,8 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.observations is not None:
-            for observation in self.input_data.observations:
+        if self.input_data.social_history_info is not None:
+            for observation in self.input_data.social_history_info:
                 observation_element = self._build_observation(observation)
                 section.append(observation_element)
 
