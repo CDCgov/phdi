@@ -316,7 +316,7 @@ def read_json_from_assets(filename: str) -> dict:
 
 def read_file_from_assets(filename: str) -> str:
     """
-    Read a file from the assets directory.
+    Reads a file from the assets directory.
 
     :param filename: The name of the file to read.
     :return: A string containing the contents of the file.
