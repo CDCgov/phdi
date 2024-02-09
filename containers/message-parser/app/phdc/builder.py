@@ -258,16 +258,15 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                clinical_info = self._build_clinical_info()
-                body.append(clinical_info)
+                self.phdc.getroot().append(self._build_social_history_info())
+                self.phdc.getroot().append(self._build_clinical_info())
+
             case "contact_record":
                 pass
             case "lab_report":
                 pass
             case "morbidity_report":
                 pass
-
-        self.phdc.getroot().append(body)
 
     def _build_clinical_info(self) -> ET.Element:
         """
@@ -297,8 +296,46 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.observations is not None:
-            for observation in self.input_data.observations:
+        if self.input_data.clinical_info is not None:
+            for observation in self.input_data.clinical_info:
+                observation_element = self._build_observation(observation)
+                section.append(observation_element)
+
+        component.append(section)
+        return component
+
+    def _build_social_history_info(self) -> ET.Element:
+        """
+        Builds the Social History Information XML section, including all hardcoded
+            aspects required to initialize the section.
+        :return: XML element of SocialHistory data.
+        """
+        component = ET.Element("component")
+        section = ET.Element("section")
+        id = ET.Element("id")
+        id.set("extension", str(uuid.uuid4()))
+        id.set("assigningAuthorityName", "LR")
+
+        code = ET.Element(
+            "code",
+            {
+                "code": "29762-2",
+                "codeSystem": "2.16.840.1.113883.6.1",
+                "codeSystemName": "LOINC",
+                "displayName": "Social history",
+            },
+        )
+
+        title = ET.Element("title")
+        title.text = "SOCIAL HISTORY INFORMATION"
+
+        section.append(id)
+        section.append(code)
+        section.append(title)
+
+        # add observation data to section
+        if self.input_data.social_history_info is not None:
+            for observation in self.input_data.social_history_info:
                 observation_element = self._build_observation(observation)
                 section.append(observation_element)
 
@@ -577,6 +614,9 @@ class PHDCBuilder:
 
         for e, v in kwargs.items():
             if e != "element_name" and v is not None:
+                if e == "text":
+                    element.text = v
+                    continue
                 element.set(e, v)
         return element
 

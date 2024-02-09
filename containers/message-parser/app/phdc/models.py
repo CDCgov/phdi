@@ -3,6 +3,7 @@ from typing import Dict
 from typing import List
 from typing import Literal
 from typing import Optional
+from typing import Union
 
 
 @dataclass
@@ -90,6 +91,7 @@ class CodedElement:
     code_system_name: Optional[str] = None
     display_name: Optional[str] = None
     value: Optional[str] = None
+    text: Optional[Union[str, int]] = None
 
     def to_attributes(self) -> Dict[str, str]:
         """
@@ -106,18 +108,28 @@ class CodedElement:
             "codeSystemName": self.code_system_name,
             "displayName": self.display_name,
             "value": self.value,
+            "text": self.text,
         }
         return {k: v for k, v in attributes.items() if v is not None}
 
 
 @dataclass
 class Observation:
+    obs_type: str = "laboratory"
     """
     A class containing all of the data elements for an observation element.
     """
 
     type_code: Optional[str] = None
     class_code: Optional[str] = None
+    code_display: Optional[str] = None
+    code_system: Optional[str] = None
+    quantitative_value: Optional[float] = None
+    quantitative_system: Optional[str] = None
+    quantitative_code: Optional[str] = None
+    qualitative_value: Optional[str] = None
+    qualitative_system: Optional[str] = None
+    qualitative_code: Optional[str] = None
     mood_code: Optional[str] = None
     code_code: Optional[str] = None
     code_code_system: Optional[str] = None
@@ -145,5 +157,6 @@ class PHDCInputData:
     ] = "case_report"
     patient: Patient = None
     clinical_info: List[Observation] = None
+    social_history_info: List[Observation] = None
     organization: List[Organization] = None
     observations: List[Observation] = None
