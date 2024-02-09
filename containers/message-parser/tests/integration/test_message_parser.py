@@ -162,6 +162,18 @@ def test_parse_message(setup):
                     "value_qualitative_code_system": None,
                     "value_qualitative_code": None,
                 },
+                {
+                    "obs_type": "EXPOS",
+                    "code_code": "C3841750",
+                    "code_code_system": "http://terminology.hl7.org/CodeSystem/umls",
+                    "code_code_display": "Mass gathering",
+                    "value_quantitative_value": None,
+                    "value_quantitative_code_system": None,
+                    "value_quantitative_code": None,
+                    "value_qualitative_value": "Sports stadium (environment)",
+                    "value_qualitative_code_system": "http://snomed.info/sct",
+                    "value_qualitative_code": "264379009",
+                },
             ],
         },
     }
