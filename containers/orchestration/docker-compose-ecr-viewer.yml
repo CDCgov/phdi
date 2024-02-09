@@ -19,6 +19,8 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
+    env_file:
+      - .env
   # Python seeding
   seed-db:
     build:
@@ -32,3 +34,5 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - .env
