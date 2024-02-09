@@ -365,12 +365,6 @@ class PHDCBuilder:
         section.append(code)
         section.append(title)
 
-        # Add entry
-        # add organizer to entry
-        # add code and status code to entry
-
-        # for each q, add a component and add the repeating ques to component
-
         # add observation data to section
         if self.input_data.repeating_questions is not None:
             for observation in self.input_data.repeating_questions:
