@@ -16,6 +16,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   /// </summary>
   public partial class Filters
   {
+    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase){"b", "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul"};
+
     // Items from the filter could be arrays or objects, process them to be the same
     private static List<Dictionary<string, object>> ProcessItem(object item)
     {
@@ -53,7 +55,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     {
       var result = new List<string>();
       var dataDictionary = (data as Dictionary<string, object>);
-      var component = DrillDown(dataDictionary, new List<string> {"text"}) ?? 
+      var component = DrillDown(dataDictionary, new List<string> {"text"}) ??
         dataDictionary;
       var tbody = DrillDown(component, new List<string> {"list", "item", "table", "tbody"}) ??
         DrillDown(component, new List<string> {"table", "tbody"});
@@ -76,5 +78,71 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
       return string.Join(",", result);
     }
+
+   private static string BuildHtml(object data)
+   {
+       var stringBuilder = new StringBuilder();
+       if(data is string){
+           return data as string;
+       }
+       else if(data is IList<object>)
+       {
+        foreach(var row in (data as IList<object>))
+        {
+          stringBuilder.Append(BuildHtml(row));
+        }
+       }
+       else if(data is IDictionary<string, object>)
+       {
+           var dict = data as IDictionary<string, object>;
+           foreach(var item in dict)
+           {
+               if(item.Key == "_")
+               {
+                  stringBuilder.Append(BuildHtml(item.Value));
+               }
+               else if(item.Key == "br")
+               {
+                   stringBuilder.Append("<br>");
+               }
+               else if (item.Value is IDictionary<string, object>)
+               {
+                   var addTag = supportedTags.Contains(item.Key);
+                   if(addTag)
+                   {
+                       stringBuilder.Append($"<{item.Key}>");
+                   }
+                   stringBuilder.Append(BuildHtml(item.Value));
+                   if(addTag)
+                   {
+                       stringBuilder.Append($"</{item.Key}>");
+                   }
+               }
+               else if(item.Value is IList<object>)
+               {
+                  foreach(var row in (item.Value as IList<object>))
+                  {
+                    var addTag = supportedTags.Contains(item.Key);
+                    if(addTag)
+                    {
+                        stringBuilder.Append($"<{item.Key}>");
+                    }
+                    stringBuilder.Append(BuildHtml(row));
+                    if(addTag)
+                    {
+                        stringBuilder.Append($"</{item.Key}>");
+                    }
+                  }
+               }
+           }
+       }
+       return stringBuilder.ToString();
+   }
+
+    public static string ToHtmlString(IDictionary<string, object> data)
+    {
+        return BuildHtml(data);
+    }
   }
 }
+
