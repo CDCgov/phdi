@@ -168,7 +168,7 @@ def field_metadata(
     metadata: dict = {},
 ) -> dict:
     """
-    Given metadata for a field, return a dictionary containing that metadata.
+    Given metadata for a field, creates a dictionary containing that metadata.
 
     :param value: The value of the field.
     :param fhir_path: The FHIR path of the field.
