@@ -19,7 +19,6 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
-
   # Python seeding
   seed-db:
     build:
