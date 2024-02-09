@@ -10,6 +10,7 @@ class Telecom:
     """
     A class containing all of the data elements for a telecom element.
     """
+
     value: Optional[str] = None
     type: Optional[str] = None
     useable_period_low: Optional[str] = None
@@ -21,6 +22,7 @@ class Address:
     """
     A class containing all of the data elements for an address element.
     """
+
     street_address_line_1: Optional[str] = None
     street_address_line_2: Optional[str] = None
     city: Optional[str] = None
@@ -38,6 +40,7 @@ class Name:
     """
     A class containing all of the data elements for a name element.
     """
+
     prefix: Optional[str] = None
     first: Optional[str] = None
     middle: Optional[str] = None
@@ -53,6 +56,7 @@ class Patient:
     """
     A class containing all of the data elements for a patient element.
     """
+
     name: List[Name] = None
     address: List[Address] = None
     telecom: List[Telecom] = None
@@ -67,6 +71,7 @@ class Organization:
     """
     A class containing all of the data elements for an organization element.
     """
+
     id: str = None
     name: str = None
     address: Address = None
@@ -78,6 +83,7 @@ class CodedElement:
     """
     A class containing all of the data elements for a coded element.
     """
+
     xsi_type: Optional[str] = None
     code: Optional[str] = None
     code_system: Optional[str] = None
@@ -89,7 +95,7 @@ class CodedElement:
         """
         Given a standard CodedElements return a dictionary that can be iterated over to
         produce the corresponding XML element.
-        
+
         :return: A dictionary of the CodedElement's attributes
         """
         # Create a dictionary with XML attribute names
@@ -109,6 +115,7 @@ class Observation:
     """
     A class containing all of the data elements for an observation element.
     """
+
     type_code: Optional[str] = None
     class_code: Optional[str] = None
     mood_code: Optional[str] = None
@@ -130,11 +137,12 @@ class Observation:
 class PHDCInputData:
     """
     A class containing all of the data to construct a PHDC document when passed to the
-    PHDCBuilder.    
+    PHDCBuilder.
     """
-    type: Literal[
-        "case_report", "contact_record", "lab_report", "morbidity_report"
-    ] = "case_report"
+
+    type: Literal["case_report", "contact_record", "lab_report", "morbidity_report"] = (
+        "case_report"
+    )
     patient: Patient = None
     clinical_info: List[Observation] = None
     organization: List[Organization] = None

@@ -38,7 +38,7 @@ class PHDC:
     def to_xml_string(self) -> bytes:
         """
         Return a string representation of the PHDC XML document as serialized bytes.
-        
+
         :return: The PHDC XML document as serialized bytes.
         """
         if self.data is None:
@@ -76,7 +76,7 @@ class PHDCBuilder:
     def _build_base_phdc(self) -> ET.ElementTree:
         """
         Create the base PHDC XML document.
-        
+
         :return: The base PHDC XML document.
         """
         # register the namespaces for the entire element tree
@@ -111,7 +111,7 @@ class PHDCBuilder:
     def _get_type_id(self) -> ET.Element:
         """
         Creates the type ID element of the PHDC header.
-        
+
         :return: XML element of <typeId>.
         """
         type_id = ET.Element("typeId")
@@ -122,7 +122,7 @@ class PHDCBuilder:
     def _get_id(self) -> ET.Element:
         """
         Creates the ID element of the PHDC header.
-        
+
         :return: XML element of <id>.
         """
         id = ET.Element("id")
@@ -133,7 +133,7 @@ class PHDCBuilder:
     def _get_effective_time(self) -> ET.Element:
         """
         Creates the effectiveTime element of the PHDC header.
-        
+
         :return: XML element of <effectiveTime>.
         """
         effective_time = ET.Element("effectiveTime")
@@ -174,7 +174,7 @@ class PHDCBuilder:
     def _get_clinical_info_code(self) -> ET.Element:
         """
         Creates the code element of the header for a PHDC case report.
-        
+
         :return: XML element of <code>.
         """
         code = ET.Element("code")
@@ -199,7 +199,7 @@ class PHDCBuilder:
     def _get_setId(self) -> ET.Element:
         """
         Creates the setId element of the PHDC header.
-        
+
         :return: XML element of <setId>.
         """
         setid_attributes = {"extension": "CLOSED_CASE", "displayable": "true"}
@@ -273,7 +273,7 @@ class PHDCBuilder:
         """
         Builds the `ClinicalInformation` XML element, including all hardcoded aspects
         required to initialize the section.
-          
+
         :param observation_data: List of clinical-relevant Observation data.
         :return: XML element of ClinicalInformation data.
         """
@@ -727,7 +727,7 @@ class PHDCBuilder:
     def build(self) -> PHDC:
         """
         Constructs a PHDC document by building the header and body components.
-        
+
         :return: A PHDC document as an instance of the PHDC class.
         """
         self.build_header()
