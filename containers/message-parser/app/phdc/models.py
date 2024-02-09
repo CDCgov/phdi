@@ -8,6 +8,10 @@ from typing import Union
 
 @dataclass
 class Telecom:
+    """
+    A class containing all of the data elements for a telecom element.
+    """
+
     value: Optional[str] = None
     type: Optional[str] = None
     useable_period_low: Optional[str] = None
@@ -16,6 +20,10 @@ class Telecom:
 
 @dataclass
 class Address:
+    """
+    A class containing all of the data elements for an address element.
+    """
+
     street_address_line_1: Optional[str] = None
     street_address_line_2: Optional[str] = None
     city: Optional[str] = None
@@ -30,6 +38,10 @@ class Address:
 
 @dataclass
 class Name:
+    """
+    A class containing all of the data elements for a name element.
+    """
+
     prefix: Optional[str] = None
     first: Optional[str] = None
     middle: Optional[str] = None
@@ -42,6 +54,10 @@ class Name:
 
 @dataclass
 class Patient:
+    """
+    A class containing all of the data elements for a patient element.
+    """
+
     name: List[Name] = None
     address: List[Address] = None
     telecom: List[Telecom] = None
@@ -53,6 +69,10 @@ class Patient:
 
 @dataclass
 class Organization:
+    """
+    A class containing all of the data elements for an organization element.
+    """
+
     id: str = None
     name: str = None
     address: Address = None
@@ -61,6 +81,10 @@ class Organization:
 
 @dataclass
 class CodedElement:
+    """
+    A class containing all of the data elements for a coded element.
+    """
+
     xsi_type: Optional[str] = None
     code: Optional[str] = None
     code_system: Optional[str] = None
@@ -71,11 +95,10 @@ class CodedElement:
 
     def to_attributes(self) -> Dict[str, str]:
         """
-        to_attributes is intended to take a standard CodedElements
-          and simplify them to a dictionary that can be looped through for
-          multiple types of simple elements. Right now, primarily Observation.
+        Given a standard CodedElements return a dictionary that can be iterated over to
+        produce the corresponding XML element.
 
-          It will create a small dictionary that can then be assigned to an ET.Element.
+        :return: A dictionary of the CodedElement's attributes
         """
         # Create a dictionary with XML attribute names
         attributes = {
@@ -92,10 +115,11 @@ class CodedElement:
 
 @dataclass
 class Observation:
-    # TODO: remove all except obs_type, type_code, class_code, mood_code, code, value,
-    # and translation once the "sorter" method for code/value/translation has been
-    # added
     obs_type: str = "laboratory"
+    """
+    A class containing all of the data elements for an observation element.
+    """
+
     type_code: Optional[str] = None
     class_code: Optional[str] = None
     code_display: Optional[str] = None
@@ -123,6 +147,11 @@ class Observation:
 
 @dataclass
 class PHDCInputData:
+    """
+    A class containing all of the data to construct a PHDC document when passed to the
+    PHDCBuilder.
+    """
+
     type: Literal[
         "case_report", "contact_record", "lab_report", "morbidity_report"
     ] = "case_report"
