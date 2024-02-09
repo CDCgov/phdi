@@ -329,7 +329,7 @@ def read_file_from_assets(filename: str) -> str:
 
 def get_datetime_now() -> datetime.datetime:
     """
-    Get the current date and time.
+    Gets the current date and time.
 
     :return: A datetime object representing the current date and time.
     """
