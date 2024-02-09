@@ -70,8 +70,13 @@ def freeze_parsing_schema(parsing_schema: dict) -> frozendict:
     return freeze_parsing_schema_helper(parsing_schema)
 
 
-# Recursive function to freeze sub dictionaries in the schema
 def freeze_parsing_schema_helper(schema: dict) -> frozendict:
+    """
+    Given a parsing schema dictionary, freeze it and all of its nested dictionaries.
+
+    :param schema: A dictionary containing a parsing schema.
+    :return: A frozen dictionary containing the parsing schema.
+    """
     if type(schema) is dict:
         for key, value in schema.items():
             if type(value) is dict:
@@ -127,6 +132,14 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
 
 
 def get_metadata(parsed_values: dict, schema) -> dict:
+    """
+    Given a dictionary of parsed values and a schema, return a dictionary containing
+    metadata for each field in the parsed values dictionary.
+
+    :param parsed_values: A dictionary containing parsed values.
+    :param schema: A dictionary containing a schema.
+    :return: A dictionary containing metadata for each field in the parsed values
+    """
     data = {}
     for key, value in parsed_values.items():
         if key not in schema:
@@ -148,8 +161,22 @@ def get_metadata(parsed_values: dict, schema) -> dict:
 
 
 def field_metadata(
-    value="", fhir_path="", data_type="", resource_type="", metadata: dict = {}
+    value: str = "",
+    fhir_path: str = "",
+    data_type: str = "",
+    resource_type: str = "",
+    metadata: dict = {},
 ) -> dict:
+    """
+    Given metadata for a field, return a dictionary containing that metadata.
+
+    :param value: The value of the field.
+    :param fhir_path: The FHIR path of the field.
+    :param data_type: The data type of the field.
+    :param resource_type: The resource type of the field.
+    :param metadata: Additional metadata for the field.
+    :return: A dictionary containing the metadata for the field.
+    """
     data = {
         "value": value,
         "fhir_path": fhir_path,
@@ -278,10 +305,22 @@ def get_credential_manager(
 
 
 def read_json_from_assets(filename: str) -> dict:
+    """
+    Read a JSON file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A dictionary containing the contents of the file.
+    """
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
 def read_file_from_assets(filename: str) -> str:
+    """
+    Read a file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A string containing the contents of the file.
+    """
     with open(
         (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
     ) as file:
@@ -289,6 +328,11 @@ def read_file_from_assets(filename: str) -> str:
 
 
 def get_datetime_now() -> datetime.datetime:
+    """
+    Get the current date and time.
+
+    :return: A datetime object representing the current date and time.
+    """
     return datetime.datetime.now()
 
 
