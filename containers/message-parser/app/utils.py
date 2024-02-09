@@ -133,7 +133,7 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
 
 def get_metadata(parsed_values: dict, schema) -> dict:
     """
-    Given a dictionary of parsed values and a schema, return a dictionary containing
+    Given a dictionary of parsed values and a schema, creates a dictionary containing
     metadata for each field in the parsed values dictionary.
 
     :param parsed_values: A dictionary containing parsed values.
