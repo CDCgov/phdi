@@ -306,7 +306,7 @@ def get_credential_manager(
 
 def read_json_from_assets(filename: str) -> dict:
     """
-    Read a JSON file from the assets directory.
+    Reads a JSON file from the assets directory.
 
     :param filename: The name of the file to read.
     :return: A dictionary containing the contents of the file.
