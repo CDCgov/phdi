@@ -156,7 +156,7 @@ def save_to_db(**kwargs) -> dict:
             repo.persist(pg_data)
         return CustomJSONResponse(content=jsonable_encoder(payload_data), url=url)
     except SQLAlchemyError as e:
-        return Response(content=str(e), status_code=500)
+        return Response(content=e, status_code=500)
 
 
 def save_to_db_payload(**kwargs) -> dict:
