@@ -268,6 +268,11 @@
     "data_type": "array",
     "nullable": true,
     "secondary_schema": {
+      "obs_type": {
+        "fhir_path": "Observation.category.coding.code",
+        "data_type": "string",
+        "nullable": false
+      },
       "code_code": {
         "fhir_path": "Observation.code.coding.code",
         "data_type": "string",
