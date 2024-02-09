@@ -38,6 +38,8 @@ class PHDC:
     def to_xml_string(self) -> bytes:
         """
         Return a string representation of the PHDC XML document as serialized bytes.
+
+        :return: The PHDC XML document as serialized bytes.
         """
         if self.data is None:
             raise ValueError("The PHDC object must be initialized.")
@@ -74,6 +76,8 @@ class PHDCBuilder:
     def _build_base_phdc(self) -> ET.ElementTree:
         """
         Create the base PHDC XML document.
+
+        :return: The base PHDC XML document.
         """
         # register the namespaces for the entire element tree
         ET.register_namespace("sdt", "urn:hl7-org:sdtc")
@@ -106,7 +110,9 @@ class PHDCBuilder:
 
     def _get_type_id(self) -> ET.Element:
         """
-        Returns the type ID element of the PHDC header.
+        Creates the type ID element of the PHDC header.
+
+        :return: XML element of <typeId>.
         """
         type_id = ET.Element("typeId")
         type_id.set("root", "2.16.840.1.113883.1.3")
@@ -115,7 +121,9 @@ class PHDCBuilder:
 
     def _get_id(self) -> ET.Element:
         """
-        Returns the ID element of the PHDC header.
+        Creates the ID element of the PHDC header.
+
+        :return: XML element of <id>.
         """
         id = ET.Element("id")
         id.set("root", "2.16.840.1.113883.19")
@@ -124,7 +132,9 @@ class PHDCBuilder:
 
     def _get_effective_time(self) -> ET.Element:
         """
-        Returns the effectiveTime element of the PHDC header.
+        Creates the effectiveTime element of the PHDC header.
+
+        :return: XML element of <effectiveTime>.
         """
         effective_time = ET.Element("effectiveTime")
         effective_time.set("value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S"))
@@ -134,9 +144,10 @@ class PHDCBuilder:
         self, confidentiality: Literal["normal", "restricted", "very restricted"]
     ) -> ET.Element:
         """
-        Returns the confidentialityCode element of the PHDC header.
+        Creates the confidentialityCode element of the PHDC header.
 
         :param confidentiality: The confidentiality code to use.
+        :return: XML element of <confidentialityCode>.
         """
         confidendiality_codes = {
             "normal": "N",
@@ -151,17 +162,20 @@ class PHDCBuilder:
 
     def _get_realmCode(self) -> ET.Element:
         """
-        Returns the realmCode element of the PHDC header.
+        Creates the realmCode element of the PHDC header.
 
+        :return: XML element of <realmCode>.
         """
 
         realmCode = ET.Element("realmCode")
         realmCode.set("code", "US")
         return realmCode
 
-    def _get_clinical_info_code(self):
+    def _get_clinical_info_code(self) -> ET.Element:
         """
-        Returns the code element of the header for a PHDC case report.
+        Creates the code element of the header for a PHDC case report.
+
+        :return: XML element of <code>.
         """
         code = ET.Element("code")
         code.set("code", "55751-2")
@@ -172,9 +186,9 @@ class PHDCBuilder:
 
     def _get_title(self) -> ET.Element:
         """
-        Returns the title element of the PHDC header.
+        Creates the title element of the PHDC header.
 
-        :returns: XML element of <title>.
+        :return: XML element of <title>.
         """
         title = ET.Element("title")
         title.text = (
@@ -182,9 +196,11 @@ class PHDCBuilder:
         )
         return title
 
-    def _get_setId(self):
+    def _get_setId(self) -> ET.Element:
         """
-        Returns the setId element of the PHDC header.
+        Creates the setId element of the PHDC header.
+
+        :return: XML element of <setId>.
         """
         setid_attributes = {"extension": "CLOSED_CASE", "displayable": "true"}
         setid = ET.Element("setId", attrib=setid_attributes)
@@ -195,7 +211,7 @@ class PHDCBuilder:
         """
         Returns the versionNumber element of the PHDC header.
 
-        :returns: XML element of <versionNumber>.
+        :return: XML element of <versionNumber>.
         """
         # TODO: once we get prod data, we'll have to determine
         # whether or not this will be data we parse from source data
@@ -233,6 +249,9 @@ class PHDCBuilder:
         )
 
     def build_body(self):
+        """
+        Builds the body of the PHDC document.
+        """
         body = ET.Element("component")
         structured_body = ET.Element("structuredBody")
         body.append(structured_body)
@@ -253,7 +272,8 @@ class PHDCBuilder:
     def _build_clinical_info(self) -> ET.Element:
         """
         Builds the `ClinicalInformation` XML element, including all hardcoded aspects
-          required to initialize the section.
+        required to initialize the section.
+
         :param observation_data: List of clinical-relevant Observation data.
         :return: XML element of ClinicalInformation data.
         """
@@ -411,7 +431,7 @@ class PHDCBuilder:
     ) -> ET.Element:
         """
         Builds an `addr` XML element for address data. There are two types of address
-         uses: 'H' for home address and 'WP' for workplace address.
+        uses: 'H' for home address and 'WP' for workplace address.
 
         :param address: The data for building the address element as an Address object.
         :return: XML element of address data.
@@ -466,8 +486,8 @@ class PHDCBuilder:
     def _build_custodian(self, organizations: List[Organization]) -> ET.Element:
         """
         Builds a `custodian` XML element for custodian data, which refers to the
-          organization from which the PHDC originates and that is in charge of
-          maintaining the document.
+        organization from which the PHDC originates and that is in charge of
+        maintaining the document.
 
         :param organizations: Custodian representedCustodianOrganization.
         :return: XML element of custodian data.
@@ -503,12 +523,12 @@ class PHDCBuilder:
     def _build_author(self, family_name: str) -> ET.Element:
         """
         Builds an `author` XML element for author data, which represents the
-            humans and/or machines that authored the document.
+        humans and/or machines that authored the document.
 
-            This includes the OID as per HL7 standards, the family name of
-            the author, which will be either the DIBBs project name or the
-            origin/provenance of the data we're migrating as well as the
-            creation timestamp of the document (not a parameter).
+        This includes the OID as per HL7 standards, the family name of
+        the author, which will be either the DIBBs project name or the
+        origin/provenance of the data we're migrating as well as the
+        creation timestamp of the document (not a parameter).
 
         :param family_name: The DIBBs project name or source of the data being migrated.
         :return: XML element of author data.
@@ -544,7 +564,7 @@ class PHDCBuilder:
     def _build_coded_element(self, element_name: str, **kwargs: dict) -> ET.Element:
         """
         Builds coded elements, such as administrativeGenderCode, using kwargs code,
-          codeSystem, and displayName.
+        codeSystem, and displayName.
 
         :param element_name: Name of the element being built.
         :param code: The element code, defaults to None
@@ -565,6 +585,7 @@ class PHDCBuilder:
         Given a Patient object, build the patient element of the PHDC.
 
         :param patient: The Patient object to use for building the patient element.
+        :return: XML element of patient data.
         """
         RACE_CODE_SYSTEM = "2.16.840.1.113883.6.238"
         RACE_CODE_SYSTEM_NAME = "Race & Ethnicity"
@@ -705,7 +726,9 @@ class PHDCBuilder:
 
     def build(self) -> PHDC:
         """
-        Returns a PHDC object.
+        Constructs a PHDC document by building the header and body components.
+
+        :return: A PHDC document as an instance of the PHDC class.
         """
         self.build_header()
         self.build_body()
