@@ -32,9 +32,11 @@
     <time value="20101215000000"/>
     <assignedAuthor>
       <id root="2.16.840.1.113883.19.5"/>
-      <name>
-        <family>DIBBS</family>
-      </name>
+      <assignedPerson>
+        <name>
+          <family>DIBBS</family>
+        </name>
+      </assignedPerson>
     </assignedAuthor>
   </author>
   <recordTarget>
