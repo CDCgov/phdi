@@ -117,4 +117,34 @@
       </entry>
     </section>
   </component>
+  <component>
+    <section>
+      <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
+      <title>REPEATING QUESTIONS</title>
+      <entry typeCode="COMP">
+        <organizer classCode="CLUSTER" moodCode="EVN">
+          <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
+          <status_code code="completed"/>
+          <component>
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Country of Exposure"/>
+              <value xsi:type="CE" code="ATA" codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)" displayName="ANTARCTICA"/>
+            </observation>
+          </component>
+        </organizer>
+      </entry>
+      <entry typeCode="COMP">
+        <organizer classCode="CLUSTER" moodCode="EVN">
+          <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
+          <status_code code="completed"/>
+          <component>
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="City of Exposure"/>
+              <value xsi:type="TS">Esperanze</value>
+            </observation>
+          </component>
+        </organizer>
+      </entry>
+    </section>
+  </component>
 </ClinicalDocument>
