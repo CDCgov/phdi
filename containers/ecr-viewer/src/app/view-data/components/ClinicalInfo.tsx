@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayData, DataTableDisplay } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH3,
@@ -10,6 +10,7 @@ import React from "react";
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
+  proceduresDetails: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -17,7 +18,11 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   ["Symptoms and Problems"],
 );
 
-const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
+const ClinicalInfo = ({
+  activeProblemsDetails,
+  vitalData,
+  proceduresDetails,
+}: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
@@ -51,6 +56,25 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
     );
   };
 
+  const renderTreatmentDetails = () => {
+    const tableData = proceduresDetails.filter((item) =>
+      React.isValidElement(item),
+    );
+    const data = proceduresDetails.filter(
+      (item) => !React.isValidElement(item),
+    );
+    return (
+      <>
+        <AccordianH3>Treatment Details</AccordianH3>
+        <AccordianDiv>
+          {data.map((item, index) => (
+            <DataTableDisplay item={item} key={index} />
+          ))}
+        </AccordianDiv>
+      </>
+    );
+  };
+
   const renderVitalDetails = () => {
     return (
       <>
@@ -69,6 +93,7 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
   return (
     <AccordianSection>
       {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
+      {proceduresDetails.length > 0 && renderTreatmentDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );

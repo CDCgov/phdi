@@ -79,6 +79,7 @@ activeProblemsOnsetDate: "Condition.onsetDateTime"
 activeProblemsOnsetAge: "idk"
 
 # Procedure
-
-procedureNames: "Bundle.entry.resource.where(resourceType='Procedures').code.coding.first().display"
-procedureDates: "Bundle.entry.resource.where(resourceType='Procedures').performedDateTime"
+procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
+procedureName: "Procedure.code.coding.first().display"
+procedureDate: "Procedure.performedDateTime"
+procedureReason: "Procedure.reason.display"
