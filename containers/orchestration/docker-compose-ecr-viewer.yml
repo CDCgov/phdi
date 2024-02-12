@@ -31,8 +31,8 @@ services:
       - POSTGRES_DB=ecr_viewer_db
       - DATABASE_CONNECTION=db
       - DATABASE_PORT=5432
-    depends_on:
-      db:
-        condition: service_healthy
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
     env_file:
       - .env

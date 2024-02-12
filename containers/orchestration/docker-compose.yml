@@ -56,7 +56,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  # TODO: The extends is now working locally; however, keeping this just in case...
+  # TODO: The extends is now working locally; however, not on GitHub Actions
+  #  Will need to research best way to implement extends and/or
   # PostgreSQL database
   # db:
   #   image: "postgres:alpine"
