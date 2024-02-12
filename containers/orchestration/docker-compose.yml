@@ -53,6 +53,7 @@ services:
     extends:
       file: docker-compose-ecr-viewer.yml
       service: seed-db
+  # TODO: The extends is now working locally; however, keeping this just in case...
   # PostgreSQL database
   # db:
   #   image: "postgres:alpine"
