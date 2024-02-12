@@ -152,9 +152,9 @@ class PHDCInputData:
     PHDCBuilder.
     """
 
-    type: Literal[
-        "case_report", "contact_record", "lab_report", "morbidity_report"
-    ] = "case_report"
+    type: Literal["case_report", "contact_record", "lab_report", "morbidity_report"] = (
+        "case_report"
+    )
     patient: Patient = None
     organization: List[Organization] = None
     observations: List[Observation] = None
