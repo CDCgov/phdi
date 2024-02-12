@@ -82,12 +82,13 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     public static string ToHtmlString(object data)
     {
        var stringBuilder = new StringBuilder();
-       if(data is string){
+       if(data is string)
+       {
            return data as string;
        }
        else if(data is IList<object>)
        {
-        foreach(var row in (data as IList<object>))
+        foreach(var row in data as IList<object>)
         {
           stringBuilder.Append(ToHtmlString(row));
         }
@@ -120,7 +121,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                }
                else if(item.Value is IList<object>)
                {
-                  foreach(var row in (item.Value as IList<object>))
+                  foreach(var row in item.Value as IList<object>)
                   {
                     var addTag = supportedTags.Contains(item.Key);
                     if(addTag)
