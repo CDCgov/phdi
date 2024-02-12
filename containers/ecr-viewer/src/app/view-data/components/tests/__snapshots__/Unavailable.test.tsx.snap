@@ -341,14 +341,14 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title font-sans-xs"
+                  class="data-title"
                 >
                   <h4>
                     Immunization History
                   </h4>
                 </div>
                 <div
-                  class="grid-col-auto font-sans-xs"
+                  class="grid-col-auto maxw7 text-pre-line"
                 >
                   N/A
                 </div>
