@@ -547,6 +547,94 @@
           }
         ]
       }
+    },
+    {
+      "fullUrl": "url",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "observation-us-ph-exposure-contact-info-football-game",
+        "meta": {
+          "versionId": "6",
+          "lastUpdated": "2021-08-21T03:52:28.637+00:00",
+          "source": "#4mfRzWw4DxNmp8a8",
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-exposure-contact-information"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"observation-us-ph-exposure-contact-info-football-game\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;observation-us-ph-exposure-contact-info-football-game&quot; Version &quot;6&quot; Updated &quot;2021-08-21 03:52:28+0000&quot; </p><p style=\"margin-bottom: 0px\">Information Source: #4mfRzWw4DxNmp8a8!</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-ph-exposure-contact-information.html\">US Public Health Exposure Contact Information</a></p></div><p><b>status</b>: final</p><p><b>category</b>: An interaction between entities that provides opportunity for transmission of a physical, chemical, or biological agent from an exposure source entity to an exposure target entity. <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-v3-ActClass.html\">ActClass</a>#EXPOS &quot;exposure&quot;)</span></p><p><b>code</b>: Mass gathering (football game) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-umls.html\">Unified Medical Language System</a>#C3841750 &quot;Mass gathering&quot;)</span></p><p><b>subject</b>: <a href=\"Patient-patient-ecr-eve-everywoman.html\">Patient/patient-ecr-eve-everywoman: Eve Everywoman</a> &quot;&quot;</p><p><b>focus</b>: <a href=\"Location-location-ecr-city-football-stadium.html\">Location/location-ecr-city-football-stadium: City Football Stadium</a> &quot;City Football Stadium&quot;</p><p><b>effective</b>: 2020-01-11 18:00:00+0000 --&gt; 2020-01-11 21:30:00+0000</p><p><b>value</b>: City Football Stadium <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#264379009 &quot;Sports stadium (environment)&quot;)</span></p><h3>Components</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Code</b></td><td><b>Value[x]</b></td></tr><tr><td style=\"display: none\">*</td><td>ExposureAgent <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-v3-ParticipationType.html\">ParticipationType</a>#EXPAGNT)</span></td><td>Severe acute respiratory syndrome coronavirus 2 (organism) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#840533007)</span></td></tr></table></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActClass",
+                "code": "EXPOS",
+                "display": "exposure"
+              }
+            ],
+            "text": "An interaction between entities that provides opportunity for transmission of a physical, chemical, or biological agent from an exposure source entity to an exposure target entity."
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/umls",
+              "code": "C3841750",
+              "display": "Mass gathering"
+            }
+          ],
+          "text": "Mass gathering (football game)"
+        },
+        "subject": {
+          "reference": "Patient/patient-ecr-eve-everywoman",
+          "display": "Eve Everywoman"
+        },
+        "focus": [
+          {
+            "reference": "Location/location-ecr-city-football-stadium",
+            "display": "City Football Stadium"
+          }
+        ],
+        "effectivePeriod": {
+          "start": "2020-01-11T18:00:00Z",
+          "end": "2020-01-11T21:30:00Z"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "264379009",
+              "display": "Sports stadium (environment)"
+            }
+          ],
+          "text": "City Football Stadium"
+        },
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                  "code": "EXPAGNT",
+                  "display": "ExposureAgent"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "840533007",
+                  "display": "Severe acute respiratory syndrome coronavirus 2 (organism)"
+                }
+              ]
+            }
+          }
+        ]
+      }
     }
   ]
 }
