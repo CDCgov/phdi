@@ -39,26 +39,24 @@
         "resourceType": "Organization",
         "id": "org800201",
         "name": "Sunny Vale",
-        "contact": {
-          "telecom": [
-            {
-              "system": "phone",
-              "value": "999-999-9999"
-            }
-          ],
-          "address": [
-            {
-              "line": [
-                "999 North Ridge Road",
-                "Building 3"
-              ],
-              "city": "Amherst",
-              "state": "Massachusetts",
-              "district": "Duvall",
-              "postalCode": "33721"
-            }
-          ]
-        }
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "999-999-9999"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "999 North Ridge Road",
+              "Building 3"
+            ],
+            "city": "Amherst",
+            "state": "Massachusetts",
+            "district": "Duvall",
+            "postalCode": "33721"
+          }
+        ]
       }
     },
     {
