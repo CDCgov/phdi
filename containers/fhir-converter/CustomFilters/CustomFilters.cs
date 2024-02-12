@@ -79,8 +79,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return string.Join(",", result);
     }
 
-   private static string BuildHtml(object data)
-   {
+    public static string ToHtmlString(object data)
+    {
        var stringBuilder = new StringBuilder();
        if(data is string){
            return data as string;
@@ -89,7 +89,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
        {
         foreach(var row in (data as IList<object>))
         {
-          stringBuilder.Append(BuildHtml(row));
+          stringBuilder.Append(ToHtmlString(row));
         }
        }
        else if(data is IDictionary<string, object>)
@@ -99,7 +99,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
            {
                if(item.Key == "_")
                {
-                  stringBuilder.Append(BuildHtml(item.Value));
+                  stringBuilder.Append(ToHtmlString(item.Value));
                }
                else if(item.Key == "br")
                {
@@ -112,7 +112,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                    {
                        stringBuilder.Append($"<{item.Key}>");
                    }
-                   stringBuilder.Append(BuildHtml(item.Value));
+                   stringBuilder.Append(ToHtmlString(item.Value));
                    if(addTag)
                    {
                        stringBuilder.Append($"</{item.Key}>");
@@ -127,7 +127,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                     {
                         stringBuilder.Append($"<{item.Key}>");
                     }
-                    stringBuilder.Append(BuildHtml(row));
+                    stringBuilder.Append(ToHtmlString(row));
                     if(addTag)
                     {
                         stringBuilder.Append($"</{item.Key}>");
@@ -137,11 +137,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
            }
        }
        return stringBuilder.ToString();
-   }
-
-    public static string ToHtmlString(IDictionary<string, object> data)
-    {
-        return BuildHtml(data);
     }
   }
 }
