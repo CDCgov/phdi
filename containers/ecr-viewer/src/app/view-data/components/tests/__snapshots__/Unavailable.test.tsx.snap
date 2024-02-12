@@ -324,6 +324,41 @@ exports[`UnavailableInfo should match snapshot 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Treatment Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Procedures
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -622,7 +622,9 @@ export const returnProceduresTable = (
   proceduresArray: any[],
   mappings: PathMappings,
 ) => {
-  console.log("procedures array:", proceduresArray);
+  console.log("procedure array", proceduresArray);
+  console.log("mappings", mappings);
+
   if (proceduresArray.length === 0) {
     return undefined;
   }
@@ -666,7 +668,7 @@ export const evaluateClinicalData = (
     },
   ];
 
-  const proceduresData: DisplayData[] = [
+  const treatmentData: DisplayData[] = [
     {
       title: "Procedures",
       value: returnProceduresTable(
@@ -690,7 +692,7 @@ export const evaluateClinicalData = (
   ];
   return {
     activeProblemsDetails: evaluateData(activeProblemsData),
-    proceduresDetails: evaluateData(proceduresData),
+    treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
   };
 };

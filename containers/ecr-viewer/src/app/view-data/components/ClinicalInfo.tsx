@@ -10,7 +10,7 @@ import React from "react";
 interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
-  proceduresDetails: DisplayData[];
+  treatmentData: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -21,9 +21,10 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
 const ClinicalInfo = ({
   activeProblemsDetails,
   vitalData,
-  proceduresDetails,
+  treatmentData,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
+    console.log("procedure details", treatmentData);
     return (
       <div>
         {tableDetails.map((item, index) => (
@@ -57,12 +58,10 @@ const ClinicalInfo = ({
   };
 
   const renderTreatmentDetails = () => {
-    const tableData = proceduresDetails.filter((item) =>
+    const tableData = treatmentData.filter((item) =>
       React.isValidElement(item),
     );
-    const data = proceduresDetails.filter(
-      (item) => !React.isValidElement(item),
-    );
+    const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
       <>
         <AccordianH3>Treatment Details</AccordianH3>
@@ -93,7 +92,7 @@ const ClinicalInfo = ({
   return (
     <AccordianSection>
       {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
-      {proceduresDetails.length > 0 && renderTreatmentDetails()}
+      {treatmentData.length > 0 && renderTreatmentDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );
