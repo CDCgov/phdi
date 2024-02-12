@@ -622,9 +622,6 @@ export const returnProceduresTable = (
   proceduresArray: any[],
   mappings: PathMappings,
 ) => {
-  console.log("procedure array", proceduresArray);
-  console.log("mappings", mappings);
-
   if (proceduresArray.length === 0) {
     return undefined;
   }

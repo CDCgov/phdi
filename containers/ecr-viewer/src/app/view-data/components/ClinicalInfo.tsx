@@ -24,7 +24,6 @@ const ClinicalInfo = ({
   treatmentData,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
-    console.log("procedure details", treatmentData);
     return (
       <div>
         {tableDetails.map((item, index) => (
