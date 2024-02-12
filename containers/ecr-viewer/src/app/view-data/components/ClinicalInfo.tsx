@@ -68,6 +68,7 @@ const ClinicalInfo = ({
           {data.map((item, index) => (
             <DataTableDisplay item={item} key={index} />
           ))}
+          <div className={"section__line_gray margin-y-2"} />
         </AccordianDiv>
       </>
     );

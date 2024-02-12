@@ -97,6 +97,9 @@ exports[`Encounter should match snapshot 1`] = `
               class="section__line_gray"
             />
           </div>
+          <div
+            class="section__line_gray margin-y-2"
+          />
         </div>
         <h3
           class="usa-summary-box__heading padding-y-105"
