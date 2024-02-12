@@ -297,10 +297,9 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.clinical_info is not None:
-            for observation in self.input_data.clinical_info:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.clinical_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
@@ -335,10 +334,9 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.social_history_info is not None:
-            for observation in self.input_data.social_history_info:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.social_history_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
@@ -366,10 +364,9 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.repeating_questions is not None:
-            for observation in self.input_data.repeating_questions:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.repeating_questions:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
