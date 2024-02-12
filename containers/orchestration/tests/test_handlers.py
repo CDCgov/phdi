@@ -17,9 +17,16 @@ def test_build_fhir_converter_request():
         / "hl7v2"
         / "hl7_with_msh_3_set.hl7"
     ).read()
-    result = build_fhir_converter_request(input_msg=message)
-    assert result["input_type"] == "hl7v2"
-    assert result["root_template"] == "ADT_A01"
+    orchestration_request = {
+        "message_type": "elr",
+        "data_type": "hl7",
+        "config_file_name": "sample-hl7-test-config.json",
+        "include_error_types": "error",
+        "message": message,
+    }
+    result = build_fhir_converter_request(message, orchestration_request)
+    assert result["input_type"] == "elr"
+    assert result["root_template"] == "ORU_R01"
     assert result["input_data"] == message
 
     # Test case for an eCR message
@@ -31,9 +38,16 @@ def test_build_fhir_converter_request():
         / "ccda"
         / "ccda_sample.xml"
     ).read()
-    result = build_fhir_converter_request(input_msg=message)
-    assert result["input_type"] == "ccda"
-    assert result["root_template"] == "ProcedureNote"
+    orchestration_request = {
+        "message_type": "ecr",
+        "data_type": "ecr",
+        "config_file_name": "sample-orchestration-config.json",
+        "include_error_types": "error",
+        "message": message,
+    }
+    result = build_fhir_converter_request(message, orchestration_request)
+    assert result["input_type"] == "ecr"
+    assert result["root_template"] == "EICR"
 
 
 def test_unpack_fhir_converter_response():

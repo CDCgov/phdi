@@ -1,7 +1,20 @@
-from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
+from typing import Tuple
+
+from app.models import OrchestrationRequest
+from requests import Response
 
 
-def build_fhir_converter_request(input_msg: str, rr_data: str | None = None) -> dict:
+MESSAGE_TO_TEMPLATE_MAP = {
+    "fhir": "",
+    "ecr": "EICR",
+    "elr": "ORU_R01",
+    "vxu": "VXU_V04",
+}
+
+
+def build_fhir_converter_request(
+    input_msg: str, orchestration_request: OrchestrationRequest
+) -> dict:
     """
     Helper function for constructing the input payload for an API call to
     the DIBBs FHIR converter. When the user uploads data, we use the
@@ -13,27 +26,25 @@ def build_fhir_converter_request(input_msg: str, rr_data: str | None = None) -> 
 
     :param input_msg: The data the user sent for workflow processing, as
       a string.
-    :param rr_data: Optionally, the reportability response data associated
-      with the message, if the message is an eCR.
+    :param orchestration_request: The request the client initially sent
+      to the orchestration service. This request bundles a number of
+      parameter settings into one dictionary that each handler can
+      accept for consistency.
     :return: A dictionary ready to JSON-serialize as a payload to the
       FHIR converter.
     """
-    # Template will depend on input data formatting and typing, so try
-    # to figure that out. If we can't, use our default EICR settings
-    # to preserve backwards compatibility
-    try:
-        conversion_settings = _get_fhir_conversion_settings(input_msg)
-    except KeyError:
-        conversion_settings = {"input_type": "ecr", "root_template": "EICR"}
+    # Template will depend on input data formatting and typing
+    input_type = orchestration_request.get("message_type")
+    root_template = MESSAGE_TO_TEMPLATE_MAP[input_type]
     return {
         "input_data": input_msg,
-        "input_type": conversion_settings["input_type"],
-        "root_template": conversion_settings["root_template"],
-        "rr_data": rr_data,
+        "input_type": input_type,
+        "root_template": root_template,
+        "rr_data": orchestration_request.get("rr_data"),
     }
 
 
-def unpack_fhir_converter_response(response: dict) -> dict:
+def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]:
     """
     Helper functoin for processing a response from the DIBBs FHIR converter.
     If the status code of the response the server sent back is OK, return
@@ -42,7 +53,8 @@ def unpack_fhir_converter_response(response: dict) -> dict:
 
     :param response: The response returned by a POST request to the FHIR
       converter.
-    :return: The FHIR bundle that the service generated.
+    :return: A tuple containing the status code of the response as well as
+      the FHIR bundle that the service generated.
     """
     converter_response = response.json().get("response")
     if converter_response.status_code != 200:

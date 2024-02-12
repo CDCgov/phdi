@@ -11,9 +11,9 @@ from app.constants import sample_list_configs_response
 from app.constants import upload_config_response_examples
 from app.models import GetConfigResponse
 from app.models import ListConfigsResponse
+from app.models import OrchestrationRequest
+from app.models import OrchestrationResponse
 from app.models import ProcessingConfigModel
-from app.models import ProcessMessageRequest
-from app.models import ProcessMessageResponse
 from app.models import PutConfigResponse
 from app.services import call_apis
 from app.services import validate_response
@@ -61,7 +61,7 @@ class WS_File:
 @app.websocket("/process-ws")
 async def process_message_endpoint_ws(
     websocket: WebSocket,
-) -> ProcessMessageResponse:
+) -> OrchestrationResponse:
     """
     Creates a websocket connection with the client and accepts a zipped XML file.
     The file is processed by the building blocks according to the currently
@@ -123,7 +123,7 @@ async def process_endpoint(
     config_file_name: str = Form(None),
     include_error_types: str = Form(None),
     upload_file: UploadFile = File(None),
-) -> ProcessMessageResponse:
+) -> OrchestrationResponse:
     """
     Wrapper function for unpacking an uploaded file, determining appropriate
     parameter and application settings, and applying a config-driven workflow
@@ -170,8 +170,8 @@ async def process_endpoint(
     "/process-message", status_code=200, responses=process_message_response_examples
 )
 async def process_message_endpoint(
-    request: ProcessMessageRequest,
-) -> ProcessMessageResponse:
+    request: OrchestrationRequest,
+) -> OrchestrationResponse:
     """
     Wrapper function for unpacking a message processing input and using those
     settings to apply a config-driven workflow to a raw string of data.
