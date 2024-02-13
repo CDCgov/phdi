@@ -70,6 +70,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
       content: (
         <>
           <ClinicalInfo
+            clinicalNotes={clinicalData.clinicalNotes.availableData}
             activeProblemsDetails={
               clinicalData.activeProblemsDetails.availableData
             }
