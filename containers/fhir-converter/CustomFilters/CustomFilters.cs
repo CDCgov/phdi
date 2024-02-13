@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.Health.Fhir.Liquid.Converter.InputProcessors;
 using Newtonsoft.Json;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
@@ -59,7 +59,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         dataDictionary;
       var tbody = DrillDown(component, new List<string> {"list", "item", "table", "tbody"}) ??
         DrillDown(component, new List<string> {"table", "tbody"});
-      
+
       var tr = tbody?.GetValueOrDefault("tr");
       var trs = ProcessItem(tr);
 
@@ -79,58 +79,59 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return string.Join(",", result);
     }
 
-    private static string RecreateHtml(string key, object value)
-    {
-        var stringBuilder = new StringBuilder();
-        var shouldAddTag = supportedTags.Contains(key);
-        if(shouldAddTag)
-        {
-            stringBuilder.Append($"<{key}>");
-        }
-        stringBuilder.Append(ToHtmlString(value));
-        if(shouldAddTag)
-        {
-            stringBuilder.Append($"</{key}>");
-        }
-        return stringBuilder.ToString();
-    }
-
     public static string ToHtmlString(object data)
     {
        var stringBuilder = new StringBuilder();
-       if(data is string)
+       if(data is string stringData)
        {
-           return data as string;
+           return stringData;
        }
-       else if(data is IList<object>)
+       else if(data is IList listData)
        {
-        foreach(var row in data as IList<object>)
+        foreach(var row in listData)
         {
           stringBuilder.Append(ToHtmlString(row));
         }
        }
-       else if(data is IDictionary<string, object>)
+       else if(data is IDictionary<string, object> dict)
        {
-           var dict = data as IDictionary<string, object>;
-           foreach(var item in dict)
+           foreach(var kvp in dict)
            {
-               if(item.Key == "_")
+               if(kvp.Key == "_")
                {
-                  stringBuilder.Append(ToHtmlString(item.Value));
+                  stringBuilder.Append(ToHtmlString(kvp.Value));
                }
-               else if(item.Key == "br")
+               else if(kvp.Key == "br")
                {
                    stringBuilder.Append("<br>");
                }
-               else if (item.Value is IDictionary<string, object>)
+               else if (kvp.Value is IDictionary<string, object>)
                {
-                  stringBuilder.Append(RecreateHtml(item.Key, item.Value));
+                   var addTag = supportedTags.Contains(kvp.Key);
+                   if(addTag)
+                   {
+                       stringBuilder.Append($"<{kvp.Key}>");
+                   }
+                   stringBuilder.Append(ToHtmlString(kvp.Value));
+                   if(addTag)
+                   {
+                       stringBuilder.Append($"</{kvp.Key}>");
+                   }
                }
-               else if(item.Value is IList<object>)
+               else if(kvp.Value is IList listKvp)
                {
-                  foreach(var row in item.Value as IList<object>)
+                  foreach(var row in listKvp)
                   {
-                    stringBuilder.Append(RecreateHtml(item.Key, item.Value));
+                    var addTag = supportedTags.Contains(kvp.Key);
+                    if(addTag)
+                    {
+                        stringBuilder.Append($"<{kvp.Key}>");
+                    }
+                    stringBuilder.Append(ToHtmlString(row));
+                    if(addTag)
+                    {
+                        stringBuilder.Append($"</{kvp.Key}>");
+                    }
                   }
                }
            }
@@ -139,4 +140,3 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     }
   }
 }
-
