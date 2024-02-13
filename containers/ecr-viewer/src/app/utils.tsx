@@ -707,7 +707,7 @@ const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value == undefined || (Array.isArray(item.value) && item.value.length === 0)) {
+    if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
       unavailableData.push(item);
       item.value = "N/A";
     } else {
