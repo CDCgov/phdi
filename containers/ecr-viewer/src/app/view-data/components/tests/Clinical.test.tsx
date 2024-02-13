@@ -10,8 +10,9 @@ describe("Encounter", () => {
     const clinicalNotes = [
       {
         title: "Miscellaneous Notes",
-        value: "<paragraph>This patient was only recently discharged for a recurrent GI bleed as described</paragraph>",
-      }
+        value:
+          "<paragraph>This patient was only recently discharged for a recurrent GI bleed as described</paragraph>",
+      },
     ];
     const proceduresArray = [
       {

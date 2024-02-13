@@ -3,7 +3,8 @@ import {
   evaluateSocialData,
   extractPatientAddress,
   formatPatientName,
-  formatDate, evaluateClinicalData
+  formatDate,
+  evaluateClinicalData,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/fhir-data/utils";
 import { Bundle } from "fhir/r4";
@@ -11,7 +12,7 @@ import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
 import BundleWithPatient from "../tests/assets/BundlePatient.json";
 import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json";
 import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
-import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json"
+import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 
@@ -121,18 +122,23 @@ describe("Utils", () => {
   });
   describe("Evaluate Clinical Info", () => {
     it("Should return notes", () => {
-      const actual = evaluateClinicalData(BundleWithMiscNotes as unknown as Bundle, mappings);
-      render(actual.clinicalNotes.availableData[0].value as React.JSX.Element)
-      expect(actual.clinicalNotes.availableData[0].title).toEqual("Miscellaneous Notes");
+      const actual = evaluateClinicalData(
+        BundleWithMiscNotes as unknown as Bundle,
+        mappings,
+      );
+      render(actual.clinicalNotes.availableData[0].value as React.JSX.Element);
+      expect(actual.clinicalNotes.availableData[0].title).toEqual(
+        "Miscellaneous Notes",
+      );
       expect(screen.getByText("Active Problems")).toBeInTheDocument();
       expect(actual.clinicalNotes.unavailableData).toBeEmpty();
-    })
-  })
+    });
+  });
   describe("Format Patient Name", () => {
     it("should return name", () => {
       const actual = formatPatientName(
         BundleWithPatient as unknown as Bundle,
-        mappings
+        mappings,
       );
 
       expect(actual).toEqual("ABEL CASTILLO");
@@ -147,7 +153,7 @@ describe("Utils", () => {
     it("should get patient address", () => {
       const actual = extractPatientAddress(
         BundleWithPatient as unknown as Bundle,
-        mappings
+        mappings,
       );
 
       expect(actual).toEqual("1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US");

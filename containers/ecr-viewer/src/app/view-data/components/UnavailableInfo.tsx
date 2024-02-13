@@ -21,7 +21,7 @@ const UnavailableInfo = ({
   activeProblemsUnavailableData,
   vitalUnavailableData,
   treatmentData,
- clinicalNotesData
+  clinicalNotesData,
 }: UnavailableInfoProps) => {
   const renderSection = (sectionTitle: string, data: DisplayData[]) => {
     return (

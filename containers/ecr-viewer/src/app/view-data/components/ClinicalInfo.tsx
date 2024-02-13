@@ -23,7 +23,7 @@ const ClinicalInfo = ({
   activeProblemsDetails,
   vitalData,
   treatmentData,
-  clinicalNotes
+  clinicalNotes,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
@@ -92,15 +92,19 @@ const ClinicalInfo = ({
   };
 
   const renderClinicalNotes = () => {
-    return(<>
-      <AccordianH3><span id={"clinical-notes"}>Clinical Notes</span></AccordianH3>
-      <AccordianDiv>
-        {clinicalNotes.map((item, index) => (
-          <DataDisplay item={item} key={index} />
-        ))}
-      </AccordianDiv>
-    </>)
-  }
+    return (
+      <>
+        <AccordianH3>
+          <span id={"clinical-notes"}>Clinical Notes</span>
+        </AccordianH3>
+        <AccordianDiv>
+          {clinicalNotes.map((item, index) => (
+            <DataDisplay item={item} key={index} />
+          ))}
+        </AccordianDiv>
+      </>
+    );
+  };
 
   return (
     <AccordianSection>
