@@ -717,6 +717,17 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
+        if patient.birth_time is not None:
+            e = ET.Element(
+                "birthTime",
+                {
+                    "value": "".join(
+                        [num for num in patient.birth_time if num.isnumeric()]
+                    )
+                },
+            )
+            patient_data.append(e)
+
         if patient.race_code is not None:
             if patient.race_code in race_code_and_mapping:
                 display_name = race_code_and_mapping[patient.race_code]
@@ -750,11 +761,6 @@ class PHDCBuilder:
                     f"Ethnic group code {patient.ethnic_group_code} not "
                     "found in OMB classification."
                 )
-
-        if patient.birth_time is not None:
-            e = ET.Element("birthTime")
-            e.text = patient.birth_time
-            patient_data.append(e)
 
         return patient_data
 
