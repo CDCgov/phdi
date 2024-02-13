@@ -16,7 +16,7 @@ interface ClinicalProps {
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   "Clinical Info",
-  ["Symptoms and Problems"],
+  ["Clinical Notes", "Symptoms and Problems"],
 );
 
 const ClinicalInfo = ({
@@ -93,7 +93,7 @@ const ClinicalInfo = ({
 
   const renderClinicalNotes = () => {
     return(<>
-      <AccordianH3>Clinical Notes</AccordianH3>
+      <AccordianH3><span id={"clinical-notes"}>Clinical Notes</span></AccordianH3>
       <AccordianDiv>
         {clinicalNotes.map((item, index) => (
           <DataDisplay item={item} key={index} />
