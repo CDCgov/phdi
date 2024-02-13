@@ -43,7 +43,7 @@ public class CustomFilterTests
     }
 
     [Fact]
-    public void ToHtmlString_StringObjectDictionaryAnotherDictionary_ReturnsDictionaryValuesInDictionary()
+    public void ToHtmlString_StringObjectDictionaryAnotherDictionary_ReturnsHTMLValues()
     {
         var underscoreDict = new Dictionary<string, object>(){
             {"_", "paragraph text"}
@@ -54,5 +54,17 @@ public class CustomFilterTests
         };
         var actual = Filters.ToHtmlString(dictDict);
         Assert.Equal("<p>paragraph text</p>", actual);
+    }
+
+    [Fact]
+    public void ToHtmlString_StringObjectDictionaryList_ReturnsEachItemWithTags()
+    {
+        var strList = new List<object>(){"Race", "car"};
+        var dictDict = new Dictionary<string, object>(){
+            {"span", strList},
+            {"/nSun", "flower"}
+        };
+        var actual = Filters.ToHtmlString(dictDict);
+        Assert.Equal("<span>Race</span><span>car</span>", actual);
     }
 }
