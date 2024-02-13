@@ -23,22 +23,36 @@ public class CustomFilterTests
     [Fact]
     public void ToHtmlString_StringObjectDictionaryUnderscore_ReturnsOnlyUnderscoreString()
     {
-        var strList = new Dictionary<string, object>(){
+        var underscoreDict = new Dictionary<string, object>(){
             {"_", "car"},
             {"/nSun", "flower"}
         };
-        var actual = Filters.ToHtmlString(strList);
+        var actual = Filters.ToHtmlString(underscoreDict);
         Assert.Equal("car", actual);
     }
 
     [Fact]
     public void ToHtmlString_StringObjectDictionaryBr_ReturnsOnlyBR()
     {
-        var strList = new Dictionary<string, object>(){
+        var brDict = new Dictionary<string, object>(){
             {"br", ""},
             {"/nSun", "flower"}
         };
-        var actual = Filters.ToHtmlString(strList);
+        var actual = Filters.ToHtmlString(brDict);
         Assert.Equal("<br>", actual);
+    }
+
+    [Fact]
+    public void ToHtmlString_StringObjectDictionaryAnotherDictionary_ReturnsDictionaryValuesInDictionary()
+    {
+        var underscoreDict = new Dictionary<string, object>(){
+            {"_", "paragraph text"}
+        };
+        var dictDict = new Dictionary<string, object>(){
+            {"p", underscoreDict},
+            {"/nSun", "flower"}
+        };
+        var actual = Filters.ToHtmlString(dictDict);
+        Assert.Equal("<p>paragraph text</p>", actual);
     }
 }
