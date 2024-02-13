@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Encounter should match snapshot 1`] = `
+exports[`Snapshot test for Vital Signs (Clinical Info section) should match snapshot 1`] = `
 <div>
   <div>
     <div
@@ -24,6 +24,7 @@ exports[`Encounter should match snapshot 1`] = `
         >
           <div
             class="lh-18"
+            data-testid="vital-signs"
           >
             <div>
               <div

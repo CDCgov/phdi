@@ -19,7 +19,7 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   ["Symptoms and Problems", "Immunizations", "Diagnostics and Vital Signs"],
 );
 
-const ClinicalInfo = ({
+export const ClinicalInfo = ({
   reasonForVisitDetails,
   activeProblemsDetails,
   immunizationsDetails,
@@ -47,10 +47,14 @@ const ClinicalInfo = ({
           </span>
         </AccordianH3>
         <AccordianDiv>
-          {reasonForVisitDetails.map((item, index) => (
-            <DataDisplay item={item} key={index} />
-          ))}
-          {renderTableDetails(activeProblemsDetails)}
+          <div data-testid="reason-for-visit">
+            {reasonForVisitDetails.map((item, index) => (
+              <DataDisplay item={item} key={index} />
+            ))}
+          </div>
+          <div data-testid="active-problems">
+            {renderTableDetails(activeProblemsDetails)}
+          </div>
         </AccordianDiv>
       </>
     );
@@ -64,7 +68,11 @@ const ClinicalInfo = ({
             {clinicalInfoConfig.subNavItems?.[1].title}
           </span>
         </AccordianH3>
-        <AccordianDiv>{renderTableDetails(immunizationsDetails)}</AccordianDiv>
+        <AccordianDiv>
+          <div data-testid="immunization-history">
+            {renderTableDetails(immunizationsDetails)}
+          </div>
+        </AccordianDiv>
       </>
     );
   };
@@ -78,7 +86,7 @@ const ClinicalInfo = ({
           </span>
         </AccordianH3>
         <AccordianDiv>
-          <div className="lh-18">
+          <div className="lh-18" data-testid="vital-signs">
             {vitalData.map((item, index) => (
               <DataDisplay item={item} key={index} />
             ))}

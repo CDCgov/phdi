@@ -326,6 +326,7 @@ const formatTable = (
       fullWidth={true}
       caption={caption}
       className="border-top border-left border-right table-caption-margin"
+      data-testid="table"
     >
       {tableContent}
     </Table>
