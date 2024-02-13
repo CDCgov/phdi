@@ -260,6 +260,7 @@ class PHDCBuilder:
             case "case_report":
                 self.phdc.getroot().append(self._build_social_history_info())
                 self.phdc.getroot().append(self._build_clinical_info())
+                self.phdc.getroot().append(self._build_repeating_questions())
 
             case "contact_record":
                 pass
@@ -296,10 +297,9 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.clinical_info is not None:
-            for observation in self.input_data.clinical_info:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.clinical_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
@@ -334,10 +334,39 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.social_history_info is not None:
-            for observation in self.input_data.social_history_info:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.social_history_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
+
+        component.append(section)
+        return component
+
+    def _build_repeating_questions(self) -> ET.Element:
+        """
+        Builds the Repeating Questions XML section, including all hardcoded
+        aspects required to initialize the section.
+        :return: XML element of Repeating Questions data.
+        """
+        component = ET.Element("component")
+        section = ET.Element("section")
+        code = ET.Element(
+            "code",
+            {
+                "code": "1234567-RPT",
+                "codeSystem": "Local-codesystem-oid",
+                "codeSystemName": "LocalSystem",
+                "displayName": "Generic Repeating Questions Section",
+            },
+        )
+        title = ET.Element("title")
+        title.text = "REPEATING QUESTIONS"
+        section.append(code)
+        section.append(title)
+
+        # add observation data to section
+        for observation in self.input_data.repeating_questions:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
@@ -399,12 +428,43 @@ class PHDCBuilder:
         # Create the 'entry' element
         entry_data = ET.Element("entry", {"typeCode": "COMP"})
 
-        # Create the 'observation' element and append it to 'entry'
-        observation_data = ET.SubElement(
-            entry_data,
-            "observation",
-            {"classCode": "OBS", "moodCode": "EVN"},
-        )
+        # Set up for Repeating Questions
+        if observation.obs_type == "EXPOS":
+            # Creater the `organizer` element and its subelements
+            organizer = ET.SubElement(
+                entry_data,
+                "organizer",
+                {"classCode": "CLUSTER", "moodCode": "EVN"},
+            )
+
+            code_element = ET.Element(
+                "code",
+                {
+                    "code": "1",
+                    "displayName": "Exposure Information",
+                    "codeSytemName": "LocalSystem",
+                },
+            )
+
+            organizer.append(code_element)
+            status_code_element = ET.Element("status_code", {"code": "completed"})
+            organizer.append(status_code_element)
+            component = ET.SubElement(organizer, "component")
+
+            # Create the 'observation' element and append it to 'component'
+            observation_data = ET.SubElement(
+                component,
+                "observation",
+                {"classCode": "OBS", "moodCode": "EVN"},
+            )
+        # Set up for all other observation types
+        else:
+            # Create the 'observation' element and append it to 'entry'
+            observation_data = ET.SubElement(
+                entry_data,
+                "observation",
+                {"classCode": "OBS", "moodCode": "EVN"},
+            )
 
         if observation.code:
             code_element_xml = self._build_coded_element(
