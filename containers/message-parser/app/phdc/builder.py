@@ -234,9 +234,6 @@ class PHDCBuilder:
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
         root.append(self._get_version_number())
-
-        root.append(self._build_custodian(organizations=self.input_data.organization))
-        root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
@@ -247,6 +244,8 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
+        root.append(self._build_author(family_name="CDC PRIME DIBBs"))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
 
     def build_body(self):
         """
