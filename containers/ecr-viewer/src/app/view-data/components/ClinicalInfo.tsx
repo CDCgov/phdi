@@ -20,7 +20,8 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   [
     "Symptoms and Problems",
     "Immunizations",
-    "Diagnostics and Vital Signs, Treatment Details",
+    "Diagnostics and Vital Signs",
+    "Treatment Details",
   ],
 );
 
@@ -115,9 +116,11 @@ export const ClinicalInfo = ({
           </span>
         </AccordianH3>
         <AccordianDiv>
-          {data.map((item, index) => (
-            <DataTableDisplay item={item} key={index} />
-          ))}
+          <div data-testid="treatment-details">
+            {data.map((item, index) => (
+              <DataTableDisplay item={item} key={index} />
+            ))}
+          </div>
           <div className={"section__line_gray margin-y-2"} />
         </AccordianDiv>
       </>
@@ -128,8 +131,8 @@ export const ClinicalInfo = ({
     <AccordianSection>
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
-      {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {treatmentData.length > 0 && renderTreatmentDetails()}
+      {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );

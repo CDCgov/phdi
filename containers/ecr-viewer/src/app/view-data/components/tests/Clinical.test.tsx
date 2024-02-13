@@ -145,6 +145,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
   const testVitalSignsData = testClinicalData.vitalData.availableData;
   const testReasonForVisitData =
     testClinicalData.reasonForVisitDetails.availableData;
+  const testTreatmentData = testClinicalData.treatmentData.availableData;
 
   test("eCR Viewer renders immunization table given FHIR bundle with immunization info", () => {
     const clinicalInfo = render(
@@ -153,6 +154,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         reasonForVisitDetails={[]}
         activeProblemsDetails={[]}
         vitalData={[]}
+        treatmentData={[]}
       />,
     );
 
@@ -175,6 +177,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         reasonForVisitDetails={[]}
         activeProblemsDetails={testActiveProblemsData}
         vitalData={[]}
+        treatmentData={[]}
       />,
     );
 
@@ -195,6 +198,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         reasonForVisitDetails={[]}
         activeProblemsDetails={[]}
         vitalData={testVitalSignsData}
+        treatmentData={[]}
       />,
     );
 
@@ -209,12 +213,34 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         reasonForVisitDetails={testReasonForVisitData}
         activeProblemsDetails={[]}
         vitalData={[]}
+        treatmentData={[]}
       />,
     );
 
     const expectedReasonForVisitElement =
       clinicalInfo.getByTestId("reason-for-visit");
     expect(expectedReasonForVisitElement).toBeInTheDocument();
+  });
+
+  test("eCR Viewer renders treatment data given FHIR bundle with treatment data info", () => {
+    const clinicalInfo = render(
+      <ClinicalInfo
+        immunizationsDetails={[]}
+        reasonForVisitDetails={[]}
+        activeProblemsDetails={[]}
+        vitalData={[]}
+        treatmentData={testTreatmentData}
+      />,
+    );
+
+    const expectedTreatmentElement =
+      clinicalInfo.getByTestId("treatment-details");
+    expect(expectedTreatmentElement).toBeInTheDocument();
+
+    // Ensure only one table (Treatment) is rendering
+    const expectedTable = clinicalInfo.getAllByTestId("table");
+    expect(expectedTable[0]).toBeInTheDocument();
+    expect(expectedTable.length).toEqual(1);
   });
 
   test("eCR Viewer renders all Clinical Info sections", () => {
@@ -224,6 +250,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         reasonForVisitDetails={testReasonForVisitData}
         activeProblemsDetails={testActiveProblemsData}
         vitalData={testVitalSignsData}
+        treatmentData={testTreatmentData}
       />,
     );
 
@@ -236,10 +263,14 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
       clinicalInfo.getByTestId("active-problems");
     expect(expectedActiveProblemsElement).toBeInTheDocument();
 
-    // Ensure the two tables (Immunization History & Active Problems) are rendering
+    const expectedTreatmentElement =
+      clinicalInfo.getByTestId("treatment-details");
+    expect(expectedTreatmentElement).toBeInTheDocument();
+
+    // Ensure the three tables (Immunization History & Active Problems & Treatment) are rendering
     const expectedTable = clinicalInfo.getAllByTestId("table");
     expect(expectedTable[0]).toBeInTheDocument();
-    expect(expectedTable.length).toEqual(2);
+    expect(expectedTable.length).toEqual(3);
 
     const expectedVitalSignsElement = clinicalInfo.getByTestId("vital-signs");
     expect(expectedVitalSignsElement).toBeInTheDocument();

@@ -918,6 +918,51 @@
         "method": "PUT",
         "url": "Condition/3f9a9eb2-f922-634e-c26f-78392130df06"
       }
+    },
+    {
+      "fullUrl": "urn:uuid:b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.502.3.7.1.1988.1",
+            "value": "2884257^"
+          }
+        ],
+        "status": "completed",
+        "code": {
+          "coding": [
+            {
+              "code": "86308",
+              "display": "HC HETEROPHILE ANTIBODIES SCREENING",
+              "system": "http://www.ama-assn.org/go/cpt"
+            }
+          ]
+        },
+        "performedDateTime": "2022-06-16T17:53:00Z",
+        "reason": [
+          {
+            "display": "Routine general medical examination at a health care facility",
+            "reference": "7cda2e3e-5d91-428f-8abe-517846d4749e"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Procedure/b40f0081-4052-4971-3f3b-e3d9f5e1e44d"
+      }
     }
   ]
 }

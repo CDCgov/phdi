@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot test for Vital Signs (Clinical Info section) should match snapshot 1`] = `
+exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should match snapshot 1`] = `
 <div>
   <div>
     <div
@@ -9,6 +9,106 @@ exports[`Snapshot test for Vital Signs (Clinical Info section) should match snap
       <div
         class="usa-summary-box__body"
       >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          <span
+            id="treatment-details"
+          >
+            Treatment Details
+          </span>
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div
+            data-testid="treatment-details"
+          >
+            <div
+              class="grid-row"
+            >
+              <div
+                class="grid-col-auto text-pre-line"
+              >
+                <table
+                  class="usa-table usa-table--borderless width-full border-top border-left border-right table-caption-margin margin-y-0"
+                  data-testid="table"
+                >
+                  <caption>
+                    Procedures
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th
+                        class=" bg-gray-5 minw-15"
+                        scope="col"
+                      >
+                        Name
+                      </th>
+                      <th
+                        class=" bg-gray-5 minw-15"
+                        scope="col"
+                      >
+                        Date Performed
+                      </th>
+                      <th
+                        class=" bg-gray-5 minw-15"
+                        scope="col"
+                      >
+                        Reason
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th
+                        class="text-top"
+                        scope="row"
+                      >
+                        HC INFECTIOUS DISEASE PATHOGEN SPECIFIC RNA SARS-COV-2/INF A&B/RSV UPPER RESP SPEC DETECTED OR NOT
+                      </th>
+                      <td
+                        class="text-top"
+                      >
+                        06/24/2022
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Struck by nonvenomous lizards, sequela
+                      </td>
+                    </tr>
+                    <tr>
+                      <th
+                        class="text-top"
+                        scope="row"
+                      >
+                        HC HETEROPHILE ANTIBODIES SCREENING
+                      </th>
+                      <td
+                        class="text-top"
+                      >
+                        06/16/2022
+                      </td>
+                      <td
+                        class="text-top"
+                      >
+                        Routine general medical examination at a health care facility
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+          <div
+            class="section__line_gray margin-y-2"
+          />
+        </div>
         <h3
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
