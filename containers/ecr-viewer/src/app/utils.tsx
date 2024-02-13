@@ -3,10 +3,11 @@ import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
 import React from "react";
+import parse from 'html-react-parser';
 
 export interface DisplayData {
   title: string;
-  value: string | JSX.Element | undefined;
+  value: string | React.JSX.Element | undefined;
 }
 
 export interface PathMappings {
@@ -651,6 +652,13 @@ export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
+  const clinicalNotes: DisplayData[] = [
+    {
+      title: "Miscellaneous Notes",
+      value: parse(evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div)
+    },
+  ];
+
   const activeProblemsData: DisplayData[] = [
     {
       title: "Reason for Visit",
@@ -688,6 +696,7 @@ export const evaluateClinicalData = (
     },
   ];
   return {
+    clinicalNotes: evaluateData(clinicalNotes),
     activeProblemsDetails: evaluateData(activeProblemsData),
     treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
