@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -85,9 +86,9 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
        {
            return data as string;
        }
-       else if(data is IList<object>)
+       else if(data is IList)
        {
-        foreach(var row in data as IList<object>)
+        foreach(var row in data as IList)
         {
           stringBuilder.Append(ToHtmlString(row));
         }
@@ -118,9 +119,9 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                        stringBuilder.Append($"</{item.Key}>");
                    }
                }
-               else if(item.Value is IList<object>)
+               else if(item.Value is IList)
                {
-                  foreach(var row in item.Value as IList<object>)
+                  foreach(var row in item.Value as IList)
                   {
                     var addTag = supportedTags.Contains(item.Key);
                     if(addTag)
