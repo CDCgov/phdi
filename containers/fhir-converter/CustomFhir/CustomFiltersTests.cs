@@ -136,7 +136,7 @@ public class CustomFilterTests
         var col = new Dictionary<string, object>(){
             {"width", "50%"},
         };
-        var colList = new List<object>() {col, col};
+        var colList = new List<object>() { col, col };
         var colGroup = new Dictionary<string, object>(){
             {"col", colList},
         };
