@@ -202,6 +202,7 @@ def test_build_name(build_name_test_data, expected_result):
                 Organization(
                     id="112233",
                     name="Happy Labs",
+                    telecom=Telecom(value="8888675309"),
                     address=Address(
                         street_address_line_1="23 main st",
                         street_address_line_2="apt 12",
@@ -211,7 +212,6 @@ def test_build_name(build_name_test_data, expected_result):
                         county="Tarrant",
                         country="USA",
                     ),
-                    telecom=Telecom(value="8888675309"),
                 )
             ],
             (
@@ -220,6 +220,7 @@ def test_build_name(build_name_test_data, expected_result):
                 "    <representedCustodianOrganization>\n"
                 '      <id extension="112233"/>\n'
                 "      <name>Happy Labs</name>\n"
+                '      <telecom value="8888675309"/>\n'
                 "      <addr>\n"
                 "        <streetAddressLine>23 main st</streetAddressLine>\n"
                 "        <streetAddressLine>apt 12</streetAddressLine>\n"
@@ -229,7 +230,6 @@ def test_build_name(build_name_test_data, expected_result):
                 "        <county>Tarrant</county>\n"
                 "        <country>USA</country>\n"
                 "      </addr>\n"
-                '      <telecom value="8888675309"/>\n'
                 "    </representedCustodianOrganization>\n"
                 "  </assignedCustodian>\n"
                 "</custodian>\n"
