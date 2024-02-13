@@ -645,6 +645,7 @@ class PHDCBuilder:
         id_element = ET.Element("id")
         id_element.set("root", "2.16.840.1.113883.19.5")
         assigned_author.append(id_element)
+        assigned_person = ET.SubElement(assigned_author, "assignedPerson")
 
         # family name is the example way to add either a project name or source of
         # the data being migrated
@@ -652,7 +653,8 @@ class PHDCBuilder:
         family_element = ET.SubElement(name_element, "family")
         family_element.text = family_name
 
-        assigned_author.append(name_element)
+        assigned_person.append(name_element)
+        assigned_author.append(assigned_person)
 
         author_element.append(assigned_author)
 
