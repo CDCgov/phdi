@@ -1,4 +1,4 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayData, DataTableDisplay } from "@/app/utils";
 import {
   AccordianSection,
   AccordianH3,
@@ -12,11 +12,16 @@ interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
   immunizationsDetails: DisplayData[];
+  treatmentData: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   "Clinical Info",
-  ["Symptoms and Problems", "Immunizations", "Diagnostics and Vital Signs"],
+  [
+    "Symptoms and Problems",
+    "Immunizations",
+    "Diagnostics and Vital Signs, Treatment Details",
+  ],
 );
 
 export const ClinicalInfo = ({
@@ -24,6 +29,7 @@ export const ClinicalInfo = ({
   activeProblemsDetails,
   immunizationsDetails,
   vitalData,
+  treatmentData,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
@@ -96,11 +102,34 @@ export const ClinicalInfo = ({
     );
   };
 
+  const renderTreatmentDetails = () => {
+    const tableData = treatmentData.filter((item) =>
+      React.isValidElement(item),
+    );
+    const data = treatmentData.filter((item) => !React.isValidElement(item));
+    return (
+      <>
+        <AccordianH3>
+          <span id={clinicalInfoConfig.subNavItems?.[3].id}>
+            {clinicalInfoConfig.subNavItems?.[3].title}
+          </span>
+        </AccordianH3>
+        <AccordianDiv>
+          {data.map((item, index) => (
+            <DataTableDisplay item={item} key={index} />
+          ))}
+          <div className={"section__line_gray margin-y-2"} />
+        </AccordianDiv>
+      </>
+    );
+  };
+
   return (
     <AccordianSection>
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
       {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
+      {treatmentData.length > 0 && renderTreatmentDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );
