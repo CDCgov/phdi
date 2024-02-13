@@ -82,56 +82,55 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     public static string ToHtmlString(object data)
     {
        var stringBuilder = new StringBuilder();
-       if(data is string)
+       if(data is string stringData)
        {
-           return data as string;
+           return stringData;
        }
-       else if(data is IList)
+       else if(data is IList listData)
        {
-        foreach(var row in data as IList)
+        foreach(var row in listData)
         {
           stringBuilder.Append(ToHtmlString(row));
         }
        }
-       else if(data is IDictionary<string, object>)
+       else if(data is IDictionary<string, object> dict)
        {
-           var dict = data as IDictionary<string, object>;
-           foreach(var item in dict)
+           foreach(var kvp in dict)
            {
-               if(item.Key == "_")
+               if(kvp.Key == "_")
                {
-                  stringBuilder.Append(ToHtmlString(item.Value));
+                  stringBuilder.Append(ToHtmlString(kvp.Value));
                }
-               else if(item.Key == "br")
+               else if(kvp.Key == "br")
                {
                    stringBuilder.Append("<br>");
                }
-               else if (item.Value is IDictionary<string, object>)
+               else if (kvp.Value is IDictionary<string, object>)
                {
-                   var addTag = supportedTags.Contains(item.Key);
+                   var addTag = supportedTags.Contains(kvp.Key);
                    if(addTag)
                    {
-                       stringBuilder.Append($"<{item.Key}>");
+                       stringBuilder.Append($"<{kvp.Key}>");
                    }
-                   stringBuilder.Append(ToHtmlString(item.Value));
+                   stringBuilder.Append(ToHtmlString(kvp.Value));
                    if(addTag)
                    {
-                       stringBuilder.Append($"</{item.Key}>");
+                       stringBuilder.Append($"</{kvp.Key}>");
                    }
                }
-               else if(item.Value is IList)
+               else if(kvp.Value is IList listKvp)
                {
-                  foreach(var row in item.Value as IList)
+                  foreach(var row in listKvp)
                   {
-                    var addTag = supportedTags.Contains(item.Key);
+                    var addTag = supportedTags.Contains(kvp.Key);
                     if(addTag)
                     {
-                        stringBuilder.Append($"<{item.Key}>");
+                        stringBuilder.Append($"<{kvp.Key}>");
                     }
                     stringBuilder.Append(ToHtmlString(row));
                     if(addTag)
                     {
-                        stringBuilder.Append($"</{item.Key}>");
+                        stringBuilder.Append($"</{kvp.Key}>");
                     }
                   }
                }
