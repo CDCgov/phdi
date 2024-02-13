@@ -62,7 +62,8 @@ def test_unpack_fhir_converter_response():
     response = Mock()
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
-    assert result == (400, "Bad Request: FHIR Conversion failed.")
+    assert result[0] == 400
+    assert "FHIR Converter request failed" in result[1]
 
     # Successful conversion response
     sample_bundle = json.load(

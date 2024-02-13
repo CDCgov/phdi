@@ -58,7 +58,10 @@ def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]
     """
     converter_response = response.json().get("response")
     if converter_response.status_code != 200:
-        return (converter_response.status_code, "Bad Request: FHIR Conversion failed.")
+        return (
+            converter_response.status_code,
+            f"FHIR Converter request failed: {converter_response.text}",
+        )
     else:
         fhir_msg = converter_response.get("FhirResource")
         return (converter_response.status_code, fhir_msg)
