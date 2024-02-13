@@ -15,6 +15,7 @@
       <representedCustodianOrganization>
         <id extension="495669c7-96bf-4573-9dd8-59e745e05576"/>
         <name>Sunny Vale</name>
+        <telecom value="999-999-9999"/>
         <addr>
           <streetAddressLine>999 North Ridge Road</streetAddressLine>
           <streetAddressLine>Building 3</streetAddressLine>
@@ -23,7 +24,6 @@
           <postalCode>33721</postalCode>
           <county>Duvall</county>
         </addr>
-        <telecom value="999-999-9999"/>
       </representedCustodianOrganization>
     </assignedCustodian>
   </custodian>
