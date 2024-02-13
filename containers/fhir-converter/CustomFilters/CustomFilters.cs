@@ -79,6 +79,22 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return string.Join(",", result);
     }
 
+    private static string RecreateHtml(string key, object value)
+    {
+        var stringBuilder = new StringBuilder();
+        var shouldAddTag = supportedTags.Contains(key);
+        if(shouldAddTag)
+        {
+            stringBuilder.Append($"<{key}>");
+        }
+        stringBuilder.Append(ToHtmlString(value));
+        if(shouldAddTag)
+        {
+            stringBuilder.Append($"</{key}>");
+        }
+        return stringBuilder.ToString();
+    }
+
     public static string ToHtmlString(object data)
     {
        var stringBuilder = new StringBuilder();
@@ -108,31 +124,13 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                }
                else if (item.Value is IDictionary<string, object>)
                {
-                   var addTag = supportedTags.Contains(item.Key);
-                   if(addTag)
-                   {
-                       stringBuilder.Append($"<{item.Key}>");
-                   }
-                   stringBuilder.Append(ToHtmlString(item.Value));
-                   if(addTag)
-                   {
-                       stringBuilder.Append($"</{item.Key}>");
-                   }
+                  stringBuilder.Append(RecreateHtml(item.Key, item.Value));
                }
                else if(item.Value is IList<object>)
                {
                   foreach(var row in item.Value as IList<object>)
                   {
-                    var addTag = supportedTags.Contains(item.Key);
-                    if(addTag)
-                    {
-                        stringBuilder.Append($"<{item.Key}>");
-                    }
-                    stringBuilder.Append(ToHtmlString(row));
-                    if(addTag)
-                    {
-                        stringBuilder.Append($"</{item.Key}>");
-                    }
+                    stringBuilder.Append(RecreateHtml(item.Key, item.Value));
                   }
                }
            }
