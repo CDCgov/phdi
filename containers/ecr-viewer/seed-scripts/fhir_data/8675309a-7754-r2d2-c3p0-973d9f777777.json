@@ -58,7 +58,7 @@
             "title": "Miscellaneous Notes",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Miscellaneous Notes</div>"
+              "div": "Not on filedocumented in this encounter"
             },
             "code": {
               "coding": [
@@ -76,7 +76,7 @@
             "title": "Immunizations",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Immunizations</div>"
+              "div": "Not on filedocumented as of this encounter"
             },
             "code": {
               "coding": [
@@ -94,7 +94,7 @@
             "title": "Administered Medications",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Administered Medications</div>"
+              "div": "Not on filedocumented in this encounter"
             },
             "code": {
               "coding": [
@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+              "div": "Not on filedocumented as of this encounter"
             },
             "code": {
               "coding": [
@@ -130,7 +130,7 @@
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Problems</div>"
+              "div": "<table><thead><tr><th>Problem</th><th>Noted Date</th></tr></thead><tbody><tr><td>Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive</td><td>12/14/22</td></tr><tr><td>Headache</td><td>8/19/22</td></tr><tr><td>Backache</td><td>8/19/22</td></tr><tr><td>Malignant neoplasm of urinary bladder neck</td><td>11/5/21</td></tr><tr><td>Malignant neoplasm of overlapping sites of pancreas</td><td>9/18/17</td></tr><tr><td>Cancer Staging: Stage IIBStage III<br> (pT1, pN2, cM0) - Signed by Ocmd Phsbeacon, MD on 9/30/2022Pathologic: (cT1, cN1, cM0) - Signed by Ocmd Phsbeacon, MD on 1/13/2022Clinical stage from 1/13/2022:</td></tr><tr><td>Bilateral malignant neoplasm of lower outer quadrant of breast in female</td><td>2/27/17</td></tr><tr><td>Cancer Staging: Stage IIAStage IV<br> (rpT2, pN1a(f), pM1, G3, ER: Negative, PR: Negative, HER2: Negative) - Signed by Ocmd Phsbeacon, MD on 1/10/2018Pathologic stage from 12/10/2017: (T1, N1, M0) - Signed by Ocmd Phsbeacon, MD on 2/27/2017Clinical stage from 2/27/2017:</td></tr></tbody></table>documented as of this encounter (statuses as of 12/14/2022)"
             },
             "code": {
               "coding": [
@@ -174,7 +174,7 @@
             "title": "Reason for Visit",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason for Visit</div>"
+              "div": "Not on file"
             },
             "code": {
               "coding": [
@@ -198,7 +198,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Results</div>"
+              "div": "(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (03/31/2022 11:52 AM PDT)<table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>C. Diff Toxin A/B, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Cyclospora cayetanensis, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr><tr><td>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE� FILMARRAY� 2.0 SYSTEM</td><td>03/31/2022 1:04 PM PDT</td><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>03/31/2022 11:52 AM PDT</td><td>03/31/2022 11:52 AM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Authorizing Provider</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>PROVIDENCE SAINT JOHN'S HEALTH CENTER LAB (CLIA 05D0059345)</td><td>2121 Santa Monica Blvd</td><td>Santa Monica, CA 90404</td><td>310-829-8800</td></tr></tbody></table>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -310,7 +310,7 @@
             "title": "Social History",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Social History</div>"
+              "div": "<table><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Never Assessed</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr><td>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -346,7 +346,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Encounter Details</div>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr><td>3/31/22</td><td>Lab Requisition</td><td>PROVIDENCE SAINT JOHN'S HEALTH CTR CLINICAL LABORATORY2121 Santa Monica BlvdSanta Monica, CA 90404-2303310-829-8116</td><td>Provider, Authorizing</td><td></td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -418,7 +418,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "relatesTo": [
           {
@@ -476,7 +476,7 @@
           "end": "2023-02-12"
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "location": [
           {
@@ -624,10 +624,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:d6930155-009b-92a0-d2b9-007761c45ad2",
+      "fullUrl": "urn:uuid:0e0c4ed5-f251-7818-c530-5081ac13c13c",
       "resource": {
         "resourceType": "Organization",
-        "id": "d6930155-009b-92a0-d2b9-007761c45ad2",
+        "id": "0e0c4ed5-f251-7818-c530-5081ac13c13c",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
@@ -648,25 +648,11 @@
             ]
           }
         ],
-        "name": "California Department of Public Health",
-        "address": [
-          {
-            "use": "work",
-            "city": "Sacramento",
-            "state": "CA"
-          }
-        ],
-        "telecom": [
-          {
-            "system": "email",
-            "value": "CalREDIEeCR@cdph.ca.gov",
-            "use": "work"
-          }
-        ]
+        "name": "California Department of Public Health"
       },
       "request": {
         "method": "PUT",
-        "url": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2"
+        "url": "Organization/0e0c4ed5-f251-7818-c530-5081ac13c13c"
       }
     },
     {
@@ -711,11 +697,55 @@
               "system": "http://snomed.info/sct"
             }
           ]
-        }
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
+            "valueString": "Detection of Cyclospora cayetanensis nucleic acid in a clinical specimen, including stool, intestinal fluid, intestinal aspirate, and intestinal biopsy, by any method"
+          }
+        ],
+        "performer": [
+          {
+            "reference": "Organization/0e0c4ed5-f251-7818-c530-5081ac13c13c",
+            "display": "California Department of Public Health"
+          }
+        ]
       },
       "request": {
         "method": "PUT",
         "url": "Observation/f61d4bbc-d1d5-4bef-b2f6-d32e8db54596"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c56015b1-ec87-3ccf-4f38-5a16943cf505",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "c56015b1-ec87-3ccf-4f38-5a16943cf505",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-routing-entity-organization"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "urn:oid:2.16.840.1.114222.4.5.232",
+                "code": "RR7",
+                "display": "Routing Entity"
+              }
+            ]
+          }
+        ],
+        "name": "Los Angeles County Department of Public Health"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/c56015b1-ec87-3ccf-4f38-5a16943cf505"
       }
     },
     {
@@ -769,8 +799,8 @@
         ],
         "performer": [
           {
-            "reference": "Organization/d6930155-009b-92a0-d2b9-007761c45ad2",
-            "display": "California Department of Public Health"
+            "reference": "Organization/c56015b1-ec87-3ccf-4f38-5a16943cf505",
+            "display": "Los Angeles County Department of Public Health"
           }
         ]
       },
@@ -920,10 +950,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2",
+      "fullUrl": "urn:uuid:87406fc4-7c94-4f26-9381-4011508b29c2",
       "resource": {
         "resourceType": "Patient",
-        "id": "d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2",
+        "id": "87406fc4-7c94-4f26-9381-4011508b29c2",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1082,7 +1112,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+        "url": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
       }
     },
     {
@@ -1127,7 +1157,7 @@
         },
         "onsetDateTime": "2017-02-27",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "meta": {
           "source": [
@@ -1182,7 +1212,7 @@
         },
         "onsetDateTime": "2017-09-18",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "meta": {
           "source": [
@@ -1237,7 +1267,7 @@
         },
         "onsetDateTime": "2021-11-05",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "meta": {
           "source": [
@@ -1292,7 +1322,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "meta": {
           "source": [
@@ -1347,7 +1377,7 @@
         },
         "onsetDateTime": "2022-08-19",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "meta": {
           "source": [
@@ -1402,7 +1432,7 @@
         },
         "onsetDateTime": "2022-12-14",
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "meta": {
           "source": [
@@ -1466,7 +1496,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -1500,7 +1530,7 @@
           "end": "2022-01-31T18:52:00Z"
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -1676,7 +1706,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -1780,7 +1810,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -1851,7 +1881,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -1922,7 +1952,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -1993,7 +2023,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2064,7 +2094,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2135,7 +2165,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2206,7 +2236,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2277,7 +2307,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2348,7 +2378,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2419,7 +2449,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2490,7 +2520,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2561,7 +2591,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2632,7 +2662,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2722,7 +2752,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2793,7 +2823,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2864,7 +2894,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -2935,7 +2965,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -3006,7 +3036,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -3077,7 +3107,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -3148,7 +3178,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -3219,7 +3249,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         },
         "performer": [
           {
@@ -3290,7 +3320,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3347,7 +3377,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3405,7 +3435,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3455,7 +3485,7 @@
         "effectiveDateTime": "2020-11-09",
         "valueBoolean": true,
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3516,7 +3546,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3613,7 +3643,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3661,7 +3691,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3827,7 +3857,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
@@ -3878,12 +3908,30 @@
           "value": 20171216
         },
         "subject": {
-          "reference": "Patient/d293c7e6-8fe3-4d84-9a5a-d7e50946bdf2"
+          "reference": "Patient/87406fc4-7c94-4f26-9381-4011508b29c2"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/51487854-3257-0685-a4cf-f191347b317e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/"
       }
     }
   ]
