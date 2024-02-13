@@ -74,6 +74,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
               clinicalData.activeProblemsDetails.availableData
             }
             vitalData={clinicalData.vitalData.availableData}
+            treatmentData={clinicalData.treatmentData.availableData}
           />
         </>
       ),
@@ -107,6 +108,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             }
             providerUnavailableData={providerData.unavailableData}
             vitalUnavailableData={clinicalData.vitalData.unavailableData}
+            treatmentData={clinicalData.treatmentData.unavailableData}
           />
         </div>
       ),

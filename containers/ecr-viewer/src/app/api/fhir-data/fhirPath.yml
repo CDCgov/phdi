@@ -77,3 +77,9 @@ activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(cat
 activeProblemsDisplay: "Condition.code.coding[0].display"
 activeProblemsOnsetDate: "Condition.onsetDateTime"
 activeProblemsOnsetAge: "idk"
+
+# Procedure
+procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
+procedureName: "Procedure.code.coding.first().display"
+procedureDate: "Procedure.performedDateTime"
+procedureReason: "Procedure.reason.display"
