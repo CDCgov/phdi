@@ -325,7 +325,7 @@ const formatTable = (
       bordered={false}
       fullWidth={true}
       caption={caption}
-      className="border-top border-left border-right table-caption-margin"
+      className="border-top border-left border-right table-caption-margin margin-y-0"
     >
       {tableContent}
     </Table>
@@ -618,6 +618,35 @@ export const returnProblemsTable = (
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
+export const returnProceduresTable = (
+  proceduresArray: any[],
+  mappings: PathMappings,
+) => {
+  if (proceduresArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Name", infoPath: "procedureName" },
+    { columnName: "Date Performed", infoPath: "procedureDate" },
+    { columnName: "Reason", infoPath: "procedureReason" },
+  ];
+
+  proceduresArray.forEach((entry) => {
+    entry.performedDateTime
+      ? (entry.performedDateTime = formatDate(entry.performedDateTime))
+      : (entry.performedDateTime = "N/A");
+  });
+
+  proceduresArray.sort((a, b) => {
+    const dateA = new Date(a.performedDateTime).getTime();
+    const dateB = new Date(b.performedDateTime).getTime();
+    return dateB - dateA;
+  });
+
+  return formatTable(proceduresArray, mappings, columnInfo, "Procedures");
+};
+
 export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
@@ -631,6 +660,16 @@ export const evaluateClinicalData = (
       title: "Problems List",
       value: returnProblemsTable(
         evaluate(fhirBundle, mappings["activeProblems"]),
+        mappings,
+      ),
+    },
+  ];
+
+  const treatmentData: DisplayData[] = [
+    {
+      title: "Procedures",
+      value: returnProceduresTable(
+        evaluate(fhirBundle, mappings["procedures"]),
         mappings,
       ),
     },
@@ -650,6 +689,7 @@ export const evaluateClinicalData = (
   ];
   return {
     activeProblemsDetails: evaluateData(activeProblemsData),
+    treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
   };
 };
@@ -692,6 +732,17 @@ export const DataDisplay: React.FC<{ item: DisplayData }> = ({
         </div>
         <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
       </div>
+      <div className={"section__line_gray"} />
+    </div>
+  );
+};
+
+export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
+  item,
+}): React.JSX.Element => {
+  return (
+    <div className="grid-row">
+      <div className="grid-col-auto text-pre-line">{item.value}</div>
       <div className={"section__line_gray"} />
     </div>
   );
