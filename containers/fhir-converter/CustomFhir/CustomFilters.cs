@@ -79,6 +79,23 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return string.Join(",", result);
     }
 
+    private static string WrapHtmlValue(string key, object value)
+    {
+       var stringBuilder = new StringBuilder();
+       var addTag = supportedTags.Contains(key);
+       if(addTag)
+       {
+           stringBuilder.Append($"<{key}>");
+       }
+       stringBuilder.Append(ToHtmlString(value));
+       if(addTag)
+       {
+           stringBuilder.Append($"</{key}>");
+       }
+
+        return stringBuilder.ToString();
+    }
+
     public static string ToHtmlString(object data)
     {
        var stringBuilder = new StringBuilder();
@@ -107,31 +124,13 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                }
                else if (kvp.Value is IDictionary<string, object>)
                {
-                   var addTag = supportedTags.Contains(kvp.Key);
-                   if(addTag)
-                   {
-                       stringBuilder.Append($"<{kvp.Key}>");
-                   }
-                   stringBuilder.Append(ToHtmlString(kvp.Value));
-                   if(addTag)
-                   {
-                       stringBuilder.Append($"</{kvp.Key}>");
-                   }
+                   stringBuilder.Append(WrapHtmlValue(kvp.Key, kvp.Value));
                }
-               else if(kvp.Value is IList listKvp)
+               else if(kvp.Value is IList list)
                {
-                  foreach(var row in listKvp)
+                  foreach(var row in list)
                   {
-                    var addTag = supportedTags.Contains(kvp.Key);
-                    if(addTag)
-                    {
-                        stringBuilder.Append($"<{kvp.Key}>");
-                    }
-                    stringBuilder.Append(ToHtmlString(row));
-                    if(addTag)
-                    {
-                        stringBuilder.Append($"</{kvp.Key}>");
-                    }
+                   stringBuilder.Append(WrapHtmlValue(kvp.Key, row));
                   }
                }
            }
