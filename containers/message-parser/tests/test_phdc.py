@@ -259,7 +259,7 @@ def test_build_custodian(build_custodian_test_data, expected_result):
 
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 @pytest.mark.parametrize(
-    "family_name, expected_oid, expected_date, expected_name",
+    "family_name, expected_oid, expected_date, expected_author",
     [
         # test for correct OID and name "CDC PRIME DIBBs"
         (
@@ -267,10 +267,9 @@ def test_build_custodian(build_custodian_test_data, expected_result):
             "2.16.840.1.113883.19.5",
             "20101215000000",
             (
-                '<author><time value="20101215000000"/><assignedAuthor>'
-                '<id root="2.16.840.1.113883.19.5"/><name>'
-                "<family>CDC PRIME DIBBs</family></name>"
-                "</assignedAuthor></author>"
+                '<author><time value="20101215000000"/><assignedAuthor><id root='
+                + '"2.16.840.1.113883.19.5"/><assignedPerson><name><family>CDC PRIME '
+                + "DIBBs</family></name></assignedPerson></assignedAuthor></author>"
             ),
         ),
         # test for correct OID and name "Local Health Jurisdiction"
@@ -279,21 +278,21 @@ def test_build_custodian(build_custodian_test_data, expected_result):
             "2.16.840.1.113883.19.5",
             "20101215000000",
             (
-                '<author><time value="20101215000000"/><assignedAuthor>'
-                '<id root="2.16.840.1.113883.19.5"/><name>'
-                "<family>Local Health Jurisdiction</family></name>"
-                "</assignedAuthor></author>"
+                '<author><time value="20101215000000"/><assignedAuthor><id root="2.16.'
+                + '840.1.113883.19.5"/><assignedPerson><name><family>Local Health '
+                + "Jurisdiction</family></name></assignedPerson></assignedAuthor>"
+                + "</author>"
             ),
         ),
     ],
 )
-def test_build_author(family_name, expected_oid, expected_date, expected_name):
+def test_build_author(family_name, expected_oid, expected_date, expected_author):
     xml_author_data = PHDCBuilder()._build_author(family_name)
     author_string = ET.tostring(xml_author_data).decode()
-
     assert expected_oid in author_string
     assert expected_date in author_string
-    assert expected_name in author_string
+    assert expected_author in author_string
+    assert expected_author == author_string
 
 
 @pytest.mark.parametrize(
