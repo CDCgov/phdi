@@ -10,24 +10,6 @@
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <setId extension="CLOSED_CASE" displayable="true"/>
   <versionNumber value="1"/>
-  <custodian>
-    <assignedCustodian>
-      <representedCustodianOrganization>
-        <id extension="112233"/>
-      </representedCustodianOrganization>
-    </assignedCustodian>
-  </custodian>
-  <author>
-    <time value="20101215000000"/>
-    <assignedAuthor>
-      <id root="2.16.840.1.113883.19.5"/>
-      <assignedPerson>
-        <name>
-          <family>DIBBS</family>
-        </name>
-      </assignedPerson>
-    </assignedAuthor>
-  </author>
   <recordTarget>
     <patientRole>
       <id extension="mocked-uuid" root="2.16.840.1.113883.4.1" assigningAuthorityName="LR"/>
@@ -64,4 +46,22 @@
       </patient>
     </patientRole>
   </recordTarget>
+  <author>
+    <time value="20101215000000"/>
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.19.5"/>
+      <assignedPerson>
+        <name>
+          <family>CDC PRIME DIBBs</family>
+        </name>
+      </assignedPerson>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id extension="112233"/>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
 </ClinicalDocument>
