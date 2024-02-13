@@ -30,4 +30,15 @@ public class CustomFilterTests
         var actual = Filters.ToHtmlString(strList);
         Assert.Equal("car", actual);
     }
+
+    [Fact]
+    public void ToHtmlString_StringObjectDictionaryBr_ReturnsOnlyBR()
+    {
+        var strList = new Dictionary<string, object>(){
+            {"br", ""},
+            {"/nSun", "flower"}
+        };
+        var actual = Filters.ToHtmlString(strList);
+        Assert.Equal("<br>", actual);
+    }
 }
