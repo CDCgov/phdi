@@ -7,6 +7,12 @@ describe("Encounter", () => {
   let container: HTMLElement;
 
   beforeAll(() => {
+    const clinicalNotes = [
+      {
+        title: "Miscellaneous Notes",
+        value: "<paragraph>This patient was only recently discharged for a recurrent GI bleed as described</paragraph>",
+      }
+    ];
     const proceduresArray = [
       {
         id: "b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
@@ -111,6 +117,7 @@ describe("Encounter", () => {
     ];
     container = render(
       <ClinicalInfo
+        clinicalNotes={clinicalNotes}
         activeProblemsDetails={[]}
         vitalData={vitalData}
         treatmentData={treatmentData}

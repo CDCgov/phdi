@@ -11,6 +11,7 @@ interface ClinicalProps {
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
   treatmentData: DisplayData[];
+  clinicalNotes: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -22,6 +23,7 @@ const ClinicalInfo = ({
   activeProblemsDetails,
   vitalData,
   treatmentData,
+  clinicalNotes
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
@@ -89,8 +91,20 @@ const ClinicalInfo = ({
     );
   };
 
+  const renderClinicalNotes = () => {
+    return(<>
+      <AccordianH3>Clinical Notes</AccordianH3>
+      <AccordianDiv>
+        {clinicalNotes.map((item, index) => (
+          <DataDisplay item={item} key={index} />
+        ))}
+      </AccordianDiv>
+    </>)
+  }
+
   return (
     <AccordianSection>
+      {clinicalNotes?.length > 0 && renderClinicalNotes()}
       {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
       {treatmentData.length > 0 && renderTreatmentDetails()}
       {vitalData.length > 0 && renderVitalDetails()}

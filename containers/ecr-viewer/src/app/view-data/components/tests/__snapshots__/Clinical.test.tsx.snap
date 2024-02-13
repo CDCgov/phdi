@@ -13,6 +13,37 @@ exports[`Encounter should match snapshot 1`] = `
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
         >
+          Clinical Notes
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Miscellaneous Notes
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                &lt;paragraph&gt;This patient was only recently discharged for a recurrent GI bleed as described&lt;/paragraph&gt;
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+        </div>
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
           Treatment Details
         </h3>
         <div
