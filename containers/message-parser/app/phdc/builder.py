@@ -605,12 +605,12 @@ class PHDCBuilder:
 
             self._add_field(represented_organization, organization.name, "name")
 
-            if organization.address is not None:
-                represented_organization.append(self._build_addr(organization.address))
             if organization.telecom is not None:
                 represented_organization.append(
                     self._build_telecom(organization.telecom)
                 )
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
 
             assigned_custodian.append(represented_organization)
 

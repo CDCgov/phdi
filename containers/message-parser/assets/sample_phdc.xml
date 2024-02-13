@@ -15,6 +15,7 @@
       <representedCustodianOrganization>
         <id extension="112233"/>
         <name>Happy Labs</name>
+        <telecom value="8888675309"/>
         <addr>
           <streetAddressLine>23 main st</streetAddressLine>
           <streetAddressLine>apt 12</streetAddressLine>
@@ -24,7 +25,6 @@
           <county>Tarrant</county>
           <country>USA</country>
         </addr>
-        <telecom value="8888675309"/>
       </representedCustodianOrganization>
     </assignedCustodian>
   </custodian>

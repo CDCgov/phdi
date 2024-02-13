@@ -75,8 +75,8 @@ class Organization:
 
     id: str = None
     name: str = None
-    address: Address = None
     telecom: Telecom = None
+    address: Address = None
 
 
 @dataclass
