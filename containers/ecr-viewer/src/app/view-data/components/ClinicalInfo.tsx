@@ -1,7 +1,7 @@
 import { DataDisplay, DisplayData } from "@/app/utils";
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
@@ -40,7 +40,9 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
     );
     return (
       <>
-        <AccordianH3>Symptoms and Problems</AccordianH3>
+        <AccordianH4>
+          <span id="symptoms-and-problems">Symptoms and Problems</span>
+        </AccordianH4>
         <AccordianDiv>
           {data.map((item, index) => (
             <DataDisplay item={item} key={index} />
@@ -54,7 +56,7 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
   const renderVitalDetails = () => {
     return (
       <>
-        <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
+        <AccordianH4>Diagnostic and Vital Signs</AccordianH4>
         <AccordianDiv>
           <div className="lh-18">
             {vitalData.map((item, index) => (

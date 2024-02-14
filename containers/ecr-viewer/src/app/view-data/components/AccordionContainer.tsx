@@ -50,7 +50,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Encounter Info",
@@ -63,7 +63,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </div>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Clinical Info",
@@ -78,7 +78,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "eCR Metadata",
@@ -92,7 +92,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Unavailable Info",
@@ -111,7 +111,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </div>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
   ];
 

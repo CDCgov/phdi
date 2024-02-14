@@ -22,10 +22,7 @@ const UnavailableInfo = ({
   const renderSection = (sectionTitle: string, data: DisplayData[]) => {
     return (
       <div className="margin-bottom-4">
-        <h3
-          className="usa-summary-box__heading padding-bottom-205"
-          id="summary-box-key-information"
-        >
+        <h3 className="usa-summary-box__heading padding-bottom-205 unavailable-info">
           {sectionTitle}
         </h3>
         <div className="usa-summary-box__text">

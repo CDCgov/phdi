@@ -30,43 +30,35 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
       >
         <div className="usa-summary-box__body">
           <h3
-            className="summary-box-key-information"
+            className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[0].id}
           >
             {ecrSummaryConfig.subNavItems?.[0].title}
           </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Patient Name</h4>
-              </div>
+              <div className="data-title">Patient Name</div>
               <div className="grid-col-auto">
                 {formatPatientName(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>DOB</h4>
-              </div>
+              <div className="data-title">DOB</div>
               <div className="grid-col-auto text-pre-line">
                 {evaluate(fhirBundle, fhirPathMappings.patientDOB)}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Patient Address</h4>
-              </div>
+              <div className="data-title">Patient Address</div>
               <div className="grid-col-auto text-pre-line">
                 {extractPatientAddress(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Patient Contact</h4>
-              </div>
+              <div className="data-title">Patient Contact</div>
               <div className="grid-col-auto text-pre-line">
                 {formatPatientContactInfo(fhirBundle, fhirPathMappings)}
               </div>
@@ -76,52 +68,42 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
         </div>
         <div className="usa-summary-box__body">
           <h3
-            className="summary-box-key-information"
+            className="summary-box-key-information side-nav-ignore"
             id={ecrSummaryConfig.subNavItems?.[1].id}
           >
             {ecrSummaryConfig.subNavItems?.[1].title}
           </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Facility Name</h4>
-              </div>
+              <div className="data-title">Facility Name</div>
               <div className="grid-col-auto">
                 {evaluate(fhirBundle, fhirPathMappings.facilityName)}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Facility Address</h4>
-              </div>
+              <div className="data-title">Facility Address</div>
               <div className="grid-col-auto text-pre-line">
                 {extractFacilityAddress(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Facility Contact</h4>
-              </div>
+              <div className="data-title">Facility Contact</div>
               <div className="grid-col-auto">
                 {evaluate(fhirBundle, fhirPathMappings.facilityContact)}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Encounter Date/Time</h4>
-              </div>
+              <div className="data-title">Encounter Date/Time</div>
               <div className="grid-col-auto text-pre-line">
                 {formatEncounterDate(fhirBundle, fhirPathMappings)}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Encounter Type</h4>
-              </div>
+              <div className="data-title">Encounter Type</div>
               <div className="grid-col-auto">
                 {evaluate(fhirBundle, fhirPathMappings.encounterType)}
               </div>
@@ -131,25 +113,21 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
         </div>
         <div className="usa-summary-box__body">
           <h3
-            className={"margin-bottom-105 margin-top-205"}
+            className={"margin-bottom-105 margin-top-205 side-nav-ignore"}
             id={ecrSummaryConfig.subNavItems?.[2].id}
           >
             {ecrSummaryConfig.subNavItems?.[2].title}
           </h3>
           <div className="usa-summary-box__text">
             <div className="grid-row">
-              <div className="data-title">
-                <h4>Reportable Condition</h4>
-              </div>
+              <div className="data-title">Reportable Condition</div>
               <div className="grid-col-fill">
                 {evaluate(fhirBundle, fhirPathMappings.rrDisplayNames)[0]}
               </div>
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <div className="data-title">
-                <h4>RCKMS Trigger Summary</h4>
-              </div>
+              <div className="data-title">RCKMS Trigger Summary</div>
               <div className="grid-col-fill text-pre-line">
                 {
                   evaluate(
@@ -161,7 +139,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <h4>Lab results relevant to reportable condition</h4>
+              Lab results relevant to reportable condition
               <div className="usa-card__container margin-left-0 margin-right-0 margin-top-1">
                 <div className="usa-card__header padding-top-2 padding-bottom-2 padding-left-3">
                   <p>
@@ -198,36 +176,28 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
                     }
                   >
                     <div className="grid-row">
-                      <div className="data-title">
-                        <h4>Analysis time</h4>
-                      </div>
+                      <div className="data-title">Analysis time</div>
                       <div className="grid-col-fill text-pre-line">
                         N/A (temp)
                       </div>
                     </div>
                     <div className={"section__line_gray"} />
                     <div className="grid-row">
-                      <div className="data-title">
-                        <h4>Collection time</h4>
-                      </div>
+                      <div className="data-title">Collection time</div>
                       <div className="grid-col-fill text-pre-line">
                         05/12/2022 6:00 AM CDT (temp)
                       </div>
                     </div>
                     <div className={"section__line_gray"} />
                     <div className="grid-row">
-                      <div className="data-title">
-                        <h4>Received time</h4>
-                      </div>
+                      <div className="data-title">Received time</div>
                       <div className="grid-col-fill text-pre-line">
                         05/12/2022 11:30 AM CDT (temp)
                       </div>
                     </div>
                     <div className={"section__line_gray"} />
                     <div className="grid-row">
-                      <div className="data-title">
-                        <h4>Notes</h4>
-                      </div>
+                      <div className="data-title">Notes</div>
                       <div className="grid-col-fill text-pre-line">
                         A detected result is positive and indicates the presence
                         of the virus in the sample. A not detected result
@@ -245,7 +215,7 @@ const EcrSummary = ({ fhirPathMappings, fhirBundle }: EcrViewerProps) => {
             </div>
             <div className={"section__line"} />
             <div className="grid-row">
-              <h4>Clinical sections relevant to reportable condition</h4>
+              Clinical sections relevant to reportable condition
               <div className={"padding-top-05"}>
                 No matching clinical data found in this eCR (temp)
               </div>

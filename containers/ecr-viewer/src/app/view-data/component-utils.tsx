@@ -16,15 +16,8 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
   );
 };
 
-export const AccordianH3: React.FC<AccordianSectionProps> = ({ children }) => {
-  return (
-    <h3
-      className="usa-summary-box__heading padding-y-105"
-      id="summary-box-key-information"
-    >
-      {children}
-    </h3>
-  );
+export const AccordianH4: React.FC<AccordianSectionProps> = ({ children }) => {
+  return <h4 className="usa-summary-box__heading padding-y-105">{children}</h4>;
 };
 
 export const AccordianDiv: React.FC<AccordianSectionProps> = ({ children }) => {
