@@ -12,6 +12,7 @@ interface UnavailableInfoProps {
   vitalUnavailableData: DisplayData[];
   treatmentData: DisplayData[];
   clinicalNotesData: DisplayData[];
+  immunizationsUnavailableData: DisplayData[]
 }
 
 const UnavailableInfo = ({
