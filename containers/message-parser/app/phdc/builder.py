@@ -234,9 +234,6 @@ class PHDCBuilder:
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
         root.append(self._get_version_number())
-
-        root.append(self._build_custodian(organizations=self.input_data.organization))
-        root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
@@ -247,6 +244,8 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
+        root.append(self._build_author(family_name="CDC PRIME DIBBs"))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
 
     def build_body(self):
         """
@@ -260,6 +259,7 @@ class PHDCBuilder:
             case "case_report":
                 self.phdc.getroot().append(self._build_social_history_info())
                 self.phdc.getroot().append(self._build_clinical_info())
+                self.phdc.getroot().append(self._build_repeating_questions())
 
             case "contact_record":
                 pass
@@ -296,10 +296,9 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.clinical_info is not None:
-            for observation in self.input_data.clinical_info:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.clinical_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
@@ -334,10 +333,39 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.social_history_info is not None:
-            for observation in self.input_data.social_history_info:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.social_history_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
+
+        component.append(section)
+        return component
+
+    def _build_repeating_questions(self) -> ET.Element:
+        """
+        Builds the Repeating Questions XML section, including all hardcoded
+        aspects required to initialize the section.
+        :return: XML element of Repeating Questions data.
+        """
+        component = ET.Element("component")
+        section = ET.Element("section")
+        code = ET.Element(
+            "code",
+            {
+                "code": "1234567-RPT",
+                "codeSystem": "Local-codesystem-oid",
+                "codeSystemName": "LocalSystem",
+                "displayName": "Generic Repeating Questions Section",
+            },
+        )
+        title = ET.Element("title")
+        title.text = "REPEATING QUESTIONS"
+        section.append(code)
+        section.append(title)
+
+        # add observation data to section
+        for observation in self.input_data.repeating_questions:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
@@ -399,12 +427,43 @@ class PHDCBuilder:
         # Create the 'entry' element
         entry_data = ET.Element("entry", {"typeCode": "COMP"})
 
-        # Create the 'observation' element and append it to 'entry'
-        observation_data = ET.SubElement(
-            entry_data,
-            "observation",
-            {"classCode": "OBS", "moodCode": "EVN"},
-        )
+        # Set up for Repeating Questions
+        if observation.obs_type == "EXPOS":
+            # Creater the `organizer` element and its subelements
+            organizer = ET.SubElement(
+                entry_data,
+                "organizer",
+                {"classCode": "CLUSTER", "moodCode": "EVN"},
+            )
+
+            code_element = ET.Element(
+                "code",
+                {
+                    "code": "1",
+                    "displayName": "Exposure Information",
+                    "codeSytemName": "LocalSystem",
+                },
+            )
+
+            organizer.append(code_element)
+            status_code_element = ET.Element("status_code", {"code": "completed"})
+            organizer.append(status_code_element)
+            component = ET.SubElement(organizer, "component")
+
+            # Create the 'observation' element and append it to 'component'
+            observation_data = ET.SubElement(
+                component,
+                "observation",
+                {"classCode": "OBS", "moodCode": "EVN"},
+            )
+        # Set up for all other observation types
+        else:
+            # Create the 'observation' element and append it to 'entry'
+            observation_data = ET.SubElement(
+                entry_data,
+                "observation",
+                {"classCode": "OBS", "moodCode": "EVN"},
+            )
 
         if observation.code:
             code_element_xml = self._build_coded_element(
@@ -545,12 +604,12 @@ class PHDCBuilder:
 
             self._add_field(represented_organization, organization.name, "name")
 
-            if organization.address is not None:
-                represented_organization.append(self._build_addr(organization.address))
             if organization.telecom is not None:
                 represented_organization.append(
                     self._build_telecom(organization.telecom)
                 )
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
 
             assigned_custodian.append(represented_organization)
 
@@ -585,6 +644,7 @@ class PHDCBuilder:
         id_element = ET.Element("id")
         id_element.set("root", "2.16.840.1.113883.19.5")
         assigned_author.append(id_element)
+        assigned_person = ET.SubElement(assigned_author, "assignedPerson")
 
         # family name is the example way to add either a project name or source of
         # the data being migrated
@@ -592,7 +652,8 @@ class PHDCBuilder:
         family_element = ET.SubElement(name_element, "family")
         family_element.text = family_name
 
-        assigned_author.append(name_element)
+        assigned_person.append(name_element)
+        assigned_author.append(assigned_person)
 
         author_element.append(assigned_author)
 
@@ -655,6 +716,17 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
+        if patient.birth_time is not None:
+            e = ET.Element(
+                "birthTime",
+                {
+                    "value": "".join(
+                        [num for num in patient.birth_time if num.isnumeric()]
+                    )
+                },
+            )
+            patient_data.append(e)
+
         if patient.race_code is not None:
             if patient.race_code in race_code_and_mapping:
                 display_name = race_code_and_mapping[patient.race_code]
@@ -688,11 +760,6 @@ class PHDCBuilder:
                     f"Ethnic group code {patient.ethnic_group_code} not "
                     "found in OMB classification."
                 )
-
-        if patient.birth_time is not None:
-            e = ET.Element("birthTime")
-            e.text = patient.birth_time
-            patient_data.append(e)
 
         return patient_data
 

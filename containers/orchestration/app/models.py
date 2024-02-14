@@ -10,7 +10,7 @@ from pydantic import root_validator
 
 
 # Request and response models
-class ProcessMessageRequest(BaseModel):
+class OrchestrationRequest(BaseModel):
     """
     The config for requests to the /process endpoint.
     """
@@ -106,7 +106,7 @@ class ProcessMessageRequest(BaseModel):
         return values
 
 
-class ProcessMessageResponse(BaseModel):
+class OrchestrationResponse(BaseModel):
     """
     The config for responses from the /extract endpoint.
     """

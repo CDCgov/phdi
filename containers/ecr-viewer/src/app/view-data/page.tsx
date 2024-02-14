@@ -60,6 +60,7 @@ const ECRViewerPage = () => {
     };
     fetchData();
   }, []);
+
   if (errors) {
     return <div>{`${errors}`}</div>;
   } else if (fhirBundle && mappings) {

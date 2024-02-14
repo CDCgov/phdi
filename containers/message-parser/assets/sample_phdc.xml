@@ -10,33 +10,6 @@
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <setId extension="CLOSED_CASE" displayable="true"/>
   <versionNumber value="1"/>
-  <custodian>
-    <assignedCustodian>
-      <representedCustodianOrganization>
-        <id extension="112233"/>
-        <name>Happy Labs</name>
-        <addr>
-          <streetAddressLine>23 main st</streetAddressLine>
-          <streetAddressLine>apt 12</streetAddressLine>
-          <city>Fort Worth</city>
-          <state>Texas</state>
-          <postalCode>76006</postalCode>
-          <county>Tarrant</county>
-          <country>USA</country>
-        </addr>
-        <telecom value="8888675309"/>
-      </representedCustodianOrganization>
-    </assignedCustodian>
-  </custodian>
-  <author>
-    <time value="20101215000000"/>
-    <assignedAuthor>
-      <id root="2.16.840.1.113883.19.5"/>
-      <name>
-        <family>DIBBS</family>
-      </name>
-    </assignedAuthor>
-  </author>
   <recordTarget>
     <patientRole>
       <id extension="mocked-uuid" root="2.16.840.1.113883.4.1" assigningAuthorityName="LR"/>
@@ -67,12 +40,41 @@
           <family>Schmidt</family>
         </name>
         <administrativeGenderCode displayName="Male"/>
+        <birthTime value="01012000"/>
         <sdt:raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238" displayName="White" codeSystemName="Race &amp; Ethnicity"/>
         <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
-        <birthTime>01-01-2000</birthTime>
       </patient>
     </patientRole>
   </recordTarget>
+  <author>
+    <time value="20101215000000"/>
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.19.5"/>
+      <assignedPerson>
+        <name>
+          <family>CDC PRIME DIBBs</family>
+        </name>
+      </assignedPerson>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id extension="112233"/>
+        <name>Happy Labs</name>
+        <telecom value="8888675309"/>
+        <addr>
+          <streetAddressLine>23 main st</streetAddressLine>
+          <streetAddressLine>apt 12</streetAddressLine>
+          <city>Fort Worth</city>
+          <state>Texas</state>
+          <postalCode>76006</postalCode>
+          <county>Tarrant</county>
+          <country>USA</country>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
   <component>
     <section>
       <id extension="mocked-uuid" assigningAuthorityName="LR"/>
@@ -114,6 +116,36 @@
             <translation xsi:type="CE" code="T" codeSystem="L" codeSystemName="STD*MIS" displayName="Local Label"/>
           </value>
         </observation>
+      </entry>
+    </section>
+  </component>
+  <component>
+    <section>
+      <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
+      <title>REPEATING QUESTIONS</title>
+      <entry typeCode="COMP">
+        <organizer classCode="CLUSTER" moodCode="EVN">
+          <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
+          <status_code code="completed"/>
+          <component>
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Country of Exposure"/>
+              <value xsi:type="CE" code="ATA" codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)" displayName="ANTARCTICA"/>
+            </observation>
+          </component>
+        </organizer>
+      </entry>
+      <entry typeCode="COMP">
+        <organizer classCode="CLUSTER" moodCode="EVN">
+          <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
+          <status_code code="completed"/>
+          <component>
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="City of Exposure"/>
+              <value xsi:type="TS">Esperanze</value>
+            </observation>
+          </component>
+        </organizer>
       </entry>
     </section>
   </component>
