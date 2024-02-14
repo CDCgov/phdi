@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Active Problems Table should match snapshot 1`] = `
+exports[`Immunizations Table should match snapshot 1`] = `
 <div>
   <table
     class="usa-table usa-table--borderless width-full border-top border-left border-right table-caption-margin margin-y-0"
     data-testid="table"
   >
     <caption>
-      Problems List
+      Immunization History
     </caption>
     <thead>
       <tr>
@@ -15,19 +15,19 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class=" bg-gray-5 minw-15"
           scope="col"
         >
-          Active Problem
+          Name
         </th>
         <th
           class=" bg-gray-5 minw-15"
           scope="col"
         >
-          Onset Age
+          Administration Dates
         </th>
         <th
           class=" bg-gray-5 minw-15"
           scope="col"
         >
-          Onset Date
+          Next Due
         </th>
       </tr>
     </thead>
@@ -37,17 +37,17 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class="text-top"
           scope="row"
         >
-          Malignant neoplasm of lower-inner quadrant of left breast in female, estrogen receptor positive
+          MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)
         </th>
         <td
           class="text-top"
         >
-          N/A
+          11/16/2020
         </td>
         <td
           class="text-top"
         >
-          12/14/2022
+          N/A
         </td>
       </tr>
       <tr>
@@ -55,17 +55,17 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class="text-top"
           scope="row"
         >
-          Headache
+          TDAP, (ADOL/ADULT)
         </th>
         <td
           class="text-top"
         >
-          N/A
+          11/10/2020
         </td>
         <td
           class="text-top"
         >
-          08/19/2022
+          N/A
         </td>
       </tr>
       <tr>
@@ -73,17 +73,17 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class="text-top"
           scope="row"
         >
-          Backache
+          HEP A (ADULT) 2 DOSE
         </th>
         <td
           class="text-top"
         >
-          N/A
+          11/11/2011
         </td>
         <td
           class="text-top"
         >
-          08/19/2022
+          N/A
         </td>
       </tr>
       <tr>
@@ -91,17 +91,17 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class="text-top"
           scope="row"
         >
-          Malignant neoplasm of urinary bladder neck
+          DTAP-HIB-IPV (PENTACEL)
         </th>
         <td
           class="text-top"
         >
-          N/A
+          04/16/2010
         </td>
         <td
           class="text-top"
         >
-          11/05/2021
+          N/A
         </td>
       </tr>
       <tr>
@@ -109,35 +109,17 @@ exports[`Active Problems Table should match snapshot 1`] = `
           class="text-top"
           scope="row"
         >
-          Malignant neoplasm of overlapping sites of pancreas
+          HEP B (PED,ADOLESCENT) 3 DOSE
         </th>
         <td
           class="text-top"
         >
-          N/A
+          03/21/1974
         </td>
-        <td
-          class="text-top"
-        >
-          09/18/2017
-        </td>
-      </tr>
-      <tr>
-        <th
-          class="text-top"
-          scope="row"
-        >
-          Bilateral malignant neoplasm of lower outer quadrant of breast in female
-        </th>
         <td
           class="text-top"
         >
           N/A
-        </td>
-        <td
-          class="text-top"
-        >
-          02/27/2017
         </td>
       </tr>
     </tbody>

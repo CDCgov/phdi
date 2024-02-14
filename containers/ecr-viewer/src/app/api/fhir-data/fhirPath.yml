@@ -77,3 +77,15 @@ activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(cat
 activeProblemsDisplay: "Condition.code.coding[0].display"
 activeProblemsOnsetDate: "Condition.onsetDateTime"
 activeProblemsOnsetAge: "idk"
+
+# Immunization Info
+immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
+immunizationsName: "Immunization.note.text"
+immunizationsAdminDate: "Immunization.occurrenceDateTime"
+immunizationsNextDue: "idk"
+
+# Procedure
+procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
+procedureName: "Procedure.code.coding.first().display"
+procedureDate: "Procedure.performedDateTime"
+procedureReason: "Procedure.reason.display"

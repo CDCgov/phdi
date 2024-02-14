@@ -28,16 +28,6 @@ test_schema_path = (
 with open(test_schema_path, "r") as file:
     test_schema = json.load(file)
 
-test_reference_schema_path = (
-    Path(__file__).parent.parent
-    / "app"
-    / "default_schemas"
-    / "test_reference_schema.json"
-)
-
-with open(test_reference_schema_path, "r") as file:
-    test_reference_schema = json.load(file)
-
 expected_successful_response = utils.read_file_from_assets("demo_phdc.xml")
 
 

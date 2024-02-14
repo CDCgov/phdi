@@ -125,6 +125,7 @@ def test_parse_message(setup):
             ],
             "observations": [
                 {
+                    "obs_type": "vital-signs",
                     "code_code": "15074-8",
                     "code_code_system": "http://loinc.org",
                     "code_code_display": "Glucose [Moles/volume] in Blood",
@@ -136,15 +137,42 @@ def test_parse_message(setup):
                     "value_qualitative_code": None,
                 },
                 {
+                    "obs_type": "laboratory",
                     "code_code": "104177,600-7",
                     "code_code_system": "http://acmelabs.org,http://loinc.org",
-                    "code_code_display": "Blood culture,Bacteria identified in Blood by Culture",  # noqa
+                    "code_code_display": (
+                        "Blood culture,Bacteria identified in Blood by Culture"
+                    ),
                     "value_quantitative_value": None,
                     "value_quantitative_code_system": None,
                     "value_quantitative_code": None,
                     "value_qualitative_value": "Staphylococcus aureus",
                     "value_qualitative_code_system": "http://snomed.info/sct",
                     "value_qualitative_code": "3092008",
+                },
+                {
+                    "obs_type": "social-history",
+                    "code_code": "alcohol-type",
+                    "code_code_system": "http://acme-rehab.org",
+                    "code_code_display": "Type of alcohol consumed",
+                    "value_quantitative_value": None,
+                    "value_quantitative_code_system": None,
+                    "value_quantitative_code": None,
+                    "value_qualitative_value": None,
+                    "value_qualitative_code_system": None,
+                    "value_qualitative_code": None,
+                },
+                {
+                    "obs_type": "EXPOS",
+                    "code_code": "C3841750",
+                    "code_code_system": "http://terminology.hl7.org/CodeSystem/umls",
+                    "code_code_display": "Mass gathering",
+                    "value_quantitative_value": None,
+                    "value_quantitative_code_system": None,
+                    "value_quantitative_code": None,
+                    "value_qualitative_value": "Sports stadium (environment)",
+                    "value_qualitative_code_system": "http://snomed.info/sct",
+                    "value_qualitative_code": "264379009",
                 },
             ],
         },

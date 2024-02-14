@@ -38,6 +38,8 @@ class PHDC:
     def to_xml_string(self) -> bytes:
         """
         Return a string representation of the PHDC XML document as serialized bytes.
+
+        :return: The PHDC XML document as serialized bytes.
         """
         if self.data is None:
             raise ValueError("The PHDC object must be initialized.")
@@ -74,6 +76,8 @@ class PHDCBuilder:
     def _build_base_phdc(self) -> ET.ElementTree:
         """
         Create the base PHDC XML document.
+
+        :return: The base PHDC XML document.
         """
         # register the namespaces for the entire element tree
         ET.register_namespace("sdt", "urn:hl7-org:sdtc")
@@ -106,7 +110,9 @@ class PHDCBuilder:
 
     def _get_type_id(self) -> ET.Element:
         """
-        Returns the type ID element of the PHDC header.
+        Creates the type ID element of the PHDC header.
+
+        :return: XML element of <typeId>.
         """
         type_id = ET.Element("typeId")
         type_id.set("root", "2.16.840.1.113883.1.3")
@@ -115,7 +121,9 @@ class PHDCBuilder:
 
     def _get_id(self) -> ET.Element:
         """
-        Returns the ID element of the PHDC header.
+        Creates the ID element of the PHDC header.
+
+        :return: XML element of <id>.
         """
         id = ET.Element("id")
         id.set("root", "2.16.840.1.113883.19")
@@ -124,7 +132,9 @@ class PHDCBuilder:
 
     def _get_effective_time(self) -> ET.Element:
         """
-        Returns the effectiveTime element of the PHDC header.
+        Creates the effectiveTime element of the PHDC header.
+
+        :return: XML element of <effectiveTime>.
         """
         effective_time = ET.Element("effectiveTime")
         effective_time.set("value", utils.get_datetime_now().strftime("%Y%m%d%H%M%S"))
@@ -134,9 +144,10 @@ class PHDCBuilder:
         self, confidentiality: Literal["normal", "restricted", "very restricted"]
     ) -> ET.Element:
         """
-        Returns the confidentialityCode element of the PHDC header.
+        Creates the confidentialityCode element of the PHDC header.
 
         :param confidentiality: The confidentiality code to use.
+        :return: XML element of <confidentialityCode>.
         """
         confidendiality_codes = {
             "normal": "N",
@@ -151,17 +162,20 @@ class PHDCBuilder:
 
     def _get_realmCode(self) -> ET.Element:
         """
-        Returns the realmCode element of the PHDC header.
+        Creates the realmCode element of the PHDC header.
 
+        :return: XML element of <realmCode>.
         """
 
         realmCode = ET.Element("realmCode")
         realmCode.set("code", "US")
         return realmCode
 
-    def _get_clinical_info_code(self):
+    def _get_clinical_info_code(self) -> ET.Element:
         """
-        Returns the code element of the header for a PHDC case report.
+        Creates the code element of the header for a PHDC case report.
+
+        :return: XML element of <code>.
         """
         code = ET.Element("code")
         code.set("code", "55751-2")
@@ -172,9 +186,9 @@ class PHDCBuilder:
 
     def _get_title(self) -> ET.Element:
         """
-        Returns the title element of the PHDC header.
+        Creates the title element of the PHDC header.
 
-        :returns: XML element of <title>.
+        :return: XML element of <title>.
         """
         title = ET.Element("title")
         title.text = (
@@ -182,9 +196,11 @@ class PHDCBuilder:
         )
         return title
 
-    def _get_setId(self):
+    def _get_setId(self) -> ET.Element:
         """
-        Returns the setId element of the PHDC header.
+        Creates the setId element of the PHDC header.
+
+        :return: XML element of <setId>.
         """
         setid_attributes = {"extension": "CLOSED_CASE", "displayable": "true"}
         setid = ET.Element("setId", attrib=setid_attributes)
@@ -195,7 +211,7 @@ class PHDCBuilder:
         """
         Returns the versionNumber element of the PHDC header.
 
-        :returns: XML element of <versionNumber>.
+        :return: XML element of <versionNumber>.
         """
         # TODO: once we get prod data, we'll have to determine
         # whether or not this will be data we parse from source data
@@ -218,9 +234,6 @@ class PHDCBuilder:
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
         root.append(self._get_version_number())
-
-        root.append(self._build_custodian(organizations=self.input_data.organization))
-        root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
@@ -231,16 +244,23 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
+        root.append(self._build_author(family_name="CDC PRIME DIBBs"))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
 
     def build_body(self):
+        """
+        Builds the body of the PHDC document.
+        """
         body = ET.Element("component")
         structured_body = ET.Element("structuredBody")
         body.append(structured_body)
 
         match self.input_data.type:
             case "case_report":
-                clinical_info = self._build_clinical_info()
-                body.append(clinical_info)
+                self.phdc.getroot().append(self._build_social_history_info())
+                self.phdc.getroot().append(self._build_clinical_info())
+                self.phdc.getroot().append(self._build_repeating_questions())
+
             case "contact_record":
                 pass
             case "lab_report":
@@ -248,12 +268,11 @@ class PHDCBuilder:
             case "morbidity_report":
                 pass
 
-        self.phdc.getroot().append(body)
-
     def _build_clinical_info(self) -> ET.Element:
         """
         Builds the `ClinicalInformation` XML element, including all hardcoded aspects
-          required to initialize the section.
+        required to initialize the section.
+
         :param observation_data: List of clinical-relevant Observation data.
         :return: XML element of ClinicalInformation data.
         """
@@ -277,10 +296,76 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        if self.input_data.observations is not None:
-            for observation in self.input_data.observations:
-                observation_element = self._build_observation(observation)
-                section.append(observation_element)
+        for observation in self.input_data.clinical_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
+
+        component.append(section)
+        return component
+
+    def _build_social_history_info(self) -> ET.Element:
+        """
+        Builds the Social History Information XML section, including all hardcoded
+            aspects required to initialize the section.
+        :return: XML element of SocialHistory data.
+        """
+        component = ET.Element("component")
+        section = ET.Element("section")
+        id = ET.Element("id")
+        id.set("extension", str(uuid.uuid4()))
+        id.set("assigningAuthorityName", "LR")
+
+        code = ET.Element(
+            "code",
+            {
+                "code": "29762-2",
+                "codeSystem": "2.16.840.1.113883.6.1",
+                "codeSystemName": "LOINC",
+                "displayName": "Social history",
+            },
+        )
+
+        title = ET.Element("title")
+        title.text = "SOCIAL HISTORY INFORMATION"
+
+        section.append(id)
+        section.append(code)
+        section.append(title)
+
+        # add observation data to section
+        for observation in self.input_data.social_history_info:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
+
+        component.append(section)
+        return component
+
+    def _build_repeating_questions(self) -> ET.Element:
+        """
+        Builds the Repeating Questions XML section, including all hardcoded
+        aspects required to initialize the section.
+        :return: XML element of Repeating Questions data.
+        """
+        component = ET.Element("component")
+        section = ET.Element("section")
+        code = ET.Element(
+            "code",
+            {
+                "code": "1234567-RPT",
+                "codeSystem": "Local-codesystem-oid",
+                "codeSystemName": "LocalSystem",
+                "displayName": "Generic Repeating Questions Section",
+            },
+        )
+        title = ET.Element("title")
+        title.text = "REPEATING QUESTIONS"
+        section.append(code)
+        section.append(title)
+
+        # add observation data to section
+        for observation in self.input_data.repeating_questions:
+            observation_element = self._build_observation(observation)
+            section.append(observation_element)
 
         component.append(section)
         return component
@@ -342,12 +427,43 @@ class PHDCBuilder:
         # Create the 'entry' element
         entry_data = ET.Element("entry", {"typeCode": "COMP"})
 
-        # Create the 'observation' element and append it to 'entry'
-        observation_data = ET.SubElement(
-            entry_data,
-            "observation",
-            {"classCode": "OBS", "moodCode": "EVN"},
-        )
+        # Set up for Repeating Questions
+        if observation.obs_type == "EXPOS":
+            # Creater the `organizer` element and its subelements
+            organizer = ET.SubElement(
+                entry_data,
+                "organizer",
+                {"classCode": "CLUSTER", "moodCode": "EVN"},
+            )
+
+            code_element = ET.Element(
+                "code",
+                {
+                    "code": "1",
+                    "displayName": "Exposure Information",
+                    "codeSytemName": "LocalSystem",
+                },
+            )
+
+            organizer.append(code_element)
+            status_code_element = ET.Element("status_code", {"code": "completed"})
+            organizer.append(status_code_element)
+            component = ET.SubElement(organizer, "component")
+
+            # Create the 'observation' element and append it to 'component'
+            observation_data = ET.SubElement(
+                component,
+                "observation",
+                {"classCode": "OBS", "moodCode": "EVN"},
+            )
+        # Set up for all other observation types
+        else:
+            # Create the 'observation' element and append it to 'entry'
+            observation_data = ET.SubElement(
+                entry_data,
+                "observation",
+                {"classCode": "OBS", "moodCode": "EVN"},
+            )
 
         if observation.code:
             code_element_xml = self._build_coded_element(
@@ -411,7 +527,7 @@ class PHDCBuilder:
     ) -> ET.Element:
         """
         Builds an `addr` XML element for address data. There are two types of address
-         uses: 'H' for home address and 'WP' for workplace address.
+        uses: 'H' for home address and 'WP' for workplace address.
 
         :param address: The data for building the address element as an Address object.
         :return: XML element of address data.
@@ -466,8 +582,8 @@ class PHDCBuilder:
     def _build_custodian(self, organizations: List[Organization]) -> ET.Element:
         """
         Builds a `custodian` XML element for custodian data, which refers to the
-          organization from which the PHDC originates and that is in charge of
-          maintaining the document.
+        organization from which the PHDC originates and that is in charge of
+        maintaining the document.
 
         :param organizations: Custodian representedCustodianOrganization.
         :return: XML element of custodian data.
@@ -488,12 +604,12 @@ class PHDCBuilder:
 
             self._add_field(represented_organization, organization.name, "name")
 
-            if organization.address is not None:
-                represented_organization.append(self._build_addr(organization.address))
             if organization.telecom is not None:
                 represented_organization.append(
                     self._build_telecom(organization.telecom)
                 )
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
 
             assigned_custodian.append(represented_organization)
 
@@ -503,12 +619,12 @@ class PHDCBuilder:
     def _build_author(self, family_name: str) -> ET.Element:
         """
         Builds an `author` XML element for author data, which represents the
-            humans and/or machines that authored the document.
+        humans and/or machines that authored the document.
 
-            This includes the OID as per HL7 standards, the family name of
-            the author, which will be either the DIBBs project name or the
-            origin/provenance of the data we're migrating as well as the
-            creation timestamp of the document (not a parameter).
+        This includes the OID as per HL7 standards, the family name of
+        the author, which will be either the DIBBs project name or the
+        origin/provenance of the data we're migrating as well as the
+        creation timestamp of the document (not a parameter).
 
         :param family_name: The DIBBs project name or source of the data being migrated.
         :return: XML element of author data.
@@ -528,6 +644,7 @@ class PHDCBuilder:
         id_element = ET.Element("id")
         id_element.set("root", "2.16.840.1.113883.19.5")
         assigned_author.append(id_element)
+        assigned_person = ET.SubElement(assigned_author, "assignedPerson")
 
         # family name is the example way to add either a project name or source of
         # the data being migrated
@@ -535,7 +652,8 @@ class PHDCBuilder:
         family_element = ET.SubElement(name_element, "family")
         family_element.text = family_name
 
-        assigned_author.append(name_element)
+        assigned_person.append(name_element)
+        assigned_author.append(assigned_person)
 
         author_element.append(assigned_author)
 
@@ -544,7 +662,7 @@ class PHDCBuilder:
     def _build_coded_element(self, element_name: str, **kwargs: dict) -> ET.Element:
         """
         Builds coded elements, such as administrativeGenderCode, using kwargs code,
-          codeSystem, and displayName.
+        codeSystem, and displayName.
 
         :param element_name: Name of the element being built.
         :param code: The element code, defaults to None
@@ -557,6 +675,9 @@ class PHDCBuilder:
 
         for e, v in kwargs.items():
             if e != "element_name" and v is not None:
+                if e == "text":
+                    element.text = v
+                    continue
                 element.set(e, v)
         return element
 
@@ -565,6 +686,7 @@ class PHDCBuilder:
         Given a Patient object, build the patient element of the PHDC.
 
         :param patient: The Patient object to use for building the patient element.
+        :return: XML element of patient data.
         """
         RACE_CODE_SYSTEM = "2.16.840.1.113883.6.238"
         RACE_CODE_SYSTEM_NAME = "Race & Ethnicity"
@@ -593,6 +715,17 @@ class PHDCBuilder:
                 **{"displayName": patient.administrative_gender_code},
             )
             patient_data.append(v)
+
+        if patient.birth_time is not None:
+            e = ET.Element(
+                "birthTime",
+                {
+                    "value": "".join(
+                        [num for num in patient.birth_time if num.isnumeric()]
+                    )
+                },
+            )
+            patient_data.append(e)
 
         if patient.race_code is not None:
             if patient.race_code in race_code_and_mapping:
@@ -627,11 +760,6 @@ class PHDCBuilder:
                     f"Ethnic group code {patient.ethnic_group_code} not "
                     "found in OMB classification."
                 )
-
-        if patient.birth_time is not None:
-            e = ET.Element("birthTime")
-            e.text = patient.birth_time
-            patient_data.append(e)
 
         return patient_data
 
@@ -705,7 +833,9 @@ class PHDCBuilder:
 
     def build(self) -> PHDC:
         """
-        Returns a PHDC object.
+        Constructs a PHDC document by building the header and body components.
+
+        :return: A PHDC document as an instance of the PHDC class.
         """
         self.build_header()
         self.build_body()

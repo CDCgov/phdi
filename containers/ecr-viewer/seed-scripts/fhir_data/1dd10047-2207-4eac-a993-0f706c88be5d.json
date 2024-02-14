@@ -3723,6 +3723,180 @@
         "method": "PUT",
         "url": "Observation/dcd0af93-2eca-0d28-f1fe-5f2b65c7d182"
       }
+    },
+    {
+      "fullUrl": "urn:uuid:b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.502.3.7.1.1988.1",
+            "value": "2884257^"
+          }
+        ],
+        "status": "completed",
+        "code": {
+          "coding": [
+            {
+              "code": "0241U",
+              "display": "HC INFECTIOUS DISEASE PATHOGEN SPECIFIC RNA SARS-COV-2/INF A&B/RSV UPPER RESP SPEC DETECTED OR NOT",
+              "system": "http://www.ama-assn.org/go/cpt"
+            }
+          ]
+        },
+        "performedDateTime": "2022-06-24T16:05:00Z",
+        "reason": [
+          {
+            "display": "Struck by nonvenomous lizards, sequela",
+            "reference": "e436d9b7-6b4e-f553-0314-5a388d15e02e"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/5360b569-1354-4ece-b6a1-58b0946fc861"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Procedure/b40f0081-4052-4971-3f3b-e3d9f5e1e44d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e436d9b7-6b4e-f553-0314-5a388d15e02e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e436d9b7-6b4e-f553-0314-5a388d15e02e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.502.3.7.2.696871",
+            "value": "1450511"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "282291009",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "E929.5",
+              "system": "urn:oid:2.16.840.1.113883.6.103"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/e436d9b7-6b4e-f553-0314-5a388d15e02e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.502.3.7.1.1988.1",
+            "value": "2884257^"
+          }
+        ],
+        "status": "completed",
+        "code": {
+          "coding": [
+            {
+              "code": "86308",
+              "display": "HC HETEROPHILE ANTIBODIES SCREENING",
+              "system": "http://www.ama-assn.org/go/cpt"
+            }
+          ]
+        },
+        "performedDateTime": "2022-06-16T17:53:00Z",
+        "reason": [
+          {
+            "display": "Routine general medical examination at a health care facility",
+            "reference": "7cda2e3e-5d91-428f-8abe-517846d4749e"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/5360b569-1354-4ece-b6a1-58b0946fc861"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Procedure/b40f0081-4052-4971-3f3b-e3d9f5e1e44d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7cda2e3e-5d91-428f-8abe-517846d4749e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7cda2e3e-5d91-428f-8abe-517846d4749e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.502.3.7.2.696871",
+            "value": "1450511"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "282291009",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "E929.5",
+              "system": "urn:oid:2.16.840.1.113883.6.103"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/7cda2e3e-5d91-428f-8abe-517846d4749e"
+      }
     }
   ]
 }
