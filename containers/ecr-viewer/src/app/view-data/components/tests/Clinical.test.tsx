@@ -163,6 +163,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={[]}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -186,6 +187,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={testActiveProblemsData}
         vitalData={[]}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -207,6 +209,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={testVitalSignsData}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -222,6 +225,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={[]}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -238,6 +242,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={[]}
         treatmentData={testTreatmentData}
+        clinicalNotes={[]}
       />,
     );
 
@@ -259,6 +264,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={testActiveProblemsData}
         vitalData={testVitalSignsData}
         treatmentData={testTreatmentData}
+        clinicalNotes={[]}
       />,
     );
 
