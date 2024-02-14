@@ -15,7 +15,7 @@ import EcrMetadata from "./EcrMetadata";
 import EncounterDetails, { encounterConfig } from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { format } from "path";
 
