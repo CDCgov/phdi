@@ -620,7 +620,7 @@ export const returnProblemsTable = (
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
-export const returnImmunizations = (immunizationsArray, mappings) => {
+export const returnImmunizations = (immunizationsArray: any[], mappings: PathMappings) => {
   if (immunizationsArray.length === 0) {
     return undefined;
   }
@@ -638,7 +638,7 @@ export const returnImmunizations = (immunizationsArray, mappings) => {
   });
 
   immunizationsArray.sort(function (a, b) {
-    return new Date(b.occurrenceDateTime) - new Date(a.occurrenceDateTime);
+    return +new Date(b.occurrenceDateTime) - +new Date(a.occurrenceDateTime);
   });
 
   return formatTable(
