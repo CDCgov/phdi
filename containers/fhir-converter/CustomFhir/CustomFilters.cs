@@ -101,6 +101,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         return stringBuilder.ToString();
     }
 
+    private static string CleanStringFromTabs(string value)
+    {
+        const string reduceMultiSpace = @"[ ]{2,}";
+        return Regex.Replace(value.Replace("\t"," "), reduceMultiSpace, " ");
+    }
+
     public static string ToHtmlString(object data)
     {
        var stringBuilder = new StringBuilder();
@@ -140,7 +146,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                }
            }
        }
-       return stringBuilder.ToString();
+       return CleanStringFromTabs(stringBuilder.ToString());
     }
   }
 }
