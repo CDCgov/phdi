@@ -1,8 +1,19 @@
-import sideNav, { SectionConfig } from "@/app/view-data/components/SideNav";
+import SideNav, { SectionConfig } from "@/app/view-data/components/SideNav";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
 describe("SectionConfig", () => {
+  beforeEach(() => {
+    // IntersectionObserver isn't available in test environment
+    const mockIntersectionObserver = jest.fn();
+    mockIntersectionObserver.mockReturnValue({
+      observe: () => null,
+      unobserve: () => null,
+      disconnect: () => null,
+    });
+    window.IntersectionObserver = mockIntersectionObserver;
+  });
+
   it("should create an instance with correct title and id", () => {
     const section = new SectionConfig("Test Section");
     expect(section.title).toBe("Test Section");
@@ -24,22 +35,21 @@ describe("SectionConfig", () => {
   });
 
   it("should match the snapshot", () => {
-    const sections = [
-      new SectionConfig("Section 1"),
-      new SectionConfig("Section 2", ["Subsection 1"]),
-    ];
-
-    const { asFragment } = render(sideNav({ sectionConfigs: sections }));
+    const { asFragment } = render(
+      <>
+        <SideNav />
+        <h2 id="section-1">Section 1</h2>
+        <h2 id="section-2">Section 2</h2>
+        <h3 id="section-3">Section 3</h3>
+        <h4 id="section-4">Section 4</h4>
+        <h2 id="section-2-2">Section 2 - 2</h2>
+      </>,
+    );
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("should have no accessibility violations", async () => {
-    const sections = [
-      new SectionConfig("Section 1"),
-      new SectionConfig("Section 2", ["Subsection 1"]),
-    ];
-
-    const { container } = render(sideNav({ sectionConfigs: sections }));
+    const { container } = render(<SideNav />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { SideNav } from "@trussworks/react-uswds";
+import React, { useState, useEffect } from "react";
+import { SideNav as UswdsSideNav } from "@trussworks/react-uswds";
 
 export class SectionConfig {
   title: string;
@@ -81,8 +81,7 @@ const sortHeadings = (headings: HeadingObject[]) => {
   return result;
 };
 
-const sideNav: React.FC = () => {
-  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+const SideNav: React.FC = () => {
   const [sectionConfigs, setSectionConfigs] = useState<SectionConfig[]>([]);
   const [activeSection, setActiveSection] = useState<string>("");
 
@@ -104,9 +103,7 @@ const sideNav: React.FC = () => {
     );
     let sortedHeadings: SectionConfig[] = sortHeadings(headings);
     setSectionConfigs(sortedHeadings);
-  }, []);
 
-  useEffect(() => {
     let options = {
       root: null,
       rootMargin: "0px 0px -80% 0px",
@@ -123,7 +120,6 @@ const sideNav: React.FC = () => {
         }
       });
     }, options);
-    const headingElements = document.querySelectorAll(headingSelector);
     headingElements.forEach((element) => observer.observe(element));
   }, []);
 
@@ -143,7 +139,9 @@ const sideNav: React.FC = () => {
 
       if (section.subNavItems) {
         let subSideNavItems = buildSideNav(section.subNavItems);
-        sideNavItems.push(<SideNav isSubnav={true} items={subSideNavItems} />);
+        sideNavItems.push(
+          <UswdsSideNav isSubnav={true} items={subSideNavItems} />,
+        );
       }
     }
 
@@ -152,7 +150,7 @@ const sideNav: React.FC = () => {
 
   let sideNavItems = buildSideNav(sectionConfigs);
 
-  return <SideNav items={sideNavItems} />;
+  return <UswdsSideNav items={sideNavItems} />;
 };
 
-export default sideNav;
+export default SideNav;
