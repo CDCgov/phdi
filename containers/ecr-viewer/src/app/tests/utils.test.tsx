@@ -180,7 +180,7 @@ describe("Utils", () => {
       const inputDate = undefined;
       const expectedDate = "N/A";
 
-      const result = formatDate(inputDate);
+      const result = formatDate(inputDate as any);
       expect(result).toEqual(expectedDate);
     });
 
@@ -188,7 +188,7 @@ describe("Utils", () => {
       const inputDate = null;
       const expectedDate = "N/A";
 
-      const result = formatDate(inputDate);
+      const result = formatDate(inputDate as any);
       expect(result).toEqual(expectedDate);
     });
   });
