@@ -234,9 +234,6 @@ class PHDCBuilder:
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
         root.append(self._get_version_number())
-
-        root.append(self._build_custodian(organizations=self.input_data.organization))
-        root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
@@ -247,6 +244,8 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
+        root.append(self._build_author(family_name="CDC PRIME DIBBs"))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
 
     def build_body(self):
         """
@@ -717,6 +716,17 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
+        if patient.birth_time is not None:
+            e = ET.Element(
+                "birthTime",
+                {
+                    "value": "".join(
+                        [num for num in patient.birth_time if num.isnumeric()]
+                    )
+                },
+            )
+            patient_data.append(e)
+
         if patient.race_code is not None:
             if patient.race_code in race_code_and_mapping:
                 display_name = race_code_and_mapping[patient.race_code]
@@ -750,11 +760,6 @@ class PHDCBuilder:
                     f"Ethnic group code {patient.ethnic_group_code} not "
                     "found in OMB classification."
                 )
-
-        if patient.birth_time is not None:
-            e = ET.Element("birthTime")
-            e.text = patient.birth_time
-            patient_data.append(e)
 
         return patient_data
 

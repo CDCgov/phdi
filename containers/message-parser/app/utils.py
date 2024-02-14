@@ -20,6 +20,7 @@ from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from fastapi import status
 from frozendict import frozendict
+from lxml import etree as ET
 
 from phdi.cloud.azure import AzureCredentialManager
 from phdi.cloud.core import BaseCredentialManager
@@ -325,6 +326,24 @@ def read_file_from_assets(filename: str) -> str:
         (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
     ) as file:
         return file.read()
+
+
+def parse_file_from_assets(filename: str) -> ET.ElementTree:
+    """
+    Parses a file from the assets directory into an ElementTree.
+
+    :param filename: The name of the file to read.
+    :return: An ElementTree containing the contents of the file.
+    """
+    with open(
+        (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
+    ) as file:
+        parser = ET.XMLParser(remove_blank_text=True)
+        tree = ET.parse(
+            file,
+            parser,
+        )
+        return tree
 
 
 def get_datetime_now() -> datetime.datetime:

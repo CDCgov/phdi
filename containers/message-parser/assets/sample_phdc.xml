@@ -10,35 +10,6 @@
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <setId extension="CLOSED_CASE" displayable="true"/>
   <versionNumber value="1"/>
-  <custodian>
-    <assignedCustodian>
-      <representedCustodianOrganization>
-        <id extension="112233"/>
-        <name>Happy Labs</name>
-        <telecom value="8888675309"/>
-        <addr>
-          <streetAddressLine>23 main st</streetAddressLine>
-          <streetAddressLine>apt 12</streetAddressLine>
-          <city>Fort Worth</city>
-          <state>Texas</state>
-          <postalCode>76006</postalCode>
-          <county>Tarrant</county>
-          <country>USA</country>
-        </addr>
-      </representedCustodianOrganization>
-    </assignedCustodian>
-  </custodian>
-  <author>
-    <time value="20101215000000"/>
-    <assignedAuthor>
-      <id root="2.16.840.1.113883.19.5"/>
-      <assignedPerson>
-        <name>
-          <family>DIBBS</family>
-        </name>
-      </assignedPerson>
-    </assignedAuthor>
-  </author>
   <recordTarget>
     <patientRole>
       <id extension="mocked-uuid" root="2.16.840.1.113883.4.1" assigningAuthorityName="LR"/>
@@ -69,12 +40,41 @@
           <family>Schmidt</family>
         </name>
         <administrativeGenderCode displayName="Male"/>
+        <birthTime value="01012000"/>
         <sdt:raceCode code="2106-3" codeSystem="2.16.840.1.113883.6.238" displayName="White" codeSystemName="Race &amp; Ethnicity"/>
         <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
-        <birthTime>01-01-2000</birthTime>
       </patient>
     </patientRole>
   </recordTarget>
+  <author>
+    <time value="20101215000000"/>
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.19.5"/>
+      <assignedPerson>
+        <name>
+          <family>CDC PRIME DIBBs</family>
+        </name>
+      </assignedPerson>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id extension="112233"/>
+        <name>Happy Labs</name>
+        <telecom value="8888675309"/>
+        <addr>
+          <streetAddressLine>23 main st</streetAddressLine>
+          <streetAddressLine>apt 12</streetAddressLine>
+          <city>Fort Worth</city>
+          <state>Texas</state>
+          <postalCode>76006</postalCode>
+          <county>Tarrant</county>
+          <country>USA</country>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
   <component>
     <section>
       <id extension="mocked-uuid" assigningAuthorityName="LR"/>

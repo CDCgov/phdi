@@ -10,34 +10,6 @@
   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
   <setId extension="CLOSED_CASE" displayable="true"/>
   <versionNumber value="1"/>
-  <custodian>
-    <assignedCustodian>
-      <representedCustodianOrganization>
-        <id extension="495669c7-96bf-4573-9dd8-59e745e05576"/>
-        <name>Sunny Vale</name>
-        <telecom value="999-999-9999"/>
-        <addr>
-          <streetAddressLine>999 North Ridge Road</streetAddressLine>
-          <streetAddressLine>Building 3</streetAddressLine>
-          <city>Amherst</city>
-          <state>Massachusetts</state>
-          <postalCode>33721</postalCode>
-          <county>Duvall</county>
-        </addr>
-      </representedCustodianOrganization>
-    </assignedCustodian>
-  </custodian>
-  <author>
-    <time value="20101215000000"/>
-    <assignedAuthor>
-      <id root="2.16.840.1.113883.19.5"/>
-      <assignedPerson>
-        <name>
-          <family>DIBBS</family>
-        </name>
-      </assignedPerson>
-    </assignedAuthor>
-  </author>
   <recordTarget>
     <patientRole>
       <id extension="495669c7-96bf-4573-9dd8-59e745e05576" root="2.16.840.1.113883.4.1" assigningAuthorityName="LR"/>
@@ -63,12 +35,40 @@
           <family>Levinson</family>
         </name>
         <administrativeGenderCode displayName="female"/>
+        <birthTime value="19960417"/>
         <sdt:raceCode code="2028-9" codeSystem="2.16.840.1.113883.6.238" displayName="Asian" codeSystemName="Race &amp; Ethnicity"/>
         <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
-        <birthTime>1996-04-17</birthTime>
       </patient>
     </patientRole>
   </recordTarget>
+  <author>
+    <time value="20101215000000"/>
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.19.5"/>
+      <assignedPerson>
+        <name>
+          <family>CDC PRIME DIBBs</family>
+        </name>
+      </assignedPerson>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id extension="495669c7-96bf-4573-9dd8-59e745e05576"/>
+        <name>Sunny Vale</name>
+        <telecom value="999-999-9999"/>
+        <addr>
+          <streetAddressLine>999 North Ridge Road</streetAddressLine>
+          <streetAddressLine>Building 3</streetAddressLine>
+          <city>Amherst</city>
+          <state>Massachusetts</state>
+          <postalCode>33721</postalCode>
+          <county>Duvall</county>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
   <component>
     <section>
       <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>

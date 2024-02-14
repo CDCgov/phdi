@@ -14,6 +14,8 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
+from xmldiff import formatting
+from xmldiff import main as xmldiff
 
 
 @pytest.mark.parametrize(
@@ -309,27 +311,19 @@ def test_build_author(family_name, expected_oid, expected_date, expected_author)
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
-            (
-                "<patient><name><prefix>Mr.</prefix><given>John</given>"
-                + "<given>Jacob</given><family>Schmidt</family></name>"
-                + '<administrativeGenderCode displayName="Male"/>'
-                + '<sdt:raceCode xmlns:sdt="urn:hl7-org:sdtc" code="2106-3" '
-                + 'codeSystem="2.16.840.1.113883.6.238" '
-                + 'displayName="White" codeSystemName="Race &amp; Ethnicity"/>'
-                + '<ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" '
-                + 'displayName="Not Hispanic or Latino" '
-                + 'codeSystemName="Race &amp; Ethnicity"/>'
-                + "<birthTime>01-01-2000</birthTime>"
-                + "</patient>"
-            ),
+            (utils.parse_file_from_assets("sample_phdc_patient_element.xml")),
         )
     ],
 )
 def test_build_patient(build_patient_test_data, expected_result):
     builder = PHDCBuilder()
-
     xml_patient_data = builder._build_patient(build_patient_test_data)
-    assert ET.tostring(xml_patient_data).decode() == expected_result
+    formatter = formatting.DiffFormatter(
+        normalize=formatting.WS_BOTH, pretty_print=True
+    )
+    diff = xmldiff.diff_trees(xml_patient_data, expected_result, formatter=formatter)
+
+    assert diff == ""
 
 
 @pytest.mark.parametrize(
