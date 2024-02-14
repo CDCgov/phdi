@@ -14,9 +14,44 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
           id="summary-box-key-information"
         >
           <span
-            id="treatment-details"
+            id="clinical-notes"
           >
-            Treatment Details
+            Clinical Notes
+          </span>
+        </h3>
+        <div
+          class="usa-summary-box__text"
+        >
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Miscellaneous Notes
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line"
+              >
+                &lt;paragraph&gt;This patient was only recently discharged for a recurrent GI bleed as described&lt;/paragraph&gt;
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+        </div>
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          <span
+            id="diagnostics-and-vital-signs"
+          >
+            Diagnostics and Vital Signs
           </span>
         </h3>
         <div
@@ -114,9 +149,9 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
           id="summary-box-key-information"
         >
           <span
-            id="diagnostics-and-vital-signs"
+            id="immunizations"
           >
-            Diagnostics and Vital Signs
+            Immunizations
           </span>
         </h3>
         <div
