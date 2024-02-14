@@ -16,7 +16,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   /// </summary>
   public partial class Filters
   {
-    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase){"b", "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul"};
+    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase){"br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul"};
     private static Dictionary<string, string> replaceTags = new Dictionary<string, string>{
         {"list", "ul"},
         {"item", "li"}
