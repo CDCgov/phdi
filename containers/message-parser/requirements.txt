@@ -6,3 +6,4 @@ httpx
 pytest
 frozendict
 testcontainers[compose]==3.7.1
+xmldiff
