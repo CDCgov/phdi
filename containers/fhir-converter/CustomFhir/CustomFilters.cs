@@ -17,6 +17,10 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   public partial class Filters
   {
     private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase){"b", "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul"};
+    private static Dictionary<string, string> replaceTags = new Dictionary<string, string>{
+        {"list", "ul"},
+        {"item", "li"}
+    };
 
     // Items from the filter could be arrays or objects, process them to be the same
     private static List<Dictionary<string, object>> ProcessItem(object item)
@@ -82,15 +86,16 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     private static string WrapHtmlValue(string key, object value)
     {
        var stringBuilder = new StringBuilder();
-       var addTag = supportedTags.Contains(key);
+       var tag = key;
+       var addTag = supportedTags.Contains(key) || replaceTags.TryGetValue(key, out tag);
        if(addTag)
        {
-           stringBuilder.Append($"<{key}>");
+           stringBuilder.Append($"<{tag}>");
        }
        stringBuilder.Append(ToHtmlString(value));
        if(addTag)
        {
-           stringBuilder.Append($"</{key}>");
+           stringBuilder.Append($"</{tag}>");
        }
 
         return stringBuilder.ToString();

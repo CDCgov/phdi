@@ -154,4 +154,25 @@ public class CustomFilterTests
         var actual = Filters.ToHtmlString(completeDict);
         Assert.Equal("<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>Parkinson's syndrome</td><td>7/25/22</td></tr><tr><td>Essential hypertension</td><td>7/21/22</td></tr></tbody></table>documented as of this encounter (statuses as of 07/25/2022)", actual);
     }
+
+    [Fact]
+    public void ToHtmlString_ContainsListXmlTags_ReturnsReplacedTags()
+    {
+        var itemList = new List<object>(){
+                "Recurrent GI bleed of unknown etiology; hypotension perhaps secondary to this but as likely secondary to polypharmacy.",
+                "Acute on chronic anemia secondary to #1.",
+                "Azotemia, acute renal failure with volume loss secondary to #1.",
+                "Hyperkalemia secondary to #3 and on ACE and K+ supplement.",
+                "Other chronic diagnoses as noted above, currently stable."
+            };
+        var list = new Dictionary<string, object>() {
+                {"listType", "ordered"},
+                {"item", itemList}
+            };
+        var complete = new Dictionary<string, object>() {
+                {"list", list}
+            };
+        var actual = Filters.ToHtmlString(complete);
+        Assert.Equal("<ul><li>Recurrent GI bleed of unknown etiology; hypotension perhaps secondary to this but as likely secondary to polypharmacy.</li><li>Acute on chronic anemia secondary to #1.</li><li>Azotemia, acute renal failure with volume loss secondary to #1.</li><li>Hyperkalemia secondary to #3 and on ACE and K+ supplement.</li><li>Other chronic diagnoses as noted above, currently stable.</li></ul>", actual);
+    }
 }
