@@ -4,7 +4,11 @@ from unittest.mock import MagicMock
 from unittest.mock import Mock
 
 from app.handlers import build_fhir_converter_request
+from app.handlers import build_message_parser_request
 from app.handlers import unpack_fhir_converter_response
+from app.handlers import unpack_message_parser_response
+from lxml import etree
+from requests import Response
 
 
 def test_build_fhir_converter_request():
@@ -83,3 +87,73 @@ def test_unpack_fhir_converter_response():
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
     assert result == (200, sample_bundle)
+
+
+def test_build_message_parser_request():
+    # Test for /parse_message endpoint
+    orchestration_request = {
+        "message_type": "fhir",
+        "parsing_schema_name": "ecr.json",
+        "credential_manager": "azure",
+    }
+    endpoint_type = "/parse_message"
+    result = build_message_parser_request(endpoint_type, orchestration_request)
+    assert result["message_format"] == "fhir"
+    assert result["parsing_schema_name"] == "ecr.json"
+    assert result["credential_manager"] == "azure"
+
+    # Test for /fhir_to_phdc endpoint
+    endpoint_type = "/fhir_to_phdc"
+    result = build_message_parser_request(endpoint_type, orchestration_request)
+    assert result["phdc_report_type"] == "case_report"
+
+
+def test_unpack_message_parser_response():
+    sample_json = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+    # Mock a JSON response
+    response_content = {"response": {"status_code": 200, "FhirResource": sample_json}}
+
+    response = Mock(spec=Response)
+    response.status_code = 200
+    response.headers = {"Content-Type": "application/json"}
+    response.json.return_value = response_content
+    status_code, parsed_message = unpack_message_parser_response(response)
+    assert status_code == 200
+    assert parsed_message == sample_json
+
+    # Mock an XML response
+    sample_xml = etree.parse(
+        open(
+            Path(__file__).parent.parent.parent
+            / "message-parser"
+            / "assets"
+            / "demo_phdc.xml"
+        )
+    )
+    response = Mock(spec=Response)
+    response.status_code = 200
+    response.headers = {"Content-Type": "application/xml"}
+    response.content = etree.tostring(sample_xml)
+    status_code, parsed_message = unpack_message_parser_response(response)
+    assert status_code == 200
+    assert parsed_message == etree.tostring(sample_xml)
+
+    # Test failure case
+    response_content = {
+        "response": {"status_code": 400, "text": "Message Parser request failed"}
+    }
+    response = Mock(spec=Response)
+    response.status_code = 400
+    response.headers = {"Content-Type": "application/json"}
+    response.json.return_value = response_content
+    status_code, error_message = unpack_message_parser_response(response)
+    assert status_code == 400
+    assert "Message Parser request failed" in error_message
