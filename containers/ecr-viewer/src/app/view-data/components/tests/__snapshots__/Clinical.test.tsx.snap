@@ -17,7 +17,7 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
           >
             Treatment Details
           </span>
-        </h3>
+        </h4>
         <div
           class="usa-summary-box__text"
         >
@@ -108,16 +108,15 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
             class="section__line_gray margin-y-2"
           />
         </div>
-        <h3
+        <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
         >
           <span
             id="diagnostics-and-vital-signs"
           >
             Diagnostics and Vital Signs
           </span>
-        </h3>
+        </h4>
         <div
           class="usa-summary-box__text"
         >
