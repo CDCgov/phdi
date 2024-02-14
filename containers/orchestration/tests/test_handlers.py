@@ -8,7 +8,6 @@ from app.handlers import build_message_parser_request
 from app.handlers import unpack_fhir_converter_response
 from app.handlers import unpack_message_parser_response
 from lxml import etree
-from requests import Response
 
 
 def test_build_fhir_converter_request():
@@ -121,7 +120,7 @@ def test_unpack_message_parser_response():
     # Mock a JSON response
     response_content = {"response": {"status_code": 200, "FhirResource": sample_json}}
 
-    response = Mock(spec=Response)
+    response = MagicMock()
     response.status_code = 200
     response.headers = {"Content-Type": "application/json"}
     response.json.return_value = response_content
@@ -138,7 +137,7 @@ def test_unpack_message_parser_response():
             / "demo_phdc.xml"
         )
     )
-    response = Mock(spec=Response)
+    response = MagicMock()
     response.status_code = 200
     response.headers = {"Content-Type": "application/xml"}
     response.content = etree.tostring(sample_xml)
@@ -150,7 +149,7 @@ def test_unpack_message_parser_response():
     response_content = {
         "response": {"status_code": 400, "text": "Message Parser request failed"}
     }
-    response = Mock(spec=Response)
+    response = MagicMock()
     response.status_code = 400
     response.headers = {"Content-Type": "application/json"}
     response.json.return_value = response_content

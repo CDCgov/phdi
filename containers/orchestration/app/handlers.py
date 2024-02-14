@@ -118,9 +118,10 @@ def unpack_message_parser_response(response: Response) -> Tuple[int, str | dict]
             converter_response = response.json().get("response")
             status_code = converter_response.get("status_code", response.status_code)
             if status_code != 200:
+                error_message = converter_response.get("text", "Unknown error")
                 return (
                     status_code,
-                    f"Message Parser request failed: {converter_response}",
+                    f"Message Parser request failed: {error_message}",
                 )
             else:
                 parsed_message = converter_response.get("FhirResource")
