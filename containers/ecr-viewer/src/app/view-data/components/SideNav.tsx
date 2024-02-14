@@ -115,7 +115,6 @@ const SideNav: React.FC = () => {
         if (entry.isIntersecting) {
           let id =
             entry.target.id || entry.target.querySelectorAll("span")[0]?.id;
-          console.log("id is: ", id);
           setActiveSection(id);
         }
       });
