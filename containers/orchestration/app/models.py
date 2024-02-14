@@ -32,6 +32,11 @@ class OrchestrationRequest(BaseModel):
             " passed data."
         )
     )
+    # TODO: Once we land the new orchestrataion overhaul, we should delete this
+    # parameter. It's used only in the input specification for the validation
+    # service rather than shared across services as a whole, so it's just an
+    # unnecessary value we pass around to services that don't need to know
+    # about it.
     include_error_types: str = Field(
         description=(
             "A comma separated list of the types of errors that should be"
