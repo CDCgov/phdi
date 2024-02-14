@@ -27,6 +27,10 @@
             "occurrenceString": "Unknown",
         {% endif -%}
 
+        {% if immunization.consumable.manufacturedProduct.manufacturedMaterial.code.originalText.reference._ -%}
+            "note": {"text": "{{ immunization.consumable.manufacturedProduct.manufacturedMaterial.code.originalText.reference._ }}" },
+        {% endif -%}
+
         {% assign consumables = immunization.consumable | to_array -%}
         {% for consumable in consumables -%}
             {% assign manufacturedProducts = consumable.manufacturedProduct | to_array -%}

@@ -309,7 +309,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                   class="data-title"
                 >
                   <h4>
-                    foo
+                    Problems List
                   </h4>
                 </div>
                 <div
@@ -345,6 +345,41 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 >
                   <h4>
                     Vitals
+                  </h4>
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205"
+            id="summary-box-key-information"
+          >
+            Immunizations
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  <h4>
+                    Immunization History
                   </h4>
                 </div>
                 <div
