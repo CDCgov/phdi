@@ -150,7 +150,6 @@ export const ClinicalInfo = ({
       {clinicalNotes?.length > 0 && renderClinicalNotes()}
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
-      {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
       {treatmentData.length > 0 && renderTreatmentDetails()}
       {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
