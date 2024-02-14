@@ -35,9 +35,9 @@
           <family>Levinson</family>
         </name>
         <administrativeGenderCode displayName="female"/>
+        <birthTime value="19960417"/>
         <sdt:raceCode code="2028-9" codeSystem="2.16.840.1.113883.6.238" displayName="Asian" codeSystemName="Race &amp; Ethnicity"/>
         <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino" codeSystemName="Race &amp; Ethnicity"/>
-        <birthTime>1996-04-17</birthTime>
       </patient>
     </patientRole>
   </recordTarget>
