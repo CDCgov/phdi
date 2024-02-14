@@ -7,6 +7,7 @@ interface UnavailableInfoProps {
   socialUnavailableData: DisplayData[];
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
+  reasonForVisitUnavailableData: DisplayData[];
   activeProblemsUnavailableData: DisplayData[];
   vitalUnavailableData: DisplayData[];
   treatmentData: DisplayData[];
@@ -17,7 +18,9 @@ const UnavailableInfo = ({
   socialUnavailableData,
   encounterUnavailableData,
   providerUnavailableData,
+  reasonForVisitUnavailableData,
   activeProblemsUnavailableData,
+  immunizationsUnavailableData,
   vitalUnavailableData,
   treatmentData,
 }: UnavailableInfoProps) => {
@@ -49,10 +52,13 @@ const UnavailableInfo = ({
         renderSection("Encounter Details", encounterUnavailableData)}
       {providerUnavailableData.length > 0 &&
         renderSection("Provider Details", providerUnavailableData)}
-      {activeProblemsUnavailableData?.length > 0 &&
+      {(reasonForVisitUnavailableData?.length > 0 ||
+        activeProblemsUnavailableData?.length > 0) &&
         renderSection("Symptoms and Problems", activeProblemsUnavailableData)}
       {vitalUnavailableData?.length > 0 &&
         renderSection("Diagnostics and Vital Signs", vitalUnavailableData)}
+      {immunizationsUnavailableData?.length > 0 &&
+        renderSection("Immunizations", immunizationsUnavailableData)}
       {treatmentData?.length > 0 &&
         renderSection("Treatment Details", treatmentData)}
     </AccordianSection>

@@ -326,6 +326,7 @@ const formatTable = (
       fullWidth={true}
       caption={caption}
       className="border-top border-left border-right table-caption-margin margin-y-0"
+      data-testid="table"
     >
       {tableContent}
     </Table>
@@ -618,6 +619,35 @@ export const returnProblemsTable = (
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
+export const returnImmunizations = (immunizationsArray, mappings) => {
+  if (immunizationsArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo = [
+    { columnName: "Name", infoPath: "immunizationsName" },
+    { columnName: "Administration Dates", infoPath: "immunizationsAdminDate" },
+    { columnName: "Next Due", infoPath: "immunizationsNextDue" },
+  ];
+
+  immunizationsArray.forEach((entry) => {
+    entry.occurrenceDateTime
+      ? (entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime))
+      : (entry.occurrenceDateTime = "N/A");
+  });
+
+  immunizationsArray.sort(function (a, b) {
+    return new Date(b.occurrenceDateTime) - new Date(a.occurrenceDateTime);
+  });
+
+  return formatTable(
+    immunizationsArray,
+    mappings,
+    columnInfo,
+    "Immunization History",
+  );
+};
+
 export const returnProceduresTable = (
   proceduresArray: any[],
   mappings: PathMappings,
@@ -651,11 +681,14 @@ export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
-  const activeProblemsData: DisplayData[] = [
+  const reasonForVisitData: DisplayData[] = [
     {
       title: "Reason for Visit",
       value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
     },
+  ];
+
+  const activeProblemsTableData: DisplayData[] = [
     {
       title: "Problems List",
       value: returnProblemsTable(
@@ -687,10 +720,22 @@ export const evaluateClinicalData = (
       ),
     },
   ];
+
+  const immunizationsData: DisplayData[] = [
+    {
+      title: "Immunization History",
+      value: returnImmunizations(
+        evaluate(fhirBundle, mappings["immunizations"]),
+        mappings,
+      ),
+    },
+  ];
   return {
-    activeProblemsDetails: evaluateData(activeProblemsData),
+    reasonForVisitDetails: evaluateData(reasonForVisitData),
+    activeProblemsDetails: evaluateData(activeProblemsTableData),
     treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
+    immunizationsDetails: evaluateData(immunizationsData),
   };
 };
 
