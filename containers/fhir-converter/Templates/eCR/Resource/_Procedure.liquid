@@ -32,6 +32,13 @@
         [
             { {% include 'DataType/CodeableConcept' CodeableConcept: procedureEntry.targetSiteCode -%} },
         ],
+        "reason": 
+        [
+            {
+                "display": "{{procedureEntry.entryRelationship.observation.text._}}",
+                "reference": "{{procedureEntry.entryRelationship.observation | to_json_string | generate_uuid}}",
+            },
+        ],
     },
     "request":{
         "method":"PUT",

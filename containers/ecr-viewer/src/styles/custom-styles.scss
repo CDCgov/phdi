@@ -94,6 +94,11 @@ h4 {
   margin-top: 20px;
 }
 
+.table-caption-margin {
+  caption {
+    margin-bottom: 8px;
+  }
+}
 .usa-sidenav__item a:not(.usa-sidenav__sublist a) {
   font-weight: bold;
 }

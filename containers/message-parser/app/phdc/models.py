@@ -75,8 +75,8 @@ class Organization:
 
     id: str = None
     name: str = None
-    address: Address = None
     telecom: Telecom = None
+    address: Address = None
 
 
 @dataclass
@@ -115,11 +115,11 @@ class CodedElement:
 
 @dataclass
 class Observation:
-    obs_type: str = "laboratory"
     """
     A class containing all of the data elements for an observation element.
     """
 
+    obs_type: str = "laboratory"
     type_code: Optional[str] = None
     class_code: Optional[str] = None
     code_display: Optional[str] = None
@@ -156,7 +156,8 @@ class PHDCInputData:
         "case_report", "contact_record", "lab_report", "morbidity_report"
     ] = "case_report"
     patient: Patient = None
-    clinical_info: List[Observation] = None
-    social_history_info: List[Observation] = None
     organization: List[Organization] = None
     observations: List[Observation] = None
+    clinical_info: List[Observation] = None
+    social_history_info: List[Observation] = None
+    repeating_questions: List[Observation] = None

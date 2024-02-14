@@ -14,6 +14,8 @@ from app.phdc.models import Patient
 from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
+from xmldiff import formatting
+from xmldiff import main as xmldiff
 
 
 @pytest.mark.parametrize(
@@ -202,6 +204,7 @@ def test_build_name(build_name_test_data, expected_result):
                 Organization(
                     id="112233",
                     name="Happy Labs",
+                    telecom=Telecom(value="8888675309"),
                     address=Address(
                         street_address_line_1="23 main st",
                         street_address_line_2="apt 12",
@@ -211,7 +214,6 @@ def test_build_name(build_name_test_data, expected_result):
                         county="Tarrant",
                         country="USA",
                     ),
-                    telecom=Telecom(value="8888675309"),
                 )
             ],
             (
@@ -220,6 +222,7 @@ def test_build_name(build_name_test_data, expected_result):
                 "    <representedCustodianOrganization>\n"
                 '      <id extension="112233"/>\n'
                 "      <name>Happy Labs</name>\n"
+                '      <telecom value="8888675309"/>\n'
                 "      <addr>\n"
                 "        <streetAddressLine>23 main st</streetAddressLine>\n"
                 "        <streetAddressLine>apt 12</streetAddressLine>\n"
@@ -229,7 +232,6 @@ def test_build_name(build_name_test_data, expected_result):
                 "        <county>Tarrant</county>\n"
                 "        <country>USA</country>\n"
                 "      </addr>\n"
-                '      <telecom value="8888675309"/>\n'
                 "    </representedCustodianOrganization>\n"
                 "  </assignedCustodian>\n"
                 "</custodian>\n"
@@ -259,7 +261,7 @@ def test_build_custodian(build_custodian_test_data, expected_result):
 
 @patch.object(utils, "get_datetime_now", lambda: date(2010, 12, 15))
 @pytest.mark.parametrize(
-    "family_name, expected_oid, expected_date, expected_name",
+    "family_name, expected_oid, expected_date, expected_author",
     [
         # test for correct OID and name "CDC PRIME DIBBs"
         (
@@ -267,10 +269,9 @@ def test_build_custodian(build_custodian_test_data, expected_result):
             "2.16.840.1.113883.19.5",
             "20101215000000",
             (
-                '<author><time value="20101215000000"/><assignedAuthor>'
-                '<id root="2.16.840.1.113883.19.5"/><name>'
-                "<family>CDC PRIME DIBBs</family></name>"
-                "</assignedAuthor></author>"
+                '<author><time value="20101215000000"/><assignedAuthor><id root='
+                + '"2.16.840.1.113883.19.5"/><assignedPerson><name><family>CDC PRIME '
+                + "DIBBs</family></name></assignedPerson></assignedAuthor></author>"
             ),
         ),
         # test for correct OID and name "Local Health Jurisdiction"
@@ -279,21 +280,21 @@ def test_build_custodian(build_custodian_test_data, expected_result):
             "2.16.840.1.113883.19.5",
             "20101215000000",
             (
-                '<author><time value="20101215000000"/><assignedAuthor>'
-                '<id root="2.16.840.1.113883.19.5"/><name>'
-                "<family>Local Health Jurisdiction</family></name>"
-                "</assignedAuthor></author>"
+                '<author><time value="20101215000000"/><assignedAuthor><id root="2.16.'
+                + '840.1.113883.19.5"/><assignedPerson><name><family>Local Health '
+                + "Jurisdiction</family></name></assignedPerson></assignedAuthor>"
+                + "</author>"
             ),
         ),
     ],
 )
-def test_build_author(family_name, expected_oid, expected_date, expected_name):
+def test_build_author(family_name, expected_oid, expected_date, expected_author):
     xml_author_data = PHDCBuilder()._build_author(family_name)
     author_string = ET.tostring(xml_author_data).decode()
-
     assert expected_oid in author_string
     assert expected_date in author_string
-    assert expected_name in author_string
+    assert expected_author in author_string
+    assert expected_author == author_string
 
 
 @pytest.mark.parametrize(
@@ -310,27 +311,19 @@ def test_build_author(family_name, expected_oid, expected_date, expected_name):
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
-            (
-                "<patient><name><prefix>Mr.</prefix><given>John</given>"
-                + "<given>Jacob</given><family>Schmidt</family></name>"
-                + '<administrativeGenderCode displayName="Male"/>'
-                + '<sdt:raceCode xmlns:sdt="urn:hl7-org:sdtc" code="2106-3" '
-                + 'codeSystem="2.16.840.1.113883.6.238" '
-                + 'displayName="White" codeSystemName="Race &amp; Ethnicity"/>'
-                + '<ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" '
-                + 'displayName="Not Hispanic or Latino" '
-                + 'codeSystemName="Race &amp; Ethnicity"/>'
-                + "<birthTime>01-01-2000</birthTime>"
-                + "</patient>"
-            ),
+            (utils.parse_file_from_assets("sample_phdc_patient_element.xml")),
         )
     ],
 )
 def test_build_patient(build_patient_test_data, expected_result):
     builder = PHDCBuilder()
-
     xml_patient_data = builder._build_patient(build_patient_test_data)
-    assert ET.tostring(xml_patient_data).decode() == expected_result
+    formatter = formatting.DiffFormatter(
+        normalize=formatting.WS_BOTH, pretty_print=True
+    )
+    diff = xmldiff.diff_trees(xml_patient_data, expected_result, formatter=formatter)
+
+    assert diff == ""
 
 
 @pytest.mark.parametrize(
@@ -822,6 +815,43 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                         ),
                     ),
                 ],
+                repeating_questions=[
+                    Observation(
+                        obs_type="EXPOS",
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="INV502",
+                            code_system="2.16.840.1.113883.6.1",
+                            code_system_name="LOINC",
+                            display_name="Country of Exposure",
+                        ),
+                        value=CodedElement(
+                            xsi_type="CE",
+                            code="ATA",
+                            code_system_name="Country (ISO 3166-1)",
+                            display_name="ANTARCTICA",
+                            code_system="1.0.3166.1",
+                        ),
+                    ),
+                    Observation(
+                        obs_type="EXPOS",
+                        type_code="COMP",
+                        class_code="OBS",
+                        mood_code="EVN",
+                        code=CodedElement(
+                            code="INV504",
+                            code_system="2.16.840.1.113883.6.1",
+                            code_system_name="LOINC",
+                            display_name="City of Exposure",
+                        ),
+                        value=CodedElement(
+                            xsi_type="TS",
+                            text="Esperanze",
+                        ),
+                    ),
+                ],
                 organization=[
                     Organization(
                         id="112233",
@@ -907,3 +937,75 @@ def test_sort_observation(sort_observation_test_data, expected_result):
 
     assert actual_result.code == expected_result.code
     assert actual_result.value == expected_result.value
+
+
+@pytest.mark.parametrize(
+    "build_repeating_questions_data, expected_result",
+    [
+        # Example test case
+        (
+            (
+                PHDCInputData(
+                    repeating_questions=[
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="DEM127",
+                                code_system="2.16.840.1.114222.4.5.232",
+                                code_system_name="PHIN Questions",
+                                display_name="Is this person deceased?",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="N",
+                                code_system_name="Yes/No Indicator (HL7)",
+                                display_name="No",
+                                code_system="2.16.840.1.113883.12.136",
+                            ),
+                            translation=CodedElement(
+                                code="N",
+                                code_system="2.16.840.1.113883.12.136",
+                                code_system_name="2.16.840.1.113883.12.136",
+                                display_name="No",
+                            ),
+                        ),
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="NBS104",
+                                code_system="2.16.840.1.114222.4.5.1",
+                                code_system_name="NEDSS Base System",
+                                display_name="Information As of Date",
+                            ),
+                            value=CodedElement(
+                                xsi_type="TS",
+                                text="20240124",
+                            ),
+                        ),
+                    ]
+                )
+            ),
+            # Expected XML output as a string
+            utils.read_file_from_assets("sample_phdc_repeating_questions.xml"),
+        ),
+    ],
+)
+def test_build_repeating_questions(build_repeating_questions_data, expected_result):
+    builder = PHDCBuilder()
+    builder.set_input_data(build_repeating_questions_data)
+    repeating_questions = builder._build_repeating_questions()
+    assert (
+        ET.tostring(
+            repeating_questions,
+            pretty_print=True,
+            xml_declaration=True,
+            encoding="utf-8",
+        ).decode("utf-8")
+        == expected_result
+    )
