@@ -96,6 +96,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
        if(addTag)
        {
            stringBuilder.Append($"</{tag}>");
+       }else{
+           stringBuilder.Append(' ');
        }
 
         return stringBuilder.ToString();
@@ -146,7 +148,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
                }
            }
        }
-       return CleanStringFromTabs(stringBuilder.ToString());
+       return CleanStringFromTabs(stringBuilder.ToString().Trim());
     }
   }
 }

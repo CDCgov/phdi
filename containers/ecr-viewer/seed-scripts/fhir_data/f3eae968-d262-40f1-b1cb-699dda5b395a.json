@@ -3,10 +3,10 @@
   "type": "batch",
   "entry": [
     {
-      "fullUrl": "urn:uuid:f3eae968-d262-40f1-b1cb-699dda5b395a",
+      "fullUrl": "urn:uuid:1.2.840.114350.1.13.297.3.7.8.688883.538441",
       "resource": {
         "resourceType": "Composition",
-        "id": "f3eae968-d262-40f1-b1cb-699dda5b395a",
+        "id": "1.2.840.114350.1.13.297.3.7.8.688883.538441",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition"
@@ -58,7 +58,7 @@
             "title": "Miscellaneous Notes",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Miscellaneous Notes</div>"
+              "div": "Not on file documented in this encounter"
             },
             "code": {
               "coding": [
@@ -76,7 +76,7 @@
             "title": "Immunizations",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Immunizations</div>"
+              "div": "<table><thead><tr><th>Name</th><th>Administration Dates</th><th>Next Due</th></tr></thead><tbody><tr><td>DTAP-HIB-IPV (PENTACEL)</td><td>04/16/2010</td><td></td></tr><tr><td>HEP A (ADULT) 2 DOSE</td><td>11/11/2011</td><td></td></tr><tr><td>HEP B (PED,ADOLESCENT) 3 DOSE</td><td>03/21/1974</td><td></td></tr><tr><td>MENINGOCOCCAL CONJUGATE,MENACTRA (PED/ADOL/ADULT)</td><td>11/16/2020</td><td></td></tr><tr><td>TDAP, (ADOL/ADULT)</td><td>11/10/2020</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -94,7 +94,7 @@
             "title": "Administered Medications",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Administered Medications</div>"
+              "div": "Not on file documented in this encounter"
             },
             "code": {
               "coding": [
@@ -112,7 +112,7 @@
             "title": "Plan of Treatment",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Plan of Treatment</div>"
+              "div": "Not on file documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -130,7 +130,7 @@
             "title": "Problems",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Problems</div>"
+              "div": "<table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>Bipolar I disorder</td><td>11/19/20</td></tr><tr><td>Reactive depression</td><td>11/19/20</td></tr><tr><td>Rheumatoid arthritis with negative rheumatoid factor</td><td>11/16/20</td></tr><tr><td>Arthralgia of both ankles</td><td>11/16/20</td></tr><tr><td>Anxiety</td><td>11/10/20</td></tr><tr><td>Asthma</td><td>11/10/20</td></tr><tr><td>Knee pain</td><td>4/29/19</td></tr><tr><td>Sprain of calcaneofibular ligament of right ankle</td><td>4/16/19</td></tr><tr><td>Last Assessment & Plan: Formatting of this note might be different from the original. <br>This is my note about this problem. <br></td></tr></tbody></table>documented as of this encounter (statuses as of 09/28/2022)"
             },
             "code": {
               "coding": [
@@ -182,7 +182,7 @@
             "title": "Reason for Visit",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Reason for Visit</div>"
+              "div": "Not on file"
             },
             "code": {
               "coding": [
@@ -206,7 +206,7 @@
             "title": "Results",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Results</div>"
+              "div": "<ul><li>Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Salmonella, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shigella/EIEC, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 1:59 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td>501 S. Buena Vista Street</td><td>Burbank, CA 91505</td><td>818-847-6000</td></tr></tbody></table></li><li>(ABNORMAL) Stool Pathogens, NAAT, 12 to 25 Targets (09/28/2022 1:51 PM PDT) <table><thead><tr><th>Component</th><th>Value</th><th>Ref Range</th><th>Test Method</th><th>Analysis Time</th><th>Performed At</th><th>Pathologist Signature</th></tr></thead><tbody><tr><td>Campylobacter, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Plesiomonas shigelloides, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Salmonella, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Vibrio cholerae, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Yersinia enterocolitica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli O157, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EAEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (EPEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. Coli (ETEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shiga-Like Toxin E. Coli (STEC), NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Shigella/EIEC, NAAT</td><td>DETECTED (AA)</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cryptosporidium, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Cyclospora cayetanensis, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>E. histolytica, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Giardia lamblia, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Adenovirus F 40/41, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Astrovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Norovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Rotavirus A, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>Sapovirus, NAAT</td><td>Not Detected</td><td>Not Detected</td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr><tr><td>GI Pathogens Panel</td><td>Acceptable</td><td></td><td>LAB DEVICE: BIOFIRE® FILMARRAY® 2.0 SYSTEM</td><td>09/28/2022 2:00 PM PDT</td><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td></td></tr></tbody></table><table><thead><tr><th>Specimen (Source)</th><th>Anatomical Location / Laterality</th><th>Collection Method / Volume</th><th>Collection Time</th><th>Received Time</th></tr></thead><tbody><tr><td>Stool</td><td>STOOL SPECIMEN / Unknown</td><td></td><td>09/28/2022 1:51 PM PDT</td><td>09/28/2022 1:51 PM PDT</td></tr></tbody></table><table><thead><tr><th>Authorizing Provider</th><th>Result Type</th></tr></thead><tbody><tr><td>Ambhp1 Test MD</td><td>MICROBIOLOGY - GENERAL ORDERABLES</td></tr></tbody></table><table><thead><tr><th>Performing Organization</th><th>Address</th><th>City/State/ZIP Code</th><th>Phone Number</th></tr></thead><tbody><tr><td>PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)</td><td>501 S. Buena Vista Street</td><td>Burbank, CA 91505</td><td>818-847-6000</td></tr></tbody></table></li></ul>documented in this encounter"
             },
             "code": {
               "coding": [
@@ -398,7 +398,7 @@
             "title": "Social History",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Social History</div>"
+              "div": "<table><thead><tr><th>Tobacco Use</th><th>Types</th><th>Packs/Day</th><th>Years Used</th><th>Date</th></tr></thead><tbody><tr><td>Smoking Tobacco: Never</td><td></td><td></td><td></td><td></td></tr><tr><td>Smokeless Tobacco: Never</td><td></td><td></td><td></td><td></td></tr></tbody></table><table><thead><tr><th>Alcohol Use</th><th>Standard Drinks/Week</th><th>Comments</th></tr></thead><tbody><tr><td>Yes</td><td>0 (1 standard drink = 0.6 oz pure alcohol)</td><td></td></tr></tbody></table><table><thead><tr><th>Sex Assigned at Birth</th><th>Date Recorded</th></tr></thead><tbody><tr><td>Not on file</td><td></td></tr></tbody></table>documented as of this encounter"
             },
             "code": {
               "coding": [
@@ -416,7 +416,7 @@
             "title": "Encounter Details",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Encounter Details</div>"
+              "div": "<table><thead><tr><th>Date</th><th>Type</th><th>Department</th><th>Care Team</th><th>Description</th></tr></thead><tbody><tr><td>9/28/22</td><td>Lab Requisition</td><td>PROVIDENCE ST JOSEPH MED CTR LABORATORY 501 S Buena Vista St Burbank, CA 91505-4809 818-847-6060</td><td>Test, Ambhp1, MD 2001 LIND AVE RENTON, WA 98059</td><td></td></tr></tbody></table>"
             },
             "code": {
               "coding": [
@@ -496,7 +496,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "relatesTo": [
           {
@@ -554,7 +554,7 @@
           "end": "2022-09-28"
         },
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "location": [
           {
@@ -1166,10 +1166,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:fdaccfeb-b28a-4e38-bf58-7c74aab32cd6",
+      "fullUrl": "urn:uuid:da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9",
       "resource": {
         "resourceType": "Patient",
-        "id": "fdaccfeb-b28a-4e38-bf58-7c74aab32cd6",
+        "id": "da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -1281,7 +1281,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+        "url": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
       }
     },
     {
@@ -1326,7 +1326,7 @@
         },
         "onsetDateTime": "2019-04-16",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1381,7 +1381,7 @@
         },
         "onsetDateTime": "2019-04-29",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1436,7 +1436,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1491,7 +1491,7 @@
         },
         "onsetDateTime": "2020-11-10",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1546,7 +1546,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1601,7 +1601,7 @@
         },
         "onsetDateTime": "2020-11-16",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1656,7 +1656,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1711,7 +1711,7 @@
         },
         "onsetDateTime": "2020-11-19",
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -1750,7 +1750,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
@@ -1841,7 +1841,7 @@
       "resource": {
         "resourceType": "Organization",
         "id": "9e215f4e-aac1-10cb-e412-020cd13a6ad9",
-        "name": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA                                            05D0672675)",
+        "name": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
         "address": [
           {
             "use": "work",
@@ -1921,11 +1921,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -1940,7 +1940,7 @@
       "resource": {
         "resourceType": "Organization",
         "id": "88e344ad-5524-27dc-5803-c49647c531bd",
-        "name": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+        "name": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
         "address": [
           {
             "line": [
@@ -2025,11 +2025,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2115,11 +2115,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2186,11 +2186,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2257,11 +2257,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2328,11 +2328,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2399,11 +2399,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2470,11 +2470,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2541,11 +2541,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2612,11 +2612,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2683,11 +2683,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2773,11 +2773,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2844,11 +2844,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2915,11 +2915,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -2986,11 +2986,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3057,11 +3057,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3128,11 +3128,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3199,11 +3199,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3270,11 +3270,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3341,11 +3341,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3412,11 +3412,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3483,7 +3483,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         }
       },
       "request": {
@@ -3517,7 +3517,7 @@
           "end": "2022-09-28T20:51:00Z"
         },
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
@@ -3657,11 +3657,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3728,11 +3728,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3799,11 +3799,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3870,11 +3870,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -3941,11 +3941,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4012,11 +4012,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4083,11 +4083,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4154,11 +4154,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4225,11 +4225,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4296,11 +4296,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4367,11 +4367,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4438,11 +4438,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4509,11 +4509,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4580,11 +4580,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4651,11 +4651,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4722,11 +4722,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4793,11 +4793,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4864,11 +4864,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -4935,11 +4935,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -5006,11 +5006,11 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "performer": [
           {
-            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER                                                    LABORATORY (CLIA 05D0672675)",
+            "display": "PROVIDENCE ST. JOSEPH MEDICAL CENTER LABORATORY (CLIA 05D0672675)",
             "reference": "Organization/88e344ad-5524-27dc-5803-c49647c531bd"
           }
         ]
@@ -5077,7 +5077,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         }
       },
       "request": {
@@ -5135,7 +5135,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         }
       },
       "request": {
@@ -5193,7 +5193,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         }
       },
       "request": {
@@ -5251,12 +5251,30 @@
           ]
         },
         "subject": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         }
       },
       "request": {
         "method": "PUT",
         "url": "Observation/3399337e-669a-be70-29a8-f8c6ec97be6e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ],
+          "source": [
+            "ecr"
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/"
       }
     },
     {
@@ -5313,7 +5331,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
@@ -5367,7 +5385,7 @@
         ],
         "occurrenceDateTime": "2020-11-16",
         "note": {
-          "text": "MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)"
+          "text": "MENINGOCOCCAL CONJUGATE,MENACTRA (PED/ADOL/ADULT)"
         },
         "vaccineCode": {
           "coding": [
@@ -5380,7 +5398,7 @@
         "status": "completed",
         "primarySource": true,
         "patient": {
-          "reference": "Patient/fdaccfeb-b28a-4e38-bf58-7c74aab32cd6"
+          "reference": "Patient/da23efd3-01e4-4d9b-8d1b-e1ba5fc3a0e9"
         },
         "meta": {
           "source": [
