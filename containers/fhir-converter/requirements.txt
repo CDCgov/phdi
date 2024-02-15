@@ -25,7 +25,7 @@ pydantic==1.10.9
 pyparsing==3.0.9
 pytest==7.1.2
 python-dotenv==0.20.0
-python-multipart==0.0.5
+python-multipart==0.0.7
 PyYAML==6.0
 requests==2.31.0
 six==1.16.0
