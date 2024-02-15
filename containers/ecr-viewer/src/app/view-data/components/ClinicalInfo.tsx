@@ -1,7 +1,7 @@
 import { DataDisplay, DisplayData, DataTableDisplay } from "@/app/utils";
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
@@ -48,11 +48,11 @@ export const ClinicalInfo = ({
   const renderSymptomsAndProblems = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[0].id}>
             {clinicalInfoConfig.subNavItems?.[0].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div data-testid="reason-for-visit">
             {reasonForVisitDetails.map((item, index) => (
@@ -70,11 +70,11 @@ export const ClinicalInfo = ({
   const renderImmunizationsDetails = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[1].id}>
             {clinicalInfoConfig.subNavItems?.[1].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div data-testid="immunization-history">
             {renderTableDetails(immunizationsDetails)}
@@ -87,11 +87,11 @@ export const ClinicalInfo = ({
   const renderVitalDetails = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[2].id}>
             {clinicalInfoConfig.subNavItems?.[2].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div className="lh-18" data-testid="vital-signs">
             {vitalData.map((item, index) => (
@@ -110,11 +110,11 @@ export const ClinicalInfo = ({
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[3].id}>
             {clinicalInfoConfig.subNavItems?.[3].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div data-testid="treatment-details">
             {data.map((item, index) => (

@@ -1,7 +1,7 @@
 import { DataDisplay, DisplayData } from "@/app/utils";
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
@@ -19,9 +19,9 @@ export const socialHistoryConfig: SectionConfig = {
 const SocialHistory = ({ socialData }: SocialHistoryProps) => {
   return (
     <AccordianSection>
-      <AccordianH3>
+      <AccordianH4>
         <span id={socialHistoryConfig.id}>{socialHistoryConfig.title}</span>
-      </AccordianH3>
+      </AccordianH4>
       <AccordianDiv>
         {socialData.map((item, index) => (
           <DataDisplay item={item} key={index} />

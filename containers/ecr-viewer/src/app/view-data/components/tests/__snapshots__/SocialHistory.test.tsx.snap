@@ -9,16 +9,15 @@ exports[`SocialHistory should match snapshot 1`] = `
       <div
         class="usa-summary-box__body"
       >
-        <h3
+        <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
         >
           <span
             id="social-history"
           >
             Social History
           </span>
-        </h3>
+        </h4>
         <div
           class="usa-summary-box__text"
         >
@@ -29,9 +28,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Occupation
-                </h4>
+                Occupation
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -50,9 +47,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Tobacco Use
-                </h4>
+                Tobacco Use
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -71,9 +66,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Homeless Status
-                </h4>
+                Homeless Status
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -92,9 +85,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Occupation
-                </h4>
+                Occupation
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -113,9 +104,7 @@ exports[`SocialHistory should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Sexual Orientation
-                </h4>
+                Sexual Orientation
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
