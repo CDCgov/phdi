@@ -76,19 +76,19 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
                   <thead>
                     <tr>
                       <th
-                        class=" bg-gray-5 minw-15"
+                        class="bg-gray-5 minw-15"
                         scope="col"
                       >
                         Name
                       </th>
                       <th
-                        class=" bg-gray-5 minw-15"
+                        class="bg-gray-5 minw-15"
                         scope="col"
                       >
                         Date Performed
                       </th>
                       <th
-                        class=" bg-gray-5 minw-15"
+                        class="bg-gray-5 minw-15"
                         scope="col"
                       >
                         Reason
