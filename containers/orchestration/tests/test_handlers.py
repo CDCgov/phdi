@@ -118,11 +118,11 @@ def test_unpack_validation_response():
     # we can't auto-generate because we don't actually make a post request
     # when using a handler, and we can't manually give a real Response object
     # the `.json()` attribute
-    validater_result = Mock()
-    validater_result.status_code = 400
-    validater_result.text = "validation didn't work"
+    validator_result = Mock()
+    validator_result.status_code = 400
+    validator_result.text = "validation didn't work"
     response = Mock()
-    response.json.return_value = validater_result
+    response.json.return_value = validator_result
     result = unpack_validation_response(response)
     assert result[0] == 400
     assert "Validation service failed" in result[1]
@@ -139,11 +139,11 @@ def test_unpack_validation_response():
             "message_ids": {},
         },
     }
-    validater_result = MagicMock()
-    validater_result.status_code = 200
-    validater_result.get.side_effect = expected_result_for_bad_eCR.get
+    validator_result = MagicMock()
+    validator_result.status_code = 200
+    validator_result.get.side_effect = expected_result_for_bad_eCR.get
     response = MagicMock()
-    response.json.return_value = validater_result
+    response.json.return_value = validator_result
     actual_result = unpack_validation_response(response)
     assert actual_result == (200, expected_result_for_bad_eCR.get("validation_results"))
 
@@ -158,10 +158,10 @@ def test_unpack_validation_response():
             "message_ids": {},
         },
     }
-    validater_result = MagicMock()
-    validater_result.status_code = 200
-    validater_result.get.side_effect = expected_result_for_good_ecr.get
+    validator_result = MagicMock()
+    validator_result.status_code = 200
+    validator_result.get.side_effect = expected_result_for_good_ecr.get
     response = MagicMock()
-    response.json.return_value = validater_result
+    response.json.return_value = validator_result
     actual_result = unpack_validation_response(response)
     assert actual_result == (200, True)
