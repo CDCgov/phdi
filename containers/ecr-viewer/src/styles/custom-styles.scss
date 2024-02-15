@@ -162,3 +162,18 @@ h4 {
 ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a {
     font-weight: bold;
 }
+
+ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
+    &::after{
+      background-color: rgb(0, 94, 162);
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0.25rem;
+      top: 0.25rem;
+      width: 0.25rem;
+      left: 0rem;
+      border-radius: 99rem;
+    }
+}
+
