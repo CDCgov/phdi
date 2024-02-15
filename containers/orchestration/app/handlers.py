@@ -112,12 +112,7 @@ def build_message_parser_phdc_request(
       message parser.
     """
     # Code idea for future state where we need to know report type
-    CONFIG_DICT = {
-        "sample-fhir-test-config-new.json": "case_report",
-        # TBD: "contact_record" "lab_report" "morbidity_report"
-    }
-    config_file_name = orchestration_request.get("config_file_name")
-    report_type = CONFIG_DICT.get(config_file_name, "case_report")
+    report_type = orchestration_request.get("params").get("phdc_report_type")
 
     return {
         "message": input_msg,

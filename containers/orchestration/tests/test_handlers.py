@@ -126,7 +126,7 @@ def test_build_message_parser_phdc_request():
     )
     orchestration_request = {
         "message": sample_xml,
-        "phdc_report_type": "case_report",
+        "params": {"phdc_report_type": "case_report"},
     }
     result = build_message_parser_phdc_request(sample_xml, orchestration_request)
     assert result["message"] == sample_xml
