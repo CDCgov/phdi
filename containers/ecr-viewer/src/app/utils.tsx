@@ -621,7 +621,10 @@ export const returnProblemsTable = (
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
-export const returnImmunizations = (immunizationsArray: any[], mappings: PathMappings) => {
+export const returnImmunizations = (
+  immunizationsArray: any[],
+  mappings: PathMappings,
+) => {
   if (immunizationsArray.length === 0) {
     return undefined;
   }
@@ -778,17 +781,21 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-export const DataDisplay: React.FC<{ item: DisplayData, className?: string }> = ({
-  item,
-  className
-}): React.JSX.Element => {
+export const DataDisplay: React.FC<{
+  item: DisplayData;
+  className?: string;
+}> = ({ item, className }): React.JSX.Element => {
   return (
     <div>
       <div className="grid-row">
         <div className="data-title">
           <h4>{item.title}</h4>
         </div>
-        <div className={classNames("grid-col-auto maxw7 text-pre-line", className)}>{item.value}</div>
+        <div
+          className={classNames("grid-col-auto maxw7 text-pre-line", className)}
+        >
+          {item.value}
+        </div>
       </div>
       <div className={"section__line_gray"} />
     </div>

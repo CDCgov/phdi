@@ -131,13 +131,16 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
 });
 
 describe("Snapshot test for Clinical Notes", () => {
-
   it("should match snapshot for non table notes", async () => {
     const clinicalNotes = [
       {
         title: "Miscellaneous Notes",
-        value:
-          <p>This patient was only recently discharged for a recurrent GI bleed as described</p>,
+        value: (
+          <p>
+            This patient was only recently discharged for a recurrent GI bleed
+            as described
+          </p>
+        ),
       },
     ];
     let { container } = render(
@@ -157,8 +160,26 @@ describe("Snapshot test for Clinical Notes", () => {
     const clinicalNotes = [
       {
         title: "Miscellaneous Notes",
-        value:
-          <table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>Parkinson's syndrome</td><td>7/25/22</td></tr><tr><td>Essential hypertension</td><td>7/21/22</td></tr></tbody></table>,
+        value: (
+          <table>
+            <thead>
+              <tr>
+                <th>Active Problems</th>
+                <th>Noted Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Parkinson's syndrome</td>
+                <td>7/25/22</td>
+              </tr>
+              <tr>
+                <td>Essential hypertension</td>
+                <td>7/21/22</td>
+              </tr>
+            </tbody>
+          </table>
+        ),
       },
     ];
     let { container } = render(
@@ -174,7 +195,7 @@ describe("Snapshot test for Clinical Notes", () => {
     expect(container).toMatchSnapshot();
     expect(await axe(container)).toHaveNoViolations();
   });
-})
+});
 
 describe("Check that Clinical Info components render given FHIR bundle", () => {
   const fhirBundleClinicalInfo = require("../../../tests/assets/BundleClinicalInfo.json");

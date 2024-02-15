@@ -52,17 +52,22 @@ export const ClinicalInfo = ({
     return (
       <>
         <AccordianH3>
-         <span id={clinicalInfoConfig.subNavItems?.[0].id}>
+          <span id={clinicalInfoConfig.subNavItems?.[0].id}>
             {clinicalInfoConfig.subNavItems?.[0].title}
           </span>
         </AccordianH3>
         <AccordianDiv className={"clinical_info_container"}>
           {clinicalNotes.map((item, index) => {
             let className = "";
-            if(React.isValidElement(item.value) && item.value.type == "table"){
+            if (
+              React.isValidElement(item.value) &&
+              item.value.type == "table"
+            ) {
               className = "maxw-full grid-col-12 margin-top-1";
             }
-            return (<DataDisplay item={item} key={index} className={className} />);
+            return (
+              <DataDisplay item={item} key={index} className={className} />
+            );
           })}
         </AccordianDiv>
       </>
