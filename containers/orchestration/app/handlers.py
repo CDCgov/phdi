@@ -1,3 +1,4 @@
+import json
 from typing import Tuple
 
 from app.models import OrchestrationRequest
@@ -166,16 +167,18 @@ def unpack_message_parser_phdc_response(response: Response) -> Tuple[int, str | 
     """
     # XML-formatted messages like PHDC
     try:
-        # Shouldn't need to convert to str; it should already be a string:
-        # https://github.com/CDCgov/phdi/blob/main/containers/message-parser/app/main.py#L157
-        converter_response = response.json().get("response")
-        parsed_message = response.content
         if response.status_code != 200:
-            return (
-                response.status_code,
-                f"Message Parser request failed: {converter_response.text}",
-            )
+            # Try to extract error message from JSON, fallback to plain text
+            try:
+                error_message = (
+                    response.json().get("response", {}).get("text", "Unknown error")
+                )
+            except json.JSONDecodeError:
+                error_message = response.text or "Unknown error"
+            return (response.status_code, error_message)
         else:
+            # XML response handling
+            parsed_message = response.content
             return (response.status_code, parsed_message)
     except Exception as e:
         return (response.status_code, f"XML parsing failed: {str(e)}")
