@@ -1,3 +1,5 @@
+@use 'uswds-core' as *;
+
 .section__line {
   border-top: 1px solid #99DEEA;
   margin-top: .5rem;
@@ -145,4 +147,18 @@ h4 {
 
 .lh-18 {
   line-height: 18px;
+}
+
+.clinical_info_container table {
+  @include usa-table;
+  @include usa-table--borderless;
+  width: 100%;
+  border: 1px solid;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.clinical_info_container table thead tr th {
+  background-color: #f0f0f0;
+  min-width: 120px;
 }
