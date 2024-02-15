@@ -63,6 +63,7 @@ def test_build_validation_request():
         / "ccda"
         / "ccda_sample.xml"
     ).read()
+    workflow_params = {"include_error_types": "error"}
     orchestration_request = {
         "message_type": "ecr",
         "data_type": "ecr",
@@ -70,7 +71,7 @@ def test_build_validation_request():
         "include_error_types": "error",
         "message": message,
     }
-    result = build_valiation_request(message, orchestration_request)
+    result = build_valiation_request(message, orchestration_request, workflow_params)
     assert result["message_type"] == "ecr"
     assert result["include_error_types"] == "error"
     assert result["message"] == message

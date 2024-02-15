@@ -81,7 +81,9 @@ class ServiceHandlerResponse:
 
 
 def build_fhir_converter_request(
-    input_msg: str, orchestration_request: OrchestrationRequest
+    input_msg: str,
+    orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
 ) -> dict:
     """
     Helper function for constructing the input payload for an API call to
@@ -95,6 +97,8 @@ def build_fhir_converter_request(
       to the orchestration service. This request bundles a number of
       parameter settings into one dictionary that each handler can
       accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the converter step of a workflow.
     :return: A dictionary ready to JSON-serialize as a payload to the
       FHIR converter.
     """
@@ -110,7 +114,9 @@ def build_fhir_converter_request(
 
 
 def build_valiation_request(
-    input_msg: str, orchestration_request: OrchestrationRequest
+    input_msg: str,
+    orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
 ) -> dict:
     """
     Helper function for constructing the input payload for an API call to
@@ -123,11 +129,13 @@ def build_valiation_request(
       to the orchestration service. This request bundles a number of
       parameter settings into one dictionary that each handler can
       accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the validation step of a workflow.
     :return: A dictionary ready to send to the validation service.
     """
     return {
         "message_type": orchestration_request.get("message_type"),
-        "include_error_types": orchestration_request.get("include_error_types"),
+        "include_error_types": workflow_params.get("include_error_types"),
         "message": orchestration_request.get("message"),
         "rr_data": orchestration_request.get("rr_data"),
     }
