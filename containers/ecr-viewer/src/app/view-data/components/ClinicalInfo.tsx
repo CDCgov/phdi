@@ -48,12 +48,33 @@ export const ClinicalInfo = ({
     );
   };
 
+  const renderClinicalNotes = () => {
+    return (
+      <>
+        <AccordianH3>
+         <span id={clinicalInfoConfig.subNavItems?.[0].id}>
+            {clinicalInfoConfig.subNavItems?.[0].title}
+          </span>
+        </AccordianH3>
+        <AccordianDiv className={"clinical_info_container"}>
+          {clinicalNotes.map((item, index) => {
+            let className = "";
+            if(React.isValidElement(item.value) && item.value.type == "table"){
+              className = "maxw-full grid-col-12 margin-top-1";
+            }
+            return (<DataDisplay item={item} key={index} className={className} />);
+          })}
+        </AccordianDiv>
+      </>
+    );
+  };
+
   const renderSymptomsAndProblems = () => {
     return (
       <>
         <AccordianH3>
-          <span id={clinicalInfoConfig.subNavItems?.[0].id}>
-            {clinicalInfoConfig.subNavItems?.[0].title}
+          <span id={clinicalInfoConfig.subNavItems?.[1].id}>
+            {clinicalInfoConfig.subNavItems?.[1].title}
           </span>
         </AccordianH3>
         <AccordianDiv>
@@ -74,8 +95,8 @@ export const ClinicalInfo = ({
     return (
       <>
         <AccordianH3>
-          <span id={clinicalInfoConfig.subNavItems?.[1].id}>
-            {clinicalInfoConfig.subNavItems?.[1].title}
+          <span id={clinicalInfoConfig.subNavItems?.[2].id}>
+            {clinicalInfoConfig.subNavItems?.[2].title}
           </span>
         </AccordianH3>
         <AccordianDiv>
@@ -91,8 +112,8 @@ export const ClinicalInfo = ({
     return (
       <>
         <AccordianH3>
-          <span id={clinicalInfoConfig.subNavItems?.[2].id}>
-            {clinicalInfoConfig.subNavItems?.[2].title}
+          <span id={clinicalInfoConfig.subNavItems?.[3].id}>
+            {clinicalInfoConfig.subNavItems?.[3].title}
           </span>
         </AccordianH3>
         <AccordianDiv>
@@ -111,8 +132,8 @@ export const ClinicalInfo = ({
     return (
       <>
         <AccordianH3>
-          <span id={clinicalInfoConfig.subNavItems?.[3].id}>
-            {clinicalInfoConfig.subNavItems?.[3].title}
+          <span id={clinicalInfoConfig.subNavItems?.[4].id}>
+            {clinicalInfoConfig.subNavItems?.[4].title}
           </span>
         </AccordianH3>
         <AccordianDiv>
@@ -122,25 +143,6 @@ export const ClinicalInfo = ({
             ))}
           </div>
           <div className={"section__line_gray margin-y-2"} />
-        </AccordianDiv>
-      </>
-    );
-  };
-
-  const renderClinicalNotes = () => {
-    return (
-      <>
-        <AccordianH3>
-          <span id={"clinical-notes"}>Clinical Notes</span>
-        </AccordianH3>
-        <AccordianDiv className={"clinical_info_container"}>
-          {clinicalNotes.map((item, index) => {
-            let className = "";
-            if(React.isValidElement(item.value) && item.value.type == "table"){
-              className = "maxw-full grid-col-12 margin-top-1";
-            }
-            return (<DataDisplay item={item} key={index} className={className} />);
-          })}
         </AccordianDiv>
       </>
     );
