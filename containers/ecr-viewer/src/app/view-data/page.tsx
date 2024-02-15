@@ -13,6 +13,7 @@ import { encounterConfig } from "./components/Encounter";
 import { clinicalInfoConfig } from "./components/ClinicalInfo";
 import { PathMappings } from "../utils";
 import SideNav, { SectionConfig } from "./components/SideNav";
+import { processSnomedCode } from "./service";
 
 // string constants to match with possible .env values
 const S3_SOURCE = "s3";
@@ -34,6 +35,7 @@ const ECRViewerPage = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
   const apiPath = assignApiPath();
+  const snomedCode = searchParams.get("snomed-code") ?? "";
 
   const sideNavConfigs = [
     ecrSummaryConfig,
@@ -64,6 +66,7 @@ const ECRViewerPage = () => {
           throw new Error(errorData.message || "Internal Server Error");
         } else {
           const bundle: ApiResponse = await response.json();
+          processSnomedCode(snomedCode);
           setFhirBundle(bundle.fhirBundle);
           setMappings(bundle.fhirPathMappings);
         }
