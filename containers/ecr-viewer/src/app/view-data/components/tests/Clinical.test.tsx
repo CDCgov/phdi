@@ -3,20 +3,12 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ClinicalInfo from "../ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/fhir-data/utils";
-import { evaluateClinicalData } from "../../../utils";
-import { returnProceduresTable } from "@/app/utils";
+import { returnProceduresTable, evaluateClinicalData } from "@/app/utils";
 
 describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () => {
   let container: HTMLElement;
 
   beforeAll(() => {
-    const clinicalNotes = [
-      {
-        title: "Miscellaneous Notes",
-        value:
-          "<paragraph>This patient was only recently discharged for a recurrent GI bleed as described</paragraph>",
-      },
-    ];
     const proceduresArray = [
       {
         id: "b40f0081-4052-4971-3f3b-e3d9f5e1e44d",
@@ -121,7 +113,7 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
     ];
     container = render(
       <ClinicalInfo
-        clinicalNotes={clinicalNotes}
+        clinicalNotes={[]}
         activeProblemsDetails={[]}
         vitalData={vitalData}
         reasonForVisitDetails={[]}
@@ -137,6 +129,52 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+describe("Snapshot test for Clinical Notes", () => {
+
+  it("should match snapshot for non table notes", async () => {
+    const clinicalNotes = [
+      {
+        title: "Miscellaneous Notes",
+        value:
+          <p>This patient was only recently discharged for a recurrent GI bleed as described</p>,
+      },
+    ];
+    let { container } = render(
+      <ClinicalInfo
+        clinicalNotes={clinicalNotes}
+        activeProblemsDetails={[]}
+        vitalData={[]}
+        reasonForVisitDetails={[]}
+        immunizationsDetails={[]}
+        treatmentData={[]}
+      />,
+    );
+    expect(container).toMatchSnapshot();
+    expect(await axe(container)).toHaveNoViolations();
+  });
+  it("should match snapshot for table notes", async () => {
+    const clinicalNotes = [
+      {
+        title: "Miscellaneous Notes",
+        value:
+          <table><thead><tr><th>Active Problems</th><th>Noted Date</th></tr></thead><tbody><tr><td>Parkinson's syndrome</td><td>7/25/22</td></tr><tr><td>Essential hypertension</td><td>7/21/22</td></tr></tbody></table>,
+      },
+    ];
+    let { container } = render(
+      <ClinicalInfo
+        clinicalNotes={clinicalNotes}
+        activeProblemsDetails={[]}
+        vitalData={[]}
+        reasonForVisitDetails={[]}
+        immunizationsDetails={[]}
+        treatmentData={[]}
+      />,
+    );
+    expect(container).toMatchSnapshot();
+    expect(await axe(container)).toHaveNoViolations();
+  });
+})
 
 describe("Check that Clinical Info components render given FHIR bundle", () => {
   const fhirBundleClinicalInfo = require("../../../tests/assets/BundleClinicalInfo.json");

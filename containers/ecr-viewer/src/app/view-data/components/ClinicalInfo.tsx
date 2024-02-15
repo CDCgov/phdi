@@ -134,9 +134,13 @@ export const ClinicalInfo = ({
           <span id={"clinical-notes"}>Clinical Notes</span>
         </AccordianH3>
         <AccordianDiv className={"clinical_info_container"}>
-          {clinicalNotes.map((item, index) => (
-            <DataDisplay item={item} key={index} className={"maxw-full"}/>
-          ))}
+          {clinicalNotes.map((item, index) => {
+            let className = "";
+            if(React.isValidElement(item.value) && item.value.type == "table"){
+              className = "maxw-full grid-col-12 margin-top-1";
+            }
+            return (<DataDisplay item={item} key={index} className={className} />);
+          })}
         </AccordianDiv>
       </>
     );

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should match snapshot 1`] = `
+exports[`Snapshot test for Clinical Notes should match snapshot for non table notes 1`] = `
 <div>
   <div>
     <div
@@ -20,7 +20,7 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
           </span>
         </h3>
         <div
-          class="usa-summary-box__text"
+          class="usa-summary-box__text clinical_info_container"
         >
           <div>
             <div
@@ -36,7 +36,9 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
               <div
                 class="grid-col-auto maxw7 text-pre-line"
               >
-                &lt;paragraph&gt;This patient was only recently discharged for a recurrent GI bleed as described&lt;/paragraph&gt;
+                <p>
+                  This patient was only recently discharged for a recurrent GI bleed as described
+                </p>
               </div>
             </div>
             <div
@@ -44,6 +46,100 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
             />
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot test for Clinical Notes should match snapshot for table notes 1`] = `
+<div>
+  <div>
+    <div
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
+        <h3
+          class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
+        >
+          <span
+            id="clinical-notes"
+          >
+            Clinical Notes
+          </span>
+        </h3>
+        <div
+          class="usa-summary-box__text clinical_info_container"
+        >
+          <div>
+            <div
+              class="grid-row"
+            >
+              <div
+                class="data-title"
+              >
+                <h4>
+                  Miscellaneous Notes
+                </h4>
+              </div>
+              <div
+                class="grid-col-auto maxw7 text-pre-line maxw-full grid-col-12 margin-top-1"
+              >
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Active Problems
+                      </th>
+                      <th>
+                        Noted Date
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Parkinson's syndrome
+                      </td>
+                      <td>
+                        7/25/22
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Essential hypertension
+                      </td>
+                      <td>
+                        7/21/22
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              class="section__line_gray"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      class="padding-bottom-3"
+    >
+      <div
+        class="usa-summary-box__body"
+      >
         <h3
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
