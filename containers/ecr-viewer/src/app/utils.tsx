@@ -279,7 +279,7 @@ const formatTable = (
       <th
         key={`${column.columnName}${index}`}
         scope="col"
-        className=" bg-gray-5 minw-15"
+        className="bg-gray-5 minw-15"
       >
         {column.columnName}
       </th>
