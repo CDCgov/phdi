@@ -67,20 +67,16 @@ def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]
         return (converter_response.status_code, fhir_msg)
 
 
-def build_message_parser_request(
-    endpoint_type: str,
+def build_message_parser_message_request(
+    input_msg: str,
     orchestration_request: OrchestrationRequest,
 ) -> dict:
     """
     Helper function for constructing the output payload for an API call to
-    the DIBBs message parser. When the user uploads data, we use the
-    endpoint to determine what data to return (and what format).
-    If these values cannot be determined directly from the message, the
-    payload is set with default permissive EICR templates to allow the
-    broadest range of conversion.
+    the DIBBs message parser for JSON messages.
 
-    :param endpoint_type: The endpoint of the message parser to determine
-      what should be done with the FHIR bundle.
+    :param input_msg: The data the user sent for workflow processing, as
+      a string.
     :param orchestration_request: The request the client initially sent
       to the orchestration service. This request bundles a number of
       parameter settings into one dictionary that each handler can
@@ -89,14 +85,43 @@ def build_message_parser_request(
       message parser.
     """
     # Template will depend on input data formatting and typing
-    if endpoint_type == "/parse_message":
-        return {
-            "message_format": "fhir",
-            "parsing_schema_name": orchestration_request.get("parsing_schema_name"),
-            "credential_manager": "azure",
-        }
-    elif endpoint_type == "/fhir_to_phdc":
-        return {"phdc_report_type": "case_report"}
+    return {
+        "message": input_msg,
+        "message_format": orchestration_request.get("message_type"),
+        "parsing_schema_name": orchestration_request.get("parsing_schema_name"),
+        "credential_manager": "azure",
+    }
+
+
+def build_message_parser_phdc_request(
+    input_msg: str,
+    orchestration_request: OrchestrationRequest,
+) -> dict:
+    """
+    Helper function for constructing the output payload for an API call to
+    the DIBBs message parser for PHDC-formatted XML.
+
+    :param input_msg: The data the user sent for workflow processing, as
+      a string.
+    :param orchestration_request: The request the client initially sent
+      to the orchestration service. This request bundles a number of
+      parameter settings into one dictionary that each handler can
+      accept for consistency.
+    :return: A dictionary ready to JSON-serialize as a payload to the
+      message parser.
+    """
+    # Code idea for future state where we need to know report type
+    CONFIG_DICT = {
+        "sample-fhir-test-config-new.json": "case_report",
+        # TBD: "contact_record" "lab_report" "morbidity_report"
+    }
+    config_file_name = orchestration_request.get("config_file_name")
+    report_type = CONFIG_DICT.get(config_file_name, "case_report")
+
+    return {
+        "message": input_msg,
+        "phdc_report_type": report_type,
+    }
 
 
 def unpack_message_parser_response(response: Response) -> Tuple[int, str | dict]:

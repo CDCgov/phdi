@@ -4,7 +4,8 @@ from unittest.mock import MagicMock
 from unittest.mock import Mock
 
 from app.handlers import build_fhir_converter_request
-from app.handlers import build_message_parser_request
+from app.handlers import build_message_parser_message_request
+from app.handlers import build_message_parser_phdc_request
 from app.handlers import unpack_fhir_converter_response
 from app.handlers import unpack_message_parser_response
 from lxml import etree
@@ -88,22 +89,46 @@ def test_unpack_fhir_converter_response():
     assert result == (200, sample_bundle)
 
 
-def test_build_message_parser_request():
+def test_build_message_parser_message_request():
     # Test for /parse_message endpoint
+    sample_json = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
     orchestration_request = {
+        "message": sample_json,
         "message_type": "fhir",
         "parsing_schema_name": "ecr.json",
         "credential_manager": "azure",
     }
-    endpoint_type = "/parse_message"
-    result = build_message_parser_request(endpoint_type, orchestration_request)
+    result = build_message_parser_message_request(sample_json, orchestration_request)
+    assert result["message"] == sample_json
     assert result["message_format"] == "fhir"
     assert result["parsing_schema_name"] == "ecr.json"
     assert result["credential_manager"] == "azure"
 
+
+def test_build_message_parser_phdc_request():
     # Test for /fhir_to_phdc endpoint
-    endpoint_type = "/fhir_to_phdc"
-    result = build_message_parser_request(endpoint_type, orchestration_request)
+    sample_xml = etree.parse(
+        open(
+            Path(__file__).parent.parent.parent
+            / "message-parser"
+            / "assets"
+            / "demo_phdc.xml"
+        )
+    )
+    orchestration_request = {
+        "message": sample_xml,
+        "phdc_report_type": "case_report",
+    }
+    result = build_message_parser_phdc_request(sample_xml, orchestration_request)
+    assert result["message"] == sample_xml
     assert result["phdc_report_type"] == "case_report"
 
 
