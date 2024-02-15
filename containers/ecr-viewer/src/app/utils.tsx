@@ -4,6 +4,7 @@ import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
 import React from "react";
 import parse from "html-react-parser";
+import classNames from "classnames";
 
 export interface DisplayData {
   title: string;
@@ -777,8 +778,9 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-export const DataDisplay: React.FC<{ item: DisplayData }> = ({
+export const DataDisplay: React.FC<{ item: DisplayData, className?: string }> = ({
   item,
+  className
 }): React.JSX.Element => {
   return (
     <div>
@@ -786,7 +788,7 @@ export const DataDisplay: React.FC<{ item: DisplayData }> = ({
         <div className="data-title">
           <h4>{item.title}</h4>
         </div>
-        <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
+        <div className={classNames("grid-col-auto maxw7 text-pre-line", className)}>{item.value}</div>
       </div>
       <div className={"section__line_gray"} />
     </div>
