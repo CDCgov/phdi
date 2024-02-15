@@ -89,8 +89,9 @@ def test_unpack_fhir_converter_response():
     response = Mock()
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
-    assert result[0] == 400
-    assert "FHIR Converter request failed" in result[1]
+    assert result.status_code == 400
+    assert "FHIR Converter request failed" in result.msg_content
+    assert not result.should_continue
 
     # Successful conversion response
     sample_bundle = json.load(
@@ -109,7 +110,9 @@ def test_unpack_fhir_converter_response():
     response = Mock()
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
-    assert result == (200, sample_bundle)
+    assert result.status_code == 200
+    assert result.msg_content == sample_bundle
+    assert result.should_continue
 
 
 def test_unpack_validation_response():
@@ -124,8 +127,9 @@ def test_unpack_validation_response():
     response = Mock()
     response.json.return_value = validator_result
     result = unpack_validation_response(response)
-    assert result[0] == 400
-    assert "Validation service failed" in result[1]
+    assert result.status_code == 400
+    assert "Validation service failed" in result.msg_content
+    assert not result.should_continue
 
     # Case where an eCR message isn't valid but the service completes
     # with errors to report
@@ -145,7 +149,11 @@ def test_unpack_validation_response():
     response = MagicMock()
     response.json.return_value = validator_result
     actual_result = unpack_validation_response(response)
-    assert actual_result == (200, expected_result_for_bad_eCR.get("validation_results"))
+    assert actual_result.status_code == 200
+    assert actual_result.msg_content == expected_result_for_bad_eCR.get(
+        "validation_results"
+    )
+    assert not actual_result.should_continue
 
     # Case where the eCR is valid and well_formatted
     expected_result_for_good_ecr = {
@@ -164,4 +172,8 @@ def test_unpack_validation_response():
     response = MagicMock()
     response.json.return_value = validator_result
     actual_result = unpack_validation_response(response)
-    assert actual_result == (200, True)
+    assert actual_result.status_code == 200
+    assert actual_result.msg_content == expected_result_for_good_ecr.get(
+        "validation_results"
+    )
+    assert actual_result.should_continue

@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from app.models import OrchestrationRequest
 from requests import Response
 
@@ -10,6 +8,76 @@ MESSAGE_TO_TEMPLATE_MAP = {
     "elr": "ORU_R01",
     "vxu": "VXU_V04",
 }
+
+
+class ServiceHandlerResponse:
+    """
+    Wrapper class that encapsulates all the information the `call_apis`
+    function needs to handle processing one service's output as another
+    service's input. This class captures the return status of a service
+    (status code), what data it sent back (its message content), and
+    whether this data is fit for processing by another service (whether
+    call_apis should continue). Some of the DIBBs services either do not
+    return altered data to the caller, or return a 200 status code but
+    still flag an error with their input, so capturing these nuances
+    allows `call_apis` to be completely agnostic about the response
+    content a service sends back.
+    """
+
+    def __init__(
+        self, status_code: int, msg_content: str | dict, should_continue: bool
+    ):
+        self._status_code = status_code
+        self._msg_content = msg_content
+        self._should_continue = should_continue
+
+    @property
+    def status_code(self) -> int:
+        """
+        The status code the service returned to the caller.
+        """
+        return self._status_code
+
+    @status_code.setter
+    def status_code(self, code) -> None:
+        """
+        Decorator for setting status_code value as a property.
+        """
+        self._status_code = code
+
+    @property
+    def msg_content(self) -> str | dict:
+        """
+        The data the service sent back to the caller. If this is a
+        transformation or standardization service, this value holds
+        the altered and updated data the service computed. If this
+        is the validation or a verification service, this value
+        holds any errors the service flagged in its input.
+        """
+        return self._msg_content
+
+    @msg_content.setter
+    def msg_content(self, content) -> None:
+        """
+        Decorator for setting msg_content value as a property.
+        """
+        self._msg_content = content
+
+    @property
+    def should_continue(self) -> bool:
+        """
+        Whether the calling function can hand the processed data off
+        to the next service, based on the current service's status
+        and message content validity.
+        """
+        return self._should_continue
+
+    @should_continue.setter
+    def should_continue(self, cont) -> None:
+        """
+        Decorator for setting should_continue value as a property.
+        """
+        self._should_continue = cont
 
 
 def build_fhir_converter_request(
@@ -65,7 +133,7 @@ def build_valiation_request(
     }
 
 
-def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]:
+def unpack_fhir_converter_response(response: Response) -> ServiceHandlerResponse:
     """
     Helper function for processing a response from the DIBBs FHIR converter.
     If the status code of the response the server sent back is OK, return
@@ -74,21 +142,22 @@ def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]
 
     :param response: The response returned by a POST request to the FHIR
       converter.
-    :return: A tuple containing the status code of the response as well as
-      the FHIR bundle that the service generated.
+    :return: A ServiceHandlerResponse with a FHIR bundle and instruction
+      to continue, or a failed status code and error messaging.
     """
     converter_response = response.json().get("response")
     if converter_response.status_code != 200:
-        return (
+        return ServiceHandlerResponse(
             converter_response.status_code,
             f"FHIR Converter request failed: {response.text}",
+            False,
         )
     else:
         fhir_msg = converter_response.get("FhirResource")
-        return (converter_response.status_code, fhir_msg)
+        return ServiceHandlerResponse(converter_response.status_code, fhir_msg, True)
 
 
-def unpack_validation_response(response: Response) -> Tuple[int, str | bool | dict]:
+def unpack_validation_response(response: Response) -> ServiceHandlerResponse:
     """
     Helper function for processing a response from the DIBBs validation
     service. If the message is valid, with no errors in data structure,
@@ -99,36 +168,19 @@ def unpack_validation_response(response: Response) -> Tuple[int, str | bool | di
 
     :param response: The response returned by a POST request to the validation
       service.
-    :return: A tuple containing the status code of the response as well as
-      either a `True` boolean if the message is valid, or a dictionary of
-      errors if it isn't.
+    :return: A ServiceHandlerResponse with any validation errors the data
+      generated, or an instruction to continue to the next service.
     """
     validator_response = response.json()
     if validator_response.status_code != 200:
-        return (
+        return ServiceHandlerResponse(
             validator_response.status_code,
             f"Validation service failed: {response.text}",
+            False,
         )
-
-    # TODO: When we re-write the call apis loop, we should have a special case
-    # at the top of the function, before getting into the loop, that does
-    # validation service requests and response handling. This is because
-    # the validation service is the only endpoint that _does not_ also return
-    # message data to the caller. The response object contains only whether
-    # the message is valid and what kinds of errors may or may not have
-    # happened. So, the move in call_apis will be to check if the first step
-    # is validation, and if yes, make a separate validate request. If the
-    # response comes back 200 with no errors, then we move into the rest of
-    # the loop, but if it doesn't (and the workflow inlcuded validation),
-    # then we abort and report the data invalidity to the user.
     else:
-        if validator_response.get("message_valid") is True:
-            return (
-                validator_response.status_code,
-                validator_response.get("message_valid"),
-            )
-        else:
-            return (
-                validator_response.status_code,
-                validator_response.get("validation_results"),
-            )
+        return ServiceHandlerResponse(
+            validator_response.status_code,
+            validator_response.get("validation_results"),
+            validator_response.get("message_valid"),
+        )
