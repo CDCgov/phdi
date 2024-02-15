@@ -9,16 +9,15 @@ exports[`Demographics should match snapshot 1`] = `
       <div
         class="usa-summary-box__body"
       >
-        <h3
+        <h4
           class="usa-summary-box__heading padding-y-105"
-          id="summary-box-key-information"
         >
           <span
             id="demographics"
           >
             Demographics
           </span>
-        </h3>
+        </h4>
         <div
           class="usa-summary-box__text"
         >
@@ -29,9 +28,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Patient Name
-                </h4>
+                Patient Name
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -50,9 +47,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  DOB
-                </h4>
+                DOB
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -71,9 +66,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Sex
-                </h4>
+                Sex
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -92,9 +85,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Race
-                </h4>
+                Race
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -113,9 +104,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Ethnicity
-                </h4>
+                Ethnicity
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -134,9 +123,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Tribal
-                </h4>
+                Tribal
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -155,9 +142,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Preferred Language
-                </h4>
+                Preferred Language
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -176,9 +161,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Patient Address
-                </h4>
+                Patient Address
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -197,9 +180,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  County
-                </h4>
+                County
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -218,9 +199,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Contact
-                </h4>
+                Contact
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -239,9 +218,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Emergency Contact
-                </h4>
+                Emergency Contact
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -260,9 +237,7 @@ exports[`Demographics should match snapshot 1`] = `
               <div
                 class="data-title"
               >
-                <h4>
-                  Patient IDs
-                </h4>
+                Patient IDs
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"

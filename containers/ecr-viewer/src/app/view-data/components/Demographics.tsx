@@ -1,7 +1,7 @@
 import { DisplayData } from "../../utils";
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
@@ -17,9 +17,7 @@ const Demographics = ({ demographicsData }: DemographicsProps) => {
     return (
       <div key={index}>
         <div className="grid-row">
-          <div className="data-title">
-            <h4>{item.title}</h4>
-          </div>
+          <div className="data-title">{item.title}</div>
           <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
         </div>
         <div className={"section__line_gray"} />
@@ -28,9 +26,9 @@ const Demographics = ({ demographicsData }: DemographicsProps) => {
   };
   return (
     <AccordianSection>
-      <AccordianH3>
+      <AccordianH4>
         <span id={demographicsConfig.id}>{demographicsConfig.title}</span>
-      </AccordianH3>
+      </AccordianH4>
       <AccordianDiv>
         {demographicsData.map((item, index) =>
           renderDemographicsData(item, index),
