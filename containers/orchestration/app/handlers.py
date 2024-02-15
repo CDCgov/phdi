@@ -124,47 +124,58 @@ def build_message_parser_phdc_request(
     }
 
 
-def unpack_message_parser_response(response: Response) -> Tuple[int, str | dict]:
+def unpack_message_parser_message_response(
+    response: Response,
+) -> Tuple[int, str | dict]:
     """
     Helper function for processing a response from the DIBBs message parser.
     If the status code of the response the server sent back is OK, return
-    the parsed message (JSON or XML) from the response body. Otherwise, report what
+    the parsed JSON message from the response body. Otherwise, report what
     went wrong.
 
     :param response: The response returned by a POST request to the message parser.
     :return: A tuple containing the status code of the response as well as
       parsed message created by the service.
     """
-    content_type = response.headers.get("Content-Type", "")
+    try:
+        converter_response = response.json().get("response")
+        status_code = converter_response.get("status_code", response.status_code)
+        if status_code != 200:
+            error_message = converter_response.get("text", "Unknown error")
+            return (
+                status_code,
+                f"Message Parser request failed: {error_message}",
+            )
+        else:
+            parsed_message = converter_response.get("FhirResource")
+            return (status_code, parsed_message)
+    except ValueError:
+        return (response.status_code, "Invalid JSON response")
 
-    # JSON-parsed messages
-    if "application/json" in content_type:
-        try:
-            converter_response = response.json().get("response")
-            status_code = converter_response.get("status_code", response.status_code)
-            if status_code != 200:
-                error_message = converter_response.get("text", "Unknown error")
-                return (
-                    status_code,
-                    f"Message Parser request failed: {error_message}",
-                )
-            else:
-                parsed_message = converter_response.get("FhirResource")
-                return (status_code, parsed_message)
-        except ValueError:
-            return (response.status_code, "Invalid JSON response")
+
+def unpack_message_parser_phdc_response(response: Response) -> Tuple[int, str | dict]:
+    """
+    Helper function for processing a response from the DIBBs message parser.
+    If the status code of the response the server sent back is OK, return
+    the parsed XML message from the response body. Otherwise, report what
+    went wrong.
+
+    :param response: The response returned by a POST request to the message parser.
+    :return: A tuple containing the status code of the response as well as
+      parsed message created by the service.
+    """
     # XML-formatted messages like PHDC
-    elif "application/xml" in content_type:
-        try:
-            # Shouldn't need to convert to str; it should already be a string:
-            # https://github.com/CDCgov/phdi/blob/main/containers/message-parser/app/main.py#L157
-            parsed_message = response.content
-            if response.status_code != 200:
-                return (
-                    response.status_code,
-                    f"Message Parser request failed: {converter_response.text}",
-                )
-            else:
-                return (response.status_code, parsed_message)
-        except Exception as e:
-            return (response.status_code, f"XML parsing failed: {str(e)}")
+    try:
+        # Shouldn't need to convert to str; it should already be a string:
+        # https://github.com/CDCgov/phdi/blob/main/containers/message-parser/app/main.py#L157
+        converter_response = response.json().get("response")
+        parsed_message = response.content
+        if response.status_code != 200:
+            return (
+                response.status_code,
+                f"Message Parser request failed: {converter_response.text}",
+            )
+        else:
+            return (response.status_code, parsed_message)
+    except Exception as e:
+        return (response.status_code, f"XML parsing failed: {str(e)}")

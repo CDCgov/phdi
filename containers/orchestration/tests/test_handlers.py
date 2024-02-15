@@ -7,7 +7,8 @@ from app.handlers import build_fhir_converter_request
 from app.handlers import build_message_parser_message_request
 from app.handlers import build_message_parser_phdc_request
 from app.handlers import unpack_fhir_converter_response
-from app.handlers import unpack_message_parser_response
+from app.handlers import unpack_message_parser_message_response
+from app.handlers import unpack_message_parser_phdc_response
 from lxml import etree
 
 
@@ -149,10 +150,24 @@ def test_unpack_message_parser_response():
     response.status_code = 200
     response.headers = {"Content-Type": "application/json"}
     response.json.return_value = response_content
-    status_code, parsed_message = unpack_message_parser_response(response)
+    status_code, parsed_message = unpack_message_parser_message_response(response)
     assert status_code == 200
     assert parsed_message == sample_json
 
+    # Test failure case
+    response_content = {
+        "response": {"status_code": 400, "text": "Message Parser request failed"}
+    }
+    response = MagicMock()
+    response.status_code = 400
+    response.headers = {"Content-Type": "application/json"}
+    response.json.return_value = response_content
+    status_code, error_message = unpack_message_parser_message_response(response)
+    assert status_code == 400
+    assert "Message Parser request failed" in error_message
+
+
+def test_unpack_message_parser_phdc_response():
     # Mock an XML response
     sample_xml = etree.parse(
         open(
@@ -166,18 +181,6 @@ def test_unpack_message_parser_response():
     response.status_code = 200
     response.headers = {"Content-Type": "application/xml"}
     response.content = etree.tostring(sample_xml)
-    status_code, parsed_message = unpack_message_parser_response(response)
+    status_code, parsed_message = unpack_message_parser_phdc_response(response)
     assert status_code == 200
     assert parsed_message == etree.tostring(sample_xml)
-
-    # Test failure case
-    response_content = {
-        "response": {"status_code": 400, "text": "Message Parser request failed"}
-    }
-    response = MagicMock()
-    response.status_code = 400
-    response.headers = {"Content-Type": "application/json"}
-    response.json.return_value = response_content
-    status_code, error_message = unpack_message_parser_response(response)
-    assert status_code == 400
-    assert "Message Parser request failed" in error_message
