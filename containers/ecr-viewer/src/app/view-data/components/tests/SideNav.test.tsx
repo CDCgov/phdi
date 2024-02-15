@@ -1,4 +1,7 @@
-import SideNav, { SectionConfig } from "@/app/view-data/components/SideNav";
+import SideNav, {
+  SectionConfig,
+  sortHeadings,
+} from "@/app/view-data/components/SideNav";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 
@@ -52,5 +55,51 @@ describe("SectionConfig", () => {
     const { container } = render(<SideNav />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
+  });
+
+  it("should sort section headings", async () => {
+    const headings = [
+      {
+        text: "foo",
+        level: "h1",
+        priority: 1,
+      },
+      {
+        text: "bar",
+        level: "h2",
+        priority: 2,
+      },
+      {
+        text: "biz",
+        level: "h1",
+        priority: 1,
+      },
+    ];
+    const foo = new SectionConfig("foo", ["bar"]);
+    const bar = new SectionConfig("biz");
+
+    const result: SectionConfig[] = [foo, bar];
+    const resultSub = result[0]?.subNavItems;
+    const sortedResults = sortHeadings(headings);
+    const sortedResultsSub = sortedResults[0]?.subNavItems;
+    expect(sortedResults[0].id).toBe(result[0].id);
+    expect(sortedResults[1].id).toBe(result[1].id);
+    expect(sortedResultsSub ? sortedResultsSub[0].id : null).toBe(
+      resultSub ? resultSub[0].id : undefined,
+    );
+  });
+
+  it("should only render side nav items on page", async () => {
+    const { container } = render(
+      <>
+        <SideNav />
+        <h2 id="section-1">Section 1</h2>
+        <h2 id="section-2">Section 2</h2>
+        <h3 id="section-3">Section 3</h3>
+        <h4 id="section-4">Section 4</h4>
+        <h2 id="section-2-2">Section 2 - 2</h2>
+      </>,
+    );
+    expect(container.innerHTML).toContain('<a href="#section-1" class="">');
   });
 });

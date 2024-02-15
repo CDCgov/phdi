@@ -47,12 +47,13 @@ function countObjects(array: SectionConfig[]): number {
   return count;
 }
 
-const sortHeadings = (headings: HeadingObject[]) => {
+//Creates a SectionConfig list. Nests headings in each section config
+export const sortHeadings = (headings: HeadingObject[]): SectionConfig[] => {
   const result: SectionConfig[] = [];
-  let i = 0;
-  while (i < headings.length) {
-    const currentHeading = headings[i];
-    const nextHeadings = headings.slice(i + 1);
+  let headingIndex = 0;
+  while (headingIndex < headings.length) {
+    const currentHeading = headings[headingIndex];
+    const nextHeadings = headings.slice(headingIndex + 1);
     if (
       nextHeadings.length > 0 &&
       nextHeadings[0].priority > currentHeading.priority
@@ -60,22 +61,22 @@ const sortHeadings = (headings: HeadingObject[]) => {
       const nestedResult = sortHeadings(nextHeadings);
       result.push(new SectionConfig(currentHeading.text, nestedResult));
       const nestedLength = countObjects(nestedResult);
-      i += nestedLength + 1;
+      headingIndex += nestedLength + 1;
     } else if (
       nextHeadings.length > 0 &&
       nextHeadings[0].priority == currentHeading.priority
     ) {
       result.push(new SectionConfig(currentHeading.text));
-      i++;
+      headingIndex++;
     } else if (
       nextHeadings.length > 0 &&
       nextHeadings[0].priority < currentHeading.priority
     ) {
       result.push(new SectionConfig(currentHeading.text));
-      i += headings.length + 1;
+      headingIndex += headings.length + 1;
     } else {
       result.push(new SectionConfig(currentHeading.text));
-      i++;
+      headingIndex++;
     }
   }
   return result;
