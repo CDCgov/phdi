@@ -107,9 +107,6 @@ export const ClinicalInfo = ({
   };
 
   const renderTreatmentDetails = () => {
-    const tableData = treatmentData.filter((item) =>
-      React.isValidElement(item),
-    );
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
       <>
