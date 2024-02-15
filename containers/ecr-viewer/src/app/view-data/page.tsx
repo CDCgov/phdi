@@ -37,20 +37,6 @@ const ECRViewerPage = () => {
   const apiPath = assignApiPath();
   const snomedCode = searchParams.get("snomed-code") ?? "";
 
-  const sideNavConfigs = [
-    ecrSummaryConfig,
-    new SectionConfig("eCR Document", [
-      new SectionConfig("Patient Info", [
-        demographicsConfig,
-        socialHistoryConfig,
-      ]),
-      encounterConfig,
-      clinicalInfoConfig,
-      ecrMetadataConfig,
-    ]),
-    new SectionConfig("Unavailable Info"),
-  ];
-
   type ApiResponse = {
     fhirBundle: Bundle;
     fhirPathMappings: PathMappings;
@@ -90,7 +76,7 @@ const ECRViewerPage = () => {
           <div className="content-wrapper">
             <div className="nav-wrapper">
               <nav className="sticky-nav">
-                <SideNav sectionConfigs={sideNavConfigs} />
+                <SideNav />
               </nav>
             </div>
             <div className={"ecr-viewer-container"}>
