@@ -136,9 +136,9 @@ export const ClinicalInfo = ({
         <AccordianH3>
           <span id={"clinical-notes"}>Clinical Notes</span>
         </AccordianH3>
-        <AccordianDiv>
+        <AccordianDiv className={"clinical_info_container"}>
           {clinicalNotes.map((item, index) => (
-            <DataDisplay item={item} key={index} />
+            <DataDisplay item={item} key={index} className={"maxw-full"}/>
           ))}
         </AccordianDiv>
       </>
