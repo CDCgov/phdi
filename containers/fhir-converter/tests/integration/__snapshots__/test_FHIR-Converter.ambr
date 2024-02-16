@@ -1,0 +1,1436 @@
+# serializer version: 1
+# name: test_ecr_conversion
+  dict({
+    'FhirResource': dict({
+      'entry': list([
+        dict({
+          'fullUrl': 'urn:uuid:2.16.840.1.113883.19.5.99999.1',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Composition/2.16.840.1.113883.19.5.99999.1',
+          }),
+          'resource': dict({
+            'author': list([
+              dict({
+                'reference': 'Practitioner/b818f780-0177-affe-d9d2-2aefb7adeee2',
+              }),
+            ]),
+            'confidentiality': 'N',
+            'custodian': dict({
+              'reference': 'Organization/b818f780-0177-affe-d9d2-2aefb7adeee2',
+            }),
+            'date': '2012-09-16T19:11:00-04:00',
+            'encounter': dict({
+              'reference': 'Encounter/786d8ce8-8ab9-f2f3-9418-aa9de43e7f79',
+            }),
+            'event': list([
+              dict({
+                'period': dict({
+                  'end': '2012-09-16T19:11:00-04:00',
+                  'start': '2012-09-09T19:11:00-04:00',
+                }),
+              }),
+            ]),
+            'extension': list([
+              dict({
+                'url': 'http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber',
+                'valueString': '1',
+              }),
+            ]),
+            'id': '2.16.840.1.113883.19.5.99999.1',
+            'identifier': list([
+              dict({
+                'type': dict({
+                  'coding': list([
+                    dict({
+                      'code': '28570-0',
+                      'display': 'Procedure Note',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'use': 'official',
+                'value': 'sTT988',
+              }),
+            ]),
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Composition',
+            'section': list([
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '51848-0',
+                      'display': 'ASSESSMENT',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': '252e96a0-3000-0e71-7cb2-cc9e03a05f48',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': '<ul><li>Recurrent GI bleed of unknown etiology; hypotension perhaps secondary to this but as likely secondary to polypharmacy.</li><li>Acute on chronic anemia secondary to #1.</li><li>Azotemia, acute renal failure with volume loss secondary to #1.</li><li>Hyperkalemia secondary to #3 and on ACE and K+ supplement.</li><li>Other chronic diagnoses as noted above, currently stable.</li></ul>',
+                  'status': 'generated',
+                }),
+                'title': 'Assessment',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '18776-5',
+                      'display': 'Treatment plan',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': 'aa0e3ce0-e08e-e3e0-983a-589fecc0d3f5',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': '<table><thead><tr><th>Planned Activity</th><th>Planned Date</th></tr></thead><tbody><tr><td>Colonoscopy</td><td>20120512</td></tr></tbody></table>',
+                  'status': 'generated',
+                }),
+                'title': 'Plan of Treatment',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59768-2',
+                      'display': 'PROCEDURE INDICATIONS',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': 'f9c9bda7-d500-53fb-4238-2be84bd66688',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'The procedure is performed for screening in a low risk individual.',
+                  'status': 'generated',
+                }),
+                'title': 'Procedure Indications',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59772-4',
+                      'display': 'Planned Procedure',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': 'e7944944-cfcd-9638-1dd5-625937eb880a',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Colonoscopy',
+                  'status': 'generated',
+                }),
+                'title': 'Planned Procedure',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '29554-3',
+                      'display': 'PROCEDURE DESCRIPTION',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': 'f8d57bf2-1fb3-8ce3-7062-0de841a88965',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'The patient was brought to the operating room, placed in the supine position, and general anesthesia was induced. A detailed technical narrative of a laparoscopic appendectomy from initial incision to placement of any dressings follows.',
+                  'status': 'generated',
+                }),
+                'title': 'PROCEDURE DESCRIPTION',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '10219-4',
+                      'display': 'SURGICAL OPERATION NOTE PREOPERATIVE DX',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'entry': list([
+                  dict({
+                    'display': 'Problem - Appendicitis',
+                    'reference': 'Condition/d3599561-643f-01a9-9fb2-1c89b7dc5ede',
+                  }),
+                ]),
+                'id': '2bf460d9-2bc4-06d2-c6f2-19db18651895',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Appendicitis',
+                  'status': 'generated',
+                }),
+                'title': 'Preoperative Diagnosis',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59774-0',
+                      'display': 'PROCEDURE ANESTHESIA',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': 'd03df27e-dc1b-1cb4-39b1-522db18db887',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Conscious sedation with propofol 200 mg IV',
+                  'status': 'generated',
+                }),
+                'title': 'Anesthesia',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '11537-8',
+                      'display': 'SURGICAL DRAINS',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': '5bfc37b9-d030-539f-7a51-b1e8894b264f',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Penrose drain placed',
+                  'status': 'generated',
+                }),
+                'title': 'Surgical Drains',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59776-5',
+                      'display': 'PROCEDURE FINDINGS',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': '3d3a9c11-041f-3900-08d9-23168d6cf4c9',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': '6 mm sessile polyp Moderate diverticulosis hemorrhoids were incidentally noted. and was found in the ascending colon and removed by snare, no cautery. Bleeding was controlled. A',
+                  'status': 'generated',
+                }),
+                'title': 'Procedure Findings',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59770-8',
+                      'display': 'PROCEDURE ESTIMATED BLOOD LOSS',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': '80e8a805-7f28-7f0c-8199-5910c2eeb687',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Minimal',
+                  'status': 'generated',
+                }),
+                'title': 'Estimated Blood Loss',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59771-6',
+                      'display': 'PROCEDURE IMPLANTS',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': '66603b82-dc35-d8bd-f397-ddf5f90b15e9',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'No implants were placed.',
+                  'status': 'generated',
+                }),
+                'title': 'Procedure Implants',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59773-2',
+                      'display': 'PROCEDURE SPECIMENS TAKEN',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': 'c10cf1b6-e194-3e7e-85f6-20fe2b56ba7b',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Ascending colon polyp',
+                  'status': 'generated',
+                }),
+                'title': 'Specimens Taken',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '55109-3',
+                      'display': 'Complications',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': '5799f673-a77a-8608-82ca-166ed3a23918',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Asthmatic symptoms while under general anesthesia.',
+                  'status': 'generated',
+                }),
+                'title': 'Complications',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '10218-6',
+                      'display': 'POSTOPERATIVE DIAGNOSIS',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': '9e8579dd-536d-3860-c48b-cbc638cd54c3',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Appendicitis with periappendiceal abscess',
+                  'status': 'generated',
+                }),
+                'title': 'Postoperative Diagnosis',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59769-0',
+                      'display': 'POSTPROCEDURE DIAGNOSIS',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'entry': list([
+                  dict({
+                    'display': 'Problem - Sessile Polyp',
+                    'reference': 'Condition/f18e273f-f710-b441-ea46-90593330eaa7',
+                  }),
+                  dict({
+                    'display': 'Problem - diverticulosis of sigmoid',
+                    'reference': 'Condition/4b17ad04-c9a9-eabe-925c-2642b95ae6c8',
+                  }),
+                  dict({
+                    'display': 'Problem - internal hemorrhoids',
+                    'reference': 'Condition/2bc8aad6-23f3-2b41-7ce9-1fbb95731ba9',
+                  }),
+                ]),
+                'id': 'd496e5fd-1e3d-d67c-080b-4be8bddd23f7',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': '<ul><li>Sigmoid diverticulosis, moderate</li><li>Internal hemorrhoids</li><li>Colon polyp, 6mm, ascending colon</li></ul>',
+                  'status': 'generated',
+                }),
+                'title': 'Postprocedure Diagnosis',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '59775-7',
+                      'display': 'PROCEDURE DISPOSITION',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'id': 'ba7ef2a4-8054-fcd8-7e42-01a2251ae712',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'The patient was taken to the Endoscopy Recovery Unit in stable condition.',
+                  'status': 'generated',
+                }),
+                'title': 'Procedure Disposition',
+              }),
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '29762-2',
+                      'display': 'Social History',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'entry': list([
+                  dict({
+                    'reference': 'Observation/343815a0-644f-854b-53f6-d7e65452e505',
+                  }),
+                  dict({
+                    'reference': 'Observation/1ff451cd-e659-e9a9-6ef3-e3d13c1d9c60',
+                  }),
+                ]),
+                'id': '77cea504-16ee-e0d1-a451-97c7f2b54e20',
+                'mode': 'snapshot',
+                'text': dict({
+                  'div': 'Smoking Status Pregnancy Observation Additional Data Travel History <br><table><thead><tr><th>Status</th><th>Start Date</th><th>End Date</th><th>Date of Observation</th></tr></thead><tbody><tr><td>Never smoker (Never Smoked)</td><td></td><td></td><td>March 17th, 2022 2:54pm</td></tr></tbody></table><table><thead><tr><th>Status</th><th>Date of Observation</th></tr></thead><tbody><tr><td>Not pregnant</td><td>March 17th, 2022</td></tr></tbody></table><table><tbody><tr><th>Assigned Birth Sex</th><td>Female</td></tr><tr><th>Gender Identity</th><td>unknown</td></tr><tr><th>Sexual Orientation</th><td>Do not know</td></tr></tbody></table><table><thead><tr><th>Date of Travel</th><th>Location</th></tr></thead><tbody><tr><td>January 18th, 2018 - February 18th, 2018</td><td><br>my family.Traveled to Singapore, Malaysia and Bali with</td></tr></tbody></table>',
+                  'status': 'generated',
+                }),
+                'title': 'Social History',
+              }),
+            ]),
+            'status': 'final',
+            'subject': dict({
+              'reference': 'Patient/7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+            }),
+            'title': 'Community Health and Hospitals: Procedure Note',
+            'type': dict({
+              'coding': list([
+                dict({
+                  'code': '28570-0',
+                  'display': 'Procedure Note',
+                  'system': 'http://loinc.org',
+                }),
+              ]),
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:786d8ce8-8ab9-f2f3-9418-aa9de43e7f79',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Encounter/786d8ce8-8ab9-f2f3-9418-aa9de43e7f79',
+          }),
+          'resource': dict({
+            'class': dict({
+              'code': '99213',
+              'display': 'Evaluation and Management',
+              'system': 'http://www.ama-assn.org/go/cpt',
+            }),
+            'id': '786d8ce8-8ab9-f2f3-9418-aa9de43e7f79',
+            'identifier': list([
+              dict({
+                'system': 'urn:oid:2.16.840.1.113883.19',
+                'value': '9937012',
+              }),
+            ]),
+            'location': list([
+              dict({
+                'id': '2.16.540.1.113883.19.2',
+                'location': dict({
+                  'display': 'None',
+                  'reference': 'Location/bb43d0f0-5179-2120-155d-fb545bf3dbba',
+                }),
+              }),
+            ]),
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'period': dict({
+              'end': '2009-02-27T13:00:00-05:00',
+              'start': '2009-02-27T13:00:00-05:00',
+            }),
+            'resourceType': 'Encounter',
+            'status': 'unknown',
+            'subject': dict({
+              'reference': 'Patient/7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:bb43d0f0-5179-2120-155d-fb545bf3dbba',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Location/bb43d0f0-5179-2120-155d-fb545bf3dbba',
+          }),
+          'resource': dict({
+            'id': 'bb43d0f0-5179-2120-155d-fb545bf3dbba',
+            'identifier': list([
+              dict({
+                'value': '2.16.540.1.113883.19.2',
+              }),
+            ]),
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Location',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:b818f780-0177-affe-d9d2-2aefb7adeee2',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Organization/b818f780-0177-affe-d9d2-2aefb7adeee2',
+          }),
+          'resource': dict({
+            'address': list([
+              dict({
+                'city': 'Portland',
+                'country': 'US',
+                'line': list([
+                  '1002 Healthcare Drive ',
+                ]),
+                'postalCode': '99123',
+                'state': 'OR',
+                'use': 'work',
+              }),
+            ]),
+            'id': 'b818f780-0177-affe-d9d2-2aefb7adeee2',
+            'identifier': list([
+              dict({
+                'system': 'http://hl7.org/fhir/sid/us-npi',
+                'value': '99999999',
+              }),
+            ]),
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'name': 'Community Health and Hospitals',
+            'resourceType': 'Organization',
+            'telecom': list([
+              dict({
+                'system': 'phone',
+                'use': 'work',
+                'value': '555-555-1002',
+              }),
+            ]),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:b818f780-0177-affe-d9d2-2aefb7adeee2',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Practitioner/b818f780-0177-affe-d9d2-2aefb7adeee2',
+          }),
+          'resource': dict({
+            'address': list([
+              dict({
+                'city': 'Portland',
+                'country': 'US',
+                'line': list([
+                  '1002 Healthcare Drive ',
+                ]),
+                'postalCode': '99123',
+                'state': 'OR',
+              }),
+            ]),
+            'id': 'b818f780-0177-affe-d9d2-2aefb7adeee2',
+            'identifier': list([
+              dict({
+                'system': 'http://hl7.org/fhir/sid/us-npi',
+                'value': '99999999',
+              }),
+            ]),
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'name': list([
+              dict({
+                'family': 'Seven',
+                'given': list([
+                  'Henry',
+                ]),
+              }),
+            ]),
+            'qualification': list([
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '200000000X',
+                      'display': 'Allopathic & Osteopathic Physicians',
+                      'system': 'http://nucc.org/provider-taxonomy',
+                    }),
+                  ]),
+                }),
+              }),
+            ]),
+            'resourceType': 'Practitioner',
+            'telecom': list([
+              dict({
+                'system': 'phone',
+                'use': 'work',
+                'value': '555-555-1002',
+              }),
+            ]),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Patient/7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+          }),
+          'resource': dict({
+            'address': list([
+              dict({
+                'city': 'Beaverton',
+                'country': 'US',
+                'line': list([
+                  '1357 Amber Drive',
+                ]),
+                'postalCode': '97867',
+                'state': 'OR',
+                'use': 'home',
+              }),
+            ]),
+            'birthDate': '2005-05-01',
+            'communication': list([
+              dict({
+                'language': dict({
+                  'coding': list([
+                    dict({
+                      'code': 'en',
+                      'display': 'English',
+                      'system': 'urn:ietf:bcp:47',
+                    }),
+                  ]),
+                }),
+                'preferred': True,
+              }),
+            ]),
+            'extension': list([
+              dict({
+                'extension': list([
+                  dict({
+                    'url': 'detailed',
+                    'valueCoding': dict({
+                      'code': '1966-1',
+                      'display': 'Aleut',
+                    }),
+                  }),
+                  dict({
+                    'url': 'text',
+                    'valueString': 'Aleut',
+                  }),
+                ]),
+                'url': 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race',
+              }),
+              dict({
+                'extension': list([
+                  dict({
+                    'url': 'ombCategory',
+                    'valueCoding': dict({
+                      'code': '2186-5',
+                      'display': 'Not Hispanic or Latino',
+                    }),
+                  }),
+                  dict({
+                    'url': 'text',
+                    'valueString': 'Not Hispanic or Latino',
+                  }),
+                ]),
+                'url': 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity',
+              }),
+              dict({
+                'extension': list([
+                  dict({
+                    'url': 'value',
+                    'valueCodeableConcept': dict({
+                      'coding': list([
+                        dict({
+                          'code': 'F',
+                          'display': 'Female',
+                          'system': 'urn:oid:2.16.840.1.113883.5.1',
+                        }),
+                      ]),
+                    }),
+                  }),
+                ]),
+                'url': 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex',
+              }),
+            ]),
+            'gender': 'female',
+            'id': '7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+            'identifier': list([
+              dict({
+                'system': 'urn:oid:2.16.840.1.113883.19.5.99999.2',
+                'value': '998991',
+              }),
+              dict({
+                'system': 'http://hl7.org/fhir/sid/us-ssn',
+                'value': '111-00-2330',
+              }),
+            ]),
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'name': list([
+              dict({
+                'family': 'Jones',
+                'given': list([
+                  'Isabella',
+                ]),
+                'use': 'official',
+              }),
+            ]),
+            'resourceType': 'Patient',
+            'telecom': list([
+              dict({
+                'system': 'phone',
+                'use': 'home',
+                'value': '(816)276-6909',
+              }),
+            ]),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:6e01fadc-40b4-5b8a-62b7-0bb2634dfbd3',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'RelatedPerson/6e01fadc-40b4-5b8a-62b7-0bb2634dfbd3',
+          }),
+          'resource': dict({
+            'address': list([
+              dict({
+                'city': 'Beaverton',
+                'country': 'US',
+                'line': list([
+                  '1357 Amber Drive',
+                ]),
+                'postalCode': '97867',
+                'state': 'OR',
+                'use': 'home',
+              }),
+            ]),
+            'id': '6e01fadc-40b4-5b8a-62b7-0bb2634dfbd3',
+            'meta': dict({
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'name': list([
+              dict({
+                'family': 'Jones',
+                'given': list([
+                  'Ralph',
+                ]),
+              }),
+            ]),
+            'patient': dict({
+              'reference': 'Patient/7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+            }),
+            'relationship': list([
+              dict({
+                'coding': list([
+                  dict({
+                    'code': 'GRPRN',
+                    'display': 'Grandparent',
+                    'system': 'urn:oid:2.16.840.1.113883.5.111',
+                  }),
+                ]),
+              }),
+            ]),
+            'resourceType': 'RelatedPerson',
+            'telecom': list([
+              dict({
+                'system': 'phone',
+                'use': 'home',
+                'value': '(816)276-6909',
+              }),
+            ]),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:11f03220-c407-4561-fdb7-55b143852b4e',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Observation/11f03220-c407-4561-fdb7-55b143852b4e',
+          }),
+          'resource': dict({
+            'category': list([
+              dict({
+                'coding': list([
+                  dict({
+                    'code': 'social-history',
+                    'system': 'http://terminology.hl7.org/CodeSystem/observation-category',
+                  }),
+                ]),
+              }),
+            ]),
+            'code': dict({
+              'coding': list([
+                dict({
+                  'code': 'ASSERTION',
+                  'system': 'urn:oid:2.16.840.1.113883.5.4',
+                }),
+              ]),
+            }),
+            'id': '11f03220-c407-4561-fdb7-55b143852b4e',
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Observation',
+            'status': 'final',
+            'subject': dict({
+              'reference': 'Patient/7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+            }),
+            'valueCodeableConcept': dict({
+              'coding': list([
+                dict({
+                  'code': '77386006',
+                  'display': 'pregnant',
+                  'system': 'http://snomed.info/sct',
+                }),
+              ]),
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:343815a0-644f-854b-53f6-d7e65452e505',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Observation/343815a0-644f-854b-53f6-d7e65452e505',
+          }),
+          'resource': dict({
+            'code': dict({
+              'coding': list([
+                dict({
+                  'code': '76690-7',
+                  'display': 'Sexual orientation',
+                  'system': 'http://loinc.org',
+                }),
+              ]),
+              'text': 'Sexual orientation',
+            }),
+            'id': '343815a0-644f-854b-53f6-d7e65452e505',
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Observation',
+            'status': 'final',
+            'subject': dict({
+              'reference': 'Patient/7e1e297d-bc90-4932-9ce8-250c5e26e9d0',
+            }),
+            'valueString': 'unknown',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:1ff451cd-e659-e9a9-6ef3-e3d13c1d9c60',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Observation/1ff451cd-e659-e9a9-6ef3-e3d13c1d9c60',
+          }),
+          'resource': dict({
+            'code': dict({
+              'coding': list([
+                dict({
+                  'code': '420008001',
+                  'display': 'Travel',
+                  'system': 'http://snomed.info/sct',
+                }),
+              ]),
+              'text': 'Travel History',
+            }),
+            'component': list([
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': 'LOC',
+                      'display': 'Location',
+                      'system': 'http://terminology.hl7.org/CodeSystem/v3-ParticipationType',
+                    }),
+                  ]),
+                }),
+              }),
+            ]),
+            'effectivePeriod': dict({
+              'end': '2018-02-18',
+              'start': '2018-01-18',
+            }),
+            'id': '1ff451cd-e659-e9a9-6ef3-e3d13c1d9c60',
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-travel-history',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Observation',
+            'status': 'final',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Observation/',
+          }),
+          'resource': dict({
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Observation',
+          }),
+        }),
+      ]),
+      'resourceType': 'Bundle',
+      'type': 'batch',
+    }),
+    'Status': 'OK',
+  })
+# ---
+# name: test_ecr_conversion_with_rr
+  dict({
+    'FhirResource': dict({
+      'entry': list([
+        dict({
+          'fullUrl': 'urn:uuid:458b0d47-1aca-4f6c-7a66-73760ffade85',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Composition/458b0d47-1aca-4f6c-7a66-73760ffade85',
+          }),
+          'resource': dict({
+            'extension': list([
+              dict({
+                'url': 'http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber',
+              }),
+            ]),
+            'id': '458b0d47-1aca-4f6c-7a66-73760ffade85',
+            'identifier': list([
+              dict({
+                'use': 'official',
+              }),
+            ]),
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Composition',
+            'section': list([
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '88085-6',
+                      'display': 'Reportability response report Document Public health',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'extension': list([
+                  dict({
+                    'url': 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition',
+                    'valueIdentifier': dict({
+                      'type': dict({
+                        'coding': list([
+                          dict({
+                            'code': '88085-6',
+                            'display': 'Reportability response report Document Public health',
+                            'system': 'http://loinc.org',
+                          }),
+                        ]),
+                      }),
+                      'use': 'official',
+                      'value': '4efa0e5c-c34c-429f-b5de-f1a13aef4a28',
+                    }),
+                  }),
+                  dict({
+                    'url': 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension',
+                    'valueCodeableConcept': dict({
+                      'coding': list([
+                        dict({
+                          'code': 'RRVS19',
+                          'display': 'eICR processed',
+                          'system': 'urn:oid:2.16.840.1.114222.4.5.274',
+                        }),
+                      ]),
+                    }),
+                  }),
+                ]),
+                'id': 'fd5a9e92-c38a-6a5e-1b6f-cf0f38b01349',
+                'text': dict({
+                  'div': '<div xmlns="http://www.w3.org/1999/xhtml">Reportability Response Information Section</div>',
+                  'status': 'generated',
+                }),
+                'title': 'Reportability Response Information Section',
+              }),
+            ]),
+            'status': 'final',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Observation/',
+          }),
+          'resource': dict({
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Observation',
+          }),
+        }),
+      ]),
+      'resourceType': 'Bundle',
+      'type': 'batch',
+    }),
+    'Status': 'OK',
+  })
+# ---
+# name: test_vxu_conversion
+  dict({
+    'FhirResource': dict({
+      'entry': list([
+        dict({
+          'fullUrl': 'urn:uuid:53d0ea89-a281-523f-f0fb-02e3ee1ef0a2',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'MessageHeader/53d0ea89-a281-523f-f0fb-02e3ee1ef0a2',
+          }),
+          'resource': dict({
+            'destination': list([
+              dict({
+                '_endpoint': dict({
+                  'extension': list([
+                    dict({
+                      'url': 'http://hl7.org/fhir/StructureDefinition/data-absent-reason',
+                      'valueCode': 'unknown',
+                    }),
+                  ]),
+                }),
+                'receiver': dict({
+                  'reference': 'Organization/f51a22ef-628f-d014-5a33-da96b68ae53d',
+                }),
+              }),
+            ]),
+            'eventCoding': dict({
+              'code': 'V04',
+              'display': 'VXU^V04',
+              'system': 'http://terminology.hl7.org/CodeSystem/v2-0003',
+            }),
+            'id': '53d0ea89-a281-523f-f0fb-02e3ee1ef0a2',
+            'meta': dict({
+              'source': list([
+                'vxu',
+              ]),
+              'tag': list([
+                dict({
+                  'code': 'P',
+                  'system': 'http://terminology.hl7.org/CodeSystem/v2-0103',
+                }),
+              ]),
+            }),
+            'resourceType': 'MessageHeader',
+            'sender': dict({
+              'reference': 'Organization/b727354b-9ca6-74fd-6b6b-ae0851c7998a',
+            }),
+            'source': dict({
+              '_endpoint': dict({
+                'extension': list([
+                  dict({
+                    'url': 'http://hl7.org/fhir/StructureDefinition/data-absent-reason',
+                    'valueCode': 'unknown',
+                  }),
+                ]),
+              }),
+              'name': 'WIR11.3.2',
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:d24c7a73-ebcf-8f4f-51bc-e95f47452e80',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Provenance/d24c7a73-ebcf-8f4f-51bc-e95f47452e80',
+          }),
+          'resource': dict({
+            'activity': dict({
+              'coding': list([
+                dict({
+                  'display': 'VXU^V04^',
+                }),
+              ]),
+            }),
+            'agent': list([
+              dict({
+                'type': dict({
+                  'coding': list([
+                    dict({
+                      'code': 'author',
+                      'system': 'http://terminology.hl7.org/CodeSystem/provenance-participant-type',
+                    }),
+                  ]),
+                }),
+                'who': dict({
+                  'reference': 'Organization/b727354b-9ca6-74fd-6b6b-ae0851c7998a',
+                }),
+              }),
+            ]),
+            'id': 'd24c7a73-ebcf-8f4f-51bc-e95f47452e80',
+            'meta': dict({
+              'source': list([
+                'vxu',
+              ]),
+            }),
+            'occurredDateTime': '2020-05-14T01:00:00-04:00',
+            'recorded': '2020-05-14T01:00:00-04:00',
+            'resourceType': 'Provenance',
+            'target': list([
+              dict({
+                'reference': 'Bundle/945561fc-cf00-ebd7-5f1c-865ab4abfcb5',
+              }),
+            ]),
+            'text': dict({
+              'div': '<div xmlns="http://www.w3.org/1999/xhtml"><p><span>Resource bundle generated on 2024-02-16T23:10:53.209Z using Microsoft FHIR Converter.</span><span>Template Version: TEMPLATE_VERSION_PLACEHOLDER.</span><span>Template URL: https://github.com/microsoft/FHIR-Converter/releases/download/vTEMPLATE_VERSION_PLACEHOLDER/Hl7v2DefaultTemplates.tar.gz.</span><span>Root template: VXU_V04.</span></p></div>',
+              'status': 'generated',
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:b727354b-9ca6-74fd-6b6b-ae0851c7998a',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Organization/b727354b-9ca6-74fd-6b6b-ae0851c7998a',
+          }),
+          'resource': dict({
+            'id': 'b727354b-9ca6-74fd-6b6b-ae0851c7998a',
+            'identifier': list([
+              dict({
+                'system': 'http://example.com/v2-to-fhir-converter/Identifier/WIR',
+                'value': 'WIR',
+              }),
+            ]),
+            'meta': dict({
+              'source': list([
+                'vxu',
+              ]),
+            }),
+            'resourceType': 'Organization',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:f51a22ef-628f-d014-5a33-da96b68ae53d',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Organization/f51a22ef-628f-d014-5a33-da96b68ae53d',
+          }),
+          'resource': dict({
+            'id': 'f51a22ef-628f-d014-5a33-da96b68ae53d',
+            'identifier': list([
+              dict({
+                'system': 'http://example.com/v2-to-fhir-converter/Identifier/WIRPH',
+                'value': 'WIRPH',
+              }),
+            ]),
+            'meta': dict({
+              'source': list([
+                'vxu',
+              ]),
+            }),
+            'resourceType': 'Organization',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:46f97bec-5473-43a3-b830-00196cafc73f',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Patient/46f97bec-5473-43a3-b830-00196cafc73f',
+          }),
+          'resource': dict({
+            'active': True,
+            'birthDate': '2018-08-08',
+            'contact': list([
+              dict({
+                'address': dict({
+                  'city': 'NEW GLARUS',
+                  'state': 'WI',
+                }),
+              }),
+            ]),
+            'extension': list([
+              dict({
+                'url': 'http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName',
+                'valueString': 'HEPB--DTAP',
+              }),
+            ]),
+            'gender': 'male',
+            'id': '46f97bec-5473-43a3-b830-00196cafc73f',
+            'identifier': list([
+              dict({
+                'type': dict({
+                  'coding': list([
+                    dict({
+                      'code': 'SR',
+                      'display': 'State registry ID',
+                      'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                    }),
+                  ]),
+                }),
+                'value': '3054790',
+              }),
+              dict({
+                'type': dict({
+                  'coding': list([
+                    dict({
+                      'code': 'PI',
+                      'display': 'Patient internal identifier',
+                      'system': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+                    }),
+                  ]),
+                }),
+              }),
+            ]),
+            'meta': dict({
+              'source': list([
+                'vxu',
+              ]),
+            }),
+            'name': list([
+              dict({
+                'family': 'ZTEST',
+                'given': list([
+                  'PEDIARIX',
+                ]),
+              }),
+            ]),
+            'resourceType': 'Patient',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:caeb94a6-281c-4bd0-1dad-4998a2f80c35',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Encounter/caeb94a6-281c-4bd0-1dad-4998a2f80c35',
+          }),
+          'resource': dict({
+            'class': dict({
+              'code': 'R',
+              'display': 'Recurring patient',
+              'system': 'http://terminology.hl7.org/CodeSystem/v2-0004',
+            }),
+            'id': 'caeb94a6-281c-4bd0-1dad-4998a2f80c35',
+            'meta': dict({
+              'source': list([
+                'vxu',
+              ]),
+            }),
+            'resourceType': 'Encounter',
+            'status': 'in-progress',
+            'subject': dict({
+              'reference': 'Patient/46f97bec-5473-43a3-b830-00196cafc73f',
+            }),
+            'text': dict({
+              'div': '<div xmlns="http://www.w3.org/1999/xhtml"><p><span>Visit Description: </span></p></div>',
+              'status': 'generated',
+            }),
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:1b3b6f92-c3c9-7440-d08b-3023cd94c569',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'RelatedPerson/1b3b6f92-c3c9-7440-d08b-3023cd94c569',
+          }),
+          'resource': dict({
+            'address': list([
+              dict({
+                'city': 'NEW GLARUS',
+                'state': 'WI',
+              }),
+            ]),
+            'id': '1b3b6f92-c3c9-7440-d08b-3023cd94c569',
+            'meta': dict({
+              'source': list([
+                'vxu',
+              ]),
+            }),
+            'patient': dict({
+              'reference': 'Patient/46f97bec-5473-43a3-b830-00196cafc73f',
+            }),
+            'relationship': list([
+              dict({
+                'coding': list([
+                  dict({
+                    'code': 'BRO',
+                    'display': 'brother',
+                    'system': 'http://terminology.hl7.org/CodeSystem/v3-RoleCode',
+                  }),
+                ]),
+              }),
+            ]),
+            'resourceType': 'RelatedPerson',
+          }),
+        }),
+      ]),
+      'id': '945561fc-cf00-ebd7-5f1c-865ab4abfcb5',
+      'identifier': dict({
+        'value': '2020051411020600',
+      }),
+      'resourceType': 'Bundle',
+      'timestamp': '2020-05-14T01:00:00-04:00',
+      'type': 'batch',
+    }),
+    'Status': 'OK',
+  })
+# ---
+# name: test_with_snapshot
+  dict({
+    'FhirResource': dict({
+      'entry': list([
+        dict({
+          'fullUrl': 'urn:uuid:458b0d47-1aca-4f6c-7a66-73760ffade85',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Composition/458b0d47-1aca-4f6c-7a66-73760ffade85',
+          }),
+          'resource': dict({
+            'extension': list([
+              dict({
+                'url': 'http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber',
+              }),
+            ]),
+            'id': '458b0d47-1aca-4f6c-7a66-73760ffade85',
+            'identifier': list([
+              dict({
+                'use': 'official',
+              }),
+            ]),
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Composition',
+            'section': list([
+              dict({
+                'code': dict({
+                  'coding': list([
+                    dict({
+                      'code': '88085-6',
+                      'display': 'Reportability response report Document Public health',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'extension': list([
+                  dict({
+                    'url': 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition',
+                    'valueIdentifier': dict({
+                      'type': dict({
+                        'coding': list([
+                          dict({
+                            'code': '88085-6',
+                            'display': 'Reportability response report Document Public health',
+                            'system': 'http://loinc.org',
+                          }),
+                        ]),
+                      }),
+                      'use': 'official',
+                      'value': '4efa0e5c-c34c-429f-b5de-f1a13aef4a28',
+                    }),
+                  }),
+                  dict({
+                    'url': 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension',
+                    'valueCodeableConcept': dict({
+                      'coding': list([
+                        dict({
+                          'code': 'RRVS19',
+                          'display': 'eICR processed',
+                          'system': 'urn:oid:2.16.840.1.114222.4.5.274',
+                        }),
+                      ]),
+                    }),
+                  }),
+                ]),
+                'id': 'fd5a9e92-c38a-6a5e-1b6f-cf0f38b01349',
+                'text': dict({
+                  'div': '<div xmlns="http://www.w3.org/1999/xhtml">Reportability Response Information Section</div>',
+                  'status': 'generated',
+                }),
+                'title': 'Reportability Response Information Section',
+              }),
+            ]),
+            'status': 'final',
+          }),
+        }),
+        dict({
+          'fullUrl': 'urn:uuid:',
+          'request': dict({
+            'method': 'PUT',
+            'url': 'Observation/',
+          }),
+          'resource': dict({
+            'meta': dict({
+              'profile': list([
+                'http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults',
+              ]),
+              'source': list([
+                'ecr',
+              ]),
+            }),
+            'resourceType': 'Observation',
+          }),
+        }),
+      ]),
+      'resourceType': 'Bundle',
+      'type': 'batch',
+    }),
+    'Status': 'OK',
+  })
+# ---

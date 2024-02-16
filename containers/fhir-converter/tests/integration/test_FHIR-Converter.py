@@ -14,7 +14,7 @@ def test_health_check(setup):
 
 
 @pytest.mark.integration
-def test_vxu_conversion(setup):
+def test_vxu_conversion(setup, snapshot):
     input_data = open(
         Path(__file__).parent.parent.parent / "assets" / "sample_request.hl7"
     ).read()
@@ -26,14 +26,11 @@ def test_vxu_conversion(setup):
     vxu_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
 
     assert vxu_conversion_response.status_code == 200
-    assert (
-        vxu_conversion_response.json()["response"]["FhirResource"]["resourceType"]
-        == "Bundle"
-    )
+    assert vxu_conversion_response.json()["response"] == snapshot
 
 
 @pytest.mark.integration
-def test_ecr_conversion(setup):
+def test_ecr_conversion(setup, snapshot):
     input_data = open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -45,14 +42,11 @@ def test_ecr_conversion(setup):
     request = {"input_data": input_data, "input_type": "ecr", "root_template": "EICR"}
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
     assert ecr_conversion_response.status_code == 200
-    assert (
-        ecr_conversion_response.json()["response"]["FhirResource"]["resourceType"]
-        == "Bundle"
-    )
+    assert ecr_conversion_response.json()["response"] == snapshot
 
 
 @pytest.mark.integration
-def test_ecr_conversion_with_rr(setup):
+def test_ecr_conversion_with_rr(setup, snapshot):
     rr_data = open(
         Path(__file__).parent.parent.parent.parent.parent
         / "tests"
@@ -78,10 +72,7 @@ def test_ecr_conversion_with_rr(setup):
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
 
     assert ecr_conversion_response.status_code == 200
-    assert (
-        ecr_conversion_response.json()["response"]["FhirResource"]["resourceType"]
-        == "Bundle"
-    )
+    assert ecr_conversion_response.json()["response"] == snapshot
 
 
 @pytest.mark.integration
