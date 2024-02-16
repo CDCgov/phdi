@@ -46,7 +46,7 @@ def build_fhir_converter_request(
 
 def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]:
     """
-    Helper functoin for processing a response from the DIBBs FHIR converter.
+    Helper function for processing a response from the DIBBs FHIR converter.
     If the status code of the response the server sent back is OK, return
     the parsed FHIR bundle from the response body. Otherwise, report what
     went wrong.
@@ -65,3 +65,107 @@ def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]
     else:
         fhir_msg = converter_response.get("FhirResource")
         return (converter_response.status_code, fhir_msg)
+
+
+def build_message_parser_message_request(
+    input_msg: str,
+    orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
+) -> dict:
+    """
+    Helper function for constructing the output payload for an API call to
+    the DIBBs message parser for JSON messages.
+
+    :param input_msg: The data the user sent for workflow processing, as
+      a string.
+    :param orchestration_request: The request the client initially sent
+      to the orchestration service. This request bundles a number of
+      parameter settings into one dictionary that each handler can
+      accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the converter step of a workflow.
+    :return: A dictionary ready to JSON-serialize as a payload to the
+      message parser.
+    """
+    # Template will depend on input data formatting and typing
+    return {
+        "message": input_msg,
+        "message_format": orchestration_request.get("message_type"),
+        "parsing_schema_name": workflow_params.get("parsing_schema_name"),
+        "credential_manager": workflow_params.get("credential_manager"),
+    }
+
+
+def build_message_parser_phdc_request(
+    input_msg: str,
+    orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
+) -> dict:
+    """
+    Helper function for constructing the output payload for an API call to
+    the DIBBs message parser for PHDC-formatted XML.
+
+    :param input_msg: The data the user sent for workflow processing, as
+      a string.
+    :param orchestration_request: The request the client initially sent
+      to the orchestration service. This request bundles a number of
+      parameter settings into one dictionary that each handler can
+      accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the converter step of a workflow.
+    :return: A dictionary ready to JSON-serialize as a payload to the
+      message parser.
+    """
+
+    return {
+        "message": input_msg,
+        "phdc_report_type": workflow_params.get("phdc_report_type"),
+    }
+
+
+def unpack_parsed_message_response(
+    response: Response,
+) -> Tuple[int, str | dict]:
+    """
+    Helper function for processing a response from the DIBBs message parser.
+    If the status code of the response the server sent back is OK, return
+    the parsed JSON message from the response body. Otherwise, report what
+    went wrong based on status_code.
+
+    :param response: The response returned by a POST request to the message parser.
+    :return: A tuple containing the status code of the response as well as
+      parsed message created by the service.
+    """
+    status_code = response.status_code
+
+    match status_code:
+        case 200:
+            return (status_code, response.json().get("parsed_values"))
+        case 400:
+            return (status_code, response.json().get("message"))
+        case 422:
+            return (status_code, response.json())
+        case _:
+            return (status_code, f"Message Parser request failed: {response.text}")
+
+
+def unpack_fhir_to_phdc_response(response: Response) -> Tuple[int, str | dict]:
+    """
+    Helper function for processing a response from the DIBBs message parser.
+    If the status code of the response the server sent back is OK, return
+    the parsed XML message from the response body. Otherwise, report what
+    went wrong based on status_code.
+
+    :param response: The response returned by a POST request to the message parser.
+    :return: A tuple containing the status code of the response as well as
+      parsed message created by the service.
+    """
+    status_code = response.status_code
+
+    match status_code:
+        case 200:
+            return (status_code, response.content)
+        case 422:
+            return (status_code, response.json())
+        case _:
+            return (status_code, f"Message Parser request failed: {response.text}")

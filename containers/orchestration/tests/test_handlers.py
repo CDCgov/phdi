@@ -4,7 +4,12 @@ from unittest.mock import MagicMock
 from unittest.mock import Mock
 
 from app.handlers import build_fhir_converter_request
+from app.handlers import build_message_parser_message_request
+from app.handlers import build_message_parser_phdc_request
 from app.handlers import unpack_fhir_converter_response
+from app.handlers import unpack_fhir_to_phdc_response
+from app.handlers import unpack_parsed_message_response
+from lxml import etree
 
 
 def test_build_fhir_converter_request():
@@ -83,3 +88,108 @@ def test_unpack_fhir_converter_response():
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
     assert result == (200, sample_bundle)
+
+
+def test_build_message_parser_message_request():
+    # Test for /parse_message endpoint
+    sample_json = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+    orchestration_request = {"message": sample_json, "message_type": "fhir"}
+    workflow_params = {
+        "parsing_schema_name": "ecr.json",
+        "credential_manager": "azure",
+    }
+    result = build_message_parser_message_request(
+        sample_json, orchestration_request, workflow_params
+    )
+    assert result["message"] == sample_json
+    assert result["message_format"] == "fhir"
+    assert result["parsing_schema_name"] == "ecr.json"
+    assert result["credential_manager"] == "azure"
+
+
+def test_build_message_parser_phdc_request():
+    # Test for /fhir_to_phdc endpoint
+    sample_xml = etree.parse(
+        open(
+            Path(__file__).parent.parent.parent
+            / "message-parser"
+            / "assets"
+            / "demo_phdc.xml"
+        )
+    )
+    orchestration_request = {
+        "message": sample_xml,
+    }
+    workflow_params = {"phdc_report_type": "case_report"}
+    result = build_message_parser_phdc_request(
+        sample_xml, orchestration_request, workflow_params
+    )
+    assert result["message"] == sample_xml
+    assert result["phdc_report_type"] == "case_report"
+
+
+def test_unpack_parsed_message_response():
+    sample_json = json.load(
+        open(
+            Path(__file__).parent.parent.parent
+            / "message-parser"
+            / "assets"
+            / "sample_parse_message_response_full.json"
+        )
+    )
+    # Mock a JSON response
+    response_content = sample_json
+
+    response = MagicMock()
+    response.status_code = 200
+    response.json.return_value = response_content
+    status_code, parsed_message = unpack_parsed_message_response(response)
+    assert status_code == 200
+    assert parsed_message == sample_json.get("parsed_values")
+
+    # Test failure case
+    error_message = {"message": "Message Parser request failed"}
+    response = MagicMock()
+    response.status_code = 400
+    response.json.return_value = error_message
+    status_code, error_message = unpack_parsed_message_response(response)
+    assert status_code == 400
+    assert "Message Parser request failed" in error_message
+
+
+def test_unpack_fhir_to_phdc_response():
+    # Mock an XML response
+    sample_xml = etree.parse(
+        open(
+            Path(__file__).parent.parent.parent
+            / "message-parser"
+            / "assets"
+            / "demo_phdc.xml"
+        )
+    )
+    response = MagicMock()
+    response.status_code = 200
+    response.content = etree.tostring(sample_xml)
+    status_code, parsed_message = unpack_fhir_to_phdc_response(response)
+    assert status_code == 200
+    assert parsed_message == etree.tostring(sample_xml)
+
+    # Test failure case
+    response_content = {
+        "response": {"status_code": 400, "text": "Message Parser request failed"}
+    }
+    response = MagicMock()
+    response.status_code = 400
+    response.json.return_value = response_content
+    response.text = "Message Parser request failed"
+    status_code, error_message = unpack_fhir_to_phdc_response(response)
+    assert status_code == 400
+    assert "Message Parser request failed" in error_message
