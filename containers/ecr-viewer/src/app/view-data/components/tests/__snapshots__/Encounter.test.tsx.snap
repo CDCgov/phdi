@@ -12,6 +12,7 @@ exports[`Encounter should match snapshot 1`] = `
         <div>
           <h4
             class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
           >
             <span
               id="encounter-details"
@@ -86,6 +87,7 @@ exports[`Encounter should match snapshot 1`] = `
         >
           <h4
             class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
           >
             <span
               id="provider-details"
