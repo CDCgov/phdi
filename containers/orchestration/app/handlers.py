@@ -240,10 +240,10 @@ def build_ingestion_standardization_name_request(
 
     return {
         "data": input_msg,
-        "trim": workflow_params["trim"],
-        "overwrite": workflow_params["overwrite"],
-        "case": workflow_params["case"],
-        "remove_numbers": workflow_params["remove_numbers"],
+        "trim": workflow_params.get("trim"),
+        "overwrite": workflow_params.get("overwrite"),
+        "case": workflow_params.get("case"),
+        "remove_numbers": workflow_params.get("remove_numbers"),
     }
 
 
@@ -273,7 +273,7 @@ def build_ingestion_standardization_phone_request(
 
     return {
         "data": input_msg,
-        "overwrite": workflow_params["overwrite"],
+        "overwrite": workflow_params.get("overwrite"),
     }
 
 
@@ -310,8 +310,54 @@ def build_ingestion_standardization_dob_request(
 
     return {
         "data": input_msg,
-        "overwrite": workflow_params["overwrite"],
-        "format": workflow_params["format"],
+        "overwrite": workflow_params.get("overwrite"),
+        "format": workflow_params.get("format"),
+    }
+
+
+def build_ingestion_geocoding_request(
+    input_msg: str,
+    orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
+) -> dict:
+    """
+    Helper function for constructing the output payload for an API call to
+    the DIBBs ingestion for the geocoding ingestion service.
+
+    :param input_msg: The data the user sent for workflow processing, as
+      a string.
+    :param orchestration_request: The request the client initially sent
+      to the orchestration service. This request bundles a number of
+      parameter settings into one dictionary that each handler can
+      accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the converter step of a workflow.
+    :return: A dictionary ready to JSON-serialize as a payload to the
+      message parser.
+    """
+    # Default parameter values
+    default_params = {
+        "smarty_auth_id": "",
+        "smarty_auth_token": "",
+        "license_type": "us-rooftop-geocoding-enterprise-cloud",
+        "overwrite": "true",
+    }
+
+    # If workflow_params is None, use default_params
+    if workflow_params is None:
+        workflow_params = default_params
+    else:
+        # Update workflow_params with default values where necessary
+        for key, value in default_params.items():
+            workflow_params.setdefault(key, value)
+
+    return {
+        "bundle": input_msg,
+        "geocode_method": workflow_params.get("geocode_method"),
+        "smarty_auth_id": workflow_params.get("smarty_auth_id"),
+        "smarty_auth_token": workflow_params.get("smarty_auth_token"),
+        "license_type": workflow_params.get("license_type"),
+        "overwrite": workflow_params.get("overwrite"),
     }
 
 
@@ -445,6 +491,40 @@ def unpack_ingestion_standardization(response: Response) -> ServiceHandlerRespon
                 status_code,
                 response.json().get("bundle"),
                 True,
+            )
+        case 422:
+            return ServiceHandlerResponse(status_code, response.json(), False)
+        case _:
+            return ServiceHandlerResponse(
+                status_code,
+                f"Standardization request failed: {response.text}",
+                False,
+            )
+
+
+def unpack_ingestion_geocoding(response: Response) -> ServiceHandlerResponse:
+    """
+    Helper function for processing a response from the ingestion geocoding.
+    If the status code of the response the server sent back is OK, return
+    the parsed json message from the response body. Otherwise, report what
+    went wrong based on status_code.
+
+    :param response: The response returned by a POST request to the message parser.
+    :return: A tuple containing the status code of the response as well as
+      parsed message created by the service.
+    """
+    status_code = response.status_code
+
+    match status_code:
+        case 200:
+            return ServiceHandlerResponse(
+                status_code,
+                response.json().get("bundle"),
+                True,
+            )
+        case 400:
+            return ServiceHandlerResponse(
+                status_code, response.json().get("message"), False
             )
         case 422:
             return ServiceHandlerResponse(status_code, response.json(), False)
