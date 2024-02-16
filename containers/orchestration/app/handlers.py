@@ -136,19 +136,22 @@ def unpack_parser_message_response(
     :return: A tuple containing the status code of the response as well as
       parsed message created by the service.
     """
-    
+
     status_code = response.status_code
-    
+
     match status_code:
-      case 200:
-        return (status_code, response.json().get("parsed_values"))
-      case 400:
-        return (status_code, response.json().get("message"))
-      case 422:
-        return (status_code, response.json())
-      case _:    
-        return (response.status_code, f"Message Parser request failed: {response.text}")
-  
+        case 200:
+            return (status_code, response.json().get("parsed_values"))
+        case 400:
+            return (status_code, response.json().get("message"))
+        case 422:
+            return (status_code, response.json())
+        case _:
+            return (
+                response.status_code,
+                f"Message Parser request failed: {response.text}",
+            )
+
 
 def unpack_fhir_to_phdc_response(response: Response) -> Tuple[int, str | dict]:
     """
