@@ -71,6 +71,7 @@ def unpack_fhir_converter_response(response: Response) -> Tuple[int, str | dict]
 def build_message_parser_message_request(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
 ) -> dict:
     """
     Helper function for constructing the output payload for an API call to
@@ -82,21 +83,25 @@ def build_message_parser_message_request(
       to the orchestration service. This request bundles a number of
       parameter settings into one dictionary that each handler can
       accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the converter step of a workflow.
     :return: A dictionary ready to JSON-serialize as a payload to the
       message parser.
     """
     # Template will depend on input data formatting and typing
     return {
         "message": input_msg,
+        # TODO: Should we use params for message_format?
         "message_format": orchestration_request.get("message_type"),
-        "parsing_schema_name": orchestration_request.get("parsing_schema_name"),
-        "credential_manager": "azure",
+        "parsing_schema_name": workflow_params.get("parsing_schema_name"),
+        "credential_manager": workflow_params.get("credential_manager"),
     }
 
 
 def build_message_parser_phdc_request(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
+    workflow_params: dict | None = None,
 ) -> dict:
     """
     Helper function for constructing the output payload for an API call to
@@ -108,15 +113,15 @@ def build_message_parser_phdc_request(
       to the orchestration service. This request bundles a number of
       parameter settings into one dictionary that each handler can
       accept for consistency.
+    :param workflow_params: Optionally, a set of configuration parameters
+      included in the workflow config for the converter step of a workflow.
     :return: A dictionary ready to JSON-serialize as a payload to the
       message parser.
     """
-    # Code idea for future state where we need to know report type
-    report_type = orchestration_request.get("params").get("phdc_report_type")
 
     return {
         "message": input_msg,
-        "phdc_report_type": report_type,
+        "phdc_report_type": workflow_params.get("phdc_report_type"),
     }
 
 

@@ -45,11 +45,6 @@ class OrchestrationRequest(BaseModel):
         )
     )
 
-    params: Optional[dict] = Field(
-        description="A dictionary of the endpoint-specific parameters (if necessary).",
-        default=None,
-    )
-
     message: str = Field(description="The message to be validated.")
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",

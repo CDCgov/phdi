@@ -101,13 +101,14 @@ def test_build_message_parser_message_request():
             / "patient_bundle.json"
         )
     )
-    orchestration_request = {
-        "message": sample_json,
-        "message_type": "fhir",
+    orchestration_request = {"message": sample_json, "message_type": "fhir"}
+    workflow_params = {
         "parsing_schema_name": "ecr.json",
         "credential_manager": "azure",
     }
-    result = build_message_parser_message_request(sample_json, orchestration_request)
+    result = build_message_parser_message_request(
+        sample_json, orchestration_request, workflow_params
+    )
     assert result["message"] == sample_json
     assert result["message_format"] == "fhir"
     assert result["parsing_schema_name"] == "ecr.json"
@@ -126,9 +127,11 @@ def test_build_message_parser_phdc_request():
     )
     orchestration_request = {
         "message": sample_xml,
-        "params": {"phdc_report_type": "case_report"},
     }
-    result = build_message_parser_phdc_request(sample_xml, orchestration_request)
+    workflow_params = {"phdc_report_type": "case_report"}
+    result = build_message_parser_phdc_request(
+        sample_xml, orchestration_request, workflow_params
+    )
     assert result["message"] == sample_xml
     assert result["phdc_report_type"] == "case_report"
 
