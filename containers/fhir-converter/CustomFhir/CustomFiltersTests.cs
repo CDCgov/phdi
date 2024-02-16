@@ -68,32 +68,6 @@ public class CustomFilterTests
         Assert.Equal("<span>Race</span><span>car</span>", actual);
     }
 
-    // from 020e83d2-a1ca-4056-bc9f-6cffe8609e99 Active Problems
-    // <text>
-    // <table>
-    // <colgroup>
-    //     <col width="75%"/>
-    //     <col width="25%"/>
-    // </colgroup>
-    // <thead>
-    //     <tr>
-    //         <th>Active Problems</th>
-    //         <th>Noted Date</th>
-    //     </tr>
-    // </thead>
-    // <tbody>
-    //     <tr ID="problem13" styleCode="xRowNormal">
-    //         <td ID="problem13name">Parkinson's syndrome</td>
-    //         <td>7/25/22</td>
-    //     </tr>
-    //     <tr ID="problem12" styleCode="xRowAlt">
-    //         <td ID="problem12name">Essential hypertension</td>
-    //         <td>7/21/22</td>
-    //     </tr>
-    // </tbody>
-    // </table>
-    // <footnote ID="subTitle11" styleCode="xSectionSubTitle">documented as of this encounter (statuses as of 07/25/2022)</footnote>
-    // </text>
     [Fact]
     public void ToHtmlString_ComplicatedExample_ReturnsString()
     {
