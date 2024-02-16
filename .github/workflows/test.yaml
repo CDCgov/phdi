@@ -208,3 +208,16 @@ jobs:
       - name: Run tests
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm test
+
+  unit-test-fhir-converter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+      - name: Run tests
+        working-directory: ./containers/fhir-converter # Navigate to your Node.js app directory
+        run: dotnet test
