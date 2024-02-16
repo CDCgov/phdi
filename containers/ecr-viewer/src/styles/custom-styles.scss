@@ -1,3 +1,5 @@
+@use 'uswds-core' as *;
+
 .section__line {
   border-top: 1px solid #99DEEA;
   margin-top: .5rem;
@@ -150,14 +152,8 @@ h4 {
     padding-top: 0;
 }
 
-.table-caption-margin {
-  caption {
-    margin-bottom: 8px;
-  }
-}
-
 .lh-18 {
-  line-height: 18px;;
+  line-height: 18px;
 }
 
 ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a {
@@ -178,3 +174,16 @@ ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav
     }
 }
 
+.clinical_info_container table {
+  @include usa-table;
+  @include usa-table--borderless;
+  width: 100%;
+  border: 1px solid;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.clinical_info_container table thead tr th {
+  background-color: #f0f0f0;
+  min-width: 120px;
+}

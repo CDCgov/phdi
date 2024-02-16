@@ -13,6 +13,7 @@ interface ClinicalProps {
   vitalData: DisplayData[];
   immunizationsDetails: DisplayData[];
   treatmentData: DisplayData[];
+  clinicalNotes: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -22,6 +23,7 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
     "Immunizations",
     "Diagnostics and Vital Signs",
     "Treatment Details",
+    "Clinical Notes",
   ],
 );
 
@@ -31,6 +33,7 @@ export const ClinicalInfo = ({
   immunizationsDetails,
   vitalData,
   treatmentData,
+  clinicalNotes,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
@@ -42,6 +45,32 @@ export const ClinicalInfo = ({
           </div>
         ))}
       </div>
+    );
+  };
+
+  const renderClinicalNotes = () => {
+    return (
+      <>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[4].id}>
+            {clinicalInfoConfig.subNavItems?.[4].title}
+          </span>
+        </AccordianH4>
+        <AccordianDiv className={"clinical_info_container"}>
+          {clinicalNotes.map((item, index) => {
+            let className = "";
+            if (
+              React.isValidElement(item.value) &&
+              item.value.type == "table"
+            ) {
+              className = "maxw-full grid-col-12 margin-top-1";
+            }
+            return (
+              <DataDisplay item={item} key={index} className={className} />
+            );
+          })}
+        </AccordianDiv>
+      </>
     );
   };
 
@@ -104,9 +133,6 @@ export const ClinicalInfo = ({
   };
 
   const renderTreatmentDetails = () => {
-    const tableData = treatmentData.filter((item) =>
-      React.isValidElement(item),
-    );
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
       <>
@@ -129,6 +155,7 @@ export const ClinicalInfo = ({
 
   return (
     <AccordianSection>
+      {clinicalNotes?.length > 0 && renderClinicalNotes()}
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
       {treatmentData.length > 0 && renderTreatmentDetails()}

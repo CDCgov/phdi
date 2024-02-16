@@ -71,7 +71,9 @@
                     "text":
                     {
                         "status":"generated",
-                        {% if component.section.title._ -%}
+                        {% if component.section.text -%}
+                            "div": "{{ component.section.text | to_html_string }}",
+                        {% elsif component.section.title._ -%}
                             "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.title._ | escape }}</div>",
                         {% else -%}
                             "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.code.displayName | escape }}</div>",
