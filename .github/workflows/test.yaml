@@ -209,7 +209,7 @@ jobs:
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm test
 
-  unit-test-fhir-converter:
+  unit-test-dotnet-fhir-converter:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
