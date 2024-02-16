@@ -139,22 +139,21 @@ def test_build_message_parser_phdc_request():
 def test_unpack_message_parser_response():
     sample_json = json.load(
         open(
-            Path(__file__).parent.parent.parent.parent
-            / "tests"
+            Path(__file__).parent.parent.parent
+            / "message-parser"
             / "assets"
-            / "general"
-            / "patient_bundle.json"
+            / "sample_parse_message_response_full.json"
         )
     )
     # Mock a JSON response
-    response_content = {"response": {"status_code": 200, "FhirResource": sample_json}}
+    response_content = sample_json
 
     response = MagicMock()
     response.status_code = 200
     response.json.return_value = response_content
     status_code, parsed_message = unpack_message_parser_message_response(response)
     assert status_code == 200
-    assert parsed_message == sample_json
+    assert parsed_message == sample_json.get("parsed_values")
 
     # Test failure case
     response_content = {

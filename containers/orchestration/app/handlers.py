@@ -1,4 +1,3 @@
-import json
 from typing import Tuple
 
 from app.models import OrchestrationRequest
@@ -91,7 +90,6 @@ def build_message_parser_message_request(
     # Template will depend on input data formatting and typing
     return {
         "message": input_msg,
-        # TODO: Should we use params for message_format?
         "message_format": orchestration_request.get("message_type"),
         "parsing_schema_name": workflow_params.get("parsing_schema_name"),
         "credential_manager": workflow_params.get("credential_manager"),
@@ -139,16 +137,16 @@ def unpack_message_parser_message_response(
       parsed message created by the service.
     """
     try:
-        converter_response = response.json().get("response")
+        converter_response = response.json()
         status_code = converter_response.get("status_code", response.status_code)
         if status_code != 200:
-            error_message = converter_response.get("text", "Unknown error")
+            error_message = response.text
             return (
                 status_code,
                 f"Message Parser request failed: {error_message}",
             )
         else:
-            parsed_message = converter_response.get("FhirResource")
+            parsed_message = converter_response.get("parsed_values")
             return (status_code, parsed_message)
     except ValueError:
         return (response.status_code, "Invalid JSON response")
@@ -168,13 +166,7 @@ def unpack_message_parser_phdc_response(response: Response) -> Tuple[int, str | 
     # XML-formatted messages like PHDC
     try:
         if response.status_code != 200:
-            # Try to extract error message from JSON, fallback to plain text
-            try:
-                error_message = (
-                    response.json().get("response", {}).get("text", "Unknown error")
-                )
-            except json.JSONDecodeError:
-                error_message = response.text or "Unknown error"
+            error_message = response.text
             return (response.status_code, error_message)
         else:
             # XML response handling
