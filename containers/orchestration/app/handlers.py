@@ -296,4 +296,3 @@ def unpack_fhir_to_phdc_response(response: Response) -> Tuple[int, str | dict]:
             return (status_code, response.json())
         case _:
             return (status_code, f"Message Parser request failed: {response.text}")
-
