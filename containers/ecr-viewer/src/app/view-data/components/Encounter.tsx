@@ -1,7 +1,7 @@
 import { DataDisplay, DisplayData } from "@/app/utils";
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
@@ -21,11 +21,11 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderEncounterDetails = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={encounterConfig.subNavItems?.[0].id}>
             {encounterConfig.subNavItems?.[0].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           {encounterData.map((item, index) => (
             <DataDisplay item={item} key={index} />
@@ -38,11 +38,11 @@ const EncounterDetails = ({ encounterData, providerData }: EncounterProps) => {
   const renderProviderDetails = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={encounterConfig.subNavItems?.[1].id}>
             {encounterConfig.subNavItems?.[1].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           {providerData.map((item, index) => (
             <DataDisplay item={item} key={index} />
