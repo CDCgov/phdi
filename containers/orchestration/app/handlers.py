@@ -123,7 +123,7 @@ def build_message_parser_phdc_request(
     }
 
 
-def unpack_message_parser_message_response(
+def unpack_parser_message_response(
     response: Response,
 ) -> Tuple[int, str | dict]:
     """
@@ -136,23 +136,21 @@ def unpack_message_parser_message_response(
     :return: A tuple containing the status code of the response as well as
       parsed message created by the service.
     """
-    try:
-        converter_response = response.json()
-        status_code = converter_response.get("status_code", response.status_code)
-        if status_code != 200:
-            error_message = response.text
-            return (
-                status_code,
-                f"Message Parser request failed: {error_message}",
-            )
-        else:
-            parsed_message = converter_response.get("parsed_values")
-            return (status_code, parsed_message)
-    except ValueError:
-        return (response.status_code, "Invalid JSON response")
+    
+    status_code = response.status_code
+    
+    match status_code:
+      case 200:
+        return (status_code, response.json().get("parsed_values"))
+      case 400:
+        return (status_code, response.json().get("message"))
+      case 422:
+        return (status_code, response.json())
+      case _:    
+        return (response.status_code, f"Message Parser request failed: {response.text}")
+  
 
-
-def unpack_message_parser_phdc_response(response: Response) -> Tuple[int, str | dict]:
+def unpack_fhir_to_phdc_response(response: Response) -> Tuple[int, str | dict]:
     """
     Helper function for processing a response from the DIBBs message parser.
     If the status code of the response the server sent back is OK, return
