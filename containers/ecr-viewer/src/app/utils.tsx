@@ -788,9 +788,7 @@ export const DataDisplay: React.FC<{
   return (
     <div>
       <div className="grid-row">
-        <div className="data-title">
-          <h4>{item.title}</h4>
-        </div>
+        <div className="data-title">{item.title}</div>
         <div
           className={classNames("grid-col-auto maxw7 text-pre-line", className)}
         >

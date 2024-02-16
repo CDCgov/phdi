@@ -13,7 +13,7 @@ exports[`EcrSummary should match snapshot 1`] = `
         class="usa-summary-box__body"
       >
         <h3
-          class="summary-box-key-information"
+          class="summary-box-key-information side-nav-ignore"
           id="about-the-patient"
         >
           About the Patient
@@ -27,9 +27,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                Patient Name
-              </h4>
+              Patient Name
             </div>
             <div
               class="grid-col-auto"
@@ -46,9 +44,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                DOB
-              </h4>
+              DOB
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -65,9 +61,7 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                Patient Address
-              </h4>
+              Patient Address
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -86,9 +80,7 @@ EDWARDS, CA
             <div
               class="data-title"
             >
-              <h4>
-                Patient Contact
-              </h4>
+              Patient Contact
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -106,7 +98,7 @@ MELLY.C.A.16@GMAIL.COM
         class="usa-summary-box__body"
       >
         <h3
-          class="summary-box-key-information"
+          class="summary-box-key-information side-nav-ignore"
           id="about-the-encounter"
         >
           About the Encounter
@@ -120,9 +112,7 @@ MELLY.C.A.16@GMAIL.COM
             <div
               class="data-title"
             >
-              <h4>
-                Facility Name
-              </h4>
+              Facility Name
             </div>
             <div
               class="grid-col-auto"
@@ -139,9 +129,7 @@ MELLY.C.A.16@GMAIL.COM
             <div
               class="data-title"
             >
-              <h4>
-                Facility Address
-              </h4>
+              Facility Address
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -160,9 +148,7 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              <h4>
-                Facility Contact
-              </h4>
+              Facility Contact
             </div>
             <div
               class="grid-col-auto"
@@ -179,9 +165,7 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              <h4>
-                Encounter Date/Time
-              </h4>
+              Encounter Date/Time
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -199,9 +183,7 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              <h4>
-                Encounter Type
-              </h4>
+              Encounter Type
             </div>
             <div
               class="grid-col-auto"
@@ -218,7 +200,7 @@ Palmdale, CA
         class="usa-summary-box__body"
       >
         <h3
-          class="margin-bottom-105 margin-top-205"
+          class="margin-bottom-105 margin-top-205 side-nav-ignore"
           id="about-the-condition"
         >
           About the Condition
@@ -232,9 +214,7 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              <h4>
-                Reportable Condition
-              </h4>
+              Reportable Condition
             </div>
             <div
               class="grid-col-fill"
@@ -251,9 +231,7 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              <h4>
-                RCKMS Trigger Summary
-              </h4>
+              RCKMS Trigger Summary
             </div>
             <div
               class="grid-col-fill text-pre-line"
@@ -267,9 +245,7 @@ Palmdale, CA
           <div
             class="grid-row"
           >
-            <h4>
-              Lab results relevant to reportable condition
-            </h4>
+            Lab results relevant to reportable condition
             <div
               class="usa-card__container margin-left-0 margin-right-0 margin-top-1"
             >
@@ -347,9 +323,7 @@ Palmdale, CA
                     <div
                       class="data-title"
                     >
-                      <h4>
-                        Analysis time
-                      </h4>
+                      Analysis time
                     </div>
                     <div
                       class="grid-col-fill text-pre-line"
@@ -366,9 +340,7 @@ Palmdale, CA
                     <div
                       class="data-title"
                     >
-                      <h4>
-                        Collection time
-                      </h4>
+                      Collection time
                     </div>
                     <div
                       class="grid-col-fill text-pre-line"
@@ -385,9 +357,7 @@ Palmdale, CA
                     <div
                       class="data-title"
                     >
-                      <h4>
-                        Received time
-                      </h4>
+                      Received time
                     </div>
                     <div
                       class="grid-col-fill text-pre-line"
@@ -404,9 +374,7 @@ Palmdale, CA
                     <div
                       class="data-title"
                     >
-                      <h4>
-                        Notes
-                      </h4>
+                      Notes
                     </div>
                     <div
                       class="grid-col-fill text-pre-line"
@@ -424,9 +392,7 @@ Palmdale, CA
           <div
             class="grid-row"
           >
-            <h4>
-              Clinical sections relevant to reportable condition
-            </h4>
+            Clinical sections relevant to reportable condition
             <div
               class="padding-top-05"
             >

@@ -21,12 +21,12 @@ export const AccordianSection: React.FC<AccordianSectionProps> = ({
   );
 };
 
-export const AccordianH3: React.FC<AccordianSectionProps> = ({
+export const AccordianH4: React.FC<AccordianSectionProps> = ({
   children,
   className,
 }) => {
   return (
-    <h3
+    <h4
       className={classNames(
         "usa-summary-box__heading padding-y-105",
         className,
@@ -34,7 +34,7 @@ export const AccordianH3: React.FC<AccordianSectionProps> = ({
       id="summary-box-key-information"
     >
       {children}
-    </h3>
+    </h4>
   );
 };
 
