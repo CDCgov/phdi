@@ -401,20 +401,35 @@ def extract_and_apply_parsers(parsing_schema, message, response):
 
             for initial_value in initial_values:
                 value = {}
-                for secondary_field, path_struct in parser["secondary_parsers"].items():
-                    # Base cases for a secondary field:
-                    # Information is contained on this resource, just in a
-                    # nested structure
-                    if "reference_path" not in path_struct:
+                for secondary_field, secondary_path_struct in parser[
+                    "secondary_parsers"
+                ].items():
+                    if "reference_path" not in secondary_path_struct:
                         try:
-                            secondary_parser = path_struct["secondary_fhir_path"]
+                            secondary_parser = secondary_path_struct[
+                                "secondary_fhir_path"
+                            ]
                             if len(secondary_parser(initial_value)) == 0:
                                 value[secondary_field] = None
                             else:
-                                value[secondary_field] = ",".join(
-                                    map(str, secondary_parser(initial_value))
-                                )
+                                # Check for tertiary values
+                                if len(secondary_path_struct.keys()) > 1:
+                                    print("found tertiary values in ", secondary_field)
+                                    for (
+                                        tertiary_field,
+                                        tertiary_path_struct,
+                                    ) in secondary_path_struct.items():
+                                        secondary_parser = tertiary_path_struct[
+                                            "secondary_fhir_path"
+                                        ]
+                                        value[tertiary_field] = ",".join(
+                                            map(str, secondary_parser(initial_value))
+                                        )
 
+                                else:
+                                    value[secondary_field] = ",".join(
+                                        map(str, secondary_parser(initial_value))
+                                    )
                         # By default, fhirpathpy will compile such that *only*
                         # actual resources can be accessed, rather than data types.
                         # This is fine for most cases, but sometimes the actual data
@@ -445,7 +460,7 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                     # Reference case: information is contained on another
                     # resource that we have to look up
                     else:
-                        reference_parser = path_struct["reference_path"]
+                        reference_parser = secondary_path_struct["reference_path"]
                         if len(reference_parser(initial_value)) == 0:
                             response.status_code = status.HTTP_400_BAD_REQUEST
                             return {
@@ -462,9 +477,9 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                             reference_to_find = reference_to_find.split("/")[-1]
 
                             # Build the resultant concatenated reference path
-                            reference_path = path_struct["secondary_fhir_path"].replace(
-                                DIBBS_REFERENCE_SIGNIFIER, reference_to_find
-                            )
+                            reference_path = secondary_path_struct[
+                                "secondary_fhir_path"
+                            ].replace(DIBBS_REFERENCE_SIGNIFIER, reference_to_find)
                             reference_path = fhirpathpy.compile(reference_path)
                             referenced_value = reference_path(message)
                             if len(referenced_value) == 0:
