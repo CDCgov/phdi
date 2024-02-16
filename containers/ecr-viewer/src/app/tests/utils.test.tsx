@@ -4,6 +4,7 @@ import {
   extractPatientAddress,
   formatPatientName,
   formatDate,
+  evaluateClinicalData,
 } from "@/app/utils";
 import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
@@ -11,6 +12,9 @@ import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
 import BundleWithPatient from "../tests/assets/BundlePatient.json";
 import BundleWithEcrMetadata from "../tests/assets/BundleEcrMetadata.json";
 import BundleWithSexualOrientation from "../tests/assets/BundleSexualOrientation.json";
+import BundleWithMiscNotes from "../tests/assets/BundleMiscNotes.json";
+import React from "react";
+import { render, screen } from "@testing-library/react";
 
 describe("Utils", () => {
   const mappings = loadYamlConfig();
@@ -116,6 +120,20 @@ describe("Utils", () => {
       expect(actual.rrDetails.unavailableData).toBeEmpty();
     });
   });
+  describe("Evaluate Clinical Info", () => {
+    it("Should return notes", () => {
+      const actual = evaluateClinicalData(
+        BundleWithMiscNotes as unknown as Bundle,
+        mappings,
+      );
+      render(actual.clinicalNotes.availableData[0].value as React.JSX.Element);
+      expect(actual.clinicalNotes.availableData[0].title).toEqual(
+        "Miscellaneous Notes",
+      );
+      expect(screen.getByText("Active Problems")).toBeInTheDocument();
+      expect(actual.clinicalNotes.unavailableData).toBeEmpty();
+    });
+  });
   describe("Format Patient Name", () => {
     it("should return name", () => {
       const actual = formatPatientName(
@@ -162,7 +180,7 @@ describe("Utils", () => {
       const inputDate = undefined;
       const expectedDate = "N/A";
 
-      const result = formatDate(inputDate);
+      const result = formatDate(inputDate as any);
       expect(result).toEqual(expectedDate);
     });
 
@@ -170,7 +188,7 @@ describe("Utils", () => {
       const inputDate = null;
       const expectedDate = "N/A";
 
-      const result = formatDate(inputDate);
+      const result = formatDate(inputDate as any);
       expect(result).toEqual(expectedDate);
     });
   });

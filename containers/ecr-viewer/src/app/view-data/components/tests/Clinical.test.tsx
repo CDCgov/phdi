@@ -3,8 +3,7 @@ import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ClinicalInfo from "../ClinicalInfo";
 import { loadYamlConfig } from "@/app/api/utils";
-import { evaluateClinicalData } from "../../../utils";
-import { returnProceduresTable } from "@/app/utils";
+import { returnProceduresTable, evaluateClinicalData } from "@/app/utils";
 
 describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () => {
   let container: HTMLElement;
@@ -114,6 +113,7 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
     ];
     container = render(
       <ClinicalInfo
+        clinicalNotes={[]}
         activeProblemsDetails={[]}
         vitalData={vitalData}
         reasonForVisitDetails={[]}
@@ -126,6 +126,73 @@ describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () =
     expect(container).toMatchSnapshot();
   });
   it("should pass accessibility test", async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("Snapshot test for Clinical Notes", () => {
+  it("should match snapshot for non table notes", async () => {
+    const clinicalNotes = [
+      {
+        title: "Miscellaneous Notes",
+        value: (
+          <p>
+            This patient was only recently discharged for a recurrent GI bleed
+            as described
+          </p>
+        ),
+      },
+    ];
+    let { container } = render(
+      <ClinicalInfo
+        clinicalNotes={clinicalNotes}
+        activeProblemsDetails={[]}
+        vitalData={[]}
+        reasonForVisitDetails={[]}
+        immunizationsDetails={[]}
+        treatmentData={[]}
+      />,
+    );
+    expect(container).toMatchSnapshot();
+    expect(await axe(container)).toHaveNoViolations();
+  });
+  it("should match snapshot for table notes", async () => {
+    const clinicalNotes = [
+      {
+        title: "Miscellaneous Notes",
+        value: (
+          <table>
+            <thead>
+              <tr>
+                <th>Active Problems</th>
+                <th>Noted Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Parkinson's syndrome</td>
+                <td>7/25/22</td>
+              </tr>
+              <tr>
+                <td>Essential hypertension</td>
+                <td>7/21/22</td>
+              </tr>
+            </tbody>
+          </table>
+        ),
+      },
+    ];
+    let { container } = render(
+      <ClinicalInfo
+        clinicalNotes={clinicalNotes}
+        activeProblemsDetails={[]}
+        vitalData={[]}
+        reasonForVisitDetails={[]}
+        immunizationsDetails={[]}
+        treatmentData={[]}
+      />,
+    );
+    expect(container).toMatchSnapshot();
     expect(await axe(container)).toHaveNoViolations();
   });
 });
@@ -155,6 +222,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={[]}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -178,6 +246,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={testActiveProblemsData}
         vitalData={[]}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -199,6 +268,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={testVitalSignsData}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -214,6 +284,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={[]}
         treatmentData={[]}
+        clinicalNotes={[]}
       />,
     );
 
@@ -230,6 +301,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={[]}
         vitalData={[]}
         treatmentData={testTreatmentData}
+        clinicalNotes={[]}
       />,
     );
 
@@ -251,6 +323,7 @@ describe("Check that Clinical Info components render given FHIR bundle", () => {
         activeProblemsDetails={testActiveProblemsData}
         vitalData={testVitalSignsData}
         treatmentData={testTreatmentData}
+        clinicalNotes={[]}
       />,
     );
 
