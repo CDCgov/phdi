@@ -70,53 +70,57 @@
     </assignedCustodian>
   </custodian>
   <component>
-    <section>
-      <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
-      <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Social history"/>
-      <title>SOCIAL HISTORY INFORMATION</title>
-      <entry typeCode="COMP">
-        <observation classCode="OBS" moodCode="EVN">
-          <code code="alcohol-type" codeSystem="http://acme-rehab.org" displayName="Type of alcohol consumed"/>
-          <value/>
-        </observation>
-      </entry>
-    </section>
-  </component>
-  <component>
-    <section>
-      <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
-      <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical Information"/>
-      <title>Clinical Information</title>
-      <entry typeCode="COMP">
-        <observation classCode="OBS" moodCode="EVN">
-          <code code="15074-8" codeSystem="http://loinc.org" displayName="Glucose [Moles/volume] in Blood"/>
-          <value code="mmol/L" codeSystem="http://unitsofmeasure.org" value="6.3"/>
-        </observation>
-      </entry>
-      <entry typeCode="COMP">
-        <observation classCode="OBS" moodCode="EVN">
-          <code code="104177,600-7" codeSystem="http://acmelabs.org,http://loinc.org" displayName="Blood culture,Bacteria identified in Blood by Culture"/>
-          <value code="3092008" codeSystem="http://snomed.info/sct" value="Staphylococcus aureus"/>
-        </observation>
-      </entry>
-    </section>
-  </component>
-  <component>
-    <section>
-      <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
-      <title>REPEATING QUESTIONS</title>
-      <entry typeCode="COMP">
-        <organizer classCode="CLUSTER" moodCode="EVN">
-          <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
-          <status_code code="completed"/>
-          <component>
+    <structuredBody>
+      <component>
+        <section>
+          <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
+          <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Social history"/>
+          <title>SOCIAL HISTORY INFORMATION</title>
+          <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="C3841750" codeSystem="http://terminology.hl7.org/CodeSystem/umls" displayName="Mass gathering"/>
-              <value code="264379009" codeSystem="http://snomed.info/sct" value="Sports stadium (environment)"/>
+              <code code="alcohol-type" codeSystem="http://acme-rehab.org" displayName="Type of alcohol consumed"/>
+              <value/>
             </observation>
-          </component>
-        </organizer>
-      </entry>
-    </section>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <id extension="495669c7-96bf-4573-9dd8-59e745e05576" assigningAuthorityName="LR"/>
+          <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical Information"/>
+          <title>Clinical Information</title>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="15074-8" codeSystem="http://loinc.org" displayName="Glucose [Moles/volume] in Blood"/>
+              <value code="mmol/L" codeSystem="http://unitsofmeasure.org" value="6.3"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="104177,600-7" codeSystem="http://acmelabs.org,http://loinc.org" displayName="Blood culture,Bacteria identified in Blood by Culture"/>
+              <value code="3092008" codeSystem="http://snomed.info/sct" value="Staphylococcus aureus"/>
+            </observation>
+          </entry>
+        </section>
+      </component>
+      <component>
+        <section>
+          <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
+          <title>REPEATING QUESTIONS</title>
+          <entry typeCode="COMP">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
+              <status_code code="completed"/>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="C3841750" codeSystem="http://terminology.hl7.org/CodeSystem/umls" displayName="Mass gathering"/>
+                  <value code="264379009" codeSystem="http://snomed.info/sct" value="Sports stadium (environment)"/>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
   </component>
 </ClinicalDocument>

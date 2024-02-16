@@ -52,6 +52,7 @@ h4 {
 .data-title {
   flex:0 1 auto;
   width: 190px;
+  font-weight: bold;
 }
 
 .usa-accordion__button {
@@ -120,6 +121,8 @@ h4 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 48px;
+  min-width: 250px;
 }
 
 .sticky-nav {
@@ -142,6 +145,10 @@ h4 {
 .ecr-content {
   max-width: 1222px;
 }
+.ecr-content h2:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+}
 
 .table-caption-margin {
   caption {
@@ -152,3 +159,22 @@ h4 {
 .lh-18 {
   line-height: 18px;;
 }
+
+ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a {
+    font-weight: bold;
+}
+
+ul.usa-sidenav > li.usa-sidenav__item > ul.usa-sidenav__sublist > li.usa-sidenav__item > a.usa-current {
+    &::after{
+      background-color: rgb(0, 94, 162);
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0.25rem;
+      top: 0.25rem;
+      width: 0.25rem;
+      left: 0rem;
+      border-radius: 99rem;
+    }
+}
+
