@@ -7,8 +7,8 @@ from app.handlers import build_fhir_converter_request
 from app.handlers import build_message_parser_message_request
 from app.handlers import build_message_parser_phdc_request
 from app.handlers import unpack_fhir_converter_response
-from app.handlers import unpack_message_parser_message_response
-from app.handlers import unpack_message_parser_phdc_response
+from app.handlers import unpack_fhir_to_phdc_response
+from app.handlers import unpack_parsed_message_response
 from lxml import etree
 
 
@@ -136,7 +136,7 @@ def test_build_message_parser_phdc_request():
     assert result["phdc_report_type"] == "case_report"
 
 
-def test_unpack_message_parser_response():
+def test_unpack_parsed_message_response():
     sample_json = json.load(
         open(
             Path(__file__).parent.parent.parent
@@ -151,23 +151,21 @@ def test_unpack_message_parser_response():
     response = MagicMock()
     response.status_code = 200
     response.json.return_value = response_content
-    status_code, parsed_message = unpack_message_parser_message_response(response)
+    status_code, parsed_message = unpack_parsed_message_response(response)
     assert status_code == 200
     assert parsed_message == sample_json.get("parsed_values")
 
     # Test failure case
-    response_content = {
-        "response": {"status_code": 400, "text": "Message Parser request failed"}
-    }
+    error_message = {"message": "Message Parser request failed"}
     response = MagicMock()
     response.status_code = 400
-    response.json.return_value = response_content
-    status_code, error_message = unpack_message_parser_message_response(response)
+    response.json.return_value = error_message
+    status_code, error_message = unpack_parsed_message_response(response)
     assert status_code == 400
     assert "Message Parser request failed" in error_message
 
 
-def test_unpack_message_parser_phdc_response():
+def test_unpack_fhir_to_phdc_response():
     # Mock an XML response
     sample_xml = etree.parse(
         open(
@@ -180,7 +178,7 @@ def test_unpack_message_parser_phdc_response():
     response = MagicMock()
     response.status_code = 200
     response.content = etree.tostring(sample_xml)
-    status_code, parsed_message = unpack_message_parser_phdc_response(response)
+    status_code, parsed_message = unpack_fhir_to_phdc_response(response)
     assert status_code == 200
     assert parsed_message == etree.tostring(sample_xml)
 
@@ -192,6 +190,6 @@ def test_unpack_message_parser_phdc_response():
     response.status_code = 400
     response.json.return_value = response_content
     response.text = "Message Parser request failed"
-    status_code, error_message = unpack_message_parser_phdc_response(response)
+    status_code, error_message = unpack_fhir_to_phdc_response(response)
     assert status_code == 400
     assert "Message Parser request failed" in error_message

@@ -123,20 +123,19 @@ def build_message_parser_phdc_request(
     }
 
 
-def unpack_parser_message_response(
+def unpack_parsed_message_response(
     response: Response,
 ) -> Tuple[int, str | dict]:
     """
     Helper function for processing a response from the DIBBs message parser.
     If the status code of the response the server sent back is OK, return
     the parsed JSON message from the response body. Otherwise, report what
-    went wrong.
+    went wrong based on status_code.
 
     :param response: The response returned by a POST request to the message parser.
     :return: A tuple containing the status code of the response as well as
       parsed message created by the service.
     """
-
     status_code = response.status_code
 
     match status_code:
@@ -147,10 +146,7 @@ def unpack_parser_message_response(
         case 422:
             return (status_code, response.json())
         case _:
-            return (
-                response.status_code,
-                f"Message Parser request failed: {response.text}",
-            )
+            return (status_code, f"Message Parser request failed: {response.text}")
 
 
 def unpack_fhir_to_phdc_response(response: Response) -> Tuple[int, str | dict]:
@@ -158,20 +154,18 @@ def unpack_fhir_to_phdc_response(response: Response) -> Tuple[int, str | dict]:
     Helper function for processing a response from the DIBBs message parser.
     If the status code of the response the server sent back is OK, return
     the parsed XML message from the response body. Otherwise, report what
-    went wrong.
+    went wrong based on status_code.
 
     :param response: The response returned by a POST request to the message parser.
     :return: A tuple containing the status code of the response as well as
       parsed message created by the service.
     """
-    # XML-formatted messages like PHDC
-    try:
-        if response.status_code != 200:
-            error_message = response.text
-            return (response.status_code, error_message)
-        else:
-            # XML response handling
-            parsed_message = response.content
-            return (response.status_code, parsed_message)
-    except Exception as e:
-        return (response.status_code, f"XML parsing failed: {str(e)}")
+    status_code = response.status_code
+
+    match status_code:
+        case 200:
+            return (status_code, response.content)
+        case 422:
+            return (status_code, response.json())
+        case _:
+            return (status_code, f"Message Parser request failed: {response.text}")
