@@ -10,6 +10,7 @@ exports[`SectionConfig should match the snapshot 1`] = `
       class="usa-sidenav__item"
     >
       <a
+        class=""
         href="#section-1"
       >
         Section 1
@@ -19,6 +20,7 @@ exports[`SectionConfig should match the snapshot 1`] = `
       class="usa-sidenav__item"
     >
       <a
+        class=""
         href="#section-2"
       >
         Section 2
@@ -35,13 +37,68 @@ exports[`SectionConfig should match the snapshot 1`] = `
           class="usa-sidenav__item"
         >
           <a
-            href="#subsection-1"
+            class=""
+            href="#section-3"
           >
-            Subsection 1
+            Section 3
+          </a>
+        </li>
+        <li
+          class="usa-sidenav__item"
+        >
+          <ul
+            class="usa-sidenav__sublist"
+            data-testid="sidenav"
+          >
+            <li
+              class="usa-sidenav__item"
+            >
+              <a
+                class=""
+                href="#section-4"
+              >
+                Section 4
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li
+          class="usa-sidenav__item"
+        >
+          <a
+            class=""
+            href="#section-2---2"
+          >
+            Section 2 - 2
           </a>
         </li>
       </ul>
     </li>
   </ul>
+  <h2
+    id="section-1"
+  >
+    Section 1
+  </h2>
+  <h2
+    id="section-2"
+  >
+    Section 2
+  </h2>
+  <h3
+    id="section-3"
+  >
+    Section 3
+  </h3>
+  <h4
+    id="section-4"
+  >
+    Section 4
+  </h4>
+  <h2
+    id="section-2-2"
+  >
+    Section 2 - 2
+  </h2>
 </DocumentFragment>
 `;
