@@ -90,9 +90,9 @@ def test_unpack_fhir_converter_response():
     # when using a handler, and we can't manually give a real Response object
     # the `.json()` attribute
     converter_result = Mock()
-    converter_result.status_code = 400
     converter_result.content = {"fhir_conversion_failed": True}
     response = Mock()
+    response.status_code = 400
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
     assert result.status_code == 400
@@ -110,10 +110,10 @@ def test_unpack_fhir_converter_response():
         )
     )
     converter_result = MagicMock()
-    converter_result.status_code = 200
     actual_bundle = {"FhirResource": sample_bundle}
     converter_result.get.side_effect = actual_bundle.get
     response = Mock()
+    response.status_code = 200
     response.json.return_value = {"response": converter_result}
     result = unpack_fhir_converter_response(response)
     assert result.status_code == 200
@@ -128,9 +128,9 @@ def test_unpack_validation_response():
     # when using a handler, and we can't manually give a real Response object
     # the `.json()` attribute
     validator_result = Mock()
-    validator_result.status_code = 400
     validator_result.text = "validation didn't work"
     response = Mock()
+    response.status_code = 400
     response.json.return_value = validator_result
     result = unpack_validation_response(response)
     assert result.status_code == 400
@@ -150,9 +150,9 @@ def test_unpack_validation_response():
         },
     }
     validator_result = MagicMock()
-    validator_result.status_code = 200
     validator_result.get.side_effect = expected_result_for_bad_eCR.get
     response = MagicMock()
+    response.status_code = 200
     response.json.return_value = validator_result
     actual_result = unpack_validation_response(response)
     assert actual_result.status_code == 200
@@ -173,9 +173,9 @@ def test_unpack_validation_response():
         },
     }
     validator_result = MagicMock()
-    validator_result.status_code = 200
     validator_result.get.side_effect = expected_result_for_good_ecr.get
     response = MagicMock()
+    response.status_code = 200
     response.json.return_value = validator_result
     actual_result = unpack_validation_response(response)
     assert actual_result.status_code == 200
@@ -246,18 +246,20 @@ def test_unpack_parsed_message_response():
     response = MagicMock()
     response.status_code = 200
     response.json.return_value = response_content
-    status_code, parsed_message = unpack_parsed_message_response(response)
-    assert status_code == 200
-    assert parsed_message == sample_json.get("parsed_values")
+    result = unpack_parsed_message_response(response)
+    assert result.status_code == 200
+    assert result.msg_content == sample_json.get("parsed_values")
+    assert result.should_continue
 
     # Test failure case
     error_message = {"message": "Message Parser request failed"}
     response = MagicMock()
     response.status_code = 400
     response.json.return_value = error_message
-    status_code, error_message = unpack_parsed_message_response(response)
-    assert status_code == 400
-    assert "Message Parser request failed" in error_message
+    result = unpack_parsed_message_response(response)
+    assert result.status_code == 400
+    assert "Message Parser request failed" in result.msg_content
+    assert not result.should_continue
 
 
 def test_unpack_fhir_to_phdc_response():
@@ -273,9 +275,10 @@ def test_unpack_fhir_to_phdc_response():
     response = MagicMock()
     response.status_code = 200
     response.content = etree.tostring(sample_xml)
-    status_code, parsed_message = unpack_fhir_to_phdc_response(response)
-    assert status_code == 200
-    assert parsed_message == etree.tostring(sample_xml)
+    result = unpack_fhir_to_phdc_response(response)
+    assert result.status_code == 200
+    assert result.msg_content == etree.tostring(sample_xml)
+    assert result.should_continue
 
     # Test failure case
     response_content = {
@@ -285,6 +288,7 @@ def test_unpack_fhir_to_phdc_response():
     response.status_code = 400
     response.json.return_value = response_content
     response.text = "Message Parser request failed"
-    status_code, error_message = unpack_fhir_to_phdc_response(response)
-    assert status_code == 400
-    assert "Message Parser request failed" in error_message
+    result = unpack_fhir_to_phdc_response(response)
+    assert result.status_code == 400
+    assert "Message Parser request failed" in result.msg_content
+    assert not result.should_continue
