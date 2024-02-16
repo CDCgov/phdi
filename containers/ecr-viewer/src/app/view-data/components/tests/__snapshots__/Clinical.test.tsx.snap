@@ -9,7 +9,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for non table no
       <div
         class="usa-summary-box__body"
       >
-        <h3
+        <h4
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
         >
@@ -18,7 +18,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for non table no
           >
             Clinical Notes
           </span>
-        </h3>
+        </h4>
         <div
           class="usa-summary-box__text clinical_info_container"
         >
@@ -29,9 +29,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for non table no
               <div
                 class="data-title"
               >
-                <h4>
-                  Miscellaneous Notes
-                </h4>
+                Miscellaneous Notes
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line"
@@ -61,7 +59,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
       <div
         class="usa-summary-box__body"
       >
-        <h3
+        <h4
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
         >
@@ -70,7 +68,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
           >
             Clinical Notes
           </span>
-        </h3>
+        </h4>
         <div
           class="usa-summary-box__text clinical_info_container"
         >
@@ -81,9 +79,7 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
               <div
                 class="data-title"
               >
-                <h4>
-                  Miscellaneous Notes
-                </h4>
+                Miscellaneous Notes
               </div>
               <div
                 class="grid-col-auto maxw7 text-pre-line maxw-full grid-col-12 margin-top-1"
@@ -142,11 +138,12 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
         >
           <span
-            id="diagnostics-and-vital-signs"
+            id="treatment-details"
           >
-            Diagnostics and Vital Signs
+            Treatment Details
           </span>
         </h4>
         <div
@@ -241,11 +238,12 @@ exports[`Snapshot test for Vital Signs/Encounter (Clinical Info section) should 
         </div>
         <h4
           class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
         >
           <span
-            id="immunizations"
+            id="diagnostics-and-vital-signs"
           >
-            Immunizations
+            Diagnostics and Vital Signs
           </span>
         </h4>
         <div

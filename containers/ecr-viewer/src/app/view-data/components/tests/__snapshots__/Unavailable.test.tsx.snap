@@ -218,9 +218,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Miscellaneous Notes
-                  </h4>
+                  Miscellaneous Notes
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -238,8 +236,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Provider Details
           </h3>

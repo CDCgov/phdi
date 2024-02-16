@@ -11,6 +11,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
       >
         <h4
           class="usa-summary-box__heading padding-y-105"
+          id="summary-box-key-information"
         >
           <span
             id="rr-details"
@@ -77,6 +78,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
           />
           <h4
             class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
           >
             <span
               id="eicr-details"
@@ -106,6 +108,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
           />
           <h4
             class="usa-summary-box__heading padding-y-105"
+            id="summary-box-key-information"
           >
             <span
               id="ecr-sender-details"
