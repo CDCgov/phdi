@@ -257,9 +257,9 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                self.phdc.getroot().append(self._build_social_history_info())
-                self.phdc.getroot().append(self._build_clinical_info())
-                self.phdc.getroot().append(self._build_repeating_questions())
+                structured_body.append(self._build_social_history_info())
+                structured_body.append(self._build_clinical_info())
+                structured_body.append(self._build_repeating_questions())
 
             case "contact_record":
                 pass
@@ -267,6 +267,8 @@ class PHDCBuilder:
                 pass
             case "morbidity_report":
                 pass
+
+        self.phdc.getroot().append(body)
 
     def _build_clinical_info(self) -> ET.Element:
         """
