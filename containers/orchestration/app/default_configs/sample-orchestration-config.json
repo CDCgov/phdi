@@ -49,12 +49,12 @@
       "endpoint": "/fhir/harmonization/standardization/standardize_dob"
     },
     {
-      "service": "message_parser",
-      "endpoint": "/parse_message"
-    },
-    {
       "service": "save_to_db",
       "endpoint": ""
+    },
+    {
+      "service": "message_parser",
+      "endpoint": "/parse_message"
     }
   ]
 }

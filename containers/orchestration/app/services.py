@@ -9,6 +9,7 @@ from fastapi import HTTPException
 from fastapi import Response
 from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
+from icecream import ic
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -147,6 +148,7 @@ def message_parser_payload(**kwargs) -> dict:
 def save_to_db(**kwargs) -> dict:
     ecr_id = kwargs["payload"]["ecr_id"]
     payload_data = kwargs["payload"]["data"]
+    ic(kwargs["payload"])
     url = kwargs["url"]
     engine = create_engine(url)
     pg_data = PostgresFhirDataModel(ecr_id=str(ecr_id), data=payload_data)
