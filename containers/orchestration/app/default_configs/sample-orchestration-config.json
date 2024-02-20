@@ -45,6 +45,10 @@
       "service": "save_to_db",
       "url": "${DATABASE_URL}",
       "endpoint": ""
+    },
+    {
+      "service": "message_parser",
+      "endpoint": "/parse_message"
     }
   ]
 }
