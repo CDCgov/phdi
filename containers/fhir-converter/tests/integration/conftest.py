@@ -22,6 +22,6 @@ def setup(request):
         print("Service logs...\n")
         print(fhir_converter.get_logs())
         print("Tests finished! Tearing down.")
-        fhir_converter.stop()
+        # fhir_converter.stop()
 
     request.addfinalizer(teardown)

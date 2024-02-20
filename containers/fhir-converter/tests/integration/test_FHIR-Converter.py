@@ -2,9 +2,24 @@ from pathlib import Path
 
 import httpx
 import pytest
+from syrupy.matchers import path_type
 
 CONVERTER_URL = "http://0.0.0.0:8080"
 CONVERT_TO_FHIR = CONVERTER_URL + "/convert-to-fhir"
+
+
+# Ignore all non-mutable fields in a FHIR bundle:
+# ids, references, etc, will not be evaluated in snapshot testing.
+ignore_mutable_fields_regex_mapping = {
+    ".*id": (str,),
+    ".*fullUrl": (str,),
+    ".*url": (str,),
+    ".*div": (str,),
+    ".*reference": (str,),
+}
+match_excluding_mutable_fields = path_type(
+    mapping=ignore_mutable_fields_regex_mapping, regex=True
+)
 
 
 @pytest.mark.integration
@@ -26,7 +41,9 @@ def test_vxu_conversion(setup, snapshot):
     vxu_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
 
     assert vxu_conversion_response.status_code == 200
-    assert vxu_conversion_response.json()["response"] == snapshot
+    assert vxu_conversion_response.json()["response"] == snapshot(
+        matcher=match_excluding_mutable_fields
+    )
 
 
 @pytest.mark.integration
@@ -42,7 +59,9 @@ def test_ecr_conversion(setup, snapshot):
     request = {"input_data": input_data, "input_type": "ecr", "root_template": "EICR"}
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
     assert ecr_conversion_response.status_code == 200
-    assert ecr_conversion_response.json()["response"] == snapshot
+    assert ecr_conversion_response.json()["response"] == snapshot(
+        matcher=match_excluding_mutable_fields
+    )
 
 
 @pytest.mark.integration
@@ -72,7 +91,9 @@ def test_ecr_conversion_with_rr(setup, snapshot):
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
 
     assert ecr_conversion_response.status_code == 200
-    assert ecr_conversion_response.json()["response"] == snapshot
+    assert ecr_conversion_response.json()["response"] == snapshot(
+        matcher=match_excluding_mutable_fields
+    )
 
 
 @pytest.mark.integration
