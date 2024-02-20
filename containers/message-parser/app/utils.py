@@ -125,7 +125,11 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
                                     tertiary_field_definition["fhir_path"]
                                 )
                             }
-                        secondary_parsers[secondary_field] = tertiary_parsers
+                        secondary_parsers[secondary_field] = {
+                            "primary_parser": tertiary_parser['primary_parser'],
+                            "secondary_parsers": tertiary_parsers
+                        }
+
                     else:
                         secondary_parsers[secondary_field] = {
                             "secondary_fhir_path": fhirpathpy.compile(
@@ -414,7 +418,7 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                             else:
                                 # Check for tertiary values
                                 if len(secondary_path_struct.keys()) > 1:
-                                    print("found tertiary values in ", secondary_field)
+                                    tertiary_values = {}
                                     for (
                                         tertiary_field,
                                         tertiary_path_struct,
@@ -422,9 +426,10 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                                         secondary_parser = tertiary_path_struct[
                                             "secondary_fhir_path"
                                         ]
-                                        value[tertiary_field] = ",".join(
+                                        tertiary_values[tertiary_field] = ",".join(
                                             map(str, secondary_parser(initial_value))
                                         )
+                                    value[secondary_field] = tertiary_values
 
                                 else:
                                     value[secondary_field] = ",".join(
