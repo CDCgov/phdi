@@ -144,6 +144,17 @@ class Observation:
     code: Optional[CodedElement] = None
     value: Optional[CodedElement] = None
     translation: Optional[CodedElement] = None
+    component_code_code: Optional[str] = None
+    component_code_code_system: Optional[str] = None
+    component_code_code_display: Optional[str] = None
+    component_value_quantitative_value: Optional[str] = None
+    component_value_quantitative_code_system: Optional[str] = None
+    component_value_quantitative_code: Optional[float] = None
+    component_value_qualitative_value: Optional[str] = None
+    component_value_qualitative_code_system: Optional[str] = None
+    component_value_qualitative_code: Optional[str] = None
+    component_text: Optional[str] = None
+    component_bool: Optional[bool] = False
 
 
 @dataclass

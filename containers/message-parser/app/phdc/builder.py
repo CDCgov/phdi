@@ -497,28 +497,56 @@ class PHDCBuilder:
         :return: The data for building the observation element as an
             Entry object, sorted into code and value sections.
         """
-        # Code
-        if not observation.code:
-            observation.code = CodedElement(
-                code=observation.code_code,
-                code_system=observation.code_code_system,
-                display_name=observation.code_code_display,
-            )
-        # Quantitative values
-        if not observation.value:
-            if observation.value_quantitative_value is not None:
-                observation.value = CodedElement(
-                    code=observation.value_quantitative_code,
-                    code_system=observation.value_quantitative_code_system,
-                    value=observation.value_quantitative_value,
-                )
-            else:
-                observation.value = CodedElement(
-                    code=observation.value_qualitative_code,
-                    code_system=observation.value_qualitative_code_system,
-                    value=observation.value_qualitative_value,
-                )
-        # TODO: translation section
+        # Build Observations
+        if observation.component_bool is False:
+            # Code
+            if not observation.code:
+                    observation.code = CodedElement(
+                        code=observation.code_code,
+                        code_system=observation.code_code_system,
+                        display_name=observation.code_code_display,
+                    )
+
+            # Quantitative values
+            if not observation.value:
+                if observation.value_quantitative_value is not None:
+                    observation.value = CodedElement(
+                        code=observation.value_quantitative_code,
+                        code_system=observation.value_quantitative_code_system,
+                        value=observation.value_quantitative_value,
+                    )
+                else:
+                    observation.value = CodedElement(
+                        code=observation.value_qualitative_code,
+                        code_system=observation.value_qualitative_code_system,
+                        value=observation.value_qualitative_value,
+                    )
+            # TODO: translation section
+        # Build Observations from Components          
+        else:
+            # Code
+            if not observation.code:
+                    observation.code = CodedElement(
+                        code=observation.component_code_code,
+                        code_system=observation.component_code_code_system,
+                        display_name=observation.component_code_code_display,
+                    )
+
+            # Quantitative values
+            if not observation.value:
+                if observation.value_quantitative_value is not None:
+                    observation.value = CodedElement(
+                        code=observation.component_value_quantitative_code,
+                        code_system=observation.component_value_quantitative_code_system,
+                        value=observation.component_value_quantitative_value,
+                    )
+                else:
+                    observation.value = CodedElement(
+                        code=observation.component_value_qualitative_code,
+                        code_system=observation.component_value_qualitative_code_system,
+                        value=observation.component_value_qualitative_value,
+                    )
+
 
         return observation
 

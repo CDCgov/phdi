@@ -353,7 +353,7 @@
             "data_type": "string",
             "nullable": true
           },
-          "component_component_value_qualitative_value": {
+          "component_value_qualitative_value": {
             "fhir_path": "valueCodeableConcept.coding[0].display",
             "data_type": "string",
             "nullable": true

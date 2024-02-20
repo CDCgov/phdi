@@ -538,10 +538,23 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                 for obs in value:
                     if obs["obs_type"] == "social-history":
                         input_data.social_history_info.append(Observation(**obs))
+                        if "components" in obs and obs['components'] is not None:
+                            for component in obs['components']:
+                                component["component_bool"] = True
+                                input_data.social_history_info.append(Observation(**component))
                     elif obs["obs_type"] == "EXPOS":
                         input_data.repeating_questions.append(Observation(**obs))
+                        if "components" in obs and obs['components'] is not None:
+                            for component in obs['components']:
+                                component["component_bool"] = True
+                                input_data.repeating_questions.append(Observation(**component))
                     else:
                         input_data.clinical_info.append(Observation(**obs))
+                        if "components" in obs and obs['components'] is not None:
+                            for component in obs['components']:
+                                component["component_bool"] = True
+                                input_data.clinical_info.append(Observation(**component))
+
             case "custodian_represented_custodian_organization":
                 organizations = []
                 address_fields = set([f.name for f in dataclasses.fields(Address)])
