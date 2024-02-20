@@ -75,10 +75,10 @@ def test_parse_message2(setup):
                 },
             ],
             "patient_administrative_gender_code": "female",
-            "patient_race_code": "2028-9",
             "patient_race_display": "Asian",
-            "patient_ethnic_group_code": "2186-5",
+            "patient_race_code": "2028-9",
             "patient_ethnic_group_display": "Not Hispanic or Latino",
+            "patient_ethnic_group_code": "2186-5",
             "patient_birth_time": "1996-04-17",
             "patient_telecom": [
                 {
@@ -135,6 +135,7 @@ def test_parse_message2(setup):
                     "value_qualitative_value": None,
                     "value_qualitative_code_system": None,
                     "value_qualitative_code": None,
+                    "components": [],
                 },
                 {
                     "obs_type": "laboratory",
@@ -149,6 +150,7 @@ def test_parse_message2(setup):
                     "value_qualitative_value": "Staphylococcus aureus",
                     "value_qualitative_code_system": "http://snomed.info/sct",
                     "value_qualitative_code": "3092008",
+                    "components": [],
                 },
                 {
                     "obs_type": "social-history",
@@ -161,6 +163,56 @@ def test_parse_message2(setup):
                     "value_qualitative_value": None,
                     "value_qualitative_code_system": None,
                     "value_qualitative_code": None,
+                    "components": [
+                        {
+                            "component_code_code": "alcohol-type",
+                            "component_code_code_system": "http://acme-rehab.org",
+                            "component_code_code_display": None,
+                            "component_value_quantitative_value": None,
+                            "component_value_quantitative_code_system": None,
+                            "component_value_quantitative_code": None,
+                            "component_component_value_qualitative_value": (
+                                "Wine (substance)"
+                            ),
+                            "component_value_qualitative_code_system": (
+                                "http://snomed.info/sct"
+                            ),
+                            "component_value_qualitative_code": "35748005",
+                            "component_text": "Wine",
+                        },
+                        {
+                            "component_code_code": "alcohol-type",
+                            "component_code_code_system": "http://acme-rehab.org",
+                            "component_code_code_display": None,
+                            "component_value_quantitative_value": None,
+                            "component_value_quantitative_code_system": None,
+                            "component_value_quantitative_code": None,
+                            "component_component_value_qualitative_value": (
+                                "Beer (substance)"
+                            ),
+                            "component_value_qualitative_code_system": (
+                                "http://snomed.info/sct"
+                            ),
+                            "component_value_qualitative_code": "53410008",
+                            "component_text": "Beer",
+                        },
+                        {
+                            "component_code_code": "alcohol-type",
+                            "component_code_code_system": "http://acme-rehab.org",
+                            "component_code_code_display": None,
+                            "component_value_quantitative_value": None,
+                            "component_value_quantitative_code_system": None,
+                            "component_value_quantitative_code": None,
+                            "component_component_value_qualitative_value": (
+                                "Distilled spirits (substance)"
+                            ),
+                            "component_value_qualitative_code_system": (
+                                "http://snomed.info/sct"
+                            ),
+                            "component_value_qualitative_code": "6524003",
+                            "component_text": "Liquor",
+                        },
+                    ],
                 },
                 {
                     "obs_type": "EXPOS",
@@ -173,6 +225,26 @@ def test_parse_message2(setup):
                     "value_qualitative_value": "Sports stadium (environment)",
                     "value_qualitative_code_system": "http://snomed.info/sct",
                     "value_qualitative_code": "264379009",
+                    "components": [
+                        {
+                            "component_code_code": "EXPAGNT",
+                            "component_code_code_system": (
+                                "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                            ),
+                            "component_code_code_display": "ExposureAgent",
+                            "component_value_quantitative_value": None,
+                            "component_value_quantitative_code_system": None,
+                            "component_value_quantitative_code": None,
+                            "component_component_value_qualitative_value": (
+                                "Severe acute respiratory syndrome coronavirus 2 (organism)"
+                            ),
+                            "component_value_qualitative_code_system": (
+                                "http://snomed.info/sct"
+                            ),
+                            "component_value_qualitative_code": "840533007",
+                            "component_text": None,
+                        }
+                    ],
                 },
             ],
         },
@@ -186,27 +258,20 @@ def test_parse_message2(setup):
 
     parsing_response = httpx.post(PARSE_MESSAGE, json=request)
 
-    # assert parsing_response.status_code == 200
-    for c in parsing_response.json()["parsed_values"]["observations"]:
-        print(c)
-        print()
+    assert parsing_response.status_code == 200
     assert parsing_response.json() == expected_reference_response
-    # for obs in parsing_response.json()["parsed_values"]["observations"]:
-    #     print(type(parsing_response.json()["parsed_values"]["observations"]))
-    #     if "components" in obs and obs["components"] is not None:
-    #         print(obs["components"])
 
 
-# @pytest.mark.integration
-# def test_fhir_to_phdc(setup):
-#     request = {
-#         "phdc_report_type": "case_report",
-#         "message": test_bundle,
-#     }
+@pytest.mark.integration
+def test_fhir_to_phdc(setup):
+    request = {
+        "phdc_report_type": "case_report",
+        "message": test_bundle,
+    }
 
-#     parsing_response = httpx.post(FHIR_TO_PHDC, json=request)
+    parsing_response = httpx.post(FHIR_TO_PHDC, json=request)
 
-#     # TODO: Once the PHDC builder work is completed, this test can be
-#     # developed further to check the structure and content of the
-#     # generated PHDC message.
-#     assert parsing_response.status_code == 200
+    # TODO: Once the PHDC builder work is completed, this test can be
+    # developed further to check the structure and content of the
+    # generated PHDC message.
+    assert parsing_response.status_code == 200
