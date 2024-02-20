@@ -34,7 +34,7 @@ with open(test_schema_path, "r") as file:
 
 
 @pytest.mark.integration
-def test_parse_message2(setup):
+def test_parse_message(setup):
     expected_reference_response = {
         "message": "Parsing succeeded!",
         "parsed_values": {
