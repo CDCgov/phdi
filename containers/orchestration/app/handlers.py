@@ -230,13 +230,11 @@ def build_ingestion_standardization_name_request(
         "remove_numbers": "true",
     }
 
-    # If workflow_params is None, use default_params
-    if workflow_params is None:
-        workflow_params = default_params
-    else:
-        # Update workflow_params with default values where necessary
-        for key, value in default_params.items():
-            workflow_params.setdefault(key, value)
+    # Initialize workflow_params as an empty dictionary if it's None
+    workflow_params = workflow_params or {}
+
+    for key, value in default_params.items():
+        workflow_params.setdefault(key, value)
 
     return {
         "data": input_msg,
@@ -300,13 +298,11 @@ def build_ingestion_standardization_dob_request(
     # Default parameter values
     default_params = {"overwrite": "true", "format": "Y%-m%-d%"}
 
-    # If workflow_params is None, use default_params
-    if workflow_params is None:
-        workflow_params = default_params
-    else:
-        # Update workflow_params with default values where necessary
-        for key, value in default_params.items():
-            workflow_params.setdefault(key, value)
+    # Initialize workflow_params as an empty dictionary if it's None
+    workflow_params = workflow_params or {}
+
+    for key, value in default_params.items():
+        workflow_params.setdefault(key, value)
 
     return {
         "data": input_msg,
@@ -343,13 +339,11 @@ def build_ingestion_geocoding_request(
         "overwrite": "true",
     }
 
-    # If workflow_params is None, use default_params
-    if workflow_params is None:
-        workflow_params = default_params
-    else:
-        # Update workflow_params with default values where necessary
-        for key, value in default_params.items():
-            workflow_params.setdefault(key, value)
+    # Initialize workflow_params as an empty dictionary if it's None
+    workflow_params = workflow_params or {}
+
+    for key, value in default_params.items():
+        workflow_params.setdefault(key, value)
 
     return {
         "bundle": input_msg,
