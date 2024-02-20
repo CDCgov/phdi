@@ -1,23 +1,40 @@
-import { DataDisplay, DisplayData } from "@/app/utils";
+import { DataDisplay, DisplayData, DataTableDisplay } from "@/app/utils";
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
 import React from "react";
 
 interface ClinicalProps {
+  reasonForVisitDetails: DisplayData[];
   activeProblemsDetails: DisplayData[];
   vitalData: DisplayData[];
+  immunizationsDetails: DisplayData[];
+  treatmentData: DisplayData[];
+  clinicalNotes: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
   "Clinical Info",
-  ["Symptoms and Problems"],
+  [
+    "Symptoms and Problems",
+    "Immunizations",
+    "Diagnostics and Vital Signs",
+    "Treatment Details",
+    "Clinical Notes",
+  ],
 );
 
-const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
+export const ClinicalInfo = ({
+  reasonForVisitDetails,
+  activeProblemsDetails,
+  immunizationsDetails,
+  vitalData,
+  treatmentData,
+  clinicalNotes,
+}: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
       <div>
@@ -31,21 +48,66 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
     );
   };
 
-  const renderSymptomsAndProblems = () => {
-    const tableData = activeProblemsDetails.filter((item) =>
-      React.isValidElement(item),
-    );
-    const data = activeProblemsDetails.filter(
-      (item) => !React.isValidElement(item),
-    );
+  const renderClinicalNotes = () => {
     return (
       <>
-        <AccordianH3>Symptoms and Problems</AccordianH3>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[4].id}>
+            {clinicalInfoConfig.subNavItems?.[4].title}
+          </span>
+        </AccordianH4>
+        <AccordianDiv className={"clinical_info_container"}>
+          {clinicalNotes.map((item, index) => {
+            let className = "";
+            if (
+              React.isValidElement(item.value) &&
+              item.value.type == "table"
+            ) {
+              className = "maxw-full grid-col-12 margin-top-1";
+            }
+            return (
+              <DataDisplay item={item} key={index} className={className} />
+            );
+          })}
+        </AccordianDiv>
+      </>
+    );
+  };
+
+  const renderSymptomsAndProblems = () => {
+    return (
+      <>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[0].id}>
+            {clinicalInfoConfig.subNavItems?.[0].title}
+          </span>
+        </AccordianH4>
         <AccordianDiv>
-          {data.map((item, index) => (
-            <DataDisplay item={item} key={index} />
-          ))}
-          {renderTableDetails(tableData)}
+          <div data-testid="reason-for-visit">
+            {reasonForVisitDetails.map((item, index) => (
+              <DataDisplay item={item} key={index} />
+            ))}
+          </div>
+          <div data-testid="active-problems">
+            {renderTableDetails(activeProblemsDetails)}
+          </div>
+        </AccordianDiv>
+      </>
+    );
+  };
+
+  const renderImmunizationsDetails = () => {
+    return (
+      <>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[1].id}>
+            {clinicalInfoConfig.subNavItems?.[1].title}
+          </span>
+        </AccordianH4>
+        <AccordianDiv>
+          <div data-testid="immunization-history">
+            {renderTableDetails(immunizationsDetails)}
+          </div>
         </AccordianDiv>
       </>
     );
@@ -54,9 +116,13 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
   const renderVitalDetails = () => {
     return (
       <>
-        <AccordianH3>Diagnostic and Vital Signs</AccordianH3>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[2].id}>
+            {clinicalInfoConfig.subNavItems?.[2].title}
+          </span>
+        </AccordianH4>
         <AccordianDiv>
-          <div className="lh-18">
+          <div className="lh-18" data-testid="vital-signs">
             {vitalData.map((item, index) => (
               <DataDisplay item={item} key={index} />
             ))}
@@ -66,9 +132,34 @@ const ClinicalInfo = ({ activeProblemsDetails, vitalData }: ClinicalProps) => {
     );
   };
 
+  const renderTreatmentDetails = () => {
+    const data = treatmentData.filter((item) => !React.isValidElement(item));
+    return (
+      <>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[3].id}>
+            {clinicalInfoConfig.subNavItems?.[3].title}
+          </span>
+        </AccordianH4>
+        <AccordianDiv>
+          <div data-testid="treatment-details">
+            {data.map((item, index) => (
+              <DataTableDisplay item={item} key={index} />
+            ))}
+          </div>
+          <div className={"section__line_gray margin-y-2"} />
+        </AccordianDiv>
+      </>
+    );
+  };
+
   return (
     <AccordianSection>
-      {activeProblemsDetails.length > 0 && renderSymptomsAndProblems()}
+      {clinicalNotes?.length > 0 && renderClinicalNotes()}
+      {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
+        renderSymptomsAndProblems()}
+      {treatmentData.length > 0 && renderTreatmentDetails()}
+      {immunizationsDetails.length > 0 && renderImmunizationsDetails()}
       {vitalData.length > 0 && renderVitalDetails()}
     </AccordianSection>
   );

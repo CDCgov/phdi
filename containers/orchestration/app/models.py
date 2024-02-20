@@ -10,7 +10,7 @@ from pydantic import root_validator
 
 
 # Request and response models
-class ProcessMessageRequest(BaseModel):
+class OrchestrationRequest(BaseModel):
     """
     The config for requests to the /process endpoint.
     """
@@ -32,11 +32,11 @@ class ProcessMessageRequest(BaseModel):
             " passed data."
         )
     )
-    # TODO: Once we land the new orchestrataion overhaul, we should delete this
-    # parameter. It's used only in the input specification for the validation
-    # service rather than shared across services as a whole, so it's just an
-    # unnecessary value we pass around to services that don't need to know
-    # about it.
+    # TODO: Once we land the new orchestrataion overhaul, we cab delete this
+    # parameter. It's used only for the validation service's input, so other
+    # services don't need to know about it, and we will have pushed its
+    # inclusion into our new workflow configs so the orchestrator can just
+    # retrieve it from there.
     include_error_types: str = Field(
         description=(
             "A comma separated list of the types of errors that should be"
@@ -44,6 +44,7 @@ class ProcessMessageRequest(BaseModel):
             + " Valid types are fatal, errors, warnings, information"
         )
     )
+
     message: str = Field(description="The message to be validated.")
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
@@ -106,7 +107,7 @@ class ProcessMessageRequest(BaseModel):
         return values
 
 
-class ProcessMessageResponse(BaseModel):
+class OrchestrationResponse(BaseModel):
     """
     The config for responses from the /extract endpoint.
     """

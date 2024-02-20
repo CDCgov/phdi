@@ -10,7 +10,7 @@ exports[`Encounter should match snapshot 1`] = `
         class="usa-summary-box__body"
       >
         <div>
-          <h3
+          <h4
             class="usa-summary-box__heading padding-y-105"
             id="summary-box-key-information"
           >
@@ -19,7 +19,7 @@ exports[`Encounter should match snapshot 1`] = `
             >
               Encounter Details
             </span>
-          </h3>
+          </h4>
           <div
             class="usa-summary-box__text"
           >
@@ -30,9 +30,7 @@ exports[`Encounter should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Facility ID
-                  </h4>
+                  Facility ID
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -51,9 +49,7 @@ exports[`Encounter should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Facility Name
-                  </h4>
+                  Facility Name
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -72,9 +68,7 @@ exports[`Encounter should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Facility Type
-                  </h4>
+                  Facility Type
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -91,7 +85,7 @@ exports[`Encounter should match snapshot 1`] = `
         <div
           class="margin-top-3"
         >
-          <h3
+          <h4
             class="usa-summary-box__heading padding-y-105"
             id="summary-box-key-information"
           >
@@ -100,7 +94,7 @@ exports[`Encounter should match snapshot 1`] = `
             >
               Provider Details
             </span>
-          </h3>
+          </h4>
           <div
             class="usa-summary-box__text"
           >
@@ -111,9 +105,7 @@ exports[`Encounter should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Provider Name
-                  </h4>
+                  Provider Name
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -132,9 +124,7 @@ exports[`Encounter should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Provider Contact
-                  </h4>
+                  Provider Contact
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"

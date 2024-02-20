@@ -7,8 +7,12 @@ interface UnavailableInfoProps {
   socialUnavailableData: DisplayData[];
   encounterUnavailableData: DisplayData[];
   providerUnavailableData: DisplayData[];
+  reasonForVisitUnavailableData: DisplayData[];
   activeProblemsUnavailableData: DisplayData[];
   vitalUnavailableData: DisplayData[];
+  treatmentData: DisplayData[];
+  clinicalNotesData: DisplayData[];
+  immunizationsUnavailableData: DisplayData[];
 }
 
 const UnavailableInfo = ({
@@ -16,16 +20,17 @@ const UnavailableInfo = ({
   socialUnavailableData,
   encounterUnavailableData,
   providerUnavailableData,
+  reasonForVisitUnavailableData,
   activeProblemsUnavailableData,
+  immunizationsUnavailableData,
   vitalUnavailableData,
+  treatmentData,
+  clinicalNotesData,
 }: UnavailableInfoProps) => {
   const renderSection = (sectionTitle: string, data: DisplayData[]) => {
     return (
       <div className="margin-bottom-4">
-        <h3
-          className="usa-summary-box__heading padding-bottom-205"
-          id="summary-box-key-information"
-        >
+        <h3 className="usa-summary-box__heading padding-bottom-205 unavailable-info">
           {sectionTitle}
         </h3>
         <div className="usa-summary-box__text">
@@ -45,12 +50,19 @@ const UnavailableInfo = ({
         renderSection("Social History", socialUnavailableData)}
       {encounterUnavailableData?.length > 0 &&
         renderSection("Encounter Details", encounterUnavailableData)}
+      {clinicalNotesData?.length > 0 &&
+        renderSection("Clinical Notes", clinicalNotesData)}
       {providerUnavailableData.length > 0 &&
         renderSection("Provider Details", providerUnavailableData)}
-      {activeProblemsUnavailableData?.length > 0 && // Add other items under symptoms and problems here
+      {(reasonForVisitUnavailableData?.length > 0 ||
+        activeProblemsUnavailableData?.length > 0) &&
         renderSection("Symptoms and Problems", activeProblemsUnavailableData)}
-      {vitalUnavailableData?.length > 0 && // Add other items under symptoms and problems here
+      {vitalUnavailableData?.length > 0 &&
         renderSection("Diagnostics and Vital Signs", vitalUnavailableData)}
+      {immunizationsUnavailableData?.length > 0 &&
+        renderSection("Immunizations", immunizationsUnavailableData)}
+      {treatmentData?.length > 0 &&
+        renderSection("Treatment Details", treatmentData)}
     </AccordianSection>
   );
 };

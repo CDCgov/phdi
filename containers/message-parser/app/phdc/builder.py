@@ -234,9 +234,6 @@ class PHDCBuilder:
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
         root.append(self._get_version_number())
-
-        root.append(self._build_custodian(organizations=self.input_data.organization))
-        root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
@@ -247,6 +244,8 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
+        root.append(self._build_author(family_name="CDC PRIME DIBBs"))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
 
     def build_body(self):
         """
@@ -258,9 +257,9 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                self.phdc.getroot().append(self._build_social_history_info())
-                self.phdc.getroot().append(self._build_clinical_info())
-                self.phdc.getroot().append(self._build_repeating_questions())
+                structured_body.append(self._build_social_history_info())
+                structured_body.append(self._build_clinical_info())
+                structured_body.append(self._build_repeating_questions())
 
             case "contact_record":
                 pass
@@ -268,6 +267,8 @@ class PHDCBuilder:
                 pass
             case "morbidity_report":
                 pass
+
+        self.phdc.getroot().append(body)
 
     def _build_clinical_info(self) -> ET.Element:
         """
@@ -501,11 +502,11 @@ class PHDCBuilder:
         if observation.component_bool is False:
             # Code
             if not observation.code:
-                    observation.code = CodedElement(
-                        code=observation.code_code,
-                        code_system=observation.code_code_system,
-                        display_name=observation.code_code_display,
-                    )
+                observation.code = CodedElement(
+                    code=observation.code_code,
+                    code_system=observation.code_code_system,
+                    display_name=observation.code_code_display,
+                )
 
             # Quantitative values
             if not observation.value:
@@ -522,31 +523,32 @@ class PHDCBuilder:
                         value=observation.value_qualitative_value,
                     )
             # TODO: translation section
-        # Build Observations from Components          
+        # Build Observations from Components
         else:
             # Code
             if not observation.code:
-                    observation.code = CodedElement(
-                        code=observation.component_code_code,
-                        code_system=observation.component_code_code_system,
-                        display_name=observation.component_code_code_display,
-                    )
+                observation.code = CodedElement(
+                    code=observation.component_code_code,
+                    code_system=observation.component_code_code_system,
+                    display_name=observation.component_code_code_display,
+                )
 
             # Quantitative values
             if not observation.value:
                 if observation.value_quantitative_value is not None:
                     observation.value = CodedElement(
                         code=observation.component_value_quantitative_code,
-                        code_system=observation.component_value_quantitative_code_system,
+                        code_system=observation.component_value_quant_code_system,
                         value=observation.component_value_quantitative_value,
                     )
                 else:
                     observation.value = CodedElement(
                         code=observation.component_value_qualitative_code,
-                        code_system=observation.component_value_qualitative_code_system,
+                        code_system=(
+                            observation.component_value_qualitative_code_system
+                        ),
                         value=observation.component_value_qualitative_value,
                     )
-
 
         return observation
 
@@ -633,12 +635,12 @@ class PHDCBuilder:
 
             self._add_field(represented_organization, organization.name, "name")
 
-            if organization.address is not None:
-                represented_organization.append(self._build_addr(organization.address))
             if organization.telecom is not None:
                 represented_organization.append(
                     self._build_telecom(organization.telecom)
                 )
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
 
             assigned_custodian.append(represented_organization)
 
@@ -673,6 +675,7 @@ class PHDCBuilder:
         id_element = ET.Element("id")
         id_element.set("root", "2.16.840.1.113883.19.5")
         assigned_author.append(id_element)
+        assigned_person = ET.SubElement(assigned_author, "assignedPerson")
 
         # family name is the example way to add either a project name or source of
         # the data being migrated
@@ -680,7 +683,8 @@ class PHDCBuilder:
         family_element = ET.SubElement(name_element, "family")
         family_element.text = family_name
 
-        assigned_author.append(name_element)
+        assigned_person.append(name_element)
+        assigned_author.append(assigned_person)
 
         author_element.append(assigned_author)
 
@@ -743,6 +747,17 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
+        if patient.birth_time is not None:
+            e = ET.Element(
+                "birthTime",
+                {
+                    "value": "".join(
+                        [num for num in patient.birth_time if num.isnumeric()]
+                    )
+                },
+            )
+            patient_data.append(e)
+
         if patient.race_code is not None:
             if patient.race_code in race_code_and_mapping:
                 display_name = race_code_and_mapping[patient.race_code]
@@ -776,11 +791,6 @@ class PHDCBuilder:
                     f"Ethnic group code {patient.ethnic_group_code} not "
                     "found in OMB classification."
                 )
-
-        if patient.birth_time is not None:
-            e = ET.Element("birthTime")
-            e.text = patient.birth_time
-            patient_data.append(e)
 
         return patient_data
 

@@ -343,7 +343,7 @@
             "data_type": "float",
             "nullable": true
           },
-          "component_value_quantitative_code_system": {
+          "component_value_quant_code_system": {
             "fhir_path": "valueQuantity.system",
             "data_type": "string",
             "nullable": true

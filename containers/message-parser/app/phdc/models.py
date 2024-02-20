@@ -75,8 +75,8 @@ class Organization:
 
     id: str = None
     name: str = None
-    address: Address = None
     telecom: Telecom = None
+    address: Address = None
 
 
 @dataclass
@@ -148,7 +148,7 @@ class Observation:
     component_code_code_system: Optional[str] = None
     component_code_code_display: Optional[str] = None
     component_value_quantitative_value: Optional[str] = None
-    component_value_quantitative_code_system: Optional[str] = None
+    component_value_quant_code_system: Optional[str] = None
     component_value_quantitative_code: Optional[float] = None
     component_value_qualitative_value: Optional[str] = None
     component_value_qualitative_code_system: Optional[str] = None
