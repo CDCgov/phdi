@@ -4,11 +4,17 @@ from unittest.mock import MagicMock
 from unittest.mock import Mock
 
 from app.handlers import build_fhir_converter_request
+from app.handlers import build_geocoding_request
+from app.handlers import build_ingestion_dob_request
+from app.handlers import build_ingestion_name_request
+from app.handlers import build_ingestion_phone_request
 from app.handlers import build_message_parser_message_request
 from app.handlers import build_message_parser_phdc_request
-from app.handlers import build_valiation_request
+from app.handlers import build_validation_request
 from app.handlers import unpack_fhir_converter_response
 from app.handlers import unpack_fhir_to_phdc_response
+from app.handlers import unpack_ingestion_geocoding
+from app.handlers import unpack_ingestion_standardization
 from app.handlers import unpack_parsed_message_response
 from app.handlers import unpack_validation_response
 from lxml import etree
@@ -76,7 +82,7 @@ def test_build_validation_request():
         "include_error_types": "error",
         "message": message,
     }
-    result = build_valiation_request(message, orchestration_request, workflow_params)
+    result = build_validation_request(message, orchestration_request, workflow_params)
     assert result["message_type"] == "ecr"
     assert result["include_error_types"] == "error"
     assert result["message"] == message
@@ -291,4 +297,283 @@ def test_unpack_fhir_to_phdc_response():
     result = unpack_fhir_to_phdc_response(response)
     assert result.status_code == 400
     assert "Message Parser request failed" in result.msg_content
+    assert not result.should_continue
+
+
+def test_build_ingestion_name_request():
+    input_msg = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+    orchestration_request = input_msg
+
+    # Test with no workflow_params
+    result = build_ingestion_name_request(input_msg, orchestration_request)
+    assert result == {
+        "data": input_msg,
+        "trim": "true",
+        "overwrite": "true",
+        "case": "upper",
+        "remove_numbers": "true",
+    }
+
+    # Test with full workflow_params
+    workflow_params = {
+        "trim": "false",
+        "overwrite": "false",
+        "case": "lower",
+        "remove_numbers": "false",
+    }
+    result = build_ingestion_name_request(
+        input_msg, orchestration_request, workflow_params
+    )
+    assert result == {
+        "data": input_msg,
+        "trim": "false",
+        "overwrite": "false",
+        "case": "lower",
+        "remove_numbers": "false",
+    }
+
+
+def test_build_ingestion_phone_request():
+    input_msg = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+    orchestration_request = input_msg
+
+    # Test with no workflow_params
+    result = build_ingestion_phone_request(input_msg, orchestration_request)
+    assert result == {
+        "data": input_msg,
+        "overwrite": "true",
+    }
+
+    # Test with changed workflow_params
+    workflow_params = {"overwrite": "false"}
+    result = build_ingestion_phone_request(
+        input_msg, orchestration_request, workflow_params
+    )
+    assert result == {
+        "data": input_msg,
+        "overwrite": "false",
+    }
+
+
+def test_build_ingestion_dob_request():
+    input_msg = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+    orchestration_request = input_msg
+
+    # Test with no workflow_params
+    result = build_ingestion_dob_request(input_msg, orchestration_request)
+    assert result == {
+        "data": input_msg,
+        "overwrite": "true",
+        "format": "Y%-m%-d%",
+    }
+
+    # Test with changed workflow_params
+    workflow_params = {"overwrite": "false", "format": "m%-d%-Y%"}
+    result = build_ingestion_dob_request(
+        input_msg, orchestration_request, workflow_params
+    )
+    assert result == {
+        "data": input_msg,
+        "overwrite": "false",
+        "format": "m%-d%-Y%",
+    }
+
+
+def test_build_geocoding_request():
+    input_msg = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "tests"
+            / "assets"
+            / "general"
+            / "patient_bundle.json"
+        )
+    )
+    orchestration_request = input_msg
+
+    # Test with no workflow_params besides geocode_method
+    workflow_params = {"geocode_method": "census"}
+    result = build_geocoding_request(input_msg, orchestration_request, workflow_params)
+    assert result == {
+        "bundle": input_msg,
+        "geocode_method": "census",
+        "smarty_auth_id": "",
+        "smarty_auth_token": "",
+        "license_type": "us-rooftop-geocoding-enterprise-cloud",
+        "overwrite": "true",
+    }
+
+    # Test with updated workflow_params and smarty method
+    workflow_params = {
+        "geocode_method": "smarty",
+        "smarty_auth_id": "blah",
+        "smarty_auth_token": "blah-token",
+        "license_type": "us-rooftop-geocoding-enterprise-cloud",
+        "overwrite": "false",
+    }
+    result = build_geocoding_request(input_msg, orchestration_request, workflow_params)
+    assert result == {
+        "bundle": input_msg,
+        "geocode_method": "smarty",
+        "smarty_auth_id": "blah",
+        "smarty_auth_token": "blah-token",
+        "license_type": "us-rooftop-geocoding-enterprise-cloud",
+        "overwrite": "false",
+    }
+
+
+def test_unpack_ingestion_standardization_name():
+    data = json.load(
+        open(
+            Path(__file__).parent.parent.parent
+            / "ingestion"
+            / "assets"
+            / "sample_standardize_name_response.json"
+        )
+    )
+    sample_json = data["content"]["application/json"]["examples"]["success"]["value"]
+
+    # Mock a JSON response
+    response_content = sample_json
+
+    response = MagicMock()
+    response.status_code = int(sample_json.get("status_code"))
+    response.json.return_value = response_content
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 200
+    assert result.msg_content == sample_json.get("bundle")
+    assert result.should_continue
+
+    # Test failure case
+    error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
+    response = MagicMock()
+    response.status_code = 422
+    response.json.return_value = error_message
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 422
+    assert "detail" in result.msg_content.keys()
+    assert not result.should_continue
+
+
+def test_unpack_ingestion_standardization_phone():
+    data = json.load(
+        open(
+            Path(__file__).parent.parent.parent
+            / "ingestion"
+            / "assets"
+            / "sample_standardize_phone_response.json"
+        )
+    )
+    sample_json = data["content"]["application/json"]["examples"]["success"]["value"]
+
+    # Mock a JSON response
+    response_content = sample_json
+
+    response = MagicMock()
+    response.status_code = int(sample_json.get("status_code"))
+    response.json.return_value = response_content
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 200
+    assert result.msg_content == sample_json.get("bundle")
+    assert result.should_continue
+
+    # Test failure case
+    error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
+    response = MagicMock()
+    response.status_code = 422
+    response.json.return_value = error_message
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 422
+    assert "detail" in result.msg_content.keys()
+    assert not result.should_continue
+
+
+def test_unpack_ingestion_standardization_dob():
+    data = json.load(
+        open(
+            Path(__file__).parent.parent.parent
+            / "ingestion"
+            / "assets"
+            / "sample_standardize_date_of_birth_response.json"
+        )
+    )
+    sample_json = data["content"]["application/json"]["examples"]["success"]["value"]
+
+    # Mock a JSON response
+    response_content = sample_json
+
+    response = MagicMock()
+    response.status_code = int(sample_json.get("status_code"))
+    response.json.return_value = response_content
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 200
+    assert result.msg_content == sample_json.get("bundle")
+    assert result.should_continue
+
+    # Test failure case
+    error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
+    response = MagicMock()
+    response.status_code = 422
+    response.json.return_value = error_message
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 422
+    assert "detail" in result.msg_content.keys()
+    assert not result.should_continue
+
+
+def test_unpack_ingestion_geocoding():
+    data = json.load(
+        open(
+            Path(__file__).parent.parent.parent
+            / "ingestion"
+            / "assets"
+            / "sample_geocode_responses.json"
+        )
+    )
+    # testing just smarty
+    sample_json = data["content"]["application/json"]["examples"]["smarty"]["value"]
+
+    # Mock a JSON response
+    response_content = sample_json
+
+    response = MagicMock()
+    response.status_code = int(sample_json.get("status_code"))
+    response.json.return_value = response_content
+    result = unpack_ingestion_geocoding(response)
+    assert result.status_code == 200
+    assert result.msg_content == sample_json.get("bundle")
+    assert result.should_continue
+
+    # Test failure case
+    error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
+    response = MagicMock()
+    response.status_code = 422
+    response.json.return_value = error_message
+    result = unpack_ingestion_geocoding(response)
+    assert result.status_code == 422
+    assert "detail" in result.msg_content.keys()
     assert not result.should_continue

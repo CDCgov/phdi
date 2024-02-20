@@ -174,7 +174,7 @@ def build_message_parser_phdc_request(
     }
 
 
-def build_valiation_request(
+def build_validation_request(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
     workflow_params: dict | None = None,
@@ -202,7 +202,7 @@ def build_valiation_request(
     }
 
 
-def build_ingestion_standardization_name_request(
+def build_ingestion_name_request(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
     workflow_params: dict | None = None,
@@ -245,7 +245,7 @@ def build_ingestion_standardization_name_request(
     }
 
 
-def build_ingestion_standardization_phone_request(
+def build_ingestion_phone_request(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
     workflow_params: dict | None = None,
@@ -275,7 +275,7 @@ def build_ingestion_standardization_phone_request(
     }
 
 
-def build_ingestion_standardization_dob_request(
+def build_ingestion_dob_request(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
     workflow_params: dict | None = None,
@@ -311,7 +311,7 @@ def build_ingestion_standardization_dob_request(
     }
 
 
-def build_ingestion_geocoding_request(
+def build_geocoding_request(
     input_msg: str,
     orchestration_request: OrchestrationRequest,
     workflow_params: dict | None = None,
