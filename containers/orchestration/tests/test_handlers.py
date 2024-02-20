@@ -468,7 +468,7 @@ def test_unpack_ingestion_standardization_name():
     assert result.msg_content == sample_json.get("bundle")
     assert result.should_continue
 
-    # Test failure case
+    # Test failure case - 422
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
@@ -476,6 +476,20 @@ def test_unpack_ingestion_standardization_name():
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
+    assert not result.should_continue
+
+    # Test failure case - 400
+    error_message = {
+        "status_code": 400,
+        "bundle": sample_json,
+        "message": "Standardization Error: Names",
+    }
+    response = MagicMock()
+    response.status_code = 400
+    response.json.return_value = error_message
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 400
+    assert "Standardization Error" in result.msg_content
     assert not result.should_continue
 
 
@@ -511,6 +525,20 @@ def test_unpack_ingestion_standardization_phone():
     assert "detail" in result.msg_content.keys()
     assert not result.should_continue
 
+    # Test failure case - 400
+    error_message = {
+        "status_code": 400,
+        "bundle": sample_json,
+        "message": "Standardization Error: Phones",
+    }
+    response = MagicMock()
+    response.status_code = 400
+    response.json.return_value = error_message
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 400
+    assert "Standardization Error" in result.msg_content
+    assert not result.should_continue
+
 
 def test_unpack_ingestion_standardization_dob():
     data = json.load(
@@ -534,7 +562,7 @@ def test_unpack_ingestion_standardization_dob():
     assert result.msg_content == sample_json.get("bundle")
     assert result.should_continue
 
-    # Test failure case
+    # Test failure case - 422
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
@@ -542,6 +570,20 @@ def test_unpack_ingestion_standardization_dob():
     result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
+    assert not result.should_continue
+
+    # Test failure case - 400
+    error_message = {
+        "status_code": 400,
+        "bundle": sample_json,
+        "message": "Standardization Error: Dates of Birth",
+    }
+    response = MagicMock()
+    response.status_code = 400
+    response.json.return_value = error_message
+    result = unpack_ingestion_standardization(response)
+    assert result.status_code == 400
+    assert "Standardization Error" in result.msg_content
     assert not result.should_continue
 
 
@@ -568,7 +610,7 @@ def test_unpack_ingestion_geocoding():
     assert result.msg_content == sample_json.get("bundle")
     assert result.should_continue
 
-    # Test failure case
+    # Test failure case - 422
     error_message = {"detail": [{"loc": ["string"], "msg": "string", "type": "string"}]}
     response = MagicMock()
     response.status_code = 422
@@ -576,4 +618,17 @@ def test_unpack_ingestion_geocoding():
     result = unpack_ingestion_geocoding(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
+    assert not result.should_continue
+
+    # Test failure case - 400
+    error_message = {
+        "status_code": 400,
+        "message": "Smarty raised the following exception: Neverland is not real.",
+    }
+    response = MagicMock()
+    response.status_code = 400
+    response.json.return_value = error_message
+    result = unpack_ingestion_geocoding(response)
+    assert result.status_code == 400
+    assert "Smarty raised the following exception" in result.msg_content
     assert not result.should_continue

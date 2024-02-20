@@ -486,6 +486,10 @@ def unpack_ingestion_standardization(response: Response) -> ServiceHandlerRespon
                 response.json().get("bundle"),
                 True,
             )
+        case 400:
+            return ServiceHandlerResponse(
+                status_code, response.json().get("message"), False
+            )
         case 422:
             return ServiceHandlerResponse(status_code, response.json(), False)
         case _:
