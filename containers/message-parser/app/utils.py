@@ -126,8 +126,8 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
                                 )
                             }
                         secondary_parsers[secondary_field] = {
-                            "primary_parser": tertiary_parser['primary_parser'],
-                            "secondary_parsers": tertiary_parsers
+                            "primary_parser": tertiary_parser["primary_parser"],
+                            "secondary_parsers": tertiary_parsers,
                         }
 
                     else:
@@ -411,17 +411,17 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                     if "reference_path" not in secondary_path_struct:
                         # Check for tertiary values
                         if "secondary_parsers" in secondary_path_struct:
-                            tertiary_parser = secondary_path_struct['primary_parser']
+                            tertiary_parser = secondary_path_struct["primary_parser"]
                             tertiary_values = []
                             for v in tertiary_parser(initial_value):
                                 tv = {}
-                                print()
-                                print(v)
                                 for (
                                     tertiary_field,
                                     tertiary_path_struct,
                                 ) in secondary_path_struct["secondary_parsers"].items():
-                                    tv_parser = tertiary_path_struct['secondary_fhir_path']
+                                    tv_parser = tertiary_path_struct[
+                                        "secondary_fhir_path"
+                                    ]
                                     if len(tv_parser(v)) == 0:
                                         tv[tertiary_field] = None
                                     else:
@@ -538,22 +538,28 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                 for obs in value:
                     if obs["obs_type"] == "social-history":
                         input_data.social_history_info.append(Observation(**obs))
-                        if "components" in obs and obs['components'] is not None:
-                            for component in obs['components']:
+                        if "components" in obs and obs["components"] is not None:
+                            for component in obs["components"]:
                                 component["component_bool"] = True
-                                input_data.social_history_info.append(Observation(**component))
+                                input_data.social_history_info.append(
+                                    Observation(**component)
+                                )
                     elif obs["obs_type"] == "EXPOS":
                         input_data.repeating_questions.append(Observation(**obs))
-                        if "components" in obs and obs['components'] is not None:
-                            for component in obs['components']:
+                        if "components" in obs and obs["components"] is not None:
+                            for component in obs["components"]:
                                 component["component_bool"] = True
-                                input_data.repeating_questions.append(Observation(**component))
+                                input_data.repeating_questions.append(
+                                    Observation(**component)
+                                )
                     else:
                         input_data.clinical_info.append(Observation(**obs))
-                        if "components" in obs and obs['components'] is not None:
-                            for component in obs['components']:
+                        if "components" in obs and obs["components"] is not None:
+                            for component in obs["components"]:
                                 component["component_bool"] = True
-                                input_data.clinical_info.append(Observation(**component))
+                                input_data.clinical_info.append(
+                                    Observation(**component)
+                                )
 
             case "custodian_represented_custodian_organization":
                 organizations = []
