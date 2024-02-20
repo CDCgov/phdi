@@ -415,13 +415,12 @@ def test_build_geocoding_request():
     orchestration_request = input_msg
 
     # Test with no workflow_params besides geocode_method
-    workflow_params = {"geocode_method": "census"}
-    result = build_geocoding_request(input_msg, orchestration_request, workflow_params)
+    result = build_geocoding_request(input_msg, orchestration_request)
     assert result == {
         "bundle": input_msg,
-        "geocode_method": "census",
-        "smarty_auth_id": "",
-        "smarty_auth_token": "",
+        "geocode_method": "smarty",
+        "smarty_auth_id": "placeholder",
+        "smarty_auth_token": "placeholder",
         "license_type": "us-rooftop-geocoding-enterprise-cloud",
         "overwrite": "true",
     }
