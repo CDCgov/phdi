@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import pgPromise from "pg-promise";
-import { loadYamlConfig } from "./utils";
+import { loadYamlConfig } from "../utils";
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;

@@ -5,7 +5,7 @@ import {
   formatPatientName,
   formatDate,
 } from "@/app/utils";
-import { loadYamlConfig } from "@/app/api/fhir-data/utils";
+import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "../tests/assets/BundleTravelHistory.json";
 import BundleWithPatient from "../tests/assets/BundlePatient.json";
