@@ -4,7 +4,7 @@ from app.models import OrchestrationRequest
 from dotenv import load_dotenv
 from requests import Response
 
-path = current_file_directory = os.path.dirname(os.path.abspath(__file__))
+path = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(dotenv_path=os.path.join(path, ".env"))
 
 
