@@ -317,6 +317,63 @@
         "fhir_path": "Observation.valueCodeableConcept.coding[0].code",
         "data_type": "string",
         "nullable": true
+      },
+      "components": {
+        "fhir_path": "Observation.component",
+        "data_type": "array",
+        "nullable": true,
+        "secondary_schema": {
+          "component_code_code": {
+            "fhir_path": "code.coding.code",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_code_code_system": {
+            "fhir_path": "code.coding.system",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_code_code_display": {
+            "fhir_path": "code.coding.display",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_value_quantitative_value": {
+            "fhir_path": "valueQuantity.value",
+            "data_type": "float",
+            "nullable": true
+          },
+          "component_value_quantitative_code_system": {
+            "fhir_path": "valueQuantity.system",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_value_quantitative_code": {
+            "fhir_path": "valueQuantity.code",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_component_value_qualitative_value": {
+            "fhir_path": "valueCodeableConcept.coding[0].display",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_value_qualitative_code_system": {
+            "fhir_path": "valueCodeableConcept.coding[0].system",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_value_qualitative_code": {
+            "fhir_path": "valueCodeableConcept.coding[0].code",
+            "data_type": "string",
+            "nullable": true
+          },
+          "component_text": {
+            "fhir_path": "valueCodeableConcept.text",
+            "data_type": "string",
+            "nullable": true
+          }
+        }
       }
     }
   }

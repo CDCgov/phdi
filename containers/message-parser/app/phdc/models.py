@@ -140,6 +140,7 @@ class Observation:
     value_qualitative_code: Optional[str] = None
     value_qualitative_code_system: Optional[str] = None
     value_qualitative_value: Optional[str] = None
+    components: Optional[list] = None
     code: Optional[CodedElement] = None
     value: Optional[CodedElement] = None
     translation: Optional[CodedElement] = None
