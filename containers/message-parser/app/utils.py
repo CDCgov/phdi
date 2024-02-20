@@ -409,58 +409,64 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                     "secondary_parsers"
                 ].items():
                     if "reference_path" not in secondary_path_struct:
-                        try:
-                            secondary_parser = secondary_path_struct[
-                                "secondary_fhir_path"
-                            ]
-                            if len(secondary_parser(initial_value)) == 0:
-                                value[secondary_field] = None
-                            else:
-                                # Check for tertiary values
-                                if len(secondary_path_struct.keys()) > 1:
-                                    tertiary_values = {}
-                                    for (
-                                        tertiary_field,
-                                        tertiary_path_struct,
-                                    ) in secondary_path_struct.items():
-                                        secondary_parser = tertiary_path_struct[
-                                            "secondary_fhir_path"
-                                        ]
-                                        tertiary_values[tertiary_field] = ",".join(
-                                            map(str, secondary_parser(initial_value))
+                        # Check for tertiary values
+                        if "secondary_parsers" in secondary_path_struct:
+                            tertiary_parser = secondary_path_struct['primary_parser']
+                            tertiary_values = []
+                            for v in tertiary_parser(initial_value):
+                                tv = {}
+                                print()
+                                print(v)
+                                for (
+                                    tertiary_field,
+                                    tertiary_path_struct,
+                                ) in secondary_path_struct["secondary_parsers"].items():
+                                    tv_parser = tertiary_path_struct['secondary_fhir_path']
+                                    if len(tv_parser(v)) == 0:
+                                        tv[tertiary_field] = None
+                                    else:
+                                        tv[tertiary_field] = ",".join(
+                                            map(str, tv_parser(v))
                                         )
-                                    value[secondary_field] = tertiary_values
-
+                                tertiary_values.append(tv)
+                            value[secondary_field] = tertiary_values
+                        else:
+                            try:
+                                secondary_parser = secondary_path_struct[
+                                    "secondary_fhir_path"
+                                ]
+                                if len(secondary_parser(initial_value)) == 0:
+                                    value[secondary_field] = None
                                 else:
                                     value[secondary_field] = ",".join(
                                         map(str, secondary_parser(initial_value))
                                     )
-                        # By default, fhirpathpy will compile such that *only*
-                        # actual resources can be accessed, rather than data types.
-                        # This is fine for most cases, but sometimes the actual data
-                        # we want is in a list of structs rather than a list of
-                        # resources, such as a list of patient addresses. This
-                        # exception catches that and allows an ordinary property
-                        # search.
-                        except KeyError:
-                            try:
-                                accessors = (
-                                    secondary_parser.parsedPath.get("children")[0]
-                                    .get("text")
-                                    .split(".")[1:]
-                                )
-                                val = initial_value
-                                for acc in accessors:
-                                    if "[" not in acc:
-                                        val = val[acc]
-                                    else:
-                                        sub_acc = acc.split("[")[1].split("]")[0]
-                                        val = val[acc.split("[")[0].strip()][
-                                            int(sub_acc)
-                                        ]
-                                value[secondary_field] = str(val)
-                            except:  # noqa
-                                value[secondary_field] = None
+                            # By default, fhirpathpy will compile such that *only*
+                            # actual resources can be accessed, rather than data types.
+                            # This is fine for most cases, but sometimes the actual data
+                            # we want is in a list of structs rather than a list of
+                            # resources, such as a list of patient addresses. This
+                            # exception catches that and allows an ordinary property
+                            # search.
+                            except KeyError:
+                                try:
+                                    accessors = (
+                                        secondary_parser.parsedPath.get("children")[0]
+                                        .get("text")
+                                        .split(".")[1:]
+                                    )
+                                    val = initial_value
+                                    for acc in accessors:
+                                        if "[" not in acc:
+                                            val = val[acc]
+                                        else:
+                                            sub_acc = acc.split("[")[1].split("]")[0]
+                                            val = val[acc.split("[")[0].strip()][
+                                                int(sub_acc)
+                                            ]
+                                    value[secondary_field] = str(val)
+                                except:  # noqa
+                                    value[secondary_field] = None
 
                     # Reference case: information is contained on another
                     # resource that we have to look up
