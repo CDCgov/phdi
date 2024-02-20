@@ -13,7 +13,6 @@ from app.handlers import build_message_parser_phdc_request
 from app.handlers import build_validation_request
 from app.handlers import unpack_fhir_converter_response
 from app.handlers import unpack_fhir_to_phdc_response
-from app.handlers import unpack_ingestion_geocoding
 from app.handlers import unpack_ingestion_standardization
 from app.handlers import unpack_parsed_message_response
 from app.handlers import unpack_validation_response
@@ -605,7 +604,7 @@ def test_unpack_ingestion_geocoding():
     response = MagicMock()
     response.status_code = int(sample_json.get("status_code"))
     response.json.return_value = response_content
-    result = unpack_ingestion_geocoding(response)
+    result = unpack_ingestion_standardization(response)
     assert result.status_code == 200
     assert result.msg_content == sample_json.get("bundle")
     assert result.should_continue
@@ -615,7 +614,7 @@ def test_unpack_ingestion_geocoding():
     response = MagicMock()
     response.status_code = 422
     response.json.return_value = error_message
-    result = unpack_ingestion_geocoding(response)
+    result = unpack_ingestion_standardization(response)
     assert result.status_code == 422
     assert "detail" in result.msg_content.keys()
     assert not result.should_continue
@@ -628,7 +627,7 @@ def test_unpack_ingestion_geocoding():
     response = MagicMock()
     response.status_code = 400
     response.json.return_value = error_message
-    result = unpack_ingestion_geocoding(response)
+    result = unpack_ingestion_standardization(response)
     assert result.status_code == 400
     assert "Smarty raised the following exception" in result.msg_content
     assert not result.should_continue
