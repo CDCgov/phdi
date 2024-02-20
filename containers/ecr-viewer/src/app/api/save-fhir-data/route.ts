@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import pgPromise from "pg-promise";
-import { evaluate } from "fhirpath";
 
 export async function POST(request: NextRequest) {
   const db_url = process.env.DATABASE_URL || "";
