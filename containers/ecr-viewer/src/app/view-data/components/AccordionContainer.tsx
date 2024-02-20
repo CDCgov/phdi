@@ -15,7 +15,7 @@ import EcrMetadata from "./EcrMetadata";
 import EncounterDetails, { encounterConfig } from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
 import { format } from "path";
 
@@ -50,7 +50,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Encounter Info",
@@ -63,13 +63,14 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </div>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Clinical Info",
       content: (
         <>
           <ClinicalInfo
+            clinicalNotes={clinicalData.clinicalNotes.availableData}
             reasonForVisitDetails={
               clinicalData.reasonForVisitDetails.availableData
             }
@@ -85,7 +86,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "eCR Metadata",
@@ -99,7 +100,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Unavailable Info",
@@ -121,11 +122,12 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
               clinicalData.immunizationsDetails.unavailableData
             }
             treatmentData={clinicalData.treatmentData.unavailableData}
+            clinicalNotesData={clinicalData.clinicalNotes.unavailableData}
           />
         </div>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
   ];
 

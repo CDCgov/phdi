@@ -13,8 +13,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Demographics
           </h3>
@@ -28,9 +27,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Tribal Affiliation
-                  </h4>
+                  Tribal Affiliation
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -49,9 +46,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Preffered Language
-                  </h4>
+                  Preffered Language
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -69,8 +64,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Social History
           </h3>
@@ -84,9 +78,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Travel History
-                  </h4>
+                  Travel History
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -105,9 +97,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Pregnancy Status
-                  </h4>
+                  Pregnancy Status
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -126,9 +116,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Alcohol Use
-                  </h4>
+                  Alcohol Use
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -147,9 +135,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Sexual Orientation
-                  </h4>
+                  Sexual Orientation
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -168,9 +154,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Gender Identity
-                  </h4>
+                  Gender Identity
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -188,8 +172,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Encounter Details
           </h3>
@@ -203,9 +186,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Facility Address
-                  </h4>
+                  Facility Address
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -223,8 +204,39 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Clinical Notes
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title"
+                >
+                  Miscellaneous Notes
+                </div>
+                <div
+                  class="grid-col-auto maxw7 text-pre-line"
+                >
+                  N/A
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Provider Details
           </h3>
@@ -238,9 +250,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Provider Name
-                  </h4>
+                  Provider Name
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -258,8 +268,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Symptoms and Problems
           </h3>
@@ -273,9 +282,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Problems List
-                  </h4>
+                  Problems List
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -293,8 +300,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Diagnostics and Vital Signs
           </h3>
@@ -308,9 +314,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Vitals
-                  </h4>
+                  Vitals
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -328,8 +332,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Immunizations
           </h3>
@@ -343,9 +346,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Immunization History
-                  </h4>
+                  Immunization History
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"
@@ -363,8 +364,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
           class="margin-bottom-4"
         >
           <h3
-            class="usa-summary-box__heading padding-bottom-205"
-            id="summary-box-key-information"
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
           >
             Treatment Details
           </h3>
@@ -378,9 +378,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title"
                 >
-                  <h4>
-                    Procedures
-                  </h4>
+                  Procedures
                 </div>
                 <div
                   class="grid-col-auto maxw7 text-pre-line"

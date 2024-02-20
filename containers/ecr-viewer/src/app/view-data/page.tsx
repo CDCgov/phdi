@@ -13,6 +13,7 @@ import { encounterConfig } from "./components/Encounter";
 import { clinicalInfoConfig } from "./components/ClinicalInfo";
 import { PathMappings } from "../utils";
 import SideNav, { SectionConfig } from "./components/SideNav";
+import { processSnomedCode } from "./service";
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -20,20 +21,7 @@ const ECRViewerPage = () => {
   const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
-
-  const sideNavConfigs = [
-    ecrSummaryConfig,
-    new SectionConfig("eCR Document", [
-      new SectionConfig("Patient Info", [
-        demographicsConfig,
-        socialHistoryConfig,
-      ]),
-      encounterConfig,
-      clinicalInfoConfig,
-      ecrMetadataConfig,
-    ]),
-    new SectionConfig("Unavailable Info"),
-  ];
+  const snomedCode = searchParams.get("snomed-code") ?? "";
 
   type ApiResponse = {
     fhirBundle: Bundle;
@@ -50,6 +38,7 @@ const ECRViewerPage = () => {
           throw new Error(errorData.message || "Internal Server Error");
         } else {
           const bundle: ApiResponse = await response.json();
+          processSnomedCode(snomedCode);
           setFhirBundle(bundle.fhirBundle);
           setMappings(bundle.fhirPathMappings);
         }
@@ -73,7 +62,7 @@ const ECRViewerPage = () => {
           <div className="content-wrapper">
             <div className="nav-wrapper">
               <nav className="sticky-nav">
-                <SideNav sectionConfigs={sideNavConfigs} />
+                <SideNav />
               </nav>
             </div>
             <div className={"ecr-viewer-container"}>

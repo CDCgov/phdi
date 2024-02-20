@@ -3,7 +3,7 @@ import { Fragment } from "react";
 
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
@@ -26,19 +26,17 @@ const EcrMetadata = ({
 }: EcrMetadataProps) => {
   return (
     <AccordianSection>
-      <AccordianH3>
+      <AccordianH4>
         <span id={ecrMetadataConfig.subNavItems?.[0].id}>
           {ecrMetadataConfig.subNavItems?.[0].title}
         </span>
-      </AccordianH3>
+      </AccordianH4>
       <AccordianDiv>
         {rrDetails.map(({ title, value }) => {
           return (
             <Fragment key={title}>
               <div className="grid-row">
-                <div className="data-title">
-                  <h4>{title}</h4>
-                </div>
+                <div className="data-title">{title}</div>
                 <div className="grid-col-fill text-pre-line">{value}</div>
               </div>
               <div className={"section__line_gray"} />
@@ -46,18 +44,16 @@ const EcrMetadata = ({
           );
         })}
         <div className={"padding-bottom-1"} />
-        <AccordianH3>
+        <AccordianH4>
           <span id={ecrMetadataConfig.subNavItems?.[1].id}>
             {ecrMetadataConfig.subNavItems?.[1].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         {eicrDetails.map(({ title, value }) => {
           return (
             <Fragment key={title}>
               <div className="grid-row">
-                <div className="data-title">
-                  <h4>{title}</h4>
-                </div>
+                <div className="data-title">{title}</div>
                 <div className="grid-col-auto text-pre-line">{value}</div>
               </div>
               <div className={"section__line_gray"} />
@@ -65,18 +61,16 @@ const EcrMetadata = ({
           );
         })}
         <div className={"padding-bottom-1"} />
-        <AccordianH3>
+        <AccordianH4>
           <span id={ecrMetadataConfig.subNavItems?.[2].id}>
             {ecrMetadataConfig.subNavItems?.[2].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         {eCRSenderDetails.map(({ title, value }) => {
           return (
             <Fragment key={title}>
               <div className="grid-row">
-                <div className="data-title">
-                  <h4>{title}</h4>
-                </div>
+                <div className="data-title">{title}</div>
                 <div className="grid-col-auto text-pre-line">{value}</div>
               </div>
               <div className={"section__line_gray"} />

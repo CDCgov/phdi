@@ -3,10 +3,12 @@ import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
 import * as R4Models from "fhirpath/fhir-context/r4";
 import React from "react";
+import parse from "html-react-parser";
+import classNames from "classnames";
 
 export interface DisplayData {
   title: string;
-  value: string | JSX.Element | undefined;
+  value: string | React.JSX.Element | undefined;
 }
 
 export interface PathMappings {
@@ -278,7 +280,7 @@ const formatTable = (
       <th
         key={`${column.columnName}${index}`}
         scope="col"
-        className=" bg-gray-5 minw-15"
+        className="bg-gray-5 minw-15"
       >
         {column.columnName}
       </th>
@@ -619,7 +621,10 @@ export const returnProblemsTable = (
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
-export const returnImmunizations = (immunizationsArray, mappings) => {
+export const returnImmunizations = (
+  immunizationsArray: any[],
+  mappings: PathMappings,
+) => {
   if (immunizationsArray.length === 0) {
     return undefined;
   }
@@ -637,7 +642,7 @@ export const returnImmunizations = (immunizationsArray, mappings) => {
   });
 
   immunizationsArray.sort(function (a, b) {
-    return new Date(b.occurrenceDateTime) - new Date(a.occurrenceDateTime);
+    return +new Date(b.occurrenceDateTime) - +new Date(a.occurrenceDateTime);
   });
 
   return formatTable(
@@ -681,6 +686,15 @@ export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
+  const clinicalNotes: DisplayData[] = [
+    {
+      title: "Miscellaneous Notes",
+      value: parse(
+        evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div,
+      ),
+    },
+  ];
+
   const reasonForVisitData: DisplayData[] = [
     {
       title: "Reason for Visit",
@@ -731,6 +745,7 @@ export const evaluateClinicalData = (
     },
   ];
   return {
+    clinicalNotes: evaluateData(clinicalNotes),
     reasonForVisitDetails: evaluateData(reasonForVisitData),
     activeProblemsDetails: evaluateData(activeProblemsTableData),
     treatmentData: evaluateData(treatmentData),
@@ -743,7 +758,7 @@ const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value == undefined || item.value.length == 0) {
+    if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
       unavailableData.push(item);
       item.value = "N/A";
     } else {
@@ -766,16 +781,19 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-export const DataDisplay: React.FC<{ item: DisplayData }> = ({
-  item,
-}): React.JSX.Element => {
+export const DataDisplay: React.FC<{
+  item: DisplayData;
+  className?: string;
+}> = ({ item, className }): React.JSX.Element => {
   return (
     <div>
       <div className="grid-row">
-        <div className="data-title">
-          <h4>{item.title}</h4>
+        <div className="data-title">{item.title}</div>
+        <div
+          className={classNames("grid-col-auto maxw7 text-pre-line", className)}
+        >
+          {item.value}
         </div>
-        <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
       </div>
       <div className={"section__line_gray"} />
     </div>

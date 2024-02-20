@@ -1,7 +1,7 @@
 import { DataDisplay, DisplayData, DataTableDisplay } from "@/app/utils";
 import {
   AccordianSection,
-  AccordianH3,
+  AccordianH4,
   AccordianDiv,
 } from "../component-utils";
 import { SectionConfig } from "./SideNav";
@@ -13,6 +13,7 @@ interface ClinicalProps {
   vitalData: DisplayData[];
   immunizationsDetails: DisplayData[];
   treatmentData: DisplayData[];
+  clinicalNotes: DisplayData[];
 }
 
 export const clinicalInfoConfig: SectionConfig = new SectionConfig(
@@ -22,6 +23,7 @@ export const clinicalInfoConfig: SectionConfig = new SectionConfig(
     "Immunizations",
     "Diagnostics and Vital Signs",
     "Treatment Details",
+    "Clinical Notes",
   ],
 );
 
@@ -31,6 +33,7 @@ export const ClinicalInfo = ({
   immunizationsDetails,
   vitalData,
   treatmentData,
+  clinicalNotes,
 }: ClinicalProps) => {
   const renderTableDetails = (tableDetails: DisplayData[]) => {
     return (
@@ -45,14 +48,40 @@ export const ClinicalInfo = ({
     );
   };
 
+  const renderClinicalNotes = () => {
+    return (
+      <>
+        <AccordianH4>
+          <span id={clinicalInfoConfig.subNavItems?.[4].id}>
+            {clinicalInfoConfig.subNavItems?.[4].title}
+          </span>
+        </AccordianH4>
+        <AccordianDiv className={"clinical_info_container"}>
+          {clinicalNotes.map((item, index) => {
+            let className = "";
+            if (
+              React.isValidElement(item.value) &&
+              item.value.type == "table"
+            ) {
+              className = "maxw-full grid-col-12 margin-top-1";
+            }
+            return (
+              <DataDisplay item={item} key={index} className={className} />
+            );
+          })}
+        </AccordianDiv>
+      </>
+    );
+  };
+
   const renderSymptomsAndProblems = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[0].id}>
             {clinicalInfoConfig.subNavItems?.[0].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div data-testid="reason-for-visit">
             {reasonForVisitDetails.map((item, index) => (
@@ -70,11 +99,11 @@ export const ClinicalInfo = ({
   const renderImmunizationsDetails = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[1].id}>
             {clinicalInfoConfig.subNavItems?.[1].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div data-testid="immunization-history">
             {renderTableDetails(immunizationsDetails)}
@@ -87,11 +116,11 @@ export const ClinicalInfo = ({
   const renderVitalDetails = () => {
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[2].id}>
             {clinicalInfoConfig.subNavItems?.[2].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div className="lh-18" data-testid="vital-signs">
             {vitalData.map((item, index) => (
@@ -104,17 +133,14 @@ export const ClinicalInfo = ({
   };
 
   const renderTreatmentDetails = () => {
-    const tableData = treatmentData.filter((item) =>
-      React.isValidElement(item),
-    );
     const data = treatmentData.filter((item) => !React.isValidElement(item));
     return (
       <>
-        <AccordianH3>
+        <AccordianH4>
           <span id={clinicalInfoConfig.subNavItems?.[3].id}>
             {clinicalInfoConfig.subNavItems?.[3].title}
           </span>
-        </AccordianH3>
+        </AccordianH4>
         <AccordianDiv>
           <div data-testid="treatment-details">
             {data.map((item, index) => (
@@ -129,6 +155,7 @@ export const ClinicalInfo = ({
 
   return (
     <AccordianSection>
+      {clinicalNotes?.length > 0 && renderClinicalNotes()}
       {(reasonForVisitDetails.length > 0 || activeProblemsDetails.length > 0) &&
         renderSymptomsAndProblems()}
       {treatmentData.length > 0 && renderTreatmentDetails()}
