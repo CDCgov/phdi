@@ -9,7 +9,6 @@ from fastapi import HTTPException
 from fastapi import Response
 from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
-from icecream import ic
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -148,7 +147,6 @@ def message_parser_payload(**kwargs) -> dict:
 def save_to_db(**kwargs) -> dict:
     ecr_id = kwargs["payload"]["ecr_id"]
     payload_data = kwargs["payload"]["data"]
-    ic(kwargs["payload"])
     url = kwargs["url"]
     engine = create_engine(url)
     pg_data = PostgresFhirDataModel(ecr_id=str(ecr_id), data=payload_data)
@@ -162,10 +160,12 @@ def save_to_db(**kwargs) -> dict:
 
 
 def save_to_db_payload(**kwargs) -> dict:
-    response = kwargs["response"]
-    r = response.json()
-    if r.get("parsed_values", {}).get("eicr_id"):
-        ecr_id = r["parsed_values"]["eicr_id"]
+    bundle = kwargs["bundle"]
+    b = bundle.json()
+    if "bundle" in b:
+        b = b["bundle"]
+    if b.get("entry", {})[0].get("resource"):
+        ecr_id = b["entry"][0]["resource"]["id"]
     else:
         raise HTTPException(
             status_code=422,
@@ -174,11 +174,19 @@ def save_to_db_payload(**kwargs) -> dict:
                 "details": "eICR ID not found, cannot save to database.",
             },
         )
-    return {"ecr_id": ecr_id, "data": r}
+    return {"ecr_id": ecr_id, "data": b}
 
 
 def post_request(url, payload):
     return requests.post(url, json=payload)
+
+
+def save_bundle(response, bundle):
+    r = response.json()
+    if "bundle" in r:
+        return response
+    else:
+        return bundle
 
 
 async def call_apis(
@@ -188,6 +196,7 @@ async def call_apis(
 ) -> tuple:
     response = input
     responses = {}
+    bundle = {}
 
     progress_dict = {"steps": config["steps"]}
     for step in config["steps"]:
@@ -197,7 +206,7 @@ async def call_apis(
         if f in globals() and callable(globals()[f]) and service_urls[service]:
             function_to_call = globals()[f]
             payload = function_to_call(
-                input=input, response=response, step=step, config=config
+                input=input, response=response, step=step, config=config, bundle=bundle
             )
             url = service_urls[service] + step["endpoint"]
             url = url.replace('"', "")
@@ -206,6 +215,7 @@ async def call_apis(
                 response = globals()[service](url=url, payload=payload)
             else:
                 response = post_request(url, payload)
+            bundle = save_bundle(response, bundle)
             print(f"Status Code: {response.status_code}")
 
             if websocket:
