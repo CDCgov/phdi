@@ -443,7 +443,7 @@ class PHDCBuilder:
                 {
                     "code": "1",
                     "displayName": "Exposure Information",
-                    "codeSytemName": "LocalSystem",
+                    "codeSystemName": "LocalSystem",
                 },
             )
 

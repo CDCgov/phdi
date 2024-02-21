@@ -127,7 +127,7 @@
           <title>REPEATING QUESTIONS</title>
           <entry typeCode="COMP">
             <organizer classCode="CLUSTER" moodCode="EVN">
-              <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
               <status_code code="completed"/>
               <component>
                 <observation classCode="OBS" moodCode="EVN">
@@ -139,7 +139,7 @@
           </entry>
           <entry typeCode="COMP">
             <organizer classCode="CLUSTER" moodCode="EVN">
-              <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
               <status_code code="completed"/>
               <component>
                 <observation classCode="OBS" moodCode="EVN">
