@@ -654,7 +654,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                text="20240124",
+                                value="20240124",
                             ),
                         ),
                     ]
@@ -811,7 +811,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                         ),
                         value=CodedElement(
                             xsi_type="TS",
-                            text="20240124",
+                            value="20240124",
                         ),
                     ),
                 ],
@@ -848,7 +848,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                         ),
                         value=CodedElement(
                             xsi_type="TS",
-                            text="Esperanze",
+                            value="20201215",
                         ),
                     ),
                 ],
@@ -985,7 +985,7 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                text="20240124",
+                                value="20240124",
                             ),
                         ),
                     ]
