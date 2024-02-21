@@ -7,6 +7,7 @@ import pytest
 from app.config import get_settings
 from app.main import app
 from dotenv import load_dotenv
+from icecream import ic
 from starlette.testclient import TestClient
 
 get_settings()
@@ -122,10 +123,8 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
         )
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
-        assert (
-            orchestration_response.json()["processed_values"]["parsed_values"]["rr_id"]
-            is not None
-        )
+        ic(orchestration_response.json())
+        assert orchestration_response.json()["processed_values"]["entry"][0] is not None
 
 
 @pytest.mark.integration

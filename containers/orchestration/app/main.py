@@ -143,7 +143,6 @@ async def process_endpoint(
     :return: A response holding whether the workflow application was
       successful as well as well as the results of the workflow.
     """
-
     rr_content = None
     if upload_file.content_type == "application/zip":
         unzipped_file = unzip_http(upload_file)
