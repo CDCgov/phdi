@@ -165,48 +165,42 @@ def test_parse_message2(setup):
                     "value_qualitative_code": None,
                     "components": [
                         {
-                            "component_code_code": "alcohol-type",
-                            "component_code_code_system": "http://acme-rehab.org",
-                            "component_code_code_display": None,
-                            "component_value_quantitative_value": None,
-                            "component_value_quant_code_system": None,
-                            "component_value_quantitative_code": None,
-                            "component_value_qualitative_value": "Wine (substance)",
-                            "component_value_qualitative_code_system": (
-                                "http://snomed.info/sct"
-                            ),
-                            "component_value_qualitative_code": "35748005",
-                            "component_text": "Wine",
+                            "code_code": "alcohol-type",
+                            "code_code_system": "http://acme-rehab.org",
+                            "code_code_display": None,
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": "Wine (substance)",
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "35748005",
+                            "text": "Wine",
                         },
                         {
-                            "component_code_code": "alcohol-type",
-                            "component_code_code_system": "http://acme-rehab.org",
-                            "component_code_code_display": None,
-                            "component_value_quantitative_value": None,
-                            "component_value_quant_code_system": None,
-                            "component_value_quantitative_code": None,
-                            "component_value_qualitative_value": "Beer (substance)",
-                            "component_value_qualitative_code_system": (
-                                "http://snomed.info/sct"
-                            ),
-                            "component_value_qualitative_code": "53410008",
-                            "component_text": "Beer",
+                            "code_code": "alcohol-type",
+                            "code_code_system": "http://acme-rehab.org",
+                            "code_code_display": None,
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": "Beer (substance)",
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "53410008",
+                            "text": "Beer",
                         },
                         {
-                            "component_code_code": "alcohol-type",
-                            "component_code_code_system": "http://acme-rehab.org",
-                            "component_code_code_display": None,
-                            "component_value_quantitative_value": None,
-                            "component_value_quant_code_system": None,
-                            "component_value_quantitative_code": None,
-                            "component_value_qualitative_value": (
+                            "code_code": "alcohol-type",
+                            "code_code_system": "http://acme-rehab.org",
+                            "code_code_display": None,
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": (
                                 "Distilled spirits (substance)"
                             ),
-                            "component_value_qualitative_code_system": (
-                                "http://snomed.info/sct"
-                            ),
-                            "component_value_qualitative_code": "6524003",
-                            "component_text": "Liquor",
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "6524003",
+                            "text": "Liquor",
                         },
                     ],
                 },
@@ -223,24 +217,22 @@ def test_parse_message2(setup):
                     "value_qualitative_code": "264379009",
                     "components": [
                         {
-                            "component_code_code": "EXPAGNT",
-                            "component_code_code_system": (
+                            "code_code": "EXPAGNT",
+                            "code_code_system": (
                                 "http://terminology.hl7.org/CodeSystem/"
                                 + "v3-ParticipationType"
                             ),
-                            "component_code_code_display": "ExposureAgent",
-                            "component_value_quantitative_value": None,
-                            "component_value_quant_code_system": None,
-                            "component_value_quantitative_code": None,
-                            "component_value_qualitative_value": (
+                            "code_code_display": "ExposureAgent",
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": (
                                 "Severe acute respiratory syndrome coronavirus 2 "
                                 + "(organism)"
                             ),
-                            "component_value_qualitative_code_system": (
-                                "http://snomed.info/sct"
-                            ),
-                            "component_value_qualitative_code": "840533007",
-                            "component_text": None,
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "840533007",
+                            "text": None,
                         }
                     ],
                 },

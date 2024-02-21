@@ -554,24 +554,23 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                 input_data.clinical_info = []
                 input_data.social_history_info = []
                 input_data.repeating_questions = []
-                    observation_groups = {
-                        "social-history": input_data.social_history_info,
-                        "EXPOS": input_data.repeating_questions,
-                        "clinical_info": input_data.clinical_info,
-                    }
-                    for obs in value:
-                        observation_type = "clinical_info"
-                        if obs["obs_type"] in observation_groups:
-                            observation_type = obs["obs_type"]
-    
-                        observation_groups[observation_type].append(Observation(**obs))
-    
-                        if "components" in obs and obs["components"] is not None:
-                            for component in obs["components"]:
-                                component["component_bool"] = True
-                                observation_groups[observation_type].append(
-                                    Observation(**component)
-                                )
+                observation_groups = {
+                    "social-history": input_data.social_history_info,
+                    "EXPOS": input_data.repeating_questions,
+                    "clinical_info": input_data.clinical_info,
+                }
+                for obs in value:
+                    observation_type = "clinical_info"
+                    if obs["obs_type"] in observation_groups:
+                        observation_type = obs["obs_type"]
+
+                    observation_groups[observation_type].append(Observation(**obs))
+
+                    if "components" in obs and obs["components"] is not None:
+                        for component in obs["components"]:
+                            observation_groups[observation_type].append(
+                                Observation(**component)
+                            )
 
             case "custodian_represented_custodian_organization":
                 organizations = []
@@ -594,8 +593,6 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     )
 
                 input_data.organization = organizations
-            case "observations":
-                input_data.observations = [Observation(**obs) for obs in value]
             case _:
                 pass
     return input_data
