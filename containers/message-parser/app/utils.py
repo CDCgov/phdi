@@ -558,6 +558,7 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     "social-history": input_data.social_history_info,
                     "EXPOS": input_data.repeating_questions,
                     "clinical_info": input_data.clinical_info,
+                    "vital-signs": input_data.clinical_info,
                 }
                 for obs in value:
                     observation_type = "clinical_info"

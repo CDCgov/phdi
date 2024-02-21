@@ -159,7 +159,6 @@ class PHDCInputData:
     ] = "case_report"
     patient: Patient = None
     organization: List[Organization] = None
-    observations: List[Observation] = None
     clinical_info: List[Observation] = None
     social_history_info: List[Observation] = None
     repeating_questions: List[Observation] = None
