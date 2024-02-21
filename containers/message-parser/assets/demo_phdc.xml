@@ -109,8 +109,8 @@
           <title>REPEATING QUESTIONS</title>
           <entry typeCode="COMP">
             <organizer classCode="CLUSTER" moodCode="EVN">
-              <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
-              <status_code code="completed"/>
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+              <statusCode code="completed"/>
               <component>
                 <observation classCode="OBS" moodCode="EVN">
                   <code code="C3841750" codeSystem="http://terminology.hl7.org/CodeSystem/umls" displayName="Mass gathering"/>
