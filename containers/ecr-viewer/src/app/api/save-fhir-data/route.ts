@@ -8,6 +8,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const requestBody = await request.json();
+    // console.log("RB IS ", requestBody)
 
     const fhirBundle = requestBody.fhirBundle;
     const ecrId = requestBody.fhirBundle.entry[0].resource.id;
