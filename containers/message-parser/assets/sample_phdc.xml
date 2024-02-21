@@ -127,8 +127,8 @@
           <title>REPEATING QUESTIONS</title>
           <entry typeCode="COMP">
             <organizer classCode="CLUSTER" moodCode="EVN">
-              <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
-              <status_code code="completed"/>
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+              <statusCode code="completed"/>
               <component>
                 <observation classCode="OBS" moodCode="EVN">
                   <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Country of Exposure"/>
@@ -139,8 +139,8 @@
           </entry>
           <entry typeCode="COMP">
             <organizer classCode="CLUSTER" moodCode="EVN">
-              <code code="1" displayName="Exposure Information" codeSytemName="LocalSystem"/>
-              <status_code code="completed"/>
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+              <statusCode code="completed"/>
               <component>
                 <observation classCode="OBS" moodCode="EVN">
                   <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="City of Exposure"/>
