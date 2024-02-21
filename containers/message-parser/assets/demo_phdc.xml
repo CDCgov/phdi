@@ -139,7 +139,7 @@
           </entry>
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="EXPAGNT" codeSystem="http://terminology.hl7.org/CodeSystem/v3-ParticipationType" displayName="ExposureAgent"/>      
+              <code code="EXPAGNT" codeSystem="http://terminology.hl7.org/CodeSystem/v3-ParticipationType" displayName="ExposureAgent"/>
               <value code="840533007" codeSystem="http://snomed.info/sct" value="Severe acute respiratory syndrome coronavirus 2 (organism)"/>
             </observation>
           </entry>
