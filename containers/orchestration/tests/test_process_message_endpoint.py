@@ -60,7 +60,10 @@ def test_process_message_success(patched_post_request, patched_save_to_db):
                 "converted_msg_placeholder_key": "converted_placeholder_value"
             }
         },
-        "bundle": {"converted_msg_placeholder_key": "placeholder_bundle"},
+        "bundle": {
+            "converted_msg_placeholder_key": "placeholder_bundle",
+            "entry": [{"resource": {"id": "foo"}}],
+        },
     }
     save_to_db_response = CustomJSONResponse(
         content=jsonable_encoder(
@@ -70,7 +73,10 @@ def test_process_message_success(patched_post_request, patched_save_to_db):
                         "converted_msg_placeholder_key": "converted_placeholder_value"
                     }
                 },
-                "bundle": {"converted_msg_placeholder_key": "placeholder_bundle"},
+                "bundle": {
+                    "converted_msg_placeholder_key": "placeholder_bundle",
+                    "entry": [{"resource": {"id": "foo"}}],
+                },
                 "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
             }
         )
@@ -212,14 +218,14 @@ def test_process_success(patched_post_request, patched_save_to_db):
             "response": {
                 "FhirResource": {"foo": "bar"},
             },
-            "bundle": {"foo": "bundle"},
+            "bundle": {"entry": [{"resource": {"id": "foo"}}]},
         }
 
         save_to_db_response = CustomJSONResponse(
             content=jsonable_encoder(
                 {
                     "response": {"FhirResource": {"foo": "bar"}},
-                    "bundle": {"foo": "bundle"},
+                    "bundle": {"entry": [{"resource": {"id": "foo"}}]},
                     "parsed_values": {"eicr_id": "foo"},
                 }
             )

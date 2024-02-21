@@ -160,12 +160,25 @@ def save_to_db(**kwargs) -> dict:
 
 
 def save_to_db_payload(**kwargs) -> dict:
+    if "bundle" not in kwargs:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "Unprocessable Entity",
+                "details": "Bundle not provided to save_to_db payload",
+            },
+        )
     bundle = kwargs["bundle"]
     b = bundle.json()
     if "bundle" in b:
         b = b["bundle"]
-    if b.get("entry", {})[0].get("resource"):
-        ecr_id = b["entry"][0]["resource"]["id"]
+
+    entry = b.get("entry") if isinstance(b, dict) and b.get("entry") else False
+    first_entry = entry[0] if entry else False
+    resource = first_entry.get("resource") if first_entry else False
+
+    if entry and first_entry and resource:
+        ecr_id = resource.get("id")
     else:
         raise HTTPException(
             status_code=422,
