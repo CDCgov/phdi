@@ -551,9 +551,6 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
             case "patient_ethnic_group_code":
                 input_data.patient.ethnic_group_code = value
             case "observations":
-                input_data.clinical_info = []
-                input_data.social_history_info = []
-                input_data.repeating_questions = []
                 observation_groups = {
                     "social-history": input_data.social_history_info,
                     "EXPOS": input_data.repeating_questions,

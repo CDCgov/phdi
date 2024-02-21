@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from dataclasses import field
 from typing import Dict
 from typing import List
 from typing import Literal
@@ -159,6 +160,6 @@ class PHDCInputData:
     ] = "case_report"
     patient: Patient = None
     organization: List[Organization] = None
-    clinical_info: List[Observation] = None
-    social_history_info: List[Observation] = None
-    repeating_questions: List[Observation] = None
+    clinical_info: List[Observation] = field(default_factory=list)
+    social_history_info: List[Observation] = field(default_factory=list)
+    repeating_questions: List[Observation] = field(default_factory=list)
