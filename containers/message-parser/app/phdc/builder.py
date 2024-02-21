@@ -448,7 +448,7 @@ class PHDCBuilder:
             )
 
             organizer.append(code_element)
-            status_code_element = ET.Element("status_code", {"code": "completed"})
+            status_code_element = ET.Element("statusCode", {"code": "completed"})
             organizer.append(status_code_element)
             component = ET.SubElement(organizer, "component")
 

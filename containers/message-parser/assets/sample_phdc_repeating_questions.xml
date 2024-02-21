@@ -6,7 +6,7 @@
     <entry typeCode="COMP">
       <organizer classCode="CLUSTER" moodCode="EVN">
         <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
-        <status_code code="completed"/>
+        <statusCode code="completed"/>
         <component>
           <observation classCode="OBS" moodCode="EVN">
             <code code="DEM127" codeSystem="2.16.840.1.114222.4.5.232" codeSystemName="PHIN Questions" displayName="Is this person deceased?"/>
@@ -20,7 +20,7 @@
     <entry typeCode="COMP">
       <organizer classCode="CLUSTER" moodCode="EVN">
         <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
-        <status_code code="completed"/>
+        <statusCode code="completed"/>
         <component>
           <observation classCode="OBS" moodCode="EVN">
             <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Information As of Date"/>
