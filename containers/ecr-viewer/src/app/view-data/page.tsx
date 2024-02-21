@@ -1,19 +1,13 @@
 "use client";
-import EcrSummary, {
-  ecrSummaryConfig,
-} from "@/app/view-data/components/EcrSummary";
+import EcrSummary from "@/app/view-data/components/EcrSummary";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import { demographicsConfig } from "./components/Demographics";
-import { socialHistoryConfig } from "./components/SocialHistory";
-import { ecrMetadataConfig } from "./components/EcrMetadata";
-import { encounterConfig } from "./components/Encounter";
-import { clinicalInfoConfig } from "./components/ClinicalInfo";
 import { PathMappings } from "../utils";
 import SideNav, { SectionConfig } from "./components/SideNav";
 import { processSnomedCode } from "./service";
+import { useRouter } from 'next/navigation';
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -22,6 +16,17 @@ const ECRViewerPage = () => {
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
   const snomedCode = searchParams.get("snomed-code") ?? "";
+  const authorization = searchParams.get("authorization") ?? "";
+  const { push } = useRouter();
+  useEffect(() => {
+    if(authorization){
+      const handleAuth = async () => {
+        await fetch('http://localhost:3000/api/auth', {method: "POST", headers: {authorization}});
+        push(`http://localhost:3000/view-data?id=${fhirId}`);
+      }
+      handleAuth();
+    }
+  }, []);
 
   type ApiResponse = {
     fhirBundle: Bundle;
