@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { axe } from "jest-axe";
 import ClinicalInfo from "../ClinicalInfo";
-import { loadYamlConfig } from "@/app/api/fhir-data/utils";
+import { loadYamlConfig } from "@/app/api/utils";
 import { returnProceduresTable, evaluateClinicalData } from "@/app/utils";
 
 describe("Snapshot test for Vital Signs/Encounter (Clinical Info section)", () => {
