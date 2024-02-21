@@ -49,6 +49,10 @@
     {
       "service": "message_parser",
       "endpoint": "/parse_message"
+    },
+    {
+      "service": "save_to_db",
+      "endpoint": ""
     }
   ]
 }
