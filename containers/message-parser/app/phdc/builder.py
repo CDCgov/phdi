@@ -676,16 +676,13 @@ class PHDCBuilder:
         :return: XML element of coded data.
         """
         element = ET.Element(element_name)
-        xsi_type = kwargs.get("{http://www.w3.org/2001/XMLSchema-instance}type")
 
         for e, v in kwargs.items():
             if e != "element_name" and v is not None:
-                if xsi_type == "TS" and e == "text":
-                    element.set("value", str(v))
-                elif e == "text":
-                    element.text = str(v)
-                else:
-                    element.set(e, v)
+                if e == "text":
+                    element.text = v
+                    continue
+                element.set(e, v)
         return element
 
     def _build_patient(self, patient: Patient) -> ET.Element:
