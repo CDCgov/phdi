@@ -26,7 +26,6 @@ from fastapi import HTTPException
 from fastapi import Response
 from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
-from icecream import ic
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
