@@ -880,8 +880,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             display_name="City of Exposure",
                         ),
                         value=CodedElement(
-                            xsi_type="TS",
-                            value="20201215",
+                            text="Esperanze",
                         ),
                     ),
                 ],
