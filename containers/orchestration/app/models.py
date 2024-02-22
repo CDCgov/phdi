@@ -1,5 +1,6 @@
 import json
 from typing import Dict
+from typing import List
 from typing import Literal
 from typing import Optional
 
@@ -52,7 +53,7 @@ class OrchestrationRequest(BaseModel):
     )
 
     @root_validator()
-    def validate_rr_with_ecr(cls, values):
+    def validate_rr_with_ecr(cls, values: Dict[str, str]) -> Dict[str, str]:
         """
         Validates that RR data is supplied if and only if the uploaded data
         is an eCR (or a zip file of an eICR).
@@ -71,7 +72,7 @@ class OrchestrationRequest(BaseModel):
         return values
 
     @root_validator()
-    def validate_types_agree(cls, values):
+    def validate_types_agree(cls, values: Dict[str, str]) -> Dict[str, str]:
         """
         Validates that the stream type of a message matches the encoded data
         type of that message. This ensures that data from an eCR stream is
@@ -92,7 +93,7 @@ class OrchestrationRequest(BaseModel):
         return values
 
     @root_validator()
-    def validate_fhir_message_is_dict(cls, values):
+    def validate_fhir_message_is_dict(cls, values: Dict[str, str]) -> Dict[str, str]:
         """
         Validates that requests specifying a FHIR data type are formatted as
         proper JSON dictionaries for accessing later.
@@ -116,7 +117,7 @@ class OrchestrationResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processed_values: dict = Field(
+    processed_values: Dict[str, str] = Field(
         description="A set of key:value pairs containing the values extracted from the "
         "message."
     )
@@ -127,10 +128,10 @@ class ListConfigsResponse(BaseModel):
     The config for responses from the /configs endpoint.
     """
 
-    default_configs: list = Field(
+    default_configs: List[str] = Field(
         description="The configs that ship with with this service by default."
     )
-    custom_configs: list = Field(
+    custom_configs: List[str] = Field(
         description="Additional configs that users have uploaded to this service beyond"
         " the ones come by default."
     )
@@ -183,6 +184,6 @@ class GetConfigResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processing_config: dict = Field(
+    processing_config: Dict[str, str] = Field(
         description="A configuration for the orchestration app"
     )
