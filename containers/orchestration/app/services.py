@@ -9,7 +9,6 @@ from fastapi import HTTPException
 from fastapi import Response
 from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
-from icecream import ic
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -173,7 +172,6 @@ def save_to_db_payload(**kwargs) -> dict:
     b = bundle.json()
     if "bundle" in b:
         b = b["bundle"]
-    ic(b)
     entry = b.get("entry") if isinstance(b, dict) and b.get("entry") else False
     first_entry = entry[0] if entry else False
     resource = first_entry.get("resource") if first_entry else False
