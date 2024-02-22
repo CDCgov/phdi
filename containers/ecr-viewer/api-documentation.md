@@ -17,7 +17,7 @@ Display an eCR
 
 ## Success Response
 
-**Condition** : If the eCR exists and authentication is valid.
+**Condition** : eCR exists and authentication is valid.
 
 **Code** : `200 OK`
 
@@ -25,7 +25,7 @@ Display an eCR
 
 ## Error Responses
 
-**Condition** : If the eCR does not exist with `id`
+**Condition** : eCR does not exist with `id`
 
 **Code** : `404 NOT FOUND`
 
@@ -33,7 +33,7 @@ Display an eCR
 
 ### Or
 
-**Condition** : If the authentication is invalid
+**Condition** : Authentication is invalid
 
 **Code** : `401 UNAUTHORIZED`
 
