@@ -82,6 +82,24 @@
               <value/>
             </observation>
           </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="alcohol-type" codeSystem="http://acme-rehab.org"/>
+              <value code="35748005" codeSystem="http://snomed.info/sct" value="Wine (substance)"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="alcohol-type" codeSystem="http://acme-rehab.org"/>
+              <value code="53410008" codeSystem="http://snomed.info/sct" value="Beer (substance)"/>
+            </observation>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="alcohol-type" codeSystem="http://acme-rehab.org"/>
+              <value code="6524003" codeSystem="http://snomed.info/sct" value="Distilled spirits (substance)"/>
+            </observation>
+          </entry>
         </section>
       </component>
       <component>
@@ -118,6 +136,12 @@
                 </observation>
               </component>
             </organizer>
+          </entry>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="EXPAGNT" codeSystem="http://terminology.hl7.org/CodeSystem/v3-ParticipationType" displayName="ExposureAgent"/>
+              <value code="840533007" codeSystem="http://snomed.info/sct" value="Severe acute respiratory syndrome coronavirus 2 (organism)"/>
+            </observation>
           </entry>
         </section>
       </component>

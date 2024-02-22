@@ -498,6 +498,7 @@ class PHDCBuilder:
         :return: The data for building the observation element as an
             Entry object, sorted into code and value sections.
         """
+        # Build Observations
         # Code
         if not observation.code:
             observation.code = CodedElement(
@@ -505,6 +506,7 @@ class PHDCBuilder:
                 code_system=observation.code_code_system,
                 display_name=observation.code_code_display,
             )
+
         # Quantitative values
         if not observation.value:
             if observation.value_quantitative_value is not None:
