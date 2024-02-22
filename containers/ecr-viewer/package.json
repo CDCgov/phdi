@@ -25,6 +25,7 @@
     "html-react-parser": "^5.1.4",
     "js-yaml": "4.1.0",
     "next": "14.0.3",
+    "node-mocks-http": "^1.14.1",
     "pg-promise": "^11.5.4",
     "react": "^18",
     "react-dom": "^18"

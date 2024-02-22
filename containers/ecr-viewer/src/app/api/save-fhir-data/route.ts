@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
 
   try {
     const requestBody = await request.json();
-    // console.log("RB IS ", requestBody)
 
     const fhirBundle = requestBody.fhirBundle;
     const ecrId = requestBody.fhirBundle.entry[0].resource.id;
@@ -24,31 +23,35 @@ export async function POST(request: NextRequest) {
         const saveECR = await database.one(addFhir);
         console.log("Created Resource with: ", saveECR);
 
-        return NextResponse.json(
-          { message: "Success. Saved FHIR Bundle to database: " + saveECR },
-          { status: 200 },
+        return new NextResponse(
+          JSON.stringify({
+            message: "Success. Saved FHIR Bundle to database: " + saveECR,
+          }),
+          { status: 200, headers: { "content-type": "application/json" } },
         );
       } catch (error) {
         console.error("Error inserting data to database:", error);
-        return NextResponse.json(
-          { message: "Failed to insert data to database." + error.message },
-          { status: 400 },
+        return new NextResponse(
+          JSON.stringify({
+            message: "Failed to insert data to database." + error.message,
+          }),
+          { status: 400, headers: { "content-type": "application/json" } },
         );
       }
     } else {
-      return NextResponse.json(
-        {
-          error:
+      return new NextResponse(
+        JSON.stringify({
+          message:
             "Invalid request body. Body must include a FHIR bundle with an ID.",
-        },
-        { status: 400 },
+        }),
+        { status: 400, headers: { "content-type": "application/json" } },
       );
     }
   } catch (error) {
     console.error("Error reading request body:", error);
-    return NextResponse.json(
-      { error: "Error reading request body. " + error.message },
-      { status: 400 },
+    return new NextResponse(
+      JSON.stringify({ error: "Error reading request body. " + error.message }),
+      { status: 400, headers: { "content-type": "application/json" } },
     );
   }
 }
