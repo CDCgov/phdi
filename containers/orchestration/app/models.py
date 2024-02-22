@@ -117,7 +117,7 @@ class OrchestrationResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processed_values: Dict[str, str] = Field(
+    processed_values: Dict = Field(
         description="A set of key:value pairs containing the values extracted from the "
         "message."
     )
@@ -184,6 +184,6 @@ class GetConfigResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processing_config: Dict[str, str] = Field(
+    processing_config: dict = Field(
         description="A configuration for the orchestration app"
     )
