@@ -19,7 +19,6 @@ const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
 
 const assignApiPath = () => {
-  console.log(process.env.NEXT_PUBLIC_SOURCE);
   if (process.env.NEXT_PUBLIC_SOURCE === S3_SOURCE) {
     return "s3";
   } else if (process.env.NEXT_PUBLIC_SOURCE === POSTGRES_SOURCE) {

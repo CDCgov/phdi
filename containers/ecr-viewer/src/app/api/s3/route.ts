@@ -7,8 +7,7 @@ const s3Client = new S3Client({ region: process.env.AWS_REGION });
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
-  const ecr_id = params.get("id") ? params.get("id") : null;
-
+  const ecr_id = params.get("id");
   const bucketName = process.env.ECR_BUCKET_NAME;
   const objectKey = `${ecr_id}.json`; // This could also come from the request, e.g., req.query.key
 
