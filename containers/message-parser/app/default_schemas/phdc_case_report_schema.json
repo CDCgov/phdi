@@ -318,6 +318,11 @@
         "data_type": "string",
         "nullable": true
       },
+      "text": {
+        "fhir_path": "valueCodeableConcept.text",
+        "data_type": "string",
+        "nullable": true
+      },
       "components": {
         "fhir_path": "Observation.component",
         "data_type": "array",
