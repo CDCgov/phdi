@@ -284,6 +284,7 @@ async def call_apis(
     """
     workflow = config.get("workflow", [])
     current_message = input.get("message")
+    response = current_message
     responses = {}
 
     # For websocket json dumps
@@ -309,7 +310,7 @@ async def call_apis(
                 service_response = response_func(response)
 
                 if websocket:
-                    progress_dict = _send_websocket_dump(
+                    progress_dict = await _send_websocket_dump(
                         endpoint_name,
                         response,
                         service_response,
@@ -330,7 +331,11 @@ async def call_apis(
                         + f"{service_response.msg_content}",
                     )
 
-                current_message = service_response.msg_content
+                # Validation reports only whether we should continue, with
+                # no updated data, so don't send error results to next
+                # service
+                if service != "validation":
+                    current_message = service_response.msg_content
                 responses[service] = response
 
             else:
@@ -338,7 +343,7 @@ async def call_apis(
                 response = save_to_db(url=service_url, payload=db_request)
 
                 if websocket:
-                    progress_dict = _send_websocket_dump(
+                    progress_dict = await _send_websocket_dump(
                         endpoint_name,
                         response,
                         service_response,
@@ -348,11 +353,10 @@ async def call_apis(
 
                 responses[service] = response
 
-            return (response, responses)
-
         except KeyError:
             raise HTTPException(
                 status_code=422,
                 detail="The Building Block you are attempting to call does not exist:"
                 + f" {service}",
             )
+    return (response, responses)

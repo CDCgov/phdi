@@ -81,7 +81,7 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
     message_parser_post_request = mock.Mock()
     message_parser_post_request.status_code = 200
     message_parser_post_request.json.return_value = {
-        "parsed_values": {"placeholder_key": "placeholder_value"}
+        "parsed_values": {"eicr_id": "placeholder_id"}
     }
     save_to_db_response = CustomJSONResponse(
         content=jsonable_encoder(
@@ -277,7 +277,7 @@ def test_process_success(patched_save_to_db, patched_post_request):
         message_parser_post_request = mock.Mock()
         message_parser_post_request.status_code = 200
         message_parser_post_request.json.return_value = {
-            "parsed_values": {"placeholder_key": "placeholder_value"}
+            "parsed_values": {"eicr_id": "placeholder_id"}
         }
         save_to_db_response = CustomJSONResponse(
             content=jsonable_encoder(
