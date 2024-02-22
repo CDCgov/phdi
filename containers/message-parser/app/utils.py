@@ -111,12 +111,32 @@ def get_parsers(extraction_schema: frozendict) -> frozendict:
             ].items():
                 # Base case: secondary field is located on this resource
                 if not secondary_field_definition["fhir_path"].startswith("Bundle"):
-                    secondary_parsers[secondary_field] = {
-                        "secondary_fhir_path": fhirpathpy.compile(
+                    if "secondary_schema" in secondary_field_definition:
+                        tertiary_parser = {}
+                        tertiary_parsers = {}
+                        tertiary_parser["primary_parser"] = fhirpathpy.compile(
                             secondary_field_definition["fhir_path"]
                         )
-                    }
+                        for (
+                            tertiary_field,
+                            tertiary_field_definition,
+                        ) in secondary_field_definition["secondary_schema"].items():
+                            tertiary_parsers[tertiary_field] = {
+                                "secondary_fhir_path": fhirpathpy.compile(
+                                    tertiary_field_definition["fhir_path"]
+                                )
+                            }
+                        secondary_parsers[secondary_field] = {
+                            "primary_parser": tertiary_parser["primary_parser"],
+                            "secondary_parsers": tertiary_parsers,
+                        }
 
+                    else:
+                        secondary_parsers[secondary_field] = {
+                            "secondary_fhir_path": fhirpathpy.compile(
+                                secondary_field_definition["fhir_path"]
+                            )
+                        }
                 # Reference case: secondary field is located on a different resource,
                 # so we can't compile the fhir_path proper; instead, compile the
                 # reference for quick access later
@@ -404,51 +424,73 @@ def extract_and_apply_parsers(parsing_schema, message, response):
 
             for initial_value in initial_values:
                 value = {}
-                for secondary_field, path_struct in parser["secondary_parsers"].items():
-                    # Base cases for a secondary field:
-                    # Information is contained on this resource, just in a
-                    # nested structure
-                    if "reference_path" not in path_struct:
-                        try:
-                            secondary_parser = path_struct["secondary_fhir_path"]
-                            if len(secondary_parser(initial_value)) == 0:
-                                value[secondary_field] = None
-                            else:
-                                value[secondary_field] = ",".join(
-                                    map(str, secondary_parser(initial_value))
-                                )
-
-                        # By default, fhirpathpy will compile such that *only*
-                        # actual resources can be accessed, rather than data types.
-                        # This is fine for most cases, but sometimes the actual data
-                        # we want is in a list of structs rather than a list of
-                        # resources, such as a list of patient addresses. This
-                        # exception catches that and allows an ordinary property
-                        # search.
-                        except KeyError:
-                            try:
-                                accessors = (
-                                    secondary_parser.parsedPath.get("children")[0]
-                                    .get("text")
-                                    .split(".")[1:]
-                                )
-                                val = initial_value
-                                for acc in accessors:
-                                    if "[" not in acc:
-                                        val = val[acc]
+                for secondary_field, secondary_path_struct in parser[
+                    "secondary_parsers"
+                ].items():
+                    if "reference_path" not in secondary_path_struct:
+                        # Check for tertiary values
+                        if "secondary_parsers" in secondary_path_struct:
+                            tertiary_parser = secondary_path_struct["primary_parser"]
+                            tertiary_values = []
+                            for v in tertiary_parser(initial_value):
+                                tv = {}
+                                for (
+                                    tertiary_field,
+                                    tertiary_path_struct,
+                                ) in secondary_path_struct["secondary_parsers"].items():
+                                    tv_parser = tertiary_path_struct[
+                                        "secondary_fhir_path"
+                                    ]
+                                    if len(tv_parser(v)) == 0:
+                                        tv[tertiary_field] = None
                                     else:
-                                        sub_acc = acc.split("[")[1].split("]")[0]
-                                        val = val[acc.split("[")[0].strip()][
-                                            int(sub_acc)
-                                        ]
-                                value[secondary_field] = str(val)
-                            except:  # noqa
-                                value[secondary_field] = None
+                                        tv[tertiary_field] = ",".join(
+                                            map(str, tv_parser(v))
+                                        )
+                                tertiary_values.append(tv)
+                            value[secondary_field] = tertiary_values
+                        else:
+                            try:
+                                secondary_parser = secondary_path_struct[
+                                    "secondary_fhir_path"
+                                ]
+                                if len(secondary_parser(initial_value)) == 0:
+                                    value[secondary_field] = None
+                                else:
+                                    value[secondary_field] = ",".join(
+                                        map(str, secondary_parser(initial_value))
+                                    )
+                            # By default, fhirpathpy will compile such that *only*
+                            # actual resources can be accessed, rather than data types.
+                            # This is fine for most cases, but sometimes the actual data
+                            # we want is in a list of structs rather than a list of
+                            # resources, such as a list of patient addresses. This
+                            # exception catches that and allows an ordinary property
+                            # search.
+                            except KeyError:
+                                try:
+                                    accessors = (
+                                        secondary_parser.parsedPath.get("children")[0]
+                                        .get("text")
+                                        .split(".")[1:]
+                                    )
+                                    val = initial_value
+                                    for acc in accessors:
+                                        if "[" not in acc:
+                                            val = val[acc]
+                                        else:
+                                            sub_acc = acc.split("[")[1].split("]")[0]
+                                            val = val[acc.split("[")[0].strip()][
+                                                int(sub_acc)
+                                            ]
+                                    value[secondary_field] = str(val)
+                                except:  # noqa
+                                    value[secondary_field] = None
 
                     # Reference case: information is contained on another
                     # resource that we have to look up
                     else:
-                        reference_parser = path_struct["reference_path"]
+                        reference_parser = secondary_path_struct["reference_path"]
                         if len(reference_parser(initial_value)) == 0:
                             response.status_code = status.HTTP_400_BAD_REQUEST
                             return {
@@ -465,9 +507,9 @@ def extract_and_apply_parsers(parsing_schema, message, response):
                             reference_to_find = reference_to_find.split("/")[-1]
 
                             # Build the resultant concatenated reference path
-                            reference_path = path_struct["secondary_fhir_path"].replace(
-                                DIBBS_REFERENCE_SIGNIFIER, reference_to_find
-                            )
+                            reference_path = secondary_path_struct[
+                                "secondary_fhir_path"
+                            ].replace(DIBBS_REFERENCE_SIGNIFIER, reference_to_find)
                             reference_path = fhirpathpy.compile(reference_path)
                             referenced_value = reference_path(message)
                             if len(referenced_value) == 0:
@@ -509,16 +551,25 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
             case "patient_ethnic_group_code":
                 input_data.patient.ethnic_group_code = value
             case "observations":
-                input_data.clinical_info = []
-                input_data.social_history_info = []
-                input_data.repeating_questions = []
+                observation_groups = {
+                    "social-history": input_data.social_history_info,
+                    "EXPOS": input_data.repeating_questions,
+                    "clinical_info": input_data.clinical_info,
+                    "vital-signs": input_data.clinical_info,
+                }
                 for obs in value:
-                    if obs["obs_type"] == "social-history":
-                        input_data.social_history_info.append(Observation(**obs))
-                    elif obs["obs_type"] == "EXPOS":
-                        input_data.repeating_questions.append(Observation(**obs))
-                    else:
-                        input_data.clinical_info.append(Observation(**obs))
+                    observation_type = "clinical_info"
+                    if obs["obs_type"] in observation_groups:
+                        observation_type = obs["obs_type"]
+
+                    observation_groups[observation_type].append(Observation(**obs))
+
+                    if "components" in obs and obs["components"] is not None:
+                        for component in obs["components"]:
+                            observation_groups[observation_type].append(
+                                Observation(**component)
+                            )
+
             case "custodian_represented_custodian_organization":
                 organizations = []
                 address_fields = set([f.name for f in dataclasses.fields(Address)])
@@ -540,8 +591,6 @@ def transform_to_phdc_input_data(parsed_values: dict) -> PHDCInputData:
                     )
 
                 input_data.organization = organizations
-            case "observations":
-                input_data.observations = [Observation(**obs) for obs in value]
             case _:
                 pass
     return input_data
