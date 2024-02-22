@@ -63,7 +63,7 @@ def test_build_telecom(build_telecom_test_data, expected_result):
             "value",
             {
                 "{http://www.w3.org/2001/XMLSchema-instance}type": "TS",
-                "text": "20240101",
+                "value": "20240101",
             },
             '<value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
             'xsi:type="TS" value="20240101"/>',
