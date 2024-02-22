@@ -27,7 +27,8 @@
     "next": "14.0.3",
     "pg-promise": "^11.5.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "jose": "5.2.2"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
