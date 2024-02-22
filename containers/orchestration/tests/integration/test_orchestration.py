@@ -61,7 +61,7 @@ def test_process_message_endpoint(setup):
     request = {
         "message_type": "ecr",
         "data_type": "ecr",
-        "config_file_name": "sample-orchestration-config.json",
+        "config_file_name": "sample-orchestration-config-new.json",
         "include_error_types": "errors",
         "message": message,
     }
@@ -86,7 +86,7 @@ def test_process_endpoint_with_zip(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config.json",
+            "config_file_name": "sample-orchestration-config-new.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", file)}
@@ -113,7 +113,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config.json",
+            "config_file_name": "sample-orchestration-config-new.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", file)}
@@ -144,7 +144,7 @@ def test_process_message_fhir(setup):
     request = {
         "message_type": "fhir",
         "data_type": "fhir",
-        "config_file_name": "sample-fhir-test-config.json",
+        "config_file_name": "sample-fhir-test-config-new.json",
         "include_error_types": "errors",
         "message": json.dumps(message),
     }
@@ -170,7 +170,7 @@ def test_process_message_hl7(setup):
     request = {
         "message_type": "elr",
         "data_type": "hl7",
-        "config_file_name": "sample-hl7-test-config.json",
+        "config_file_name": "sample-hl7-test-config-new.json",
         "include_error_types": "errors",
         "message": message,
     }
