@@ -78,26 +78,26 @@
           <title>SOCIAL HISTORY INFORMATION</title>
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="alcohol-type" codeSystem="http://acme-rehab.org" displayName="Type of alcohol consumed"/>
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab" displayName="Type of alcohol consumed"/>
               <value/>
             </observation>
           </entry>
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="alcohol-type" codeSystem="http://acme-rehab.org"/>
-              <value code="35748005" codeSystem="http://snomed.info/sct" value="Wine (substance)"/>
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab"/>
+              <value code="35748005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" value="Wine (substance)"/>
             </observation>
           </entry>
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="alcohol-type" codeSystem="http://acme-rehab.org"/>
-              <value code="53410008" codeSystem="http://snomed.info/sct" value="Beer (substance)"/>
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab"/>
+              <value code="53410008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" value="Beer (substance)"/>
             </observation>
           </entry>
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="alcohol-type" codeSystem="http://acme-rehab.org"/>
-              <value code="6524003" codeSystem="http://snomed.info/sct" value="Distilled spirits (substance)"/>
+              <code code="alcohol-type" codeSystem="Acme Rehab" codeSystemName="Acme Rehab"/>
+              <value code="6524003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" value="Distilled spirits (substance)"/>
             </observation>
           </entry>
         </section>
@@ -109,14 +109,14 @@
           <title>Clinical Information</title>
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
-              <code code="15074-8" codeSystem="http://loinc.org" displayName="Glucose [Moles/volume] in Blood"/>
+              <code code="15074-8" codeSystem="number" codeSystemName="LOINC" displayName="Glucose [Moles/volume] in Blood"/>
               <value code="mmol/L" codeSystem="http://unitsofmeasure.org" value="6.3"/>
             </observation>
           </entry>
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
               <code code="104177,600-7" codeSystem="http://acmelabs.org,http://loinc.org" displayName="Blood culture,Bacteria identified in Blood by Culture"/>
-              <value code="3092008" codeSystem="http://snomed.info/sct" value="Staphylococcus aureus"/>
+              <value code="3092008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" value="Staphylococcus aureus"/>
             </observation>
           </entry>
         </section>
@@ -132,7 +132,7 @@
               <component>
                 <observation classCode="OBS" moodCode="EVN">
                   <code code="C3841750" codeSystem="http://terminology.hl7.org/CodeSystem/umls" displayName="Mass gathering"/>
-                  <value code="264379009" codeSystem="http://snomed.info/sct" value="Sports stadium (environment)"/>
+                  <value code="264379009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" value="Sports stadium (environment)"/>
                 </observation>
               </component>
             </organizer>
@@ -140,7 +140,7 @@
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
               <code code="EXPAGNT" codeSystem="http://terminology.hl7.org/CodeSystem/v3-ParticipationType" displayName="ExposureAgent"/>
-              <value code="840533007" codeSystem="http://snomed.info/sct" value="Severe acute respiratory syndrome coronavirus 2 (organism)"/>
+              <value code="840533007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT" value="Severe acute respiratory syndrome coronavirus 2 (organism)"/>
             </observation>
           </entry>
         </section>
