@@ -1,7 +1,7 @@
-import json
 from typing import Dict
 from typing import Literal
 from typing import Optional
+from typing import Union
 
 from app.constants import PROCESSING_CONFIG_DATA_TYPES
 from pydantic import BaseModel
@@ -45,7 +45,7 @@ class OrchestrationRequest(BaseModel):
         )
     )
 
-    message: str = Field(description="The message to be validated.")
+    message: Union[dict, str] = Field(description="The message to be validated.")
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
         default=None,
@@ -99,7 +99,7 @@ class OrchestrationRequest(BaseModel):
         """
         message = values.get("message")
         data_type = values.get("data_type")
-        if data_type == "fhir" and type(json.loads(message)) is not dict:
+        if data_type == "fhir" and type(message) is not dict:
             raise ValueError(
                 "A `data_type` of FHIR requires the input message "
                 "to be a valid dictionary."

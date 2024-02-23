@@ -118,13 +118,7 @@ def test_process_message_fhir_data(patched_post_request):
         "data_type": "fhir",
         "config_file_name": "sample-fhir-test-config-new.json",
         "include_error_types": "errors",
-        "message": '{"foo": "bar"}',
-    }
-    validation_post_request = mock.Mock()
-    validation_post_request.status_code = 200
-    validation_post_request.json.return_value = {
-        "validation_results": [],
-        "message_valid": True,
+        "message": {"foo": "bar"},
     }
     ingestion_post_request = mock.Mock()
     ingestion_post_request.status_code = 200
@@ -137,7 +131,6 @@ def test_process_message_fhir_data(patched_post_request):
         "parsed_values": {"placeholder_key": "placeholder_value"}
     }
     patched_post_request.side_effect = [
-        validation_post_request,
         ingestion_post_request,
         ingestion_post_request,
         ingestion_post_request,
