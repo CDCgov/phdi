@@ -255,10 +255,17 @@ class GetSchemaResponse(BaseModel):
     )
 
 
+class ParsingSchemaTertiaryFieldModel(BaseModel):
+    fhir_path: str
+    data_type: PARSING_SCHEMA_DATA_TYPES
+    nullable: bool
+
+
 class ParsingSchemaSecondaryFieldModel(BaseModel):
     fhir_path: str
     data_type: PARSING_SCHEMA_DATA_TYPES
     nullable: bool
+    secondary_schema: Optional[Dict[str, ParsingSchemaTertiaryFieldModel]]
 
 
 class ParsingSchemaFieldModel(BaseModel):

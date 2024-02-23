@@ -45,6 +45,39 @@ def test_build_telecom(build_telecom_test_data, expected_result):
 
 
 @pytest.mark.parametrize(
+    "element_name, kwargs, expected_xml",
+    [
+        # test case for normal handling
+        (
+            "element",
+            {
+                "code": "someCode",
+                "codeSystem": "someCodeSystem",
+                "displayName": "someDisplayName",
+            },
+            '<element code="someCode" codeSystem="someCodeSystem" '
+            'displayName="someDisplayName"/>',
+        ),
+        # test xsi_type "TS" where the date value is set to the value attribute
+        (
+            "value",
+            {
+                "{http://www.w3.org/2001/XMLSchema-instance}type": "TS",
+                "value": "20240101",
+            },
+            '<value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+            'xsi:type="TS" value="20240101"/>',
+        ),
+    ],
+)
+def test_build_coded_element(element_name, kwargs, expected_xml):
+    builder = PHDCBuilder()
+    result_element = builder._build_coded_element(element_name, **kwargs)
+    result_xml = ET.tostring(result_element).decode()
+    assert result_xml == expected_xml
+
+
+@pytest.mark.parametrize(
     "build_observation_test_data, expected_result",
     [
         # Test case with a single code element, value, and translation
@@ -654,7 +687,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                text="20240124",
+                                value="20240124",
                             ),
                         ),
                     ]
@@ -811,7 +844,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                         ),
                         value=CodedElement(
                             xsi_type="TS",
-                            text="20240124",
+                            value="20240124",
                         ),
                     ),
                 ],
@@ -847,7 +880,6 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             display_name="City of Exposure",
                         ),
                         value=CodedElement(
-                            xsi_type="TS",
                             text="Esperanze",
                         ),
                     ),
@@ -985,7 +1017,7 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                text="20240124",
+                                value="20240124",
                             ),
                         ),
                     ]

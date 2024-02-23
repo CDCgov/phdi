@@ -15,7 +15,7 @@
     <entry typeCode="COMP">
       <observation classCode="OBS" moodCode="EVN">
         <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Information As of Date"/>
-        <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TS">20240124</value>
+        <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TS" value="20240124"/>
       </observation>
     </entry>
   </section>
