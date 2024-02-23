@@ -14,6 +14,8 @@ Display an eCR
 
 **Permissions required** : None
 
+## Example Architecture
+![NBS -> ECR Viewer sequence diagram](assets/nbs-ecr-viewer-arch.png)
 
 ## Success Response
 
