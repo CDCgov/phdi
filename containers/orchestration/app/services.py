@@ -296,67 +296,60 @@ async def call_apis(
         endpoint_name = endpoint.split("/")[-1]
         params = step.get("params", None)
 
-        try:
-            service_url = format_service_url(service_urls[service], endpoint)
+        service_url = format_service_url(service_urls[service], endpoint)
 
-            # TODO: Once the save to DB functionality is registered as an actual
-            # service endpoint on the eCR viewer side, we can write real handlers
-            # for it and take out the if/else logic
-            if service != "save_to_db":
-                request_func = ENDPOINT_TO_REQUEST[endpoint_name]
-                response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
-                service_request = request_func(current_message, input, params)
-                response = post_request(service_url, service_request)
-                service_response = response_func(response)
+        # TODO: Once the save to DB functionality is registered as an actual
+        # service endpoint on the eCR viewer side, we can write real handlers
+        # for it and take out the if/else logic
+        if service != "save_to_db":
+            request_func = ENDPOINT_TO_REQUEST[endpoint_name]
+            response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
+            service_request = request_func(current_message, input, params)
+            response = post_request(service_url, service_request)
+            service_response = response_func(response)
 
-                if websocket:
-                    progress_dict = await _send_websocket_dump(
-                        endpoint_name,
-                        response,
-                        service_response,
-                        progress_dict,
-                        websocket,
-                    )
+            if websocket:
+                progress_dict = await _send_websocket_dump(
+                    endpoint_name,
+                    response,
+                    service_response,
+                    progress_dict,
+                    websocket,
+                )
 
-                if service_response.status_code != 200:
-                    raise HTTPException(
-                        status_code=service_response.status_code,
-                        detail=f"Service {service} failed with error {service_response.msg_content}",  # noqa
-                    )
+            if service_response.status_code != 200:
+                raise HTTPException(
+                    status_code=service_response.status_code,
+                    detail=f"Service {service} failed with error {service_response.msg_content}",  # noqa
+                )
 
-                if not service_response.should_continue:
-                    raise HTTPException(
-                        status_code=400,
-                        detail=f"Service {service} completed, but orchestration cannot continue: "  # noqa
-                        + f"{service_response.msg_content}",
-                    )
+            if not service_response.should_continue:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Service {service} completed, but orchestration cannot continue: "  # noqa
+                    + f"{service_response.msg_content}",
+                )
 
-                # Validation reports only whether we should continue, with
-                # no updated data, so don't send error results to next
-                # service
-                if service != "validation":
-                    current_message = service_response.msg_content
-                responses[service] = response
+            # Validation reports only whether we should continue, with
+            # no updated data, so don't send error results to next
+            # service
+            if service != "validation":
+                current_message = service_response.msg_content
+            responses[service] = response
 
-            else:
-                db_request = save_to_db_payload(response=response)
-                response = save_to_db(url=service_url, payload=db_request)
+        else:
+            db_request = save_to_db_payload(response=response)
+            response = save_to_db(url=service_url, payload=db_request)
 
-                if websocket:
-                    progress_dict = await _send_websocket_dump(
-                        endpoint_name,
-                        response,
-                        service_response,
-                        progress_dict,
-                        websocket,
-                    )
+            if websocket:
+                progress_dict = await _send_websocket_dump(
+                    endpoint_name,
+                    response,
+                    service_response,
+                    progress_dict,
+                    websocket,
+                )
 
-                responses[service] = response
+            responses[service] = response
 
-        except KeyError:
-            raise HTTPException(
-                status_code=422,
-                detail="The Building Block you are attempting to call does not exist:"
-                + f" {service}",
-            )
     return (response, responses)
