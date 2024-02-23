@@ -5,7 +5,8 @@
   ],
   "extends": [
     "plugin:@next/next/recommended",
-    "prettier"
+    "prettier",
+    "unused-imports"
   ],
   "env": {
     "es6": true
