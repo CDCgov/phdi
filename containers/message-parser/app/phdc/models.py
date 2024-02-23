@@ -125,6 +125,7 @@ class Observation:
     class_code: Optional[str] = None
     code_display: Optional[str] = None
     code_system: Optional[str] = None
+    code_system_name: Optional[str] = None
     quantitative_value: Optional[float] = None
     quantitative_system: Optional[str] = None
     quantitative_code: Optional[str] = None
@@ -134,12 +135,15 @@ class Observation:
     mood_code: Optional[str] = None
     code_code: Optional[str] = None
     code_code_system: Optional[str] = None
+    code_code_system_name: Optional[str] = None
     code_code_display: Optional[str] = None
     value_quantitative_code: Optional[str] = None
-    value_quantitative_code_system: Optional[str] = None
+    value_quant_code_system: Optional[str] = None
+    value_quant_code_system_name: Optional[str] = None
     value_quantitative_value: Optional[float] = None
     value_qualitative_code: Optional[str] = None
     value_qualitative_code_system: Optional[str] = None
+    value_qualitative_code_system_name: Optional[str] = None
     value_qualitative_value: Optional[str] = None
     components: Optional[list] = None
     code: Optional[CodedElement] = None
