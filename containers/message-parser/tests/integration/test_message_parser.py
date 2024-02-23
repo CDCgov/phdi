@@ -34,7 +34,7 @@ with open(test_schema_path, "r") as file:
 
 
 @pytest.mark.integration
-def test_parse_message2(setup):
+def test_parse_message(setup):
     expected_reference_response = {
         "message": "Parsing succeeded!",
         "parsed_values": {
@@ -135,6 +135,7 @@ def test_parse_message2(setup):
                     "value_qualitative_value": None,
                     "value_qualitative_code_system": None,
                     "value_qualitative_code": None,
+                    "text": None,
                     "components": [],
                 },
                 {
@@ -142,7 +143,7 @@ def test_parse_message2(setup):
                     "code_code": "104177,600-7",
                     "code_code_system": "http://acmelabs.org,http://loinc.org",
                     "code_code_display": (
-                        "Blood culture,Bacteria identified " + "in Blood by Culture"
+                        "Blood culture,Bacteria identified in Blood by Culture"
                     ),
                     "value_quantitative_value": None,
                     "value_quant_code_system": None,
@@ -150,6 +151,7 @@ def test_parse_message2(setup):
                     "value_qualitative_value": "Staphylococcus aureus",
                     "value_qualitative_code_system": "http://snomed.info/sct",
                     "value_qualitative_code": "3092008",
+                    "text": None,
                     "components": [],
                 },
                 {
@@ -163,6 +165,7 @@ def test_parse_message2(setup):
                     "value_qualitative_value": None,
                     "value_qualitative_code_system": None,
                     "value_qualitative_code": None,
+                    "text": None,
                     "components": [
                         {
                             "code_code": "alcohol-type",
@@ -172,7 +175,7 @@ def test_parse_message2(setup):
                             "value_quant_code_system": None,
                             "value_quantitative_code": None,
                             "value_qualitative_value": "Wine (substance)",
-                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code_system": "http://snomed.info/sct",
                             "value_qualitative_code": "35748005",
                             "text": "Wine",
                         },
@@ -184,7 +187,7 @@ def test_parse_message2(setup):
                             "value_quant_code_system": None,
                             "value_quantitative_code": None,
                             "value_qualitative_value": "Beer (substance)",
-                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code_system": "http://snomed.info/sct",
                             "value_qualitative_code": "53410008",
                             "text": "Beer",
                         },
@@ -195,10 +198,8 @@ def test_parse_message2(setup):
                             "value_quantitative_value": None,
                             "value_quant_code_system": None,
                             "value_quantitative_code": None,
-                            "value_qualitative_value": (
-                                "Distilled spirits (substance)"
-                            ),
-                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_value": "Distilled spirits (substance)",
+                            "value_qualitative_code_system": "http://snomed.info/sct",
                             "value_qualitative_code": "6524003",
                             "text": "Liquor",
                         },
@@ -215,6 +216,7 @@ def test_parse_message2(setup):
                     "value_qualitative_value": "Sports stadium (environment)",
                     "value_qualitative_code_system": "http://snomed.info/sct",
                     "value_qualitative_code": "264379009",
+                    "text": "City Football Stadium",
                     "components": [
                         {
                             "code_code": "EXPAGNT",
@@ -227,10 +229,10 @@ def test_parse_message2(setup):
                             "value_quant_code_system": None,
                             "value_quantitative_code": None,
                             "value_qualitative_value": (
-                                "Severe acute respiratory syndrome coronavirus 2 "
-                                + "(organism)"
+                                "Severe acute respiratory "
+                                + "syndrome coronavirus 2 (organism)"
                             ),
-                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code_system": "http://snomed.info/sct",
                             "value_qualitative_code": "840533007",
                             "text": None,
                         }
@@ -245,12 +247,10 @@ def test_parse_message2(setup):
         "parsing_schema": test_schema,
         "message": test_bundle,
     }
-    print(expected_reference_response)
     parsing_response = httpx.post(PARSE_MESSAGE, json=request)
 
     assert parsing_response.status_code == 200
-    print(parsing_response.json())
-    # assert parsing_response.json() == expected_reference_response
+    assert parsing_response.json() == expected_reference_response
 
 
 @pytest.mark.integration
