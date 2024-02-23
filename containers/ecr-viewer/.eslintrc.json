@@ -1,12 +1,12 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "unused-imports"
   ],
   "extends": [
     "plugin:@next/next/recommended",
-    "prettier",
-    "unused-imports"
+    "prettier"
   ],
   "env": {
     "es6": true
