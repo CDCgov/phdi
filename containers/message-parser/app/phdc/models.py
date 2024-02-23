@@ -138,8 +138,8 @@ class Observation:
     code_code_system_name: Optional[str] = None
     code_code_display: Optional[str] = None
     value_quantitative_code: Optional[str] = None
-    value_quantitative_code_system: Optional[str] = None
-    value_quantitative_code_system_name: Optional[str] = None
+    value_quant_code_system: Optional[str] = None
+    value_quant_code_system_name: Optional[str] = None
     value_quantitative_value: Optional[float] = None
     value_qualitative_code: Optional[str] = None
     value_qualitative_code_system: Optional[str] = None
