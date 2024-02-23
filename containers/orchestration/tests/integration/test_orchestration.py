@@ -160,7 +160,7 @@ def test_process_message_fhir(setup):
 def test_process_message_fhir_phdc(setup):
     """
     Integration test of a different workflow and data type, a FHIR bundle
-    passed through standardization.
+    passed through standardization to create a PHDC XML.
     """
     message = json.load(
         open(
