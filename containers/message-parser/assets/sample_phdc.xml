@@ -93,7 +93,7 @@
           <entry typeCode="COMP">
             <observation classCode="OBS" moodCode="EVN">
               <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Information As of Date"/>
-              <value xsi:type="TS">20240124</value>
+              <value xsi:type="TS" value="20240124"/>
             </observation>
           </entry>
         </section>
@@ -144,7 +144,7 @@
               <component>
                 <observation classCode="OBS" moodCode="EVN">
                   <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="City of Exposure"/>
-                  <value xsi:type="TS">Esperanze</value>
+                  <value>Esperanze</value>
                 </observation>
               </component>
             </organizer>

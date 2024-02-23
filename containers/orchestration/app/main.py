@@ -52,6 +52,13 @@ upload_config_response = load_config_assets(
 
 
 class WS_File:
+    """
+    A class to represent a file object for WebSocket communication.
+
+    This class is designed to handle file data that is transmitted over
+    a WebSocket connection.
+    """
+
     # Constructor method (init method)
     def __init__(self, file):
         # Instance attributes
@@ -67,6 +74,9 @@ async def process_message_endpoint_ws(
     The file is processed by the building blocks according to the currently
     loaded configuration and emits websocket updates to the client as each
     processing step completes.
+
+    :param websocket:An instance of the WebSocket connection. It is used to communicate
+      with the client, sending and receiving data in real-time.
     """
 
     await websocket.accept()
@@ -141,7 +151,7 @@ async def process_endpoint(
       workflow is unsuccessful, as well as what kinds of errors.
     :param upload_file: A file containing clinical health care information.
     :return: A response holding whether the workflow application was
-      successful as well as well as the results of the workflow.
+      successful as well as the results of the workflow.
     """
 
     rr_content = None
@@ -178,6 +188,9 @@ async def process_message_endpoint(
     This endpoint is the second of two workflow-driven endpoints and is meant
     to be used with raw string data (meaning if the data is JSON, it must be
     string serialized with `json.dumps`).
+
+    :param request: A response holding whether the workflow application was
+      successful as well as the results of the workflow.
     """
     process_request = dict(request)
     building_block_response = await apply_workflow_to_message(
@@ -199,7 +212,7 @@ async def apply_workflow_to_message(
     include_error_types: str,
     message: str,
     rr_content: str,
-):
+) -> dict:
     """
     Main orchestration function that applies a config-defined workflow to an
     uploaded piece of data. The workflow applied is determined by loading the
@@ -284,6 +297,9 @@ async def get_config(
 ) -> GetConfigResponse:
     """
     Get the config specified by 'processing_config_name'.
+
+    :param processing_config_name: The name of the processing configuration to retrieve.
+    :param response: The response object used to modify the response status and body.
     """
     try:
         processing_config = load_processing_config(processing_config_name)
@@ -306,6 +322,11 @@ async def upload_config(
 ) -> PutConfigResponse:
     """
     Upload a new processing config to the service or update an existing config.
+
+    :param processing_config_name: The name of the processing configuration to be
+      uploaded or updated.
+    :param input: A Pydantic model representing the processing configuration data.
+    :param response: The response object used to modify the response status and body.
     """
 
     file_path = Path(__file__).parent / "custom_configs" / processing_config_name
