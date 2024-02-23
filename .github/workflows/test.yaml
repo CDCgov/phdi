@@ -147,6 +147,9 @@ jobs:
                find ./ -name requirements.txt -exec sed -i -e "s/phdi@main/phdi@${commit_hash}/g" {} \;
           fi
           pip install -r requirements.txt
+          if [ -f dev-requirements.txt ]; then
+            pip install -r dev-requirements.txt
+          fi
       - name: Run unit tests for containers
         env:
           MPI_DBNAME: testdb
