@@ -12,12 +12,11 @@ import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";
 import EcrMetadata from "./EcrMetadata";
-import EncounterDetails, { encounterConfig } from "./Encounter";
+import EncounterDetails from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
 import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
-import { format } from "path";
 
 type AccordionContainerProps = {
   children?: ReactNode;
