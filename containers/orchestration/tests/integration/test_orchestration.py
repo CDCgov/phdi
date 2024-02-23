@@ -61,7 +61,7 @@ def test_process_message_endpoint(setup):
     request = {
         "message_type": "ecr",
         "data_type": "ecr",
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
         "message": message,
     }
@@ -86,7 +86,7 @@ def test_process_endpoint_with_zip(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config-new.json",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", file)}
@@ -113,7 +113,7 @@ def test_process_endpoint_with_zip_and_rr_data(setup):
     ) as file:
         form_data = {
             "message_type": "ecr",
-            "config_file_name": "sample-orchestration-config-new.json",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", file)}

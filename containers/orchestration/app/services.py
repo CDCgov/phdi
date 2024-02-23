@@ -25,6 +25,7 @@ from fastapi import HTTPException
 from fastapi import Response
 from fastapi import WebSocket
 from fastapi.encoders import jsonable_encoder
+from icecream import ic
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -190,6 +191,7 @@ def save_to_db(**kwargs) -> dict:
     endpoint. Once this endpoint exists in the eCR viewer, we can
     write full-fledged request and response handlers for this service.
     """
+    ic(kwargs)
     ecr_id = kwargs["payload"]["ecr_id"]
     payload_data = kwargs["payload"]["data"]
     url = kwargs["url"]
@@ -305,17 +307,19 @@ async def call_apis(
     :return: A tuple holding the concluding status code of the orchestration
       service, as well as each step's response along the way.
     """
+    ic("hello")
     workflow = config.get("workflow", [])
     current_message = input.get("message")
     response = current_message
     responses = {}
-    # bundle = {}
+    bundle = {}
     # For websocket json dumps
     progress_dict = {}
-
+    ic(workflow)
     for step in workflow:
         service = step["service"]
         endpoint = step["endpoint"]
+        ic(service)
         endpoint_name = endpoint.split("/")[-1]
         params = step.get("params", None)
 
@@ -329,6 +333,7 @@ async def call_apis(
             response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
             service_request = request_func(current_message, input, params)
             response = post_request(service_url, service_request)
+            bundle = save_bundle(response=response, bundle=bundle)
             service_response = response_func(response)
 
             if websocket:
@@ -359,9 +364,8 @@ async def call_apis(
             if service != "validation":
                 current_message = service_response.msg_content
             responses[service] = response
-
         else:
-            db_request = save_to_db_payload(response=response)
+            db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
 
             if websocket:
