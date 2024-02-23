@@ -258,12 +258,15 @@ async def apply_workflow_to_message(
     response, responses = await call_apis(config=processing_config, input=api_input)
 
     if response.status_code == 200:
-        # Parse and work with the API response data (JSON, XML, etc.)
-        api_data = response.json()  # Assuming the response is in JSON format
-        return {
-            "message": "Processing succeeded!",
-            "processed_values": api_data,
-        }
+        content_type = response.headers.get("content-type", "")
+        if "application/xml" in content_type or "text/xml" in content_type:
+            # Handle XML data as a string
+            api_data = response.text
+        else:
+            # Handle JSON data
+            api_data = response.json()
+
+        return {"message": "Processing succeeded!", "processed_values": api_data}
     else:
         return {
             "message": f"Request failed with status code {response.status_code}",

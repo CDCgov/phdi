@@ -117,7 +117,7 @@ class OrchestrationResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processed_values: Dict = Field(
+    processed_values: Union[Dict, str] = Field(
         description="A set of key:value pairs containing the values extracted from the "
         "message."
     )
