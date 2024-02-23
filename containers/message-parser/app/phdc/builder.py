@@ -15,7 +15,6 @@ from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
 
-
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -432,6 +431,8 @@ class PHDCBuilder:
         Entry object.
         :return entry_data: XML element of Entry data
         """
+        # Translate FHIR code systems to PHDC code systems
+        observation = self._translate_code_system(observation)
 
         # Sort the observation into code and value sections
         observation = self._sort_observation(observation)
@@ -514,24 +515,102 @@ class PHDCBuilder:
             observation.code = CodedElement(
                 code=observation.code_code,
                 code_system=observation.code_code_system,
+                code_system_name=observation.code_code_system_name,
                 display_name=observation.code_code_display,
             )
 
-        # Quantitative values
+        # Values
         if not observation.value:
             if observation.value_quantitative_value is not None:
                 observation.value = CodedElement(
                     code=observation.value_quantitative_code,
-                    code_system=observation.value_quantitative_code_system,
+                    code_system=observation.value_quant_code_system,
+                    code_system_name=observation.value_quant_code_system_name,
                     value=observation.value_quantitative_value,
                 )
             else:
                 observation.value = CodedElement(
                     code=observation.value_qualitative_code,
                     code_system=observation.value_qualitative_code_system,
+                    code_system_name=observation.value_qualitative_code_system_name,
                     value=observation.value_qualitative_value,
                 )
         # TODO: translation section
+
+        return observation
+
+    def _translate_code_system(self, observation: Observation) -> Observation:
+        """
+        Translates FHIR-specific codeSystem(s) within an Observation to PHDC-compliant
+        codeSystem(s) and codeSystemName(s).
+
+        :param observation: The data for building the observation element as an
+            Entry object.
+        :return: The data for building the observation element as an
+            Entry object with update codeSystemName(s).
+        """
+
+        # TODO: move code_system_translations to assets file for easier config?
+        code_system_translations = {
+            "http://loinc.org": {"codeSystemName": "LOINC", "codeSystem": "number"},
+            "http://snomed.info/sct": {
+                "codeSystemName": "SNOMED-CT",
+                "codeSystem": "2.16.840.1.113883.6.96",
+            },
+            "http://acme-rehab.org": {
+                "codeSystemName": "Acme Rehab",
+                "codeSystem": "Acme Rehab",
+            },
+            "2.16.840.1.114222.4.5.232": {
+                "codeSystemName": "PHIN Questions",
+                "codeSystem": "2.16.840.1.114222.4.5.232",
+            },
+            "2.16.840.1.114222.4.5.277": {
+                "codeSystemName": "Notifiable Event Code List",
+                "codeSystem": "2.16.840.1.114222.4.5.277",
+            },
+            "2.16.840.1.114222.4.5.1": {
+                "codeSystemName": "NEDSS Base System",
+                "codeSystem": "2.16.840.1.114222.4.5.1",
+            },
+        }
+
+        for cs in [
+            "code_system",
+            "code_code_system",
+            "value_qualitative_code_system",
+            "value_quant_code_system",
+        ]:
+            cs_value = getattr(observation, cs)
+            if cs_value in code_system_translations:
+                if cs == "code_system":
+                    observation.code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_system_name = code_system_translations[cs_value][
+                        "codeSystemName"
+                    ]
+                elif cs == "code_code_system":
+                    observation.code_code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_code_system_name = code_system_translations[
+                        cs_value
+                    ]["codeSystemName"]
+                elif cs == "value_qualitative_code_system":
+                    observation.value_qualitative_code_system = (
+                        code_system_translations[cs_value]["codeSystem"]
+                    )
+                    observation.value_qualitative_code_system_name = (
+                        code_system_translations[cs_value]["codeSystemName"]
+                    )
+                elif cs == "value_quant_code_system":
+                    observation.value_quant_code_system = code_system_translations[
+                        cs_value
+                    ]["codeSystem"]
+                    observation.value_quant_code_system_name = code_system_translations[
+                        cs_value
+                    ]["codeSystemName"]
 
         return observation
 
