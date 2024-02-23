@@ -5,8 +5,6 @@ export async function middleware(request: NextRequest) {
   const auth = request.cookies.get("authorization")?.value;
   const pathname = request.nextUrl.pathname;
   const isDevelopment = process.env.NODE_ENV === "development" || false;
-  console.log("isDevelopment", isDevelopment);
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
   if (
     !isDevelopment &&
     pathname.startsWith("/api") &&
