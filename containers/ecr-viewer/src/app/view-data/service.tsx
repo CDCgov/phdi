@@ -1,4 +1,4 @@
-export const processSnomedCode = (snomedCode: any) => {
+export const processSnomedCode = (snomedCode: string) => {
   //Placeholder
   console.log("SNOMED code: ", snomedCode);
   return snomedCode;
