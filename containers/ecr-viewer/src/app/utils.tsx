@@ -1,7 +1,6 @@
-import { Bundle, Organization, Reference } from "fhir/r4";
+import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
-import * as R4Models from "fhirpath/fhir-context/r4";
 import React from "react";
 import parse from "html-react-parser";
 import classNames from "classnames";
