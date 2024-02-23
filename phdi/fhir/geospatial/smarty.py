@@ -71,6 +71,7 @@ class SmartyFhirGeocodeClient(BaseFhirGeocodeClient):
                 address["line"] = standardized_address.line
                 address["city"] = standardized_address.city
                 address["state"] = standardized_address.state
+                address["county"] = standardized_address.county_name
                 address["postalCode"] = standardized_address.postal_code
                 self._store_lat_long_extension(
                     address, standardized_address.lat, standardized_address.lng

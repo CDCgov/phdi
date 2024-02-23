@@ -144,10 +144,14 @@ def build_message_parser_message_request(
     :return: A dictionary ready to JSON-serialize as a payload to the
       message parser.
     """
-    # Template will depend on input data formatting and typing
+    # Template format will depend on the data's structure
+    if type(input_msg) is dict and input_msg.get("resourceType", "") == "Bundle":
+        msg_fmt = "fhir"
+    else:
+        msg_fmt = orchestration_request.get("message_type")
     return {
         "message": input_msg,
-        "message_format": orchestration_request.get("message_type"),
+        "message_format": msg_fmt,
         "parsing_schema_name": workflow_params.get("parsing_schema_name"),
         "credential_manager": workflow_params.get("credential_manager"),
     }

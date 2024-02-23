@@ -5,6 +5,7 @@ import pathlib
 from functools import cache
 from pathlib import Path
 from typing import Dict
+from typing import Optional
 from zipfile import ZipFile
 
 from dotenv import load_dotenv
@@ -54,7 +55,7 @@ def load_processing_config(config_name: str) -> dict:
     return processing_config
 
 
-def replace_env_var_placeholders(config: dict):
+def replace_env_var_placeholders(config: dict) -> None:
     """
     Check for environment variable placeholders in the configuration
       and replace them if found.
@@ -67,7 +68,7 @@ def replace_env_var_placeholders(config: dict):
             settings["url"] = os.path.expandvars(settings["url"])
 
 
-def read_json_from_assets(filename: str):
+def read_json_from_assets(filename: str) -> Dict:
     return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
 
 
@@ -112,7 +113,7 @@ def search_for_ecr_data(valid_zipfile: ZipFile) -> Dict:
     return return_data
 
 
-def search_for_file_in_zip(filename, zipfile):
+def search_for_file_in_zip(filename: str, zipfile: ZipFile) -> Optional[str]:
     results = [file for file in zipfile.namelist() if filename in file]
     if results:
         return results[0]
@@ -128,10 +129,20 @@ def load_config_assets(upload_config_response_examples, PutConfigResponse) -> Di
 
 
 class CustomJSONResponse(JSONResponse):
-    def __init__(self, content, url="", *args, **kwargs):
+    def __init__(self, content, url="", *args, **kwargs) -> None:
         super().__init__(content=jsonable_encoder(content), *args, **kwargs)
         self._content = content
         self.url = url
 
-    def json(self):
+    def json(self) -> Dict:
         return self._content
+
+
+def format_service_url(base_url: str, endpoint: str) -> str:
+    """
+    Simple helper function to construct an HTTP-accessable URL for a DIBBs
+    building block, with correct quotation mark formatting.
+    """
+    url = base_url + endpoint
+    url = url.replace('"', "")
+    return url
