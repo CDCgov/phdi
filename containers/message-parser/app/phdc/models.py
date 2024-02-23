@@ -149,6 +149,15 @@ class Observation:
 
 
 @dataclass
+class Organizer:
+    """
+    A class containing all of the data elements for an organizer element.
+    """
+
+    components: Optional[List[Observation]] = None
+
+
+@dataclass
 class PHDCInputData:
     """
     A class containing all of the data to construct a PHDC document when passed to the
