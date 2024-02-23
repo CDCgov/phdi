@@ -1,18 +1,11 @@
 "use client";
-import EcrSummary, {
-  ecrSummaryConfig,
-} from "@/app/view-data/components/EcrSummary";
+import EcrSummary from "@/app/view-data/components/EcrSummary";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import { demographicsConfig } from "./components/Demographics";
-import { socialHistoryConfig } from "./components/SocialHistory";
-import { ecrMetadataConfig } from "./components/EcrMetadata";
-import { encounterConfig } from "./components/Encounter";
-import { clinicalInfoConfig } from "./components/ClinicalInfo";
 import { PathMappings } from "../utils";
-import SideNav, { SectionConfig } from "./components/SideNav";
+import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
 // string constants to match with possible .env values
 const S3_SOURCE = "s3";
