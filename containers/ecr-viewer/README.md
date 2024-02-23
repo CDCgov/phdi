@@ -60,3 +60,6 @@ If you have problems connecting your database run this command to see what other
 
 then kill it
 `kill {pid}`
+
+### Developer Documentation
+Can be found in [api-documentation.md](api-documentation.md).
