@@ -1,19 +1,23 @@
 "use client";
-import EcrSummary, {
-  ecrSummaryConfig,
-} from "@/app/view-data/components/EcrSummary";
+import EcrSummary from "@/app/view-data/components/EcrSummary";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
-import { demographicsConfig } from "./components/Demographics";
-import { socialHistoryConfig } from "./components/SocialHistory";
-import { ecrMetadataConfig } from "./components/EcrMetadata";
-import { encounterConfig } from "./components/Encounter";
-import { clinicalInfoConfig } from "./components/ClinicalInfo";
 import { PathMappings } from "../utils";
-import SideNav, { SectionConfig } from "./components/SideNav";
+import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
+// string constants to match with possible .env values
+const S3_SOURCE = "s3";
+const POSTGRES_SOURCE = "postgres";
+
+const assignApiPath = () => {
+  if (process.env.NEXT_PUBLIC_SOURCE === S3_SOURCE) {
+    return "s3";
+  } else if (process.env.NEXT_PUBLIC_SOURCE === POSTGRES_SOURCE) {
+    return "fhir-data";
+  }
+};
 
 const ECRViewerPage = () => {
   const [fhirBundle, setFhirBundle] = useState<Bundle>();
@@ -21,6 +25,7 @@ const ECRViewerPage = () => {
   const [errors, setErrors] = useState<Error | unknown>(null);
   const searchParams = useSearchParams();
   const fhirId = searchParams.get("id") ?? "";
+  const apiPath = assignApiPath();
   const snomedCode = searchParams.get("snomed-code") ?? "";
 
   type ApiResponse = {
@@ -32,7 +37,7 @@ const ECRViewerPage = () => {
     // Fetch the appropriate bundle from Postgres database
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/fhir-data?id=${fhirId}`);
+        const response = await fetch(`/api/${apiPath}?id=${fhirId}`);
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Internal Server Error");

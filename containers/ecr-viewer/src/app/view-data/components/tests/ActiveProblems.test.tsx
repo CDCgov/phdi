@@ -8,7 +8,7 @@ describe("Active Problems Table", () => {
   let container: HTMLElement;
   beforeAll(() => {
     const fhirPathFile = fs
-      .readFileSync("./src/app/api/fhir-data/fhirPath.yml", "utf8")
+      .readFileSync("./src/app/api/fhirPath.yml", "utf8")
       .toString();
     const fhirPathMappings = YAML.parse(fhirPathFile);
 

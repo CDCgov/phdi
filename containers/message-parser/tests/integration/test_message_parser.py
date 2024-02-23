@@ -34,7 +34,7 @@ with open(test_schema_path, "r") as file:
 
 
 @pytest.mark.integration
-def test_parse_message(setup):
+def test_parse_message2(setup):
     expected_reference_response = {
         "message": "Parsing succeeded!",
         "parsed_values": {
@@ -75,10 +75,10 @@ def test_parse_message(setup):
                 },
             ],
             "patient_administrative_gender_code": "female",
-            "patient_race_code": "2028-9",
             "patient_race_display": "Asian",
-            "patient_ethnic_group_code": "2186-5",
+            "patient_race_code": "2028-9",
             "patient_ethnic_group_display": "Not Hispanic or Latino",
+            "patient_ethnic_group_code": "2186-5",
             "patient_birth_time": "1996-04-17",
             "patient_telecom": [
                 {
@@ -135,13 +135,14 @@ def test_parse_message(setup):
                     "value_qualitative_value": None,
                     "value_qualitative_code_system": None,
                     "value_qualitative_code": None,
+                    "components": [],
                 },
                 {
                     "obs_type": "laboratory",
                     "code_code": "104177,600-7",
                     "code_code_system": "http://acmelabs.org,http://loinc.org",
                     "code_code_display": (
-                        "Blood culture,Bacteria identified in Blood by Culture"
+                        "Blood culture,Bacteria identified " + "in Blood by Culture"
                     ),
                     "value_quantitative_value": None,
                     "value_quantitative_code_system": None,
@@ -149,6 +150,7 @@ def test_parse_message(setup):
                     "value_qualitative_value": "Staphylococcus aureus",
                     "value_qualitative_code_system": "http://snomed.info/sct",
                     "value_qualitative_code": "3092008",
+                    "components": [],
                 },
                 {
                     "obs_type": "social-history",
@@ -161,6 +163,46 @@ def test_parse_message(setup):
                     "value_qualitative_value": None,
                     "value_qualitative_code_system": None,
                     "value_qualitative_code": None,
+                    "components": [
+                        {
+                            "code_code": "alcohol-type",
+                            "code_code_system": "http://acme-rehab.org",
+                            "code_code_display": None,
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": "Wine (substance)",
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "35748005",
+                            "text": "Wine",
+                        },
+                        {
+                            "code_code": "alcohol-type",
+                            "code_code_system": "http://acme-rehab.org",
+                            "code_code_display": None,
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": "Beer (substance)",
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "53410008",
+                            "text": "Beer",
+                        },
+                        {
+                            "code_code": "alcohol-type",
+                            "code_code_system": "http://acme-rehab.org",
+                            "code_code_display": None,
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": (
+                                "Distilled spirits (substance)"
+                            ),
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "6524003",
+                            "text": "Liquor",
+                        },
+                    ],
                 },
                 {
                     "obs_type": "EXPOS",
@@ -173,6 +215,26 @@ def test_parse_message(setup):
                     "value_qualitative_value": "Sports stadium (environment)",
                     "value_qualitative_code_system": "http://snomed.info/sct",
                     "value_qualitative_code": "264379009",
+                    "components": [
+                        {
+                            "code_code": "EXPAGNT",
+                            "code_code_system": (
+                                "http://terminology.hl7.org/CodeSystem/"
+                                + "v3-ParticipationType"
+                            ),
+                            "code_code_display": "ExposureAgent",
+                            "value_quantitative_value": None,
+                            "value_quantitative_code_system": None,
+                            "value_quantitative_code": None,
+                            "value_qualitative_value": (
+                                "Severe acute respiratory syndrome coronavirus 2 "
+                                + "(organism)"
+                            ),
+                            "value_qualitative_code_system": ("http://snomed.info/sct"),
+                            "value_qualitative_code": "840533007",
+                            "text": None,
+                        }
+                    ],
                 },
             ],
         },

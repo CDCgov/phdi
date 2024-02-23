@@ -443,12 +443,12 @@ class PHDCBuilder:
                 {
                     "code": "1",
                     "displayName": "Exposure Information",
-                    "codeSytemName": "LocalSystem",
+                    "codeSystemName": "LocalSystem",
                 },
             )
 
             organizer.append(code_element)
-            status_code_element = ET.Element("status_code", {"code": "completed"})
+            status_code_element = ET.Element("statusCode", {"code": "completed"})
             organizer.append(status_code_element)
             component = ET.SubElement(organizer, "component")
 
@@ -498,6 +498,7 @@ class PHDCBuilder:
         :return: The data for building the observation element as an
             Entry object, sorted into code and value sections.
         """
+        # Build Observations
         # Code
         if not observation.code:
             observation.code = CodedElement(
@@ -505,6 +506,7 @@ class PHDCBuilder:
                 code_system=observation.code_code_system,
                 display_name=observation.code_code_display,
             )
+
         # Quantitative values
         if not observation.value:
             if observation.value_quantitative_value is not None:
