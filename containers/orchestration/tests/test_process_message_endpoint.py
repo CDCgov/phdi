@@ -80,29 +80,32 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
     ingestion_post_request = mock.Mock()
     ingestion_post_request.status_code = 200
     ingestion_post_request.json.return_value = {
-        "bundle": {"bundle_type": "batch", "placeholder_id": "abcdefg", "entry": []}
+        "bundle": {
+            "bundle_type": "batch",
+            "placeholder_id": "abcdefg",
+            "entry": [{"resource": {"id": "foo"}}],
+        }
     }
     message_parser_post_request = mock.Mock()
     message_parser_post_request.status_code = 200
     message_parser_post_request.json.return_value = {
         "parsed_values": {"eicr_id": "placeholder_id"}
     }
-    save_to_db_response = CustomJSONResponse(
-        content=jsonable_encoder(
-            {
-                "response": {
-                    "FhirResource": {
-                        "converted_msg_placeholder_key": "converted_placeholder_value"
-                    }
-                },
-                "bundle": {
-                    "converted_msg_placeholder_key": "placeholder_bundle",
-                    "entry": [{"resource": {"id": "foo"}}],
-                },
-                "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
+
+    save_to_db_response = mock.Mock()
+    save_to_db_response.status_code = 200
+    save_to_db_response.json.return_value = {
+        "response": {
+            "FhirResource": {
+                "converted_msg_placeholder_key": "converted_placeholder_value"
             }
-        )
-    )
+        },
+        "bundle": {
+            "converted_msg_placeholder_key": "placeholder_bundle",
+            "entry": [{"resource": {"id": "foo"}}],
+        },
+        "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
+    }
 
     patched_post_request.side_effect = [
         validation_post_request,
@@ -280,7 +283,11 @@ def test_process_success(patched_save_to_db, patched_post_request):
         ingestion_post_request = mock.Mock()
         ingestion_post_request.status_code = 200
         ingestion_post_request.json.return_value = {
-            "bundle": {"bundle_type": "batch", "placeholder_id": "abcdefg", "entry": []}
+            "bundle": {
+                "bundle_type": "batch",
+                "placeholder_id": "abcdefg",
+                "entry": [{"resource": {"id": "foo"}}],
+            }
         }
         message_parser_post_request = mock.Mock()
         message_parser_post_request.status_code = 200
