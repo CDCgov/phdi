@@ -50,6 +50,16 @@ class PHDC:
             encoding="utf-8",
         ).decode()
 
+    def to_element_tree(self) -> ET.ElementTree:
+        """
+        Return the PHDC XML document as an ElementTree.
+
+        :return: The PHDC XML document as an ElementTree.
+        """
+        if self.data is None:
+            raise ValueError("The PHDC object must be initialized.")
+        return self.data
+
 
 class PHDCBuilder:
     """
