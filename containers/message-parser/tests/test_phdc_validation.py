@@ -37,19 +37,10 @@ def validate_xml(xml_input: ET.ElementTree) -> bool:
         / "CDA_SDTC.xsd"
     )
 
-    # print the resolved xsd schema path to confirm it's correct
-    console.print(f"Loading XSD schema from: {xsd_path}", style="bold yellow")
-
-    try:
-        # attempt to load and parse the xsd file
-        with open(xsd_path, "rb") as xsd_file:
-            xsd_tree = ET.XMLSchema(ET.parse(xsd_file))
-            # print a confirmation message that the schema is loaded
-            console.print("XSD schema loaded successfully", style="bold green")
-    except Exception as e:
-        # print an error message if the schema fails to load
-        console.print(f"Failed to load XSD schema: {e}", style="bold red")
-        return False
+    with open(xsd_path, "rb") as xsd_file:
+        xsd_tree = ET.XMLSchema(ET.parse(xsd_file))
+        # print a confirmation message that the schema is loaded
+        console.print("XSD schema loaded successfully", style="bold green")
 
     # validate the XML against the XSD
     is_valid = xsd_tree.validate(xml_input)
@@ -62,24 +53,24 @@ def validate_xml(xml_input: ET.ElementTree) -> bool:
         )
         return True
 
-      console.print("the XML file is not valid", style="bold red")
-      # create the table for the error log
-      table = Table(
-          title="PHDC Validation", show_header=True, header_style="bold magenta"
-      )
+    console.print("the XML file is not valid", style="bold red")
+    # create the table for the error log
+    table = Table(
+        title="PHDC Validation", show_header=True, header_style="bold magenta"
+    )
 
-      # create the table columns to display the errors
-      table.add_column("Line", style="dim", width=6, justify="right")
-      table.add_column("Column", style="dim", width=6, justify="right")
-      table.add_column("Message", overflow="fold")
-      for error in xsd_tree.error_log:
-          table.add_row(
-              str(error.line),
-              str(error.column),
-              error.message,
-          )
-      console.print(table)
-      return False
+    # create the table columns to display the errors
+    table.add_column("Line", style="dim", width=6, justify="right")
+    table.add_column("Column", style="dim", width=6, justify="right")
+    table.add_column("Message", overflow="fold")
+    for error in xsd_tree.error_log:
+        table.add_row(
+            str(error.line),
+            str(error.column),
+            error.message,
+        )
+    console.print(table)
+    return False
 
 
 @pytest.fixture
