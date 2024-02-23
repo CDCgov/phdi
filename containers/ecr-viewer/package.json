@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "export NODE_ENV=development && next dev",
     "local-dev": "docker compose up db seed-db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && next dev",
     "build": "next build",
     "start": "next start",
