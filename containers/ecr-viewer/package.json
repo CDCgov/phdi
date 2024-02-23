@@ -21,6 +21,7 @@
     "@uswds/uswds": "3.7.0",
     "axios": "^1.6.0",
     "classnames": "^2.5.1",
+    "eslint-plugin-unused-imports": "^3.1.0",
     "fhirpath": "^3.9.0",
     "html-react-parser": "^5.1.4",
     "js-yaml": "4.1.0",
