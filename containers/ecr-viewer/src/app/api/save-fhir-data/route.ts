@@ -4,6 +4,7 @@ import pgPromise from "pg-promise";
 export async function POST(request: NextRequest) {
   const db_url = process.env.DATABASE_URL || "";
   const db = pgPromise();
+  console.log("DB", db);
   const database = db(db_url);
 
   try {
@@ -25,7 +26,8 @@ export async function POST(request: NextRequest) {
 
         return new NextResponse(
           JSON.stringify({
-            message: "Success. Saved FHIR Bundle to database: " + saveECR,
+            message:
+              "Success. Saved FHIR Bundle to database: " + saveECR.ecr_id,
           }),
           { status: 200, headers: { "content-type": "application/json" } },
         );

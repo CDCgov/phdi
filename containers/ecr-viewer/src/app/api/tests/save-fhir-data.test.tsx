@@ -18,7 +18,29 @@ function createMockRequest(body) {
   return req;
 }
 
+jest.mock("pg-promise", () => {
+  console.log("hitting this");
+  const oneMock = jest.fn();
+  const dbMock = jest.fn((db_url) => {
+    console.log("db_url:", db_url);
+    return {
+      one: oneMock,
+    };
+  });
+  console.log("DBMOCK", dbMock);
+
+  const pgPromiseMock = jest.fn(() => dbMock);
+  pgPromiseMock.db = dbMock;
+  console.log("PGPROMISEMOCK", pgPromiseMock);
+  return pgPromiseMock;
+});
+
 describe("/api/save-fhir-data", () => {
+  beforeEach(() => {
+    jest.resetModules();
+    jest.resetAllMocks();
+  });
+
   test("save FHIR to database", async () => {
     const body = {
       fhirBundle: fhirBundle,
