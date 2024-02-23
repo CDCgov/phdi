@@ -7,7 +7,7 @@ patientZipCode: "Bundle.entry.resource.where(resourceType = 'Patient').address.f
 patientCountry: "Bundle.entry.resource.where(resourceType = 'Patient').address.first().country"
 patientPhoneNumbers: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'phone')"
 patientEmails: "Bundle.entry.resource.where(resourceType = 'Patient').telecom.where(system = 'email')"
-patientCounty: "idk"
+patientCounty: "Bundle.entry.resource.where(resourceType = 'Patient').address.first().county"
 
 patientId: "Bundle.entry.resource.where(resourceType = 'Patient').id"
 patientDOB: "Bundle.entry.resource.where(resourceType = 'Patient').birthDate"
@@ -77,3 +77,16 @@ activeProblems: "Bundle.entry.resource.where(resourceType='Condition').where(cat
 activeProblemsDisplay: "Condition.code.coding[0].display"
 activeProblemsOnsetDate: "Condition.onsetDateTime"
 activeProblemsOnsetAge: "idk"
+historyOfPresentIllness: "Bundle.entry.resource.where(resourceType = 'Composition').section.where(code.coding.code = '10164-2').text"
+
+# Immunization Info
+immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
+immunizationsName: "Immunization.note.text"
+immunizationsAdminDate: "Immunization.occurrenceDateTime"
+immunizationsNextDue: "idk"
+
+# Procedure
+procedures: "Bundle.entry.resource.where(resourceType='Procedure')"
+procedureName: "Procedure.code.coding.first().display"
+procedureDate: "Procedure.performedDateTime"
+procedureReason: "Procedure.reason.display"

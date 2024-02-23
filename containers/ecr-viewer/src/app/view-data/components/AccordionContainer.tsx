@@ -12,12 +12,11 @@ import Demographics from "./Demographics";
 import SocialHistory from "./SocialHistory";
 import UnavailableInfo from "./UnavailableInfo";
 import EcrMetadata from "./EcrMetadata";
-import EncounterDetails, { encounterConfig } from "./Encounter";
+import EncounterDetails from "./Encounter";
 import ClinicalInfo from "./ClinicalInfo";
 import { Bundle, FhirResource } from "fhir/r4";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Accordion } from "@trussworks/react-uswds";
-import { format } from "path";
 
 type AccordionContainerProps = {
   children?: ReactNode;
@@ -50,7 +49,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Encounter Info",
@@ -63,22 +62,30 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </div>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Clinical Info",
       content: (
         <>
           <ClinicalInfo
+            clinicalNotes={clinicalData.clinicalNotes.availableData}
+            reasonForVisitDetails={
+              clinicalData.reasonForVisitDetails.availableData
+            }
             activeProblemsDetails={
               clinicalData.activeProblemsDetails.availableData
             }
             vitalData={clinicalData.vitalData.availableData}
+            immunizationsDetails={
+              clinicalData.immunizationsDetails.availableData
+            }
+            treatmentData={clinicalData.treatmentData.availableData}
           />
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "eCR Metadata",
@@ -92,7 +99,7 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
         </>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
     {
       title: "Unavailable Info",
@@ -102,16 +109,24 @@ const AccordianContainer: React.FC<AccordionContainerProps> = ({
             demographicsUnavailableData={demographicsData.unavailableData}
             socialUnavailableData={social_data.unavailableData}
             encounterUnavailableData={encounterData.unavailableData}
+            reasonForVisitUnavailableData={
+              clinicalData.reasonForVisitDetails.unavailableData
+            }
             activeProblemsUnavailableData={
               clinicalData.activeProblemsDetails.unavailableData
             }
             providerUnavailableData={providerData.unavailableData}
             vitalUnavailableData={clinicalData.vitalData.unavailableData}
+            immunizationsUnavailableData={
+              clinicalData.immunizationsDetails.unavailableData
+            }
+            treatmentData={clinicalData.treatmentData.unavailableData}
+            clinicalNotesData={clinicalData.clinicalNotes.unavailableData}
           />
         </div>
       ),
       expanded: true,
-      headingLevel: "h2",
+      headingLevel: "h3",
     },
   ];
 

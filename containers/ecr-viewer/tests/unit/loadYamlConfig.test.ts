@@ -1,7 +1,5 @@
-import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { loadYamlConfig } from "../../src/app/api/fhir-data/utils";
+import { loadYamlConfig } from "@/app/api/utils";
 
 describe("loadYamlConfig", () => {
   it("returns the yaml config", () => {

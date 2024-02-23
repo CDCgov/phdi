@@ -15,7 +15,6 @@ from app.phdc.models import PHDCInputData
 from app.phdc.models import Telecom
 from lxml import etree as ET
 
-
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -234,9 +233,6 @@ class PHDCBuilder:
         root.append(self._get_confidentiality_code(confidentiality="normal"))
         root.append(self._get_setId())
         root.append(self._get_version_number())
-
-        root.append(self._build_custodian(organizations=self.input_data.organization))
-        root.append(self._build_author(family_name="DIBBS"))
         root.append(
             self._build_recordTarget(
                 id=str(uuid.uuid4()),
@@ -247,6 +243,8 @@ class PHDCBuilder:
                 patient_data=self.input_data.patient,
             )
         )
+        root.append(self._build_author(family_name="CDC PRIME DIBBs"))
+        root.append(self._build_custodian(organizations=self.input_data.organization))
 
     def build_body(self):
         """
@@ -258,9 +256,9 @@ class PHDCBuilder:
 
         match self.input_data.type:
             case "case_report":
-                self.phdc.getroot().append(self._build_social_history_info())
-                self.phdc.getroot().append(self._build_clinical_info())
-                self.phdc.getroot().append(self._build_repeating_questions())
+                structured_body.append(self._build_social_history_info())
+                structured_body.append(self._build_clinical_info())
+                structured_body.append(self._build_repeating_questions())
 
             case "contact_record":
                 pass
@@ -268,6 +266,8 @@ class PHDCBuilder:
                 pass
             case "morbidity_report":
                 pass
+
+        self.phdc.getroot().append(body)
 
     def _build_clinical_info(self) -> ET.Element:
         """
@@ -421,6 +421,8 @@ class PHDCBuilder:
         Entry object.
         :return entry_data: XML element of Entry data
         """
+        # Translate FHIR code systems to PHDC code systems
+        observation = self._translate_code_system(observation)
 
         # Sort the observation into code and value sections
         observation = self._sort_observation(observation)
@@ -442,12 +444,12 @@ class PHDCBuilder:
                 {
                     "code": "1",
                     "displayName": "Exposure Information",
-                    "codeSytemName": "LocalSystem",
+                    "codeSystemName": "LocalSystem",
                 },
             )
 
             organizer.append(code_element)
-            status_code_element = ET.Element("status_code", {"code": "completed"})
+            status_code_element = ET.Element("statusCode", {"code": "completed"})
             organizer.append(status_code_element)
             component = ET.SubElement(organizer, "component")
 
@@ -497,28 +499,108 @@ class PHDCBuilder:
         :return: The data for building the observation element as an
             Entry object, sorted into code and value sections.
         """
+        # Build Observations
         # Code
         if not observation.code:
             observation.code = CodedElement(
                 code=observation.code_code,
                 code_system=observation.code_code_system,
+                code_system_name=observation.code_code_system_name,
                 display_name=observation.code_code_display,
             )
-        # Quantitative values
+
+        # Values
         if not observation.value:
             if observation.value_quantitative_value is not None:
                 observation.value = CodedElement(
                     code=observation.value_quantitative_code,
-                    code_system=observation.value_quantitative_code_system,
+                    code_system=observation.value_quant_code_system,
+                    code_system_name=observation.value_quant_code_system_name,
                     value=observation.value_quantitative_value,
                 )
             else:
                 observation.value = CodedElement(
                     code=observation.value_qualitative_code,
                     code_system=observation.value_qualitative_code_system,
+                    code_system_name=observation.value_qualitative_code_system_name,
                     value=observation.value_qualitative_value,
                 )
         # TODO: translation section
+
+        return observation
+
+    def _translate_code_system(self, observation: Observation) -> Observation:
+        """
+        Translates FHIR-specific codeSystem(s) within an Observation to PHDC-compliant
+        codeSystem(s) and codeSystemName(s).
+
+        :param observation: The data for building the observation element as an
+            Entry object.
+        :return: The data for building the observation element as an
+            Entry object with update codeSystemName(s).
+        """
+
+        # TODO: move code_system_translations to assets file for easier config?
+        code_system_translations = {
+            "http://loinc.org": {"codeSystemName": "LOINC", "codeSystem": "number"},
+            "http://snomed.info/sct": {
+                "codeSystemName": "SNOMED-CT",
+                "codeSystem": "2.16.840.1.113883.6.96",
+            },
+            "http://acme-rehab.org": {
+                "codeSystemName": "Acme Rehab",
+                "codeSystem": "Acme Rehab",
+            },
+            "2.16.840.1.114222.4.5.232": {
+                "codeSystemName": "PHIN Questions",
+                "codeSystem": "2.16.840.1.114222.4.5.232",
+            },
+            "2.16.840.1.114222.4.5.277": {
+                "codeSystemName": "Notifiable Event Code List",
+                "codeSystem": "2.16.840.1.114222.4.5.277",
+            },
+            "2.16.840.1.114222.4.5.1": {
+                "codeSystemName": "NEDSS Base System",
+                "codeSystem": "2.16.840.1.114222.4.5.1",
+            },
+        }
+
+        for cs in [
+            "code_system",
+            "code_code_system",
+            "value_qualitative_code_system",
+            "value_quant_code_system",
+        ]:
+            cs_value = getattr(observation, cs)
+            if cs_value in code_system_translations:
+                if cs == "code_system":
+                    observation.code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_system_name = code_system_translations[cs_value][
+                        "codeSystemName"
+                    ]
+                elif cs == "code_code_system":
+                    observation.code_code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_code_system_name = code_system_translations[
+                        cs_value
+                    ]["codeSystemName"]
+                elif cs == "value_qualitative_code_system":
+                    observation.value_qualitative_code_system = (
+                        code_system_translations[cs_value]["codeSystem"]
+                    )
+                    observation.value_qualitative_code_system_name = (
+                        code_system_translations[cs_value]["codeSystemName"]
+                    )
+                elif cs == "value_quant_code_system":
+                    observation.value_quant_code_system = code_system_translations[
+                        cs_value
+                    ]["codeSystem"]
+                    observation.value_quant_code_system_name = code_system_translations[
+                        cs_value
+                    ]["codeSystemName"]
 
         return observation
 
@@ -605,12 +687,12 @@ class PHDCBuilder:
 
             self._add_field(represented_organization, organization.name, "name")
 
-            if organization.address is not None:
-                represented_organization.append(self._build_addr(organization.address))
             if organization.telecom is not None:
                 represented_organization.append(
                     self._build_telecom(organization.telecom)
                 )
+            if organization.address is not None:
+                represented_organization.append(self._build_addr(organization.address))
 
             assigned_custodian.append(represented_organization)
 
@@ -645,6 +727,7 @@ class PHDCBuilder:
         id_element = ET.Element("id")
         id_element.set("root", "2.16.840.1.113883.19.5")
         assigned_author.append(id_element)
+        assigned_person = ET.SubElement(assigned_author, "assignedPerson")
 
         # family name is the example way to add either a project name or source of
         # the data being migrated
@@ -652,7 +735,8 @@ class PHDCBuilder:
         family_element = ET.SubElement(name_element, "family")
         family_element.text = family_name
 
-        assigned_author.append(name_element)
+        assigned_person.append(name_element)
+        assigned_author.append(assigned_person)
 
         author_element.append(assigned_author)
 
@@ -715,6 +799,17 @@ class PHDCBuilder:
             )
             patient_data.append(v)
 
+        if patient.birth_time is not None:
+            e = ET.Element(
+                "birthTime",
+                {
+                    "value": "".join(
+                        [num for num in patient.birth_time if num.isnumeric()]
+                    )
+                },
+            )
+            patient_data.append(e)
+
         if patient.race_code is not None:
             if patient.race_code in race_code_and_mapping:
                 display_name = race_code_and_mapping[patient.race_code]
@@ -748,11 +843,6 @@ class PHDCBuilder:
                     f"Ethnic group code {patient.ethnic_group_code} not "
                     "found in OMB classification."
                 )
-
-        if patient.birth_time is not None:
-            e = ET.Element("birthTime")
-            e.text = patient.birth_time
-            patient_data.append(e)
 
         return patient_data
 

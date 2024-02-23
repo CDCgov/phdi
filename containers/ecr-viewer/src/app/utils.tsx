@@ -1,12 +1,13 @@
-import { Bundle, Organization, Reference } from "fhir/r4";
+import { Bundle, Organization } from "fhir/r4";
 import { evaluate } from "fhirpath";
 import { Table } from "@trussworks/react-uswds";
-import * as R4Models from "fhirpath/fhir-context/r4";
 import React from "react";
+import parse from "html-react-parser";
+import classNames from "classnames";
 
 export interface DisplayData {
   title: string;
-  value: string | JSX.Element | undefined;
+  value: string | React.JSX.Element | undefined;
 }
 
 export interface PathMappings {
@@ -278,7 +279,7 @@ const formatTable = (
       <th
         key={`${column.columnName}${index}`}
         scope="col"
-        className=" bg-gray-5 minw-15"
+        className="bg-gray-5 minw-15"
       >
         {column.columnName}
       </th>
@@ -325,7 +326,8 @@ const formatTable = (
       bordered={false}
       fullWidth={true}
       caption={caption}
-      className="border-top border-left border-right table-caption-margin"
+      className="border-top border-left border-right table-caption-margin margin-y-0"
+      data-testid="table"
     >
       {tableContent}
     </Table>
@@ -618,19 +620,102 @@ export const returnProblemsTable = (
   return formatTable(problemsArray, mappings, columnInfo, "Problems List");
 };
 
+export const returnImmunizations = (
+  immunizationsArray: any[],
+  mappings: PathMappings,
+) => {
+  if (immunizationsArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo = [
+    { columnName: "Name", infoPath: "immunizationsName" },
+    { columnName: "Administration Dates", infoPath: "immunizationsAdminDate" },
+    { columnName: "Next Due", infoPath: "immunizationsNextDue" },
+  ];
+
+  immunizationsArray.forEach((entry) => {
+    entry.occurrenceDateTime
+      ? (entry.occurrenceDateTime = formatDate(entry.occurrenceDateTime))
+      : (entry.occurrenceDateTime = "N/A");
+  });
+
+  immunizationsArray.sort(function (a, b) {
+    return +new Date(b.occurrenceDateTime) - +new Date(a.occurrenceDateTime);
+  });
+
+  return formatTable(
+    immunizationsArray,
+    mappings,
+    columnInfo,
+    "Immunization History",
+  );
+};
+
+export const returnProceduresTable = (
+  proceduresArray: any[],
+  mappings: PathMappings,
+) => {
+  if (proceduresArray.length === 0) {
+    return undefined;
+  }
+
+  const columnInfo: ColumnInfoInput[] = [
+    { columnName: "Name", infoPath: "procedureName" },
+    { columnName: "Date Performed", infoPath: "procedureDate" },
+    { columnName: "Reason", infoPath: "procedureReason" },
+  ];
+
+  proceduresArray.forEach((entry) => {
+    entry.performedDateTime
+      ? (entry.performedDateTime = formatDate(entry.performedDateTime))
+      : (entry.performedDateTime = "N/A");
+  });
+
+  proceduresArray.sort((a, b) => {
+    const dateA = new Date(a.performedDateTime).getTime();
+    const dateB = new Date(b.performedDateTime).getTime();
+    return dateB - dateA;
+  });
+
+  return formatTable(proceduresArray, mappings, columnInfo, "Procedures");
+};
+
 export const evaluateClinicalData = (
   fhirBundle: Bundle | undefined,
   mappings: PathMappings,
 ) => {
-  const activeProblemsData: DisplayData[] = [
+  const clinicalNotes: DisplayData[] = [
+    {
+      title: "Miscellaneous Notes",
+      value: parse(
+        evaluate(fhirBundle, mappings["historyOfPresentIllness"])[0].div,
+      ),
+    },
+  ];
+
+  const reasonForVisitData: DisplayData[] = [
     {
       title: "Reason for Visit",
       value: evaluate(fhirBundle, mappings["clinicalReasonForVisit"])[0],
     },
+  ];
+
+  const activeProblemsTableData: DisplayData[] = [
     {
       title: "Problems List",
       value: returnProblemsTable(
         evaluate(fhirBundle, mappings["activeProblems"]),
+        mappings,
+      ),
+    },
+  ];
+
+  const treatmentData: DisplayData[] = [
+    {
+      title: "Procedures",
+      value: returnProceduresTable(
+        evaluate(fhirBundle, mappings["procedures"]),
         mappings,
       ),
     },
@@ -648,9 +733,23 @@ export const evaluateClinicalData = (
       ),
     },
   ];
+
+  const immunizationsData: DisplayData[] = [
+    {
+      title: "Immunization History",
+      value: returnImmunizations(
+        evaluate(fhirBundle, mappings["immunizations"]),
+        mappings,
+      ),
+    },
+  ];
   return {
-    activeProblemsDetails: evaluateData(activeProblemsData),
+    clinicalNotes: evaluateData(clinicalNotes),
+    reasonForVisitDetails: evaluateData(reasonForVisitData),
+    activeProblemsDetails: evaluateData(activeProblemsTableData),
+    treatmentData: evaluateData(treatmentData),
     vitalData: evaluateData(vitalData),
+    immunizationsDetails: evaluateData(immunizationsData),
   };
 };
 
@@ -658,7 +757,7 @@ const evaluateData = (data: DisplayData[]) => {
   let availableData: DisplayData[] = [];
   let unavailableData: DisplayData[] = [];
   data.forEach((item) => {
-    if (item.value == undefined || item.value.length == 0) {
+    if (!item.value || (Array.isArray(item.value) && item.value.length === 0)) {
       unavailableData.push(item);
       item.value = "N/A";
     } else {
@@ -681,17 +780,31 @@ export const formatString = (input: string): string => {
   return result;
 };
 
-export const DataDisplay: React.FC<{ item: DisplayData }> = ({
-  item,
-}): React.JSX.Element => {
+export const DataDisplay: React.FC<{
+  item: DisplayData;
+  className?: string;
+}> = ({ item, className }): React.JSX.Element => {
   return (
     <div>
       <div className="grid-row">
-        <div className="data-title">
-          <h4>{item.title}</h4>
+        <div className="data-title">{item.title}</div>
+        <div
+          className={classNames("grid-col-auto maxw7 text-pre-line", className)}
+        >
+          {item.value}
         </div>
-        <div className="grid-col-auto maxw7 text-pre-line">{item.value}</div>
       </div>
+      <div className={"section__line_gray"} />
+    </div>
+  );
+};
+
+export const DataTableDisplay: React.FC<{ item: DisplayData }> = ({
+  item,
+}): React.JSX.Element => {
+  return (
+    <div className="grid-row">
+      <div className="grid-col-auto text-pre-line">{item.value}</div>
       <div className={"section__line_gray"} />
     </div>
   );

@@ -9,7 +9,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
       <div
         class="usa-summary-box__body"
       >
-        <h3
+        <h4
           class="usa-summary-box__heading padding-y-105"
           id="summary-box-key-information"
         >
@@ -18,7 +18,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
           >
             RR Details
           </span>
-        </h3>
+        </h4>
         <div
           class="usa-summary-box__text"
         >
@@ -28,9 +28,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                Reportable Condition(s)
-              </h4>
+              Reportable Condition(s)
             </div>
             <div
               class="grid-col-fill text-pre-line"
@@ -47,9 +45,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                RCKMS Trigger Summary
-              </h4>
+              RCKMS Trigger Summary
             </div>
             <div
               class="grid-col-fill text-pre-line"
@@ -66,9 +62,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                Jurisdiction(s) Sent eCR
-              </h4>
+              Jurisdiction(s) Sent eCR
             </div>
             <div
               class="grid-col-fill text-pre-line"
@@ -82,7 +76,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
           <div
             class="padding-bottom-1"
           />
-          <h3
+          <h4
             class="usa-summary-box__heading padding-y-105"
             id="summary-box-key-information"
           >
@@ -91,16 +85,14 @@ exports[`ECR Metadata should match snapshot 1`] = `
             >
               eICR Details
             </span>
-          </h3>
+          </h4>
           <div
             class="grid-row"
           >
             <div
               class="data-title"
             >
-              <h4>
-                eICR Identifier
-              </h4>
+              eICR Identifier
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -114,7 +106,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
           <div
             class="padding-bottom-1"
           />
-          <h3
+          <h4
             class="usa-summary-box__heading padding-y-105"
             id="summary-box-key-information"
           >
@@ -123,16 +115,14 @@ exports[`ECR Metadata should match snapshot 1`] = `
             >
               eCR Sender Details
             </span>
-          </h3>
+          </h4>
           <div
             class="grid-row"
           >
             <div
               class="data-title"
             >
-              <h4>
-                Date/Time eCR Created
-              </h4>
+              Date/Time eCR Created
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -149,9 +139,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                Sender Software
-              </h4>
+              Sender Software
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -166,9 +154,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                Sender Facility Name
-              </h4>
+              Sender Facility Name
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -185,9 +171,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
             <div
               class="data-title"
             >
-              <h4>
-                Facility Address
-              </h4>
+              Facility Address
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -206,9 +190,7 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              <h4>
-                Facility Contact
-              </h4>
+              Facility Contact
             </div>
             <div
               class="grid-col-auto text-pre-line"
@@ -225,9 +207,7 @@ Palmdale, CA
             <div
               class="data-title"
             >
-              <h4>
-                Facility ID
-              </h4>
+              Facility ID
             </div>
             <div
               class="grid-col-auto text-pre-line"

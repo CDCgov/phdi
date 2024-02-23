@@ -1,7 +1,8 @@
-import json
 from typing import Dict
+from typing import List
 from typing import Literal
 from typing import Optional
+from typing import Union
 
 from app.constants import PROCESSING_CONFIG_DATA_TYPES
 from pydantic import BaseModel
@@ -10,7 +11,7 @@ from pydantic import root_validator
 
 
 # Request and response models
-class ProcessMessageRequest(BaseModel):
+class OrchestrationRequest(BaseModel):
     """
     The config for requests to the /process endpoint.
     """
@@ -32,11 +33,11 @@ class ProcessMessageRequest(BaseModel):
             " passed data."
         )
     )
-    # TODO: Once we land the new orchestrataion overhaul, we should delete this
-    # parameter. It's used only in the input specification for the validation
-    # service rather than shared across services as a whole, so it's just an
-    # unnecessary value we pass around to services that don't need to know
-    # about it.
+    # TODO: Once we land the new orchestrataion overhaul, we cab delete this
+    # parameter. It's used only for the validation service's input, so other
+    # services don't need to know about it, and we will have pushed its
+    # inclusion into our new workflow configs so the orchestrator can just
+    # retrieve it from there.
     include_error_types: str = Field(
         description=(
             "A comma separated list of the types of errors that should be"
@@ -44,14 +45,15 @@ class ProcessMessageRequest(BaseModel):
             + " Valid types are fatal, errors, warnings, information"
         )
     )
-    message: str = Field(description="The message to be validated.")
+
+    message: Union[dict, str] = Field(description="The message to be validated.")
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
         default=None,
     )
 
     @root_validator()
-    def validate_rr_with_ecr(cls, values):
+    def validate_rr_with_ecr(cls, values: Dict[str, str]) -> Dict[str, str]:
         """
         Validates that RR data is supplied if and only if the uploaded data
         is an eCR (or a zip file of an eICR).
@@ -70,7 +72,7 @@ class ProcessMessageRequest(BaseModel):
         return values
 
     @root_validator()
-    def validate_types_agree(cls, values):
+    def validate_types_agree(cls, values: Dict[str, str]) -> Dict[str, str]:
         """
         Validates that the stream type of a message matches the encoded data
         type of that message. This ensures that data from an eCR stream is
@@ -91,14 +93,14 @@ class ProcessMessageRequest(BaseModel):
         return values
 
     @root_validator()
-    def validate_fhir_message_is_dict(cls, values):
+    def validate_fhir_message_is_dict(cls, values: Dict[str, str]) -> Dict[str, str]:
         """
         Validates that requests specifying a FHIR data type are formatted as
         proper JSON dictionaries for accessing later.
         """
         message = values.get("message")
         data_type = values.get("data_type")
-        if data_type == "fhir" and type(json.loads(message)) is not dict:
+        if data_type == "fhir" and type(message) is not dict:
             raise ValueError(
                 "A `data_type` of FHIR requires the input message "
                 "to be a valid dictionary."
@@ -106,7 +108,7 @@ class ProcessMessageRequest(BaseModel):
         return values
 
 
-class ProcessMessageResponse(BaseModel):
+class OrchestrationResponse(BaseModel):
     """
     The config for responses from the /extract endpoint.
     """
@@ -115,7 +117,7 @@ class ProcessMessageResponse(BaseModel):
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processed_values: dict = Field(
+    processed_values: Dict = Field(
         description="A set of key:value pairs containing the values extracted from the "
         "message."
     )
@@ -126,10 +128,10 @@ class ListConfigsResponse(BaseModel):
     The config for responses from the /configs endpoint.
     """
 
-    default_configs: list = Field(
+    default_configs: List[str] = Field(
         description="The configs that ship with with this service by default."
     )
-    custom_configs: list = Field(
+    custom_configs: List[str] = Field(
         description="Additional configs that users have uploaded to this service beyond"
         " the ones come by default."
     )
