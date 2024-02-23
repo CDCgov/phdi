@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from fastapi import UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+from icecream import ic
 
 # Construct the path to the .env file
 env_path = Path(__file__).resolve().parent.parent / ".env"
@@ -39,9 +40,11 @@ def load_processing_config(config_name: str) -> dict:
             processing_config = json.load(file)
     except FileNotFoundError:
         try:
+            ic(Path(__file__).parent)
             default_config_path = (
                 Path(__file__).parent / "default_configs" / config_name
             )
+            ic(default_config_path)
             with open(default_config_path, "r") as file:
                 processing_config = json.load(file)
         except FileNotFoundError:
