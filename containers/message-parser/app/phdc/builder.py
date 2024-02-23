@@ -1,4 +1,3 @@
-import copy
 import logging
 import uuid
 from typing import List
@@ -540,7 +539,6 @@ class PHDCBuilder:
         :return: The data for building the observation element as an
             Entry object with update codeSystemName(s).
         """
-        translated_observation = copy.deepcopy(observation)
 
         # TODO: move code_system_translations to assets file for easier config?
         code_system_translations = {
@@ -567,45 +565,44 @@ class PHDCBuilder:
             },
         }
 
-        cs_values = {
-            "code_system": observation.code_system,
-            "code_code_system": observation.code_code_system,
-            "value_qualitative_code_system": observation.value_qualitative_code_system,
-            "value_quant_code_system": observation.value_quant_code_system,
-        }
-
-        for cs, cs_value in cs_values.items():
+        for cs in [
+            "code_system",
+            "code_code_system",
+            "value_qualitative_code_system",
+            "value_quant_code_system",
+        ]:
+            cs_value = getattr(observation, cs)
             if cs_value in code_system_translations:
                 if cs == "code_system":
-                    translated_observation.code_system = code_system_translations[
-                        cs_value
-                    ]["codeSystem"]
-                    translated_observation.code_system_name = code_system_translations[
+                    observation.code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_system_name = code_system_translations[cs_value][
+                        "codeSystemName"
+                    ]
+                elif cs == "code_code_system":
+                    observation.code_code_system = code_system_translations[cs_value][
+                        "codeSystem"
+                    ]
+                    observation.code_code_system_name = code_system_translations[
                         cs_value
                     ]["codeSystemName"]
-                elif cs == "code_code_system":
-                    translated_observation.code_code_system = code_system_translations[
-                        cs_value
-                    ]["codeSystem"]
-                    translated_observation.code_code_system_name = (
-                        code_system_translations[cs_value]["codeSystemName"]
-                    )
                 elif cs == "value_qualitative_code_system":
-                    translated_observation.value_qualitative_code_system = (
+                    observation.value_qualitative_code_system = (
                         code_system_translations[cs_value]["codeSystem"]
                     )
-                    translated_observation.value_qualitative_code_system_name = (
+                    observation.value_qualitative_code_system_name = (
                         code_system_translations[cs_value]["codeSystemName"]
                     )
                 elif cs == "value_quant_code_system":
-                    translated_observation.value_quant_code_system = (
-                        code_system_translations[cs_value]["codeSystem"]
-                    )
-                    translated_observation.value_quant_code_system_name = (
-                        code_system_translations[cs_value]["codeSystemName"]
-                    )
+                    observation.value_quant_code_system = code_system_translations[
+                        cs_value
+                    ]["codeSystem"]
+                    observation.value_quant_code_system_name = code_system_translations[
+                        cs_value
+                    ]["codeSystemName"]
 
-        return translated_observation
+        return observation
 
     def _build_addr(
         self,
