@@ -2,11 +2,12 @@
 
 Display an eCR
 
-**URL** : `/view-data?id=:id&auth=:auth`
+**URL** : `/view-data?id=:id&snomed-code=:snomed&auth=:auth`
 
 **URL Parameters** : 
 - `id=[string]` where `id` is the ID of the eCR.
 - `auth=[string]` where `auth` is the authentication token for the user
+- `snomed-code=[string]` where `snomed-code` is the condition the user is viewing the eCR for.
 
 **Method** : `GET`
 
