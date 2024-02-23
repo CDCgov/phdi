@@ -61,25 +61,25 @@ def validate_xml(xml_input: ET.ElementTree) -> bool:
             style="bold green",
         )
         return True
-    else:
-        console.print("the XML file is not valid", style="bold red")
-        # create the table for the error log
-        table = Table(
-            title="PHDC Validation", show_header=True, header_style="bold magenta"
-        )
 
-        # create the table columns to display the errors
-        table.add_column("Line", style="dim", width=6, justify="right")
-        table.add_column("Column", style="dim", width=6, justify="right")
-        table.add_column("Message", overflow="fold")
-        for error in xsd_tree.error_log:
-            table.add_row(
-                str(error.line),
-                str(error.column),
-                error.message,
-            )
-        console.print(table)
-        return False
+      console.print("the XML file is not valid", style="bold red")
+      # create the table for the error log
+      table = Table(
+          title="PHDC Validation", show_header=True, header_style="bold magenta"
+      )
+
+      # create the table columns to display the errors
+      table.add_column("Line", style="dim", width=6, justify="right")
+      table.add_column("Column", style="dim", width=6, justify="right")
+      table.add_column("Message", overflow="fold")
+      for error in xsd_tree.error_log:
+          table.add_row(
+              str(error.line),
+              str(error.column),
+              error.message,
+          )
+      console.print(table)
+      return False
 
 
 @pytest.fixture
