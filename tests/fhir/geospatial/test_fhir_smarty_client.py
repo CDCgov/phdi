@@ -40,6 +40,7 @@ def test_geocode_resource():
     address["line"] = geocoded_response.line
     address["city"] = geocoded_response.city
     address["state"] = geocoded_response.state
+    address["county"] = geocoded_response.county_name
     address["postalCode"] = geocoded_response.postal_code
     address["extension"] = []
     address["extension"].append(
@@ -97,6 +98,7 @@ def test_geocode_bundle():
     address["line"] = geocoded_response.line
     address["city"] = geocoded_response.city
     address["state"] = geocoded_response.state
+    address["county"] = geocoded_response.county_name
     address["postalCode"] = geocoded_response.postal_code
     address["extension"] = []
     address["extension"].append(

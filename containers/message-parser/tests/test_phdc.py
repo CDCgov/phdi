@@ -45,6 +45,39 @@ def test_build_telecom(build_telecom_test_data, expected_result):
 
 
 @pytest.mark.parametrize(
+    "element_name, kwargs, expected_xml",
+    [
+        # test case for normal handling
+        (
+            "element",
+            {
+                "code": "someCode",
+                "codeSystem": "someCodeSystem",
+                "displayName": "someDisplayName",
+            },
+            '<element code="someCode" codeSystem="someCodeSystem" '
+            'displayName="someDisplayName"/>',
+        ),
+        # test xsi_type "TS" where the date value is set to the value attribute
+        (
+            "value",
+            {
+                "{http://www.w3.org/2001/XMLSchema-instance}type": "TS",
+                "value": "20240101",
+            },
+            '<value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+            'xsi:type="TS" value="20240101"/>',
+        ),
+    ],
+)
+def test_build_coded_element(element_name, kwargs, expected_xml):
+    builder = PHDCBuilder()
+    result_element = builder._build_coded_element(element_name, **kwargs)
+    result_xml = ET.tostring(result_element).decode()
+    assert result_xml == expected_xml
+
+
+@pytest.mark.parametrize(
     "build_observation_test_data, expected_result",
     [
         # Test case with a single code element, value, and translation
@@ -654,7 +687,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                text="20240124",
+                                value="20240124",
                             ),
                         ),
                     ]
@@ -811,7 +844,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                         ),
                         value=CodedElement(
                             xsi_type="TS",
-                            text="20240124",
+                            value="20240124",
                         ),
                     ),
                 ],
@@ -847,7 +880,6 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             display_name="City of Exposure",
                         ),
                         value=CodedElement(
-                            xsi_type="TS",
                             text="Esperanze",
                         ),
                     ),
@@ -900,7 +932,7 @@ def test_add_field():
                 code_code_system="2.16.840.1.114222.4.5.1",
                 code_code_display="Shared Ind",
                 value_quantitative_code=None,
-                value_quantitative_code_system=None,
+                value_quant_code_system=None,
                 value_quantitative_value=None,
                 value_qualitative_code="F",
                 value_qualitative_code_system="1.2.3.5",
@@ -985,7 +1017,7 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                             ),
                             value=CodedElement(
                                 xsi_type="TS",
-                                text="20240124",
+                                value="20240124",
                             ),
                         ),
                     ]
@@ -1009,3 +1041,53 @@ def test_build_repeating_questions(build_repeating_questions_data, expected_resu
         ).decode("utf-8")
         == expected_result
     )
+
+
+def test_translate_code_system():
+    input_data = Observation(
+        obs_type="EXPOS",
+        type_code="COMP",
+        class_code="OBS",
+        mood_code="EVN",
+        code_system="http://snomed.info/sct",
+        code_code="1234",
+        code_code_system="http://loinc.org",
+        value_quant_code_system="http://acme-rehab.org",
+        value_qualitative_code_system="2.16.840.1.114222.4.5.1",
+    )
+
+    expected_result = Observation(
+        obs_type="EXPOS",
+        type_code="COMP",
+        class_code="OBS",
+        code_display=None,
+        code_system="2.16.840.1.113883.6.96",
+        code_system_name="SNOMED-CT",
+        quantitative_value=None,
+        quantitative_system=None,
+        quantitative_code=None,
+        qualitative_value=None,
+        qualitative_system=None,
+        qualitative_code=None,
+        mood_code="EVN",
+        code_code="1234",
+        code_code_system="number",
+        code_code_system_name="LOINC",
+        code_code_display=None,
+        value_quantitative_code=None,
+        value_quant_code_system="Acme Rehab",
+        value_quant_code_system_name="Acme Rehab",
+        value_quantitative_value=None,
+        value_qualitative_code=None,
+        value_qualitative_code_system="2.16.840.1.114222.4.5.1",
+        value_qualitative_code_system_name="NEDSS Base System",
+        value_qualitative_value=None,
+        components=None,
+        code=None,
+        value=None,
+        translation=None,
+        text=None,
+    )
+    builder = PHDCBuilder()
+    actual_result = builder._translate_code_system(input_data)
+    assert actual_result == expected_result
