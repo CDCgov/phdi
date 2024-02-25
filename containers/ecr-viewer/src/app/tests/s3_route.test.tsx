@@ -7,7 +7,6 @@ import { mockClient } from "aws-sdk-client-mock";
 import { GET } from "../api/s3/route"; // Adjust the import path to your actual file path
 import { sdkStreamMixin } from "@smithy/util-stream";
 import { NextRequest } from "next/server";
-import { Readable } from "stream";
 
 const s3Mock = mockClient(S3Client);
 const stream = sdkStreamMixin(
