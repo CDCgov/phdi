@@ -47,7 +47,7 @@ service_urls = {
 ENDPOINT_TO_REQUEST = {
     "validate": build_validation_request,
     "convert-to-fhir": build_fhir_converter_request,
-    "geocode": build_geocoding_request,
+    "geocode_bundle": build_geocoding_request,
     "standardize_names": build_ingestion_name_request,
     "standardize_dob": build_ingestion_dob_request,
     "standardize_phones": build_ingestion_phone_request,
@@ -57,7 +57,7 @@ ENDPOINT_TO_REQUEST = {
 ENDPOINT_TO_RESPONSE = {
     "validate": unpack_validation_response,
     "convert-to-fhir": unpack_fhir_converter_response,
-    "geocode": unpack_ingestion_standardization,
+    "geocode_bundle": unpack_ingestion_standardization,
     "standardize_names": unpack_ingestion_standardization,
     "standardize_dob": unpack_ingestion_standardization,
     "standardize_phones": unpack_ingestion_standardization,

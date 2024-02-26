@@ -21,9 +21,9 @@
     {
       "service": "ingestion",
       "url": "${INGESTION_URL}",
-      "endpoint": "/fhir/harmonization/geospatial/geocode/geocode_bundle",
+      "endpoint": "/fhir/geospatial/geocode/geocode_bundle",
       "params": {
-        "geocode_method": "smarty",
+        "geocode_method": "census",
         "overwrite": "true"
       }
     },
