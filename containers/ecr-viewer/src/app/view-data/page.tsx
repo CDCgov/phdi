@@ -1,7 +1,7 @@
 "use client";
 import EcrSummary from "@/app/view-data/components/EcrSummary";
 import AccordionContainer from "@/app/view-data/components/AccordionContainer";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
@@ -32,21 +32,6 @@ const ECRViewerPage = () => {
     fhirBundle: Bundle;
     fhirPathMappings: PathMappings;
   };
-
-  const authorization = searchParams.get("authorization") ?? "";
-  const { push } = useRouter();
-  useEffect(() => {
-    if (authorization) {
-      const handleAuth = async () => {
-        await fetch("http://localhost:3000/api/auth", {
-          method: "POST",
-          headers: { authorization },
-        });
-        push(`http://localhost:3000/view-data?id=${fhirId}`);
-      };
-      handleAuth();
-    }
-  }, []);
 
   useEffect(() => {
     // Fetch the appropriate bundle from Postgres database

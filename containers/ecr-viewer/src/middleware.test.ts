@@ -2,15 +2,9 @@
  * @jest-environment node
  */
 import { middleware } from "@/middleware";
-import { NextRequest, NextResponse } from "next/server";
-import { NextURL } from "next/dist/server/web/next-url";
+import { NextRequest } from "next/server";
 
 describe("Middleware", () => {
-  const redirectSpy = jest.spyOn(NextResponse, "redirect");
-
-  afterEach(() => {
-    redirectSpy.mockReset();
-  });
   it("should strip the auth query param and set the token", async () => {
     const req = new NextRequest(
       "https://www.example.com/view-data?id=1234&auth=abcd",
@@ -23,12 +17,23 @@ describe("Middleware", () => {
       value: "abcd",
       httpOnly: true,
     });
-    expect(redirectSpy).toHaveBeenCalledTimes(1);
-    expect(redirectSpy as unknown as NextURL).toHaveBeenCalledWith(
-      new NextURL("view-data?id=1234", req.url, {
-        headers: {},
-        nextConfig: undefined,
-      }),
+    expect(resp.headers.get("location")).toBe(
+      "https://www.example.com/view-data?id=1234",
     );
+  });
+
+  it("should authorize the api endpoints", async () => {
+    const req = new NextRequest("https://www.example.com/api/fhir-data/");
+
+    const resp = await middleware(req);
+    const respJson = await resp.json();
+    expect(respJson.message).toBe("Auth required");
+    expect(resp.status).toBe(401);
+  });
+
+  it("should not authorize non api endpoints ", async () => {
+    const req = new NextRequest("https://www.example.com/view-data?id=1234");
+    const resp = await middleware(req);
+    expect(resp.status).toBe(200);
   });
 });

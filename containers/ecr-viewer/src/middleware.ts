@@ -17,6 +17,8 @@ function set_auth_cookie(req: NextRequest) {
   if (auth) {
     url.searchParams.delete("auth");
     const response = NextResponse.redirect(url);
+    console.log("response", response);
+    console.log("url", url);
     response.cookies.set("auth-token", auth, { httpOnly: true });
     return response;
   }
