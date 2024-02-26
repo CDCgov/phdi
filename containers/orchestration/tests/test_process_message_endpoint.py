@@ -15,7 +15,7 @@ test_config_path = (
     Path(__file__).parent.parent
     / "app"
     / "default_configs"
-    / "sample-orchestration-config-new.json"
+    / "sample-orchestration-config.json"
 )
 
 fhir_bundle_path = (
@@ -48,7 +48,7 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
     request = {
         "message_type": "elr",
         "data_type": "hl7",
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
         "message": message,
     }
@@ -116,7 +116,7 @@ def test_process_message_fhir_data(patched_post_request):
     request = {
         "message_type": "fhir",
         "data_type": "fhir",
-        "config_file_name": "sample-fhir-test-config-new.json",
+        "config_file_name": "sample-fhir-test-config.json",
         "include_error_types": "errors",
         "message": {"foo": "bar"},
     }
@@ -171,7 +171,7 @@ def test_process_message_mismatched_data_types():
         "message_type": "ecr",
         "data_type": "fhir",
         "message": "foo",
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
     }
     actual_response = client.post("/process-message", json=request)
@@ -197,7 +197,7 @@ def test_process_message_invalid_fhir():
         "message_type": "fhir",
         "data_type": "fhir",
         "message": json.dumps("foo"),
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
     }
     actual_response = client.post("/process-message", json=request)
@@ -213,7 +213,7 @@ def test_process_message_input_validation_with_rr_data():
     request = {
         "message": "foo",
         "data_type": "elr",
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "message_type": "elr",
         "include_error_types": "errors",
         "rr_data": "bar",
@@ -238,7 +238,7 @@ def test_process_success(patched_save_to_db, patched_post_request):
         form_data = {
             "message_type": "ecr",
             "data_type": "zip",
-            "config_file_name": "sample-orchestration-config-new.json",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}
@@ -312,7 +312,7 @@ def test_process_with_empty_zip():
         form_data = {
             "message_type": "ecr",
             "data_type": "zip",
-            "config_file_name": "sample-orchestration-config-new.json",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}

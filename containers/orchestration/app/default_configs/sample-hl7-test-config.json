@@ -1,41 +1,35 @@
 {
-  "configurations": {
-    "validation": {
-      "include_error_types": "error",
-      "url": "${VALIDATION_URL}"
-    },
-    "convert_to_fhir": {
-      "url": "${FHIR_CONVERTER_URL}"
-    },
-    "ingestion": {
-      "url": "${INGESTION_URL}",
-      "standardization_and_geocoding": {
-        "geocode_method": "smarty",
-        "overwrite": "true",
-        "dob_format": ""
-      }
-    }
-  },
-  "steps": [
+  "workflow": [
     {
       "service": "validation",
-      "endpoint": "/validate"
+      "url": "${VALIDATION_URL}",
+      "endpoint": "/validate",
+      "params": {
+        "include_error_types": "error"
+      }
     },
     {
       "service": "fhir_converter",
+      "url": "${FHIR_CONVERTER_URL}",
       "endpoint": "/convert-to-fhir"
     },
     {
       "service": "ingestion",
+      "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_names"
     },
     {
       "service": "ingestion",
-      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob",
+      "params": {
+        "dob_format": ""
+      }
     },
     {
       "service": "ingestion",
-      "endpoint": "/fhir/harmonization/standardization/standardize_dob"
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     }
   ]
 }

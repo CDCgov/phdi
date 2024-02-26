@@ -88,12 +88,11 @@ async def process_message_endpoint_ws(
             # Hardcoded message_type for MVP
             initial_input = {
                 "message_type": "ecr",
-                "include_error_types": "errors",
                 "message": unzipped_data.get("ecr"),
                 "rr_data": unzipped_data.get("rr"),
             }
             processing_config = load_processing_config(
-                "sample-orchestration-config-new.json"
+                "sample-orchestration-config.json"
             )
             response, responses = await call_apis(
                 config=processing_config, input=initial_input, websocket=websocket
@@ -131,7 +130,6 @@ async def process_endpoint(
     message_type: str = Form(None),
     data_type: str = Form(None),
     config_file_name: str = Form(None),
-    include_error_types: str = Form(None),
     upload_file: UploadFile = File(None),
 ) -> OrchestrationResponse:
     """
@@ -147,8 +145,6 @@ async def process_endpoint(
       values include `ecr`, `zip`, `fhir`, and `hl7`.
     :param config_file_name: The name of the configuration file to load on
       the service's back-end, specifying the workflow to apply.
-    :param include_error_types: Whether to include error messaging if the
-      workflow is unsuccessful, as well as what kinds of errors.
     :param upload_file: A file containing clinical health care information.
     :return: A response holding whether the workflow application was
       successful as well as the results of the workflow.
@@ -168,7 +164,6 @@ async def process_endpoint(
         message_type,
         data_type,
         config_file_name,
-        include_error_types,
         message,
         rr_content,
     )
@@ -197,7 +192,6 @@ async def process_message_endpoint(
         process_request.get("message_type"),
         process_request.get("data_type"),
         process_request.get("config_file_name"),
-        process_request.get("include_error_types"),
         process_request.get("message"),
         process_request.get("rr_data"),
     )
@@ -209,7 +203,6 @@ async def apply_workflow_to_message(
     message_type: str,
     data_type: str,
     config_file_name: str,
-    include_error_types: str,
     message: str,
     rr_content: str,
 ) -> dict:
@@ -225,8 +218,6 @@ async def apply_workflow_to_message(
     :param config_file_name: The name of the workflow configuration file to
       load and apply stepwise to the data. File must be located in the custom
       or default configs directory on the service's disk space.
-    :param include_error_types: Whether to include error typing in the API
-      responses.
     :param message: The content of the supplied string of data.
     :param rr_content: The reportability response associated with the eCR.
     :return: JSON of whether the workflow succeeded and what its outputs
@@ -251,7 +242,6 @@ async def apply_workflow_to_message(
     api_input = {
         "message_type": message_type,
         "data_type": data_type,
-        "include_error_types": include_error_types,
         "message": message,
         "rr_data": rr_content,
     }
