@@ -234,12 +234,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm install
-      - name: Build and run app
+      - name: Build
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
         run: npm run build
-      - name: Spin up app
+      - name: Spin up app and test
         working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm run start
-      - name: Run Cypress e2e tests
-        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
-        run: npm run cypress:run
+        run: npm run start & npm run cypress:run
