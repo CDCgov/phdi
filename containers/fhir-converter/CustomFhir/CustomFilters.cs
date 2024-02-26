@@ -16,7 +16,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   /// </summary>
   public partial class Filters
   {
-    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase){"br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul"};
+    private static HashSet<string> supportedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "br", "li", "ol", "p", "span", "table", "tbody", "td", "textarea", "th", "thead", "tr", "u", "ul" };
     private static Dictionary<string, string> replaceTags = new Dictionary<string, string>{
         {"list", "ul"},
         {"item", "li"}
@@ -27,8 +27,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     {
       if (item is Dictionary<string, object> dict)
       {
-            return new List<Dictionary<string, object>> { dict };
-                  }
+        return new List<Dictionary<string, object>> { dict };
+      }
       else if (item is IEnumerable<object> collection)
       {
         return collection.Cast<Dictionary<string, object>>().ToList();
@@ -37,8 +37,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       {
         return collectionTwo.ToList();
       }
-        return new List<Dictionary<string, object>>();
-            }
+      return new List<Dictionary<string, object>>();
+    }
 
     private static Dictionary<string, object>? DrillDown(Dictionary<string, object> item, List<string> list)
     {
@@ -65,11 +65,11 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     {
       var result = new List<string>();
       var dataDictionary = (Dictionary<string, object>)data;
-      var component = DrillDown(dataDictionary, new List<string> {"text"}) ??
+      var component = DrillDown(dataDictionary, new List<string> { "text" }) ??
         dataDictionary;
-      var tbody = DrillDown(component, new List<string> {"list", "item", "table", "tbody"}) ??
-        DrillDown(component, new List<string> {"table", "tbody"});
-        
+      var tbody = DrillDown(component, new List<string> { "list", "item", "table", "tbody" }) ??
+        DrillDown(component, new List<string> { "table", "tbody" });
+
       if (tbody != null && tbody.TryGetValue("tr", out object? tr))
       {
         var trs = ProcessItem(tr);
