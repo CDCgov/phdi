@@ -37,6 +37,9 @@
     "node_modules/cypress/types/cypress.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "./cypress.config.ts",
+    "cypress",
+    "**/*.cy.tsx"
   ]
 }
