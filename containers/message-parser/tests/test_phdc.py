@@ -1104,7 +1104,6 @@ def test_build_repeating_questions(build_repeating_questions_data, expected_resu
     builder = PHDCBuilder()
     builder.set_input_data(build_repeating_questions_data)
     repeating_questions = builder._build_repeating_questions()
-
     assert (
         ET.tostring(
             repeating_questions,

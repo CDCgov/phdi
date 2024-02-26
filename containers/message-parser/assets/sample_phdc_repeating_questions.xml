@@ -3,7 +3,7 @@
   <section>
     <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
     <title>REPEATING QUESTIONS</title>
-    <entry>
+    <entry typeCode="COMP">
       <organizer classCode="CLUSTER" moodCode="EVN">
         <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
         <statusCode code="completed"/>
@@ -17,7 +17,7 @@
         </component>
       </organizer>
     </entry>
-    <entry>
+    <entry typeCode="COMP">
       <organizer classCode="CLUSTER" moodCode="EVN">
         <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
         <statusCode code="completed"/>
@@ -29,7 +29,7 @@
         </component>
       </organizer>
     </entry>
-    <entry>
+    <entry typeCode="COMP">
       <organizer classCode="CLUSTER" moodCode="EVN">
         <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
         <statusCode code="completed"/>

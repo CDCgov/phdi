@@ -298,13 +298,11 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        entry = ET.Element("entry")
         for observation in self.input_data.clinical_info:
+            entry = ET.Element("entry", {"typeCode": "COMP"})
             observation_element = self._build_observation(observation)
             entry.append(observation_element)
-        section.append(entry)
-        component.append(section)
-
+            section.append(entry)
         component.append(section)
         return component
 
@@ -338,11 +336,11 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        entry = ET.Element("entry")
         for observation in self.input_data.social_history_info:
+            entry = ET.Element("entry", {"typeCode": "COMP"})
             observation_element = self._build_observation(observation)
             entry.append(observation_element)
-        section.append(entry)
+            section.append(entry)
         component.append(section)
         return component
 
@@ -371,7 +369,7 @@ class PHDCBuilder:
         # Add organizer header
         for element in self.input_data.repeating_questions:
             # Create the `organizer` element and its subelements
-            entry = ET.Element("entry")
+            entry = ET.Element("entry", {"typeCode": "COMP"})
             organizer = ET.Element(
                 "organizer",
                 {"classCode": "CLUSTER", "moodCode": "EVN"},
