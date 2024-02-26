@@ -3,7 +3,3 @@ fastapi>=0.109.1
 phdi @ git+https://github.com/CDCgov/phdi@main
 uvicorn
 httpx
-pytest
-frozendict
-testcontainers[compose]==3.7.1
-xmldiff
