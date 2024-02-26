@@ -192,10 +192,6 @@ jobs:
           fi
           pip install -r requirements.txt
           if [ -f dev-requirements.txt ]; then
-            if [[ $GITHUB_REF != "refs/heads/main" ]]; then
-              commit_hash=$(git rev-parse HEAD)
-              sed -i -e "s/dependency@main/dependency@${commit_hash}/g" dev-requirements.txt
-            fi
             pip install -r dev-requirements.txt
           fi
       - name: Run integration tests for containers
