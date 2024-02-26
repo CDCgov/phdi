@@ -229,7 +229,7 @@ async def apply_workflow_to_message(
       responses.
     :param message: The content of the supplied string of data.
     :param rr_content: The reportability response associated with the eCR.
-    :return: JSON of whether the workflow succeeded and what its outputs
+    :return: Response of whether the workflow succeeded and what its outputs
       were.
     """
     # Load the config file and fail fast if we can't find it

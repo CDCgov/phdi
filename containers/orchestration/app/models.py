@@ -118,8 +118,8 @@ class OrchestrationResponse(BaseModel):
         "the /process endpoint."
     )
     processed_values: Union[Dict, str] = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
+        description="A set of key:value pairs or XML-formatted string containing the "
+        "values extracted from the message."
     )
 
 
