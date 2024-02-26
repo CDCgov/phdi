@@ -171,4 +171,6 @@ class PHDCInputData:
     organization: List[Organization] = None
     clinical_info: List[Observation] = field(default_factory=list)
     social_history_info: List[Observation] = field(default_factory=list)
-    repeating_questions: List[Observation] = field(default_factory=list)
+    repeating_questions: List[Union[Observation, List[Observation]]] = field(
+        default_factory=list
+    )
