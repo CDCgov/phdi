@@ -46,9 +46,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
       string firstElement = list.First(); // Retrieve the first element
       list.Remove(firstElement);
-      var element = item.GetValueOrDefault(firstElement, null);
-      if(element != null && list.Count > 0){
-        return DrillDown(element as Dictionary<string, object>, list);
+      if (item.TryGetValue(firstElement, out object? element) && list.Count > 0){
+        return DrillDown((Dictionary<string, object>) element, list);
       }else if(element !=null && list.Count == 0){
         return element as Dictionary<string, object>;
       }else{
