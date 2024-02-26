@@ -221,3 +221,19 @@ jobs:
       - name: Run tests
         working-directory: ./containers/fhir-converter # Navigate to your Node.js app directory
         run: dotnet test
+
+  cypress-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18 # Adjust the Node.js version as needed
+      - name: Install dependencies
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm install
+      - name: Run Cypress e2e tests
+        working-directory: ./containers/ecr-viewer # Navigate to your Node.js app directory
+        run: npm run cypress:run

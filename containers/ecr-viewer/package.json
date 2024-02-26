@@ -13,7 +13,9 @@
     "test:unit": "TZ=America/New_York jest",
     "test:unit:watch": "jest --watch",
     "test:integration": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js",
-    "convert-seed-data": "sh ./seed-scripts/convert.sh"
+    "convert-seed-data": "sh ./seed-scripts/convert.sh",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.515.0",
@@ -44,6 +46,7 @@
     "@typescript-eslint/parser": "^6.17.0",
     "autoprefixer": "^10.0.1",
     "chai": "^4.3.10",
+    "cypress": "^13.6.6",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^9.1.0",
