@@ -1020,6 +1020,43 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                                 value="20240124",
                             ),
                         ),
+                        [
+                            Observation(
+                                obs_type="EXPOS",
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="DEM127",
+                                    code_system="List Item 1",
+                                    code_system_name="PHIN Questions",
+                                    display_name="Is this person deceased?",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="CE",
+                                    code="N",
+                                    code_system_name="List Item 1",
+                                    display_name="List Item 1",
+                                    code_system="2.16.840.1.113883.12.136",
+                                ),
+                            ),
+                            Observation(
+                                obs_type="EXPOS",
+                                type_code="COMP",
+                                class_code="OBS",
+                                mood_code="EVN",
+                                code=CodedElement(
+                                    code="NBS104",
+                                    code_system="2.16.840.1.114222.4.5.1",
+                                    code_system_name="NEDSS Base System",
+                                    display_name="List Item 2",
+                                ),
+                                value=CodedElement(
+                                    xsi_type="TS",
+                                    value="List Item 2",
+                                ),
+                            ),
+                        ],
                     ]
                 )
             ),
@@ -1032,6 +1069,7 @@ def test_build_repeating_questions(build_repeating_questions_data, expected_resu
     builder = PHDCBuilder()
     builder.set_input_data(build_repeating_questions_data)
     repeating_questions = builder._build_repeating_questions()
+
     assert (
         ET.tostring(
             repeating_questions,

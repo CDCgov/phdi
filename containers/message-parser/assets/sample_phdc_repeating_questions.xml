@@ -3,7 +3,7 @@
   <section>
     <code code="1234567-RPT" codeSystem="Local-codesystem-oid" codeSystemName="LocalSystem" displayName="Generic Repeating Questions Section"/>
     <title>REPEATING QUESTIONS</title>
-    <entry typeCode="COMP">
+    <entry>
       <organizer classCode="CLUSTER" moodCode="EVN">
         <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
         <statusCode code="completed"/>
@@ -17,7 +17,7 @@
         </component>
       </organizer>
     </entry>
-    <entry typeCode="COMP">
+    <entry>
       <organizer classCode="CLUSTER" moodCode="EVN">
         <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
         <statusCode code="completed"/>
@@ -25,6 +25,22 @@
           <observation classCode="OBS" moodCode="EVN">
             <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="Information As of Date"/>
             <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TS" value="20240124"/>
+          </observation>
+        </component>
+      </organizer>
+    </entry>
+    <entry>
+      <organizer classCode="CLUSTER" moodCode="EVN">
+        <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+        <statusCode code="completed"/>
+        <component>
+          <observation classCode="OBS" moodCode="EVN">
+            <code code="DEM127" codeSystem="List Item 1" codeSystemName="PHIN Questions" displayName="Is this person deceased?"/>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CE" code="N" codeSystem="2.16.840.1.113883.12.136" codeSystemName="List Item 1" displayName="List Item 1"/>
+          </observation>
+          <observation classCode="OBS" moodCode="EVN">
+            <code code="NBS104" codeSystem="2.16.840.1.114222.4.5.1" codeSystemName="NEDSS Base System" displayName="List Item 2"/>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TS" value="List Item 2"/>
           </observation>
         </component>
       </organizer>
