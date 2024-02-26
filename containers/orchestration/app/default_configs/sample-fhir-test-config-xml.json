@@ -19,6 +19,15 @@
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/harmonization/geospatial/geocode/geocode_bundle",
+      "params": {
+        "geocode_method": "smarty",
+        "overwrite": "true"
+      }
+    },
+    {
       "service": "message_parser",
       "url": "${MESSAGE_PARSER_URL}",
       "endpoint": "/fhir_to_phdc",

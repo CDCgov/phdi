@@ -212,7 +212,7 @@ async def apply_workflow_to_message(
     include_error_types: str,
     message: str,
     rr_content: str,
-) -> dict:
+) -> Response:
     """
     Main orchestration function that applies a config-defined workflow to an
     uploaded piece of data. The workflow applied is determined by loading the
@@ -261,18 +261,33 @@ async def apply_workflow_to_message(
         content_type = response.headers.get("content-type", "")
         if "application/xml" in content_type or "text/xml" in content_type:
             # Handle XML data as a string
-            api_data = response.text
-        else:
-            # Handle JSON data
+            api_data = response.content
+            return Response(content=api_data, media_type="application/xml")
+        elif "application/json" in content_type:
+            # Return JSON data
             api_data = response.json()
-
-        return {"message": "Processing succeeded!", "processed_values": api_data}
+            return Response(
+                content=json.dumps(
+                    {"message": "Processing succeeded!", "processed_values": api_data}
+                ),
+                media_type="application/json",
+            )
+        else:
+            api_data = response.text
+            return Response(content=api_data)
     else:
-        return {
-            "message": f"Request failed with status code {response.status_code}",
-            "responses": f"{responses}",
-            "processed_values": "",
-        }
+        # Return error as JSON
+        return Response(
+            content=json.dumps(
+                {
+                    "message": f"Request fail with status code {response.status_code}",
+                    "responses": responses,
+                    "processed_values": "",
+                }
+            ),
+            media_type="application/json",
+            status_code=response.status_code,
+        )
 
 
 @app.get("/configs", responses=sample_list_configs_response)

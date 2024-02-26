@@ -113,7 +113,7 @@ class OrchestrationResponse(BaseModel):
     The config for responses from the /extract endpoint.
     """
 
-    message: str = Field(
+    message: Optional[str] = Field(
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
