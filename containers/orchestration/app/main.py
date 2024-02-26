@@ -257,26 +257,7 @@ async def apply_workflow_to_message(
     }
     response, responses = await call_apis(config=processing_config, input=api_input)
 
-    if response.status_code == 200:
-        content_type = response.headers.get("content-type", "")
-        if "application/xml" in content_type or "text/xml" in content_type:
-            # Handle XML data as a string
-            api_data = response.content
-            return Response(content=api_data, media_type="application/xml")
-        elif "application/json" in content_type:
-            # Return JSON data
-            api_data = response.json()
-            return Response(
-                content=json.dumps(
-                    {"message": "Processing succeeded!", "processed_values": api_data}
-                ),
-                media_type="application/json",
-            )
-        else:
-            api_data = response.text
-            return Response(content=api_data)
-    else:
-        # Return error as JSON
+    if response.status_code != 200:
         return Response(
             content=json.dumps(
                 {
@@ -288,6 +269,28 @@ async def apply_workflow_to_message(
             media_type="application/json",
             status_code=response.status_code,
         )
+
+    logging.info(response.media_type)
+    match response.media_type:
+        case "application/xml" | "text/xml":
+            # Handle XML data as a string
+            workflow_content = response.content
+            logging.info("XML!")
+        case "application/json":
+            # Return JSON data
+            workflow_content = json.dumps(
+                {
+                    "message": "Processing succeeded!",
+                    "processed_values": response.json(),
+                }
+            )
+            logging.info("json!")
+            logging.info(json.dumps(workflow_content))
+        case _:
+            workflow_content = response.text
+            logging.info("idk lol")
+
+    return Response(content=workflow_content, media_type=response.media_type)
 
 
 @app.get("/configs", responses=sample_list_configs_response)
