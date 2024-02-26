@@ -57,9 +57,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     public static string ConcatenateTds(IDictionary<string, object> data)
     {
       var result = new List<string>();
-      var dataDictionary = (data as Dictionary<string, object>);
-      var component = DrillDown(dataDictionary, new List<string> {"text"}) ??
-        dataDictionary;
+      var dataDictionary = (Dictionary<string, object>) data;
+      var component = DrillDown(dataDictionary, new List<string> {"text"}) ?? dataDictionary;
       var tbody = DrillDown(component, new List<string> {"list", "item", "table", "tbody"}) ??
         DrillDown(component, new List<string> {"table", "tbody"});
 
