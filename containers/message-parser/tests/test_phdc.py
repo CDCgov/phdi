@@ -95,11 +95,10 @@ def test_build_coded_element(element_name, kwargs, expected_xml):
                 ),
             ),
             (
-                '<entry typeCode="COMP"><observation classCode="OBS" moodCode="EVN">'
-                '<code code="1" codeSystem="0" displayName="Code"/><value xsi:type="ST"'
-                ' code="2" codeSystem="1" displayName="V"><translation xsi:type="T" '
-                'code="0" codeSystem="L" displayName="T"/></value></observation>'
-                "</entry>"
+                '<observation classCode="OBS" moodCode="EVN"><code code="1" '
+                + 'codeSystem="0" displayName="Code"/><value xsi:type="ST" code="2" '
+                + 'codeSystem="1" displayName="V"><translation xsi:type="T" code="0" '
+                + 'codeSystem="L" displayName="T"/></value></observation>'
             ),
         )
     ],
@@ -883,6 +882,42 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                             text="Esperanze",
                         ),
                     ),
+                    [
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV502",
+                                code_system="2.16.840.1.113883.6.1",
+                                code_system_name="LOINC",
+                                display_name="Country of Exposure",
+                            ),
+                            value=CodedElement(
+                                xsi_type="CE",
+                                code="ATA",
+                                code_system_name="Country (ISO 3166-1)",
+                                display_name="ANTARCTICA",
+                                code_system="1.0.3166.1",
+                            ),
+                        ),
+                        Observation(
+                            obs_type="EXPOS",
+                            type_code="COMP",
+                            class_code="OBS",
+                            mood_code="EVN",
+                            code=CodedElement(
+                                code="INV504",
+                                code_system="2.16.840.1.113883.6.1",
+                                code_system_name="LOINC",
+                                display_name="City of Exposure",
+                            ),
+                            value=CodedElement(
+                                text="Esperanze",
+                            ),
+                        ),
+                    ],
                 ],
                 organization=[
                     Organization(

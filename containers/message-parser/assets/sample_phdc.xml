@@ -149,6 +149,22 @@
               </component>
             </organizer>
           </entry>
+          <entry typeCode="COMP">
+            <organizer classCode="CLUSTER" moodCode="EVN">
+              <code code="1" displayName="Exposure Information" codeSystemName="LocalSystem"/>
+              <statusCode code="completed"/>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="INV502" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Country of Exposure"/>
+                  <value xsi:type="CE" code="ATA" codeSystem="1.0.3166.1" codeSystemName="Country (ISO 3166-1)" displayName="ANTARCTICA"/>
+                </observation>
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="INV504" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="City of Exposure"/>
+                  <value>Esperanze</value>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
         </section>
       </component>
     </structuredBody>
