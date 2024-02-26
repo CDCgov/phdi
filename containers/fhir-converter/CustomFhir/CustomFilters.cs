@@ -31,7 +31,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         }
         else if (item is IEnumerable<object> collection)
         {
-            return collection.Select(x => x as Dictionary<string, object>).ToList();
+            return collection.Cast<Dictionary<string, object>>().ToList();
         }
         else if (item is IEnumerable<Dictionary<string, object>> collectionTwo)
         {
