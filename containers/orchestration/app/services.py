@@ -30,6 +30,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 
+# Locations of the various services the service will delegate
 SERVICE_URLS = {
     "validation": os.environ.get("VALIDATION_URL"),
     "ingestion": os.environ.get("INGESTION_URL"),

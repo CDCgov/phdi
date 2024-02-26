@@ -16,7 +16,7 @@ from app.models import OrchestrationResponse
 from app.models import ProcessingConfigModel
 from app.models import PutConfigResponse
 from app.services import call_apis
-from app.services import validate_response
+from app.utils import _socket_response_is_valid
 from app.utils import load_config_assets
 from app.utils import load_json_from_binary
 from app.utils import load_processing_config
@@ -97,7 +97,7 @@ async def process_message_endpoint_ws(
             response, responses = await call_apis(
                 config=processing_config, input=initial_input, websocket=websocket
             )
-            if validate_response(response=response):
+            if _socket_response_is_valid(response=response):
                 # Parse and work with the API response data (JSON, XML, etc.)
                 api_data = response.json()  # Assuming the response is in JSON format
                 message = {
@@ -123,7 +123,7 @@ async def process_message_endpoint_ws(
         await websocket.close()
 
 
-# TODO: This method needs request validation on message_type and include_error_types
+# TODO: This method needs request validation on message_type
 # Should make them into Field values and validate with Pydantic
 @app.post("/process", status_code=200, responses=process_message_response_examples)
 async def process_endpoint(
