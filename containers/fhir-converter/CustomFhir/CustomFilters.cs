@@ -40,7 +40,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         return new List<Dictionary<string, object>>();
     }
 
-    private static Dictionary<string, object> DrillDown(Dictionary<string, object> item, List<string> list){
+    private static Dictionary<string, object>? DrillDown(Dictionary<string, object> item, List<string> list){
       if(list.Count == 0){
         return item;
       }
