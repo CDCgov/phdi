@@ -70,21 +70,21 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       var tbody = DrillDown(component, ["list", "item", "table", "tbody"]) ??
         DrillDown(component, ["table", "tbody"]);
 
-      if (tbody != null && tbody.TryGetValue("tr", out object? tr) && tr != null)
+      if (tbody != null && tbody.TryGetValue("tr", out object? tr))
       {
         var trs = ProcessItem(tr);
         if (trs != null && trs.Count != 0)
         {
           foreach (var r in trs)
           {
-            if (r.TryGetValue("td", out object? rawTds) && rawTds != null)
+            if (r.TryGetValue("td", out object? rawTds))
             {
               var tds = ProcessItem(rawTds);
               if (tds != null && tds.Count != 0)
               {
                 foreach (var d in tds)
                 {
-                  if (d != null && d.TryGetValue("_", out object? val) && val != null)
+                  if (d != null && d.TryGetValue("_", out object? val))
                   {
                     result.Add((string)val);
                   }
