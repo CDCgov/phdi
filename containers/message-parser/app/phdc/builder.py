@@ -299,10 +299,17 @@ class PHDCBuilder:
 
         # add observation data to section
         for observation in self.input_data.clinical_info:
-            entry = ET.Element("entry", {"typeCode": "COMP"})
-            observation_element = self._build_observation(observation)
-            entry.append(observation_element)
-            section.append(entry)
+            if isinstance(observation, Observation):
+                entry = ET.Element("entry", {"typeCode": "COMP"})
+                observation_element = self._build_observation(observation)
+                entry.append(observation_element)
+                section.append(entry)
+            else:
+                for c in observation:
+                    entry = ET.Element("entry", {"typeCode": "COMP"})
+                    observation_element = self._build_observation(c)
+                    entry.append(observation_element)
+                    section.append(entry)
         component.append(section)
         return component
 
@@ -337,10 +344,17 @@ class PHDCBuilder:
 
         # add observation data to section
         for observation in self.input_data.social_history_info:
-            entry = ET.Element("entry", {"typeCode": "COMP"})
-            observation_element = self._build_observation(observation)
-            entry.append(observation_element)
-            section.append(entry)
+            if isinstance(observation, Observation):
+                entry = ET.Element("entry", {"typeCode": "COMP"})
+                observation_element = self._build_observation(observation)
+                entry.append(observation_element)
+                section.append(entry)
+            else:
+                for c in observation:
+                    entry = ET.Element("entry", {"typeCode": "COMP"})
+                    observation_element = self._build_observation(c)
+                    entry.append(observation_element)
+                    section.append(entry)
         component.append(section)
         return component
 
