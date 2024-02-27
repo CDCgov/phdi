@@ -2,6 +2,7 @@ import json
 import os
 from json.decoder import JSONDecodeError
 
+import boto3
 import requests
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
 from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
@@ -40,6 +41,7 @@ service_urls = {
     "fhir_converter": os.environ.get("FHIR_CONVERTER_URL"),
     "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
     "save_to_db": os.environ.get("DATABASE_URL"),
+    "save_to_s3": os.environ.get("ECR_BUCKET_NAME"),
 }
 
 # Mappings of endpoint names to the service input and output building
@@ -293,6 +295,37 @@ async def _send_websocket_dump(
     return progress_dict
 
 
+def save_to_s3(**kwargs) -> dict:
+    """
+    Given a dictionary and an ecr_id, create a file and
+    upload it to the S3 endpoint as specified in the .env
+    """
+
+    bucket_name = os.getenv("ECR_BUCKET_NAME")
+    if not bucket_name:
+        return {
+            "status": "error",
+            "message": "S3 bucket name not found in environment variables.",
+        }
+
+    response = kwargs["response"].json()
+    ecr_id = "123456"
+
+    filename = f"{ecr_id}.json"
+    s3 = boto3.client("s3")
+    json_data = json.dumps(response)
+
+    try:
+        # Save the JSON data to S3
+        s3.put_object(Bucket=bucket_name, Key=filename, Body=json_data)
+        return {
+            "status": "success",
+            "message": f"File {filename} saved to bucket {bucket_name}.",
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
 async def call_apis(
     config: dict, input: OrchestrationRequest, websocket: WebSocket = None
 ) -> tuple:
@@ -328,7 +361,7 @@ async def call_apis(
         # TODO: Once the save to DB functionality is registered as an actual
         # service endpoint on the eCR viewer side, we can write real handlers
         # for it and take out the if/else logic
-        if service != "save_to_db":
+        if service != "save_to_s3":
             request_func = ENDPOINT_TO_REQUEST[endpoint_name]
             response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
             service_request = request_func(current_message, input, params)
@@ -364,6 +397,9 @@ async def call_apis(
             if service != "validation":
                 current_message = service_response.msg_content
             responses[service] = response
+        elif service == "save_to_s3":
+            print(response)
+            save_to_s3(response=response)
         else:
             db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
