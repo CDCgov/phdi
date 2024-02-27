@@ -17,6 +17,6 @@ def test_db_connection(setup):
         repo.persist(expected)
 
     with Session(engine) as session:
-        actual = session.query(PostgresFhirDataModel).get(str(ecr_id))
+        actual = session.get(PostgresFhirDataModel, str(ecr_id))
         assert expected.ecr_id == actual.ecr_id
         assert expected.data == actual.data
