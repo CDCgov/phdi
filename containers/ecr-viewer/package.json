@@ -12,7 +12,7 @@
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "TZ=America/New_York jest",
     "test:unit:watch": "jest --watch",
-    "test:integration": "mocha --timeout 6000000 tests/integration/test_ecr-viewer.js",
+    "test:integration": "mocha --timeout 600000 tests/integration/test_ecr-viewer.js",
     "convert-seed-data": "sh ./seed-scripts/convert.sh"
   },
   "dependencies": {
@@ -30,9 +30,6 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
-    "@babel/preset-env": "^7.23.9",
     "@next/eslint-plugin-next": "^14.0.4",
     "@smithy/util-stream": "^2.1.2",
     "@testing-library/jest-dom": "^6.1.5",
