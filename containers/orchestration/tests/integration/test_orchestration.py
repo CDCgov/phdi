@@ -153,7 +153,6 @@ def test_process_message_fhir(setup):
         "message": message,
     }
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
-    breakpoint()
     assert orchestration_response.status_code == 200
     assert orchestration_response.json()["message"] == "Processing succeeded!"
 

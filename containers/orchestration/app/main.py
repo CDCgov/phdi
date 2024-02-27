@@ -257,11 +257,13 @@ async def apply_workflow_to_message(
     }
     response, responses = await call_apis(config=processing_config, input=api_input)
 
+    # if not 200, return status code and any error messaging
     if response.status_code != 200:
         return Response(
             content=json.dumps(
                 {
-                    "message": f"Request fail with status code {response.status_code}",
+                    "message": "Request failed with status code"
+                    + f"{response.status_code}",
                     "responses": responses,
                     "processed_values": "",
                 }
@@ -270,27 +272,22 @@ async def apply_workflow_to_message(
             status_code=response.status_code,
         )
 
-    logging.info(response.media_type)
-    match response.media_type:
+    # determine how to process/return 200 data for json and xml
+    content_type = response.headers.get("content-type", "")
+    match content_type:
         case "application/xml" | "text/xml":
-            # Handle XML data as a string
             workflow_content = response.content
-            logging.info("XML!")
         case "application/json":
-            # Return JSON data
             workflow_content = json.dumps(
                 {
                     "message": "Processing succeeded!",
                     "processed_values": response.json(),
                 }
             )
-            logging.info("json!")
-            logging.info(json.dumps(workflow_content))
         case _:
             workflow_content = response.text
-            logging.info("idk lol")
 
-    return Response(content=workflow_content, media_type=response.media_type)
+    return Response(content=workflow_content, media_type=content_type)
 
 
 @app.get("/configs", responses=sample_list_configs_response)
