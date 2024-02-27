@@ -7,6 +7,7 @@ import pytest
 from app.config import get_settings
 from app.main import app
 from dotenv import load_dotenv
+from lxml import etree
 from starlette.testclient import TestClient
 
 get_settings()
@@ -148,6 +149,37 @@ def test_process_message_fhir(setup):
     orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
     assert orchestration_response.status_code == 200
     assert orchestration_response.json()["message"] == "Processing succeeded!"
+
+
+@pytest.mark.integration
+def test_process_message_fhir_phdc(setup):
+    """
+    Integration test of a different workflow and data type, a FHIR bundle
+    passed through standardization to create a PHDC XML.
+    """
+    message = json.load(
+        open(
+            Path(__file__).parent.parent.parent.parent
+            / "message-parser"
+            / "assets"
+            / "demo_phdc_conversion_bundle.json"
+        )
+    )
+    request = {
+        "message_type": "fhir",
+        "data_type": "fhir",
+        "config_file_name": "sample-fhir-test-config-xml.json",
+        "include_error_types": "errors",
+        "message": message,
+    }
+    orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
+    xml_content = orchestration_response.text
+    assert orchestration_response.status_code == 200
+    try:
+        parsed_xml = etree.fromstring(xml_content.encode())
+        assert parsed_xml is not None  # confirm XML returned
+    except etree.XMLSyntaxError as e:
+        pytest.fail(f"XML parsing error: {e}")
 
 
 @pytest.mark.integration

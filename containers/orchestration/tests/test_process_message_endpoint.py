@@ -132,11 +132,13 @@ def test_process_message_fhir_data(patched_post_request):
     }
     ingestion_post_request = mock.Mock()
     ingestion_post_request.status_code = 200
+    ingestion_post_request.headers = {"content-type": "application/json"}
     ingestion_post_request.json.return_value = {
         "bundle": {"bundle_type": "batch", "placeholder_id": "abcdefg", "entry": []}
     }
     message_parser_post_request = mock.Mock()
     message_parser_post_request.status_code = 200
+    message_parser_post_request.headers = {"content-type": "application/json"}
     message_parser_post_request.json.return_value = {
         "parsed_values": {"placeholder_key": "placeholder_value"}
     }
