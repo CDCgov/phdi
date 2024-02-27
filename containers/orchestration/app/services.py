@@ -1,5 +1,6 @@
 import json
 import os
+from json.decoder import JSONDecodeError
 
 import requests
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
@@ -210,10 +211,25 @@ def save_to_db_payload(**kwargs) -> dict:
     payload. Once this endpoint exists in the eCR viewer, we can
     write full-fledged request and response handlers for this service.
     """
-    response = kwargs["response"]
-    r = response.json()
-    if r.get("parsed_values", {}).get("eicr_id"):
-        ecr_id = r["parsed_values"]["eicr_id"]
+
+    if "bundle" not in kwargs:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "Unprocessable Entity",
+                "details": "Bundle not provided to save_to_db payload",
+            },
+        )
+    bundle = kwargs["bundle"]
+    b = bundle.json()
+    if "bundle" in b:
+        b = b["bundle"]
+    entry = b.get("entry") if isinstance(b, dict) and b.get("entry") else False
+    first_entry = entry[0] if entry else False
+    resource = first_entry.get("resource") if first_entry else False
+
+    if entry and first_entry and resource:
+        ecr_id = resource.get("id")
     else:
         raise HTTPException(
             status_code=422,
@@ -222,11 +238,23 @@ def save_to_db_payload(**kwargs) -> dict:
                 "details": "eICR ID not found, cannot save to database.",
             },
         )
-    return {"ecr_id": ecr_id, "data": r}
+    return {"ecr_id": ecr_id, "data": b}
 
 
 def post_request(url, payload):
     return requests.post(url, json=payload)
+
+
+def save_bundle(response, bundle):
+    try:
+        r = response.json()
+        if "bundle" in r:
+            return response
+        else:
+            return bundle
+    except JSONDecodeError as e:
+        print("Failed to decode JSON:", e)
+        return bundle
 
 
 async def _send_websocket_dump(
@@ -286,10 +314,9 @@ async def call_apis(
     current_message = input.get("message")
     response = current_message
     responses = {}
-
+    bundle = {}
     # For websocket json dumps
     progress_dict = {}
-
     for step in workflow:
         service = step["service"]
         endpoint = step["endpoint"]
@@ -306,6 +333,8 @@ async def call_apis(
             response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
             service_request = request_func(current_message, input, params)
             response = post_request(service_url, service_request)
+            bundle = save_bundle(response=response, bundle=bundle)
+
             service_response = response_func(response)
 
             if websocket:
@@ -336,11 +365,9 @@ async def call_apis(
             if service != "validation":
                 current_message = service_response.msg_content
             responses[service] = response
-
         else:
-            db_request = save_to_db_payload(response=response)
+            db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
-
             if websocket:
                 progress_dict = await _send_websocket_dump(
                     endpoint_name,

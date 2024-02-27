@@ -93,7 +93,7 @@ async def process_message_endpoint_ws(
                 "rr_data": unzipped_data.get("rr"),
             }
             processing_config = load_processing_config(
-                "sample-orchestration-config-new.json"
+                "sample-orchestration-config.json"
             )
             response, responses = await call_apis(
                 config=processing_config, input=initial_input, websocket=websocket
@@ -153,7 +153,6 @@ async def process_endpoint(
     :return: A response holding whether the workflow application was
       successful as well as the results of the workflow.
     """
-
     rr_content = None
     if upload_file.content_type == "application/zip":
         unzipped_file = unzip_http(upload_file)
