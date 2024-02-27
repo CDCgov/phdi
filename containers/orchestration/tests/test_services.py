@@ -154,10 +154,10 @@ def test_message_parser_payload():
 def test_save_to_db_payload():
     response = Response()
     response.status_code = 200
-    response._content = b'{"bundle": "bar", "parsed_values":{"eicr_id":"foo"}}'
-    result = save_to_db_payload(response=response)
+    response._content = b'{"bundle": {"entry": [{"resource": {"id": "foo"}}]}}'
+    result = save_to_db_payload(bundle=response)
     expected_result = {
-        "data": {"bundle": "bar", "parsed_values": {"eicr_id": "foo"}},
+        "data": {"entry": [{"resource": {"id": "foo"}}]},
         "ecr_id": "foo",
     }
 
@@ -170,6 +170,6 @@ def test_save_to_db_failure_missing_eicr_id():
     response._content = b'{"bundle": "bar", "parsed_values":{}}'
 
     with pytest.raises(HTTPException) as exc_info:
-        save_to_db_payload(response=response)
+        save_to_db_payload(bundle=response)
 
     assert exc_info.value.status_code == 422
