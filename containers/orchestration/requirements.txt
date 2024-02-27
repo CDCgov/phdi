@@ -15,4 +15,3 @@ testcontainers[compose]
 websockets
 asyncio
 sqlalchemy
-icecream
