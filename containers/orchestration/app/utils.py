@@ -136,3 +136,13 @@ class CustomJSONResponse(JSONResponse):
 
     def json(self) -> Dict:
         return self._content
+
+
+def format_service_url(base_url: str, endpoint: str) -> str:
+    """
+    Simple helper function to construct an HTTP-accessable URL for a DIBBs
+    building block, with correct quotation mark formatting.
+    """
+    url = base_url + endpoint
+    url = url.replace('"', "")
+    return url
