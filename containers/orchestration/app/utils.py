@@ -51,7 +51,6 @@ def load_processing_config(config_name: str) -> dict:
 
     # Replace placeholders with environment variable values
     replace_env_var_placeholders(processing_config)
-
     return processing_config
 
 
