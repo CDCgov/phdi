@@ -31,6 +31,6 @@ def setup(request):
 
     def teardown():
         print("Tests finished! Tearing down.")
-        orchestration_service.stop()
+        # orchestration_service.stop()
 
     request.addfinalizer(teardown)

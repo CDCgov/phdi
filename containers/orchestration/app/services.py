@@ -1,5 +1,6 @@
 import json
 import os
+from json.decoder import JSONDecodeError
 
 import requests
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
@@ -245,10 +246,14 @@ def post_request(url, payload):
 
 
 def save_bundle(response, bundle):
-    r = response.json()
-    if "bundle" in r:
-        return response
-    else:
+    try:
+        r = response.json()
+        if "bundle" in r:
+            return response
+        else:
+            return bundle
+    except JSONDecodeError as e:
+        print("Failed to decode JSON:", e)
         return bundle
 
 
@@ -329,6 +334,7 @@ async def call_apis(
             service_request = request_func(current_message, input, params)
             response = post_request(service_url, service_request)
             bundle = save_bundle(response=response, bundle=bundle)
+
             service_response = response_func(response)
 
             if websocket:
