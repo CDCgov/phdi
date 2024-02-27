@@ -33,6 +33,13 @@ with open(test_config_path, "r") as file:
     test_config = json.load(file)
 
 
+def mock_headers_get(key, default=None):
+    headers = {
+        "content-type": "application/json",
+    }
+    return headers.get(key, default)
+
+
 # /process-message tests
 @mock.patch("app.services.post_request")
 @mock.patch("app.services.save_to_db")
@@ -94,6 +101,7 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
 
     save_to_db_response = mock.Mock()
     save_to_db_response.status_code = 200
+    save_to_db_response.text = "foo"
     save_to_db_response.json.return_value = {
         "response": {
             "FhirResource": {
@@ -106,6 +114,7 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
         },
         "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
     }
+    save_to_db_response.headers.get.side_effect = mock_headers_get
 
     patched_post_request.side_effect = [
         validation_post_request,

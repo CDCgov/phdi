@@ -362,7 +362,6 @@ async def call_apis(
         else:
             db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
-
             if websocket:
                 progress_dict = await _send_websocket_dump(
                     endpoint_name,
