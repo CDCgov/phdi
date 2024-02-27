@@ -279,6 +279,38 @@ class PHDCBuilder:
 
         self.phdc.getroot().append(body)
 
+    def _add_observations_to_section(
+        self,
+        section: ET.Element,
+        section_type: Literal["clinical_info", "social_history"],
+    ) -> ET.Element:
+        """
+        Adds Clinical Observation and Social History Information observations to the
+        appropriate section.
+
+        :param section: Section XML element.
+        :section_type: The Section observations are added to.
+        :return: Section XML element with added observations.
+        """
+        if section_type == "social_history":
+            data = self.input_data.social_history_info
+        else:
+            data = self.input_data.clinical_info
+
+        for observation in data:
+            if isinstance(observation, Observation):
+                entry = ET.Element("entry", {"typeCode": "COMP"})
+                observation_element = self._build_observation(observation)
+                entry.append(observation_element)
+                section.append(entry)
+            else:
+                for c in observation:
+                    entry = ET.Element("entry", {"typeCode": "COMP"})
+                    observation_element = self._build_observation(c)
+                    entry.append(observation_element)
+                    section.append(entry)
+        return section
+
     def _build_clinical_info(self) -> ET.Element:
         """
         Builds the `ClinicalInformation` XML element, including all hardcoded aspects
@@ -307,18 +339,8 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        for observation in self.input_data.clinical_info:
-            if isinstance(observation, Observation):
-                entry = ET.Element("entry", {"typeCode": "COMP"})
-                observation_element = self._build_observation(observation)
-                entry.append(observation_element)
-                section.append(entry)
-            else:
-                for c in observation:
-                    entry = ET.Element("entry", {"typeCode": "COMP"})
-                    observation_element = self._build_observation(c)
-                    entry.append(observation_element)
-                    section.append(entry)
+        section = self._add_observations_to_section(section, "clinical_info")
+
         component.append(section)
         return component
 
@@ -352,18 +374,8 @@ class PHDCBuilder:
         section.append(title)
 
         # add observation data to section
-        for observation in self.input_data.social_history_info:
-            if isinstance(observation, Observation):
-                entry = ET.Element("entry", {"typeCode": "COMP"})
-                observation_element = self._build_observation(observation)
-                entry.append(observation_element)
-                section.append(entry)
-            else:
-                for c in observation:
-                    entry = ET.Element("entry", {"typeCode": "COMP"})
-                    observation_element = self._build_observation(c)
-                    entry.append(observation_element)
-                    section.append(entry)
+        section = self._add_observations_to_section(section, "social_history")
+
         component.append(section)
         return component
 
