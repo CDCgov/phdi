@@ -212,7 +212,7 @@ async def apply_workflow_to_message(
     include_error_types: str,
     message: str,
     rr_content: str,
-) -> dict:
+) -> Response:
     """
     Main orchestration function that applies a config-defined workflow to an
     uploaded piece of data. The workflow applied is determined by loading the
@@ -229,7 +229,7 @@ async def apply_workflow_to_message(
       responses.
     :param message: The content of the supplied string of data.
     :param rr_content: The reportability response associated with the eCR.
-    :return: JSON of whether the workflow succeeded and what its outputs
+    :return: Response of whether the workflow succeeded and what its outputs
       were.
     """
     # Load the config file and fail fast if we can't find it
@@ -257,19 +257,37 @@ async def apply_workflow_to_message(
     }
     response, responses = await call_apis(config=processing_config, input=api_input)
 
-    if response.status_code == 200:
-        # Parse and work with the API response data (JSON, XML, etc.)
-        api_data = response.json()  # Assuming the response is in JSON format
-        return {
-            "message": "Processing succeeded!",
-            "processed_values": api_data,
-        }
-    else:
-        return {
-            "message": f"Request failed with status code {response.status_code}",
-            "responses": f"{responses}",
-            "processed_values": "",
-        }
+    # if not 200, return status code and any error messaging
+    if response.status_code != 200:
+        return Response(
+            content=json.dumps(
+                {
+                    "message": "Request failed with status code"
+                    + f"{response.status_code}",
+                    "responses": responses,
+                    "processed_values": "",
+                }
+            ),
+            media_type="application/json",
+            status_code=response.status_code,
+        )
+
+    # determine how to process/return 200 data for json and xml
+    content_type = response.headers.get("content-type", "")
+    match content_type:
+        case "application/xml" | "text/xml":
+            workflow_content = response.content
+        case "application/json":
+            workflow_content = json.dumps(
+                {
+                    "message": "Processing succeeded!",
+                    "processed_values": response.json(),
+                }
+            )
+        case _:
+            workflow_content = response.text
+
+    return Response(content=workflow_content, media_type=content_type)
 
 
 @app.get("/configs", responses=sample_list_configs_response)
