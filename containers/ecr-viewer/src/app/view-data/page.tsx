@@ -7,6 +7,7 @@ import { Bundle } from "fhir/r4";
 import { PathMappings } from "../utils";
 import SideNav from "./components/SideNav";
 import { processSnomedCode } from "./service";
+
 // string constants to match with possible .env values
 const S3_SOURCE = "s3";
 const POSTGRES_SOURCE = "postgres";
