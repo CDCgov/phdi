@@ -113,13 +113,13 @@ class OrchestrationResponse(BaseModel):
     The config for responses from the /extract endpoint.
     """
 
-    message: str = Field(
+    message: Optional[str] = Field(
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processed_values: Dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
+    processed_values: Union[Dict, str] = Field(
+        description="A set of key:value pairs or XML-formatted string containing the "
+        "values extracted from the message."
     )
 
 
