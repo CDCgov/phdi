@@ -1,4 +1,4 @@
-import csv
+import json
 import re
 import sys
 
@@ -7,20 +7,7 @@ import openpyxl
 # arg list: 1) input file location/name 2) output file location/name
 excelFile = sys.argv[1] if len(sys.argv) > 1 else "RCTC_Release (2023-10-06).xlsx"
 wb = openpyxl.load_workbook(excelFile)
-data = [
-    [
-        "Type",
-        "Name",
-        "OID",
-        "Code System",
-        "Code System OID",
-        "Status",
-        "Condition Name",
-        "Condition Code",
-        "Condition Code System",
-    ]
-]
-
+jsonData = {}
 for sheet in wb.worksheets:
     ws = wb[sheet.title]
     title = sheet.title.replace("_", " ")
@@ -46,24 +33,22 @@ for sheet in wb.worksheets:
             print("End of", title)
             break
         elif inTable:
-            row = [
-                title,
-                val[0],
-                val[1],
-                val[2],
-                val[3],
-                val[4],
-                val[5],
-                val[6],
-                val[7],
-            ]
-            data.append(row)
+            jsonData[val[1]] = {
+                "Type": title,
+                "Name": val[0],
+                "OID": val[1],
+                "Code System": val[2],
+                "Code System OID": val[3],
+                "Status": val[4],
+                "Condition Name": val[5],
+                "Condition Code": val[6],
+                "Condition Code System": val[7],
+            }
 
 with open(
-    sys.argv[2] if len(sys.argv) > 2 else "src/app/api/rctc.csv", "w", newline=""
-) as file:
-    print("Writing to csv")
-    writer = csv.writer(file)
-    writer.writerows(data)
+    sys.argv[2] if len(sys.argv) > 2 else "src/app/api/rctc.json", "w"
+) as outfile:
+    print("Writing to json")
+    json.dump(jsonData, outfile)
 
 print("Done")
