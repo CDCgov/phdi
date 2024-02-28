@@ -193,6 +193,12 @@
         "subject": {
           "reference": "urn:uuid:1"
         },
+        "valueQuantity": {
+          "value": 10.0,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "IU/mL"
+        },
         "interpretation": [
           {
             "coding": [
@@ -227,6 +233,12 @@
         },
         "subject": {
           "reference": "urn:uuid:1"
+        },
+        "valueQuantity": {
+          "value": 2.5,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "IU/mL"
         },
         "interpretation": [
           {
