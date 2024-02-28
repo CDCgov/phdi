@@ -648,7 +648,7 @@
           },
           {
             "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/us-ph-determination-of-reportability-rule-extension",
-            "valueString": "Fever (Temperature > 37.8 \u00b0C [100 \u00b0F])"
+            "valueString": "Fever (Temperature > 37.8 °C [100 °F])"
           }
         ],
         "performer": [
