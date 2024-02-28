@@ -293,17 +293,11 @@ class PHDCBuilder:
         :return: Section XML element with added observations.
         """
         for observation in data:
-            if isinstance(observation, Observation):
+            for c in observation:
                 entry = ET.Element("entry", {"typeCode": "COMP"})
-                observation_element = self._build_observation(observation)
+                observation_element = self._build_observation(c)
                 entry.append(observation_element)
                 section.append(entry)
-            else:
-                for c in observation:
-                    entry = ET.Element("entry", {"typeCode": "COMP"})
-                    observation_element = self._build_observation(c)
-                    entry.append(observation_element)
-                    section.append(entry)
         return section
 
     def _build_clinical_info(self) -> ET.Element:
@@ -425,13 +419,9 @@ class PHDCBuilder:
             comp = ET.SubElement(organizer, "component")
 
             # add observation data to section
-            if isinstance(element, Observation):
-                observation_element = self._build_observation(element)
+            for c in element:
+                observation_element = self._build_observation(c)
                 comp.append(observation_element)
-            else:
-                for c in element:
-                    observation_element = self._build_observation(c)
-                    comp.append(observation_element)
             organizer.append(comp)
             entry.append(organizer)
             section.append(entry)

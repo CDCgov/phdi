@@ -164,8 +164,6 @@ class PHDCInputData:
     ] = "case_report"
     patient: Patient = None
     organization: List[Organization] = None
-    clinical_info: List[Observation] = field(default_factory=list)
-    social_history_info: List[Observation] = field(default_factory=list)
-    repeating_questions: List[Union[Observation, List[Observation]]] = field(
-        default_factory=list
-    )
+    clinical_info: List[List[Observation]] = field(default_factory=list)
+    social_history_info: List[List[Observation]] = field(default_factory=list)
+    repeating_questions: List[List[Observation]] = field(default_factory=list)
