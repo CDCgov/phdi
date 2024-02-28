@@ -24,7 +24,7 @@ data = [
 for sheet in wb.worksheets:
     ws = wb[sheet.title]
     title = sheet.title.replace("_", " ")
-    title = re.sub(r"S\d", "", title)
+    title = re.sub(r" S\d", "", title)
     inTable = False
     for val in ws.iter_rows(values_only=True):
         if val == (
