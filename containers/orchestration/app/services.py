@@ -224,15 +224,9 @@ def save_to_db_payload(**kwargs) -> dict:
         )
     bundle = kwargs["bundle"]
     b = bundle.json()
-    if "bundle" in b:
-        b = b["bundle"]
-    entry = b.get("entry") if isinstance(b, dict) and b.get("entry") else False
-    first_entry = entry[0] if entry else False
-    resource = first_entry.get("resource") if first_entry else False
+    ecr_id = extract_ecrid_from_bundle(b)
 
-    if entry and first_entry and resource:
-        ecr_id = resource.get("id")
-    else:
+    if not ecr_id:
         raise HTTPException(
             status_code=422,
             detail={
@@ -241,6 +235,22 @@ def save_to_db_payload(**kwargs) -> dict:
             },
         )
     return {"ecr_id": ecr_id, "data": b}
+
+
+def extract_ecrid_from_bundle(bundle):
+    bundle = bundle.get("bundle") if bundle.get("bundle") else bundle
+    entry = (
+        bundle.get("entry")
+        if isinstance(bundle, dict) and bundle.get("entry")
+        else False
+    )
+    first_entry = entry[0] if entry else False
+    resource = first_entry.get("resource") if first_entry else False
+
+    ecr_id = None
+    if entry and first_entry and resource:
+        ecr_id = resource.get("id")
+    return ecr_id
 
 
 def post_request(url, payload):
@@ -295,7 +305,7 @@ async def _send_websocket_dump(
     return progress_dict
 
 
-def save_to_s3(**kwargs) -> dict:
+def save_to_s3(bundle) -> dict:
     """
     Given a dictionary and an ecr_id, create a file and
     upload it to the S3 endpoint as specified in the .env
@@ -308,12 +318,12 @@ def save_to_s3(**kwargs) -> dict:
             "message": "S3 bucket name not found in environment variables.",
         }
 
-    response = kwargs["response"].json()
-    ecr_id = "123456"
+    b = bundle.json()
+    ecr_id = extract_ecrid_from_bundle(b)
 
     filename = f"{ecr_id}.json"
     s3 = boto3.client("s3")
-    json_data = json.dumps(response)
+    json_data = json.dumps(b)
 
     try:
         # Save the JSON data to S3
@@ -361,7 +371,7 @@ async def call_apis(
         # TODO: Once the save to DB functionality is registered as an actual
         # service endpoint on the eCR viewer side, we can write real handlers
         # for it and take out the if/else logic
-        if service != "save_to_s3":
+        if service not in ["save_to_s3", "save_to_db"]:
             request_func = ENDPOINT_TO_REQUEST[endpoint_name]
             response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
             service_request = request_func(current_message, input, params)
@@ -398,8 +408,7 @@ async def call_apis(
                 current_message = service_response.msg_content
             responses[service] = response
         elif service == "save_to_s3":
-            print(response)
-            save_to_s3(response=response)
+            save_to_s3(bundle=bundle)
         else:
             db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
