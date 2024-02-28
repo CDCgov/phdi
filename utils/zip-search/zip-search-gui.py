@@ -4,7 +4,6 @@ import shutil
 import tkinter as tk
 import zipfile
 from tkinter import filedialog
-from tkinter import simpledialog
 
 # from pathlib import Path
 
@@ -13,7 +12,7 @@ class ZipSearcher(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Zip File Searcher")
-        self.geometry("400x200")
+        self.geometry("500x500")
 
         # Variables
         self.source_dir = None
@@ -36,9 +35,24 @@ class ZipSearcher(tk.Tk):
         )
         self.output_button.pack(pady=10)
 
-        # Search term entry and search button
+        # Search text
+        self.search_entry_label = tk.Label(self, text="Search Term")
+        self.search_entry_label.pack(pady=(10, 0))
+        self.search_entry = tk.Entry(self)
+        self.search_entry.pack(pady=(0, 10))
+
+        # Files to search through
+        self.file_type_label = tk.Label(self, text="Document names")
+        self.file_type_label.pack(pady=(10, 0))
+        self.entries = []
+        self.init_entries()
+
+        self.add_button = tk.Button(self, text="Add New Field", command=self.add_entry)
+        self.add_button.pack(pady=10)
+
+        # Button to start search
         self.search_button = tk.Button(
-            self, text="Enter Search Term and Start Search", command=self.start_search
+            self, text="Start Search", command=self.start_search
         )
         self.search_button.pack(pady=10)
 
@@ -53,8 +67,40 @@ class ZipSearcher(tk.Tk):
         )
         self.output_dir_label.pack()
 
+        self.search_term_label = tk.Label(self, text="")
+        self.search_term_label.pack(pady=(0, 0))
+
         self.output_results_label = tk.Label(self, text="", fg="white")
-        self.output_results_label.pack()
+        self.output_results_label.pack(pady=10)
+
+    def init_entries(self):
+        initial_values = ["CDA_eICR.xml", "CDA_RR.xml"]
+        for value in initial_values:
+            self.add_entry(predefined_value=value)
+
+    def add_entry(self, predefined_value=""):
+        # Frame to hold the entry and remove button
+        entry_frame = tk.Frame(self)
+        entry_frame.pack(pady=5)
+
+        # Entry widget
+        entry = tk.Entry(entry_frame, width=40)
+        entry.insert(0, predefined_value)  # Prepopulate with a value if provided
+        entry.pack(side=tk.LEFT, padx=5)
+        self.entries.append(entry)  # Keep track of this entry
+
+        # Button to remove the entry
+        remove_button = tk.Button(
+            entry_frame,
+            text="Remove",
+            command=lambda: self.remove_entry(entry_frame, entry),
+        )
+        remove_button.pack(side=tk.LEFT, padx=5)
+
+    def remove_entry(self, frame, entry):
+        # Remove the entry from the tracking list and destroy the frame
+        self.entries.remove(entry)
+        frame.destroy()
 
     def select_source_dir(self):
         self.source_dir = filedialog.askdirectory()
@@ -67,8 +113,10 @@ class ZipSearcher(tk.Tk):
         self.output_dir_label.config(text=f"Output Directory: {self.output_dir}")
 
     def start_search(self):
-        self.search_term = simpledialog.askstring("Input", "What are you looking for?")
-        print("Searching for:", self.search_term)
+        self.search_term = self.search_entry.get()
+        print("search term:")
+        print(self.search_term)
+        self.search_term_label.config(text=f"Searching for: {self.search_term}")
         if self.source_dir and self.output_dir and self.search_term:
             self.search_in_zips()
         else:
@@ -86,20 +134,19 @@ class ZipSearcher(tk.Tk):
         for filename in glob.glob(os.path.join(self.source_dir, "*.zip")):
             with zipfile.ZipFile(filename) as zip_ref:
                 try:
-                    ecr = zip_ref.open("CDA_eICR.xml")
-                    ecr_data = ecr.read().decode("utf-8")
-
-                    rr = zip_ref.open("CDA_RR.xml")
-                    rr_data = rr.read().decode("utf-8")
-
-                    if self.search_term in ecr_data or self.search_term in rr_data:
-                        id_num = os.path.basename(filename)
-                        shutil.copy(filename, os.path.join(self.output_dir, id_num))
-                        print(filename + " was copied to new directory")
-                        results_count += 1
+                    for doc_type in self.entries:
+                        doc = zip_ref.open(doc_type.get())
+                        doc_data = doc.read().decode("utf-8")
+                        if self.search_term in doc_data:
+                            id_num = os.path.basename(filename)
+                            shutil.copy(filename, os.path.join(self.output_dir, id_num))
+                            # print(filename + " was copied to new directory")
+                            results_count += 1
                 except KeyError:
                     print("No eICR/RR here")
                     pass
+        print("done searching")
+        print(f"Found {results_count} result(s)")
         self.output_results_label.config(text=f"Found {results_count} result(s)")
 
 
