@@ -61,7 +61,7 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
                         }
                     ]
                 },
-                "value": f"{data.get('mrn',None)}",
+                "value": f"{data.get('mrn', None)}",
             },
             {
                 "type": {
@@ -72,37 +72,37 @@ def convert_to_patient_fhir_resources(data: Dict) -> Tuple:
                         }
                     ]
                 },
-                "value": f"{data.get('ssn',None)}",
+                "value": f"{data.get('ssn', None)}",
             },
         ],
         "name": [
             {
-                "family": f"{data.get('last_name',None)}",
+                "family": f"{data.get('last_name', None)}",
                 "given": extract_given_name(data),
             }
         ],
         "telecom": [
             {
                 "system": "phone",
-                "value": f"{data.get('home_phone',None)}",
+                "value": f"{data.get('home_phone', None)}",
                 "use": "home",
             },
             {
                 "system": "phone",
-                "value": f"{data.get('cell_phone',None)}",
+                "value": f"{data.get('cell_phone', None)}",
                 "use": "mobile",
             },
-            {"value": f"{data.get('email',None)}", "system": "email"},
+            {"value": f"{data.get('email', None)}", "system": "email"},
         ],
-        "gender": f"{data.get('sex',None)}",
+        "gender": f"{data.get('sex', None)}",
         "birthDate": adjust_birthdate(data),
         "address": [
             {
                 "use": "home",
-                "line": [f"{data.get('address',None)}"],
-                "city": f"{data.get('city',None)}",
-                "state": f"{data.get('state',None)}",
-                "postalCode": f"{data.get('zip',None)}",
+                "line": [f"{data.get('address', None)}"],
+                "city": f"{data.get('city', None)}",
+                "state": f"{data.get('state', None)}",
+                "postalCode": f"{data.get('zip', None)}",
             }
         ],
     }
