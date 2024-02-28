@@ -55,6 +55,7 @@
             { {% include 'DataType/ContactPoint' ContactPoint: telecom -%} },
             {% endfor -%}
         ],
+        "contact": {{ contact | to_json_string }},
         "communication":
         [
             {% assign languageCommunications = patientRole.patient.languageCommunication | to_array -%}
