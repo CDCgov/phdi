@@ -1,5 +1,6 @@
 import json
 import os
+from json.decoder import JSONDecodeError
 
 import requests
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
@@ -29,11 +30,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from phdi.fhir.conversion.convert import _get_fhir_conversion_settings
-from phdi.fhir.conversion.convert import standardize_hl7_datetimes
 
-
-service_urls = {
+# Locations of the various services the service will delegate
+SERVICE_URLS = {
     "validation": os.environ.get("VALIDATION_URL"),
     "ingestion": os.environ.get("INGESTION_URL"),
     "fhir_converter": os.environ.get("FHIR_CONVERTER_URL"),
@@ -47,7 +46,7 @@ service_urls = {
 ENDPOINT_TO_REQUEST = {
     "validate": build_validation_request,
     "convert-to-fhir": build_fhir_converter_request,
-    "geocode": build_geocoding_request,
+    "geocode_bundle": build_geocoding_request,
     "standardize_names": build_ingestion_name_request,
     "standardize_dob": build_ingestion_dob_request,
     "standardize_phones": build_ingestion_phone_request,
@@ -57,131 +56,13 @@ ENDPOINT_TO_REQUEST = {
 ENDPOINT_TO_RESPONSE = {
     "validate": unpack_validation_response,
     "convert-to-fhir": unpack_fhir_converter_response,
-    "geocode": unpack_ingestion_standardization,
+    "geocode_bundle": unpack_ingestion_standardization,
     "standardize_names": unpack_ingestion_standardization,
     "standardize_dob": unpack_ingestion_standardization,
     "standardize_phones": unpack_ingestion_standardization,
     "parse_message": unpack_parsed_message_response,
     "fhir_to_phdc": unpack_fhir_to_phdc_response,
 }
-
-
-def validation_payload(**kwargs) -> dict:
-    """
-    The input payload to an orchestrated request of the DIBBs validation
-    service. No additional configuration options are needed here beyond
-    the supplied input.
-    """
-    input = kwargs["input"]
-    return {
-        "message_type": "ecr",
-        "include_error_types": "errors",
-        "message": input.get("message"),
-        "rr_data": input.get("rr_data"),
-    }
-
-
-def validate_response(**kwargs) -> bool:
-    """
-    The body payload of a response from the DIBBs validation service. Reports
-    whether a supplied message is valid.
-    """
-    response = kwargs["response"]
-    body = response.json()
-    if "message_valid" in body:
-        return body.get("message_valid")
-
-    return response.status_code == 200
-
-
-def fhir_converter_payload(**kwargs) -> dict:
-    """
-    The input payload to an orchestrated request of the DIBBs FHIR converter
-    service. When the user uploads data, we use the properties of the
-    uploaded message to determine the appropriate conversion settings
-    (such as the root template or HL7v2 basis segment). If these values
-    cannot be determined directly from the message, the payload is set
-    with default permissive EICR templates (needed to preserve
-    compatibility with demo UI viewers.)
-    """
-    input = kwargs["input"]
-    msg = str(input["message"])
-    # Template will depend on input data formatting and typing, so try
-    # to figure that out. If we can't, use our default EICR settings
-    # to preserve backwards compatibility
-    try:
-        conversion_settings = _get_fhir_conversion_settings(msg)
-        if conversion_settings["input_type"] == "hl7v2":
-            msg = standardize_hl7_datetimes(msg)
-    except KeyError:
-        conversion_settings = {"input_type": "ecr", "root_template": "EICR"}
-    return {
-        "input_data": msg,
-        "input_type": conversion_settings["input_type"],
-        "root_template": conversion_settings["root_template"],
-        "rr_data": input.get("rr_data"),
-    }
-
-
-def ingestion_payload(**kwargs) -> dict:
-    """
-    The input payload to an orchestrated request to the DIBBs ingestion
-    service. The ingestion service comprises the DIBBs harmonization and
-    geocoding offerings, so settings related to options for these
-    functions are set in this payload.
-    """
-    response = kwargs["response"]
-    step = kwargs["step"]
-    config = kwargs["config"]
-    r = response.json()
-    endpoint = step["endpoint"] if "endpoint" in step else ""
-    if "standardize_names" in endpoint:
-        data = {"data": r["response"]["FhirResource"]}
-    elif "geocode" in endpoint:
-        data = {
-            "bundle": r["bundle"],
-            "geocode_method": config["configurations"]["ingestion"][
-                "standardization_and_geocoding"
-            ]["geocode_method"],
-            "smarty_auth_id": os.environ.get("SMARTY_AUTH_ID"),
-            "smarty_auth_token": os.environ.get("SMARTY_AUTH_TOKEN"),
-            "license_type": os.environ.get("LICENSE_TYPE"),
-        }
-    else:
-        data = {"data": r["bundle"]}
-    return data
-
-
-def message_parser_payload(**kwargs) -> dict:
-    """
-    The input payload of an orchestrated request to the DIBBs message parser
-    service. The message parser could be used for internal tabular value
-    extraction (`parse-message`) or conversion to PHDC (`fhir-to-phdc`), so
-    the configuration settings of the user's chosen workflow determine which
-    endpoint this payload is meant for.
-    """
-    response = kwargs["response"]
-    config = kwargs["config"]
-    r = response.json()
-
-    # We determine which endpoint to hit by finding the message-parsing
-    # service step and checking the desired call
-    data = {"message": r["bundle"]}
-    for step in config["steps"]:
-        if step["service"] == "message_parser":
-            if "fhir_to_phdc" in step["endpoint"]:
-                data["phdc_report_type"] = config["configurations"]["message_parser"][
-                    "phdc_report_type"
-                ]
-            else:
-                data["message_format"] = config["configurations"]["message_parser"][
-                    "message_format"
-                ]
-                data["parsing_schema_name"] = config["configurations"][
-                    "message_parser"
-                ]["parsing_schema_name"]
-            break
-    return data
 
 
 def save_to_db(**kwargs) -> dict:
@@ -210,10 +91,25 @@ def save_to_db_payload(**kwargs) -> dict:
     payload. Once this endpoint exists in the eCR viewer, we can
     write full-fledged request and response handlers for this service.
     """
-    response = kwargs["response"]
-    r = response.json()
-    if r.get("parsed_values", {}).get("eicr_id"):
-        ecr_id = r["parsed_values"]["eicr_id"]
+
+    if "bundle" not in kwargs:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "Unprocessable Entity",
+                "details": "Bundle not provided to save_to_db payload",
+            },
+        )
+    bundle = kwargs["bundle"]
+    b = bundle.json()
+    if "bundle" in b:
+        b = b["bundle"]
+    entry = b.get("entry") if isinstance(b, dict) and b.get("entry") else False
+    first_entry = entry[0] if entry else False
+    resource = first_entry.get("resource") if first_entry else False
+
+    if entry and first_entry and resource:
+        ecr_id = resource.get("id")
     else:
         raise HTTPException(
             status_code=422,
@@ -222,11 +118,23 @@ def save_to_db_payload(**kwargs) -> dict:
                 "details": "eICR ID not found, cannot save to database.",
             },
         )
-    return {"ecr_id": ecr_id, "data": r}
+    return {"ecr_id": ecr_id, "data": b}
 
 
 def post_request(url, payload):
     return requests.post(url, json=payload)
+
+
+def save_bundle(response, bundle):
+    try:
+        r = response.json()
+        if "bundle" in r:
+            return response
+        else:
+            return bundle
+    except JSONDecodeError as e:
+        print("Failed to decode JSON:", e)
+        return bundle
 
 
 async def _send_websocket_dump(
@@ -286,17 +194,16 @@ async def call_apis(
     current_message = input.get("message")
     response = current_message
     responses = {}
-
+    bundle = {}
     # For websocket json dumps
     progress_dict = {}
-
     for step in workflow:
         service = step["service"]
         endpoint = step["endpoint"]
         endpoint_name = endpoint.split("/")[-1]
         params = step.get("params", None)
 
-        service_url = format_service_url(service_urls[service], endpoint)
+        service_url = format_service_url(SERVICE_URLS[service], endpoint)
 
         # TODO: Once the save to DB functionality is registered as an actual
         # service endpoint on the eCR viewer side, we can write real handlers
@@ -306,6 +213,8 @@ async def call_apis(
             response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
             service_request = request_func(current_message, input, params)
             response = post_request(service_url, service_request)
+            bundle = save_bundle(response=response, bundle=bundle)
+
             service_response = response_func(response)
 
             if websocket:
@@ -336,11 +245,9 @@ async def call_apis(
             if service != "validation":
                 current_message = service_response.msg_content
             responses[service] = response
-
         else:
-            db_request = save_to_db_payload(response=response)
+            db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
-
             if websocket:
                 progress_dict = await _send_websocket_dump(
                     endpoint_name,

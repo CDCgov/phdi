@@ -1,19 +1,6 @@
 {
   "workflow": [
     {
-      "service": "validation",
-      "url": "${VALIDATION_URL}",
-      "endpoint": "/validate",
-      "params": {
-        "include_error_types": "error"
-      }
-    },
-    {
-      "service": "fhir_converter",
-      "url": "${FHIR_CONVERTER_URL}",
-      "endpoint": "/convert-to-fhir"
-    },
-    {
       "service": "ingestion",
       "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_names"
@@ -30,6 +17,23 @@
       "service": "ingestion",
       "url": "${INGESTION_URL}",
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+    },
+    {
+      "service": "ingestion",
+      "url": "${INGESTION_URL}",
+      "endpoint": "/fhir/geospatial/geocode/geocode_bundle",
+      "params": {
+        "geocode_method": "census",
+        "overwrite": "true"
+      }
+    },
+    {
+      "service": "message_parser",
+      "url": "${MESSAGE_PARSER_URL}",
+      "endpoint": "/fhir_to_phdc",
+      "params": {
+        "phdc_report_type": "case_report"
+      }
     }
   ]
 }
