@@ -15,7 +15,7 @@ test_config_path = (
     Path(__file__).parent.parent
     / "app"
     / "default_configs"
-    / "sample-orchestration-config-new.json"
+    / "sample-orchestration-config.json"
 )
 
 fhir_bundle_path = (
@@ -33,6 +33,13 @@ with open(test_config_path, "r") as file:
     test_config = json.load(file)
 
 
+def mock_headers_get(key, default=None):
+    headers = {
+        "content-type": "application/json",
+    }
+    return headers.get(key, default)
+
+
 # /process-message tests
 @mock.patch("app.services.post_request")
 @mock.patch("app.services.save_to_db")
@@ -48,7 +55,7 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
     request = {
         "message_type": "elr",
         "data_type": "hl7",
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
         "message": message,
     }
@@ -71,31 +78,43 @@ def test_process_message_success(patched_save_to_db, patched_post_request):
                     "entry": [],
                 }
             }
-        }
+        },
+        "bundle": {
+            "converted_msg_placeholder_key": "placeholder_bundle",
+            "entry": [{"resource": {"id": "foo"}}],
+        },
     }
     ingestion_post_request = mock.Mock()
     ingestion_post_request.status_code = 200
     ingestion_post_request.json.return_value = {
-        "bundle": {"bundle_type": "batch", "placeholder_id": "abcdefg", "entry": []}
+        "bundle": {
+            "bundle_type": "batch",
+            "placeholder_id": "abcdefg",
+            "entry": [{"resource": {"id": "foo"}}],
+        }
     }
     message_parser_post_request = mock.Mock()
     message_parser_post_request.status_code = 200
     message_parser_post_request.json.return_value = {
         "parsed_values": {"eicr_id": "placeholder_id"}
     }
-    save_to_db_response = CustomJSONResponse(
-        content=jsonable_encoder(
-            {
-                "response": {
-                    "FhirResource": {
-                        "converted_msg_placeholder_key": "converted_placeholder_value"
-                    }
-                },
-                "bundle": {"converted_msg_placeholder_key": "placeholder_bundle"},
-                "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
+
+    save_to_db_response = mock.Mock()
+    save_to_db_response.status_code = 200
+    save_to_db_response.text = "foo"
+    save_to_db_response.json.return_value = {
+        "response": {
+            "FhirResource": {
+                "converted_msg_placeholder_key": "converted_placeholder_value"
             }
-        )
-    )
+        },
+        "bundle": {
+            "converted_msg_placeholder_key": "placeholder_bundle",
+            "entry": [{"resource": {"id": "foo"}}],
+        },
+        "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
+    }
+    save_to_db_response.headers.get.side_effect = mock_headers_get
 
     patched_post_request.side_effect = [
         validation_post_request,
@@ -116,17 +135,19 @@ def test_process_message_fhir_data(patched_post_request):
     request = {
         "message_type": "fhir",
         "data_type": "fhir",
-        "config_file_name": "sample-fhir-test-config-new.json",
+        "config_file_name": "sample-fhir-test-config.json",
         "include_error_types": "errors",
         "message": {"foo": "bar"},
     }
     ingestion_post_request = mock.Mock()
     ingestion_post_request.status_code = 200
+    ingestion_post_request.headers = {"content-type": "application/json"}
     ingestion_post_request.json.return_value = {
         "bundle": {"bundle_type": "batch", "placeholder_id": "abcdefg", "entry": []}
     }
     message_parser_post_request = mock.Mock()
     message_parser_post_request.status_code = 200
+    message_parser_post_request.headers = {"content-type": "application/json"}
     message_parser_post_request.json.return_value = {
         "parsed_values": {"placeholder_key": "placeholder_value"}
     }
@@ -171,7 +192,7 @@ def test_process_message_mismatched_data_types():
         "message_type": "ecr",
         "data_type": "fhir",
         "message": "foo",
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
     }
     actual_response = client.post("/process-message", json=request)
@@ -197,7 +218,7 @@ def test_process_message_invalid_fhir():
         "message_type": "fhir",
         "data_type": "fhir",
         "message": json.dumps("foo"),
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "include_error_types": "errors",
     }
     actual_response = client.post("/process-message", json=request)
@@ -213,7 +234,7 @@ def test_process_message_input_validation_with_rr_data():
     request = {
         "message": "foo",
         "data_type": "elr",
-        "config_file_name": "sample-orchestration-config-new.json",
+        "config_file_name": "sample-orchestration-config.json",
         "message_type": "elr",
         "include_error_types": "errors",
         "rr_data": "bar",
@@ -238,11 +259,19 @@ def test_process_success(patched_save_to_db, patched_post_request):
         form_data = {
             "message_type": "ecr",
             "data_type": "zip",
-            "config_file_name": "sample-orchestration-config-new.json",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}
 
+        call_post_request = mock.Mock()
+        call_post_request.status_code = 200
+        call_post_request.json.return_value = {
+            "response": {
+                "FhirResource": {"foo": "bar"},
+            },
+            "bundle": {"entry": [{"resource": {"id": "foo"}}]},
+        }
         validation_post_request = mock.Mock()
         validation_post_request.status_code = 200
         validation_post_request.json.return_value = {
@@ -265,7 +294,11 @@ def test_process_success(patched_save_to_db, patched_post_request):
         ingestion_post_request = mock.Mock()
         ingestion_post_request.status_code = 200
         ingestion_post_request.json.return_value = {
-            "bundle": {"bundle_type": "batch", "placeholder_id": "abcdefg", "entry": []}
+            "bundle": {
+                "bundle_type": "batch",
+                "placeholder_id": "abcdefg",
+                "entry": [{"resource": {"id": "foo"}}],
+            }
         }
         message_parser_post_request = mock.Mock()
         message_parser_post_request.status_code = 200
@@ -280,7 +313,7 @@ def test_process_success(patched_save_to_db, patched_post_request):
                             "converted_msg_placeholder_key": "converted_placeholder_value"  # noqa
                         }
                     },
-                    "bundle": {"converted_msg_placeholder_key": "placeholder_bundle"},
+                    "bundle": {"entry": [{"resource": {"id": "foo"}}]},
                     "parsed_values": {"eicr_id": "converted_msg_placeholder_key"},
                 }
             )
@@ -312,7 +345,7 @@ def test_process_with_empty_zip():
         form_data = {
             "message_type": "ecr",
             "data_type": "zip",
-            "config_file_name": "sample-orchestration-config-new.json",
+            "config_file_name": "sample-orchestration-config.json",
             "include_error_types": "errors",
         }
         files = {"upload_file": ("file.zip", f)}

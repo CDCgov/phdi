@@ -51,7 +51,6 @@ def load_processing_config(config_name: str) -> dict:
 
     # Replace placeholders with environment variable values
     replace_env_var_placeholders(processing_config)
-
     return processing_config
 
 
@@ -146,3 +145,17 @@ def format_service_url(base_url: str, endpoint: str) -> str:
     url = base_url + endpoint
     url = url.replace('"', "")
     return url
+
+
+def _socket_response_is_valid(**kwargs) -> bool:
+    """
+    Utility function that indicates whether a websocket endpoint can return
+    data that the orchestration service processed. If the service sent back
+    a 200, or the validation service verified the message's integrity, the
+    socket can continue.
+    """
+    response = kwargs["response"]
+    body = response.json()
+    if "message_valid" in body:
+        return body.get("message_valid")
+    return response.status_code == 200

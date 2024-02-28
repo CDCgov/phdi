@@ -33,19 +33,6 @@ class OrchestrationRequest(BaseModel):
             " passed data."
         )
     )
-    # TODO: Once we land the new orchestrataion overhaul, we cab delete this
-    # parameter. It's used only for the validation service's input, so other
-    # services don't need to know about it, and we will have pushed its
-    # inclusion into our new workflow configs so the orchestrator can just
-    # retrieve it from there.
-    include_error_types: str = Field(
-        description=(
-            "A comma separated list of the types of errors that should be"
-            + " included in the return response."
-            + " Valid types are fatal, errors, warnings, information"
-        )
-    )
-
     message: Union[dict, str] = Field(description="The message to be validated.")
     rr_data: Optional[str] = Field(
         description="If an eICR message, the accompanying Reportability Response data.",
@@ -113,13 +100,13 @@ class OrchestrationResponse(BaseModel):
     The config for responses from the /extract endpoint.
     """
 
-    message: str = Field(
+    message: Optional[str] = Field(
         description="A message describing the result of a request to "
         "the /process endpoint."
     )
-    processed_values: Dict = Field(
-        description="A set of key:value pairs containing the values extracted from the "
-        "message."
+    processed_values: Union[Dict, str] = Field(
+        description="A set of key:value pairs or XML-formatted string containing the "
+        "values extracted from the message."
     )
 
 
