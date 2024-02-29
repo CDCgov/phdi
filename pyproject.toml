@@ -54,7 +54,7 @@ faker = "^18.4.0"
 
 [tool.poetry.dev-dependencies]
 pdoc = "^13.0.0"
-black = "^23.1.0"
+black = "^24.2.0"
 pytest = "^7.1.0"
 flake8 = "^4.0.1"
 pytest-cov = "^3.0.0"

@@ -40,8 +40,8 @@ const ECRViewerPage = () => {
       try {
         const response = await fetch(`/api/${apiPath}?id=${fhirId}`);
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Internal Server Error");
+          const errorData = response.statusText;
+          throw new Error(errorData || "Internal Server Error");
         } else {
           const bundle: ApiResponse = await response.json();
           processSnomedCode(snomedCode);
@@ -57,7 +57,13 @@ const ECRViewerPage = () => {
   }, []);
 
   if (errors) {
-    return <div>{`${errors}`}</div>;
+    return (
+      <div>
+        <pre>
+          <code>{`${errors}`}</code>
+        </pre>
+      </div>
+    );
   } else if (fhirBundle && mappings) {
     return (
       <div>
