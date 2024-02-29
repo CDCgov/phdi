@@ -2,6 +2,7 @@ import json
 import os
 from json.decoder import JSONDecodeError
 
+import boto3
 import requests
 from app.DAL.PostgresFhirDataModel import PostgresFhirDataModel
 from app.DAL.SqlFhirRepository import SqlAlchemyFhirRepository
@@ -38,6 +39,7 @@ SERVICE_URLS = {
     "fhir_converter": os.environ.get("FHIR_CONVERTER_URL"),
     "message_parser": os.environ.get("MESSAGE_PARSER_URL"),
     "save_to_db": os.environ.get("DATABASE_URL"),
+    "save_to_s3": os.environ.get("ECR_BUCKET_NAME"),
 }
 
 # Mappings of endpoint names to the service input and output building
@@ -102,15 +104,9 @@ def save_to_db_payload(**kwargs) -> dict:
         )
     bundle = kwargs["bundle"]
     b = bundle.json()
-    if "bundle" in b:
-        b = b["bundle"]
-    entry = b.get("entry") if isinstance(b, dict) and b.get("entry") else False
-    first_entry = entry[0] if entry else False
-    resource = first_entry.get("resource") if first_entry else False
+    ecr_id = extract_ecrid_from_bundle(b)
 
-    if entry and first_entry and resource:
-        ecr_id = resource.get("id")
-    else:
+    if not ecr_id:
         raise HTTPException(
             status_code=422,
             detail={
@@ -118,7 +114,23 @@ def save_to_db_payload(**kwargs) -> dict:
                 "details": "eICR ID not found, cannot save to database.",
             },
         )
-    return {"ecr_id": ecr_id, "data": b}
+    return {"ecr_id": ecr_id, "data": b["bundle"]}
+
+
+def extract_ecrid_from_bundle(bundle):
+    bundle = bundle.get("bundle") if bundle.get("bundle") else bundle
+    entry = (
+        bundle.get("entry")
+        if isinstance(bundle, dict) and bundle.get("entry")
+        else False
+    )
+    first_entry = entry[0] if entry else False
+    resource = first_entry.get("resource") if first_entry else False
+
+    ecr_id = None
+    if entry and first_entry and resource:
+        ecr_id = resource.get("id")
+    return ecr_id
 
 
 def post_request(url, payload):
@@ -173,6 +185,37 @@ async def _send_websocket_dump(
     return progress_dict
 
 
+def save_to_s3(bundle) -> dict:
+    """
+    Given a dictionary and an ecr_id, create a file and
+    upload it to the S3 endpoint as specified in the .env
+    """
+
+    bucket_name = os.getenv("ECR_BUCKET_NAME")
+    if not bucket_name:
+        return {
+            "status": "error",
+            "message": "S3 bucket name not found in environment variables.",
+        }
+
+    b = bundle.json()
+    ecr_id = extract_ecrid_from_bundle(b)
+
+    filename = f"{ecr_id}.json"
+    s3 = boto3.client("s3")
+    json_data = json.dumps(b)
+
+    try:
+        # Save the JSON data to S3
+        s3.put_object(Bucket=bucket_name, Key=filename, Body=json_data)
+        return {
+            "status": "success",
+            "message": f"File {filename} saved to bucket {bucket_name}.",
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
 async def call_apis(
     config: dict, input: OrchestrationRequest, websocket: WebSocket = None
 ) -> tuple:
@@ -208,13 +251,12 @@ async def call_apis(
         # TODO: Once the save to DB functionality is registered as an actual
         # service endpoint on the eCR viewer side, we can write real handlers
         # for it and take out the if/else logic
-        if service != "save_to_db":
+        if service not in ["save_to_s3", "save_to_db"]:
             request_func = ENDPOINT_TO_REQUEST[endpoint_name]
             response_func = ENDPOINT_TO_RESPONSE[endpoint_name]
             service_request = request_func(current_message, input, params)
             response = post_request(service_url, service_request)
             bundle = save_bundle(response=response, bundle=bundle)
-
             service_response = response_func(response)
 
             if websocket:
@@ -245,6 +287,8 @@ async def call_apis(
             if service != "validation":
                 current_message = service_response.msg_content
             responses[service] = response
+        elif service == "save_to_s3":
+            save_to_s3(bundle=bundle)
         else:
             db_request = save_to_db_payload(response=response, bundle=bundle)
             response = save_to_db(url=service_url, payload=db_request)
