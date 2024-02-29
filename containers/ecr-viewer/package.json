@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "local-dev": "docker compose up db seed-db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && next dev",
+    "local-dev": "docker compose up db seed-db -d && docker-compose logs && export DATABASE_URL=postgres://postgres:pw@localhost:5432/ecr_viewer_db && npm run dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -30,7 +30,8 @@
     "next": "14.0.3",
     "pg-promise": "^11.5.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "jose": "5.2.2"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
