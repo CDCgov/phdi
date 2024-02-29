@@ -20,7 +20,7 @@ for sheet in wb.worksheets[2:]:
     # Grouping List
     for i, val in enumerate(ws.iter_rows(min_row=top_rows_buffer, values_only=True)):
         if val[0] is None:
-            end_grouping = i + 17
+            end_grouping = i + top_rows_buffer
             break
         else:
             jsonData_grouping[val[1]] = {
