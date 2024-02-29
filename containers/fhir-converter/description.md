@@ -150,6 +150,11 @@ To build the Docker image for the FHIR conversion service from source code inste
 4. Run `docker build -t fhir-converter .`.
 5. Run the service with `docker run -p 8080:8080 fhir-converter`.
 
+### Updating RCTC document
+
+RCTC spreadsheet  gets updated approximately every 6 months. The latest RCTC spreadsheet can be found on the [eRDS Aims Platform](https://ersd.aimsplatform.org/#/home), an account is required to download. 
+The script can be run by using the following command `python3 rctc-to-json.py spreadsheet_input_loc json_output_loc`  
+
 # License (for Microsoft FHIR Converter)
 
 MIT License
