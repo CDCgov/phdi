@@ -114,7 +114,7 @@ def save_to_db_payload(**kwargs) -> dict:
                 "details": "eICR ID not found, cannot save to database.",
             },
         )
-    return {"ecr_id": ecr_id, "data": b}
+    return {"ecr_id": ecr_id, "data": b["bundle"]}
 
 
 def extract_ecrid_from_bundle(bundle):

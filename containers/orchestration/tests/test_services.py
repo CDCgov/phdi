@@ -11,7 +11,7 @@ def test_save_to_db_payload():
     result = save_to_db_payload(bundle=response)
     expected_result = {
         "ecr_id": "foo",
-        "data": {"bundle": {"entry": [{"resource": {"id": "foo"}}]}},
+        "data": {"entry": [{"resource": {"id": "foo"}}]},
     }
     assert result == expected_result
 
