@@ -332,6 +332,16 @@ def read_json_from_assets(filename: str) -> dict:
     :param filename: The name of the file to read.
     :return: A dictionary containing the contents of the file.
     """
+    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+
+
+def read_json_from_test_assets(filename: str) -> dict:
+    """
+    Reads a JSON file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A dictionary containing the contents of the file.
+    """
     return json.load(
         open((pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename))
     )
@@ -345,12 +355,25 @@ def read_file_from_assets(filename: str) -> str:
     :return: A string containing the contents of the file.
     """
     with open(
+        (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
+    ) as file:
+        return file.read()
+
+
+def read_file_from_test_assets(filename: str) -> str:
+    """
+    Reads a file from the assets directory.
+
+    :param filename: The name of the file to read.
+    :return: A string containing the contents of the file.
+    """
+    with open(
         (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
     ) as file:
         return file.read()
 
 
-def parse_file_from_assets(filename: str) -> ET.ElementTree:
+def parse_file_from_test_assets(filename: str) -> ET.ElementTree:
     """
     Parses a file from the assets directory into an ElementTree.
 
@@ -613,7 +636,7 @@ def get_phdc_section(
     :return: A section Element containing the contents of the file per the
     section_title.
     """
-    tree = parse_file_from_assets(filename)
+    tree = parse_file_from_test_assets(filename)
     root = tree.getroot()
     for component in root:
         if component.tag == "{urn:hl7-org:v3}component":
@@ -633,7 +656,7 @@ def get_phdc_header(filename: str) -> ET.Element:
     :param filename: The name of the file to read.
     :return: An ElementTree for the header section of the PHDC file.
     """
-    tree = parse_file_from_assets(filename)
+    tree = parse_file_from_test_assets(filename)
     root = tree.getroot()
 
     for component in root:

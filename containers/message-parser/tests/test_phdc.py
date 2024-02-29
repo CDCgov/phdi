@@ -343,7 +343,7 @@ def test_build_author(family_name, expected_oid, expected_date, expected_author)
                 administrative_gender_code="Male",
                 birth_time="01-01-2000",
             ),
-            (utils.parse_file_from_assets("sample_phdc_patient_element.xml")),
+            (utils.parse_file_from_test_assets("sample_phdc_patient_element.xml")),
         )
     ],
 )
@@ -441,7 +441,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                     ],
                 ),
             ),
-            (utils.read_file_from_assets("sample_phdc_header.xml")),
+            (utils.read_file_from_test_assets("sample_phdc_header.xml")),
         )
     ],
 )
@@ -701,7 +701,7 @@ def test_build_clinical_info(build_clinical_info_data, expected_result):
                 )
             ),
             # Expected XML output as a string
-            utils.read_file_from_assets("sample_phdc_social_history_info.xml"),
+            utils.read_file_from_test_assets("sample_phdc_social_history_info.xml"),
         ),
     ],
 )
@@ -956,7 +956,7 @@ def test_build_social_history_info(build_social_history_info_data, expected_resu
                     )
                 ],
             ),
-            utils.read_file_from_assets("sample_phdc.xml"),
+            utils.read_file_from_test_assets("sample_phdc.xml"),
         )
     ],
 )
@@ -1120,7 +1120,7 @@ def test_sort_observation(sort_observation_test_data, expected_result):
                 )
             ),
             # Expected XML output as a string
-            utils.read_file_from_assets("sample_phdc_repeating_questions.xml"),
+            utils.read_file_from_test_assets("sample_phdc_repeating_questions.xml"),
         ),
     ],
 )
