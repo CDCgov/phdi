@@ -441,7 +441,7 @@ def test_build_recordTarget(build_rt_test_data, expected_result):
                     ],
                 ),
             ),
-            (utils.get_phdc_section("sample_phdc_header.xml")),
+            (utils.read_file_from_assets("sample_phdc_header.xml")),
         )
     ],
 )

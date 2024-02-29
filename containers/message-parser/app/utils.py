@@ -332,7 +332,9 @@ def read_json_from_assets(filename: str) -> dict:
     :param filename: The name of the file to read.
     :return: A dictionary containing the contents of the file.
     """
-    return json.load(open((pathlib.Path(__file__).parent.parent / "assets" / filename)))
+    return json.load(
+        open((pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename))
+    )
 
 
 def read_file_from_assets(filename: str) -> str:
@@ -343,7 +345,7 @@ def read_file_from_assets(filename: str) -> str:
     :return: A string containing the contents of the file.
     """
     with open(
-        (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename), "r"
     ) as file:
         return file.read()
 
@@ -356,7 +358,8 @@ def parse_file_from_assets(filename: str) -> ET.ElementTree:
     :return: An ElementTree containing the contents of the file.
     """
     with open(
-        (pathlib.Path(__file__).parent.parent / "assets" / filename), "r"
+        (pathlib.Path(__file__).parent.parent / "tests" / "assets" / filename),
+        "r",
     ) as file:
         parser = ET.XMLParser(remove_blank_text=True)
         tree = ET.parse(
