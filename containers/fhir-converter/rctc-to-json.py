@@ -6,7 +6,7 @@ import openpyxl
 
 # arg list: 1) input file location/name 2) output file location/name
 wb = openpyxl.load_workbook(sys.argv[1])
-jsonData = {}
+jsonData_grouping = {}
 jsonData_expansion = {}
 top_rows_buffer = 17
 tables_buffer = 7
@@ -23,7 +23,7 @@ for sheet in wb.worksheets[2:]:
             end_grouping = i + 17
             break
         else:
-            jsonData[val[1]] = {
+            jsonData_grouping[val[1]] = {
                 "Type": title,
                 "Name": val[0],
                 "OID": val[1],
@@ -52,6 +52,6 @@ for sheet in wb.worksheets[2:]:
             }
 
 with open(sys.argv[2], "w") as outfile1, open(sys.argv[3], "w") as outfile2:
-    json.dump(jsonData, outfile1)
+    json.dump(jsonData_grouping, outfile1)
 
     json.dump(jsonData_expansion, outfile2)
