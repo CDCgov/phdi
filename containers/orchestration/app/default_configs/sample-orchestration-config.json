@@ -32,11 +32,6 @@
       "endpoint": "/fhir/harmonization/standardization/standardize_phones"
     },
     {
-      "service": "save_to_s3",
-      "url": "${ECR_BUCKET_NAME}",
-      "endpoint": ""
-    },
-    {
       "service": "message_parser",
       "url": "${MESSAGE_PARSER_URL}",
       "endpoint": "/parse_message",
