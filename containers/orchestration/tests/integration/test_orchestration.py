@@ -131,9 +131,7 @@ def test_process_message_fhir(setup):
     """
     message = json.load(
         open(
-            Path(__file__).parent.parent.parent
-            / "assets"
-            / "demo_phdc_conversion_bundle.json"
+            Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
         )
     )
     request = {

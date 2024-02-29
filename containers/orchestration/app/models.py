@@ -124,7 +124,6 @@ class ListConfigsResponse(BaseModel):
 
 class WorkflowServiceStepModel(BaseModel):
     service: str
-    url: str
     endpoint: str
     params: Optional[dict]
 
