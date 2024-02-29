@@ -3,8 +3,14 @@
     "summary": "Upload a simple processing config",
     "description": "This is an example of uploading a simple processing config.",
     "value": {
-      "processing_config": {
-        "foo": "bar"
+      "workflow": {
+        "workflow": [
+          {
+            "service": "ingestion",
+            "url": "some-url-for-an-ingestion-service",
+            "endpoint": "/fhir/harmonization/standardization/standardize_names"
+          }
+        ]
       }
     }
   },
@@ -12,8 +18,14 @@
     "summary": "Overwriting a processing config ",
     "value": {
       "overwrite": true,
-      "processing_config": {
-        "foo": "bar"
+      "workflow": {
+        "workflow": [
+          {
+            "service": "ingestion",
+            "url": "some-url-for-an-ingestion-service",
+            "endpoint": "/fhir/harmonization/standardization/standardize_names"
+          }
+        ]
       }
     }
   }
