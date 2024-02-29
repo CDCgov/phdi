@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip
-          pip install black==23.12.1 flake8==7.0.0
+          pip install black==24.2.0 flake8==7.0.0
       - name: Check format (black)
         run: |
           black --check --verbose .

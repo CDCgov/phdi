@@ -135,7 +135,7 @@ def test_process_message_fhir_data(patched_post_request):
     request = {
         "message_type": "fhir",
         "data_type": "fhir",
-        "config_file_name": "sample-fhir-test-config-new.json",
+        "config_file_name": "sample-fhir-test-config.json",
         "include_error_types": "errors",
         "message": {"foo": "bar"},
     }

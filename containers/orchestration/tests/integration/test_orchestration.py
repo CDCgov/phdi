@@ -142,7 +142,7 @@ def test_process_message_fhir(setup):
     request = {
         "message_type": "fhir",
         "data_type": "fhir",
-        "config_file_name": "sample-fhir-test-config-new.json",
+        "config_file_name": "sample-fhir-test-config.json",
         "include_error_types": "errors",
         "message": message,
     }
@@ -199,7 +199,7 @@ def test_process_message_hl7(setup):
     request = {
         "message_type": "elr",
         "data_type": "hl7",
-        "config_file_name": "sample-hl7-test-config-new.json",
+        "config_file_name": "sample-hl7-test-config.json",
         "include_error_types": "errors",
         "message": message,
     }
